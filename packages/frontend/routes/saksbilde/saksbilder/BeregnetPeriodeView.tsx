@@ -29,8 +29,10 @@ const Utbetaling = React.lazy(() =>
 const Inngangsvilkår = React.lazy(() =>
     import('../vilkår/Inngangsvilkår.js').then((res) => ({ default: res.Inngangsvilkår })).catch(onLazyLoadFail),
 );
-const Faresignaler = React.lazy(() =>
-    import('../faresignaler/Faresignaler.js').then((res) => ({ default: res.Faresignaler })).catch(onLazyLoadFail),
+const Vurderingsmomenter = React.lazy(() =>
+    import('../vurderingsmomenter/Vurderingsmomenter.js')
+        .then((res) => ({ default: res.Vurderingsmomenter }))
+        .catch(onLazyLoadFail),
 );
 const Sykepengegrunnlag = React.lazy(() =>
     import('../sykepengegrunnlag/Sykepengegrunnlag.js')
@@ -113,7 +115,7 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
                             <Route path="dagoversikt" element={<Utbetaling />} />
                             <Route path="inngangsvilkår" element={<Inngangsvilkår />} />
                             <Route path="sykepengegrunnlag" element={<Sykepengegrunnlag />} />
-                            <Route path="faresignaler" element={<Faresignaler />} />
+                            <Route path="vurderingsmomenter" element={<Vurderingsmomenter />} />
                         </Routes>
                     </React.Suspense>
                 </div>

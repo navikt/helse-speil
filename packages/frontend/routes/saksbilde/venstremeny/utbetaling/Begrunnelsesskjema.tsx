@@ -56,11 +56,11 @@ export const Begrunnelsesskjema: React.FC<BegrunnelsesskjemaProps> = ({ activePe
                     activePeriod.risikovurdering.funn.length > 0 &&
                     activePeriod.risikovurdering?.funn
                         ?.filter((it) => !it.kategori.includes('8-4'))
-                        .map((faresignaler, index2) => {
+                        .map((vurderingsmoment, index2) => {
                             return (
                                 <BegrunnelseCheckbox
                                     key={`$risikovurdering-${index2}-checkbox`}
-                                    begrunnelse={`\n${faresignaler.beskrivelse}`}
+                                    begrunnelse={`\n${vurderingsmoment.beskrivelse}`}
                                 />
                             );
                         })}

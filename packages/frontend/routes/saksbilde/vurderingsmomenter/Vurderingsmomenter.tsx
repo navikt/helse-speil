@@ -53,48 +53,53 @@ const harFunn = (funn?: Maybe<Faresignal[]>): funn is Faresignal[] => {
     return typeof funn === 'object';
 };
 
-interface FaresignalkategoriProps {
+interface VurderingsmomenterkategoriProps {
     ikon: ReactNode;
     overskrift: string;
-    faresignaler: Faresignal[];
+    vurderingsmomenter: Faresignal[];
     vurderingIkon: ReactNode;
 }
 
-const Faresignalkategori = ({ ikon, overskrift, faresignaler, vurderingIkon }: FaresignalkategoriProps) => (
+const VurderingsmomentKategori = ({
+    ikon,
+    overskrift,
+    vurderingsmomenter,
+    vurderingIkon,
+}: VurderingsmomenterkategoriProps) => (
     <Kolonne>
         <Linje>
             <IkonContainer>{ikon}</IkonContainer>
             <BodyShort>{overskrift}</BodyShort>
         </Linje>
-        {faresignaler.map((faresignal, i) => (
+        {vurderingsmomenter.map((vurderingsmoment, i) => (
             <Linje key={i}>
                 <IkonContainer>{vurderingIkon}</IkonContainer>
-                <BodyShort>{faresignal.beskrivelse}</BodyShort>
+                <BodyShort>{vurderingsmoment.beskrivelse}</BodyShort>
             </Linje>
         ))}
     </Kolonne>
 );
 
-interface FaresignalerWithContentProps {
+interface VurderingsmomenterWithContentProps {
     risikovurdering: Risikovurdering;
 }
 
-export const FaresignalerWithContent: React.FC<FaresignalerWithContentProps> = ({ risikovurdering }) => (
-    <AgurkErrorBoundary sidenavn="Faresignaler">
-        <Container className="faresignaler">
+export const VurderingsmomenterWithContent: React.FC<VurderingsmomenterWithContentProps> = ({ risikovurdering }) => (
+    <AgurkErrorBoundary sidenavn="Vurderingsmomenter">
+        <Container>
             {risikovurdering && harFunn(risikovurdering.funn) && risikovurdering.funn.length > 0 && (
-                <Faresignalkategori
+                <VurderingsmomentKategori
                     ikon={<Advarselikon />}
-                    overskrift="Faresignaler oppdaget"
-                    faresignaler={risikovurdering.funn}
+                    overskrift="Vurderingsmomenter oppdaget"
+                    vurderingsmomenter={risikovurdering.funn}
                     vurderingIkon={<Utropstegnikon alt="Oppdaget" />}
                 />
             )}
             {risikovurdering && (risikovurdering.kontrollertOk?.length ?? 0) > 0 && (
-                <Faresignalkategori
+                <VurderingsmomentKategori
                     ikon={<GrøntSjekkikon />}
-                    overskrift="Faresignaler kontrollert"
-                    faresignaler={risikovurdering.kontrollertOk}
+                    overskrift="Vurderingsmomenter kontrollert"
+                    vurderingsmomenter={risikovurdering.kontrollertOk}
                     vurderingIkon={<Sjekkikon alt="Kontrollert" />}
                 />
             )}
@@ -102,32 +107,32 @@ export const FaresignalerWithContent: React.FC<FaresignalerWithContentProps> = (
     </AgurkErrorBoundary>
 );
 
-const FaresignalerContainer = () => {
+const VurderingsmomenterContainer = () => {
     const activePeriod = useActivePeriod();
 
     if (isBeregnetPeriode(activePeriod) && activePeriod.risikovurdering) {
-        return <FaresignalerWithContent risikovurdering={activePeriod.risikovurdering} />;
+        return <VurderingsmomenterWithContent risikovurdering={activePeriod.risikovurdering} />;
     }
 
     return null;
 };
 
-const FaresignalerSkeleton = () => {
+const VurderingsmomenterSkeleton = () => {
     return <div />;
 };
 
-const FaresignalerError = () => {
+const VurderingsmomenterError = () => {
     return <div />;
 };
 
-export const Faresignaler = () => {
+export const Vurderingsmomenter = () => {
     return (
-        <React.Suspense fallback={<FaresignalerSkeleton />}>
-            <ErrorBoundary fallback={<FaresignalerError />}>
-                <FaresignalerContainer />
+        <React.Suspense fallback={<VurderingsmomenterSkeleton />}>
+            <ErrorBoundary fallback={<VurderingsmomenterError />}>
+                <VurderingsmomenterContainer />
             </ErrorBoundary>
         </React.Suspense>
     );
 };
 
-export default Faresignaler;
+export default Vurderingsmomenter;

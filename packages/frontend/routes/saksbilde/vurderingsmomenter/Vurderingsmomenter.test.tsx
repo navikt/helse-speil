@@ -3,10 +3,10 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
-import { FaresignalerWithContent } from './Faresignaler';
+import { VurderingsmomenterWithContent } from './Vurderingsmomenter';
 
-describe('Faresignaler', () => {
-    test('rendrer Faresignaler oppdaget og kontrollert', async () => {
+describe('Vurderingsmomenter', () => {
+    test('rendrer Vurderingsmomenter oppdaget og kontrollert', async () => {
         const enRisikovurdering = {
             funn: [
                 {
@@ -28,22 +28,22 @@ describe('Faresignaler', () => {
                 },
             ],
         };
-        render(<FaresignalerWithContent risikovurdering={enRisikovurdering} />);
-        expect(screen.queryByText('Faresignaler oppdaget')).toBeVisible();
-        expect(screen.queryByText('Faresignaler kontrollert')).toBeVisible();
+        render(<VurderingsmomenterWithContent risikovurdering={enRisikovurdering} />);
+        expect(screen.queryByText('Vurderingsmomenter oppdaget')).toBeVisible();
+        expect(screen.queryByText('Vurderingsmomenter kontrollert')).toBeVisible();
         expect(screen.getByText('Går alltid med solbriller')).toBeInTheDocument();
         expect(screen.getByText('Spiser aldri lunsj')).toBeInTheDocument();
         expect(screen.getByText('Er fra Vinderen')).toBeInTheDocument();
     });
 
-    test('rendrer ikke Faresignaler kontrollert eller oppdaget', async () => {
+    test('rendrer ikke Vurderingsmomenter kontrollert eller oppdaget', async () => {
         const enRisikovurdering = {
             kontrollertOk: [],
             funn: [],
         };
-        render(<FaresignalerWithContent risikovurdering={enRisikovurdering} />);
-        expect(screen.queryByText('Faresignaler oppdaget')).not.toBeInTheDocument();
-        expect(screen.queryByText('Faresignaler kontrollert')).not.toBeInTheDocument();
+        render(<VurderingsmomenterWithContent risikovurdering={enRisikovurdering} />);
+        expect(screen.queryByText('Vurderingsmomenter oppdaget')).not.toBeInTheDocument();
+        expect(screen.queryByText('Vurderingsmomenter kontrollert')).not.toBeInTheDocument();
         expect(screen.queryByText('Går alltid med solbriller')).not.toBeInTheDocument();
         expect(screen.queryByText('Spiser aldri lunsj')).not.toBeInTheDocument();
         expect(screen.queryByText('Er fra Vinderen')).not.toBeInTheDocument();

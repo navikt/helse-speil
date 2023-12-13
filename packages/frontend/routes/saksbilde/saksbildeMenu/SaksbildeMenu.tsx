@@ -37,7 +37,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
                 <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />
                 <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
                 {activePeriod.risikovurdering?.funn && activePeriod.risikovurdering?.funn?.length > 0 && (
-                    <NavLenke to="faresignaler" tittel="Faresignaler" />
+                    <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />
                 )}
             </nav>
             <DropdownMenu />
