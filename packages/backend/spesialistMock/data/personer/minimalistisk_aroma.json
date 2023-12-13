@@ -867,7 +867,8 @@
                                     "vilkarsgrunnlagId": "f7744e16-8569-4e94-8f61-c9996d3d8512",
                                     "oppgave": {
                                         "id": "5343"
-                                    }
+                                    },
+                                    "egenskaper": []
                                 },
                                 {
                                     "fom": "2023-02-01",
@@ -1221,7 +1222,8 @@
                                         }
                                     ],
                                     "vilkarsgrunnlagId": "612e342b-d832-4618-96f7-2d24856f768b",
-                                    "oppgave": null
+                                    "oppgave": null,
+                                    "egenskaper": []
                                 }
                             ]
                         },
@@ -1623,7 +1625,8 @@
                                         }
                                     ],
                                     "vilkarsgrunnlagId": "a2f9cb93-08a4-4137-a17a-78f19c9bcc3d",
-                                    "oppgave": null
+                                    "oppgave": null,
+                                    "egenskaper": []
                                 }
                             ]
                         }

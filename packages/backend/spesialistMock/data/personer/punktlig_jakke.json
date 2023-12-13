@@ -680,7 +680,8 @@
                                     "oppgave": {
                                         "id": "5890"
                                     },
-                                    "totrinnsvurdering": null
+                                    "totrinnsvurdering": null,
+                                    "egenskaper": []
                                 }
                             ]
                         }

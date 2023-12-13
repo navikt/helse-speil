@@ -182,6 +182,7 @@ export type Behandlingsstatistikk = {
 export type BeregnetPeriode = Periode & {
     __typename?: 'BeregnetPeriode';
     beregningId: Scalars['String']['output'];
+    egenskaper: Array<Oppgaveegenskap>;
     erForkastet: Scalars['Boolean']['output'];
     fom: Scalars['String']['output'];
     forbrukteSykedager?: Maybe<Scalars['Int']['output']>;

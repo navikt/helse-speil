@@ -767,7 +767,18 @@
                                     "vilkarsgrunnlagId": "0270e5be-f815-402e-ae5a-0ff439f6681c",
                                     "oppgave": {
                                         "id": "4680"
-                                    }
+                                    },
+                                    "egenskaper": [
+                                        { "kategori": "Periodetype", "egenskap": "FORSTEGANGSBEHANDLING" },
+                                        { "kategori": "Oppgavetype", "egenskap": "SOKNAD" },
+                                        { "kategori": "Mottaker", "egenskap": "DELVIS_REFUSJON" },
+                                        { "kategori": "Inntektskilde", "egenskap": "EN_ARBEIDSGIVER" },
+                                        { "kategori": "Ukategorisert", "egenskap": "HASTER" },
+                                        { "kategori": "Ukategorisert", "egenskap": "VERGEMAL" },
+                                        { "kategori": "Ukategorisert", "egenskap": "UTLAND" },
+                                        { "kategori": "Status", "egenskap": "BESLUTTER" },
+                                        { "kategori": "Status", "egenskap": "PA_VENT" }
+                                    ]
                                 }
                             ]
                         }

@@ -184,6 +184,7 @@ export type Behandlingsstatistikk = {
 export type BeregnetPeriode = Periode & {
     __typename?: 'BeregnetPeriode';
     beregningId: Scalars['String']['output'];
+    egenskaper: Array<Oppgaveegenskap>;
     erForkastet: Scalars['Boolean']['output'];
     fom: Scalars['String']['output'];
     forbrukteSykedager?: Maybe<Scalars['Int']['output']>;
@@ -2539,6 +2540,7 @@ export type FetchPersonQuery = {
                               saksbehandler?: string | null;
                               beslutter?: string | null;
                           } | null;
+                          egenskaper: Array<{ __typename?: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
                           tidslinje: Array<{
                               __typename?: 'Dag';
                               dato: string;
@@ -6283,6 +6285,32 @@ export const FetchPersonDocument = {
                                                                                                 name: {
                                                                                                     kind: 'Name',
                                                                                                     value: 'beslutter',
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'egenskaper',
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'egenskap',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'kategori',
                                                                                                 },
                                                                                             },
                                                                                         ],

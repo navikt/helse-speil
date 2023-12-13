@@ -112,6 +112,7 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
         this.utbetaling.type = Utbetalingtype.Revurdering;
         return this;
     },
+    egenskaper: [],
 });
 
 export const enGhostPeriode: OverridableConstructor<GhostPeriode> = (overrides) => ({

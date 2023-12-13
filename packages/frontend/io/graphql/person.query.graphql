@@ -356,6 +356,10 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             saksbehandler
                             beslutter
                         }
+                        egenskaper {
+                            egenskap
+                            kategori
+                        }
                     }
                 }
             }
