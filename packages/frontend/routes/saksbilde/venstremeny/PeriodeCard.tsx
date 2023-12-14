@@ -13,7 +13,7 @@ import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { Maksdatoikon } from '@components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '@components/ikoner/Skjæringstidspunktikon';
 import { Sykmeldingsperiodeikon } from '@components/ikoner/Sykmeldingsperiodeikon';
-import { Arbeidsgiver, Oppgavetype, Periodetilstand, Periodetype, UberegnetPeriode } from '@io/graphql';
+import { Arbeidsgiver, Kategori, Oppgavetype, Periodetilstand, Periodetype, UberegnetPeriode } from '@io/graphql';
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
 import { capitalize } from '@utils/locale';
 
@@ -191,10 +191,13 @@ const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({
     månedsbeløp,
     gjenståendeSykedager,
 }) => {
+    const egenskaperForVisning = periode.egenskaper.filter(
+        (it) => it.kategori !== Kategori.Mottaker && it.kategori !== Kategori.Inntektskilde,
+    );
     return (
         <div>
             <span className={styles.egenskaper}>
-                <EgenskaperTags egenskaper={periode.egenskaper} />
+                <EgenskaperTags egenskaper={egenskaperForVisning} />
             </span>
             <section className={styles.Grid}>
                 <SykmeldingsperiodeRow periode={periode} />
