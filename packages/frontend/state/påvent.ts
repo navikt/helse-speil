@@ -119,6 +119,13 @@ const oppdaterPåVentICache = (
         id: cache.identify({ __typename: 'BeregnetPeriode', id: periodeId }),
         fields: {
             paVent: (value) => påVent(value),
+            egenskaper(existingEgenskaper) {
+                return !påVent
+                    ? existingEgenskaper.filter((it: Oppgaveegenskap) => it.egenskap !== Egenskap.PaVent)
+                    : existingEgenskaper.some((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent)
+                    ? existingEgenskaper
+                    : existingEgenskaper.push({ egenskap: Egenskap.PaVent, kategori: Kategori.Status });
+            },
         },
     });
 };
