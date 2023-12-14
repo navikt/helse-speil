@@ -4,6 +4,7 @@ import React from 'react';
 
 import { BodyShort, Tag, Tooltip } from '@navikt/ds-react';
 
+import { EgenskaperTags } from '@components/EgenskaperTags';
 import { Flex } from '@components/Flex';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { LovdataLenke } from '@components/LovdataLenke';
@@ -190,28 +191,26 @@ const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({
     månedsbeløp,
     gjenståendeSykedager,
 }) => {
-    const type = periode.utbetaling.type === 'REVURDERING' ? Oppgavetype.Revurdering : periode.periodetype;
-    const label = `${getTextForPeriodetype(periode.periodetype)} ${
-        periode.totrinnsvurdering?.erRetur
-            ? '(RETUR)'
-            : periode.totrinnsvurdering?.erBeslutteroppgave
-            ? '(BESLUTTER)'
-            : ''
-    }`;
-
     return (
-        <section className={styles.Grid}>
-            <PeriodetypeRow type={type} tilstand={periode.periodetilstand} label={label} />
-            <SykmeldingsperiodeRow periode={periode} />
-            <SkjæringstidspunktRow periodetype={periode.periodetype} skjæringstidspunkt={periode.skjaeringstidspunkt} />
-            <MaksdatoRow activePeriod={periode} gjenståendeSykedager={gjenståendeSykedager} />
-            <ArbeidsgiverRow.Beregnet
-                navn={arbeidsgiver.navn}
-                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                arbeidsforhold={arbeidsgiver.arbeidsforhold}
-                månedsbeløp={månedsbeløp}
-            />
-        </section>
+        <div>
+            <span className={styles.egenskaper}>
+                <EgenskaperTags egenskaper={periode.egenskaper} />
+            </span>
+            <section className={styles.Grid}>
+                <SykmeldingsperiodeRow periode={periode} />
+                <SkjæringstidspunktRow
+                    periodetype={periode.periodetype}
+                    skjæringstidspunkt={periode.skjaeringstidspunkt}
+                />
+                <MaksdatoRow activePeriod={periode} gjenståendeSykedager={gjenståendeSykedager} />
+                <ArbeidsgiverRow.Beregnet
+                    navn={arbeidsgiver.navn}
+                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                    arbeidsforhold={arbeidsgiver.arbeidsforhold}
+                    månedsbeløp={månedsbeløp}
+                />
+            </section>
+        </div>
     );
 };
 

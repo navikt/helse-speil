@@ -36,3 +36,11 @@
 .Skeleton > span {
     height: var(--a-font-line-height-large);
 }
+
+.egenskaper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-bottom: 12px;
+}
