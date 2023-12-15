@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Tag, TagProps } from '@navikt/ds-react';
+import { Tag, TagProps, Tooltip } from '@navikt/ds-react';
 
 import { Egenskap, Kategori, Oppgaveegenskap } from '@io/graphql';
 
@@ -56,6 +56,17 @@ const tilTekst = (egenskap: Egenskap) => {
     }
 };
 
+const tilTooltip = (egenskap: Egenskap) => {
+    switch (egenskap) {
+        case Egenskap.Forstegangsbehandling:
+            return 'Førstegangsbehandling';
+        case Egenskap.Spesialsak:
+            return 'Spesialsak';
+        default:
+            return tilTekst(egenskap);
+    }
+};
+
 const tilVariant = (kategori: Kategori): TagProps['variant'] =>
     kategori === Kategori.Ukategorisert
         ? 'alt2'
@@ -81,6 +92,7 @@ const getData = (egenskaper: Oppgaveegenskap[]) => {
             kategori,
             variant: tilVariant(kategori),
             tekst: tilTekst(egenskap),
+            tooltiptekst: tilTooltip(egenskap),
         }))
         .sort((a, b) => {
             let kategoriVerdi = 0;
@@ -107,9 +119,11 @@ export const EgenskaperTags = ({ egenskaper }: EgenskaperTagsProps) => {
     return (
         <>
             {getData(egenskaper).map((egenskap, index) => (
-                <Tag style={{ fontSize: 16 }} size="small" variant={egenskap.variant} key={index}>
-                    {egenskap.tekst}
-                </Tag>
+                <Tooltip content={egenskap.tooltiptekst}>
+                    <Tag style={{ fontSize: 16 }} size="small" variant={egenskap.variant} key={index}>
+                        {egenskap.tekst}
+                    </Tag>
+                </Tooltip>
             ))}
         </>
     );
