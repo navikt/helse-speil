@@ -42,7 +42,7 @@ export const Utbetalinghendelse: React.FC<UtbetalinghendelseProps> = ({
     timestamp,
 }) => {
     const icon =
-        utbetalingstype === Utbetalingtype.Utbetaling ? (
+        utbetalingstype !== Utbetalingtype.Annullering && godkjent ? (
             <Success title="Success-ikon" className={classNames(styles.Innrammet, styles.Utbetalt)} />
         ) : undefined;
     return (
