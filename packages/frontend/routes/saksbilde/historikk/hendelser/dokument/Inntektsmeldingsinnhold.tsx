@@ -26,6 +26,11 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
         <div>
             {inntektsmelding && (
                 <div className={styles.dokument}>
+                    {/*{inntektsmelding.inntektEndringAarsak && (*/}
+                    {/*    <DokumentFragment overskrift="Endringsårsak">*/}
+                    {/*        */}
+                    {/*    </DokumentFragment>*/}
+                    {/*)}*/}
                     {inntektsmelding.foersteFravaersdag && (
                         <DokumentFragment overskrift="Bestemmende fraværsdag">
                             {dayjs(inntektsmelding.foersteFravaersdag).format(NORSK_DATOFORMAT)}
@@ -67,8 +72,12 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
                             <>
                                 {inntektsmelding.refusjon.beloepPrMnd != null &&
                                     `Beløp pr mnd: ${toKronerOgØre(inntektsmelding.refusjon.beloepPrMnd)}`}
-                                {inntektsmelding.refusjon.opphoersdato && <br /> &&
-                                    `Opphørsdato: ${inntektsmelding.refusjon.opphoersdato}`}
+                                {inntektsmelding.refusjon.opphoersdato && (
+                                    <>
+                                        <br />
+                                        Opphørsdato: {inntektsmelding.refusjon.opphoersdato}
+                                    </>
+                                )}
                             </>
                         </DokumentFragment>
                     )}
