@@ -66,9 +66,9 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
                         <DokumentFragment overskrift="Refusjon">
                             <>
                                 {inntektsmelding.refusjon.beloepPrMnd != null &&
-                                    `Beløp pr mnd: ${inntektsmelding.refusjon.beloepPrMnd}`}
-                                {inntektsmelding.refusjon.opphoersdato &&
-                                    `${(<br />)}Opphørsdato: ${inntektsmelding.refusjon.opphoersdato}`}
+                                    `Beløp pr mnd: ${toKronerOgØre(inntektsmelding.refusjon.beloepPrMnd)}`}
+                                {inntektsmelding.refusjon.opphoersdato && <br /> &&
+                                    `Opphørsdato: ${inntektsmelding.refusjon.opphoersdato}`}
                             </>
                         </DokumentFragment>
                     )}
