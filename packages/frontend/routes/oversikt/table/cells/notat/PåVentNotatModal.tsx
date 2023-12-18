@@ -144,8 +144,11 @@ const ControlledTextarea = ({ control, tillattTekstlengde }: ControlledTextareaP
             className={styles.textarea}
             error={fieldState.error?.message}
             label="Legg på vent"
-            hideLabel
-            description="Skriv hvorfor saken er lagt på vent, så det er lettere å starte igjen senere. Eks: Kontaktet arbeidsgiver, fikk ikke svar. Blir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn."
+            description={
+                'Skriv hvorfor saken er lagt på vent. Det gjør det lettere å starte igjen senere.\n' +
+                'Eks: Kontaktet arbeidsgiver, fikk ikke svar. Prøv igjen senere.\n' +
+                'Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.'
+            }
             maxLength={tillattTekstlengde}
             autoFocus
         />

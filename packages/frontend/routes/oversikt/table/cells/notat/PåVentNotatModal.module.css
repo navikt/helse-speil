@@ -35,6 +35,10 @@
     margin: 0;
 }
 
+.textarea label {
+    display: none;
+}
+
 .error {
     margin-top: 1rem;
 }
