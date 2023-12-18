@@ -119,8 +119,8 @@ export const EgenskaperTags = ({ egenskaper }: EgenskaperTagsProps) => {
     return (
         <>
             {getData(egenskaper).map((egenskap, index) => (
-                <Tooltip content={egenskap.tooltiptekst}>
-                    <Tag style={{ fontSize: 16 }} size="small" variant={egenskap.variant} key={index}>
+                <Tooltip content={egenskap.tooltiptekst} key={index}>
+                    <Tag style={{ fontSize: 16 }} size="small" variant={egenskap.variant}>
                         {egenskap.tekst}
                     </Tag>
                 </Tooltip>
