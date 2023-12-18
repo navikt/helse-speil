@@ -267,6 +267,7 @@ export type DokumentInntektsmelding = {
     gjenopptakelseNaturalytelser?: Maybe<Array<GjenopptakelseNaturalytelse>>;
     innsenderFulltNavn?: Maybe<Scalars['String']['output']>;
     innsenderTelefon?: Maybe<Scalars['String']['output']>;
+    inntektEndringAarsak?: Maybe<InntektEndringAarsak>;
     inntektsdato?: Maybe<Scalars['String']['output']>;
     naerRelasjon?: Maybe<Scalars['Boolean']['output']>;
     opphoerAvNaturalytelser?: Maybe<Array<OpphoerAvNaturalytelse>>;
@@ -390,6 +391,14 @@ export type Infotrygdutbetaling = {
     organisasjonsnummer: Scalars['String']['output'];
     tom: Scalars['String']['output'];
     typetekst: Scalars['String']['output'];
+};
+
+export type InntektEndringAarsak = {
+    __typename?: 'InntektEndringAarsak';
+    aarsak: Scalars['String']['output'];
+    bleKjent?: Maybe<Scalars['String']['output']>;
+    gjelderFra?: Maybe<Scalars['String']['output']>;
+    perioder?: Maybe<Array<ImPeriode>>;
 };
 
 export type InntektFraAOrdningen = {
@@ -1652,6 +1661,13 @@ export type FetchInntektsmeldingQuery = {
         }> | null;
         arbeidsgiverperioder?: Array<{ __typename?: 'IMPeriode'; fom?: string | null; tom?: string | null }> | null;
         ferieperioder?: Array<{ __typename?: 'IMPeriode'; fom?: string | null; tom?: string | null }> | null;
+        inntektEndringAarsak?: {
+            __typename?: 'InntektEndringAarsak';
+            aarsak: string;
+            gjelderFra?: string | null;
+            bleKjent?: string | null;
+            perioder?: Array<{ __typename?: 'IMPeriode'; fom?: string | null; tom?: string | null }> | null;
+        } | null;
     };
 };
 
@@ -3872,6 +3888,29 @@ export const FetchInntektsmeldingDocument = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'naerRelasjon' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'innsenderFulltNavn' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'innsenderTelefon' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'inntektEndringAarsak' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'aarsak' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'perioder' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'gjelderFra' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'bleKjent' } },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },

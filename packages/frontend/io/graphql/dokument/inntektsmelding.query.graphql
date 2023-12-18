@@ -15,6 +15,14 @@ query FetchInntektsmelding($fnr: String!, $dokumentId: String!) {
         foersteFravaersdag,
         naerRelasjon,
         innsenderFulltNavn,
-        innsenderTelefon
+        innsenderTelefon,
+        inntektEndringAarsak {
+            aarsak,
+            perioder {
+                fom, tom
+            },
+            gjelderFra,
+            bleKjent
+        }
     }
 }

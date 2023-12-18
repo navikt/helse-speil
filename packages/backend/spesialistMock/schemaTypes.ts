@@ -265,6 +265,7 @@ export type DokumentInntektsmelding = {
     gjenopptakelseNaturalytelser?: Maybe<Array<GjenopptakelseNaturalytelse>>;
     innsenderFulltNavn?: Maybe<Scalars['String']['output']>;
     innsenderTelefon?: Maybe<Scalars['String']['output']>;
+    inntektEndringAarsak?: Maybe<InntektEndringAarsak>;
     inntektsdato?: Maybe<Scalars['String']['output']>;
     naerRelasjon?: Maybe<Scalars['Boolean']['output']>;
     opphoerAvNaturalytelser?: Maybe<Array<OpphoerAvNaturalytelse>>;
@@ -388,6 +389,14 @@ export type Infotrygdutbetaling = {
     organisasjonsnummer: Scalars['String']['output'];
     tom: Scalars['String']['output'];
     typetekst: Scalars['String']['output'];
+};
+
+export type InntektEndringAarsak = {
+    __typename?: 'InntektEndringAarsak';
+    aarsak: Scalars['String']['output'];
+    bleKjent?: Maybe<Scalars['String']['output']>;
+    gjelderFra?: Maybe<Scalars['String']['output']>;
+    perioder?: Maybe<Array<ImPeriode>>;
 };
 
 export type InntektFraAOrdningen = {
