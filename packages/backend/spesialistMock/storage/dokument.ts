@@ -205,6 +205,21 @@ export class DokumentMock {
             ferieperioder: [],
             foersteFravaersdag: '2023-08-01',
             naerRelasjon: null,
+            inntektEndringAarsak: {
+                aarsak: 'Tariffendring',
+                perioder: [
+                    {
+                        fom: '2023-08-01',
+                        tom: '2023-08-16',
+                    },
+                    {
+                        fom: '2023-08-01',
+                        tom: '2023-08-16',
+                    },
+                ],
+                gjelderFra: '2023-08-08',
+                bleKjent: '2023-09-12',
+            },
         };
     };
 }
