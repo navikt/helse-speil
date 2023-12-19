@@ -51,6 +51,8 @@ const tilTekst = (egenskap: Egenskap) => {
             return 'Arbeidsgiver';
         case Egenskap.IngenUtbetaling:
             return 'Ingen mottaker';
+        case Egenskap.Tilbakedatert:
+            return 'Tilbakedatert';
         default:
             return egenskap.toString();
     }

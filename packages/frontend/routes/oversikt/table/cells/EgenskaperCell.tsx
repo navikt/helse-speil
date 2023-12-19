@@ -36,6 +36,8 @@ const tilTekst = (egenskap: Egenskap) => {
             return 'Skjønnsfastsettelse';
         case Egenskap.PaVent:
             return 'På vent';
+        case Egenskap.Tilbakedatert:
+            return 'Tilbakedatert';
         default:
             return '';
     }

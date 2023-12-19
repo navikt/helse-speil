@@ -1,7 +1,7 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Egenskap } from '@io/graphql';
-import { harSpesialsaktilgang } from '@utils/featureToggles';
+import { harSpesialsaktilgang, toggleMeny } from '@utils/featureToggles';
 
 import { TabType, tabState } from '../../tabState';
 
@@ -174,6 +174,12 @@ export const defaultFilters: Filter[] = [
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
+        key: Egenskap.Tilbakedatert,
+        label: 'Tilbakedatert',
+        active: false,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
+    },
+    {
         key: Egenskap.Spesialsak,
         label: '🌰',
         active: false,
@@ -197,7 +203,9 @@ export const defaultFilters: Filter[] = [
         active: false,
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
-].filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang);
+]
+    .filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang)
+    .filter((filter) => filter.label !== 'Tilbakedatert' || toggleMeny);
 
 const storageKeyForFilters = (tab: TabType) => 'filtereForTab_' + tab;
 
