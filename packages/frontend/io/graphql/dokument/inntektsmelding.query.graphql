@@ -23,6 +23,9 @@ query FetchInntektsmelding($fnr: String!, $dokumentId: String!) {
             },
             gjelderFra,
             bleKjent
+        },
+        avsenderSystem {
+            navn, versjon
         }
     }
 }

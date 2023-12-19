@@ -205,6 +205,14 @@ export const Inntektsmeldingsinnhold: React.FC<InntektsmeldinginnholdProps> = ({
                             {inntektsmelding.innsenderTelefon}
                         </DokumentFragment>
                     )}
+                    {inntektsmelding.avsenderSystem && (
+                        <DokumentFragment overskrift="Avsender system">
+                            {inntektsmelding.avsenderSystem?.navn ?? ''}
+                            {inntektsmelding.avsenderSystem?.versjon !== null
+                                ? `: ${inntektsmelding.avsenderSystem?.versjon}`
+                                : ''}
+                        </DokumentFragment>
+                    )}
                 </div>
             )}
             {inntektsmeldingssrespons.loading && <DokumentLoader />}
