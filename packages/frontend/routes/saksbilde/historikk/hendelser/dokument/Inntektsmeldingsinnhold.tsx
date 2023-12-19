@@ -26,14 +26,52 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
         <div>
             {inntektsmelding && (
                 <div className={styles.dokument}>
-                    {/*{inntektsmelding.inntektEndringAarsak && (*/}
-                    {/*    <DokumentFragment overskrift="Endringsårsak">*/}
-                    {/*        */}
-                    {/*    </DokumentFragment>*/}
-                    {/*)}*/}
-                    {inntektsmelding.foersteFravaersdag && (
+                    {inntektsmelding.inntektEndringAarsak && (
+                        <div className={styles.inntektEndringAarsak}>
+                            <Bold size="small" className={styles.fullBredde}>
+                                Endringsårsak
+                            </Bold>
+                            <BodyShort size="small">Årsak:</BodyShort>
+                            <BodyShort size="small">{inntektsmelding.inntektEndringAarsak.aarsak}</BodyShort>
+                            {inntektsmelding.inntektEndringAarsak.perioder && (
+                                <>
+                                    <BodyShort size="small">Perioder: </BodyShort>
+                                    <BodyShort size="small">
+                                        {inntektsmelding.inntektEndringAarsak?.perioder
+                                            ?.map(
+                                                (it) =>
+                                                    it.fom &&
+                                                    `${dayjs(it.fom).format(NORSK_DATOFORMAT)} – 
+                                                ${it.tom && dayjs(it.tom).format(NORSK_DATOFORMAT)}`,
+                                            )
+                                            .join(', ')
+                                            .replace(/,(?=[^,]*$)/, ' og')}
+                                    </BodyShort>
+                                </>
+                            )}
+                            {inntektsmelding.inntektEndringAarsak.gjelderFra && (
+                                <>
+                                    <BodyShort size="small">Gjelder fra:</BodyShort>
+                                    <BodyShort size="small">
+                                        {dayjs(inntektsmelding.inntektEndringAarsak.gjelderFra).format(
+                                            NORSK_DATOFORMAT,
+                                        )}
+                                    </BodyShort>
+                                </>
+                            )}
+                            {inntektsmelding.inntektEndringAarsak.bleKjent && (
+                                <>
+                                    <BodyShort size="small">Ble kjent:</BodyShort>
+                                    <BodyShort size="small">
+                                        {dayjs(inntektsmelding.inntektEndringAarsak.bleKjent).format(NORSK_DATOFORMAT)}
+                                    </BodyShort>
+                                </>
+                            )}
+                        </div>
+                    )}
+                    {inntektsmelding.inntektsdato && (
                         <DokumentFragment overskrift="Bestemmende fraværsdag">
-                            {dayjs(inntektsmelding.foersteFravaersdag).format(NORSK_DATOFORMAT)}
+                            {dayjs(inntektsmelding.inntektsdato).format(NORSK_DATOFORMAT)}
                         </DokumentFragment>
                     )}
                     {(inntektsmelding.arbeidsgiverperioder?.length ?? 0) > 0 && (
@@ -55,11 +93,6 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
                     {inntektsmelding.bruttoUtbetalt != null && (
                         <DokumentFragment overskrift="Brutto utbetalt">
                             {toKronerOgØre(inntektsmelding.bruttoUtbetalt)}
-                        </DokumentFragment>
-                    )}
-                    {inntektsmelding.inntektsdato && (
-                        <DokumentFragment overskrift="Inntektsdato">
-                            {dayjs(inntektsmelding.inntektsdato).format(NORSK_DATOFORMAT)}
                         </DokumentFragment>
                     )}
                     {inntektsmelding.begrunnelseForReduksjonEllerIkkeUtbetalt && (

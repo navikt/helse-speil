@@ -30,3 +30,18 @@
     padding-top: 0;
     padding-left: 0;
 }
+
+.inntektEndringAarsak {
+    grid-column: 1 / span 2;
+    display: grid;
+    grid-template-columns: 70px auto;
+    padding-bottom: 0.5rem;
+}
+
+.inntektEndringAarsak p {
+    grid-column: initial;
+}
+
+p.fullBredde {
+    grid-column: 1 / span 2;
+}
