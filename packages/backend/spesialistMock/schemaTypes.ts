@@ -128,6 +128,12 @@ export type Arbeidsgiverrefusjon = {
     refusjonsopplysninger: Array<Refusjonselement>;
 };
 
+export type AvsenderSystem = {
+    __typename?: 'AvsenderSystem';
+    navn?: Maybe<Scalars['String']['output']>;
+    versjon?: Maybe<Scalars['String']['output']>;
+};
+
 export enum Begrunnelse {
     Andreytelser = 'ANDREYTELSER',
     EgenmeldingUtenforArbeidsgiverperiode = 'EGENMELDING_UTENFOR_ARBEIDSGIVERPERIODE',
@@ -256,6 +262,7 @@ export enum Dagtype {
 export type DokumentInntektsmelding = {
     __typename?: 'DokumentInntektsmelding';
     arbeidsgiverperioder?: Maybe<Array<ImPeriode>>;
+    avsenderSystem?: Maybe<AvsenderSystem>;
     begrunnelseForReduksjonEllerIkkeUtbetalt?: Maybe<Scalars['String']['output']>;
     beregnetInntekt?: Maybe<Scalars['Float']['output']>;
     bruttoUtbetalt?: Maybe<Scalars['Float']['output']>;
