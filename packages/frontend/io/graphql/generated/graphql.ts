@@ -297,6 +297,7 @@ export enum Egenskap {
     Spesialsak = 'SPESIALSAK',
     Stikkprove = 'STIKKPROVE',
     StrengtFortroligAdresse = 'STRENGT_FORTROLIG_ADRESSE',
+    Tilbakedatert = 'TILBAKEDATERT',
     UtbetalingTilArbeidsgiver = 'UTBETALING_TIL_ARBEIDSGIVER',
     UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
     Utland = 'UTLAND',
