@@ -7,6 +7,7 @@ import { Bold } from '@components/Bold';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
+import { BestemmendeFraværsdag } from './BestemmendeFraværsdag';
 import { DokumentFragment } from './DokumentFragment';
 import { DokumentLoader } from './DokumentLoader';
 import { useQueryInntektsmelding } from './queries';
@@ -69,11 +70,10 @@ export const Inntektsmeldingsinnhold: React.FC<InntektsmeldinginnholdProps> = ({
                             )}
                         </div>
                     )}
-                    {inntektsmelding.inntektsdato && (
-                        <DokumentFragment overskrift="Bestemmende fraværsdag">
-                            {dayjs(inntektsmelding.inntektsdato).format(NORSK_DATOFORMAT)}
-                        </DokumentFragment>
-                    )}
+                    <BestemmendeFraværsdag
+                        inntektsdato={inntektsmelding?.inntektsdato ?? null}
+                        førsteFraværsdag={inntektsmelding?.foersteFravaersdag ?? null}
+                    />
                     {(inntektsmelding.arbeidsgiverperioder?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
                             <Bold size="small">Arbeidsgiverperioder</Bold>
