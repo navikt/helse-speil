@@ -13,12 +13,12 @@ import { useQueryInntektsmelding } from './queries';
 
 import styles from './Inntektsmeldingsinnhold.module.css';
 
-type SøknadsinnholdProps = {
+type InntektsmeldinginnholdProps = {
     dokumentId: DokumenthendelseObject['dokumentId'];
     fødselsnummer: string;
 };
 
-export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, fødselsnummer }) => {
+export const Inntektsmeldingsinnhold: React.FC<InntektsmeldinginnholdProps> = ({ dokumentId, fødselsnummer }) => {
     const inntektsmeldingssrespons = useQueryInntektsmelding(fødselsnummer, dokumentId);
     const inntektsmelding = inntektsmeldingssrespons.data;
 
