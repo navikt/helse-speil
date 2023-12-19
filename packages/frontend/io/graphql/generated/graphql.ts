@@ -1676,7 +1676,7 @@ export type FetchInntektsmeldingQuery = {
             bleKjent?: string | null;
             perioder?: Array<{ __typename?: 'IMPeriode'; fom?: string | null; tom?: string | null }> | null;
         } | null;
-        avsenderSystem?: { __typename?: 'AvsenderSystem'; navn?: string | null; versjon?: string | null } | null;
+        avsenderSystem?: { __typename?: 'AvsenderSystem'; navn?: string | null } | null;
     };
 };
 
@@ -3925,10 +3925,7 @@ export const FetchInntektsmeldingDocument = {
                                     name: { kind: 'Name', value: 'avsenderSystem' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'versjon' } },
-                                        ],
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'navn' } }],
                                     },
                                 },
                             ],

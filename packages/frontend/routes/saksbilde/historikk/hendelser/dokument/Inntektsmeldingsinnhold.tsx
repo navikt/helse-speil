@@ -206,11 +206,8 @@ export const Inntektsmeldingsinnhold: React.FC<InntektsmeldinginnholdProps> = ({
                         </DokumentFragment>
                     )}
                     {inntektsmelding.avsenderSystem && (
-                        <DokumentFragment overskrift="Avsender system">
-                            {inntektsmelding.avsenderSystem?.navn ?? ''}
-                            {inntektsmelding.avsenderSystem?.versjon !== null
-                                ? `: ${inntektsmelding.avsenderSystem?.versjon}`
-                                : ''}
+                        <DokumentFragment overskrift="Avsendersystem">
+                            {tilAvsendersystem(inntektsmelding.avsenderSystem?.navn ?? '') ?? ''}
                         </DokumentFragment>
                     )}
                 </div>
@@ -219,4 +216,13 @@ export const Inntektsmeldingsinnhold: React.FC<InntektsmeldinginnholdProps> = ({
             {inntektsmeldingssrespons.error && <div>Noe gikk feil, vennligst prøv igjen.</div>}
         </div>
     );
+};
+
+const tilAvsendersystem = (avsenderSystem: string) => {
+    switch (avsenderSystem) {
+        case 'NAV_NO':
+            return 'NAV';
+        default:
+            return avsenderSystem;
+    }
 };
