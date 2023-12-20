@@ -59,4 +59,4 @@ export const toggleMeny: boolean = erLocal() || erDev();
 export const kanSkjønnsfastsetteSykepengegrunnlag: boolean = erLocal() || erDev();
 export const tilgjengeligeBegrunnelser = erLocal() || erDev() ? ['0', '1', '2'] : ['0'];
 
-export const kanSeInntektsmelding: boolean = erLocal() || erDev() || erPåTeamBømlo();
+export const kanSeInntektsmelding: boolean = erLocal() || erDev() || erPåTeamBømlo() || erCoachEllerSuper();
