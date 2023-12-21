@@ -8,6 +8,7 @@ import { somPenger } from '@utils/locale';
 
 import { Arbeidsgivernavn } from '../../../Arbeidsgivernavn';
 import { ArbeidsgiverForm } from '../../skjønnsfastsetting';
+
 import styles from '../SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 
 interface SkjønnsfastsettingArbeidsgivereProps {
@@ -78,6 +79,14 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                         </th>
                     </tr>
                 )}
+                {begrunnelseId === '2' && (
+                    <tr>
+                        <th />
+                        <th>
+                            <Label>Årsinntekt</Label>
+                        </th>
+                    </tr>
+                )}
                 {fields.map((field, index) => {
                     const årligField = register(`arbeidsgivere.${index}.årlig`, {
                         valueAsNumber: true,
@@ -113,7 +122,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                     )}
                     <tr>
                         <td>
-                            <Label>Totalt</Label>
+                            <Label>Sykepengegrunnlag</Label>
                         </td>
                         {begrunnelseId === '1' && <td></td>}
                         <td className={styles.inntektSum}>
@@ -134,6 +143,7 @@ interface ArbeidsgiverRadProps {
     orgnummerField: UseFormRegisterReturn;
     clearArbeidsgiverErrors: () => void;
 }
+
 const ArbeidsgiverRad = ({
     arbeidsgiverNavn,
     begrunnelseId,
