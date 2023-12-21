@@ -4,6 +4,7 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
+import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
@@ -78,7 +79,7 @@ export const Inntektsmeldingsinnhold: React.FC<InntektsmeldinginnholdProps> = ({
                         <div className={styles.liste}>
                             <Bold size="small">Arbeidsgiverperioder</Bold>
                             {inntektsmelding.arbeidsgiverperioder?.map((it) => (
-                                <BodyShort size="small">
+                                <BodyShort size="small" key={`agperioder${it.fom}-${it.tom}`}>
                                     {it.fom && dayjs(it.fom).format(NORSK_DATOFORMAT)} –{' '}
                                     {it.tom && dayjs(it.tom).format(NORSK_DATOFORMAT)}
                                 </BodyShort>
@@ -135,7 +136,7 @@ export const Inntektsmeldingsinnhold: React.FC<InntektsmeldinginnholdProps> = ({
                         <div className={styles.liste}>
                             <Bold size="small">Ferieperioder</Bold>
                             {inntektsmelding.ferieperioder?.map((it) => (
-                                <BodyShort size="small">
+                                <BodyShort size="small" key={`ferieperioder${it.fom}`}>
                                     {it.fom && dayjs(it.fom).format(NORSK_DATOFORMAT)} –{' '}
                                     {it.tom && dayjs(it.tom).format(NORSK_DATOFORMAT)}
                                 </BodyShort>
@@ -197,12 +198,14 @@ export const Inntektsmeldingsinnhold: React.FC<InntektsmeldinginnholdProps> = ({
                     )}
                     {inntektsmelding.innsenderFulltNavn && (
                         <DokumentFragment overskrift="Innsender fullt navn">
-                            {inntektsmelding.innsenderFulltNavn}
+                            <AnonymizableContainer as="span">
+                                {inntektsmelding.innsenderFulltNavn}
+                            </AnonymizableContainer>
                         </DokumentFragment>
                     )}
                     {inntektsmelding.innsenderTelefon && (
                         <DokumentFragment overskrift="Innsender telefon">
-                            {inntektsmelding.innsenderTelefon}
+                            <AnonymizableContainer as="span">{inntektsmelding.innsenderTelefon}</AnonymizableContainer>
                         </DokumentFragment>
                     )}
                     {inntektsmelding.avsenderSystem && (
