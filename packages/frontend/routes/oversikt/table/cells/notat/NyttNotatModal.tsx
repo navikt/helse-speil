@@ -14,7 +14,6 @@ import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 import { getFormatertNavn } from '@utils/string';
 
-import { Frist } from './Frist';
 import { SisteNotat } from './SisteNotat';
 
 const Container = styled.section`
@@ -67,13 +66,6 @@ interface Notattekster {
 
 const notattypeTekster = (notattype: NotatType): Notattekster => {
     switch (notattype) {
-        case 'PaaVent':
-            return {
-                tittel: 'Legg på vent',
-                description:
-                    'Skriv hvorfor saken er lagt på vent, så det er lettere å starte igjen senere.\nEks: Kontaktet arbeidsgiver, fikk ikke svar.\nBlir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.',
-                submitTekst: 'Legg på vent',
-            };
         case 'Retur':
             return {
                 tittel: 'Retur',
@@ -132,9 +124,6 @@ export const NyttNotatModal = ({
 
     const submit: SubmitHandler<FieldValues> = async (fieldValues) => {
         if (onSubmitOverride) {
-            if (notattype === NotatType.PaaVent)
-                return void onSubmitOverride(fieldValues.tekst, fieldValues.frist, fieldValues.begrunnelse);
-
             void onSubmitOverride(fieldValues.tekst);
         } else {
             await nyttNotat({
@@ -198,7 +187,6 @@ export const NyttNotatModal = ({
                             notattekst={notattekst}
                             tillattTekstlengde={tillattTekstlengde}
                         />
-                        {notattype === NotatType.PaaVent && <Frist />}
                         <Buttons>
                             <Button size="small" disabled={loading} type="submit">
                                 {submitButtonText ?? (onSubmitOverride ? notattekst.submitTekst : 'Lagre')}
