@@ -58,7 +58,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                         />
                     )}
             </div>
-            {omregnetÅrsinntekt && (
+            {omregnetÅrsinntekt != null && (
                 <SykepengegrunnlagsgrenseView
                     sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
