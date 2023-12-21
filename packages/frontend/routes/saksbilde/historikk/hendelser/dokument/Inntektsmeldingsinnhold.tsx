@@ -225,6 +225,8 @@ const tilAvsendersystem = (avsenderSystem: string) => {
     switch (avsenderSystem) {
         case 'NAV_NO':
             return 'NAV';
+        case String(avsenderSystem.match(/SAP.*/)):
+            return 'SAP';
         default:
             return avsenderSystem;
     }
