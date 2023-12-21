@@ -86,14 +86,14 @@ export const Inntektsmeldingsinnhold: React.FC<InntektsmeldinginnholdProps> = ({
                             ))}
                         </div>
                     )}
-                    {inntektsmelding.beregnetInntekt != null && (
-                        <DokumentFragment overskrift="Beregnet inntekt">
-                            {toKronerOgØre(inntektsmelding.beregnetInntekt)}
-                        </DokumentFragment>
-                    )}
                     {inntektsmelding.bruttoUtbetalt != null && (
                         <DokumentFragment overskrift="Brutto utbetalt i AGP">
                             {toKronerOgØre(inntektsmelding.bruttoUtbetalt)}
+                        </DokumentFragment>
+                    )}
+                    {inntektsmelding.beregnetInntekt != null && (
+                        <DokumentFragment overskrift="Beregnet inntekt">
+                            Beløp pr mnd: {toKronerOgØre(inntektsmelding.beregnetInntekt)}
                         </DokumentFragment>
                     )}
                     {inntektsmelding.begrunnelseForReduksjonEllerIkkeUtbetalt && (
