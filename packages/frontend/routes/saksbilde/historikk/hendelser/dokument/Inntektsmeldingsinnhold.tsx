@@ -91,7 +91,7 @@ export const Inntektsmeldingsinnhold: React.FC<InntektsmeldinginnholdProps> = ({
                         </DokumentFragment>
                     )}
                     {inntektsmelding.bruttoUtbetalt != null && (
-                        <DokumentFragment overskrift="Brutto utbetalt">
+                        <DokumentFragment overskrift="Brutto utbetalt i AGP">
                             {toKronerOgØre(inntektsmelding.bruttoUtbetalt)}
                         </DokumentFragment>
                     )}
