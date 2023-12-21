@@ -105,6 +105,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                             key={field.id}
                             arbeidsgiverNavn={getArbeidsgiverNavn(field.organisasjonsnummer)}
                             begrunnelseId={begrunnelseId}
+                            flereArbeidgivere={arbeidsgivere.length > 1}
                             arbeidsgiversammenligningsgrunnlag={arbeidsgiversammenligningsgrunnlag}
                             årligField={årligField}
                             orgnummerField={orgnummerField}
@@ -138,6 +139,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
 interface ArbeidsgiverRadProps {
     arbeidsgiverNavn?: string;
     begrunnelseId: string;
+    flereArbeidgivere: boolean;
     arbeidsgiversammenligningsgrunnlag?: number;
     årligField: UseFormRegisterReturn;
     orgnummerField: UseFormRegisterReturn;
@@ -147,6 +149,7 @@ interface ArbeidsgiverRadProps {
 const ArbeidsgiverRad = ({
     arbeidsgiverNavn,
     begrunnelseId,
+    flereArbeidgivere,
     arbeidsgiversammenligningsgrunnlag,
     årligField,
     orgnummerField,
@@ -180,7 +183,7 @@ const ArbeidsgiverRad = ({
                 hideLabel
                 type="text"
                 inputMode="numeric"
-                disabled={begrunnelseId === '0'}
+                disabled={begrunnelseId === '0' || !flereArbeidgivere}
                 className={styles.arbeidsgiverInput}
             />
             <input {...orgnummerField} hidden style={{ display: 'none' }} />
