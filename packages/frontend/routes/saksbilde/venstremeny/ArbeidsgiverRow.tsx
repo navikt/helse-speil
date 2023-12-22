@@ -57,7 +57,7 @@ const ArbeidsforholdRow: React.FC<ArbeidsforholdRowProps> = ({ arbeidsforhold })
                         </Tooltip>
                         <BodyShort>
                             {fom}
-                            {tom && ' - ' && tom}
+                            {tom && ` - ${tom}`}
                         </BodyShort>
                     </React.Fragment>
                 );
