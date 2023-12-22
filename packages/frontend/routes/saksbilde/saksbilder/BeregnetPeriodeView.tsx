@@ -4,16 +4,12 @@ import { Route, Routes } from 'react-router-dom';
 import { Loader } from '@navikt/ds-react';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
-import { Arbeidsforholdoverstyring, Overstyring, VilkarsgrunnlagSpleis } from '@io/graphql';
-import { useHarDagOverstyringer } from '@state/arbeidsgiver';
+import { Arbeidsforholdoverstyring, Inntektskilde, Overstyring, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { useCurrentArbeidsgiver, useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
-import {
-    isArbeidsforholdoverstyring,
-    isSpleisVilkarsgrunnlag,
-    isSykepengegrunnlagskjønnsfastsetting,
-} from '@utils/typeguards';
+import { isArbeidsforholdoverstyring, isSpleisVilkarsgrunnlag } from '@utils/typeguards';
 
 import { Historikk } from '../historikk';
 import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
@@ -67,6 +63,7 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
     const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, period);
+    const arbeidsgiver = useCurrentArbeidsgiver();
 
     const navnPåDeaktiverteGhostArbeidsgivere = isSpleisVilkarsgrunnlag(vilkårsgrunnlag)
         ? person.arbeidsgivere
@@ -80,15 +77,9 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
               .flatMap((arbeidsgiver) => arbeidsgiver.navn)
               .join(', ')
         : undefined;
-
     const harBlittSkjønnsmessigFastsatt =
-        person?.arbeidsgivere.filter((arbeidsgiver) =>
-            arbeidsgiver.overstyringer.find(
-                (overstyring) =>
-                    isSykepengegrunnlagskjønnsfastsetting(overstyring) &&
-                    overstyring.skjonnsfastsatt.skjaeringstidspunkt === period?.skjaeringstidspunkt,
-            ),
-        ).length > 0;
+        vilkårsgrunnlag?.inntekter.find((aginntekt) => aginntekt.arbeidsgiver === arbeidsgiver?.organisasjonsnummer)
+            ?.skjonnsmessigFastsatt?.kilde === Inntektskilde.SkjonnsmessigFastsatt;
 
     return (
         <>
