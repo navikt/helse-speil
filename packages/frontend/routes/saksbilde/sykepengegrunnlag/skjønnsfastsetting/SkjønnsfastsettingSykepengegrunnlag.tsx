@@ -17,6 +17,7 @@ interface SkjønnsfastsettingSykepengegrunnlagProps {
     sammenligningsgrunnlag?: Maybe<number>;
     skjønnsmessigFastsattÅrlig?: Maybe<number>;
     inntekter: Arbeidsgiverinntekt[];
+    avviksprosent: number;
 }
 
 export const SkjønnsfastsettingSykepengegrunnlag = ({
@@ -26,6 +27,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     sammenligningsgrunnlag,
     skjønnsmessigFastsattÅrlig,
     inntekter,
+    avviksprosent,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editing, setEditing] = useState(false);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
@@ -42,6 +44,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                     endretSykepengegrunnlag={endretSykepengegrunnlag}
                     skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
                     sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
+                    avviksprosent={avviksprosent}
                     editing={editing}
                     setEditing={setEditing}
                 />

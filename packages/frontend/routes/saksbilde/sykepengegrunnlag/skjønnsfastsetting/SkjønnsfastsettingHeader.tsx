@@ -20,6 +20,7 @@ interface SkjønnsfastsettingHeaderProps {
     endretSykepengegrunnlag: Maybe<number>;
     skjønnsmessigFastsattÅrlig?: Maybe<number>;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
+    avviksprosent: number;
     editing: boolean;
     setEditing: (state: boolean) => void;
 }
@@ -29,6 +30,7 @@ export const SkjønnsfastsettingHeader = ({
     endretSykepengegrunnlag,
     skjønnsmessigFastsattÅrlig,
     sykepengegrunnlagsgrense,
+    avviksprosent,
     editing,
     setEditing,
 }: SkjønnsfastsettingHeaderProps) => {
@@ -62,7 +64,7 @@ export const SkjønnsfastsettingHeader = ({
                     )}
                 </>
             )}
-            {kanSkjønnsfastsetteSykepengegrunnlag && !readonly && (
+            {kanSkjønnsfastsetteSykepengegrunnlag && !readonly && avviksprosent > 25 && (
                 <EditButton
                     isOpen={editing}
                     openText="Avbryt"
