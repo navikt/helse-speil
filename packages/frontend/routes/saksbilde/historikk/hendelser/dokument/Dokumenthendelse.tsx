@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
 import { useCurrentPerson } from '@state/person';
-import { kanSeInntektsmelding } from '@utils/featureToggles';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
 import { Hendelse } from '../Hendelse';
@@ -63,7 +62,7 @@ export const Dokumenthendelse: React.FC<DokumenthendelseProps> = ({ dokumenttype
             title={`${dokumenttype} mottatt`}
             icon={<Kilde type={getKildetype(dokumenttype)}>{getKildetekst(dokumenttype)}</Kilde>}
         >
-            {(dokumenttype === 'Søknad' || (kanSeInntektsmelding && dokumenttype === 'Inntektsmelding')) && (
+            {(dokumenttype === 'Søknad' || dokumenttype === 'Inntektsmelding') && (
                 <ExpandableHistorikkContent onOpen={setShowDokumenter}>{dokument}</ExpandableHistorikkContent>
             )}
             <HendelseDate timestamp={timestamp} />
