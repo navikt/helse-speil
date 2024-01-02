@@ -1,6 +1,7 @@
 import express from 'express';
 
 import { sleep } from '../devHelpers';
+import { setUpFaro } from './faro';
 import { setUpGraphQLMiddleware } from './graphql';
 
 const app = express();
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
     sleep(ventetid).then(next);
 });
 
+setUpFaro(app);
 setUpGraphQLMiddleware(app);
 
 app.listen(port, () => console.log(`Spesialist-mock kjører på port ${port}`));
