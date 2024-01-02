@@ -12,13 +12,13 @@ import { Varsler } from '@components/Varsler';
 import { Header } from '@components/header/Header';
 import { ErrorsInstrumentation, initializeFaro } from '@grafana/faro-web-sdk';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import nais from '@nais/nais';
 import { useAuthentication, useUpdateAuthentication } from '@state/authentication';
 import { useFetchPersonQuery } from '@state/person';
 import { useSetVarsler } from '@state/varsler';
 import { onLazyLoadFail } from '@utils/error';
 import { erDev, erLocal } from '@utils/featureToggles';
 
+import nais from '../nais/nais';
 import { GlobalFeilside } from './GlobalFeilside';
 import { IkkeLoggetInn } from './IkkeLoggetInn';
 import { PageNotFound } from './PageNotFound';
