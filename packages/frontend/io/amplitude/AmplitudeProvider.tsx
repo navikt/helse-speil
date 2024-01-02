@@ -1,7 +1,7 @@
-import amplitude from 'amplitude-js';
 import dayjs, { Dayjs } from 'dayjs';
 import React, { PropsWithChildren, useEffect } from 'react';
 
+import * as amplitude from '@amplitude/analytics-browser';
 import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
 import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
 import { Egenskap, Kategori, Oppgaveegenskap, Periode } from '@io/graphql';
@@ -14,18 +14,13 @@ import { defaultFilters } from '../../routes/oversikt/table/state/filter';
 
 const apiKey = erProd() ? '4000b8a4a426b0dbefbe011778062779' : '27bc226964689268f3258512c10dc2a1';
 
-const amplitudeClient = erProd() || erDev() ? amplitude.getInstance() : undefined;
+const amplitudeClient = erProd() || erDev() ? amplitude : amplitude;
 
 amplitudeClient?.init(apiKey, '', {
-    apiEndpoint: 'amplitude.nav.no/collect',
+    serverUrl: 'amplitude.nav.no/collect',
     serverZone: 'EU',
-    saveEvents: false,
-    includeUtm: true,
-    batchEvents: false,
-    includeReferrer: true,
+    defaultTracking: false,
 });
-
-const logEventCallback = (oppgaveId: string) => () => AmplitudeStorageHandler.removeÅpnetOppgaveTidspunkt(oppgaveId);
 
 const useStoreÅpnetTidspunkt = () => {
     const activePeriod = useActivePeriod();
@@ -86,16 +81,15 @@ const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string
     const activePeriod = useActivePeriod();
     const oppgavereferanse = getOppgavereferanse(activePeriod);
 
-    return (event: Amplitude.LogEvent, begrunnelser?: string[]) => {
+    return async (event: Amplitude.LogEvent, begrunnelser?: string[]) => {
         if (oppgavereferanse) {
             const åpnetTidspunkt = AmplitudeStorageHandler.getÅpnetOppgaveTidspunkt(oppgavereferanse);
 
-            åpnetTidspunkt &&
-                amplitudeClient?.logEvent(
-                    event,
-                    getEventProperties(activePeriod, åpnetTidspunkt, begrunnelser),
-                    logEventCallback(oppgavereferanse),
-                );
+            if (åpnetTidspunkt) {
+                await amplitudeClient?.track(event, getEventProperties(activePeriod, åpnetTidspunkt, begrunnelser))
+                    .promise;
+                AmplitudeStorageHandler.removeÅpnetOppgaveTidspunkt(oppgavereferanse);
+            }
         }
     };
 };
@@ -115,9 +109,10 @@ const _AmplitudeProvider: React.FC<PropsWithChildren<object>> = ({ children }) =
     const logTotrinnsoppgaveTilGodkjenning = () => logEvent('totrinnsoppgave til godkjenning');
 
     useEffect(() => {
-        amplitudeClient?.setUserProperties({
-            skjermbredde: window.screen.width,
-        });
+        if (amplitudeClient === undefined) return;
+        const identify = new amplitudeClient.Identify();
+        identify.set('skjermbredde', window.screen.width);
+        amplitude.identify(identify);
     }, []);
 
     return (
