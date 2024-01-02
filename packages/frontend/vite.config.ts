@@ -22,7 +22,7 @@ export default defineConfig({
             transformMixedEsModules: true,
         },
         rollupOptions: {
-            external: ['./nais.ts'],
+            external: ['@nais/nais'],
             output: {
                 manualChunks(id: string) {
                     if (id.includes('react-router-dom') || id.includes('remix-run') || id.includes('react-router')) {
@@ -59,6 +59,7 @@ export default defineConfig({
             '@state': path.resolve(__dirname, './state'),
             '@utils': path.resolve(__dirname, './utils'),
             '@components': path.resolve(__dirname, './components'),
+            '@nais': path.resolve(__dirname, './nais'),
         },
     },
 });

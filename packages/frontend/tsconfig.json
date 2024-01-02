@@ -22,7 +22,8 @@
             "@utils/*": ["./utils/*"],
             "@components/*": ["./components/*"],
             "@state/*": ["./state/*"],
-            "@hooks/*": ["./hooks/*"]
+            "@hooks/*": ["./hooks/*"],
+            "@nais/*": ["./nais/*"]
         }
     }
 }
