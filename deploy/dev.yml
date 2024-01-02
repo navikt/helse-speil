@@ -44,7 +44,7 @@ spec:
     enabled: true
   frontend:
     generatedConfig:
-      mountPath: /app/dist/client/nais/nais.ts
+      mountPath: /app/dist/client/static/nais.ts
   azure:
     application:
       enabled: true
