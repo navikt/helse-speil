@@ -10,7 +10,6 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Toasts } from '@components/Toasts';
 import { Varsler } from '@components/Varsler';
 import { Header } from '@components/header/Header';
-import { ErrorsInstrumentation, initializeFaro } from '@grafana/faro-web-sdk';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useAuthentication, useUpdateAuthentication } from '@state/authentication';
 import { useFetchPersonQuery } from '@state/person';
@@ -18,7 +17,6 @@ import { useSetVarsler } from '@state/varsler';
 import { onLazyLoadFail } from '@utils/error';
 import { erDev, erLocal } from '@utils/featureToggles';
 
-import nais from '../nais/nais';
 import { GlobalFeilside } from './GlobalFeilside';
 import { IkkeLoggetInn } from './IkkeLoggetInn';
 import { PageNotFound } from './PageNotFound';
@@ -41,14 +39,14 @@ const GraphQLPlayground = lazy(() =>
 
 ReactModal.setAppElement('#root');
 
-const telemetryCollectorURL = nais.telemetryCollectorURL;
-console.log(`URL fra nais.ts: ${telemetryCollectorURL}`);
-(erLocal() || !telemetryCollectorURL.includes('localhost')) &&
-    initializeFaro({
-        url: nais.telemetryCollectorURL,
-        app: nais.app,
-        instrumentations: [new ErrorsInstrumentation()],
-    });
+// const telemetryCollectorURL = nais.telemetryCollectorURL;
+// console.log(`URL fra nais.ts: ${telemetryCollectorURL}`);
+// (erLocal() || !telemetryCollectorURL.includes('localhost')) &&
+//     initializeFaro({
+//         url: nais.telemetryCollectorURL,
+//         app: nais.app,
+//         instrumentations: [new ErrorsInstrumentation()],
+//     });
 
 const useSyncAlertsToLocation = () => {
     const location = useLocation();

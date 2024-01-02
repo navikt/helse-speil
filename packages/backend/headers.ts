@@ -6,11 +6,12 @@ const styleSource = 'https://fonts.googleapis.com';
 const fontSource = 'https://fonts.gstatic.com https://cdn.nav.no';
 const amplitudeSource = 'https://amplitude.nav.no';
 const arbeidOgInntektSource = 'https://arbeid-og-inntekt.nais.adeo.no';
-const cspString = `default-src 'self' data:; style-src 'self' ${styleSource} data: 'unsafe-inline'; connect-src 'self' ${arbeidOgInntektSource} blob: ${amplitudeSource}; font-src ${fontSource} 'self' data:`;
+const navNo = 'https://*.nav.no';
+const cspString = `default-src 'self' data:; style-src 'self' ${styleSource} data: 'unsafe-inline'; connect-src 'self' ${arbeidOgInntektSource} ${navNo} blob: ${amplitudeSource}; font-src ${fontSource} 'self' data:`;
 
 const setup = (app: Express) => {
     app.disable('x-powered-by');
-    app.use((req, res, next) => {
+    app.use((_req, res, next) => {
         res.header('X-Frame-Options', 'DENY');
         res.header('X-Xss-Protection', '1; mode=block');
         res.header('X-Content-Type-Options', 'nosniff');
