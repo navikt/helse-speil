@@ -2062,7 +2062,6 @@ type Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment = {
     sykepengegrunnlag: number;
     skjaeringstidspunkt: string;
     omregnetArsinntekt: number;
-    sammenligningsgrunnlag?: number | null;
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
     inntekter: Array<{
         __typename?: 'Arbeidsgiverinntekt';
@@ -2103,6 +2102,7 @@ type Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment = {
 
 type Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment = {
     __typename?: 'VilkarsgrunnlagSpleis';
+    sammenligningsgrunnlag?: number | null;
     skjonnsmessigFastsattAarlig?: number | null;
     oppfyllerKravOmMinstelonn: boolean;
     oppfyllerKravOmMedlemskap?: boolean | null;
@@ -2115,7 +2115,6 @@ type Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment = {
     sykepengegrunnlag: number;
     skjaeringstidspunkt: string;
     omregnetArsinntekt: number;
-    sammenligningsgrunnlag?: number | null;
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
     sykepengegrunnlagsgrense: {
         __typename?: 'Sykepengegrunnlagsgrense';
@@ -2228,7 +2227,6 @@ export type FetchPersonQuery = {
                   sykepengegrunnlag: number;
                   skjaeringstidspunkt: string;
                   omregnetArsinntekt: number;
-                  sammenligningsgrunnlag?: number | null;
                   vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
                   inntekter: Array<{
                       __typename?: 'Arbeidsgiverinntekt';
@@ -2280,6 +2278,7 @@ export type FetchPersonQuery = {
               }
             | {
                   __typename?: 'VilkarsgrunnlagSpleis';
+                  sammenligningsgrunnlag?: number | null;
                   skjonnsmessigFastsattAarlig?: number | null;
                   oppfyllerKravOmMinstelonn: boolean;
                   oppfyllerKravOmMedlemskap?: boolean | null;
@@ -2292,7 +2291,6 @@ export type FetchPersonQuery = {
                   sykepengegrunnlag: number;
                   skjaeringstidspunkt: string;
                   omregnetArsinntekt: number;
-                  sammenligningsgrunnlag?: number | null;
                   vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
                   sykepengegrunnlagsgrense: {
                       __typename?: 'Sykepengegrunnlagsgrense';
@@ -3258,7 +3256,6 @@ export const VilkarsgrunnlagFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'sykepengegrunnlag' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'omregnetArsinntekt' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'sammenligningsgrunnlag' } },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'inntekter' },
@@ -3367,6 +3364,7 @@ export const VilkarsgrunnlagFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sammenligningsgrunnlag' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'skjonnsmessigFastsattAarlig' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmMinstelonn' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmMedlemskap' } },
@@ -6767,7 +6765,6 @@ export const FetchPersonDocument = {
                     { kind: 'Field', name: { kind: 'Name', value: 'sykepengegrunnlag' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'omregnetArsinntekt' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'sammenligningsgrunnlag' } },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'inntekter' },
@@ -6876,6 +6873,7 @@ export const FetchPersonDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sammenligningsgrunnlag' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'skjonnsmessigFastsattAarlig' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmMinstelonn' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmMedlemskap' } },

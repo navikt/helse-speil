@@ -40,7 +40,6 @@ fragment vilkarsgrunnlag on Vilkarsgrunnlag {
     sykepengegrunnlag
     skjaeringstidspunkt
     omregnetArsinntekt
-    sammenligningsgrunnlag
     inntekter {
         sammenligningsgrunnlag {
             belop
@@ -81,6 +80,7 @@ fragment vilkarsgrunnlag on Vilkarsgrunnlag {
     }
     vilkarsgrunnlagtype
     ... on VilkarsgrunnlagSpleis {
+        sammenligningsgrunnlag
         skjonnsmessigFastsattAarlig
         oppfyllerKravOmMinstelonn
         oppfyllerKravOmMedlemskap
