@@ -14,10 +14,10 @@ import { defaultFilters } from '../../routes/oversikt/table/state/filter';
 
 const apiKey = erProd() ? '4000b8a4a426b0dbefbe011778062779' : '27bc226964689268f3258512c10dc2a1';
 
-const amplitudeClient = erProd() || erDev() ? amplitude : amplitude;
+const amplitudeClient = erProd() || erDev() ? amplitude : undefined;
 
 amplitudeClient?.init(apiKey, '', {
-    serverUrl: 'amplitude.nav.no/collect',
+    serverUrl: 'https://amplitude.nav.no/collect',
     serverZone: 'EU',
     defaultTracking: false,
 });
