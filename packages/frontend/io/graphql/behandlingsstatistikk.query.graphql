@@ -9,6 +9,7 @@ query HentBehandlingsstatistikk {
         enArbeidsgiver {...antall}
         flereArbeidsgivere {...antall}
         beslutter {...antall}
+        egenAnsatt {...antall}
         delvisRefusjon {...antall}
         faresignaler {...antall}
         forlengelser {...antall}

@@ -87,6 +87,9 @@ export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProp
                 <StatistikkRow antall={behandlingsstatistikk.beslutter}>
                     <LabelCell.Beslutter />
                 </StatistikkRow>
+                <StatistikkRow antall={behandlingsstatistikk.egenAnsatt}>
+                    <LabelCell.EgenAnsatt />
+                </StatistikkRow>
             </tbody>
             <Separator />
             <tfoot>

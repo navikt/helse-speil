@@ -48,6 +48,7 @@ const mocks = [
                         enArbeidsgiver: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
                         flereArbeidsgivere: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
                         beslutter: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                        egenAnsatt: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
                         delvisRefusjon: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
                         faresignaler: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
                         forlengelser: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },

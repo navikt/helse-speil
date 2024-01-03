@@ -174,6 +174,7 @@ export type Behandlingsstatistikk = {
     antallAnnulleringer: Scalars['Int']['output'];
     beslutter: Antall;
     delvisRefusjon: Antall;
+    egenAnsatt: Antall;
     enArbeidsgiver: Antall;
     faresignaler: Antall;
     flereArbeidsgivere: Antall;
@@ -1510,7 +1511,6 @@ export type Vilkarsgrunnlag = {
     id: Scalars['String']['output'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float']['output'];
-    sammenligningsgrunnlag?: Maybe<Scalars['Float']['output']>;
     skjaeringstidspunkt: Scalars['String']['output'];
     sykepengegrunnlag: Scalars['Float']['output'];
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
@@ -1522,7 +1522,6 @@ export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
     id: Scalars['String']['output'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float']['output'];
-    sammenligningsgrunnlag?: Maybe<Scalars['Float']['output']>;
     skjaeringstidspunkt: Scalars['String']['output'];
     sykepengegrunnlag: Scalars['Float']['output'];
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
@@ -1619,6 +1618,7 @@ export type HentBehandlingsstatistikkQuery = {
         enArbeidsgiver: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         flereArbeidsgivere: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         beslutter: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+        egenAnsatt: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         delvisRefusjon: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         faresignaler: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         forlengelser: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
@@ -3647,6 +3647,16 @@ export const HentBehandlingsstatistikkDocument = {
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'beslutter' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'egenAnsatt' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [

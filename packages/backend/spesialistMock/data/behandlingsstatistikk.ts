@@ -14,6 +14,11 @@ export const behandlingsstatistikk = {
         manuelt: 53,
         tilgjengelig: 28,
     },
+    egenAnsatt: {
+        automatisk: 0,
+        manuelt: 53,
+        tilgjengelig: 28,
+    },
     delvisRefusjon: {
         automatisk: 0,
         manuelt: 0,

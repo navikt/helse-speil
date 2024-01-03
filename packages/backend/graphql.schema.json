@@ -1461,6 +1461,22 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "egenAnsatt",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Antall",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "enArbeidsgiver",
                         "description": null,
                         "args": [],
@@ -13597,18 +13613,6 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "sammenligningsgrunnlag",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "Float",
-                            "ofType": null
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "skjaeringstidspunkt",
                         "description": null,
                         "args": [],
@@ -13754,18 +13758,6 @@
                                 "name": "Float",
                                 "ofType": null
                             }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "sammenligningsgrunnlag",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "Float",
-                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null

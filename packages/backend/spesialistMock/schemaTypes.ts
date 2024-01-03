@@ -172,6 +172,7 @@ export type Behandlingsstatistikk = {
     antallAnnulleringer: Scalars['Int']['output'];
     beslutter: Antall;
     delvisRefusjon: Antall;
+    egenAnsatt: Antall;
     enArbeidsgiver: Antall;
     faresignaler: Antall;
     flereArbeidsgivere: Antall;
@@ -1508,7 +1509,6 @@ export type Vilkarsgrunnlag = {
     id: Scalars['String']['output'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float']['output'];
-    sammenligningsgrunnlag?: Maybe<Scalars['Float']['output']>;
     skjaeringstidspunkt: Scalars['String']['output'];
     sykepengegrunnlag: Scalars['Float']['output'];
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
@@ -1520,7 +1520,6 @@ export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
     id: Scalars['String']['output'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float']['output'];
-    sammenligningsgrunnlag?: Maybe<Scalars['Float']['output']>;
     skjaeringstidspunkt: Scalars['String']['output'];
     sykepengegrunnlag: Scalars['Float']['output'];
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
