@@ -162,9 +162,11 @@ const valgtInntekt = (
 ): number => {
     switch (begrunnelseId) {
         case '0':
-            return inntekt.omregnetArsinntekt?.belop ?? 0;
+            return Math.round(((inntekt.omregnetArsinntekt?.belop ?? 0) + Number.EPSILON) * 100) / 100;
         case '1':
-            return antallAktiveArbeidsgivere > 1 ? 0 : totaltSammenligningsgrunnlag;
+            return antallAktiveArbeidsgivere > 1
+                ? 0
+                : Math.round((totaltSammenligningsgrunnlag + Number.EPSILON) * 100) / 100;
         case '2':
         default:
             return 0;
