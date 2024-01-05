@@ -53,7 +53,10 @@ export const SisteTolvMånedersInntekt = ({
             <div className={styles.Grid}>
                 {getSorterteInntekter(inntektFraAOrdningen).map((inntekt, i) => (
                     <React.Fragment key={i}>
-                        <BodyShort> {getMonthName(inntekt.maned)}</BodyShort>
+                        <BodyShort>
+                            {' '}
+                            {getMonthName(inntekt.maned)} {inntekt.maned.split('-')[0]}
+                        </BodyShort>
                         <BodyShort>{somPenger(inntekt.sum)}</BodyShort>
                     </React.Fragment>
                 ))}
