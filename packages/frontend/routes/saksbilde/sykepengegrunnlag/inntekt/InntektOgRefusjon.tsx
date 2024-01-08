@@ -1,4 +1,3 @@
-import { SisteTolvMånedersInntekt } from './SisteTolvMånedersInntekt';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
@@ -33,6 +32,7 @@ import { EditableInntekt } from './EditableInntekt/EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { RedigerGhostInntekt } from './RedigerGhostInntekt';
 import { RedigerInntektOgRefusjon } from './RedigerInntektOgRefusjon/RedigerInntektOgRefusjon';
+import { SisteTolvMånedersInntekt } from './SisteTolvMånedersInntekt';
 import {
     endreInntektMedSykefraværBegrunnelser,
     endreInntektUtenSykefraværBegrunnelser,
@@ -92,6 +92,7 @@ export const InntektOgRefusjon = ({
     if (!person) return null;
 
     const erRevurdering = maybePeriodeTilGodkjenning(person, skjæringstidspunkt) === null;
+    const erInntektskildeAordningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
 
     return (
         <div
@@ -175,8 +176,13 @@ export const InntektOgRefusjon = ({
 
             {!editingInntekt && (
                 <SisteTolvMånedersInntekt
-                    inntektFraAOrdningen={omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen}
-                    erInntektskildeAordningen={omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen}
+                    skjæringstidspunkt={skjæringstidspunkt}
+                    inntektFraAOrdningen={
+                        erInntektskildeAordningen
+                            ? omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen
+                            : inntektFraAOrdningen
+                    }
+                    erInntektskildeAordningen={erInntektskildeAordningen}
                     erAktivGhost={erGhostperiode && !erDeaktivert}
                 />
             )}

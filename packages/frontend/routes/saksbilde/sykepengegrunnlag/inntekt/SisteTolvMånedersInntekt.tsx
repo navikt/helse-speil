@@ -8,6 +8,7 @@ import { Kilde } from '@components/Kilde';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { InntektFraAOrdningen, Inntektskilde } from '@io/graphql';
+import { ISO_DATOFORMAT } from '@utils/date';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { getMonthName, somPenger } from '@utils/locale';
 
@@ -19,13 +20,32 @@ const getSorterteInntekter = (inntekterFraAOrdningen: Array<InntektFraAOrdningen
     );
 };
 
+const leggInnIkkeRapporterteMåneder = (
+    skjæringstidspunkt: DateString,
+    inntekterFraAordningen: Array<InntektFraAOrdningen>,
+    antallMåneder: number = 12,
+) =>
+    [...Array(antallMåneder)].map((m, i) => {
+        const aktuellMnd = dayjs(skjæringstidspunkt, ISO_DATOFORMAT)
+            .subtract(i + 1, 'month')
+            .format('YYYY-MM');
+        return (
+            inntekterFraAordningen.find((d) => dayjs(d.maned, 'YYYY-MM').isSame(aktuellMnd)) || {
+                maned: aktuellMnd,
+                sum: null,
+            }
+        );
+    });
+
 type InntektFraAOrdningenProps = {
+    skjæringstidspunkt: string;
     inntektFraAOrdningen?: Array<InntektFraAOrdningen>;
     erInntektskildeAordningen?: boolean;
     erAktivGhost?: Maybe<boolean>;
 };
 
 export const SisteTolvMånedersInntekt = ({
+    skjæringstidspunkt,
     inntektFraAOrdningen,
     erInntektskildeAordningen = false,
     erAktivGhost = false,
@@ -33,12 +53,11 @@ export const SisteTolvMånedersInntekt = ({
     if (!inntektFraAOrdningen) {
         return;
     }
+    const antallMåneder = erInntektskildeAordningen && inntektFraAOrdningen.length <= 3 ? 3 : 12;
     return (
         <>
             <Flex alignItems="center" className={styles.SisteTolvMndInntekt}>
-                <h3 className={styles.Title}>
-                    RAPPORTERT SISTE {inntektFraAOrdningen.length > 3 ? '12' : '3'} MÅNEDER
-                </h3>
+                <h3 className={styles.Title}>RAPPORTERT SISTE {antallMåneder} MÅNEDER</h3>
                 <Kilde type={Inntektskilde.Aordningen} className={styles.Kildeikon}>
                     {kildeForkortelse(Inntektskilde.Aordningen)}
                 </Kilde>
@@ -51,13 +70,16 @@ export const SisteTolvMånedersInntekt = ({
                 </PopoverHjelpetekst>
             </Flex>
             <div className={styles.Grid}>
-                {getSorterteInntekter(inntektFraAOrdningen).map((inntekt, i) => (
+                {leggInnIkkeRapporterteMåneder(
+                    skjæringstidspunkt,
+                    getSorterteInntekter(inntektFraAOrdningen),
+                    antallMåneder,
+                ).map((inntekt, i) => (
                     <React.Fragment key={i}>
                         <BodyShort>
-                            {' '}
                             {getMonthName(inntekt.maned)} {inntekt.maned.split('-')[0]}
                         </BodyShort>
-                        <BodyShort>{somPenger(inntekt.sum)}</BodyShort>
+                        <BodyShort>{inntekt.sum !== null ? somPenger(inntekt.sum) : 'Ikke rapportert'}</BodyShort>
                     </React.Fragment>
                 ))}
             </div>
