@@ -47,6 +47,7 @@ export const SkjønnsfastsettingForm = ({
     const person = useCurrentPerson();
     const { aktiveArbeidsgivere, aktiveArbeidsgivereInntekter, defaults } = useSkjønnsfastsettingDefaults(inntekter);
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
+    const avrundetSammenligningsgrunnlag = Math.round((sammenligningsgrunnlag + Number.EPSILON) * 100) / 100;
     const cancelEditing = () => {
         setEditing(false);
     };
@@ -86,7 +87,7 @@ export const SkjønnsfastsettingForm = ({
                 årlig: valgtInntekt(
                     inntekt,
                     aktiveArbeidsgivereInntekter.length,
-                    sammenligningsgrunnlag,
+                    avrundetSammenligningsgrunnlag,
                     valgtBegrunnelseId,
                 ),
             })) ?? [],
@@ -118,12 +119,12 @@ export const SkjønnsfastsettingForm = ({
                         <>
                             <SkjønnsfastsettingArbeidsgivere
                                 arbeidsgivere={aktiveArbeidsgivere}
-                                sammenligningsgrunnlag={sammenligningsgrunnlag}
+                                sammenligningsgrunnlag={avrundetSammenligningsgrunnlag}
                                 inntekter={inntekter}
                             />
                             <SkjønnsfastsettingBegrunnelse
                                 omregnetÅrsinntekt={omregnetÅrsinntekt}
-                                sammenligningsgrunnlag={sammenligningsgrunnlag}
+                                sammenligningsgrunnlag={avrundetSammenligningsgrunnlag}
                             />
                         </>
                     )}

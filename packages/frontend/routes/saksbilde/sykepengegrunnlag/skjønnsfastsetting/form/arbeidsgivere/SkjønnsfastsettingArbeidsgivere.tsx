@@ -96,16 +96,19 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                         value: field.organisasjonsnummer,
                     });
 
-                    const arbeidsgiversammenligningsgrunnlag = inntekter.find(
-                        (inntekt) => inntekt.arbeidsgiver === field.organisasjonsnummer,
-                    )?.sammenligningsgrunnlag?.belop;
+                    const arbeidsgiversammenligningsgrunnlag =
+                        inntekter.find((inntekt) => inntekt.arbeidsgiver === field.organisasjonsnummer)
+                            ?.sammenligningsgrunnlag?.belop ?? 0;
+
+                    const avrundetArbeidsgiversammenligningsgrunnlag =
+                        Math.round((arbeidsgiversammenligningsgrunnlag + Number.EPSILON) * 100) / 100;
 
                     return (
                         <ArbeidsgiverRad
                             key={field.id}
                             arbeidsgiverNavn={getArbeidsgiverNavn(field.organisasjonsnummer)}
                             begrunnelseId={begrunnelseId}
-                            arbeidsgiversammenligningsgrunnlag={arbeidsgiversammenligningsgrunnlag}
+                            arbeidsgiversammenligningsgrunnlag={avrundetArbeidsgiversammenligningsgrunnlag}
                             årligField={årligField}
                             orgnummerField={orgnummerField}
                             clearArbeidsgiverErrors={() => clearErrors('arbeidsgivere')}
