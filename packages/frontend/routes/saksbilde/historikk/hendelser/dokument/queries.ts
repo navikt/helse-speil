@@ -26,7 +26,7 @@ export const useQueryInntektsmelding = (fnr: string, dokumentId: string): Apollo
     });
 
     return {
-        data: fetchSoknad.data?.hentInntektsmelding,
+        data: fetchSoknad.data?.hentInntektsmelding ?? undefined,
         error: fetchSoknad.error,
         loading: fetchSoknad.loading,
     };

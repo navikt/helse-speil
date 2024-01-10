@@ -978,7 +978,7 @@ export type Query = {
     antallOppgaver: AntallOppgaver;
     behandledeOppgaverFeed: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
-    hentInntektsmelding: DokumentInntektsmelding;
+    hentInntektsmelding?: Maybe<DokumentInntektsmelding>;
     hentSoknad: Soknad;
     notater: Array<Notater>;
     oppdrag: Array<Oppdrag>;
@@ -1639,7 +1639,7 @@ export type FetchInntektsmeldingQueryVariables = Exact<{
 
 export type FetchInntektsmeldingQuery = {
     __typename?: 'Query';
-    hentInntektsmelding: {
+    hentInntektsmelding?: {
         __typename?: 'DokumentInntektsmelding';
         begrunnelseForReduksjonEllerIkkeUtbetalt?: string | null;
         bruttoUtbetalt?: number | null;
@@ -1677,7 +1677,7 @@ export type FetchInntektsmeldingQuery = {
             perioder?: Array<{ __typename?: 'IMPeriode'; fom?: string | null; tom?: string | null }> | null;
         } | null;
         avsenderSystem?: { __typename?: 'AvsenderSystem'; navn?: string | null } | null;
-    };
+    } | null;
 };
 
 export type SporsmalFragment = {

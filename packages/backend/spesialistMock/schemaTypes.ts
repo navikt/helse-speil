@@ -976,7 +976,7 @@ export type Query = {
     antallOppgaver: AntallOppgaver;
     behandledeOppgaverFeed: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
-    hentInntektsmelding: DokumentInntektsmelding;
+    hentInntektsmelding?: Maybe<DokumentInntektsmelding>;
     hentSoknad: Soknad;
     notater: Array<Notater>;
     oppdrag: Array<Oppdrag>;
