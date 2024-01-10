@@ -216,7 +216,7 @@ export const Inntektsmeldingsinnhold: React.FC<InntektsmeldinginnholdProps> = ({
                 </div>
             )}
             {inntektsmeldingssrespons.loading && <DokumentLoader />}
-            {inntektsmeldingssrespons.error && <div>Noe gikk feil, vennligst prøv igjen.</div>}
+            {inntektsmeldingssrespons.error && <div>{inntektsmeldingssrespons.error.message}</div>}
         </div>
     );
 };
