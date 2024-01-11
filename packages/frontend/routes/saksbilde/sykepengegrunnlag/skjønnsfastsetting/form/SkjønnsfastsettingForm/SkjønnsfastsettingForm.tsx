@@ -6,6 +6,7 @@ import { Button, Loader } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { TimeoutModal } from '@components/TimeoutModal';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiverinntekt } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
@@ -46,6 +47,7 @@ export const SkjønnsfastsettingForm = ({
     const period = useActivePeriod();
     const person = useCurrentPerson();
     const { aktiveArbeidsgivere, aktiveArbeidsgivereInntekter, defaults } = useSkjønnsfastsettingDefaults(inntekter);
+    const erReadonly = useIsReadOnlyOppgave();
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const avrundetSammenligningsgrunnlag = Math.round((sammenligningsgrunnlag + Number.EPSILON) * 100) / 100;
     const cancelEditing = () => {
@@ -135,7 +137,12 @@ export const SkjønnsfastsettingForm = ({
                         />
                     )}
                     <div className={styles.buttons}>
-                        <Button className={styles.button} variant="secondary" size="small" disabled={isLoading}>
+                        <Button
+                            className={styles.button}
+                            variant="secondary"
+                            size="small"
+                            disabled={isLoading || erReadonly}
+                        >
                             Lagre
                             {isLoading && <Loader size="xsmall" />}
                         </Button>
