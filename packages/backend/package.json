@@ -39,7 +39,6 @@
         "openid-client": "^5.6.1",
         "prom-client": "^15.1.0",
         "redis": "^4.6.12",
-        "request": "^2.88.2",
         "tunnel": "0.0.6",
         "uuid": "^9.0.1",
         "winston": "^3.11.0"
