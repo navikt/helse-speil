@@ -108,6 +108,26 @@
     padding-top: var(--a-spacing-4);
 }
 
-.Bold {
+.Bold,
+label.Bold {
     font-weight: bold;
+}
+
+.sykepengegrunnlag td {
+    padding-bottom: 0;
+}
+
+.erBegrenset td {
+    padding-top: 0;
+    padding-right: 0.5rem;
+}
+
+.detail {
+    color: var(--a-gray-700);
+    align-items: baseline;
+    width: 12rem;
+}
+
+.detail a {
+    margin-left: 10px;
 }

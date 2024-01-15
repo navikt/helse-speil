@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { UseFormRegisterReturn, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
-import { Fieldset, Label, TextField } from '@navikt/ds-react';
+import { Detail, Fieldset, Label, TextField } from '@navikt/ds-react';
 
-import { Arbeidsgiver, Arbeidsgiverinntekt } from '@io/graphql';
-import { somPenger } from '@utils/locale';
+import { LovdataLenke } from '@components/LovdataLenke';
+import { Arbeidsgiver, Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
 
 import { Arbeidsgivernavn } from '../../../Arbeidsgivernavn';
 import { ArbeidsgiverForm } from '../../skjønnsfastsetting';
@@ -15,12 +16,14 @@ interface SkjønnsfastsettingArbeidsgivereProps {
     arbeidsgivere: Arbeidsgiver[];
     inntekter: Arbeidsgiverinntekt[];
     sammenligningsgrunnlag: number;
+    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
 }
 
 export const SkjønnsfastsettingArbeidsgivere = ({
     arbeidsgivere,
     sammenligningsgrunnlag,
     inntekter,
+    sykepengegrunnlagsgrense,
 }: SkjønnsfastsettingArbeidsgivereProps) => {
     const [tilFordeling, setTilFordeling] = useState(sammenligningsgrunnlag);
     const [inntektSum, setInntektSum] = useState(0);
@@ -51,6 +54,8 @@ export const SkjønnsfastsettingArbeidsgivere = ({
 
     const arbeidsgivereField = useWatch({ name: 'arbeidsgivere', control });
 
+    const antallArbeidsgivere = fields.length;
+
     useEffect(() => {
         setInntektSum(arbeidsgivereField.reduce((sum, { årlig }) => sum + årlig, 0));
     }, [arbeidsgivereField]);
@@ -59,6 +64,8 @@ export const SkjønnsfastsettingArbeidsgivere = ({
             setTilFordeling(sammenligningsgrunnlag - (isNaN(inntektSum) ? 0 : inntektSum));
         }
     }, [begrunnelseId, inntektSum]);
+
+    const erBegrensetTil6G = inntektSum > sykepengegrunnlagsgrense.grense;
 
     return (
         <Fieldset
@@ -111,12 +118,13 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                             arbeidsgiversammenligningsgrunnlag={avrundetArbeidsgiversammenligningsgrunnlag}
                             årligField={årligField}
                             orgnummerField={orgnummerField}
+                            antallArbeidsgivere={antallArbeidsgivere}
                             clearArbeidsgiverErrors={() => clearErrors('arbeidsgivere')}
                         />
                     );
                 })}
                 <tfoot className={styles.total}>
-                    {begrunnelseId === '1' && (
+                    {begrunnelseId === '1' && antallArbeidsgivere > 1 && (
                         <tr>
                             <td>Til fordeling</td>
                             {begrunnelseId === '1' && <td></td>}
@@ -124,14 +132,43 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                         </tr>
                     )}
                     <tr>
-                        <td>
-                            <Label>Sykepengegrunnlag</Label>
-                        </td>
+                        <td>Skjønnsfastsatt årsinntekt</td>
                         {begrunnelseId === '1' && <td></td>}
                         <td className={styles.inntektSum}>
                             <Label>{somPenger(isNaN(inntektSum) ? 0 : inntektSum)}</Label>
                         </td>
                     </tr>
+                    <tr className={styles.sykepengegrunnlag}>
+                        <td>
+                            <Label className={styles.Bold}>Sykepengegrunnlag</Label>
+                        </td>
+                        {begrunnelseId === '1' && <td></td>}
+                        <td className={styles.inntektSum}>
+                            <Label className={styles.Bold}>
+                                {somPenger(
+                                    isNaN(inntektSum)
+                                        ? 0
+                                        : erBegrensetTil6G
+                                          ? sykepengegrunnlagsgrense.grense
+                                          : inntektSum,
+                                )}
+                            </Label>
+                        </td>
+                    </tr>
+                    {erBegrensetTil6G && (
+                        <tr className={styles.erBegrenset}>
+                            <td>
+                                <Detail className={styles.detail}>
+                                    <span>
+                                        {`Sykepengegrunnlaget er begrenset til 6G: ${somPengerUtenDesimaler(
+                                            sykepengegrunnlagsgrense.grense,
+                                        )}`}
+                                    </span>
+                                    <LovdataLenke paragraf="8-10">§ 8-10</LovdataLenke>
+                                </Detail>
+                            </td>
+                        </tr>
+                    )}
                 </tfoot>
             </table>
         </Fieldset>
@@ -144,6 +181,7 @@ interface ArbeidsgiverRadProps {
     arbeidsgiversammenligningsgrunnlag?: number;
     årligField: UseFormRegisterReturn;
     orgnummerField: UseFormRegisterReturn;
+    antallArbeidsgivere: number;
     clearArbeidsgiverErrors: () => void;
 }
 
@@ -153,6 +191,7 @@ const ArbeidsgiverRad = ({
     arbeidsgiversammenligningsgrunnlag,
     årligField,
     orgnummerField,
+    antallArbeidsgivere,
     clearArbeidsgiverErrors,
 }: ArbeidsgiverRadProps) => (
     <tr className={styles.arbeidsgiver}>
@@ -183,7 +222,7 @@ const ArbeidsgiverRad = ({
                 hideLabel
                 type="text"
                 inputMode="numeric"
-                disabled={begrunnelseId === '0'}
+                disabled={begrunnelseId === '0' || (begrunnelseId === '1' && antallArbeidsgivere <= 1)}
                 className={styles.arbeidsgiverInput}
             />
             <input {...orgnummerField} hidden style={{ display: 'none' }} />

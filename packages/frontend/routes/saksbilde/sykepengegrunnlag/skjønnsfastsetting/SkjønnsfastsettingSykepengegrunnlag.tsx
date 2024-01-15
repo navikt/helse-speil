@@ -56,6 +56,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                             inntekter={inntekter}
                             omregnetÅrsinntekt={omregnetÅrsinntekt}
                             sammenligningsgrunnlag={sammenligningsgrunnlag}
+                            sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                             onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
                             setEditing={setEditing}
                         />

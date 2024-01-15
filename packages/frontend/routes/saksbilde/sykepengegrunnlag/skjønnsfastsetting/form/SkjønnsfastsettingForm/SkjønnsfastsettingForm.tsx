@@ -7,7 +7,7 @@ import { Button, Loader } from '@navikt/ds-react';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Arbeidsgiverinntekt } from '@io/graphql';
+import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 
@@ -33,6 +33,7 @@ interface SkjønnsfastsettingFormProps {
     inntekter: Arbeidsgiverinntekt[];
     omregnetÅrsinntekt: number;
     sammenligningsgrunnlag: number;
+    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     onEndretSykepengegrunnlag: (endretSykepengegrunnlag: Maybe<number>) => void;
     setEditing: (state: boolean) => void;
 }
@@ -41,6 +42,7 @@ export const SkjønnsfastsettingForm = ({
     inntekter,
     omregnetÅrsinntekt,
     sammenligningsgrunnlag,
+    sykepengegrunnlagsgrense,
     onEndretSykepengegrunnlag,
     setEditing,
 }: SkjønnsfastsettingFormProps) => {
@@ -123,6 +125,7 @@ export const SkjønnsfastsettingForm = ({
                                 arbeidsgivere={aktiveArbeidsgivere}
                                 sammenligningsgrunnlag={avrundetSammenligningsgrunnlag}
                                 inntekter={inntekter}
+                                sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                             />
                             <SkjønnsfastsettingBegrunnelse
                                 omregnetÅrsinntekt={omregnetÅrsinntekt}
