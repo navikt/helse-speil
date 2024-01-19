@@ -4,19 +4,26 @@ import { useRecoilState } from 'recoil';
 
 import { Textarea } from '@navikt/ds-react';
 
+import { NotatType } from '@io/graphql';
 import { LagretNotat, lokaleNotaterState } from '@state/notater';
 
 interface ControlledTextareaProps {
     vedtaksperiodeId: string;
     control: Control;
+    notattype?: NotatType;
 }
 
-export const ControlledTextarea = ({ control, vedtaksperiodeId }: ControlledTextareaProps) => {
+export const ControlledTextarea = ({
+    control,
+    vedtaksperiodeId,
+    notattype = NotatType.Generelt,
+}: ControlledTextareaProps) => {
     const [notater, setNotat] = useRecoilState(lokaleNotaterState);
-    const lagretNotat = notater.find((notat) => notat.vedtaksperiodeId === vedtaksperiodeId)?.tekst || '';
+    const lagretNotat =
+        notater.find((notat) => notat.type === notattype && notat.vedtaksperiodeId === vedtaksperiodeId)?.tekst || '';
     const { field, fieldState } = useController({
         control: control,
-        name: 'tekst',
+        name: `${notattype}-tekst`,
         rules: {
             required: 'Notat må fylles ut',
             maxLength: {
@@ -38,14 +45,17 @@ export const ControlledTextarea = ({ control, vedtaksperiodeId }: ControlledText
             onChange={(e) => {
                 field.onChange(e);
                 setNotat((currentState: LagretNotat[]) => [
-                    ...currentState.filter((notat) => notat.vedtaksperiodeId !== vedtaksperiodeId),
+                    ...currentState.filter(
+                        (notat) => notat.type !== notattype || notat.vedtaksperiodeId !== vedtaksperiodeId,
+                    ),
                     {
                         vedtaksperiodeId: vedtaksperiodeId,
                         tekst: e.target.value,
+                        type: notattype,
                     },
                 ]);
             }}
-            label="generelt notat"
+            label={`${notattype}-notat`}
             hideLabel
             description="Blir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn."
             maxLength={1000}

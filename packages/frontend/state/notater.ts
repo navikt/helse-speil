@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { atom } from 'recoil';
 
 import { useQuery } from '@apollo/client';
-import { FetchNotaterDocument, Notat as GraphQLNotat } from '@io/graphql';
+import { FetchNotaterDocument, Notat as GraphQLNotat, NotatType } from '@io/graphql';
 import { ApolloResponse } from '@state/oppgaver';
 
 export const useQueryNotater = (vedtaksperiodeIder: string[]): ApolloResponse<Notat[]> => {
@@ -45,7 +45,9 @@ export const toNotat = (spesialistNotat: GraphQLNotat): Notat => ({
 export interface LagretNotat {
     vedtaksperiodeId: string;
     tekst: string;
+    type: NotatType;
 }
+
 export const lokaleNotaterState = atom({
     key: 'lokaleNotaterState',
     default: [] as LagretNotat[],

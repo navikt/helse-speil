@@ -32,7 +32,9 @@ export const Notat = () => {
     const erGhostEllerHarIkkeAktivPeriode = isGhostPeriode(aktivPeriode) || !aktivPeriode;
     const harPåbegyntNotat =
         !erGhostEllerHarIkkeAktivPeriode &&
-        notater.find((notat) => notat.vedtaksperiodeId === aktivPeriode.vedtaksperiodeId)?.tekst !== undefined;
+        notater.find(
+            (notat) => notat.type === NotatType.Generelt && notat.vedtaksperiodeId === aktivPeriode.vedtaksperiodeId,
+        )?.tekst !== undefined;
     useEffect(() => {
         setOpen(harPåbegyntNotat);
     }, [harPåbegyntNotat]);
@@ -42,7 +44,7 @@ export const Notat = () => {
             key: Key.N,
             action: () => {
                 setOpen(true);
-                form.setFocus('tekst');
+                form.setFocus(`${NotatType.Generelt}-tekst`);
             },
             ignoreIfModifiers: false,
             modifier: Key.Alt,
@@ -91,7 +93,10 @@ export const Notat = () => {
     const lukkNotatfelt = () => {
         setOpen(false);
         oppdaterNotat((currentValue) => [
-            ...currentValue.filter((notat) => notat.vedtaksperiodeId !== aktivPeriode.vedtaksperiodeId),
+            ...currentValue.filter(
+                (notat) =>
+                    notat.type !== NotatType.Generelt || notat.vedtaksperiodeId !== aktivPeriode.vedtaksperiodeId,
+            ),
         ]);
     };
 
