@@ -23,7 +23,7 @@ export const ControlledTextarea = ({
         notater.find((notat) => notat.type === notattype && notat.vedtaksperiodeId === vedtaksperiodeId)?.tekst || '';
     const { field, fieldState } = useController({
         control: control,
-        name: `${notattype}-tekst`,
+        name: `tekst`,
         rules: {
             required: 'Notat må fylles ut',
             maxLength: {
