@@ -12,6 +12,7 @@ interface TastaturModalProps {
     isOpen: boolean;
     onSetVisModal: (open: boolean) => void;
 }
+
 export const DagtypeModal = ({ isOpen, onSetVisModal }: TastaturModalProps) => {
     useKeyboard([
         {
@@ -36,7 +37,7 @@ export const DagtypeModal = ({ isOpen, onSetVisModal }: TastaturModalProps) => {
             <div className={styles.dagtypeliste}>
                 <Bold>Syk (NAV)</Bold>
                 <BodyShort>NAV skal betale alle eller noen av de første 16 dagene</BodyShort>
-                <Bold>Ferie med sykmelding</Bold>
+                <Bold>Ferie</Bold>
                 <BodyShort>Bruker tok ferie i sykmeldingsperioden</BodyShort>
                 <Bold>Arbeid ikke gjenopptatt</Bold>
                 <BodyShort>
