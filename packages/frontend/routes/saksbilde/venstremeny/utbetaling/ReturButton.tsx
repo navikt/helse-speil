@@ -5,11 +5,11 @@ import { Button } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { AmplitudeContext } from '@io/amplitude';
-import { NotatType, Personnavn, SendIReturDocument } from '@io/graphql';
+import { SendIReturDocument } from '@io/graphql';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast } from '@state/toasts';
 
-import { NyttNotatModal } from '../../../oversikt/table/cells/notat/NyttNotatModal';
+import { Returnotat } from '../../notat/Returnotat';
 
 const useAddReturtoast = () => {
     const addToast = useAddToast();
@@ -36,7 +36,7 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
     onSuccess,
     ...buttonProps
 }) => {
-    const [showModal, setShowModal] = useState(false);
+    const [showNotat, setShowNotat] = useState(false);
     const [error, setError] = useState<string | undefined>();
 
     const addReturtoast = useAddReturtoast();
@@ -44,21 +44,14 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
     const amplitude = useContext(AmplitudeContext);
     const [sendIReturMutation] = useMutation(SendIReturDocument);
 
-    const closeModal = () => {
+    const closeNotat = () => {
         setError(undefined);
-        setShowModal(false);
+        setShowNotat(false);
     };
 
     if (!person) {
         return null;
     }
-    const personinfo = person.personinfo;
-
-    const navn: Personnavn = {
-        fornavn: personinfo.fornavn,
-        mellomnavn: personinfo.mellomnavn,
-        etternavn: personinfo.etternavn,
-    };
 
     const returnerUtbetaling = async (notattekst: string) => {
         setError(undefined);
@@ -69,7 +62,7 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
             .then(() => {
                 amplitude.logTotrinnsoppgaveReturnert();
                 addReturtoast();
-                closeModal();
+                closeNotat();
                 onSuccess?.();
             })
             .catch((error) => {
@@ -86,24 +79,12 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
                 variant="secondary"
                 size="small"
                 data-testid="retur-button"
-                onClick={() => setShowModal(true)}
+                onClick={() => setShowNotat(true)}
                 {...buttonProps}
             >
                 Returner
             </Button>
-            {showModal && (
-                <NyttNotatModal
-                    onClose={() => {
-                        setError(undefined);
-                        setShowModal(false);
-                    }}
-                    navn={navn}
-                    vedtaksperiodeId={activePeriod.vedtaksperiodeId}
-                    onSubmitOverride={returnerUtbetaling}
-                    errorOverride={error}
-                    notattype={NotatType.Retur}
-                />
-            )}
+            {showNotat && <Returnotat onSubmit={returnerUtbetaling} setShowNotat={setShowNotat} error={error} />}
         </>
     );
 };

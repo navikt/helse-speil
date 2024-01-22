@@ -5,6 +5,10 @@
     padding: 1rem 0;
 }
 
+.retur {
+    border-bottom: 0;
+}
+
 .apneNotat {
     display: flex;
     align-items: flex-end;
