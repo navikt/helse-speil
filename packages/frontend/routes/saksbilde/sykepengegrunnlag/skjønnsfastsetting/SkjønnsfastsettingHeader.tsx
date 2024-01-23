@@ -7,8 +7,8 @@ import { Bold } from '@components/Bold';
 import { EditButton } from '@components/EditButton';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Kildetype, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { BeregnetPeriode, Kildetype, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { kanSkjønnsfastsetteSykepengegrunnlag } from '@utils/featureToggles';
 import { somPenger, toKronerOgØre } from '@utils/locale';
@@ -35,9 +35,11 @@ export const SkjønnsfastsettingHeader = ({
     setEditing,
 }: SkjønnsfastsettingHeaderProps) => {
     const person = useCurrentPerson();
-    const readonly = useIsReadOnlyOppgave();
-    if (!person) return <></>;
+    const aktivPeriode = useActivePeriod();
 
+    if (!person || !aktivPeriode) return <></>;
+
+    const erBeslutteroppgave = (aktivPeriode as BeregnetPeriode).totrinnsvurdering?.erBeslutteroppgave ?? false;
     const visningEndretSykepengegrunnlag = endretSykepengegrunnlag
         ? endretSykepengegrunnlag > sykepengegrunnlagsgrense.grense
             ? sykepengegrunnlagsgrense.grense
@@ -64,7 +66,7 @@ export const SkjønnsfastsettingHeader = ({
                     )}
                 </>
             )}
-            {kanSkjønnsfastsetteSykepengegrunnlag && !readonly && avviksprosent > 25 && (
+            {kanSkjønnsfastsetteSykepengegrunnlag && !erBeslutteroppgave && avviksprosent > 25 && (
                 <EditButton
                     isOpen={editing}
                     openText="Avbryt"
