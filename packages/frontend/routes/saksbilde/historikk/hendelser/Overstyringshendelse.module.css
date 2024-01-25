@@ -13,6 +13,7 @@
     line-height: var(--a-font-line-height-medium);
     word-break: break-word;
     grid-column: 1 / span 2;
+    white-space: pre-line;
 }
 
 .Grid > p:nth-child(even):not(:nth-last-child(2)),
