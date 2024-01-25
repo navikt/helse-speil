@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { Radio, RadioGroup } from '@navikt/ds-react';
 
-import styles from './SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
+import styles from './SkjønnsfastsettingBegrunnelse.module.css';
 
 export const SkjønnsfastsettingÅrsak = () => {
     const { formState, register } = useFormContext();

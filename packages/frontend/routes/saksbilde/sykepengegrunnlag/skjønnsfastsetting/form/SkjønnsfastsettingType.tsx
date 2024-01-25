@@ -7,7 +7,7 @@ import { tilgjengeligeBegrunnelser } from '@utils/featureToggles';
 
 import { skjønnsfastsettelseBegrunnelser } from '../skjønnsfastsetting';
 
-import styles from './SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
+import styles from './SkjønnsfastsettingBegrunnelse.module.css';
 
 export const SkjønnsfastsettingType = () => {
     const { register } = useFormContext();

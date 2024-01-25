@@ -58,10 +58,6 @@
     font-weight: normal;
 }
 
-.tilFordeling {
-    margin: var(--a-spacing-3) 0 var(--a-spacing-2);
-}
-
 .total {
     border-top: 1px solid var(--a-text-default);
 }
@@ -73,35 +69,6 @@
 .tabell .inntektSum {
     text-align: right;
     padding-right: 0;
-}
-
-.inputError {
-    border-width: 2px;
-    border-color: var(--a-text-danger);
-}
-
-.skjønnsfastsettingBegrunnelse {
-    display: flex;
-    flex-direction: column;
-    gap: var(--a-spacing-4);
-}
-
-.begrunnelser {
-    margin-bottom: var(--a-spacing-4);
-}
-
-.mal {
-    white-space: break-spaces;
-    width: 420px;
-}
-
-.fritekst {
-    width: 420px;
-    margin: 0.5rem 0;
-}
-
-.årsak {
-    margin-bottom: var(--a-spacing-6);
 }
 
 .error {
@@ -130,31 +97,4 @@ label.Bold {
 
 .detail a {
     margin-left: 10px;
-}
-
-.fritekstlabel {
-    display: flex;
-    align-items: center;
-}
-
-.fritekstlabel .button {
-    margin-left: 0.25rem;
-    display: flex;
-    align-items: center;
-    padding: 0;
-}
-
-.fritekstlabel .button:hover svg,
-.fritekstlabel .button:focus svg {
-    background: black;
-    color: white;
-}
-
-.fritekstlabel label {
-    line-height: var(--a-font-line-height-large);
-}
-
-.fritekstinfo ul {
-    list-style-type: initial;
-    margin-left: 1.5rem;
 }

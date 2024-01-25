@@ -9,7 +9,7 @@ import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 
 import { skjønnsfastsettelseBegrunnelser } from '../skjønnsfastsetting';
 
-import styles from './SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
+import styles from './SkjønnsfastsettingBegrunnelse.module.css';
 
 interface SkjønnsfastsettingBegrunnelseProps {
     omregnetÅrsinntekt: number;
