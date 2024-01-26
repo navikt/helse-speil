@@ -25,4 +25,4 @@ export const SkjønnsfastsettingÅrsak = () => {
     );
 };
 
-const årsaker = ['Skjønnsfastsettelse ved mer enn 25 % avvik'];
+const årsaker = ['Skjønnsfastsettelse ved mer enn 25 % avvik (§ 8-30, andre avsnitt)'];
