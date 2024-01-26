@@ -43,9 +43,7 @@ export const skjønnsfastsettelseBegrunnelser = (
             antallArbeidsgivere === 1
                 ? malEnArbeidsgiver(omregnetÅrsinntekt, sammenligningsgrunnlag)
                 : malFlereArbeidsgivere(omregnetÅrsinntekt, sammenligningsgrunnlag),
-        konklusjon: `Vi har fastsatt årsinntekten din til kr ${toKronerOgØre(
-            omregnetÅrsinntekt,
-        )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
+        konklusjon: `Vi har skjønnsfastsatt årsinntekten din til ${toKronerOgØre(omregnetÅrsinntekt)} kroner.`,
         lovhjemmel: { paragraf: '8-30', ledd: '2', lovverk: 'folketrygdloven', lovverksversjon: '2019-01-01' },
         sykepengegrunnlag: omregnetÅrsinntekt,
         type: Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT,
@@ -57,9 +55,7 @@ export const skjønnsfastsettelseBegrunnelser = (
             antallArbeidsgivere === 1
                 ? malEnArbeidsgiver(omregnetÅrsinntekt, sammenligningsgrunnlag)
                 : malFlereArbeidsgivere(omregnetÅrsinntekt, sammenligningsgrunnlag),
-        konklusjon: `Vi har fastsatt årsinntekten din til kr ${toKronerOgØre(
-            sammenligningsgrunnlag,
-        )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
+        konklusjon: `Vi har skjønnsfastsatt årsinntekten din til ${toKronerOgØre(sammenligningsgrunnlag)} kroner.`,
         lovhjemmel: { paragraf: '8-30', ledd: '2', lovverk: 'folketrygdloven', lovverksversjon: '2019-01-01' },
         sykepengegrunnlag: sammenligningsgrunnlag,
         type: Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT,
@@ -71,9 +67,7 @@ export const skjønnsfastsettelseBegrunnelser = (
             antallArbeidsgivere === 1
                 ? malEnArbeidsgiver(omregnetÅrsinntekt, sammenligningsgrunnlag)
                 : malFlereArbeidsgivere(omregnetÅrsinntekt, sammenligningsgrunnlag),
-        konklusjon: `Vi har fastsatt årsinntekten din til kr ${toKronerOgØre(
-            annet,
-        )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
+        konklusjon: `Vi har skjønnsfastsatt årsinntekten din til ${toKronerOgØre(annet)} kroner.`,
         lovhjemmel: { paragraf: '8-30', ledd: '2', lovverk: 'folketrygdloven', lovverksversjon: '2019-01-01' },
         sykepengegrunnlag: annet,
         type: Skjønnsfastsettingstype.ANNET,
@@ -81,13 +75,13 @@ export const skjønnsfastsettelseBegrunnelser = (
 ];
 
 const malEnArbeidsgiver = (omregnetÅrsinntekt = 0, sammenligningsgrunnlag = 0) => {
-    return `Månedsinntekten som er oppgitt av din arbeidsgiver på kr ${toKronerOgØre(
+    return `Månedsinntekten som er oppgitt av arbeidsgiveren din på ${toKronerOgØre(
         omregnetÅrsinntekt / 12,
-    )} utgjør kr ${toKronerOgØre(
+    )} kroner utgjør ${toKronerOgØre(
         omregnetÅrsinntekt,
-    )} i årsinntekt. Denne årsinntekten avviker med mer enn 25 prosent fra inntekten som er rapportert til Skatteetaten på kr ${toKronerOgØre(
+    )} kroner i årsinntekt. Denne årsinntekten avviker med mer enn 25 prosent fra inntekten som er rapportert til Skatteetaten på ${toKronerOgØre(
         sammenligningsgrunnlag,
-    )} de siste tolv månedene før du ble syk.\n\nNår årsinntekten avviker med mer enn 25 prosent fra rapportert inntekt, skal NAV fastsette sykepengegrunnlaget ved skjønn ut fra den årsinntekten som kan godtgjøres på det tidspunktet du ble syk. Det fremgår av folketrygdloven § 8-30 andre ledd.`;
+    )} kroner de siste tolv månedene før du ble syk.\n\nNår årsinntekten avviker med mer enn 25 prosent fra rapportert inntekt, skal sykepengegrunnlaget fastsettes ved skjønn ut fra den årsinntekten som kan sannsynliggjøres på det tidspunktet du ble syk. Se folketrygdloven § 8-30 andre avsnitt.\n\nNår vi fastsetter sykepengegrunnlaget ditt ved skjønn, legger vi vekt på om avviket skyldes endringer i arbeidssituasjonen din. Målet med den skjønnsmessige vurderingen er å komme frem til inntekten du ville hatt om du ikke hadde blitt syk.`;
 };
 
 const malFlereArbeidsgivere = (omregnetÅrsinntekt = 0, sammenligningsgrunnlag = 0) => {
@@ -178,8 +172,8 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
                             arbeidsgiver.type === SkjønnsfastsettingstypeDTO.OMREGNET_ÅRSINNTEKT
                                 ? SkjonnsfastsettelseType.OmregnetArsinntekt
                                 : arbeidsgiver.type === SkjønnsfastsettingstypeDTO.RAPPORTERT_ÅRSINNTEKT
-                                ? SkjonnsfastsettelseType.RapportertArsinntekt
-                                : SkjonnsfastsettelseType.Annet,
+                                  ? SkjonnsfastsettelseType.RapportertArsinntekt
+                                  : SkjonnsfastsettelseType.Annet,
                     }),
                 ),
                 fodselsnummer: skjønnsfastsattSykepengegrunnlag.fødselsnummer,
