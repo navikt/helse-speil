@@ -40,7 +40,7 @@ export const InntektsgrunnlagTable = ({
                 <HeaderCellText text="Inntektskilde" />
                 <HeaderCellText text="Omregnet årsinntekt" />
                 <HeaderCellText text="Rapportert årsinntekt" />
-                <HeaderCellText text="Sykepengegrunnlag" />
+                <HeaderCellText text="Skjønnsfastsatt årsinntekt" />
             </tr>
         </thead>
         <tbody className={styles.InntektsgrunnlagTableBody}>
