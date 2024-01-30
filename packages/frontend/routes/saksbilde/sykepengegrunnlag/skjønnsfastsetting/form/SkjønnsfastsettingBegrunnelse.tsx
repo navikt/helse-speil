@@ -61,6 +61,7 @@ export const SkjønnsfastsettingBegrunnelse = ({
                             ? (formState.errors.begrunnelseFritekst.message as string)
                             : null
                     }
+                    resize
                 />
                 {valgtBegrunnelse?.konklusjon && (
                     <BodyLong className={styles.mal}>{valgtBegrunnelse.konklusjon}</BodyLong>
