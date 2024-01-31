@@ -47,10 +47,6 @@ export const SykepengegrunnlagFraSpleis = ({
         }
     }, [vilkårsgrunnlag, aktivArbeidsgiver]);
 
-    if (!aktivArbeidsgiver) {
-        return null;
-    }
-
     return (
         <Container {...rest}>
             <SykepengegrunnlagPanel
