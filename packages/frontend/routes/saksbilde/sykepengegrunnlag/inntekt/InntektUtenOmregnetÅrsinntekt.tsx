@@ -57,7 +57,7 @@ export const InntektUtenOmregnetÅrsinntekt: React.FC<InntektProps> = ({ inntekt
                     </div>
                     {!arbeidsgiver && (
                         <Flex alignItems="center">
-                            <BodyShort>For denne inntektskilden har vi ikke data som kan vises her</BodyShort>
+                            <BodyShort>Vi har ikke data for denne inntektskilden</BodyShort>
                         </Flex>
                     )}
                 </div>
