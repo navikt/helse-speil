@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest-16-cores
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
           cache: 'npm'
           cache-dependency-path: 'package-lock.json'
       - name: Set timezone
@@ -32,7 +32,7 @@ jobs:
           echo "jest_cache_dir=$($jest_command --showConfig | jq -r '.configs[0].cacheDirectory')" >> $GITHUB_ENV
       - name: Cache jest
         id: cache-jest
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.jest_cache_dir }}
           key: ${{ runner.os }}-jest-${{ hashFiles('packages/backend/jest.config.js', 'packages/frontend/jest.config.js') }}
@@ -59,7 +59,7 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
@@ -72,7 +72,7 @@ jobs:
     needs: [build, deployDev]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
