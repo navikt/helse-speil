@@ -1,13 +1,11 @@
-import { Client, Issuer, custom } from 'openid-client';
+import { Client, Issuer } from 'openid-client';
 
 import logger from '../logging';
 import { OidcConfig } from '../types';
-import { setup as proxy } from './proxy';
 
 ('use strict');
 
 let azureClient;
-const proxyAgent = proxy(Issuer, custom);
 
 const setup = (config: OidcConfig) => {
     return new Promise<void | Client>((resolve, reject) => {
@@ -25,17 +23,6 @@ const setup = (config: OidcConfig) => {
                     response_types: ['code'],
                     end_session_endpoint: azure.metadata.end_session_endpoint,
                 });
-
-                if (proxyAgent) {
-                    azure[custom.http_options] = function (url, options) {
-                        options.agent = proxyAgent;
-                        return options;
-                    };
-                    azureClient[custom.http_options] = function (url, options) {
-                        options.agent = proxyAgent;
-                        return options;
-                    };
-                }
 
                 resolve(azureClient);
             })
