@@ -53,7 +53,7 @@ export const SisteTolvMånedersInntekt = ({
     if (!inntektFraAOrdningen) {
         return;
     }
-    const antallMåneder = erInntektskildeAordningen && inntektFraAOrdningen.length <= 3 ? 3 : 12;
+    const antallMåneder = inntektFraAOrdningen.length <= 3 ? 3 : 12;
     return (
         <>
             <Flex alignItems="center" className={styles.SisteTolvMndInntekt}>
