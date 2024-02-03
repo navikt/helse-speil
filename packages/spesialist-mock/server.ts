@@ -5,6 +5,7 @@ import { setUpFaro } from './faro';
 import { setUpFlexjar } from './flexjar';
 import { setUpGraphQLMiddleware } from './graphql';
 import { setUpModia } from './modia';
+import { setUpWebSockets } from './websocket';
 
 const app = express();
 const port = 9001;
@@ -19,6 +20,9 @@ app.disable('x-powered-by');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+setUpWebSockets(app);
+
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:1234');
     res.header(

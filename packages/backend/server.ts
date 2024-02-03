@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';
+import httpProxy from 'http-proxy';
 import { Client, generators } from 'openid-client';
 import util from 'util';
 
@@ -168,6 +169,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
 app.use('/graphql', graphQLRoutes(dependencies.graphql));
 app.use('/flexjar', flexjarRoutes(dependencies.flexjar));
 app.use('/settModiaContext', modiaRoutes(dependencies.modia));
+httpProxy.createProxy({ target: config.server.spesialistWsUrl, ws: true }).listen(3001);
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {

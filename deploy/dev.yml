@@ -85,3 +85,5 @@ spec:
       value: https://modiacontextholder-q1.dev-fss-pub.nais.io/modiacontextholder
     - name: MODIA_API_SCOPE
       value: api://dev-fss.personoversikt.modiacontextholder-q1/.default
+    - name: SPESIALIST_WS_URL
+      value: ws://spesialist

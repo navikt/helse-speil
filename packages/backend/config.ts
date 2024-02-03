@@ -24,6 +24,7 @@ const server: ServerConfig = {
     port: process.env.SPEIL_BACKEND_PORT ? parseInt(process.env.SPEIL_BACKEND_PORT) : 3000,
     sessionSecret: process.env.SESSION_SECRET,
     spesialistBaseUrl: process.env.SPESIALIST_BASE_URL || 'http://spesialist',
+    spesialistWsUrl: process.env.SPESIALIST_WS_URL || 'ws://spesialist',
     flexjarBaseUrl: process.env.FLEXJAR_BASE_URL || 'http://flexjar',
     modiaBaseUrl: process.env.MODIA_BASE_URL || 'http://localhost',
 };
