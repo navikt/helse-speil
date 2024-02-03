@@ -20,7 +20,10 @@ Lokalt serveres frontend (det som kjører i browser) og backend (det som står f
 ### Opprett fil med miljøvariabler
 
 ```shell
-echo "SPESIALIST_BASE_URL=http://127.0.0.1:9001" > packages/backend/.env
+cat > packages/backend/.env << EOF
+SESSION_SECRET=whatever
+SPESIALIST_BASE_URL=http://127.0.0.1:9001
+EOF
 ```
 
 ### Både frontend og backend med én kommando
@@ -45,12 +48,7 @@ npm run dev
 
 ### Backend som server både API og frontend som statiske filer
 
-Lag eller utvid en `.env`-fil med følgende innhold i `packages/backend`:
-
-```
-SESSION_SECRET=whatever
-SPESIALIST_BASE_URL=http://localhost:9001
-```
+Sørg for at du har en .env-fil, se [her](#Opprett-fil-med-miljøvariabler).
 
 Fra `packages/backend`:
 
