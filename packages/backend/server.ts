@@ -181,4 +181,8 @@ app.use('/static', express.static(`${clientPath}/static`));
 app.use('/*', express.static(`${clientPath}/index.html`));
 app.use('/', express.static(`${clientPath}/`));
 
-app.listen(port, () => logger.info(`Speil backend listening on port ${port}`));
+app.listen(port, () =>
+    logger.info(
+        `Speil backend listening on port ${port}. Will connect to spesialist on ${config.server.spesialistBaseUrl}`,
+    ),
+);
