@@ -1,5 +1,6 @@
 import { Client, Issuer } from 'openid-client';
 
+import config from '../config';
 import logger from '../logging';
 import { OidcConfig } from '../types';
 
@@ -7,18 +8,18 @@ import { OidcConfig } from '../types';
 
 let azureClient;
 
-const setup = (config: OidcConfig) => {
+const setup = (oidcConfig: OidcConfig) => {
     return new Promise<void | Client>((resolve, reject) => {
-        if (process.env.NODE_ENV === 'development') {
+        if (config.development) {
             resolve();
         }
 
-        Issuer.discover(config.wellKnownEndpoint)
+        Issuer.discover(oidcConfig.wellKnownEndpoint)
             .then((azure) => {
                 logger.info(`Discovered issuer ${azure.issuer}`);
                 azureClient = new azure.Client({
-                    client_id: config.clientID,
-                    client_secret: config.clientSecret,
+                    client_id: oidcConfig.clientID,
+                    client_secret: oidcConfig.clientSecret,
                     redirect_uris: [],
                     response_types: ['code'],
                     end_session_endpoint: azure.metadata.end_session_endpoint,

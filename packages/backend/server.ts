@@ -120,7 +120,7 @@ setUpAuthentication();
 
 // Protected routes
 app.use('/*', async (req: SpeilRequest, res, next) => {
-    if (process.env.NODE_ENV === 'development') {
+    if (config.development) {
         res.cookie('speil', auth.createTokenForTest(), {
             secure: false,
             sameSite: true,
@@ -173,7 +173,7 @@ app.get('/*', (req, res, next) => {
     next();
 });
 
-const clientPath = process.env.NODE_ENV === 'development' ? '../../dist/client' : '/app/dist/client';
+const clientPath = config.development ? '../../dist/client' : '/app/dist/client';
 
 // At the time of writing this comment, the setup of the static 'routes' has to be done in a particular order.
 app.use('/favicons', express.static(`${clientPath}/favicons`));

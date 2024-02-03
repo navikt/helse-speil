@@ -1,5 +1,7 @@
 import { Express } from 'express';
 
+import config from './config';
+
 ('use strict');
 
 const styleSource = 'https://fonts.googleapis.com';
@@ -22,7 +24,7 @@ const setup = (app: Express) => {
         res.header('X-Content-Security-Policy', cspString);
 
         res.header('Feature-Policy', "geolocation 'none'; microphone 'none'; camera 'none'");
-        if (process.env.NODE_ENV === 'development') {
+        if (config.development) {
             res.header('Access-Control-Allow-Origin', 'http://localhost:1234');
             res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
             res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE');

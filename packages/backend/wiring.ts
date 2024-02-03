@@ -11,7 +11,7 @@ import { createMemoryStoreSession, createRedisSession } from './sessionStore';
 import { Helsesjekk } from './types';
 
 const getDependencies = (app: Express, helsesjekk: Helsesjekk) =>
-    process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app, helsesjekk);
+    config.development ? getDevDependencies(app) : getProdDependencies(app, helsesjekk);
 
 const getDevDependencies = (app: Express) => {
     const instrumentation: Instrumentation = instrumentationModule.setup(app);

@@ -2,6 +2,7 @@ import fs from 'fs';
 import winston from 'winston';
 
 import authSupport from './auth/authSupport';
+import config from './config';
 import { SpeilRequest } from './types';
 
 ('use strict');
@@ -10,7 +11,7 @@ const sikkerLogPath = () => (fs.existsSync('/secure-logs/') ? '/secure-logs/secu
 
 const stdoutLogger = winston.createLogger({
     level: 'debug',
-    format: process.env.NODE_ENV === 'development' ? winston.format.cli() : winston.format.json(),
+    format: config.development ? winston.format.cli() : winston.format.json(),
     transports: [new winston.transports.Console()],
 });
 

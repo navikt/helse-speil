@@ -2,6 +2,7 @@ import { Request } from 'express';
 import { Client, TokenSet } from 'openid-client';
 import util from 'util';
 
+import config from '../config';
 import logger from '../logging';
 import { AuthError, SpeilRequest, SpeilSession } from '../types';
 
@@ -18,7 +19,7 @@ const isValidIn = ({ seconds, token }: IsValidInProps) => {
 };
 
 const redirectUrl = (req: Request) => {
-    if (process.env.NODE_ENV === 'development') return 'http://localhost:3000/oauth2/callback';
+    if (config.development) return 'http://localhost:3000/oauth2/callback';
     return 'https://' + req.get('Host') + '/oauth2/callback';
 };
 

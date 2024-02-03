@@ -29,8 +29,11 @@ const redis: RedisConfig = {
     password: process.env.REDIS_PASSWORD_SESSIONS!,
 };
 
+const development = process.env.NODE_ENV === 'development';
+
 export default {
     oidc,
     redis,
     server,
+    development,
 };
