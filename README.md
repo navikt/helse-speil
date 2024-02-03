@@ -48,8 +48,6 @@ npm run dev
 Lag eller utvid en `.env`-fil med følgende innhold i `packages/backend`:
 
 ```
-TENANT_ID=<Azure tenant id>
-REDIRECT_URL=http://localhost:3000/callback
 SESSION_SECRET=whatever
 SPESIALIST_BASE_URL=http://localhost:9001
 ```

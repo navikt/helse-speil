@@ -12,8 +12,8 @@
     "scripts": {
         "build": "tsc",
         "start": "npm run build && TZ=Europe/Oslo node dist/server/server.js --experimental-modules",
-        "dev": "cross-env-shell NODE_ENV=development SESSION_SECRET=whatever ts-node-dev --respawn --transpile-only server.ts",
-        "serve": "cross-env-shell NODE_ENV=development SESSION_SECRET=whatever ts-node-dev --respawn --transpile-only server.ts",
+        "dev": "cross-env-shell NODE_ENV=development ts-node-dev --respawn --transpile-only server.ts",
+        "serve": "cross-env-shell NODE_ENV=development ts-node-dev --respawn --transpile-only server.ts",
         "mock": "ts-node-dev --files spesialistMock/server.ts",
         "lint": "eslint . --ext .ts --ext .js",
         "test": "cross-env TZ=UTC jest",
