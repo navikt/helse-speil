@@ -63,7 +63,16 @@ export const SisteTolvMånedersInntekt = ({
     }
     const harInntekterForSammenligningsgrunnlag = inntekterForSammenligningsgrunnlag.length !== 0;
     const antallMåneder = !harInntekterForSammenligningsgrunnlag ? 3 : 12;
-    console.log(inntekterForSammenligningsgrunnlag);
+    const sisteXmåneder = leggInnIkkeRapporterteMåneder(
+        skjæringstidspunkt,
+        getSorterteInntekter(inntektFraAOrdningen),
+        antallMåneder,
+    );
+    const gjennomsnittSiste3Mnd =
+        sisteXmåneder
+            .slice(0, 3)
+            .filter((it) => it.sum !== null)
+            .reduce((acc, obj) => acc + (obj?.sum ?? 0), 0) / 3;
 
     return (
         <>
@@ -81,11 +90,14 @@ export const SisteTolvMånedersInntekt = ({
                     <BodyShort className={styles.bold}>§ 8-28</BodyShort>
                     {harInntekterForSammenligningsgrunnlag && <BodyShort className={styles.bold}>§ 8-30</BodyShort>}
                 </>
-                {leggInnIkkeRapporterteMåneder(
-                    skjæringstidspunkt,
-                    getSorterteInntekter(inntektFraAOrdningen),
-                    antallMåneder,
-                ).map((inntekt, i) => (
+                <>
+                    <BodyShort className={classNames(styles.bold, styles.gjennomsnitt)}>
+                        Gjennomsnitt siste 3 mnd
+                    </BodyShort>
+                    <BodyShort className={styles.gjennomsnitt}>{somPenger(gjennomsnittSiste3Mnd)}</BodyShort>
+                    {harInntekterForSammenligningsgrunnlag && <div className={styles.gjennomsnitt} />}
+                </>
+                {sisteXmåneder.map((inntekt, i) => (
                     <React.Fragment key={i}>
                         <BodyShort>
                             {getMonthName(inntekt.maned)} {inntekt.maned.split('-')[0]}
