@@ -5,11 +5,27 @@
     grid-column-gap: 0.5rem;
     grid-row-gap: 0.25rem;
 }
+
 .BeregnetGrid {
     grid-template-columns: 228px 130px 50px;
 }
 
 .Grid > p:nth-child(2n) {
+    white-space: nowrap;
+    text-align: right;
+}
+
+.sammenligningsgrid {
+    grid-template-columns: 10rem 10rem 10rem;
+}
+
+.sammenligningsgrid > p:nth-child(2n) {
+    white-space: nowrap;
+    text-align: left;
+}
+
+.sammenligningsgrid > p:nth-child(3n-1),
+.sammenligningsgrid > p:nth-child(3n) {
     white-space: nowrap;
     text-align: right;
 }
@@ -56,4 +72,8 @@
 
 .SisteTolvMndInntekt {
     margin-top: 1.5rem;
+}
+
+.bold {
+    font-weight: 600;
 }

@@ -4,7 +4,7 @@ import React from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Arbeidsgiver, Arbeidsgiverinntekt, BeregnetPeriode } from '@io/graphql';
+import { Arbeidsgiver, Arbeidsgiverinntekt, BeregnetPeriode, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { useArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
@@ -44,8 +44,8 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
     const vilkårsgrunnlagId = !isUberegnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
         ? periodeForSkjæringstidspunktForArbeidsgiver?.vilkarsgrunnlagId
         : period !== null && !isUberegnetPeriode(period)
-        ? period.vilkarsgrunnlagId
-        : null;
+          ? period.vilkarsgrunnlagId
+          : null;
 
     if (!period || !periodeForSkjæringstidspunktForArbeidsgiver || !arbeidsgiver || !vilkårsgrunnlagId) {
         return null;
@@ -79,6 +79,11 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
             refusjon={refusjonsopplysninger}
             harSykefravær={arbeidsgiverHarSykefraværForPerioden}
             erGhostperiode={isGhostPeriode(periodeForSkjæringstidspunktForArbeidsgiver)}
+            inntekterForSammenligningsgrunnlag={
+                ((vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) > 25
+                    ? inntekt.sammenligningsgrunnlag?.inntektFraAOrdningen
+                    : []
+            }
         />
     );
 };

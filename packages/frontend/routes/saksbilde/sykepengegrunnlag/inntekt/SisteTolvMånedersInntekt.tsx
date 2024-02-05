@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React from 'react';
 
@@ -5,8 +6,6 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
-import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
-import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { InntektFraAOrdningen, Inntektskilde } from '@io/graphql';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { kildeForkortelse } from '@utils/inntektskilde';
@@ -37,23 +36,35 @@ const leggInnIkkeRapporterteMåneder = (
         );
     });
 
+const visningSammenligningsgrunnlag = (
+    inntekterForSammenligningsgrunnlag: Array<InntektFraAOrdningen>,
+    maned: string,
+) => {
+    const inntekt = inntekterForSammenligningsgrunnlag.filter((d) => dayjs(d.maned, 'YYYY-MM').isSame(maned));
+    const sum = inntekt.reduce((summert, { sum }) => summert + (sum ?? 0), 0);
+    return inntekt.length !== 0 ? somPenger(sum) : 'Ikke rapportert';
+};
+
 type InntektFraAOrdningenProps = {
     skjæringstidspunkt: string;
     inntektFraAOrdningen?: Array<InntektFraAOrdningen>;
-    erInntektskildeAordningen?: boolean;
     erAktivGhost?: Maybe<boolean>;
+    inntekterForSammenligningsgrunnlag?: Array<InntektFraAOrdningen>;
 };
 
 export const SisteTolvMånedersInntekt = ({
     skjæringstidspunkt,
     inntektFraAOrdningen,
-    erInntektskildeAordningen = false,
     erAktivGhost = false,
+    inntekterForSammenligningsgrunnlag = [],
 }: InntektFraAOrdningenProps) => {
     if (!inntektFraAOrdningen) {
         return;
     }
-    const antallMåneder = inntektFraAOrdningen.length <= 3 ? 3 : 12;
+    const harInntekterForSammenligningsgrunnlag = inntekterForSammenligningsgrunnlag.length !== 0;
+    const antallMåneder = !harInntekterForSammenligningsgrunnlag ? 3 : 12;
+    console.log(inntekterForSammenligningsgrunnlag);
+
     return (
         <>
             <Flex alignItems="center" className={styles.SisteTolvMndInntekt}>
@@ -61,15 +72,15 @@ export const SisteTolvMånedersInntekt = ({
                 <Kilde type={Inntektskilde.Aordningen} className={styles.Kildeikon}>
                     {kildeForkortelse(Inntektskilde.Aordningen)}
                 </Kilde>
-                <PopoverHjelpetekst className={styles.InfoIcon} ikon={<SortInfoikon />}>
-                    <p>
-                        {erInntektskildeAordningen
-                            ? 'Ved manglende inntektsmelding legges 3 siste måneders innrapporterte inntekter fra A-ordningen til grunn'
-                            : 'Inntektene er hentet fra a-ordningen §8-28'}
-                    </p>
-                </PopoverHjelpetekst>
             </Flex>
-            <div className={styles.Grid}>
+            <div
+                className={classNames(styles.Grid, harInntekterForSammenligningsgrunnlag && styles.sammenligningsgrid)}
+            >
+                <>
+                    <div />
+                    <BodyShort className={styles.bold}>§ 8-28</BodyShort>
+                    {harInntekterForSammenligningsgrunnlag && <BodyShort className={styles.bold}>§ 8-30</BodyShort>}
+                </>
                 {leggInnIkkeRapporterteMåneder(
                     skjæringstidspunkt,
                     getSorterteInntekter(inntektFraAOrdningen),
@@ -80,6 +91,11 @@ export const SisteTolvMånedersInntekt = ({
                             {getMonthName(inntekt.maned)} {inntekt.maned.split('-')[0]}
                         </BodyShort>
                         <BodyShort>{inntekt.sum !== null ? somPenger(inntekt.sum) : 'Ikke rapportert'}</BodyShort>
+                        {harInntekterForSammenligningsgrunnlag && (
+                            <BodyShort>
+                                {visningSammenligningsgrunnlag(inntekterForSammenligningsgrunnlag, inntekt.maned)}
+                            </BodyShort>
+                        )}
                     </React.Fragment>
                 ))}
             </div>

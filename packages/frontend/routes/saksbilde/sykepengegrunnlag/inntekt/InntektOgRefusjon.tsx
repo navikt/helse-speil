@@ -57,6 +57,7 @@ interface InntektUtenSykefraværProps {
     harSykefravær: boolean;
     inntektFraAOrdningen?: Array<InntektFraAOrdningen>;
     erGhostperiode: boolean;
+    inntekterForSammenligningsgrunnlag?: Array<InntektFraAOrdningen>;
 }
 
 export const InntektOgRefusjon = ({
@@ -72,6 +73,7 @@ export const InntektOgRefusjon = ({
     harSykefravær,
     inntektFraAOrdningen,
     erGhostperiode,
+    inntekterForSammenligningsgrunnlag,
 }: InntektUtenSykefraværProps) => {
     const [editingInntekt, setEditingInntekt] = useState(false);
     const [endret, setEndret] = useState(false);
@@ -182,8 +184,8 @@ export const InntektOgRefusjon = ({
                             ? omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen
                             : inntektFraAOrdningen
                     }
-                    erInntektskildeAordningen={erInntektskildeAordningen}
                     erAktivGhost={erGhostperiode && !erDeaktivert}
+                    inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
                 />
             )}
             {!editingInntekt && arbeidsforholdKanOverstyres && !harSykefravær && (
