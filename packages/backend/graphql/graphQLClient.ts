@@ -24,13 +24,17 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): GraphQLClient =
             body: data,
         };
 
+        const operationName = JSON.parse(data)['operationName'];
+        const maskertToken = onBehalfOfToken.substring(0, 6);
         logger.debug(
-            `Kaller ${baseUrl} med X-Request-Id: ${callId} og onBehalfOfToken: ${onBehalfOfToken.substring(0, 6)}...`,
+            `Kaller ${baseUrl} med X-Request-Id: ${callId}, operationName: ${operationName} og token: ${maskertToken}...`,
         );
         const start = Date.now();
         const response = await fetch(`${baseUrl}/graphql`, options);
         const tidBrukt = Date.now() - start;
-        logger.debug(`GraphQL-kall til ${baseUrl} med X-Request-Id: ${callId} ferdig etter ${tidBrukt} ms`);
+        logger.debug(
+            `GraphQL-kall til ${baseUrl} med X-Request-Id: ${callId} og operationName: ${operationName} ferdig etter ${tidBrukt} ms`,
+        );
         return response;
     },
 });

@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
-import express, { Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { Client, generators } from 'openid-client';
 import util from 'util';
 
@@ -180,6 +180,18 @@ app.use('/favicons', express.static(`${clientPath}/favicons`));
 app.use('/static', express.static(`${clientPath}/static`));
 app.use('/*', express.static(`${clientPath}/index.html`));
 app.use('/', express.static(`${clientPath}/`));
+
+const errorHandler = (err: Error, _req: Request, res: Response, next: NextFunction) => {
+    if (res.headersSent) {
+        return next(err);
+    }
+    logger.error(`Noe gikk veldig galt:`, err);
+    res.status(500).send({
+        message: 'En feil oppstod',
+        details: err.message,
+    });
+};
+app.use(errorHandler);
 
 app.listen(port, () =>
     logger.info(
