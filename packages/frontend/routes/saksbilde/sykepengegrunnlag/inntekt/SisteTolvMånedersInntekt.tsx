@@ -71,14 +71,14 @@ export const SisteTolvMånedersInntekt = ({
 
     return (
         <>
-            <Flex alignItems="center" className={styles.SisteTolvMndInntekt}>
-                <h3 className={styles.Title}>RAPPORTERT SISTE {antallMåneder} MÅNEDER</h3>
-                <Kilde type={Inntektskilde.Aordningen} className={styles.Kildeikon}>
+            <Flex alignItems="center" className={styles.sisteTolvMndInntekt}>
+                <h3 className={styles.title}>RAPPORTERT SISTE {antallMåneder} MÅNEDER</h3>
+                <Kilde type={Inntektskilde.Aordningen} className={styles.kildeikon}>
                     {kildeForkortelse(Inntektskilde.Aordningen)}
                 </Kilde>
             </Flex>
             <div
-                className={classNames(styles.Grid, harInntekterForSammenligningsgrunnlag && styles.sammenligningsgrid)}
+                className={classNames(styles.grid, harInntekterForSammenligningsgrunnlag && styles.sammenligningsgrid)}
             >
                 <ParagrafOverskrift harInntekterForSammenligningsgrunnlag={harInntekterForSammenligningsgrunnlag} />
                 <Gjennomsnitt3Mnd
@@ -100,7 +100,7 @@ export const SisteTolvMånedersInntekt = ({
                 ))}
             </div>
             {erAktivGhost && (
-                <div className={styles.ArbeidsforholdInfoText}>
+                <div className={styles.arbeidsforholdInfoText}>
                     <p>
                         Arbeidsforholdet er tatt med i beregningsgrunnlaget fordi det er <br />
                         innrapportert inntekt og/eller fordi arbeidsforholdet har startdato i <br />
