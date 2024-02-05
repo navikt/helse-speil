@@ -68,11 +68,6 @@ export const SisteTolvMånedersInntekt = ({
         getSorterteInntekter(inntektFraAOrdningen),
         antallMåneder,
     );
-    const gjennomsnittSiste3Mnd =
-        sisteXmåneder
-            .slice(0, 3)
-            .filter((it) => it.sum !== null)
-            .reduce((acc, obj) => acc + (obj?.sum ?? 0), 0) / 3;
 
     return (
         <>
@@ -85,18 +80,11 @@ export const SisteTolvMånedersInntekt = ({
             <div
                 className={classNames(styles.Grid, harInntekterForSammenligningsgrunnlag && styles.sammenligningsgrid)}
             >
-                <>
-                    <div />
-                    <BodyShort className={styles.bold}>§ 8-28</BodyShort>
-                    {harInntekterForSammenligningsgrunnlag && <BodyShort className={styles.bold}>§ 8-30</BodyShort>}
-                </>
-                <>
-                    <BodyShort className={classNames(styles.bold, styles.gjennomsnitt)}>
-                        Gjennomsnitt siste 3 mnd
-                    </BodyShort>
-                    <BodyShort className={styles.gjennomsnitt}>{somPenger(gjennomsnittSiste3Mnd)}</BodyShort>
-                    {harInntekterForSammenligningsgrunnlag && <div className={styles.gjennomsnitt} />}
-                </>
+                <ParagrafOverskrift harInntekterForSammenligningsgrunnlag={harInntekterForSammenligningsgrunnlag} />
+                <Gjennomsnitt3Mnd
+                    siste3mndInntekter828={sisteXmåneder.slice(0, 3)}
+                    harInntekterForSammenligningsgrunnlag={harInntekterForSammenligningsgrunnlag}
+                />
                 {sisteXmåneder.map((inntekt, i) => (
                     <React.Fragment key={i}>
                         <BodyShort>
@@ -120,6 +108,37 @@ export const SisteTolvMånedersInntekt = ({
                     </p>
                 </div>
             )}
+        </>
+    );
+};
+
+const ParagrafOverskrift = ({
+    harInntekterForSammenligningsgrunnlag,
+}: {
+    harInntekterForSammenligningsgrunnlag: boolean;
+}) => (
+    <>
+        <div />
+        <BodyShort className={styles.bold}>§ 8-28</BodyShort>
+        {harInntekterForSammenligningsgrunnlag && <BodyShort className={styles.bold}>§ 8-30</BodyShort>}
+    </>
+);
+
+const Gjennomsnitt3Mnd = ({
+    siste3mndInntekter828,
+    harInntekterForSammenligningsgrunnlag,
+}: {
+    siste3mndInntekter828: (InntektFraAOrdningen | { maned: string; sum: null })[];
+    harInntekterForSammenligningsgrunnlag: boolean;
+}) => {
+    const gjennomsnittSiste3Mnd =
+        siste3mndInntekter828.filter((it) => it.sum !== null).reduce((acc, obj) => acc + (obj?.sum ?? 0), 0) / 3;
+
+    return (
+        <>
+            <BodyShort className={classNames(styles.bold, styles.gjennomsnitt)}>Gjennomsnitt siste 3 mnd</BodyShort>
+            <BodyShort className={styles.gjennomsnitt}>{somPenger(gjennomsnittSiste3Mnd)}</BodyShort>
+            {harInntekterForSammenligningsgrunnlag && <div className={styles.gjennomsnitt} />}
         </>
     );
 };
