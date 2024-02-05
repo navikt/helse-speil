@@ -2,12 +2,15 @@
 .BeregnetGrid {
     display: grid;
     grid-template-columns: 228px 130px;
-    grid-column-gap: 0.5rem;
     grid-row-gap: 0.25rem;
 }
 
 .BeregnetGrid {
     grid-template-columns: 228px 130px 50px;
+}
+
+.Grid > p {
+    padding: 0 0.25rem;
 }
 
 .Grid > p:nth-child(2n) {
@@ -16,7 +19,7 @@
 }
 
 .sammenligningsgrid {
-    grid-template-columns: 10rem 10rem 10rem;
+    grid-template-columns: 11rem 10rem 10rem;
 }
 
 .sammenligningsgrid > p:nth-child(2n) {
@@ -38,6 +41,12 @@
 .BeregnetGrid > :nth-child(3n) {
     white-space: nowrap;
     margin-top: var(--a-spacing-1);
+}
+
+.sammenligningsgrid > p:nth-child(6n + 7),
+.sammenligningsgrid > p:nth-child(6n + 8),
+.sammenligningsgrid > p:nth-child(6n + 9) {
+    background-color: #f2f7ff;
 }
 
 .Title {
