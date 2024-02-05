@@ -1,0 +1,64 @@
+.Grid {
+    display: grid;
+    grid-template-columns: 228px 130px;
+    grid-row-gap: 0.25rem;
+}
+
+.Grid > p {
+    padding: 0 0.25rem;
+}
+
+.Grid > p:nth-child(2n) {
+    white-space: nowrap;
+    text-align: right;
+}
+
+.sammenligningsgrid {
+    grid-template-columns: 11rem 10rem 10rem;
+}
+
+.sammenligningsgrid > p:nth-child(2n) {
+    white-space: nowrap;
+    text-align: left;
+}
+
+.sammenligningsgrid > p:nth-child(3n-1),
+.sammenligningsgrid > p:nth-child(3n) {
+    white-space: nowrap;
+    text-align: right;
+}
+
+.sammenligningsgrid > p:nth-child(6n + 7),
+.sammenligningsgrid > p:nth-child(6n + 8),
+.sammenligningsgrid > p:nth-child(6n + 9) {
+    background-color: #f2f7ff;
+}
+
+.Title {
+    font-size: 14px;
+    color: var(--a-text-subtle);
+}
+
+.Kildeikon {
+    margin-left: 0.5rem;
+}
+
+.ArbeidsforholdInfoText {
+    display: flex;
+    margin-top: 32px;
+    font-size: 14px;
+    line-height: 20px;
+    gap: 1rem;
+}
+
+.SisteTolvMndInntekt {
+    margin-top: 1.5rem;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+.gjennomsnitt {
+    margin-bottom: 0.5rem;
+}

@@ -11,7 +11,7 @@ import { ISO_DATOFORMAT } from '@utils/date';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { getMonthName, somPenger } from '@utils/locale';
 
-import styles from './ReadOnlyInntekt.module.css';
+import styles from './SisteTolvMånedersInntekt.module.css';
 
 const getSorterteInntekter = (inntekterFraAOrdningen: Array<InntektFraAOrdningen>): Array<InntektFraAOrdningen> => {
     return [...inntekterFraAOrdningen].sort((a, b) =>
