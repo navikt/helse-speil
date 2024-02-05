@@ -87,7 +87,7 @@ export const SisteTolvMånedersInntekt = ({
                 />
                 {sisteXmåneder.map((inntekt, i) => (
                     <React.Fragment key={i}>
-                        <BodyShort>
+                        <BodyShort className={styles.bold}>
                             {getMonthName(inntekt.maned)} {inntekt.maned.split('-')[0]}
                         </BodyShort>
                         <BodyShort>{inntekt.sum !== null ? somPenger(inntekt.sum) : 'Ikke rapportert'}</BodyShort>
