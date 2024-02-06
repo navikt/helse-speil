@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React from 'react';
 
+import { ClockDashedIcon } from '@navikt/aksel-icons';
 import { BodyShort, Tag, Tooltip } from '@navikt/ds-react';
 
 import { EgenskaperTags } from '@components/EgenskaperTags';
@@ -52,6 +53,16 @@ const PeriodetypeRow: React.FC<PeriodetypeRowProps> = ({ type, tilstand, label }
         </>
     );
 };
+const VentepølseRow = () => (
+    <>
+        <Tooltip content="Sykmeldingsperiode">
+            <div className={styles.IconContainer} style={{ width: '20px' }}>
+                <ClockDashedIcon title="Avventer system" fontSize="1.5rem" />
+            </div>
+        </Tooltip>
+        <CardTitle className={styles.Title}>VENTER</CardTitle>
+    </>
+);
 
 interface SykmeldingsperiodeRowProps {
     periode: DatePeriod;
@@ -197,7 +208,13 @@ const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({
     return (
         <div>
             <span className={styles.egenskaper}>
-                <EgenskaperTags egenskaper={egenskaperForVisning} />
+                {[Periodetilstand.UtbetaltVenterPaEnAnnenPeriode, Periodetilstand.VenterPaEnAnnenPeriode].includes(
+                    periode.periodetilstand,
+                ) ? (
+                    <VentepølseRow />
+                ) : (
+                    <EgenskaperTags egenskaper={egenskaperForVisning} />
+                )}
             </span>
             <section className={styles.Grid}>
                 <SykmeldingsperiodeRow periode={periode} />
