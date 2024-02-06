@@ -42,6 +42,7 @@ export const ArbeidsgiverRad = ({
                 inputMode="numeric"
                 disabled={begrunnelseId === '0' || (begrunnelseId === '1' && antallArbeidsgivere <= 1)}
                 className={styles.arbeidsgiverInput}
+                onFocus={(e) => e.target.select()}
             />
             <input {...orgnummerField} hidden style={{ display: 'none' }} />
         </td>
