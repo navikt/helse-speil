@@ -4,7 +4,7 @@ import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Detail, Fieldset, Label } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import { Arbeidsgiver, Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { Arbeidsgiver, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
 
 import { ArbeidsgiverForm } from '../../skjønnsfastsetting';
@@ -14,7 +14,6 @@ import styles from '../SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.cs
 
 interface SkjønnsfastsettingArbeidsgivereProps {
     arbeidsgivere: Arbeidsgiver[];
-    inntekter: Arbeidsgiverinntekt[];
     sammenligningsgrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
 }
@@ -22,7 +21,6 @@ interface SkjønnsfastsettingArbeidsgivereProps {
 export const SkjønnsfastsettingArbeidsgivere = ({
     arbeidsgivere,
     sammenligningsgrunnlag,
-    inntekter,
     sykepengegrunnlagsgrense,
 }: SkjønnsfastsettingArbeidsgivereProps) => {
     const [tilFordeling, setTilFordeling] = useState(sammenligningsgrunnlag);
@@ -75,25 +73,14 @@ export const SkjønnsfastsettingArbeidsgivere = ({
             className={styles.arbeidsgivere}
         >
             <table className={styles.tabell}>
-                {begrunnelseId === '1' && (
-                    <tr>
-                        <th />
-                        <th>
-                            <Label>Rapportert</Label>
-                        </th>
-                        <th>
-                            <Label>Skjønnsfastsatt</Label>
-                        </th>
-                    </tr>
-                )}
-                {begrunnelseId === '2' && (
+                <thead>
                     <tr>
                         <th />
                         <th>
                             <Label>Årsinntekt</Label>
                         </th>
                     </tr>
-                )}
+                </thead>
                 {fields.map((field, index) => {
                     const årligField = register(`arbeidsgivere.${index}.årlig`, {
                         valueAsNumber: true,
@@ -103,19 +90,11 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                         value: field.organisasjonsnummer,
                     });
 
-                    const arbeidsgiversammenligningsgrunnlag =
-                        inntekter.find((inntekt) => inntekt.arbeidsgiver === field.organisasjonsnummer)
-                            ?.sammenligningsgrunnlag?.belop ?? 0;
-
-                    const avrundetArbeidsgiversammenligningsgrunnlag =
-                        Math.round((arbeidsgiversammenligningsgrunnlag + Number.EPSILON) * 100) / 100;
-
                     return (
                         <ArbeidsgiverRad
                             key={field.id}
                             arbeidsgiverNavn={getArbeidsgiverNavn(field.organisasjonsnummer)}
                             begrunnelseId={begrunnelseId}
-                            arbeidsgiversammenligningsgrunnlag={avrundetArbeidsgiversammenligningsgrunnlag}
                             årligField={årligField}
                             orgnummerField={orgnummerField}
                             antallArbeidsgivere={antallArbeidsgivere}
@@ -127,13 +106,11 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                     {begrunnelseId === '1' && antallArbeidsgivere > 1 && (
                         <tr>
                             <td>Til fordeling</td>
-                            {begrunnelseId === '1' && <td></td>}
                             <td className={styles.inntektSum}>{somPenger(tilFordeling)}</td>
                         </tr>
                     )}
                     <tr>
                         <td>Skjønnsfastsatt årsinntekt</td>
-                        {begrunnelseId === '1' && <td></td>}
                         <td className={styles.inntektSum}>
                             <Label>{somPenger(isNaN(inntektSum) ? 0 : inntektSum)}</Label>
                         </td>
@@ -142,7 +119,6 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                         <td>
                             <Label className={styles.Bold}>Sykepengegrunnlag</Label>
                         </td>
-                        {begrunnelseId === '1' && <td></td>}
                         <td className={styles.inntektSum}>
                             <Label className={styles.Bold}>
                                 {somPenger(

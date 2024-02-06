@@ -10,7 +10,6 @@ import styles from '../SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.cs
 interface ArbeidsgiverRadProps {
     arbeidsgiverNavn?: string;
     begrunnelseId: string;
-    arbeidsgiversammenligningsgrunnlag?: number;
     årligField: UseFormRegisterReturn;
     orgnummerField: UseFormRegisterReturn;
     antallArbeidsgivere: number;
@@ -20,7 +19,6 @@ interface ArbeidsgiverRadProps {
 export const ArbeidsgiverRad = ({
     arbeidsgiverNavn,
     begrunnelseId,
-    arbeidsgiversammenligningsgrunnlag,
     årligField,
     orgnummerField,
     antallArbeidsgivere,
@@ -30,18 +28,6 @@ export const ArbeidsgiverRad = ({
         <td>
             <Arbeidsgivernavn arbeidsgivernavn={arbeidsgiverNavn} className={styles.arbeidsgivernavn} />
         </td>
-        {begrunnelseId === '1' && (
-            <td>
-                <TextField
-                    label="Rapportert årsinntekt"
-                    hideLabel
-                    size="small"
-                    disabled
-                    value={arbeidsgiversammenligningsgrunnlag}
-                    className={styles.arbeidsgiverInput}
-                />
-            </td>
-        )}
         <td>
             <TextField
                 {...årligField}

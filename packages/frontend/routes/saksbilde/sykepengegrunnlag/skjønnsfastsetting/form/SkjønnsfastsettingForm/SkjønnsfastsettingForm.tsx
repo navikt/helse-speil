@@ -124,7 +124,6 @@ export const SkjønnsfastsettingForm = ({
                             <SkjønnsfastsettingArbeidsgivere
                                 arbeidsgivere={aktiveArbeidsgivere}
                                 sammenligningsgrunnlag={avrundetSammenligningsgrunnlag}
-                                inntekter={inntekter}
                                 sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                             />
                             <SkjønnsfastsettingBegrunnelse
