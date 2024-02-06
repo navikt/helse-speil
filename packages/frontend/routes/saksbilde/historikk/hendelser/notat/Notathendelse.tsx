@@ -108,7 +108,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                         erNyesteNotatMedType &&
                         isBeregnetPeriode(activePeriod) &&
                         activePeriod.paVent?.frist && (
-                            <BodyShort className={styles.tidsfrist}>
+                            <BodyShort className={styles.tidsfrist} size="medium">
                                 Tidsfrist:{' '}
                                 <span className={styles.frist}>
                                     {dayjs(activePeriod.paVent.frist).format(NORSK_DATOFORMAT)}

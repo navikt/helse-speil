@@ -25,8 +25,8 @@
 }
 
 .Grid p {
-    font-size: var(--a-font-size-medium);
-    line-height: var(--a-font-line-height-medium);
+    font-size: var(--a-font-size-large);
+    line-height: var(--a-font-line-height-large);
 }
 
 .FromValue {
