@@ -9,50 +9,18 @@ import { EgenskaperTags } from '@components/EgenskaperTags';
 import { Flex } from '@components/Flex';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { LovdataLenke } from '@components/LovdataLenke';
-import { Oppgaveetikett } from '@components/Oppgaveetikett';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { Maksdatoikon } from '@components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '@components/ikoner/Skjæringstidspunktikon';
 import { Sykmeldingsperiodeikon } from '@components/ikoner/Sykmeldingsperiodeikon';
-import { Arbeidsgiver, Kategori, Oppgavetype, Periodetilstand, Periodetype, UberegnetPeriode } from '@io/graphql';
+import { Arbeidsgiver, Egenskap, Kategori, Periodetilstand, Periodetype, UberegnetPeriode } from '@io/graphql';
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
-import { capitalize } from '@utils/locale';
 
 import { ArbeidsgiverRow } from './ArbeidsgiverRow';
 import { CardTitle } from './CardTitle';
 
 import styles from './PeriodeCard.module.css';
 
-const getTextForPeriodetype = (type: Periodetype): string => {
-    switch (type) {
-        case Periodetype.Forlengelse:
-        case Periodetype.Infotrygdforlengelse:
-            return 'FORLENGELSE';
-        case Periodetype.Forstegangsbehandling:
-            return 'FØRSTEGANGSBEHANDLING';
-        case Periodetype.OvergangFraIt:
-            return 'FORLENGELSE IT';
-    }
-};
-
-interface PeriodetypeRowProps {
-    type: Periodetype | Oppgavetype;
-    tilstand: Periodetilstand;
-    label: string;
-}
-
-const PeriodetypeRow: React.FC<PeriodetypeRowProps> = ({ type, tilstand, label }) => {
-    return (
-        <>
-            <Tooltip content={capitalize(label)}>
-                <div className={styles.IconContainer}>
-                    <Oppgaveetikett type={type} tilstand={tilstand} />
-                </div>
-            </Tooltip>
-            <CardTitle className={styles.Title}>{label}</CardTitle>
-        </>
-    );
-};
 const VentepølseRow = () => (
     <>
         <Tooltip content="Sykmeldingsperiode">
@@ -172,11 +140,28 @@ interface PeriodeCardUberegnetProps {
 const PeriodeCardUberegnet: React.FC<PeriodeCardUberegnetProps> = ({ periode, arbeidsgiver, månedsbeløp }) => {
     return (
         <section className={styles.Grid}>
-            <PeriodetypeRow
-                type={periode.periodetype}
-                tilstand={periode.periodetilstand}
-                label={getTextForPeriodetype(periode.periodetype)}
-            />
+            {[Periodetilstand.UtbetaltVenterPaEnAnnenPeriode, Periodetilstand.VenterPaEnAnnenPeriode].includes(
+                periode.periodetilstand,
+            ) ? (
+                <VentepølseRow />
+            ) : (
+                <>
+                    <span className={styles.egenskaper}>
+                        <EgenskaperTags
+                            egenskaper={[
+                                {
+                                    egenskap:
+                                        periode.periodetype === Periodetype.Forlengelse
+                                            ? Egenskap.Forlengelse
+                                            : Egenskap.Forstegangsbehandling,
+                                    kategori: Kategori.Periodetype,
+                                },
+                            ]}
+                        />
+                    </span>
+                    <span />
+                </>
+            )}
             <SykmeldingsperiodeRow periode={periode} />
             <SkjæringstidspunktRow periodetype={periode.periodetype} skjæringstidspunkt={periode.skjaeringstidspunkt} />
             <ArbeidsgiverRow.Uberegnet
