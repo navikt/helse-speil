@@ -1,0 +1,13 @@
+.sammendrag ul {
+    list-style-type: initial;
+    margin-left: 1rem;
+    margin-top: 1.5rem;
+}
+
+.sammendrag ul li {
+    line-height: var(--a-font-line-height-large);
+}
+
+.sammendrag ul li:last-child {
+    margin-left: 1rem;
+}

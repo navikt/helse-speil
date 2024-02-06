@@ -6,6 +6,7 @@ import { kanSkjønnsfastsetteSykepengegrunnlag } from '@utils/featureToggles';
 
 import { SykepengegrunnlagsgrenseView } from '../InntektsgrunnlagTable/SykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
+import { SkjønnsfastsettingSammendrag } from './SkjønnsfastsettingSammendrag';
 import { SkjønnsfastsettingForm } from './form/SkjønnsfastsettingForm/SkjønnsfastsettingForm';
 
 import styles from './SkjønnsfastsettingSykepengegrunnlag.module.css';
@@ -48,6 +49,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                     editing={editing}
                     setEditing={setEditing}
                 />
+                {!editing && skjønnsmessigFastsattÅrlig !== null && <SkjønnsfastsettingSammendrag />}
                 {editing &&
                     kanSkjønnsfastsetteSykepengegrunnlag &&
                     omregnetÅrsinntekt != null &&
