@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
-import { kanSkjønnsfastsetteSykepengegrunnlag } from '@utils/featureToggles';
 
 import { SykepengegrunnlagsgrenseView } from '../InntektsgrunnlagTable/SykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
@@ -50,19 +49,16 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                     setEditing={setEditing}
                 />
                 {!editing && skjønnsmessigFastsattÅrlig !== null && <SkjønnsfastsettingSammendrag />}
-                {editing &&
-                    kanSkjønnsfastsetteSykepengegrunnlag &&
-                    omregnetÅrsinntekt != null &&
-                    sammenligningsgrunnlag != null && (
-                        <SkjønnsfastsettingForm
-                            inntekter={inntekter}
-                            omregnetÅrsinntekt={omregnetÅrsinntekt}
-                            sammenligningsgrunnlag={sammenligningsgrunnlag}
-                            sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
-                            onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
-                            setEditing={setEditing}
-                        />
-                    )}
+                {editing && omregnetÅrsinntekt != null && sammenligningsgrunnlag != null && (
+                    <SkjønnsfastsettingForm
+                        inntekter={inntekter}
+                        omregnetÅrsinntekt={omregnetÅrsinntekt}
+                        sammenligningsgrunnlag={sammenligningsgrunnlag}
+                        sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
+                        onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
+                        setEditing={setEditing}
+                    />
+                )}
             </div>
             {omregnetÅrsinntekt != null && (
                 <SykepengegrunnlagsgrenseView
