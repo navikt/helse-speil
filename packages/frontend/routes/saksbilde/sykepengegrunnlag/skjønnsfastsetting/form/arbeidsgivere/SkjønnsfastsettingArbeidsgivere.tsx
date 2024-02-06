@@ -82,7 +82,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                             <Label>Rapportert</Label>
                         </th>
                         <th>
-                            <Label>Fordeling</Label>
+                            <Label>Skjønnsfastsatt</Label>
                         </th>
                     </tr>
                 )}
