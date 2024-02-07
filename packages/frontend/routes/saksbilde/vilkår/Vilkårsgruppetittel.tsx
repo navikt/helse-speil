@@ -1,4 +1,3 @@
-import { IkonContainer } from './Vilkår.styles';
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 
@@ -21,8 +20,8 @@ interface VilkårsgruppetittelProps {
 }
 
 export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, className }: VilkårsgruppetittelProps) => (
-    <div className={classNames('vilkårsgruppetittel', className, [styles.Header])}>
-        <IkonContainer>
+    <div className={classNames('vilkårsgruppetittel', className, [styles.header])}>
+        <div className={styles.ikon}>
             {oppfylt === undefined || oppfylt === null ? (
                 <Utropstegnikon alt="Til vurdering" />
             ) : oppfylt ? (
@@ -30,12 +29,12 @@ export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, classN
             ) : (
                 <Kryssikon alt="Ikke oppfylt" />
             )}
-        </IkonContainer>
-        <div className={styles.TekstContainer}>
-            <BodyShort className={styles.Tittel} data-testid={type}>
+        </div>
+        <div className={styles.tekstContainer}>
+            <BodyShort className={styles.tittel} data-testid={type}>
                 {children}
             </BodyShort>
-            {paragraf && <BodyShort className={styles.Paragraf}>{paragraf}</BodyShort>}
+            {paragraf && <BodyShort className={styles.paragraf}>{paragraf}</BodyShort>}
         </div>
     </div>
 );

@@ -1,19 +1,19 @@
-.Header {
+.header {
     display: flex;
     align-items: start;
     flex-wrap: nowrap;
 }
 
-.Header:not(:last-of-type) {
+.header:not(:last-of-type) {
     padding-bottom: 0.5rem;
 }
 
-.TekstContainer {
+.tekstContainer {
     display: flex;
     flex-wrap: wrap;
 }
 
-.Tittel {
+.tittel {
     display: flex;
     align-items: center;
     color: var(--a-text-default);
@@ -24,11 +24,20 @@
     min-height: 1.5rem;
 }
 
-.Paragraf {
+.paragraf {
     font-size: 14px;
     display: flex;
     align-items: center;
     color: var(--a-text-subtle);
     white-space: nowrap;
+    min-height: 1.5rem;
+}
+
+.ikon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    width: 2.5rem;
     min-height: 1.5rem;
 }

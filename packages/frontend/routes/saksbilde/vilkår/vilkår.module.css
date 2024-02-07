@@ -1,0 +1,41 @@
+.grid {
+    grid-area: body;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 0.25rem;
+    margin: 0 0 2rem 2.5rem;
+}
+
+.grid:last-of-type {
+    margin-bottom: 1rem;
+}
+
+.kolonne {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.behandlet {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.gruppe:not(:last-of-type) {
+    margin-bottom: 2rem;
+}
+
+.kategori {
+    display: flex;
+    align-items: start;
+    margin-bottom: 2rem;
+}
+
+.ikon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    width: 2.5rem;
+    min-height: 1.5rem;
+}

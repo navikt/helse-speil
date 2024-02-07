@@ -1,10 +1,9 @@
-import { IkonContainer } from './Vilkår.styles';
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import styles from './Vilkarskategori.module.css';
+import styles from './vilkår.module.css';
 
 interface VilkårskategoriProps extends React.HTMLAttributes<HTMLDivElement> {
     children: ReactNode | ReactNode[];
@@ -12,8 +11,8 @@ interface VilkårskategoriProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Vilkårskategori = ({ children, ikon, ...rest }: VilkårskategoriProps) => (
-    <div className={classNames('vilkårskategori', [styles.Container])} {...rest}>
-        <IkonContainer>{ikon}</IkonContainer>
+    <div className={classNames('vilkårskategori', [styles.kategori])} {...rest}>
+        <div className={styles.ikon}>{ikon}</div>
         <BodyShort>{children}</BodyShort>
     </div>
 );

@@ -1,4 +1,4 @@
-import { BehandletVarselContent, Vilkårgrid, Vilkårgruppe } from '../Vilkår.styles';
+import classNames from 'classnames';
 import React from 'react';
 
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
@@ -8,13 +8,15 @@ import { getFormattedDateString } from '@utils/date';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { Vilkårsgruppetittel } from '../Vilkårsgruppetittel';
 
+import styles from '../vilkår.module.css';
+
 const Vilkår = ({ tittel, paragraf, komponent, type, oppfylt }: Vilkårdata) => (
-    <Vilkårgruppe>
+    <li className={styles.gruppe}>
         <Vilkårsgruppetittel type={type} oppfylt={oppfylt} paragraf={paragraf}>
             {tittel}
         </Vilkårsgruppetittel>
-        {komponent && <Vilkårgrid>{komponent}</Vilkårgrid>}
-    </Vilkårgruppe>
+        {komponent && <div className={styles.grid}>{komponent}</div>}
+    </li>
 );
 
 interface VurdertISpleisProps {
@@ -38,19 +40,27 @@ export const VurdertISpleis = ({
 
     return automatiskBehandlet ? (
         <AutomatiskVurdering title={tittel} ident={ident}>
-            <BehandletVarselContent data-testid="vurdert-automatisk" aria-label="Vilkår vurdert automatisk">
+            <ul
+                className={classNames(styles.kolonne, styles.behandlet)}
+                data-testid="vurdert-automatisk"
+                aria-label="Vilkår vurdert automatisk"
+            >
                 {vilkår.map((props, i) => (
                     <Vilkår key={i} {...props} />
                 ))}
-            </BehandletVarselContent>
+            </ul>
         </AutomatiskVurdering>
     ) : (
         <Saksbehandlervurdering title={tittel} ident={ident}>
-            <BehandletVarselContent data-testid="vurdert-av-saksbehandler" aria-label="Vilkår vurdert av saksbehandler">
+            <ul
+                className={classNames(styles.kolonne, styles.behandlet)}
+                data-testid="vurdert-av-saksbehandler"
+                aria-label="Vilkår vurdert av saksbehandler"
+            >
                 {vilkår.map((props, i) => (
                     <Vilkår key={i} {...props} />
                 ))}
-            </BehandletVarselContent>
+            </ul>
         </Saksbehandlervurdering>
     );
 };
