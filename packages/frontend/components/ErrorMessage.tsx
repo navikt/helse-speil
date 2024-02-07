@@ -1,17 +1,14 @@
-import styled from '@emotion/styled';
+import classNames from 'classnames';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-const Text = styled(BodyShort)`
-    color: var(--a-text-danger);
-    font-weight: 600;
-`;
+import styles from './Errormessage.module.css';
 
 type ErrorMessageProps = React.HTMLAttributes<HTMLParagraphElement>;
 
 export const ErrorMessage: React.FC<ErrorMessageProps> = ({ children, ...rest }) => (
-    <Text as="p" {...rest}>
+    <BodyShort as="p" {...rest} className={classNames(styles.error, rest.className)}>
         {children}
-    </Text>
+    </BodyShort>
 );
