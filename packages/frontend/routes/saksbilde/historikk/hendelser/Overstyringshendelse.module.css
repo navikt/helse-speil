@@ -1,9 +1,3 @@
-.Grid {
-    display: grid;
-    column-gap: 8px;
-    grid-template-columns: 83px auto;
-}
-
 .GridFullWidth {
     grid-column: 1 / span 2;
 }
@@ -24,4 +18,8 @@
 .FromValue {
     text-decoration: line-through;
     margin-right: 3px;
+}
+
+.begrunnelse {
+    margin-bottom: 0.5rem;
 }

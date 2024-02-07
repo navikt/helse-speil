@@ -54,7 +54,9 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
                     <Bold>Type skjønnsfastsettelse </Bold>
                     <BodyShort>{getSkjønnsfastsettelseTypeTekst(skjønnsfastsatt.type)}</BodyShort>
                     <Bold>Begrunnelse </Bold>
-                    <BodyShort>{skjønnsfastsatt.begrunnelseMal}</BodyShort>
+                    <ExpandableHistorikkContent className={styles.begrunnelse}>
+                        <BodyShort>{skjønnsfastsatt.begrunnelseMal}</BodyShort>
+                    </ExpandableHistorikkContent>
                     <Bold>Nærmere begrunnelse for skjønnsvurderingen </Bold>
                     <BodyShort>{skjønnsfastsatt.begrunnelseFritekst}</BodyShort>
                     <Bold>Konklusjon </Bold>
