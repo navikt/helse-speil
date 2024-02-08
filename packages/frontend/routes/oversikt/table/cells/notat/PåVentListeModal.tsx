@@ -17,32 +17,12 @@ interface PåVentListeModalProps {
     navn: Personnavn;
     onClose: (event: React.SyntheticEvent) => void;
     erPåVent?: boolean;
-    notattype: NotatType;
 }
 
-const getModalTittel = (notattype: NotatType): string => {
-    switch (notattype) {
-        case 'PaaVent':
-            return 'Lagt på vent - notater';
-        case 'Retur':
-            return 'Retur - notater';
-        default:
-            return 'Notater';
-    }
-};
-
-export const PåVentListeModal = ({
-    notater,
-    vedtaksperiodeId,
-    navn,
-    onClose,
-    erPåVent,
-    notattype,
-}: PåVentListeModalProps) => {
+export const PåVentListeModal = ({ notater, vedtaksperiodeId, navn, onClose, erPåVent }: PåVentListeModalProps) => {
     const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const søkernavn = getFormatertNavn(navn);
-    const modalTittel = getModalTittel(notattype);
 
     const closeModal = (event: React.SyntheticEvent) => {
         onClose(event);
@@ -57,17 +37,17 @@ export const PåVentListeModal = ({
             onClose={toggleShowNyttNotatModal}
             navn={navn}
             vedtaksperiodeId={vedtaksperiodeId}
-            notattype={notattype}
+            notattype={NotatType.PaaVent}
         />
     ) : (
         <TableModal
             title={
                 <div className={styles.Title}>
-                    <p>{modalTittel}</p>
+                    <p>Lagt på vent - notater</p>
                     <p>Søker: {søkernavn}</p>
                 </div>
             }
-            contentLabel={modalTittel}
+            contentLabel="Lagt på vent - notater"
             isOpen
             onRequestClose={closeModal}
         >
@@ -80,13 +60,11 @@ export const PåVentListeModal = ({
                 </tr>
             </thead>
             <tbody>
-                {notater
-                    .filter((it) => it.type === notattype)
-                    .map((notat) => (
-                        <NotatListeRad key={notat.id} notat={notat} innloggetSaksbehandler={innloggetSaksbehandler} />
-                    ))}
+                {notater.map((notat) => (
+                    <NotatListeRad key={notat.id} notat={notat} innloggetSaksbehandler={innloggetSaksbehandler} />
+                ))}
             </tbody>
-            {erPåVent && notattype === 'PaaVent' && (
+            {erPåVent && (
                 <tfoot>
                     <tr>
                         <td colSpan={4} style={{ textAlign: 'right', paddingTop: '1.5rem' }}>

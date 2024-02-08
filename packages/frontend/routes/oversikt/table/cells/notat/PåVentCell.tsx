@@ -42,7 +42,7 @@ export const PåVentCell = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }:
 
 const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: NotatCellProps) => {
     const [showModal, setShowModal] = useState(false);
-    const notater = useNotaterForVedtaksperiode(vedtaksperiodeId);
+    const notater = useNotaterForVedtaksperiode(vedtaksperiodeId).filter((it) => it.type === NotatType.PaaVent);
 
     const toggleModal = (event: React.SyntheticEvent) => {
         event.stopPropagation();
@@ -69,7 +69,6 @@ const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: Notat
                     navn={navn}
                     onClose={toggleModal}
                     erPåVent={erPåVent}
-                    notattype={NotatType.PaaVent}
                 />
             )}
         </>
