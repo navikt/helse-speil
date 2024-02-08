@@ -1,9 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react-internal';
 
 import { useQuery } from '@apollo/client';
-import { DropdownContext } from '@components/dropdown';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
@@ -35,8 +34,6 @@ const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
 }) => {
     const [showModal, setShowModal] = useState(false);
 
-    const { lukk } = useContext(DropdownContext);
-
     return (
         <>
             <Dropdown.Menu.List.Item onClick={() => setShowModal(true)}>Annuller</Dropdown.Menu.List.Item>
@@ -49,7 +46,6 @@ const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
                     linjer={oppdrag.linjer}
                     onClose={() => {
                         setShowModal(false);
-                        lukk();
                     }}
                 />
             )}
