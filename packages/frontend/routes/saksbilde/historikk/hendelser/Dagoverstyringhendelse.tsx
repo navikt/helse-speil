@@ -68,8 +68,8 @@ export const Dagoverstyringhendelse: React.FC<DagoverstyringhendelseProps> = ({
         }
     >
         <ExpandableHistorikkContent>
-            <Bold size="small">Begrunnelse</Bold>
-            <BodyShort size="small">{begrunnelse}</BodyShort>
+            <Bold>Begrunnelse</Bold>
+            <BodyShort>{begrunnelse}</BodyShort>
             <div className={styles.Content}>
                 {groupSimilarDays(dager).map((group, i) => (
                     <div key={i} className={styles.Grid}>
