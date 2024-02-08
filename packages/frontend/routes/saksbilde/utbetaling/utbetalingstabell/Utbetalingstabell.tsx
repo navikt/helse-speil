@@ -5,7 +5,6 @@ import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonM
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { getFormattedDateString } from '@utils/date';
 
-import { Header } from '../../table/Header';
 import { Row } from '../../table/Row';
 import { DagtypeCell } from './DagtypeCell';
 import { DateCell } from './DateCell';
@@ -48,46 +47,46 @@ export const Utbetalingstabell = ({
     const alderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt();
 
     return (
-        <section className={classNames(styles.Container, overstyrer && styles.overstyrer)}>
-            <div className={styles.TableContainer}>
+        <section className={classNames(styles.container, overstyrer && styles.overstyrer)}>
+            <div className={styles.tableContainer}>
                 <table
-                    className={styles.Table}
+                    className={styles.table}
                     aria-label={`Utbetalinger for sykmeldingsperiode fra ${formattedFom} til ${formattedTom}`}
                 >
                     <thead>
                         <tr>
-                            <Header scope="col" colSpan={1}>
+                            <th className={styles.header} scope="col" colSpan={1}>
                                 Dato
-                            </Header>
-                            <Header scope="col" colSpan={1}>
+                            </th>
+                            <th className={styles.header} scope="col" colSpan={1}>
                                 Dagtype
-                            </Header>
-                            <Header scope="col" colSpan={1}>
+                            </th>
+                            <th className={styles.header} scope="col" colSpan={1}>
                                 Grad
-                            </Header>
-                            <Header scope="col" colSpan={1}>
+                            </th>
+                            <th className={styles.header} scope="col" colSpan={1}>
                                 Kilde
-                            </Header>
-                            <Header scope="col" colSpan={1}>
+                            </th>
+                            <th className={styles.header} scope="col" colSpan={1}>
                                 Total grad
-                            </Header>
-                            <Header scope="col" colSpan={1}>
-                                <ArbeidsgiverikonMedTooltip className={styles.HeaderContent}>
+                            </th>
+                            <th className={styles.header} scope="col" colSpan={1}>
+                                <ArbeidsgiverikonMedTooltip className={styles.headerContent}>
                                     Refusjon
                                 </ArbeidsgiverikonMedTooltip>
-                            </Header>
-                            <Header scope="col" colSpan={1}>
-                                <SykmeldtikonMedTooltip className={styles.HeaderContent}>
+                            </th>
+                            <th className={styles.header} scope="col" colSpan={1}>
+                                <SykmeldtikonMedTooltip className={styles.headerContent}>
                                     Utbetaling
                                 </SykmeldtikonMedTooltip>
-                            </Header>
-                            <Header scope="col" colSpan={1}>
+                            </th>
+                            <th className={styles.header} scope="col" colSpan={1}>
                                 Dager igjen
-                            </Header>
-                            <Header scope="col" colSpan={1}>
+                            </th>
+                            <th className={styles.header} scope="col" colSpan={1}>
                                 Merknader
-                            </Header>
-                            {overstyrer && <Header scope="col" colSpan={1} />}
+                            </th>
+                            {overstyrer && <th className={styles.header} scope="col" colSpan={1} />}
                         </tr>
                     </thead>
                     <tbody>
