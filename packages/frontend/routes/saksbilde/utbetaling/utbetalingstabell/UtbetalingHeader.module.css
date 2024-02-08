@@ -1,0 +1,12 @@
+.container {
+    height: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0 0 0 2rem;
+    width: 100%;
+}
+
+.infoboble {
+    margin-top: 1rem;
+}

@@ -1,23 +1,10 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
 import { EditButton } from '@components/EditButton';
-import { Flex } from '@components/Flex';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 
-const Container = styled(Flex)`
-    height: 24px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    padding: 0 0 0 2rem;
-    width: 100%;
-`;
-
-const InfobobleContainer = styled.div`
-    margin-top: 1rem;
-`;
+import styles from './UtbetalingHeader.module.css';
 
 interface UtbetalingHeaderProps {
     periodeErForkastet: boolean;
@@ -44,16 +31,16 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
         />
     );
     return (
-        <Container>
+        <div className={styles.container}>
             {periodeErForkastet ? (
-                <InfobobleContainer>
+                <div className={styles.infoboble}>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</p>
                     </PopoverHjelpetekst>
-                </InfobobleContainer>
+                </div>
             ) : (
                 editButton
             )}
-        </Container>
+        </div>
     );
 };
