@@ -1,5 +1,4 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+import classNames from 'classnames';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -13,28 +12,6 @@ import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
 import styles from './SykepengegrunnlagFraInfotrygd.module.css';
-
-const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
-    padding: 0.25rem;
-
-    > * {
-        ${({ erGjeldende }) =>
-            erGjeldende &&
-            css`
-                background-color: var(--speil-light-hover);
-            `};
-    }
-
-    &:hover > * {
-        background-color: var(--a-gray-100);
-        cursor: pointer;
-        ${({ erGjeldende }) =>
-            erGjeldende &&
-            css`
-                background-color: var(--speil-light-hover);
-            `}
-    }
-`;
 
 interface SykepengegrunnlagInfotrygdProps {
     vilkårsgrunnlag: VilkarsgrunnlagInfotrygd;
@@ -104,7 +81,12 @@ interface InfotrygdInntektProps {
 const InfotrygdInntekt = ({ aktivtOrgnummer, inntekt }: InfotrygdInntektProps) => {
     const arbeidsgivernavn = useArbeidsgiver(inntekt.arbeidsgiver)?.navn;
     return (
-        <ArbeidsgiverRad erGjeldende={aktivtOrgnummer === inntekt.arbeidsgiver}>
+        <tr
+            className={classNames(
+                styles.arbeidsgiverrad,
+                aktivtOrgnummer === inntekt.arbeidsgiver && styles.ergjeldende,
+            )}
+        >
             <td>
                 <AnonymizableText>
                     {arbeidsgivernavn?.toLowerCase() === 'ikke tilgjengelig'
@@ -124,6 +106,6 @@ const InfotrygdInntekt = ({ aktivtOrgnummer, inntekt }: InfotrygdInntektProps) =
                     )}
                 </div>
             </td>
-        </ArbeidsgiverRad>
+        </tr>
     );
 };

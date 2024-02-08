@@ -68,3 +68,20 @@
 .inntekt > *:not(:last-child) {
     margin-right: 0.5rem;
 }
+
+.arbeidsgiverrad {
+    padding: 0.25rem;
+}
+
+.arbeidsgiverrad:hover > * {
+    background-color: var(--a-gray-100);
+    cursor: pointer;
+}
+
+.arbeidsgiverrad.ergjeldende > * {
+    background-color: var(--speil-light-hover);
+}
+
+.arbeidsgiverrad.ergjeldende:hover > * {
+    background-color: var(--speil-light-hover);
+}
