@@ -8,7 +8,7 @@ import { NotatType, Personnavn } from '@io/graphql';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 
 import { SisteNotattekst } from '../../OppgaverTable/SisteNotattekst';
-import { NotatListeModal } from './NotatListeModal';
+import { PåVentListeModal } from './PåVentListeModal';
 
 import styles from './PåVentCell.module.css';
 
@@ -63,7 +63,7 @@ const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: Notat
                 </Button>
             </Tooltip>
             {showModal && (
-                <NotatListeModal
+                <PåVentListeModal
                     notater={notater}
                     vedtaksperiodeId={vedtaksperiodeId}
                     navn={navn}

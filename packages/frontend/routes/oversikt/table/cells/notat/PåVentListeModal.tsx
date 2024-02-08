@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 
 import { LinkButton } from '@components/LinkButton';
 import { TableModal } from '@components/TableModal';
-import { Personnavn } from '@io/graphql';
-import { NotatType } from '@io/graphql';
+import { NotatType, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { getFormatertNavn } from '@utils/string';
 
@@ -12,7 +11,7 @@ import { NyttNotatModal } from './NyttNotatModal';
 
 import styles from './NotatListeModal.module.css';
 
-interface NotatListeModalProps {
+interface PåVentListeModalProps {
     notater: Notat[];
     vedtaksperiodeId: string;
     navn: Personnavn;
@@ -32,14 +31,14 @@ const getModalTittel = (notattype: NotatType): string => {
     }
 };
 
-export const NotatListeModal = ({
+export const PåVentListeModal = ({
     notater,
     vedtaksperiodeId,
     navn,
     onClose,
     erPåVent,
     notattype,
-}: NotatListeModalProps) => {
+}: PåVentListeModalProps) => {
     const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const søkernavn = getFormatertNavn(navn);
