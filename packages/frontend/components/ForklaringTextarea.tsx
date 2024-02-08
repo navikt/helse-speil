@@ -1,15 +1,12 @@
-import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Textarea } from '@navikt/ds-react';
 
-const StyledTextarea = styled(Textarea)`
-    white-space: pre-line;
-`;
 interface ForklaringTextareaProps {
     description: string;
 }
+
 export const ForklaringTextarea = ({ description }: ForklaringTextareaProps) => {
     const form = useFormContext();
 
@@ -21,7 +18,7 @@ export const ForklaringTextarea = ({ description }: ForklaringTextareaProps) => 
     });
 
     return (
-        <StyledTextarea
+        <Textarea
             label="Forklaring"
             id="forklaring"
             value={forklaring}
@@ -34,6 +31,7 @@ export const ForklaringTextarea = ({ description }: ForklaringTextareaProps) => 
             maxLength={1000}
             aria-labelledby="forklaring-label forklaring-feil"
             error={form.formState.errors.forklaring ? (form.formState.errors.forklaring.message as string) : null}
+            style={{ whiteSpace: 'pre-line' }}
             {...textareaValidation}
         />
     );
