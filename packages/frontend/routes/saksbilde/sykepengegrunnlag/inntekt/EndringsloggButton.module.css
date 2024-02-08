@@ -1,0 +1,15 @@
+.button {
+    position: relative;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    outline: none;
+}
+
+.button > div:hover {
+    background-color: var(--a-text-default);
+    color: var(--a-white);
+}

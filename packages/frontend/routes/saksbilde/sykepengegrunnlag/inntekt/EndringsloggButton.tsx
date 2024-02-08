@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
@@ -11,21 +10,7 @@ import { useInteractOutside } from '@hooks/useInteractOutside';
 import { Kildetype, Overstyring } from '@io/graphql';
 import { isArbeidsforholdoverstyringer, isInntektoverstyringer, isOverstyringerPrDag } from '@utils/typeguards';
 
-const Button = styled.button`
-    position: relative;
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    outline: none;
-
-    > div:hover {
-        background-color: var(--a-text-default);
-        color: var(--a-white);
-    }
-`;
+import styles from './EndringsloggButton.module.css';
 
 interface EndringsloggButtonProps<T extends Overstyring> extends React.HTMLAttributes<HTMLButtonElement> {
     endringer: Array<T>;
@@ -53,11 +38,17 @@ export const EndringsloggButton = <T extends Overstyring>({
 
     return (
         <>
-            <Button type="button" ref={buttonRef} {...buttonProps} onClick={() => setVisEndringslogg(true)}>
+            <button
+                className={styles.button}
+                type="button"
+                ref={buttonRef}
+                {...buttonProps}
+                onClick={() => setVisEndringslogg(true)}
+            >
                 <Kilde type={Kildetype.Saksbehandler}>
                     <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
                 </Kilde>
-            </Button>
+            </button>
             {isArbeidsforholdoverstyringer(endringer) ? (
                 <EndringsloggArbeidsforhold endringer={endringer} isOpen={visEndringslogg} onRequestClose={close} />
             ) : isInntektoverstyringer(endringer) ? (
