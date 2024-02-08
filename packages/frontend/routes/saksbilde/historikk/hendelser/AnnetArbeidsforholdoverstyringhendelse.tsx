@@ -3,6 +3,7 @@ import React from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { Inntektskilde } from '@io/graphql';
@@ -43,11 +44,11 @@ export const AnnetArbeidsforholdoverstyringhendelse: React.FC<AnnetArbeidsforhol
         >
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
-                    <BodyShort>Begrunnelse: </BodyShort>
+                    <Bold>Begrunnelse: </Bold>
                     <BodyShort>{begrunnelse}</BodyShort>
-                    <BodyShort>Forklaring: </BodyShort>
+                    <Bold>Forklaring: </Bold>
                     <BodyShort>{forklaring}</BodyShort>
-                    <BodyShort>Skj. tidspunkt:</BodyShort>
+                    <Bold>Skj. tidspunkt:</Bold>
                     <BodyShort>{getFormattedDateString(skjæringstidspunkt)}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>
