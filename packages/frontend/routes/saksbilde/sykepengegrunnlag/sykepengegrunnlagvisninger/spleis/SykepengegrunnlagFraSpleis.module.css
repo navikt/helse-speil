@@ -1,0 +1,11 @@
+.container {
+    display: flex;
+    align-content: space-between;
+    margin-top: -2rem;
+}
+
+.strek {
+    border-right: 3px solid var(--a-gray-200);
+    height: inherit;
+    display: inline-block;
+}

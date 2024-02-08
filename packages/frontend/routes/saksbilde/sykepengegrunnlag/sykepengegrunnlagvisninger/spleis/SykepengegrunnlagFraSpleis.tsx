@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 
 import { Arbeidsgiverinntekt, VilkarsgrunnlagSpleis } from '@io/graphql';
@@ -9,17 +8,7 @@ import { SykepengegrunnlagPanel } from '../../InntektsgrunnlagTable/Sykepengegru
 import { Inntekt } from '../../inntekt/Inntekt';
 import { InntektUtenOmregnetÅrsinntekt } from '../../inntekt/InntektUtenOmregnetÅrsinntekt';
 
-const Container = styled.div`
-    display: flex;
-    align-content: space-between;
-    margin-top: -2rem;
-`;
-
-const Strek = styled.span`
-    border-right: 3px solid var(--a-gray-200);
-    height: inherit;
-    display: inline-block;
-`;
+import styles from './SykepengegrunnlagFraSpleis.module.css';
 
 interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement> {
     vilkårsgrunnlag: VilkarsgrunnlagSpleis;
@@ -48,7 +37,7 @@ export const SykepengegrunnlagFraSpleis = ({
     }, [vilkårsgrunnlag, aktivArbeidsgiver]);
 
     return (
-        <Container {...rest}>
+        <div className={styles.container} {...rest}>
             <SykepengegrunnlagPanel
                 inntekter={vilkårsgrunnlag.inntekter}
                 omregnetÅrsinntekt={vilkårsgrunnlag.omregnetArsinntekt}
@@ -60,12 +49,12 @@ export const SykepengegrunnlagFraSpleis = ({
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 skjønnsmessigFastsattÅrlig={vilkårsgrunnlag.skjonnsmessigFastsattAarlig}
             />
-            <Strek />
+            <span className={styles.strek} />
             {aktivInntektskilde.omregnetArsinntekt !== null ? (
                 <Inntekt inntekt={aktivInntektskilde} />
             ) : (
                 <InntektUtenOmregnetÅrsinntekt inntekt={aktivInntektskilde} />
             )}
-        </Container>
+        </div>
     );
 };
