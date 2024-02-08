@@ -26,6 +26,17 @@
     width: max-content;
 }
 
+.modal {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.modal p:first-of-type {
+    font-weight: bold;
+}
+
 .Feilmelding {
     min-height: 24px;
     margin-top: 1em;
@@ -33,4 +44,16 @@
 
 .Feilmelding > a {
     margin-left: 0.5em;
+}
+
+.buttons > button:not(:last-of-type) {
+    margin-right: 1rem;
+}
+
+.spinnerknapp {
+    display: flex;
+}
+
+.spinnerknapp > svg {
+    margin-left: 0.5rem;
 }

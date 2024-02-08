@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
 import { BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
@@ -12,33 +11,9 @@ import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedToolti
 import { Personinfo, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
-import styles from '../BeløpTilUtbetaling.module.css';
 import { BackendFeil } from './Utbetaling';
 
-const Buttons = styled.div`
-    > button:not(:last-of-type) {
-        margin-right: 1rem;
-    }
-`;
-
-const KnappMedSpinner = styled.div`
-    display: flex;
-
-    > svg {
-        margin-left: 0.5rem;
-    }
-`;
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    margin-top: 1rem;
-
-    p:first-of-type {
-        font-weight: bold;
-    }
-`;
+import styles from '../BeløpTilUtbetaling.module.css';
 
 interface UtbetalingModalProps {
     isSending: boolean;
@@ -71,7 +46,7 @@ export const UtbetalingModal = ({
         contentLabel="Godkjenn utbetaling"
         onRequestClose={onClose}
     >
-        <Container>
+        <div className={styles.modal}>
             {utbetaling && arbeidsgiver && personinfo && (
                 <TilUtbetaling utbetaling={utbetaling} arbeidsgiver={arbeidsgiver} personinfo={personinfo} />
             )}
@@ -81,18 +56,18 @@ export const UtbetalingModal = ({
                     ? 'sendes saken til beslutter for godkjenning.'
                     : 'blir utbetalingen sendt til oppdragsystemet.'}
             </BodyShort>
-            <Buttons>
+            <div className={styles.buttons}>
                 <Button variant="primary" onClick={onApprove} disabled={isSending} autoFocus>
-                    <KnappMedSpinner>
+                    <div className={styles.spinnerknapp}>
                         <span>Ja</span>
                         {isSending && <Loader size="xsmall" />}
-                    </KnappMedSpinner>
+                    </div>
                 </Button>
                 <Button variant="secondary" onClick={onClose}>
                     Avbryt
                 </Button>
-            </Buttons>
-        </Container>
+            </div>
+        </div>
         <ErrorMessage className={styles.Feilmelding}>
             {error && (error.message || 'En feil har oppstått.')}
         </ErrorMessage>
