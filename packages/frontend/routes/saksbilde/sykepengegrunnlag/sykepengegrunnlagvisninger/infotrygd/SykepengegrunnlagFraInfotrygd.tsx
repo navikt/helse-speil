@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
@@ -8,15 +7,7 @@ import { getRequiredInntekt } from '@state/selectors/person';
 import { Inntekt } from '../../inntekt/Inntekt';
 import { SykepengegrunnlagInfotrygd } from './SykepengegrunnlagInfotrygd';
 
-const Oversikt = styled.div`
-    display: flex;
-    align-content: space-between;
-    gap: 2.5rem;
-`;
-
-const Strek = styled.span`
-    border-right: 3px solid var(--a-gray-200);
-`;
+import styles from './SykepengegrunnlagFraInfotrygd.module.css';
 
 interface SykepengegrunnlagFraInfogtrygdProps {
     vilkårsgrunnlag: VilkarsgrunnlagInfotrygd;
@@ -31,14 +22,14 @@ export const SykepengegrunnlagFraInfogtrygd = ({
 
     return (
         <Infotrygdvurdering title="Sykepengegrunnlag satt i Infotrygd">
-            <Oversikt>
+            <div className={styles.oversikt}>
                 <SykepengegrunnlagInfotrygd
                     vilkårsgrunnlag={vilkårsgrunnlag}
                     organisasjonsnummer={organisasjonsnummer}
                 />
-                <Strek />
+                <span className={styles.strek} />
                 <Inntekt inntekt={inntekt} />
-            </Oversikt>
+            </div>
         </Infotrygdvurdering>
     );
 };

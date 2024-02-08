@@ -4,7 +4,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { FlexColumn } from '@components/Flex';
+import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygd } from '@io/graphql';
@@ -12,69 +12,7 @@ import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
-const Container = styled(FlexColumn)`
-    --fixed-column-width: 20rem;
-`;
-
-const Bold = styled(BodyShort)`
-    font-weight: 600;
-`;
-
-const Kolonnetittel = styled(BodyShort)`
-    color: var(--a-gray-600);
-    font-size: 14px;
-`;
-
-const Table = styled.table`
-    text-align: left;
-    border-collapse: collapse;
-    width: max-content;
-    margin-bottom: 1.75rem;
-
-    td,
-    th {
-        padding: 0.25rem 0.5rem;
-
-        &:not(:last-of-type) {
-            padding-right: 1.75rem;
-        }
-    }
-
-    tr > th:first-of-type,
-    tr > td:first-of-type {
-        width: var(--fixed-column-width);
-    }
-
-    thead > tr:first-of-type > th {
-        padding-bottom: 0.75rem;
-    }
-
-    tbody:before {
-        content: '';
-        display: block;
-        height: 0.5rem;
-    }
-
-    tfoot:before {
-        content: '';
-        display: block;
-        height: 1.75rem;
-    }
-
-    tfoot > tr:first-of-type > td {
-        padding: 0.75rem 0.5rem;
-        border-top: 1px solid var(--a-text-default);
-    }
-`;
-
-const InntektMedKilde = styled.div`
-    display: flex;
-    align-items: center;
-
-    > *:not(:last-child) {
-        margin-right: 0.5rem;
-    }
-`;
+import styles from './SykepengegrunnlagFraInfotrygd.module.css';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     padding: 0.25rem;
@@ -108,21 +46,25 @@ export const SykepengegrunnlagInfotrygd = ({
     organisasjonsnummer,
 }: SykepengegrunnlagInfotrygdProps) => {
     return (
-        <Container className="SykepengegrunnlagInfotrygd">
-            <Table>
+        <div className={styles.sykepengegrunnlag}>
+            <table className={styles.table}>
                 <thead>
                     <tr>
                         <th />
                         <th>
-                            <Bold as="p">Inntektsgrunnlag</Bold>
+                            <Bold>Inntektsgrunnlag</Bold>
                         </th>
                     </tr>
                     <tr>
                         <th>
-                            <Kolonnetittel as="p">Inntektskilde</Kolonnetittel>
+                            <BodyShort as="p" className={styles.kolonnetittel}>
+                                Inntektskilde
+                            </BodyShort>
                         </th>
                         <th>
-                            <Kolonnetittel as="p">Sykepengegrunnlag før 6G</Kolonnetittel>
+                            <BodyShort as="p" className={styles.kolonnetittel}>
+                                Sykepengegrunnlag før 6G
+                            </BodyShort>
                         </th>
                     </tr>
                 </thead>
@@ -134,23 +76,23 @@ export const SykepengegrunnlagInfotrygd = ({
                 <tfoot>
                     <tr>
                         <td>
-                            <Bold as="p">Total</Bold>
+                            <Bold>Total</Bold>
                         </td>
                         <td>
-                            <Bold as="p">{somPenger(vilkårsgrunnlag.omregnetArsinntekt)}</Bold>
+                            <Bold>{somPenger(vilkårsgrunnlag.omregnetArsinntekt)}</Bold>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <Bold as="p">Sykepengegrunnlag</Bold>
+                            <Bold>Sykepengegrunnlag</Bold>
                         </td>
                         <td>
-                            <Bold as="p">{somPenger(vilkårsgrunnlag.sykepengegrunnlag)}</Bold>
+                            <Bold>{somPenger(vilkårsgrunnlag.sykepengegrunnlag)}</Bold>
                         </td>
                     </tr>
                 </tfoot>
-            </Table>
-        </Container>
+            </table>
+        </div>
     );
 };
 
@@ -171,7 +113,7 @@ const InfotrygdInntekt = ({ aktivtOrgnummer, inntekt }: InfotrygdInntektProps) =
                 </AnonymizableText>
             </td>
             <td>
-                <InntektMedKilde>
+                <div className={styles.inntekt}>
                     <BodyShort>
                         {inntekt.omregnetArsinntekt ? somPenger(inntekt.omregnetArsinntekt.belop) : 'Ukjent'}
                     </BodyShort>
@@ -180,7 +122,7 @@ const InfotrygdInntekt = ({ aktivtOrgnummer, inntekt }: InfotrygdInntektProps) =
                             {kildeForkortelse(inntekt.omregnetArsinntekt.kilde)}
                         </Kilde>
                     )}
-                </InntektMedKilde>
+                </div>
             </td>
         </ArbeidsgiverRad>
     );

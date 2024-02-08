@@ -1,0 +1,70 @@
+.oversikt {
+    display: flex;
+    align-content: space-between;
+}
+
+.strek {
+    border-right: 3px solid var(--a-gray-200);
+}
+
+.kolonnetittel {
+    color: var(--a-gray-600);
+    font-size: 14px;
+}
+
+.sykepengegrunnlag {
+    display: flex;
+    flex-direction: column;
+}
+
+.table {
+    text-align: left;
+    border-collapse: collapse;
+    width: max-content;
+    margin-bottom: 1.75rem;
+}
+
+.table td,
+.table th {
+    padding: 0.25rem 0.5rem;
+}
+
+.table td:not(:last-of-type),
+.table th:not(:last-of-type) {
+    padding-right: 1.75rem;
+}
+
+.table tr > th:first-of-type,
+.table tr > td:first-of-type {
+    width: 20rem;
+}
+
+.table thead > tr:first-of-type > th {
+    padding-bottom: 0.75rem;
+}
+
+.table tbody:before {
+    content: '';
+    display: block;
+    height: 0.5rem;
+}
+
+.table tfoot:before {
+    content: '';
+    display: block;
+    height: 1.75rem;
+}
+
+.table tfoot > tr:first-of-type > td {
+    padding: 0.75rem 0.5rem;
+    border-top: 1px solid var(--a-text-default);
+}
+
+.inntekt {
+    display: flex;
+    align-items: center;
+}
+
+.inntekt > *:not(:last-child) {
+    margin-right: 0.5rem;
+}
