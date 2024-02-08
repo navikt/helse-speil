@@ -3,7 +3,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import styles from './Errormessage.module.css';
+import styles from './ErrorMessage.module.css';
 
 type ErrorMessageProps = React.HTMLAttributes<HTMLParagraphElement>;
 
