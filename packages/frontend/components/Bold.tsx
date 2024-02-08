@@ -1,11 +1,11 @@
-import styled from '@emotion/styled';
+import classNames from 'classnames';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 import { BodyShortProps } from '@navikt/ds-react/esm/typography/BodyShort';
 
-const Text = styled(BodyShort)`
-    font-weight: 600;
-`;
+import styles from './Bold.module.css';
 
-export const Bold: React.FC<BodyShortProps> = (props) => <Text as="p" {...props} />;
+export const Bold: React.FC<BodyShortProps> = (props) => (
+    <BodyShort as="p" {...props} className={classNames(styles.bold, props.className)} />
+);
