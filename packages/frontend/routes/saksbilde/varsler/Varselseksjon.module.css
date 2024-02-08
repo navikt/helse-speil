@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0;
+    max-width: 120ch;
+    white-space: pre-wrap;
+}
+
+.container:not(:last-of-type) {
+    margin-bottom: 1rem;
+}
+
+.tittel {
+    font-weight: 600;
+}
