@@ -55,7 +55,9 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
 
     return (
         <>
-            <SaksbildeMenu />
+            <div className={styles.saksbildemeny}>
+                <SaksbildeMenu />
+            </div>
             <div className={styles.utbetalingshistorikk}>
                 <Button
                     className={styles.close}

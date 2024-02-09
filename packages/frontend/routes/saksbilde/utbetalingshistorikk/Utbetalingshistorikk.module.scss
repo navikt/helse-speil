@@ -38,3 +38,8 @@
     margin-right: 0.75rem;
   }
 }
+
+.saksbildemeny {
+  grid-column-start: venstremeny;
+  grid-column-end: høyremeny;
+}
