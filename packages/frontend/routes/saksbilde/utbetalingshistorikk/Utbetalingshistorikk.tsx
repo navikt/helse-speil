@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styles from './Utbetalingshistorikk.module.scss';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,43 +17,6 @@ import { Annulleringsmodal } from '../annullering/Annulleringsmodal';
 import { useKanAnnulleres } from '../annullering/useKanAnnulleres';
 import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
 import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
-
-const Container = styled.div`
-    grid-column-start: venstremeny;
-    grid-column-end: høyremeny;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem 2rem;
-`;
-
-const CloseButton = styled(Button)`
-    width: max-content;
-    margin-bottom: 1.5rem;
-
-    > svg {
-        margin-right: 0.75rem;
-    }
-`;
-
-const Table = styled.table`
-    > thead > tr {
-        height: 2rem;
-        font-weight: 600;
-        text-align: left;
-
-        > th {
-            padding: 0.5rem 0.75rem;
-        }
-    }
-
-    > tbody > tr {
-        height: 2rem;
-
-        &:nth-of-type(2n-1) {
-            background-color: var(--a-gray-100);
-        }
-    }
-`;
 
 interface UtbetalingshistorikkWithContentProps {
     fødselsnummer: string;
@@ -93,11 +56,20 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
     return (
         <>
             <SaksbildeMenu />
-            <Container className="Utbetalingshistorikk">
-                <CloseButton as="button" onClick={lukkUtbetalingshistorikk} size="small" variant="tertiary">
+            <div className={styles.utbetalingshistorikk}>
+                <Button
+                    className={styles.close}
+                    as="button"
+                    onClick={lukkUtbetalingshistorikk}
+                    size="small"
+                    variant="tertiary"
+                >
                     <Close /> Lukk utbetalingshistorikk
-                </CloseButton>
-                <Table aria-label={`Utbetalingshistorikk for person med fødselsnummer ${fødselsnummer ?? '"Ukjent"'}`}>
+                </Button>
+                <table
+                    className={styles.table}
+                    aria-label={`Utbetalingshistorikk for person med fødselsnummer ${fødselsnummer ?? '"Ukjent"'}`}
+                >
                     <thead>
                         <tr>
                             <th>Fra</th>
@@ -140,7 +112,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                             </React.Fragment>
                         ))}
                     </tbody>
-                </Table>
+                </table>
                 {tilAnnullering && (
                     <Annulleringsmodal
                         fødselsnummer={fødselsnummer}
@@ -159,7 +131,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                         varseltekst={varseltekst}
                     />
                 )}
-            </Container>
+            </div>
         </>
     );
 };

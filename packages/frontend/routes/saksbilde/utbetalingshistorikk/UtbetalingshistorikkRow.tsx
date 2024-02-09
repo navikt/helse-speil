@@ -1,3 +1,4 @@
+import styles from './Utbetalingshistorikk.module.scss';
 import dayjs from 'dayjs';
 import React from 'react';
 
@@ -8,7 +9,6 @@ import { Arbeidsgiveroppdrag, Oppdrag, Personoppdrag, Spennoppdrag } from '@io/g
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
-import { Cell } from './Cell';
 import { getTom } from './utbetalingshistorikkUtils';
 
 const getFom = (oppdrag: Spennoppdrag): Dayjs | undefined =>
@@ -45,28 +45,28 @@ export const UtbetalingshistorikkRow: React.FC<UtbetalingshistorikkRowProps> = (
 
     return (
         <tr>
-            <Cell>
+            <td className={styles.cell}>
                 <Bold>{fom?.format(NORSK_DATOFORMAT_KORT) ?? '-'}</Bold>
-            </Cell>
-            <Cell>
+            </td>
+            <td className={styles.cell}>
                 <Bold>{tom?.format(NORSK_DATOFORMAT_KORT) ?? '-'}</Bold>
-            </Cell>
-            <Cell>
+            </td>
+            <td className={styles.cell}>
                 <Bold>{oppdrag.fagsystemId}</Bold>
-            </Cell>
-            <Cell>
+            </td>
+            <td className={styles.cell}>
                 <Bold>{mottaker}</Bold>
-            </Cell>
-            <Cell>
+            </td>
+            <td className={styles.cell}>
                 <Bold>{somPenger(totalt)}</Bold>
-            </Cell>
-            <Cell>
+            </td>
+            <td className={styles.cell}>
                 <Bold>{status}</Bold>
-            </Cell>
-            <Cell>
+            </td>
+            <td className={styles.cell}>
                 <Bold>{type}</Bold>
-            </Cell>
-            <Cell>
+            </td>
+            <td className={styles.cell}>
                 {visAnnullering && (
                     <AnnulleringButton
                         kanAnnulleres={kanAnnulleres}
@@ -74,7 +74,7 @@ export const UtbetalingshistorikkRow: React.FC<UtbetalingshistorikkRowProps> = (
                         setVarseltekst={oppdaterVarselTekst}
                     />
                 )}
-            </Cell>
+            </td>
         </tr>
     );
 };
