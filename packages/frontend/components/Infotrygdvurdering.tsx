@@ -1,41 +1,8 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
 import { Heading } from '@navikt/ds-react';
 
-const Container = styled.div`
-    --padding-left: 38px;
-    position: relative;
-    padding-left: var(--padding-left);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    &:before {
-        --top: 32px;
-        content: '';
-        position: absolute;
-        width: 4px;
-        background-color: var(--speil-color-infotrygd);
-        height: calc(100% - var(--top));
-        top: var(--top);
-        left: 12px;
-        transform: translateX(-50%);
-        border-radius: 2px;
-    }
-`;
-
-const IconContainer = styled.div`
-    position: absolute;
-    background-color: var(--speil-color-infotrygd);
-    height: 1.5rem;
-    width: 1.5rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    left: 0;
-`;
+import styles from './Infotrygdvurdering.module.css';
 
 const Icon = () => (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,14 +19,14 @@ interface InfotrygdvurderingProps extends React.HTMLAttributes<HTMLDivElement> {
     title: string;
 }
 
-export const Infotrygdvurdering: React.FC<InfotrygdvurderingProps> = ({ className, children, title, ...divProps }) => (
-    <Container className={className} {...divProps}>
-        <IconContainer>
+export const Infotrygdvurdering: React.FC<InfotrygdvurderingProps> = ({ children, title, ...divProps }) => (
+    <div className={styles.container} {...divProps}>
+        <div className={styles.iconcontainer}>
             <Icon />
-        </IconContainer>
+        </div>
         <Heading as="h2" size="xsmall">
             {title}
         </Heading>
         {children}
-    </Container>
+    </div>
 );

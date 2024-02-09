@@ -1,0 +1,31 @@
+.container {
+    position: relative;
+    padding-left: 38px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.container:before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: var(--speil-color-infotrygd);
+    height: calc(100% - 32px);
+    top: 32px;
+    left: 12px;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.iconcontainer {
+    position: absolute;
+    background-color: var(--speil-color-infotrygd);
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+}
