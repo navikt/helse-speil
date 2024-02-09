@@ -1,13 +1,13 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+import classNames from 'classnames';
+import React from 'react';
 
-export const Cell = styled.td<{ erOverstyrt?: boolean }>`
-    ${(props) =>
-        props.erOverstyrt &&
-        css`
-            &,
-            * {
-                font-style: italic;
-            }
-        `}
-`;
+import styles from './Cell.module.css';
+
+interface CellProps extends React.HTMLAttributes<HTMLTableCellElement> {
+    children: React.ReactNode;
+    italic?: boolean;
+}
+
+export const Cell: React.FC<CellProps> = (props, italic = false) => (
+    <td {...props} className={classNames(props.className, italic && styles.italic)} />
+);

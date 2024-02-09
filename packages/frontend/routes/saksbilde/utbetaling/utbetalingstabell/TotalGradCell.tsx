@@ -20,7 +20,7 @@ export const TotalGradCell = ({ type, erOverstyrt, totalGradering, erNyDag = fal
     const showTotalGradering = typeof totalGradering === 'number' && dagtypeIsValid(type);
 
     return (
-        <Cell erOverstyrt={erOverstyrt}>
+        <Cell italic={erOverstyrt}>
             {erOverstyrt && !erNyDag && <Endringstrekant />}
             {showTotalGradering && <CellContent flexEnd>{`${Math.floor(totalGradering)} %`}</CellContent>}
         </Cell>

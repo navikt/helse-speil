@@ -13,7 +13,7 @@ interface UtbetalingCellProps extends React.HTMLAttributes<HTMLTableDataCellElem
 }
 
 export const UtbetalingCell = ({ erOverstyrt, utbetaling, erNyDag = false, style }: UtbetalingCellProps) => (
-    <Cell erOverstyrt={erOverstyrt} style={style}>
+    <Cell italic={erOverstyrt} style={style}>
         {erOverstyrt && !erNyDag && <Endringstrekant />}
         <CellContent flexEnd>{utbetaling ? somPenger(utbetaling) : '-'}</CellContent>
     </Cell>

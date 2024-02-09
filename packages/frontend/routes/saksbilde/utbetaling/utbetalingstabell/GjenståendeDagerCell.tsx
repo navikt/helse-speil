@@ -12,7 +12,7 @@ interface GjenståendeDagerCellProps {
 }
 
 export const GjenståendeDagerCell = ({ gjenståendeDager, erOverstyrt, erNyDag = false }: GjenståendeDagerCellProps) => (
-    <Cell erOverstyrt={erOverstyrt}>
+    <Cell italic={erOverstyrt}>
         {erOverstyrt && !erNyDag && <Endringstrekant />}
         <CellContent flexEnd>{gjenståendeDager ?? '-'}</CellContent>
     </Cell>
