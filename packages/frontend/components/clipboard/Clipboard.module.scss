@@ -1,0 +1,47 @@
+.container {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+.button {
+  position: relative;
+  background: none;
+  cursor: pointer;
+  padding: 2px 4px 0;
+  margin-left: 0.25rem;
+  border: none;
+  border-radius: 1px;
+
+  &:hover {
+    background: var(--a-surface-action-subtle-hover);
+  }
+
+  &:focus,
+  &:active {
+    outline: solid var(--a-blue-800);
+  }
+}
+
+.popover {
+  position: absolute;
+  padding: 6px 8px;
+  border: 1px solid var(--a-border-strong);
+  background: white;
+  border-radius: 2px;
+  white-space: nowrap;
+  z-index: 1000;
+
+  &:before {
+    position: absolute;
+    content: '';
+    background: white;
+    border-top: 1px solid var(--a-border-strong);
+    border-left: 1px solid var(--a-border-strong);
+    transform: rotate(45deg);
+    height: 10px;
+    width: 10px;
+    top: -6px;
+    left: 8px;
+  }
+}

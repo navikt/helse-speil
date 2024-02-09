@@ -1,58 +1,11 @@
-import styled from '@emotion/styled';
+import styles from './Clipboard.module.scss';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 
 import { Copy } from '@navikt/ds-icons';
 import { BodyShort, Tooltip, TooltipProps } from '@navikt/ds-react';
 
-import { Flex } from '../Flex';
 import { copyContentsToClipboard } from './util';
-
-const Button = styled.button`
-    position: relative;
-    background: none;
-    cursor: pointer;
-    padding: 2px 4px 0;
-    margin-left: 0.25rem;
-    border: none;
-    border-radius: 1px;
-
-    &:hover {
-        background: var(--a-surface-action-subtle-hover);
-    }
-
-    &:focus,
-    &:active {
-        outline: solid var(--a-blue-800);
-    }
-`;
-
-const Popover = styled(BodyShort)`
-    position: absolute;
-    padding: 6px 8px;
-    border: 1px solid var(--a-border-strong);
-    background: white;
-    border-radius: 2px;
-    white-space: nowrap;
-    z-index: 1000;
-
-    &:before {
-        position: absolute;
-        content: '';
-        background: white;
-        border-top: 1px solid var(--a-border-strong);
-        border-left: 1px solid var(--a-border-strong);
-        transform: rotate(45deg);
-        height: 10px;
-        width: 10px;
-        top: -6px;
-        left: 8px;
-    }
-`;
-
-const Container = styled(Flex)`
-    position: relative;
-`;
 
 interface TooltipWrapperProps {
     props?: Omit<TooltipProps, 'children'>;
@@ -99,10 +52,10 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
     }, [didCopy]);
 
     return (
-        <Container as="span" alignItems="center">
+        <div className={styles.container}>
             <div ref={contentRef}>{children}</div>
             <TooltipWrapper props={tooltip}>
-                <Button onClick={copy}>
+                <button className={styles.button} onClick={copy}>
                     <Copy aria-label={tooltip?.content} />
                     <AnimatePresence>
                         {didCopy && (
@@ -118,12 +71,14 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
                                     left: -2,
                                 }}
                             >
-                                <Popover as="p">{copyMessage ?? 'Kopiert!'}</Popover>
+                                <BodyShort className={styles.popover} as="p">
+                                    {copyMessage ?? 'Kopiert!'}
+                                </BodyShort>
                             </motion.span>
                         )}
                     </AnimatePresence>
-                </Button>
+                </button>
             </TooltipWrapper>
-        </Container>
+        </div>
     );
 };
