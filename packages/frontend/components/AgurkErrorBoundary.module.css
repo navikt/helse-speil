@@ -1,0 +1,37 @@
+.container {
+    margin: 2rem;
+}
+
+.container > *:not(:last-child) {
+    margin-bottom: 2.5rem;
+}
+
+.agurktekst {
+    display: flex;
+    align-items: center;
+}
+
+.agurktekst:before {
+    content: '🥒';
+    font-size: 30px;
+    margin-right: 0.5rem;
+}
+
+.utviklermelding {
+    display: flex;
+    align-items: center;
+    color: var(--a-text-default);
+}
+
+.utviklermelding:hover .Clipboard__children {
+    border-bottom: none;
+}
+
+.feilmelding {
+    display: block;
+    white-space: pre;
+    margin: 1em 0;
+    background-color: var(--a-surface-danger-subtle);
+    color: var(--a-text-danger);
+    padding: 1rem;
+}
