@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
@@ -9,6 +8,8 @@ import { Kildetype } from '@io/graphql';
 import { EndringsloggButton } from '../../sykepengegrunnlag/inntekt/EndringsloggButton';
 import { CellContent } from '../../table/CellContent';
 import { erHelg } from './helgUtils';
+
+import styles from './KildeCell.module.css';
 
 interface KildeTypeIconProps {
     kilde?: Kildetype;
@@ -36,11 +37,6 @@ const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps) => {
     }
 };
 
-const Container = styled(CellContent)`
-    width: 2rem;
-    justify-content: center;
-`;
-
 interface KildeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     type: Utbetalingstabelldagtype;
     kilde?: Kildetype;
@@ -50,7 +46,9 @@ interface KildeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 export const KildeCell = ({ type, kilde, overstyringer, ...rest }: KildeCellProps) => {
     return (
         <td {...rest}>
-            <Container>{!erHelg(type) && <KildeTypeIcon kilde={kilde} overstyringer={overstyringer} />}</Container>
+            <CellContent className={styles.container}>
+                {!erHelg(type) && <KildeTypeIcon kilde={kilde} overstyringer={overstyringer} />}
+            </CellContent>
         </td>
     );
 };
