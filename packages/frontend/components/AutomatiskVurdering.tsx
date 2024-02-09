@@ -1,47 +1,10 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { FlexColumn } from './Flex';
 
-const Container = styled.div`
-    --padding-left: 38px;
-    position: relative;
-    padding-left: var(--padding-left);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    &:before {
-        --top: 32px;
-        content: '';
-        position: absolute;
-        width: 4px;
-        background-color: var(--speil-color-automatisk);
-        height: calc(100% - var(--top));
-        top: var(--top);
-        left: 12px;
-        transform: translateX(-50%);
-        border-radius: 2px;
-    }
-`;
-
-const Details = styled(BodyShort)`
-    color: #59514b;
-`;
-
-const IconContainer = styled.div`
-    position: absolute;
-    background-color: var(--speil-color-automatisk);
-    height: 1.5rem;
-    width: 1.5rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    left: 0;
-`;
+import styles from './AutomatiskVurdering.module.css';
 
 const Icon = () => (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,25 +22,19 @@ interface AutomatiskVurderingProps extends React.HTMLAttributes<HTMLDivElement> 
     ident: string;
 }
 
-export const AutomatiskVurdering: React.FC<AutomatiskVurderingProps> = ({
-    className,
-    children,
-    title,
-    ident,
-    ...divProps
-}) => (
-    <Container className={className} {...divProps}>
-        <IconContainer>
+export const AutomatiskVurdering: React.FC<AutomatiskVurderingProps> = ({ children, title, ident, ...divProps }) => (
+    <div className={styles.container} {...divProps}>
+        <div className={styles.iconcontainer}>
             <Icon />
-        </IconContainer>
+        </div>
         <FlexColumn>
             <Heading as="h2" size="xsmall">
                 {title}
             </Heading>
-            <Details as="p" size="small">
+            <BodyShort as="p" size="small" className={styles.details}>
                 Behandlet av {ident}
-            </Details>
+            </BodyShort>
         </FlexColumn>
         {children}
-    </Container>
+    </div>
 );
