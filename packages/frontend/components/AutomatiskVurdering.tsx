@@ -1,10 +1,10 @@
+import styles from './Vurdering.module.scss';
+import classNames from 'classnames';
 import React from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { FlexColumn } from './Flex';
-
-import styles from './AutomatiskVurdering.module.css';
 
 const Icon = () => (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -23,7 +23,7 @@ interface AutomatiskVurderingProps extends React.HTMLAttributes<HTMLDivElement> 
 }
 
 export const AutomatiskVurdering: React.FC<AutomatiskVurderingProps> = ({ children, title, ident, ...divProps }) => (
-    <div className={styles.container} {...divProps}>
+    <div className={classNames(styles.container, styles['container__automatisk'])} {...divProps}>
         <div className={styles.iconcontainer}>
             <Icon />
         </div>

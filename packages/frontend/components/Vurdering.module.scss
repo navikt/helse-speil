@@ -37,4 +37,10 @@
       background-color: var(--speil-color-saksbehandler);
     }
   }
+
+  &__automatisk {
+    &:before, .ikoncontainer {
+      background-color: var(--speil-color-automatisk)
+    }
+  }
 }
