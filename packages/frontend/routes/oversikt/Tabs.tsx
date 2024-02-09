@@ -1,17 +1,15 @@
+import styles from './Tabs.module.scss';
 import classNames from 'classnames';
 import React, { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 
-import { RoundedButton } from '@components/RoundedButton';
 import { useAntallOppgaver } from '@state/oppgaver';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 import { filtermenyWidth, useShowFiltermeny, useToggleFiltermeny } from './filtermeny/state';
 import { TabType, useSwitchTab } from './tabState';
-
-import styles from './Tabs.module.css';
 
 interface OppgaveTabProps {
     tag: TabType;
@@ -59,9 +57,10 @@ const FilterButton = () => {
     }, [showFiltermeny]);
 
     return (
-        <RoundedButton
+        <button
             id="filtermeny-toggle"
             className={classNames(
+                styles.roundedbutton,
                 styles.button,
                 styles.filterbutton,
                 showFiltermeny && styles.active,
@@ -73,7 +72,7 @@ const FilterButton = () => {
             style={{ marginRight: showFiltermeny ? `${filtermenyBredde - 32}px` : '1rem' }}
         >
             <FilterIcon title="Filtermeny" fontSize="18px" />
-        </RoundedButton>
+        </button>
     );
 };
 
@@ -82,15 +81,20 @@ const StatistikkButton = () => {
     const showStatistikk = useShowStatistikk();
 
     return (
-        <RoundedButton
+        <button
             id="behandlingsstatistikk-toggle"
-            className={classNames(styles.button, styles.statistikkbutton, showStatistikk && styles.active)}
+            className={classNames(
+                styles.roundedbutton,
+                styles.button,
+                styles.statistikkbutton,
+                showStatistikk && styles.active,
+            )}
             aria-label="Toggle visning av behandlingsstatistikk"
             aria-expanded={showStatistikk}
             onClick={toggleStatistikk}
         >
             <BarChartIcon title="Behandlingsstatistikk" fontSize="18px" />
-        </RoundedButton>
+        </button>
     );
 };
 
