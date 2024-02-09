@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -11,25 +10,7 @@ import {
     sykNavValidering,
 } from './validering';
 
-const Container = styled.div`
-    margin: 0 2rem;
-`;
-
-const FeiloppsummeringContainer = styled(ErrorSummary)`
-    margin: 48px 0;
-`;
-
-const BegrunnelseInput = styled(Textarea)`
-    margin-bottom: 2rem;
-    max-width: 640px;
-    min-height: 100px;
-`;
-
-const Buttons = styled.span`
-    > button:not(:last-of-type) {
-        margin-right: 1rem;
-    }
-`;
+import styles from './OverstyringForm.module.css';
 
 interface OverstyringFormProps {
     overstyrteDager: Map<string, Utbetalingstabelldag>;
@@ -85,8 +66,8 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
     const visFeilOppsummering = !formState.isValid && Object.entries(formState.errors).length > 0;
 
     return (
-        <Container>
-            <BegrunnelseInput
+        <div className={styles.container}>
+            <Textarea
                 id="begrunnelse"
                 label="Begrunnelse for endringer"
                 value={oppsummering}
@@ -104,15 +85,20 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
                     begrunnelseValidation.onChange(event);
                     setOppsummering(event.target.value);
                 }}
+                className={styles.begrunnelse}
             />
             {visFeilOppsummering && (
-                <FeiloppsummeringContainer ref={oppsummeringRef} heading="Skjemaet inneholder følgende feil:">
+                <ErrorSummary
+                    className={styles.feiloppsummering}
+                    ref={oppsummeringRef}
+                    heading="Skjemaet inneholder følgende feil:"
+                >
                     {Object.entries(formState.errors).map(([id, error], index) => {
                         return <ErrorSummary.Item key={`${id}${index}`}>{error?.message as string}</ErrorSummary.Item>;
                     })}
-                </FeiloppsummeringContainer>
+                </ErrorSummary>
             )}
-            <Buttons>
+            <span className={styles.buttons}>
                 <Button
                     onClick={validering}
                     type="button"
@@ -126,7 +112,7 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
                 <Button type="button" variant="tertiary" size="small" onClick={toggleOverstyring}>
                     Avbryt
                 </Button>
-            </Buttons>
-        </Container>
+            </span>
+        </div>
     );
 };

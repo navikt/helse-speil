@@ -1,0 +1,17 @@
+.container {
+    margin: 0 2rem;
+}
+
+.feiloppsummering {
+    margin: 48px 0;
+}
+
+.begrunnelse {
+    margin-bottom: 2rem;
+    max-width: 640px;
+    min-height: 100px;
+}
+
+.buttons > button:not(:last-of-type) {
+    margin-right: 1rem;
+}
