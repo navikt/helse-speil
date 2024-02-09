@@ -1,11 +1,10 @@
-import styled from '@emotion/styled';
+import styles from './Vurderingsmomenter.module.scss';
 import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { AgurkErrorBoundary } from '@components/AgurkErrorBoundary';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { FlexColumn } from '@components/Flex';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
@@ -13,41 +12,6 @@ import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
 import { Faresignal, Maybe, Risikovurdering } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
-
-const Container = styled.div`
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: row;
-`;
-
-const Linje = styled.div`
-    display: flex;
-    align-items: start;
-    flex-wrap: nowrap;
-    margin-bottom: 1rem;
-
-    &:first-of-type {
-        margin-bottom: 1.5rem;
-    }
-`;
-
-const IkonContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 2.5rem;
-    width: 2.5rem;
-    min-height: 1.5rem;
-`;
-
-const Kolonne = styled(FlexColumn)`
-    max-width: 480px;
-    min-width: 480px;
-
-    &:not(:last-of-type) {
-        margin-right: 1rem;
-    }
-`;
 
 const harFunn = (funn?: Maybe<Faresignal[]>): funn is Faresignal[] => {
     return typeof funn === 'object';
@@ -66,18 +30,18 @@ const VurderingsmomentKategori = ({
     vurderingsmomenter,
     vurderingIkon,
 }: VurderingsmomenterkategoriProps) => (
-    <Kolonne>
-        <Linje>
-            <IkonContainer>{ikon}</IkonContainer>
+    <div className={styles.kolonne}>
+        <div className={styles.linje}>
+            <div className={styles.ikoncontainer}>{ikon}</div>
             <BodyShort>{overskrift}</BodyShort>
-        </Linje>
+        </div>
         {vurderingsmomenter.map((vurderingsmoment, i) => (
-            <Linje key={i}>
-                <IkonContainer>{vurderingIkon}</IkonContainer>
+            <div className={styles.linje} key={i}>
+                <div className={styles.ikoncontainer}>{vurderingIkon}</div>
                 <BodyShort>{vurderingsmoment.beskrivelse}</BodyShort>
-            </Linje>
+            </div>
         ))}
-    </Kolonne>
+    </div>
 );
 
 interface VurderingsmomenterWithContentProps {
@@ -86,7 +50,7 @@ interface VurderingsmomenterWithContentProps {
 
 export const VurderingsmomenterWithContent: React.FC<VurderingsmomenterWithContentProps> = ({ risikovurdering }) => (
     <AgurkErrorBoundary sidenavn="Vurderingsmomenter">
-        <Container>
+        <div className={styles.container}>
             {risikovurdering && harFunn(risikovurdering.funn) && risikovurdering.funn.length > 0 && (
                 <VurderingsmomentKategori
                     ikon={<Advarselikon />}
@@ -103,7 +67,7 @@ export const VurderingsmomenterWithContent: React.FC<VurderingsmomenterWithConte
                     vurderingIkon={<Sjekkikon alt="Kontrollert" />}
                 />
             )}
-        </Container>
+        </div>
     </AgurkErrorBoundary>
 );
 
