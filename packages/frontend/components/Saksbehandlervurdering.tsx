@@ -1,47 +1,10 @@
-import styled from '@emotion/styled';
+import styles from './Vurdering.module.scss';
+import classNames from 'classnames';
 import React from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { FlexColumn } from './Flex';
-
-const Container = styled.div`
-    --padding-left: 38px;
-    position: relative;
-    padding-left: var(--padding-left);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    &:before {
-        --top: 32px;
-        content: '';
-        position: absolute;
-        width: 4px;
-        background-color: var(--speil-color-saksbehandler);
-        height: calc(100% - var(--top));
-        top: var(--top);
-        left: 12px;
-        transform: translateX(-50%);
-        border-radius: 2px;
-    }
-`;
-
-const Details = styled(BodyShort)`
-    color: #59514b;
-`;
-
-const IconContainer = styled.div`
-    position: absolute;
-    background-color: var(--speil-color-saksbehandler);
-    height: 1.5rem;
-    width: 1.5rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    left: 0;
-`;
 
 const Icon = () => (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -66,18 +29,18 @@ export const Saksbehandlervurdering: React.FC<SaksbehandlervurderingProps> = ({
     ident,
     ...divProps
 }) => (
-    <Container className={className} {...divProps}>
-        <IconContainer>
+    <div className={classNames(styles.container, styles['container__saksbehandler'], className)} {...divProps}>
+        <div className={styles.ikoncontainer}>
             <Icon />
-        </IconContainer>
+        </div>
         <FlexColumn>
             <Heading as="h2" size="xsmall">
                 {title}
             </Heading>
-            <Details as="p" size="small">
+            <BodyShort className={styles.details} as="p" size="small">
                 Behandlet av {ident}
-            </Details>
+            </BodyShort>
         </FlexColumn>
         {children}
-    </Container>
+    </div>
 );
