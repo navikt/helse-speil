@@ -22,9 +22,7 @@ export const TotalGradCell = ({ type, erOverstyrt, totalGradering, erNyDag = fal
     return (
         <Cell erOverstyrt={erOverstyrt}>
             {erOverstyrt && !erNyDag && <Endringstrekant />}
-            {showTotalGradering && (
-                <CellContent justifyContent="flex-end">{`${Math.floor(totalGradering)} %`}</CellContent>
-            )}
+            {showTotalGradering && <CellContent flexEnd>{`${Math.floor(totalGradering)} %`}</CellContent>}
         </Cell>
     );
 };

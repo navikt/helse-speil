@@ -23,7 +23,7 @@ export const GradCell: React.FC<GradCellProps> = ({ tabelldag, overstyrtDag, ...
     return (
         <td {...rest}>
             {gradErOverstyrt && <Endringstrekant text={overstyringstekst} />}
-            <CellContent justifyContent="flex-end">
+            <CellContent flexEnd>
                 {dagtypeIsValid(overstyrtDag?.dag.speilDagtype ?? tabelldag.dag.speilDagtype) &&
                     renderGrad(overstyrtDag?.grad ?? tabelldag.grad)}
             </CellContent>

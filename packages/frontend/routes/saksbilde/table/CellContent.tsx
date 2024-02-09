@@ -1,15 +1,13 @@
-import styled from '@emotion/styled';
-import { Property } from 'csstype';
+import styles from './CellContent.module.scss';
+import classNames from 'classnames';
+import React from 'react';
 
-interface CellContentProps {
-    justifyContent?: Property.JustifyContent;
+interface CellContentProps extends React.HTMLAttributes<HTMLDivElement> {
+    flexEnd?: boolean;
 }
 
-export const CellContent = styled.div<CellContentProps>`
-    position: relative;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-
-    justify-content: ${({ justifyContent }) => justifyContent ?? 'initial'};
-`;
+export const CellContent = ({ children, className = '', flexEnd = false }: CellContentProps) => (
+    <div className={classNames(styles.cellcontent, className, flexEnd && styles['cellcontent__flexend'])}>
+        {children}
+    </div>
+);

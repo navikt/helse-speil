@@ -14,6 +14,6 @@ interface GjenståendeDagerCellProps {
 export const GjenståendeDagerCell = ({ gjenståendeDager, erOverstyrt, erNyDag = false }: GjenståendeDagerCellProps) => (
     <Cell erOverstyrt={erOverstyrt}>
         {erOverstyrt && !erNyDag && <Endringstrekant />}
-        <CellContent justifyContent="flex-end">{gjenståendeDager ?? '-'}</CellContent>
+        <CellContent flexEnd>{gjenståendeDager ?? '-'}</CellContent>
     </Cell>
 );
