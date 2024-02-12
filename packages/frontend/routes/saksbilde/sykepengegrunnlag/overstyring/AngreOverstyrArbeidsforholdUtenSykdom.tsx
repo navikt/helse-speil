@@ -1,5 +1,4 @@
 import { BegrunnelseForOverstyring } from './overstyring.types';
-import styled from '@emotion/styled';
 import React from 'react';
 
 import { Button } from '@components/Button';
@@ -7,15 +6,7 @@ import { TimeoutModal } from '@components/TimeoutModal';
 
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 
-const AngreButton = styled(Button)`
-    display: flex;
-    align-items: center;
-    color: var(--a-surface-action);
-
-    > svg {
-        margin-right: 0.5rem;
-    }
-`;
+import styles from './AngreOverstyrArbeidsforholdUtenSykdom.module.css';
 
 const UndoIcon = () => (
     <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,15 +45,16 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     );
     return (
         <>
-            <AngreButton
+            <Button
                 onClick={() => {
                     onClick();
                     postOverstyring(overstyrtArbeidsforhold);
                 }}
+                className={styles.angre}
             >
                 <UndoIcon />
                 Bruk arbeidsforholdet i beregningen likevel
-            </AngreButton>
+            </Button>
             {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
         </>
     );

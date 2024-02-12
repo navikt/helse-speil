@@ -1,0 +1,9 @@
+.angre {
+    display: flex;
+    align-items: center;
+    color: var(--a-surface-action);
+
+    > svg {
+        margin-right: 0.5rem;
+    }
+}
