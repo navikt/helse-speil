@@ -8,9 +8,11 @@ import styles from './SkjønnsfastsettingSammendrag.module.css';
 
 export const SkjønnsfastsettingSammendrag = () => {
     const person = useCurrentPerson();
-    const sisteSkjønnsfastsetting = person.arbeidsgivere[0].overstyringer
-        .reverse()
-        .find(isSykepengegrunnlagskjønnsfastsetting) as Sykepengegrunnlagskjonnsfastsetting;
+    const sisteSkjønnsfastsetting = person.arbeidsgivere[0].overstyringer.findLast(
+        isSykepengegrunnlagskjønnsfastsetting,
+    ) as Sykepengegrunnlagskjonnsfastsetting;
+
+    console.log(sisteSkjønnsfastsetting);
 
     if (!person || !sisteSkjønnsfastsetting) return <></>;
 
