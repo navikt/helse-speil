@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styles from './NyttNotatModal.module.scss';
 import React from 'react';
 import { Control, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 import { FieldValues } from 'react-hook-form/dist/types/fields';
@@ -15,47 +15,6 @@ import { useNotaterForVedtaksperiode } from '@state/notater';
 import { getFormatertNavn } from '@utils/string';
 
 import { SisteNotat } from './SisteNotat';
-
-const Container = styled.section`
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    min-width: 670px;
-    max-width: 670px;
-`;
-
-const Buttons = styled.span`
-    display: flex;
-    gap: 1rem;
-
-    span {
-        display: flex;
-        column-gap: var(--a-spacing-2);
-    }
-`;
-
-const Tittel = styled.h1`
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--a-text-default);
-    margin-bottom: 0.5rem;
-`;
-
-const Textarea = styled(NavTextarea)`
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    white-space: pre-line;
-
-    textarea {
-        min-height: 120px;
-        height: max-content;
-        margin: 0;
-    }
-`;
-
-const NotatErrorMessage = styled(ErrorMessage)`
-    margin-top: 1rem;
-`;
 
 interface Notattekster {
     tittel: string;
@@ -171,12 +130,12 @@ export const NyttNotatModal = ({
 
     return (
         <Modal
-            title={<Tittel>{notattekst.tittel}</Tittel>}
+            title={<h1 className={styles.tittel}>{notattekst.tittel}</h1>}
             contentLabel={notattekst.tittel}
             isOpen
             onRequestClose={closeModal}
         >
-            <Container>
+            <section className={styles.container}>
                 {søkernavn && <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>}
                 {sisteNotat && <SisteNotat notat={sisteNotat} />}
                 {ekstraInnhold}
@@ -187,7 +146,7 @@ export const NyttNotatModal = ({
                             notattekst={notattekst}
                             tillattTekstlengde={tillattTekstlengde}
                         />
-                        <Buttons>
+                        <span className={styles.buttons}>
                             <Button size="small" disabled={loading} type="submit">
                                 {submitButtonText ?? (onSubmitOverride ? notattekst.submitTekst : 'Lagre')}
                                 {loading && <Loader size="xsmall" />}
@@ -195,11 +154,11 @@ export const NyttNotatModal = ({
                             <Button size="small" variant="secondary" onClick={closeModal} type="button">
                                 Avbryt
                             </Button>
-                        </Buttons>
+                        </span>
                     </form>
                 </FormProvider>
-            </Container>
-            {errorMessage && <NotatErrorMessage>{errorMessage}</NotatErrorMessage>}
+            </section>
+            {errorMessage && <ErrorMessage className={styles.errormessage}>{errorMessage}</ErrorMessage>}
         </Modal>
     );
 };
@@ -223,8 +182,9 @@ const ControlledTextarea = ({ control, notattekst, tillattTekstlengde }: Control
         },
     });
     return (
-        <Textarea
+        <NavTextarea
             {...field}
+            className={styles.textarea}
             error={fieldState.error?.message}
             label={notattekst.tittel}
             hideLabel
