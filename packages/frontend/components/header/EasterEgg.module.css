@@ -1,0 +1,6 @@
+.container {
+    display: flex;
+    flex-grow: 1;
+    margin-left: 1em;
+    align-self: center;
+}

@@ -1,11 +1,5 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
-const Container = styled.div`
-    display: flex;
-    flex-grow: 1;
-    margin-left: 1em;
-    align-self: center;
-`;
+import styles from './EasterEgg.module.css';
 
-export const EasterEgg = () => <Container>{/* Putt easter eggs her */}</Container>;
+export const EasterEgg = () => <div className={styles.container}>{/* Putt easter eggs her */}</div>;
