@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
@@ -23,15 +22,6 @@ import { ReturButton } from './ReturButton';
 import { SendTilGodkjenningButton } from './SendTilGodkjenningButton';
 
 import styles from './Utbetaling.module.css';
-
-const InfoText = styled(BodyShort)`
-    color: var(--a-text-default);
-    display: flex;
-`;
-
-const Spinner = styled(Loader)`
-    margin-right: 0.5rem;
-`;
 
 const skalPolleEtterNestePeriode = (person: FetchedPerson) =>
     person.arbeidsgivere
@@ -121,7 +111,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
 
     return (
         <>
-            <div className={styles.Buttons}>
+            <div className={styles.buttons}>
                 {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering ? (
                     <SendTilGodkjenningButton
                         utbetaling={period.utbetaling}
@@ -154,8 +144,8 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                         {erBeslutteroppgaveOgHarTilgang
                             ? 'Godkjenn og fatt vedtak'
                             : harArbeidsgiverutbetaling || harBrukerutbetaling
-                            ? 'Fatt vedtak'
-                            : 'Godkjenn'}
+                              ? 'Fatt vedtak'
+                              : 'Godkjenn'}
                     </GodkjenningButton>
                 )}
                 {!isRevurdering &&
@@ -172,14 +162,14 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                 )}
             </div>
             {periodenErSendt && (
-                <InfoText as="p">
-                    <Spinner />
+                <BodyShort as="p" className={styles.infotekst}>
+                    <Loader className={styles.spinner} />
                     <span>
                         {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering
                             ? 'Perioden sendes til godkjenning'
                             : 'Neste periode klargjøres'}
                     </span>
-                </InfoText>
+                </BodyShort>
             )}
         </>
     );

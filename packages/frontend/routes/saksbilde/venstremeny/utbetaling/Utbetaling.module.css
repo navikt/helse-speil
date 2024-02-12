@@ -1,5 +1,14 @@
-.Buttons {
+.buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+}
+
+.infotekst {
+    color: var(--a-text-default);
+    display: flex;
+}
+
+.spinner {
+    margin-right: 0.5rem;
 }
