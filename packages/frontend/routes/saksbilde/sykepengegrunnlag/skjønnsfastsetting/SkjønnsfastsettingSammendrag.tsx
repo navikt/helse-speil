@@ -12,8 +12,6 @@ export const SkjønnsfastsettingSammendrag = () => {
         isSykepengegrunnlagskjønnsfastsetting,
     ) as Sykepengegrunnlagskjonnsfastsetting;
 
-    console.log(sisteSkjønnsfastsetting);
-
     if (!person || !sisteSkjønnsfastsetting) return <></>;
 
     return (
