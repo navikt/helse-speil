@@ -1,50 +1,8 @@
-import styled from '@emotion/styled';
+import styles from './Annulleringsmodal.module.scss';
 import React, { ChangeEvent } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { Alert, Fieldset, Checkbox as NavCheckbox, Textarea } from '@navikt/ds-react';
-
-import styles from './Annulleringsmodal.module.css';
-
-const Container = styled.div``;
-
-const Undertittel = styled.h3`
-    font-size: 1.25rem;
-    margin-bottom: 0.75rem;
-    font-weight: 600;
-`;
-
-const CheckboxContainer = styled(Fieldset)`
-    margin-bottom: 0.25rem;
-
-    > .navds-fieldset__error {
-        margin-bottom: 1.5rem;
-    }
-`;
-
-const Checkbox = styled(NavCheckbox)`
-    display: flex;
-    padding: 0;
-    margin: 0 0 20px;
-
-    input {
-        width: 1.5rem;
-        height: 1.5rem;
-        left: 0;
-    }
-
-    p {
-        padding-left: 0.5rem;
-    }
-`;
-
-const Begrunnelse = styled(Textarea)`
-    textarea {
-        padding: 1rem;
-    }
-    white-space: pre-line;
-    margin-bottom: 2.5rem;
-`;
 
 export const Annulleringsbegrunnelse = () => {
     const { register, formState, clearErrors, watch } = useFormContext();
@@ -80,20 +38,21 @@ export const Annulleringsbegrunnelse = () => {
     const { onChange: onChangeBegrunnelser, ...begrunnelserValidation } = register('begrunnelser');
 
     return (
-        <Container>
-            <Undertittel>Årsak til annullering</Undertittel>
-            <Alert inline variant="info" className={styles.Warning}>
+        <div className={styles.annulleringsbegrunnelse}>
+            <h3 className={styles.undertittel}>Årsak til annullering</h3>
+            <Alert inline variant="info" className={styles.warning}>
                 Årsakene og begrunnelsen du fyller ut her finner du ikke igjen i saksbehandlingssystemet etterpå.
                 <br />
                 Informasjonen brukes til å forbedre løsningen.
             </Alert>
 
-            <CheckboxContainer
+            <Fieldset
                 legend="Hvorfor kunne ikke vedtaket revurderes?"
+                className={styles.checkboxcontainer}
                 error={formState.errors.begrunnelser ? (formState.errors.begrunnelser.message as string) : null}
             >
                 {Object.entries(begrunnelser).map(([key, value], index) => (
-                    <Checkbox
+                    <NavCheckbox
                         key={index}
                         value={key}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,17 +60,17 @@ export const Annulleringsbegrunnelse = () => {
                             clearErrors('begrunnelser');
                         }}
                         {...begrunnelserValidation}
-                        className={styles.Checkbox}
+                        className={styles.begrunnelsecheckbox}
                     >
                         <p>{value}</p>
-                    </Checkbox>
+                    </NavCheckbox>
                 ))}
-            </CheckboxContainer>
+            </Fieldset>
             <Controller
                 name="kommentar"
                 defaultValue=""
                 render={({ field: { value, onChange } }) => (
-                    <Begrunnelse
+                    <Textarea
                         name="kommentar"
                         value={value}
                         label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
@@ -121,9 +80,10 @@ export const Annulleringsbegrunnelse = () => {
                             onChange(event);
                         }}
                         description={`Gi en kort forklaring på hvorfor du annullerte.\nEksempel: Korrigerte opplysninger om ferie`}
+                        className={styles.begrunnelse}
                     />
                 )}
             />
-        </Container>
+        </div>
     );
 };

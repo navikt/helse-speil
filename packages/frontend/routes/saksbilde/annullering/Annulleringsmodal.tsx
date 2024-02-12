@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styles from './Annulleringsmodal.module.scss';
 import dayjs from 'dayjs';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -13,55 +13,6 @@ import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
-
-import styles from './Annulleringsmodal.module.css';
-
-const ModalContainer = styled(Modal)`
-    max-width: 48rem;
-
-    .skjemaelement__feilmelding {
-        font-style: normal;
-    }
-`;
-
-const Form = styled.form`
-    padding: 0.5rem 2.5rem 2.5rem;
-`;
-
-const Tittel = styled.h2`
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--a-text-default);
-    margin-bottom: 2rem;
-`;
-
-const AnnullerKnapp = styled(Button)`
-    margin-right: 1rem;
-
-    > svg {
-        margin-left: 0.5rem;
-    }
-`;
-
-const Feilmelding = styled(BodyShort)`
-    color: var(--a-text-danger);
-    font-size: 1rem;
-    font-weight: 600;
-    margin-top: 0.625rem;
-`;
-
-const Varseltekst = styled(Feilmelding)`
-    margin-bottom: 1.225rem;
-`;
-
-const Utbetalingsgruppe = styled.div`
-    margin-bottom: 2rem;
-
-    > p,
-    > ul > li {
-        margin-bottom: 0.5rem;
-    }
-`;
 
 interface AnnulleringsmodalProps {
     fødselsnummer: string;
@@ -139,19 +90,14 @@ export const Annulleringsmodal = ({
 
     return (
         <FormProvider {...form}>
-            <ModalContainer
-                className="AnnulleringModal"
-                isOpen={true}
-                contentLabel="Feilmelding"
-                onRequestClose={onClose}
-            >
-                <Form onSubmit={form.handleSubmit(() => sendAnnullering(annullering()))}>
-                    <Alert inline variant="warning" className={styles.Warning}>
+            <Modal className={styles.modal} isOpen={true} contentLabel="Feilmelding" onRequestClose={onClose}>
+                <form className={styles.form} onSubmit={form.handleSubmit(() => sendAnnullering(annullering()))}>
+                    <Alert inline variant="warning" className={styles.warning}>
                         Hvis du annullerer vil utbetalinger fjernes fra oppdragssystemet og du må behandle saken i
                         Infotrygd.
                     </Alert>
-                    <Tittel>Annullering</Tittel>
-                    <Utbetalingsgruppe>
+                    <h2 className={styles.tittel}>Annullering</h2>
+                    <div className={styles.gruppe}>
                         <BodyShort>Følgende utbetalinger annulleres:</BodyShort>
                         <ul>
                             {linjer.map((linje, index) => (
@@ -164,21 +110,27 @@ export const Annulleringsmodal = ({
                                 </li>
                             ))}
                         </ul>
-                    </Utbetalingsgruppe>
+                    </div>
                     <Annulleringsbegrunnelse />
-                    {varseltekst && <Varseltekst as="p">{varseltekst}</Varseltekst>}
-                    <AnnullerKnapp as="button" variant="secondary" disabled={loading}>
+                    {varseltekst && (
+                        <BodyShort as="p" className={styles.varseltekst}>
+                            {varseltekst}
+                        </BodyShort>
+                    )}
+                    <Button className={styles.annullerknapp} as="button" variant="secondary" disabled={loading}>
                         Annuller
                         {loading && <Loader size="xsmall" />}
-                    </AnnullerKnapp>
+                    </Button>
                     <Button variant="tertiary" onClick={onClose}>
                         Avbryt
                     </Button>
                     {error && (
-                        <Feilmelding as="p">Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.</Feilmelding>
+                        <BodyShort as="p" className={styles.feilmelding}>
+                            Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.
+                        </BodyShort>
                     )}
-                </Form>
-            </ModalContainer>
+                </form>
+            </Modal>
         </FormProvider>
     );
 };

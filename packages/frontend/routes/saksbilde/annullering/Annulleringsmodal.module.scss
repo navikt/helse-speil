@@ -1,0 +1,105 @@
+.modal {
+  max-width: 48rem;
+
+  :global(.skjemaelement__feilmelding) {
+    font-style: normal;
+  }
+
+  .form {
+    padding: 0.5rem 2.5rem 2.5rem;
+  }
+
+  .tittel {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--a-text-default);
+    margin-bottom: 2rem;
+  }
+
+  .annullerknapp {
+    margin-right: 1rem;
+
+    > svg {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .feilmelding {
+    color: var(--a-text-danger);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 0.625rem;
+  }
+
+  .varseltekst {
+    margin-bottom: 1.225rem;
+  }
+
+  .gruppe {
+    margin-bottom: 2rem;
+
+    > p,
+    > ul > li {
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.warning {
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.warning > :global(.navds-body-long) {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.annulleringsbegrunnelse {
+  .undertittel {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+
+  .begrunnelsecheckbox {
+    display: flex;
+    padding: 0;
+    margin: 0 0 20px;
+
+    input {
+      width: 1.5rem;
+      height: 1.5rem;
+      left: 0;
+    }
+
+    p {
+      padding-left: 0.5rem;
+    }
+
+    > label {
+      padding: 0.5rem 0;
+    }
+
+    &:first-of-type {
+      margin-top: 0.5rem !important;
+    }
+  }
+
+  .checkboxcontainer {
+    margin-bottom: 0.25rem;
+
+    > :global(.navds-fieldset__error) {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .begrunnelse {
+    textarea {
+      padding: 1rem;
+    }
+
+    white-space: pre-line;
+    margin-bottom: 2.5rem;
+  }
+}
