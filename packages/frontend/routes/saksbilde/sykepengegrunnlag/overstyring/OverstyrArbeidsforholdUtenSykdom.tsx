@@ -1,6 +1,6 @@
+import styles from './OverstyrArbeidsforholdUtenSykdom.module.scss';
 import { BegrunnelseForOverstyring } from './overstyring.types';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+import classNames from 'classnames';
 import React, { useContext, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -9,7 +9,7 @@ import { BodyShort, ErrorSummary, Loader, Button as NavButton } from '@navikt/ds
 
 import { EditButton } from '@components/EditButton';
 import { ErrorMessage } from '@components/ErrorMessage';
-import { Flex, FlexColumn } from '@components/Flex';
+import { Flex } from '@components/Flex';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Maybe } from '@io/graphql';
@@ -18,85 +18,6 @@ import { VenterPåEndringContext } from '../../VenterPåEndringContext';
 import { Begrunnelser } from '../inntekt/Begrunnelser';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-
-    > * {
-        margin-bottom: 0.5rem;
-    }
-
-    > div:nth-of-type(2) {
-        margin-bottom: 2rem;
-    }
-`;
-
-const FormContainer = styled(FlexColumn)<{ editing: boolean }>`
-    box-sizing: border-box;
-    margin-top: 1rem;
-    min-width: 495px;
-
-    ${(props) =>
-        props.editing &&
-        css`
-            margin-left: -15px;
-            border-left: 3px solid var(--a-surface-action);
-            padding: 0.5rem 1rem;
-        `};
-`;
-
-const Header = styled.div`
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    justify-content: flex-start;
-    width: 100%;
-
-    > div > * {
-        margin-right: 1rem;
-    }
-`;
-
-const Tittel = styled(BodyShort)`
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--a-text-default);
-`;
-
-const Buttons = styled.span`
-    display: flex;
-    margin-top: 2rem;
-
-    > button:not(:last-of-type) {
-        margin-right: 0.5rem;
-    }
-`;
-
-const FormButton = styled(NavButton)`
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 5px 23px;
-
-    &:hover,
-    &:disabled,
-    &.navds-button:disabled {
-        border-width: 2px;
-        border-color: var(--a-border-default);
-        padding: 5px 23px;
-    }
-
-    > svg.spinner {
-        margin-left: 0.5rem;
-    }
-`;
-
-const FeiloppsummeringContainer = styled.div`
-    margin: 1.5rem 0 0.5rem;
-`;
 
 interface OverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;
@@ -121,11 +42,13 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
     const skalViseOverstyr = venterPåEndringState.visOverstyrKnapp && !arbeidsforholdErDeaktivert;
 
     return (
-        <FormContainer editing={editingArbeidsforhold}>
-            <Header>
+        <div className={classNames(styles.formcontainer, editingArbeidsforhold && styles.editing)}>
+            <div className={styles.header}>
                 {editingArbeidsforhold && (
                     <Flex alignItems="center">
-                        <Tittel as="h1">{tittel}</Tittel>
+                        <BodyShort as="h1" className={styles.tittel}>
+                            {tittel}
+                        </BodyShort>
                     </Flex>
                 )}
                 {skalViseAngreknapp && (
@@ -146,7 +69,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                         closedIcon={<Error />}
                     />
                 )}
-            </Header>
+            </div>
             {editingArbeidsforhold && (
                 <OverstyrArbeidsforholdSkjema
                     onClose={() => setEditingArbeidsforhold(false)}
@@ -155,7 +78,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                     onSubmit={() => oppdaterVenterPåEndringState({ visAngreknapp: true, visOverstyrKnapp: false })}
                 />
             )}
-        </FormContainer>
+        </div>
     );
 };
 
@@ -222,13 +145,13 @@ const OverstyrArbeidsforholdSkjema = ({
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(confirmChanges)}>
-                <Container>
+                <div className={styles.container}>
                     <Begrunnelser begrunnelser={begrunnelser} />
                     <ForklaringTextarea
                         description={`Begrunn hvorfor inntekt ikke skal brukes i beregningen. \nBlir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.`}
                     />
                     {!form.formState.isValid && form.formState.isSubmitted && (
-                        <FeiloppsummeringContainer>
+                        <div className={styles.feiloppsummering}>
                             <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
                                 {Object.entries(form.formState.errors).map(([id, error]) => (
                                     <ErrorSummary.Item key={id}>
@@ -236,20 +159,26 @@ const OverstyrArbeidsforholdSkjema = ({
                                     </ErrorSummary.Item>
                                 ))}
                             </ErrorSummary>
-                        </FeiloppsummeringContainer>
+                        </div>
                     )}
-                    <Buttons>
-                        <FormButton as="button" disabled={isLoading} variant="secondary">
+                    <span className={styles.buttons}>
+                        <NavButton as="button" disabled={isLoading} variant="secondary" className={styles.formbutton}>
                             Ferdig
                             {isLoading && <Loader size="xsmall" />}
-                        </FormButton>
-                        <FormButton as="button" disabled={isLoading} variant="tertiary" onClick={onClose}>
+                        </NavButton>
+                        <NavButton
+                            as="button"
+                            disabled={isLoading}
+                            variant="tertiary"
+                            onClick={onClose}
+                            className={styles.formbutton}
+                        >
                             Avbryt
-                        </FormButton>
-                    </Buttons>
+                        </NavButton>
+                    </span>
                     {error && <ErrorMessage>{error}</ErrorMessage>}
                     {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
-                </Container>
+                </div>
             </form>
         </FormProvider>
     );

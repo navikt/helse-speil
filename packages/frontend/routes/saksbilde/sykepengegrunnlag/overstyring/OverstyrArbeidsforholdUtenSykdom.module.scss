@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    margin-bottom: 0.5rem;
+  }
+
+  .buttons {
+    display: flex;
+    margin-top: 2rem;
+
+    > button:not(:last-of-type) {
+      margin-right: 0.5rem;
+    }
+
+    .formbutton {
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 5px 23px;
+
+      &:hover,
+      &:disabled,
+      &.navds-button:disabled {
+        border-width: 2px;
+        border-color: var(--a-border-default);
+        padding: 5px 23px;
+      }
+
+      > svg.spinner {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+
+  .feiloppsummering {
+    margin: 1.5rem 0 0.5rem;
+  }
+}
+
+.formcontainer {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-top: 1rem;
+  min-width: 495px;
+
+  &.editing {
+    margin-left: -15px;
+    border-left: 3px solid var(--a-surface-action);
+    padding: 0.5rem 1rem;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    justify-content: flex-start;
+    width: 100%;
+
+    > div > * {
+      margin-right: 1rem;
+    }
+
+    .tittel {
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--a-text-default);
+    }
+  }
+}
