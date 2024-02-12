@@ -1,0 +1,20 @@
+.content {
+  .knappegruppe {
+    display: flex;
+
+    > button:not(:last-of-type) {
+      margin-right: 1rem;
+    }
+  }
+
+  padding: 1rem;
+
+  .tekst {
+    margin-bottom: 0.5rem;
+
+    &:last-of-type {
+      margin-bottom: 2rem;
+    }
+  }
+}
+
