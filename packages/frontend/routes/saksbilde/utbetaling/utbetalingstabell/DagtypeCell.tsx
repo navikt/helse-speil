@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -15,15 +14,7 @@ import { IconPermisjon } from '../../table/icons/IconPermisjon';
 import { IconSyk } from '../../table/icons/IconSyk';
 import { erHelg } from './helgUtils';
 
-const IconContainer = styled.div`
-    margin-left: -4px;
-    width: 24px;
-    margin-right: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-`;
+import styles from './DagtypeCell.module.css';
 
 const getTypeIcon = (tabelldag?: Utbetalingstabelldag): ReactNode | null => {
     if (!tabelldag) return null;
@@ -130,7 +121,7 @@ export const DagtypeCell: React.FC<DagtypeCellProps> = ({ tabelldag, overstyrtDa
                 ''
             )}
             <CellContent>
-                <IconContainer>{ikon}</IconContainer>
+                <div className={styles.container}>{ikon}</div>
                 <BodyShort>{tekst}</BodyShort>
             </CellContent>
         </td>
