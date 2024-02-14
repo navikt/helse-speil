@@ -4,7 +4,6 @@ import React from 'react';
 import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Clipboard } from '@components/clipboard';
@@ -56,9 +55,9 @@ export const InntektUtenOmregnetÅrsinntekt: React.FC<InntektProps> = ({ inntekt
                         </div>
                     </div>
                     {!arbeidsgiver && (
-                        <Flex alignItems="center">
+                        <div className={styles.aligncenter}>
                             <BodyShort>Vi har ikke data for denne inntektskilden</BodyShort>
-                        </Flex>
+                        </div>
                     )}
                 </div>
             </div>

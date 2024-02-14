@@ -3,7 +3,6 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Flex } from '@components/Flex';
 import { toKronerOgØre } from '@utils/locale';
 
 import { MånedsbeløpInput } from '../MånedsbeløpInput';
@@ -20,7 +19,7 @@ interface MånedsbeløpProps {
 export const Månedsbeløp = ({ månedsbeløp, kilde, lokaltMånedsbeløp, harEndringer }: MånedsbeløpProps) => (
     <div className={styles.Grid}>
         <BodyShort>Månedsbeløp</BodyShort>
-        <Flex gap="1rem">
+        <div className={styles.månedsbeløp}>
             <MånedsbeløpInput
                 initialMånedsbeløp={månedsbeløp}
                 skalDeaktiveres={kilde === 'INFOTRYGD'}
@@ -29,6 +28,6 @@ export const Månedsbeløp = ({ månedsbeløp, kilde, lokaltMånedsbeløp, harEn
             <p className={classNames(styles.OpprinneligMånedsbeløp, harEndringer && styles.harEndringer)}>
                 {toKronerOgØre(månedsbeløp)}
             </p>
-        </Flex>
+        </div>
     </div>
 );

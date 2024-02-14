@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { FlexColumn } from '@components/Flex';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 
@@ -38,7 +37,7 @@ export const MånedsbeløpInput = ({
 
     return (
         <>
-            <FlexColumn>
+            <div className={styles.column}>
                 <input
                     className={classNames([styles.Input], {
                         [styles.InputError]: !!form.formState.errors.manedsbelop?.message,
@@ -57,16 +56,16 @@ export const MånedsbeløpInput = ({
                         <>{form.formState.errors.manedsbelop.message}</>
                     </label>
                 )}
-            </FlexColumn>
+            </div>
             {skalDeaktiveres && (
-                <FlexColumn style={{ marginTop: '4px' }}>
+                <div className={classNames(styles.column, styles['column__deaktiveres'])}>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>
                             Det er ikke støtte for endring på månedsbeløp i saker som har vært delvis behandlet i
                             infotrygd
                         </p>
                     </PopoverHjelpetekst>
-                </FlexColumn>
+                </div>
             )}
         </>
     );

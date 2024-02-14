@@ -43,4 +43,9 @@
       background-color: var(--speil-color-automatisk)
     }
   }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+  }
 }

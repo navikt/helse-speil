@@ -8,7 +8,6 @@ import { BodyShort, UNSAFE_DatePicker as DatePicker } from '@navikt/ds-react';
 import { Bold } from '@components/Bold';
 import { Button } from '@components/Button';
 import { Endringstrekant } from '@components/Endringstrekant';
-import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
@@ -172,8 +171,8 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                         const nyTom = dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
                                             ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
                                             : e.target.value === ''
-                                            ? null
-                                            : e.target.value;
+                                              ? null
+                                              : e.target.value;
                                         if (nyTom === refusjonsopplysning.tom) return;
 
                                         clearErrors(`refusjonsopplysninger.${index}`);
@@ -237,7 +236,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                         control={control}
                         name={`refusjonsopplysninger.${index}.kilde`}
                         render={() => (
-                            <Flex alignItems="center">
+                            <div className={styles.refusjonsopplysninger}>
                                 {refusjonsopplysning.kilde === Kildetype.Inntektsmelding && (
                                     <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
                                         IM
@@ -255,7 +254,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                             <CaseworkerFilled title="Caseworker-ikon" height={12} width={12} />
                                         </Kilde>
                                     ))}
-                            </Flex>
+                            </div>
                         )}
                     />
                     <Button

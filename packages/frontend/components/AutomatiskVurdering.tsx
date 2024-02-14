@@ -4,8 +4,6 @@ import React from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
 
-import { FlexColumn } from './Flex';
-
 const Icon = () => (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -27,14 +25,14 @@ export const AutomatiskVurdering: React.FC<AutomatiskVurderingProps> = ({ childr
         <div className={styles.iconcontainer}>
             <Icon />
         </div>
-        <FlexColumn>
+        <div className={styles.column}>
             <Heading as="h2" size="xsmall">
                 {title}
             </Heading>
             <BodyShort as="p" size="small" className={styles.details}>
                 Behandlet av {ident}
             </BodyShort>
-        </FlexColumn>
+        </div>
         {children}
     </div>
 );

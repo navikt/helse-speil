@@ -19,6 +19,8 @@ $icon-container-width: 20px;
   }
 
   .content {
+    display: flex;
+    flex-direction: column;
     gap: 4px;
     position: relative;
     flex: 1;

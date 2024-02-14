@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
 import { Bold } from '@components/Bold';
-import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
@@ -143,9 +142,9 @@ export const InntektOgRefusjon = ({
                     )
                 ) : null}
             </div>
-            <Flex alignItems="center">
+            <div className={styles.aligncenter}>
                 <Bold>Beregnet månedsinntekt</Bold>
-            </Flex>
+            </div>
             {editingInntekt && !harSykefravær && omregnetÅrsinntekt ? (
                 <EditableInntekt
                     omregnetÅrsinntekt={omregnetÅrsinntekt}

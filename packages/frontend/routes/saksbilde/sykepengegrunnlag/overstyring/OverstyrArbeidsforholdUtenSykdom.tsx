@@ -9,7 +9,6 @@ import { BodyShort, ErrorSummary, Loader, Button as NavButton } from '@navikt/ds
 
 import { EditButton } from '@components/EditButton';
 import { ErrorMessage } from '@components/ErrorMessage';
-import { Flex } from '@components/Flex';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Maybe } from '@io/graphql';
@@ -45,11 +44,11 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
         <div className={classNames(styles.formcontainer, editingArbeidsforhold && styles.editing)}>
             <div className={styles.header}>
                 {editingArbeidsforhold && (
-                    <Flex alignItems="center">
+                    <div className={styles.tittelwrapper}>
                         <BodyShort as="h1" className={styles.tittel}>
                             {tittel}
                         </BodyShort>
-                    </Flex>
+                    </div>
                 )}
                 {skalViseAngreknapp && (
                     <AngreOverstyrArbeidsforholdUtenSykdom

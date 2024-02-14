@@ -2,7 +2,6 @@ import React, { Suspense, lazy } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
-import { Flex } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useOppgaveFeed } from '@state/oppgaver';
 import { onLazyLoadFail } from '@utils/error';
@@ -37,7 +36,7 @@ export const Oversikt = () => {
                 </Alert>
             )}
             <Tabs />
-            <Flex className={styles.fullHeight}>
+            <div className={styles.fullHeight}>
                 <Filtermeny filters={allFilters} />
                 <section className={styles.Content}>
                     {aktivTab === TabType.BehandletIdag ? (
@@ -60,7 +59,7 @@ export const Oversikt = () => {
                     )}
                 </section>
                 <BehandlingsstatistikkView />
-            </Flex>
+            </div>
         </main>
     );
 };

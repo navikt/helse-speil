@@ -73,3 +73,8 @@
 .Skjæringstidspunkt {
     font-weight: 600;
 }
+
+.månedsbeløp {
+    display: flex;
+    gap: 1rem;
+}

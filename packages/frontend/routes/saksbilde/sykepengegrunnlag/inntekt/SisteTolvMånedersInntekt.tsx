@@ -4,7 +4,6 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { InntektFraAOrdningen, Inntektskilde } from '@io/graphql';
 import { ISO_DATOFORMAT } from '@utils/date';
@@ -71,12 +70,12 @@ export const SisteTolvMånedersInntekt = ({
 
     return (
         <>
-            <Flex alignItems="center" className={styles.sisteTolvMndInntekt}>
+            <div className={styles.sisteTolvMndInntekt}>
                 <h3 className={styles.title}>RAPPORTERT SISTE {antallMåneder} MÅNEDER</h3>
                 <Kilde type={Inntektskilde.Aordningen} className={styles.kildeikon}>
                     {kildeForkortelse(Inntektskilde.Aordningen)}
                 </Kilde>
-            </Flex>
+            </div>
             <div
                 className={classNames(styles.grid, harInntekterForSammenligningsgrunnlag && styles.sammenligningsgrid)}
             >

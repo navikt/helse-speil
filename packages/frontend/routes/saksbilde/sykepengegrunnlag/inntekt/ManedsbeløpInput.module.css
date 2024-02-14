@@ -18,3 +18,12 @@
     margin: 0.25rem 0;
     color: var(--a-text-danger);
 }
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.column__deaktiveres {
+    margin-top: 4px;
+}

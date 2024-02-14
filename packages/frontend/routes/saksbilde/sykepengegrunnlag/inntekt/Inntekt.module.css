@@ -80,3 +80,8 @@
 .Kildeikon {
     margin-left: 0.5rem;
 }
+
+.aligncenter {
+    display: flex;
+    align-items: center;
+}

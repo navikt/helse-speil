@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Bold } from '@components/Bold';
-import { FlexColumn } from '@components/Flex';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 
 interface HendelseProps extends Omit<React.LiHTMLAttributes<HTMLLIElement>, 'title'> {
@@ -15,10 +14,10 @@ export const Hendelse: React.FC<HendelseProps> = ({ icon, title, className, chil
     return (
         <li className={classNames(styles.hendelse, className)} {...liProps}>
             <div className={styles.iconContainer}>{icon}</div>
-            <FlexColumn className={styles.content}>
+            <div className={styles.content}>
                 <Bold>{title}</Bold>
                 {children}
-            </FlexColumn>
+            </div>
         </li>
     );
 };
@@ -27,10 +26,10 @@ export const HendelseSkeleton: React.FC = () => {
     return (
         <li className={styles.hendelse}>
             <div className={styles.iconContainer} />
-            <FlexColumn className={styles.content}>
+            <div className={styles.content}>
                 <LoadingShimmer style={{ height: 20, marginBottom: 4 }} />
                 <LoadingShimmer style={{ height: 20 }} />
-            </FlexColumn>
+            </div>
         </li>
     );
 };

@@ -1,6 +1,7 @@
 .RefusjonWrapper {
     margin-bottom: 2rem;
 }
+
 .RefusjonsRad {
     display: flex;
     max-width: 100%;
@@ -43,9 +44,11 @@
     text-align: right;
     padding: 0 var(--a-spacing-1);
 }
+
 .BeløpInput:focus-visible {
     box-shadow: var(--a-shadow-focus);
 }
+
 .BeløpInput::-webkit-outer-spin-button,
 .BeløpInput::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
@@ -91,4 +94,9 @@
 
 .Inputfelt input {
     width: 100%;
+}
+
+.refusjonsopplysninger {
+    display: flex;
+    align-items: center;
 }
