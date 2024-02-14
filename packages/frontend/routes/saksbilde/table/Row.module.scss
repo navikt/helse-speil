@@ -1,0 +1,59 @@
+@mixin left-aligned($color) {
+  > td:first-of-type {
+    position: relative;
+  }
+
+  > td:first-of-type:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: $color;
+    width: 3px;
+    height: 2rem;
+  }
+}
+
+.row {
+  position: relative;
+
+  > td {
+    position: relative;
+    height: 2rem;
+    padding: 0 1rem;
+    vertical-align: middle;
+    box-sizing: border-box;
+    border-bottom: 1px solid #c6c2bf;
+    background: transparent;
+
+    &:not(:first-of-type):not(:last-of-type) {
+      padding-right: 1rem;
+    }
+  }
+
+  &.markert > td {
+    background: #f1f1f1;
+  }
+
+  &.helg {
+    background: repeating-linear-gradient(123deg,
+            var(--speil-light-hover),
+            var(--speil-light-hover) 1px,
+            transparent 1px,
+            transparent 9px);
+  }
+
+  &.avvist {
+    background-color: #f9d2cc;
+    @include left-aligned(var(--a-border-danger))
+  }
+
+  &.agp {
+    background-color: #f8f8f8;
+    @include left-aligned(var(--a-text-subtle))
+  }
+
+  &.nydag {
+    background-color: #fff;
+  }
+}
