@@ -1,10 +1,10 @@
+import styles from './ArbeidsgiverRow.module.scss';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 
 import { Accordion, BodyShort, Tooltip } from '@navikt/ds-react';
 
-import { Flex } from '@components/Flex';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
@@ -14,8 +14,6 @@ import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonM
 import { Arbeidsforhold } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { capitalize, somPenger } from '@utils/locale';
-
-import styles from './ArbeidsgiverRow.module.css';
 
 interface OrganisasjonsnummerRowProps {
     organisasjonsnummer: string;
@@ -48,7 +46,7 @@ const ArbeidsforholdRow: React.FC<ArbeidsforholdRowProps> = ({ arbeidsforhold })
                 return (
                     <React.Fragment key={i}>
                         <Tooltip content={`${stillingstittel}, ${arbeidsforhold.stillingsprosent} %`}>
-                            <div className={styles.Arbeidsforhold}>
+                            <div className={styles.arbeidsforhold}>
                                 <AnonymizableTextWithEllipsis>
                                     {`${capitalize(stillingstittel)}`}
                                 </AnonymizableTextWithEllipsis>
@@ -72,10 +70,10 @@ interface MånedsbeløpRowProps {
 
 const MånedsbeløpRow: React.FC<MånedsbeløpRowProps> = ({ månedsbeløp }) => {
     return (
-        <Flex flexDirection="row" justifyContent="space-between" alignItems="center">
+        <div className={styles.månedsbeløp}>
             <BodyShort>Månedsbeløp:</BodyShort>
             {somPenger(månedsbeløp)}
-        </Flex>
+        </div>
     );
 };
 
@@ -95,14 +93,14 @@ const ArbeidsgiverRowView: React.FC<ArbeidsgiverCardProps> = ({
     const [open, setOpen] = useState(false);
     return (
         <>
-            <ArbeidsgiverikonMedTooltip className={styles.IconContainer} />
-            <Accordion.Item open={open} className={styles.ArbeidsgiverRow}>
-                <Accordion.Header className={styles.Header} onClick={() => setOpen((prevState) => !prevState)}>
+            <ArbeidsgiverikonMedTooltip className={styles.iconContainer} />
+            <Accordion.Item open={open} className={styles.arbeidsgiverRow}>
+                <Accordion.Header className={styles.header} onClick={() => setOpen((prevState) => !prevState)}>
                     <AnonymizableContainer>
                         <BodyShort>{navn.charAt(0).toUpperCase() + navn.slice(1).toLowerCase()}</BodyShort>
                     </AnonymizableContainer>
                 </Accordion.Header>
-                <Accordion.Content className={styles.Content}>
+                <Accordion.Content className={styles.content}>
                     <OrganisasjonsnummerRow organisasjonsnummer={organisasjonsnummer} />
                     <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} />
                 </Accordion.Content>
@@ -114,11 +112,11 @@ const ArbeidsgiverRowView: React.FC<ArbeidsgiverCardProps> = ({
 
 const ArbeidsgiverCardSkeleton: React.FC = () => {
     return (
-        <section className={classNames(styles.Skeleton, styles.ArbeidsgiverRow)}>
-            <Flex gap="12px">
+        <section className={classNames(styles.skeleton, styles.arbeidsgiverRow)}>
+            <div className={styles.arbeidsgiver}>
                 <LoadingShimmer style={{ width: 20 }} />
                 <LoadingShimmer />
-            </Flex>
+            </div>
             <LoadingShimmer />
             <LoadingShimmer />
             <LoadingShimmer />

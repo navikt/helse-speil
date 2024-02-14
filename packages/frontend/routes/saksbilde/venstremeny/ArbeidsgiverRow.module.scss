@@ -1,0 +1,71 @@
+.månedsbeløp {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.arbeidsgiverRow {
+  display: flex;
+  flex-direction: column;
+}
+
+.iconContainer {
+  justify-self: center;
+  align-self: start;
+  display: flex;
+  align-items: center;
+  height: var(--a-font-line-height-large);
+}
+
+.arbeidsforhold {
+  max-width: calc(
+          var(--venstremeny-width) - (var(--venstremeny-horizontal-padding) * 2) - var(--column-gap) -
+          var(--left-column-width) - var(--venstremeny-border-width)
+  );
+  display: flex;
+  flex-wrap: nowrap;
+
+  > p {
+    white-space: nowrap;
+  }
+}
+
+.skeleton {
+  width: 100%;
+
+  span {
+    height: var(--a-font-line-height-large);
+  }
+
+  .arbeidsgiver {
+    display: flex;
+    gap: 12px
+  }
+}
+
+.header {
+  background: none !important;
+  justify-content: unset;
+  border-bottom: none;
+  display: flex;
+  padding: 0;
+
+  &:focus {
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    box-shadow: var(--a-shadow-focus);
+  }
+
+  > svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.content {
+  border-bottom: none;
+  padding: 0;
+}
