@@ -1,3 +1,4 @@
+import styles from './PeriodeCard.module.scss';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React from 'react';
@@ -6,7 +7,6 @@ import { ClockDashedIcon } from '@navikt/aksel-icons';
 import { BodyShort, Tag, Tooltip } from '@navikt/ds-react';
 
 import { EgenskaperTags } from '@components/EgenskaperTags';
-import { Flex } from '@components/Flex';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
@@ -19,16 +19,14 @@ import { NORSK_DATOFORMAT_KORT } from '@utils/date';
 import { ArbeidsgiverRow } from './ArbeidsgiverRow';
 import { CardTitle } from './CardTitle';
 
-import styles from './PeriodeCard.module.css';
-
 const VentepølseRow = () => (
     <>
         <Tooltip content="Sykmeldingsperiode">
-            <div className={styles.IconContainer} style={{ width: '20px' }}>
+            <div className={styles.iconContainer} style={{ width: '20px' }}>
                 <ClockDashedIcon title="Avventer system" fontSize="1.5rem" />
             </div>
         </Tooltip>
-        <CardTitle className={styles.Title}>VENTER</CardTitle>
+        <CardTitle className={styles.title}>VENTER</CardTitle>
     </>
 );
 
@@ -43,7 +41,7 @@ const SykmeldingsperiodeRow: React.FC<SykmeldingsperiodeRowProps> = ({ periode }
     return (
         <>
             <Tooltip content="Sykmeldingsperiode">
-                <div className={styles.IconContainer}>
+                <div className={styles.iconContainer}>
                     <Sykmeldingsperiodeikon alt="Sykmeldingsperiode" />
                 </div>
             </Tooltip>
@@ -61,7 +59,7 @@ const SkjæringstidspunktRow: React.FC<SkjæringstidspunktRowProps> = ({ periode
     return (
         <>
             <Tooltip content="Skjæringstidspunkt">
-                <div className={styles.IconContainer}>
+                <div className={styles.iconContainer}>
                     <Skjæringstidspunktikon alt="Skjæringstidspunkt" />
                 </div>
             </Tooltip>
@@ -95,38 +93,38 @@ const MaksdatoRow: React.FC<MaksdatoRowProps> = ({ activePeriod, gjenståendeSyk
     return (
         <>
             <Tooltip content="Maksdato">
-                <div className={styles.IconContainer}>
+                <div className={styles.iconContainer}>
                     <Maksdatoikon alt="Maksdato" />
                 </div>
             </Tooltip>
-            <Flex gap="10px">
-                <BodyShort className={styles.NoWrap}>{`${maksdato} (${
+            <div className={styles.maksdato}>
+                <BodyShort className={styles.noWrap}>{`${maksdato} (${
                     gjenståendeSykedager ?? activePeriod.gjenstaendeSykedager ?? 'Ukjent antall'
                 } dager igjen)`}</BodyShort>
                 {alderVedSisteSykedag &&
                     (alderVedSisteSykedag >= 70 ? (
-                        <Flex alignItems="center" gap="8px">
+                        <div className={styles.over70}>
                             <Tooltip content="Over 70 år">
-                                <div className={styles.IconContainer}>
+                                <div className={styles.iconContainer}>
                                     <Advarselikon alt="Over 70 år" height={16} width={16} />
                                 </div>
                             </Tooltip>
                             <BodyShort size="small">
                                 <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
                             </BodyShort>
-                        </Flex>
+                        </div>
                     ) : (
                         harRedusertAntallSykepengedager(activePeriod) && (
-                            <Flex alignItems="center">
+                            <div className={styles.over67}>
                                 <Tooltip content="Over 67 år - redusert antall sykepengedager">
-                                    <Tag className={styles.Tag} variant="info" size="small">
+                                    <Tag className={styles.tag} variant="info" size="small">
                                         Over 67 år
                                     </Tag>
                                 </Tooltip>
-                            </Flex>
+                            </div>
                         )
                     ))}
-            </Flex>
+            </div>
         </>
     );
 };
@@ -139,7 +137,7 @@ interface PeriodeCardUberegnetProps {
 
 const PeriodeCardUberegnet: React.FC<PeriodeCardUberegnetProps> = ({ periode, arbeidsgiver, månedsbeløp }) => {
     return (
-        <section className={styles.Grid}>
+        <section className={styles.grid}>
             {[Periodetilstand.UtbetaltVenterPaEnAnnenPeriode, Periodetilstand.VenterPaEnAnnenPeriode].includes(
                 periode.periodetilstand,
             ) ? (
@@ -201,7 +199,7 @@ const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({
                     <EgenskaperTags egenskaper={egenskaperForVisning} />
                 )}
             </span>
-            <section className={styles.Grid}>
+            <section className={styles.grid}>
                 <SykmeldingsperiodeRow periode={periode} />
                 <SkjæringstidspunktRow
                     periodetype={periode.periodetype}
@@ -225,7 +223,7 @@ interface PeriodeCardGhostProps {
 
 const PeriodeCardGhost: React.FC<PeriodeCardGhostProps> = ({ arbeidsgiver }) => {
     return (
-        <section className={styles.Grid}>
+        <section className={styles.grid}>
             <ArbeidsgiverRow.Ghost
                 navn={arbeidsgiver.navn}
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
@@ -237,7 +235,7 @@ const PeriodeCardGhost: React.FC<PeriodeCardGhostProps> = ({ arbeidsgiver }) => 
 
 const PeriodeCardSkeleton: React.FC = () => {
     return (
-        <section className={classNames(styles.Skeleton, styles.Grid)}>
+        <section className={classNames(styles.skeleton, styles.grid)}>
             <LoadingShimmer />
             <LoadingShimmer />
             <LoadingShimmer />
