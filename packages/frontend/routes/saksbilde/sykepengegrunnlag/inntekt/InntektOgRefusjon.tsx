@@ -14,6 +14,7 @@ import {
     Inntektstype,
     Maybe,
     OmregnetArsinntekt,
+    VilkarsgrunnlagSpleis,
 } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
 import {
@@ -23,6 +24,7 @@ import {
     useLokaltMånedsbeløp,
 } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
+import { getVilkårsgrunnlag } from '@state/selectors/person';
 
 import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
 import { OverstyrArbeidsforholdUtenSykdom } from '../overstyring/OverstyrArbeidsforholdUtenSykdom';
@@ -94,6 +96,8 @@ export const InntektOgRefusjon = ({
 
     const erRevurdering = maybePeriodeTilGodkjenning(person, skjæringstidspunkt) === null;
     const erInntektskildeAordningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
+    const skalVise12mnd828 =
+        ((getVilkårsgrunnlag(person, vilkårsgrunnlagId) as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) > 25;
 
     return (
         <div
@@ -179,7 +183,7 @@ export const InntektOgRefusjon = ({
                 <SisteTolvMånedersInntekt
                     skjæringstidspunkt={skjæringstidspunkt}
                     inntektFraAOrdningen={
-                        erInntektskildeAordningen
+                        erInntektskildeAordningen && !skalVise12mnd828
                             ? omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen
                             : inntektFraAOrdningen
                     }
