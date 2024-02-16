@@ -104,7 +104,7 @@ const ArbeidsgiverRowView: React.FC<ArbeidsgiverCardProps> = ({
                     <OrganisasjonsnummerRow organisasjonsnummer={organisasjonsnummer} />
                     <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} />
                 </Accordion.Content>
-                {månedsbeløp && <MånedsbeløpRow månedsbeløp={månedsbeløp} />}
+                {månedsbeløp !== undefined && <MånedsbeløpRow månedsbeløp={månedsbeløp} />}
             </Accordion.Item>
         </>
     );
