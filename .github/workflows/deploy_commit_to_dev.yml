@@ -76,7 +76,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ needs.set_version.outputs.tag }}
-      - uses: nais/deploy/actions/deploy@v1
+      - uses: nais/deploy/actions/deploy@v2
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
