@@ -30,12 +30,20 @@ export const useSkjønnsfastsettingDefaults = (
             },
         };
 
+    // Finner alle aktive arbeidsgivere ved å først filtrere ut dem som ikke har omregnet årsinntekt, og deretter filtrere ut deaktiverte ghosts
     const aktiveArbeidsgivere =
-        person?.arbeidsgivere.filter(
-            (arbeidsgiver) =>
-                inntekter.find((inntekt) => inntekt.arbeidsgiver === arbeidsgiver.organisasjonsnummer)
-                    ?.omregnetArsinntekt !== null,
-        ) ?? [];
+        person?.arbeidsgivere
+            .filter(
+                (arbeidsgiver) =>
+                    inntekter.find((inntekt) => inntekt.arbeidsgiver === arbeidsgiver.organisasjonsnummer)
+                        ?.omregnetArsinntekt !== null,
+            )
+            .filter(
+                (arbeidsgiver) =>
+                    arbeidsgiver.ghostPerioder.filter(
+                        (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt && !it.deaktivert,
+                    ).length > 0 || arbeidsgiver.generasjoner.length > 0,
+            ) ?? [];
 
     const aktiveArbeidsgivereInntekter = inntekter.filter((inntekt) =>
         aktiveArbeidsgivere.some(
