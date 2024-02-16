@@ -83,7 +83,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                 </thead>
                 {fields.map((field, index) => {
                     const årligField = register(`arbeidsgivere.${index}.årlig`, {
-                        valueAsNumber: true,
+                        setValueAs: (value) => Number(value.toString().replaceAll(' ', '').replaceAll(',', '.')),
                     });
 
                     const orgnummerField = register(`arbeidsgivere.${index}.organisasjonsnummer`, {
