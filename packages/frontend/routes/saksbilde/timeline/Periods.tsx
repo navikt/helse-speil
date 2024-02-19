@@ -26,8 +26,8 @@ const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
         isBeregnetPeriode(it)
             ? it.periodetilstand !== Periodetilstand.TilInfotrygd
             : isGhostPeriode(it)
-            ? !it.deaktivert
-            : true,
+              ? !it.deaktivert
+              : true,
     );
 
 const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
@@ -61,7 +61,6 @@ interface PeriodsProps {
     infotrygdPeriods?: Array<InfotrygdPeriod>;
     ghostPeriods?: Array<GhostPeriode>;
     notCurrent?: boolean;
-    generation?: number;
 }
 
 export const Periods: React.FC<PeriodsProps> = ({
@@ -72,7 +71,6 @@ export const Periods: React.FC<PeriodsProps> = ({
     ghostPeriods = [],
     notCurrent,
     activePeriod,
-    generation,
 }) => {
     const allPeriods = mergePeriods(periods, infotrygdPeriods, ghostPeriods);
     const validPeriods = filterValidPeriods(allPeriods);
@@ -89,7 +87,6 @@ export const Periods: React.FC<PeriodsProps> = ({
                     style={positions.get(i) ?? {}}
                     notCurrent={notCurrent}
                     isActive={isActive(activePeriod as Periode, period as Periode)}
-                    generation={generation}
                 />
             ))}
         </div>

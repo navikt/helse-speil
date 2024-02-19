@@ -98,12 +98,3 @@
     --period-border-color: var(--a-lightblue-700);
     --period-icon-color: var(--a-gray-900);
 }
-
-.Period.inactiveAUU {
-    cursor: not-allowed;
-}
-
-.Period.inactiveAUU:active {
-    box-shadow: none;
-    border-color: var(--navds-global-color-limegreen-700);
-}

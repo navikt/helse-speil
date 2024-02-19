@@ -41,7 +41,6 @@ export const ExpandableTimelineRow: React.FC<ExpandableTimelineRowProp> = ({
                         periods={generations[0].perioder}
                         ghostPeriods={ghostPeriods}
                         activePeriod={activePeriod}
-                        generation={0}
                     />
                 )}
                 {isExpanded &&
@@ -55,7 +54,6 @@ export const ExpandableTimelineRow: React.FC<ExpandableTimelineRowProp> = ({
                                 periods={generation.perioder}
                                 notCurrent
                                 activePeriod={activePeriod}
-                                generation={i + 1}
                             />
                         ))}
             </div>

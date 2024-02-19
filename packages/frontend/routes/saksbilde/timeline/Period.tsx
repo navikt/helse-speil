@@ -88,13 +88,7 @@ const getIcon = (periodCategory: Maybe<PeriodCategory>): ReactNode => {
     }
 };
 
-const getClassNames = (
-    period: DatePeriod,
-    notCurrent?: boolean,
-    isActive?: boolean,
-    className?: string,
-    generation?: number,
-) => {
+const getClassNames = (period: DatePeriod, notCurrent?: boolean, isActive?: boolean, className?: string) => {
     const periodState = getPeriodState(period);
     const periodCategory = getPeriodCategory(periodState);
 
@@ -106,7 +100,6 @@ const getClassNames = (
         notCurrent && styles.old,
         isInfotrygdPeriod(period) && styles.legacy,
         isGhostPeriode(period) && styles.blank,
-        isUberegnetPeriode(period) && generation !== 0 && styles.inactiveAUU,
     );
 };
 
@@ -114,17 +107,9 @@ interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     period: DatePeriod;
     notCurrent?: boolean;
     isActive?: boolean;
-    generation?: number;
 }
 
-export const Period: React.FC<PeriodProps> = ({
-    period,
-    notCurrent,
-    isActive,
-    className,
-    generation = 0,
-    ...buttonProps
-}) => {
+export const Period: React.FC<PeriodProps> = ({ period, notCurrent, isActive, className, ...buttonProps }) => {
     const setActivePeriodId = useSetActivePeriodId();
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
@@ -136,7 +121,7 @@ export const Period: React.FC<PeriodProps> = ({
         buttonProps.onClick?.(event);
         if (
             isBeregnetPeriode(period) ||
-            (isUberegnetPeriode(period) && generation === 0) ||
+            isUberegnetPeriode(period) ||
             isGhostPeriode(period) ||
             isUberegnetVilkarsprovdPeriode(period)
         ) {
@@ -150,7 +135,7 @@ export const Period: React.FC<PeriodProps> = ({
     return (
         <>
             <button
-                className={getClassNames(period, notCurrent, isActive, className, generation)}
+                className={getClassNames(period, notCurrent, isActive, className)}
                 {...buttonProps}
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
