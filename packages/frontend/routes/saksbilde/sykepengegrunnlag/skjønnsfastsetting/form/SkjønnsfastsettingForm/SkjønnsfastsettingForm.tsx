@@ -10,6 +10,7 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
+import { erDev } from '@utils/featureToggles';
 
 import { Feiloppsummering, Skjemafeil } from '../../../inntekt/EditableInntekt/Feiloppsummering';
 import { ArbeidsgiverForm, usePostSkjønnsfastsattSykepengegrunnlag } from '../../skjønnsfastsetting';
@@ -55,6 +56,17 @@ export const SkjønnsfastsettingForm = ({
     const cancelEditing = () => {
         setEditing(false);
     };
+
+    useEffect(() => {
+        if (!erDev()) return;
+        const response = fetch('https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production', {
+            method: 'post',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ query: `*[_type == "skjonnsfastsettelseMal"]` }),
+        });
+        response.then((response) => response.json()).then(console.log);
+    }, []);
+
     const { isLoading, error, postSkjønnsfastsetting, timedOut, setTimedOut } =
         usePostSkjønnsfastsattSykepengegrunnlag(cancelEditing);
 
