@@ -73,7 +73,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
         const { organisasjonsnummer } = arbeidsgiver;
         const skjaeringstidspunkt = '2020-01-01';
-        const inntektFraAO = enArbeidsgiverinntekt({ arbeidsgiver: organisasjonsnummer }).medInntektFraAOrdningen();
+        const inntektFraAO = enArbeidsgiverinntekt({ arbeidsgiver: '900800700' });
         const inntektFraIM = enArbeidsgiverinntekt({ arbeidsgiver: organisasjonsnummer }).medInntektFraAOrdningen();
         const inntekter = [inntektFraIM, inntektFraAO];
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
@@ -87,7 +87,6 @@ describe('SykepengegrunnlagFraSpleis', () => {
             dagendringer: [],
         });
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
-        (useVilkårsgrunnlag as jest.Mock).mockReturnValue(vilkårsgrunnlag);
 
         render(
             <SykepengegrunnlagFraSpleis vilkårsgrunnlag={vilkårsgrunnlag} organisasjonsnummer={organisasjonsnummer} />,

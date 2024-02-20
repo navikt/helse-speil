@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { useCurrentPerson } from '@state/person';
 
 import { SkjønnsfastsettingSykepengegrunnlag } from '../skjønnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
@@ -20,6 +21,21 @@ interface SykepengegrunnlagPanelProps {
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
 }
 
+// Inntekter fra vilkårsgrunnlaget er ikke nødvendigvis i samme rekkefølge som arbeidsgiverne på personen. Det er viktig
+// at arbeidsgiverne vises i samme rekkefølge på sykepengegrunnlag-fanen som i tidslinja.
+const useSorterteInntekter = (inntekter: Arbeidsgiverinntekt[]): Arbeidsgiverinntekt[] => {
+    const { arbeidsgivere } = useCurrentPerson();
+
+    const orgnumre = arbeidsgivere.map((ag) => ag.organisasjonsnummer);
+
+    const inntekterFraAndre = inntekter.filter((inntekt) => !orgnumre.includes(inntekt.arbeidsgiver));
+    const sortereKjenteInntekter = orgnumre
+        .map((orgnummer) => inntekter.find((inntekt) => orgnummer === inntekt.arbeidsgiver))
+        .filter((it) => it) as Arbeidsgiverinntekt[];
+
+    return sortereKjenteInntekter.concat(inntekterFraAndre);
+};
+
 export const SykepengegrunnlagPanel = ({
     inntekter,
     omregnetÅrsinntekt,
@@ -34,7 +50,7 @@ export const SykepengegrunnlagPanel = ({
     return (
         <div className={styles.wrapper}>
             <InntektsgrunnlagTable
-                inntekter={inntekter}
+                inntekter={useSorterteInntekter(inntekter)}
                 setAktivInntektskilde={setAktivInntektskilde}
                 aktivInntektskilde={aktivInntektskilde}
                 omregnetÅrsinntekt={omregnetÅrsinntekt}
