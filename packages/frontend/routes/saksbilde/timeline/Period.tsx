@@ -21,7 +21,7 @@ import { UvurderteVarslerIcon } from './icons/UvurderteVarslerIcon';
 
 import styles from './Period.module.css';
 
-type PeriodCategory = 'success' | 'error' | 'attention' | 'waiting' | 'neutral';
+type PeriodCategory = 'success' | 'error' | 'attention' | 'waiting' | 'neutral' | 'neutralError';
 
 const getPeriodCategory = (periodState: PeriodState): Maybe<PeriodCategory> => {
     switch (periodState) {
@@ -59,6 +59,8 @@ const getPeriodCategory = (periodState: PeriodState): Maybe<PeriodCategory> => {
         case 'kunPermisjon':
         case 'kunFerie':
             return 'neutral';
+        case 'forkastetIngenUtbetaling':
+            return 'neutralError';
         case 'infotrygdUkjent':
         case 'ukjent':
         default: {
@@ -73,6 +75,7 @@ const getIcon = (periodCategory: Maybe<PeriodCategory>): ReactNode => {
         case 'success': {
             return <CheckIcon />;
         }
+        case 'neutralError':
         case 'error': {
             return <CrossIcon />;
         }
@@ -147,7 +150,7 @@ export const Period: React.FC<PeriodProps> = ({ period, notCurrent, isActive, cl
                 {!notCurrent && <InfoPin period={period} />}
                 {harUvurderteVarsler && <UvurderteVarslerIcon className={styles.uvurderteVarslerIcon} />}
             </button>
-            <PeriodPopover period={period} state={getPeriodState(period)} {...popoverProps} />
+            <PeriodPopover period={period} state={periodState} {...popoverProps} />
         </>
     );
 };

@@ -35,6 +35,7 @@ declare type PeriodState =
     | 'venterPåKiling'
     | 'avslag'
     | 'ingenUtbetaling'
+    | 'forkastetIngenUtbetaling'
     | 'kunFerie'
     | 'kunPermisjon'
     | 'utbetalingFeilet'

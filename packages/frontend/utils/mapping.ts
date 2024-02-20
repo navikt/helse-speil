@@ -39,6 +39,8 @@ export const getUberegnetPeriodState = (period: UberegnetPeriode): PeriodState =
         case Periodetilstand.VenterPaEnAnnenPeriode:
         case Periodetilstand.UtbetaltVenterPaEnAnnenPeriode:
             return 'venterPåKiling';
+        case Periodetilstand.Annullert:
+            return 'forkastetIngenUtbetaling';
         default:
             return 'ukjent';
     }
@@ -148,6 +150,8 @@ export const getPeriodStateText = (state: PeriodState): string => {
         case 'revurdertIngenUtbetaling':
         case 'ingenUtbetaling':
             return 'Ingen utbetaling';
+        case 'forkastetIngenUtbetaling':
+            return 'Forkastet, tatt ut av speil';
         case 'kunFerie':
             return 'Ferie';
         case 'kunPermisjon':
