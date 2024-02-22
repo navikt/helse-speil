@@ -71,7 +71,7 @@ export const useSkjønnsfastsettingDefaults = (
         defaults: {
             begrunnelseFritekst: forrigeSkjønnsfastsettelseFritekst,
             begrunnelseId: forrigeBegrunnelseId ?? '',
-            årsak: 'Skjønnsfastsetting ved mer enn 25% avvik',
+            årsak: '',
             arbeidsgivere: aktiveArbeidsgivereInntekter.map((inntekt) => ({
                 organisasjonsnummer: inntekt.arbeidsgiver,
                 årlig: 0,

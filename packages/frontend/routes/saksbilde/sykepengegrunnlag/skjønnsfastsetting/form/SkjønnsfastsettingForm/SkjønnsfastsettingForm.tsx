@@ -99,6 +99,11 @@ export const SkjønnsfastsettingForm = ({
         control: form.control,
     });
 
+    const valgtÅrsak = useWatch({
+        name: 'årsak',
+        control: form.control,
+    });
+
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const visFeilOppsummering = harFeil && Object.entries(form.formState.errors).length > 0;
     const sykepengegrunnlagEndring = form
@@ -148,8 +153,9 @@ export const SkjønnsfastsettingForm = ({
             <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <div className={styles.skjønnsfastsetting}>
                     <SkjønnsfastsettingÅrsak />
-                    <SkjønnsfastsettingType />
-                    {valgtBegrunnelseId !== '' && (
+                    {(!sanityMaler || (sanityMaler && valgtÅrsak.includes('25 %'))) && <SkjønnsfastsettingType />}
+                    {(((!sanityMaler || (sanityMaler && valgtÅrsak.includes('25 %'))) && valgtBegrunnelseId !== '') ||
+                        (sanityMaler && valgtÅrsak !== '' && !valgtÅrsak.includes('25 %'))) && (
                         <>
                             <SkjønnsfastsettingArbeidsgivere
                                 arbeidsgivere={aktiveArbeidsgivere}
