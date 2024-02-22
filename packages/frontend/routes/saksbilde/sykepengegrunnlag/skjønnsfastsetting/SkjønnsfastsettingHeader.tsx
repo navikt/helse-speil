@@ -10,6 +10,7 @@ import { Kilde } from '@components/Kilde';
 import { BeregnetPeriode, Kildetype, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
+import { erDev } from '@utils/featureToggles';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 
 import styles from './SkjønnsfastsettingHeader.module.css';
@@ -65,7 +66,7 @@ export const SkjønnsfastsettingHeader = ({
                     )}
                 </>
             )}
-            {!erBeslutteroppgave && avviksprosent > 25 && (
+            {!erBeslutteroppgave && (erDev() || avviksprosent > 25) && (
                 <EditButton
                     isOpen={editing}
                     openText="Avbryt"
