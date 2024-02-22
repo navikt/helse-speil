@@ -55,7 +55,7 @@ export const SkjønnsfastsettingBegrunnelse = ({
                         <BodyLong className={styles.mal}>
                             {malFraSanity.begrunnelse
                                 .replace('${omregnetÅrsinntekt}', toKronerOgØre(omregnetÅrsinntekt))
-                                .replace('${omregnetÅrsinntekt/12}', toKronerOgØre(omregnetÅrsinntekt / 12))
+                                .replace('${omregnetMånedsinntekt}', toKronerOgØre(omregnetÅrsinntekt / 12))
                                 .replace('${sammenligningsgrunnlag}', toKronerOgØre(sammenligningsgrunnlag))}
                         </BodyLong>
                     )}

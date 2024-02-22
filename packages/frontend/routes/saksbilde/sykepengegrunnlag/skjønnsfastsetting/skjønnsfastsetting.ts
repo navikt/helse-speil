@@ -25,7 +25,7 @@ export interface BegrunnelseForSkjønnsfastsetting {
     valg: string;
     mal: string;
     konklusjon: string;
-    lovhjemmel?: Lovhjemmel;
+    lovhjemmel: Lovhjemmel;
     sykepengegrunnlag: number;
     type: Skjønnsfastsettingstype;
 }
@@ -145,7 +145,8 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
         error: error && 'Kunne ikke skjønnsfastsette sykepengegrunnlaget. Prøv igjen senere.',
         timedOut,
         setTimedOut,
-        postSkjønnsfastsetting: (skjønnsfastsattSykepengegrunnlag: SkjønnsfastsattSykepengegrunnlagDTO) => {
+        postSkjønnsfastsetting: (skjønnsfastsattSykepengegrunnlag?: SkjønnsfastsattSykepengegrunnlagDTO) => {
+            if (skjønnsfastsattSykepengegrunnlag === undefined) return;
             const skjønnsfastsettelse: SkjonnsfastsettelseInput = {
                 aktorId: skjønnsfastsattSykepengegrunnlag.aktørId,
                 arbeidsgivere: skjønnsfastsattSykepengegrunnlag.arbeidsgivere.map(

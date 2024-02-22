@@ -1,10 +1,12 @@
-import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
-
 import { Arbeidsgiverinntekt } from '@io/graphql';
 import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@io/http';
+import { sanityMaler } from '@utils/featureToggles';
+import { toKronerOgØre } from '@utils/locale';
 import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
 import { ArbeidsgiverForm, Skjønnsfastsettingstype, skjønnsfastsettelseBegrunnelser } from '../../skjønnsfastsetting';
+import { SkjønnsfastsettingMal } from '../../state';
+import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
 
 interface InitierendeVedtaksperiodeForArbeidsgiver {
     arbeidsgiver: string;
@@ -33,19 +35,28 @@ export const skjønnsfastsettingFormToDto = (
     period: ActivePeriod,
     omregnetÅrsinntekt: number,
     sammenligningsgrunnlag: number,
-): SkjønnsfastsattSykepengegrunnlagDTO => {
+    malFraSanity?: SkjønnsfastsettingMal,
+): SkjønnsfastsattSykepengegrunnlagDTO | undefined => {
     const førsteVilkårsprøvdePeriodePåSkjæringstidspunkt = finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt(
         person,
         period,
     );
-
     const manueltBeløp = form.arbeidsgivere.reduce((n: number, { årlig }: { årlig: number }) => n + årlig, 0);
+    const skjønnsfastsatt =
+        form.begrunnelseId === '0'
+            ? omregnetÅrsinntekt
+            : form.begrunnelseId === '1'
+              ? sammenligningsgrunnlag
+              : manueltBeløp;
     const begrunnelse = skjønnsfastsettelseBegrunnelser(
         omregnetÅrsinntekt,
         sammenligningsgrunnlag,
         manueltBeløp,
         form.arbeidsgivere.length,
     ).find((it) => it.id === form.begrunnelseId);
+
+    console.log(begrunnelse, sanityMaler, malFraSanity, sanityMaler && malFraSanity === undefined);
+    if (sanityMaler && malFraSanity === undefined) return;
     return {
         fødselsnummer: person.fodselsnummer,
         aktørId: person.aktorId,
@@ -56,23 +67,27 @@ export const skjønnsfastsettingFormToDto = (
             fraÅrlig: inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer)?.omregnetArsinntekt?.belop ?? 0,
             årsak: form.årsak,
             type:
-                begrunnelse!.type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT
-                    ? SkjønnsfastsettingstypeDTO.RAPPORTERT_ÅRSINNTEKT
-                    : begrunnelse!.type === Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT
-                    ? SkjønnsfastsettingstypeDTO.OMREGNET_ÅRSINNTEKT
-                    : SkjønnsfastsettingstypeDTO.ANNET,
-            begrunnelseMal: begrunnelse?.mal,
+                begrunnelse === undefined
+                    ? SkjønnsfastsettingstypeDTO.ANNET
+                    : begrunnelse.type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT
+                      ? SkjønnsfastsettingstypeDTO.RAPPORTERT_ÅRSINNTEKT
+                      : begrunnelse.type === Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT
+                        ? SkjønnsfastsettingstypeDTO.OMREGNET_ÅRSINNTEKT
+                        : SkjønnsfastsettingstypeDTO.ANNET,
+            begrunnelseMal: sanityMaler
+                ? malFraSanity?.begrunnelse
+                      .replace('${omregnetÅrsinntekt}', toKronerOgØre(omregnetÅrsinntekt))
+                      .replace('${omregnetMånedsinntekt}', toKronerOgØre(omregnetÅrsinntekt / 12))
+                      .replace('${sammenligningsgrunnlag}', toKronerOgØre(sammenligningsgrunnlag))
+                : begrunnelse?.mal,
             begrunnelseFritekst: form.begrunnelseFritekst,
-            ...(begrunnelse?.lovhjemmel?.paragraf && {
-                lovhjemmel: {
-                    paragraf: begrunnelse.lovhjemmel.paragraf,
-                    ledd: begrunnelse.lovhjemmel?.ledd,
-                    bokstav: begrunnelse.lovhjemmel?.bokstav,
-                    lovverk: begrunnelse.lovhjemmel?.lovverk,
-                    lovverksversjon: begrunnelse.lovhjemmel?.lovverksversjon,
-                },
-            }),
-            begrunnelseKonklusjon: begrunnelse?.konklusjon,
+            lovhjemmel:
+                sanityMaler && malFraSanity !== undefined
+                    ? { ...malFraSanity.lovhjemmel }
+                    : { ...begrunnelse!.lovhjemmel },
+            begrunnelseKonklusjon: sanityMaler
+                ? malFraSanity?.konklusjon.replace('${skjønnsfastsattÅrsinntekt}', toKronerOgØre(skjønnsfastsatt))
+                : begrunnelse?.konklusjon,
             initierendeVedtaksperiodeId:
                 førsteVilkårsprøvdePeriodePåSkjæringstidspunkt.filter(
                     (it) => it.arbeidsgiver === organisasjonsnummer,

@@ -144,6 +144,7 @@ export const SkjønnsfastsettingForm = ({
                 period,
                 omregnetÅrsinntekt,
                 sammenligningsgrunnlag,
+                maler.find((it) => it.arsak === valgtÅrsak),
             ),
         );
     };
