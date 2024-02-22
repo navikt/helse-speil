@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FieldErrors, FormProvider, useForm, useWatch } from 'react-hook-form';
 import { CustomElement, FieldValues } from 'react-hook-form/dist/types/fields';
 import { useRecoilState } from 'recoil';
@@ -56,6 +56,7 @@ export const SkjønnsfastsettingForm = ({
     const { aktiveArbeidsgivere, aktiveArbeidsgivereInntekter, defaults } = useSkjønnsfastsettingDefaults(inntekter);
     const erReadonly = useIsReadOnlyOppgave();
     const [maler, setMaler] = useRecoilState(skjønnsfastsettingMaler);
+    const [isLoadingFetch, setIsLoadingFetch] = useState(true);
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const avrundetSammenligningsgrunnlag = Math.round((sammenligningsgrunnlag + Number.EPSILON) * 100) / 100;
     const arbeidsforholdMal = (aktiveArbeidsgivere?.length ?? 0) > 1 ? 'FLERE_ARBEIDSGIVERE' : 'EN_ARBEIDSGIVER';
@@ -63,9 +64,15 @@ export const SkjønnsfastsettingForm = ({
         setEditing(false);
     };
 
+    console.log(maler);
+
     useEffect(() => {
-        if (!sanityMaler) return;
-        console.log(maler);
+        if (!sanityMaler) {
+            setIsLoadingFetch(false);
+            return;
+        }
+
+        setIsLoadingFetch(true);
         const response = fetch('https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production', {
             method: 'post',
             headers: { 'content-type': 'application/json' },
@@ -73,7 +80,7 @@ export const SkjønnsfastsettingForm = ({
         });
         response
             .then((response) => response.json())
-            .then((it) =>
+            .then((it) => {
                 setMaler(
                     it.result
                         .filter((it: SkjønnsfastsettingMal) =>
@@ -81,8 +88,9 @@ export const SkjønnsfastsettingForm = ({
                         )
                         .filter((it: SkjønnsfastsettingMal) => it.arbeidsforholdMal.includes(arbeidsforholdMal))
                         .filter((it: SkjønnsfastsettingMal) => (erProd() ? it.iProd : true)),
-                ),
-            );
+                );
+                setIsLoadingFetch(false);
+            });
     }, []);
 
     const { isLoading, error, postSkjønnsfastsetting, timedOut, setTimedOut } =
@@ -149,7 +157,7 @@ export const SkjønnsfastsettingForm = ({
         );
     };
 
-    return (
+    return !isLoadingFetch ? (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <div className={styles.skjønnsfastsetting}>
@@ -194,7 +202,7 @@ export const SkjønnsfastsettingForm = ({
                 </div>
             </form>
         </FormProvider>
-    );
+    ) : undefined;
 };
 
 interface RefMedId extends CustomElement<FieldValues> {
