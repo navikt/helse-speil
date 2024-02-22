@@ -154,7 +154,7 @@ export const mapOgSorterRefusjoner = (
     refusjonselementer?: Refusjonselement[],
 ): Refusjonsopplysning[] => {
     if (!refusjonselementer) return [];
-    console.log(inntektsmeldinger.length);
+
     const hendelseIderForInntektsmelding: string[] = inntektsmeldinger.map((im) => im.id);
     return [...refusjonselementer]
         .sort((a: Refusjonselement, b: Refusjonselement) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
