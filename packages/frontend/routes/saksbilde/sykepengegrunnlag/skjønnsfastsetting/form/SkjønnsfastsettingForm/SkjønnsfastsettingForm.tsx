@@ -77,7 +77,7 @@ export const SkjønnsfastsettingForm = ({
                 setMaler(
                     it.result
                         .filter((it: SkjønnsfastsettingMal) =>
-                            avviksprosent <= 25 ? !it._id.includes('25prosent') : true,
+                            avviksprosent <= 25 ? !it._id.includes('25Prosent') : true,
                         )
                         .filter((it: SkjønnsfastsettingMal) => it.arbeidsforholdMal.includes(arbeidsforholdMal))
                         .filter((it: SkjønnsfastsettingMal) => (erProd() ? it.iProd : true)),
