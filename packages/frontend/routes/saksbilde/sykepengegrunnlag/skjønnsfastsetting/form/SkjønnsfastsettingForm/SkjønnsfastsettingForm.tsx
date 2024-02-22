@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { FieldErrors, FormProvider, useForm, useWatch } from 'react-hook-form';
 import { CustomElement, FieldValues } from 'react-hook-form/dist/types/fields';
+import { useRecoilState } from 'recoil';
 
 import { Button, Loader } from '@navikt/ds-react';
 
@@ -10,10 +11,11 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { erDev } from '@utils/featureToggles';
+import { erProd, sanityMaler } from '@utils/featureToggles';
 
 import { Feiloppsummering, Skjemafeil } from '../../../inntekt/EditableInntekt/Feiloppsummering';
 import { ArbeidsgiverForm, usePostSkjønnsfastsattSykepengegrunnlag } from '../../skjønnsfastsetting';
+import { SkjønnsfastsettingMal, skjønnsfastsettingMaler } from '../../state';
 import { SkjønnsfastsettingBegrunnelse } from '../SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '../SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from '../SkjønnsfastsettingÅrsak';
@@ -35,6 +37,7 @@ interface SkjønnsfastsettingFormProps {
     omregnetÅrsinntekt: number;
     sammenligningsgrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
+    avviksprosent: number;
     onEndretSykepengegrunnlag: (endretSykepengegrunnlag: Maybe<number>) => void;
     setEditing: (state: boolean) => void;
 }
@@ -44,6 +47,7 @@ export const SkjønnsfastsettingForm = ({
     omregnetÅrsinntekt,
     sammenligningsgrunnlag,
     sykepengegrunnlagsgrense,
+    avviksprosent,
     onEndretSykepengegrunnlag,
     setEditing,
 }: SkjønnsfastsettingFormProps) => {
@@ -51,20 +55,34 @@ export const SkjønnsfastsettingForm = ({
     const person = useCurrentPerson();
     const { aktiveArbeidsgivere, aktiveArbeidsgivereInntekter, defaults } = useSkjønnsfastsettingDefaults(inntekter);
     const erReadonly = useIsReadOnlyOppgave();
+    const [maler, setMaler] = useRecoilState(skjønnsfastsettingMaler);
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const avrundetSammenligningsgrunnlag = Math.round((sammenligningsgrunnlag + Number.EPSILON) * 100) / 100;
+    const arbeidsforholdMal = (aktiveArbeidsgivere?.length ?? 0) > 1 ? 'FLERE_ARBEIDSGIVERE' : 'EN_ARBEIDSGIVER';
     const cancelEditing = () => {
         setEditing(false);
     };
 
     useEffect(() => {
-        if (!erDev()) return;
+        if (!sanityMaler) return;
+        console.log(maler);
         const response = fetch('https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production', {
             method: 'post',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify({ query: `*[_type == "skjonnsfastsettelseMal"]` }),
         });
-        response.then((response) => response.json()).then(console.log);
+        response
+            .then((response) => response.json())
+            .then((it) =>
+                setMaler(
+                    it.result
+                        .filter((it: SkjønnsfastsettingMal) =>
+                            avviksprosent <= 25 ? !it._id.includes('25prosent') : true,
+                        )
+                        .filter((it: SkjønnsfastsettingMal) => it.arbeidsforholdMal.includes(arbeidsforholdMal))
+                        .filter((it: SkjønnsfastsettingMal) => (erProd() ? it.iProd : true)),
+                ),
+            );
     }, []);
 
     const { isLoading, error, postSkjønnsfastsetting, timedOut, setTimedOut } =
