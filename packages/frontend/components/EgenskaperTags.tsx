@@ -10,8 +10,6 @@ const tilTekst = (egenskap: Egenskap) => {
             return 'Egen ansatt';
         case Egenskap.FortroligAdresse:
             return 'Fortrolig adresse';
-        case Egenskap.Fullmakt:
-            return 'Fullmakt';
         case Egenskap.Haster:
             return 'Haster';
         case Egenskap.Retur:
@@ -73,12 +71,12 @@ const tilVariant = (kategori: Kategori): TagProps['variant'] =>
     kategori === Kategori.Ukategorisert
         ? 'alt2'
         : kategori === Kategori.Oppgavetype
-        ? 'alt3'
-        : kategori === Kategori.Mottaker
-        ? 'alt1'
-        : kategori === Kategori.Status
-        ? 'warning'
-        : 'neutral';
+          ? 'alt3'
+          : kategori === Kategori.Mottaker
+            ? 'alt1'
+            : kategori === Kategori.Status
+              ? 'warning'
+              : 'neutral';
 
 const getData = (egenskaper: Oppgaveegenskap[]) => {
     return egenskaper

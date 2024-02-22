@@ -143,12 +143,6 @@ export const defaultFilters: Filter[] = [
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.Fullmakt,
-        label: 'Fullmakt',
-        active: false,
-        column: Oppgaveoversiktkolonne.EGENSKAPER,
-    },
-    {
         key: Egenskap.Stikkprove,
         label: 'Stikkprøve',
         active: false,
