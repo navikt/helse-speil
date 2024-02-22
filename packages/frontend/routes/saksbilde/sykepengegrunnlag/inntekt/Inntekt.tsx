@@ -5,7 +5,11 @@ import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Arbeidsgiver, Arbeidsgiverinntekt, BeregnetPeriode, VilkarsgrunnlagSpleis } from '@io/graphql';
-import { useArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
+import {
+    useArbeidsgiver,
+    useInntektsmeldinghendelser,
+    usePeriodForSkjæringstidspunktForArbeidsgiver,
+} from '@state/arbeidsgiver';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
@@ -32,6 +36,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
         inntekt.arbeidsgiver,
     );
     const arbeidsgiver = useArbeidsgiver(inntekt.arbeidsgiver);
+    const inntektsmeldinghendelser = useInntektsmeldinghendelser(arbeidsgiver);
 
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeForSkjæringstidspunktForArbeidsgiver);
     const arbeidsgiverrefusjon =
@@ -57,7 +62,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
     );
 
     const refusjonsopplysninger = mapOgSorterRefusjoner(
-        periodeForSkjæringstidspunktForArbeidsgiver,
+        inntektsmeldinghendelser,
         arbeidsgiverrefusjon?.refusjonsopplysninger,
     );
 

@@ -8,6 +8,7 @@ import {
     BeregnetPeriode,
     Dagoverstyring,
     GhostPeriode,
+    Hendelse,
     Inntektoverstyring,
     UberegnetPeriode,
     UberegnetVilkarsprovdPeriode,
@@ -84,6 +85,26 @@ export const useCurrentArbeidsgiver = (): Arbeidsgiver | null => {
 
 export const useArbeidsgiver = (organisasjonsnummer: string): Arbeidsgiver | null =>
     useCurrentPerson()?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
+
+export const useInntektsmeldinghendelser = (arbeidsgiver: Arbeidsgiver | null): Hendelse[] => {
+    if (!arbeidsgiver) return [];
+
+    // Ja, det er litt rotete kode for å deduplisere hendelser-lista, men
+    // tenker det er verdt det siden det ikke er så lett å oppdage at det vil
+    // kunne være duplikater i lista.
+    // Kan ikke gå via Set fordi like hendelser er distinkte objekter - det
+    // knepet funker bare på primitiver.
+
+    const hendelser = new Map<string, Hendelse>();
+    arbeidsgiver.generasjoner
+        .flatMap((g) => g.perioder.flatMap((p) => p.hendelser))
+        .forEach((h) => {
+            hendelser.set(h.id, h);
+        });
+    const hendelserDeduplisert = [...hendelser.values()];
+
+    return hendelserDeduplisert.filter((h) => h.type === 'INNTEKTSMELDING');
+};
 
 export const usePeriodForSkjæringstidspunkt = (skjæringstidspunkt: DateString): ActivePeriod | null => {
     const currentArbeidsgiver = useCurrentArbeidsgiver();

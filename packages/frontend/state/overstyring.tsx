@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 
-import { Arbeidsgiverrefusjon, Hendelsetype, Kildetype, Refusjonselement } from '@io/graphql';
+import { Arbeidsgiverrefusjon, Hendelse, Kildetype, Refusjonselement } from '@io/graphql';
 import { OverstyrtInntektOgRefusjonArbeidsgiver, OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
-import { useArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
+import {
+    useArbeidsgiver,
+    useInntektsmeldinghendelser,
+    usePeriodForSkjæringstidspunktForArbeidsgiver,
+} from '@state/arbeidsgiver';
 import { kalkulererFerdigToastKey, kalkulererToastKey, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
@@ -122,15 +126,15 @@ export const usePostOverstyrtInntekt = (
                     arbeidsgivereLagretPåSkjæringstidspunkt.length === 0
                         ? [overstyrtArbeidsgiverRetyped]
                         : arbeidsgivereLagretPåSkjæringstidspunkt.filter(
-                              (it) => it.organisasjonsnummer === organisasjonsnummer,
-                          ).length === 0
-                        ? [...arbeidsgivereLagretPåSkjæringstidspunkt, overstyrtArbeidsgiverRetyped]
-                        : [
-                              ...arbeidsgivereLagretPåSkjæringstidspunkt.filter(
-                                  (it) => it.organisasjonsnummer !== organisasjonsnummer,
-                              ),
-                              overstyrtArbeidsgiverRetyped,
-                          ],
+                                (it) => it.organisasjonsnummer === organisasjonsnummer,
+                            ).length === 0
+                          ? [...arbeidsgivereLagretPåSkjæringstidspunkt, overstyrtArbeidsgiverRetyped]
+                          : [
+                                ...arbeidsgivereLagretPåSkjæringstidspunkt.filter(
+                                    (it) => it.organisasjonsnummer !== organisasjonsnummer,
+                                ),
+                                overstyrtArbeidsgiverRetyped,
+                            ],
             });
             onFerdigKalkulert();
         },
@@ -146,29 +150,22 @@ type OverstyrtInntektMetadata = {
 };
 
 export const mapOgSorterRefusjoner = (
-    period: ActivePeriod,
+    inntektsmeldinger: Hendelse[],
     refusjonselementer?: Refusjonselement[],
 ): Refusjonsopplysning[] => {
-    const hendelseIderForInntektsmelding: string[] = isBeregnetPeriode(period)
-        ? period.hendelser
-              .filter((hendelse) => hendelse.type === Hendelsetype.Inntektsmelding)
-              .map((hendelse) => hendelse.id)
-        : [];
-
-    const refusjonsopplysninger: Refusjonsopplysning[] | undefined =
-        refusjonselementer &&
-        [...refusjonselementer]
-            .sort((a: Refusjonselement, b: Refusjonselement) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
-            .map((it) => ({
-                fom: it.fom,
-                tom: it.tom,
-                beløp: it.belop,
-                kilde: hendelseIderForInntektsmelding.includes(it.meldingsreferanseId)
-                    ? Kildetype.Inntektsmelding
-                    : Kildetype.Saksbehandler,
-            }));
-
-    return refusjonsopplysninger ?? [];
+    if (!refusjonselementer) return [];
+    console.log(inntektsmeldinger.length);
+    const hendelseIderForInntektsmelding: string[] = inntektsmeldinger.map((im) => im.id);
+    return [...refusjonselementer]
+        .sort((a: Refusjonselement, b: Refusjonselement) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
+        .map((it) => ({
+            fom: it.fom,
+            tom: it.tom,
+            beløp: it.belop,
+            kilde: hendelseIderForInntektsmelding.includes(it.meldingsreferanseId)
+                ? Kildetype.Inntektsmelding
+                : Kildetype.Saksbehandler,
+        }));
 };
 export const useOverstyrtInntektMetadata = (
     skjæringstidspunkt: DateString,
@@ -177,6 +174,7 @@ export const useOverstyrtInntektMetadata = (
     const person = useCurrentPerson();
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
+    const inntektsmeldinghendelser = useInntektsmeldinghendelser(arbeidsgiver);
 
     if (
         !isPerson(person) ||
@@ -193,7 +191,7 @@ export const useOverstyrtInntektMetadata = (
         )[0];
 
     const refusjonsopplysninger = mapOgSorterRefusjoner(
-        period,
+        inntektsmeldinghendelser,
         vilkårsgrunnlagRefusjonsopplysninger?.refusjonsopplysninger,
     );
 
