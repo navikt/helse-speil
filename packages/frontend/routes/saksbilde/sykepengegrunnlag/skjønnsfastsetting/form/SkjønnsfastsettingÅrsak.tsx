@@ -11,11 +11,15 @@ import { skjønnsfastsettingMaler } from '../state';
 import styles from './SkjønnsfastsettingBegrunnelse.module.css';
 
 export const SkjønnsfastsettingÅrsak = () => {
-    const { formState, register } = useFormContext();
+    const { formState, register, setValue } = useFormContext();
     const årsakerFraSanity = useRecoilValue(skjønnsfastsettingMaler).flatMap((it) => it.arsak);
     const { ref, ...årsakValidation } = register('årsak', { required: 'Du må velge en årsak' });
 
     const årsaker = sanityMaler ? årsakerFraSanity : årsakerGammel;
+
+    const resetType = () => {
+        setValue('begrunnelseId', '');
+    };
 
     return (
         <RadioGroup
@@ -23,6 +27,7 @@ export const SkjønnsfastsettingÅrsak = () => {
             name="årsak"
             error={formState.errors.årsak ? (formState.errors.årsak.message as string) : null}
             legend="Årsak til skjønnsfastsettelse"
+            onChange={resetType}
         >
             {årsaker.map((årsak, index) => (
                 <Radio ref={ref} value={årsak} key={index} {...årsakValidation}>
