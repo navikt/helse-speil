@@ -1172,6 +1172,7 @@ export type Soknad = {
     soknadsperioder?: Maybe<Array<Soknadsperioder>>;
     sporsmal?: Maybe<Array<Sporsmal>>;
     sykmeldingSkrevet?: Maybe<Scalars['String']['output']>;
+    type?: Maybe<Soknadstype>;
 };
 
 export type SoknadArbeidsgiver = Hendelse & {
@@ -1237,6 +1238,18 @@ export type Soknadsperioder = {
     sykmeldingsgrad?: Maybe<Scalars['Int']['output']>;
     tom: Scalars['String']['output'];
 };
+
+export enum Soknadstype {
+    AnnetArbeidsforhold = 'ANNET_ARBEIDSFORHOLD',
+    Arbeidsledig = 'ARBEIDSLEDIG',
+    Arbeidstakere = 'ARBEIDSTAKERE',
+    Behandlingsdager = 'BEHANDLINGSDAGER',
+    GradertReisetilskudd = 'GRADERT_REISETILSKUDD',
+    OppholdUtland = 'OPPHOLD_UTLAND',
+    Reisetilskudd = 'REISETILSKUDD',
+    SelvstendigeOgFrilansere = 'SELVSTENDIGE_OG_FRILANSERE',
+    Ukjent = 'UKJENT',
+}
 
 export enum Sorteringsnokkel {
     Opprettet = 'OPPRETTET',
