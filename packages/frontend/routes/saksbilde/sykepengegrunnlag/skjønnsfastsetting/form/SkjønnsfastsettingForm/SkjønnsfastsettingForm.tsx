@@ -178,28 +178,33 @@ export const SkjønnsfastsettingForm = ({
                                 omregnetÅrsinntekt={omregnetÅrsinntekt}
                                 sammenligningsgrunnlag={avrundetSammenligningsgrunnlag}
                             />
+                            {visFeilOppsummering && (
+                                <Feiloppsummering
+                                    feiloppsummeringRef={feiloppsummeringRef}
+                                    feilliste={formErrorsTilFeilliste(form.formState.errors)}
+                                />
+                            )}
+                            <div className={styles.buttons}>
+                                <Button
+                                    className={styles.button}
+                                    variant="secondary"
+                                    size="small"
+                                    disabled={isLoading || erReadonly}
+                                >
+                                    Lagre
+                                    {isLoading && <Loader size="xsmall" />}
+                                </Button>
+                                <Button
+                                    className={styles.button}
+                                    variant="tertiary"
+                                    onClick={cancelEditing}
+                                    size="small"
+                                >
+                                    Avbryt
+                                </Button>
+                            </div>
                         </>
                     )}
-                    {visFeilOppsummering && (
-                        <Feiloppsummering
-                            feiloppsummeringRef={feiloppsummeringRef}
-                            feilliste={formErrorsTilFeilliste(form.formState.errors)}
-                        />
-                    )}
-                    <div className={styles.buttons}>
-                        <Button
-                            className={styles.button}
-                            variant="secondary"
-                            size="small"
-                            disabled={isLoading || erReadonly}
-                        >
-                            Lagre
-                            {isLoading && <Loader size="xsmall" />}
-                        </Button>
-                        <Button className={styles.button} variant="tertiary" onClick={cancelEditing} size="small">
-                            Avbryt
-                        </Button>
-                    </div>
                     {error && <ErrorMessage className={styles.error}>{error}</ErrorMessage>}
                     {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
                 </div>
