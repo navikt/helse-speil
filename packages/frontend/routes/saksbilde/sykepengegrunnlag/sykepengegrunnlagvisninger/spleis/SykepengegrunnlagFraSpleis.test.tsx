@@ -1,5 +1,6 @@
 import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
+import { RecoilRoot } from 'recoil';
 
 import { useIsAnonymous } from '@state/anonymization';
 import {
@@ -24,6 +25,7 @@ jest.mock('@state/periode');
 jest.mock('../../useVilkårsgrunnlag');
 jest.mock('@state/toggles');
 jest.mock('@state/anonymization');
+// jest.mock('../../skjønnsfastsetting');
 
 jest.mock('@utils/featureToggles', () => ({
     erUtvikling: () => true,
@@ -57,7 +59,13 @@ describe('SykepengegrunnlagFraSpleis', () => {
         (useIsAnonymous as jest.Mock).mockReturnValue(false);
 
         render(
-            <SykepengegrunnlagFraSpleis vilkårsgrunnlag={vilkårsgrunnlag} organisasjonsnummer={organisasjonsnummer} />,
+            <RecoilRoot>
+                <SykepengegrunnlagFraSpleis
+                    vilkårsgrunnlag={vilkårsgrunnlag}
+                    organisasjonsnummer={organisasjonsnummer}
+                />
+                ,
+            </RecoilRoot>,
         );
 
         expect(screen.getByText('Inntektsgrunnlag')).toBeVisible();

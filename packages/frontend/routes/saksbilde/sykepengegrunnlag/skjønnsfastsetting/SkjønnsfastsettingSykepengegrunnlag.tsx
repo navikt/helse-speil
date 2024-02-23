@@ -1,12 +1,16 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { erProd, sanityMaler } from '@utils/featureToggles';
 
 import { SykepengegrunnlagsgrenseView } from '../InntektsgrunnlagTable/SykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
 import { SkjønnsfastsettingSammendrag } from './SkjønnsfastsettingSammendrag';
 import { SkjønnsfastsettingForm } from './form/SkjønnsfastsettingForm/SkjønnsfastsettingForm';
+import { useSkjønnsfastsettingDefaults } from './form/SkjønnsfastsettingForm/useSkjønnsfastsettingDefaults';
+import { SkjønnsfastsettingMal, skjønnsfastsettingMaler } from './state';
 
 import styles from './SkjønnsfastsettingSykepengegrunnlag.module.css';
 
@@ -30,7 +34,34 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     avviksprosent,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editing, setEditing] = useState(false);
+    const setMaler = useSetRecoilState(skjønnsfastsettingMaler);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
+    const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(inntekter);
+    const arbeidsforholdMal = (aktiveArbeidsgivere?.length ?? 0) > 1 ? 'FLERE_ARBEIDSGIVERE' : 'EN_ARBEIDSGIVER';
+
+    useEffect(() => {
+        if (!sanityMaler) {
+            return;
+        }
+
+        const response = fetch('https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production', {
+            method: 'post',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ query: `*[_type == "skjonnsfastsettelseMal"]` }),
+        });
+        response
+            .then((response) => response.json())
+            .then((it) => {
+                setMaler(
+                    it.result
+                        .filter((it: SkjønnsfastsettingMal) =>
+                            avviksprosent <= 25 ? it.lovhjemmel.ledd !== '2' : true,
+                        )
+                        .filter((it: SkjønnsfastsettingMal) => it.arbeidsforholdMal.includes(arbeidsforholdMal))
+                        .filter((it: SkjønnsfastsettingMal) => (erProd() ? it.iProd : true)),
+                );
+            });
+    }, []);
 
     useEffect(() => {
         setEndretSykepengegrunnlag(null);
@@ -55,7 +86,6 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                         omregnetÅrsinntekt={omregnetÅrsinntekt}
                         sammenligningsgrunnlag={sammenligningsgrunnlag}
                         sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
-                        avviksprosent={avviksprosent}
                         onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
                         setEditing={setEditing}
                     />
