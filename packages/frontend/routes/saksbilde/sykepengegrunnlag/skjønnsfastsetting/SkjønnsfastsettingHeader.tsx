@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
@@ -12,6 +13,8 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { sanityMaler } from '@utils/featureToggles';
 import { somPenger, toKronerOgØre } from '@utils/locale';
+
+import { skjønnsfastsettingMaler } from './state';
 
 import styles from './SkjønnsfastsettingHeader.module.css';
 
@@ -36,6 +39,12 @@ export const SkjønnsfastsettingHeader = ({
 }: SkjønnsfastsettingHeaderProps) => {
     const person = useCurrentPerson();
     const aktivPeriode = useActivePeriod();
+    const maler = useRecoilValue(skjønnsfastsettingMaler);
+    const [harMaler, setHarMaler] = useState(false);
+
+    useEffect(() => {
+        setHarMaler(maler.length > 0);
+    }, [maler]);
 
     if (!person || !aktivPeriode) return <></>;
 
@@ -66,7 +75,7 @@ export const SkjønnsfastsettingHeader = ({
                     )}
                 </>
             )}
-            {!erBeslutteroppgave && (sanityMaler || avviksprosent > 25) && (
+            {!erBeslutteroppgave && ((sanityMaler && harMaler) || (!sanityMaler && avviksprosent > 25)) && (
                 <EditButton
                     isOpen={editing}
                     openText="Avbryt"
