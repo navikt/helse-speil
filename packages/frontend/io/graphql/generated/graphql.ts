@@ -291,7 +291,6 @@ export enum Egenskap {
     Forlengelse = 'FORLENGELSE',
     Forstegangsbehandling = 'FORSTEGANGSBEHANDLING',
     FortroligAdresse = 'FORTROLIG_ADRESSE',
-    Fullmakt = 'FULLMAKT',
     Haster = 'HASTER',
     Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
     IngenUtbetaling = 'INGEN_UTBETALING',

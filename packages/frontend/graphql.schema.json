@@ -2820,12 +2820,6 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "FULLMAKT",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "HASTER",
                         "description": null,
                         "isDeprecated": false,
