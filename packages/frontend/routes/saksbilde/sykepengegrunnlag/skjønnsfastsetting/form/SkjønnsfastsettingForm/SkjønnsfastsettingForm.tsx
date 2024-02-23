@@ -84,7 +84,7 @@ export const SkjønnsfastsettingForm = ({
                 setMaler(
                     it.result
                         .filter((it: SkjønnsfastsettingMal) =>
-                            avviksprosent <= 25 ? !it._id.includes('25Prosent') : true,
+                            avviksprosent <= 25 ? it.lovhjemmel.ledd !== '2' : true,
                         )
                         .filter((it: SkjønnsfastsettingMal) => it.arbeidsforholdMal.includes(arbeidsforholdMal))
                         .filter((it: SkjønnsfastsettingMal) => (erProd() ? it.iProd : true)),
@@ -111,6 +111,8 @@ export const SkjønnsfastsettingForm = ({
         name: 'årsak',
         control: form.control,
     });
+
+    const valgtMal = sanityMaler ? maler.find((it) => it.arsak === valgtÅrsak) : null;
 
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const visFeilOppsummering = harFeil && Object.entries(form.formState.errors).length > 0;
@@ -162,9 +164,10 @@ export const SkjønnsfastsettingForm = ({
             <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <div className={styles.skjønnsfastsetting}>
                     <SkjønnsfastsettingÅrsak />
-                    {(!sanityMaler || (sanityMaler && valgtÅrsak.includes('25 %'))) && <SkjønnsfastsettingType />}
-                    {(((!sanityMaler || (sanityMaler && valgtÅrsak.includes('25 %'))) && valgtBegrunnelseId !== '') ||
-                        (sanityMaler && valgtÅrsak !== '' && !valgtÅrsak.includes('25 %'))) && (
+                    {(!sanityMaler || (sanityMaler && valgtMal?.lovhjemmel.ledd === '2')) && <SkjønnsfastsettingType />}
+                    {(((!sanityMaler || (sanityMaler && valgtMal?.lovhjemmel.ledd === '2')) &&
+                        valgtBegrunnelseId !== '') ||
+                        (sanityMaler && valgtÅrsak !== '' && valgtMal?.lovhjemmel.ledd !== '2')) && (
                         <>
                             <SkjønnsfastsettingArbeidsgivere
                                 arbeidsgivere={aktiveArbeidsgivere}
