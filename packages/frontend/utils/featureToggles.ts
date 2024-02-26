@@ -67,6 +67,4 @@ export const harSpesialsaktilgang: boolean = extractGroups().includes(groupIdSpe
 
 export const toggleMeny: boolean = erLocal() || erDev();
 
-export const sanityMaler: boolean = true;
-
 export const kanSkjønnsfastsetteMangelfull: boolean = erLocal() || erDev();
