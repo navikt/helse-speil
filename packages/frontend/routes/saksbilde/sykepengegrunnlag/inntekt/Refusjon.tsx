@@ -49,7 +49,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
             <div className={styles.RefusjonsHeading}>
                 <div>Fra og med dato</div>
                 <div>Til og med dato</div>
-                <div>Refusjonsbeløp</div>
+                <div>Månedlig refusjon</div>
             </div>
             {fields.map((refusjonsopplysning, index) => (
                 <div key={refusjonsopplysning.id} className={styles.RefusjonsRad}>
