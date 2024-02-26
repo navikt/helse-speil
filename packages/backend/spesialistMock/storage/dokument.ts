@@ -1,8 +1,9 @@
-import { DokumentInntektsmelding, Soknad, Svartype } from '../schemaTypes';
+import { DokumentInntektsmelding, Soknad, Soknadstype, Svartype } from '../schemaTypes';
 
 export class DokumentMock {
     static getMockedSoknad = (): Soknad => {
         return {
+            type: Soknadstype.Arbeidstakere,
             arbeidGjenopptatt: '2023-09-29',
             sykmeldingSkrevet: '2023-09-01T02:00:00',
             egenmeldingsdagerFraSykmelding: ['2023-09-22', '2023-09-23', '2023-09-24', '2023-09-28'],
@@ -219,6 +220,9 @@ export class DokumentMock {
                 ],
                 gjelderFra: '2023-08-08',
                 bleKjent: '2023-09-12',
+            },
+            avsenderSystem: {
+                navn: 'SAP (SID:PO01/200)[BUILD: 20230616}',
             },
         };
     };
