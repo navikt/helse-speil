@@ -1,4 +1,5 @@
 import { RecoilWrapper } from '@test-wrappers';
+import fetchMock from 'jest-fetch-mock';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 
@@ -29,11 +30,16 @@ jest.mock('@state/anonymization');
 
 jest.mock('@utils/featureToggles', () => ({
     erUtvikling: () => true,
+    erProd: () => false,
 }));
 
 describe('SykepengegrunnlagFraSpleis', () => {
     afterEach(() => {
         jest.clearAllMocks();
+    });
+
+    beforeEach(() => {
+        fetchMock.doMock();
     });
 
     it('rendrer inntektsgrunnlag og inntektskilder', () => {
@@ -109,3 +115,12 @@ describe('SykepengegrunnlagFraSpleis', () => {
         expect(screen.getAllByText(arbeidsgiver.navn)).toHaveLength(3);
     });
 });
+
+export function mockFetch(data: string) {
+    return jest.fn().mockImplementation(() =>
+        Promise.resolve({
+            ok: true,
+            json: () => data,
+        }),
+    );
+}
