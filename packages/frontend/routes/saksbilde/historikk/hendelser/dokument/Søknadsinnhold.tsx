@@ -23,6 +23,9 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
         <div>
             {søknad && (
                 <div className={styles.dokument}>
+                    {søknad.type && (
+                        <DokumentFragment overskrift="Type">{søknad.type.replace('_', ' ')}</DokumentFragment>
+                    )}
                     {søknad.soknadsperioder &&
                         søknad.soknadsperioder.length > 0 &&
                         søknad.soknadsperioder.map((søknadsperiode) => (
