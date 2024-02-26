@@ -22,7 +22,6 @@ interface SkjønnsfastsettingHeaderProps {
     endretSykepengegrunnlag: Maybe<number>;
     skjønnsmessigFastsattÅrlig?: Maybe<number>;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
-    avviksprosent: number;
     editing: boolean;
     setEditing: (state: boolean) => void;
 }
@@ -32,7 +31,6 @@ export const SkjønnsfastsettingHeader = ({
     endretSykepengegrunnlag,
     skjønnsmessigFastsattÅrlig,
     sykepengegrunnlagsgrense,
-    avviksprosent,
     editing,
     setEditing,
 }: SkjønnsfastsettingHeaderProps) => {
@@ -46,7 +44,6 @@ export const SkjønnsfastsettingHeader = ({
     }, [maler]);
 
     if (!person || !aktivPeriode) return <></>;
-    console.log(avviksprosent);
 
     const erBeslutteroppgave = (aktivPeriode as BeregnetPeriode).totrinnsvurdering?.erBeslutteroppgave ?? false;
     const visningEndretSykepengegrunnlag = endretSykepengegrunnlag

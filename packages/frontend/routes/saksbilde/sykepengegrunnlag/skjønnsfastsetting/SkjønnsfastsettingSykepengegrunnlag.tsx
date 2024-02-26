@@ -74,7 +74,6 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                     endretSykepengegrunnlag={endretSykepengegrunnlag}
                     skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
                     sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
-                    avviksprosent={avviksprosent}
                     editing={editing}
                     setEditing={setEditing}
                 />
