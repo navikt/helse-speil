@@ -11147,49 +11147,49 @@
                 "interfaces": null,
                 "enumValues": [
                     {
-                        "name": "ANNET_ARBEIDSFORHOLD",
+                        "name": "Annet_arbeidsforhold",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "ARBEIDSLEDIG",
+                        "name": "Arbeidsledig",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "ARBEIDSTAKERE",
+                        "name": "Arbeidstaker",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "BEHANDLINGSDAGER",
+                        "name": "Behandlingsdager",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "GRADERT_REISETILSKUDD",
+                        "name": "Gradert_reisetilskudd",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "OPPHOLD_UTLAND",
+                        "name": "Opphold_utland",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "REISETILSKUDD",
+                        "name": "Reisetilskudd",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "SELVSTENDIGE_OG_FRILANSERE",
+                        "name": "Selvstendig_og_frilanser",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null

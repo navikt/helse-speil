@@ -9,6 +9,7 @@ fragment sporsmal on Sporsmal {
 
 query FetchSoknad($fnr: String!, $dokumentId: String!) {
     hentSoknad(fnr: $fnr, dokumentId: $dokumentId) {
+        type,
         arbeidGjenopptatt
         sykmeldingSkrevet
         egenmeldingsdagerFraSykmelding

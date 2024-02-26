@@ -1240,14 +1240,14 @@ export type Soknadsperioder = {
 };
 
 export enum Soknadstype {
-    AnnetArbeidsforhold = 'ANNET_ARBEIDSFORHOLD',
-    Arbeidsledig = 'ARBEIDSLEDIG',
-    Arbeidstakere = 'ARBEIDSTAKERE',
-    Behandlingsdager = 'BEHANDLINGSDAGER',
-    GradertReisetilskudd = 'GRADERT_REISETILSKUDD',
-    OppholdUtland = 'OPPHOLD_UTLAND',
-    Reisetilskudd = 'REISETILSKUDD',
-    SelvstendigeOgFrilansere = 'SELVSTENDIGE_OG_FRILANSERE',
+    AnnetArbeidsforhold = 'Annet_arbeidsforhold',
+    Arbeidsledig = 'Arbeidsledig',
+    Arbeidstaker = 'Arbeidstaker',
+    Behandlingsdager = 'Behandlingsdager',
+    GradertReisetilskudd = 'Gradert_reisetilskudd',
+    OppholdUtland = 'Opphold_utland',
+    Reisetilskudd = 'Reisetilskudd',
+    SelvstendigOgFrilanser = 'Selvstendig_og_frilanser',
     Ukjent = 'UKJENT',
 }
 
@@ -1709,6 +1709,7 @@ export type FetchSoknadQuery = {
     __typename?: 'Query';
     hentSoknad: {
         __typename?: 'Soknad';
+        type?: Soknadstype | null;
         arbeidGjenopptatt?: string | null;
         sykmeldingSkrevet?: string | null;
         egenmeldingsdagerFraSykmelding?: Array<string> | null;
@@ -3996,6 +3997,7 @@ export const FetchSoknadDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arbeidGjenopptatt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingSkrevet' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'egenmeldingsdagerFraSykmelding' } },
