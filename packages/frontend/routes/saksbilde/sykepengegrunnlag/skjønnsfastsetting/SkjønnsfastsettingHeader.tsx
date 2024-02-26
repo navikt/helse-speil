@@ -11,7 +11,6 @@ import { Kilde } from '@components/Kilde';
 import { BeregnetPeriode, Kildetype, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { sanityMaler } from '@utils/featureToggles';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 
 import { skjønnsfastsettingMaler } from './state';
@@ -47,6 +46,7 @@ export const SkjønnsfastsettingHeader = ({
     }, [maler]);
 
     if (!person || !aktivPeriode) return <></>;
+    console.log(avviksprosent);
 
     const erBeslutteroppgave = (aktivPeriode as BeregnetPeriode).totrinnsvurdering?.erBeslutteroppgave ?? false;
     const visningEndretSykepengegrunnlag = endretSykepengegrunnlag
@@ -75,7 +75,7 @@ export const SkjønnsfastsettingHeader = ({
                     )}
                 </>
             )}
-            {!erBeslutteroppgave && ((sanityMaler && harMaler) || (!sanityMaler && avviksprosent > 25)) && (
+            {!erBeslutteroppgave && harMaler && (
                 <EditButton
                     isOpen={editing}
                     openText="Avbryt"

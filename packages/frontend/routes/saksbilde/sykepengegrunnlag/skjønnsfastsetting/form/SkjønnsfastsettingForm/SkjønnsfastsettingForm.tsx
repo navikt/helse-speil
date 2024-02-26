@@ -11,7 +11,6 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { sanityMaler } from '@utils/featureToggles';
 
 import { Feiloppsummering, Skjemafeil } from '../../../inntekt/EditableInntekt/Feiloppsummering';
 import { ArbeidsgiverForm, usePostSkjønnsfastsattSykepengegrunnlag } from '../../skjønnsfastsetting';
@@ -81,7 +80,7 @@ export const SkjønnsfastsettingForm = ({
         control: form.control,
     });
 
-    const valgtMal = sanityMaler ? maler.find((it) => it.arsak === valgtÅrsak) : null;
+    const valgtMal = maler.find((it) => it.arsak === valgtÅrsak);
 
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const visFeilOppsummering = harFeil && Object.entries(form.formState.errors).length > 0;
@@ -128,15 +127,15 @@ export const SkjønnsfastsettingForm = ({
         );
     };
 
+    const harValgt25Avvik = valgtMal?.lovhjemmel.ledd === '2';
+
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <div className={styles.skjønnsfastsetting}>
                     <SkjønnsfastsettingÅrsak />
-                    {(!sanityMaler || (sanityMaler && valgtMal?.lovhjemmel.ledd === '2')) && <SkjønnsfastsettingType />}
-                    {(((!sanityMaler || (sanityMaler && valgtMal?.lovhjemmel.ledd === '2')) &&
-                        valgtBegrunnelseId !== '') ||
-                        (sanityMaler && valgtÅrsak !== '' && valgtMal?.lovhjemmel.ledd !== '2')) && (
+                    {harValgt25Avvik && <SkjønnsfastsettingType />}
+                    {((harValgt25Avvik && valgtBegrunnelseId !== '') || (valgtÅrsak !== '' && !harValgt25Avvik)) && (
                         <>
                             <SkjønnsfastsettingArbeidsgivere
                                 arbeidsgivere={aktiveArbeidsgivere}

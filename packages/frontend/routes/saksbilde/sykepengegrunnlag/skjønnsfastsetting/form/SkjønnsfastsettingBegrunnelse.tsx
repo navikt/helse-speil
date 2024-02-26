@@ -7,10 +7,8 @@ import { BodyLong, BodyShort, Textarea } from '@navikt/ds-react';
 import { Button } from '@components/Button';
 import { Modal } from '@components/Modal';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import { sanityMaler } from '@utils/featureToggles';
 import { toKronerOgØre } from '@utils/locale';
 
-import { skjønnsfastsettelseBegrunnelser } from '../skjønnsfastsetting';
 import { skjønnsfastsettingMaler } from '../state';
 
 import styles from './SkjønnsfastsettingBegrunnelse.module.css';
@@ -34,13 +32,6 @@ export const SkjønnsfastsettingBegrunnelse = ({
     const skjønnsfastsatt =
         begrunnelseId === '0' ? omregnetÅrsinntekt : begrunnelseId === '1' ? sammenligningsgrunnlag : annet;
 
-    const valgtBegrunnelse = skjønnsfastsettelseBegrunnelser(
-        omregnetÅrsinntekt,
-        sammenligningsgrunnlag,
-        annet,
-        arbeidsgivere.length,
-    ).find((begrunnelse) => begrunnelse.id === begrunnelseId);
-
     return (
         <>
             <div className={styles.skjønnsfastsettingBegrunnelse}>
@@ -48,10 +39,7 @@ export const SkjønnsfastsettingBegrunnelse = ({
                     <BodyShort>
                         <span className={styles.Bold}>Begrunnelse</span> (teksten vises til bruker)
                     </BodyShort>
-                    {!sanityMaler && valgtBegrunnelse?.mal && (
-                        <BodyLong className={styles.mal}>{valgtBegrunnelse.mal}</BodyLong>
-                    )}
-                    {sanityMaler && malFraSanity?.begrunnelse && (
+                    {malFraSanity?.begrunnelse && (
                         <BodyLong className={styles.mal}>
                             {malFraSanity.begrunnelse
                                 .replace('${omregnetÅrsinntekt}', toKronerOgØre(omregnetÅrsinntekt))
@@ -81,10 +69,7 @@ export const SkjønnsfastsettingBegrunnelse = ({
                     }
                     resize
                 />
-                {!sanityMaler && valgtBegrunnelse?.konklusjon && (
-                    <BodyLong className={styles.mal}>{valgtBegrunnelse.konklusjon}</BodyLong>
-                )}
-                {sanityMaler && malFraSanity?.konklusjon && (
+                {malFraSanity?.konklusjon && (
                     <BodyLong className={styles.mal}>
                         {malFraSanity.konklusjon.replace(
                             '${skjønnsfastsattÅrsinntekt}',

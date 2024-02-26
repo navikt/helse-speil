@@ -20,5 +20,6 @@ module.exports = {
     transformIgnorePatterns: ['<rootDir>/node_modules'],
     watchPathIgnorePatterns: ['<rootDir>/node_modules'],
     setupFilesAfterEnv: ['<rootDir>/__mocks__/jest-setup.js'],
+    globals: { fetch },
 };
 process.env.TZ = 'UTC';

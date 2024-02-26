@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
-import { erProd, kanSkjønnsfastsetteMangelfull, sanityMaler } from '@utils/featureToggles';
+import { erProd, kanSkjønnsfastsetteMangelfull } from '@utils/featureToggles';
 
 import { SykepengegrunnlagsgrenseView } from '../InntektsgrunnlagTable/SykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
@@ -40,10 +40,6 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     const arbeidsforholdMal = (aktiveArbeidsgivere?.length ?? 0) > 1 ? 'FLERE_ARBEIDSGIVERE' : 'EN_ARBEIDSGIVER';
 
     useEffect(() => {
-        if (!sanityMaler) {
-            return;
-        }
-
         const response = fetch('https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production', {
             method: 'post',
             headers: { 'content-type': 'application/json' },
