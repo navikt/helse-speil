@@ -1378,7 +1378,6 @@ export type Tildeling = {
     epost: Scalars['String']['output'];
     navn: Scalars['String']['output'];
     oid: Scalars['String']['output'];
-    paaVent?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Totrinnsvurdering = {
