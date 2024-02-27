@@ -6990,6 +6990,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "lovhjemmel",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "LovhjemmelInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "orgnummer",
                         "description": null,
                         "type": {

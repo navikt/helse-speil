@@ -808,6 +808,7 @@ export type OverstyringArbeidsforholdInput = {
     begrunnelse: Scalars['String']['input'];
     deaktivert: Scalars['Boolean']['input'];
     forklaring: Scalars['String']['input'];
+    lovhjemmel?: InputMaybe<LovhjemmelInput>;
     orgnummer: Scalars['String']['input'];
 };
 
