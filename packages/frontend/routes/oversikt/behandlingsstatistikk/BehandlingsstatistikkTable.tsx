@@ -72,6 +72,12 @@ export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProp
                 <StatistikkRow antall={søknad}>
                     <LabelCell.Søknad />
                 </StatistikkRow>
+                <StatistikkRow antall={behandlingsstatistikk.revurdering}>
+                    <LabelCell.Revurdering />
+                </StatistikkRow>
+            </tbody>
+            <Separator />
+            <tbody>
                 <StatistikkRow antall={behandlingsstatistikk.faresignaler}>
                     <LabelCell.Vurderingsoppgaver />
                 </StatistikkRow>
@@ -80,9 +86,6 @@ export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProp
                 </StatistikkRow>
                 <StatistikkRow antall={behandlingsstatistikk.stikkprover}>
                     <LabelCell.Stikkprøver />
-                </StatistikkRow>
-                <StatistikkRow antall={behandlingsstatistikk.revurdering}>
-                    <LabelCell.Revurdering />
                 </StatistikkRow>
                 <StatistikkRow antall={behandlingsstatistikk.beslutter}>
                     <LabelCell.Beslutter />
