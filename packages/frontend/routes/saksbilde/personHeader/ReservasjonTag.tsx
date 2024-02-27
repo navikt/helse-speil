@@ -16,7 +16,10 @@ type TagMedTooltipProps = {
 };
 
 const TagMedTooltip: React.FC<TagMedTooltipProps> = ({ tooltipTekst, etikett }) => (
-    <Tooltip content={tooltipTekst} maxChar={120}>
+    <Tooltip
+        content={tooltipTekst}
+        maxChar={120} /* Når tooltip-teksten er over maxChar, vises det en warn i console om at teksten er vel lang. */
+    >
         <Tag variant="warning" size="medium" className={styles.Tag}>
             {etikett}
         </Tag>
