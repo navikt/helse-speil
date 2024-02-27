@@ -54,7 +54,6 @@ export const skjønnsfastsettingFormToDto = (
         form.arbeidsgivere.length,
     ).find((it) => it.id === form.begrunnelseId);
 
-    console.log(begrunnelse, malFraSanity, malFraSanity === undefined);
     if (malFraSanity === undefined) return;
     return {
         fødselsnummer: person.fodselsnummer,
