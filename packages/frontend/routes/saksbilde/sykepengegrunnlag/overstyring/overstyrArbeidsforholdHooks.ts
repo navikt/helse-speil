@@ -43,6 +43,7 @@ export const useGetOverstyrtArbeidsforhold = (): OverstyrtArbeidsforholdGetter =
                 deaktivert: arbeidsforholdSkalDeaktiveres,
                 forklaring: forklaring,
                 begrunnelse: begrunnelse.forklaring,
+                lovhjemmel: begrunnelse.lovhjemmel,
             },
         ],
     });
@@ -99,6 +100,7 @@ export const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert?: () => void) =
                         deaktivert: arbeidsforhold.deaktivert,
                         forklaring: arbeidsforhold.forklaring,
                         orgnummer: arbeidsforhold.orgnummer,
+                        lovhjemmel: arbeidsforhold.lovhjemmel,
                     }),
                 ),
                 fodselsnummer: overstyrtArbeidsforhold.fødselsnummer,

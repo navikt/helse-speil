@@ -70,7 +70,7 @@ export interface OverstyrtArbeidsforholdElementDTO {
     deaktivert: boolean;
     forklaring: string;
     begrunnelse: string;
-    subsumsjon?: Lovhjemmel;
+    lovhjemmel?: Lovhjemmel;
 }
 
 export interface SkjønnsfastsattSykepengegrunnlagDTO {
