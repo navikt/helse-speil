@@ -7,8 +7,8 @@ import { ReservasjonTag } from './ReservasjonTag';
 
 describe('ReservasjonTag', () => {
     it('rendrer tag når det ikke finnes reservasjonsstatus', () => {
-        render(<ReservasjonTag />);
-        expect(screen.queryByText('Ikke registrert KRR')).toBeVisible();
+        render(<ReservasjonTag reservasjon={null} />);
+        expect(screen.queryByText('Status KRR utilgjengelig')).toBeVisible();
     });
     it('rendrer tag når det finnes en reservasjon i KRR', () => {
         render(<ReservasjonTag reservasjon={{ reservert: true, kanVarsles: false }} />);

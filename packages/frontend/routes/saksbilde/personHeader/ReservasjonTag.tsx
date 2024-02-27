@@ -24,6 +24,15 @@ const TagMedTooltip: React.FC<TagMedTooltipProps> = ({ tooltipTekst, etikett }) 
 );
 
 export const ReservasjonTag: React.FC<ReservasjonTagProps> = ({ reservasjon }) => {
+    if (reservasjon === null) {
+        return (
+            <TagMedTooltip
+                tooltipTekst="Systemet har ikke klart å hente status fra Kontakt- og reservasjonsregisteret"
+                etikett="Status KRR utilgjengelig"
+            />
+        );
+    }
+
     if (!reservasjon) {
         return (
             <TagMedTooltip
