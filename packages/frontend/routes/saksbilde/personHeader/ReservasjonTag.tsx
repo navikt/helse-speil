@@ -10,30 +10,35 @@ interface ReservasjonTagProps {
     reservasjon?: Maybe<Reservasjon>;
 }
 
+type TagMedTooltipProps = {
+    tooltipTekst: string;
+    etikett: string;
+};
+
+const TagMedTooltip: React.FC<TagMedTooltipProps> = ({ tooltipTekst, etikett }) => (
+    <Tooltip content={tooltipTekst} maxChar={120}>
+        <Tag variant="warning" size="medium" className={styles.Tag}>
+            {etikett}
+        </Tag>
+    </Tooltip>
+);
+
 export const ReservasjonTag: React.FC<ReservasjonTagProps> = ({ reservasjon }) => {
     if (!reservasjon) {
         return (
-            <Tooltip
-                content="Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
-                maxChar={120}
-            >
-                <Tag variant="warning" size="medium" className={styles.Tag}>
-                    Ikke registrert KRR
-                </Tag>
-            </Tooltip>
+            <TagMedTooltip
+                tooltipTekst="Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
+                etikett="Ikke registrert KRR"
+            />
         );
     }
 
     if (reservasjon.reservert || !reservasjon.kanVarsles) {
         return (
-            <Tooltip
-                content="Bruker har reservert seg mot digital kommunikasjon i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
-                maxChar={132}
-            >
-                <Tag variant="warning" size="medium" className={styles.Tag}>
-                    Reservert KRR
-                </Tag>
-            </Tooltip>
+            <TagMedTooltip
+                tooltipTekst="Bruker har reservert seg mot digital kommunikasjon i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
+                etikett="Reservert KRR"
+            />
         );
     }
 
