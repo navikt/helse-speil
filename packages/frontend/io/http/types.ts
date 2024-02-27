@@ -48,7 +48,7 @@ export interface OverstyrtInntektOgRefusjonArbeidsgiver {
     fraRefusjonsopplysninger: Refusjonsopplysning[];
     forklaring: string;
     begrunnelse: string;
-    subsumsjon?: Lovhjemmel;
+    lovhjemmel?: Lovhjemmel;
 }
 
 export interface Refusjonsopplysning {

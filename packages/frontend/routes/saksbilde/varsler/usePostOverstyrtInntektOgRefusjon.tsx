@@ -91,13 +91,13 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
                                 belop: refusjon.beløp,
                             })),
                             lovhjemmel:
-                                arbeidsgiver.subsumsjon !== undefined
+                                arbeidsgiver.lovhjemmel !== undefined
                                     ? {
-                                          bokstav: arbeidsgiver.subsumsjon.bokstav,
-                                          ledd: arbeidsgiver.subsumsjon.ledd,
-                                          paragraf: arbeidsgiver.subsumsjon.paragraf,
-                                          lovverk: arbeidsgiver.subsumsjon.lovverk,
-                                          lovverksversjon: arbeidsgiver.subsumsjon.lovverksversjon,
+                                          bokstav: arbeidsgiver.lovhjemmel.bokstav,
+                                          ledd: arbeidsgiver.lovhjemmel.ledd,
+                                          paragraf: arbeidsgiver.lovhjemmel.paragraf,
+                                          lovverk: arbeidsgiver.lovhjemmel.lovverk,
+                                          lovverksversjon: arbeidsgiver.lovhjemmel.lovverksversjon,
                                       }
                                     : undefined,
                         }),
