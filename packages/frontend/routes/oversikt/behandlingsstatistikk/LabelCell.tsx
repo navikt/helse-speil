@@ -53,33 +53,6 @@ const ForlengelseInfotrygd: React.FC = () => {
     );
 };
 
-const UtbetalingTilArbeidsgiver: React.FC = () => {
-    return (
-        <BaseCell>
-            <Tag color="green">UA</Tag>
-            UTBET. TIL ARBEIDSGIVER
-        </BaseCell>
-    );
-};
-
-const UtbetalingTilSykmeldt: React.FC = () => {
-    return (
-        <BaseCell>
-            <Tag color="green">US</Tag>
-            UTBET. TIL SYKMELDT
-        </BaseCell>
-    );
-};
-
-const DelvisRefusjon: React.FC = () => {
-    return (
-        <BaseCell>
-            <Tag color="green">DR</Tag>
-            DELVIS REFUSJON
-        </BaseCell>
-    );
-};
-
 const Vurderingsoppgaver: React.FC = () => {
     return (
         <BaseCell>
@@ -148,9 +121,6 @@ export const LabelCell = {
     Førstegangsbehandling,
     Forlengelser,
     ForlengelseInfotrygd,
-    UtbetalingTilArbeidsgiver,
-    UtbetalingTilSykmeldt,
-    DelvisRefusjon,
     Vurderingsoppgaver,
     FortroligAdresse,
     Stikkprøver,

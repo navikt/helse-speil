@@ -73,19 +73,7 @@ export const BehandlingsstatistikkSkeleton: React.FC = () => {
             <tbody>
                 <tr>
                     <td>
-                        <LabelCell.UtbetalingTilArbeidsgiver />
-                    </td>
-                    <LoadingCells />
-                </tr>
-                <tr>
-                    <td>
-                        <LabelCell.UtbetalingTilSykmeldt />
-                    </td>
-                    <LoadingCells />
-                </tr>
-                <tr>
-                    <td>
-                        <LabelCell.DelvisRefusjon />
+                        <LabelCell.Søknad />
                     </td>
                     <LoadingCells />
                 </tr>
@@ -116,6 +104,12 @@ export const BehandlingsstatistikkSkeleton: React.FC = () => {
                 <tr>
                     <td>
                         <LabelCell.Beslutter />
+                    </td>
+                    <LoadingCells />
+                </tr>
+                <tr>
+                    <td>
+                        <LabelCell.EgenAnsatt />
                     </td>
                     <LoadingCells />
                 </tr>
