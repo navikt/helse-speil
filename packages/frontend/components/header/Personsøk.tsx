@@ -12,7 +12,7 @@ import { NotFoundError } from '@io/graphql/errors';
 import { useAddVarsel, useRapporterGraphQLErrors } from '@state/varsler';
 import { SpeilError } from '@utils/error';
 
-const erGyldigPersonId = (value: string) => value.match(/^\d{1,15}$/) !== null;
+const erGyldigPersonId = (value: string) => value.match(/^\d{1,13}$/) !== null;
 
 export const Personsøk: React.FC = () => {
     const addVarsel = useAddVarsel();
