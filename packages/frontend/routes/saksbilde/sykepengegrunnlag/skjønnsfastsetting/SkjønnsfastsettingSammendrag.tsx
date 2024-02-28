@@ -16,13 +16,10 @@ export const SkjønnsfastsettingSammendrag = () => {
 
     return (
         <div className={styles.sammendrag}>
-            <ul>
-                <li>{sisteSkjønnsfastsetting.skjonnsfastsatt.arsak}</li>
-                <li>
-                    {sisteSkjønnsfastsetting.skjonnsfastsatt.type &&
-                        tilType(sisteSkjønnsfastsetting.skjonnsfastsatt.type)}
-                </li>
-            </ul>
+            {sisteSkjønnsfastsetting.skjonnsfastsatt.arsak}
+            <li>
+                {sisteSkjønnsfastsetting.skjonnsfastsatt.type && tilType(sisteSkjønnsfastsetting.skjonnsfastsatt.type)}
+            </li>
         </div>
     );
 };
