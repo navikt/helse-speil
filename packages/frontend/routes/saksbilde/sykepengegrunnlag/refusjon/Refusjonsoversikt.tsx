@@ -30,7 +30,7 @@ export const Refusjonsoversikt: React.FC<RefusjonProps> = ({ refusjon, lokaleRef
                             <BodyShort size="small">Fra og med dato</BodyShort>
                         </th>
                         <th>
-                            <BodyShort size="small">Refusjonsbeløp</BodyShort>
+                            <BodyShort size="small">Månedlig refusjon</BodyShort>
                         </th>
                     </tr>
                 </thead>
