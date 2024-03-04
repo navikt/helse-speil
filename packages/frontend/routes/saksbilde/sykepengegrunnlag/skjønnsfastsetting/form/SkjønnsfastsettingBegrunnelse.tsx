@@ -1,3 +1,4 @@
+import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
 import React, { useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
@@ -11,8 +12,6 @@ import { toKronerOgØre } from '@utils/locale';
 
 import { skjønnsfastsettingMaler } from '../state';
 import { ExpandableSkjønnsfastsettingBegrunnelseContent } from './ExpandableSkjønnsfastsettingBegrunnelse';
-
-import styles from './SkjønnsfastsettingBegrunnelse.module.css';
 
 interface SkjønnsfastsettingBegrunnelseProps {
     omregnetÅrsinntekt: number;

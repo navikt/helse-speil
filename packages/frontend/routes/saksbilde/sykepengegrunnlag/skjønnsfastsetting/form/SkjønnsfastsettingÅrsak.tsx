@@ -1,3 +1,4 @@
+import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
@@ -5,8 +6,6 @@ import { useRecoilValue } from 'recoil';
 import { Radio, RadioGroup } from '@navikt/ds-react';
 
 import { skjønnsfastsettingMaler } from '../state';
-
-import styles from './SkjønnsfastsettingBegrunnelse.module.css';
 
 export const SkjønnsfastsettingÅrsak = () => {
     const { formState, register, setValue } = useFormContext();

@@ -1,11 +1,10 @@
+import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Radio, RadioGroup } from '@navikt/ds-react';
 
 import { skjønnsfastsettelseBegrunnelser } from '../skjønnsfastsetting';
-
-import styles from './SkjønnsfastsettingBegrunnelse.module.css';
 
 export const SkjønnsfastsettingType = () => {
     const { register } = useFormContext();
