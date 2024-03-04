@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { Radio, RadioGroup } from '@navikt/ds-react';
 
-import { skjønnsfastsettelseBegrunnelser } from '../skjønnsfastsetting';
+import { Skjønnsfastsettingstype } from '../skjønnsfastsetting';
 
 export const SkjønnsfastsettingType = () => {
     const { register } = useFormContext();
@@ -15,7 +15,7 @@ export const SkjønnsfastsettingType = () => {
     return (
         <div className={styles.skjønnsfastsettingBegrunnelse}>
             <RadioGroup className={styles.begrunnelser} name="type" legend="Velg type skjønnsfastsettelse">
-                {skjønnsfastsettelseBegrunnelser().map((begrunnelse, index) => (
+                {skjønnsfastsettelseTyper().map((begrunnelse, index) => (
                     <div key={index}>
                         <Radio value={begrunnelse.type} ref={ref} {...typeValidation}>
                             {begrunnelse.valg}
@@ -26,3 +26,23 @@ export const SkjønnsfastsettingType = () => {
         </div>
     );
 };
+
+export interface SkjønnsfastsettelseTypeValg {
+    valg: string;
+    type: Skjønnsfastsettingstype;
+}
+
+export const skjønnsfastsettelseTyper = (): SkjønnsfastsettelseTypeValg[] => [
+    {
+        valg: 'Skjønnsfastsette til omregnet årsinntekt ',
+        type: Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT,
+    },
+    {
+        valg: 'Skjønnsfastsette til rapportert årsinntekt ',
+        type: Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT,
+    },
+    {
+        valg: 'Skjønnsfastsette til annet ',
+        type: Skjønnsfastsettingstype.ANNET,
+    },
+];

@@ -18,26 +18,6 @@ import {
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 
-export interface BegrunnelseForSkjønnsfastsetting {
-    valg: string;
-    type: Skjønnsfastsettingstype;
-}
-
-export const skjønnsfastsettelseBegrunnelser = (): BegrunnelseForSkjønnsfastsetting[] => [
-    {
-        valg: 'Skjønnsfastsette til omregnet årsinntekt ',
-        type: Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT,
-    },
-    {
-        valg: 'Skjønnsfastsette til rapportert årsinntekt ',
-        type: Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT,
-    },
-    {
-        valg: 'Skjønnsfastsette til annet ',
-        type: Skjønnsfastsettingstype.ANNET,
-    },
-];
-
 export enum Skjønnsfastsettingstype {
     OMREGNET_ÅRSINNTEKT = 'OMREGNET_ÅRSINNTEKT',
     RAPPORTERT_ÅRSINNTEKT = 'RAPPORTERT_ÅRSINNTEKT',
