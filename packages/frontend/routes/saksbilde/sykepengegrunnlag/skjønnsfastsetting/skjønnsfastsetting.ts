@@ -1,4 +1,3 @@
-import { Lovhjemmel } from '../overstyring/overstyring.types';
 import { useEffect, useState } from 'react';
 
 import { useMutation } from '@apollo/client';
@@ -18,81 +17,30 @@ import {
 } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
-import { toKronerOgØre } from '@utils/locale';
 
 export interface BegrunnelseForSkjønnsfastsetting {
     id: string;
     valg: string;
-    mal: string;
-    konklusjon: string;
-    lovhjemmel: Lovhjemmel;
-    sykepengegrunnlag: number;
     type: Skjønnsfastsettingstype;
 }
 
-export const skjønnsfastsettelseBegrunnelser = (
-    omregnetÅrsinntekt = 0,
-    sammenligningsgrunnlag = 0,
-    annet = 0,
-    antallArbeidsgivere = 1,
-): BegrunnelseForSkjønnsfastsetting[] => [
+export const skjønnsfastsettelseBegrunnelser = (): BegrunnelseForSkjønnsfastsetting[] => [
     {
         id: '0',
         valg: 'Skjønnsfastsette til omregnet årsinntekt ',
-        mal:
-            antallArbeidsgivere === 1
-                ? malEnArbeidsgiver(omregnetÅrsinntekt, sammenligningsgrunnlag)
-                : malFlereArbeidsgivere(omregnetÅrsinntekt, sammenligningsgrunnlag),
-        konklusjon: `Vi har skjønnsfastsatt årsinntekten din til ${toKronerOgØre(omregnetÅrsinntekt)} kroner.`,
-        lovhjemmel: { paragraf: '8-30', ledd: '2', lovverk: 'folketrygdloven', lovverksversjon: '2019-01-01' },
-        sykepengegrunnlag: omregnetÅrsinntekt,
         type: Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT,
     },
     {
         id: '1',
         valg: 'Skjønnsfastsette til rapportert årsinntekt ',
-        mal:
-            antallArbeidsgivere === 1
-                ? malEnArbeidsgiver(omregnetÅrsinntekt, sammenligningsgrunnlag)
-                : malFlereArbeidsgivere(omregnetÅrsinntekt, sammenligningsgrunnlag),
-        konklusjon: `Vi har skjønnsfastsatt årsinntekten din til ${toKronerOgØre(sammenligningsgrunnlag)} kroner.`,
-        lovhjemmel: { paragraf: '8-30', ledd: '2', lovverk: 'folketrygdloven', lovverksversjon: '2019-01-01' },
-        sykepengegrunnlag: sammenligningsgrunnlag,
         type: Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT,
     },
     {
         id: '2',
         valg: 'Skjønnsfastsette til annet ',
-        mal:
-            antallArbeidsgivere === 1
-                ? malEnArbeidsgiver(omregnetÅrsinntekt, sammenligningsgrunnlag)
-                : malFlereArbeidsgivere(omregnetÅrsinntekt, sammenligningsgrunnlag),
-        konklusjon: `Vi har skjønnsfastsatt årsinntekten din til ${toKronerOgØre(annet)} kroner.`,
-        lovhjemmel: { paragraf: '8-30', ledd: '2', lovverk: 'folketrygdloven', lovverksversjon: '2019-01-01' },
-        sykepengegrunnlag: annet,
         type: Skjønnsfastsettingstype.ANNET,
     },
 ];
-
-const malEnArbeidsgiver = (omregnetÅrsinntekt = 0, sammenligningsgrunnlag = 0) => {
-    return `Månedsinntekten som er beregnet for arbeidsforholdet ditt er totalt ${toKronerOgØre(
-        omregnetÅrsinntekt / 12,
-    )} kroner. Regnet om til årsinntekt blir det ${toKronerOgØre(
-        omregnetÅrsinntekt,
-    )} kroner. Denne årsinntekten avviker med mer enn 25 prosent fra inntekten som er rapportert til Skatteetaten på ${toKronerOgØre(
-        sammenligningsgrunnlag,
-    )} kroner de siste tolv månedene før måneden du ble syk.\n\nNår årsinntekten avviker med mer enn 25 prosent fra rapportert inntekt, skal sykepengegrunnlaget fastsettes ved skjønn ut fra den årsinntekten som kan sannsynliggjøres på det tidspunktet du ble syk. Se folketrygdloven § 8-30 andre avsnitt.\n\nNår vi fastsetter sykepengegrunnlaget ditt ved skjønn, legger vi vekt på om avviket skyldes endringer i arbeidssituasjonen din. Målet med den skjønnsmessige vurderingen er å komme frem til inntekten du ville hatt om du ikke hadde blitt syk.`;
-};
-
-const malFlereArbeidsgivere = (omregnetÅrsinntekt = 0, sammenligningsgrunnlag = 0) => {
-    return `Månedsinntekten som er beregnet for arbeidsforholdene dine er totalt ${toKronerOgØre(
-        omregnetÅrsinntekt / 12,
-    )} kroner. Regnet om til årsinntekt blir det ${toKronerOgØre(
-        omregnetÅrsinntekt,
-    )} kroner. Denne årsinntekten avviker med mer enn 25 prosent fra inntekten som er rapportert til Skatteetaten på ${toKronerOgØre(
-        sammenligningsgrunnlag,
-    )} kroner de siste tolv månedene før måneden du ble syk.\n\nNår årsinntekten avviker med mer enn 25 prosent fra rapportert inntekt, skal sykepengegrunnlaget fastsettes ved skjønn ut fra den årsinntekten som kan sannsynliggjøres på det tidspunktet du ble syk. Se folketrygdloven § 8-30 andre avsnitt.\n\nNår vi fastsetter sykepengegrunnlaget ditt ved skjønn, legger vi vekt på om avviket skyldes endringer i arbeidssituasjonen din. Målet med den skjønnsmessige vurderingen er å komme frem til inntekten du ville hatt om du ikke hadde blitt syk.`;
-};
 
 export enum Skjønnsfastsettingstype {
     OMREGNET_ÅRSINNTEKT = 'OMREGNET_ÅRSINNTEKT',

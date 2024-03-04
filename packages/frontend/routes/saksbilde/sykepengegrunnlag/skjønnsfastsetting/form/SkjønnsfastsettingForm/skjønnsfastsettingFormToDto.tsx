@@ -47,12 +47,7 @@ export const skjønnsfastsettingFormToDto = (
             : form.begrunnelseId === '1'
               ? sammenligningsgrunnlag
               : manueltBeløp;
-    const begrunnelse = skjønnsfastsettelseBegrunnelser(
-        omregnetÅrsinntekt,
-        sammenligningsgrunnlag,
-        manueltBeløp,
-        form.arbeidsgivere.length,
-    ).find((it) => it.id === form.begrunnelseId);
+    const begrunnelse = skjønnsfastsettelseBegrunnelser().find((it) => it.id === form.begrunnelseId);
 
     if (malFraSanity === undefined) return;
     return {
