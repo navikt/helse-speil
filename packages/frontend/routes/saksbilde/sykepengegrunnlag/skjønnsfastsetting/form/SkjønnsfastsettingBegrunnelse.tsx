@@ -10,6 +10,7 @@ import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { toKronerOgØre } from '@utils/locale';
 
 import { skjønnsfastsettingMaler } from '../state';
+import { ExpandableSkjønnsfastsettingBegrunnelseContent } from './ExpandableSkjønnsfastsettingBegrunnelse';
 
 import styles from './SkjønnsfastsettingBegrunnelse.module.css';
 
@@ -39,14 +40,16 @@ export const SkjønnsfastsettingBegrunnelse = ({
                     <BodyShort>
                         <span className={styles.Bold}>Begrunnelse</span> (teksten vises til bruker)
                     </BodyShort>
-                    {malFraSanity?.begrunnelse && (
-                        <BodyLong className={styles.mal}>
-                            {malFraSanity.begrunnelse
-                                .replace('${omregnetÅrsinntekt}', toKronerOgØre(omregnetÅrsinntekt))
-                                .replace('${omregnetMånedsinntekt}', toKronerOgØre(omregnetÅrsinntekt / 12))
-                                .replace('${sammenligningsgrunnlag}', toKronerOgØre(sammenligningsgrunnlag))}
-                        </BodyLong>
-                    )}
+                    <ExpandableSkjønnsfastsettingBegrunnelseContent>
+                        {malFraSanity?.begrunnelse && (
+                            <BodyLong className={styles.mal}>
+                                {malFraSanity.begrunnelse
+                                    .replace('${omregnetÅrsinntekt}', toKronerOgØre(omregnetÅrsinntekt))
+                                    .replace('${omregnetMånedsinntekt}', toKronerOgØre(omregnetÅrsinntekt / 12))
+                                    .replace('${sammenligningsgrunnlag}', toKronerOgØre(sammenligningsgrunnlag))}
+                            </BodyLong>
+                        )}
+                    </ExpandableSkjønnsfastsettingBegrunnelseContent>
                 </div>
                 <Textarea
                     className={styles.fritekst}

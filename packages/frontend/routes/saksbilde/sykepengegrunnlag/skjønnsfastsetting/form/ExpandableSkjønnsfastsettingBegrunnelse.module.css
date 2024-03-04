@@ -1,0 +1,48 @@
+.header {
+    color: var(--a-surface-action) !important;
+    background: none !important;
+    text-decoration: underline;
+    padding: 0;
+    justify-content: unset;
+    gap: 8px;
+    width: max-content;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+}
+
+.header > span {
+    font-size: var(--a-font-size-medium);
+    font-weight: var(--a-font-weight-regular);
+}
+
+.header:focus {
+    box-shadow: none;
+}
+
+.header:focus-visible {
+    box-shadow: var(--a-shadow-focus);
+}
+
+.header:hover {
+    text-decoration: none;
+}
+
+.header > svg {
+    width: 16px;
+    height: 16px;
+}
+
+.content {
+    padding: 8px 0 0;
+    border-bottom: none;
+    word-break: break-word;
+}
+
+.closed {
+    mask-image: linear-gradient(black 5%, transparent);
+    overflow: hidden;
+    text-overflow: '';
+    white-space: nowrap;
+    height: 4rem;
+}
