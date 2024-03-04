@@ -81,27 +81,29 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                         </th>
                     </tr>
                 </thead>
-                {fields.map((field, index) => {
-                    const årligField = register(`arbeidsgivere.${index}.årlig`, {
-                        setValueAs: (value) => Number(value.toString().replaceAll(' ', '').replaceAll(',', '.')),
-                    });
+                <tbody>
+                    {fields.map((field, index) => {
+                        const årligField = register(`arbeidsgivere.${index}.årlig`, {
+                            setValueAs: (value) => Number(value.toString().replaceAll(' ', '').replaceAll(',', '.')),
+                        });
 
-                    const orgnummerField = register(`arbeidsgivere.${index}.organisasjonsnummer`, {
-                        value: field.organisasjonsnummer,
-                    });
+                        const orgnummerField = register(`arbeidsgivere.${index}.organisasjonsnummer`, {
+                            value: field.organisasjonsnummer,
+                        });
 
-                    return (
-                        <ArbeidsgiverRad
-                            key={field.id}
-                            arbeidsgiverNavn={getArbeidsgiverNavn(field.organisasjonsnummer)}
-                            begrunnelseId={begrunnelseId}
-                            årligField={årligField}
-                            orgnummerField={orgnummerField}
-                            antallArbeidsgivere={antallArbeidsgivere}
-                            clearArbeidsgiverErrors={() => clearErrors('arbeidsgivere')}
-                        />
-                    );
-                })}
+                        return (
+                            <ArbeidsgiverRad
+                                key={field.id}
+                                arbeidsgiverNavn={getArbeidsgiverNavn(field.organisasjonsnummer)}
+                                begrunnelseId={begrunnelseId}
+                                årligField={årligField}
+                                orgnummerField={orgnummerField}
+                                antallArbeidsgivere={antallArbeidsgivere}
+                                clearArbeidsgiverErrors={() => clearErrors('arbeidsgivere')}
+                            />
+                        );
+                    })}
+                </tbody>
                 <tfoot className={styles.total}>
                     {begrunnelseId === '1' && antallArbeidsgivere > 1 && (
                         <tr>
