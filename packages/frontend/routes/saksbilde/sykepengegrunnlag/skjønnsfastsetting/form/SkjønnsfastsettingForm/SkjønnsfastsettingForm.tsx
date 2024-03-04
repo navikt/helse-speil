@@ -59,8 +59,6 @@ export const SkjønnsfastsettingForm = ({
         setEditing(false);
     };
 
-    console.log(maler);
-
     const { isLoading, error, postSkjønnsfastsetting, timedOut, setTimedOut } =
         usePostSkjønnsfastsattSykepengegrunnlag(cancelEditing);
 
