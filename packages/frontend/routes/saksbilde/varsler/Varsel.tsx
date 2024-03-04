@@ -67,11 +67,7 @@ export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
     return (
         <div className={classNames(className, styles.varsel, styles[type])}>
             {loading ? (
-                <Loader
-                    style={{ height: 'var(--a-font-line-height-xlarge)', alignSelf: 'flex-start' }}
-                    size="medium"
-                    variant="interaction"
-                />
+                <Loader className={styles.loader} size="medium" variant="interaction" />
             ) : (
                 <Avhuking
                     type={type}
