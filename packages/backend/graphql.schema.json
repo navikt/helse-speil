@@ -515,18 +515,6 @@
                         "defaultValue": null,
                         "isDeprecated": false,
                         "deprecationReason": null
-                    },
-                    {
-                        "name": "vedtaksperiodeId",
-                        "description": null,
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
                     }
                 ],
                 "interfaces": null,
@@ -3935,18 +3923,6 @@
                                 "name": "String",
                                 "ofType": null
                             }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "vedtaksperiodeId",
-                        "description": null,
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
                         },
                         "defaultValue": null,
                         "isDeprecated": false,

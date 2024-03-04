@@ -74,7 +74,6 @@ export type ArbeidsforholdOverstyringHandlingInput = {
     fodselsnummer: Scalars['String']['input'];
     overstyrteArbeidsforhold: Array<OverstyringArbeidsforholdInput>;
     skjaringstidspunkt: Scalars['String']['input'];
-    vedtaksperiodeId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Arbeidsforholdoverstyring = Overstyring & {
@@ -419,7 +418,6 @@ export type InntektOgRefusjonOverstyringInput = {
     arbeidsgivere: Array<OverstyringArbeidsgiverInput>;
     fodselsnummer: Scalars['String']['input'];
     skjaringstidspunkt: Scalars['String']['input'];
-    vedtaksperiodeId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Inntektoverstyring = Overstyring & {
