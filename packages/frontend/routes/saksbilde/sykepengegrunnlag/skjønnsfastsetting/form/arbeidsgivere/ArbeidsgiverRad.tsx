@@ -4,12 +4,13 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 import { TextField } from '@navikt/ds-react';
 
 import { Arbeidsgivernavn } from '../../../Arbeidsgivernavn';
+import { Skjønnsfastsettingstype } from '../../skjønnsfastsetting';
 
 import styles from '../SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 
 interface ArbeidsgiverRadProps {
     arbeidsgiverNavn?: string;
-    begrunnelseId: string;
+    type: Skjønnsfastsettingstype;
     årligField: UseFormRegisterReturn;
     orgnummerField: UseFormRegisterReturn;
     antallArbeidsgivere: number;
@@ -18,7 +19,7 @@ interface ArbeidsgiverRadProps {
 
 export const ArbeidsgiverRad = ({
     arbeidsgiverNavn,
-    begrunnelseId,
+    type,
     årligField,
     orgnummerField,
     antallArbeidsgivere,
@@ -40,7 +41,10 @@ export const ArbeidsgiverRad = ({
                 hideLabel
                 type="text"
                 inputMode="numeric"
-                disabled={begrunnelseId === '0' || (begrunnelseId === '1' && antallArbeidsgivere <= 1)}
+                disabled={
+                    type === Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT ||
+                    (type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT && antallArbeidsgivere <= 1)
+                }
                 className={styles.arbeidsgiverInput}
                 onFocus={(e) => e.target.select()}
             />

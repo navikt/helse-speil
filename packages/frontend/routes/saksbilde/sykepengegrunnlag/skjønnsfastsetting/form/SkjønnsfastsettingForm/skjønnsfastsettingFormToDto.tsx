@@ -3,7 +3,7 @@ import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } fro
 import { toKronerOgØre } from '@utils/locale';
 import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
-import { ArbeidsgiverForm, Skjønnsfastsettingstype, skjønnsfastsettelseBegrunnelser } from '../../skjønnsfastsetting';
+import { ArbeidsgiverForm, Skjønnsfastsettingstype } from '../../skjønnsfastsetting';
 import { SkjønnsfastsettingMal } from '../../state';
 import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
 
@@ -42,12 +42,11 @@ export const skjønnsfastsettingFormToDto = (
     );
     const manueltBeløp = form.arbeidsgivere.reduce((n: number, { årlig }: { årlig: number }) => n + årlig, 0);
     const skjønnsfastsatt =
-        form.begrunnelseId === '0'
+        form.type === Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT
             ? omregnetÅrsinntekt
-            : form.begrunnelseId === '1'
+            : form.type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT
               ? sammenligningsgrunnlag
               : manueltBeløp;
-    const begrunnelse = skjønnsfastsettelseBegrunnelser().find((it) => it.id === form.begrunnelseId);
 
     if (malFraSanity === undefined) return;
     return {
@@ -60,11 +59,11 @@ export const skjønnsfastsettingFormToDto = (
             fraÅrlig: inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer)?.omregnetArsinntekt?.belop ?? 0,
             årsak: form.årsak,
             type:
-                begrunnelse === undefined
+                form.type === undefined
                     ? SkjønnsfastsettingstypeDTO.ANNET
-                    : begrunnelse.type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT
+                    : form.type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT
                       ? SkjønnsfastsettingstypeDTO.RAPPORTERT_ÅRSINNTEKT
-                      : begrunnelse.type === Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT
+                      : form.type === Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT
                         ? SkjønnsfastsettingstypeDTO.OMREGNET_ÅRSINNTEKT
                         : SkjønnsfastsettingstypeDTO.ANNET,
             begrunnelseMal: malFraSanity?.begrunnelse

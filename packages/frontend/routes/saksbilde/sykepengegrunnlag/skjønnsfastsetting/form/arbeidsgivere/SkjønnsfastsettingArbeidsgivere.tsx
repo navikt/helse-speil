@@ -7,7 +7,7 @@ import { LovdataLenke } from '@components/LovdataLenke';
 import { Arbeidsgiver, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
 
-import { ArbeidsgiverForm } from '../../skjønnsfastsetting';
+import { ArbeidsgiverForm, Skjønnsfastsettingstype } from '../../skjønnsfastsetting';
 import { ArbeidsgiverRad } from './ArbeidsgiverRad';
 
 import styles from '../SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
@@ -30,7 +30,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
         arbeidsgivere: ArbeidsgiverForm[];
     }>();
 
-    const begrunnelseId = useWatch({ name: 'begrunnelseId', defaultValue: '0' });
+    const type = useWatch({ name: 'type', defaultValue: '0' });
 
     const { fields } = useFieldArray({
         control,
@@ -40,7 +40,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                 måVæreNumerisk: (values) =>
                     values.some((value) => isNumeric(value.årlig.toString())) || 'Årsinntekt må være et beløp',
                 sammenligningsgrunnlagMåVæreFordelt: (values) =>
-                    begrunnelseId !== '1' ||
+                    type !== Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT ||
                     sammenligningsgrunnlag - values.reduce((sum, { årlig }) => sum + årlig, 0) === 0 ||
                     'Du må fordele hele sammenligningsgrunnlaget',
             },
@@ -58,10 +58,10 @@ export const SkjønnsfastsettingArbeidsgivere = ({
         setInntektSum(arbeidsgivereField.reduce((sum, { årlig }) => sum + årlig, 0));
     }, [arbeidsgivereField]);
     useEffect(() => {
-        if (begrunnelseId === '1') {
+        if (type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT) {
             setTilFordeling(sammenligningsgrunnlag - (isNaN(inntektSum) ? 0 : inntektSum));
         }
-    }, [begrunnelseId, inntektSum]);
+    }, [type, inntektSum]);
 
     const erBegrensetTil6G = inntektSum > sykepengegrunnlagsgrense.grense;
 
@@ -95,7 +95,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                             <ArbeidsgiverRad
                                 key={field.id}
                                 arbeidsgiverNavn={getArbeidsgiverNavn(field.organisasjonsnummer)}
-                                begrunnelseId={begrunnelseId}
+                                type={type}
                                 årligField={årligField}
                                 orgnummerField={orgnummerField}
                                 antallArbeidsgivere={antallArbeidsgivere}
@@ -105,7 +105,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                     })}
                 </tbody>
                 <tfoot className={styles.total}>
-                    {begrunnelseId === '1' && antallArbeidsgivere > 1 && (
+                    {type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT && antallArbeidsgivere > 1 && (
                         <tr>
                             <td>Til fordeling</td>
                             <td className={styles.inntektSum}>{somPenger(tilFordeling)}</td>

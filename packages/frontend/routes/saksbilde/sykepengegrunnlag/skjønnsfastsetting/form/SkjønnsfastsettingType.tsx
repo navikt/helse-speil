@@ -8,16 +8,16 @@ import { skjønnsfastsettelseBegrunnelser } from '../skjønnsfastsetting';
 
 export const SkjønnsfastsettingType = () => {
     const { register } = useFormContext();
-    const { ref, ...typeValidation } = register('begrunnelseId', {
+    const { ref, ...typeValidation } = register('type', {
         required: 'Du må velge en type',
     });
 
     return (
         <div className={styles.skjønnsfastsettingBegrunnelse}>
-            <RadioGroup className={styles.begrunnelser} name="begrunnelseId" legend="Velg type skjønnsfastsettelse">
+            <RadioGroup className={styles.begrunnelser} name="type" legend="Velg type skjønnsfastsettelse">
                 {skjønnsfastsettelseBegrunnelser().map((begrunnelse, index) => (
                     <div key={index}>
-                        <Radio value={begrunnelse.id} ref={ref} {...typeValidation}>
+                        <Radio value={begrunnelse.type} ref={ref} {...typeValidation}>
                             {begrunnelse.valg}
                         </Radio>
                     </div>

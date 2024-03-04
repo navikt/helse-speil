@@ -13,7 +13,11 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 
 import { Feiloppsummering, Skjemafeil } from '../../../inntekt/EditableInntekt/Feiloppsummering';
-import { ArbeidsgiverForm, usePostSkjønnsfastsattSykepengegrunnlag } from '../../skjønnsfastsetting';
+import {
+    ArbeidsgiverForm,
+    Skjønnsfastsettingstype,
+    usePostSkjønnsfastsattSykepengegrunnlag,
+} from '../../skjønnsfastsetting';
 import { skjønnsfastsettingMaler } from '../../state';
 import { SkjønnsfastsettingBegrunnelse } from '../SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '../SkjønnsfastsettingType';
@@ -27,7 +31,7 @@ import styles from './SkjønnsfastsettingForm.module.css';
 export interface SkjønnsfastsettingFormFields {
     arbeidsgivere: ArbeidsgiverForm[];
     årsak: string;
-    begrunnelseId: string;
+    type?: Skjønnsfastsettingstype;
     begrunnelseFritekst: string;
 }
 
@@ -68,8 +72,8 @@ export const SkjønnsfastsettingForm = ({
         values: defaults,
     });
 
-    const valgtBegrunnelseId = useWatch({
-        name: 'begrunnelseId',
+    const valgtType = useWatch({
+        name: 'type',
         control: form.control,
     });
 
@@ -103,11 +107,11 @@ export const SkjønnsfastsettingForm = ({
                     inntekt,
                     aktiveArbeidsgivereInntekter.length,
                     avrundetSammenligningsgrunnlag,
-                    valgtBegrunnelseId,
+                    valgtType,
                 ),
             })) ?? [],
         );
-    }, [valgtBegrunnelseId]);
+    }, [valgtType]);
 
     if (!period || !person || !aktiveArbeidsgivere || !aktiveArbeidsgivereInntekter) return null;
 
@@ -133,7 +137,7 @@ export const SkjønnsfastsettingForm = ({
                 <div className={styles.skjønnsfastsetting}>
                     <SkjønnsfastsettingÅrsak />
                     {harValgt25Avvik && <SkjønnsfastsettingType />}
-                    {((harValgt25Avvik && valgtBegrunnelseId !== '') || (valgtÅrsak !== '' && !harValgt25Avvik)) && (
+                    {((harValgt25Avvik && valgtType) || (valgtÅrsak !== '' && !harValgt25Avvik)) && (
                         <>
                             <SkjønnsfastsettingArbeidsgivere
                                 arbeidsgivere={aktiveArbeidsgivere}
@@ -187,16 +191,16 @@ const valgtInntekt = (
     inntekt: Arbeidsgiverinntekt,
     antallAktiveArbeidsgivere: number,
     totaltSammenligningsgrunnlag: number,
-    begrunnelseId?: string,
+    type?: Skjønnsfastsettingstype,
 ): number => {
-    switch (begrunnelseId) {
-        case '0':
+    switch (type) {
+        case Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT:
             return Math.round(((inntekt.omregnetArsinntekt?.belop ?? 0) + Number.EPSILON) * 100) / 100;
-        case '1':
+        case Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT:
             return antallAktiveArbeidsgivere > 1
                 ? 0
                 : Math.round((totaltSammenligningsgrunnlag + Number.EPSILON) * 100) / 100;
-        case '2':
+        case Skjønnsfastsettingstype.ANNET:
         default:
             return 0;
     }

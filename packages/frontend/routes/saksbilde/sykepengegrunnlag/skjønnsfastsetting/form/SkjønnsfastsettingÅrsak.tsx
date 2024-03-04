@@ -13,7 +13,7 @@ export const SkjønnsfastsettingÅrsak = () => {
     const { ref, ...årsakValidation } = register('årsak', { required: 'Du må velge en årsak' });
 
     const resetType = () => {
-        setValue('begrunnelseId', '');
+        setValue('type', '');
     };
 
     return (

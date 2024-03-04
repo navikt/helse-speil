@@ -1,10 +1,10 @@
-import { Arbeidsgiver, Arbeidsgiverinntekt } from '@io/graphql';
+import { Arbeidsgiver, Arbeidsgiverinntekt, Skjonnsfastsettingstype } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
-import { skjønnsfastsettelseBegrunnelser } from '../../skjønnsfastsetting';
+import { Skjønnsfastsettingstype } from '../../skjønnsfastsetting';
 import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
 
 export const useSkjønnsfastsettingDefaults = (
@@ -24,7 +24,7 @@ export const useSkjønnsfastsettingDefaults = (
             aktiveArbeidsgivereInntekter: undefined,
             defaults: {
                 begrunnelseFritekst: '',
-                begrunnelseId: '',
+                type: undefined,
                 årsak: '',
                 arbeidsgivere: [],
             },
@@ -52,6 +52,18 @@ export const useSkjønnsfastsettingDefaults = (
         ),
     );
 
+    const mapType = (type: Maybe<Skjonnsfastsettingstype> = Skjonnsfastsettingstype.Annet): Skjønnsfastsettingstype => {
+        switch (type) {
+            case Skjonnsfastsettingstype.OmregnetArsinntekt:
+                return Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT;
+            case Skjonnsfastsettingstype.RapportertArsinntekt:
+                return Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT;
+            case Skjonnsfastsettingstype.Annet:
+            default:
+                return Skjønnsfastsettingstype.ANNET;
+        }
+    };
+
     const erReturoppgave = (period as BeregnetPeriode)?.totrinnsvurdering?.erRetur ?? false;
     const forrigeSkjønnsfastsettelse = erReturoppgave
         ? arbeidsgiver?.overstyringer
@@ -61,16 +73,14 @@ export const useSkjønnsfastsettingDefaults = (
               .pop()
         : undefined;
     const forrigeSkjønnsfastsettelseFritekst = forrigeSkjønnsfastsettelse?.skjonnsfastsatt?.begrunnelseFritekst ?? '';
-    const forrigeBegrunnelseId = skjønnsfastsettelseBegrunnelser().find(
-        (begrunnelse) => begrunnelse.type.replace('Å', 'A') === forrigeSkjønnsfastsettelse?.skjonnsfastsatt?.type,
-    )?.id;
+    const forrigeType = mapType(forrigeSkjønnsfastsettelse?.skjonnsfastsatt?.type);
 
     return {
         aktiveArbeidsgivere: aktiveArbeidsgivere,
         aktiveArbeidsgivereInntekter: aktiveArbeidsgivereInntekter,
         defaults: {
             begrunnelseFritekst: forrigeSkjønnsfastsettelseFritekst,
-            begrunnelseId: forrigeBegrunnelseId ?? '',
+            type: forrigeType ?? '',
             årsak: '',
             arbeidsgivere: aktiveArbeidsgivereInntekter.map((inntekt) => ({
                 organisasjonsnummer: inntekt.arbeidsgiver,

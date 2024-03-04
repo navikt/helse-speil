@@ -19,24 +19,20 @@ import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserP
 import { useAddToast, useRemoveToast } from '@state/toasts';
 
 export interface BegrunnelseForSkjønnsfastsetting {
-    id: string;
     valg: string;
     type: Skjønnsfastsettingstype;
 }
 
 export const skjønnsfastsettelseBegrunnelser = (): BegrunnelseForSkjønnsfastsetting[] => [
     {
-        id: '0',
         valg: 'Skjønnsfastsette til omregnet årsinntekt ',
         type: Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT,
     },
     {
-        id: '1',
         valg: 'Skjønnsfastsette til rapportert årsinntekt ',
         type: Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT,
     },
     {
-        id: '2',
         valg: 'Skjønnsfastsette til annet ',
         type: Skjønnsfastsettingstype.ANNET,
     },

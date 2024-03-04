@@ -10,6 +10,7 @@ import { Modal } from '@components/Modal';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { toKronerOgØre } from '@utils/locale';
 
+import { Skjønnsfastsettingstype } from '../skjønnsfastsetting';
 import { skjønnsfastsettingMaler } from '../state';
 import { ExpandableSkjønnsfastsettingBegrunnelseContent } from './ExpandableSkjønnsfastsettingBegrunnelse';
 
@@ -26,11 +27,15 @@ export const SkjønnsfastsettingBegrunnelse = ({
     const valgtÅrsak = useWatch({ name: 'årsak' });
     const malFraSanity = useRecoilValue(skjønnsfastsettingMaler).find((it) => it.arsak === valgtÅrsak);
     const [showModal, setShowModal] = useState(false);
-    const begrunnelseId = watch('begrunnelseId');
+    const begrunnelseType = watch('type');
     const arbeidsgivere = watch('arbeidsgivere', []);
     const annet = arbeidsgivere.reduce((n: number, { årlig }: { årlig: number }) => n + årlig, 0);
     const skjønnsfastsatt =
-        begrunnelseId === '0' ? omregnetÅrsinntekt : begrunnelseId === '1' ? sammenligningsgrunnlag : annet;
+        begrunnelseType === Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT
+            ? omregnetÅrsinntekt
+            : begrunnelseType === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT
+              ? sammenligningsgrunnlag
+              : annet;
 
     return (
         <>
