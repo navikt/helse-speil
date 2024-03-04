@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { Skjonnsfastsettingstype, Sykepengegrunnlagskjonnsfastsetting } from '@io/graphql';
 import { useCurrentPerson } from '@state/person';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
@@ -8,9 +9,10 @@ import styles from './SkjønnsfastsettingSammendrag.module.css';
 
 export const SkjønnsfastsettingSammendrag = () => {
     const person = useCurrentPerson();
-    const sisteSkjønnsfastsetting = person.arbeidsgivere[0].overstyringer.findLast(
-        isSykepengegrunnlagskjønnsfastsetting,
-    ) as Sykepengegrunnlagskjonnsfastsetting;
+    const sisteSkjønnsfastsetting = person.arbeidsgivere[0].overstyringer
+        .filter((it) => isSykepengegrunnlagskjønnsfastsetting(it))
+        .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
+        .shift() as Sykepengegrunnlagskjonnsfastsetting;
 
     if (!person || !sisteSkjønnsfastsetting) return <></>;
 
