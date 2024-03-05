@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Inntektskilde, Skjonnsfastsettingstype } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 import { somPengerUtenDesimaler } from '@utils/locale';
@@ -37,6 +38,7 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
     saksbehandler,
     timestamp,
     skjønnsfastsatt,
+    arbeidsgivere,
 }: SykepengegrunnlagskjønnsfastsettinghendelseProps) => (
     <>
         <Hendelse
@@ -62,12 +64,21 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
                     <Bold>Konklusjon </Bold>
                     <BodyShort>{skjønnsfastsatt.begrunnelseKonklusjon}</BodyShort>
                     <Bold>Årsinntekt </Bold>
-                    <BodyShort>
-                        {skjønnsfastsatt.fraArlig !== skjønnsfastsatt.arlig && (
-                            <span className={styles.FromValue}>{somPengerUtenDesimaler(skjønnsfastsatt.fraArlig)}</span>
-                        )}
-                        {somPengerUtenDesimaler(skjønnsfastsatt.arlig)}
-                    </BodyShort>
+                    <div className={styles.arbeidsgivere}>
+                        {arbeidsgivere.map((ag, index) => (
+                            <Fragment key={`ag-${index}`}>
+                                <AnonymizableText>{ag.navn}</AnonymizableText>
+                                <BodyShort>
+                                    {skjønnsfastsatt.fraArlig !== skjønnsfastsatt.arlig && (
+                                        <span className={styles.FromValue}>
+                                            {somPengerUtenDesimaler(skjønnsfastsatt.fraArlig)}
+                                        </span>
+                                    )}
+                                    {somPengerUtenDesimaler(skjønnsfastsatt.arlig)}
+                                </BodyShort>
+                            </Fragment>
+                        ))}
+                    </div>
                     <Bold>Skj. tidspunkt</Bold>
                     <BodyShort>{getFormattedDateString(skjønnsfastsatt.skjaeringstidspunkt)}</BodyShort>
                 </div>

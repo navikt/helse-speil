@@ -46,7 +46,7 @@ const getHendelserForBeregnetPeriode = (
         person.arbeidsgivere,
     );
     const sykepengegrunnlagskjønnsfastsetting = arbeidsgiver
-        ? getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, arbeidsgiver)
+        ? getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, arbeidsgiver, person.arbeidsgivere)
         : [];
 
     const dokumenter = getDokumenter(period);
@@ -97,7 +97,7 @@ const getHendelserForUberegnetPeriode = (
     const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period.skjaeringstidspunkt, arbeidsgiver) : [];
     const notater = getNotathendelser(period.notater.map(toNotat));
     const sykepengegrunnlagskjønnsfastsetting = arbeidsgiver
-        ? getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, arbeidsgiver)
+        ? getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, arbeidsgiver, person.arbeidsgivere)
         : [];
 
     const dokumenter = getDokumenter(period);

@@ -20,6 +20,12 @@ declare type Hendelsetype =
     | 'Utbetaling'
     | 'Historikk';
 
+declare type ArbeidsgiverSkjønnHendelse = {
+    navn: string;
+    årlig: number;
+    fraÅrlig: number;
+};
+
 declare type BaseHendelseObject = {
     id: string;
     type: Hendelsetype;
@@ -70,6 +76,7 @@ declare type SykepengegrunnlagskjonnsfastsettinghendelseObject = BaseHendelseObj
     saksbehandler: string;
     timestamp: DateString;
     skjønnsfastsatt: SkjonnsfastsattSykepengegrunnlag;
+    arbeidsgivere: ArbeidsgiverSkjønnHendelse[];
 };
 
 declare type DokumenthendelseObject = BaseHendelseObject & {

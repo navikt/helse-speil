@@ -373,6 +373,7 @@ export const getAnnetArbeidsforholdoverstyringhendelser = (
 export const getSykepengegrunnlagskjønnsfastsetting = (
     skjæringstidspunkt: DateString,
     arbeidsgiver: Arbeidsgiver,
+    arbeidsgivere: Array<Arbeidsgiver>,
 ): Array<SykepengegrunnlagskjonnsfastsettinghendelseObject> =>
     arbeidsgiver.overstyringer
         .filter(isSykepengegrunnlagskjønnsfastsetting)
@@ -383,6 +384,7 @@ export const getSykepengegrunnlagskjønnsfastsetting = (
             saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
             timestamp: overstyring.timestamp,
             skjønnsfastsatt: overstyring.skjonnsfastsatt,
+            arbeidsgivere: getArbeidsgivereÅrsinntekt(arbeidsgivere, overstyring.hendelseId),
         }));
 
 export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObject> =>
@@ -403,3 +405,18 @@ export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObj
 const byTimestamp = (a: Notat, b: Notat): number => {
     return dayjs(b.opprettet).diff(dayjs(a.opprettet));
 };
+
+const getArbeidsgivereÅrsinntekt = (arbeidsgivere: Arbeidsgiver[], hendelseId: string): ArbeidsgiverSkjønnHendelse[] =>
+    arbeidsgivere.reduce((liste: ArbeidsgiverSkjønnHendelse[], ag) => {
+        const skjønnsfastsatt = ag.overstyringer
+            .filter(isSykepengegrunnlagskjønnsfastsetting)
+            .filter((it) => it.hendelseId === hendelseId)
+            ?.shift()?.skjonnsfastsatt;
+
+        liste.push({
+            navn: ag.navn,
+            årlig: skjønnsfastsatt?.arlig ?? 0,
+            fraÅrlig: skjønnsfastsatt?.fraArlig ?? 0,
+        });
+        return liste;
+    }, []);
