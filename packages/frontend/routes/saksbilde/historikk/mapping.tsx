@@ -413,10 +413,12 @@ const getArbeidsgivereÅrsinntekt = (arbeidsgivere: Arbeidsgiver[], hendelseId: 
             .filter((it) => it.hendelseId === hendelseId)
             ?.shift()?.skjonnsfastsatt;
 
-        liste.push({
-            navn: ag.navn,
-            årlig: skjønnsfastsatt?.arlig ?? 0,
-            fraÅrlig: skjønnsfastsatt?.fraArlig ?? 0,
-        });
+        if (skjønnsfastsatt !== undefined) {
+            liste.push({
+                navn: ag.navn,
+                årlig: skjønnsfastsatt?.arlig ?? 0,
+                fraÅrlig: skjønnsfastsatt?.fraArlig ?? 0,
+            });
+        }
         return liste;
     }, []);
