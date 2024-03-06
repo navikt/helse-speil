@@ -3,6 +3,8 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 
 import { TextField } from '@navikt/ds-react';
 
+import { toKronerOgØre } from '@utils/locale';
+
 import { Arbeidsgivernavn } from '../../../Arbeidsgivernavn';
 import { Skjønnsfastsettingstype } from '../../skjønnsfastsetting';
 
@@ -34,7 +36,8 @@ export const ArbeidsgiverRad = ({
                 {...årligField}
                 onChange={(e) => {
                     clearArbeidsgiverErrors();
-                    return årligField.onChange(e);
+                    const endretEvent = formaterBeløp(e);
+                    return årligField.onChange(endretEvent);
                 }}
                 size="small"
                 label="Skjønnsfastsatt årlig inntekt"
@@ -52,3 +55,15 @@ export const ArbeidsgiverRad = ({
         </td>
     </tr>
 );
+
+const formaterBeløp = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const splittetInput = e.target.value.split(',');
+    const kronebeløpUtenDesimaler = toKronerOgØre(splittetInput[0].replace(/\s/g, ''), 0);
+    const caretStart = (e.target?.selectionStart ?? 0) - (splittetInput[0].length - kronebeløpUtenDesimaler.length);
+    const caretEnd = (e.target?.selectionEnd ?? 0) - (splittetInput[0].length - kronebeløpUtenDesimaler.length);
+
+    e.target.value = kronebeløpUtenDesimaler + (splittetInput.length > 1 ? `,${splittetInput[1]}` : '');
+    e.target.setSelectionRange(caretStart, caretEnd);
+
+    return e;
+};
