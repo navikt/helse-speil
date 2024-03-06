@@ -38,7 +38,8 @@ export const SkjønnsfastsettingArbeidsgivere = ({
         rules: {
             validate: {
                 måVæreNumerisk: (values) =>
-                    values.some((value) => isNumeric(value.årlig.toString())) || 'Årsinntekt må være et beløp',
+                    values.some((value) => isNumeric(value.årlig.toString())) ||
+                    'Årsinntekt må være et beløp med maks to desimaler',
                 sammenligningsgrunnlagMåVæreFordelt: (values) =>
                     type !== Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT ||
                     sammenligningsgrunnlag - values.reduce((sum, { årlig }) => sum + årlig, 0) === 0 ||
