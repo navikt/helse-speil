@@ -57,6 +57,7 @@ export const ArbeidsgiverRad = ({
 );
 
 const formaterBeløp = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === '') return e;
     const splittetInput = e.target.value.split(',');
     const kronebeløpUtenDesimaler = toKronerOgØre(splittetInput[0].replace(/\s/g, ''), 0);
     const caretStart = (e.target?.selectionStart ?? 0) - (splittetInput[0].length - kronebeløpUtenDesimaler.length);
