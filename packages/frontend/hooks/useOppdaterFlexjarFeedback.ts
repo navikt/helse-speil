@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { FetchError } from '@io/graphql/errors';
 import { useMutation } from '@tanstack/react-query';
 
-const basePath = 'http://flexjar-backend.flex';
+const basePath = 'https://flexjar-backend.flex';
 
 export function UseOppdaterFlexjarFeedback() {
     return useMutation<unknown, Error, OppdaterFlexjarFeedbackRequest>({

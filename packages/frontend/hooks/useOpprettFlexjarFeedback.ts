@@ -2,7 +2,7 @@ import { ErrorHandler, fetchMedRequestId } from '@hooks/useOppdaterFlexjarFeedba
 import { FetchError } from '@io/graphql/errors';
 import { useMutation } from '@tanstack/react-query';
 
-const basePath = 'http://flexjar-backend.flex';
+const basePath = 'https://flexjar-backend.flex';
 
 export function UseOpprettFlexjarFeedback() {
     return useMutation<OpprettFeedbackResoponse, unknown, object>({
