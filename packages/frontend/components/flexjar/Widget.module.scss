@@ -1,12 +1,25 @@
+@-webkit-keyframes slide {
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes slide {
+  100% {
+    left: 0;
+  }
+}
+
 .widget {
   display: block;
   width: 23rem;
   position: fixed;
-  left: 0;
-  bottom: 10rem;
+  left: -23rem;
+  bottom: 3rem;
   margin-left: 2.5rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0 3px 50px 0;
   z-index: 10;
+  animation: slide 300ms forwards
 }
 
 .button {
