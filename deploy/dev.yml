@@ -12,6 +12,9 @@ spec:
         - application: spesialist
           cluster: dev-gcp
           namespace: tbd
+        - application: flexjar-backend
+          cluster: prod-gcp
+          namespace: flex
   image: {{image}}
   port: 3000
   ingresses:
