@@ -1,0 +1,82 @@
+.container {
+  padding: 0;
+
+  .content {
+    border: 0.25rem solid var(--a-bg-subtle);
+
+    .header {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      background: var(--a-bg-subtle);
+      padding: 1rem;
+
+      .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2rem;
+        height: 2rem;
+        background: var(--a-gray-900);
+        color: white;
+        border-radius: 50%;
+      }
+
+      .tittel {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    .body {
+      padding: 1rem;
+      background: white;
+
+      .spørsmål {
+        margin-bottom: 1.5rem;
+      }
+
+      .form {
+        margin-top: 2rem;
+
+        .alert {
+          margin-top: 1rem;
+        }
+
+        .send {
+          margin-top: 1rem;
+        }
+      }
+    }
+  }
+
+  .thanks {
+    padding: 1rem;
+    background: var(--a-surface-success-subtle);
+
+    .header {
+      display: flex;
+      align-items: center;
+
+      .smiley {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}
+
+.button {
+  outline: none;
+
+  &:not(:first-of-type) {
+    margin-left: 0.5rem;
+  }
+
+  &:hover, &.answer {
+    background: var(--a-surface-neutral-active);
+    color: var(--a-text-on-inverted);
+  }
+
+  &.answer:focus {
+    box-shadow: none;
+  }
+}
