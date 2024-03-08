@@ -66,3 +66,5 @@ export const harBeslutterrolle: boolean = extractGroups().includes(groupIdForBes
 export const harSpesialsaktilgang: boolean = extractGroups().includes(groupIdSpesialsaker) || erUtvikling();
 
 export const toggleMeny: boolean = erLocal() || erDev();
+
+export const flexjar: boolean = erLocal() || erDev();
