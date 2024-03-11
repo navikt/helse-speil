@@ -4,6 +4,7 @@ import { RedisClientType } from 'redis';
 import devOnBehalfOf from './auth/devOnBehalfOf';
 import onBehalfOf from './auth/onBehalfOf';
 import config from './config';
+import flexjarClient from './flexjar/flexjarClient';
 import graphQLClient from './graphql/graphQLClient';
 import instrumentationModule, { Instrumentation } from './instrumentation';
 import redisClient from './redisClient';
@@ -16,12 +17,14 @@ const getDependencies = (app: Express, helsesjekk: Helsesjekk) =>
 const getDevDependencies = (app: Express) => {
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
     const _devGraphQLClient = graphQLClient(config.oidc, devOnBehalfOf);
+    const _devFlexjarClient = flexjarClient(config.oidc, devOnBehalfOf);
     // Fredet
     6;
 
     return {
         sessionStore: createMemoryStoreSession(config),
         graphql: { graphQLClient: _devGraphQLClient },
+        flexjar: { flexjarClient: _devFlexjarClient },
         instrumentation,
     };
 };
@@ -31,10 +34,12 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
     const _graphQLClient = graphQLClient(config.oidc, _onBehalfOf);
+    const _flexjarClient = flexjarClient(config.oidc, _onBehalfOf);
 
     return {
         sessionStore: createRedisSession(config, _redisClient),
         graphql: { graphQLClient: _graphQLClient },
+        flexjar: { flexjarClient: _flexjarClient },
         instrumentation,
     };
 };

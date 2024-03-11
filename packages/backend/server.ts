@@ -8,6 +8,7 @@ import util from 'util';
 import auth from './auth/authSupport';
 import azure from './auth/azure';
 import config from './config';
+import flexjarRoutes from './flexjar/flexjarRoutes';
 import graphQLRoutes from './graphql/graphQLRoutes';
 import headers from './headers';
 import logger from './logging';
@@ -163,6 +164,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
 });
 
 app.use('/graphql', graphQLRoutes(dependencies.graphql));
+app.use('/flexjar', flexjarRoutes(dependencies.flexjar));
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {

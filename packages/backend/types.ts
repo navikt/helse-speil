@@ -11,6 +11,7 @@ export interface OidcConfig {
     tokenEndpoint: string;
     clientID: string;
     clientIDSpesialist: string;
+    clientIDFlexjar: string;
     responseType: ResponseType[];
     clientSecret: string;
     scope: string;
@@ -21,6 +22,7 @@ export interface ServerConfig {
     port: number;
     sessionSecret?: string;
     spesialistBaseUrl: string;
+    flexjarBaseUrl: string;
 }
 
 export interface RedisConfig {
