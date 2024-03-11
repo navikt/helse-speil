@@ -68,7 +68,7 @@ const SaksbildeContent = () => {
                         <QueryClientProvider client={queryClient}>
                             <Widget>
                                 <Tilbakemelding
-                                    feedbackId="test"
+                                    feedbackId="speil-test"
                                     tittel="Hjelp oss med å gjøre siden bedre"
                                     sporsmal="Har du noen forslag til forbedringer?"
                                 />
