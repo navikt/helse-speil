@@ -13,7 +13,7 @@ spec:
           cluster: dev-gcp
           namespace: tbd
         - application: flexjar-backend
-          cluster: prod-gcp
+          cluster: dev-gcp
           namespace: flex
   image: {{image}}
   port: 3000
@@ -79,3 +79,7 @@ spec:
       value: https://speil.intern.dev.nav.no
     - name: SPESIALIST_BASE_URL
       value: http://spesialist
+    - name: FLEXJAR_BASE_URL
+      value: http://flexjar-backend.flex
+    - name: CLIENT_ID_FLEXJAR
+      value: api://dev-gcp:flex:flexjar-backend/.default
