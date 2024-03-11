@@ -70,7 +70,7 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
                 </div>
             )}
             {søknadsrespons.loading && <DokumentLoader />}
-            {søknadsrespons.error && <div>Noe gikk feil, vennligst prøv igjen.</div>}
+            {søknadsrespons.error && <div>Noe gikk galt, vennligst prøv igjen.</div>}
         </div>
     );
 };
