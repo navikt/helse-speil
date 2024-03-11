@@ -45,7 +45,7 @@ spec:
   observability:
     autoInstrumentation:
       enabled: true
-      runtime: node
+      runtime: nodejs
   frontend:
     generatedConfig:
       mountPath: /app/dist/client/nais/nais
