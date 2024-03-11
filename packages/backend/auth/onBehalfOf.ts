@@ -1,4 +1,5 @@
 import { TokenSet } from 'openid-client';
+import process from 'process';
 
 import { sleep } from '../devHelpers';
 import { Instrumentation } from '../instrumentation';
@@ -11,12 +12,22 @@ export default (config: OidcConfig, instrumentation: Instrumentation): OnBehalfO
 
     return {
         hentFor: async (targetClientId: string, session: SpeilSession, accessToken: string) => {
-            if (session.oboToken && authSupport.isValidIn({ seconds: 5, token: session.oboToken })) {
+            const erSpesialistClientId = targetClientId === process.env.CLIENT_ID_SPESIALIST;
+            if (
+                erSpesialistClientId &&
+                session.oboToken &&
+                authSupport.isValidIn({
+                    seconds: 5,
+                    token: session.oboToken,
+                })
+            ) {
                 logger.info('Bruker cachet obo token i stedet for å hente nytt');
                 return session.oboToken;
             }
 
-            logger.info('Forsøker å hente nytt obo token');
+            logger.info(
+                `Forsøker å hente nytt obo token for ${erSpesialistClientId ? 'spesialist' : 'flexjar-backend'}`,
+            );
 
             counter.inc(targetClientId);
 
@@ -59,7 +70,10 @@ export default (config: OidcConfig, instrumentation: Instrumentation): OnBehalfO
                 logger.info(`Brukte ${forsøk} forsøk på å hente token for ${targetClientId}`);
             }
 
-            session.oboToken = tokenSet.access_token!;
+            if (erSpesialistClientId) {
+                session.oboToken = tokenSet.access_token!;
+            }
+
             return tokenSet.access_token!;
         },
     };
