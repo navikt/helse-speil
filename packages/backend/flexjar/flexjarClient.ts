@@ -34,7 +34,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient =
         const maskertToken = onBehalfOfToken.substring(0, 6);
         logger.debug(`Kaller ${baseUrl} med X-Request-Id: ${callId} og token: ${maskertToken}...`);
         const start = Date.now();
-        const path = 'api/v2/feedback';
+        const path = 'api/azure/v2/feedback';
         const response = await fetch(`${baseUrl}/${path}`, options);
         const tidBrukt = Date.now() - start;
         logger.debug(
