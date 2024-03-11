@@ -29,13 +29,17 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient =
             body: data,
         };
 
+        console.log(data);
+
         const maskertToken = onBehalfOfToken.substring(0, 6);
         logger.debug(`Kaller ${baseUrl} med X-Request-Id: ${callId} og token: ${maskertToken}...`);
         const start = Date.now();
         const path = 'api/flexjar-backend/api/v2/feedback';
         const response = await fetch(`${baseUrl}/${path}`, options);
         const tidBrukt = Date.now() - start;
-        logger.debug(`GraphQL-kall til ${baseUrl} med X-Request-Id: ${callId} - ferdig etter ${tidBrukt} ms`);
+        logger.debug(
+            `Flexjar-kall til ${baseUrl} med X-Request-Id: ${callId} - ferdig etter ${tidBrukt} ms, response: ${response}`,
+        );
         return response;
     },
 });
