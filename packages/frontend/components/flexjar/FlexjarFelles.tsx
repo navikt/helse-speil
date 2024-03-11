@@ -6,8 +6,8 @@ import { FaceSmileIcon, MagnifyingGlassIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, Button, Heading, Textarea } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { UseOppdaterFlexjarFeedback } from '@hooks/useOppdaterFlexjarFeedback';
-import { UseOpprettFlexjarFeedback } from '@hooks/useOpprettFlexjarFeedback';
+import { useOppdaterFlexjarFeedback } from '@hooks/useOppdaterFlexjarFeedback';
+import { useOpprettFlexjarFeedback } from '@hooks/useOpprettFlexjarFeedback';
 
 interface FlexjarFellesProps {
     feedbackId: string;
@@ -39,8 +39,8 @@ export function FlexjarFelles({
     const [textValue, setTextValue] = useState('');
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
     const textAreaRef = useRef(null);
-    const { mutate: giFeedback, data, reset } = UseOpprettFlexjarFeedback();
-    const { mutate: oppdaterFeedback } = UseOppdaterFlexjarFeedback();
+    const { mutate: giFeedback, data, reset } = useOpprettFlexjarFeedback();
+    const { mutate: oppdaterFeedback } = useOppdaterFlexjarFeedback();
 
     const fetchFeedback = useCallback(
         async (knappeklikk?: () => void): Promise<boolean> => {
