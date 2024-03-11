@@ -25,9 +25,7 @@ export default (config: OidcConfig, instrumentation: Instrumentation): OnBehalfO
                 return session.oboToken;
             }
 
-            logger.info(
-                `Forsøker å hente nytt obo token for ${erSpesialistClientId ? 'spesialist' : 'flexjar-backend'}`,
-            );
+            logger.info(`Forsøker å hente nytt obo token for ${targetClientId}`);
 
             counter.inc(targetClientId);
 
