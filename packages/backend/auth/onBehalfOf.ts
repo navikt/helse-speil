@@ -53,7 +53,7 @@ export default (config: OidcConfig, instrumentation: Instrumentation): OnBehalfO
                             logger.info(`Prøver å hente token på nytt for ${targetClientId}: ${error}`);
                         } else {
                             logger.error(
-                                `Feil etter ${forsøk} forsøk ved henting av token for ${targetClientId}: ${error}, gir opp, ${tokenSet?.error}`,
+                                `Feil etter ${forsøk} forsøk ved henting av token for ${targetClientId}: ${error}, gir opp.`,
                             );
                             throw error;
                         }
@@ -63,6 +63,9 @@ export default (config: OidcConfig, instrumentation: Instrumentation): OnBehalfO
                         await sleep(500 * forsøk);
                     });
             }
+
+            if (tokenSet.error)
+                logger.error(`tokenSet error ${tokenSet.error} ved henting av token for ${targetClientId}`);
 
             if (forsøk > 1) {
                 logger.info(`Brukte ${forsøk} forsøk på å hente token for ${targetClientId}`);
