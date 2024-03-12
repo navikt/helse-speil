@@ -53,7 +53,7 @@ export default (config: OidcConfig, instrumentation: Instrumentation): OnBehalfO
                             logger.info(`Prøver å hente token på nytt for ${targetClientId}: ${error}`);
                         } else {
                             logger.error(
-                                `Feil etter ${forsøk} forsøk ved henting av token for ${targetClientId}: ${error}, gir opp`,
+                                `Feil etter ${forsøk} forsøk ved henting av token for ${targetClientId}: ${error}, gir opp, ${tokenSet?.error}`,
                             );
                             throw error;
                         }
