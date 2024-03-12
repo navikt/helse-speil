@@ -22,16 +22,16 @@ export default ({ flexjarClient }: SetupOptions) => {
 };
 
 const postOpprett = async (flexjarClient: FlexjarClient, req: SpeilRequest, res: Response) => {
-    let response: Response | undefined;
+    let fetchFeilet = false;
     await flexjarClient
         .postFlexjarQuery(req.session!.speilToken, req.session, JSON.stringify(req.body))
-        .then((response) => response.json())
         .catch((error) => {
+            fetchFeilet = true;
             logger.info(`Sending av feedback til flexjar feilet: ${error}`);
         });
-    logger.info(`Opprettet flexjar-feedback, respons: ${response}`);
-    if (response) res.status(202).send(response);
-    else res.sendStatus(500);
+    if (fetchFeilet) res.sendStatus(500);
+
+    res.sendStatus(202);
 };
 
 const postOppdater = async (flexjarClient: FlexjarClient, req: SpeilRequest, res: Response) => {
