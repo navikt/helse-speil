@@ -29,8 +29,6 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient =
             body: data,
         };
 
-        console.log(data);
-
         const maskertToken = onBehalfOfToken.substring(0, 6);
         logger.debug(`Kaller ${baseUrl} med X-Request-Id: ${callId} og token: ${maskertToken}...`);
         const start = Date.now();
