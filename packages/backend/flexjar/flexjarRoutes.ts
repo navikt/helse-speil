@@ -29,6 +29,7 @@ const postOpprett = async (flexjarClient: FlexjarClient, req: SpeilRequest, res:
         .catch((error) => {
             logger.info(`Sending av feedback til flexjar feilet: ${error}`);
         });
+    logger.info(`Opprettet flexjar-feedback, respons: ${response}`);
     if (response) res.status(202).send(response);
     else res.sendStatus(500);
 };
@@ -41,6 +42,7 @@ const postOppdater = async (flexjarClient: FlexjarClient, req: SpeilRequest, res
         .catch((error) => {
             logger.info(`Oppdatering av feedback til flexjar feilet: ${error}`);
         });
+    logger.info(`Oppdatert flexjar-feedback, respons: ${response}`);
     if (response) res.status(204).send(response);
     else res.sendStatus(500);
 };
