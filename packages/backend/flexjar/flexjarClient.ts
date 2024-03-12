@@ -26,6 +26,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient =
     ): Promise<object> => {
         const callId = uuidv4();
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDFlexjar, session, speilToken);
+        const dataMedId = JSON.parse(data).push('id', callId);
         const options = {
             method,
             headers: {
@@ -33,7 +34,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient =
                 'X-Request-Id': callId,
                 'Content-Type': 'application/json',
             },
-            body: data,
+            body: dataMedId,
         };
 
         const maskertToken = onBehalfOfToken.substring(0, 6);
