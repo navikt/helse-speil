@@ -4,10 +4,9 @@ import { useMutation } from '@tanstack/react-query';
 export function useOppdaterFlexjarFeedback() {
     return useMutation<unknown, Error, OppdaterFlexjarFeedbackRequest>({
         mutationFn: async (req) => {
-            return fetchFlexjar(`/flexjar/oppdater`, {
-                method: 'PUT',
+            return fetchFlexjar(`/flexjar/oppdater/${req.id}`, {
+                method: 'POST',
                 body: JSON.stringify(req.body),
-
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',

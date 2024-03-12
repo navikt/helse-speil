@@ -14,35 +14,33 @@ export default ({ flexjarClient }: SetupOptions) => {
     router.post('/', (req: SpeilRequest, res: Response, next: NextFunction) => {
         postOpprett(flexjarClient, req, res).catch(next);
     });
-    router.post(`/oppdater`, (req: SpeilRequest, res: Response, next: NextFunction) => {
-        postOppdater(flexjarClient, req, res).catch(next);
+    router.post(`/oppdater/:id`, (req: SpeilRequest, res: Response, next: NextFunction) => {
+        postOppdater(flexjarClient, req.params.id, req, res).catch(next);
     });
 
     return router;
 };
 
 const postOpprett = async (flexjarClient: FlexjarClient, req: SpeilRequest, res: Response) => {
-    let fetchFeilet = false;
+    let response: object | undefined;
     await flexjarClient
         .postFlexjarQuery(req.session!.speilToken, req.session, JSON.stringify(req.body))
+        .then((response) => JSON.stringify(response))
         .catch((error) => {
-            fetchFeilet = true;
             logger.info(`Sending av feedback til flexjar feilet: ${error}`);
         });
-    if (fetchFeilet) res.sendStatus(500);
-
-    res.sendStatus(202);
+    if (response) res.status(202).send(response);
+    else res.sendStatus(500);
 };
 
-const postOppdater = async (flexjarClient: FlexjarClient, req: SpeilRequest, res: Response) => {
-    let response: Response | undefined;
+const postOppdater = async (flexjarClient: FlexjarClient, id: string, req: SpeilRequest, res: Response) => {
+    let fetchFeilet = false;
     await flexjarClient
-        .postFlexjarQuery(req.session!.speilToken, req.session, JSON.stringify(req.body), 'PUT')
-        .then((response) => response.json())
+        .postFlexjarQuery(req.session!.speilToken, req.session, JSON.stringify(req.body), 'PUT', `/${id}`)
         .catch((error) => {
+            fetchFeilet = true;
             logger.info(`Oppdatering av feedback til flexjar feilet: ${error}`);
         });
-    logger.info(`Oppdatert flexjar-feedback, respons: ${response}`);
-    if (response) res.status(204).send(response);
-    else res.sendStatus(500);
+    if (fetchFeilet) res.sendStatus(500);
+    else res.status(204).send(JSON.stringify({}));
 };
