@@ -26,7 +26,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient =
     ): Promise<object> => {
         const callId = uuidv4();
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDFlexjar, session, speilToken);
-        const dataMedId = JSON.parse(data).push('id', callId);
+        const dataMedId = { ...JSON.parse(data), id: callId };
         const options = {
             method,
             headers: {
