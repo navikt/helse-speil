@@ -82,4 +82,4 @@ spec:
     - name: FLEXJAR_BASE_URL
       value: http://flexjar-backend.flex
     - name: CLIENT_ID_FLEXJAR
-      value: dev-gcp:flex:flexjar-backend
+      value: api://dev-gcp:flex:flexjar-backend/.default
