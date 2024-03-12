@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 
 import type { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
-import { erUtvikling } from '@utils/featureToggles';
+import { erCoachEllerSuper } from '@utils/featureToggles';
 
 type Periode = {
     fom: DateString;
@@ -68,7 +68,7 @@ const useAvailableZoomLevels = (startDate: Dayjs, delta: number) => {
 };
 
 const getNumberOfDaysInZoomLevel = (level: TimelineZoomLevel): number => {
-    return level.tom.diff(level.fom, 'day') * (erUtvikling() ? 0.75 : 1);
+    return level.tom.diff(level.fom, 'day') * (erCoachEllerSuper() ? 0.75 : 1);
 };
 
 type UseTimelineControlsResult = {
