@@ -22,8 +22,7 @@ export default ({ flexjarClient }: SetupOptions) => {
 };
 
 const postOpprett = async (flexjarClient: FlexjarClient, req: SpeilRequest, res: Response) => {
-    let response: object | undefined;
-    await flexjarClient
+    const response = await flexjarClient
         .postFlexjarQuery(req.session!.speilToken, req.session, JSON.stringify(req.body))
         .then((response) => JSON.stringify(response))
         .catch((error) => {
