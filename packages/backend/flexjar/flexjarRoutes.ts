@@ -34,13 +34,11 @@ const postOpprett = async (flexjarClient: FlexjarClient, req: SpeilRequest, res:
 };
 
 const postOppdater = async (flexjarClient: FlexjarClient, id: string, req: SpeilRequest, res: Response) => {
-    let fetchFeilet = false;
-    await flexjarClient
-        .postFlexjarQuery(req.session!.speilToken, req.session, JSON.stringify(req.body), 'PUT', `/${id}`)
+    const response = await flexjarClient
+        .postFlexjarQuery(req.session!.speilToken, req.session, JSON.stringify(req.body), 'PUT', id)
         .catch((error) => {
-            fetchFeilet = true;
             logger.info(`Oppdatering av feedback til flexjar feilet: ${error}`);
         });
-    if (fetchFeilet) res.sendStatus(500);
-    else res.status(204).send(JSON.stringify({}));
+    if (response) res.status(204).send(JSON.stringify({}));
+    else res.sendStatus(500);
 };
