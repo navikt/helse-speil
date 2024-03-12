@@ -34,7 +34,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient =
                 'X-Request-Id': callId,
                 'Content-Type': 'application/json',
             },
-            body: dataMedId,
+            body: JSON.stringify(dataMedId),
         };
 
         const maskertToken = onBehalfOfToken.substring(0, 6);
