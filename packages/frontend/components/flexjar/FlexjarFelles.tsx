@@ -48,8 +48,6 @@ export function FlexjarFelles({
                 return false;
             }
 
-            console.log('fetchFeedback data', data);
-
             const body = {
                 feedback: textValue,
                 feedbackId: feedbackId,
@@ -59,8 +57,10 @@ export function FlexjarFelles({
             if (data?.id) {
                 oppdaterFeedback({ body, id: data.id, cb: knappeklikk });
                 return true;
-            } else {
+            } else if (knappeklikk !== undefined && !errorMsg) {
                 giFeedback(body);
+                return true;
+            } else {
                 return false;
             }
         },
