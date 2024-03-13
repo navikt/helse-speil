@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Tilbakemelding } from '@components/flexjar/Tilbakemelding';
+import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
 import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
@@ -67,10 +67,10 @@ const SaksbildeContent = () => {
                     {flexjar && (
                         <QueryClientProvider client={queryClient}>
                             <Widget>
-                                <Tilbakemelding
+                                <EmojiTilbakemelding
                                     feedbackId="speil-test"
-                                    tittel="Hjelp oss med å gjøre siden bedre"
-                                    sporsmal="Har du noen forslag til forbedringer?"
+                                    tittel="Hjelp oss med å gjøre Speil bedre"
+                                    sporsmal="Hvor fornøyd er du med Speil?"
                                 />
                             </Widget>
                         </QueryClientProvider>
