@@ -13,7 +13,7 @@ export interface FlexjarClient {
         data: string,
         method?: string,
         urlId?: string,
-    ) => Promise<object>;
+    ) => Promise<Response>;
 }
 
 export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient => ({
@@ -23,7 +23,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient =
         data: string,
         method: string = 'POST',
         urlId: string = '',
-    ): Promise<object> => {
+    ): Promise<Response> => {
         const callId = uuidv4();
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDFlexjar, session, speilToken);
         const options = {
@@ -43,10 +43,10 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient =
         const response = await fetch(`${baseUrl}/${path}`, options);
         const tidBrukt = Date.now() - start;
         logger.debug(
-            `Flexjar-kall til ${baseUrl} med X-Request-Id: ${callId} - ferdig etter ${tidBrukt} ms, response: ${response
+            `Flexjar-kall til ${baseUrl} med X-Request-Id: ${callId} - ferdig etter ${tidBrukt} ms, response: ${await response
                 .json()
                 .then((it) => JSON.stringify(it))}`,
         );
-        return { id: callId };
+        return response;
     },
 });
