@@ -56,14 +56,9 @@ export const Tilbakemelding = ({ feedbackId, tittel, sporsmal }: TilbakemeldingP
             flexjarsporsmal={sporsmal}
         >
             <div>
-                <FeedbackButton feedbackId={feedbackId} tekst="Ja" svar="JA" {...feedbackButtonProps} />
-                <FeedbackButton feedbackId={feedbackId} tekst="Nei" svar="NEI" {...feedbackButtonProps} />
-                <FeedbackButton
-                    feedbackId={feedbackId}
-                    tekst="Foreslå forbedring"
-                    svar="FORBEDRING"
-                    {...feedbackButtonProps}
-                />
+                <FeedbackButton tekst="Ja" svar="JA" {...feedbackButtonProps} />
+                <FeedbackButton tekst="Nei" svar="NEI" {...feedbackButtonProps} />
+                <FeedbackButton tekst="Foreslå forbedring" svar="FORBEDRING" {...feedbackButtonProps} />
             </div>
         </FlexjarFelles>
     );

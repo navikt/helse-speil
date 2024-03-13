@@ -178,11 +178,9 @@ interface FeedbackButtonProps {
     activeState: string | number | null;
     setThanksFeedback: (b: boolean) => void;
     setActiveState: (s: string | null | number) => void;
-    feedbackId: string;
 }
 
 export function FeedbackButton(props: FeedbackButtonProps) {
-    console.log(props.feedbackId);
     return (
         <Button
             variant="secondary-neutral"
