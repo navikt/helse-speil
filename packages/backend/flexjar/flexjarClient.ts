@@ -13,7 +13,7 @@ export interface FlexjarClient {
         data: string,
         method?: string,
         urlId?: string,
-    ) => Promise<Response>;
+    ) => Promise<object>;
 }
 
 export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient => ({
@@ -23,7 +23,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient =
         data: string,
         method: string = 'POST',
         urlId: string = '',
-    ): Promise<Response> => {
+    ): Promise<object> => {
         const callId = uuidv4();
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDFlexjar, session, speilToken);
         const options = {
@@ -42,11 +42,12 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient =
         const path = method === 'POST' ? 'api/azure/v2/feedback' : `api/azure/v2/feedback/${urlId}`;
         const response = await fetch(`${baseUrl}/${path}`, options);
         const tidBrukt = Date.now() - start;
+        const responseData = await response.json();
         logger.debug(
-            `Flexjar-kall til ${baseUrl} med X-Request-Id: ${callId} - ferdig etter ${tidBrukt} ms, response: ${await response
-                .json()
-                .then((it) => JSON.stringify(it))}`,
+            `Flexjar-kall til ${baseUrl} med X-Request-Id: ${callId} - ferdig etter ${tidBrukt} ms, response: ${JSON.stringify(
+                responseData,
+            )}`,
         );
-        return response;
+        return responseData;
     },
 });

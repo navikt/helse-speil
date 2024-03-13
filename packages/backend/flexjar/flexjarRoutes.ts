@@ -22,20 +22,14 @@ export default ({ flexjarClient }: SetupOptions) => {
 };
 
 const postOpprett = async (flexjarClient: FlexjarClient, req: SpeilRequest, res: Response) => {
-    try {
-        const response = await flexjarClient.postFlexjarQuery(
-            req.session!.speilToken,
-            req.session,
-            JSON.stringify(req.body),
-        );
-        const responseData = await response.json();
-        logger.info(`Sending av feedback til flexjar, respons: ${JSON.stringify(responseData)}`);
+    const response = await flexjarClient
+        .postFlexjarQuery(req.session!.speilToken, req.session, JSON.stringify(req.body))
+        .then((response) => JSON.stringify(response))
+        .catch((error) => logger.info(`Sending av feedback til flexjar feilet: ${error}`));
+    logger.info(`Sending av feedback til flexjar, respons: ${JSON.stringify(response)}`);
 
-        if (responseData) res.status(202).send(responseData);
-        else res.sendStatus(500);
-    } catch (error) {
-        logger.info(`Sending av feedback til flexjar feilet: ${error}`);
-    }
+    if (response) res.status(202).send(response);
+    else res.sendStatus(500);
 };
 
 const postOppdater = async (flexjarClient: FlexjarClient, id: string, req: SpeilRequest, res: Response) => {
