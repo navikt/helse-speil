@@ -57,10 +57,8 @@ export function FlexjarFelles({
             if (data?.id) {
                 oppdaterFeedback({ body, id: data.id, cb: knappeklikk });
                 return true;
-            } else if (knappeklikk !== undefined && !errorMsg) {
-                giFeedback(body);
-                return true;
             } else {
+                giFeedback(body);
                 return false;
             }
         },
