@@ -1,0 +1,9 @@
+.button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--a-gray-900);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}

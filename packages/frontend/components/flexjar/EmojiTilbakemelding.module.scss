@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  gap: 0.5rem;
+
+  .content {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    .sinna:hover {
+      color: var(--a-red-500);
+    }
+
+    .lei:hover {
+      color: var(--a-orange-500);
+    }
+
+    .nøytral:hover {
+      color: var(--a-blue-500);
+    }
+
+    .glad:hover {
+      color: var(--a-green-400);
+    }
+
+    .veldig-glad:hover {
+      color: var(--a-green-700);
+    }
+  }
+}
