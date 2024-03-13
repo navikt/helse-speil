@@ -27,8 +27,6 @@ export const fetchJsonFlexjar = async (url: string, options: RequestInit = {}, e
     const fetchResult = await fetchFlexjar(url, options, errorHandler);
     const response = fetchResult.response;
 
-    console.log('response flexjar', response);
-
     // Guard som sjekker at response faktisk er OK før vi prøver å parse JSON siden default throw i fetchMedRequestId()
     // kan bli utelatt i en custom errorHandler.
     if (!response.ok) {
