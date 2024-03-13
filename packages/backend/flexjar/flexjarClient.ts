@@ -43,9 +43,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient =
         const response = await fetch(`${baseUrl}/${path}`, options);
         const tidBrukt = Date.now() - start;
         logger.debug(
-            `Flexjar-kall til ${baseUrl} med X-Request-Id: ${callId} - ferdig etter ${tidBrukt} ms, response: ${JSON.stringify(
-                response,
-            )}`,
+            `Flexjar-kall til ${baseUrl} med X-Request-Id: ${callId} - ferdig etter ${tidBrukt} ms, response: ${await response.json()}`,
         );
         return { id: callId };
     },
