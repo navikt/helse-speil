@@ -48,6 +48,8 @@ export function FlexjarFelles({
                 return false;
             }
 
+            console.log('fetchFeedback data', data);
+
             const body = {
                 feedback: textValue,
                 feedbackId: feedbackId,
