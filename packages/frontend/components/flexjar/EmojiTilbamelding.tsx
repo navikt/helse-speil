@@ -27,7 +27,7 @@ export const EmojiTilbakemelding = ({ feedbackId, tittel, sporsmal }: EmojiTilba
             activeState={activeState}
             thanksFeedback={thanksFeedback}
             setThanksFeedback={setThanksFeedback}
-            getPlaceholder={() => 'Fortell oss om din opplevelse (valgfritt)'}
+            getPlaceholder={() => 'Fortell oss om opplevelse din (valgfritt)'}
             flexjarsporsmal={sporsmal}
             flexjartittel={tittel}
             feedbackProps={{ erOppgaveOversikt: false }}

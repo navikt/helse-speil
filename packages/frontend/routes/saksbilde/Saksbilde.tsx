@@ -68,8 +68,8 @@ const SaksbildeContent = () => {
                         <QueryClientProvider client={queryClient}>
                             <Widget>
                                 <EmojiTilbakemelding
-                                    feedbackId="speil-test"
-                                    tittel="Hjelp oss med å gjøre Speil bedre"
+                                    feedbackId="speil-generell"
+                                    tittel="Hjelp oss å gjøre Speil bedre"
                                     sporsmal="Hvor fornøyd er du med Speil?"
                                 />
                             </Widget>
