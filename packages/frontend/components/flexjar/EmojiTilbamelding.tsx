@@ -10,9 +10,10 @@ interface EmojiTilbakemeldingProps {
     textRequired?: boolean;
     sporsmal: string;
     tittel: string;
+    feedbackProps: Record<string, string | Array<string> | boolean>;
 }
 
-export const EmojiTilbakemelding = ({ feedbackId, tittel, sporsmal }: EmojiTilbakemeldingProps) => {
+export const EmojiTilbakemelding = ({ feedbackId, tittel, sporsmal, feedbackProps }: EmojiTilbakemeldingProps) => {
     const [activeState, setActiveState] = useState<number | string | null>(null);
     const [thanksFeedback, setThanksFeedback] = useState<boolean>(false);
     const feedbackButtonProps = {
@@ -30,7 +31,7 @@ export const EmojiTilbakemelding = ({ feedbackId, tittel, sporsmal }: EmojiTilba
             getPlaceholder={() => 'Fortell oss om opplevelsen din (valgfritt)'}
             flexjarsporsmal={sporsmal}
             flexjartittel={tittel}
-            feedbackProps={{ erOppgaveOversikt: false }}
+            feedbackProps={feedbackProps}
         >
             <div className={styles.container}>
                 <div className={styles.content}>

@@ -11,10 +11,11 @@ import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOppteg
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { AmplitudeProvider } from '@io/amplitude';
 import { usePollEtterOpptegnelser } from '@io/http';
-import { useSelectPeriodOnOppgaveChanged } from '@state/periode';
+import { useActivePeriod, useSelectPeriodOnOppgaveChanged } from '@state/periode';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { onLazyLoadFail } from '@utils/error';
 import { flexjar } from '@utils/featureToggles';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { VenterPåEndringProvider } from './VenterPåEndringContext';
 import { PersonHeader } from './personHeader';
@@ -52,6 +53,7 @@ const SaksbildeContent = () => {
     useSelectPeriodOnOppgaveChanged();
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useKeyboardShortcuts();
+    const aktivPeriode = useActivePeriod();
     const queryClient = new QueryClient();
 
     return (
@@ -71,6 +73,11 @@ const SaksbildeContent = () => {
                                     feedbackId="speil-generell"
                                     tittel="Hjelp oss å gjøre Speil bedre"
                                     sporsmal="Hvordan fungerer Speil for deg?"
+                                    feedbackProps={{
+                                        egenskaper:
+                                            isBeregnetPeriode(aktivPeriode) &&
+                                            aktivPeriode.egenskaper.map((it) => it.egenskap),
+                                    }}
                                 />
                             </Widget>
                         </QueryClientProvider>
