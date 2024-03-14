@@ -67,4 +67,4 @@ export const harSpesialsaktilgang: boolean = extractGroups().includes(groupIdSpe
 
 export const toggleMeny: boolean = erLocal() || erDev();
 
-export const flexjar: boolean = erLocal() || erDev();
+export const flexjar: boolean = true;
