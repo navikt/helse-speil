@@ -6,24 +6,13 @@
 
     .header {
       display: flex;
-      gap: 1rem;
-      align-items: center;
       background: var(--a-bg-subtle);
       padding: 1rem;
-
-      .icon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 2rem;
-        height: 2rem;
-        background: var(--a-gray-900);
-        color: white;
-        border-radius: 50%;
-      }
+      flex-direction: column;
 
       .tittel {
         margin-bottom: 0.5rem;
+        font-size: var(--a-font-size-heading-small);
       }
     }
 

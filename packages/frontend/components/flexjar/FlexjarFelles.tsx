@@ -2,7 +2,7 @@ import styles from './FlexjarFelles.module.scss';
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { FaceSmileIcon, MagnifyingGlassIcon } from '@navikt/aksel-icons';
+import { FaceSmileIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, Button, Heading, Textarea } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
@@ -104,13 +104,8 @@ export function FlexjarFelles({
             <div className={styles.container}>
                 <div className={styles.content}>
                     <div className={styles.header}>
-                        <div className={styles.icon}>
-                            <MagnifyingGlassIcon aria-hidden={true} className="text-white axe-exclude" />
-                        </div>
-                        <div>
-                            <Bold className={styles.tittel}>{flexjartittel}</Bold>
-                            <BodyShort>Anonym tilbakemelding på tjenesten</BodyShort>
-                        </div>
+                        <Bold className={styles.tittel}>{flexjartittel}</Bold>
+                        <BodyShort>Anonym tilbakemelding</BodyShort>
                     </div>
                     <div className={styles.body}>
                         {flexjarsporsmal && <Bold className={styles.spørsmål}>{flexjarsporsmal}</Bold>}
