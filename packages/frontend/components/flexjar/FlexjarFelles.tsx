@@ -2,8 +2,7 @@ import styles from './FlexjarFelles.module.scss';
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { FaceSmileIcon } from '@navikt/aksel-icons';
-import { Alert, BodyShort, Button, Heading, Textarea } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Textarea } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { useOppdaterFlexjarFeedback } from '@hooks/useOppdaterFlexjarFeedback';
@@ -153,10 +152,9 @@ export function FlexjarFelles({
                 <div aria-live="polite">
                     {thanksFeedback && (
                         <div className={styles.thanks}>
-                            <Heading size="small" as="p" className={styles.header}>
-                                Takk for tilbakemeldingen din!{' '}
-                                <FaceSmileIcon className={styles.smiley} aria-label="smilefjes"></FaceSmileIcon>
-                            </Heading>
+                            <BodyShort size="medium" as="p" className={styles.header}>
+                                Takk for tilbakemeldingen din!
+                            </BodyShort>
                         </div>
                     )}
                 </div>

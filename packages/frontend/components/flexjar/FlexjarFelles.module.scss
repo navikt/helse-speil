@@ -43,12 +43,8 @@
     background: var(--a-surface-success-subtle);
 
     .header {
-      display: flex;
-      align-items: center;
-
-      .smiley {
-        margin-left: 0.5rem;
-      }
+      font-weight: bold;
+      text-align: center;
     }
   }
 }
