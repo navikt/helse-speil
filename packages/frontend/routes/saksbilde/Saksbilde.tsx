@@ -70,7 +70,7 @@ const SaksbildeContent = () => {
                                 <EmojiTilbakemelding
                                     feedbackId="speil-generell"
                                     tittel="Hjelp oss å gjøre Speil bedre"
-                                    sporsmal="Hvor fornøyd er du med Speil?"
+                                    sporsmal="Hvordan fungerer Speil for deg?"
                                 />
                             </Widget>
                         </QueryClientProvider>
