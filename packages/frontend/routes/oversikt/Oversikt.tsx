@@ -2,9 +2,13 @@ import React, { Suspense, lazy } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
+import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
+import { Widget } from '@components/flexjar/Widget';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useOppgaveFeed } from '@state/oppgaver';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { onLazyLoadFail } from '@utils/error';
+import { flexjar } from '@utils/featureToggles';
 
 import { IngenOppgaver } from './IngenOppgaver';
 import { Tabs } from './Tabs';
@@ -25,6 +29,7 @@ export const Oversikt = () => {
     const oppgaveFeed = useOppgaveFeed();
     const aktivTab = useAktivTab();
     const { allFilters } = useFilters();
+    const queryClient = new QueryClient();
 
     useLoadingToast({ isLoading: oppgaveFeed.loading, message: 'Henter oppgaver' });
 
@@ -60,6 +65,20 @@ export const Oversikt = () => {
                 </section>
                 <BehandlingsstatistikkView />
             </div>
+            {flexjar && (
+                <QueryClientProvider client={queryClient}>
+                    <Widget>
+                        <EmojiTilbakemelding
+                            feedbackId="speil-generell"
+                            tittel="Hjelp oss å gjøre Speil bedre"
+                            sporsmal="Hvordan fungerer Speil for deg?"
+                            feedbackProps={{
+                                erOppgaveOversikt: true,
+                            }}
+                        />
+                    </Widget>
+                </QueryClientProvider>
+            )}
         </main>
     );
 };
