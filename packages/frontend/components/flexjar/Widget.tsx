@@ -3,9 +3,12 @@ import React, { useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
+import { Glad } from '@components/flexjar/emojies';
+
 interface WidgetProps {
     children: React.ReactNode;
 }
+
 export const Widget = ({ children }: WidgetProps) => {
     const [open, setOpen] = useState(false);
 
@@ -16,7 +19,7 @@ export const Widget = ({ children }: WidgetProps) => {
         </div>
     ) : (
         <Button className={styles.button} onClick={() => setOpen(true)}>
-            Tilbakemelding
+            <Glad />
         </Button>
     );
 };

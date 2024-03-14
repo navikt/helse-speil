@@ -1,12 +1,12 @@
 @-webkit-keyframes slide {
   100% {
-    left: 0;
+    right: 0;
   }
 }
 
 @keyframes slide {
   100% {
-    left: 0;
+    right: 0;
   }
 }
 
@@ -14,9 +14,9 @@
   display: block;
   width: 25.5rem;
   position: fixed;
-  left: -23rem;
+  right: -23rem;
   bottom: 3rem;
-  margin-left: 2.5rem;
+  margin-right: 2.5rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0 3px 50px 0;
   z-index: 21;
   animation: slide 300ms forwards
@@ -24,10 +24,27 @@
 
 .button {
   position: fixed;
-  left: 0;
+  right: 0;
   bottom: 10rem;
-  transform: rotate(90deg) translate(0, -100%);
-  transform-origin: top left;
+  padding: 0.75rem;
+  z-index: 2;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: var(--a-icon-danger);
+
+  span {
+    line-height: 1rem;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &:hover {
+    padding-left: 1rem;
+    background-color: var(--a-surface-danger-hover)
+  }
 }
 
 .close {
