@@ -48,6 +48,7 @@ export const Personsøk: React.FC = () => {
         }
 
         if (!erGyldigPersonId(personId)) {
+            navigate('/');
             addVarsel(new SpeilError(`"${personId}" er ikke en gyldig aktør-ID/fødselsnummer.`));
         } else {
             const variables: { aktorId?: string; fnr?: string } = validFødselsnummer(personId)
@@ -56,7 +57,8 @@ export const Personsøk: React.FC = () => {
             hentPerson({
                 variables: variables,
             }).then(({ data }) => {
-                if (data?.person?.arbeidsgivere.length === 0) {
+                if ((data?.person?.arbeidsgivere.length ?? 0) === 0) {
+                    navigate('/');
                     addVarsel(new NotFoundError());
                     return;
                 }
