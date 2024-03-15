@@ -49,9 +49,7 @@ export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: Arbeid
         return false;
     }
 
-    return arbeidsgiver.generasjoner[0]?.perioder.some(
-        (periode) => isBeregnetPeriode(periode) && periode.id === period.id,
-    );
+    return arbeidsgiver.generasjoner[0]?.perioder.some((periode) => periode.id === period.id);
 };
 
 export const isWaiting = (period: ActivePeriod): boolean => {
