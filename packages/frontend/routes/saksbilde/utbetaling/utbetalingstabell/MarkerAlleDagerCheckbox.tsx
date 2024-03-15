@@ -1,22 +1,9 @@
 import classNames from 'classnames';
-import React, { Dispatch, SetStateAction, useMemo } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
 
 import styles from './MarkerAlleDagerCheckbox.module.css';
-
-const useOverstyrbareDager = (
-    alleDager: Map<DateString, Utbetalingstabelldag>,
-): Map<DateString, Utbetalingstabelldag> => {
-    return useMemo(
-        () =>
-            Array.from(alleDager.entries()).reduce(
-                (dager, [key, dag]) => (!dag.erForeldet ? dager.set(key, dag) : dager),
-                new Map(),
-            ),
-        [alleDager],
-    );
-};
 
 interface MarkerAlleDagerCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'value'> {
     alleDager: Map<string, Utbetalingstabelldag>;
@@ -30,13 +17,11 @@ export const MarkerAlleDagerCheckbox: React.FC<MarkerAlleDagerCheckboxProps> = (
     setMarkerteDager,
     ...rest
 }) => {
-    const overstyrbareDager = useOverstyrbareDager(alleDager);
-
-    const hasSelectedSome = markerteDager.size > 0 && markerteDager.size !== overstyrbareDager.size;
+    const hasSelectedSome = markerteDager.size > 0 && markerteDager.size !== alleDager.size;
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-            setMarkerteDager(overstyrbareDager);
+            setMarkerteDager(alleDager);
         } else {
             setMarkerteDager(new Map());
         }
@@ -47,7 +32,7 @@ export const MarkerAlleDagerCheckbox: React.FC<MarkerAlleDagerCheckboxProps> = (
             <Checkbox
                 className={classNames(styles.Checkbox, hasSelectedSome && styles.partial)}
                 onChange={onChange}
-                checked={overstyrbareDager.size === markerteDager.size}
+                checked={alleDager.size === markerteDager.size}
                 {...rest}
                 hideLabel
             >
