@@ -18,7 +18,7 @@ export const Widget = ({ children }: WidgetProps) => {
             {children}
         </div>
     ) : (
-        <Button className={styles.button} onClick={() => setOpen(true)}>
+        <Button className={styles.button} onClick={() => setOpen(true)} aria-label="Åpne for å gi tilbakemelding">
             <Glad />
         </Button>
     );
