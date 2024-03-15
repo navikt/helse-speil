@@ -29,6 +29,12 @@
 
         .alert {
           margin-top: 1rem;
+          div {
+            line-height: 1.25rem;
+            p:not(:last-child) {
+              margin-bottom: 1em;
+            }
+          }
         }
 
         .send {

@@ -131,8 +131,11 @@ export function FlexjarFelles({
                                     minRows={3}
                                 />
                                 <Alert variant="warning" className={styles.alert}>
-                                    Ikke skriv inn navn eller andre personopplysninger. Dette blir kun brukt til å
-                                    forbedre tjenesten. Du vil ikke få et svar fra oss.
+                                    <p>Ikke skriv inn dine eller andres personopplysninger.</p>
+                                    <p>
+                                        Tilbakemeldingen din blir kun brukt til å forbedre Speil, og du vil ikke få et
+                                        svar fra oss.
+                                    </p>
                                 </Alert>
                                 <Button
                                     className={styles.send}
