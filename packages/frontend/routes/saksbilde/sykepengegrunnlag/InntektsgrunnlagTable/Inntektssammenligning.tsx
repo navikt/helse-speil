@@ -101,7 +101,7 @@ const OmregnetÅrsinntektIkon = ({ arbeidsforholdErDeaktivert, endringer, kilde 
     kilde === Inntektskilde.Saksbehandler || arbeidsforholdErDeaktivert ? (
         <EndringsloggButton endringer={endringer as Array<Overstyring>} />
     ) : (
-        kilde && <Kilde type={kilde}>{kildeForkortelse(kilde)}</Kilde>
+        kilde && kilde !== Inntektskilde.IkkeRapportert && <Kilde type={kilde}>{kildeForkortelse(kilde)}</Kilde>
     );
 
 interface SkjønnsfastsettingContentProps {
