@@ -2,6 +2,7 @@ import express from 'express';
 
 import { sleep } from '../devHelpers';
 import { setUpFaro } from './faro';
+import { setUpFlexjar } from './flexjar';
 import { setUpGraphQLMiddleware } from './graphql';
 
 const app = express();
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 });
 
 setUpFaro(app);
+setUpFlexjar(app);
 setUpGraphQLMiddleware(app);
 
 app.listen(port, () => console.log(`Spesialist-mock kjører på port ${port}`));
