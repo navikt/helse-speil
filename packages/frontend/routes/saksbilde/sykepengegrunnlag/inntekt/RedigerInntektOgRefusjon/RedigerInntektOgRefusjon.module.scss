@@ -1,0 +1,11 @@
+.button {
+  position: sticky;
+  right: -3rem;
+  padding-right: 2rem;
+  padding-left: 0;
+  align-self: flex-start;
+
+  p {
+    min-width: auto;
+  }
+}

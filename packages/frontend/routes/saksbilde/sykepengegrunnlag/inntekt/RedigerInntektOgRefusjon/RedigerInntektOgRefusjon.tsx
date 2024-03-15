@@ -1,3 +1,4 @@
+import styles from './RedigerInntektOgRefusjon.module.scss';
 import React, { Dispatch, SetStateAction } from 'react';
 
 import { EditButton } from '@components/EditButton';
@@ -36,6 +37,7 @@ export const RedigerInntektOgRefusjon = ({
             closedText={erRevurdering ? 'Revurder' : 'Endre'}
             onOpen={() => setEditing(true)}
             onClose={() => setEditing(false)}
+            className={styles.button}
         />
     );
 };
