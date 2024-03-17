@@ -104,7 +104,7 @@ export function FlexjarFelles({
                 <div className={styles.content}>
                     <div className={styles.header}>
                         <Bold className={styles.tittel}>{flexjartittel}</Bold>
-                        <BodyShort>Anonym tilbakemelding</BodyShort>
+                        <BodyShort className={styles.info}>Anonym</BodyShort>
                     </div>
                     <div className={styles.body}>
                         {flexjarsporsmal && <Bold className={styles.spørsmål}>{flexjarsporsmal}</Bold>}
