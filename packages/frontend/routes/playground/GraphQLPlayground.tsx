@@ -3,10 +3,12 @@ import React from 'react';
 
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 
+import { BASE_URL } from '../../constants';
+
 import 'graphiql/graphiql.min.css';
 
 const fetcher = createGraphiQLFetcher({
-    url: (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/graphql',
+    url: `${BASE_URL}/graphql`,
 });
 
 export const GraphQLPlayground = () => <GraphiQL isHeadersEditorEnabled={true} fetcher={fetcher} />;

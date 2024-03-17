@@ -1,10 +1,10 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import possibletypes from '@io/graphql/generated/possibletypes';
 
-const baseUrlGraphQL = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/graphql';
+import { BASE_URL } from '../constants';
 
 export const client = new ApolloClient({
-    link: new HttpLink({ uri: baseUrlGraphQL }),
+    link: new HttpLink({ uri: `${BASE_URL}/graphql` }),
     cache: new InMemoryCache({
         dataIdFromObject: () => undefined,
         possibleTypes: possibletypes.possibleTypes,

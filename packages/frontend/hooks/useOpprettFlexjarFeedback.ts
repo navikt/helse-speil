@@ -1,13 +1,14 @@
 import { ErrorHandler, fetchFlexjar } from '@hooks/useOppdaterFlexjarFeedback';
 import { FetchError } from '@io/graphql/errors';
 import { useMutation } from '@tanstack/react-query';
-import { erLocal } from '@utils/featureToggles';
+
+import { BASE_URL } from '../constants';
 
 export function useOpprettFlexjarFeedback() {
     return useMutation<OpprettFeedbackResoponse, unknown, object>({
         mutationKey: ['opprettFlexjarFeedback'],
         mutationFn: async (body) => {
-            return fetchJsonFlexjar(`${erLocal() ? 'http://localhost:3000' : ''}/flexjar`, {
+            return fetchJsonFlexjar(`${BASE_URL}/flexjar`, {
                 method: 'POST',
                 body: JSON.stringify(body),
                 headers: {
