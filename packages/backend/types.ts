@@ -43,7 +43,7 @@ export interface SpeilSession extends Session {
     wantedPathBeforeAuth?: string;
     speilToken: string;
     refreshToken: string;
-    oboToken: string;
+    oboTokens: { [clientId: string]: string };
     nonce: string;
     state: string;
     user: string;
