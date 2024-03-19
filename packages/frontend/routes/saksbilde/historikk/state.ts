@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
+import { useNesteGenerasjonPeriode } from '@hooks/useNesteGenerasjonPeriode';
 import { GhostPeriode } from '@io/graphql';
 import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/arbeidsgiver';
 import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
@@ -35,6 +36,7 @@ const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
 const getHendelserForBeregnetPeriode = (
     period: FetchedBeregnetPeriode,
     person: FetchedPerson,
+    nesteGenerasjonPeriodeOpprettet: Maybe<string>,
 ): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
     const dagoverstyringer = arbeidsgiver ? getDagoverstyringer(period, arbeidsgiver) : [];
@@ -62,8 +64,10 @@ const getHendelserForBeregnetPeriode = (
         ...annetarbeidsforholdoverstyringer,
         ...sykepengegrunnlagskjønnsfastsetting,
     ]
-        .filter(
-            (it: HendelseObject) => it.timestamp && dayjs(it.timestamp).startOf('s').isSameOrBefore(period.opprettet),
+        .filter((it: HendelseObject) =>
+            nesteGenerasjonPeriodeOpprettet
+                ? it.timestamp && dayjs(it.timestamp).startOf('s').isSameOrBefore(nesteGenerasjonPeriodeOpprettet)
+                : true,
         )
         .concat(utbetaling ? [utbetaling] : [])
         .concat(notater)
@@ -113,6 +117,7 @@ const getHendelserForUberegnetPeriode = (
 
 const useHistorikk = (): HendelseObject[] => {
     const activePeriod = useActivePeriod();
+    const nesteGenerasjonOpprettet = useNesteGenerasjonPeriode()?.opprettet ?? null;
     const { data } = useFetchPersonQuery();
     const person = data?.person;
 
@@ -121,7 +126,7 @@ const useHistorikk = (): HendelseObject[] => {
     }
 
     if (isBeregnetPeriode(activePeriod)) {
-        return getHendelserForBeregnetPeriode(activePeriod, person);
+        return getHendelserForBeregnetPeriode(activePeriod, person, nesteGenerasjonOpprettet);
     }
 
     if (isGhostPeriode(activePeriod)) {
