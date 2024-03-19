@@ -157,7 +157,8 @@ export const getDagoverstyringer = (
                 dayjs(it.dager[0].dato, ISO_DATOFORMAT).isSameOrAfter(førsteVurdertePeriodeForArbeidsgiver?.fom) &&
                 dayjs(it.dager[0].dato, ISO_DATOFORMAT).isSameOrBefore(
                     sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet?.tom,
-                ),
+                ) &&
+                dayjs(it.dager[0].dato, ISO_DATOFORMAT).isSameOrBefore(period?.tom),
         )
         .map((overstyring) => ({
             id: overstyring.hendelseId,
