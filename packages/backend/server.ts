@@ -92,6 +92,7 @@ const setUpAuthentication = () => {
                 });
                 session.speilToken = accessToken;
                 session.refreshToken = refreshToken;
+                session.oboTokens = {};
                 session.user = auth.valueFromClaim('NAVident', idToken);
                 const tilbakeTilUrl = req.session.wantedPathBeforeAuth;
                 req.session.wantedPathBeforeAuth = undefined;
