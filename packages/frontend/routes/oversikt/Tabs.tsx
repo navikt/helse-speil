@@ -44,7 +44,6 @@ const VentendeSakerTab = () => {
     return <OppgaveTab tag={TabType.Ventende} label="På vent" numberOfTasks={antallPåVent} />;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const BehandletIdagTab = () => <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet i dag" />;
 
 const FilterButton = () => {
@@ -107,7 +106,7 @@ export const Tabs = () => {
                 <AlleSakerTab />
                 <MineSakerTab />
                 <VentendeSakerTab />
-                <div className={styles.strikethrough}>Behandlet i dag</div>
+                <BehandletIdagTab />
             </span>
             <StatistikkButton />
         </div>
