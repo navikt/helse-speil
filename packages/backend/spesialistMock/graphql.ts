@@ -24,13 +24,9 @@ import type {
     MutationLeggTilKommentarArgs,
     MutationLeggTilNotatArgs,
     MutationOpprettTildelingArgs,
-    MutationOverstyrArbeidsforholdArgs,
-    MutationOverstyrDagerArgs,
-    MutationOverstyrInntektOgRefusjonArgs,
     MutationSendIReturArgs,
     MutationSendTilGodkjenningArgs,
     MutationSettVarselstatusArgs,
-    MutationSkjonnsfastsettSykepengegrunnlagArgs,
     OppgavesorteringInput,
     Person,
 } from './schemaTypes';
@@ -103,7 +99,7 @@ const getResolvers = (): IResolvers => ({
             valgtPerson = person as unknown as Person;
             return person;
         },
-        oppdrag: (_) => {
+        oppdrag: () => {
             return getMockOppdrag();
         },
         behandledeOppgaverFeed: async (_, { offset, limit }: { offset: number; limit: number }) => {
@@ -137,7 +133,7 @@ const getResolvers = (): IResolvers => ({
                 notater: NotatMock.getNotater(it),
             }));
         },
-        hentSoknad: async (_) => {
+        hentSoknad: async () => {
             await new Promise((resolve) => {
                 setTimeout(() => {
                     resolve('test');
@@ -145,7 +141,7 @@ const getResolvers = (): IResolvers => ({
             });
             return DokumentMock.getMockedSoknad();
         },
-        hentInntektsmelding: async (_) => {
+        hentInntektsmelding: async () => {
             await new Promise((resolve) => {
                 setTimeout(() => {
                     resolve('test');
@@ -220,7 +216,7 @@ const getResolvers = (): IResolvers => ({
                 return false;
             }
         },
-        leggPaVent: async (_, { oppgaveId, frist, begrunnelse, notatType, notatTekst }: MutationLeggPaVentArgs) => {
+        leggPaVent: async (_, { oppgaveId, notatType, notatTekst }: MutationLeggPaVentArgs) => {
             NotatMock.addNotat(oppgaveId, { tekst: notatTekst, type: notatType });
             PaVentMock.setPåVent(oppgaveId, {
                 frist: '2024-01-01',
@@ -249,16 +245,16 @@ const getResolvers = (): IResolvers => ({
                 })
             );
         },
-        overstyrDager: async (_, __: MutationOverstyrDagerArgs) => {
+        overstyrDager: async () => {
             return true;
         },
-        overstyrInntektOgRefusjon: async (_, __: MutationOverstyrInntektOgRefusjonArgs) => {
+        overstyrInntektOgRefusjon: async () => {
             return true;
         },
-        overstyrArbeidsforhold: async (_, __: MutationOverstyrArbeidsforholdArgs) => {
+        overstyrArbeidsforhold: async () => {
             return true;
         },
-        skjonnsfastsettSykepengegrunnlag: async (_, __: MutationSkjonnsfastsettSykepengegrunnlagArgs) => {
+        skjonnsfastsettSykepengegrunnlag: async () => {
             return true;
         },
         sendTilGodkjenning: async (_, { oppgavereferanse }: MutationSendTilGodkjenningArgs) => {
@@ -302,13 +298,13 @@ const getResolvers = (): IResolvers => ({
             });
             return true;
         },
-        annuller: async (_, __) => {
+        annuller: async () => {
             return true;
         },
-        oppdaterPerson: async (_, __) => {
+        oppdaterPerson: async () => {
             return true;
         },
-        opprettAbonnement: async (_) => {
+        opprettAbonnement: async () => {
             return opprettAbonnement();
         },
     },
@@ -317,8 +313,8 @@ const getResolvers = (): IResolvers => ({
             return periode.beregningId
                 ? 'BeregnetPeriode'
                 : periode?.vilkarsgrunnlagId
-                ? 'UberegnetVilkarsprovdPeriode'
-                : 'UberegnetPeriode';
+                  ? 'UberegnetVilkarsprovdPeriode'
+                  : 'UberegnetPeriode';
         },
     },
     Vilkarsgrunnlag: {
@@ -353,10 +349,10 @@ const getResolvers = (): IResolvers => ({
             overstyring.dager
                 ? 'Dagoverstyring'
                 : overstyring.inntekt
-                ? 'Inntektoverstyring'
-                : overstyring.skjonnsfastsatt
-                ? 'Sykepengegrunnlagskjonnsfastsetting'
-                : 'Arbeidsforholdoverstyring',
+                  ? 'Inntektoverstyring'
+                  : overstyring.skjonnsfastsatt
+                    ? 'Sykepengegrunnlagskjonnsfastsetting'
+                    : 'Arbeidsforholdoverstyring',
     },
 });
 

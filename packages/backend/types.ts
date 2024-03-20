@@ -55,10 +55,5 @@ export interface SpeilRequest extends Request {
 
 export interface AuthError extends Error {
     statusCode: number;
-    cause?: any;
-}
-
-export interface NotatDTO {
-    tekst: string;
-    type?: 'PaaVent' | 'Retur' | 'Generelt';
+    cause?: unknown;
 }

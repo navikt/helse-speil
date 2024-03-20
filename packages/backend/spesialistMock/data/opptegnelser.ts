@@ -1,4 +1,6 @@
-export const opptegnelser: any[] = [
+import { Opptegnelse } from '../opptegnelser';
+
+export const opptegnelser: Opptegnelse[] = [
     {
         aktorId: 12341234,
         sekvensnummer: 12121212,

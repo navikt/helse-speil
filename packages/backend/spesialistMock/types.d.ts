@@ -1,6 +1,6 @@
 declare type Extension = {
     code: number;
-    [field: string]: any;
+    [field: string]: string | object | number;
 };
 
 declare type UUID = string;

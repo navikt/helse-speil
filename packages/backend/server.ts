@@ -137,7 +137,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
             next();
         } else {
             if (req.session!.speilToken) {
-                const name = auth.valueFromClaim('name', req.session!.speilToken);
+                const name: string = auth.valueFromClaim('name', req.session!.speilToken);
                 logger.info(`No valid session found for ${name}, connecting via ${ipAddressFromRequest(req)}`);
                 logger.sikker.info(
                     `No valid session found for ${name}, connecting via ${ipAddressFromRequest(req)}`,

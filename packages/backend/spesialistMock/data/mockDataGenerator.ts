@@ -99,7 +99,7 @@ const tilfeldigBehandletOppgave = (oppgaveId: number): BehandletOppgave =>
     }) as BehandletOppgave;
 
 const tilfeldigeUkategoriserteEgenskaper = () => {
-    let egenskaper: Oppgaveegenskap[] = [];
+    const egenskaper: Oppgaveegenskap[] = [];
 
     if (Math.random() > 0.9)
         egenskaper.push(

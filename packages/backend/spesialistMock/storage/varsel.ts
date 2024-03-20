@@ -52,7 +52,7 @@ export class VarselMock {
             );
         }
 
-        let varselMedVurdering: VarselDto = varselMedEndring
+        const varselMedVurdering: VarselDto = varselMedEndring
             ? {
                   ...varselMedEndring,
                   vurdering: {

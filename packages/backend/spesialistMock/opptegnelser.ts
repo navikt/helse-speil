@@ -38,8 +38,8 @@ type OpptegnelseType =
     | 'REVURDERING_AVVIST'
     | 'PERSONDATA_OPPDATERT';
 
-type Opptegnelse = {
-    aktørId: number;
+export type Opptegnelse = {
+    aktorId: number;
     sekvensnummer: number;
     type: OpptegnelseType;
     payload: string;

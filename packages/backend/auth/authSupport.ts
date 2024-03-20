@@ -11,10 +11,15 @@ interface IsValidInProps {
     token?: string;
 }
 
+type ExpectedClaims = {
+    [key: string]: string | string[];
+    exp: string;
+    groups: string[];
+};
 const isValidIn = ({ seconds, token }: IsValidInProps) => {
     if (!token) return false;
     const timeToCheck = Math.floor(Date.now() / 1000) + seconds;
-    const expirationTime = parseInt(claimsFrom(token)['exp'] as string);
+    const expirationTime = parseInt(claimsFrom(token).exp);
     return timeToCheck < expirationTime;
 };
 
@@ -23,7 +28,7 @@ const redirectUrl = (req: Request) => {
     return 'https://' + req.get('Host') + '/oauth2/callback';
 };
 
-const authError = (statusCode: number, reason: string, cause?: any): AuthError => {
+const authError = (statusCode: number, reason: string, cause?: unknown): AuthError => {
     return {
         name: 'auth_error',
         message: reason,
@@ -56,7 +61,7 @@ const validateOidcCallback = (req: SpeilRequest, azureClient: Client) => {
 
 const retrieveTokens = (tokenSet: TokenSet, ...tokenKeys: string[]): Promise<string[]> => {
     const tokens = tokenKeys.map((key) => tokenSet[key]);
-    for (let key of tokenKeys) {
+    for (const key of tokenKeys) {
         if (tokenSet[key] === undefined) {
             return Promise.reject(authError(500, `Missing ${key} in response from Azure AD.`));
         }
@@ -66,23 +71,23 @@ const retrieveTokens = (tokenSet: TokenSet, ...tokenKeys: string[]): Promise<str
 
 const isMemberOf = (token: string, group?: string) => {
     const claims = claimsFrom(token);
-    const groups = claims['groups'] as string[];
+    const groups = claims.groups;
     return groups.filter((element: string) => element === group).length === 1;
 };
 
-const valueFromClaim = (claim: string, token?: string): string => {
+const valueFromClaim = <T extends string | string[]>(claim: string, token?: string): T => {
     if (token === undefined) {
         logger.info(`No token, cannot extract claim value '${claim}'`);
-        return 'unknown value';
+        return 'unknown value' as T;
     }
     try {
-        return (claimsFrom(token)[claim] as string) || 'unknown value';
+        return (claimsFrom(token)[claim] || 'unknown value') as T;
     } catch (err) {
         logger.error(`error while extracting value from claim '${claim}': ${err}`);
-        return 'unknown value';
+        return 'unknown value' as T;
     }
 };
-const claimsFrom = (token: string): any => {
+const claimsFrom = (token: string): ExpectedClaims => {
     return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
 };
 

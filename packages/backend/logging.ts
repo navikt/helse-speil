@@ -21,30 +21,30 @@ const sikkerLogger = winston.createLogger({
     transports: [new winston.transports.File({ filename: sikkerLogPath(), maxsize: 5242880 })],
 });
 
-const debug = (message: string, ...meta: any[]) => {
+const debug = (message: string, ...meta: unknown[]) => {
     stdoutLogger.debug(message, ...meta);
 };
-const info = (message: string, ...meta: any[]) => {
+const info = (message: string, ...meta: unknown[]) => {
     stdoutLogger.info(message, ...meta);
 };
 
-const warn = (message: string, ...meta: any[]) => {
+const warn = (message: string, ...meta: unknown[]) => {
     stdoutLogger.warn(message, ...meta);
 };
 
-const error = (message: string, ...meta: any[]) => {
+const error = (message: string, ...meta: unknown[]) => {
     stdoutLogger.error(message, ...meta);
 };
 
-const sikkerInfo = (message: string, ...meta: any[]) => {
+const sikkerInfo = (message: string, ...meta: unknown[]) => {
     sikkerLogger.info(message, ...meta);
 };
 
-const sikkerWarn = (message: string, ...meta: any[]) => {
+const sikkerWarn = (message: string, ...meta: unknown[]) => {
     sikkerLogger.warn(message, ...meta);
 };
 
-const sikkerError = (message: string, ...meta: any[]) => {
+const sikkerError = (message: string, ...meta: unknown[]) => {
     sikkerLogger.error(message, ...meta);
 };
 
