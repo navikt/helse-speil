@@ -2,7 +2,7 @@ import styles from './FlexjarFelles.module.scss';
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { Alert, BodyShort, Button, Textarea } from '@navikt/ds-react';
+import { BodyShort, Button, Textarea } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { useOppdaterFlexjarFeedback } from '@hooks/useOppdaterFlexjarFeedback';
@@ -128,10 +128,8 @@ export function FlexjarFelles({
                                 }}
                                 maxLength={600}
                                 minRows={3}
+                                description="Ikke skriv inn dine eller andres personopplysninger."
                             />
-                            <Alert variant="warning" className={styles.alert}>
-                                Ikke skriv inn dine eller andres personopplysninger.
-                            </Alert>
                             <Button
                                 className={styles.send}
                                 size="medium"
