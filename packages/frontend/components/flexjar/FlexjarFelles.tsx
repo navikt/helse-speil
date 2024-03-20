@@ -109,47 +109,46 @@ export function FlexjarFelles({
                     <div className={styles.body}>
                         {flexjarsporsmal && <Bold className={styles.spørsmål}>{flexjarsporsmal}</Bold>}
                         {children}
-                        {activeState !== null && (
-                            <form className={styles.form}>
-                                <Textarea
-                                    ref={textAreaRef}
-                                    error={errorMsg}
-                                    label={getPlaceholder()}
-                                    onKeyDown={async (e) => {
-                                        if (e.key === 'Enter' && e.ctrlKey) {
-                                            e.preventDefault();
-                                            await handleSend(() => reset());
-                                        }
-                                    }}
-                                    value={textValue}
-                                    onChange={(e) => {
-                                        setThanksFeedback(false);
-                                        setErrorMsg(null);
-                                        setTextValue(e.target.value);
-                                    }}
-                                    maxLength={600}
-                                    minRows={3}
-                                />
-                                <Alert variant="warning" className={styles.alert}>
-                                    <p>Ikke skriv inn dine eller andres personopplysninger.</p>
-                                    <p>
-                                        Tilbakemeldingen din blir kun brukt til å forbedre Speil, og du vil ikke få et
-                                        svar fra oss.
-                                    </p>
-                                </Alert>
-                                <Button
-                                    className={styles.send}
-                                    size="medium"
-                                    variant="secondary-neutral"
-                                    onClick={async (e) => {
+                        <form className={styles.form}>
+                            <Textarea
+                                ref={textAreaRef}
+                                error={errorMsg}
+                                label={getPlaceholder()}
+                                onKeyDown={async (e) => {
+                                    if (e.key === 'Enter' && e.ctrlKey) {
                                         e.preventDefault();
                                         await handleSend(() => reset());
-                                    }}
-                                >
-                                    {sendTilbakemelding}
-                                </Button>
-                            </form>
-                        )}
+                                    }
+                                }}
+                                value={textValue}
+                                onChange={(e) => {
+                                    setThanksFeedback(false);
+                                    setErrorMsg(null);
+                                    setTextValue(e.target.value);
+                                }}
+                                maxLength={600}
+                                minRows={3}
+                            />
+                            <Alert variant="warning" className={styles.alert}>
+                                <p>Ikke skriv inn dine eller andres personopplysninger.</p>
+                                <p>
+                                    Tilbakemeldingen din blir kun brukt til å forbedre Speil, og du vil ikke få et svar
+                                    fra oss.
+                                </p>
+                            </Alert>
+                            <Button
+                                className={styles.send}
+                                size="medium"
+                                variant="secondary-neutral"
+                                onClick={async (e) => {
+                                    e.preventDefault();
+                                    await handleSend(() => reset());
+                                }}
+                                disabled={activeState === null}
+                            >
+                                {sendTilbakemelding}
+                            </Button>
+                        </form>
                     </div>
                 </div>
                 <div aria-live="polite">
