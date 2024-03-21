@@ -10,15 +10,12 @@ import {
 } from '@state/arbeidsgiver';
 import { kalkulererFerdigToastKey, kalkulererToastKey, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
+import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
-import {
-    isArbeidsgiver,
-    isBeregnetPeriode,
-    isGhostPeriode,
-    isPerson,
-    isUberegnetVilkarsprovdPeriode,
-} from '@utils/typeguards';
+import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
+
+import { useVilkårsgrunnlag } from '../routes/saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 
 export type OverstyrtInntektOgRefusjon = {
     aktørId: string | null;
@@ -173,19 +170,32 @@ export const useOverstyrtInntektMetadata = (
 ): OverstyrtInntektMetadata => {
     const person = useCurrentPerson();
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
+    const activePeriod = useActivePeriod();
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
     const inntektsmeldinghendelser = useInntektsmeldinghendelser(arbeidsgiver);
+    const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, activePeriod);
+    const uberegnetAGfinnesIVilkårsgrunnlaget = vilkårsgrunnlagAktivPeriode?.arbeidsgiverrefusjoner.find(
+        (it) => it.arbeidsgiver === arbeidsgiver?.organisasjonsnummer,
+    );
 
     if (
         !isPerson(person) ||
         !isArbeidsgiver(arbeidsgiver) ||
-        !(isBeregnetPeriode(period) || isGhostPeriode(period) || isUberegnetVilkarsprovdPeriode(period))
+        !(
+            isBeregnetPeriode(period) ||
+            isGhostPeriode(period) ||
+            (isUberegnetPeriode(period) && uberegnetAGfinnesIVilkårsgrunnlaget)
+        )
     ) {
         throw Error('Mangler data for å kunne overstyre inntekt.');
     }
 
     const vilkårsgrunnlagRefusjonsopplysninger: Arbeidsgiverrefusjon = person.vilkarsgrunnlag
-        .filter((it) => it.id === period.vilkarsgrunnlagId)[0]
+        .filter((it) =>
+            !isUberegnetPeriode(period)
+                ? it.id === period?.vilkarsgrunnlagId
+                : it.id === vilkårsgrunnlagAktivPeriode?.id,
+        )[0]
         .arbeidsgiverrefusjoner.filter(
             (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver.organisasjonsnummer,
         )[0];
