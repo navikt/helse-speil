@@ -39,12 +39,21 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
     const inntektsmeldinghendelser = useInntektsmeldinghendelser(arbeidsgiver);
 
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeForSkjæringstidspunktForArbeidsgiver);
+    const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, period);
+    const uberegnetAGfinnesIVilkårsgrunnlaget = vilkårsgrunnlagAktivPeriode?.arbeidsgiverrefusjoner.find(
+        (it) => it.arbeidsgiver === arbeidsgiver?.organisasjonsnummer,
+    );
+
     const arbeidsgiverrefusjon =
         vilkårsgrunnlag && isBeregnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
             ? vilkårsgrunnlag.arbeidsgiverrefusjoner.find(
                   (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver?.organisasjonsnummer,
               )
-            : null;
+            : isUberegnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver) && uberegnetAGfinnesIVilkårsgrunnlaget
+              ? vilkårsgrunnlagAktivPeriode?.arbeidsgiverrefusjoner.find(
+                    (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver?.organisasjonsnummer,
+                )
+              : null;
 
     const vilkårsgrunnlagId = !isUberegnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
         ? periodeForSkjæringstidspunktForArbeidsgiver?.vilkarsgrunnlagId

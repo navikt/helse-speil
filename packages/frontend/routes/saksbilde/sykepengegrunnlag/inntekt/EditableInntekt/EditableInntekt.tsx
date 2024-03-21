@@ -1,5 +1,4 @@
-import { Månedsbeløp } from './Månedsbeløp';
-import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
+import { BegrunnelseForOverstyring } from '../../overstyring/overstyring.types';
 import dayjs from 'dayjs';
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
@@ -21,15 +20,16 @@ import {
 } from '@state/arbeidsgiver';
 import { inntektOgRefusjonState, useOverstyrtInntektMetadata, usePostOverstyrtInntekt } from '@state/overstyring';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
+import { isGhostPeriode } from '@utils/typeguards';
 
 import { getFørstePeriodeForSkjæringstidspunkt } from '../../../historikk/mapping';
-import { BegrunnelseForOverstyring } from '../../overstyring/overstyring.types';
 import { Begrunnelser } from '../Begrunnelser';
 import { Refusjon } from '../Refusjon';
 import { RefusjonFormFields } from '../useRefusjonFormField';
 import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';
 import { Feiloppsummering, Skjemafeil } from './Feiloppsummering';
+import { Månedsbeløp } from './Månedsbeløp';
+import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
 
 import styles from './EditableInntekt.module.css';
 
@@ -252,7 +252,7 @@ export const EditableInntekt = ({
                         kilde={omregnetÅrsinntekt.kilde}
                         harEndringer={harEndringer}
                     />
-                    {(isBeregnetPeriode(period) || isUberegnetVilkarsprovdPeriode(period)) && (
+                    {metadata.fraRefusjonsopplysninger.length > 0 && (
                         <Refusjon
                             fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}
                             lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger}
