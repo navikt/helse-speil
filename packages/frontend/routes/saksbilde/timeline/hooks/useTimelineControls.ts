@@ -103,7 +103,6 @@ export const useTimelineControls = (
     const currentZoomLevel = availableZoomLevels[currentZoomIndex];
 
     const updateDelta = (updater: (delta: number) => number): void => {
-        console.log(currentDateDelta);
         setCurrentDateDelta((delta) => {
             const newDelta = updater(delta);
             return newDelta > 0 ? 0 : newDelta;
