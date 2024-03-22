@@ -29,9 +29,6 @@ spec:
     initialDelay: 20
     path: isReady
     timeout: 1
-  redis:
-    - instance: sessions
-      access: readwrite
   replicas:
     cpuThresholdPercentage: 90
     max: 1
@@ -49,6 +46,8 @@ spec:
     generatedConfig:
       mountPath: /app/dist/client/nais/nais
   azure:
+    sidecar:
+      enabled: true
     application:
       enabled: true
       claims:

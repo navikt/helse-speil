@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
-import { atom, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-
-import { Keys, extractValues } from '@utils/cookie';
+import { atom, useRecoilValue, useResetRecoilState } from 'recoil';
 
 interface AuthInfo {
     name: string;
@@ -39,10 +37,13 @@ export const useInnloggetSaksbehandler = (): Saksbehandler => {
 };
 
 export const useUpdateAuthentication = () => {
-    const [authInfo, setAuthInfo] = useRecoilState(authState);
+    // const [authInfo, setAuthInfo] = useRecoilState(authState);
     const resetAuthInfo = useResetRecoilState(authState);
-    const [name, ident, email, oid] = extractValues([Keys.NAME, Keys.IDENT, Keys.EMAIL, Keys.OID]);
+    // not cookie
+    // const [name, ident, email, oid] = extractValues([Keys.NAME, Keys.IDENT, Keys.EMAIL, Keys.OID]);
+    // Fetch from /user
 
+    /*
     useEffect(() => {
         if (name && name !== authInfo.name) {
             setAuthInfo({
@@ -54,6 +55,7 @@ export const useUpdateAuthentication = () => {
             });
         }
     }, [name, authInfo]);
+    */
 
     useEffect(() => {
         const originalFetch = window.fetch;

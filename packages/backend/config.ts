@@ -1,23 +1,11 @@
 import env from 'dotenv';
 import * as process from 'process';
 
-import { OidcConfig, RedisConfig, ServerConfig } from './types';
+import { ServerConfig } from './types';
 
 ('use strict');
 
 env.config();
-
-const oidc: OidcConfig = {
-    wellKnownEndpoint: process.env.AZURE_APP_WELL_KNOWN_URL || 'unknown',
-    tokenEndpoint: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT || 'unknown',
-    clientID: process.env.AZURE_APP_CLIENT_ID || 'unknown',
-    clientIDSpesialist: process.env.CLIENT_ID_SPESIALIST || 'unknown',
-    clientIDFlexjar: process.env.CLIENT_ID_FLEXJAR || 'unknown',
-    responseType: ['code'],
-    clientSecret: process.env.AZURE_APP_CLIENT_SECRET || 'unknown',
-    scope: `profile offline_access openid email ${process.env.AZURE_APP_CLIENT_ID}/.default`,
-    logoutUrl: process.env.LOGOUT_URL ?? 'https://navno.sharepoint.com/sites/intranett',
-};
 
 const server: ServerConfig = {
     port: process.env.SPEIL_BACKEND_PORT ? parseInt(process.env.SPEIL_BACKEND_PORT) : 3000,
@@ -26,17 +14,9 @@ const server: ServerConfig = {
     flexjarBaseUrl: process.env.FLEXJAR_BASE_URL || 'http://flexjar',
 };
 
-const redis: RedisConfig = {
-    url: process.env.REDIS_URI_SESSIONS!,
-    username: process.env.REDIS_USERNAME_SESSIONS!,
-    password: process.env.REDIS_PASSWORD_SESSIONS!,
-};
-
 const development = process.env.NODE_ENV === 'development';
 
 export default {
-    oidc,
-    redis,
     server,
     development,
 };

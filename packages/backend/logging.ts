@@ -1,11 +1,13 @@
+'use strict';
+
+import { Request } from 'express';
 import fs from 'fs';
 import winston from 'winston';
 
-import authSupport from './auth/authSupport';
-import config from './config';
-import { SpeilRequest } from './types';
+import { getToken } from '@navikt/oasis';
 
-('use strict');
+import { getUserInfoFromToken } from './auth/userInfo';
+import config from './config';
 
 const sikkerLogPath = () => (fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log');
 
@@ -48,10 +50,13 @@ const sikkerError = (message: string, ...meta: unknown[]) => {
     sikkerLogger.error(message, ...meta);
 };
 
-const requestMeta = (req: SpeilRequest) => {
+const requestMeta = (req: Request) => {
+    const token = getToken(req);
+    const userInfo = token ? getUserInfoFromToken(token) : null;
+
     return {
-        speilUser: authSupport.valueFromClaim('name', req.session.speilToken),
-        navIdent: authSupport.valueFromClaim('NAVident', req.session.speilToken),
+        speilUser: userInfo?.name,
+        navIdent: userInfo?.ident,
         headers: req.headers,
         method: req.method,
         url: req.url,
