@@ -6,6 +6,7 @@ import { RecoilRoot } from 'recoil';
 import 'reset-css';
 
 import { ApolloProvider } from '@apollo/client';
+import { loadErrorMessages } from '@apollo/client/dev';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Toasts } from '@components/Toasts';
 import { Varsler } from '@components/Varsler';
@@ -47,6 +48,10 @@ ReactModal.setAppElement('#root');
 //         app: nais.app,
 //         instrumentations: [new ErrorsInstrumentation()],
 //     });
+
+if (import.meta.env.DEV) {
+    loadErrorMessages();
+}
 
 const useSyncAlertsToLocation = () => {
     const location = useLocation();
