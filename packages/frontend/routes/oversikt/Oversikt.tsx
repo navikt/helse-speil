@@ -9,6 +9,7 @@ import { useOppgaveFeed } from '@state/oppgaver';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { onLazyLoadFail } from '@utils/error';
 
+import { useKeyboardShortcuts } from '../saksbilde/useKeyboardShortcuts';
 import { IngenOppgaver } from './IngenOppgaver';
 import { Tabs } from './Tabs';
 import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';
@@ -31,6 +32,7 @@ export const Oversikt = () => {
     const queryClient = new QueryClient();
 
     useLoadingToast({ isLoading: oppgaveFeed.loading, message: 'Henter oppgaver' });
+    useKeyboardShortcuts();
 
     return (
         <main className={styles.Oversikt}>
