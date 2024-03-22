@@ -45,10 +45,6 @@ spec:
       memory: "128Mi"
   prometheus:
     enabled: true
-  observability:
-    autoInstrumentation:
-      enabled: true
-      runtime: nodejs
   frontend:
     generatedConfig:
       mountPath: /app/dist/client/nais/nais
