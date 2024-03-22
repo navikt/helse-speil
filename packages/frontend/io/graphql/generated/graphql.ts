@@ -701,6 +701,7 @@ export type Oppdrag = {
     status: Oppdragsstatus;
     totalbelop?: Maybe<Scalars['Int']['output']>;
     type: Scalars['String']['output'];
+    utbetalingId: Scalars['String']['output'];
 };
 
 export enum Oppdragsstatus {
@@ -1942,6 +1943,7 @@ export type HentOppdragQuery = {
         __typename?: 'Oppdrag';
         type: string;
         status: Oppdragsstatus;
+        utbetalingId: string;
         arbeidsgiveroppdrag?: {
             __typename?: 'Arbeidsgiveroppdrag';
             organisasjonsnummer: string;
@@ -4630,6 +4632,7 @@ export const HentOppdragDocument = {
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'utbetalingId' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'arbeidsgiveroppdrag' },

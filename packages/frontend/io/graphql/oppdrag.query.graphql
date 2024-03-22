@@ -2,6 +2,7 @@ query HentOppdrag($fnr: String!) {
     oppdrag(fnr: $fnr) {
         type,
         status,
+        utbetalingId,
         arbeidsgiveroppdrag {
             organisasjonsnummer,
             fagsystemId,

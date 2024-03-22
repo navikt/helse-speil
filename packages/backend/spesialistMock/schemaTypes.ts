@@ -699,6 +699,7 @@ export type Oppdrag = {
     status: Oppdragsstatus;
     totalbelop?: Maybe<Scalars['Int']['output']>;
     type: Scalars['String']['output'];
+    utbetalingId: Scalars['String']['output'];
 };
 
 export enum Oppdragsstatus {
