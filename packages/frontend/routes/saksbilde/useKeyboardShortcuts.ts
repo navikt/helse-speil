@@ -169,7 +169,7 @@ export const useKeyboardActions = (): Action[] => {
         },
         {
             key: Key.A,
-            visningstekst: 'Kopier aktørId',
+            visningstekst: 'Kopier aktør-ID',
             visningssnarvei: ['ALT', 'A'],
             action: copyAktørId,
             ignoreIfModifiers: false,
@@ -209,7 +209,7 @@ export const useKeyboardActions = (): Action[] => {
         },
         {
             key: Key.A,
-            visningstekst: 'Åpne aareg i ny fane',
+            visningstekst: 'Åpne Aa-reg',
             visningssnarvei: ['⇧', 'A'],
             action: () =>
                 fødselsnummer &&
@@ -222,7 +222,7 @@ export const useKeyboardActions = (): Action[] => {
         },
         {
             key: Key.B,
-            visningstekst: 'Åpne brreg i ny fane',
+            visningstekst: 'Åpne Brreg',
             visningssnarvei: ['⇧', 'B'],
             action: () => window.open('https://brreg.no', '_blank'),
             ignoreIfModifiers: false,
@@ -230,7 +230,7 @@ export const useKeyboardActions = (): Action[] => {
         },
         {
             key: Key.G,
-            visningstekst: 'Åpne gosys på person i ny fane',
+            visningstekst: 'Åpne Gosys',
             visningssnarvei: ['⇧', 'G'],
             action: openGosys,
             ignoreIfModifiers: false,
@@ -238,7 +238,7 @@ export const useKeyboardActions = (): Action[] => {
         },
         {
             key: Key.E,
-            visningstekst: 'Åpne a-inntekt i ny fane',
+            visningstekst: 'Åpne A-inntekt',
             visningssnarvei: ['⇧', 'E'],
             action: () =>
                 fødselsnummer &&
@@ -251,7 +251,7 @@ export const useKeyboardActions = (): Action[] => {
         },
         {
             key: Key.L,
-            visningstekst: 'Åpne lovdata i ny fane',
+            visningstekst: 'Åpne Lovdata',
             visningssnarvei: ['⇧', 'L'],
             action: () => window.open('https://lovdata.no/nav/folketrygdloven/kap8', '_blank'),
             ignoreIfModifiers: false,
@@ -259,7 +259,7 @@ export const useKeyboardActions = (): Action[] => {
         },
         {
             key: Key.M,
-            visningstekst: 'Åpne modia personoversikt på person i ny fane',
+            visningstekst: 'Åpne Modia personoversikt',
             visningssnarvei: ['⇧', 'M'],
             action: openModiaPersonoversikt,
             ignoreIfModifiers: false,
@@ -267,7 +267,7 @@ export const useKeyboardActions = (): Action[] => {
         },
         {
             key: Key.O,
-            visningstekst: 'Åpne oppdrag i ny fane',
+            visningstekst: 'Åpne oppdrag',
             visningssnarvei: ['⇧', 'O'],
             action: () => window.open('https://wasapp.adeo.no/oppdrag/venteregister/details.htm', '_blank'),
             ignoreIfModifiers: false,
@@ -275,7 +275,7 @@ export const useKeyboardActions = (): Action[] => {
         },
         {
             key: Key.R,
-            visningstekst: 'Åpne rutine i ny fane',
+            visningstekst: 'Åpne rutiner for sykepenger',
             visningssnarvei: ['⇧', 'R'],
             action: () =>
                 window.open(
@@ -287,7 +287,7 @@ export const useKeyboardActions = (): Action[] => {
         },
         {
             key: Key.S,
-            visningstekst: 'Åpne modia sykefraværsoppfølging på person i ny fane',
+            visningstekst: 'Åpne Modia sykefraværsoppfølging',
             visningssnarvei: ['⇧', 'S'],
             action: openModiaSykefraværsoppfølging,
             ignoreIfModifiers: false,
