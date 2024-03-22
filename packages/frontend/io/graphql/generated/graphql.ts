@@ -39,7 +39,7 @@ export type Annullering = {
 export type AnnulleringDataInput = {
     aktorId: Scalars['String']['input'];
     begrunnelser: Array<Scalars['String']['input']>;
-    fagsystemId: Scalars['String']['input'];
+    fagsystemId?: InputMaybe<Scalars['String']['input']>;
     fodselsnummer: Scalars['String']['input'];
     kommentar?: InputMaybe<Scalars['String']['input']>;
     organisasjonsnummer?: InputMaybe<Scalars['String']['input']>;
