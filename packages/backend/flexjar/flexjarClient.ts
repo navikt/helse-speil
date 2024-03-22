@@ -2,30 +2,23 @@ import { v4 as uuidv4 } from 'uuid';
 
 import config from '../config';
 import logger from '../logging';
-import { OidcConfig, OnBehalfOf, SpeilSession } from '../types';
+import { OnBehalfOf } from '../types';
 
 const baseUrl = config.server.flexjarBaseUrl;
 
 export interface FlexjarClient {
-    postFlexjarQuery: (
-        speilToken: string,
-        session: SpeilSession,
-        data: string,
-        method?: string,
-        urlId?: string,
-    ) => Promise<object>;
+    postFlexjarQuery: (accessToken: string, data: string, method?: string, urlId?: string) => Promise<object>;
 }
 
-export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): FlexjarClient => ({
+export default (onBehalfOf: OnBehalfOf): FlexjarClient => ({
     postFlexjarQuery: async (
-        speilToken: string,
-        session: SpeilSession,
+        accessToken: string,
         data: string,
         method: string = 'POST',
         urlId: string = '',
     ): Promise<object> => {
         const callId = uuidv4();
-        const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDFlexjar, session, speilToken);
+        const onBehalfOfToken = await onBehalfOf.hentFor(process.env.CLIENT_ID_FLEXJAR || 'unknown', accessToken);
         const options = {
             method,
             headers: {
