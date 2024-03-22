@@ -13,10 +13,10 @@ generates:
   ./packages/frontend/graphql.schema.json:
     plugins:
       - "introspection"
-  ./packages/backend/graphql.schema.json:
+  ./packages/spesialist-mock/graphql.schema.json:
     plugins:
       - "introspection"
-  ./packages/backend/spesialistMock/schemaTypes.ts:
+  ./packages/spesialist-mock/schemaTypes.ts:
     plugins:
       - "typescript"
 hooks:

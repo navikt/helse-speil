@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { sleep } from '../devHelpers';
+import { sleep } from './constants';
 import { setUpFaro } from './faro';
 import { setUpFlexjar } from './flexjar';
 import { setUpGraphQLMiddleware } from './graphql';

@@ -1,4 +1,4 @@
-import spesialistSchema from '../graphql.schema.json';
+import spesialistSchema from './graphql.schema.json';
 import { Express } from 'express';
 import fs from 'fs';
 import { GraphQLError, GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';

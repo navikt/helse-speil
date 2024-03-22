@@ -1,9 +1,9 @@
 import { TokenSet } from 'openid-client';
 
-import { sleep } from '../devHelpers';
 import { Instrumentation } from '../instrumentation';
 import logger from '../logging';
 import { OidcConfig, OnBehalfOf, SpeilSession } from '../types';
+import { sleep } from '../utils';
 import authSupport from './authSupport';
 
 export default (config: OidcConfig, instrumentation: Instrumentation): OnBehalfOf => {

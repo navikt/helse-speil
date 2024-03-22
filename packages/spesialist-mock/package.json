@@ -1,0 +1,35 @@
+{
+    "name": "spesialist-mock",
+    "version": "1.0.0",
+    "main": "server.ts",
+    "author": "Team Bømlo",
+    "description": "Mock av spesialist",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/navikt/helse-speil.git"
+    },
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc",
+        "mock": "ts-node-dev --files server.ts",
+        "lint": "eslint . --ext .ts --ext .js",
+        "clean": "rimraf node_modules",
+        "tdd": "TZ=UTC jest --watch",
+        "validate-ts": "tsc",
+        "pretest": "npm run lint && npm run validate-ts",
+        "prettier": "prettier --write \"**/*.{js,ts}\""
+    },
+    "devDependencies": {
+        "@graphql-tools/schema": "^10.0.3",
+        "@graphql-tools/utils": "^10.1.2",
+        "dayjs": "^1.11.10",
+        "express": "^4.18.2",
+        "graphql": "^16.8.1",
+        "graphql-yoga": "^5.2.0",
+        "nanoid": "^3.3.7"
+    },
+    "engines": {
+        "node": ">=14.17.0",
+        "npm": ">=6.14.0"
+    }
+}

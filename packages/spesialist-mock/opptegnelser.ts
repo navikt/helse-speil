@@ -1,4 +1,4 @@
-import { sleep } from '../devHelpers';
+import { sleep } from './constants';
 import { opptegnelser } from './data/opptegnelser';
 
 let svarPåOpptegnelser = false;

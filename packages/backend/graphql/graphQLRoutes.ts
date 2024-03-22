@@ -1,8 +1,8 @@
 import { NextFunction, Response, Router } from 'express';
 
-import { sleep } from '../devHelpers';
 import logger from '../logging';
 import { SpeilRequest } from '../types';
+import { sleep } from '../utils';
 import { GraphQLClient } from './graphQLClient';
 
 interface SetupOptions {

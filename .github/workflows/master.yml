@@ -22,6 +22,8 @@ jobs:
           node-version: 20
           cache: 'npm'
           cache-dependency-path: 'package-lock.json'
+      - name: Remove local-only mock
+        run: rm -rf packages/spesialist-mock
       - name: Set timezone
         run: export TZ=utc
       - name: Install dependencies

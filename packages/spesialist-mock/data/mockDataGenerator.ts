@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 
-import { antallTilfeldigeBehandledeOppgaver, antallTilfeldigeOppgaver } from '../../devHelpers';
+import { antallTilfeldigeBehandledeOppgaver, antallTilfeldigeOppgaver } from '../constants';
 import {
     AntallArbeidsforhold,
     BehandletOppgave,

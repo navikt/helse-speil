@@ -1,0 +1,15 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "outDir": "../../dist/server",
+        "baseUrl": "../",
+        "rootDir": "./",
+        "allowJs": true,
+        "skipLibCheck": true
+    },
+    "ts-node": {
+        "files": true
+    }
+}
