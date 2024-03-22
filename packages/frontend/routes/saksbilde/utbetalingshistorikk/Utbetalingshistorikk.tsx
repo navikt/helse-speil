@@ -31,6 +31,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
     const { data } = useQuery(HentOppdragDocument, { variables: { fnr: fødselsnummer } });
     const kanAnnulleres = useKanAnnulleres(data?.oppdrag ?? []);
     const [tilAnnullering, setTilAnnullering] = useState<Spennoppdrag | undefined>();
+    const [utbetalingIdTilAnnullering, setUtbetalingIdTilAnnullering] = useState<string | undefined>();
     const [varseltekst, setVarseltekst] = useState<string | undefined>();
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<Array<string>>([]);
     const readOnly = useIsReadOnlyOppgave();
@@ -91,7 +92,10 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                                     <UtbetalingshistorikkRow
                                         visAnnullering={skalViseAnnulleringButton(oppdrag)}
                                         kanAnnulleres={kanAnnulleres(oppdrag.personoppdrag)}
-                                        setTilAnnullering={() => setTilAnnullering(oppdrag.personoppdrag ?? undefined)}
+                                        setTilAnnullering={() => {
+                                            setTilAnnullering(oppdrag.personoppdrag ?? undefined);
+                                            setUtbetalingIdTilAnnullering(oppdrag.utbetalingId);
+                                        }}
                                         oppdaterVarselTekst={oppdaterVarselTekst}
                                         oppdrag={oppdrag.personoppdrag}
                                         status={oppdrag.status}
@@ -102,9 +106,10 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                                     <UtbetalingshistorikkRow
                                         visAnnullering={skalViseAnnulleringButton(oppdrag)}
                                         kanAnnulleres={kanAnnulleres(oppdrag.arbeidsgiveroppdrag)}
-                                        setTilAnnullering={() =>
-                                            setTilAnnullering(oppdrag.arbeidsgiveroppdrag ?? undefined)
-                                        }
+                                        setTilAnnullering={() => {
+                                            setTilAnnullering(oppdrag.arbeidsgiveroppdrag ?? undefined);
+                                            setUtbetalingIdTilAnnullering(oppdrag.utbetalingId);
+                                        }}
                                         oppdaterVarselTekst={oppdaterVarselTekst}
                                         oppdrag={oppdrag.arbeidsgiveroppdrag}
                                         status={oppdrag.status}
@@ -121,6 +126,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                         aktørId={aktørId}
                         organisasjonsnummer={(tilAnnullering as Arbeidsgiveroppdrag)?.organisasjonsnummer}
                         fagsystemId={tilAnnullering.fagsystemId}
+                        utbetalingId={utbetalingIdTilAnnullering ?? null}
                         linjer={tilAnnullering.linjer.map((it) => ({
                             ...it,
                             totalbeløp: it.totalbelop,

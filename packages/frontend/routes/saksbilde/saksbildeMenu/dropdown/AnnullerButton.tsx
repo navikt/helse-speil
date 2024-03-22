@@ -44,6 +44,7 @@ const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
                     organisasjonsnummer={organisasjonsnummer}
                     fagsystemId={utbetaling.arbeidsgiverFagsystemId}
                     linjer={oppdrag.linjer}
+                    utbetalingId={utbetaling.id}
                     onClose={() => {
                         setShowModal(false);
                     }}
@@ -86,12 +87,7 @@ export const AnnullerButton: React.FC<AnnullerButtonProps> = ({ person, periode,
 
     const { data } = useQuery(HentOppdragDocument, { variables: { fnr: person.fodselsnummer } });
 
-    const oppdrag =
-        data?.oppdrag
-            .toReversed()
-            .find(
-                (it: Oppdrag) => it.arbeidsgiveroppdrag?.fagsystemId === periode.utbetaling.arbeidsgiverFagsystemId,
-            ) ?? null;
+    const oppdrag = data?.oppdrag.toReversed().find((it: Oppdrag) => it.utbetalingId === periode.utbetaling.id) ?? null;
 
     if (
         !harArbeidsgiveroppdrag(oppdrag) ||

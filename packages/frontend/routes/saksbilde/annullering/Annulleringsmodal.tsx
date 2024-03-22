@@ -19,6 +19,7 @@ interface AnnulleringsmodalProps {
     aktørId: string;
     organisasjonsnummer: string;
     fagsystemId: string;
+    utbetalingId: Maybe<string>;
     linjer: Array<Utbetalingslinje>;
     onClose: () => void;
     onSuccess?: () => void;
@@ -30,6 +31,7 @@ export const Annulleringsmodal = ({
     aktørId,
     organisasjonsnummer,
     fagsystemId,
+    utbetalingId,
     linjer,
     onClose,
     onSuccess,
@@ -51,6 +53,7 @@ export const Annulleringsmodal = ({
         fodselsnummer: fødselsnummer,
         organisasjonsnummer,
         fagsystemId,
+        utbetalingId,
         begrunnelser,
         kommentar: kommentar ? (kommentar.trim() === '' ? undefined : kommentar.trim()) : undefined,
     });

@@ -26,6 +26,7 @@ const defaultProps = {
     aktørId: '12345678910',
     organisasjonsnummer: '987654321',
     fagsystemId: 'EN-FAGSYSTEMID',
+    utbetalingId: 'EN-UTBETALINGID',
     linjer: [{ fom: '2022-01-01', tom: '2022-01-31', totalbelop: 30000 }],
     onClose: () => null,
 };
@@ -40,6 +41,7 @@ const mocks = [
                     fodselsnummer: '12345678910',
                     organisasjonsnummer: '987654321',
                     fagsystemId: 'EN-FAGSYSTEMID',
+                    utbetalingId: 'EN-UTBETALINGID',
                     begrunnelser: ['ferie'],
                     kommentar: undefined,
                 },
