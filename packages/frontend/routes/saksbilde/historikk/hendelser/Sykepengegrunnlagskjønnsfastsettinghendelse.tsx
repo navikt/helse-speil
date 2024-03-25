@@ -8,7 +8,7 @@ import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Inntektskilde, Skjonnsfastsettingstype } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
-import { somPengerUtenDesimaler } from '@utils/locale';
+import { somPenger } from '@utils/locale';
 
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
 import { Hendelse } from './Hendelse';
@@ -70,9 +70,9 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
                                 <AnonymizableText>{ag.navn}</AnonymizableText>
                                 <BodyShort>
                                     {ag.fraÅrlig !== ag.årlig && (
-                                        <span className={styles.FromValue}>{somPengerUtenDesimaler(ag.fraÅrlig)}</span>
+                                        <span className={styles.FromValue}>{somPenger(ag.fraÅrlig)}</span>
                                     )}
-                                    {somPengerUtenDesimaler(ag.årlig)}
+                                    {somPenger(ag.årlig)}
                                 </BodyShort>
                             </Fragment>
                         ))}
