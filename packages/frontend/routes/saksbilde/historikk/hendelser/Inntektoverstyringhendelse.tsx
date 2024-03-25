@@ -8,7 +8,7 @@ import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, Refusjonsopplysning } from '@io/graphql';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT, getFormattedDateString } from '@utils/date';
-import { somPengerUtenDesimaler } from '@utils/locale';
+import { somPenger } from '@utils/locale';
 
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
 import { Hendelse } from './Hendelse';
@@ -44,11 +44,9 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                             <Bold>Mnd. inntekt </Bold>
                             <BodyShort>
                                 {inntekt.fraManedligInntekt !== undefined && (
-                                    <span className={styles.FromValue}>
-                                        {somPengerUtenDesimaler(inntekt.fraManedligInntekt)}
-                                    </span>
+                                    <span className={styles.FromValue}>{somPenger(inntekt.fraManedligInntekt)}</span>
                                 )}
-                                {somPengerUtenDesimaler(inntekt.manedligInntekt)}
+                                {somPenger(inntekt.manedligInntekt)}
                             </BodyShort>
                             <Bold>Skj. tidspunkt</Bold>
                             <BodyShort>{getFormattedDateString(inntekt.skjaeringstidspunkt)}</BodyShort>
