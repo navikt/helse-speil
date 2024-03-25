@@ -43,7 +43,7 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                             <BodyShort>{inntekt.forklaring}</BodyShort>
                             <Bold>Mnd. inntekt </Bold>
                             <BodyShort>
-                                {inntekt.fraManedligInntekt && (
+                                {inntekt.fraManedligInntekt !== undefined && (
                                     <span className={styles.FromValue}>
                                         {somPengerUtenDesimaler(inntekt.fraManedligInntekt)}
                                     </span>
