@@ -8,7 +8,6 @@ import styles from '@components/header/Header.module.css';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FetchPersonDocument } from '@io/graphql';
 import { validFødselsnummer } from '@io/graphql/common';
-import { NotFoundError } from '@io/graphql/errors';
 import { useAddVarsel, useRapporterGraphQLErrors } from '@state/varsler';
 import { SpeilError } from '@utils/error';
 
@@ -56,10 +55,10 @@ export const Personsøk: React.FC = () => {
                 : { aktorId: personId };
             hentPerson({
                 variables: variables,
-            }).then(({ data }) => {
+            }).then(({ data, error }) => {
                 if ((data?.person?.arbeidsgivere.length ?? 0) === 0) {
                     navigate('/');
-                    addVarsel(new NotFoundError());
+                    if (error?.graphQLErrors) rapporterError(error.graphQLErrors);
                     return;
                 }
                 if (data?.person) {
