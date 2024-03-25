@@ -69,12 +69,10 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
                             <Fragment key={`ag-${index}`}>
                                 <AnonymizableText>{ag.navn}</AnonymizableText>
                                 <BodyShort>
-                                    {skjønnsfastsatt.fraArlig !== skjønnsfastsatt.arlig && (
-                                        <span className={styles.FromValue}>
-                                            {somPengerUtenDesimaler(skjønnsfastsatt.fraArlig)}
-                                        </span>
+                                    {ag.fraÅrlig !== ag.årlig && (
+                                        <span className={styles.FromValue}>{somPengerUtenDesimaler(ag.fraÅrlig)}</span>
                                     )}
-                                    {somPengerUtenDesimaler(skjønnsfastsatt.arlig)}
+                                    {somPengerUtenDesimaler(ag.årlig)}
                                 </BodyShort>
                             </Fragment>
                         ))}
