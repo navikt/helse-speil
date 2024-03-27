@@ -64,7 +64,6 @@ export const AnnullerButton: React.FC<AnnullerButtonProps> = ({ person, periode,
     const erReadonly = useIsReadOnlyOppgave();
     const erBeslutterMedTilgang = useErBeslutteroppgaveOgHarTilgang();
 
-    console.log(!kanAnnullere(erBeslutterMedTilgang, erReadonly, periode.utbetaling));
     if (!kanAnnullere(erBeslutterMedTilgang, erReadonly, periode.utbetaling)) {
         return null;
     }
