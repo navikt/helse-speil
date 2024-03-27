@@ -21,6 +21,12 @@ jest.mock('../../../io/http', () => ({
     },
 }));
 
+jest.mock('@utils/featureToggles', () => ({
+    erUtvikling: () => true,
+    erProd: () => false,
+    erDev: () => false,
+}));
+
 const defaultProps = {
     fødselsnummer: '12345678910',
     aktørId: '12345678910',
