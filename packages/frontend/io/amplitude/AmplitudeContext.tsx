@@ -5,7 +5,7 @@ interface AmplitudeContextValue {
     logOppgaveForkastet: (begrunnelser: string[]) => void;
     logTotrinnsoppgaveReturnert: () => void;
     logTotrinnsoppgaveTilGodkjenning: () => void;
-    logAnnullert: (fraUtbetalingshistorikk: boolean) => void;
+    logAnnullert: (fraUtbetalingshistorikk: boolean, begrunnelser: string[]) => void;
 }
 
 export const AmplitudeContext = createContext<AmplitudeContextValue>({
