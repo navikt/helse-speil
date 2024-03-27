@@ -109,9 +109,9 @@ export const Annulleringsmodal = ({
                         Infotrygd.
                     </Alert>
                     <h2 className={styles.tittel}>Annullering</h2>
-                    <div className={styles.gruppe}>
-                        <BodyShort>Følgende utbetalinger annulleres:</BodyShort>
-                        {linjer !== undefined && (
+                    {linjer !== undefined && (
+                        <div className={styles.gruppe}>
+                            <BodyShort>Følgende utbetalinger annulleres:</BodyShort>
                             <ul>
                                 {linjer.map((linje, index) => (
                                     <li key={index}>
@@ -123,9 +123,9 @@ export const Annulleringsmodal = ({
                                     </li>
                                 ))}
                             </ul>
-                        )}
-                        {utbetaling !== undefined && <Annulleringsinformasjon utbetaling={utbetaling} />}
-                    </div>
+                        </div>
+                    )}
+                    {utbetaling !== undefined && <Annulleringsinformasjon utbetaling={utbetaling} />}
                     <Annulleringsbegrunnelse />
                     {varseltekst && (
                         <BodyShort as="p" className={styles.varseltekst}>

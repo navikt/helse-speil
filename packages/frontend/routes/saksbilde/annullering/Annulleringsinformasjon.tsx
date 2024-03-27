@@ -1,3 +1,4 @@
+import styles from './Annulleringsmodal.module.scss';
 import dayjs from 'dayjs';
 import React from 'react';
 
@@ -23,18 +24,21 @@ export const Annulleringsinformasjon = ({ utbetaling }: AnnulleringsinformasjonP
     const sisteUtbetalingsdag = finnSisteUtbetalingsdag(utbetaling);
 
     return (
-        <ul>
-            {utbetaling?.arbeidsgiversimulering?.perioder && (
-                <li>
-                    <BodyShort>
-                        {dayjs(førsteUtbetalingsdag).format(NORSK_DATOFORMAT)} -{' '}
-                        {dayjs(sisteUtbetalingsdag).format(NORSK_DATOFORMAT)}
-                        {totalBruttoUtbetaltForSykefraværstilfellet
-                            ? ` - ${somPenger(totalBruttoUtbetaltForSykefraværstilfellet)}`
-                            : null}
-                    </BodyShort>
-                </li>
-            )}
-        </ul>
+        <div className={styles.gruppe}>
+            <BodyShort>Følgende utbetalinger annulleres:</BodyShort>
+            <ul>
+                {utbetaling?.arbeidsgiversimulering?.perioder && (
+                    <li>
+                        <BodyShort>
+                            {dayjs(førsteUtbetalingsdag).format(NORSK_DATOFORMAT)} -{' '}
+                            {dayjs(sisteUtbetalingsdag).format(NORSK_DATOFORMAT)}
+                            {totalBruttoUtbetaltForSykefraværstilfellet
+                                ? ` - ${somPenger(totalBruttoUtbetaltForSykefraværstilfellet)}`
+                                : null}
+                        </BodyShort>
+                    </li>
+                )}
+            </ul>
+        </div>
     );
 };
