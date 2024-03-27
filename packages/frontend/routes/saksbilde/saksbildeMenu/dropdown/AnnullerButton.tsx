@@ -6,6 +6,7 @@ import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveO
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiver, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { annulleringerEnabled } from '@utils/featureToggles';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { Annulleringsmodal } from '../../annullering/Annulleringsmodal';
 
@@ -63,8 +64,19 @@ interface AnnullerButtonProps {
 export const AnnullerButton: React.FC<AnnullerButtonProps> = ({ person, periode, arbeidsgiver }) => {
     const erReadonly = useIsReadOnlyOppgave();
     const erBeslutterMedTilgang = useErBeslutteroppgaveOgHarTilgang();
+    const sisteGodkjentePeriodePåSkjæringstidspunkt = arbeidsgiver.generasjoner[0].perioder
+        .filter(
+            (agperiode) =>
+                agperiode.skjaeringstidspunkt === periode.skjaeringstidspunkt &&
+                isBeregnetPeriode(agperiode) &&
+                agperiode.utbetaling.vurdering?.godkjent === true,
+        )
+        .shift();
 
-    if (!kanAnnullere(erBeslutterMedTilgang, erReadonly, periode.utbetaling)) {
+    if (
+        sisteGodkjentePeriodePåSkjæringstidspunkt?.id !== periode.id ||
+        !kanAnnullere(erBeslutterMedTilgang, erReadonly, periode.utbetaling)
+    ) {
         return null;
     }
 
