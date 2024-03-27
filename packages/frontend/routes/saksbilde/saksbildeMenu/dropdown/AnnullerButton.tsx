@@ -2,23 +2,14 @@ import React, { useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react-internal';
 
-import { useQuery } from '@apollo/client';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import {
-    Arbeidsgiver,
-    Arbeidsgiveroppdrag,
-    HentOppdragDocument,
-    Oppdrag,
-    Utbetaling,
-    Utbetalingstatus,
-} from '@io/graphql';
+import { Arbeidsgiver, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { annulleringerEnabled } from '@utils/featureToggles';
 
 import { Annulleringsmodal } from '../../annullering/Annulleringsmodal';
 
 interface AnnullerButtonWithContentProps {
-    oppdrag: Arbeidsgiveroppdrag;
     utbetaling: Utbetaling;
     aktørId: string;
     fødselsnummer: string;
@@ -26,7 +17,6 @@ interface AnnullerButtonWithContentProps {
 }
 
 const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
-    oppdrag,
     utbetaling,
     aktørId,
     fødselsnummer,
@@ -43,8 +33,8 @@ const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
                     aktørId={aktørId}
                     organisasjonsnummer={organisasjonsnummer}
                     fagsystemId={utbetaling.arbeidsgiverFagsystemId}
-                    linjer={oppdrag.linjer}
                     utbetalingId={utbetaling.id}
+                    utbetaling={utbetaling}
                     onClose={() => {
                         setShowModal(false);
                     }}
@@ -54,24 +44,13 @@ const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
     );
 };
 
-const harArbeidsgiveroppdrag = (
-    oppdrag?: Maybe<Oppdrag>,
-): oppdrag is Oppdrag & { arbeidsgiveroppdrag: Arbeidsgiveroppdrag } => {
-    return !!oppdrag?.arbeidsgiveroppdrag;
-};
-
-const kanAnnullere = (
-    oppdrag: Maybe<Oppdrag>,
-    erBeslutterMedTilgang: boolean,
-    erReadonly: boolean,
-    utbetaling: Utbetaling,
-): boolean => {
+const kanAnnullere = (erBeslutterMedTilgang: boolean, erReadonly: boolean, utbetaling: Utbetaling): boolean => {
     return (
         annulleringerEnabled &&
         !erBeslutterMedTilgang &&
         !erReadonly &&
-        harArbeidsgiveroppdrag(oppdrag) &&
-        utbetaling.status !== Utbetalingstatus.Annullert
+        utbetaling.status !== Utbetalingstatus.Annullert &&
+        (utbetaling.vurdering?.godkjent ?? false)
     );
 };
 
@@ -85,20 +64,13 @@ export const AnnullerButton: React.FC<AnnullerButtonProps> = ({ person, periode,
     const erReadonly = useIsReadOnlyOppgave();
     const erBeslutterMedTilgang = useErBeslutteroppgaveOgHarTilgang();
 
-    const { data } = useQuery(HentOppdragDocument, { variables: { fnr: person.fodselsnummer } });
-
-    const oppdrag = data?.oppdrag.toReversed().find((it: Oppdrag) => it.utbetalingId === periode.utbetaling.id) ?? null;
-
-    if (
-        !harArbeidsgiveroppdrag(oppdrag) ||
-        !kanAnnullere(oppdrag, erBeslutterMedTilgang, erReadonly, periode.utbetaling)
-    ) {
+    console.log(!kanAnnullere(erBeslutterMedTilgang, erReadonly, periode.utbetaling));
+    if (!kanAnnullere(erBeslutterMedTilgang, erReadonly, periode.utbetaling)) {
         return null;
     }
 
     return (
         <AnnullerButtonWithContent
-            oppdrag={oppdrag.arbeidsgiveroppdrag}
             utbetaling={periode.utbetaling}
             aktørId={person.aktorId}
             fødselsnummer={person.fodselsnummer}

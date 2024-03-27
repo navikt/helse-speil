@@ -7,12 +7,23 @@ import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { Modal } from '@components/Modal';
-import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument, Utbetalingslinje } from '@io/graphql';
+import {
+    AnnullerDocument,
+    AnnulleringDataInput,
+    OpprettAbonnementDocument,
+    Utbetaling,
+    Utbetalingslinje,
+} from '@io/graphql';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
+import {
+    finnFørsteUtbetalingsdag,
+    finnSisteUtbetalingsdag,
+    finnTotalBruttoUtbetaltForSykefraværstilfellet,
+} from './annullering';
 
 interface AnnulleringsmodalProps {
     fødselsnummer: string;
@@ -20,7 +31,8 @@ interface AnnulleringsmodalProps {
     organisasjonsnummer: string;
     fagsystemId: string;
     utbetalingId: Maybe<string>;
-    linjer: Array<Utbetalingslinje>;
+    utbetaling?: Maybe<Utbetaling>;
+    linjer?: Array<Utbetalingslinje>;
     onClose: () => void;
     onSuccess?: () => void;
     varseltekst?: string;
@@ -32,6 +44,7 @@ export const Annulleringsmodal = ({
     organisasjonsnummer,
     fagsystemId,
     utbetalingId,
+    utbetaling,
     linjer,
     onClose,
     onSuccess,
@@ -91,6 +104,16 @@ export const Annulleringsmodal = ({
         }, 0);
     };
 
+    const totalBruttoUtbetaltForSykefraværstilfellet = finnTotalBruttoUtbetaltForSykefraværstilfellet(utbetaling);
+    const førsteUtbetalingsdag = finnFørsteUtbetalingsdag(utbetaling);
+    const sisteUtbetalingsdag = finnSisteUtbetalingsdag(utbetaling);
+    console.log(
+        totalBruttoUtbetaltForSykefraværstilfellet,
+        (utbetaling?.personsimulering?.totalbelop ?? 0) + (utbetaling?.arbeidsgiversimulering?.totalbelop ?? 0),
+        finnSisteUtbetalingsdag(utbetaling),
+        finnFørsteUtbetalingsdag(utbetaling),
+    );
+
     return (
         <FormProvider {...form}>
             <Modal className={styles.modal} isOpen={true} contentLabel="Feilmelding" onRequestClose={onClose}>
@@ -102,17 +125,34 @@ export const Annulleringsmodal = ({
                     <h2 className={styles.tittel}>Annullering</h2>
                     <div className={styles.gruppe}>
                         <BodyShort>Følgende utbetalinger annulleres:</BodyShort>
-                        <ul>
-                            {linjer.map((linje, index) => (
-                                <li key={index}>
-                                    <BodyShort>
-                                        {dayjs(linje.fom).format(NORSK_DATOFORMAT)} -{' '}
-                                        {dayjs(linje.tom).format(NORSK_DATOFORMAT)}
-                                        {linje.totalbelop ? ` - ${somPenger(linje.totalbelop)}` : null}
-                                    </BodyShort>
-                                </li>
-                            ))}
-                        </ul>
+                        {linjer !== undefined && (
+                            <ul>
+                                {linjer.map((linje, index) => (
+                                    <li key={index}>
+                                        <BodyShort>
+                                            {dayjs(linje.fom).format(NORSK_DATOFORMAT)} -{' '}
+                                            {dayjs(linje.tom).format(NORSK_DATOFORMAT)}
+                                            {linje.totalbelop ? ` - ${somPenger(linje.totalbelop)}` : null}
+                                        </BodyShort>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                        {utbetaling !== undefined && (
+                            <ul>
+                                {utbetaling?.arbeidsgiversimulering?.perioder && (
+                                    <li>
+                                        <BodyShort>
+                                            {dayjs(førsteUtbetalingsdag).format(NORSK_DATOFORMAT)} -{' '}
+                                            {dayjs(sisteUtbetalingsdag).format(NORSK_DATOFORMAT)}
+                                            {totalBruttoUtbetaltForSykefraværstilfellet
+                                                ? ` - ${somPenger(totalBruttoUtbetaltForSykefraværstilfellet)}`
+                                                : null}
+                                        </BodyShort>
+                                    </li>
+                                )}
+                            </ul>
+                        )}
                     </div>
                     <Annulleringsbegrunnelse />
                     {varseltekst && (
