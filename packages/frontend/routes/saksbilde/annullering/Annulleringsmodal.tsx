@@ -1,12 +1,13 @@
 import styles from './Annulleringsmodal.module.scss';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { Modal } from '@components/Modal';
+import { AmplitudeContext } from '@io/amplitude';
 import {
     AnnullerDocument,
     AnnulleringDataInput,
@@ -49,6 +50,7 @@ export const Annulleringsmodal = ({
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
     const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
+    const amplitude = useContext(AmplitudeContext);
 
     const form = useForm({ mode: 'onBlur' });
     const kommentar = form.watch('kommentar');
@@ -85,6 +87,7 @@ export const Annulleringsmodal = ({
             void annullerMutation({
                 variables: { annullering },
                 onCompleted: () => {
+                    amplitude.logAnnullert(linjer !== undefined);
                     void opprettAbonnement({
                         variables: { personidentifikator: annullering.aktorId },
                         onCompleted: () => setOpptegnelsePollingTime(1000),

@@ -108,6 +108,9 @@ const _AmplitudeProvider: React.FC<PropsWithChildren<object>> = ({ children }) =
 
     const logTotrinnsoppgaveTilGodkjenning = () => logEvent('totrinnsoppgave til godkjenning');
 
+    const logAnnullert = (fraUtbetalingshistorikk: boolean) =>
+        logEvent(fraUtbetalingshistorikk ? 'annullert fra utbetalingshistorikk' : 'annullert');
+
     useEffect(() => {
         if (amplitudeClient === undefined) return;
         const identify = new amplitudeClient.Identify();
@@ -122,6 +125,7 @@ const _AmplitudeProvider: React.FC<PropsWithChildren<object>> = ({ children }) =
                 logOppgaveForkastet: logOppgaveForkastet,
                 logTotrinnsoppgaveReturnert: logTotrinnsoppgaveReturnert,
                 logTotrinnsoppgaveTilGodkjenning: logTotrinnsoppgaveTilGodkjenning,
+                logAnnullert: logAnnullert,
             }}
         >
             {children}
