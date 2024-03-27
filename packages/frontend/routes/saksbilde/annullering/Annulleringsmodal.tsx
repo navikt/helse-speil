@@ -19,11 +19,7 @@ import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
-import {
-    finnFørsteUtbetalingsdag,
-    finnSisteUtbetalingsdag,
-    finnTotalBruttoUtbetaltForSykefraværstilfellet,
-} from './annullering';
+import { Annulleringsinformasjon } from './Annulleringsinformasjon';
 
 interface AnnulleringsmodalProps {
     fødselsnummer: string;
@@ -104,16 +100,6 @@ export const Annulleringsmodal = ({
         }, 0);
     };
 
-    const totalBruttoUtbetaltForSykefraværstilfellet = finnTotalBruttoUtbetaltForSykefraværstilfellet(utbetaling);
-    const førsteUtbetalingsdag = finnFørsteUtbetalingsdag(utbetaling);
-    const sisteUtbetalingsdag = finnSisteUtbetalingsdag(utbetaling);
-    console.log(
-        totalBruttoUtbetaltForSykefraværstilfellet,
-        (utbetaling?.personsimulering?.totalbelop ?? 0) + (utbetaling?.arbeidsgiversimulering?.totalbelop ?? 0),
-        finnSisteUtbetalingsdag(utbetaling),
-        finnFørsteUtbetalingsdag(utbetaling),
-    );
-
     return (
         <FormProvider {...form}>
             <Modal className={styles.modal} isOpen={true} contentLabel="Feilmelding" onRequestClose={onClose}>
@@ -138,21 +124,7 @@ export const Annulleringsmodal = ({
                                 ))}
                             </ul>
                         )}
-                        {utbetaling !== undefined && (
-                            <ul>
-                                {utbetaling?.arbeidsgiversimulering?.perioder && (
-                                    <li>
-                                        <BodyShort>
-                                            {dayjs(førsteUtbetalingsdag).format(NORSK_DATOFORMAT)} -{' '}
-                                            {dayjs(sisteUtbetalingsdag).format(NORSK_DATOFORMAT)}
-                                            {totalBruttoUtbetaltForSykefraværstilfellet
-                                                ? ` - ${somPenger(totalBruttoUtbetaltForSykefraværstilfellet)}`
-                                                : null}
-                                        </BodyShort>
-                                    </li>
-                                )}
-                            </ul>
-                        )}
+                        {utbetaling !== undefined && <Annulleringsinformasjon utbetaling={utbetaling} />}
                     </div>
                     <Annulleringsbegrunnelse />
                     {varseltekst && (
