@@ -1,6 +1,9 @@
 overwrite: true
 schema: "https://spesialist.intern.dev.nav.no/graphql/introspection"
 documents: "./packages/frontend/io/graphql/**/*.graphql"
+config:
+  scalars:
+    UUID: 'string'
 generates:
   ./packages/frontend/io/graphql/generated/possibletypes.ts:
     plugins:

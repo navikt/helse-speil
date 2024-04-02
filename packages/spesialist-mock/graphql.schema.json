@@ -607,7 +607,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -1680,7 +1680,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -1824,7 +1824,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -2140,7 +2140,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -2153,7 +2153,7 @@
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "String",
+                            "name": "UUID",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -2370,7 +2370,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -3206,7 +3206,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -3350,7 +3350,7 @@
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "String",
+                            "name": "UUID",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -3478,7 +3478,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -3971,7 +3971,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -4112,7 +4112,7 @@
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "String",
+                            "name": "UUID",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -4127,7 +4127,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -4272,7 +4272,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -5793,7 +5793,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -5841,7 +5841,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -5897,7 +5897,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -6107,7 +6107,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -6430,7 +6430,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -6893,7 +6893,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -7583,7 +7583,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -7666,7 +7666,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -7826,7 +7826,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -9113,7 +9113,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -10481,7 +10481,7 @@
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "String",
+                            "name": "UUID",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -10512,7 +10512,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -10606,7 +10606,7 @@
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "String",
+                            "name": "UUID",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -10637,7 +10637,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -10731,7 +10731,7 @@
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "String",
+                            "name": "UUID",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -10762,7 +10762,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -10856,7 +10856,7 @@
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "String",
+                            "name": "UUID",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -10887,7 +10887,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -10981,7 +10981,7 @@
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "String",
+                            "name": "UUID",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -11012,7 +11012,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -11944,7 +11944,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -12041,7 +12041,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -12269,7 +12269,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -12293,7 +12293,7 @@
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "String",
+                            "name": "UUID",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -12337,7 +12337,7 @@
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "String",
+                            "name": "UUID",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -12346,6 +12346,16 @@
                 ],
                 "inputFields": null,
                 "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "SCALAR",
+                "name": "UUID",
+                "description": "class java.util.UUID",
+                "fields": null,
+                "inputFields": null,
+                "interfaces": null,
                 "enumValues": null,
                 "possibleTypes": null
             },
@@ -12419,7 +12429,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -12603,7 +12613,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -12692,7 +12702,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -12876,7 +12886,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -12889,7 +12899,7 @@
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "String",
+                            "name": "UUID",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -12965,7 +12975,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -13411,7 +13421,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -13439,7 +13449,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -13656,7 +13666,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -13806,7 +13816,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
@@ -13995,7 +14005,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "UUID",
                                 "ofType": null
                             }
                         },
