@@ -6,7 +6,7 @@ import { somDato } from '@utils/date';
 export const useInfotrygdPeriods = (infotrygdutbetalinger: Array<Infotrygdutbetaling>): Array<InfotrygdPeriod> =>
     useMemo(() => {
         const utbetalinger = infotrygdutbetalinger
-            .filter((it) => !['Tilbakeført', 'Ukjent..', 'Ferie'].includes(it.typetekst))
+            .filter((it) => !['Tilbakeført', 'Ukjent..'].includes(it.typetekst))
             .sort((u1, u2) => dateAscending(u1.fom, u2.fom));
 
         const sammenslåtteUtbetalingsperioder: Array<Infotrygdutbetaling> = [];
