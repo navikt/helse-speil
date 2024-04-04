@@ -14,7 +14,7 @@ export const BestemmendeFraværsdag: React.FC<BestemmendeFraværsdagProps> = ({ 
     if (!inntektsdato && !førsteFraværsdag) return;
 
     return (
-        <DokumentFragment overskrift="Bestemmende fraværsdag (skjæringstidspunkt)">
+        <DokumentFragment overskrift="Bestemmende fraværsdag">
             {dayjs(inntektsdato ?? førsteFraværsdag, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
         </DokumentFragment>
     );
