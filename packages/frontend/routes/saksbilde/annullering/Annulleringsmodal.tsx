@@ -75,7 +75,7 @@ export const Annulleringsmodal = ({
             void annullerMutation({
                 variables: { annullering },
                 onCompleted: () => {
-                    amplitude.logAnnullert(false, annullering.begrunnelser);
+                    amplitude.logAnnullert(annullering.begrunnelser);
                     void opprettAbonnement({
                         variables: { personidentifikator: annullering.aktorId },
                         onCompleted: () => setOpptegnelsePollingTime(1000),

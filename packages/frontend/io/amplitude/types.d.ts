@@ -5,8 +5,7 @@ declare namespace Amplitude {
         | 'totrinnsoppgave returnert'
         | 'totrinnsoppgave attestert'
         | 'totrinnsoppgave til godkjenning'
-        | 'annullert'
-        | 'annullert fra utbetalingshistorikk';
+        | 'annullert';
 
     type Periodetype = 'FORLENGELSE' | 'FORSTEGANGSBEHANDLING' | 'INFOTRYGDFORLENGELSE' | 'OVERGANG_FRA_IT';
 
