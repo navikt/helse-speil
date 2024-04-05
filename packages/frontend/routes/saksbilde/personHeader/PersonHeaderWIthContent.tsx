@@ -1,21 +1,19 @@
-import { DødsdatoTag } from './DødsdatoTag';
-import { Fødselsnummer } from './Fødselsnummer';
-import { VergemålTag } from './VergemålTag';
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Clipboard } from '@components/clipboard';
 import { Enhet, Kjonn, Maybe, Personinfo } from '@io/graphql';
-import { utbetalingsoversikt } from '@utils/featureToggles';
 
 import { AdressebeskyttelseTag } from './AdressebeskyttelseTag';
+import { DødsdatoTag } from './DødsdatoTag';
+import { Fødselsnummer } from './Fødselsnummer';
 import { GenderIcon } from './GenderIcon';
 import { NavnOgAlder } from './NavnOgAlder';
 import { ReservasjonTag } from './ReservasjonTag';
 import { UtlandTag } from './UtlandTag';
+import { VergemålTag } from './VergemålTag';
 
 import styles from './PersonHeader.module.css';
 
@@ -55,14 +53,6 @@ export const PersonHeaderWithContent: React.FC<PersonHeaderWithContentProps> = (
             <AnonymizableText>
                 Boenhet: {enhet.id} ({enhet.navn})
             </AnonymizableText>
-            {utbetalingsoversikt && (
-                <>
-                    <BodyShort className={styles.Separator}>/</BodyShort>
-                    <Link className={styles.Link} to={`${aktørId}/../utbetalingshistorikk`}>
-                        Utbetalingsoversikt
-                    </Link>
-                </>
-            )}
             <div className={styles.Tags}>
                 <AdressebeskyttelseTag adressebeskyttelse={personinfo.adressebeskyttelse} />
                 <ReservasjonTag reservasjon={personinfo.reservasjon} />

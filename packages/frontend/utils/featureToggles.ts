@@ -44,8 +44,6 @@ const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
 
 export const overstyreUtbetaltPeriodeEnabled = !harKunLesetilgang();
 export const annulleringerEnabled = !harKunLesetilgang();
-export const utbetalingsoversikt = !harKunLesetilgang();
-
 export const kanFrigiAndresOppgaver = kanFrigiSaker() || harTilgangTilAlt() || erLocal() || erDev();
 
 export const graphqlplayground = erLocal() || erDev() || erPåTeamBømlo();

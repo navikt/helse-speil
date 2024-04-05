@@ -23,12 +23,6 @@ import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 
 import styles from './Saksbilde.module.css';
 
-const Utbetalingshistorikk = React.lazy(() =>
-    import('./utbetalingshistorikk/Utbetalingshistorikk.js')
-        .then((res) => ({ default: res.Utbetalingshistorikk }))
-        .catch(onLazyLoadFail),
-);
-
 const PeriodeView = React.lazy(() =>
     import('./saksbilder/PeriodeView.js').then((res) => ({ default: res.PeriodeView })).catch(onLazyLoadFail),
 );
@@ -62,7 +56,6 @@ const SaksbildeContent = () => {
             <AmplitudeProvider>
                 <VenterPåEndringProvider>
                     <Routes>
-                        <Route path="utbetalingshistorikk" element={<Utbetalingshistorikk />} />
                         <Route path="/*" element={<PeriodeView />} />
                     </Routes>
                     <QueryClientProvider client={queryClient}>
