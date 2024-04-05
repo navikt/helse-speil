@@ -15,7 +15,6 @@ interface AnnullerButtonWithContentProps {
     aktørId: string;
     fødselsnummer: string;
     organisasjonsnummer: string;
-    skjæringstidspunkt: string;
 }
 
 const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
@@ -24,7 +23,6 @@ const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
     aktørId,
     fødselsnummer,
     organisasjonsnummer,
-    skjæringstidspunkt,
 }) => {
     const [showModal, setShowModal] = useState(false);
 
@@ -36,7 +34,6 @@ const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
                     fødselsnummer={fødselsnummer}
                     aktørId={aktørId}
                     organisasjonsnummer={organisasjonsnummer}
-                    skjæringstidspunkt={skjæringstidspunkt}
                     fagsystemId={fagsystemId}
                     utbetalingId={utbetalingId}
                     onClose={() => {
@@ -82,7 +79,6 @@ export const AnnullerButton: React.FC<AnnullerButtonProps> = ({ person, periode,
             aktørId={person.aktorId}
             fødselsnummer={person.fodselsnummer}
             organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-            skjæringstidspunkt={periode.skjaeringstidspunkt}
         />
     );
 };

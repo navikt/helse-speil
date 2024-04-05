@@ -20,7 +20,6 @@ interface AnnulleringsmodalProps {
     fødselsnummer: string;
     aktørId: string;
     organisasjonsnummer: string;
-    skjæringstidspunkt: Maybe<string>;
     fagsystemId: string;
     utbetalingId: Maybe<string>;
     linjer?: Array<Utbetalingslinje>;
@@ -33,7 +32,6 @@ export const Annulleringsmodal = ({
     fødselsnummer,
     aktørId,
     organisasjonsnummer,
-    skjæringstidspunkt,
     fagsystemId,
     utbetalingId,
     linjer,
@@ -122,7 +120,7 @@ export const Annulleringsmodal = ({
                             </ul>
                         </div>
                     )}
-                    {skjæringstidspunkt && <Annulleringsinformasjon />}
+                    <Annulleringsinformasjon />
                     <Annulleringsbegrunnelse />
                     {varseltekst && (
                         <BodyShort as="p" className={styles.varseltekst}>
