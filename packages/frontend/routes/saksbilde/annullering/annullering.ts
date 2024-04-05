@@ -14,7 +14,7 @@ import {
 import { useTabelldagerMap } from '../utbetaling/utbetalingstabell/useTabelldagerMap';
 
 export const useTotaltUtbetaltForSykefraværstilfellet = () => {
-    const tidslinjeForSykefraværstilfellet = useTidslinjeForSykefraværstilfellet();
+    const tidslinjeForSykefraværstilfellet = useUtbetaltTidslinjeForSykefraværstilfellet();
 
     const dager = useTabelldagerMap({ tidslinje: tidslinjeForSykefraværstilfellet ?? [] });
     const utbetalingsdager = getDagerMedUtbetaling(useMemo(() => Array.from(dager.values()), [dager]));
@@ -28,7 +28,7 @@ export const useTotaltUtbetaltForSykefraværstilfellet = () => {
     };
 };
 
-const useTidslinjeForSykefraværstilfellet = () => {
+const useUtbetaltTidslinjeForSykefraværstilfellet = () => {
     const arbeidsgiver = useCurrentArbeidsgiver();
     const skjæringstidspunkt = useActivePeriod()?.skjaeringstidspunkt;
 
@@ -44,7 +44,7 @@ const useTidslinjeForSykefraværstilfellet = () => {
 
     const utbetaltePerioderIForrigeGenerasjon = finnUtbetaltePerioderPåSkjæringstidspunkt(
         skjæringstidspunkt,
-        arbeidsgiver.generasjoner?.[1].perioder,
+        arbeidsgiver.generasjoner[1]?.perioder,
     );
     const utbetaltePerioderTilAnnullering = [
         ...utbetaltePerioderIForrigeGenerasjon.filter(
