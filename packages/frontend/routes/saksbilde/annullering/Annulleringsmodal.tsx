@@ -6,6 +6,7 @@ import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { Modal } from '@components/Modal';
+import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { AmplitudeContext } from '@io/amplitude';
 import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument } from '@io/graphql';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
@@ -21,7 +22,6 @@ interface AnnulleringsmodalProps {
     utbetalingId: Maybe<string>;
     onClose: () => void;
     onSuccess?: () => void;
-    varseltekst?: string;
 }
 
 export const Annulleringsmodal = ({
@@ -32,17 +32,18 @@ export const Annulleringsmodal = ({
     utbetalingId,
     onClose,
     onSuccess,
-    varseltekst,
 }: AnnulleringsmodalProps) => {
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
     const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
     const amplitude = useContext(AmplitudeContext);
+    const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
 
     const form = useForm({ mode: 'onBlur' });
     const kommentar = form.watch('kommentar');
     const begrunnelser = form.watch(`begrunnelser`);
     const annenBegrunnelse = begrunnelser ? begrunnelser.includes('annet') : false;
+
     const harMinstÉnBegrunnelse = () => begrunnelser?.length > 0 ?? true;
     const harFeil = () => Object.keys(form.formState.errors).length > 0;
 
@@ -101,9 +102,10 @@ export const Annulleringsmodal = ({
                     <h2 className={styles.tittel}>Annullering</h2>
                     <Annulleringsinformasjon />
                     <Annulleringsbegrunnelse />
-                    {varseltekst && (
+                    {!erINyesteSkjæringstidspunkt && (
                         <BodyShort as="p" className={styles.varseltekst}>
-                            {varseltekst}
+                            Utbetalinger må annulleres kronologisk, nyeste først. Du kan forsøke å annullere denne, men
+                            om den ikke er den nyeste vil den ikke bli annullert.
                         </BodyShort>
                     )}
                     <Button className={styles.annullerknapp} as="button" variant="secondary" disabled={loading}>
