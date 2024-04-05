@@ -1,5 +1,4 @@
 import styles from './Annulleringsmodal.module.scss';
-import dayjs from 'dayjs';
 import React, { useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -8,10 +7,8 @@ import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 import { useMutation } from '@apollo/client';
 import { Modal } from '@components/Modal';
 import { AmplitudeContext } from '@io/amplitude';
-import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument, Utbetalingslinje } from '@io/graphql';
+import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument } from '@io/graphql';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
-import { NORSK_DATOFORMAT } from '@utils/date';
-import { somPenger } from '@utils/locale';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
 import { Annulleringsinformasjon } from './Annulleringsinformasjon';
@@ -22,7 +19,6 @@ interface AnnulleringsmodalProps {
     organisasjonsnummer: string;
     fagsystemId: string;
     utbetalingId: Maybe<string>;
-    linjer?: Array<Utbetalingslinje>;
     onClose: () => void;
     onSuccess?: () => void;
     varseltekst?: string;
@@ -34,7 +30,6 @@ export const Annulleringsmodal = ({
     organisasjonsnummer,
     fagsystemId,
     utbetalingId,
-    linjer,
     onClose,
     onSuccess,
     varseltekst,
@@ -79,7 +74,7 @@ export const Annulleringsmodal = ({
             void annullerMutation({
                 variables: { annullering },
                 onCompleted: () => {
-                    amplitude.logAnnullert(linjer !== undefined, annullering.begrunnelser);
+                    amplitude.logAnnullert(false, annullering.begrunnelser);
                     void opprettAbonnement({
                         variables: { personidentifikator: annullering.aktorId },
                         onCompleted: () => setOpptegnelsePollingTime(1000),
@@ -104,22 +99,6 @@ export const Annulleringsmodal = ({
                         Infotrygd.
                     </Alert>
                     <h2 className={styles.tittel}>Annullering</h2>
-                    {linjer !== undefined && (
-                        <div className={styles.gruppe}>
-                            <BodyShort>Følgende utbetalinger annulleres:</BodyShort>
-                            <ul>
-                                {linjer.map((linje, index) => (
-                                    <li key={index}>
-                                        <BodyShort>
-                                            {dayjs(linje.fom).format(NORSK_DATOFORMAT)} -{' '}
-                                            {dayjs(linje.tom).format(NORSK_DATOFORMAT)}
-                                            {linje.totalbelop ? ` - ${somPenger(linje.totalbelop)}` : null}
-                                        </BodyShort>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
                     <Annulleringsinformasjon />
                     <Annulleringsbegrunnelse />
                     {varseltekst && (
