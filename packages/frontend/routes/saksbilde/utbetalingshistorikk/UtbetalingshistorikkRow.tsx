@@ -2,8 +2,6 @@ import styles from './Utbetalingshistorikk.module.scss';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { Button } from '@navikt/ds-react';
-
 import { Bold } from '@components/Bold';
 import { Arbeidsgiveroppdrag, Oppdrag, Personoppdrag, Spennoppdrag } from '@io/graphql';
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
@@ -23,21 +21,9 @@ interface UtbetalingshistorikkRowProps {
     oppdrag: Personoppdrag | Arbeidsgiveroppdrag;
     status: Oppdrag['status'];
     type: Oppdrag['type'];
-    setTilAnnullering: () => void;
-    kanAnnulleres: boolean;
-    oppdaterVarselTekst: () => void;
-    visAnnullering: boolean;
 }
 
-export const UtbetalingshistorikkRow: React.FC<UtbetalingshistorikkRowProps> = ({
-    oppdrag,
-    status,
-    type,
-    kanAnnulleres,
-    setTilAnnullering,
-    oppdaterVarselTekst,
-    visAnnullering,
-}) => {
+export const UtbetalingshistorikkRow: React.FC<UtbetalingshistorikkRowProps> = ({ oppdrag, status, type }) => {
     const fom = getFom(oppdrag);
     const tom = getTom(oppdrag);
     const totalt = oppdrag.linjer.reduce((sum, { totalbelop }) => sum + (totalbelop ?? 0), 0);
@@ -66,33 +52,7 @@ export const UtbetalingshistorikkRow: React.FC<UtbetalingshistorikkRowProps> = (
             <td className={styles.cell}>
                 <Bold>{type}</Bold>
             </td>
-            <td className={styles.cell}>
-                {visAnnullering && (
-                    <AnnulleringButton
-                        kanAnnulleres={kanAnnulleres}
-                        setTilAnnullering={setTilAnnullering}
-                        setVarseltekst={oppdaterVarselTekst}
-                    />
-                )}
-            </td>
+            <td className={styles.cell}></td>
         </tr>
     );
 };
-
-interface AnnulleringButtonProps {
-    setTilAnnullering: () => void;
-    kanAnnulleres: boolean;
-    setVarseltekst: () => void;
-}
-
-const AnnulleringButton = ({ setTilAnnullering, kanAnnulleres, setVarseltekst }: AnnulleringButtonProps) => (
-    <Button
-        size="small"
-        onClick={() => {
-            if (!kanAnnulleres) setVarseltekst();
-            setTilAnnullering();
-        }}
-    >
-        Annuller
-    </Button>
-);
