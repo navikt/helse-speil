@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react-internal';
 
-import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Arbeidsgiver, Utbetaling, Utbetalingstatus } from '@io/graphql';
+import { Arbeidsgiver, Utbetalingstatus } from '@io/graphql';
 import { annulleringerEnabled } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { Annulleringsmodal } from '../../annullering/Annulleringsmodal';
+import { harPeriodeTilBeslutterFor } from '../../sykepengegrunnlag/inntekt/inntektOgRefusjonUtils';
 
 interface AnnullerButtonWithContentProps {
     fagsystemId: string;
@@ -49,14 +48,8 @@ const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
     );
 };
 
-const kanAnnullere = (erBeslutterMedTilgang: boolean, erReadonly: boolean, utbetaling: Utbetaling): boolean => {
-    return (
-        annulleringerEnabled &&
-        !erBeslutterMedTilgang &&
-        !erReadonly &&
-        utbetaling.status !== Utbetalingstatus.Annullert &&
-        (utbetaling.vurdering?.godkjent ?? false)
-    );
+const kanAnnullere = (harBeslutteroppgavePåSykefraværet: boolean, harMinstEnUtbetaltPeriode: boolean): boolean => {
+    return annulleringerEnabled && !harBeslutteroppgavePåSykefraværet && harMinstEnUtbetaltPeriode;
 };
 
 interface AnnullerButtonProps {
@@ -66,21 +59,19 @@ interface AnnullerButtonProps {
 }
 
 export const AnnullerButton: React.FC<AnnullerButtonProps> = ({ person, periode, arbeidsgiver }) => {
-    const erReadonly = useIsReadOnlyOppgave();
-    const erBeslutterMedTilgang = useErBeslutteroppgaveOgHarTilgang();
-    const sisteGodkjentePeriodePåSkjæringstidspunkt = arbeidsgiver.generasjoner[0].perioder
-        .filter(
-            (agperiode) =>
-                agperiode.skjaeringstidspunkt === periode.skjaeringstidspunkt &&
-                isBeregnetPeriode(agperiode) &&
-                agperiode.utbetaling.vurdering?.godkjent === true,
-        )
-        .shift();
+    const harMinstEnUtbetaltPeriode =
+        arbeidsgiver.generasjoner
+            .flatMap((it) => it.perioder)
+            .filter(
+                (it) =>
+                    isBeregnetPeriode(it) &&
+                    it.skjaeringstidspunkt === periode.skjaeringstidspunkt &&
+                    it.utbetaling.vurdering?.godkjent === true &&
+                    it.utbetaling.status !== Utbetalingstatus.Annullert,
+            ).length !== 0;
+    const harBeslutteroppgavePåSykefraværet = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
 
-    if (
-        sisteGodkjentePeriodePåSkjæringstidspunkt?.id !== periode.id ||
-        !kanAnnullere(erBeslutterMedTilgang, erReadonly, periode.utbetaling)
-    ) {
+    if (!kanAnnullere(harBeslutteroppgavePåSykefraværet, harMinstEnUtbetaltPeriode)) {
         return null;
     }
 
