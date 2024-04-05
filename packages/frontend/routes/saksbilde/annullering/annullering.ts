@@ -1,30 +1,79 @@
-import { Simuleringsperiode, Utbetaling } from '@io/graphql';
+import { useMemo } from 'react';
+
+import { Periode } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useActivePeriod } from '@state/periode';
 import { somDato } from '@utils/date';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
-const finnBruttoUtbetalingerFor = (perioder?: Maybe<Array<Simuleringsperiode>>) =>
-    perioder
-        ?.flatMap((it) =>
-            it.utbetalinger.flatMap(
-                (utbetaling) => utbetaling?.detaljer.filter((detalj) => detalj.utbetalingstype !== 'SKAT'),
-            ),
-        )
-        .flatMap((simuleringsdetalj) => simuleringsdetalj?.belop ?? 0) ?? [];
+import {
+    getDagerMedUtbetaling,
+    getTotalArbeidsgiverbeløp,
+    getTotalPersonbeløp,
+} from '../utbetaling/utbetalingstabell/dagerUtils';
+import { useTabelldagerMap } from '../utbetaling/utbetalingstabell/useTabelldagerMap';
 
-// Filtrerer ut skattelinjene i personbeløpet for å finne brutto
-export const finnTotalBruttoUtbetaltForSykefraværstilfellet = (utbetaling?: Maybe<Utbetaling>) =>
-    finnBruttoUtbetalingerFor(utbetaling?.personsimulering?.perioder).reduce((delSum, beløp) => delSum + beløp, 0) +
-    (utbetaling?.arbeidsgiversimulering?.totalbelop ?? 0);
+export const useTotaltUtbetaltForSykefraværstilfellet = () => {
+    const tidslinjeForSykefraværstilfellet = useTidslinjeForSykefraværstilfellet();
 
-export const finnSisteUtbetalingsdag = (utbetaling?: Maybe<Utbetaling>) =>
-    [...(utbetaling?.arbeidsgiversimulering?.perioder ?? []), ...(utbetaling?.personsimulering?.perioder ?? [])]
-        ?.flatMap((it) => it.tom)
+    const dager = useTabelldagerMap({ tidslinje: tidslinjeForSykefraværstilfellet ?? [] });
+    const utbetalingsdager = getDagerMedUtbetaling(useMemo(() => Array.from(dager.values()), [dager]));
+    const arbeidsgiverTotalbeløp = getTotalArbeidsgiverbeløp(utbetalingsdager);
+    const personTotalbeløp = getTotalPersonbeløp(utbetalingsdager);
+
+    return {
+        totalbeløp: personTotalbeløp + arbeidsgiverTotalbeløp,
+        førsteUtbetalingsdag: finnFørsteUtbetalingsdag(utbetalingsdager),
+        sisteUtbetalingsdag: finnSisteUtbetalingsdag(utbetalingsdager),
+    };
+};
+
+const useTidslinjeForSykefraværstilfellet = () => {
+    const arbeidsgiver = useCurrentArbeidsgiver();
+    const skjæringstidspunkt = useActivePeriod()?.skjaeringstidspunkt;
+
+    if (!arbeidsgiver || !skjæringstidspunkt) return null;
+
+    const utbetaltePerioderINyesteGen = finnUtbetaltePerioderPåSkjæringstidspunkt(
+        skjæringstidspunkt,
+        arbeidsgiver.generasjoner[0].perioder,
+    );
+    const utbetalteVedtaksperioderINyesteGen = utbetaltePerioderINyesteGen?.map(
+        ({ vedtaksperiodeId }) => vedtaksperiodeId,
+    );
+
+    const utbetaltePerioderIForrigeGenerasjon = finnUtbetaltePerioderPåSkjæringstidspunkt(
+        skjæringstidspunkt,
+        arbeidsgiver.generasjoner?.[1].perioder,
+    );
+    const utbetaltePerioderTilAnnullering = [
+        ...utbetaltePerioderIForrigeGenerasjon.filter(
+            ({ vedtaksperiodeId }, index) => !utbetalteVedtaksperioderINyesteGen?.includes(vedtaksperiodeId, index + 1),
+        ),
+        ...utbetaltePerioderINyesteGen,
+    ];
+
+    return utbetaltePerioderTilAnnullering.flatMap((it) => it.tidslinje);
+};
+
+const finnSisteUtbetalingsdag = (utbetalingsdager: Array<Utbetalingstabelldag>) =>
+    utbetalingsdager
+        .flatMap((it) => it.dato)
         .sort(dateDescending)
         .shift();
 
-export const finnFørsteUtbetalingsdag = (utbetaling?: Maybe<Utbetaling>) =>
-    [...(utbetaling?.arbeidsgiversimulering?.perioder ?? []), ...(utbetaling?.personsimulering?.perioder ?? [])]
-        ?.flatMap((it) => it.fom)
+const finnFørsteUtbetalingsdag = (utbetalingsdager: Array<Utbetalingstabelldag>) =>
+    utbetalingsdager
+        .flatMap((it) => it.dato)
         .sort(dateDescending)
         .pop();
+
+const finnUtbetaltePerioderPåSkjæringstidspunkt = (skjæringstidspunkt: string, perioder?: Array<Periode>) =>
+    perioder?.filter(
+        (it) =>
+            isBeregnetPeriode(it) &&
+            it.skjaeringstidspunkt === skjæringstidspunkt &&
+            it.utbetaling.vurdering?.godkjent === true,
+    ) ?? [];
 
 const dateDescending = (d1: string, d2: string): number => (somDato(d2).isBefore(somDato(d1)) ? -1 : 1);

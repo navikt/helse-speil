@@ -127,6 +127,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                         organisasjonsnummer={(tilAnnullering as Arbeidsgiveroppdrag)?.organisasjonsnummer}
                         fagsystemId={tilAnnullering.fagsystemId}
                         utbetalingId={utbetalingIdTilAnnullering ?? null}
+                        skjæringstidspunkt={null}
                         linjer={tilAnnullering.linjer.map((it) => ({
                             ...it,
                             totalbeløp: it.totalbelop,

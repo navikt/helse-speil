@@ -11,17 +11,21 @@ import { isBeregnetPeriode } from '@utils/typeguards';
 import { Annulleringsmodal } from '../../annullering/Annulleringsmodal';
 
 interface AnnullerButtonWithContentProps {
-    utbetaling: Utbetaling;
+    fagsystemId: string;
+    utbetalingId: string;
     aktørId: string;
     fødselsnummer: string;
     organisasjonsnummer: string;
+    skjæringstidspunkt: string;
 }
 
 const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
-    utbetaling,
+    utbetalingId,
+    fagsystemId,
     aktørId,
     fødselsnummer,
     organisasjonsnummer,
+    skjæringstidspunkt,
 }) => {
     const [showModal, setShowModal] = useState(false);
 
@@ -33,9 +37,9 @@ const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
                     fødselsnummer={fødselsnummer}
                     aktørId={aktørId}
                     organisasjonsnummer={organisasjonsnummer}
-                    fagsystemId={utbetaling.arbeidsgiverFagsystemId}
-                    utbetalingId={utbetaling.id}
-                    utbetaling={utbetaling}
+                    skjæringstidspunkt={skjæringstidspunkt}
+                    fagsystemId={fagsystemId}
+                    utbetalingId={utbetalingId}
                     onClose={() => {
                         setShowModal(false);
                     }}
@@ -82,10 +86,12 @@ export const AnnullerButton: React.FC<AnnullerButtonProps> = ({ person, periode,
 
     return (
         <AnnullerButtonWithContent
-            utbetaling={periode.utbetaling}
+            fagsystemId={periode.utbetaling.arbeidsgiverFagsystemId}
+            utbetalingId={periode.utbetaling.id}
             aktørId={person.aktorId}
             fødselsnummer={person.fodselsnummer}
             organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+            skjæringstidspunkt={periode.skjaeringstidspunkt}
         />
     );
 };

@@ -33,6 +33,7 @@ const defaultProps = {
     organisasjonsnummer: '987654321',
     fagsystemId: 'EN-FAGSYSTEMID',
     utbetalingId: 'EN-UTBETALINGID',
+    skjæringstidspunkt: '2022-01-01',
     linjer: [{ fom: '2022-01-01', tom: '2022-01-31', totalbelop: 30000 }],
     onClose: () => null,
 };

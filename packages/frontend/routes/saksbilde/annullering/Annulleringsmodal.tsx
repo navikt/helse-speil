@@ -8,13 +8,7 @@ import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 import { useMutation } from '@apollo/client';
 import { Modal } from '@components/Modal';
 import { AmplitudeContext } from '@io/amplitude';
-import {
-    AnnullerDocument,
-    AnnulleringDataInput,
-    OpprettAbonnementDocument,
-    Utbetaling,
-    Utbetalingslinje,
-} from '@io/graphql';
+import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument, Utbetalingslinje } from '@io/graphql';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
@@ -26,9 +20,9 @@ interface AnnulleringsmodalProps {
     fødselsnummer: string;
     aktørId: string;
     organisasjonsnummer: string;
+    skjæringstidspunkt: Maybe<string>;
     fagsystemId: string;
     utbetalingId: Maybe<string>;
-    utbetaling?: Maybe<Utbetaling>;
     linjer?: Array<Utbetalingslinje>;
     onClose: () => void;
     onSuccess?: () => void;
@@ -39,9 +33,9 @@ export const Annulleringsmodal = ({
     fødselsnummer,
     aktørId,
     organisasjonsnummer,
+    skjæringstidspunkt,
     fagsystemId,
     utbetalingId,
-    utbetaling,
     linjer,
     onClose,
     onSuccess,
@@ -128,7 +122,7 @@ export const Annulleringsmodal = ({
                             </ul>
                         </div>
                     )}
-                    {utbetaling !== undefined && <Annulleringsinformasjon utbetaling={utbetaling} />}
+                    {skjæringstidspunkt && <Annulleringsinformasjon />}
                     <Annulleringsbegrunnelse />
                     {varseltekst && (
                         <BodyShort as="p" className={styles.varseltekst}>
