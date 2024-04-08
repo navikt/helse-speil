@@ -29,12 +29,6 @@ export type Alder = {
     oppfylt: Scalars['Boolean']['output'];
 };
 
-export type Annullering = {
-    __typename?: 'Annullering';
-    saksbehandler: Scalars['String']['output'];
-    tidspunkt: Scalars['String']['output'];
-};
-
 export type AnnulleringDataInput = {
     aktorId: Scalars['String']['input'];
     begrunnelser: Array<Scalars['String']['input']>;
@@ -115,13 +109,6 @@ export type Arbeidsgiverinntekt = {
     omregnetArsinntekt?: Maybe<OmregnetArsinntekt>;
     sammenligningsgrunnlag?: Maybe<Sammenligningsgrunnlag>;
     skjonnsmessigFastsatt?: Maybe<OmregnetArsinntekt>;
-};
-
-export type Arbeidsgiveroppdrag = Spennoppdrag & {
-    __typename?: 'Arbeidsgiveroppdrag';
-    fagsystemId: Scalars['String']['output'];
-    linjer: Array<Utbetalingslinje>;
-    organisasjonsnummer: Scalars['String']['output'];
 };
 
 export type Arbeidsgiverrefusjon = {
@@ -692,31 +679,6 @@ export type OmregnetArsinntekt = {
     manedsbelop: Scalars['Float']['output'];
 };
 
-export type Oppdrag = {
-    __typename?: 'Oppdrag';
-    annullering?: Maybe<Annullering>;
-    arbeidsgiveroppdrag?: Maybe<Arbeidsgiveroppdrag>;
-    personoppdrag?: Maybe<Personoppdrag>;
-    status: Oppdragsstatus;
-    totalbelop?: Maybe<Scalars['Int']['output']>;
-    type: Scalars['String']['output'];
-    utbetalingId: Scalars['UUID']['output'];
-};
-
-export enum Oppdragsstatus {
-    Annullert = 'ANNULLERT',
-    Forkastet = 'FORKASTET',
-    Godkjent = 'GODKJENT',
-    GodkjentUtenUtbetaling = 'GODKJENT_UTEN_UTBETALING',
-    IkkeGodkjent = 'IKKE_GODKJENT',
-    IkkeUtbetalt = 'IKKE_UTBETALT',
-    Ny = 'NY',
-    Overfort = 'OVERFORT',
-    Sendt = 'SENDT',
-    UtbetalingFeilet = 'UTBETALING_FEILET',
-    Utbetalt = 'UTBETALT',
-}
-
 export type OppgaveForPeriodevisning = {
     __typename?: 'OppgaveForPeriodevisning';
     id: Scalars['String']['output'];
@@ -967,13 +929,6 @@ export type Personnavn = {
     mellomnavn?: Maybe<Scalars['String']['output']>;
 };
 
-export type Personoppdrag = Spennoppdrag & {
-    __typename?: 'Personoppdrag';
-    fagsystemId: Scalars['String']['output'];
-    fodselsnummer: Scalars['String']['output'];
-    linjer: Array<Utbetalingslinje>;
-};
-
 export type Query = {
     __typename?: 'Query';
     antallOppgaver: AntallOppgaver;
@@ -982,7 +937,6 @@ export type Query = {
     hentInntektsmelding?: Maybe<DokumentInntektsmelding>;
     hentSoknad: Soknad;
     notater: Array<Notater>;
-    oppdrag: Array<Oppdrag>;
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     person?: Maybe<Person>;
@@ -1005,10 +959,6 @@ export type QueryHentSoknadArgs = {
 
 export type QueryNotaterArgs = {
     forPerioder: Array<Scalars['String']['input']>;
-};
-
-export type QueryOppdragArgs = {
-    fnr: Scalars['String']['input'];
 };
 
 export type QueryOppgaveFeedArgs = {
@@ -1260,11 +1210,6 @@ export enum Sorteringsnokkel {
     TildeltTil = 'TILDELT_TIL',
 }
 
-export type Spennoppdrag = {
-    fagsystemId: Scalars['String']['output'];
-    linjer: Array<Utbetalingslinje>;
-};
-
 export type Sporsmal = {
     __typename?: 'Sporsmal';
     kriterieForVisningAvUndersporsmal?: Maybe<Visningskriterium>;
@@ -1461,13 +1406,6 @@ export type Utbetalingsinfo = {
     refusjonsbelop?: Maybe<Scalars['Int']['output']>;
     totalGrad?: Maybe<Scalars['Float']['output']>;
     utbetaling?: Maybe<Scalars['Int']['output']>;
-};
-
-export type Utbetalingslinje = {
-    __typename?: 'Utbetalingslinje';
-    fom: Scalars['String']['output'];
-    tom: Scalars['String']['output'];
-    totalbelop: Scalars['Int']['output'];
 };
 
 export enum Utbetalingstatus {
