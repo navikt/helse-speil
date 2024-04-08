@@ -1934,33 +1934,6 @@ export type FetchNotaterQuery = {
     }>;
 };
 
-export type HentOppdragQueryVariables = Exact<{
-    fnr: Scalars['String']['input'];
-}>;
-
-export type HentOppdragQuery = {
-    __typename?: 'Query';
-    oppdrag: Array<{
-        __typename?: 'Oppdrag';
-        type: string;
-        status: Oppdragsstatus;
-        utbetalingId: string;
-        arbeidsgiveroppdrag?: {
-            __typename?: 'Arbeidsgiveroppdrag';
-            organisasjonsnummer: string;
-            fagsystemId: string;
-            linjer: Array<{ __typename?: 'Utbetalingslinje'; fom: string; tom: string; totalbelop: number }>;
-        } | null;
-        personoppdrag?: {
-            __typename?: 'Personoppdrag';
-            fodselsnummer: string;
-            fagsystemId: string;
-            linjer: Array<{ __typename?: 'Utbetalingslinje'; fom: string; tom: string; totalbelop: number }>;
-        } | null;
-        annullering?: { __typename?: 'Annullering'; saksbehandler: string; tidspunkt: string } | null;
-    }>;
-};
-
 export type OppgaveFeedQueryVariables = Exact<{
     offset: Scalars['Int']['input'];
     limit: Scalars['Int']['input'];
@@ -4601,104 +4574,6 @@ export const FetchNotaterDocument = {
         },
     ],
 } as unknown as DocumentNode<FetchNotaterQuery, FetchNotaterQueryVariables>;
-export const HentOppdragDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'HentOppdrag' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'oppdrag' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'fnr' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'utbetalingId' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'arbeidsgiveroppdrag' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fagsystemId' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'linjer' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'totalbelop' } },
-                                                    ],
-                                                },
-                                            },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'personoppdrag' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fodselsnummer' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fagsystemId' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'linjer' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'totalbelop' } },
-                                                    ],
-                                                },
-                                            },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'annullering' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
-                                        ],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<HentOppdragQuery, HentOppdragQueryVariables>;
 export const OppgaveFeedDocument = {
     kind: 'Document',
     definitions: [

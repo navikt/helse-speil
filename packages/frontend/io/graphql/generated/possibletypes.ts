@@ -3,6 +3,7 @@ export interface PossibleTypesResultData {
         [key: string]: string[];
     };
 }
+
 const result: PossibleTypesResultData = {
     possibleTypes: {
         Hendelse: [
@@ -21,7 +22,6 @@ const result: PossibleTypesResultData = {
             'Sykepengegrunnlagskjonnsfastsetting',
         ],
         Periode: ['BeregnetPeriode', 'UberegnetPeriode', 'UberegnetVilkarsprovdPeriode'],
-        Spennoppdrag: ['Arbeidsgiveroppdrag', 'Personoppdrag'],
         Vilkarsgrunnlag: ['VilkarsgrunnlagInfotrygd', 'VilkarsgrunnlagSpleis'],
     },
 };

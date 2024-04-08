@@ -9,7 +9,6 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
-import { getMockOppdrag } from './data/oppdrag';
 import { behandledeOppgaverliste, oppgaveliste } from './data/oppgaveoversikt';
 import { FlereFodselsnumreError, NotFoundError } from './errors';
 import { hentOpptegnelser, opprettAbonnement } from './opptegnelser';
@@ -98,9 +97,6 @@ const getResolvers = (): IResolvers => ({
             }
             valgtPerson = person as unknown as Person;
             return person;
-        },
-        oppdrag: () => {
-            return getMockOppdrag();
         },
         behandledeOppgaverFeed: async (_, { offset, limit }: { offset: number; limit: number }) => {
             return behandledeOppgaverliste(offset, limit);
