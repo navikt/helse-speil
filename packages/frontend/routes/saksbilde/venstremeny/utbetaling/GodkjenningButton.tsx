@@ -99,7 +99,7 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
 };
 
 const somBackendfeil = (error: ApolloError): BackendFeil => {
-    const errorCode = (error.graphQLErrors[0].extensions['code'] as { value: number }).value;
+    const errorCode = (error.graphQLErrors[0].extensions?.['code'] as { value: number })?.value;
     return {
         message: errorMessages.get(error.message) || 'Feil under fatting av vedtak',
         statusCode: errorCode,
