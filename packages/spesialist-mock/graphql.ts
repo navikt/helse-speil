@@ -66,7 +66,7 @@ const leggTilLagretData = (person: Person): void => {
     person.tildeling = tildeling;
 };
 
-const fetchPersondata = (): Record<string, JSON> => {
+const fetchPersondata = (): Record<string, Person> => {
     const url = path.join(__dirname, '/data/personer');
     const filenames = fs.readdirSync(url);
 
@@ -83,7 +83,7 @@ const fetchPersondata = (): Record<string, JSON> => {
     }, {});
 };
 
-let valgtPerson: Person | undefined = undefined;
+let valgtPerson: Person | undefined;
 
 const getResolvers = (): IResolvers => ({
     Query: {
@@ -92,7 +92,7 @@ const getResolvers = (): IResolvers => ({
             if (aktorId == '9001') return new ManglendeAvviksvurderingError();
             const person = fetchPersondata()[fnr ?? aktorId ?? ''];
             if (!person) return new NotFoundError(fnr ?? aktorId ?? '');
-            valgtPerson = person as unknown as Person;
+            valgtPerson = person;
             return person;
         },
         behandledeOppgaverFeed: async (_, { offset, limit }: { offset: number; limit: number }) => {
