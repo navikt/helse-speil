@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Loader } from '@navikt/ds-react';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
-import { Arbeidsforholdoverstyring, Overstyring, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { Arbeidsforholdoverstyring, Overstyring } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
 import { onLazyLoadFail } from '@utils/error';
@@ -88,7 +88,6 @@ export const UberegnetVilkarsprovdPeriodeView: React.FC<UberegnetVilkarsprovdPer
                     activePeriodTom={period.tom}
                     skjæringstidspunkt={period.skjaeringstidspunkt}
                     navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
-                    avviksprosent={(vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent}
                 />
                 <SaksbildeMenu />
                 <div className={styles.RouteContainer}>

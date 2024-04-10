@@ -43,12 +43,12 @@ const vedtaksperiodeVenter = (state: PeriodState): VarselObject | null =>
     state === 'venter'
         ? { grad: 'info', melding: 'Ikke klar til behandling - avventer system' }
         : state === 'venterPåKiling'
-        ? {
-              grad: 'info',
-              melding:
-                  'Avventer behandling av en annen periode. Dette kan skyldes at søknad eller inntektsmelding for denne eller en annen arbeidsgiver mangler.',
-          }
-        : null;
+          ? {
+                grad: 'info',
+                melding:
+                    'Avventer behandling av en annen periode. Dette kan skyldes at søknad eller inntektsmelding for denne eller en annen arbeidsgiver mangler.',
+            }
+          : null;
 
 const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: string | null): VarselObject | null =>
     state === 'tilGodkjenning' && (typeof oppgavereferanse !== 'string' || oppgavereferanse.length === 0)
@@ -135,8 +135,6 @@ interface SaksbildevarslerProps {
     activePeriodTom?: string;
     skjæringstidspunkt?: string;
     navnPåDeaktiverteGhostArbeidsgivere?: string;
-    harBlittSkjønnsmessigFastsatt?: boolean;
-    avviksprosent?: Maybe<number>;
 }
 
 export const Saksbildevarsler = ({
@@ -150,8 +148,6 @@ export const Saksbildevarsler = ({
     activePeriodTom,
     skjæringstidspunkt,
     navnPåDeaktiverteGhostArbeidsgivere,
-    harBlittSkjønnsmessigFastsatt = false,
-    avviksprosent,
 }: SaksbildevarslerProps) => {
     const [open, setOpen] = useState(true);
     const infoVarsler: VarselObject[] = [
@@ -202,14 +198,7 @@ export const Saksbildevarsler = ({
                             <BodyShort>{melding}</BodyShort>
                         </Alert>
                     ))}
-                    {varsler && (
-                        <Varsler
-                            varsler={varsler}
-                            harBlittSkjønnsmessigFastsatt={harBlittSkjønnsmessigFastsatt}
-                            tilSkjønnsfastsettelse={periodState === 'tilSkjønnsfastsettelse'}
-                            avviksprosent={avviksprosent ?? 0}
-                        />
-                    )}
+                    {varsler && <Varsler varsler={varsler} />}
                     {feilVarsler.map(({ grad, melding }, index) => (
                         <Alert className={styles.Varsel} variant={grad} key={index}>
                             <BodyShort>{melding}</BodyShort>

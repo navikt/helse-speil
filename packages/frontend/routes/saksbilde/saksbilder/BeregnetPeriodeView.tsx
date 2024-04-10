@@ -4,8 +4,8 @@ import { Route, Routes } from 'react-router-dom';
 import { Loader } from '@navikt/ds-react';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
-import { Arbeidsforholdoverstyring, Inntektskilde, Overstyring, VilkarsgrunnlagSpleis } from '@io/graphql';
-import { useCurrentArbeidsgiver, useHarDagOverstyringer } from '@state/arbeidsgiver';
+import { Arbeidsforholdoverstyring, Overstyring } from '@io/graphql';
+import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
@@ -63,7 +63,6 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
     const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, period);
-    const arbeidsgiver = useCurrentArbeidsgiver();
 
     const navnPåDeaktiverteGhostArbeidsgivere = isSpleisVilkarsgrunnlag(vilkårsgrunnlag)
         ? person.arbeidsgivere
@@ -77,9 +76,6 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
               .flatMap((arbeidsgiver) => arbeidsgiver.navn)
               .join(', ')
         : undefined;
-    const harBlittSkjønnsmessigFastsatt =
-        vilkårsgrunnlag?.inntekter.find((aginntekt) => aginntekt.arbeidsgiver === arbeidsgiver?.organisasjonsnummer)
-            ?.skjonnsmessigFastsatt?.kilde === Inntektskilde.SkjonnsmessigFastsatt;
 
     return (
         <>
@@ -96,8 +92,6 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
                     activePeriodTom={period.tom}
                     skjæringstidspunkt={period.skjaeringstidspunkt}
                     navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
-                    harBlittSkjønnsmessigFastsatt={harBlittSkjønnsmessigFastsatt}
-                    avviksprosent={(vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent}
                 />
                 <SaksbildeMenu />
                 <div className={styles.RouteContainer}>
