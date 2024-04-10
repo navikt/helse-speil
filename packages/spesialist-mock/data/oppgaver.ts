@@ -61,6 +61,27 @@ export const oppgaver: OppgaveTilBehandling[] = [
         ],
     },
     {
+        // En ganske urealistisk oppgave, for å kunne fremprovosere en graphql-error fra oppgavelista
+        id: '44201',
+        vedtaksperiodeId: '5a494c03-a9a1-08c3-885f-aeffa447d7d2',
+        aktorId: '9001',
+        opprettet: '2024-04-10T11:09:57',
+        opprinneligSoknadsdato: '2024-01-21 09:48:33.10625',
+        navn: {
+            fornavn: '',
+            mellomnavn: null,
+            etternavn: '',
+        },
+        oppgavetype: Oppgavetype.Soknad,
+        periodetype: Periodetype.OvergangFraIt,
+        antallArbeidsforhold: AntallArbeidsforhold.EtArbeidsforhold,
+        mottaker: Mottaker.Sykmeldt,
+        egenskaper: [
+            { kategori: Kategori.Periodetype, egenskap: Egenskap.Forstegangsbehandling },
+            { kategori: Kategori.Periodetype, egenskap: Egenskap.Forlengelse },
+        ],
+    },
+    {
         id: '4959',
         vedtaksperiodeId: 'beab6f33-b26b-44e1-9098-52019181c720',
         aktorId: '2348185725298',
