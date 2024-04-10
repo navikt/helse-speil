@@ -19,7 +19,7 @@ export class FlereFodselsnumreError extends GraphQLError {
     }
 }
 
-export class ManglerVilkårsgrunnlagError extends GraphQLError {
+export class ManglendeAvviksvurderingError extends GraphQLError {
     constructor() {
         const message = `Exception while fetching data (/person/vilkarsgrunnlag) : Fant ikke avviksvurdering for vilkårsgrunnlagId b60590a3-3e2b-4144-9a76-f957184d8c51`;
         const options: GraphQLErrorOptions = {

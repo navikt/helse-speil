@@ -10,7 +10,7 @@ import type { IResolvers } from '@graphql-tools/utils';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { behandledeOppgaverliste, oppgaveliste } from './data/oppgaveoversikt';
-import { FlereFodselsnumreError, ManglerVilkårsgrunnlagError, NotFoundError } from './errors';
+import { FlereFodselsnumreError, ManglendeAvviksvurderingError, NotFoundError } from './errors';
 import { hentOpptegnelser, opprettAbonnement } from './opptegnelser';
 import type {
     BeregnetPeriode,
@@ -89,7 +89,7 @@ const getResolvers = (): IResolvers => ({
     Query: {
         person: async (_, { fnr, aktorId }: { fnr?: string; aktorId?: string }) => {
             if (aktorId == '1337') return new FlereFodselsnumreError();
-            if (aktorId == '9001') return new ManglerVilkårsgrunnlagError();
+            if (aktorId == '9001') return new ManglendeAvviksvurderingError();
             const person = fetchPersondata()[fnr ?? aktorId ?? ''];
             if (!person) return new NotFoundError(fnr ?? aktorId ?? '');
             valgtPerson = person as unknown as Person;
