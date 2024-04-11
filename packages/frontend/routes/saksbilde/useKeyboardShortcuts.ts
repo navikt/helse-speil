@@ -69,8 +69,7 @@ const useOpenGosys = (): (() => void) => {
     return () => window.open(url, '_blank');
 };
 const useOpenModiaSykefraværsoppfølging = (): (() => void) => {
-    const fødselsnummer = useCurrentFødselsnummer();
-    const url = `https://syfomodiaperson.intern.nav.no/sykefravaer/${fødselsnummer ?? ''}`;
+    const url = `https://syfomodiaperson.intern.nav.no/sykefravaer/`;
     return () => window.open(url, '_blank');
 };
 const useModiaPersonoversikt = (): (() => void) => {

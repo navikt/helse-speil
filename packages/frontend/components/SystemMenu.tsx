@@ -54,7 +54,7 @@ export const SystemMenuContent = () => {
         },
         {
             tekst: 'Modia Sykefraværsoppfølging',
-            href: `https://syfomodiaperson.intern.nav.no/sykefravaer/${person ? person.fodselsnummer : ''}`,
+            href: `https://syfomodiaperson.intern.nav.no/sykefravaer/`,
             snarveibokstav: 'S',
         },
         { tekst: 'Oppdrag', href: 'https://wasapp.adeo.no/oppdrag/venteregister/details.htm', snarveibokstav: 'O' },
