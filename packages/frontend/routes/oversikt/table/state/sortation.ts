@@ -1,4 +1,4 @@
-import { atom, selector, useSetRecoilState } from 'recoil';
+import { AtomEffect, atom, selector, useSetRecoilState } from 'recoil';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -76,9 +76,21 @@ export const useUpdateSort = () => {
     };
 };
 
+const syncWithLocalStorageEffect: AtomEffect<SortKey> = ({ onSet, setSelf, trigger }) => {
+    const key = 'dateSortKey';
+    const savedValue = localStorage.getItem(key) as SortKey;
+    console.log(savedValue);
+    if (savedValue && trigger === 'get') {
+        setSelf(savedValue);
+    }
+    onSet((newValue) => {
+        localStorage.setItem(key, `${newValue}`);
+    });
+};
 export const dateSortKey = atom<SortKey>({
     key: 'dateSortKey',
     default: SortKey.Opprettet,
+    effects: [syncWithLocalStorageEffect],
 });
 
 export const getVisningsDato = (oppgave: OppgaveTilBehandling, sorteringsnøkkel: SortKey): Maybe<string> => {
