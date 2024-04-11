@@ -7,18 +7,25 @@ import { useCurrentPerson } from '@state/person';
 
 import styles from './SystemMenu.module.css';
 
-export const redirigerTilArbeidOgInntektUrl = (url: string, fødselsnummer: string) => {
-    return fetch(url, {
-        method: 'GET',
-        headers: {
-            'Nav-Personident': fødselsnummer,
-            'Nav-Enhet': '4488',
-            'Nav-A-inntekt-Filter': '8-28Sykepenger',
-        },
-    })
-        .then((response) => response.text())
-        .then((data) => window.open(data))
-        .catch(() => window.open('https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/error'));
+export const redirigerTilArbeidOgInntektUrl = async (url: string, fødselsnummer: string | null) => {
+    if (!fødselsnummer) {
+        window.open('https://arbeid-og-inntekt.nais.adeo.no');
+        return;
+    }
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Nav-Personident': fødselsnummer,
+                'Nav-Enhet': '4488',
+                'Nav-A-inntekt-Filter': '8-28Sykepenger',
+            },
+        });
+        const data = await response.text();
+        window.open(data);
+    } catch {
+        window.open('https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/error');
+    }
 };
 
 export const SystemMenuContent = () => {
@@ -82,16 +89,9 @@ export const SystemMenuContent = () => {
                     {arbeidOgInntektLinks.map(({ tekst, url, snarveibokstav }) => (
                         <Dropdown.Menu.GroupedList.Item
                             key={url}
-                            as="a"
-                            href="https://arbeid-og-inntekt.nais.adeo.no"
-                            target="_blank"
+                            as="button"
                             className={styles.ExternalLink}
-                            onClick={(event) => {
-                                if (person) {
-                                    event.preventDefault();
-                                    redirigerTilArbeidOgInntektUrl(url, person.fodselsnummer);
-                                }
-                            }}
+                            onClick={() => void redirigerTilArbeidOgInntektUrl(url, person?.fodselsnummer)}
                         >
                             {tekst}
                             <ExternalLink />

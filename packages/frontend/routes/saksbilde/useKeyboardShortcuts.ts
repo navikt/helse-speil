@@ -211,7 +211,6 @@ export const useKeyboardActions = (): Action[] => {
             visningstekst: 'Åpne Aa-reg',
             visningssnarvei: ['⇧', 'A'],
             action: () =>
-                fødselsnummer &&
                 redirigerTilArbeidOgInntektUrl(
                     'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/arbeidstaker',
                     fødselsnummer,
@@ -240,7 +239,6 @@ export const useKeyboardActions = (): Action[] => {
             visningstekst: 'Åpne A-inntekt',
             visningssnarvei: ['⇧', 'E'],
             action: () =>
-                fødselsnummer &&
                 redirigerTilArbeidOgInntektUrl(
                     'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/a-inntekt',
                     fødselsnummer,
