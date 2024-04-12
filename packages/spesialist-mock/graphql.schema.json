@@ -11073,6 +11073,12 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "GRUPPE_AV_UNDERSPORSMAL",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "IKKE_RELEVANT",
                         "description": null,
                         "isDeprecated": false,

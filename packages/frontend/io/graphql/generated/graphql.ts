@@ -1239,6 +1239,7 @@ export enum Svartype {
     Dato = 'DATO',
     Datoer = 'DATOER',
     Fritekst = 'FRITEKST',
+    GruppeAvUndersporsmal = 'GRUPPE_AV_UNDERSPORSMAL',
     IkkeRelevant = 'IKKE_RELEVANT',
     InfoBehandlingsdager = 'INFO_BEHANDLINGSDAGER',
     JaNei = 'JA_NEI',
