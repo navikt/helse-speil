@@ -47,7 +47,7 @@ const mocks = [
                     aktorId: '12345678910',
                     fodselsnummer: '12345678910',
                     organisasjonsnummer: '987654321',
-                    fagsystemId: 'EN-FAGSYSTEMID',
+                    fagsystemId: undefined,
                     utbetalingId: 'EN-UTBETALINGID',
                     begrunnelser: ['ferie'],
                     kommentar: undefined,
