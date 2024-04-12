@@ -34,9 +34,9 @@ export type AnnulleringDataInput = {
     begrunnelser: Array<Scalars['String']['input']>;
     fodselsnummer: Scalars['String']['input'];
     kommentar?: InputMaybe<Scalars['String']['input']>;
-    organisasjonsnummer?: InputMaybe<Scalars['String']['input']>;
-    utbetalingId?: InputMaybe<Scalars['String']['input']>;
-    vedtaksperiodeId?: InputMaybe<Scalars['String']['input']>;
+    organisasjonsnummer: Scalars['String']['input'];
+    utbetalingId: Scalars['String']['input'];
+    vedtaksperiodeId: Scalars['String']['input'];
 };
 
 export type Antall = {
