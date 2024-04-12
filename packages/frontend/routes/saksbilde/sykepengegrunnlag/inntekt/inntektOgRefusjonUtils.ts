@@ -1,3 +1,4 @@
+import { BegrunnelseForOverstyring } from '../overstyring/overstyring.types';
 import dayjs from 'dayjs';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
@@ -5,6 +6,7 @@ import { Arbeidsgiver, BeregnetPeriode, Maybe, Periode, Periodetilstand } from '
 import {
     useArbeidsgiver,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
+    useErGhostLikEllerFørPeriodeTilGodkjenning,
     usePeriodForSkjæringstidspunkt,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
@@ -12,8 +14,6 @@ import { useCurrentPerson } from '@state/person';
 import { isForkastet } from '@state/selectors/period';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
-
-import { BegrunnelseForOverstyring } from '../overstyring/overstyring.types';
 
 export const harIngenUtbetaltePerioderFor = (person: FetchedPerson, skjæringstidspunkt: DateString): boolean => {
     return (
@@ -87,7 +87,7 @@ export const useArbeidsforholdKanOverstyres = (
 ): boolean => {
     const person = useCurrentPerson();
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
-    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
+    const erGhostLikEllerEtterPeriodeTilGodkjenning = useErGhostLikEllerFørPeriodeTilGodkjenning();
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
 
     if (!isGhostPeriode(period) || !person || !arbeidsgiver) {
@@ -113,7 +113,7 @@ export const useArbeidsforholdKanOverstyres = (
         arbeidsgiverHarIngenEtterfølgendePerioder &&
         !harPeriodeTilBeslutter &&
         (harBeregnetPeriode || harPeriodeTilSkjønnsfastsettelse) &&
-        erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
+        erGhostLikEllerEtterPeriodeTilGodkjenning
     );
 };
 

@@ -227,6 +227,17 @@ export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (): boolean =>
     return periodeTilGodkjenning ? dayjs(aktivPeriode.tom).isSameOrBefore(periodeTilGodkjenning?.tom) : true;
 };
 
+export const useErGhostLikEllerFørPeriodeTilGodkjenning = (): boolean => {
+    const aktivPeriode = useActivePeriod();
+    const periodeTilGodkjenning = usePeriodeTilGodkjenning();
+
+    if (!aktivPeriode) return false;
+
+    return periodeTilGodkjenning
+        ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.skjaeringstidspunkt)
+        : true;
+};
+
 export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Utbetaling | null => {
     const currentArbeidsgiver = useCurrentArbeidsgiver();
 
