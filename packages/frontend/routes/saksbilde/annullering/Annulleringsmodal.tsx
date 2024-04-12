@@ -10,7 +10,6 @@ import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering'
 import { AmplitudeContext } from '@io/amplitude';
 import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument } from '@io/graphql';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
-import { erProd } from '@utils/featureToggles';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
 import { Annulleringsinformasjon } from './Annulleringsinformasjon';
@@ -19,8 +18,8 @@ interface AnnulleringsmodalProps {
     fødselsnummer: string;
     aktørId: string;
     organisasjonsnummer: string;
-    fagsystemId: string;
-    utbetalingId: Maybe<string>;
+    vedtaksperiodeId: string;
+    utbetalingId: string;
     onClose: () => void;
     onSuccess?: () => void;
 }
@@ -29,7 +28,7 @@ export const Annulleringsmodal = ({
     fødselsnummer,
     aktørId,
     organisasjonsnummer,
-    fagsystemId,
+    vedtaksperiodeId,
     utbetalingId,
     onClose,
     onSuccess,
@@ -52,7 +51,7 @@ export const Annulleringsmodal = ({
         aktorId: aktørId,
         fodselsnummer: fødselsnummer,
         organisasjonsnummer,
-        fagsystemId: erProd() ? fagsystemId : undefined,
+        vedtaksperiodeId,
         utbetalingId,
         begrunnelser,
         kommentar: kommentar ? (kommentar.trim() === '' ? undefined : kommentar.trim()) : undefined,

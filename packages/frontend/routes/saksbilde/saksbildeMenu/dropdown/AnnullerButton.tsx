@@ -10,7 +10,7 @@ import { Annulleringsmodal } from '../../annullering/Annulleringsmodal';
 import { harPeriodeTilBeslutterFor } from '../../sykepengegrunnlag/inntekt/inntektOgRefusjonUtils';
 
 interface AnnullerButtonWithContentProps {
-    fagsystemId: string;
+    vedtaksperiodeId: string;
     utbetalingId: string;
     aktørId: string;
     fødselsnummer: string;
@@ -19,7 +19,7 @@ interface AnnullerButtonWithContentProps {
 
 const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
     utbetalingId,
-    fagsystemId,
+    vedtaksperiodeId,
     aktørId,
     fødselsnummer,
     organisasjonsnummer,
@@ -34,7 +34,7 @@ const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
                     fødselsnummer={fødselsnummer}
                     aktørId={aktørId}
                     organisasjonsnummer={organisasjonsnummer}
-                    fagsystemId={fagsystemId}
+                    vedtaksperiodeId={vedtaksperiodeId}
                     utbetalingId={utbetalingId}
                     onClose={() => {
                         setShowModal(false);
@@ -74,7 +74,7 @@ export const AnnullerButton: React.FC<AnnullerButtonProps> = ({ person, periode,
 
     return (
         <AnnullerButtonWithContent
-            fagsystemId={periode.utbetaling.arbeidsgiverFagsystemId}
+            vedtaksperiodeId={periode.vedtaksperiodeId}
             utbetalingId={periode.utbetaling.id}
             aktørId={person.aktorId}
             fødselsnummer={person.fodselsnummer}
