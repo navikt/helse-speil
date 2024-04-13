@@ -13,31 +13,38 @@ export default ({ graphQLClient }: SetupOptions) => {
     const router = Router();
 
     router.post('/', (req: SpeilRequest, res: Response, next: NextFunction) => {
-        postSpørring(graphQLClient, req, res).catch(next);
+        retrySpørring(graphQLClient, req, res).catch(next);
     });
 
     return router;
 };
 
-const postSpørring = async (graphQLClient: GraphQLClient, req: SpeilRequest, res: Response) => {
+const retrySpørring = async (graphQLClient: GraphQLClient, req: SpeilRequest, res: Response) => {
     let forsøk = 0;
     let response: Response | undefined;
     let giOpp;
     while (!response && !giOpp) {
         forsøk++;
-        response = await graphQLClient
-            .postGraphQLQuery(req.session!.speilToken, req.session, JSON.stringify(req.body))
-            .then((response) => response.json())
-            .catch(async (error) => {
-                if (forsøk < 3) {
-                    logger.info(`Prøver å gjøre kall mot spesialist på nytt, grunnet: ${error}`);
-                    await sleep(500 * forsøk);
-                } else {
-                    logger.error(`Gir opp å gjøre kall til spesialist etter ${forsøk} forsøk, siste feil: ${error}`);
-                    giOpp = true;
-                }
-            });
+        try {
+            response = await postSpørring(graphQLClient, req);
+        } catch (error) {
+            if (forsøk < 3) {
+                const ventetid = 500 * forsøk;
+                logger.info(`Prøver å gjøre kall mot spesialist på nytt om ${ventetid}ms, grunnet: ${error}`);
+                await sleep(ventetid);
+            } else {
+                logger.error(`Gir opp å gjøre kall til spesialist etter ${forsøk} forsøk, siste feil: ${error}`);
+                giOpp = true;
+            }
+        }
     }
     if (response) res.status(200).send(response);
     else res.sendStatus(500);
+};
+
+const postSpørring = async (graphQLClient: GraphQLClient, req: SpeilRequest) => {
+    const data = JSON.stringify(req.body);
+    const response = await graphQLClient.postGraphQLQuery(req.session!.speilToken, req.session, data);
+    if (!response.ok) throw new Error(`Feil ved kall til spesialist, status: ${response.status}`);
+    return await response.json();
 };
