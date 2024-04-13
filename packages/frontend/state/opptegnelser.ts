@@ -3,7 +3,7 @@ import { atom, useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoil
 
 const opptegnelsePollingTimeState = atom<number>({
     key: 'opptegnelsePollingTimeState',
-    default: 50_000,
+    default: 5_000,
 });
 
 const nyesteOpptegnelserState = atom<Opptegnelse[]>({

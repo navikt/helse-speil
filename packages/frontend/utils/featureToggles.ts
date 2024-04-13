@@ -40,7 +40,7 @@ const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer, ...
 const erCoach = () => coaches.includes(extractIdent());
 const kanFrigiSaker = () => ['K162139'].includes(extractIdent());
 
-const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
+export const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
 
 export const overstyreUtbetaltPeriodeEnabled = !harKunLesetilgang();
 export const annulleringerEnabled = !harKunLesetilgang();
