@@ -19,6 +19,7 @@ let cachedVarsel: SpeilError | null = null;
 jest.mock('@utils/featureToggles', () => ({
     erLocal: () => false,
     erDev: () => false,
+    erCoachEllerSuper: () => false,
 }));
 
 jest.mock('@state/varsler', () => ({
