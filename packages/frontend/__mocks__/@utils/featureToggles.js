@@ -6,4 +6,5 @@ module.exports = {
     erDev: () => false,
     erProd: () => false,
     erCoachEllerSuper: () => false,
+    erPåTeamBømlo: () => false,
 };
