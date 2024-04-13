@@ -56,15 +56,13 @@ export const useOppdaterPersondata = (): [forespørPersonoppdatering: () => Prom
     const forespørPersonoppdatering = async (): Promise<void> => {
         addToast({ key: oppdatererPersondataToastKey, message: oppdatererPersondataMessage() });
         removeVarsel(PersonoppdateringAlert.key);
-        return void oppdaterPerson({
+        await opprettAbonnement({
+            variables: { personidentifikator: person.aktorId },
+            onCompleted: () => setPollingRate(1000),
+        });
+        void oppdaterPerson({
             variables: { fodselsnummer: person.fodselsnummer },
-            onCompleted: () => {
-                setPolling(true);
-                opprettAbonnement({
-                    variables: { personidentifikator: person.aktorId },
-                    onCompleted: () => setPollingRate(1000),
-                });
-            },
+            onCompleted: () => setPolling(true),
             onError: () => {
                 addVarsel(
                     new PersonoppdateringAlert('Personoppdatering feilet. Prøv igjen om litt.', { severity: 'error' }),
