@@ -920,6 +920,7 @@ export type Personinfo = {
     kjonn: Kjonn;
     mellomnavn?: Maybe<Scalars['String']['output']>;
     reservasjon?: Maybe<Reservasjon>;
+    unntattFraAutomatiskGodkjenning: Scalars['Boolean']['output'];
 };
 
 export type Personnavn = {

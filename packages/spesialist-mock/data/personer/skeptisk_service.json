@@ -17,6 +17,7 @@
                 "fodselsdato": "1956-09-12",
                 "kjonn": "Kvinne",
                 "reservasjon": null,
+                "unntattFraAutomatiskGodkjenning": false,
                 "__typename": "Personinfo"
             },
             "tildeling": null,

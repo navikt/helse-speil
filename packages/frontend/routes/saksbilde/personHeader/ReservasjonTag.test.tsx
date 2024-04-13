@@ -18,5 +18,6 @@ describe('ReservasjonTag', () => {
         render(<ReservasjonTag reservasjon={{ reservert: false, kanVarsles: true }} />);
         expect(screen.queryByText('Reservert KRR')).not.toBeInTheDocument();
         expect(screen.queryByText('Ikke registrert KRR')).not.toBeInTheDocument();
+        expect(screen.queryByText('Status KRR utilgjengelig')).not.toBeInTheDocument();
     });
 });

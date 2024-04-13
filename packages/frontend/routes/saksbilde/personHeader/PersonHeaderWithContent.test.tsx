@@ -20,6 +20,7 @@ describe('Personlinje', () => {
                     etternavn: 'HØIBY',
                     adressebeskyttelse: Adressebeskyttelse.Ugradert,
                     kjonn: Kjonn.Mann,
+                    unntattFraAutomatiskGodkjenning: false,
                 }}
                 isAnonymous={false}
             />,

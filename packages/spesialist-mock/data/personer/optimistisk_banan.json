@@ -67,7 +67,8 @@
                 "reservasjon": {
                     "kanVarsles": true,
                     "reservert": false
-                }
+                },
+                "unntattFraAutomatiskGodkjenning": false
             },
             "tildeling": null,
             "versjon": 48,
