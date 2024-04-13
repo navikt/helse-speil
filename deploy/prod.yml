@@ -8,6 +8,8 @@ metadata:
 spec:
   accessPolicy:
     outbound:
+      external:
+        - host: modiacontextholder.prod-fss-pub.nais.io
       rules:
         - application: spesialist
           cluster: prod-gcp
@@ -78,3 +80,7 @@ spec:
       value: http://flexjar-backend.flex
     - name: CLIENT_ID_FLEXJAR
       value: api://prod-gcp.flex.flexjar-backend/.default
+    - name: MODIA_BASE_URL
+      value: https://modiacontextholder.prod-fss-pub.nais.io/modiacontextholder
+    - name: MODIA_API_SCOPE
+      value: api://prod-fss.personoversikt.modiacontextholder/.default

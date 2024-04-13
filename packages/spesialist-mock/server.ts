@@ -4,6 +4,7 @@ import { sleep } from './constants';
 import { setUpFaro } from './faro';
 import { setUpFlexjar } from './flexjar';
 import { setUpGraphQLMiddleware } from './graphql';
+import { setUpModia } from './modia';
 
 const app = express();
 const port = 9001;
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 
 setUpFaro(app);
 setUpFlexjar(app);
+setUpModia(app);
 setUpGraphQLMiddleware(app);
 
 app.listen(port, () => console.log(`Spesialist-mock kjører på port ${port}`));

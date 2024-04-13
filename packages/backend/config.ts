@@ -13,6 +13,7 @@ const oidc: OidcConfig = {
     clientID: process.env.AZURE_APP_CLIENT_ID || 'unknown',
     clientIDSpesialist: process.env.CLIENT_ID_SPESIALIST || 'unknown',
     clientIDFlexjar: process.env.CLIENT_ID_FLEXJAR || 'unknown',
+    modiaApiScope: process.env.MODIA_API_SCOPE || 'unknown',
     responseType: ['code'],
     clientSecret: process.env.AZURE_APP_CLIENT_SECRET || 'unknown',
     scope: `profile offline_access openid email ${process.env.AZURE_APP_CLIENT_ID}/.default`,
@@ -24,6 +25,7 @@ const server: ServerConfig = {
     sessionSecret: process.env.SESSION_SECRET,
     spesialistBaseUrl: process.env.SPESIALIST_BASE_URL || 'http://spesialist',
     flexjarBaseUrl: process.env.FLEXJAR_BASE_URL || 'http://flexjar',
+    modiaBaseUrl: process.env.MODIA_BASE_URL || 'http://localhost',
 };
 
 const redis: RedisConfig = {

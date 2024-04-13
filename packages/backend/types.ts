@@ -12,6 +12,7 @@ export interface OidcConfig {
     clientID: string;
     clientIDSpesialist: string;
     clientIDFlexjar: string;
+    modiaApiScope: string;
     responseType: ResponseType[];
     clientSecret: string;
     scope: string;
@@ -23,6 +24,7 @@ export interface ServerConfig {
     sessionSecret?: string;
     spesialistBaseUrl: string;
     flexjarBaseUrl: string;
+    modiaBaseUrl: string;
 }
 
 export interface RedisConfig {

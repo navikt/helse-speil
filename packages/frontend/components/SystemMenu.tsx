@@ -4,6 +4,9 @@ import { ExternalLink, System } from '@navikt/ds-icons';
 import { Dropdown, Header } from '@navikt/ds-react-internal';
 
 import { useCurrentPerson } from '@state/person';
+import { erCoachEllerSuper } from '@utils/featureToggles';
+
+import { BASE_URL } from '../constants';
 
 import styles from './SystemMenu.module.css';
 
@@ -28,6 +31,34 @@ export const redirigerTilArbeidOgInntektUrl = async (url: string, fødselsnummer
     }
 };
 
+const settModiaContext = async (fødselsnummer: string) => {
+    const response = await fetch(`${BASE_URL}/settModiaContext`, {
+        method: 'post',
+        body: JSON.stringify({
+            verdi: fødselsnummer,
+            eventType: 'NY_AKTIV_BRUKER',
+        }),
+    });
+    if (!response.ok) throw Error('Setting av context feilet');
+};
+
+export const hoppTilModia = async (url: string, fødselsnummer: string | null) => {
+    if (!fødselsnummer) {
+        window.open('https://syfomodiaperson.intern.nav.no');
+        return;
+    }
+
+    try {
+        await settModiaContext(fødselsnummer);
+    } catch (error) {
+        const fortsett = confirm(
+            'Søk av person i Modia feilet, du må søke den opp manuelt når du kommer til Modia.\n\nTrykk på OK for fortsette til Modia.',
+        );
+        if (!fortsett) return;
+    }
+    window.open(url);
+};
+
 export const SystemMenuContent = () => {
     const person = useCurrentPerson();
 
@@ -41,6 +72,14 @@ export const SystemMenuContent = () => {
             tekst: 'Aa-registeret',
             url: 'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/arbeidstaker',
             snarveibokstav: 'A',
+        },
+    ];
+
+    const modiaLinks: Array<{ tekst: string; url: string; snarveibokstav: string }> = [
+        {
+            tekst: 'Modia Sykefraværsoppfølging NY',
+            url: `https://syfomodiaperson.intern.nav.no/sykefravaer/`,
+            snarveibokstav: '❌',
         },
     ];
 
@@ -101,6 +140,22 @@ export const SystemMenuContent = () => {
                             </span>
                         </Dropdown.Menu.GroupedList.Item>
                     ))}
+                    {!erCoachEllerSuper() &&
+                        modiaLinks.map(({ tekst, url }) => (
+                            <Dropdown.Menu.GroupedList.Item
+                                key={url}
+                                as="button"
+                                className={styles.ExternalLink}
+                                onClick={() => void hoppTilModia(url, person?.fodselsnummer)}
+                            >
+                                {tekst}
+                                <ExternalLink />
+                                <span className={styles.snarvei}>
+                                    <span className={styles.tast}></span>
+                                    <span className={styles.tast}></span>
+                                </span>
+                            </Dropdown.Menu.GroupedList.Item>
+                        ))}
                     {links.map(({ tekst, href, snarveibokstav }) => (
                         <Dropdown.Menu.GroupedList.Item
                             key={href}

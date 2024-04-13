@@ -12,6 +12,7 @@ import flexjarRoutes from './flexjar/flexjarRoutes';
 import graphQLRoutes from './graphql/graphQLRoutes';
 import headers from './headers';
 import logger from './logging';
+import modiaRoutes from './modia/modiaRoutes';
 import { ipAddressFromRequest } from './requestData';
 import { AuthError, SpeilRequest } from './types';
 import wiring from './wiring';
@@ -166,6 +167,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
 
 app.use('/graphql', graphQLRoutes(dependencies.graphql));
 app.use('/flexjar', flexjarRoutes(dependencies.flexjar));
+app.use('/settModiaContext', modiaRoutes(dependencies.modia));
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {
