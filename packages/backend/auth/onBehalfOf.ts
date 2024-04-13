@@ -9,6 +9,13 @@ import authSupport from './authSupport';
 export default (config: OidcConfig, instrumentation: Instrumentation): OnBehalfOf => {
     const counter = instrumentation.onBehalfOfCounter();
 
+    const hentToken = async (init: RequestInit): Promise<TokenSet> => {
+        const response = await fetch(config.tokenEndpoint, init);
+        const data = await response.json();
+        if (!data || data.error) throw new Error(data.error);
+        return data;
+    };
+
     return {
         hentFor: async (targetClientId: string, session: SpeilSession, accessToken: string) => {
             const oboToken = session.oboTokens?.[targetClientId];
@@ -35,29 +42,24 @@ export default (config: OidcConfig, instrumentation: Instrumentation): OnBehalfO
                     requested_token_use: 'on_behalf_of',
                 }),
             };
-            let forsøk = 0;
+            let forsøk = 1;
             let tokenSet: TokenSet | undefined;
-            while (!tokenSet || tokenSet.error) {
-                tokenSet = await fetch(config.tokenEndpoint, options)
-                    .then((res) => res.json())
-                    .catch((error) => {
-                        if (forsøk <= 3) {
-                            logger.info(`Prøver å hente token på nytt for ${targetClientId}: ${error}`);
-                        } else {
-                            logger.error(
-                                `Feil etter ${forsøk} forsøk ved henting av token for ${targetClientId}: ${error}, gir opp.`,
-                            );
-                            throw error;
-                        }
-                    })
-                    .finally(async () => {
+            while (!tokenSet) {
+                try {
+                    tokenSet = await hentToken(options);
+                } catch (error) {
+                    if (forsøk < 3) {
+                        logger.info(`Prøver å hente token på nytt for ${targetClientId}, feil: ${error}`);
                         forsøk++;
                         await sleep(500 * forsøk);
-                    });
+                    } else {
+                        logger.error(
+                            `Feil etter ${forsøk} forsøk ved henting av token for ${targetClientId}: ${error}, gir opp.`,
+                        );
+                        throw error;
+                    }
+                }
             }
-
-            if (tokenSet.error)
-                logger.error(`tokenSet error ${tokenSet.error} ved henting av token for ${targetClientId}`);
 
             if (forsøk > 1) {
                 logger.info(`Brukte ${forsøk} forsøk på å hente token for ${targetClientId}`);
