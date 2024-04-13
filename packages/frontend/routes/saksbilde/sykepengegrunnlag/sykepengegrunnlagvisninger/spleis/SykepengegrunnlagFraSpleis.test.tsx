@@ -26,12 +26,6 @@ jest.mock('@state/periode');
 jest.mock('../../useVilkårsgrunnlag');
 jest.mock('@state/toggles');
 jest.mock('@state/anonymization');
-// jest.mock('../../skjønnsfastsetting');
-
-jest.mock('@utils/featureToggles', () => ({
-    erUtvikling: () => true,
-    erProd: () => false,
-}));
 
 describe('SykepengegrunnlagFraSpleis', () => {
     afterEach(() => {

@@ -21,14 +21,6 @@ jest.mock('@state/periode');
 jest.mock('@state/arbeidsgiver');
 jest.mock('@state/toggles');
 
-jest.mock('@utils/featureToggles', () => ({
-    erCoachEllerSuper: () => false,
-    erUtvikling: () => false,
-    defaultUtbetalingToggles: {
-        overstyreUtbetaltPeriodeEnabled: true,
-    },
-}));
-
 describe('Utbetaling', () => {
     afterEach(() => {
         jest.clearAllMocks();

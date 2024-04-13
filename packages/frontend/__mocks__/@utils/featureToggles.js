@@ -4,4 +4,6 @@ module.exports = {
     },
     erLocal: () => false,
     erDev: () => false,
+    erProd: () => false,
+    erCoachEllerSuper: () => false,
 };

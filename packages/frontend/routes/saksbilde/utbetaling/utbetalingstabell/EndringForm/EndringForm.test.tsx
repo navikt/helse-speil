@@ -21,10 +21,6 @@ import {
 import { EndringForm } from './EndringForm';
 import { alleTypeendringer } from './endringFormUtils';
 
-jest.mock('@utils/featureToggles', () => ({
-    overstyrPermisjonsdagerEnabled: true,
-}));
-
 describe('Typeendringer', () => {
     it('returnerer typeendringer for dagtypevelgeren under overstyring', () => {
         expect(alleTypeendringer).toEqual([
