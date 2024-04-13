@@ -28,15 +28,15 @@ const postSpørring = async (graphQLClient: GraphQLClient, req: SpeilRequest, re
         response = await graphQLClient
             .postGraphQLQuery(req.session!.speilToken, req.session, JSON.stringify(req.body))
             .then((response) => response.json())
-            .catch((error) => {
+            .catch(async (error) => {
                 if (forsøk < 3) {
                     logger.info(`Prøver å gjøre kall mot spesialist på nytt, grunnet: ${error}`);
+                    await sleep(500 * forsøk);
                 } else {
                     logger.error(`Gir opp å gjøre kall til spesialist etter ${forsøk} forsøk, siste feil: ${error}`);
                     giOpp = true;
                 }
             });
-        await sleep(500 * forsøk);
     }
     if (response) res.status(200).send(response);
     else res.sendStatus(500);
