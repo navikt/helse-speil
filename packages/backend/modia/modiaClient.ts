@@ -7,17 +7,19 @@ import { OidcConfig, OnBehalfOf, SpeilSession } from '../types';
 const modiaBaseUrl = config.server.modiaBaseUrl;
 
 export interface ModiaClient {
-    kallModia: (handling: Handling, speilToken: string, session: SpeilSession, data: string) => Promise<Response>;
+    kallModia: (handling: Handling, speilToken: string, session: SpeilSession, data?: string) => Promise<Response>;
 }
 
 export enum Handling {
     velgBrukerIModia,
+    nullstillBruker,
 }
 
 type Handlingdata = { path: string; method: string };
 
 const handlinger: { [key in Handling]: Handlingdata } = {
     [Handling.velgBrukerIModia]: { path: '/api/context', method: 'post' },
+    [Handling.nullstillBruker]: { path: '/api/context/aktivbruker', method: 'delete' },
 };
 
 export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): ModiaClient => ({

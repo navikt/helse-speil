@@ -44,19 +44,20 @@ const settModiaContext = async (fødselsnummer: string) => {
     });
     if (!response.ok) throw Error('Setting av context feilet');
 };
+const nullstillModiaContext = async () => {
+    const response = await fetch(`${BASE_URL}/settModiaContext/aktivbruker`, { method: 'delete' });
+    if (!response.ok) throw Error('Nullstilling av context feilet');
+};
 
 export const hoppTilModia = async (url: string, fødselsnummer: string | null) => {
-    if (!fødselsnummer) {
-        window.open('https://syfomodiaperson.intern.nav.no');
-        return;
-    }
-
+    const forbered = () => (fødselsnummer ? settModiaContext(fødselsnummer) : nullstillModiaContext());
     try {
-        await settModiaContext(fødselsnummer);
+        await forbered();
     } catch (error) {
-        const fortsett = confirm(
-            'Søk av person i Modia feilet, du må søke den opp manuelt når du kommer til Modia.\n\nTrykk på OK for fortsette til Modia.',
-        );
+        const tekst = fødselsnummer
+            ? 'Søk av person i Modia feilet, du må søke den opp manuelt når du kommer til Modia.'
+            : 'Forrige person kan fortsatt være valgt når du kommer til Modia.';
+        const fortsett = confirm(`${tekst}\n\nTrykk på OK for fortsette til Modia.`);
         if (!fortsett) return;
     }
     window.open(url);
