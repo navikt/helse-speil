@@ -7,15 +7,31 @@ import { OidcConfig, OnBehalfOf, SpeilSession } from '../types';
 const modiaBaseUrl = config.server.modiaBaseUrl;
 
 export interface ModiaClient {
-    postModiaContext: (speilToken: string, session: SpeilSession, data: string) => Promise<undefined>;
+    kallModia: (handling: Handling, speilToken: string, session: SpeilSession, data: string) => Promise<Response>;
 }
 
+export enum Handling {
+    velgBrukerIModia,
+}
+
+type Handlingdata = { path: string; method: string };
+
+const handlinger: { [key in Handling]: Handlingdata } = {
+    [Handling.velgBrukerIModia]: { path: '/api/context', method: 'post' },
+};
+
 export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): ModiaClient => ({
-    postModiaContext: async (speilToken: string, session: SpeilSession, data: string): Promise<undefined> => {
+    kallModia: async (
+        handling: Handling,
+        speilToken: string,
+        session: SpeilSession,
+        data: string,
+    ): Promise<Response> => {
+        const { method, path } = handlinger[handling];
         const callId = uuidv4();
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.modiaApiScope, session, speilToken);
         const options = {
-            method: 'post',
+            method: method,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
                 'X-Request-Id': callId,
@@ -26,16 +42,15 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): ModiaClient => 
         };
 
         const maskertToken = onBehalfOfToken.substring(0, 6);
-        logger.debug(`Kaller ${modiaBaseUrl} med X-Request-Id: ${callId} og token: ${maskertToken}...`);
-        const start = Date.now();
+        const url = `${modiaBaseUrl}${path}`;
+        logger.debug(`Kaller ${url} med X-Request-Id: ${callId} og token: ${maskertToken}...`);
 
-        const response = await fetch(`${modiaBaseUrl}/api/context`, options);
+        const start = Date.now();
+        const response = await fetch(url, options);
         if (!response.ok) throw Error(`Fetch feilet, status: ${response.status}`);
 
         const tidBrukt = Date.now() - start;
-        logger.debug(
-            `Satte person i context i Modia (${modiaBaseUrl}) med X-Request-Id: ${callId} - ferdig etter ${tidBrukt} ms`,
-        );
-        return;
+        logger.debug(`Kall til Modia (${modiaBaseUrl}) med X-Request-Id: ${callId} ferdig etter ${tidBrukt} ms`);
+        return response;
     },
 });
