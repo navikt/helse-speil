@@ -140,23 +140,22 @@ export const SystemMenuContent = () => {
                             </span>
                         </Dropdown.Menu.GroupedList.Item>
                     ))}
-                    {erCoachEllerSuper() ||
-                        (erPåTeamBømlo() &&
-                            modiaLinks.map(({ tekst, url }) => (
-                                <Dropdown.Menu.GroupedList.Item
-                                    key={url}
-                                    as="button"
-                                    className={styles.ExternalLink}
-                                    onClick={() => void hoppTilModia(url, person?.fodselsnummer)}
-                                >
-                                    {tekst}
-                                    <ExternalLink />
-                                    <span className={styles.snarvei}>
-                                        <span className={styles.tast}></span>
-                                        <span className={styles.tast}></span>
-                                    </span>
-                                </Dropdown.Menu.GroupedList.Item>
-                            )))}
+                    {(erCoachEllerSuper() || erPåTeamBømlo()) &&
+                        modiaLinks.map(({ tekst, url }) => (
+                            <Dropdown.Menu.GroupedList.Item
+                                key={url}
+                                as="button"
+                                className={styles.ExternalLink}
+                                onClick={() => void hoppTilModia(url, person?.fodselsnummer)}
+                            >
+                                {tekst}
+                                <ExternalLink />
+                                <span className={styles.snarvei}>
+                                    <span className={styles.tast}></span>
+                                    <span className={styles.tast}></span>
+                                </span>
+                            </Dropdown.Menu.GroupedList.Item>
+                        ))}
                     {links.map(({ tekst, href, snarveibokstav }) => (
                         <Dropdown.Menu.GroupedList.Item
                             key={href}
