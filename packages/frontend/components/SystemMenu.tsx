@@ -34,6 +34,9 @@ export const redirigerTilArbeidOgInntektUrl = async (url: string, fødselsnummer
 const settModiaContext = async (fødselsnummer: string) => {
     const response = await fetch(`${BASE_URL}/settModiaContext`, {
         method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
             verdi: fødselsnummer,
             eventType: 'NY_AKTIV_BRUKER',
