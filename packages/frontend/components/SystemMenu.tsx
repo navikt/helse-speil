@@ -62,31 +62,32 @@ export const hoppTilModia = async (url: string, fødselsnummer: string | null) =
     window.open(url);
 };
 
+type CommonLinkProps = { tekst: string; snarveibokstav: string };
+type ButtonLink = CommonLinkProps & { action: () => void };
+type HrefLink = CommonLinkProps & { href: string };
+
 export const SystemMenuContent = () => {
     const person = useCurrentPerson();
 
-    const arbeidOgInntektLinks: Array<{ tekst: string; url: string; snarveibokstav: string }> = [
+    const alleLinks: Array<HrefLink | ButtonLink> = [
         {
             tekst: 'A-inntekt',
-            url: 'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/a-inntekt',
+            action: () =>
+                redirigerTilArbeidOgInntektUrl(
+                    'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/a-inntekt',
+                    person?.fodselsnummer,
+                ),
             snarveibokstav: 'E',
         },
         {
             tekst: 'Aa-registeret',
-            url: 'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/arbeidstaker',
+            action: () =>
+                redirigerTilArbeidOgInntektUrl(
+                    'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/arbeidstaker',
+                    person?.fodselsnummer,
+                ),
             snarveibokstav: 'A',
         },
-    ];
-
-    const modiaLinks: Array<{ tekst: string; url: string; snarveibokstav: string }> = [
-        {
-            tekst: 'Modia Sykefraværsoppfølging',
-            url: `https://syfomodiaperson.intern.nav.no/sykefravaer/`,
-            snarveibokstav: 'S',
-        },
-    ];
-
-    const links: Array<{ tekst: string; href: string; snarveibokstav: string }> = [
         {
             tekst: 'Gosys',
             href: person
@@ -95,13 +96,22 @@ export const SystemMenuContent = () => {
             snarveibokstav: 'G',
         },
         {
+            tekst: 'Modia Sykefraværsoppfølging',
+            action: () => hoppTilModia(`https://syfomodiaperson.intern.nav.no/sykefravaer/`, person.fodselsnummer),
+            snarveibokstav: 'S',
+        },
+        {
             tekst: 'Modia Personoversikt',
             href: person
                 ? `https://app.adeo.no/modiapersonoversikt/person/${person.fodselsnummer}`
                 : 'https://app.adeo.no/modiapersonoversikt',
             snarveibokstav: 'M',
         },
-        { tekst: 'Oppdrag', href: 'https://wasapp.adeo.no/oppdrag/venteregister/details.htm', snarveibokstav: 'O' },
+        {
+            tekst: 'Oppdrag',
+            href: 'https://wasapp.adeo.no/oppdrag/venteregister/details.htm',
+            snarveibokstav: 'O',
+        },
         {
             tekst: 'Folketrygdloven kapittel 8',
             href: 'https://lovdata.no/nav/folketrygdloven/kap8',
@@ -115,6 +125,29 @@ export const SystemMenuContent = () => {
         },
     ];
 
+    const Link: React.FC<HrefLink> = ({ tekst, href, snarveibokstav }) => (
+        <Dropdown.Menu.GroupedList.Item key={tekst} as="a" href={href} target="_blank" className={styles.ExternalLink}>
+            <Lenkeinnhold tekst={tekst} snarveibokstav={snarveibokstav} />
+        </Dropdown.Menu.GroupedList.Item>
+    );
+
+    const Button: React.FC<ButtonLink> = ({ tekst, action, snarveibokstav }) => (
+        <Dropdown.Menu.GroupedList.Item key={tekst} as="button" className={styles.ExternalLink} onClick={action}>
+            <Lenkeinnhold tekst={tekst} snarveibokstav={snarveibokstav} />
+        </Dropdown.Menu.GroupedList.Item>
+    );
+
+    const Lenkeinnhold: React.FC<{ tekst: string; snarveibokstav: string }> = ({ tekst, snarveibokstav }) => (
+        <>
+            {tekst}
+            <ExternalLink />
+            <span className={styles.snarvei}>
+                <span className={styles.tast}>⇧</span>
+                <span className={styles.tast}>{snarveibokstav}</span>
+            </span>
+        </>
+    );
+
     return (
         <Dropdown>
             <Header.Button as={Dropdown.Toggle} aria-label="Toggle dropdown">
@@ -123,52 +156,13 @@ export const SystemMenuContent = () => {
             <Dropdown.Menu className={styles.DropdownContent}>
                 <Dropdown.Menu.GroupedList>
                     <Dropdown.Menu.GroupedList.Heading>Systemer og oppslagsverk</Dropdown.Menu.GroupedList.Heading>
-                    {arbeidOgInntektLinks.map(({ tekst, url, snarveibokstav }) => (
-                        <Dropdown.Menu.GroupedList.Item
-                            key={url}
-                            as="button"
-                            className={styles.ExternalLink}
-                            onClick={() => void redirigerTilArbeidOgInntektUrl(url, person?.fodselsnummer)}
-                        >
-                            {tekst}
-                            <ExternalLink />
-                            <span className={styles.snarvei}>
-                                <span className={styles.tast}>⇧</span>
-                                <span className={styles.tast}>{snarveibokstav}</span>
-                            </span>
-                        </Dropdown.Menu.GroupedList.Item>
-                    ))}
-                    {modiaLinks.map(({ tekst, url, snarveibokstav }) => (
-                        <Dropdown.Menu.GroupedList.Item
-                            key={url}
-                            as="button"
-                            className={styles.ExternalLink}
-                            onClick={() => void hoppTilModia(url, person?.fodselsnummer)}
-                        >
-                            {tekst}
-                            <ExternalLink />
-                            <span className={styles.snarvei}>
-                                <span className={styles.tast}>⇧</span>
-                                <span className={styles.tast}>{snarveibokstav}</span>
-                            </span>
-                        </Dropdown.Menu.GroupedList.Item>
-                    ))}
-                    {links.map(({ tekst, href, snarveibokstav }) => (
-                        <Dropdown.Menu.GroupedList.Item
-                            key={href}
-                            as="a"
-                            href={href}
-                            target="_blank"
-                            className={styles.ExternalLink}
-                        >
-                            {tekst}
-                            <ExternalLink />
-                            <span className={styles.snarvei}>
-                                <span className={styles.tast}>⇧</span>
-                                <span className={styles.tast}>{snarveibokstav}</span>
-                            </span>
-                        </Dropdown.Menu.GroupedList.Item>
-                    ))}
+                    {alleLinks.map((link) =>
+                        'href' in link ? (
+                            <Link tekst={link.tekst} href={link.href} snarveibokstav={link.snarveibokstav} />
+                        ) : (
+                            <Button tekst={link.tekst} action={link.action} snarveibokstav={link.snarveibokstav} />
+                        ),
+                    )}
                 </Dropdown.Menu.GroupedList>
             </Dropdown.Menu>
         </Dropdown>
