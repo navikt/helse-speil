@@ -1,4 +1,4 @@
-import { redirigerTilArbeidOgInntektUrl } from '@components/SystemMenu';
+import { hoppTilModia, redirigerTilArbeidOgInntektUrl } from '@components/SystemMenu';
 import { copyString } from '@components/clipboard/util';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
@@ -69,8 +69,8 @@ const useOpenGosys = (): (() => void) => {
     return () => window.open(url, '_blank');
 };
 const useOpenModiaSykefraværsoppfølging = (): (() => void) => {
-    const url = `https://syfomodiaperson.intern.nav.no/sykefravaer/`;
-    return () => window.open(url, '_blank');
+    const fødselsnummer = useCurrentFødselsnummer();
+    return () => hoppTilModia('https://syfomodiaperson.intern.nav.no/sykefravaer/', fødselsnummer);
 };
 const useModiaPersonoversikt = (): (() => void) => {
     const fødselsnummer = useCurrentFødselsnummer();

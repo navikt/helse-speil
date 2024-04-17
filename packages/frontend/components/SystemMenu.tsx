@@ -4,7 +4,6 @@ import { ExternalLink, System } from '@navikt/ds-icons';
 import { Dropdown, Header } from '@navikt/ds-react-internal';
 
 import { useCurrentPerson } from '@state/person';
-import { erCoachEllerSuper, erPåTeamBømlo } from '@utils/featureToggles';
 
 import { BASE_URL } from '../constants';
 
@@ -81,9 +80,9 @@ export const SystemMenuContent = () => {
 
     const modiaLinks: Array<{ tekst: string; url: string; snarveibokstav: string }> = [
         {
-            tekst: 'Modia Sykefraværsoppfølging NY',
+            tekst: 'Modia Sykefraværsoppfølging',
             url: `https://syfomodiaperson.intern.nav.no/sykefravaer/`,
-            snarveibokstav: '❌',
+            snarveibokstav: 'S',
         },
     ];
 
@@ -101,11 +100,6 @@ export const SystemMenuContent = () => {
                 ? `https://app.adeo.no/modiapersonoversikt/person/${person.fodselsnummer}`
                 : 'https://app.adeo.no/modiapersonoversikt',
             snarveibokstav: 'M',
-        },
-        {
-            tekst: 'Modia Sykefraværsoppfølging',
-            href: `https://syfomodiaperson.intern.nav.no/sykefravaer/`,
-            snarveibokstav: 'S',
         },
         { tekst: 'Oppdrag', href: 'https://wasapp.adeo.no/oppdrag/venteregister/details.htm', snarveibokstav: 'O' },
         {
@@ -144,22 +138,21 @@ export const SystemMenuContent = () => {
                             </span>
                         </Dropdown.Menu.GroupedList.Item>
                     ))}
-                    {(erCoachEllerSuper() || erPåTeamBømlo()) &&
-                        modiaLinks.map(({ tekst, url }) => (
-                            <Dropdown.Menu.GroupedList.Item
-                                key={url}
-                                as="button"
-                                className={styles.ExternalLink}
-                                onClick={() => void hoppTilModia(url, person?.fodselsnummer)}
-                            >
-                                {tekst}
-                                <ExternalLink />
-                                <span className={styles.snarvei}>
-                                    <span className={styles.tast}></span>
-                                    <span className={styles.tast}></span>
-                                </span>
-                            </Dropdown.Menu.GroupedList.Item>
-                        ))}
+                    {modiaLinks.map(({ tekst, url, snarveibokstav }) => (
+                        <Dropdown.Menu.GroupedList.Item
+                            key={url}
+                            as="button"
+                            className={styles.ExternalLink}
+                            onClick={() => void hoppTilModia(url, person?.fodselsnummer)}
+                        >
+                            {tekst}
+                            <ExternalLink />
+                            <span className={styles.snarvei}>
+                                <span className={styles.tast}>⇧</span>
+                                <span className={styles.tast}>{snarveibokstav}</span>
+                            </span>
+                        </Dropdown.Menu.GroupedList.Item>
+                    ))}
                     {links.map(({ tekst, href, snarveibokstav }) => (
                         <Dropdown.Menu.GroupedList.Item
                             key={href}
