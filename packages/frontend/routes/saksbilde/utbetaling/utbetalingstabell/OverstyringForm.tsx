@@ -7,6 +7,7 @@ import {
     andreYtelserValidering,
     arbeidIkkeGjenopptattValidering,
     arbeidsdagValidering,
+    egenmeldingValidering,
     sykNavValidering,
 } from './validering';
 
@@ -46,12 +47,14 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
             'kanIkkeOverstyreTilArbeidIkkeGjenopptatt',
             'kanIkkeOverstyreTilAnnenYtelse',
             'kanIkkeOverstyreTilSykNav',
+            'kanIkkeOverstyreTilEgenmelding',
         ]);
         if (
             arbeidsdagValidering(overstyrteDager, hale, setCustomError) &&
             arbeidIkkeGjenopptattValidering(overstyrteDager, setCustomError) &&
             andreYtelserValidering(overstyrteDager, hale, snute, setCustomError) &&
-            sykNavValidering(overstyrteDager, setCustomError)
+            sykNavValidering(overstyrteDager, setCustomError) &&
+            egenmeldingValidering(overstyrteDager, setCustomError)
         ) {
             handleSubmit(onSubmit)();
         }

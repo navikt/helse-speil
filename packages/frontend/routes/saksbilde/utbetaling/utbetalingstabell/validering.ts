@@ -147,3 +147,28 @@ export const sykNavValidering = (
     }
     return true;
 };
+export const egenmeldingValidering = (
+    overstyrteDager: Map<string, Utbetalingstabelldag>,
+    setError: (name: string, message: string) => void,
+): boolean => {
+    const overstyrtTilEgenmelding = Array.from(overstyrteDager.values())
+        .filter((overstyrtDag) => overstyrtDag.dag.speilDagtype === 'Egenmelding')
+        .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)));
+
+    if (overstyrtTilEgenmelding.length === 0) {
+        return true;
+    }
+
+    const dagerSomKanOverstyresTilEgenmelding: Utbetalingstabelldag[] = overstyrtTilEgenmelding.filter(
+        (dag) => dag.erAGP || dag.erNyDag,
+    );
+
+    if (dagerSomKanOverstyresTilEgenmelding.length !== overstyrtTilEgenmelding.length) {
+        setError(
+            'kanIkkeOverstyreTilEgenmelding',
+            'Egenmelding kan kun overstyres i arbeidsgiverperioden eller legges til som en ny dag.',
+        );
+        return false;
+    }
+    return true;
+};
