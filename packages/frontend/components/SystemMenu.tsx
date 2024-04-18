@@ -97,7 +97,7 @@ export const SystemMenuContent = () => {
         },
         {
             tekst: 'Modia Sykefraværsoppfølging',
-            action: () => hoppTilModia(`https://syfomodiaperson.intern.nav.no/sykefravaer/`, person.fodselsnummer),
+            action: () => hoppTilModia(`https://syfomodiaperson.intern.nav.no/sykefravaer/`, person?.fodselsnummer),
             snarveibokstav: 'S',
         },
         {
