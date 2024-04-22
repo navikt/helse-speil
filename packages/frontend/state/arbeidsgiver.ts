@@ -234,7 +234,8 @@ export const useErGhostLikEllerFørPeriodeTilGodkjenning = (): boolean => {
     if (!aktivPeriode) return false;
 
     return periodeTilGodkjenning
-        ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.skjaeringstidspunkt)
+        ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.skjaeringstidspunkt) ||
+              dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.fom)
         : true;
 };
 
