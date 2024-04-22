@@ -922,6 +922,7 @@ export type Personinfo = {
     kjonn: Kjonn;
     mellomnavn?: Maybe<Scalars['String']['output']>;
     reservasjon?: Maybe<Reservasjon>;
+    unntattFraAutomatisering: UnntattFraAutomatiskGodkjenning;
     unntattFraAutomatiskGodkjenning: Scalars['Boolean']['output'];
 };
 
@@ -1374,6 +1375,13 @@ export type UberegnetVilkarsprovdPeriode = Periode & {
     varsler: Array<VarselDto>;
     vedtaksperiodeId: Scalars['UUID']['output'];
     vilkarsgrunnlagId?: Maybe<Scalars['UUID']['output']>;
+};
+
+export type UnntattFraAutomatiskGodkjenning = {
+    __typename?: 'UnntattFraAutomatiskGodkjenning';
+    arsaker: Array<Scalars['String']['output']>;
+    erUntatt: Scalars['Boolean']['output'];
+    tidspunkt?: Maybe<Scalars['String']['output']>;
 };
 
 export type Utbetaling = {
@@ -2149,6 +2157,12 @@ export type FetchPersonQuery = {
             kjonn: Kjonn;
             unntattFraAutomatiskGodkjenning: boolean;
             reservasjon?: { __typename?: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
+            unntattFraAutomatisering: {
+                __typename?: 'UnntattFraAutomatiskGodkjenning';
+                erUntatt: boolean;
+                arsaker: Array<string>;
+                tidspunkt?: string | null;
+            };
         };
         tildeling?: { __typename?: 'Tildeling'; navn: string; epost: string; oid: string } | null;
         vilkarsgrunnlag: Array<
@@ -4933,6 +4947,18 @@ export const FetchPersonDocument = {
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'unntattFraAutomatiskGodkjenning' },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'unntattFraAutomatisering' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'erUntatt' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
+                                                    ],
+                                                },
                                             },
                                         ],
                                     },

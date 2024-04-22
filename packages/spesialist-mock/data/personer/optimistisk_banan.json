@@ -68,7 +68,12 @@
                     "kanVarsles": true,
                     "reservert": false
                 },
-                "unntattFraAutomatiskGodkjenning": false
+                "unntattFraAutomatiskGodkjenning": false,
+                "unntattFraAutomatisering": {
+                    "erUntatt": false,
+                    "arsaker": [],
+                    "tidspunkt": null
+                }
             },
             "tildeling": null,
             "versjon": 48,

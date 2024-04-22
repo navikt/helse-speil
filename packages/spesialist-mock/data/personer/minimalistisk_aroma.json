@@ -16,7 +16,12 @@
                 "fodselsdato": "1992-08-07",
                 "kjonn": "Kvinne",
                 "reservasjon": null,
-                "unntattFraAutomatiskGodkjenning": false
+                "unntattFraAutomatiskGodkjenning": false,
+                "unntattFraAutomatisering": {
+                    "erUntatt": false,
+                    "arsaker": [],
+                    "tidspunkt": null
+                }
             },
             "tildeling": null,
             "versjon": 48,

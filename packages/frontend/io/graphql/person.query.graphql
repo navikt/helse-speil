@@ -146,6 +146,11 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 reservert
             }
             unntattFraAutomatiskGodkjenning
+            unntattFraAutomatisering {
+                erUntatt
+                arsaker
+                tidspunkt
+            }
         }
         tildeling {
             navn

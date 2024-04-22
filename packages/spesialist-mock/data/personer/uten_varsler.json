@@ -16,7 +16,12 @@
                 "fodselsdato": "1991-01-17",
                 "kjonn": "Mann",
                 "reservasjon": null,
-                "unntattFraAutomatiskGodkjenning": false
+                "unntattFraAutomatiskGodkjenning": false,
+                "unntattFraAutomatisering": {
+                    "erUntatt": false,
+                    "arsaker": [],
+                    "tidspunkt": null
+                }
             },
             "tildeling": null,
             "versjon": 48,

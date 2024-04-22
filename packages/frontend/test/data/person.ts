@@ -15,6 +15,11 @@ export const enPerson: OverridableConstructor<Person, Extensions> = (overrides) 
         kjonn: Kjonn.Kvinne,
         adressebeskyttelse: Adressebeskyttelse.Ugradert,
         unntattFraAutomatiskGodkjenning: false,
+        unntattFraAutomatisering: {
+            erUntatt: false,
+            arsaker: [],
+            tidspunkt: null,
+        },
     },
     enhet: {
         id: '1234',
