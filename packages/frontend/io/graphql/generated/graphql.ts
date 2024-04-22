@@ -923,7 +923,6 @@ export type Personinfo = {
     mellomnavn?: Maybe<Scalars['String']['output']>;
     reservasjon?: Maybe<Reservasjon>;
     unntattFraAutomatisering: UnntattFraAutomatiskGodkjenning;
-    unntattFraAutomatiskGodkjenning?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Personnavn = {
