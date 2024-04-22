@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { Arbeidsgiverinntekt, Inntektskilde, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { erProd } from '@utils/featureToggles';
 
 import { SykepengegrunnlagsgrenseView } from '../InntektsgrunnlagTable/SykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
@@ -38,6 +38,9 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
     const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(inntekter);
     const arbeidsforholdMal = (aktiveArbeidsgivere?.length ?? 0) > 1 ? 'FLERE_ARBEIDSGIVERE' : 'EN_ARBEIDSGIVER';
+    const harBlittSkjønnsmessigFastsatt =
+        inntekter.find((aginntekt) => aginntekt.arbeidsgiver === aktiveArbeidsgivere?.[0].organisasjonsnummer)
+            ?.skjonnsmessigFastsatt?.kilde === Inntektskilde.SkjonnsmessigFastsatt;
 
     useEffect(() => {
         const response = fetch('https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production', {
@@ -51,7 +54,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                 setMaler(
                     it.result
                         .filter((it: SkjønnsfastsettingMal) =>
-                            avviksprosent <= 25 ? it.lovhjemmel.ledd !== '2' : true,
+                            avviksprosent <= 25 || harBlittSkjønnsmessigFastsatt ? it.lovhjemmel.ledd !== '2' : true,
                         )
                         .filter((it: SkjønnsfastsettingMal) => it.arbeidsforholdMal.includes(arbeidsforholdMal))
                         .filter((it: SkjønnsfastsettingMal) => (erProd() ? it.iProd : true)),
