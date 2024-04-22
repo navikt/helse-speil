@@ -921,7 +921,7 @@ export type Personinfo = {
     mellomnavn?: Maybe<Scalars['String']['output']>;
     reservasjon?: Maybe<Reservasjon>;
     unntattFraAutomatisering: UnntattFraAutomatiskGodkjenning;
-    unntattFraAutomatiskGodkjenning: Scalars['Boolean']['output'];
+    unntattFraAutomatiskGodkjenning?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Personnavn = {

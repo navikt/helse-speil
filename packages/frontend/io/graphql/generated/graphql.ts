@@ -923,7 +923,7 @@ export type Personinfo = {
     mellomnavn?: Maybe<Scalars['String']['output']>;
     reservasjon?: Maybe<Reservasjon>;
     unntattFraAutomatisering: UnntattFraAutomatiskGodkjenning;
-    unntattFraAutomatiskGodkjenning: Scalars['Boolean']['output'];
+    unntattFraAutomatiskGodkjenning?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Personnavn = {
@@ -2155,7 +2155,6 @@ export type FetchPersonQuery = {
             adressebeskyttelse: Adressebeskyttelse;
             fodselsdato?: string | null;
             kjonn: Kjonn;
-            unntattFraAutomatiskGodkjenning: boolean;
             reservasjon?: { __typename?: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
             unntattFraAutomatisering: {
                 __typename?: 'UnntattFraAutomatiskGodkjenning';
@@ -4943,10 +4942,6 @@ export const FetchPersonDocument = {
                                                         { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
                                                     ],
                                                 },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'unntattFraAutomatiskGodkjenning' },
                                             },
                                             {
                                                 kind: 'Field',

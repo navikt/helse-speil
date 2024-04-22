@@ -16,7 +16,6 @@
                 "fodselsdato": "1986-02-06",
                 "kjonn": "Kvinne",
                 "reservasjon": null,
-                "unntattFraAutomatiskGodkjenning": true,
                 "unntattFraAutomatisering": {
                     "erUntatt": true,
                     "arsaker": ["MEDISINSK_VILKAR"],

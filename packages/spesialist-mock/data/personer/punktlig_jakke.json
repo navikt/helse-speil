@@ -16,7 +16,6 @@
                 "fodselsdato": "1984-11-07",
                 "kjonn": "Mann",
                 "reservasjon": null,
-                "unntattFraAutomatiskGodkjenning": false,
                 "unntattFraAutomatisering": {
                     "erUntatt": false,
                     "arsaker": [],

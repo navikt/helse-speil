@@ -68,7 +68,6 @@
                     "kanVarsles": true,
                     "reservert": false
                 },
-                "unntattFraAutomatiskGodkjenning": false,
                 "unntattFraAutomatisering": {
                     "erUntatt": false,
                     "arsaker": [],

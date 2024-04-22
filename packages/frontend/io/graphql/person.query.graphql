@@ -145,7 +145,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 kanVarsles
                 reservert
             }
-            unntattFraAutomatiskGodkjenning
             unntattFraAutomatisering {
                 erUntatt
                 arsaker

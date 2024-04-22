@@ -14,7 +14,6 @@ export const enPerson: OverridableConstructor<Person, Extensions> = (overrides) 
         etternavn: 'Navnesen',
         kjonn: Kjonn.Kvinne,
         adressebeskyttelse: Adressebeskyttelse.Ugradert,
-        unntattFraAutomatiskGodkjenning: false,
         unntattFraAutomatisering: {
             erUntatt: false,
             arsaker: [],
