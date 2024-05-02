@@ -21,7 +21,7 @@ describe('Personlinje', () => {
                     adressebeskyttelse: Adressebeskyttelse.Ugradert,
                     kjonn: Kjonn.Mann,
                     unntattFraAutomatisering: {
-                        erUntatt: false,
+                        erUnntatt: false,
                         arsaker: [],
                         tidspunkt: null,
                     },

@@ -17,7 +17,7 @@
                 "kjonn": "Kvinne",
                 "reservasjon": null,
                 "unntattFraAutomatisering": {
-                    "erUntatt": false,
+                    "erUnntatt": false,
                     "arsaker": [],
                     "tidspunkt": null
                 }

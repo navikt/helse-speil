@@ -920,7 +920,7 @@ export type Personinfo = {
     kjonn: Kjonn;
     mellomnavn?: Maybe<Scalars['String']['output']>;
     reservasjon?: Maybe<Reservasjon>;
-    unntattFraAutomatisering: UnntattFraAutomatiskGodkjenning;
+    unntattFraAutomatisering?: Maybe<UnntattFraAutomatiskGodkjenning>;
 };
 
 export type Personnavn = {
@@ -1377,7 +1377,7 @@ export type UberegnetVilkarsprovdPeriode = Periode & {
 export type UnntattFraAutomatiskGodkjenning = {
     __typename?: 'UnntattFraAutomatiskGodkjenning';
     arsaker: Array<Scalars['String']['output']>;
-    erUntatt: Scalars['Boolean']['output'];
+    erUnntatt: Scalars['Boolean']['output'];
     tidspunkt?: Maybe<Scalars['String']['output']>;
 };
 

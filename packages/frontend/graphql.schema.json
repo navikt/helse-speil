@@ -8176,13 +8176,9 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "OBJECT",
-                                "name": "UnntattFraAutomatiskGodkjenning",
-                                "ofType": null
-                            }
+                            "kind": "OBJECT",
+                            "name": "UnntattFraAutomatiskGodkjenning",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -12505,7 +12501,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "erUntatt",
+                        "name": "erUnntatt",
                         "description": null,
                         "args": [],
                         "type": {

@@ -57,7 +57,7 @@ export const PersonHeaderWithContent: React.FC<PersonHeaderWithContentProps> = (
             <div className={styles.Tags}>
                 <AdressebeskyttelseTag adressebeskyttelse={personinfo.adressebeskyttelse} />
                 <ReservasjonTag reservasjon={personinfo.reservasjon} />
-                <UnntattFraAutomatiseringTag unntatt={personinfo.unntattFraAutomatisering.erUntatt} />
+                <UnntattFraAutomatiseringTag unntatt={personinfo.unntattFraAutomatisering?.erUnntatt} />
                 <VergemålTag />
                 <UtlandTag />
                 <DødsdatoTag dødsdato={dødsdato} />

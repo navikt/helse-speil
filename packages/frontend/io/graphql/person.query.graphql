@@ -146,7 +146,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 reservert
             }
             unntattFraAutomatisering {
-                erUntatt
+                erUnntatt
                 arsaker
                 tidspunkt
             }

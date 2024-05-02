@@ -17,7 +17,7 @@
                 "kjonn": "Kvinne",
                 "reservasjon": null,
                 "unntattFraAutomatisering": {
-                    "erUntatt": true,
+                    "erUnntatt": true,
                     "arsaker": ["MEDISINSK_VILKAR"],
                     "tidspunkt": "2024-22-04T12:00:00"
                 }

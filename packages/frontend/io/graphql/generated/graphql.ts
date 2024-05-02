@@ -922,7 +922,7 @@ export type Personinfo = {
     kjonn: Kjonn;
     mellomnavn?: Maybe<Scalars['String']['output']>;
     reservasjon?: Maybe<Reservasjon>;
-    unntattFraAutomatisering: UnntattFraAutomatiskGodkjenning;
+    unntattFraAutomatisering?: Maybe<UnntattFraAutomatiskGodkjenning>;
 };
 
 export type Personnavn = {
@@ -1379,7 +1379,7 @@ export type UberegnetVilkarsprovdPeriode = Periode & {
 export type UnntattFraAutomatiskGodkjenning = {
     __typename?: 'UnntattFraAutomatiskGodkjenning';
     arsaker: Array<Scalars['String']['output']>;
-    erUntatt: Scalars['Boolean']['output'];
+    erUnntatt: Scalars['Boolean']['output'];
     tidspunkt?: Maybe<Scalars['String']['output']>;
 };
 
@@ -2155,12 +2155,12 @@ export type FetchPersonQuery = {
             fodselsdato?: string | null;
             kjonn: Kjonn;
             reservasjon?: { __typename?: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
-            unntattFraAutomatisering: {
+            unntattFraAutomatisering?: {
                 __typename?: 'UnntattFraAutomatiskGodkjenning';
-                erUntatt: boolean;
+                erUnntatt: boolean;
                 arsaker: Array<string>;
                 tidspunkt?: string | null;
-            };
+            } | null;
         };
         tildeling?: { __typename?: 'Tildeling'; navn: string; epost: string; oid: string } | null;
         vilkarsgrunnlag: Array<
@@ -4948,7 +4948,7 @@ export const FetchPersonDocument = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'erUntatt' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'erUnntatt' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                                     ],
