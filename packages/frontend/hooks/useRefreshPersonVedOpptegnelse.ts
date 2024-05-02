@@ -14,8 +14,10 @@ export const useRefreshPersonVedOpptegnelse = () => {
             opptegnelse.aktørId.toString() === data.person.aktorId &&
             !(networkStatus in [NetworkStatus.loading, NetworkStatus.refetch])
         ) {
-            await refetch();
-            if (erOpptegnelseForNyOppgave(opptegnelse)) selectPeriod(data.person);
+            const result = await refetch();
+            if (erOpptegnelseForNyOppgave(opptegnelse)) {
+                if (result.data.person) selectPeriod(result.data.person);
+            }
         }
     });
 };
