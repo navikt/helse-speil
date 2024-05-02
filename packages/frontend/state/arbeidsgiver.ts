@@ -19,7 +19,7 @@ import { Refusjonsopplysning } from '@io/http';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { harBlittUtbetaltTidligere, isWaiting } from '@state/selectors/period';
+import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { isGodkjent } from '@state/selectors/utbetaling';
 import { ISO_DATOFORMAT } from '@utils/date';
 import {
@@ -200,12 +200,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
         return periodeTilGodkjenning as ActivePeriod;
 
     const overstyrbareArbeidsgiverPerioder = arbeidsgiverPerioder
-        .filter(
-            (it) =>
-                isBeregnetPeriode(it) ||
-                (isUberegnetPeriode(it) && !isWaiting(it)) ||
-                isUberegnetVilkarsprovdPeriode(it),
-        )
+        .filter((it) => isBeregnetPeriode(it) || isUberegnetPeriode(it) || isUberegnetVilkarsprovdPeriode(it))
         .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime());
     const nyesteBeregnetPeriodePåSkjæringstidspunkt = (overstyrbareArbeidsgiverPerioder
         ?.filter((it) => isBeregnetPeriode(it))
