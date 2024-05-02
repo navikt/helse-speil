@@ -11,7 +11,7 @@ import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOppteg
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { AmplitudeProvider } from '@io/amplitude';
 import { usePollEtterOpptegnelser } from '@io/http';
-import { useActivePeriod, useSelectPeriodOnOppgaveChanged } from '@state/periode';
+import { useActivePeriod } from '@state/periode';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { onLazyLoadFail } from '@utils/error';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -43,7 +43,6 @@ const SaksbildeContent = () => {
     useRefreshPersonVedOpptegnelse();
     useFjernPersonFraApolloCache();
     usePollEtterOpptegnelser();
-    useSelectPeriodOnOppgaveChanged();
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useKeyboardShortcuts();
     const aktivPeriode = useActivePeriod();

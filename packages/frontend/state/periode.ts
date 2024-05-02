@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Maybe, Periodetilstand } from '@io/graphql';
-import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isUberegnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
@@ -39,14 +38,12 @@ export const useActivePeriod = (): ActivePeriod | null => {
     return findPeriod(activePeriodId!, person) ?? periodToSelect;
 };
 
-export const useSelectPeriodOnOppgaveChanged = () => {
-    const person = useCurrentPerson();
+export const useSelectPeriod = () => {
     const setActivePeriodId = useSetRecoilState(activePeriodIdState);
-    useHåndterOpptegnelser((opptegnelse) => {
-        if (!erOpptegnelseForNyOppgave(opptegnelse) || !person) return;
+    return (person: FetchedPerson) => {
         const periodToSelect = findPeriodToSelect(person);
         periodToSelect && setActivePeriodId(periodToSelect.id);
-    });
+    };
 };
 
 const findPeriodToSelect = (person: FetchedPerson): Maybe<ActivePeriod> => {

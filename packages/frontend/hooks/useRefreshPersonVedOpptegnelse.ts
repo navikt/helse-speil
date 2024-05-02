@@ -1,17 +1,21 @@
 import { NetworkStatus } from '@apollo/client';
-import { useHåndterOpptegnelser } from '@state/opptegnelser';
+import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
+import { useSelectPeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 
 export const useRefreshPersonVedOpptegnelse = () => {
     const { data, networkStatus, refetch } = useFetchPersonQuery();
-    useHåndterOpptegnelser((opptegnelse) => {
+    const selectPeriod = useSelectPeriod();
+
+    useHåndterOpptegnelser(async (opptegnelse) => {
         if (
             data !== undefined &&
             data.person?.aktorId &&
             opptegnelse.aktørId.toString() === data.person.aktorId &&
             !(networkStatus in [NetworkStatus.loading, NetworkStatus.refetch])
         ) {
-            void refetch();
+            await refetch();
+            if (erOpptegnelseForNyOppgave(opptegnelse)) selectPeriod(data.person);
         }
     });
 };
