@@ -8,11 +8,11 @@ export const useFjernPersonFraApolloCache = () => {
     const client = useApolloClient();
 
     useEffect(() => {
-        return () => {
-            const id = client.cache.identify({ __typename: 'Person', fodselsnummer: fodselsnummer });
-            if (id) {
-                client.cache.evict({ id });
-            }
-        };
-    }, []);
+        return fodselsnummer
+            ? () => {
+                  const id = client.cache.identify({ __typename: 'Person', fodselsnummer: fodselsnummer });
+                  if (id) client.cache.evict({ id });
+              }
+            : undefined;
+    }, [fodselsnummer]);
 };
