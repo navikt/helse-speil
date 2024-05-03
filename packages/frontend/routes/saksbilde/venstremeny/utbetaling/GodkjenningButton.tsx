@@ -6,7 +6,7 @@ import { Button } from '@navikt/ds-react';
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import { InnvilgVedtakDocument, Personinfo, Utbetaling } from '@io/graphql';
+import { AvslagInput, InnvilgVedtakDocument, Personinfo, Utbetaling } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 
 import { BackendFeil } from './Utbetaling';
@@ -59,8 +59,9 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     };
 
     const godkjennUtbetaling = () => {
+        const avslag: Maybe<AvslagInput> = null;
         void innvilgVedtakMutation({
-            variables: { oppgavereferanse },
+            variables: { oppgavereferanse, avslag },
             onCompleted: () => {
                 amplitude.logOppgaveGodkjent(erBeslutteroppgave);
                 addUtbetalingstoast();
