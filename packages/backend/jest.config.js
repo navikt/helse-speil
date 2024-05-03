@@ -7,7 +7,6 @@ module.exports = {
     },
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/$1',
-        '^nanoid$': require.resolve('nanoid'),
     },
     transformIgnorePatterns: ['<rootDir>/node_modules'],
     watchPathIgnorePatterns: ['<rootDir>/node_modules'],
