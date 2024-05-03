@@ -158,9 +158,19 @@ export const SystemMenuContent = () => {
                     <Dropdown.Menu.GroupedList.Heading>Systemer og oppslagsverk</Dropdown.Menu.GroupedList.Heading>
                     {alleLinks.map((link) =>
                         'href' in link ? (
-                            <Link tekst={link.tekst} href={link.href} snarveibokstav={link.snarveibokstav} />
+                            <Link
+                                key={link.tekst}
+                                tekst={link.tekst}
+                                href={link.href}
+                                snarveibokstav={link.snarveibokstav}
+                            />
                         ) : (
-                            <Button tekst={link.tekst} action={link.action} snarveibokstav={link.snarveibokstav} />
+                            <Button
+                                key={link.tekst}
+                                tekst={link.tekst}
+                                action={link.action}
+                                snarveibokstav={link.snarveibokstav}
+                            />
                         ),
                     )}
                 </Dropdown.Menu.GroupedList>

@@ -79,7 +79,6 @@ export const useUpdateSort = () => {
 const syncWithLocalStorageEffect: AtomEffect<SortKey> = ({ onSet, setSelf, trigger }) => {
     const key = 'dateSortKey';
     const savedValue = localStorage.getItem(key) as SortKey;
-    console.log(savedValue);
     if (savedValue && trigger === 'get') {
         setSelf(savedValue);
     }
