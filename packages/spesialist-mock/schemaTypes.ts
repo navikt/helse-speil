@@ -123,6 +123,16 @@ export type AvsenderSystem = {
     versjon?: Maybe<Scalars['String']['output']>;
 };
 
+export type AvslagInput = {
+    begrunnelse: Scalars['String']['input'];
+    type: Avslagstype;
+};
+
+export enum Avslagstype {
+    Avslag = 'AVSLAG',
+    DelvisAvslag = 'DELVIS_AVSLAG',
+}
+
 export enum Begrunnelse {
     Andreytelser = 'ANDREYTELSER',
     EgenmeldingUtenforArbeidsgiverperiode = 'EGENMELDING_UTENFOR_ARBEIDSGIVERPERIODE',
@@ -544,6 +554,7 @@ export type MutationFjernTildelingArgs = {
 };
 
 export type MutationInnvilgVedtakArgs = {
+    avslag?: InputMaybe<AvslagInput>;
     oppgavereferanse: Scalars['String']['input'];
 };
 

@@ -125,6 +125,16 @@ export type AvsenderSystem = {
     versjon?: Maybe<Scalars['String']['output']>;
 };
 
+export type AvslagInput = {
+    begrunnelse: Scalars['String']['input'];
+    type: Avslagstype;
+};
+
+export enum Avslagstype {
+    Avslag = 'AVSLAG',
+    DelvisAvslag = 'DELVIS_AVSLAG',
+}
+
 export enum Begrunnelse {
     Andreytelser = 'ANDREYTELSER',
     EgenmeldingUtenforArbeidsgiverperiode = 'EGENMELDING_UTENFOR_ARBEIDSGIVERPERIODE',
@@ -546,6 +556,7 @@ export type MutationFjernTildelingArgs = {
 };
 
 export type MutationInnvilgVedtakArgs = {
+    avslag?: InputMaybe<AvslagInput>;
     oppgavereferanse: Scalars['String']['input'];
 };
 
@@ -3039,6 +3050,7 @@ export type SettVarselStatusMutation = {
 
 export type InnvilgVedtakMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
+    avslag?: InputMaybe<AvslagInput>;
 }>;
 
 export type InnvilgVedtakMutation = { __typename?: 'Mutation'; innvilgVedtak: boolean };
@@ -7358,6 +7370,11 @@ export const InnvilgVedtakDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'avslag' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'AvslagInput' } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -7370,6 +7387,11 @@ export const InnvilgVedtakDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'oppgavereferanse' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'avslag' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'avslag' } },
                             },
                         ],
                     },
