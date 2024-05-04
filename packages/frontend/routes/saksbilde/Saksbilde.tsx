@@ -11,6 +11,7 @@ import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOppteg
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { AmplitudeProvider } from '@io/amplitude';
 import { usePollEtterOpptegnelser } from '@io/http';
+import { useTestWebsockets } from '@state/opptegnelser';
 import { useActivePeriod } from '@state/periode';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { onLazyLoadFail } from '@utils/error';
@@ -41,6 +42,7 @@ export const Saksbilde = () => (
 
 const SaksbildeContent = () => {
     useRefreshPersonVedOpptegnelse();
+    useTestWebsockets();
     useFjernPersonFraApolloCache();
     usePollEtterOpptegnelser();
     useVarselOmSakErTildeltAnnenSaksbehandler();
