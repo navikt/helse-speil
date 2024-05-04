@@ -206,6 +206,15 @@ const wsProxy = httpProxy.createProxy({ target: config.server.spesialistWsUrl, w
 server.on('upgrade', function (req, socket, head) {
     wsProxy.ws(req, socket, head);
 });
+wsProxy.on('error', (error: NodeJS.ErrnoException, _req, res: Response) => {
+    if (error.code !== 'ECONNRESET') {
+        logger.error(`proxy error: ${JSON.stringify(error)}`);
+    }
+    if (!res.headersSent) {
+        res.writeHead(500, { 'content-type': 'application/json' });
+    }
+    res.end(JSON.stringify({ error: 'proxy_error', reason: error.message }));
+});
 
 server.listen(port, () =>
     logger.info(
