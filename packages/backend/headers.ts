@@ -10,7 +10,7 @@ const amplitudeSource = 'https://amplitude.nav.no';
 const arbeidOgInntektSource = 'https://arbeid-og-inntekt.nais.adeo.no';
 const navNo = 'https://*.nav.no';
 const sanity = 'https://z9kr8ddn.api.sanity.io';
-const cspString = `default-src 'self' data:; style-src 'self' ${styleSource} data: 'unsafe-inline'; connect-src 'self' ws: ${arbeidOgInntektSource} ${navNo} ${sanity} blob: ${amplitudeSource}; font-src ${fontSource} 'self' data:`;
+const cspString = `default-src 'self' data:; style-src 'self' ${styleSource} data: 'unsafe-inline'; connect-src 'self' ${arbeidOgInntektSource} ${navNo} ${sanity} blob: ${amplitudeSource}; font-src ${fontSource} 'self' data:`;
 
 const setup = (app: Express) => {
     app.disable('x-powered-by');
