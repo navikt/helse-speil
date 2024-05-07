@@ -202,8 +202,12 @@ app.use(errorHandler);
 
 const server = http.createServer(app);
 
-const wsProxy = httpProxy.createProxy({ target: config.server.spesialistWsUrl, ws: true });
+const wsProxy = httpProxy.createProxy({ target: config.server.spesialistWsUrl, ws: true, secure: true });
+server.on('connection', () => {
+    logger.debug(`connection attempt`);
+});
 server.on('upgrade', function (req, socket, head) {
+    logger.debug(`upgrade received`);
     wsProxy.ws(req, socket, head);
 });
 wsProxy.on('error', (error: NodeJS.ErrnoException, _req, res: Response) => {
