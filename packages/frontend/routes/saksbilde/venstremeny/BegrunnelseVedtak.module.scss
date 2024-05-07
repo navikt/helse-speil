@@ -1,0 +1,70 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0 1.5rem;
+
+  .tekst {
+    margin-left: 0.5rem;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &.open {
+      text-decoration: none;
+      font-weight: bold;
+      cursor: inherit;
+    }
+  }
+
+  .top {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: -0.5rem;
+
+    .lukk {
+      position: relative;
+      cursor: pointer;
+      height: 2rem;
+      width: 2rem;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: none;
+      color: #23262A;
+
+      svg {
+        color: #23262A;
+      }
+    }
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+
+    .ikon-container {
+      width: 2rem;
+      height: 2rem;
+      background: #ECEEF0;
+      color: #23262A;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      svg {
+        color: #23262A;
+      }
+
+      &.open {
+        background: #00459C;
+
+        svg {
+          color: #fff;
+        }
+      }
+    }
+  }
+}

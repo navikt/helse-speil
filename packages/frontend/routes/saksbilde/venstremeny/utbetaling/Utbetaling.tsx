@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
@@ -7,15 +8,24 @@ import { BodyShort, Loader } from '@navikt/ds-react';
 import { useMutation } from '@apollo/client';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
-import { OpprettAbonnementDocument, Periodetilstand } from '@io/graphql';
+import {
+    AvslagInput,
+    Avslagstype,
+    Maybe,
+    OpprettAbonnementDocument,
+    Periodetilstand,
+    Utbetalingsdagtype,
+} from '@io/graphql';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { isRevurdering } from '@state/selectors/utbetaling';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
+import { kanSkriveAvslag } from '@utils/featureToggles';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
+import { BegrunnelseVedtak } from '../BegrunnelseVedtak';
 import { AvvisningButton } from './AvvisningButton';
 import { GodkjenningButton } from './GodkjenningButton';
 import { ReturButton } from './ReturButton';
@@ -74,6 +84,8 @@ interface UtbetalingProps {
 
 export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
+    const [open, setOpen] = useState(false);
+    const [begrunnelse, setBegrunnelse] = useState('');
     const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
     const ventEllerHopp = useOnGodkjenn(period, person);
     const navigate = useNavigate();
@@ -109,8 +121,46 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     const trengerTotrinnsvurdering =
         period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave;
 
+    const tidslinjeUtenAGPogHelg = period.tidslinje.filter(
+        (dag) =>
+            ![Utbetalingsdagtype.Navhelgdag, Utbetalingsdagtype.Arbeidsgiverperiodedag].includes(
+                dag.utbetalingsdagtype,
+            ),
+    );
+    const avvisteDager = tidslinjeUtenAGPogHelg.filter(
+        (dag) => dag.utbetalingsdagtype === Utbetalingsdagtype.AvvistDag,
+    );
+
+    const avslag: Maybe<AvslagInput> = begrunnelse.length
+        ? {
+              type:
+                  tidslinjeUtenAGPogHelg.length === avvisteDager.length ? Avslagstype.Avslag : Avslagstype.DelvisAvslag,
+              begrunnelse: begrunnelse,
+          }
+        : null;
+
+    console.log(
+        'Er fullt avslag:',
+        avvisteDager.length && tidslinjeUtenAGPogHelg.length === avvisteDager.length,
+        'Er delvis avslag: ',
+        avvisteDager.length && tidslinjeUtenAGPogHelg.length !== avvisteDager.length,
+    );
+
     return (
-        <>
+        <div className={classNames(styles.container, open && styles.aktiv)}>
+            {kanSkriveAvslag && avvisteDager.length && (
+                <BegrunnelseVedtak
+                    open={open}
+                    setOpen={setOpen}
+                    avslagstype={
+                        tidslinjeUtenAGPogHelg.length === avvisteDager.length
+                            ? Avslagstype.Avslag
+                            : Avslagstype.DelvisAvslag
+                    }
+                    begrunnelse={begrunnelse}
+                    setBegrunnelse={setBegrunnelse}
+                />
+            )}
             <div className={styles.buttons}>
                 {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering ? (
                     <SendTilGodkjenningButton
@@ -140,6 +190,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                             lokaleInntektoverstyringer.aktørId !== null
                         }
                         onSuccess={onGodkjennUtbetaling}
+                        avslag={avslag}
                     >
                         {erBeslutteroppgaveOgHarTilgang
                             ? 'Godkjenn og fatt vedtak'
@@ -171,6 +222,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                     </span>
                 </BodyShort>
             )}
-        </>
+        </div>
     );
 };

@@ -6,7 +6,7 @@ import { Button } from '@navikt/ds-react';
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import { AvslagInput, InnvilgVedtakDocument, Personinfo, Utbetaling } from '@io/graphql';
+import { AvslagInput, InnvilgVedtakDocument, Maybe, Personinfo, Utbetaling } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 
 import { BackendFeil } from './Utbetaling';
@@ -34,6 +34,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     utbetaling: Utbetaling;
     arbeidsgiver: string;
     personinfo: Personinfo;
+    avslag: Maybe<AvslagInput>;
 }
 
 export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
@@ -45,6 +46,7 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     utbetaling,
     arbeidsgiver,
     personinfo,
+    avslag = null,
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
@@ -59,7 +61,6 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     };
 
     const godkjennUtbetaling = () => {
-        const avslag: Maybe<AvslagInput> = null;
         void innvilgVedtakMutation({
             variables: { oppgavereferanse: oppgavereferanse, avslag: avslag },
             onCompleted: () => {
