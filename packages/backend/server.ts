@@ -202,7 +202,12 @@ app.use(errorHandler);
 
 const server = http.createServer(app);
 
-const wsProxy = httpProxy.createProxy({ target: config.server.spesialistWsUrl, ws: true, secure: true });
+const wsProxy = httpProxy.createProxy({
+    target: config.server.spesialistWsUrl,
+    ws: true,
+    secure: true,
+    changeOrigin: true,
+});
 server.on('connection', () => {
     logger.debug(`connection attempt`);
 });
