@@ -61,7 +61,7 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     const godkjennUtbetaling = () => {
         const avslag: Maybe<AvslagInput> = null;
         void innvilgVedtakMutation({
-            variables: { oppgavereferanse, avslag },
+            variables: { oppgavereferanse: oppgavereferanse, avslag: avslag },
             onCompleted: () => {
                 amplitude.logOppgaveGodkjent(erBeslutteroppgave);
                 addUtbetalingstoast();
