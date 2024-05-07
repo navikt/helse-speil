@@ -148,7 +148,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
 
     return (
         <div className={classNames(styles.container, open && styles.aktiv)}>
-            {kanSkriveAvslag && avvisteDager.length && (
+            {kanSkriveAvslag && avvisteDager.length !== 0 && (
                 <BegrunnelseVedtak
                     open={open}
                     setOpen={setOpen}
