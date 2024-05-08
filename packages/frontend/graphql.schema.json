@@ -5051,7 +5051,7 @@
                         "description": null,
                         "args": [
                             {
-                                "name": "arsak",
+                                "name": "begrunnelse",
                                 "description": null,
                                 "type": {
                                     "kind": "NON_NULL",

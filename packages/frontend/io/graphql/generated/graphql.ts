@@ -588,7 +588,7 @@ export type MutationOppdaterPersonArgs = {
 };
 
 export type MutationOpphevStansArgs = {
-    arsak: Scalars['String']['input'];
+    begrunnelse: Scalars['String']['input'];
     fodselsnummer: Scalars['String']['input'];
 };
 
