@@ -365,6 +365,12 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             egenskap
                             kategori
                         }
+                        avslag {
+                            type
+                            begrunnelse
+                            opprettet
+                            saksbehandlerIdent
+                        }
                     }
                 }
             }

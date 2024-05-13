@@ -113,6 +113,7 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
         return this;
     },
     egenskaper: [],
+    avslag: [],
 });
 
 export const enGhostPeriode: OverridableConstructor<GhostPeriode> = (overrides) => ({

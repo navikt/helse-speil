@@ -125,6 +125,14 @@ export type AvsenderSystem = {
     versjon?: Maybe<Scalars['String']['output']>;
 };
 
+export type Avslag = {
+    __typename?: 'Avslag';
+    begrunnelse: Scalars['String']['output'];
+    opprettet: Scalars['String']['output'];
+    saksbehandlerIdent: Scalars['String']['output'];
+    type: Avslagstype;
+};
+
 export type AvslagInput = {
     begrunnelse: Scalars['String']['input'];
     type: Avslagstype;
@@ -189,6 +197,7 @@ export type Behandlingsstatistikk = {
 
 export type BeregnetPeriode = Periode & {
     __typename?: 'BeregnetPeriode';
+    avslag: Array<Avslag>;
     beregningId: Scalars['UUID']['output'];
     egenskaper: Array<Oppgaveegenskap>;
     erForkastet: Scalars['Boolean']['output'];
@@ -2531,6 +2540,13 @@ export type FetchPersonQuery = {
                               beslutter?: string | null;
                           } | null;
                           egenskaper: Array<{ __typename?: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
+                          avslag: Array<{
+                              __typename?: 'Avslag';
+                              type: Avslagstype;
+                              begrunnelse: string;
+                              opprettet: string;
+                              saksbehandlerIdent: string;
+                          }>;
                           tidslinje: Array<{
                               __typename?: 'Dag';
                               dato: string;
@@ -6302,6 +6318,46 @@ export const FetchPersonDocument = {
                                                                                                 name: {
                                                                                                     kind: 'Name',
                                                                                                     value: 'kategori',
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'avslag',
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'type',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'begrunnelse',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'opprettet',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'saksbehandlerIdent',
                                                                                                 },
                                                                                             },
                                                                                         ],
