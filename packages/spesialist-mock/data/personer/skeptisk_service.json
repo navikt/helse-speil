@@ -759,8 +759,7 @@
                                     "vilkarsgrunnlagId": "821f95e6-f1ad-433d-97ee-dc74d706416b",
                                     "oppgave": null,
                                     "totrinnsvurdering": null,
-                                    "egenskaper": [],
-                                    "avslag": []
+                                    "egenskaper": []
                                 }
                             ],
                             "__typename": "Generasjon"
