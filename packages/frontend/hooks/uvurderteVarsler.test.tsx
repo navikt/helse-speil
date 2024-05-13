@@ -55,6 +55,7 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
         varsler: varsel ? [varsel] : [],
         vedtaksperiodeId: 'EN_ID',
         egenskaper: [],
+        avslag: [],
     };
 };
 

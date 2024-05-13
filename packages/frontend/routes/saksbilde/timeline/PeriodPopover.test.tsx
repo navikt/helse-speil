@@ -62,6 +62,7 @@ const getFetchedBeregnetPeriode = (
         varsler: [],
         vedtaksperiodeId: 'EN_ID',
         egenskaper: [],
+        avslag: [],
     };
 };
 
