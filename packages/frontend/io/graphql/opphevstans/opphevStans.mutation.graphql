@@ -1,0 +1,3 @@
+mutation OpphevStans($fodselsnummer: String!, $begrunnelse: String!) {
+    opphevStans(fodselsnummer: $fodselsnummer, begrunnelse: $begrunnelse)
+}

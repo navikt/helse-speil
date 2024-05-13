@@ -5,6 +5,7 @@
     grid-template-columns: max-content 1fr max-content;
     grid-template-rows: max-content max-content max-content auto;
     grid-template-areas:
+        'unntatt unntatt unntatt'
         'personlinje personlinje personlinje'
         'timeline timeline timeline'
         'venstremeny content høyremeny';

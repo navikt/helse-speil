@@ -22,6 +22,7 @@ import type {
     MutationLeggPaVentArgs,
     MutationLeggTilKommentarArgs,
     MutationLeggTilNotatArgs,
+    MutationOpphevStansArgs,
     MutationOpprettTildelingArgs,
     MutationSendIReturArgs,
     MutationSendTilGodkjenningArgs,
@@ -33,6 +34,7 @@ import { NotatType } from './schemaTypes';
 import { DokumentMock } from './storage/dokument';
 import { NotatMock } from './storage/notat';
 import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
+import { OpphevStansMock } from './storage/opphevstans';
 import { PaVentMock } from './storage/påvent';
 import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
@@ -62,6 +64,13 @@ const leggTilLagretData = (person: Person): void => {
             }
         }
     }
+
+    const lagretUnntattFraAutomatiskGodkjenning = OpphevStansMock.getUnntattFraAutomatiskGodkjenning(
+        person.fodselsnummer,
+    );
+
+    if (lagretUnntattFraAutomatiskGodkjenning)
+        person.personinfo.unntattFraAutomatisering = lagretUnntattFraAutomatiskGodkjenning;
 
     person.tildeling = tildeling;
 };
@@ -299,6 +308,10 @@ const getResolvers = (): IResolvers => ({
         },
         opprettAbonnement: async () => {
             return opprettAbonnement();
+        },
+        opphevStans: async (_, { fodselsnummer }: MutationOpphevStansArgs) => {
+            OpphevStansMock.addUnntattFraAutomatiskGodkjenning(fodselsnummer, { erUnntatt: false });
+            return true;
         },
     },
     Periode: {

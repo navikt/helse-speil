@@ -1929,6 +1929,13 @@ export type OppgaveFeedQuery = {
     };
 };
 
+export type OpphevStansMutationVariables = Exact<{
+    fodselsnummer: Scalars['String']['input'];
+    begrunnelse: Scalars['String']['input'];
+}>;
+
+export type OpphevStansMutation = { __typename?: 'Mutation'; opphevStans: boolean };
+
 export type OpprettAbonnementMutationVariables = Exact<{
     personidentifikator: Scalars['String']['input'];
 }>;
@@ -4680,6 +4687,49 @@ export const OppgaveFeedDocument = {
         },
     ],
 } as unknown as DocumentNode<OppgaveFeedQuery, OppgaveFeedQueryVariables>;
+export const OpphevStansDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'OpphevStans' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'opphevStans' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'fodselsnummer' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'begrunnelse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<OpphevStansMutation, OpphevStansMutationVariables>;
 export const OpprettAbonnementDocument = {
     kind: 'Document',
     definitions: [

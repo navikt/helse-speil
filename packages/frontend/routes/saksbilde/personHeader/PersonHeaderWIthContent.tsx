@@ -12,7 +12,6 @@ import { Fødselsnummer } from './Fødselsnummer';
 import { GenderIcon } from './GenderIcon';
 import { NavnOgAlder } from './NavnOgAlder';
 import { ReservasjonTag } from './ReservasjonTag';
-import { UnntattFraAutomatiseringTag } from './UnntattFraAutomatiseringTag';
 import { UtlandTag } from './UtlandTag';
 import { VergemålTag } from './VergemålTag';
 
@@ -57,7 +56,6 @@ export const PersonHeaderWithContent: React.FC<PersonHeaderWithContentProps> = (
             <div className={styles.Tags}>
                 <AdressebeskyttelseTag adressebeskyttelse={personinfo.adressebeskyttelse} />
                 <ReservasjonTag reservasjon={personinfo.reservasjon} />
-                <UnntattFraAutomatiseringTag unntatt={personinfo.unntattFraAutomatisering?.erUnntatt} />
                 <VergemålTag />
                 <UtlandTag />
                 <DødsdatoTag dødsdato={dødsdato} />
