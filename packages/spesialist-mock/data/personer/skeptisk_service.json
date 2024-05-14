@@ -760,7 +760,14 @@
                                     "oppgave": null,
                                     "totrinnsvurdering": null,
                                     "egenskaper": [],
-                                    "avslag": []
+                                    "avslag": [
+                                        {
+                                            "type": "DELVIS_AVSLAG",
+                                            "begrunnelse": "Individuell begrunelse bla bla bla\n\nblabla bla ny linje bla bla\n\njadda",
+                                            "saksbehandlerIdent": "Z12345",
+                                            "opprettet": "2023-09-24T15:22:43.323120699"
+                                        }
+                                    ]
                                 }
                             ],
                             "__typename": "Generasjon"
