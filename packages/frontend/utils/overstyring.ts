@@ -80,21 +80,6 @@ const validateGodkjent = (periode: FetchedBeregnetPeriode): void => {
     }
 };
 
-const validateIngenOverlappendeRevurderinger = (person: FetchedPerson, periode: FetchedBeregnetPeriode): void => {
-    const overlappendePerioder = getOverlappendePerioder(person, periode);
-    const ingenOverlappendePerioderRevurderes = overlappendePerioder.some(isGodkjent)
-        ? overlappendePerioder.every((periode) => getPeriodState(periode) !== 'revurderes')
-        : true;
-
-    if (!ingenOverlappendePerioderRevurderes) {
-        throw {
-            value: false,
-            reason: 'Vi støtter ikke revurdering av perioder som har overlappende perioder som revurderes',
-            technical: 'Har overlappende revurderinger',
-        };
-    }
-};
-
 const validatePeriodeTilhørerNyesteGenerasjon = (person: FetchedPerson, periode: FetchedBeregnetPeriode): void => {
     const arbeidsgiver = getArbeidsgiverWithPeriod(person, periode);
 
@@ -113,7 +98,6 @@ export const kanRevurderes = (person: FetchedPerson, periode: FetchedBeregnetPer
         validateBeslutter(periode);
         validateIkkeForkastet(periode);
         validateGodkjent(periode);
-        validateIngenOverlappendeRevurderinger(person, periode);
     } catch (error) {
         return error as OverstyringValidationError;
     }

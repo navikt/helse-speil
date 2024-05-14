@@ -1,10 +1,9 @@
-import { Inntektstype, Periodetilstand, Utbetalingtype } from '@io/graphql';
+import { Inntektstype, Periodetilstand } from '@io/graphql';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enGenerasjon } from '@test-data/generasjon';
 import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
-import { enUtbetaling } from '@test-data/utbetaling';
 import { defaultUtbetalingToggles } from '@utils/featureToggles';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 
@@ -78,24 +77,6 @@ describe('kanRevurderes', () => {
         };
 
         expect(kanRevurderes(person, periode)).toEqual(expected);
-    });
-
-    it('returnerer false om perioden har overlappende perioder til revurdering', () => {
-        const godkjentPeriode = enBeregnetPeriode();
-        const periodeTilRevurdering = enBeregnetPeriode({
-            periodetilstand: Periodetilstand.TilGodkjenning,
-            utbetaling: enUtbetaling({ type: Utbetalingtype.Revurdering }),
-        });
-        const arbeidsgiverA = enArbeidsgiver().medPerioder([godkjentPeriode]);
-        const arbeidsgiverB = enArbeidsgiver().medPerioder([periodeTilRevurdering]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiverA, arbeidsgiverB]) as unknown as FetchedPerson;
-        const expected = {
-            value: false,
-            reason: 'Vi støtter ikke revurdering av perioder som har overlappende perioder som revurderes',
-            technical: 'Har overlappende revurderinger',
-        };
-
-        expect(kanRevurderes(person, godkjentPeriode)).toEqual(expected);
     });
 
     it('returnerer false om perioden ikke er i siste generasjon', () => {
