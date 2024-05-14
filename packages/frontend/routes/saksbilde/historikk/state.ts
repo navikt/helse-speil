@@ -17,6 +17,7 @@ import {
 import {
     getAnnetArbeidsforholdoverstyringhendelser,
     getArbeidsforholdoverstyringhendelser,
+    getAvslag,
     getDagoverstyringer,
     getDagoverstyringerForAUU,
     getDokumenter,
@@ -53,6 +54,7 @@ const getHendelserForBeregnetPeriode = (
     const notater = getNotathendelser(period.notater.map(toNotat));
     const utbetaling = getUtbetalingshendelse(period);
     const periodehistorikk = getPeriodehistorikk(period);
+    const avslag = getAvslag(period);
 
     return [
         ...dokumenter,
@@ -61,6 +63,7 @@ const getHendelserForBeregnetPeriode = (
         ...arbeidsforholdoverstyringer,
         ...annetarbeidsforholdoverstyringer,
         ...sykepengegrunnlagskjønnsfastsetting,
+        ...avslag,
     ]
         .filter((it: HendelseObject) =>
             period.utbetaling.vurdering?.tidsstempel
@@ -154,6 +157,7 @@ const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
         'Utbetaling',
         'Historikk',
         'Notat',
+        'Avslag',
     ],
     Dokument: ['Dokument'],
     Notat: ['Notat'],

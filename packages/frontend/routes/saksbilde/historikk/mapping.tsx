@@ -100,6 +100,23 @@ export const getDokumenter = (period: Periode | GhostPeriode): Array<HendelseObj
     });
 };
 
+export const getAvslag = (period: Periode): Array<AvslaghendelseObject> => {
+    if (!isBeregnetPeriode(period)) {
+        return [];
+    }
+
+    return period.avslag.map((avslag, index) => {
+        return {
+            id: `avslag-${index}`,
+            type: 'Avslag',
+            avslagstype: avslag.type,
+            begrunnelse: avslag.begrunnelse,
+            saksbehandler: avslag.saksbehandlerIdent,
+            timestamp: avslag.opprettet,
+        };
+    });
+};
+
 export const getPeriodehistorikk = (periode: FetchedBeregnetPeriode): Array<HistorikkhendelseObject> => {
     return periode.periodehistorikk
         .filter((historikkelement) =>

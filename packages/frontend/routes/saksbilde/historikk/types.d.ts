@@ -6,6 +6,8 @@ type Utbetalingtype = import('@io/graphql').Utbetalingtype;
 type OverstyrtInntekt = import('@io/graphql').OverstyrtInntekt;
 type PeriodehistorikkType = import('@io/graphql').PeriodehistorikkType;
 type SkjonnsfastsattSykepengegrunnlag = import('@io/graphql').SkjonnsfastsattSykepengegrunnlag;
+type Avslag = import('@io/graphql').Avslag;
+type Avslagstype = import('@io/graphql').Avslagstype;
 
 declare type Filtertype = 'Dokument' | 'Historikk' | 'Notat' | 'Overstyring';
 
@@ -18,7 +20,8 @@ declare type Hendelsetype =
     | 'Dokument'
     | 'Notat'
     | 'Utbetaling'
-    | 'Historikk';
+    | 'Historikk'
+    | 'Avslag';
 
 declare type ArbeidsgiverSkjønnHendelse = {
     navn: string;
@@ -114,6 +117,12 @@ declare type HistorikkhendelseObject = BaseHendelseObject & {
     timestamp: DateString;
 };
 
+declare type AvslaghendelseObject = BaseHendelseObject & {
+    type: 'Avslag';
+    avslagstype: Avslagstype;
+    begrunnelse: string;
+};
+
 declare type HendelseObject =
     | DagoverstyringhendelseObject
     | ArbeidsforholdoverstyringhendelseObject
@@ -123,4 +132,5 @@ declare type HendelseObject =
     | DokumenthendelseObject
     | NotathendelseObject
     | UtbetalinghendelseObject
-    | HistorikkhendelseObject;
+    | HistorikkhendelseObject
+    | AvslaghendelseObject;

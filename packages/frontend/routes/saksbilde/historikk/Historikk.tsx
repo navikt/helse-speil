@@ -13,6 +13,7 @@ import { onLazyLoadFail } from '@utils/error';
 import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
 import { Arbeidsforholdoverstyringhendelse } from './hendelser/Arbeidsforholdoverstyringhendelse';
+import { Avslaghendelse } from './hendelser/Avslaghendelse';
 import { Dagoverstyringhendelse } from './hendelser/Dagoverstyringhendelse';
 import { HendelseSkeleton } from './hendelser/Hendelse';
 import { Historikkhendelse } from './hendelser/Historikkhendelse';
@@ -118,6 +119,9 @@ const HistorikkWithContent: React.FC = () => {
                                         }
                                         case 'Historikk': {
                                             return <Historikkhendelse key={it.id} {...it} />;
+                                        }
+                                        case 'Avslag': {
+                                            return <Avslaghendelse key={it.id} {...it} />;
                                         }
                                         default:
                                             return null;
