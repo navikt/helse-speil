@@ -15,6 +15,10 @@ export const useOpphevStans = (): [
                 fodselsnummer: fødselsnummer,
                 begrunnelse: begrunnelse,
             },
+            optimisticResponse: {
+                __typename: 'Mutation',
+                opphevStans: true,
+            },
         });
 
     return [opphevStans, data];

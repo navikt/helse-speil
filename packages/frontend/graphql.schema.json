@@ -6003,6 +6003,12 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "OpphevStans",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "PaaVent",
                         "description": null,
                         "isDeprecated": false,
@@ -7905,6 +7911,12 @@
                 "enumValues": [
                     {
                         "name": "FJERN_FRA_PA_VENT",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "STANS_AUTOMATISK_BEHANDLING",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null

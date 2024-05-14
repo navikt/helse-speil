@@ -12,7 +12,7 @@ import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { behandledeOppgaverliste, oppgaveliste } from './data/oppgaveoversikt';
 import { FlereFodselsnumreError, ManglendeAvviksvurderingError, NotFoundError } from './errors';
 import { hentOpptegnelser, opprettAbonnement } from './opptegnelser';
-import type {
+import {
     BeregnetPeriode,
     FiltreringInput,
     MutationFeilregistrerKommentarArgs,
@@ -27,10 +27,10 @@ import type {
     MutationSendIReturArgs,
     MutationSendTilGodkjenningArgs,
     MutationSettVarselstatusArgs,
+    NotatType,
     OppgavesorteringInput,
     Person,
 } from './schemaTypes';
-import { NotatType } from './schemaTypes';
 import { DokumentMock } from './storage/dokument';
 import { NotatMock } from './storage/notat';
 import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
@@ -309,7 +309,9 @@ const getResolvers = (): IResolvers => ({
         opprettAbonnement: async () => {
             return opprettAbonnement();
         },
-        opphevStans: async (_, { fodselsnummer }: MutationOpphevStansArgs) => {
+        opphevStans: async (_, { fodselsnummer, begrunnelse }: MutationOpphevStansArgs) => {
+            const oppgaveId = finnOppgaveId();
+            if (oppgaveId) NotatMock.addNotat(oppgaveId, { tekst: begrunnelse, type: NotatType.OpphevStans });
             OpphevStansMock.addUnntattFraAutomatiskGodkjenning(fodselsnummer, { erUnntatt: false });
             return true;
         },
@@ -361,6 +363,18 @@ const getResolvers = (): IResolvers => ({
                     : 'Arbeidsforholdoverstyring',
     },
 });
+
+const finnOppgaveId = () => {
+    if (!valgtPerson) return;
+    for (const arbeidsgiver of valgtPerson.arbeidsgivere) {
+        for (const generasjon of arbeidsgiver.generasjoner) {
+            for (const periode of generasjon.perioder as Array<BeregnetPeriode>) {
+                if (periode.oppgave) return periode.oppgave.id;
+            }
+        }
+    }
+    return undefined;
+};
 
 const buildSchema = (): GraphQLSchema => {
     return makeExecutableSchema({

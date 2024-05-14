@@ -19,6 +19,12 @@
     margin-top: 10px;
 }
 
+.knapper > button > span {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .feilmelding {
     color: var(--a-text-danger);
     font-size: 1rem;

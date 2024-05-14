@@ -690,6 +690,7 @@ export type Notat = {
 
 export enum NotatType {
     Generelt = 'Generelt',
+    OpphevStans = 'OpphevStans',
     PaaVent = 'PaaVent',
     Retur = 'Retur',
 }
@@ -888,6 +889,7 @@ export enum Periodehandling {
 
 export enum PeriodehistorikkType {
     FjernFraPaVent = 'FJERN_FRA_PA_VENT',
+    StansAutomatiskBehandling = 'STANS_AUTOMATISK_BEHANDLING',
     TotrinnsvurderingAttestert = 'TOTRINNSVURDERING_ATTESTERT',
     TotrinnsvurderingRetur = 'TOTRINNSVURDERING_RETUR',
     TotrinnsvurderingTilGodkjenning = 'TOTRINNSVURDERING_TIL_GODKJENNING',

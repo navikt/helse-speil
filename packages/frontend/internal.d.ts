@@ -8,7 +8,7 @@ declare type Saksbehandler = {
     isLoggedIn?: boolean;
 };
 
-declare type NotatType = 'PaaVent' | 'Retur' | 'Generelt';
+declare type NotatType = 'PaaVent' | 'Retur' | 'Generelt' | 'OpphevStans';
 
 declare type Notat = {
     id: string;

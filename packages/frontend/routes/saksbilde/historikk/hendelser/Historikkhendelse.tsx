@@ -25,6 +25,8 @@ const getTitle = (type: PeriodehistorikkType): string => {
             return 'Periode reberegnet';
         case PeriodehistorikkType.FjernFraPaVent:
             return 'Fjernet fra på vent';
+        case PeriodehistorikkType.StansAutomatiskBehandling:
+            return 'Stans av automatisk behandling';
         default:
             return '';
     }
@@ -46,6 +48,9 @@ const getIcon = (type: PeriodehistorikkType): ReactNode => {
         }
         case PeriodehistorikkType.FjernFraPaVent: {
             return <StopWatch title="Stop-watch-ikon" className={classNames(styles.Innrammet, styles.pavent)} />;
+        }
+        case PeriodehistorikkType.StansAutomatiskBehandling: {
+            return <Success title="Success-ikon" className={classNames(styles.Innrammet, styles.Attestert)} />;
         }
     }
 };

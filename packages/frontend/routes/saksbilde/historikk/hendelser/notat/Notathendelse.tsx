@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react';
 
-import { Send, SpeechBubble, StopWatch } from '@navikt/ds-icons';
+import { Send, SpeechBubble, StopWatch, Success } from '@navikt/ds-icons';
 import { BodyShort, ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
@@ -139,6 +139,7 @@ interface NotatTittelProps {
 
 const NotatTittel = ({ feilregistrert, notattype }: NotatTittelProps) => (
     <span className={classNames(feilregistrert && styles.Feilregistrert)}>
+        {notattype === 'OpphevStans' && 'Stans opphevet'}
         {notattype === 'PaaVent' && 'Lagt på vent'}
         {notattype === 'Retur' && 'Returnert'}
         {notattype === 'Generelt' && 'Notat'}
@@ -152,6 +153,8 @@ interface NotatIkonProps {
 
 const NotatIkon = ({ notattype }: NotatIkonProps) => {
     switch (notattype) {
+        case 'OpphevStans':
+            return <Success title="Suksess-ikon" className={classNames(styles.Innrammet, styles.OpphevStans)} />;
         case 'PaaVent':
             return <StopWatch title="Stop-watch-ikon" className={classNames(styles.Innrammet, styles.LagtPaaVent)} />;
         case 'Retur':

@@ -18,11 +18,15 @@ interface UnntattFraAutomatiseringProps {
 export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }: UnntattFraAutomatiseringProps) => {
     const [opphevStans, { error, loading }] = useOpphevStans();
     const [åpen, setÅpen] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
     const textArea = useRef<HTMLTextAreaElement>(null);
     const addToast = useAddToast();
 
+    console.log('opphevStans loading: ', loading);
+
     const submit = async (event: FormEvent) => {
         event.preventDefault();
+        setSubmitting(true);
         await opphevStans(fødselsnummer, textArea.current?.value ?? '').then(() => {
             addToast({ key: 'opphevStans', message: 'Stans opphevet', timeToLiveMs: 3000 });
         });
@@ -56,9 +60,9 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                         ref={textArea}
                     />
                     <div className={styles.knapper}>
-                        <Button size="xsmall" onClick={() => setÅpen(true)}>
+                        <Button size="xsmall" disabled={loading || submitting}>
                             Opphev stans
-                            {loading && <Loader size="xsmall" />}
+                            {(loading || submitting) && <Loader size="xsmall" />}
                         </Button>
                         <Button variant="secondary" size="xsmall" onClick={() => setÅpen(false)}>
                             Avbryt

@@ -19,7 +19,7 @@
                 "unntattFraAutomatisering": {
                     "erUnntatt": true,
                     "arsaker": ["MEDISINSK_VILKAR"],
-                    "tidspunkt": "2024-22-04T12:00:00"
+                    "tidspunkt": "2024-04-22T12:00:00"
                 }
             },
             "tildeling": null,
@@ -652,6 +652,12 @@
                                         {
                                             "type": "TOTRINNSVURDERING_ATTESTERT",
                                             "timestamp": "2023-01-24T15:09:30.090206",
+                                            "saksbehandler_ident": null,
+                                            "notat_id": null
+                                        },
+                                        {
+                                            "type": "STANS_AUTOMATISK_BEHANDLING",
+                                            "timestamp": "2024-04-22T12:00:00.090206",
                                             "saksbehandler_ident": null,
                                             "notat_id": null
                                         }
