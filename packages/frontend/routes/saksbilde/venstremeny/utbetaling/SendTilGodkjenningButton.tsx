@@ -6,7 +6,7 @@ import { Button } from '@navikt/ds-react';
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import { Personinfo, SendTilGodkjenningDocument, Utbetaling } from '@io/graphql';
+import { AvslagInput, Maybe, Personinfo, SendTilGodkjenningDocument, Utbetaling } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 
 import { BackendFeil } from './Utbetaling';
@@ -33,6 +33,7 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
     utbetaling: Utbetaling;
     arbeidsgiver: string;
     personinfo: Personinfo;
+    avslag: Maybe<AvslagInput>;
 }
 
 export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> = ({
@@ -43,6 +44,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     utbetaling,
     arbeidsgiver,
     personinfo,
+    avslag = null,
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
@@ -64,7 +66,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
 
     const sendTilGodkjenning = async () => {
         await sendTilGodkjenningMutation({
-            variables: { oppgavereferanse },
+            variables: { oppgavereferanse: oppgavereferanse, avslag: avslag },
             onCompleted: () => {
                 amplitude.logTotrinnsoppgaveTilGodkjenning();
                 addToast();
@@ -110,8 +112,8 @@ const somBackendfeil = (error: ApolloError): BackendFeil => {
             errorCode === 409
                 ? 'Denne perioden er allerede behandlet'
                 : error.message === 'mangler_vurdering_av_varsler'
-                ? 'Mangler vurdering av varsler'
-                : 'Kunne ikke sende saken til godkjenning',
+                  ? 'Mangler vurdering av varsler'
+                  : 'Kunne ikke sende saken til godkjenning',
         statusCode: errorCode,
     };
 };

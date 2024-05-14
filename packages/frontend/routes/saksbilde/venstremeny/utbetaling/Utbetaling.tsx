@@ -174,6 +174,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                             lokaleInntektoverstyringer.aktørId !== null
                         }
                         onSuccess={onSendTilGodkjenning}
+                        avslag={avslag}
                     >
                         Send til godkjenning
                     </SendTilGodkjenningButton>

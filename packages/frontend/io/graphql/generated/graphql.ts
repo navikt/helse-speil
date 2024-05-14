@@ -627,6 +627,7 @@ export type MutationSendIReturArgs = {
 };
 
 export type MutationSendTilGodkjenningArgs = {
+    avslag?: InputMaybe<AvslagInput>;
     oppgavereferanse: Scalars['String']['input'];
 };
 
@@ -3047,6 +3048,7 @@ export type SendIReturMutation = { __typename?: 'Mutation'; sendIRetur: boolean 
 
 export type SendTilGodkjenningMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
+    avslag?: InputMaybe<AvslagInput>;
 }>;
 
 export type SendTilGodkjenningMutation = { __typename?: 'Mutation'; sendTilGodkjenning: boolean };
@@ -7361,6 +7363,11 @@ export const SendTilGodkjenningDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'avslag' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'AvslagInput' } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -7373,6 +7380,11 @@ export const SendTilGodkjenningDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'oppgavereferanse' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'avslag' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'avslag' } },
                             },
                         ],
                     },

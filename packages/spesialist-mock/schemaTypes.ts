@@ -625,6 +625,7 @@ export type MutationSendIReturArgs = {
 };
 
 export type MutationSendTilGodkjenningArgs = {
+    avslag?: InputMaybe<AvslagInput>;
     oppgavereferanse: Scalars['String']['input'];
 };
 
