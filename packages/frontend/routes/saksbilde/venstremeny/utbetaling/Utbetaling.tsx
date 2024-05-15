@@ -7,6 +7,7 @@ import { BodyShort, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import {
     AvslagInput,
@@ -103,6 +104,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
         navigate('/');
     };
     const onAvvisUtbetaling = useOnAvvis();
+    const erReadOnly = useIsReadOnlyOppgave();
 
     useEffect(() => {
         if (godkjentPeriode !== period.vedtaksperiodeId && period.periodetilstand === Periodetilstand.TilGodkjenning) {
@@ -120,6 +122,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
         totrinnsvurderingAktiv && isBeregnetPeriode(period) && period.totrinnsvurdering?.erBeslutteroppgave === false;
     const trengerTotrinnsvurdering =
         period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave;
+    const erBeslutteroppgave = period.totrinnsvurdering?.erBeslutteroppgave ?? false;
 
     const tidslinjeUtenAGPogHelg = period.tidslinje.filter(
         (dag) =>
@@ -148,7 +151,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
 
     return (
         <div className={classNames(styles.container, open && styles.aktiv)}>
-            {kanSkriveAvslag && avvisteDager.length !== 0 && (
+            {kanSkriveAvslag && avvisteDager.length !== 0 && !erReadOnly && !erBeslutteroppgave && (
                 <BegrunnelseVedtak
                     open={open}
                     setOpen={setOpen}
