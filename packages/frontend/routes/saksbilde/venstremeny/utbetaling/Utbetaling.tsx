@@ -27,6 +27,7 @@ import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { BegrunnelseVedtak } from '../BegrunnelseVedtak';
+import { BegrunnelseVedtakReadonly } from '../BegrunnelseVedtakReadonly';
 import { AvvisningButton } from './AvvisningButton';
 import { GodkjenningButton } from './GodkjenningButton';
 import { ReturButton } from './ReturButton';
@@ -143,7 +144,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
         : null;
 
     return (
-        <div className={classNames(styles.container, open && styles.aktiv)}>
+        <div className={classNames(styles.container, (open || period.avslag) && styles.aktiv)}>
             {kanSkriveAvslag && avvisteDager.length !== 0 && !erReadOnly && !erBeslutteroppgave && (
                 <BegrunnelseVedtak
                     open={open}
@@ -156,6 +157,9 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                     begrunnelse={begrunnelse}
                     setBegrunnelse={setBegrunnelse}
                 />
+            )}
+            {period.avslag.length > 0 && erBeslutteroppgave && (
+                <BegrunnelseVedtakReadonly avslag={period.avslag?.[0]} />
             )}
             <div className={styles.buttons}>
                 {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering ? (
