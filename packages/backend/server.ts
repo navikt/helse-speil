@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';
+import httpProxy from 'http-proxy';
 import * as http from 'node:http';
 import { Client, generators } from 'openid-client';
 import util from 'util';
@@ -201,28 +202,26 @@ app.use(errorHandler);
 
 const server = http.createServer(app);
 
-// const wsProxy = httpProxy.createProxy({
-//     target: config.server.spesialistWsUrl,
-//     ws: true,
-//     secure: true,
-//     changeOrigin: true,
-// });
+const wsProxy = httpProxy.createProxy({
+    target: config.server.spesialistWsUrl,
+    ws: true,
+    secure: true,
+    changeOrigin: true,
+});
 server.on('connection', () => {
     logger.debug(`connection attempt`);
 });
-// server.on('upgrade', function (req, socket, head) {
-//     logger.debug(`upgrade received`);
-//     wsProxy.ws(req, socket, head);
-// });
-// wsProxy.on('error', (error: NodeJS.ErrnoException, _req, res: Response) => {
-//     if (error.code !== 'ECONNRESET') {
-//         logger.error(`proxy error: ${JSON.stringify(error)}`);
-//     }
-//     if (!res.headersSent) {
-//         res.writeHead(500, { 'content-type': 'application/json' });
-//     }
-//     res.end(JSON.stringify({ error: 'proxy_error', reason: error.message }));
-// });
+server.on('upgrade', function (req, socket, head) {
+    logger.debug(`upgrade received`);
+    wsProxy.ws(req, socket, head);
+});
+wsProxy.on('error', (error: NodeJS.ErrnoException, _req, res: Response) => {
+    if (error.code !== 'ECONNRESET') {
+        logger.error(`proxy error: ${JSON.stringify(error)}`);
+    }
+
+    res.end(JSON.stringify({ error: 'proxy_error', reason: error.message }));
+});
 
 server.listen(port, () =>
     logger.info(
