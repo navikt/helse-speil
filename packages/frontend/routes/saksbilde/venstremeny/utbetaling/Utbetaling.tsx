@@ -161,58 +161,60 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
             {period.avslag.length > 0 && erBeslutteroppgave && (
                 <BegrunnelseVedtakReadonly avslag={period.avslag?.[0]} />
             )}
-            <div className={styles.buttons}>
-                {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering ? (
-                    <SendTilGodkjenningButton
-                        utbetaling={period.utbetaling}
-                        arbeidsgiver={arbeidsgiver}
-                        personinfo={person.personinfo}
-                        oppgavereferanse={period.oppgave?.id ?? ''}
-                        disabled={
-                            periodenErSendt ||
-                            harUvurderteVarslerPåUtbetaling ||
-                            lokaleInntektoverstyringer.aktørId !== null
-                        }
-                        onSuccess={onSendTilGodkjenning}
-                        avslag={avslag}
-                    >
-                        Send til godkjenning
-                    </SendTilGodkjenningButton>
-                ) : (
-                    <GodkjenningButton
-                        utbetaling={period.utbetaling}
-                        arbeidsgiver={arbeidsgiver}
-                        personinfo={person.personinfo}
-                        oppgavereferanse={period.oppgave?.id ?? ''}
-                        erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
-                        disabled={
-                            periodenErSendt ||
-                            harUvurderteVarslerPåUtbetaling ||
-                            lokaleInntektoverstyringer.aktørId !== null
-                        }
-                        onSuccess={onGodkjennUtbetaling}
-                        avslag={avslag}
-                    >
-                        {erBeslutteroppgaveOgHarTilgang
-                            ? 'Godkjenn og fatt vedtak'
-                            : harArbeidsgiverutbetaling || harBrukerutbetaling
-                              ? 'Fatt vedtak'
-                              : 'Godkjenn'}
-                    </GodkjenningButton>
-                )}
-                {!isRevurdering &&
-                    !period.totrinnsvurdering?.erBeslutteroppgave &&
-                    !finnesNyereUtbetaltPeriodePåPerson && (
-                        <AvvisningButton
-                            disabled={periodenErSendt}
-                            activePeriod={period}
-                            onSuccess={onAvvisUtbetaling}
-                        />
+            {!erReadOnly && (
+                <div className={styles.buttons}>
+                    {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering ? (
+                        <SendTilGodkjenningButton
+                            utbetaling={period.utbetaling}
+                            arbeidsgiver={arbeidsgiver}
+                            personinfo={person.personinfo}
+                            oppgavereferanse={period.oppgave?.id ?? ''}
+                            disabled={
+                                periodenErSendt ||
+                                harUvurderteVarslerPåUtbetaling ||
+                                lokaleInntektoverstyringer.aktørId !== null
+                            }
+                            onSuccess={onSendTilGodkjenning}
+                            avslag={avslag}
+                        >
+                            Send til godkjenning
+                        </SendTilGodkjenningButton>
+                    ) : (
+                        <GodkjenningButton
+                            utbetaling={period.utbetaling}
+                            arbeidsgiver={arbeidsgiver}
+                            personinfo={person.personinfo}
+                            oppgavereferanse={period.oppgave?.id ?? ''}
+                            erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
+                            disabled={
+                                periodenErSendt ||
+                                harUvurderteVarslerPåUtbetaling ||
+                                lokaleInntektoverstyringer.aktørId !== null
+                            }
+                            onSuccess={onGodkjennUtbetaling}
+                            avslag={avslag}
+                        >
+                            {erBeslutteroppgaveOgHarTilgang
+                                ? 'Godkjenn og fatt vedtak'
+                                : harArbeidsgiverutbetaling || harBrukerutbetaling
+                                  ? 'Fatt vedtak'
+                                  : 'Godkjenn'}
+                        </GodkjenningButton>
                     )}
-                {erBeslutteroppgaveOgHarTilgang && (
-                    <ReturButton disabled={periodenErSendt} activePeriod={period} onSuccess={onAvvisUtbetaling} />
-                )}
-            </div>
+                    {!isRevurdering &&
+                        !period.totrinnsvurdering?.erBeslutteroppgave &&
+                        !finnesNyereUtbetaltPeriodePåPerson && (
+                            <AvvisningButton
+                                disabled={periodenErSendt}
+                                activePeriod={period}
+                                onSuccess={onAvvisUtbetaling}
+                            />
+                        )}
+                    {erBeslutteroppgaveOgHarTilgang && (
+                        <ReturButton disabled={periodenErSendt} activePeriod={period} onSuccess={onAvvisUtbetaling} />
+                    )}
+                </div>
+            )}
             {periodenErSendt && (
                 <BodyShort as="p" className={styles.infotekst}>
                     <Loader className={styles.spinner} />

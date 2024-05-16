@@ -4,7 +4,6 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
@@ -27,7 +26,6 @@ const VenstremenyContainer: React.FC = () => {
     const activePeriod = useActivePeriod();
     const currentPerson = useCurrentPerson();
     const currentArbeidsgiver = useCurrentArbeidsgiver();
-    const readOnly = useIsReadOnlyOppgave();
 
     const { loading } = useFetchPersonQuery();
 
@@ -49,7 +47,6 @@ const VenstremenyContainer: React.FC = () => {
                 activePeriod={activePeriod}
                 currentPerson={currentPerson}
                 currentArbeidsgiver={currentArbeidsgiver}
-                readOnly={readOnly}
             />
         );
     }

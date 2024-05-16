@@ -29,7 +29,6 @@ interface VenstremenyBeregnetPeriodeProps {
     activePeriod: FetchedBeregnetPeriode;
     currentPerson: FetchedPerson;
     currentArbeidsgiver: Arbeidsgiver;
-    readOnly: boolean;
 }
 
 const finnUtbetaleTilgang = ({ handlinger }: FetchedBeregnetPeriode): Handling =>
@@ -39,7 +38,6 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
     activePeriod,
     currentPerson,
     currentArbeidsgiver,
-    readOnly,
 }) => {
     const vilkårsgrunnlag = getVilkårsgrunnlag(currentPerson, activePeriod.vilkarsgrunnlagId);
     const månedsbeløp = vilkårsgrunnlag?.inntekter.find(
@@ -81,9 +79,7 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
             {activePeriod.periodetilstand === Periodetilstand.TilGodkjenning && !utbetaleTilgang.tillatt ? (
                 <Feilmelding handling={utbetaleTilgang} />
             ) : (
-                !readOnly && (
-                    <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver.navn} />
-                )
+                <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver.navn} />
             )}
             {utbetalingsvarsler.map(({ grad, melding }, index) => (
                 <Alert className={styles.Varsel} variant={grad} key={index}>
@@ -113,8 +109,8 @@ const utbetaling = (state: PeriodState): VarselObject | null =>
     ['tilUtbetaling', 'utbetalt', 'revurdert'].includes(state)
         ? { grad: 'info', melding: 'Utbetalingen er sendt til oppdragsystemet.' }
         : ['tilUtbetalingAutomatisk', 'utbetaltAutomatisk'].includes(state)
-        ? { grad: 'info', melding: 'Perioden er automatisk godkjent' }
-        : null;
+          ? { grad: 'info', melding: 'Perioden er automatisk godkjent' }
+          : null;
 
 const tilstandinfo = (state: PeriodState): VarselObject | null => {
     switch (state) {
