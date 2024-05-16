@@ -23,7 +23,7 @@ export const Avslaghendelse: React.FC<AvslaghendelseProps> = ({
 }) => {
     return (
         <Hendelse
-            title="Individuell begrunnelse om avslag"
+            title="Individuell begrunnelse for avslag"
             icon={
                 <Kilde type={Inntektskilde.Saksbehandler}>
                     <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
