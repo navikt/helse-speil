@@ -34,7 +34,7 @@ export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: Opptegnelse) 
 export const useTestWebsockets = () => {
     useEffect(() => {
         if (erProd()) return;
-        const wsConn = new WebSocket(`${WEBSOCKETS_URL}/ws/`);
+        const wsConn = new WebSocket(`${WEBSOCKETS_URL}/ws/opptegnelse`);
         wsConn.onopen = () => {
             console.log('ws connection er åpnet');
         };
