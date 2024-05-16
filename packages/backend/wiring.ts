@@ -28,6 +28,7 @@ const getDevDependencies = (app: Express) => {
         graphql: { graphQLClient: _devGraphQLClient },
         flexjar: { flexjarClient: _devFlexjarClient },
         modia: { modiaClient: _devModiaClient },
+        onBehalfOf: devOnBehalfOf,
         instrumentation,
     };
 };
@@ -45,6 +46,7 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
         graphql: { graphQLClient: _graphQLClient },
         flexjar: { flexjarClient: _flexjarClient },
         modia: { modiaClient: _ModiaClient },
+        onBehalfOf: _onBehalfOf,
         instrumentation,
     };
 };

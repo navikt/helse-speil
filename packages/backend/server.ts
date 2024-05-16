@@ -211,9 +211,18 @@ const wsProxy = httpProxy.createProxy({
 server.on('connection', () => {
     logger.debug(`connection attempt`);
 });
-server.on('upgrade', function (req, socket, head) {
-    logger.debug(`upgrade received`);
-    wsProxy.ws(req, socket, head);
+
+const hentOboToken = async (req: SpeilRequest) =>
+    await dependencies.onBehalfOf.hentFor(config.oidc.clientIDSpesialist, req.session, req.session.speilToken);
+
+server.on('upgrade', async (req: SpeilRequest, socket, head) => {
+    logger.debug(`upgrade received: ${req.url}`);
+    const oboToken = await hentOboToken(req);
+    wsProxy.ws(req, socket, head, {
+        headers: {
+            Authorization: `Bearer ${oboToken}`,
+        },
+    });
 });
 wsProxy.on('error', (error: NodeJS.ErrnoException, _req, res: Response) => {
     if (error.code !== 'ECONNRESET') {
