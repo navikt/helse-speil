@@ -142,13 +142,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
           }
         : null;
 
-    console.log(
-        'Er fullt avslag:',
-        avvisteDager.length && tidslinjeUtenAGPogHelg.length === avvisteDager.length,
-        'Er delvis avslag: ',
-        avvisteDager.length && tidslinjeUtenAGPogHelg.length !== avvisteDager.length,
-    );
-
     return (
         <div className={classNames(styles.container, open && styles.aktiv)}>
             {kanSkriveAvslag && avvisteDager.length !== 0 && !erReadOnly && !erBeslutteroppgave && (
