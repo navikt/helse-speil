@@ -27,7 +27,7 @@ const getTitle = (type: PeriodehistorikkType): string => {
         case PeriodehistorikkType.FjernFraPaVent:
             return 'Fjernet fra på vent';
         case PeriodehistorikkType.StansAutomatiskBehandling:
-            return 'Stans av automatisk behandling';
+            return 'Automatisk behandling stanset';
         default:
             return '';
     }
