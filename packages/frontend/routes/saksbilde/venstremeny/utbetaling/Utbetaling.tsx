@@ -9,25 +9,16 @@ import { useMutation } from '@apollo/client';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
-import {
-    AvslagInput,
-    Avslagstype,
-    Maybe,
-    OpprettAbonnementDocument,
-    Periodetilstand,
-    Utbetalingsdagtype,
-} from '@io/graphql';
+import { AvslagInput, OpprettAbonnementDocument, Periodetilstand } from '@io/graphql';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { isRevurdering } from '@state/selectors/utbetaling';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
-import { kanSkriveAvslag } from '@utils/featureToggles';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { BegrunnelseVedtak } from '../BegrunnelseVedtak';
-import { BegrunnelseVedtakReadonly } from '../BegrunnelseVedtakReadonly';
 import { AvvisningButton } from './AvvisningButton';
 import { GodkjenningButton } from './GodkjenningButton';
 import { ReturButton } from './ReturButton';
@@ -87,7 +78,7 @@ interface UtbetalingProps {
 export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const [open, setOpen] = useState(false);
-    const [begrunnelse, setBegrunnelse] = useState('');
+    const [avslag, setAvslag] = useState<Maybe<AvslagInput>>(null);
     const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
     const ventEllerHopp = useOnGodkjenn(period, person);
     const navigate = useNavigate();
@@ -123,44 +114,10 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
         totrinnsvurderingAktiv && isBeregnetPeriode(period) && period.totrinnsvurdering?.erBeslutteroppgave === false;
     const trengerTotrinnsvurdering =
         period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave;
-    const erBeslutteroppgave = period.totrinnsvurdering?.erBeslutteroppgave ?? false;
-
-    const tidslinjeUtenAGPogHelg = period.tidslinje.filter(
-        (dag) =>
-            ![Utbetalingsdagtype.Navhelgdag, Utbetalingsdagtype.Arbeidsgiverperiodedag].includes(
-                dag.utbetalingsdagtype,
-            ),
-    );
-    const avvisteDager = tidslinjeUtenAGPogHelg.filter(
-        (dag) => dag.utbetalingsdagtype === Utbetalingsdagtype.AvvistDag,
-    );
-
-    const avslag: Maybe<AvslagInput> = begrunnelse.length
-        ? {
-              type:
-                  tidslinjeUtenAGPogHelg.length === avvisteDager.length ? Avslagstype.Avslag : Avslagstype.DelvisAvslag,
-              begrunnelse: begrunnelse,
-          }
-        : null;
 
     return (
-        <div className={classNames(styles.container, (open || period.avslag) && styles.aktiv)}>
-            {kanSkriveAvslag && avvisteDager.length !== 0 && !erReadOnly && !erBeslutteroppgave && (
-                <BegrunnelseVedtak
-                    open={open}
-                    setOpen={setOpen}
-                    avslagstype={
-                        tidslinjeUtenAGPogHelg.length === avvisteDager.length
-                            ? Avslagstype.Avslag
-                            : Avslagstype.DelvisAvslag
-                    }
-                    begrunnelse={begrunnelse}
-                    setBegrunnelse={setBegrunnelse}
-                />
-            )}
-            {period.avslag.length > 0 && erBeslutteroppgave && (
-                <BegrunnelseVedtakReadonly avslag={period.avslag?.[0]} />
-            )}
+        <div className={classNames(styles.container, (open || period.avslag.length > 0) && styles.aktiv)}>
+            <BegrunnelseVedtak open={open} setOpen={setOpen} avslag={avslag} setAvslag={setAvslag} periode={period} />
             {!erReadOnly && (
                 <div className={styles.buttons}>
                     {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering ? (
