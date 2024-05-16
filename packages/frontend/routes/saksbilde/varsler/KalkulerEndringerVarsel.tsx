@@ -54,7 +54,7 @@ export const KalkulerEndringerVarsel: React.FC<KalkulerEndringerVarselProps> = (
             </Alert>
             {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
             {showModal && (
-                <SlettLokaleOverstyringerModal
+                <SlettLokaleEndringerModal
                     onApprove={() => {
                         slettLokaleOverstyringer();
                         setShowModal(false);
@@ -73,7 +73,7 @@ interface SlettLokaleOverstyringerModalProps {
     tekst?: ReactNode;
 }
 
-export const SlettLokaleOverstyringerModal = ({
+export const SlettLokaleEndringerModal = ({
     onApprove,
     onClose,
     heading,

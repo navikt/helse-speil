@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { SlettLokaleOverstyringerModal } from '../../../varsler/KalkulerEndringerVarsel';
+import { SlettLokaleEndringerModal } from '../../../varsler/KalkulerEndringerVarsel';
 
 import styles from './EditableInntekt.module.css';
 
@@ -19,7 +19,7 @@ export const EditableInntektSlettLokaleOverstyringerModal = ({
     skjæringstidspunkt,
     overstyrtSkjæringstidspunkt,
 }: EditableInntektSlettLokaleOverstyringerModalProps) => (
-    <SlettLokaleOverstyringerModal
+    <SlettLokaleEndringerModal
         onApprove={onApprove}
         onClose={onClose}
         heading="Er du sikker på at du vil fortsette?"
