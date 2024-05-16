@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react';
 
+import { XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { Cancel, Refresh, Send, StopWatch, Success } from '@navikt/ds-icons';
 
 import { PeriodehistorikkType } from '@io/graphql';
@@ -50,7 +51,7 @@ const getIcon = (type: PeriodehistorikkType): ReactNode => {
             return <StopWatch title="Stop-watch-ikon" className={classNames(styles.Innrammet, styles.pavent)} />;
         }
         case PeriodehistorikkType.StansAutomatiskBehandling: {
-            return <Success title="Success-ikon" className={classNames(styles.Innrammet, styles.Attestert)} />;
+            return <XMarkOctagonIcon title="Stopp-ikon" className={classNames(styles.Innrammet, styles.opphevstans)} />;
         }
     }
 };
