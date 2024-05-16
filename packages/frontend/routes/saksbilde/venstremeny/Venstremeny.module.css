@@ -1,6 +1,6 @@
 .Venstremeny {
-    --venstremeny-width: 350px;
-    --venstremeny-horizontal-padding: 24px;
+    --venstremeny-width: 366px;
+    --venstremeny-horizontal-padding: 16px;
     --venstremeny-border-width: 1px;
     grid-area: venstremeny;
     display: flex;
