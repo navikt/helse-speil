@@ -215,14 +215,24 @@ server.on('connection', () => {
 const hentOboToken = async (req: SpeilRequest) =>
     await dependencies.onBehalfOf.hentFor(config.oidc.clientIDSpesialist, req.session, req.session.speilToken);
 
-server.on('upgrade', async (req: SpeilRequest, socket, head) => {
+server.on('upgrade', async (req: http.IncomingMessage, socket, head) => {
     logger.debug(`upgrade received: ${req.url}`);
-    const oboToken = await hentOboToken(req);
-    wsProxy.ws(req, socket, head, {
-        headers: {
-            Authorization: `Bearer ${oboToken}`,
-        },
-    });
+    try {
+        dependencies.sessionStore(req as Request, {} as Response, async () => {
+            const speilReq = req as SpeilRequest;
+            logger.debug(`req.session: ${speilReq.session}`);
+            logger.debug(`req.session.user: ${speilReq.session.user}`);
+            const oboToken = await hentOboToken(speilReq);
+            wsProxy.ws(req, socket, head, {
+                headers: {
+                    Authorization: `Bearer ${oboToken}`,
+                },
+            });
+        });
+        logger.debug(`sessionStore called`);
+    } catch (e) {
+        return;
+    }
 });
 wsProxy.on('error', (error: NodeJS.ErrnoException, _req, res: Response) => {
     if (error.code !== 'ECONNRESET') {
