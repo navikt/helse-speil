@@ -231,6 +231,7 @@ server.on('upgrade', async (req: http.IncomingMessage, socket, head) => {
         });
         logger.debug(`sessionStore called`);
     } catch (e) {
+        logger.sikker.info(`Feil ifm. WS-tilkobling: ${e}`);
         return;
     }
 });
