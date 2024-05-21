@@ -85,4 +85,4 @@ spec:
     - name: MODIA_API_SCOPE
       value: api://prod-fss.personoversikt.modiacontextholder/.default
     - name: SPESIALIST_WS_URL
-      value: wss://spesialist
+      value: ws://spesialist
