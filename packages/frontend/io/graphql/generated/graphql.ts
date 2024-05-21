@@ -128,7 +128,7 @@ export type AvsenderSystem = {
 export type Avslag = {
     __typename?: 'Avslag';
     begrunnelse: Scalars['String']['output'];
-    invalidert?: Maybe<Scalars['Boolean']['output']>;
+    invalidert: Scalars['Boolean']['output'];
     opprettet: Scalars['String']['output'];
     saksbehandlerIdent: Scalars['String']['output'];
     type: Avslagstype;
@@ -2550,6 +2550,7 @@ export type FetchPersonQuery = {
                               begrunnelse: string;
                               opprettet: string;
                               saksbehandlerIdent: string;
+                              invalidert: boolean;
                           }>;
                           tidslinje: Array<{
                               __typename?: 'Dag';
@@ -6363,6 +6364,13 @@ export const FetchPersonDocument = {
                                                                                                 name: {
                                                                                                     kind: 'Name',
                                                                                                     value: 'saksbehandlerIdent',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'invalidert',
                                                                                                 },
                                                                                             },
                                                                                         ],
