@@ -128,6 +128,7 @@ export type AvsenderSystem = {
 export type Avslag = {
     __typename?: 'Avslag';
     begrunnelse: Scalars['String']['output'];
+    invalidert?: Maybe<Scalars['Boolean']['output']>;
     opprettet: Scalars['String']['output'];
     saksbehandlerIdent: Scalars['String']['output'];
     type: Avslagstype;

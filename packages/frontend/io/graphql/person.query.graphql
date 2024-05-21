@@ -370,6 +370,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             begrunnelse
                             opprettet
                             saksbehandlerIdent
+                            invalidert
                         }
                     }
                 }
