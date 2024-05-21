@@ -93,6 +93,8 @@ export const BegrunnelseVedtak = ({
                                 id="begrunnelse"
                                 value={avslag?.begrunnelse ?? periode.avslag?.[0]?.begrunnelse ?? ''}
                                 onChange={(event) => {
+                                    if (event.target.value === '') return setAvslag(null);
+
                                     setAvslag({
                                         type: avslagstype,
                                         begrunnelse: event.target.value,
