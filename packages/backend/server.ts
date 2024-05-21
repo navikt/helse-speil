@@ -219,11 +219,20 @@ server.on('upgrade', async (req: http.IncomingMessage, socket, head) => {
             logger.debug(`req.session: ${speilReq.session}`);
             logger.debug(`req.session.user: ${speilReq.session.user}`);
             const oboToken = await hentOboToken(speilReq);
-            wsProxy.ws(req, socket, head, {
-                headers: {
-                    Authorization: `Bearer ${oboToken}`,
+            wsProxy.ws(
+                req,
+                socket,
+                head,
+                {
+                    headers: {
+                        Authorization: `Bearer ${oboToken}`,
+                    },
                 },
-            });
+                (err, req, res, target) =>
+                    logger.sikker.info(
+                        `Feil ifm. WS-tilkobling: ${err}.\nreq: ${req}, response: ${res}, target: ${target}`,
+                    ),
+            );
         });
         logger.debug(`sessionStore called`);
     } catch (e) {
