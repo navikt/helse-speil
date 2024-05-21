@@ -2,7 +2,7 @@ import styles from './BegrunnelseVedtak.module.scss';
 import classNames from 'classnames';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 
-import { DocPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
+import { DocPencilIcon, ExpandIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Textarea } from '@navikt/ds-react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
@@ -13,14 +13,24 @@ import { SlettLokaleEndringerModal } from '../varsler/KalkulerEndringerVarsel';
 import { BegrunnelseVedtakReadonly } from './BegrunnelseVedtakReadonly';
 
 interface BegrunnelseVedtakProps {
-    open: boolean;
-    setOpen: Dispatch<SetStateAction<boolean>>;
+    visBegrunnelseVedtak: boolean;
+    setVisBegrunnelseVedtak: Dispatch<SetStateAction<boolean>>;
+    åpenIModal: boolean;
+    setÅpenIModal: Dispatch<SetStateAction<boolean>>;
     avslag: Maybe<AvslagInput>;
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
     periode: FetchedBeregnetPeriode;
 }
 
-export const BegrunnelseVedtak = ({ open, setOpen, avslag, setAvslag, periode }: BegrunnelseVedtakProps) => {
+export const BegrunnelseVedtak = ({
+    visBegrunnelseVedtak,
+    setVisBegrunnelseVedtak,
+    åpenIModal,
+    setÅpenIModal,
+    avslag,
+    setAvslag,
+    periode,
+}: BegrunnelseVedtakProps) => {
     const [showForkastEndringerModal, setShowForkastEndringerModal] = useState(false);
     const erReadOnly = useIsReadOnlyOppgave();
     const erBeslutteroppgave = periode.totrinnsvurdering?.erBeslutteroppgave ?? false;
@@ -43,35 +53,41 @@ export const BegrunnelseVedtak = ({ open, setOpen, avslag, setAvslag, periode }:
         if (avslag?.begrunnelse) {
             setShowForkastEndringerModal(true);
         } else {
-            setOpen(false);
+            setVisBegrunnelseVedtak(false);
         }
     };
 
     return (
         <>
-            <div className={classNames(styles.container, open && styles.open)}>
+            <div className={classNames(styles.container, visBegrunnelseVedtak && styles.open)}>
                 {!erReadOnly && !erBeslutteroppgave && (
                     <>
-                        {(open || periode.avslag?.[0]) && (
+                        {(visBegrunnelseVedtak || periode.avslag?.[0]) && !åpenIModal && (
                             <div className={styles.top}>
-                                <button className={styles.lukk} onClick={onClose}>
-                                    <XMarkIcon />
+                                <button className={styles.button} onClick={() => setÅpenIModal(true)}>
+                                    <ExpandIcon title="åpne i modal" fontSize="1.5rem" />
+                                </button>
+                                <button className={styles.button} onClick={onClose}>
+                                    <XMarkIcon title="lukk individuell begrunnelse" />
                                 </button>
                             </div>
                         )}
-                        <div className={styles.header} onClick={() => !open && setOpen(true)}>
-                            <div className={classNames(styles['ikon-container'], open && styles.open)}>
+                        <div
+                            className={styles.header}
+                            onClick={() => !visBegrunnelseVedtak && setVisBegrunnelseVedtak(true)}
+                        >
+                            <div className={classNames(styles['ikon-container'], visBegrunnelseVedtak && styles.open)}>
                                 <DocPencilIcon title="Skriv begrunnelse" />
                             </div>
                             <BodyShort
-                                className={classNames(styles.tekst, open && styles.open)}
-                                onClick={() => !open && setOpen(true)}
+                                className={classNames(styles.tekst, visBegrunnelseVedtak && styles.open)}
+                                onClick={() => !visBegrunnelseVedtak && setVisBegrunnelseVedtak(true)}
                             >
                                 {knappetekst(avslagstype)}
                             </BodyShort>
                         </div>
 
-                        {open && (
+                        {visBegrunnelseVedtak && (
                             <Textarea
                                 label=""
                                 id="begrunnelse"
@@ -100,7 +116,7 @@ export const BegrunnelseVedtak = ({ open, setOpen, avslag, setAvslag, periode }:
                     onApprove={() => {
                         setAvslag(null);
                         setShowForkastEndringerModal(false);
-                        setOpen(false);
+                        setVisBegrunnelseVedtak(false);
                     }}
                     onClose={() => setShowForkastEndringerModal(false)}
                     tekst={
