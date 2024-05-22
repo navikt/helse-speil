@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { VarselDto, Varselstatus, VarselvurderingDto } from '@io/graphql';
@@ -50,7 +51,14 @@ export const Varsler: React.FC<VarslerProps> = React.memo(({ varsler }) => {
                             varslerSomSkalVisesSomFeil.includes(varsel.kode) && skalViseAvviksvarselSomFeil;
                         return <EkspanderbartVarsel key={index} varsel={varsel} type={visSomFeil ? 'feil' : type} />;
                     } else {
-                        return <Varsel className={styles.varsel} key={index} varsel={varsel} type={type} />;
+                        return (
+                            <Varsel
+                                className={classNames(styles.varsel, styles['ikke-ekspanderbart'])}
+                                key={index}
+                                varsel={varsel}
+                                type={type}
+                            />
+                        );
                     }
                 })}
         </>
