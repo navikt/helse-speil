@@ -4,7 +4,6 @@
   padding: 0.5rem 0 1.5rem;
 
   .tekst {
-    margin-left: 0.5rem;
     text-decoration: underline;
     cursor: pointer;
 
@@ -58,29 +57,5 @@
   .header {
     display: flex;
     align-items: center;
-
-    .ikon-container {
-      width: 2rem;
-      height: 2rem;
-      background: #ECEEF0;
-      color: #23262A;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-
-      svg {
-        color: #23262A;
-      }
-
-      &.open {
-        background: #00459C;
-
-        svg {
-          color: #fff;
-        }
-      }
-    }
   }
 }

@@ -2,7 +2,7 @@ import styles from './BegrunnelseVedtak.module.scss';
 import classNames from 'classnames';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 
-import { DocPencilIcon, ExpandIcon, ExternalLinkIcon, XMarkIcon } from '@navikt/aksel-icons';
+import { ExpandIcon, ExternalLinkIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Textarea } from '@navikt/ds-react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
@@ -76,9 +76,6 @@ export const BegrunnelseVedtak = ({
                             className={styles.header}
                             onClick={() => !visBegrunnelseVedtak && setVisBegrunnelseVedtak(true)}
                         >
-                            <div className={classNames(styles['ikon-container'], visBegrunnelseVedtak && styles.open)}>
-                                <DocPencilIcon title="Skriv begrunnelse" />
-                            </div>
                             <BodyShort
                                 className={classNames(styles.tekst, visBegrunnelseVedtak && styles.open)}
                                 onClick={() => !visBegrunnelseVedtak && setVisBegrunnelseVedtak(true)}
