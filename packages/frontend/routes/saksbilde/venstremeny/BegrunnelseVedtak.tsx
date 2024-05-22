@@ -2,7 +2,7 @@ import styles from './BegrunnelseVedtak.module.scss';
 import classNames from 'classnames';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 
-import { DocPencilIcon, ExpandIcon, XMarkIcon } from '@navikt/aksel-icons';
+import { DocPencilIcon, ExpandIcon, ExternalLinkIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Textarea } from '@navikt/ds-react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
@@ -88,23 +88,32 @@ export const BegrunnelseVedtak = ({
                         </div>
 
                         {visBegrunnelseVedtak && (
-                            <Textarea
-                                label=""
-                                id="begrunnelse"
-                                value={avslag?.begrunnelse ?? periode.avslag?.[0]?.begrunnelse ?? ''}
-                                onChange={(event) => {
-                                    if (event.target.value === '') return setAvslag(null);
+                            <>
+                                <Textarea
+                                    label=""
+                                    id="begrunnelse"
+                                    value={avslag?.begrunnelse ?? periode.avslag?.[0]?.begrunnelse ?? ''}
+                                    onChange={(event) => {
+                                        if (event.target.value === '') return setAvslag(null);
 
-                                    setAvslag({
-                                        type: avslagstype,
-                                        begrunnelse: event.target.value,
-                                    });
-                                }}
-                                description="(Teksten vises til brukeren i melding om vedtak)"
-                                aria-labelledby="begrunnelse-label begrunnelse-feil"
-                                style={{ whiteSpace: 'pre-line' }}
-                                className={styles.begrunnelse}
-                            />
+                                        setAvslag({
+                                            type: avslagstype,
+                                            begrunnelse: event.target.value,
+                                        });
+                                    }}
+                                    description="(Teksten vises til brukeren i melding om vedtak)"
+                                    aria-labelledby="begrunnelse-label begrunnelse-feil"
+                                    style={{ whiteSpace: 'pre-line' }}
+                                    className={styles.begrunnelse}
+                                />
+                                <a
+                                    href="https://navno.sharepoint.com/sites/44/NAYsykepenger/_layouts/15/Doc.aspx?sourcedoc={a35dd030-d715-4c4f-948a-2893adcc95eb}&action=view&wd=target%28%C2%A7%208-2.one%7Ca58c44d3-5730-42b7-a6ef-8139689cc6f7%2FInnholdsfortegnelse%7Ca80febfb-80a2-4c8d-a1c2-3d7c1a9e9f15%2F%29&wdorigin=NavigationUrl"
+                                    target="_blank"
+                                    className={styles.mallenke}
+                                >
+                                    Lenke til maler i OneNote <ExternalLinkIcon />
+                                </a>
+                            </>
                         )}
                     </>
                 )}
