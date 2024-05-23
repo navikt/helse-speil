@@ -30,11 +30,6 @@ export const isGhostPeriode = (period?: Maybe<GhostPeriode | Periode | DatePerio
 export const isUberegnetPeriode = (period?: Maybe<GhostPeriode | Periode | DatePeriod>): period is UberegnetPeriode =>
     (period as UberegnetPeriode)?.__typename === 'UberegnetPeriode';
 
-export const isUberegnetVilkarsprovdPeriode = (
-    period: GhostPeriode | Periode | DatePeriod | null,
-): period is UberegnetVilkarsprovdPeriode =>
-    (period as UberegnetVilkarsprovdPeriode)?.__typename === 'UberegnetVilkarsprovdPeriode';
-
 export const isSpleisVilkarsgrunnlag = (
     vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>,
 ): vilkårsgrunnlag is VilkarsgrunnlagSpleis => vilkårsgrunnlag?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;

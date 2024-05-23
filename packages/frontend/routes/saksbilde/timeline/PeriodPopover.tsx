@@ -13,12 +13,7 @@ import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 import { getPeriodStateText } from '@utils/mapping';
-import {
-    isBeregnetPeriode,
-    isGhostPeriode,
-    isInfotrygdPeriod,
-    isUberegnetVilkarsprovdPeriode,
-} from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
 
 import styles from './PeriodPopover.module.css';
 
@@ -206,20 +201,6 @@ const UberegnetPopover: React.FC<UberegnetPopoverProps> = ({ fom, tom, state }) 
     );
 };
 
-const UberegnetVilkårsprøvdPopover: React.FC<UberegnetPopoverProps> = ({ fom, tom, state }) => {
-    const stateText = getPeriodStateText(state);
-
-    return (
-        <>
-            <BodyShort size="small">{stateText}</BodyShort>
-            <BodyShort size="small">Periode:</BodyShort>
-            <BodyShort size="small">
-                {fom} - {tom}
-            </BodyShort>
-        </>
-    );
-};
-
 interface PeriodPopoverProps extends Omit<PopoverProps, 'children'> {
     period: DatePeriod;
     state: PeriodState;
@@ -239,8 +220,6 @@ export const PeriodPopover: React.FC<PeriodPopoverProps> = ({ period, state, ...
                         <BeregnetPopover period={period} state={state} fom={fom} tom={tom} />
                     ) : isGhostPeriode(period) ? (
                         <GhostPopover fom={fom} tom={tom} />
-                    ) : isUberegnetVilkarsprovdPeriode(period) ? (
-                        <UberegnetVilkårsprøvdPopover state={state} fom={fom} tom={tom} />
                     ) : (
                         <UberegnetPopover state={state} fom={fom} tom={tom} />
                     )}

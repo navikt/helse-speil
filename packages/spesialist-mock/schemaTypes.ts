@@ -1395,25 +1395,6 @@ export type UberegnetPeriode = Periode & {
     vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
-export type UberegnetVilkarsprovdPeriode = Periode & {
-    __typename?: 'UberegnetVilkarsprovdPeriode';
-    erForkastet: Scalars['Boolean']['output'];
-    fom: Scalars['String']['output'];
-    hendelser: Array<Hendelse>;
-    id: Scalars['UUID']['output'];
-    inntektstype: Inntektstype;
-    notater: Array<Notat>;
-    opprettet: Scalars['String']['output'];
-    periodetilstand: Periodetilstand;
-    periodetype: Periodetype;
-    skjaeringstidspunkt: Scalars['String']['output'];
-    tidslinje: Array<Dag>;
-    tom: Scalars['String']['output'];
-    varsler: Array<VarselDto>;
-    vedtaksperiodeId: Scalars['UUID']['output'];
-    vilkarsgrunnlagId?: Maybe<Scalars['UUID']['output']>;
-};
-
 export type UnntattFraAutomatiskGodkjenning = {
     __typename?: 'UnntattFraAutomatiskGodkjenning';
     arsaker: Array<Scalars['String']['output']>;

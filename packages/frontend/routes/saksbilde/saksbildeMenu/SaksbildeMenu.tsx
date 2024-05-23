@@ -8,7 +8,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { DropdownMenu } from './dropdown/DropdownMenu';
 
@@ -39,19 +39,6 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
                 {activePeriod.risikovurdering?.funn && activePeriod.risikovurdering?.funn?.length > 0 && (
                     <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />
                 )}
-            </nav>
-            <DropdownMenu />
-        </div>
-    </div>
-);
-
-const SaksbildeMenuUberegnetVilkarsprovdPeriode: React.FC = () => (
-    <div className={styles.SaksbildeMenu}>
-        <div>
-            <nav className={styles.TabList} role="tablist">
-                <NavLenke to="dagoversikt" tittel="Dagoversikt" />
-                <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />
-                <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
             </nav>
             <DropdownMenu />
         </div>
@@ -97,10 +84,6 @@ const SaksbildeMenuContainer: React.FC = () => {
 
     if (isGhostPeriode(activePeriod)) {
         return <SaksbildeMenuGhostPeriode />;
-    }
-
-    if (isUberegnetVilkarsprovdPeriode(activePeriod)) {
-        return <SaksbildeMenuUberegnetVilkarsprovdPeriode />;
     }
 
     return <SaksbildeMenuUberegnetPeriode />;

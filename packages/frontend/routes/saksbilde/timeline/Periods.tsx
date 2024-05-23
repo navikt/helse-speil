@@ -2,12 +2,7 @@ import React from 'react';
 
 import { GhostPeriode, Periode, Periodetilstand } from '@io/graphql';
 import { isNotReady } from '@state/selectors/period';
-import {
-    isBeregnetPeriode,
-    isGhostPeriode,
-    isUberegnetPeriode,
-    isUberegnetVilkarsprovdPeriode,
-} from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { Period } from './Period';
 import { usePeriodStyling } from './hooks/usePeriodStyling';
@@ -36,8 +31,6 @@ const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
     } else if (isBeregnetPeriode(activePeriod) && isBeregnetPeriode(currentPeriod)) {
         return activePeriod.id === currentPeriod.id;
     } else if (isUberegnetPeriode(activePeriod) && isUberegnetPeriode(currentPeriod)) {
-        return activePeriod.id === currentPeriod.id;
-    } else if (isUberegnetVilkarsprovdPeriode(activePeriod) && isUberegnetVilkarsprovdPeriode(currentPeriod)) {
         return activePeriod.id === currentPeriod.id;
     } else {
         return false;

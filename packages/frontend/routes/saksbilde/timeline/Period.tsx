@@ -4,13 +4,7 @@ import React, { ReactNode, useRef } from 'react';
 import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
 import { useSetActivePeriodId } from '@state/periode';
 import { getPeriodState } from '@utils/mapping';
-import {
-    isBeregnetPeriode,
-    isGhostPeriode,
-    isInfotrygdPeriod,
-    isUberegnetPeriode,
-    isUberegnetVilkarsprovdPeriode,
-} from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
 import { InfoPin } from './InfoPin';
 import { PeriodPopover } from './PeriodPopover';
@@ -122,12 +116,7 @@ export const Period: React.FC<PeriodProps> = ({ period, notCurrent, isActive, cl
 
     const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         buttonProps.onClick?.(event);
-        if (
-            isBeregnetPeriode(period) ||
-            isUberegnetPeriode(period) ||
-            isGhostPeriode(period) ||
-            isUberegnetVilkarsprovdPeriode(period)
-        ) {
+        if (isBeregnetPeriode(period) || isUberegnetPeriode(period) || isGhostPeriode(period)) {
             setActivePeriodId(period.id);
         }
     };

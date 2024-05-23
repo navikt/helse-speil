@@ -275,13 +275,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             ...notat
                         }
                     }
-                    ... on UberegnetVilkarsprovdPeriode {
-                        id
-                        vilkarsgrunnlagId
-                        notater {
-                            ...notat
-                        }
-                    }
                     ... on BeregnetPeriode {
                         id
                         beregningId

@@ -1,12 +1,6 @@
 import { GhostPeriode, Periode, Periodetilstand, Utbetalingtype } from '@io/graphql';
 import { skalBehandleEnOgEnPeriode } from '@utils/featureToggles';
-import {
-    isBeregnetPeriode,
-    isGhostPeriode,
-    isInfotrygdPeriod,
-    isUberegnetPeriode,
-    isUberegnetVilkarsprovdPeriode,
-} from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
 const hasBeenAssessedAutomatically = (period: FetchedBeregnetPeriode): boolean =>
     period.utbetaling.vurdering?.automatisk ?? false;
@@ -46,29 +40,11 @@ export const getUberegnetPeriodState = (period: UberegnetPeriode): PeriodState =
     }
 };
 
-export const getUberegnetVilkarsprovdPeriodState = (period: UberegnetVilkarsprovdPeriode): PeriodState => {
-    switch (period.periodetilstand) {
-        case Periodetilstand.ManglerInformasjon:
-            return 'venter';
-        case Periodetilstand.ForberederGodkjenning:
-        case Periodetilstand.UtbetaltVenterPaEnAnnenPeriode:
-        case Periodetilstand.VenterPaEnAnnenPeriode:
-            return 'venterPåKiling';
-        case Periodetilstand.TilSkjonnsfastsettelse:
-            return 'tilSkjønnsfastsettelse';
-        case Periodetilstand.IngenUtbetaling:
-            return 'ingenUtbetaling';
-        default:
-            return 'ukjent';
-    }
-};
-
 export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodState => {
     if (!period) return 'ukjent';
     if (isGhostPeriode(period)) return getGhostPeriodState(period);
     if (isInfotrygdPeriod(period)) return getInfotrygdPeriodState(period);
     if (isUberegnetPeriode(period)) return getUberegnetPeriodState(period);
-    if (isUberegnetVilkarsprovdPeriode(period)) return getUberegnetVilkarsprovdPeriodState(period);
     if (!isBeregnetPeriode(period)) return 'ukjent';
 
     switch (period.periodetilstand) {

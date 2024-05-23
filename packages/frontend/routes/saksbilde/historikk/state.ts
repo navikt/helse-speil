@@ -7,12 +7,7 @@ import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { toNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import {
-    isBeregnetPeriode,
-    isGhostPeriode,
-    isUberegnetPeriode,
-    isUberegnetVilkarsprovdPeriode,
-} from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import {
     getAnnetArbeidsforholdoverstyringhendelser,
@@ -94,10 +89,7 @@ const getHendelserForGhostPeriode = (period: GhostPeriode, person: FetchedPerson
     );
 };
 
-const getHendelserForUberegnetPeriode = (
-    period: UberegnetPeriode | UberegnetVilkarsprovdPeriode,
-    person: FetchedPerson,
-): Array<HendelseObject> => {
+const getHendelserForUberegnetPeriode = (period: UberegnetPeriode, person: FetchedPerson): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
     const dagoverstyringer = arbeidsgiver ? getDagoverstyringerForAUU(period, arbeidsgiver) : [];
     const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period.skjaeringstidspunkt, arbeidsgiver) : [];
@@ -134,7 +126,7 @@ const useHistorikk = (): HendelseObject[] => {
         return getHendelserForGhostPeriode(activePeriod, person);
     }
 
-    if (isUberegnetPeriode(activePeriod) || isUberegnetVilkarsprovdPeriode(activePeriod)) {
+    if (isUberegnetPeriode(activePeriod)) {
         return getHendelserForUberegnetPeriode(activePeriod, person);
     }
 

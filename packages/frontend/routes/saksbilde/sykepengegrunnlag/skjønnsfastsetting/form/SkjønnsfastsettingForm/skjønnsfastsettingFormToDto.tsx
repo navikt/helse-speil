@@ -1,7 +1,7 @@
 import { Arbeidsgiverinntekt } from '@io/graphql';
 import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@io/http';
 import { toKronerOgØre } from '@utils/locale';
-import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { ArbeidsgiverForm, Skjønnsfastsettingstype } from '../../skjønnsfastsetting';
 import { SkjønnsfastsettingMal } from '../../state';
@@ -22,8 +22,7 @@ const finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt = (
             arbeidsgiver.generasjoner?.[0]?.perioder
                 ?.filter(
                     (periode) =>
-                        periode.skjaeringstidspunkt === period.skjaeringstidspunkt &&
-                        (isBeregnetPeriode(periode) || isUberegnetVilkarsprovdPeriode(periode)),
+                        periode.skjaeringstidspunkt === period.skjaeringstidspunkt && isBeregnetPeriode(periode),
                 )
                 .pop()?.vedtaksperiodeId ?? null,
     }));

@@ -7,7 +7,7 @@ import { PeriodeCard } from './PeriodeCard';
 import styles from './Venstremeny.module.css';
 
 interface VenstremenyUberegnetPeriodeProps {
-    activePeriod: UberegnetPeriode | UberegnetVilkarsprovdPeriode;
+    activePeriod: UberegnetPeriode;
     currentArbeidsgiver: Arbeidsgiver;
 }
 

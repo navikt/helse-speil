@@ -12,7 +12,6 @@ import {
     isGhostPeriode,
     isInfotrygdVilkarsgrunnlag,
     isSpleisVilkarsgrunnlag,
-    isUberegnetVilkarsprovdPeriode,
 } from '@utils/typeguards';
 
 import { BehandletSykepengegrunnlag } from './sykepengegrunnlagvisninger/BehandletSykepengegrunnlag';
@@ -27,16 +26,7 @@ const SykepengegrunnlagContainer: React.FC = () => {
     const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriode).skjaeringstidspunkt);
     const arbeidsgiver = useCurrentArbeidsgiver();
 
-    if (
-        !(
-            (isGhostPeriode(activePeriod) ||
-                isBeregnetPeriode(activePeriod) ||
-                isUberegnetVilkarsprovdPeriode(activePeriod)) &&
-            arbeidsgiver &&
-            person
-        )
-    )
-        return null;
+    if (!((isGhostPeriode(activePeriod) || isBeregnetPeriode(activePeriod)) && arbeidsgiver && person)) return null;
 
     if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag)) {
         return vurdering ? (

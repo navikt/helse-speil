@@ -13,7 +13,7 @@ import {
 import { useCurrentPerson } from '@state/person';
 import { isForkastet } from '@state/selectors/period';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 export const harIngenUtbetaltePerioderFor = (person: FetchedPerson, skjæringstidspunkt: DateString): boolean => {
     return (
@@ -96,10 +96,6 @@ export const useArbeidsforholdKanOverstyres = (
 
     const perioderISisteGen = person?.arbeidsgivere.flatMap((it) => it.generasjoner[0]?.perioder);
     const harBeregnetPeriode = harBeregnetPeriodePåSkjæringstidspunkt(perioderISisteGen, period.skjaeringstidspunkt);
-    const harPeriodeTilSkjønnsfastsettelse = harPeriodeTilSkjønnsfastsettelsePåSkjæringstidspunkt(
-        perioderISisteGen,
-        period.skjaeringstidspunkt,
-    );
     const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, period.skjaeringstidspunkt);
     const arbeidsgiverHarIngenBeregnedePerioder = harIngenBeregnedePerioder(arbeidsgiver, skjæringstidspunkt);
     const arbeidsgiverHarIngenEtterfølgendePerioder = harIngenEtterfølgendePerioder(
@@ -112,24 +108,13 @@ export const useArbeidsforholdKanOverstyres = (
         arbeidsgiverHarIngenBeregnedePerioder &&
         arbeidsgiverHarIngenEtterfølgendePerioder &&
         !harPeriodeTilBeslutter &&
-        (harBeregnetPeriode || harPeriodeTilSkjønnsfastsettelse) &&
+        harBeregnetPeriode &&
         erGhostLikEllerEtterPeriodeTilGodkjenning
     );
 };
 
 const harBeregnetPeriodePåSkjæringstidspunkt = (perioder: Array<Periode>, skjæringstidspunkt: DateString): boolean =>
     perioder.filter(isBeregnetPeriode).find((it) => it.skjaeringstidspunkt === skjæringstidspunkt) !== undefined;
-
-const harPeriodeTilSkjønnsfastsettelsePåSkjæringstidspunkt = (
-    perioder: Array<Periode>,
-    skjæringstidspunkt: DateString,
-): boolean =>
-    perioder
-        .filter(
-            (it) => isUberegnetVilkarsprovdPeriode(it) && it.periodetilstand === Periodetilstand.TilSkjonnsfastsettelse,
-        )
-        .find((it) => it.skjaeringstidspunkt === skjæringstidspunkt) !== undefined;
-
 const harIngenBeregnedePerioder = (arbeidsgiver: Arbeidsgiver, skjæringstidspunkt: DateString): boolean =>
     (
         arbeidsgiver?.generasjoner[0]?.perioder.filter(

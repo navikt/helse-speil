@@ -7,12 +7,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
-import {
-    isBeregnetPeriode,
-    isGhostPeriode,
-    isUberegnetPeriode,
-    isUberegnetVilkarsprovdPeriode,
-} from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
@@ -51,7 +46,7 @@ const VenstremenyContainer: React.FC = () => {
         );
     }
 
-    if (isUberegnetPeriode(activePeriod) || isUberegnetVilkarsprovdPeriode(activePeriod)) {
+    if (isUberegnetPeriode(activePeriod)) {
         return <VenstremenyUberegnetPeriode activePeriod={activePeriod} currentArbeidsgiver={currentArbeidsgiver} />;
     }
 

@@ -3,7 +3,7 @@ import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { Maybe, Periodetilstand } from '@io/graphql';
 import { useCurrentPerson } from '@state/person';
-import { isBeregnetPeriode, isUberegnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 const activePeriodIdState = atom<string | null>({
     key: 'activePeriodId',
@@ -54,17 +54,15 @@ const findPeriodToSelect = (person: FetchedPerson): Maybe<ActivePeriod> => {
         .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
         .filter(
             (period) =>
-                (isBeregnetPeriode(period) || isUberegnetVilkarsprovdPeriode(period) || isUberegnetPeriode(period)) &&
+                (isBeregnetPeriode(period) || isUberegnetPeriode(period)) &&
                 period.periodetilstand !== Periodetilstand.TilInfotrygd,
         );
 
     const periodeTilBehandling = aktuellePerioder.find(
         (periode) =>
-            (isBeregnetPeriode(periode) &&
-                periode.periodetilstand === Periodetilstand.TilGodkjenning &&
-                typeof periode.oppgave?.id === 'string') ||
-            (isUberegnetVilkarsprovdPeriode(periode) &&
-                periode.periodetilstand === Periodetilstand.TilSkjonnsfastsettelse),
+            isBeregnetPeriode(periode) &&
+            periode.periodetilstand === Periodetilstand.TilGodkjenning &&
+            typeof periode.oppgave?.id === 'string',
     );
     return periodeTilBehandling ?? aktuellePerioder[0] ?? null;
 };

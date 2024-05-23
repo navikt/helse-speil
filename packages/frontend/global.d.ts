@@ -95,6 +95,6 @@ declare type FetchedPerson = NonNullable<FetchPersonQuery['person']>;
 
 declare type FetchedBeregnetPeriode = Omit<BeregnetPeriode, 'oppgavereferanse'>;
 
-declare type ActivePeriod = FetchedBeregnetPeriode | UberegnetPeriode | GhostPeriode | UberegnetVilkarsprovdPeriode;
+declare type ActivePeriod = FetchedBeregnetPeriode | UberegnetPeriode | GhostPeriode;
 
 type OverridableConstructor<T, E = object> = (overrides?: Partial<T>) => T & E;

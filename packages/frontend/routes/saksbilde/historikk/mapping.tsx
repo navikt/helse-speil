@@ -25,7 +25,6 @@ import {
     isInntektoverstyring,
     isSykepengegrunnlagskjønnsfastsetting,
     isUberegnetPeriode,
-    isUberegnetVilkarsprovdPeriode,
 } from '@utils/typeguards';
 
 import { harIngenUtbetaltePerioderFor } from '../sykepengegrunnlag/inntekt/inntektOgRefusjonUtils';
@@ -68,7 +67,7 @@ const isDokument = (
 };
 
 export const getDokumenter = (period: Periode | GhostPeriode): Array<HendelseObject> => {
-    if (!isBeregnetPeriode(period) && !isUberegnetPeriode(period) && !isUberegnetVilkarsprovdPeriode(period)) {
+    if (!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) {
         return [];
     }
 
@@ -188,7 +187,7 @@ export const getDagoverstyringer = (
 };
 
 export const getDagoverstyringerForAUU = (
-    period: UberegnetPeriode | UberegnetVilkarsprovdPeriode,
+    period: UberegnetPeriode,
     arbeidsgiver: Arbeidsgiver,
 ): Array<HendelseObject> => {
     const sisteTomForIkkeGhostsPåSkjæringstidspunktet = getSisteTomForIkkeGhostsPåSkjæringstidspunktet(

@@ -81,10 +81,7 @@ const hasGhostPeriod = (person: FetchedPerson, period: GhostPeriode): boolean =>
     );
 };
 
-const hasRegularPeriod = (
-    person: FetchedPerson,
-    period: FetchedBeregnetPeriode | UberegnetPeriode | UberegnetVilkarsprovdPeriode,
-): boolean => {
+const hasRegularPeriod = (person: FetchedPerson, period: FetchedBeregnetPeriode | UberegnetPeriode): boolean => {
     return (
         person.arbeidsgivere
             .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder))

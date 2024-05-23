@@ -5,7 +5,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { Arbeidsgiver, GhostPeriode, Maybe, Periode, Periodetilstand } from '@io/graphql';
 import { isGodkjent as utbetalingIsGodkjent } from '@state/selectors/utbetaling';
 import { getPeriodState } from '@utils/mapping';
-import { isBeregnetPeriode, isUberegnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
@@ -44,7 +44,6 @@ export const isNotReady = (period: Periode) =>
     ].includes(period.periodetilstand);
 
 export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: Arbeidsgiver): boolean => {
-    if (isUberegnetVilkarsprovdPeriode(period)) return true;
     if (!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) {
         return false;
     }

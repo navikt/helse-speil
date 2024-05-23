@@ -18,7 +18,7 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
-import { isBeregnetPeriode, isPerson, isUberegnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
 import { harPeriodeTilBeslutterFor } from '../sykepengegrunnlag/inntekt/inntektOgRefusjonUtils';
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
@@ -115,7 +115,7 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
 );
 
 interface UtbetalingUberegnetPeriodeProps {
-    periode: UberegnetPeriode | UberegnetVilkarsprovdPeriode;
+    periode: UberegnetPeriode;
     arbeidsgiver: Arbeidsgiver;
 }
 
@@ -167,7 +167,7 @@ const UtbetalingContainer = () => {
         return null;
     } else if (isBeregnetPeriode(period)) {
         return <UtbetalingBeregnetPeriode period={period} person={person} arbeidsgiver={arbeidsgiver} />;
-    } else if (isUberegnetPeriode(period) || isUberegnetVilkarsprovdPeriode(period)) {
+    } else if (isUberegnetPeriode(period)) {
         return <UtbetalingUberegnetPeriode periode={period} arbeidsgiver={arbeidsgiver} />;
     } else {
         return null;
