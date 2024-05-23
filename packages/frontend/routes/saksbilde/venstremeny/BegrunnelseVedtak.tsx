@@ -6,7 +6,7 @@ import { ExpandIcon, ExternalLinkIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Textarea } from '@navikt/ds-react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { AvslagInput, Avslagstype, Maybe, Utbetalingsdagtype } from '@io/graphql';
+import { AvslagInput, Avslagshandling, Avslagstype, Maybe, Utbetalingsdagtype } from '@io/graphql';
 import { kanSkriveAvslag } from '@utils/featureToggles';
 
 import { SlettLokaleEndringerModal } from '../varsler/KalkulerEndringerVarsel';
@@ -50,14 +50,18 @@ export const BegrunnelseVedtak = ({
     if (!kanSkriveAvslag || avvisteDager.length === 0) return null;
 
     const onClose = () => {
-        if (avslag?.begrunnelse) {
+        if (avslag?.data?.begrunnelse || periode.avslag.length > 0) {
             setShowForkastEndringerModal(true);
         } else {
             setVisBegrunnelseVedtak(false);
         }
     };
 
-    const skalÅpnesMedUtfylteVerdier = !erReadOnly && !erBeslutteroppgave && periode.avslag?.[0]?.begrunnelse;
+    const skalÅpnesMedUtfylteVerdier =
+        !erReadOnly &&
+        !erBeslutteroppgave &&
+        periode.avslag?.[0]?.begrunnelse &&
+        avslag?.handling !== Avslagshandling.Invalider;
 
     return (
         <>
@@ -91,13 +95,16 @@ export const BegrunnelseVedtak = ({
                                 <Textarea
                                     label=""
                                     id="begrunnelse"
-                                    value={avslag?.begrunnelse ?? periode.avslag?.[0]?.begrunnelse ?? ''}
+                                    value={avslag?.data?.begrunnelse ?? periode.avslag?.[0]?.begrunnelse ?? ''}
                                     onChange={(event) => {
                                         if (event.target.value === '') return setAvslag(null);
 
                                         setAvslag({
-                                            type: avslagstype,
-                                            begrunnelse: event.target.value,
+                                            handling: Avslagshandling.Opprett,
+                                            data: {
+                                                type: avslagstype,
+                                                begrunnelse: event.target.value,
+                                            },
                                         });
                                     }}
                                     description="(Teksten vises til brukeren i melding om vedtak)"
@@ -124,7 +131,11 @@ export const BegrunnelseVedtak = ({
             {showForkastEndringerModal && (
                 <SlettLokaleEndringerModal
                     onApprove={() => {
-                        setAvslag(null);
+                        if (periode.avslag.length > 0) {
+                            setAvslag({ handling: Avslagshandling.Invalider });
+                        } else {
+                            setAvslag(null);
+                        }
                         setShowForkastEndringerModal(false);
                         setVisBegrunnelseVedtak(false);
                     }}

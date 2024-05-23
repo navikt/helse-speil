@@ -135,9 +135,19 @@ export type Avslag = {
 };
 
 export type AvslagInput = {
+    data?: InputMaybe<AvslagsdataInput>;
+    handling: Avslagshandling;
+};
+
+export type AvslagsdataInput = {
     begrunnelse: Scalars['String']['input'];
     type: Avslagstype;
 };
+
+export enum Avslagshandling {
+    Invalider = 'INVALIDER',
+    Opprett = 'OPPRETT',
+}
 
 export enum Avslagstype {
     Avslag = 'AVSLAG',

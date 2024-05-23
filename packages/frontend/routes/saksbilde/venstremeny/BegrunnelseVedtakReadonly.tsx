@@ -4,10 +4,10 @@ import React from 'react';
 import { BodyLong } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { AvslagInput } from '@io/graphql';
+import { AvslagsdataInput } from '@io/graphql';
 
 interface BegrunnelseVedtakReadonlyProps {
-    avslag: AvslagInput;
+    avslag: AvslagsdataInput;
 }
 
 export const BegrunnelseVedtakReadonly = ({ avslag }: BegrunnelseVedtakReadonlyProps) => {
