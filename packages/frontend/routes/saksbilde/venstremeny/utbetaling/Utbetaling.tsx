@@ -122,7 +122,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
             <div
                 className={classNames(
                     styles.container,
-                    (visBegrunnelseVedtak || period.avslag.length > 0) && styles.aktiv,
+                    (visBegrunnelseVedtak || period.avslag?.filter((it) => !it.invalidert).length > 0) && styles.aktiv,
                 )}
             >
                 <BegrunnelseVedtak

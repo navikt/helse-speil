@@ -124,7 +124,7 @@ export const BegrunnelseVedtak = ({
                     </>
                 )}
 
-                {periode.avslag.length > 0 && (erBeslutteroppgave || erReadOnly) && (
+                {periode.avslag.filter((it) => !it.invalidert).length > 0 && (erBeslutteroppgave || erReadOnly) && (
                     <BegrunnelseVedtakReadonly avslag={periode.avslag?.[0]} />
                 )}
             </div>
