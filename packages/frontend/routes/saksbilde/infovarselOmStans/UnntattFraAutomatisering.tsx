@@ -22,8 +22,6 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
     const textArea = useRef<HTMLTextAreaElement>(null);
     const addToast = useAddToast();
 
-    console.log('opphevStans loading: ', loading);
-
     const submit = async (event: FormEvent) => {
         event.preventDefault();
         setSubmitting(true);

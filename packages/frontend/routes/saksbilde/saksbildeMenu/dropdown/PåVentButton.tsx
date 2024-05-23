@@ -25,8 +25,6 @@ export const PåVentButton = ({ personinfo }: PåVentButtonProps) => {
     const erPåVent = periodeTilGodkjenning?.paVent;
     const tildeling = useCurrentPerson()?.tildeling ?? null;
 
-    console.log('fjernPåVent loading: ', loading);
-
     if (!periodeTilGodkjenning || oppgaveId === undefined) return null;
 
     const navn: Personnavn = {
