@@ -57,6 +57,8 @@ export const BegrunnelseVedtak = ({
         }
     };
 
+    const skalÅpnesMedUtfylteVerdier = !erReadOnly && !erBeslutteroppgave && periode.avslag?.[0]?.begrunnelse;
+
     return (
         <>
             <div className={classNames(styles.container, visBegrunnelseVedtak && styles.open)}>
@@ -84,7 +86,7 @@ export const BegrunnelseVedtak = ({
                             </BodyShort>
                         </div>
 
-                        {visBegrunnelseVedtak && (
+                        {(visBegrunnelseVedtak || skalÅpnesMedUtfylteVerdier) && (
                             <>
                                 <Textarea
                                     label=""
