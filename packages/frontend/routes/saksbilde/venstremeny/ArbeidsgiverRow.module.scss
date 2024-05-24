@@ -8,6 +8,7 @@
 .arbeidsgiverRow {
   display: flex;
   flex-direction: column;
+  box-shadow: none !important;
 }
 
 .iconContainer {
@@ -46,10 +47,12 @@
 
 .header {
   background: none !important;
-  justify-content: unset;
+  justify-content: flex-end;
   border-bottom: none;
   display: flex;
-  padding: 0;
+  box-shadow: none !important;
+  flex-direction: row-reverse;
+  padding: 0 !important;
 
   &:focus {
     box-shadow: none;

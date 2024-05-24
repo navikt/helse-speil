@@ -7,7 +7,7 @@ interface CheckIconProps extends React.SVGAttributes<SVGSVGElement> {
 }
 
 export const CheckIcon: React.FC<CheckIconProps> = ({ alt = 'Check-ikon', ...svgProps }) => {
-    let titleId = useId();
+    let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (
         <svg

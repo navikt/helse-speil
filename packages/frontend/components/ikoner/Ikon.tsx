@@ -8,7 +8,7 @@ export interface IkonProps extends React.SVGAttributes<SVGElement> {
 
 export const Ikon = React.forwardRef<SVGSVGElement, IkonProps>(
     ({ children, width = 16, height = 16, viewBox = '0 0 24 24', alt, ...rest }: IkonProps, ref) => {
-        let titleId = useId();
+        let titleId: string | undefined = useId();
         titleId = alt ? alt + titleId : undefined;
         return (
             <svg

@@ -36,8 +36,8 @@
     padding: 0.5rem;
     border-bottom: 0;
     display: flex;
-    flex-direction: row-reverse;
     width: unset;
+    box-shadow: none;
 }
 
 .varslerheader > span {

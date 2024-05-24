@@ -3,7 +3,7 @@ import React from 'react';
 import { useId } from '@navikt/ds-react';
 
 export const IconAndreYtelser = ({ width = 25, height = 16, alt = 'Nav-logo' }) => {
-    let titleId = useId();
+    let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (
         <svg

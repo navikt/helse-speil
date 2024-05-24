@@ -1,14 +1,20 @@
+.item {
+    box-shadow: none !important;
+}
+
 .Header {
     color: var(--a-surface-action) !important;
     background: none !important;
     text-decoration: underline;
-    padding: 0;
-    justify-content: unset;
     gap: 8px;
     width: max-content;
     border-bottom: none;
     display: flex;
     align-items: center;
+    box-shadow: none !important;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    padding: 0 !important;
 }
 
 .Header > span {

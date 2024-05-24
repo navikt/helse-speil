@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Loader } from '@navikt/ds-react';
-import { Dropdown } from '@navikt/ds-react-internal';
+import { Dropdown, Loader } from '@navikt/ds-react';
 
 import { Tildeling } from '@io/graphql';
 import { useFjernTildeling, useOpprettTildeling } from '@state/tildeling';

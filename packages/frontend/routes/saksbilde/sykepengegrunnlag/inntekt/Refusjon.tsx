@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Controller } from 'react-hook-form';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
-import { BodyShort, UNSAFE_DatePicker as DatePicker } from '@navikt/ds-react';
+import { BodyShort, DatePicker } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Button } from '@components/Button';

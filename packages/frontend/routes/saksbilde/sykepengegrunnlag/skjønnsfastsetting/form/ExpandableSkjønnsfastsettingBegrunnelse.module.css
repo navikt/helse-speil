@@ -2,13 +2,15 @@
     color: var(--a-surface-action) !important;
     background: none !important;
     text-decoration: underline;
-    padding: 0;
+    padding: 0 !important;
     justify-content: unset;
     gap: 8px;
     width: max-content;
     border-bottom: none;
     display: flex;
     align-items: center;
+    flex-direction: row-reverse;
+    box-shadow: none;
 }
 
 .header > span {
@@ -45,4 +47,8 @@
     text-overflow: '';
     white-space: nowrap;
     height: 4rem;
+}
+
+.item {
+    box-shadow: none !important;
 }

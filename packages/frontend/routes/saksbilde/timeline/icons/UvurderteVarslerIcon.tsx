@@ -10,7 +10,7 @@ export const UvurderteVarslerIcon: React.FC<UvurderteVarslerIconProps> = ({
     alt = 'Uvurderte-varsler-ikon',
     ...svgProps
 }) => {
-    let titleId = useId();
+    let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (
         <svg

@@ -2,8 +2,7 @@ import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import DatePicker from '@navikt/ds-react/esm/date/datepicker/DatePicker';
-import { useDatepicker } from '@navikt/ds-react/esm/date/hooks/useDatepicker';
+import { DatePicker, useDatepicker } from '@navikt/ds-react';
 
 import { NORSK_DATOFORMAT } from '@utils/date';
 
@@ -16,6 +15,7 @@ export const Frist = () => {
             setHasError(!val.isValidDate);
         },
     });
+
     return (
         <DatePicker {...datepickerProps}>
             <DatePicker.Input

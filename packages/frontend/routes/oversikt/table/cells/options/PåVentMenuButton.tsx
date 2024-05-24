@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Dropdown } from '@navikt/ds-react-internal';
+import { Dropdown } from '@navikt/ds-react';
 
 import { Personnavn, Tildeling } from '@io/graphql';
 import { useFjernPåVent } from '@state/påvent';

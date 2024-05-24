@@ -3,7 +3,7 @@ import React from 'react';
 import { useId } from '@navikt/ds-react';
 
 export const IconFailure = ({ width = 14, height = 14, alt = 'Failure-ikon', fill = 'var(--a-text-default)' }) => {
-    let titleId = useId();
+    let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (
         <svg

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dropdown } from '@navikt/ds-react-internal';
+import { Dropdown } from '@navikt/ds-react';
 
 import { useOppdaterPersondata } from './useOppdaterPersondata';
 

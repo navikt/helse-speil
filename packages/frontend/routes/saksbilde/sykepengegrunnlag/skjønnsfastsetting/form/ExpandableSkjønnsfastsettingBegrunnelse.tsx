@@ -21,18 +21,22 @@ export const ExpandableSkjønnsfastsettingBegrunnelseContent: React.FC<Expandabl
 }) => {
     const [open, setOpen] = useState(false);
     return (
-        <Accordion.Item open={open} className={classNames(className)} {...divProps}>
-            <Accordion.Content className={styles.content}>{children}</Accordion.Content>
-            {!open && <Accordion.Item className={classNames(styles.content, styles.closed)}>{children}</Accordion.Item>}
-            <Accordion.Header
-                className={styles.header}
-                onClick={() => {
-                    setOpen((prevState) => !prevState);
-                    onOpen(!open);
-                }}
-            >
-                {open ? closeText : openText}
-            </Accordion.Header>
-        </Accordion.Item>
+        <Accordion>
+            <Accordion.Item open={open} className={classNames(styles.item, className)} {...divProps}>
+                <Accordion.Content className={styles.content}>{children}</Accordion.Content>
+                {!open && (
+                    <Accordion.Item className={classNames(styles.content, styles.closed)}>{children}</Accordion.Item>
+                )}
+                <Accordion.Header
+                    className={styles.header}
+                    onClick={() => {
+                        setOpen((prevState) => !prevState);
+                        onOpen(!open);
+                    }}
+                >
+                    {open ? closeText : openText}
+                </Accordion.Header>
+            </Accordion.Item>
+        </Accordion>
     );
 };

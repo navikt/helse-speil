@@ -8,7 +8,7 @@ export const IconEgenmelding = ({
     alt = 'Egenmeldingikon',
     fill = 'var(--a-text-default)',
 }) => {
-    let titleId = useId();
+    let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (
         <svg

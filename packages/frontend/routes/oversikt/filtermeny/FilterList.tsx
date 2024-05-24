@@ -19,23 +19,25 @@ export const FilterList = ({ filters, text }: FilterListProps) => {
     const [open, setOpen] = useState(true);
 
     return (
-        <Accordion.Item defaultOpen className={styles.liste}>
-            <Accordion.Header onClick={() => setOpen(!open)} className={styles.header}>
-                <Bold>{text}</Bold>
-            </Accordion.Header>
-            <Accordion.Content className={classNames(styles.innhold)}>
-                {filters.map((it) => (
-                    <Checkbox
-                        className={styles.checkbox}
-                        size="medium"
-                        checked={it.active}
-                        onChange={() => toggleFilter(it.label)}
-                        key={it.key}
-                    >
-                        {it.label}
-                    </Checkbox>
-                ))}
-            </Accordion.Content>
-        </Accordion.Item>
+        <Accordion>
+            <Accordion.Item defaultOpen className={styles.liste}>
+                <Accordion.Header onClick={() => setOpen(!open)} className={styles.header}>
+                    <Bold>{text}</Bold>
+                </Accordion.Header>
+                <Accordion.Content className={classNames(styles.innhold)}>
+                    {filters.map((it) => (
+                        <Checkbox
+                            className={styles.checkbox}
+                            size="medium"
+                            checked={it.active}
+                            onChange={() => toggleFilter(it.label)}
+                            key={it.key}
+                        >
+                            {it.label}
+                        </Checkbox>
+                    ))}
+                </Accordion.Content>
+            </Accordion.Item>
+        </Accordion>
     );
 };

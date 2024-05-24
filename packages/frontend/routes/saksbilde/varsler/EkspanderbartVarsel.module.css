@@ -11,7 +11,9 @@
     color: var(--a-text-default);
     background-color: var(--background-color) !important;
     border-bottom: 1px solid var(--border-color) !important;
-    padding: 0 var(--a-spacing-4) 0 0;
+    padding: 0 var(--a-spacing-4) 0 0 !important;
+    flex-direction: row-reverse;
+    justify-content: space-between;
 }
 
 .ekspanderbartVarsel > button > svg {

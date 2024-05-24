@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
-import { Dropdown, Header } from '@navikt/ds-react-internal';
+import { BodyShort, Dropdown, InternalHeader as Header } from '@navikt/ds-react';
 
 import { TastaturModal } from '@components/TastaturModal';
 import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';

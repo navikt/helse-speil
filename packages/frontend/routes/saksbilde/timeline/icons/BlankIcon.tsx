@@ -7,7 +7,7 @@ interface BlankIconProps extends React.SVGAttributes<SVGSVGElement> {
 }
 
 export const BlankIcon: React.FC<BlankIconProps> = ({ alt = 'Blank-ikon', ...svgProps }) => {
-    let titleId = useId();
+    let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (
         <svg

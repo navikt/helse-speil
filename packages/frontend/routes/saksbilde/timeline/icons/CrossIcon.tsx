@@ -7,7 +7,7 @@ interface CrossIconProps extends React.SVGAttributes<SVGSVGElement> {
 }
 
 export const CrossIcon: React.FC<CrossIconProps> = ({ alt = 'Cross-ikon', ...svgProps }) => {
-    let titleId = useId();
+    let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (
         <svg

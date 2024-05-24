@@ -7,7 +7,7 @@ interface TaskIconProps extends React.SVGAttributes<SVGSVGElement> {
 }
 
 export const TaskIcon: React.FC<TaskIconProps> = ({ alt = 'Task-ikon', ...svgProps }) => {
-    let titleId = useId();
+    let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (
         <svg

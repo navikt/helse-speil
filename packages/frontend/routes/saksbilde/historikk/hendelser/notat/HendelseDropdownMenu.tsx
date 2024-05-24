@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { EllipsisH } from '@navikt/ds-icons';
-import { Button } from '@navikt/ds-react';
-import { Dropdown } from '@navikt/ds-react-internal';
+import { Button, Dropdown } from '@navikt/ds-react';
 
 import styles from './HendelseDropdownMenu.module.css';
 

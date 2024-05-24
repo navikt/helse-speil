@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { EllipsisH } from '@navikt/ds-icons';
-import { Button, Table } from '@navikt/ds-react';
-import { Dropdown } from '@navikt/ds-react-internal';
+import { Button, Dropdown, Table } from '@navikt/ds-react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Egenskap, Maybe, OppgaveTilBehandling, Personnavn } from '@io/graphql';

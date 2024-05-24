@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-import { Loader } from '@navikt/ds-react';
-import { Dropdown } from '@navikt/ds-react-internal';
+import { Dropdown, Loader } from '@navikt/ds-react';
 
 import { Personinfo, Personnavn } from '@io/graphql';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';

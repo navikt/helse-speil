@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Header as InternalHeader } from '@navikt/ds-react-internal';
+import { InternalHeader } from '@navikt/ds-react';
 
 import { SystemMenu } from '@components/SystemMenu';
 import { UserMenu } from '@components/UserMenu';

@@ -21,19 +21,21 @@ export const ExpandableHistorikkContent: React.FC<ExpandableHistorikkContentProp
 }) => {
     const [open, setOpen] = useState(false);
     return (
-        <Accordion.Item open={open} className={classNames(className)} {...divProps}>
-            <Accordion.Header
-                className={styles.Header}
-                onClick={() => {
-                    setOpen((prevState) => !prevState);
-                    onOpen(!open);
-                }}
-            >
-                {open ? closeText : openText}
-            </Accordion.Header>
-            <Accordion.Content style={{ minWidth: '200px' }} className={styles.Content}>
-                {children}
-            </Accordion.Content>
-        </Accordion.Item>
+        <Accordion>
+            <Accordion.Item open={open} className={classNames(styles.item, className)} {...divProps}>
+                <Accordion.Header
+                    className={styles.Header}
+                    onClick={() => {
+                        setOpen((prevState) => !prevState);
+                        onOpen(!open);
+                    }}
+                >
+                    {open ? closeText : openText}
+                </Accordion.Header>
+                <Accordion.Content style={{ minWidth: '200px' }} className={styles.Content}>
+                    {children}
+                </Accordion.Content>
+            </Accordion.Item>
+        </Accordion>
     );
 };

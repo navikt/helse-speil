@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Button, UNSAFE_DatePicker as DatePicker, TextField } from '@navikt/ds-react';
+import { Button, DatePicker, TextField } from '@navikt/ds-react';
 
 import { Kildetype } from '@io/graphql';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
@@ -88,8 +88,8 @@ export const LeggTilDager = React.memo(({ periodeFom, onSubmitPølsestrekk }: Le
             const fom = dayjs(date, NORSK_DATOFORMAT).isValid()
                 ? dayjs(date, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
                 : date === ''
-                ? periodeFom
-                : '';
+                  ? periodeFom
+                  : '';
             setEndring({ ...endring, fom });
         };
 

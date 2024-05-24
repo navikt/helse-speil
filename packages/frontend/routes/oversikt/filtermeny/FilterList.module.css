@@ -10,6 +10,9 @@
     background-color: transparent;
     border: 0;
     font-weight: 600;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    box-shadow: none;
 }
 
 .liste .header .checkbox label span {

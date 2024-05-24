@@ -94,18 +94,20 @@ const ArbeidsgiverRowView: React.FC<ArbeidsgiverCardProps> = ({
     return (
         <>
             <ArbeidsgiverikonMedTooltip className={styles.iconContainer} />
-            <Accordion.Item open={open} className={styles.arbeidsgiverRow}>
-                <Accordion.Header className={styles.header} onClick={() => setOpen((prevState) => !prevState)}>
-                    <AnonymizableContainer>
-                        <BodyShort>{navn.charAt(0).toUpperCase() + navn.slice(1).toLowerCase()}</BodyShort>
-                    </AnonymizableContainer>
-                </Accordion.Header>
-                <Accordion.Content className={styles.content}>
-                    <OrganisasjonsnummerRow organisasjonsnummer={organisasjonsnummer} />
-                    <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} />
-                </Accordion.Content>
-                {månedsbeløp !== undefined && <MånedsbeløpRow månedsbeløp={månedsbeløp} />}
-            </Accordion.Item>
+            <Accordion>
+                <Accordion.Item open={open} className={styles.arbeidsgiverRow}>
+                    <Accordion.Header className={styles.header} onClick={() => setOpen((prevState) => !prevState)}>
+                        <AnonymizableContainer>
+                            <BodyShort>{navn.charAt(0).toUpperCase() + navn.slice(1).toLowerCase()}</BodyShort>
+                        </AnonymizableContainer>
+                    </Accordion.Header>
+                    <Accordion.Content className={styles.content}>
+                        <OrganisasjonsnummerRow organisasjonsnummer={organisasjonsnummer} />
+                        <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} />
+                    </Accordion.Content>
+                    {månedsbeløp !== undefined && <MånedsbeløpRow månedsbeløp={månedsbeløp} />}
+                </Accordion.Item>
+            </Accordion>
         </>
     );
 };

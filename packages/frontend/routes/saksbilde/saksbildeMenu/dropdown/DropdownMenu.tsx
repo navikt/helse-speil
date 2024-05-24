@@ -2,7 +2,7 @@ import styles from './DropdownMenu.module.scss';
 import React, { useRef, useState } from 'react';
 
 import { Collapse, Expand } from '@navikt/ds-icons';
-import { Dropdown } from '@navikt/ds-react-internal';
+import { Dropdown } from '@navikt/ds-react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useInteractOutside } from '@hooks/useInteractOutside';

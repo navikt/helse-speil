@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Alert } from '@navikt/ds-react';
-import { Header } from '@navikt/ds-react-internal';
+import { Alert, InternalHeader as Header } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 
