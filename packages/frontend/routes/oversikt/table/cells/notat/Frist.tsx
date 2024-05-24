@@ -14,6 +14,7 @@ export const Frist = () => {
         onValidate: (val) => {
             setHasError(!val.isValidDate);
         },
+        onDateChange: (value) => setValue('frist', dayjs(value).format(NORSK_DATOFORMAT)),
     });
 
     return (
@@ -21,12 +22,14 @@ export const Frist = () => {
             <DatePicker.Input
                 {...register('frist', {
                     required: 'Frist må være satt',
-                    validate: (value) => dayjs(value, NORSK_DATOFORMAT).isValid() || 'Ugyldig dato',
+                    validate: (value) => {
+                        console.log(value, dayjs(value, NORSK_DATOFORMAT).isValid());
+                        return dayjs(value, NORSK_DATOFORMAT).isValid() || 'Ugyldig dato';
+                    },
                 })}
                 {...inputProps}
                 label="Tidsfrist"
                 error={(hasError || formState.errors?.frist) && (formState.errors?.frist?.message as string)}
-                onSelect={(e) => setValue('frist', (e.target as HTMLSelectElement)?.value ?? null)}
             />
         </DatePicker>
     );
