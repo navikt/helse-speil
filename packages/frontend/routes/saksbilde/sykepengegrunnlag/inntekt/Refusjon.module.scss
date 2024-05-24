@@ -24,8 +24,12 @@
 }
 
 .DateInput {
-    max-width: 144px;
+    min-width: 144px;
     box-sizing: border-box;
+
+    > div {
+        width: 100%;
+    }
 }
 
 /* Overskriver designbibliotekstyling som setter width til auto og ødelegger refusjonslinjene */

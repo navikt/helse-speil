@@ -1,3 +1,4 @@
+import styles from './Refusjon.module.scss';
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import { Controller } from 'react-hook-form';
@@ -14,8 +15,6 @@ import { Refusjonsopplysning } from '@io/http';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
 import { useRefusjonFormField } from './useRefusjonFormField';
-
-import styles from './Refusjon.module.css';
 
 interface RefusjonProps {
     fraRefusjonsopplysninger: Refusjonsopplysning[];
