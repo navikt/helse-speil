@@ -14,6 +14,7 @@
     padding: 0 var(--a-spacing-4) 0 0 !important;
     flex-direction: row-reverse;
     justify-content: space-between;
+    box-shadow: none !important;
 }
 
 .ekspanderbartVarsel > button > svg {
