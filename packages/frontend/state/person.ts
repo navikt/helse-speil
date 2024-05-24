@@ -26,7 +26,7 @@ export const useFetchPersonQuery = (force: boolean = false) => {
     const fnr = finnFødselsnummerForValgtPerson(aktorId);
     const variables = fnr ? { fnr } : { aktorId };
 
-    const harIdentifikator = aktorId !== null || fnr !== null;
+    const harIdentifikator = aktorId != null || fnr != null;
     return useQuery(FetchPersonDocument, {
         fetchPolicy: force ? 'cache-first' : 'cache-only',
         variables,
