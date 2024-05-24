@@ -209,6 +209,7 @@ export type Behandlingsstatistikk = {
 export type BeregnetPeriode = Periode & {
     __typename?: 'BeregnetPeriode';
     avslag: Array<Avslag>;
+    behandlingId: Scalars['UUID']['output'];
     beregningId: Scalars['UUID']['output'];
     egenskaper: Array<Oppgaveegenskap>;
     erForkastet: Scalars['Boolean']['output'];
@@ -870,6 +871,7 @@ export type PaVent = {
 };
 
 export type Periode = {
+    behandlingId: Scalars['UUID']['output'];
     erForkastet: Scalars['Boolean']['output'];
     fom: Scalars['String']['output'];
     hendelser: Array<Hendelse>;
@@ -1381,6 +1383,7 @@ export type Totrinnsvurdering = {
 
 export type UberegnetPeriode = Periode & {
     __typename?: 'UberegnetPeriode';
+    behandlingId: Scalars['UUID']['output'];
     erForkastet: Scalars['Boolean']['output'];
     fom: Scalars['String']['output'];
     hendelser: Array<Hendelse>;
@@ -2352,6 +2355,7 @@ export type FetchPersonQuery = {
                           gjenstaendeSykedager?: number | null;
                           maksdato: string;
                           vilkarsgrunnlagId?: string | null;
+                          behandlingId: string;
                           fom: string;
                           tom: string;
                           erForkastet: boolean;
@@ -2640,6 +2644,7 @@ export type FetchPersonQuery = {
                     | {
                           __typename: 'UberegnetPeriode';
                           id: string;
+                          behandlingId: string;
                           fom: string;
                           tom: string;
                           erForkastet: boolean;
@@ -5006,6 +5011,10 @@ export const FetchPersonDocument = {
                                                                     {
                                                                         kind: 'Field',
                                                                         name: { kind: 'Name', value: '__typename' },
+                                                                    },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'behandlingId' },
                                                                     },
                                                                     {
                                                                         kind: 'Field',

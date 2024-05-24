@@ -50,9 +50,9 @@ const getTypePolicies = (): TypePolicies => {
         SoknadNav: { keyFields: ['id'] },
         Inntektsmelding: { keyFields: ['id'] },
         Utbetaling: { keyFields: ['id'] },
-        UberegnetPeriode: { keyFields: ['vedtaksperiodeId', 'periodetilstand'] },
-        BeregnetPeriode: { keyFields: ['vedtaksperiodeId', 'beregningId'] },
-        PeriodeHistorikkElement: { keyFields: ['timestamp'] },
+        UberegnetPeriode: { keyFields: ['behandlingId'] },
+        BeregnetPeriode: { keyFields: ['behandlingId'] },
+        PeriodeHistorikkElement: { keyFields: ['timestamp', 'type', 'saksbehandler_ident'] },
     };
 };
 

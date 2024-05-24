@@ -1811,6 +1811,22 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "behandlingId",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "UUID",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "beregningId",
                         "description": null,
                         "args": [],
@@ -7636,6 +7652,22 @@
                 "description": null,
                 "fields": [
                     {
+                        "name": "behandlingId",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "UUID",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "erForkastet",
                         "description": null,
                         "args": [],
@@ -12241,6 +12273,22 @@
                 "name": "UberegnetPeriode",
                 "description": null,
                 "fields": [
+                    {
+                        "name": "behandlingId",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "UUID",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
                     {
                         "name": "erForkastet",
                         "description": null,

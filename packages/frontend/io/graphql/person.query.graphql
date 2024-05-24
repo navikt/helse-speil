@@ -185,6 +185,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 id
                 perioder {
                     __typename
+                    behandlingId
                     fom
                     tom
                     erForkastet

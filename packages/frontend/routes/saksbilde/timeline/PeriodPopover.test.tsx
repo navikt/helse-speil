@@ -24,6 +24,7 @@ const getFetchedBeregnetPeriode = (
 ): FetchedBeregnetPeriode => {
     return {
         beregningId: 'EN_ID',
+        behandlingId: 'EN_BEHANDLING_ID',
         erForkastet: false,
         fom: '2022-01-01',
         tom: '2023-12-12',
