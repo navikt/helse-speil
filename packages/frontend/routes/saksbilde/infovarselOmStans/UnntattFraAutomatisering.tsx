@@ -96,6 +96,12 @@ const årsakSomTekst = (årsak: string) => {
             return 'Aktivitetskrav';
         case 'MANGLENDE_MEDVIRKNING':
             return 'Manglende medvirkning';
+        // Årsakene under er avviklet hos iSyfo, men siden vi skal lese inn gamle stoppknapp-meldinger kan
+        // vi få inn noen med disse årsakene også
+        case 'BESTRIDELSE_SYKMELDING':
+            return 'Bestridelse sykmelding';
+        case 'TILBAKEDATERT_SYKMELDING':
+            return 'Tilbakedatert sykmelding';
         default:
             return 'Ukjent årsak';
     }
