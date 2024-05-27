@@ -15,7 +15,6 @@ import { useTestWebsockets } from '@state/opptegnelser';
 import { useActivePeriod } from '@state/periode';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { onLazyLoadFail } from '@utils/error';
-import { erUtvikling } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { VenterPåEndringProvider } from './VenterPåEndringContext';
@@ -54,7 +53,7 @@ const SaksbildeContent = () => {
 
     return (
         <div className={styles.Saksbilde}>
-            {erUtvikling() && <InfovarselOmStans />}
+            <InfovarselOmStans />
             <PersonHeader />
             <Timeline />
             <AmplitudeProvider>
