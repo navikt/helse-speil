@@ -208,32 +208,34 @@ const wsProxy = httpProxy.createProxy({
     secure: false, // kommunikasjonen til spesialist foregår internt i clusteret
 });
 
-const hentOboToken = async (req: SpeilRequest) =>
-    await dependencies.onBehalfOf.hentFor(config.oidc.clientIDSpesialist, req.session, req.session.speilToken);
+// const hentOboToken = async (req: SpeilRequest) =>
+//     await dependencies.onBehalfOf.hentFor(config.oidc.clientIDSpesialist, req.session, req.session.speilToken);
 
 server.on('upgrade', async (req: http.IncomingMessage, socket, head) => {
     logger.debug(`upgrade received: ${req.url}`);
+    logger.debug(req.url!);
     try {
-        dependencies.sessionStore(req as Request, {} as Response, async () => {
-            const speilReq = req as SpeilRequest;
-            logger.debug(`req.session: ${speilReq.session}`);
-            logger.debug(`req.session.user: ${speilReq.session.user}`);
-            const oboToken = await hentOboToken(speilReq);
-            wsProxy.ws(
-                req,
-                socket,
-                head,
-                {
-                    headers: {
-                        Authorization: `Bearer ${oboToken}`,
-                    },
-                },
-                (err, req, res, target) =>
-                    logger.sikker.info(
-                        `Feil ifm. WS-tilkobling: ${err}.\nreq: ${req}, response: ${res}, target: ${target}`,
-                    ),
-            );
-        });
+        // dependencies.sessionStore(req as Request, {} as Response, async () => {
+        //     const speilReq = req as SpeilRequest;
+        //     logger.debug(`req.session: ${speilReq.session}`);
+        //     logger.debug(`req.session.user: ${speilReq.session.user}`);
+        //     const oboToken = await hentOboToken(speilReq);
+        //     wsProxy.ws(
+        //         req,
+        //         socket,
+        //         head,
+        //         {
+        //             headers: {
+        //                 Authorization: `Bearer ${oboToken}`,
+        //             },
+        //         },
+        //         (err, req, res, target) =>
+        //             logger.sikker.info(
+        //                 `Feil ifm. WS-tilkobling: ${err}.\nreq: ${req}, response: ${res}, target: ${target}`,
+        //             ),
+        //     );
+        // });
+        wsProxy.ws(req, socket, head);
         logger.debug(`sessionStore called`);
     } catch (e) {
         logger.sikker.info(`Feil ifm. WS-tilkobling: ${e}`);
