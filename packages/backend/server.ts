@@ -2,7 +2,6 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';
-import httpProxy from 'http-proxy';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import * as http from 'node:http';
 import { Client, generators } from 'openid-client';
@@ -203,16 +202,18 @@ app.use(errorHandler);
 
 const server = http.createServer(app);
 
-const wsProxy = httpProxy.createProxy({
-    target: config.server.spesialistWsUrl,
-    changeOrigin: true,
-    ws: true,
-    secure: true, // kommunikasjonen til spesialist foregår internt i clusteret
-});
+// const wsProxy = httpProxy.createProxy({
+//     target: config.server.spesialistWsUrl,
+//     changeOrigin: true,
+//     ws: true,
+//     secure: true, // kommunikasjonen til spesialist foregår internt i clusteret
+// });
 
 const proxy = createProxyMiddleware({
     target: config.server.spesialistWsUrl,
     changeOrigin: true,
+    ws: true,
+    pathFilter: '/ws',
 });
 
 app.use(proxy);
@@ -252,13 +253,13 @@ server.on('upgrade', proxy.upgrade);
 //         return;
 //     }
 // });
-wsProxy.on('error', (error: NodeJS.ErrnoException, _req, res: Response) => {
-    if (error.code !== 'ECONNRESET') {
-        logger.error(`proxy error: ${JSON.stringify(error)}`);
-    }
-
-    res.end(JSON.stringify({ error: 'proxy_error', reason: error.message }));
-});
+// wsProxy.on('error', (error: NodeJS.ErrnoException, _req, res: Response) => {
+//     if (error.code !== 'ECONNRESET') {
+//         logger.error(`proxy error: ${JSON.stringify(error)}`);
+//     }
+//
+//     res.end(JSON.stringify({ error: 'proxy_error', reason: error.message }));
+// });
 
 server.listen(port, () =>
     logger.info(
