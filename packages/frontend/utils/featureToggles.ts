@@ -65,4 +65,4 @@ export const harSpesialsaktilgang: boolean = extractGroups().includes(groupIdSpe
 
 export const toggleMeny: boolean = erLocal() || erDev();
 
-export const kanSkriveAvslag: boolean = erLocal() || erDev();
+export const kanSkriveAvslag: boolean = erLocal() || erDev() || erCoachEllerSuper();
