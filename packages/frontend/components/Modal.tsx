@@ -23,6 +23,7 @@ export interface ModalProps extends ChildrenProps {
     className?: string;
     contentLabel?: string;
     shouldReturnFocusAfterClose?: boolean;
+    closeIcon?: ReactNode;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -33,6 +34,7 @@ export const Modal: React.FC<ModalProps> = ({
     className = '',
     contentLabel,
     shouldReturnFocusAfterClose,
+    closeIcon,
 }) => (
     <ReactModal
         id="modal"
@@ -44,7 +46,13 @@ export const Modal: React.FC<ModalProps> = ({
     >
         <section onClick={(event) => event.stopPropagation()} onKeyDown={(event) => event.stopPropagation()}>
             <header className={styles.topprad}>
-                <button className={styles.lukk} onClick={onRequestClose} />
+                {closeIcon ? (
+                    <button className={styles.minimer} onClick={onRequestClose}>
+                        {closeIcon}
+                    </button>
+                ) : (
+                    <button className={styles.lukk} onClick={onRequestClose} />
+                )}
                 {title}
             </header>
             {children}

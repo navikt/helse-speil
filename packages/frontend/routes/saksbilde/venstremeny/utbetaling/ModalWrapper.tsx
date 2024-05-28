@@ -7,11 +7,12 @@ interface ModalWrapperProps {
     erÅpen: boolean;
     setErÅpen: Dispatch<SetStateAction<boolean>>;
     children: ReactNode;
+    closeIcon?: ReactNode;
 }
 
-export const ModalWrapper = ({ erÅpen, setErÅpen, children }: ModalWrapperProps) => {
+export const ModalWrapper = ({ erÅpen, setErÅpen, closeIcon, children }: ModalWrapperProps) => {
     return erÅpen ? (
-        <Modal isOpen={erÅpen} onRequestClose={() => setErÅpen(false)} className={styles.modal}>
+        <Modal isOpen={erÅpen} onRequestClose={() => setErÅpen(false)} className={styles.modal} closeIcon={closeIcon}>
             {children}
         </Modal>
     ) : (

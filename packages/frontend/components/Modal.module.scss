@@ -19,6 +19,25 @@
   }
 }
 
+.minimer {
+  border: 0;
+  position: relative;
+  cursor: pointer;
+  height: 2rem;
+  width: 2rem;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+
+  &:hover {
+    background: var(--a-surface-hover)
+  }
+}
+
 .lukk {
   position: relative;
   cursor: pointer;
