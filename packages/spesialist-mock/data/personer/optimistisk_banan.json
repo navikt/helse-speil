@@ -589,6 +589,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "526f95a7-ad49-42a0-8bb7-13d1051ff386",
+                                    "behandlingId": "cfebc354-239c-46fa-ae50-9ccb6f9fad98",
                                     "periodetilstand": "Annullert",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "id": "7d932c96-28f5-4a65-8d72-7c2fa025164a",
@@ -1035,6 +1036,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "8e7434f8-b586-4d81-b9a0-0e022be35c3b",
+                                    "behandlingId": "fdbd01a8-b7b6-48a8-859e-a2744a692169",
                                     "periodetilstand": "Annullert",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "id": "3dd91792-132c-4924-8ce5-1e797268831c",
@@ -1306,6 +1308,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "03403267-7f4b-4762-9949-22c232114e8d",
+                                    "behandlingId": "ef46866a-c6b3-4c29-8aba-f36e2e45d45c",
                                     "periodetilstand": "IngenUtbetaling",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "varsler": [],
@@ -1424,6 +1427,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "d92c8dd1-db8f-43a6-8575-f1e5c8d2195f",
+                                    "behandlingId": "6494873e-e3cf-4991-9a8e-0f3ca5386e0a",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "ae1543b1-d201-4509-93fb-eaa4bf3db3f7",
@@ -2071,6 +2075,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "fb8ad1e3-5f5d-4fff-b23e-657a9fa2530b",
+                                    "behandlingId": "21cfd487-ce08-41d7-bb01-f3e0c8eb7795",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "4485fe15-80ca-476a-a80f-2a0d762a17c0",
@@ -2621,6 +2626,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "22b7ff18-89cb-44dd-afed-dc21308242b9",
+                                    "behandlingId": "a7579cc3-36cf-458e-8c0e-c7fa1d014462",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "154a63a5-3c6b-424e-ab46-f77f65447c1f",
@@ -3277,6 +3283,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "2129e08a-0c2c-4763-9dba-75f5c9d849d0",
+                                    "behandlingId": "4ba7f437-ab30-4f49-ace6-96f9c8a805b5",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "86531ae5-e4eb-4377-8488-507e3fdbd452",
@@ -3719,6 +3726,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "fec4474a-433f-4840-a8f4-662862f91f33",
+                                    "behandlingId": "616aa7ea-b505-41f0-ba3b-583438db3fcf",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "7cfa2941-c6c7-4d20-a5c7-e2283f161148",
@@ -4252,6 +4260,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "d5fc6c20-f5b1-46e5-bdde-386fc79096cf",
+                                    "behandlingId": "dca95030-79b2-4cd2-9b3b-770767692c20",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "67ee500b-3428-4f6f-82e7-4080059c1bd4",
@@ -4899,6 +4908,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "ec79322c-6e4a-44af-bac5-1ef9434b9199",
+                                    "behandlingId": "7ba36490-9dd3-4505-ad11-7385fd4ca6cf",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "c746ffb7-6b0a-4d8e-a65a-8caef5f43ed4",
@@ -5427,6 +5437,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "63cf63dd-e402-40a5-be54-3e6d1c5956a8",
+                                    "behandlingId": "79c203eb-c9d0-4b34-b661-56eca95a23fd",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "193b47a8-0ab5-4c70-9b5c-47cd2c4b7862",
@@ -5979,6 +5990,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "c8c00d71-88fd-4d54-86ac-b3a6cc5e1a5b",
+                                    "behandlingId": "67ff63e8-d6db-40b5-838d-66d0df293087",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-05-20",
                                     "id": "735aa837-e89c-4d99-8646-67b5f9fd3bea",
@@ -6410,6 +6422,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "139a32f2-508a-499b-b775-888ccb337b27",
+                                    "behandlingId": "a3727ad3-c816-4925-bc1d-8672efb5d342",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-05-01",
                                     "id": "1eee8816-73bd-45d2-b87a-4df817438083",
@@ -6974,6 +6987,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "4cbee781-223f-4679-b01e-0d9f3aa5031f",
+                                    "behandlingId": "7bcc68fe-2b76-410d-a144-ad0e29d60205",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-03-08",
                                     "id": "e7ecfa30-7764-4503-aa15-d9229d638ba3",
@@ -7555,6 +7569,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "ad71f6d4-1278-45c5-84d7-3941bf8c8e08",
+                                    "behandlingId": "861ab255-60ae-4c8e-92cd-83b45de02f6d",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-02-08",
                                     "id": "b611f93b-61f6-41fe-ab9c-33de4451d5a0",
@@ -8011,6 +8026,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "9dd4af3a-45f4-4fc5-87ea-1b35f685d026",
+                                    "behandlingId": "914268d2-aee4-44d4-9c33-2fa85c4e4878",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-01-18",
                                     "id": "87661e96-0a78-41d0-8ab1-34109b5b250a",
@@ -8391,6 +8407,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "0a3ebb64-e30f-4d65-8da4-979c6c24c17b",
+                                    "behandlingId": "55422b08-cca9-4ad7-9436-ee63adf530cc",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-01-01",
                                     "id": "a4224c7a-6d2c-4948-8b67-0e09fb4babef",
@@ -8804,6 +8821,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "80915011-167d-4aff-8694-3861ebda5b28",
+                                    "behandlingId": "ba2742ab-6444-4572-ab5c-d63817e878a4",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2020-12-09",
                                     "id": "5e4c579e-32cd-4f33-8987-3e06f6cee55e",
@@ -9287,6 +9305,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "526f95a7-ad49-42a0-8bb7-13d1051ff386",
+                                    "behandlingId": "21d77fbe-72bc-4606-9b34-b28ffc3f44fb",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "id": "f2f10be8-3ecc-41ca-a0b2-85f2ca8c0ad3",
@@ -9835,6 +9854,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "8e7434f8-b586-4d81-b9a0-0e022be35c3b",
+                                    "behandlingId": "be698c88-309b-4505-aeba-3b76951dab3c",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "id": "4dde5843-fcc9-4625-a612-1cd5a5171501",
@@ -10208,6 +10228,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "03403267-7f4b-4762-9949-22c232114e8d",
+                                    "behandlingId": "3439859b-6046-4966-9dcd-bc4b11507757",
                                     "periodetilstand": "IngenUtbetaling",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "varsler": [],
@@ -10326,6 +10347,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "d92c8dd1-db8f-43a6-8575-f1e5c8d2195f",
+                                    "behandlingId": "16a5fc52-b39c-4629-9923-408370b1385e",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "435dc112-106d-4593-9648-27f46439b097",
@@ -10973,6 +10995,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "fb8ad1e3-5f5d-4fff-b23e-657a9fa2530b",
+                                    "behandlingId": "300f622f-4318-4a9f-a467-e35585aaf44a",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "e8272a28-8bfb-4fd5-8daa-0472136c803d",
@@ -11523,6 +11546,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "22b7ff18-89cb-44dd-afed-dc21308242b9",
+                                    "behandlingId": "5de876af-a5d2-4464-a39e-e756922db4c6",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "b417a38e-3e82-4a6e-abe3-6a32f8504e42",
@@ -12179,6 +12203,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "2129e08a-0c2c-4763-9dba-75f5c9d849d0",
+                                    "behandlingId": "dfe705a8-693a-4632-94f3-8ca992c95a5d",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "99639980-8455-431f-9e11-785ad2e3ba16",
@@ -12621,6 +12646,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "fec4474a-433f-4840-a8f4-662862f91f33",
+                                    "behandlingId": "0fae92f8-85aa-46fc-841f-028581e4898f",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "11ee181f-943c-4c33-a693-d076bd729bcd",
@@ -13154,6 +13180,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "d5fc6c20-f5b1-46e5-bdde-386fc79096cf",
+                                    "behandlingId": "0f8ce82a-921e-4f92-81c2-9820b32c561f",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "76530bc1-2eb9-4725-9129-f80957b8b14e",
@@ -13801,6 +13828,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "ec79322c-6e4a-44af-bac5-1ef9434b9199",
+                                    "behandlingId": "87d4b2da-a4f2-45a1-9b4b-8ac67cd0a712",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "412ced62-f9a3-44d3-a78f-935497e5f251",
@@ -14329,6 +14357,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "63cf63dd-e402-40a5-be54-3e6d1c5956a8",
+                                    "behandlingId": "154c48b2-c7e6-4011-b111-abda68a513e1",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "c53a7945-5b8a-4e8e-adc2-79c2b0510162",
@@ -14881,6 +14910,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "c8c00d71-88fd-4d54-86ac-b3a6cc5e1a5b",
+                                    "behandlingId": "a5db9708-f749-4452-a892-f1443ed25927",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-05-20",
                                     "id": "f6ccf53c-ca26-484b-ab64-7b9019228219",
@@ -15312,6 +15342,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "139a32f2-508a-499b-b775-888ccb337b27",
+                                    "behandlingId": "c056420b-c7f4-479a-89b9-57c7caa9337b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-05-01",
                                     "id": "1cc6c10b-4530-4a14-976f-22ebb215e352",
@@ -15876,6 +15907,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "4cbee781-223f-4679-b01e-0d9f3aa5031f",
+                                    "behandlingId": "ff8a897f-6fdc-40d1-90fe-5a3ae58bc02a",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-03-08",
                                     "id": "46ce16e9-89a7-4116-9184-92e36a7da1eb",
@@ -16457,6 +16489,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "ad71f6d4-1278-45c5-84d7-3941bf8c8e08",
+                                    "behandlingId": "2e5df923-3ff4-4fa1-996a-ea7e8489b6f3",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-02-08",
                                     "id": "6aa8cee6-5123-410d-be5c-4f64aa32a548",
@@ -16913,6 +16946,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "9dd4af3a-45f4-4fc5-87ea-1b35f685d026",
+                                    "behandlingId": "f7e5045d-f5a0-4ba4-9661-aa34d2d7edcf",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-01-18",
                                     "id": "ac8c4d16-a2e9-4618-ba93-741c478a0c82",
@@ -17308,6 +17342,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "0a3ebb64-e30f-4d65-8da4-979c6c24c17b",
+                                    "behandlingId": "ba0ccc78-f292-4810-914f-23745e67257b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-01-01",
                                     "id": "b7d4bd78-59ac-4b9a-8ca9-c53322f52707",
@@ -17721,6 +17756,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "80915011-167d-4aff-8694-3861ebda5b28",
+                                    "behandlingId": "612d0616-bf74-4773-b928-396a300c9d8f",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2020-12-09",
                                     "id": "db90b14c-66bc-4763-9281-156fa8da9fef",
@@ -18204,6 +18240,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "526f95a7-ad49-42a0-8bb7-13d1051ff386",
+                                    "behandlingId": "d82f1f48-d7b2-4fdf-90e7-a4c280e4a8d3",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "id": "17f2eb16-2204-44e6-a260-96ed5da4502d",
@@ -18709,6 +18746,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "8e7434f8-b586-4d81-b9a0-0e022be35c3b",
+                                    "behandlingId": "2a6dafd2-006f-402a-bcea-882361f5a706",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "id": "bbb5bee1-ce32-479b-8cf7-81e9cad404da",
@@ -19039,6 +19077,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "03403267-7f4b-4762-9949-22c232114e8d",
+                                    "behandlingId": "603079fa-10a6-4846-b1fa-9efc2d0c76fe",
                                     "periodetilstand": "IngenUtbetaling",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "handlinger": [
@@ -19156,6 +19195,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "d92c8dd1-db8f-43a6-8575-f1e5c8d2195f",
+                                    "behandlingId": "764ef385-34fa-4941-a9b4-4e574d77c442",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "a6e53df9-dd4d-4039-b58c-496f9434f6e7",
@@ -19803,6 +19843,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "fb8ad1e3-5f5d-4fff-b23e-657a9fa2530b",
+                                    "behandlingId": "70fcc09a-4cdb-4b5d-8b51-cf7f16b2438d",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "a6db07d4-dd87-4075-a870-75ddfc90327a",
@@ -20353,6 +20394,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "22b7ff18-89cb-44dd-afed-dc21308242b9",
+                                    "behandlingId": "70581dac-1b79-4de5-be16-da682f78f36a",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "4f30b9e8-8dec-4a6f-b71f-a836eed6018b",
@@ -21009,6 +21051,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "2129e08a-0c2c-4763-9dba-75f5c9d849d0",
+                                    "behandlingId": "47e00436-8364-4799-a3d6-9fb0aa49a74d",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "2ef3054a-14a3-4181-80cb-5eba7a8b5ef6",
@@ -21451,6 +21494,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "fec4474a-433f-4840-a8f4-662862f91f33",
+                                    "behandlingId": "1804e3ff-b36a-439d-ae3d-00275844c64e",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "afb40405-64b4-4b91-a797-b7eb7a40742f",
@@ -21984,6 +22028,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "d5fc6c20-f5b1-46e5-bdde-386fc79096cf",
+                                    "behandlingId": "fee776e4-8391-45bf-b8db-16a2a1f5477e",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "fc417e36-b4f3-45c9-9e28-2ebb58d3a31c",
@@ -22631,6 +22676,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "ec79322c-6e4a-44af-bac5-1ef9434b9199",
+                                    "behandlingId": "3a8e79ac-cce5-41c4-b6f9-d5ffee811db9",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "a7fc8e60-508f-4a55-9ec8-4ba75c20655e",
@@ -23159,6 +23205,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "63cf63dd-e402-40a5-be54-3e6d1c5956a8",
+                                    "behandlingId": "6dfbdcc1-627c-4b5f-9b9e-f91435836ba7",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
                                     "id": "8058b251-e5bd-40bd-b0ef-314da07b3d61",
@@ -23711,6 +23758,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "c8c00d71-88fd-4d54-86ac-b3a6cc5e1a5b",
+                                    "behandlingId": "df3bfdf4-39ce-4f42-965d-2e90ea9c541a",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-05-20",
                                     "id": "11e1e6d5-b3e8-4444-87a7-eea0d1d5522f",
@@ -24142,6 +24190,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "139a32f2-508a-499b-b775-888ccb337b27",
+                                    "behandlingId": "b03b4a15-dc90-408b-b5fb-d9839b21575e",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-05-01",
                                     "id": "e8c4d0a3-7155-4e1c-8b77-fb0f7f885474",
@@ -24706,6 +24755,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "4cbee781-223f-4679-b01e-0d9f3aa5031f",
+                                    "behandlingId": "3593e6f7-16dc-4bcc-9faa-efdbf0e4c75b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-03-08",
                                     "id": "a41b3a02-01ca-4166-937b-4a1758f25426",
@@ -25287,6 +25337,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "ad71f6d4-1278-45c5-84d7-3941bf8c8e08",
+                                    "behandlingId": "af1f5ce6-e055-4a1e-8ae1-deb6b0c54dbc",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-02-08",
                                     "id": "b0d019c7-4256-4931-b447-c13af85e51d8",
@@ -25743,6 +25794,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "9dd4af3a-45f4-4fc5-87ea-1b35f685d026",
+                                    "behandlingId": "a8eadda9-0ed4-4e32-bd8c-626c2525cdb4",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-01-18",
                                     "id": "83894282-020b-43b9-8574-d1b65a510490",
@@ -26138,6 +26190,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "0a3ebb64-e30f-4d65-8da4-979c6c24c17b",
+                                    "behandlingId": "0df3057f-0f35-4e01-8652-0120a2a0b44d",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-01-01",
                                     "id": "fa380a13-d6d6-4f3e-8864-3a7a62af82cf",
@@ -26551,6 +26604,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "80915011-167d-4aff-8694-3861ebda5b28",
+                                    "behandlingId": "38235f44-9d8e-4dbb-8221-7a31d2ad1458",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2020-12-09",
                                     "id": "69996632-ddc9-467b-94cc-46ef94e64547",

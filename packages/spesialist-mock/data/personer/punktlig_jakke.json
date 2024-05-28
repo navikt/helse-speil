@@ -562,6 +562,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "e1ed98f4-53c8-4708-aa0b-5d24d5c20a67",
+                                    "behandlingId": "d43d63b3-9241-4ea8-a86c-ff9da316cc0c",
                                     "periodetilstand": "TilGodkjenning",
                                     "skjaeringstidspunkt": "2023-03-01",
                                     "varsler": [

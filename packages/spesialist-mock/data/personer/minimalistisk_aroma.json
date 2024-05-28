@@ -729,6 +729,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "546cb550-bcd0-4b95-abc0-d17bf6818bf7",
+                                    "behandlingId": "c3864aee-7628-4d5d-9302-1a58910edff4",
                                     "periodetilstand": "TilGodkjenning",
                                     "skjaeringstidspunkt": "2023-02-01",
                                     "id": "ea24448f-e294-4acd-8191-e56f396f63c9",
@@ -1097,6 +1098,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "3d1d6b8d-3139-4fd9-aa1e-48e65689e273",
+                                    "behandlingId": "0da6e16d-9aca-4666-89d5-abcc3b6baa2c",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2023-02-01",
                                     "id": "63ed2b8e-4484-43e5-b27e-49cc823aa4cc",
@@ -2350,6 +2352,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "9bd25288-db25-416a-a9b4-e52c88affa81",
+                                    "behandlingId": "55b56be0-acd4-48b8-abf6-d7e491072b50",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2023-02-01",
                                     "id": "7a596108-e70d-438d-b06e-7c465b5455f1",
