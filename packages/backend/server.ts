@@ -204,6 +204,7 @@ const server = http.createServer(app);
 
 const wsProxy = httpProxy.createProxy({
     target: config.server.spesialistWsUrl,
+    changeOrigin: true,
     // secure: false, // kommunikasjonen til spesialist foregår internt i clusteret
 });
 
