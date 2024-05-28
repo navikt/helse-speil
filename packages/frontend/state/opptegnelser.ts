@@ -35,8 +35,10 @@ export const useTestWebsockets = () => {
     useEffect(() => {
         if (erProd()) return;
         const wsConn = new WebSocket(`${WEBSOCKETS_URL}/ws/opptegnelse`);
+        console.log(WEBSOCKETS_URL);
         wsConn.onopen = () => {
             console.log('ws connection er åpnet');
+            wsConn.send('Hello world');
         };
         wsConn.onmessage = (event) => {
             console.log(`Mottatt over WS: ${event.data}`);
