@@ -3,6 +3,7 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import httpProxy from 'http-proxy';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import * as http from 'node:http';
 import { Client, generators } from 'openid-client';
 import util from 'util';
@@ -204,45 +205,53 @@ const server = http.createServer(app);
 
 const wsProxy = httpProxy.createProxy({
     target: config.server.spesialistWsUrl,
-    // changeOrigin: true,
+    changeOrigin: true,
     ws: true,
-    // secure: true, // kommunikasjonen til spesialist foregår internt i clusteret
+    secure: true, // kommunikasjonen til spesialist foregår internt i clusteret
 });
 
+const proxy = createProxyMiddleware({
+    target: config.server.spesialistWsUrl,
+    changeOrigin: true,
+});
+
+app.use(proxy);
 // const hentOboToken = async (req: SpeilRequest) =>
 //     await dependencies.onBehalfOf.hentFor(config.oidc.clientIDSpesialist, req.session, req.session.speilToken);
 
-server.on('upgrade', async (req: http.IncomingMessage, socket, head) => {
-    logger.debug(`upgrade received: ${req.url}`);
-    logger.debug(req.url!);
-    try {
-        // dependencies.sessionStore(req as Request, {} as Response, async () => {
-        //     const speilReq = req as SpeilRequest;
-        //     logger.debug(`req.session: ${speilReq.session}`);
-        //     logger.debug(`req.session.user: ${speilReq.session.user}`);
-        //     const oboToken = await hentOboToken(speilReq);
-        //     wsProxy.ws(
-        //         req,
-        //         socket,
-        //         head,
-        //         {
-        //             headers: {
-        //                 Authorization: `Bearer ${oboToken}`,
-        //             },
-        //         },
-        //         (err, req, res, target) =>
-        //             logger.sikker.info(
-        //                 `Feil ifm. WS-tilkobling: ${err}.\nreq: ${req}, response: ${res}, target: ${target}`,
-        //             ),
-        //     );
-        // });
-        wsProxy.ws(req, socket, head);
-        logger.debug(`sessionStore called`);
-    } catch (e) {
-        logger.sikker.info(`Feil ifm. WS-tilkobling: ${e}`);
-        return;
-    }
-});
+server.on('upgrade', proxy.upgrade);
+
+// server.on('upgrade', async (req: http.IncomingMessage, socket, head) => {
+//     logger.debug(`upgrade received: ${req.url}`);
+//     logger.debug(req.url!);
+//     try {
+//         // dependencies.sessionStore(req as Request, {} as Response, async () => {
+//         //     const speilReq = req as SpeilRequest;
+//         //     logger.debug(`req.session: ${speilReq.session}`);
+//         //     logger.debug(`req.session.user: ${speilReq.session.user}`);
+//         //     const oboToken = await hentOboToken(speilReq);
+//         //     wsProxy.ws(
+//         //         req,
+//         //         socket,
+//         //         head,
+//         //         {
+//         //             headers: {
+//         //                 Authorization: `Bearer ${oboToken}`,
+//         //             },
+//         //         },
+//         //         (err, req, res, target) =>
+//         //             logger.sikker.info(
+//         //                 `Feil ifm. WS-tilkobling: ${err}.\nreq: ${req}, response: ${res}, target: ${target}`,
+//         //             ),
+//         //     );
+//         // });
+//         wsProxy.ws(req, socket, head);
+//         logger.debug(`sessionStore called`);
+//     } catch (e) {
+//         logger.sikker.info(`Feil ifm. WS-tilkobling: ${e}`);
+//         return;
+//     }
+// });
 wsProxy.on('error', (error: NodeJS.ErrnoException, _req, res: Response) => {
     if (error.code !== 'ECONNRESET') {
         logger.error(`proxy error: ${JSON.stringify(error)}`);
