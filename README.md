@@ -29,6 +29,17 @@ SPESIALIST_WS_URL=ws://127.0.0.1:9001
 EOF
 ```
 
+### Sett opp tilgang til Github Package Registry
+
+For å kunne laste dependencies fra Github Package Registry
+må du ha et Github Personal Access satt i miljøvariabelen `NPM_AUTH_TOKEN`.
+
+Dette tokenet trenger scopet `package:read`. Legg til følgende i `~/.bashrc` eller `~/.zshrc`:
+
+```shell
+export NPM_AUTH_TOKEN=<token>
+```
+
 ### Både frontend og backend med én kommando
 
 ```shell

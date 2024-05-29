@@ -1,7 +1,7 @@
-import { NextFunction, Response, Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 
+import { getAuthToken } from '../auth/token';
 import logger from '../logging';
-import { SpeilRequest } from '../types';
 import { sleep } from '../utils';
 import { GraphQLClient } from './graphQLClient';
 
@@ -12,14 +12,14 @@ interface SetupOptions {
 export default ({ graphQLClient }: SetupOptions) => {
     const router = Router();
 
-    router.post('/', (req: SpeilRequest, res: Response, next: NextFunction) => {
+    router.post('/', (req: Request, res: Response, next: NextFunction) => {
         retrySpørring(graphQLClient, req, res).catch(next);
     });
 
     return router;
 };
 
-const retrySpørring = async (graphQLClient: GraphQLClient, req: SpeilRequest, res: Response) => {
+const retrySpørring = async (graphQLClient: GraphQLClient, req: Request, res: Response) => {
     let forsøk = 0;
     let response: Response | undefined;
     let giOpp;
@@ -42,9 +42,11 @@ const retrySpørring = async (graphQLClient: GraphQLClient, req: SpeilRequest, r
     else res.sendStatus(500);
 };
 
-const postSpørring = async (graphQLClient: GraphQLClient, req: SpeilRequest) => {
+const postSpørring = async (graphQLClient: GraphQLClient, req: Request) => {
     const data = JSON.stringify(req.body);
-    const response = await graphQLClient.postGraphQLQuery(req.session!.speilToken, req.session, data);
+    const token = getAuthToken(req);
+    if (!token) throw new Error('Mangler token');
+    const response = await graphQLClient.postGraphQLQuery(token, data);
     if (!response.ok) throw new Error(`Feil ved kall til spesialist, status: ${response.status}`);
     return await response.json();
 };

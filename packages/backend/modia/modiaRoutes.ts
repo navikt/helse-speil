@@ -1,7 +1,8 @@
-import { Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
+
+import { getToken } from '@navikt/oasis';
 
 import logger from '../logging';
-import { SpeilRequest } from '../types';
 import { Handling, ModiaClient } from './modiaClient';
 
 interface SetupOptions {
@@ -10,9 +11,14 @@ interface SetupOptions {
 
 export default ({ modiaClient }: SetupOptions) => {
     const router = Router();
-    router.post('/', async (req: SpeilRequest, res: Response) => {
+    router.post('/', async (req: Request, res: Response) => {
+        const token = getToken(req);
+        if (!token) {
+            res.sendStatus(401);
+            return;
+        }
         try {
-            await modiaClient.kallModia(Handling.velgBrukerIModia, req.session!.speilToken, req.session, req.body);
+            await modiaClient.kallModia(Handling.velgBrukerIModia, token, req.body);
             res.sendStatus(200);
         } catch (error) {
             logger.warn(`Setting av person i modiacontext feilet: ${error}`);
@@ -20,9 +26,14 @@ export default ({ modiaClient }: SetupOptions) => {
         }
     });
 
-    router.delete('/aktivbruker', async (req: SpeilRequest, res: Response) => {
+    router.delete('/aktivbruker', async (req: Request, res: Response) => {
+        const token = getToken(req);
+        if (!token) {
+            res.sendStatus(401);
+            return;
+        }
         try {
-            await modiaClient.kallModia(Handling.nullstillBruker, req.session!.speilToken, req.session);
+            await modiaClient.kallModia(Handling.nullstillBruker, token);
             res.sendStatus(200);
         } catch (error) {
             logger.warn(`Nullstilling av person i modiacontext feilet: ${error}`);

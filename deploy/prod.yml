@@ -51,6 +51,11 @@ spec:
     generatedConfig:
       mountPath: /app/dist/client/nais/nais
   azure:
+    sidecar:
+      enabled: true
+      autoLogin: true
+      autoLoginIgnorePaths:
+        - /static/*
     application:
       enabled: true
       claims:
