@@ -13,7 +13,7 @@ import { Søknadsinnhold } from '../routes/saksbilde/historikk/hendelser/dokumen
 import { getKildetekst, getKildetype, openedDocument } from '../routes/saksbilde/historikk/hendelser/dokument/dokument';
 
 export const ÅpnetDokument: React.FC = () => {
-    const [åpnedeDokumenter, lukkVisning] = useRecoilState(openedDocument);
+    const [åpnedeDokumenter, setÅpnedeDokumenter] = useRecoilState(openedDocument);
 
     if ((åpnedeDokumenter?.length ?? 0) === 0) return null;
 
@@ -29,7 +29,7 @@ export const ÅpnetDokument: React.FC = () => {
                         <button
                             className={styles.button}
                             onClick={() =>
-                                lukkVisning((prevState) =>
+                                setÅpnedeDokumenter((prevState) =>
                                     prevState.filter((item) => item.dokumentId !== dokument.dokumentId),
                                 )
                             }
