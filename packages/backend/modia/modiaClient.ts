@@ -1,13 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import { requestAzureOboToken } from '../auth/token';
 import config from '../config';
 import logger from '../logging';
-import { OidcConfig, OnBehalfOf, SpeilSession } from '../types';
 
 const modiaBaseUrl = config.server.modiaBaseUrl;
 
 export interface ModiaClient {
-    kallModia: (handling: Handling, speilToken: string, session: SpeilSession, data?: string) => Promise<Response>;
+    kallModia: (handling: Handling, wonderwallToken: string, data?: string) => Promise<Response>;
 }
 
 export enum Handling {
@@ -22,20 +22,18 @@ const handlinger: { [key in Handling]: Handlingdata } = {
     [Handling.nullstillBruker]: { path: '/api/context/aktivbruker', method: 'delete' },
 };
 
-export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): ModiaClient => ({
-    kallModia: async (
-        handling: Handling,
-        speilToken: string,
-        session: SpeilSession,
-        data: string,
-    ): Promise<Response> => {
+export default (): ModiaClient => ({
+    kallModia: async (handling: Handling, wonderwallToken: string, data: string): Promise<Response> => {
         const { method, path } = handlinger[handling];
         const callId = uuidv4();
-        const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.modiaApiScope, session, speilToken);
+        const oboResult = await requestAzureOboToken(wonderwallToken, config.oidc.modiaApiScope);
+        if (!oboResult.ok) {
+            throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
+        }
         const options = {
             method: method,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`,
+                Authorization: `Bearer ${oboResult.token}`,
                 'X-Request-Id': callId,
                 'Content-Type': 'application/json',
                 'Nav-Consumer-Id': 'speil',
@@ -43,7 +41,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): ModiaClient => 
             body: JSON.stringify(data),
         };
 
-        const maskertToken = onBehalfOfToken.substring(0, 6);
+        const maskertToken = oboResult.token.substring(0, 6);
         const url = `${modiaBaseUrl}${path}`;
         logger.debug(`Kaller ${url} med X-Request-Id: ${callId} og token: ${maskertToken}...`);
 

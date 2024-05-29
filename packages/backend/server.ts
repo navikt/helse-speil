@@ -4,11 +4,10 @@ import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import * as http from 'node:http';
-import { Client, generators } from 'openid-client';
-import util from 'util';
 
-import auth from './auth/authSupport';
-import azure from './auth/azure';
+import { getToken, validateToken } from '@navikt/oasis';
+
+import { createTokenForTest } from './auth/testToken';
 import config from './config';
 import flexjarRoutes from './flexjar/flexjarRoutes';
 import graphQLRoutes from './graphql/graphQLRoutes';
@@ -16,154 +15,68 @@ import headers from './headers';
 import logger from './logging';
 import modiaRoutes from './modia/modiaRoutes';
 import { ipAddressFromRequest } from './requestData';
-import { AuthError, SpeilRequest } from './types';
 import wiring from './wiring';
 
 const app = express();
 const port = config.server.port;
-const helsesjekk = { redis: false };
-const dependencies = wiring.getDependencies(app, helsesjekk);
+const dependencies = wiring.getDependencies(app);
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(dependencies.sessionStore);
 app.use(compression());
 
 headers.setup(app);
 
-let azureClient: Client | null = null;
-azure
-    .setup(config.oidc)
-    .then((client: Client) => {
-        azureClient = client;
-    })
-    .catch((err) => {
-        logger.error(`Failed to discover OIDC provider properties: ${err}`);
-        process.exit(1);
-    });
-
 // Unprotected routes
 app.get('/isAlive', (_, res) => res.send('alive'));
-app.get('/isReady', (_, res) => {
-    if (helsesjekk.redis) {
-        return res.send('ready');
-    } else {
-        logger.warn('Svarer not ready på isReady');
-        res.statusCode = 503;
-        return res.send('NOT READY');
-    }
-});
-
-const setUpAuthentication = () => {
-    const authErrorCounter = dependencies.instrumentation.authError();
-    app.get('/login', (req: SpeilRequest, res: Response) => {
-        const session = req.session;
-        session.nonce = generators.nonce();
-        session.state = generators.state();
-        const url = azureClient!.authorizationUrl({
-            scope: config.oidc.scope,
-            redirect_uri: auth.redirectUrl(req),
-            response_type: config.oidc.responseType[0],
-            prompt: 'select_account',
-            response_mode: 'form_post',
-            nonce: session.nonce,
-            state: session.state,
-        });
-        res.redirect(url);
-    });
-    app.get('/logout', (req: SpeilRequest, res: Response) => {
-        azureClient!
-            .revoke(req.session.speilToken)
-            .catch(() => logger.warn('Kunne ikke invalidere token mot Azure AD'))
-            .finally(() => {
-                req.session.destroy(() => {});
-                res.clearCookie('speil');
-                res.redirect(302, config.oidc.logoutUrl);
-            });
-    });
-
-    app.use(bodyParser.urlencoded({ extended: false }));
-
-    app.post('/oauth2/callback', (req: SpeilRequest, res: Response) => {
-        const session = req.session;
-        auth.validateOidcCallback(req, azureClient!)
-            .then((tokens: string[]) => {
-                const [accessToken, idToken, refreshToken] = tokens;
-                res.cookie('speil', `${idToken}`, {
-                    secure: true,
-                    sameSite: true,
-                });
-                session.speilToken = accessToken;
-                session.refreshToken = refreshToken;
-                session.oboTokens = {};
-                session.user = auth.valueFromClaim('NAVident', idToken);
-                const tilbakeTilUrl = req.session.wantedPathBeforeAuth;
-                req.session.wantedPathBeforeAuth = undefined;
-                if (tilbakeTilUrl) logger.sikker.info(`sender bruker tilbake til ${tilbakeTilUrl}`);
-                res.redirect(303, tilbakeTilUrl ?? '/');
-            })
-            .catch((err: AuthError) => {
-                logger.warn(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
-                logger.sikker.warn(
-                    `Error caught during login: ${err.message}, cause ${err.cause}.` +
-                        `The request received: ${util.inspect(req)}`,
-                    err,
-                );
-                authErrorCounter.inc();
-                session.destroy((err) => {
-                    if (err) {
-                        return logger.sikker.warn(`Feil oppsto ifm sletting av sesjon: ${err}.`);
-                    }
-                });
-                res.clearCookie('speil');
-                res.redirect('/login');
-            });
-    });
-};
-
-setUpAuthentication();
+app.get('/isReady', (_, res) => res.send('ready'));
 
 // Protected routes
-app.use('/*', async (req: SpeilRequest, res, next) => {
+app.use('/*', async (req: Request, res, next) => {
     if (config.development) {
-        res.cookie('speil', auth.createTokenForTest(), {
+        res.cookie('speil', createTokenForTest(), {
             secure: false,
             sameSite: true,
         });
-        req.session.user = 'dev-ident';
+
         next();
     } else {
-        if (
-            auth.isValidIn({ seconds: 5, token: req.session!.speilToken }) ||
-            (await auth.refreshAccessToken(azureClient!, req.session!))
-        ) {
-            next();
-        } else {
-            if (req.session!.speilToken) {
-                const name: string = auth.valueFromClaim('name', req.session!.speilToken);
-                logger.info(`No valid session found for ${name}, connecting via ${ipAddressFromRequest(req)}`);
-                logger.sikker.info(
-                    `No valid session found for ${name}, connecting via ${ipAddressFromRequest(req)}`,
-                    logger.requestMeta(req),
-                );
-            }
-            if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
-                const user = req.session.user;
-                req.session.destroy(() => logger.info(`Sesjonen for '${user}' er slettet ifm redirect til /login.`));
-                res.redirect('/login');
+        const token = getToken(req);
+        if (!token) {
+            logger.info(`No valid session found for user, connecting via ${ipAddressFromRequest(req)}`);
+            logger.sikker.info(
+                `No valid session found for user, connecting via ${ipAddressFromRequest(req)}`,
+                logger.requestMeta(req),
+            );
+
+            if (req.accepts('html')) {
+                const url = new URL(req.originalUrl);
+                res.redirect(`/oauth2/login?redirect=${url.pathname}`);
+                return;
             } else {
-                const url = req.originalUrl;
-                if (req.accepts('html') && url.includes('/person/')) {
-                    req.session.wantedPathBeforeAuth = url;
-                    logger.sikker.info(`Bruker vil til ${url}, tar vare på den URL-en til etter innlogging`);
-                    res.redirect('/login');
-                } else {
-                    // these are not _that_ important, let the client decide how to handle
-                    res.clearCookie('speil');
-                    res.sendStatus(401);
-                }
+                res.sendStatus(401);
+                return;
             }
         }
+
+        const validation = await validateToken(token);
+        if (!validation.ok) {
+            if (validation.errorType === 'token expired') {
+                const url = new URL(req.originalUrl);
+                res.redirect(`/oauth2/login?redirect=${url.pathname}`);
+                return;
+            }
+
+            logger.info(`Token validering feilet: ${validation.errorType}`);
+            res.sendStatus(401);
+        }
+
+        res.cookie('speil', `${token}`, {
+            secure: true,
+            sameSite: true,
+        });
+
+        next();
     }
 });
 

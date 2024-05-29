@@ -52,6 +52,11 @@ spec:
     generatedConfig:
       mountPath: /app/dist/client/nais/nais
   azure:
+    sidecar:
+      enabled: true
+      autoLogin: true
+      autoLoginIgnorePaths:
+        - /static/*
     application:
       enabled: true
       tenant: nav.no
@@ -74,8 +79,6 @@ spec:
       value: global-tunnel
     - name: CLIENT_ID_SPESIALIST
       value: api://dev-gcp.tbd.spesialist/.default
-    - name: LOGOUT_URL
-      value: https://speil.intern.dev.nav.no
     - name: SPESIALIST_BASE_URL
       value: http://spesialist
     - name: FLEXJAR_BASE_URL

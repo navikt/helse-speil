@@ -15,6 +15,8 @@ jobs:
         cache-dependency-path: 'package-lock.json'
     - name: install dependencies
       run: npm ci --ignore-scripts
+      env:
+        NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
     - name: test
       run: npm run test
     - name: build
