@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import styles from './Dokumenthendelse.module.scss';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+
+import { ArrowForwardIcon } from '@navikt/aksel-icons';
 
 import { Kilde } from '@components/Kilde';
-import { Kildetype } from '@io/graphql';
 import { useCurrentPerson } from '@state/person';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
@@ -9,40 +12,21 @@ import { Hendelse } from '../Hendelse';
 import { HendelseDate } from '../HendelseDate';
 import { Inntektsmeldingsinnhold } from './Inntektsmeldingsinnhold';
 import { Søknadsinnhold } from './Søknadsinnhold';
-
-const getKildetype = (dokumenttype: DokumenthendelseObject['dokumenttype']): Kildetype => {
-    switch (dokumenttype) {
-        case 'Inntektsmelding': {
-            return Kildetype.Inntektsmelding;
-        }
-        case 'Sykmelding': {
-            return Kildetype.Sykmelding;
-        }
-        case 'Søknad': {
-            return Kildetype.Soknad;
-        }
-    }
-};
-
-const getKildetekst = (dokumenttype: DokumenthendelseObject['dokumenttype']): string => {
-    switch (dokumenttype) {
-        case 'Inntektsmelding': {
-            return 'IM';
-        }
-        case 'Sykmelding': {
-            return 'SM';
-        }
-        case 'Søknad': {
-            return 'SØ';
-        }
-    }
-};
+import { getKildetekst, getKildetype, openedDocument } from './dokument';
 
 type DokumenthendelseProps = Omit<DokumenthendelseObject, 'type' | 'id'>;
 
+export interface ÅpnedeDokumenter {
+    dokumentId: string;
+    fødselsnummer: string;
+    dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad';
+    timestamp: string;
+}
+
 export const Dokumenthendelse: React.FC<DokumenthendelseProps> = ({ dokumenttype, timestamp, dokumentId }) => {
     const [showDokumenter, setShowDokumenter] = useState(false);
-    const [dokument, setDokument] = useState<React.ReactNode>(null);
+    const [dokument, setDokument] = useState<ReactNode>(null);
+    const [åpnedeDokumenter, setÅpnedeDokumenter] = useRecoilState<ÅpnedeDokumenter[]>(openedDocument);
     const fødselsnummer = useCurrentPerson()?.fodselsnummer;
 
     useEffect(() => {
@@ -57,9 +41,28 @@ export const Dokumenthendelse: React.FC<DokumenthendelseProps> = ({ dokumenttype
         }
     }, [showDokumenter]);
 
+    const åpneINyKolonne = () => {
+        setÅpnedeDokumenter([
+            ...åpnedeDokumenter,
+            {
+                dokumentId: dokumentId,
+                fødselsnummer: fødselsnummer,
+                dokumenttype: dokumenttype,
+                timestamp: timestamp,
+            },
+        ]);
+    };
+
     return (
         <Hendelse
-            title={`${dokumenttype} mottatt`}
+            title={
+                <span className={styles.header}>
+                    <span>{dokumenttype} mottatt</span>
+                    <button className={styles.åpne} onClick={åpneINyKolonne}>
+                        <ArrowForwardIcon title="Åpne dokument til høyre" fontSize="1.5rem" />
+                    </button>
+                </span>
+            }
             icon={<Kilde type={getKildetype(dokumenttype)}>{getKildetekst(dokumenttype)}</Kilde>}
         >
             {(dokumenttype === 'Søknad' || dokumenttype === 'Inntektsmelding') && (
