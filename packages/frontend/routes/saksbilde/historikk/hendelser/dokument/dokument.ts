@@ -33,6 +33,6 @@ export const getKildetekst = (dokumenttype: DokumenthendelseObject['dokumenttype
 };
 
 export const openedDocument = atom<ÅpnedeDokumenter[]>({
-    key: 'filtermenyWidth',
+    key: 'openedDocuments',
     default: [],
 });

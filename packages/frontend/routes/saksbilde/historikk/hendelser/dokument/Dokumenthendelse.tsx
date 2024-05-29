@@ -1,6 +1,6 @@
 import styles from './Dokumenthendelse.module.scss';
 import React, { ReactNode, useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { ArrowForwardIcon } from '@navikt/aksel-icons';
 
@@ -28,6 +28,7 @@ export const Dokumenthendelse: React.FC<DokumenthendelseProps> = ({ dokumenttype
     const [dokument, setDokument] = useState<ReactNode>(null);
     const [åpnedeDokumenter, setÅpnedeDokumenter] = useRecoilState<ÅpnedeDokumenter[]>(openedDocument);
     const fødselsnummer = useCurrentPerson()?.fodselsnummer;
+    const resetOpenedDocuments = useResetRecoilState(openedDocument);
 
     useEffect(() => {
         if (!showDokumenter || !fødselsnummer) return;
@@ -40,6 +41,10 @@ export const Dokumenthendelse: React.FC<DokumenthendelseProps> = ({ dokumenttype
             setDokument(<Inntektsmeldingsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} />);
         }
     }, [showDokumenter]);
+
+    useEffect(() => {
+        resetOpenedDocuments();
+    }, []);
 
     const åpneINyKolonne = () => {
         setÅpnedeDokumenter([
