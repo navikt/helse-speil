@@ -15,7 +15,7 @@ import { getKildetekst, getKildetype, openedDocument } from '../routes/saksbilde
 export const ÅpnetDokument: React.FC = () => {
     const [åpnedeDokumenter, lukkVisning] = useRecoilState(openedDocument);
 
-    if (åpnedeDokumenter?.length === 0) return;
+    if ((åpnedeDokumenter?.length ?? 0) === 0) return;
 
     return (
         <div className={classNames(styles.dokumenter)}>
