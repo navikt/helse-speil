@@ -1,4 +1,5 @@
 import styles from './Dokumenthendelse.module.scss';
+import classNames from 'classnames';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
@@ -63,7 +64,13 @@ export const Dokumenthendelse: React.FC<DokumenthendelseProps> = ({ dokumenttype
             title={
                 <span className={styles.header}>
                     <span>{dokumenttype} mottatt</span>
-                    <button className={styles.åpne} onClick={åpneINyKolonne}>
+                    <button
+                        className={classNames(
+                            styles.åpne,
+                            åpnedeDokumenter.find((it) => it.dokumentId === dokumentId) && styles.åpnet,
+                        )}
+                        onClick={åpneINyKolonne}
+                    >
                         <ArrowForwardIcon title="Åpne dokument til høyre" fontSize="1.5rem" />
                     </button>
                 </span>
