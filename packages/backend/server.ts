@@ -219,8 +219,6 @@ app.use(proxy);
 // const hentOboToken = async (req: SpeilRequest) =>
 //     await dependencies.onBehalfOf.hentFor(config.oidc.clientIDSpesialist, req.session, req.session.speilToken);
 
-server.on('upgrade', proxy.upgrade);
-
 // server.on('upgrade', async (req: http.IncomingMessage, socket, head) => {
 //     logger.debug(`upgrade received: ${req.url}`);
 //     logger.debug(req.url!);
