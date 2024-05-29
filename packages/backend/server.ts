@@ -211,7 +211,6 @@ const server = http.createServer(app);
 
 const proxy = createProxyMiddleware({
     target: config.server.spesialistWsUrl,
-    changeOrigin: true,
     ws: true,
     pathFilter: '/ws',
 });
