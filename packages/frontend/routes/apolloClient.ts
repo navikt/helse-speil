@@ -1,11 +1,10 @@
 import { ApolloClient, HttpLink, InMemoryCache, TypePolicies } from '@apollo/client';
 import possibletypes from '@io/graphql/generated/possibletypes';
-import { erUtvikling } from '@utils/featureToggles';
 
 import { BASE_URL } from '../constants';
 
 const getTypePolicies = (): TypePolicies => {
-    const prodPolicies: TypePolicies = {
+    return {
         Query: {
             fields: {
                 oppgaveFeed: {
@@ -39,13 +38,6 @@ const getTypePolicies = (): TypePolicies => {
         Kommentarer: { keyFields: ['id'] },
         Person: { keyFields: ['fodselsnummer'] },
         VarselDTO: { keyFields: ['generasjonId', 'kode'] },
-    };
-
-    if (!erUtvikling()) {
-        return prodPolicies;
-    }
-    return {
-        ...prodPolicies,
         SoknadArbeidsgiver: { keyFields: ['id'] },
         SoknadNav: { keyFields: ['id'] },
         Inntektsmelding: { keyFields: ['id'] },
