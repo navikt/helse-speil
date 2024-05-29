@@ -15,8 +15,6 @@ import { getKildetekst, getKildetype, openedDocument } from '../routes/saksbilde
 export const ÅpnetDokument: React.FC = () => {
     const [åpnedeDokumenter, lukkVisning] = useRecoilState(openedDocument);
 
-    console.log(åpnedeDokumenter, åpnedeDokumenter?.length, (åpnedeDokumenter?.length ?? 0) === 0);
-
     if ((åpnedeDokumenter?.length ?? 0) === 0) return null;
 
     return (
