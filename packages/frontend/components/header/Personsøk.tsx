@@ -40,7 +40,8 @@ export const Personsøk: React.FC = () => {
 
     const søkOppPerson = async (event: FormEvent) => {
         event.preventDefault();
-        const personId = searchRef.current?.value;
+        const rawPersonId = searchRef.current?.value;
+        const personId = rawPersonId?.replace(/\s/g, '');
 
         if (!personId || loading) {
             return;
