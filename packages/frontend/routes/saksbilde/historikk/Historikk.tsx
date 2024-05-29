@@ -6,6 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
+import { ÅpnetDokument } from '@components/ÅpnetDokument';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
 import { onLazyLoadFail } from '@utils/error';
@@ -64,13 +65,8 @@ const HistorikkWithContent: React.FC = () => {
     ]);
 
     return (
-        <>
-            <JusterbarSidemeny
-                defaultBredde={320}
-                visSidemeny={showHistorikk}
-                localStorageNavn="historikkBredde"
-                className={styles.justerbarsidemeny}
-            >
+        <div className={styles['historikk-container']}>
+            <JusterbarSidemeny defaultBredde={320} visSidemeny={showHistorikk} localStorageNavn="historikkBredde">
                 <motion.div
                     key="historikk"
                     transition={{
@@ -82,7 +78,7 @@ const HistorikkWithContent: React.FC = () => {
                 >
                     {loading && <HistorikkSkeleton />}
                     {!loading && (
-                        <div className={styles.Historikk}>
+                        <div className={styles.historikk}>
                             <ul>
                                 <div>{getHistorikkTitle(filter)}</div>
                                 {filter !== 'Dokument' && filter !== 'Overstyring' && <Notat />}
@@ -132,14 +128,15 @@ const HistorikkWithContent: React.FC = () => {
                     )}
                 </motion.div>
             </JusterbarSidemeny>
+            <ÅpnetDokument />
             <Historikkmeny />
-        </>
+        </div>
     );
 };
 
 export const HistorikkSkeleton = () => {
     return (
-        <div className={styles.Historikk}>
+        <div className={styles.historikk}>
             <ul>
                 <div>HISTORIKK</div>
                 <HendelseSkeleton />
@@ -152,7 +149,7 @@ export const HistorikkSkeleton = () => {
 
 const HistorikkError = () => {
     return (
-        <div className={classNames(styles.Historikk, styles.Error)}>
+        <div className={classNames(styles.historikk, styles.error)}>
             <ul>
                 <div>
                     <BodyShort>Noe gikk galt. Kan ikke vise historikk for perioden.</BodyShort>

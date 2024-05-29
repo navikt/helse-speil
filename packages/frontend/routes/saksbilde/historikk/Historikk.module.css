@@ -1,17 +1,23 @@
-.Historikk {
+.historikk-container {
+    grid-area: høyremeny;
+    width: auto;
+    display: flex;
+}
+
+.historikk {
     grid-area: høyremeny;
     overflow: hidden;
     transition: width 0.2s ease;
     height: 100%;
 }
 
-.Historikk > ul {
+.historikk > ul {
     padding: 0 2rem 1rem 1rem;
     box-sizing: border-box;
     height: 100%;
 }
 
-.Historikk > ul > div {
+.historikk > ul > div {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -19,10 +25,6 @@
     font-size: 14px;
 }
 
-.Error {
+.error {
     background-color: var(--a-surface-danger-subtle);
-}
-
-.justerbarsidemeny {
-    margin-right: 58px;
 }
