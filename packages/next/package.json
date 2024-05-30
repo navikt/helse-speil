@@ -9,6 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@apollo/client": "^3.10.4",
         "@navikt/ds-css": "^6.8.0",
         "@navikt/ds-react": "^6.8.0",
         "@navikt/oasis": "^3.3.0",
