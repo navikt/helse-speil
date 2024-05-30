@@ -1,3 +1,4 @@
+import process from 'process';
 import { ZodError, z } from 'zod';
 
 export type PublicEnv = z.infer<typeof publicEnvSchema>;
@@ -7,6 +8,8 @@ export type ServerEnv = z.infer<typeof serverEnvSchema>;
 export const serverEnvSchema = z.object({
     FLEXJAR_SCOPE: z.string(),
     FLEXJAR_BASEURL: z.string(),
+    MODIA_SCOPE: z.string(),
+    MODIA_BASEURL: z.string(),
     AZURE_APP_CLIENT_ID: z.string(),
     AZURE_APP_CLIENT_SECRET: z.string(),
     AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: z.string(),
@@ -25,6 +28,8 @@ const getRawServerConfig = (): Partial<unknown> =>
     ({
         FLEXJAR_SCOPE: process.env.CLIENT_ID_FLEXJAR,
         FLEXJAR_BASEURL: process.env.FLEXJAR_BASE_URL,
+        MODIA_SCOPE: process.env.MODIA_API_SCOPE,
+        MODIA_BASEURL: process.env.MODIA_BASE_URL,
         // Provided by nais
         AZURE_APP_CLIENT_ID: process.env.AZURE_APP_CLIENT_ID,
         AZURE_APP_CLIENT_SECRET: process.env.AZURE_APP_CLIENT_SECRET,
