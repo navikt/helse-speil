@@ -44,7 +44,6 @@ const getTypePolicies = (): TypePolicies => {
         Utbetaling: { keyFields: ['id'] },
         UberegnetPeriode: { keyFields: ['behandlingId'] },
         BeregnetPeriode: { keyFields: ['behandlingId'] },
-        PeriodeHistorikkElement: { keyFields: ['timestamp', 'type', 'saksbehandler_ident'] },
     };
 };
 
