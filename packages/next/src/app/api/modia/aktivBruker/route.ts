@@ -3,6 +3,7 @@ import { getToken } from '@navikt/oasis';
 import { Handling, kallModia } from '@/app/api/modia/modia';
 import logger from '@/logger';
 
+export const dynamic = 'force-dynamic'; // defaults to auto
 export const POST = async (req: Request) => {
     const token = getToken(req);
     if (!token) {
