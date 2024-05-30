@@ -1,29 +1,26 @@
 {
-    "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "target": "ESNext",
-        "module": "ESNext",
-        "outDir": "../..dist/client",
-        "baseUrl": "",
-        "allowJs": false,
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
         "skipLibCheck": true,
-        "jsx": "react-jsx",
         "strict": true,
         "noEmit": true,
-        "sourceMap": true,
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "resolveJsonModule": true,
         "isolatedModules": true,
-        "useDefineForClassFields": true,
-        "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
+        "jsx": "preserve",
+        "incremental": true,
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ],
         "paths": {
-            "@test-wrappers": ["./test/wrappers"],
-            "@test-data/*": ["./test/data/*"],
-            "@io/*": ["./io/*"],
-            "@utils/*": ["./utils/*"],
-            "@components/*": ["./components/*"],
-            "@state/*": ["./state/*"],
-            "@hooks/*": ["./hooks/*"],
-            "@nais/*": ["./nais/*"]
+            "@/*": ["./src/*"]
         }
-    }
+    },
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+    "exclude": ["node_modules"]
 }
