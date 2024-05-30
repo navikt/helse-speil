@@ -1,23 +1,27 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import { requestAzureOboToken } from '../auth/token';
 import config from '../config';
 import logger from '../logging';
-import { OidcConfig, OnBehalfOf, SpeilSession } from '../types';
 
 const baseUrl = config.server.spesialistBaseUrl;
 
 export interface GraphQLClient {
-    postGraphQLQuery: (speilToken: string, session: SpeilSession, data: string) => Promise<Response>;
+    postGraphQLQuery: (wonderwallToken: string, data: string) => Promise<Response>;
 }
 
-export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): GraphQLClient => ({
-    postGraphQLQuery: async (speilToken: string, session: SpeilSession, data: string): Promise<Response> => {
+export default (): GraphQLClient => ({
+    postGraphQLQuery: async (wonderwallToken: string, data: string): Promise<Response> => {
         const callId = uuidv4();
-        const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, session, speilToken);
+        const oboResult = await requestAzureOboToken(wonderwallToken, config.oidc.clientIDSpesialist);
+        if (!oboResult.ok) {
+            throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
+        }
+
         const options = {
             method: 'post',
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`,
+                Authorization: `Bearer ${oboResult.token}`,
                 'X-Request-Id': callId,
                 'Content-Type': 'application/json',
             },
@@ -25,7 +29,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): GraphQLClient =
         };
 
         const operationName = JSON.parse(data)['operationName'];
-        const maskertToken = onBehalfOfToken.substring(0, 6);
+        const maskertToken = oboResult.token.substring(0, 6);
         logger.debug(
             `Kaller ${baseUrl} med X-Request-Id: ${callId}, operationName: ${operationName} og token: ${maskertToken}...`,
         );

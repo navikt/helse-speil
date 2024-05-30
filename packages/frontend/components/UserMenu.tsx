@@ -43,7 +43,7 @@ export const UserMenu: React.FC = () => {
                             Tastatursnarveier
                         </Dropdown.Menu.List.Item>
                         <Dropdown.Menu.Divider />
-                        <Dropdown.Menu.List.Item as="a" href="/logout" className={styles.MenuItem}>
+                        <Dropdown.Menu.List.Item as="a" href="/oauth2/logout" className={styles.MenuItem}>
                             Logg ut
                         </Dropdown.Menu.List.Item>
                     </Dropdown.Menu.List>

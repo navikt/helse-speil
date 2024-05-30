@@ -1,11 +1,12 @@
+'use strict';
+
+import { Request } from 'express';
 import fs from 'fs';
 import winston from 'winston';
 
-import authSupport from './auth/authSupport';
-import config from './config';
-import { SpeilRequest } from './types';
+import { getToken, parseAzureUserToken } from '@navikt/oasis';
 
-('use strict');
+import config from './config';
 
 const sikkerLogPath = () => (fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log');
 
@@ -48,10 +49,11 @@ const sikkerError = (message: string, ...meta: unknown[]) => {
     sikkerLogger.error(message, ...meta);
 };
 
-const requestMeta = (req: SpeilRequest) => {
+const requestMeta = (req: Request) => {
+    const user = userMeta(req);
     return {
-        speilUser: authSupport.valueFromClaim('name', req.session.speilToken),
-        navIdent: authSupport.valueFromClaim('NAVident', req.session.speilToken),
+        speilUser: user?.name ?? 'ukjent',
+        navIdent: user?.navIdent ?? 'ukjent',
         headers: req.headers,
         method: req.method,
         url: req.url,
@@ -64,6 +66,16 @@ const requestMeta = (req: SpeilRequest) => {
         originalUrl: req.originalUrl,
         params: req.params,
     };
+};
+
+const userMeta = (req: Request): { name: string; navIdent: string } | null => {
+    const token = getToken(req);
+    if (!token) return null;
+
+    const parse = parseAzureUserToken(token);
+    if (!parse.ok) return null;
+
+    return { name: parse.name, navIdent: parse.NAVident };
 };
 
 export default {
