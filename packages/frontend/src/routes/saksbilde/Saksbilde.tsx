@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
@@ -24,8 +25,8 @@ import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 
 import styles from './Saksbilde.module.css';
 
-const PeriodeView = React.lazy(() =>
-    import('./saksbilder/PeriodeView.js').then((res) => ({ default: res.PeriodeView })).catch(onLazyLoadFail),
+const PeriodeView = dynamic(() =>
+    import('./saksbilder/PeriodeView').then((res) => ({ default: res.PeriodeView })).catch(onLazyLoadFail),
 );
 
 export const Saksbilde = () => (

@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
@@ -19,19 +20,19 @@ import { Venstremeny } from '../venstremeny/Venstremeny';
 
 import styles from './PeriodeView.module.css';
 
-const Utbetaling = React.lazy(() =>
-    import('../utbetaling/Utbetaling.js').then((res) => ({ default: res.Utbetaling })).catch(onLazyLoadFail),
+const Utbetaling = dynamic(() =>
+    import('../utbetaling/Utbetaling').then((res) => ({ default: res.Utbetaling })).catch(onLazyLoadFail),
 );
-const Inngangsvilkår = React.lazy(() =>
-    import('../vilkår/Inngangsvilkår.js').then((res) => ({ default: res.Inngangsvilkår })).catch(onLazyLoadFail),
+const Inngangsvilkår = dynamic(() =>
+    import('../vilkår/Inngangsvilkår').then((res) => ({ default: res.Inngangsvilkår })).catch(onLazyLoadFail),
 );
-const Vurderingsmomenter = React.lazy(() =>
-    import('../vurderingsmomenter/Vurderingsmomenter.js')
+const Vurderingsmomenter = dynamic(() =>
+    import('../vurderingsmomenter/Vurderingsmomenter')
         .then((res) => ({ default: res.Vurderingsmomenter }))
         .catch(onLazyLoadFail),
 );
-const Sykepengegrunnlag = React.lazy(() =>
-    import('../sykepengegrunnlag/Sykepengegrunnlag.js')
+const Sykepengegrunnlag = dynamic(() =>
+    import('../sykepengegrunnlag/Sykepengegrunnlag')
         .then((res) => ({ default: res.Sykepengegrunnlag }))
         .catch(onLazyLoadFail),
 );

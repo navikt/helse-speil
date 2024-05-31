@@ -1,3 +1,4 @@
+import styles from './AngreOverstyrArbeidsforholdUtenSykdom.module.scss';
 import { BegrunnelseForOverstyring } from './overstyring.types';
 import React from 'react';
 
@@ -5,8 +6,6 @@ import { Button } from '@components/Button';
 import { TimeoutModal } from '@components/TimeoutModal';
 
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
-
-import styles from './AngreOverstyrArbeidsforholdUtenSykdom.module.css';
 
 const UndoIcon = () => (
     <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -1,10 +1,5 @@
-import { Button } from '@navikt/ds-react';
+import { App } from '@/routes/App';
 
 export default function Home() {
-    return (
-        <div>
-            hei
-            <Button>hade</Button>
-        </div>
-    );
+    return <App />;
 }

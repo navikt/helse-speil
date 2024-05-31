@@ -1,10 +1,12 @@
-import React, { PropsWithChildren, lazy, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+'use client';
+
+import dynamic from 'next/dynamic';
+import React, { PropsWithChildren, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import 'reset-css';
 
+// import 'reset-css';
 import { ApolloProvider } from '@apollo/client';
 import { loadErrorMessages } from '@apollo/client/dev';
 import { ErrorBoundary } from '@components/ErrorBoundary';
@@ -16,7 +18,6 @@ import { useAuthentication, useUpdateAuthentication } from '@state/authenticatio
 import { useFetchPersonQuery } from '@state/person';
 import { useSetVarsler } from '@state/varsler';
 import { onLazyLoadFail } from '@utils/error';
-import { erDev, erLocal } from '@utils/featureToggles';
 
 import { GlobalFeilside } from './GlobalFeilside';
 import { IkkeLoggetInn } from './IkkeLoggetInn';
@@ -26,16 +27,15 @@ import { AppRoutes } from './index';
 
 import './App.css';
 
-const Saksbilde = lazy(() =>
-    import('./saksbilde/Saksbilde.js').then((res) => ({ default: res.Saksbilde })).catch(onLazyLoadFail),
+const Saksbilde = dynamic(() =>
+    import('./saksbilde/Saksbilde').then((res) => ({ default: res.Saksbilde })).catch(onLazyLoadFail),
 );
-const Oversikt = lazy(() =>
-    import('./oversikt/Oversikt.js').then((res) => ({ default: res.Oversikt })).catch(onLazyLoadFail),
+
+const Oversikt = dynamic(() =>
+    import('./oversikt/Oversikt').then((res) => ({ default: res.Oversikt })).catch(onLazyLoadFail),
 );
-const GraphQLPlayground = lazy(() =>
-    import('./playground/GraphQLPlayground.js')
-        .then((res) => ({ default: res.GraphQLPlayground }))
-        .catch(onLazyLoadFail),
+const GraphQLPlayground = dynamic(() =>
+    import('./playground/GraphQLPlayground').then((res) => ({ default: res.GraphQLPlayground })).catch(onLazyLoadFail),
 );
 
 ReactModal.setAppElement('#root');
@@ -66,7 +66,7 @@ const useSyncAlertsToLocation = () => {
     }, [location]);
 };
 
-const App = () => {
+export const App = () => {
     const { loading } = useFetchPersonQuery(true);
 
     useLoadingToast({ isLoading: loading, message: 'Henter person' });
@@ -76,14 +76,14 @@ const App = () => {
 
     return (
         <ErrorBoundary fallback={(error) => <GlobalFeilside error={error} />}>
-            <Helmet>
-                <title>Speil {erLocal() ? ' - localhost' : erDev() ? ' - dev' : ''}</title>
-                <link
-                    rel="icon"
-                    type="image/x-icon"
-                    href={`/favicons/${erLocal() ? 'favicon-local.ico' : erDev() ? 'favicon-dev.ico' : 'favicon.ico'}`}
-                />
-            </Helmet>
+            {/*<Helmet>*/}
+            {/*    <title>Speil {erLocal() ? ' - localhost' : erDev() ? ' - dev' : ''}</title>*/}
+            {/*    <link*/}
+            {/*        rel="icon"*/}
+            {/*        type="image/x-icon"*/}
+            {/*        href={`/favicons/${erLocal() ? 'favicon-local.ico' : erDev() ? 'favicon-dev.ico' : 'favicon.ico'}`}*/}
+            {/*    />*/}
+            {/*</Helmet>*/}
             <Header />
             <Varsler />
             <Routes>

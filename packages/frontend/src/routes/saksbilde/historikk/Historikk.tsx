@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -27,8 +28,8 @@ import { useFilterState, useFilteredHistorikk, useShowHistorikkState } from './s
 
 import styles from './Historikk.module.css';
 
-const Historikkmeny = React.lazy(() =>
-    import('../historikk/Historikkmeny.js').then((res) => ({ default: res.Historikkmeny })).catch(onLazyLoadFail),
+const Historikkmeny = dynamic(() =>
+    import('../historikk/Historikkmeny').then((res) => ({ default: res.Historikkmeny })).catch(onLazyLoadFail),
 );
 
 const getHistorikkTitle = (type: Filtertype): string => {

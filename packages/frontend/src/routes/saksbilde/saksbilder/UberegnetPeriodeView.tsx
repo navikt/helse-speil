@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
@@ -14,8 +15,8 @@ import { Venstremeny } from '../venstremeny/Venstremeny';
 
 import styles from './PeriodeView.module.css';
 
-const Utbetaling = React.lazy(() =>
-    import('../utbetaling/Utbetaling.js').then((res) => ({ default: res.Utbetaling })).catch(onLazyLoadFail),
+const Utbetaling = dynamic(() =>
+    import('../utbetaling/Utbetaling').then((res) => ({ default: res.Utbetaling })).catch(onLazyLoadFail),
 );
 
 const UberegnetPeriodeViewLoader: React.FC = () => {
