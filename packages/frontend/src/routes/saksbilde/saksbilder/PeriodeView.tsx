@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
@@ -17,14 +18,14 @@ import { PeriodeTilAnnulleringView } from './PeriodeTilAnnulleringView';
 
 import styles from './PeriodeView.module.css';
 
-const GhostPeriodeView = React.lazy(() =>
-    import('./GhostPeriodeView.js').then((res) => ({ default: res.GhostPeriodeView })).catch(onLazyLoadFail),
+const GhostPeriodeView = dynamic(() =>
+    import('./GhostPeriodeView').then((res) => ({ default: res.GhostPeriodeView })).catch(onLazyLoadFail),
 );
-const UberegnetPeriodeView = React.lazy(() =>
-    import('./UberegnetPeriodeView.js').then((res) => ({ default: res.UberegnetPeriodeView })).catch(onLazyLoadFail),
+const UberegnetPeriodeView = dynamic(() =>
+    import('./UberegnetPeriodeView').then((res) => ({ default: res.UberegnetPeriodeView })).catch(onLazyLoadFail),
 );
-const BeregnetPeriodeView = React.lazy(() =>
-    import('./BeregnetPeriodeView.js').then((res) => ({ default: res.BeregnetPeriodeView })).catch(onLazyLoadFail),
+const BeregnetPeriodeView = dynamic(() =>
+    import('./BeregnetPeriodeView').then((res) => ({ default: res.BeregnetPeriodeView })).catch(onLazyLoadFail),
 );
 
 const PeriodeViewContainer: React.FC = () => {

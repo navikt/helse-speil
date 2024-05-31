@@ -1,4 +1,5 @@
-import React, { Suspense, lazy } from 'react';
+import dynamic from 'next/dynamic';
+import React, { Suspense } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
@@ -20,8 +21,8 @@ import { useFilters } from './table/state/filter';
 
 import styles from './Oversikt.module.css';
 
-const BehandletIdagTable = lazy(() =>
-    import('./table/BehandletIdagTable.js').then((res) => ({ default: res.BehandletIdagTable })).catch(onLazyLoadFail),
+const BehandletIdagTable = dynamic(() =>
+    import('./table/BehandletIdagTable').then((res) => ({ default: res.BehandletIdagTable })).catch(onLazyLoadFail),
 );
 
 export const Oversikt = () => {
