@@ -67,7 +67,9 @@ export const Dokumenthendelse: React.FC<DokumenthendelseProps> = ({ dokumenttype
                     <button
                         className={classNames(
                             styles.åpne,
-                            åpnedeDokumenter.find((it) => it.dokumentId === dokumentId) && styles.åpnet,
+                            (åpnedeDokumenter.find((it) => it.dokumentId === dokumentId) ||
+                                dokumenttype === 'Sykmelding') &&
+                                styles.skjult,
                         )}
                         onClick={åpneINyKolonne}
                     >
