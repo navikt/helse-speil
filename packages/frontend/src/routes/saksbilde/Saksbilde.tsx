@@ -13,7 +13,6 @@ import { AmplitudeProvider } from '@io/amplitude';
 import { usePollEtterOpptegnelser } from '@io/http';
 import { useTestWebsockets } from '@state/opptegnelser';
 import { useActivePeriod } from '@state/periode';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { onLazyLoadFail } from '@utils/error';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -49,7 +48,6 @@ const SaksbildeContent = () => {
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useKeyboardShortcuts();
     const aktivPeriode = useActivePeriod();
-    const queryClient = new QueryClient();
 
     return (
         <div className={styles.Saksbilde}>
@@ -61,20 +59,17 @@ const SaksbildeContent = () => {
                     <Routes>
                         <Route path="/*" element={<PeriodeView />} />
                     </Routes>
-                    <QueryClientProvider client={queryClient}>
-                        <Widget>
-                            <EmojiTilbakemelding
-                                feedbackId="speil-generell"
-                                tittel="Hjelp oss å gjøre Speil bedre"
-                                sporsmal="Hvordan fungerer Speil for deg?"
-                                feedbackProps={{
-                                    egenskaper:
-                                        isBeregnetPeriode(aktivPeriode) &&
-                                        aktivPeriode.egenskaper.map((it) => it.egenskap),
-                                }}
-                            />
-                        </Widget>
-                    </QueryClientProvider>
+                    <Widget>
+                        <EmojiTilbakemelding
+                            feedbackId="speil-generell"
+                            tittel="Hjelp oss å gjøre Speil bedre"
+                            sporsmal="Hvordan fungerer Speil for deg?"
+                            feedbackProps={{
+                                egenskaper:
+                                    isBeregnetPeriode(aktivPeriode) && aktivPeriode.egenskaper.map((it) => it.egenskap),
+                            }}
+                        />
+                    </Widget>
                 </VenterPåEndringProvider>
             </AmplitudeProvider>
         </div>
