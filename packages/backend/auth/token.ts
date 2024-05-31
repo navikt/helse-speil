@@ -9,9 +9,12 @@ export const requestAzureOboToken = async (
     scope: string,
 ): Promise<ReturnType<typeof requestOboToken>> => {
     if (config.development) {
+        const token = await fetch('http://localhost:4321/local-token')
+            .then((it) => it.text())
+            .catch(() => 'et slags token');
         return {
             ok: true,
-            token: 'et slags obo token',
+            token: token,
         };
     }
 
