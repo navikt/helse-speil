@@ -6,7 +6,6 @@ import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useOppgaveFeed } from '@state/oppgaver';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { onLazyLoadFail } from '@utils/error';
 
 import { useKeyboardShortcuts } from '../saksbilde/useKeyboardShortcuts';
@@ -29,7 +28,6 @@ export const Oversikt = () => {
     const oppgaveFeed = useOppgaveFeed();
     const aktivTab = useAktivTab();
     const { allFilters } = useFilters();
-    const queryClient = new QueryClient();
 
     useLoadingToast({ isLoading: oppgaveFeed.loading, message: 'Henter oppgaver' });
     useKeyboardShortcuts();
@@ -66,18 +64,16 @@ export const Oversikt = () => {
                 </section>
                 <BehandlingsstatistikkView />
             </div>
-            <QueryClientProvider client={queryClient}>
-                <Widget>
-                    <EmojiTilbakemelding
-                        feedbackId="speil-generell"
-                        tittel="Hjelp oss å gjøre Speil bedre"
-                        sporsmal="Hvordan fungerer Speil for deg?"
-                        feedbackProps={{
-                            erOppgaveOversikt: true,
-                        }}
-                    />
-                </Widget>
-            </QueryClientProvider>
+            <Widget>
+                <EmojiTilbakemelding
+                    feedbackId="speil-generell"
+                    tittel="Hjelp oss å gjøre Speil bedre"
+                    sporsmal="Hvordan fungerer Speil for deg?"
+                    feedbackProps={{
+                        erOppgaveOversikt: true,
+                    }}
+                />
+            </Widget>
         </main>
     );
 };
