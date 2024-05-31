@@ -12,7 +12,8 @@
         "packages/*"
     ],
     "scripts": {
-        "dev": "lerna run dev --stream",
+        "frontend": "lerna run dev --stream --scope=helse-speil-frontend",
+        "backend": "lerna run dev --stream --scope=helse-speil-backend",
         "serve": "lerna run serve --stream",
         "mock": "lerna run mock",
         "build": "lerna run build --stream",
