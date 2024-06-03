@@ -1,0 +1,20 @@
+name: Setup yarn deps
+description: Checkout code, init yarn with deps
+
+inputs:
+  NPM_AUTH_TOKEN:
+    required: true
+    description: Github reader token
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+        cache-dependency-path: 'package-lock.json'
+    - shell: bash
+      run: npm ci --ignore-scripts
+      env:
+        NPM_AUTH_TOKEN: ${{ inputs.NPM_AUTH_TOKEN }}
