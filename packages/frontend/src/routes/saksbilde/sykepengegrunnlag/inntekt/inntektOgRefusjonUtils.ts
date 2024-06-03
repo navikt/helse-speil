@@ -12,7 +12,6 @@ import {
 } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
 import { isForkastet } from '@state/selectors/period';
-import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 export const harIngenUtbetaltePerioderFor = (person: FetchedPerson, skjæringstidspunkt: DateString): boolean => {
@@ -144,7 +143,6 @@ export const useInntektKanRevurderes = (skjæringstidspunkt: DateString): boolea
     const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, skjæringstidspunkt);
 
     return (
-        overstyrInntektEnabled &&
         !isForkastet(periodeVedSkjæringstidspunkt) &&
         !isReadOnlyOppgave &&
         !harPeriodeTilBeslutter &&

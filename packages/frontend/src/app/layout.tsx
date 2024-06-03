@@ -1,27 +1,18 @@
-import { decodeJwt } from 'jose';
 import type { Metadata } from 'next';
-import { headers } from 'next/headers';
 import React from 'react';
 
-import { getToken, parseAzureUserToken } from '@navikt/oasis';
-
 import { Providers } from '@/app/providers';
-import { browserEnv, isLocal } from '@/env';
+import { getTokenPayload } from '@/auth/token';
+import { browserEnv, erLokal } from '@/env';
+import { Toasts } from '@components/Toasts';
+import { Varsler } from '@components/Varsler';
+import { Header } from '@components/header/Header';
 
 import './globals.css';
 
 export const metadata: Metadata = {
-    title: `Speil ${isLocal ? ' - localhost' : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev' ? ' - dev' : ''}`,
+    title: `Speil ${erLokal ? ' - localhost' : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev' ? ' - dev' : ''}`,
 };
-
-function getTokenPayload() {
-    const token = getToken(headers());
-    if (!token) throw new Error('TODO skrive bedre feilmelding');
-    const payload = parseAzureUserToken(token);
-    if (!payload.ok) throw new Error('TODO skrive bedre feilmelding');
-    const josePayload = decodeJwt<{ oid: string }>(token);
-    return { ...payload, oid: josePayload.oid };
-}
 
 export default function RootLayout({
     children,
@@ -37,7 +28,7 @@ export default function RootLayout({
                     rel="icon"
                     type="image/x-icon"
                     href={`/favicons/${
-                        isLocal
+                        erLokal
                             ? 'favicon-local.ico'
                             : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev'
                               ? 'favicon-dev.ico'
@@ -46,16 +37,23 @@ export default function RootLayout({
                 />
             </head>
             <body>
-                <Providers
-                    user={{
-                        oid: payload.oid,
-                        epost: payload.preferred_username,
-                        navn: payload.name,
-                        ident: payload.NAVident,
-                    }}
-                >
-                    {children}
-                </Providers>
+                {/*TODO: Kan fjernes når vi går over til aksel sin modal*/}
+                <div id="root">
+                    <Providers
+                        bruker={{
+                            oid: payload.oid,
+                            epost: payload.preferred_username,
+                            navn: payload.name,
+                            ident: payload.NAVident,
+                            grupper: payload.groups,
+                        }}
+                    >
+                        <Header />
+                        <Varsler />
+                        {children}
+                        <Toasts />
+                    </Providers>
+                </div>
             </body>
         </html>
     );

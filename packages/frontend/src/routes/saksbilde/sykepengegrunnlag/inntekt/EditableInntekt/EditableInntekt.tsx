@@ -1,8 +1,7 @@
 import { BegrunnelseForOverstyring } from '../../overstyring/overstyring.types';
 import dayjs from 'dayjs';
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
-import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
-import { CustomElement, FieldValues } from 'react-hook-form/dist/types/fields';
+import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 
 import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';

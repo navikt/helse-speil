@@ -2,8 +2,8 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
+import { erProd } from '@/env';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
-import { erProd } from '@utils/featureToggles';
 
 import { SykepengegrunnlagsgrenseView } from '../InntektsgrunnlagTable/SykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
@@ -54,7 +54,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                             avviksprosent <= 25 ? it.lovhjemmel.ledd !== '2' : true,
                         )
                         .filter((it: SkjønnsfastsettingMal) => it.arbeidsforholdMal.includes(arbeidsforholdMal))
-                        .filter((it: SkjønnsfastsettingMal) => (erProd() ? it.iProd : true)),
+                        .filter((it: SkjønnsfastsettingMal) => (erProd ? it.iProd : true)),
                 );
             });
     }, []);

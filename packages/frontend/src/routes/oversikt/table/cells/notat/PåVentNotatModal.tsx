@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import React from 'react';
-import { Control, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
-import { FieldValues } from 'react-hook-form/dist/types/fields';
+import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, Checkbox, Loader, Textarea } from '@navikt/ds-react';

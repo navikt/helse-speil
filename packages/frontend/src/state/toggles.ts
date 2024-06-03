@@ -1,4 +1,4 @@
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { SetRecoilState, atom, useRecoilState, useRecoilValue } from 'recoil';
 
 import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { harBeslutterrolle, kanFrigiAndresOppgaver } from '@utils/featureToggles';
@@ -14,11 +14,18 @@ const totrinnsvurderingState = atom<TotrinnsvurderingState>({
     key: 'totrinnsvurderingState',
     default: {
         erAktiv: true,
-        harBeslutterrolle: harBeslutterrolle,
+        harBeslutterrolle: false,
         kanBeslutteEgne: false,
     },
     effects: [sessionStorageEffect()],
 });
+
+export const hydrateTotrinnsvurderingState = (set: SetRecoilState, brukerRoller: string[]) => {
+    set(totrinnsvurderingState, (prevState) => ({
+        ...prevState,
+        harBeslutterrolle: harBeslutterrolle(brukerRoller),
+    }));
+};
 
 export const useTotrinnsvurdering = (): [
     value: TotrinnsvurderingState,
@@ -51,9 +58,13 @@ export const useKanBeslutteEgneOppgaver = (): boolean => {
 // Tildeling
 const kanFrigiOppgaverState = atom<boolean>({
     key: 'kanFrigiOppgaverState',
-    default: kanFrigiAndresOppgaver,
+    default: false,
     effects: [sessionStorageEffect()],
 });
+
+export const hydrateKanFrigiOppgaverState = (set: SetRecoilState, ident: string) => {
+    set(kanFrigiOppgaverState, kanFrigiAndresOppgaver(ident));
+};
 
 export const useKanFrigiOppgaver = (): boolean => {
     return useRecoilValue(kanFrigiOppgaverState);

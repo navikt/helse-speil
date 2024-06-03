@@ -1,5 +1,5 @@
-import { App } from '@/routes/App';
+import { Oversikt } from '@/routes/oversikt/Oversikt';
 
 export default function Home() {
-    return <App />;
+    return <Oversikt />;
 }

@@ -2,7 +2,9 @@ import process from 'process';
 import { ZodError, z } from 'zod';
 
 export type PublicEnv = z.infer<typeof browserEnvSchema>;
-export const browserEnvSchema = z.object({ NEXT_PUBLIC_RUNTIME_ENV: z.string() });
+export const browserEnvSchema = z.object({
+    NEXT_PUBLIC_RUNTIME_ENV: z.union([z.literal('dev'), z.literal('lokal'), z.literal('prod')]),
+});
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
 export const serverEnvSchema = z.object({
@@ -67,4 +69,7 @@ export function getServerEnv(): ServerEnv & PublicEnv {
     }
 }
 
-export const isLocal = process.env.NODE_ENV !== 'production';
+export const erLokal = process.env.NODE_ENV !== 'production';
+export const erDev = browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev';
+export const erProd = browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'prod';
+export const erUtvikling = erLokal || erDev;

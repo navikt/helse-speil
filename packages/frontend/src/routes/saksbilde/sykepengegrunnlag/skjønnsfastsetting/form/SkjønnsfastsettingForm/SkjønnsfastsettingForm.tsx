@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { FieldErrors, FormProvider, useForm, useWatch } from 'react-hook-form';
-import { CustomElement, FieldValues } from 'react-hook-form/dist/types/fields';
+import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 
 import { Button, Loader } from '@navikt/ds-react';

@@ -1,4 +1,4 @@
-import { extractGroups, extractIdent } from '@utils/cookie';
+import { erDev, erLokal, erUtvikling } from '@/env';
 
 const groupIdForTbd = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
@@ -24,46 +24,23 @@ const coaches = [
     'M136300',
 ];
 
-const kunLesetilgang: string[] = [];
+const erCoachEllerSuper = (ident: string) => erCoach(ident) || erSupersaksbehandler(ident);
+const erSupersaksbehandler = (ident: string) => supersaksbehandlere.includes(ident);
+const harTilgangTilAlt = (ident: string) =>
+    [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(ident);
+const erCoach = (ident: string) => coaches.includes(ident);
+const kanFrigiSaker = (ident: string) => ['K162139'].includes(ident);
 
-export const erLocal = () => location.hostname === 'localhost';
-export const erDev = () =>
-    location.hostname === 'speil.intern.dev.nav.no' || location.hostname === 'speil.ansatt.dev.nav.no';
-export const erProd = () => location.hostname === 'speil.intern.nav.no';
+const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdForTbd);
 
-export const erUtvikling = () => erLocal() || erDev();
+export const kanFrigiAndresOppgaver = (ident: string) =>
+    kanFrigiSaker(ident) || harTilgangTilAlt(ident) || erLokal || erDev;
 
-export const erCoachEllerSuper = () => erCoach() || erSupersaksbehandler();
+export const graphqlplayground = (grupper: string[]) => erLokal || erDev || erPåTeamBømlo(grupper);
 
-const harKunLesetilgang = () => kunLesetilgang.includes(extractIdent());
-const erSupersaksbehandler = () => supersaksbehandlere.includes(extractIdent());
-const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(extractIdent());
-const erCoach = () => coaches.includes(extractIdent());
-const kanFrigiSaker = () => ['K162139'].includes(extractIdent());
+export const harBeslutterrolle = (grupper: string[]): boolean => grupper.includes(groupIdForBesluttere);
 
-export const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
+export const harSpesialsaktilgang = (grupper: string[]): boolean =>
+    grupper.includes(groupIdSpesialsaker) || erUtvikling;
 
-export const overstyreUtbetaltPeriodeEnabled = !harKunLesetilgang();
-export const annulleringerEnabled = !harKunLesetilgang();
-export const kanFrigiAndresOppgaver = kanFrigiSaker() || harTilgangTilAlt() || erLocal() || erDev();
-
-export const graphqlplayground = erLocal() || erDev() || erPåTeamBømlo();
-
-export const skalBehandleEnOgEnPeriode = false;
-
-export interface UtbetalingToggles {
-    overstyreUtbetaltPeriodeEnabled: boolean;
-}
-
-export const defaultUtbetalingToggles: UtbetalingToggles = {
-    overstyreUtbetaltPeriodeEnabled,
-};
-
-export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
-
-export const harBeslutterrolle: boolean = extractGroups().includes(groupIdForBesluttere);
-export const harSpesialsaktilgang: boolean = extractGroups().includes(groupIdSpesialsaker) || erUtvikling();
-
-export const toggleMeny: boolean = erLocal() || erDev();
-
-export const kanSkriveAvslag: boolean = erLocal() || erDev() || erCoachEllerSuper();
+export const kanSkriveAvslag = (ident: string) => erLokal || erDev || erCoachEllerSuper(ident);

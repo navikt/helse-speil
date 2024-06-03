@@ -1,4 +1,4 @@
-import { useLocation, useMatch, useNavigate, useParams } from 'react-router-dom';
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export interface Navigation {
     aktørId: string | undefined;
@@ -27,11 +27,12 @@ const useCurrentAktørId = (): string | null => {
 };
 
 export const useNavigation = (): Navigation => {
-    const location = useLocation();
-    const navigate = useNavigate();
+    const pathname = usePathname();
+    const router = useRouter();
+    const params = useSearchParams();
     const currentAktørId = useCurrentAktørId();
 
-    const currentLocation = locationFromCurrentPath(decodeURIComponent(location.pathname), locations);
+    const currentLocation = locationFromCurrentPath(decodeURIComponent(pathname), locations);
 
     const canNavigateToNext = currentLocation !== locations.length - 1;
 
@@ -39,14 +40,15 @@ export const useNavigation = (): Navigation => {
 
     const navigateTo = (ønsketFane: Fane, aktørId: string | null = currentAktørId) => {
         const destination = `/person/${aktørId}${locations[ønsketFane]}`;
-        const current = location.pathname;
+        const current = pathname;
         if (destination !== current) {
-            navigate(destination);
+            router.push(destination);
         }
     };
 
     return {
-        aktørId: useMatch('/person/:aktorId/*')?.params.aktorId,
+        // TODO: Don't as it
+        aktørId: params.get('aktorId') as string,
         navigateTo: navigateTo,
         navigateToNext: () => canNavigateToNext && navigateTo(currentLocation + 1),
         navigateToPrevious: () => canNavigateToPrevious && navigateTo(currentLocation - 1),
