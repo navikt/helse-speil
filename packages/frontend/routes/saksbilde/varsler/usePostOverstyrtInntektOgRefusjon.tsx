@@ -104,6 +104,7 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
                     ),
                     fodselsnummer: overstyrtInntekt.fødselsnummer,
                     skjaringstidspunkt: overstyrtInntekt.skjæringstidspunkt,
+                    vedtaksperiodeId: overstyrtInntekt.vedtaksperiodeId,
                 },
             },
             onCompleted: () => {

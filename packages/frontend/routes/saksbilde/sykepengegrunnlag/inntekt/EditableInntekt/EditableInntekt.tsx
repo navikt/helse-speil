@@ -19,7 +19,10 @@ import {
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
 import { inntektOgRefusjonState, useOverstyrtInntektMetadata, usePostOverstyrtInntekt } from '@state/overstyring';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
+import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 import { isGhostPeriode } from '@utils/typeguards';
 
 import { getFørstePeriodeForSkjæringstidspunkt } from '../../../historikk/mapping';
@@ -62,12 +65,14 @@ export const EditableInntekt = ({
     const metadata = useOverstyrtInntektMetadata(skjæringstidspunkt, organisasjonsnummer);
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
+    const valgtVedtaksperiode = useActivePeriod();
     const [harIkkeSkjemaEndringer, setHarIkkeSkjemaEndringer] = useState(false);
     const [showSlettLokaleOverstyringerModal, setShowSlettLokaleOverstyringerModal] = useState(false);
     const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
     const førstePeriodeForSkjæringstidspunkt = getFørstePeriodeForSkjæringstidspunkt(skjæringstidspunkt, arbeidsgiver);
+    const person = useCurrentPerson();
 
     const cancelEditing = () => {
         onEndre(false);
@@ -138,6 +143,10 @@ export const EditableInntekt = ({
                     }),
                 },
             ],
+            vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(
+                person.arbeidsgivere,
+                valgtVedtaksperiode!,
+            ),
         };
         postOverstyring(overstyrtInntektOgRefusjon, metadata.organisasjonsnummer);
     };

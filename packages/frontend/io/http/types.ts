@@ -38,6 +38,7 @@ export interface OverstyrtInntektOgRefusjonDTO {
     fødselsnummer: string;
     skjæringstidspunkt: string;
     arbeidsgivere: OverstyrtInntektOgRefusjonArbeidsgiver[];
+    vedtaksperiodeId: string;
 }
 
 export interface OverstyrtInntektOgRefusjonArbeidsgiver {

@@ -64,6 +64,7 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
                     refusjonsopplysninger: [],
                 },
             ],
+            vedtaksperiodeId: '123',
         });
 
         rerender();
@@ -101,6 +102,7 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
                     refusjonsopplysninger: [],
                 },
             ],
+            vedtaksperiodeId: '123',
         });
         rerender();
 
@@ -150,6 +152,7 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
                     refusjonsopplysninger: [],
                 },
             ],
+            vedtaksperiodeId: '123',
         });
 
         rerender();
@@ -180,6 +183,7 @@ const mocks = [
                     ],
                     fodselsnummer: 'fødselsnummer',
                     skjaringstidspunkt: '2020-01-01',
+                    vedtaksperiodeId: '123',
                 },
             },
         },
@@ -209,6 +213,7 @@ const mocks = [
                     ],
                     fodselsnummer: 'fødselsnummer',
                     skjaringstidspunkt: '2020-01-01',
+                    vedtaksperiodeId: '123',
                 },
             },
         },
