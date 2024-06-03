@@ -10,6 +10,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { PropsWithChildren, ReactElement, useState } from 'react';
 
 import { createApolloClient } from '@/app/apollo/apolloClient';
+import { BrukerContext, User } from '@/auth/brukerContext';
 import { AmplitudeProvider } from '@/io/amplitude';
 import { VenterPåEndringProvider } from '@/routes/saksbilde/VenterPåEndringContext';
 import { ApolloProvider } from '@apollo/client';
@@ -22,15 +23,21 @@ dayjs.extend(isSameOrBefore);
 dayjs.extend(customParseFormat);
 dayjs.locale('nb');
 
-export const Providers = ({ children }: PropsWithChildren): ReactElement => {
+type Props = {
+    user: User;
+};
+
+export const Providers = ({ children, user }: PropsWithChildren<Props>): ReactElement => {
     const [apolloClient] = useState(() => createApolloClient());
-    const queryClient = new QueryClient();
+    const [queryClient] = useState(() => new QueryClient());
 
     return (
         <ApolloProvider client={apolloClient}>
             <AmplitudeProvider>
                 <VenterPåEndringProvider>
-                    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+                    <BrukerContext.Provider value={user}>
+                        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+                    </BrukerContext.Provider>
                 </VenterPåEndringProvider>
             </AmplitudeProvider>
         </ApolloProvider>

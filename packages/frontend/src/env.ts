@@ -1,8 +1,8 @@
 import process from 'process';
 import { ZodError, z } from 'zod';
 
-export type PublicEnv = z.infer<typeof publicEnvSchema>;
-export const publicEnvSchema = z.object({});
+export type PublicEnv = z.infer<typeof browserEnvSchema>;
+export const browserEnvSchema = z.object({ NEXT_PUBLIC_RUNTIME_ENV: z.string() });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
 export const serverEnvSchema = z.object({
@@ -24,7 +24,9 @@ export const serverEnvSchema = z.object({
  *
  * They MUST be provided during the build step.
  */
-export const browserEnv = publicEnvSchema.parse({} satisfies Record<keyof PublicEnv, string | undefined>);
+export const browserEnv = browserEnvSchema.parse({
+    NEXT_PUBLIC_RUNTIME_ENV: process.env.NEXT_PUBLIC_RUNTIME_ENV,
+} satisfies Record<keyof PublicEnv, string | undefined>);
 
 const getRawServerConfig = (): Partial<unknown> =>
     ({
@@ -47,7 +49,7 @@ const getRawServerConfig = (): Partial<unknown> =>
  */
 export function getServerEnv(): ServerEnv & PublicEnv {
     try {
-        return { ...serverEnvSchema.parse(getRawServerConfig()), ...publicEnvSchema.parse(browserEnv) };
+        return { ...serverEnvSchema.parse(getRawServerConfig()), ...browserEnvSchema.parse(browserEnv) };
     } catch (e) {
         if (e instanceof ZodError) {
             throw new Error(
