@@ -103,6 +103,7 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
                 ),
                 fodselsnummer: skjønnsfastsattSykepengegrunnlag.fødselsnummer,
                 skjaringstidspunkt: skjønnsfastsattSykepengegrunnlag.skjæringstidspunkt,
+                vedtaksperiodeId: skjønnsfastsattSykepengegrunnlag.vedtaksperiodeId,
             };
 
             void overstyrMutation({

@@ -78,6 +78,7 @@ export interface SkjønnsfastsattSykepengegrunnlagDTO {
     fødselsnummer: string;
     skjæringstidspunkt: string;
     arbeidsgivere: SkjønnsfastsattArbeidsgiver[];
+    vedtaksperiodeId: string;
 }
 
 export interface SkjønnsfastsattArbeidsgiver {
