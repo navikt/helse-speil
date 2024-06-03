@@ -1,6 +1,5 @@
 import { getArbeidsgiverWithPeriod } from '@state/selectors/arbeidsgiver';
 import { getOverlappendePerioder, isForkastet, isGodkjent } from '@state/selectors/period';
-import { defaultUtbetalingToggles } from '@utils/featureToggles';
 import { getPeriodState } from '@utils/mapping';
 
 type OverstyringValidationSuccess = {
@@ -48,19 +47,6 @@ export const kanOverstyres = (periode: FetchedBeregnetPeriode): OverstyringValid
     return { value: true };
 };
 
-const validateOverstyreUtbetaltPeriodeEnabled = (): void => {
-    if (!defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled) {
-        throw {
-            value: false,
-            technical: 'Revurdering av utbetalt periode',
-        };
-    }
-};
-
-const validateFeatureToggles = (): void => {
-    validateOverstyreUtbetaltPeriodeEnabled();
-};
-
 const validateIkkeForkastet = (periode: FetchedBeregnetPeriode): void => {
     if (isForkastet(periode)) {
         throw {
@@ -94,7 +80,6 @@ const validatePeriodeTilhørerNyesteGenerasjon = (person: FetchedPerson, periode
 export const kanRevurderes = (person: FetchedPerson, periode: FetchedBeregnetPeriode): OverstyringValidation => {
     try {
         validatePeriodeTilhørerNyesteGenerasjon(person, periode);
-        validateFeatureToggles();
         validateBeslutter(periode);
         validateIkkeForkastet(periode);
         validateGodkjent(periode);
@@ -132,7 +117,6 @@ export const kanOverstyreRevurdering = (
     periode: FetchedBeregnetPeriode,
 ): OverstyringValidation => {
     try {
-        validateOverstyreUtbetaltPeriodeEnabled();
         validateBeslutter(periode);
         validateRevurderes(periode);
         validatePeriodeTilhørerNyesteGenerasjon(person, periode);

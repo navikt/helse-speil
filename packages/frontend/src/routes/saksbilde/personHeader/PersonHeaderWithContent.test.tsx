@@ -1,8 +1,6 @@
-import { MemoryRouterWrapper } from '@test-wrappers';
-import React from 'react';
+import { ApolloWrapper } from '@test-wrappers';
 
 import { Adressebeskyttelse, Kjonn } from '@io/graphql';
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import { PersonHeaderWithContent } from './PersonHeaderWIthContent';
@@ -28,7 +26,7 @@ describe('Personlinje', () => {
                 }}
                 isAnonymous={false}
             />,
-            { wrapper: MemoryRouterWrapper },
+            { wrapper: ApolloWrapper },
         );
         expect(screen.getByText('Høiby, Marius Borg', { exact: false })).toBeVisible();
         expect(screen.getByText('123456 78910')).toBeVisible();

@@ -1,20 +1,19 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useReadQuery } from '@apollo/client';
 import { useNavigation } from '@hooks/useNavigation';
 import { FetchPersonDocument } from '@io/graphql';
-
-import { client } from '../routes/apolloClient';
 
 export const useCurrentPerson = (): FetchedPerson => {
     const { data } = useFetchPersonQuery();
     return data?.person as FetchedPerson;
 };
 
-const finnFødselsnummerForValgtPerson = (aktorId: string | undefined): string | undefined => {
-    const person = client.readQuery({
-        query: FetchPersonDocument,
+const useFinnFødselsnummerForValgtPerson = (aktorId: string | undefined): string | undefined => {
+    const cacheRead = useQuery(FetchPersonDocument, {
+        fetchPolicy: 'cache-only',
         variables: { aktorId: aktorId },
     });
-    return person?.person?.fodselsnummer;
+
+    return cacheRead.data?.person?.fodselsnummer;
 };
 
 export const useFetchPersonQuery = (force: boolean = false) => {
@@ -23,7 +22,7 @@ export const useFetchPersonQuery = (force: boolean = false) => {
 
     // Hvis vi har fødselsnummeret for personen man er inne på, sender vi det i stedet, for å unngå at kallet feiler i
     // spesialist for personer med flere identer.
-    const fnr = finnFødselsnummerForValgtPerson(aktorId);
+    const fnr = useFinnFødselsnummerForValgtPerson(aktorId);
     const variables = fnr ? { fnr } : { aktorId };
 
     const harIdentifikator = aktorId != null || fnr != null;

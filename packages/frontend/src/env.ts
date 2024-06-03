@@ -3,7 +3,7 @@ import { ZodError, z } from 'zod';
 
 export type PublicEnv = z.infer<typeof browserEnvSchema>;
 export const browserEnvSchema = z.object({
-    NEXT_PUBLIC_RUNTIME_ENV: z.union([z.literal('dev'), z.literal('lokal'), z.literal('prod')]),
+    NEXT_PUBLIC_RUNTIME_ENV: z.union([z.literal('test'), z.literal('dev'), z.literal('lokal'), z.literal('prod')]),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;

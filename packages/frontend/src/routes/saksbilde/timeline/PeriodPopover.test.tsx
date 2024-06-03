@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ApolloWrapper } from '@/test/wrappers';
 import {
     Dag,
     Inntektstype,
@@ -99,6 +100,7 @@ describe('PeriodPopover', () => {
                 fom="2023-01-01"
                 tom="2023-01-01"
             />,
+            { wrapper: ApolloWrapper },
         );
         expect(screen.queryByText('Arbeidsgiver')).not.toBeInTheDocument();
         expect(screen.queryByText('Sykmeldt')).not.toBeInTheDocument();
@@ -111,6 +113,7 @@ describe('PeriodPopover', () => {
                 fom="2023-01-01"
                 tom="2023-01-01"
             />,
+            { wrapper: ApolloWrapper },
         );
         expect(screen.getByText('Arbeidsgiver')).toBeVisible();
     });
@@ -122,6 +125,7 @@ describe('PeriodPopover', () => {
                 fom="2023-01-01"
                 tom="2023-01-01"
             />,
+            { wrapper: ApolloWrapper },
         );
         expect(screen.getByText('Sykmeldt')).toBeVisible();
     });
@@ -133,6 +137,7 @@ describe('PeriodPopover', () => {
                 fom="2023-01-01"
                 tom="2023-01-01"
             />,
+            { wrapper: ApolloWrapper },
         );
         expect(screen.getByText('Arbeidsgiver / Sykmeldt')).toBeVisible();
     });
@@ -146,6 +151,7 @@ describe('PeriodPopover', () => {
                 fom="2023-01-01"
                 tom="2023-01-01"
             />,
+            { wrapper: ApolloWrapper },
         );
         expect(screen.getByText('Dager igjen:')).toBeVisible();
     });

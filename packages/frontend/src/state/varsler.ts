@@ -1,5 +1,5 @@
 import { GraphQLError } from 'graphql/error';
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { GraphQLErrors } from '@apollo/client/errors';
@@ -13,7 +13,7 @@ const varslerState = atom<Array<SpeilError>>({
 });
 
 export const useVarsler = (): Array<SpeilError> => {
-    const { aktorId } = useParams<{ aktorId: string | undefined }>();
+    const params = useSearchParams();
     const { error } = useFetchPersonQuery();
 
     const errors: SpeilError[] =
@@ -37,7 +37,7 @@ export const useVarsler = (): Array<SpeilError> => {
             }
         }) ?? [];
 
-    return useRecoilValue(varslerState).concat(aktorId !== undefined ? errors : []);
+    return useRecoilValue(varslerState).concat(params.get('aktorId') !== undefined ? errors : []);
 };
 
 export const useRapporterGraphQLErrors = (): ((graphQLErrors: GraphQLErrors) => void) => {

@@ -30,14 +30,6 @@
             "@nais/*": ["./src/nais/*"]
         }
     },
-    "include": [
-        "next-env.d.ts",
-        "**/*.ts",
-        "**/*.tsx",
-        ".next/types/**/*.ts",
-        // TODO: fjern global types
-        "src/internal.d.ts",
-        "src/global.d.ts"
-    ],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/internal.d.ts", "src/global.d.ts"],
     "exclude": ["node_modules"]
 }

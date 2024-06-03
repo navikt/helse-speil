@@ -1,7 +1,6 @@
 import { RecoilWrapper } from '@test-wrappers';
 import fetchMock from 'jest-fetch-mock';
 import React from 'react';
-import { RecoilRoot } from 'recoil';
 
 import { useIsAnonymous } from '@state/anonymization';
 import {
@@ -11,6 +10,7 @@ import {
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
+import { useReadonly } from '@state/toggles';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
@@ -26,6 +26,7 @@ jest.mock('@state/periode');
 jest.mock('../../useVilkårsgrunnlag');
 jest.mock('@state/toggles');
 jest.mock('@state/anonymization');
+jest.mock('@state/person');
 
 describe('SykepengegrunnlagFraSpleis', () => {
     afterEach(() => {
@@ -57,15 +58,11 @@ describe('SykepengegrunnlagFraSpleis', () => {
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
         (useVilkårsgrunnlag as jest.Mock).mockReturnValue(vilkårsgrunnlag);
         (useIsAnonymous as jest.Mock).mockReturnValue(false);
+        (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
         render(
-            <RecoilRoot>
-                <SykepengegrunnlagFraSpleis
-                    vilkårsgrunnlag={vilkårsgrunnlag}
-                    organisasjonsnummer={organisasjonsnummer}
-                />
-                ,
-            </RecoilRoot>,
+            <SykepengegrunnlagFraSpleis vilkårsgrunnlag={vilkårsgrunnlag} organisasjonsnummer={organisasjonsnummer} />,
+            { wrapper: RecoilWrapper },
         );
 
         expect(screen.getByText('Inntektsgrunnlag')).toBeVisible();
@@ -95,6 +92,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
             dagendringer: [],
         });
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
+        (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
         render(
             <SykepengegrunnlagFraSpleis vilkårsgrunnlag={vilkårsgrunnlag} organisasjonsnummer={organisasjonsnummer} />,
