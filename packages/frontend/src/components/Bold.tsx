@@ -1,8 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
-import { BodyShortProps } from '@navikt/ds-react/esm/typography/BodyShort';
+import { BodyShort, BodyShortProps } from '@navikt/ds-react';
 
 import styles from './Bold.module.css';
 

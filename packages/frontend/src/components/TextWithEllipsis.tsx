@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { BodyShortProps } from '@navikt/ds-react/esm/typography/BodyShort';
+import { BodyShortProps } from '@navikt/ds-react';
 
 import { AnonymizableText } from './anonymizable/AnonymizableText';
 

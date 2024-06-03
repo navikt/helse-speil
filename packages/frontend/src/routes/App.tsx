@@ -1,20 +1,18 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import React, { PropsWithChildren, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import ReactModal from 'react-modal';
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
 // import 'reset-css';
 import { ApolloProvider } from '@apollo/client';
-import { loadErrorMessages } from '@apollo/client/dev';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Toasts } from '@components/Toasts';
 import { Varsler } from '@components/Varsler';
 import { Header } from '@components/header/Header';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { useAuthentication, useUpdateAuthentication } from '@state/authentication';
 import { useFetchPersonQuery } from '@state/person';
 import { useSetVarsler } from '@state/varsler';
 import { onLazyLoadFail } from '@utils/error';
@@ -49,10 +47,6 @@ ReactModal.setAppElement('#root');
 //         instrumentations: [new ErrorsInstrumentation()],
 //     });
 
-if (import.meta.env.DEV) {
-    loadErrorMessages();
-}
-
 const useSyncAlertsToLocation = () => {
     const location = useLocation();
     const setVarsler = useSetVarsler();
@@ -70,20 +64,11 @@ export const App = () => {
     const { loading } = useFetchPersonQuery(true);
 
     useLoadingToast({ isLoading: loading, message: 'Henter person' });
-    useUpdateAuthentication();
 
     useSyncAlertsToLocation();
 
     return (
         <ErrorBoundary fallback={(error) => <GlobalFeilside error={error} />}>
-            {/*<Helmet>*/}
-            {/*    <title>Speil {erLocal() ? ' - localhost' : erDev() ? ' - dev' : ''}</title>*/}
-            {/*    <link*/}
-            {/*        rel="icon"*/}
-            {/*        type="image/x-icon"*/}
-            {/*        href={`/favicons/${erLocal() ? 'favicon-local.ico' : erDev() ? 'favicon-dev.ico' : 'favicon.ico'}`}*/}
-            {/*    />*/}
-            {/*</Helmet>*/}
             <Header />
             <Varsler />
             <Routes>
@@ -91,31 +76,25 @@ export const App = () => {
                 <Route
                     path={`${AppRoutes.Oversikt}/*`}
                     element={
-                        <RequireAuth>
-                            <React.Suspense fallback={<div />}>
-                                <Oversikt />
-                            </React.Suspense>
-                        </RequireAuth>
+                        <React.Suspense fallback={<div />}>
+                            <Oversikt />
+                        </React.Suspense>
                     }
                 />
                 <Route
                     path={AppRoutes.Saksbilde}
                     element={
-                        <RequireAuth>
-                            <React.Suspense fallback={<div />}>
-                                <Saksbilde />
-                            </React.Suspense>
-                        </RequireAuth>
+                        <React.Suspense fallback={<div />}>
+                            <Saksbilde />
+                        </React.Suspense>
                     }
                 />
                 <Route
                     path={AppRoutes.Playground}
                     element={
-                        <RequireAuth>
-                            <React.Suspense fallback={<div />}>
-                                <GraphQLPlayground />
-                            </React.Suspense>
-                        </RequireAuth>
+                        <React.Suspense fallback={<div />}>
+                            <GraphQLPlayground />
+                        </React.Suspense>
                     }
                 />
                 <Route path="*" element={<PageNotFound />} />
@@ -123,11 +102,6 @@ export const App = () => {
             <Toasts />
         </ErrorBoundary>
     );
-};
-
-const RequireAuth = ({ children }: PropsWithChildren) => {
-    const { isLoggedIn } = useAuthentication();
-    return isLoggedIn !== false ? children : <Navigate to="/uautorisert" />;
 };
 
 export const AppWithRoutingAndState = () => (

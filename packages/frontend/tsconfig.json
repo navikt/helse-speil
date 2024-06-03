@@ -5,6 +5,7 @@
         "skipLibCheck": true,
         "strict": true,
         "noEmit": true,
+        "downlevelIteration": true,
         "esModuleInterop": true,
         "module": "esnext",
         "moduleResolution": "bundler",
@@ -29,6 +30,14 @@
             "@nais/*": ["./src/nais/*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        ".next/types/**/*.ts",
+        // TODO: fjern global types
+        "src/internal.d.ts",
+        "src/global.d.ts"
+    ],
     "exclude": ["node_modules"]
 }
