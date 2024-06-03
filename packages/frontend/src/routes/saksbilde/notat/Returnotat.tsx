@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import React, { Dispatch, SetStateAction } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { FieldValues } from 'react-hook-form/dist/types/fields';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 
 import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';

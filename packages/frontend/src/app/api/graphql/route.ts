@@ -1,10 +1,11 @@
 import { getToken } from '@navikt/oasis';
 
 import { postGraphQLQuery } from '@/app/api/graphql/graphql';
+import { hentWonderwallToken } from '@/auth/token';
 
 export const dynamic = 'force-dynamic'; // defaults to auto
 export const POST = async (req: Request) => {
-    const token = getToken(req);
+    const token = hentWonderwallToken(req);
     if (!token) {
         return new Response(null, { status: 401 });
     }

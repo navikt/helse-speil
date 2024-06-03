@@ -1,11 +1,12 @@
 import { getToken } from '@navikt/oasis';
 
 import { Handling, kallModia } from '@/app/api/modia/modia';
+import { hentWonderwallToken } from '@/auth/token';
 import logger from '@/logger';
 
 export const dynamic = 'force-dynamic'; // defaults to auto
 export const POST = async (req: Request) => {
-    const token = getToken(req);
+    const token = hentWonderwallToken(req);
     if (!token) {
         return new Response(null, { status: 401 });
     }

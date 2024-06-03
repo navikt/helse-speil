@@ -197,7 +197,7 @@ export const defaultFilters: Filter[] = [
         active: false,
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
-].filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang);
+].filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang());
 
 const storageKeyForFilters = (tab: TabType) => 'filtereForTab_' + tab;
 

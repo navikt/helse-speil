@@ -1,3 +1,5 @@
+'use client';
+
 import dynamic from 'next/dynamic';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';

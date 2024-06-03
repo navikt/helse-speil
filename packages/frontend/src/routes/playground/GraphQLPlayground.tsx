@@ -1,9 +1,8 @@
 import GraphiQL from 'graphiql';
 import React from 'react';
 
+import { BASE_URL } from '@/constants';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
-
-import { BASE_URL } from '../../constants';
 
 import 'graphiql/graphiql.min.css';
 

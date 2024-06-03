@@ -6,13 +6,15 @@ import winston from 'winston';
 
 import { getToken, parseAzureUserToken } from '@navikt/oasis';
 
-import { isLocal } from './env';
+import { hentWonderwallToken } from '@/auth/token';
+
+import { erLokal } from './env';
 
 const sikkerLogPath = () => (fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log');
 
 const stdoutLogger = winston.createLogger({
     level: 'debug',
-    format: isLocal ? winston.format.cli() : winston.format.json(),
+    format: erLokal ? winston.format.cli() : winston.format.json(),
     transports: [new winston.transports.Console()],
 });
 
@@ -69,7 +71,7 @@ const requestMeta = (req: Request) => {
 };
 
 const userMeta = (req: Request): { name: string; navIdent: string } | null => {
-    const token = getToken(req);
+    const token = hentWonderwallToken(req);
     if (!token) return null;
 
     const parse = parseAzureUserToken(token);

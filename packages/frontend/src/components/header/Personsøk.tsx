@@ -1,5 +1,5 @@
+import { useRouter } from 'next/navigation';
 import React, { FormEvent, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { Search } from '@navikt/ds-react';
 
@@ -15,7 +15,7 @@ const erGyldigPersonId = (value: string) => value.match(/^\d{1,13}$/) !== null;
 
 export const Personsøk: React.FC = () => {
     const addVarsel = useAddVarsel();
-    const navigate = useNavigate();
+    const router = useRouter();
     const rapporterError = useRapporterGraphQLErrors();
     const client = useApolloClient();
     const [hentPerson, { loading }] = useLazyQuery(FetchPersonDocument, {
@@ -48,7 +48,7 @@ export const Personsøk: React.FC = () => {
         }
 
         if (!erGyldigPersonId(personId)) {
-            navigate('/');
+            router.push('/');
             addVarsel(new SpeilError(`"${personId}" er ikke en gyldig aktør-ID/fødselsnummer.`));
         } else {
             const variables: { aktorId?: string; fnr?: string } = validFødselsnummer(personId)
@@ -58,12 +58,12 @@ export const Personsøk: React.FC = () => {
                 variables: variables,
             }).then(({ data, error }) => {
                 if ((data?.person?.arbeidsgivere.length ?? 0) === 0) {
-                    navigate('/');
+                    router.push('/');
                     if (error?.graphQLErrors) rapporterError(error.graphQLErrors);
                     return;
                 }
                 if (data?.person) {
-                    navigate(`/person/${data.person.aktorId}/dagoversikt`);
+                    router.push(`/person/${data.person.aktorId}/dagoversikt`);
                 }
             });
         }

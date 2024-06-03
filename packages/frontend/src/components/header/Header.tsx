@@ -1,14 +1,18 @@
+'use client';
+
 import classNames from 'classnames/bind';
+import Link from 'next/link';
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import { InternalHeader } from '@navikt/ds-react';
 
+import { useBrukerGrupper } from '@/auth/brukerContext';
+import { erDev, erLokal, erUtvikling } from '@/env';
 import { SystemMenu } from '@components/SystemMenu';
 import { UserMenu } from '@components/UserMenu';
 import { EasterEgg } from '@components/header/EasterEgg';
 import { Personsøk } from '@components/header/Personsøk';
-import { erDev, erLocal, graphqlplayground, toggleMeny } from '@utils/featureToggles';
+import { graphqlplayground } from '@utils/featureToggles';
 
 import { ToggleMenyButton } from './ToggleMeny/ToggleMenyButton';
 
@@ -16,24 +20,24 @@ import styles from './Header.module.css';
 
 const cx = classNames.bind(styles);
 
-export const Header = () => (
-    <InternalHeader className={cx(styles.header, { localhostHeader: erLocal(), devHeader: erDev() })}>
-        <InternalHeader.Title as="span">
-            <Link to="/" className={styles.Link}>
+export const Header = () => {
+    const enablePlayground = graphqlplayground(useBrukerGrupper());
+
+    return (
+        <InternalHeader className={cx(styles.header, { localhostHeader: erLokal, devHeader: erDev })}>
+            <InternalHeader.Title as={Link} href="/" className={styles.Link}>
                 NAV Sykepenger
-            </Link>
-        </InternalHeader.Title>
-        <Personsøk />
-        <EasterEgg />
-        {toggleMeny && <ToggleMenyButton />}
-        {graphqlplayground && (
-            <InternalHeader.Title as="span">
-                <Link to="/playground" className={styles.Link}>
-                    GraphQL Playground
-                </Link>
             </InternalHeader.Title>
-        )}
-        <SystemMenu />
-        <UserMenu />
-    </InternalHeader>
-);
+            <Personsøk />
+            <EasterEgg />
+            {erUtvikling && <ToggleMenyButton />}
+            {enablePlayground && (
+                <InternalHeader.Title as={Link} href="/playground" className={styles.Link}>
+                    GraphQL Playground
+                </InternalHeader.Title>
+            )}
+            <SystemMenu />
+            <UserMenu />
+        </InternalHeader>
+    );
+};

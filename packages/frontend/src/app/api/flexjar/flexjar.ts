@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { getToken, requestAzureOboToken } from '@navikt/oasis';
-
+import { byttTilOboToken, hentWonderwallToken } from '@/auth/token';
 import { getServerEnv } from '@/env';
 import logger from '@/logger';
 
@@ -12,7 +11,7 @@ const postFlexjarQuery = async (
     urlId: string = '',
 ): Promise<object> => {
     const callId = uuidv4();
-    const oboResult = await requestAzureOboToken(wonderwallToken, getServerEnv().FLEXJAR_SCOPE);
+    const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().FLEXJAR_SCOPE);
     if (!oboResult.ok) {
         throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
     }
@@ -44,7 +43,7 @@ const postFlexjarQuery = async (
 };
 
 export const postOpprett = async (req: Request) => {
-    const token = getToken(req);
+    const token = hentWonderwallToken(req);
     if (!token) {
         return new Response(null, { status: 401 });
     }
@@ -59,7 +58,7 @@ export const postOpprett = async (req: Request) => {
 };
 
 export const postOppdater = async (id: string, req: Request) => {
-    const token = getToken(req);
+    const token = hentWonderwallToken(req);
     if (!token) {
         return new Response(null, { status: 401 });
     }

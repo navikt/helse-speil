@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Dropdown } from '@navikt/ds-react';
 
 import { Arbeidsgiver, Utbetalingstatus } from '@io/graphql';
-import { annulleringerEnabled } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { Annulleringsmodal } from '../../annullering/Annulleringsmodal';
@@ -46,7 +45,7 @@ const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
 };
 
 const kanAnnullere = (harBeslutteroppgavePåSykefraværet: boolean, harMinstEnUtbetaltPeriode: boolean): boolean => {
-    return annulleringerEnabled && !harBeslutteroppgavePåSykefraværet && harMinstEnUtbetaltPeriode;
+    return !harBeslutteroppgavePåSykefraværet && harMinstEnUtbetaltPeriode;
 };
 
 interface AnnullerButtonProps {

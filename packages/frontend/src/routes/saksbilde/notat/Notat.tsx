@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { FieldValues } from 'react-hook-form/dist/types/fields';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { PlusCircleFillIcon } from '@navikt/aksel-icons';

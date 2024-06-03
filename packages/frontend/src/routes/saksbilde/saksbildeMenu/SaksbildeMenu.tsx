@@ -1,6 +1,6 @@
 import classNames from 'classnames';
+import Link from 'next/link';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -57,13 +57,15 @@ const SaksbildeMenuUberegnetPeriode: React.FC = () => (
 );
 
 const NavLenke = ({ tittel, to }: { tittel: string; to: string }) => (
-    <NavLink
-        className={({ isActive }) => classNames([styles.NavLink], { [styles.ActiveLink]: isActive })}
-        to={to}
+    <Link
+        // TODO: Re-implement NAVLINK using nextjs app dir api
+        // https://nextjs.org/docs/app/api-reference/functions/use-selected-layout-segment
+        // className={({ isActive }) => classNames([styles.NavLink], { [styles.ActiveLink]: isActive })}
+        href={to}
         title={tittel}
     >
         {tittel}
-    </NavLink>
+    </Link>
 );
 
 const SaksbildeMenuContainer: React.FC = () => {

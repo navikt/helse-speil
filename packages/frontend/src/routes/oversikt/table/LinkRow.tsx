@@ -1,5 +1,5 @@
+import { useRouter } from 'next/navigation';
 import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { Table } from '@navikt/ds-react';
 
@@ -23,7 +23,7 @@ interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
 
 export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
     const ref = useRef<HTMLTableRowElement | null>(null);
-    const doNavigate = useNavigate();
+    const router = useRouter();
     const [hentPerson, { loading }] = useLazyQuery(FetchPersonDocument);
 
     useLoadingToast({ isLoading: loading, message: 'Henter person' });
@@ -38,7 +38,7 @@ export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
             if (shouldOpenInNewTab(event)) {
                 window.open(destinationUrl, '_blank');
             } else {
-                doNavigate(destinationUrl);
+                router.push(destinationUrl);
             }
         });
     };

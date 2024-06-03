@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { requestAzureOboToken } from '@navikt/oasis';
-
+import { byttTilOboToken } from '@/auth/token';
 import { getServerEnv } from '@/env';
 import logger from '@/logger';
 
@@ -20,7 +19,7 @@ const handlinger: { [key in Handling]: Handlingdata } = {
 export const kallModia = async (handling: Handling, wonderwallToken: string, data?: string): Promise<Response> => {
     const { method, path } = handlinger[handling];
     const callId = uuidv4();
-    const oboResult = await requestAzureOboToken(wonderwallToken, getServerEnv().MODIA_SCOPE);
+    const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().MODIA_SCOPE);
     if (!oboResult.ok) {
         throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
     }

@@ -1,20 +1,19 @@
 import dayjs, { Dayjs } from 'dayjs';
 import React, { PropsWithChildren, useEffect } from 'react';
 
+import { erDev, erProd } from '@/env';
+import { defaultFilters } from '@/routes/oversikt/table/state/filter';
 import * as amplitude from '@amplitude/analytics-browser';
 import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
 import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
 import { Egenskap, Kategori, Oppgaveegenskap, Periode } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
-import { erDev, erProd } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-import { defaultFilters } from '../../routes/oversikt/table/state/filter';
+const apiKey = erProd ? '4000b8a4a426b0dbefbe011778062779' : '27bc226964689268f3258512c10dc2a1';
 
-const apiKey = erProd() ? '4000b8a4a426b0dbefbe011778062779' : '27bc226964689268f3258512c10dc2a1';
-
-const amplitudeClient = erProd() || erDev() ? amplitude : undefined;
+const amplitudeClient = erProd || erDev ? amplitude : undefined;
 
 amplitudeClient?.init(apiKey, '', {
     serverUrl: 'https://amplitude.nav.no/collect',

@@ -1,8 +1,7 @@
+import nissemyra from '../assets/nissemyra.svg';
 import React from 'react';
 
 import { BodyShort, Heading, Link } from '@navikt/ds-react';
-
-import nissemyra from '../assets/nissemyra.svg';
 
 import styles from './PageNotFound.module.css';
 
@@ -18,7 +17,7 @@ export const PageNotFound = () => {
                 </Heading>
                 <Link href="/">Til oppgavelista</Link>
             </section>
-            <img alt="Agurk med armer og bein ikledd en lue som leser et kart" src={nissemyra} />
+            <img alt="Agurk med armer og bein ikledd en lue som leser et kart" src={nissemyra.src} />
         </main>
     );
 };
