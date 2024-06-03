@@ -1,6 +1,7 @@
-import { RecoilAndRouterWrapper } from '@test-wrappers';
+import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
+import { useKeyboardActions } from '@/routes/saksbilde/useKeyboardShortcuts';
 import { MockedProvider } from '@apollo/client/testing';
 import { FetchPersonDocument } from '@io/graphql';
 import '@testing-library/jest-dom';
@@ -8,7 +9,6 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SpeilError } from '@utils/error';
 
-import { useKeyboardActions } from '../../routes/saksbilde/useKeyboardShortcuts';
 import { Header } from './Header';
 
 jest.mock('@state/person');
@@ -58,9 +58,9 @@ describe('Header', () => {
     it('legger til varsel ved ugyldig søk', async () => {
         render(
             <MockedProvider mocks={mocks} addTypename={false}>
-                <RecoilAndRouterWrapper>
+                <RecoilWrapper>
                     <Header />
-                </RecoilAndRouterWrapper>
+                </RecoilWrapper>
             </MockedProvider>,
         );
         await userEvent.type(screen.getByRole('searchbox'), 'test');
@@ -71,9 +71,9 @@ describe('Header', () => {
     it('legger ikke til varsel ved gyldig søk', async () => {
         render(
             <MockedProvider mocks={mocks} addTypename={false}>
-                <RecoilAndRouterWrapper>
+                <RecoilWrapper>
                     <Header />
-                </RecoilAndRouterWrapper>
+                </RecoilWrapper>
             </MockedProvider>,
         );
         await userEvent.type(screen.getByRole('searchbox'), '12345678910');

@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
-import { Vilkårdata } from 'mapping/vilkår';
 import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
+import { Vilkårdata } from '@/mapping/vilkår';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Maybe, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';

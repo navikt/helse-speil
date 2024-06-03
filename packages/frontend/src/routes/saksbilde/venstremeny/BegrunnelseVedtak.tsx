@@ -5,6 +5,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import { ExpandIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Textarea } from '@navikt/ds-react';
 
+import { useBrukerIdent } from '@/auth/brukerContext';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { AvslagInput, Avslagshandling, Avslagstype, Maybe, Utbetalingsdagtype } from '@io/graphql';
 import { kanSkriveAvslag } from '@utils/featureToggles';
@@ -31,6 +32,7 @@ export const BegrunnelseVedtak = ({
     setAvslag,
     periode,
 }: BegrunnelseVedtakProps) => {
+    const ident = useBrukerIdent();
     const [showForkastEndringerModal, setShowForkastEndringerModal] = useState(false);
     const erReadOnly = useIsReadOnlyOppgave();
     const erBeslutteroppgave = periode.totrinnsvurdering?.erBeslutteroppgave ?? false;
@@ -47,7 +49,7 @@ export const BegrunnelseVedtak = ({
     const avslagstype =
         tidslinjeUtenAGPogHelg.length === avvisteDager.length ? Avslagstype.Avslag : Avslagstype.DelvisAvslag;
 
-    if (!kanSkriveAvslag() || avvisteDager.length === 0) return null;
+    if (!kanSkriveAvslag(ident) || avvisteDager.length === 0) return null;
 
     const onClose = () => {
         if (avslag?.data?.begrunnelse || periode.avslag.length > 0) {

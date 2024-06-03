@@ -4,7 +4,6 @@ import { enGenerasjon } from '@test-data/generasjon';
 import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
-import { defaultUtbetalingToggles } from '@utils/featureToggles';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 
 describe('kanOverstyres', () => {
@@ -47,25 +46,6 @@ describe('kanOverstyres', () => {
 });
 
 describe('kanRevurderes', () => {
-    beforeEach(() => {
-        defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled = true;
-    });
-
-    describe('brytere', () => {
-        it('returnerer false om overstyreUtbetaltPeriodeEnabled er false', () => {
-            const periode = enBeregnetPeriode();
-            const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
-            const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
-
-            defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled = false;
-
-            expect(kanRevurderes(person, periode)).toEqual({
-                value: false,
-                technical: 'Revurdering av utbetalt periode',
-            });
-        });
-    });
-
     it('returnerer false om perioden ikke er godkjent', () => {
         const periode = enBeregnetPeriode({ periodetilstand: Periodetilstand.IngenUtbetaling });
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
@@ -107,24 +87,6 @@ describe('kanRevurderes', () => {
 });
 
 describe('kanOverstyreRevurdering', () => {
-    beforeEach(() => {
-        defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled = true;
-    });
-
-    it('returnerer false om overstyreUtbetaltPeriodeEnabled-togglen er false', () => {
-        const periode = enBeregnetPeriode();
-        const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
-        const expected = {
-            value: false,
-            technical: 'Revurdering av utbetalt periode',
-        };
-
-        defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled = false;
-
-        expect(kanOverstyreRevurdering(person, periode)).toEqual(expected);
-    });
-
     it('returnerer false om perioden ikke er til revurdering', () => {
         const periode = enBeregnetPeriode();
         const person = enPerson() as unknown as FetchedPerson;

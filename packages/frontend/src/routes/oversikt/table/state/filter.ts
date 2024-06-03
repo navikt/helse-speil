@@ -1,4 +1,4 @@
-import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
+import { SetRecoilState, atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Egenskap } from '@io/graphql';
 import { harSpesialsaktilgang } from '@utils/featureToggles';
@@ -27,7 +27,7 @@ type ActiveFiltersPerTab = {
     [key in TabType]: Filter[];
 };
 
-export const defaultFilters: Filter[] = [
+const filters = [
     {
         key: 'UFORDELTE_SAKER',
         label: 'Ufordelte saker',
@@ -197,7 +197,10 @@ export const defaultFilters: Filter[] = [
         active: false,
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
-].filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang());
+];
+
+export const getDefaultFilters = (grupper: string[]): Filter[] =>
+    filters.filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang(grupper));
 
 const storageKeyForFilters = (tab: TabType) => 'filtereForTab_' + tab;
 
@@ -223,12 +226,22 @@ const makeFilterActive = (targetFilterLabel: string) => (it: Filter) =>
 const allFilters = atom<ActiveFiltersPerTab>({
     key: 'activeFiltersPerTab',
     default: {
-        [TabType.TilGodkjenning]: hentValgteFiltre(TabType.TilGodkjenning, defaultFilters),
-        [TabType.Mine]: hentValgteFiltre(TabType.Mine, defaultFilters),
-        [TabType.Ventende]: hentValgteFiltre(TabType.Ventende, defaultFilters),
+        [TabType.TilGodkjenning]: [],
+        [TabType.Mine]: [],
+        [TabType.Ventende]: [],
         [TabType.BehandletIdag]: [],
     },
 });
+
+export const hydrateAllFilters = (set: SetRecoilState, grupper: string[]) => {
+    set(allFilters, (prevState) => ({
+        ...prevState,
+        [TabType.TilGodkjenning]: hentValgteFiltre(TabType.TilGodkjenning, getDefaultFilters(grupper)),
+        [TabType.Mine]: hentValgteFiltre(TabType.Mine, getDefaultFilters(grupper)),
+        [TabType.Ventende]: hentValgteFiltre(TabType.Ventende, getDefaultFilters(grupper)),
+        [TabType.BehandletIdag]: [],
+    }));
+};
 
 const filtersState = selector<Filter[]>({
     key: 'filtersState',

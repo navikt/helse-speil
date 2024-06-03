@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 
 import { Button, Checkbox, Loader, Textarea } from '@navikt/ds-react';
 
@@ -35,7 +35,7 @@ export const PåVentNotatModal = ({ onClose, navn, vedtaksperiodeId, oppgaveId, 
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
     const [leggPåVentMedNotat, { loading, error: leggPåVentError }] = useLeggPåVent();
     const errorHandler = useOperationErrorHandler('Legg på vent');
-    const navigate = useNavigate();
+    const router = useRouter();
     const saksbehandler = useInnloggetSaksbehandler();
     const form = useForm();
 
@@ -69,7 +69,7 @@ export const PåVentNotatModal = ({ onClose, navn, vedtaksperiodeId, oppgaveId, 
         if (leggPåVentError) {
             errorHandler(leggPåVentError);
         } else {
-            navigate('/');
+            router.push('/');
         }
     };
 

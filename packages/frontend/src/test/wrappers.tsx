@@ -1,11 +1,10 @@
-import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import React, { PropsWithChildren, ReactElement } from 'react';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 
+import { BrukerContext } from '@/auth/brukerContext';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 
 interface RecoilProps {
-    children?: React.ReactNode;
     initializeState?: (mutableSnapshot: MutableSnapshot) => void;
 }
 
@@ -13,32 +12,33 @@ export type ApolloProps = RecoilProps & {
     mocks?: MockedResponse[];
 };
 
-export const ApolloWrapper: React.FC<ApolloProps> = ({ children, initializeState, mocks }) => {
+export const ApolloWrapper = ({ children, initializeState, mocks }: PropsWithChildren<ApolloProps>) => {
     return (
         <MockedProvider mocks={mocks}>
-            <RecoilAndRouterWrapper children={children} initializeState={initializeState} />
+            <RecoilWrapper initializeState={initializeState}>{children}</RecoilWrapper>
         </MockedProvider>
     );
 };
 
-export const RecoilWrapper: React.FC<RecoilProps> = ({ children, initializeState }) => {
-    return <RecoilRoot initializeState={initializeState}>{children}</RecoilRoot>;
-};
-
-export const MemoryRouterWrapper: React.FC<ChildrenProps> = ({ children }) => {
-    return <MemoryRouter>{children}</MemoryRouter>;
-};
-
-export const RecoilAndRouterWrapper: React.FC<RecoilProps> = ({ children, initializeState }) => {
+export const RecoilWrapper = ({ children, initializeState }: PropsWithChildren<RecoilProps>) => {
     return (
-        <MemoryRouterWrapper>
-            <RecoilWrapper initializeState={initializeState}>{children}</RecoilWrapper>
-        </MemoryRouterWrapper>
+        <BrukerContext.Provider
+            value={{
+                oid: 'test-oid',
+                epost: 'test-username',
+                navn: 'Test User',
+                ident: 'Otest123',
+                grupper: ['test-group'],
+            }}
+        >
+            <RecoilRoot initializeState={initializeState}>{children}</RecoilRoot>
+        </BrukerContext.Provider>
     );
 };
 
 export const wrapperWithRecoilInitializer =
-    (initializer: (mutableSnapshot: MutableSnapshot) => void): React.FC<ChildrenProps> =>
-    ({ children }) => {
+    (initializer: (mutableSnapshot: MutableSnapshot) => void) =>
+    // eslint-disable-next-line react/display-name
+    ({ children }: PropsWithChildren): ReactElement => {
         return <RecoilWrapper initializeState={initializer}>{children}</RecoilWrapper>;
     };

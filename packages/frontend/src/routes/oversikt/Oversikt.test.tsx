@@ -9,6 +9,8 @@ import { render } from '@testing-library/react';
 
 import { Oversikt } from './Oversikt';
 
+jest.mock('@state/oppgaver');
+
 describe('Oversikt', () => {
     it('rendrer uten violations', async () => {
         const oppgaver = [enOppgaveForOversikten()];
