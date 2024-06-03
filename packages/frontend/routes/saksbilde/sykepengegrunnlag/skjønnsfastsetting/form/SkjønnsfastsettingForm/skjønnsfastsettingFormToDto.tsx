@@ -1,7 +1,8 @@
 import { Arbeidsgiverinntekt } from '@io/graphql';
 import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@io/http';
 import { toKronerOgØre } from '@utils/locale';
-import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { ArbeidsgiverForm, Skjønnsfastsettingstype } from '../../skjønnsfastsetting';
 import { SkjønnsfastsettingMal } from '../../state';
@@ -26,17 +27,7 @@ const finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt = (
                 )
                 .pop()?.vedtaksperiodeId ?? null,
     }));
-const finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt = (person: FetchedPerson, period: ActivePeriod): string =>
-    person.arbeidsgivere.flatMap(
-        (arbeidsgiver) =>
-            arbeidsgiver.generasjoner?.[0]?.perioder
-                ?.filter(
-                    (periode) =>
-                        periode.skjaeringstidspunkt === period.skjaeringstidspunkt &&
-                        (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)),
-                )
-                .pop()?.vedtaksperiodeId ?? null,
-    )[0]!;
+
 export const skjønnsfastsettingFormToDto = (
     form: SkjønnsfastsettingFormFields,
     inntekter: Arbeidsgiverinntekt[],
@@ -91,6 +82,6 @@ export const skjønnsfastsettingFormToDto = (
                     (it) => it.arbeidsgiver === organisasjonsnummer,
                 )[0].initierendeVedtaksperiodeId ?? null,
         })),
-        vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(person, period),
+        vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(person.arbeidsgivere, period),
     };
 };

@@ -9,6 +9,7 @@ import {
     Periodetilstand,
     Periodetype,
     Sykdomsdagtype,
+    UberegnetPeriode,
     Utbetaling,
     Utbetalingsdagtype,
     Utbetalingstatus,
@@ -115,6 +116,27 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
     },
     egenskaper: [],
     avslag: [],
+});
+
+export const enUberegnetPeriode: OverridableConstructor<UberegnetPeriode> = (overrides) => ({
+    __typename: 'UberegnetPeriode',
+    behandlingId: nanoid(),
+    erForkastet: false,
+    fom: '2020-01-01',
+    hendelser: [],
+    id: nanoid(),
+    inntektstype: Inntektstype.Enarbeidsgiver,
+    notater: [],
+    opprettet: '2020-01-01',
+    periodetilstand: Periodetilstand.Utbetalt,
+    periodetype: Periodetype.Forstegangsbehandling,
+    skjaeringstidspunkt: '2020-01-01',
+    tidslinje: [enDag()],
+    tom: '2020-01-30',
+    varsler: [],
+    vedtaksperiodeId: nanoid(),
+    aktivitetslogg: [],
+    ...overrides,
 });
 
 export const enGhostPeriode: OverridableConstructor<GhostPeriode> = (overrides) => ({

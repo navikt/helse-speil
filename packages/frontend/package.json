@@ -45,6 +45,7 @@
         "react-modal": "^3.16.1",
         "react-router-dom": "^6.21.0",
         "recoil": "^0.7.7",
+        "remeda": "^2.0.3",
         "reset-css": "^5.0.2"
     },
     "devDependencies": {
