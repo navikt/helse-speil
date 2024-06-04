@@ -21,16 +21,15 @@ spec:
   port: 3000
   ingresses:
     - https://speil-next.intern.dev.nav.no
-    - https://speil-next.ansatt.dev.nav.no
   liveness:
     failureThreshold: 10
     initialDelay: 20
-    path: isAlive
+    path: /api/internal/isAlive
     periodSeconds: 5
     timeout: 1
   readiness:
     initialDelay: 20
-    path: isReady
+    path: /api/internal/isReady
     timeout: 1
   redis:
     - instance: sessions
@@ -41,22 +40,25 @@ spec:
     min: 2
   resources:
     limits:
-      cpu: "2000m"
-      memory: "512Mi"
+      cpu: '2000m'
+      memory: '512Mi'
     requests:
-      cpu: "50m"
-      memory: "128Mi"
+      cpu: '50m'
+      memory: '128Mi'
   prometheus:
     enabled: true
-  frontend:
-    generatedConfig:
-      mountPath: /app/dist/client/nais/nais
+    path: /api/internal/metrics
+  observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: nodejs
   azure:
     sidecar:
       enabled: true
       autoLogin: true
       autoLoginIgnorePaths:
-        - /static/*
+        - /_next/*
+        - /public/*
     application:
       enabled: true
       tenant: nav.no
