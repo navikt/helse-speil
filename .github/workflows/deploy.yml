@@ -7,7 +7,7 @@ on:
       - wip-next
 
 env:
-  APP: speil
+  APP: speil-next
   TEAM: tbd
 
 jobs:
@@ -38,6 +38,31 @@ jobs:
       - uses: ./.github/actions/setup-npm-deps
         with:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+      - run: cp envs/.env.dev packages/frontend/.env.production
+      - run: npm run build
+        working-directory: ./packages/frontend
+      - uses: nais/docker-build-push@v0
+        name: Build and push image
+        id: docker-build-push
+        with:
+          team: tbd
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
+
+  build-production:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    runs-on: ubuntu-latest-16-cores
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-npm-deps
+        with:
+          NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+      - run: cp envs/.env.production packages/frontend/.env.production
       - run: npm run build
         working-directory: ./packages/frontend
       - uses: nais/docker-build-push@v0
@@ -52,13 +77,28 @@ jobs:
 
   deploy-dev:
     name: Deploy to dev
-    needs: [ build-dev ]
+    needs: [ build-dev, test-and-lint ]
     runs-on: ubuntu-latest
+    # Disable while I work on GHA stuff
+    if: false
     steps:
       - uses: actions/checkout@v4
       - uses: nais/deploy/actions/deploy@v2
-        # Disable while I work on GHA stuff
-        if: false
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml
+          VAR: 'image=${{ needs.build-dev.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}'
+
+  deploy-prod:
+    name: Deploy to prod
+    needs: [ build-production, test-and-lint ]
+    runs-on: ubuntu-latest
+    # Disable while I work on GHA stuff
+    if: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nais/deploy/actions/deploy@v2
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp

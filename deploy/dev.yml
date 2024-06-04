@@ -20,8 +20,8 @@ spec:
   image: {{image}}
   port: 3000
   ingresses:
-    - https://speil.intern.dev.nav.no
-    - https://speil.ansatt.dev.nav.no
+    - https://speil-next.intern.dev.nav.no
+    - https://speil-next.ansatt.dev.nav.no
   liveness:
     failureThreshold: 10
     initialDelay: 20
