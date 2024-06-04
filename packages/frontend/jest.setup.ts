@@ -2,7 +2,6 @@ import * as mockRouter from 'next-router-mock';
 
 require('jest-axe/extend-expect');
 require('@testing-library/jest-dom');
-require('./__mocks__/src/constants');
 
 const useRouter = mockRouter.useRouter;
 

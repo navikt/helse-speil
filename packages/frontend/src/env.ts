@@ -38,7 +38,7 @@ const getRawServerConfig = (): Partial<unknown> =>
         FLEXJAR_BASEURL: process.env.FLEXJAR_BASE_URL,
         MODIA_SCOPE: process.env.MODIA_API_SCOPE,
         MODIA_BASEURL: process.env.MODIA_BASE_URL,
-        SPESIALIST_SCOPE: process.env.SPESIALIST_CLIENT_ID,
+        SPESIALIST_SCOPE: process.env.CLIENT_ID_SPESIALIST,
         SPESIALIST_BASEURL: process.env.SPESIALIST_BASE_URL,
         // Provided by nais
         AZURE_APP_CLIENT_ID: process.env.AZURE_APP_CLIENT_ID,

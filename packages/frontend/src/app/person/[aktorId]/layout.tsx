@@ -14,7 +14,6 @@ import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOppteg
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { AmplitudeProvider } from '@io/amplitude';
 import { usePollEtterOpptegnelser } from '@io/http';
-import { useTestWebsockets } from '@state/opptegnelser';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -22,7 +21,6 @@ import styles from './layout.module.css';
 
 function Layout({ children }: PropsWithChildren): ReactElement {
     useRefreshPersonVedOpptegnelse();
-    useTestWebsockets();
     useFjernPersonFraApolloCache();
     usePollEtterOpptegnelser();
     useVarselOmSakErTildeltAnnenSaksbehandler();
