@@ -1,9 +1,12 @@
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
-const root: HTMLElement = document.querySelector(':root') as HTMLElement;
+import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
+
+const getRoot = (): HTMLElement => document.querySelector(':root') as HTMLElement;
 
 const anonymize = () => {
     localStorage.setItem('agurkmodus', 'true');
+    const root = getRoot();
     root.style.setProperty('--anonymizable-background', 'var(--anonymous-background)');
     root.style.setProperty('--anonymizable-color', 'var(--anonymous-color)');
     root.style.setProperty('--anonymizable-border-radius', 'var(--anonymous-border-radius)');
@@ -12,6 +15,7 @@ const anonymize = () => {
 
 const deanonymize = () => {
     localStorage.setItem('agurkmodus', 'false');
+    const root = getRoot();
     root.style.setProperty('--anonymizable-background', 'var(--visible-background)');
     root.style.setProperty('--anonymizable-color', 'var(--visible-color)');
     root.style.setProperty('--anonymizable-border-radius', 'var(--visible-border-radius)');
@@ -24,29 +28,22 @@ const isAnonymous = (): boolean => {
 
 const anonymityState = atom<boolean>({
     key: 'anonymityState',
-    default: (() => {
-        if (isAnonymous()) {
-            anonymize();
-        } else {
-            deanonymize();
-        }
-        return isAnonymous();
-    })(),
+    default: false,
+    effects: [
+        sessionStorageEffect('agurkmodus'),
+        ({ onSet }) => {
+            onSet((newValue) => {
+                if (newValue) anonymize();
+                else deanonymize();
+            });
+        },
+    ],
 });
-
-const toggleAnonymity = (): void => {
-    if (isAnonymous()) {
-        deanonymize();
-    } else {
-        anonymize();
-    }
-};
 
 export const useToggleAnonymity = (): (() => void) => {
     const setAnonymity = useSetRecoilState(anonymityState);
     return () => {
-        toggleAnonymity();
-        setAnonymity(localStorage.getItem('agurkmodus') === 'true');
+        setAnonymity((prevState) => !prevState);
     };
 };
 

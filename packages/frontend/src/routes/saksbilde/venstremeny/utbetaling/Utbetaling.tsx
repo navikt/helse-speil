@@ -1,6 +1,6 @@
 import classNames from 'classnames';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import { ShrinkIcon } from '@navikt/aksel-icons';
@@ -43,7 +43,7 @@ const hasOppgave = (period: FetchedBeregnetPeriode): boolean =>
     typeof period.oppgave?.id === 'string' && ['tilGodkjenning', 'revurderes'].includes(getPeriodState(period));
 
 const useOnGodkjenn = (period: FetchedBeregnetPeriode, person: FetchedPerson): (() => void) => {
-    const navigate = useNavigate();
+    const router = useRouter();
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
@@ -56,14 +56,14 @@ const useOnGodkjenn = (period: FetchedBeregnetPeriode, person: FetchedPerson): (
                 },
             });
         } else {
-            navigate('/');
+            router.push('/');
         }
     };
 };
 
 const useOnAvvis = (): (() => void) => {
-    const navigate = useNavigate();
-    return () => navigate('/');
+    const router = useRouter();
+    return () => router.push('/');
 };
 
 export type BackendFeil = {
@@ -84,7 +84,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     const [avslag, setAvslag] = useState<Maybe<AvslagInput>>(null);
     const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
     const ventEllerHopp = useOnGodkjenn(period, person);
-    const navigate = useNavigate();
+    const router = useRouter();
     const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
@@ -96,7 +96,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     };
     const onSendTilGodkjenning = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
-        navigate('/');
+        router.push('/');
     };
     const onAvvisUtbetaling = useOnAvvis();
     const erReadOnly = useIsReadOnlyOppgave();

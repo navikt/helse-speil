@@ -1,9 +1,11 @@
 import dynamic from 'next/dynamic';
+import { useParams } from 'next/navigation';
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
 
 import { Loader } from '@navikt/ds-react';
 
+import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
+import { Fane } from '@hooks/useNavigation';
 import { UberegnetPeriode } from '@io/graphql';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
@@ -31,22 +33,25 @@ interface UberegnetPeriodeViewProps {
     activePeriod: UberegnetPeriode;
 }
 
-export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps) => (
-    <>
-        <Venstremeny />
-        <div className={styles.Content}>
-            <Saksbildevarsler periodState={getPeriodState(activePeriod)} varsler={activePeriod.varsler} />
-            <SaksbildeMenu />
-            <div className={styles.RouteContainer}>
-                <React.Suspense fallback={<UberegnetPeriodeViewLoader />}>
-                    <Routes>
-                        <Route path="dagoversikt" element={<Utbetaling />} />
-                    </Routes>
-                </React.Suspense>
+export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps) => {
+    const { tab } = useParams<{ tab: string }>();
+    useNavigateOnMount(Fane.Utbetaling);
+
+    return (
+        <>
+            <Venstremeny />
+            <div className={styles.Content}>
+                <Saksbildevarsler periodState={getPeriodState(activePeriod)} varsler={activePeriod.varsler} />
+                <SaksbildeMenu />
+                <div className={styles.RouteContainer}>
+                    <React.Suspense fallback={<UberegnetPeriodeViewLoader />}>
+                        {tab === 'dagsoversikt' && <Utbetaling />}
+                    </React.Suspense>
+                </div>
             </div>
-        </div>
-        <Historikk />
-    </>
-);
+            <Historikk />
+        </>
+    );
+};
 
 export default UberegnetPeriodeView;

@@ -11,8 +11,6 @@ export const useIsReadOnlyOppgave = (): boolean => {
 
     const readOnly = useReadonly();
 
-    console.log('REDDA ONLY', readOnly);
-
     if (readOnly.override) {
         return readOnly.value;
     }

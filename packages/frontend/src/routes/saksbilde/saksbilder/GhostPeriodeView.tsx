@@ -1,5 +1,5 @@
+import { useParams } from 'next/navigation';
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
@@ -22,6 +22,7 @@ export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod
     if (!activePeriod.skjaeringstidspunkt || !activePeriod.vilkarsgrunnlagId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
+    const { tab } = useParams<{ tab: string }>();
 
     useNavigateOnMount(Fane.Sykepengegrunnlag);
 
@@ -34,16 +35,7 @@ export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod
                     skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                 />
                 <SaksbildeMenu />
-                <Routes>
-                    <Route
-                        path="sykepengegrunnlag"
-                        element={
-                            <div className={styles.RouteContainer}>
-                                <Sykepengegrunnlag />
-                            </div>
-                        }
-                    />
-                </Routes>
+                {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag />}
             </div>
             <Historikk />
         </>

@@ -1,4 +1,4 @@
-import { AtomEffect, atom, selector, useSetRecoilState } from 'recoil';
+import { AtomEffect, SetRecoilState, atom, selector, useSetRecoilState } from 'recoil';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -35,12 +35,21 @@ type SorteringPerTab = { [key in TabType]: SortState | undefined };
 const sorteringPerTab = atom<SorteringPerTab>({
     key: 'sorteringPerTab',
     default: {
+        [TabType.TilGodkjenning]: defaultSortation,
+        [TabType.Mine]: defaultSortation,
+        [TabType.Ventende]: defaultSortation,
+        [TabType.BehandletIdag]: defaultSortation,
+    },
+});
+
+export const hydrateSorteringForTab = (set: SetRecoilState) => {
+    set(sorteringPerTab, {
         [TabType.TilGodkjenning]: getSorteringFromLocalStorage(TabType.TilGodkjenning),
         [TabType.Mine]: getSorteringFromLocalStorage(TabType.Mine),
         [TabType.Ventende]: getSorteringFromLocalStorage(TabType.Ventende),
         [TabType.BehandletIdag]: defaultSortation,
-    },
-});
+    });
+};
 
 export const sorteringEndret = atom<boolean>({
     key: 'sorteringEndret',
@@ -77,6 +86,7 @@ export const useUpdateSort = () => {
 };
 
 const syncWithLocalStorageEffect: AtomEffect<SortKey> = ({ onSet, setSelf, trigger }) => {
+    if (typeof window === 'undefined') return;
     const key = 'dateSortKey';
     const savedValue = localStorage.getItem(key) as SortKey;
     if (savedValue && trigger === 'get') {
