@@ -3,10 +3,6 @@ import { enGenerasjon } from '@test-data/generasjon';
 import { enBeregnetPeriode, enGhostPeriode, enUberegnetPeriode } from '@test-data/periode';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 
-jest.mock('@state/person');
-jest.mock('@state/periode');
-jest.unmock('@state/arbeidsgiver');
-
 describe('Finn vedtaksperiodeId for første periode i sykefraværstilfellet', () => {
     it('finner id med en beregnet vedtaksperiode', () => {
         const vedtaksperiodeId = 'en_vedtaksperiode_id';
@@ -109,6 +105,37 @@ describe('Finn vedtaksperiodeId for første periode i sykefraværstilfellet', ()
         const arbeidsgivere = [ag1, ag2];
 
         const id = finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(arbeidsgivere, beregnetPeriodeAg2);
+        expect(id).toEqual(vedtaksperiodeId);
+    });
+
+    it('finn vedtaksperiodeId for første periode med flere arbeidsgivere 2', () => {
+        const vedtaksperiodeId = 'en_vedtaksperiode_id';
+        const skjæringstidspunkt = '2024-01-01';
+
+        const ghostAg1 = enGhostPeriode({
+            fom: '2024-01-01',
+            tom: '2024-01-31',
+            skjaeringstidspunkt: skjæringstidspunkt,
+        });
+
+        const beregnetPeriode1Ag2 = enBeregnetPeriode({
+            vedtaksperiodeId: vedtaksperiodeId,
+            fom: '2024-01-01',
+            tom: '2024-01-31',
+            skjaeringstidspunkt: skjæringstidspunkt,
+        });
+
+        const ag1 = enArbeidsgiver({
+            ghostPerioder: [ghostAg1],
+            generasjoner: [],
+        });
+        const ag2 = enArbeidsgiver({
+            ghostPerioder: [],
+            generasjoner: [enGenerasjon({ perioder: [beregnetPeriode1Ag2] })],
+        });
+        const arbeidsgivere = [ag1, ag2];
+
+        const id = finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(arbeidsgivere, beregnetPeriode1Ag2);
         expect(id).toEqual(vedtaksperiodeId);
     });
 });

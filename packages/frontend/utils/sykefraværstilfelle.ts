@@ -9,7 +9,7 @@ export const finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt = (
 ): string =>
     R.pipe(
         arbeidsgivere,
-        R.flatMap((foo) => foo.generasjoner?.[0].perioder),
+        R.flatMap((foo) => foo.generasjoner?.[0]?.perioder),
         R.sortBy([(it) => it.fom, 'asc']),
         R.find(
             (periode) =>
