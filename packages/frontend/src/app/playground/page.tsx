@@ -1,8 +1,13 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import React, { ReactElement } from 'react';
 
-import { GraphQLPlayground } from '@/routes/playground/GraphQLPlayground';
+import 'graphiql/graphiql.min.css';
+
+const GraphQLPlayground = dynamic(() => import('@/routes/playground/GraphQLPlayground'), {
+    ssr: false,
+});
 
 function Page(): ReactElement {
     return <GraphQLPlayground />;
