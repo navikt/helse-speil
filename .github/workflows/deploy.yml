@@ -93,6 +93,9 @@ jobs:
           team: tbd
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          dockerfile: packages/frontend/Dockerfile
+          docker_context: packages/frontend
+          image_suffix: prod
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}
 

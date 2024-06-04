@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
-import { Button, Checkbox, Loader, Textarea } from '@navikt/ds-react';
+import { Button, Checkbox, Heading, Loader, Textarea } from '@navikt/ds-react';
 
 import { ApolloError } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
@@ -83,7 +83,11 @@ export const PåVentNotatModal = ({ onClose, navn, vedtaksperiodeId, oppgaveId, 
 
     return (
         <Modal
-            title={<h1 className={styles.tittel}>Legg på vent</h1>}
+            title={
+                <Heading level="1" size="medium" className={styles.tittel}>
+                    Legg på vent
+                </Heading>
+            }
             contentLabel="Legg på vent"
             isOpen
             onRequestClose={closeModal}
