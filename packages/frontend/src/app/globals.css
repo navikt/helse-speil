@@ -107,3 +107,9 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+/*TODO: legg inn på komponentnivå evt. bytt til aksel table*/
+table {
+    order-collapse: collapse;
+    border-spacing: 0;
+}

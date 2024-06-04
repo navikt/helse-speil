@@ -97,8 +97,8 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
                 <SaksbildeMenu />
                 <div className={styles.RouteContainer}>
                     <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>
-                        {tab === 'dagsoversikt' && <Utbetaling />}
-                        {tab === 'inngangsvilkår' && <Inngangsvilkår />}
+                        {tab === 'dagoversikt' && <Utbetaling />}
+                        {decodeURI(tab) === 'inngangsvilkår' && <Inngangsvilkår />}
                         {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag />}
                         {tab === 'vurderingsmomenter' && <Vurderingsmomenter />}
                     </React.Suspense>

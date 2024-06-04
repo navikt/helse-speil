@@ -15,7 +15,6 @@ import { useKeyboardShortcuts } from '../saksbilde/useKeyboardShortcuts';
 import { IngenOppgaver } from './IngenOppgaver';
 import { Tabs } from './Tabs';
 import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';
-import { Filtermeny } from './filtermeny/Filtermeny';
 import { TabType, useAktivTab } from './tabState';
 import { OppgaverTable } from './table/OppgaverTable/OppgaverTable';
 import { OppgaverTableSkeleton } from './table/OppgaverTableSkeleton';
@@ -25,6 +24,11 @@ import styles from './Oversikt.module.css';
 
 const BehandletIdagTable = dynamic(() =>
     import('./table/BehandletIdagTable').then((res) => ({ default: res.BehandletIdagTable })).catch(onLazyLoadFail),
+);
+
+const Filtermeny = dynamic(
+    () => import('./filtermeny/Filtermeny').then((res) => ({ default: res.Filtermeny })).catch(onLazyLoadFail),
+    { ssr: false },
 );
 
 export const Oversikt = () => {
@@ -44,7 +48,10 @@ export const Oversikt = () => {
             )}
             <Tabs />
             <div className={styles.fullHeight}>
-                <Filtermeny filters={allFilters} />
+                {/*TODO: lage fallback*/}
+                <Suspense>
+                    <Filtermeny filters={allFilters} />
+                </Suspense>
                 <section className={styles.Content}>
                     {aktivTab === TabType.BehandletIdag ? (
                         <Suspense fallback={<OppgaverTableSkeleton />}>

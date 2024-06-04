@@ -1,6 +1,8 @@
 import { AtomEffect, atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 const syncWithLocalStorageEffect: AtomEffect<boolean> = ({ onSet, setSelf }) => {
+    if (typeof window === 'undefined') return;
+
     const key = 'showFiltermeny';
     const savedValue = localStorage.getItem(key);
     if (savedValue) {
