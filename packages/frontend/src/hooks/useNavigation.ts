@@ -1,4 +1,4 @@
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 
 export interface Navigation {
     aktørId: string | undefined;
@@ -29,7 +29,7 @@ const useCurrentAktørId = (): string | null => {
 export const useNavigation = (): Navigation => {
     const pathname = usePathname();
     const router = useRouter();
-    const params = useSearchParams();
+    const params = useParams<{ aktorId: string }>();
     const currentAktørId = useCurrentAktørId();
 
     const currentLocation = locationFromCurrentPath(decodeURIComponent(pathname), locations);
@@ -47,8 +47,7 @@ export const useNavigation = (): Navigation => {
     };
 
     return {
-        // TODO: Don't as it
-        aktørId: params.get('aktorId') as string,
+        aktørId: params.aktorId,
         navigateTo: navigateTo,
         navigateToNext: () => canNavigateToNext && navigateTo(currentLocation + 1),
         navigateToPrevious: () => canNavigateToPrevious && navigateTo(currentLocation - 1),

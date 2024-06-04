@@ -12,6 +12,7 @@ interface JusterbarSidebarProps {
     localStorageNavn?: string;
     åpnesTilVenstre?: boolean;
 }
+
 export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
     visSidemeny,
     defaultBredde,
@@ -21,8 +22,10 @@ export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
     onChangeBredde,
     åpnesTilVenstre = false,
 }: JusterbarSidebarProps) => {
-    const [width, setWidth] = useState(
-        localStorageNavn ? parseInt(localStorage.getItem(localStorageNavn) || defaultBredde.toString()) : defaultBredde,
+    const [width, setWidth] = useState(() =>
+        localStorageNavn && typeof window !== 'undefined'
+            ? parseInt(localStorage.getItem(localStorageNavn) || defaultBredde.toString())
+            : defaultBredde,
     );
     const isResized = useRef(false);
     const minWidth = 50;

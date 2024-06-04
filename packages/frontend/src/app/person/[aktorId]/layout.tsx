@@ -1,12 +1,12 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
-import { Alert } from '@navikt/ds-react';
-
-import { ErrorBoundary } from '@components/ErrorBoundary';
+import { VenterPåEndringProvider } from '@/routes/saksbilde/VenterPåEndringContext';
+import { InfovarselOmStans } from '@/routes/saksbilde/infovarselOmStans/InfovarselOmStans';
+import { PersonHeader } from '@/routes/saksbilde/personHeader';
+import { Timeline } from '@/routes/saksbilde/timeline';
+import { useKeyboardShortcuts } from '@/routes/saksbilde/useKeyboardShortcuts';
 import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
 import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
@@ -16,34 +16,11 @@ import { AmplitudeProvider } from '@io/amplitude';
 import { usePollEtterOpptegnelser } from '@io/http';
 import { useTestWebsockets } from '@state/opptegnelser';
 import { useActivePeriod } from '@state/periode';
-import { onLazyLoadFail } from '@utils/error';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-import { VenterPåEndringProvider } from './VenterPåEndringContext';
-import { InfovarselOmStans } from './infovarselOmStans/InfovarselOmStans';
-import { PersonHeader } from './personHeader';
-import { Timeline } from './timeline';
-import { useKeyboardShortcuts } from './useKeyboardShortcuts';
+import styles from './layout.module.css';
 
-import styles from './Saksbilde.module.css';
-
-const PeriodeView = dynamic(() =>
-    import('./saksbilder/PeriodeView').then((res) => ({ default: res.PeriodeView })).catch(onLazyLoadFail),
-);
-
-export const Saksbilde = () => (
-    <ErrorBoundary
-        fallback={(error: Error) => (
-            <Alert variant="warning" size="small" className={styles.Alert}>
-                {error.message}
-            </Alert>
-        )}
-    >
-        <SaksbildeContent />
-    </ErrorBoundary>
-);
-
-const SaksbildeContent = () => {
+function Layout({ children }: PropsWithChildren): ReactElement {
     useRefreshPersonVedOpptegnelse();
     useTestWebsockets();
     useFjernPersonFraApolloCache();
@@ -59,9 +36,7 @@ const SaksbildeContent = () => {
             <Timeline />
             <AmplitudeProvider>
                 <VenterPåEndringProvider>
-                    <Routes>
-                        <Route path="/*" element={<PeriodeView />} />
-                    </Routes>
+                    {children}
                     <Widget>
                         <EmojiTilbakemelding
                             feedbackId="speil-generell"
@@ -77,4 +52,6 @@ const SaksbildeContent = () => {
             </AmplitudeProvider>
         </div>
     );
-};
+}
+
+export default Layout;

@@ -14,8 +14,8 @@ import { RecoilRoot, SetRecoilState } from 'recoil';
 
 import { createApolloClient } from '@/app/apollo/apolloClient';
 import { Bruker, BrukerContext } from '@/auth/brukerContext';
-import { AmplitudeProvider } from '@/io/amplitude';
 import { hydrateAllFilters } from '@/routes/oversikt/table/state/filter';
+import { hydrateSorteringForTab } from '@/routes/oversikt/table/state/sortation';
 import { VenterPåEndringProvider } from '@/routes/saksbilde/VenterPåEndringContext';
 import { hydrateKanFrigiOppgaverState, hydrateTotrinnsvurderingState } from '@/state/toggles';
 import { ApolloProvider } from '@apollo/client';
@@ -41,9 +41,11 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
 
     const initializeState = useCallback(
         ({ set }: { set: SetRecoilState }) => {
+            if (typeof window === 'undefined') return;
             hydrateTotrinnsvurderingState(set, bruker.grupper);
             hydrateKanFrigiOppgaverState(set, bruker.ident);
             hydrateAllFilters(set, bruker.grupper);
+            hydrateSorteringForTab(set);
         },
         [bruker.grupper],
     );

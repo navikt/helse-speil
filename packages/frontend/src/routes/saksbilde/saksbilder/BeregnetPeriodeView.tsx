@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
+import { useParams } from 'next/navigation';
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
 
 import { Loader } from '@navikt/ds-react';
 
@@ -64,7 +64,7 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
     const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, period);
-
+    const { tab } = useParams<{ tab: string }>();
     const navnPåDeaktiverteGhostArbeidsgivere = isSpleisVilkarsgrunnlag(vilkårsgrunnlag)
         ? person.arbeidsgivere
               .filter((arbeidsgiver) =>
@@ -97,12 +97,10 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
                 <SaksbildeMenu />
                 <div className={styles.RouteContainer}>
                     <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>
-                        <Routes>
-                            <Route path="dagoversikt" element={<Utbetaling />} />
-                            <Route path="inngangsvilkår" element={<Inngangsvilkår />} />
-                            <Route path="sykepengegrunnlag" element={<Sykepengegrunnlag />} />
-                            <Route path="vurderingsmomenter" element={<Vurderingsmomenter />} />
-                        </Routes>
+                        {tab === 'dagsoversikt' && <Utbetaling />}
+                        {tab === 'inngangsvilkår' && <Inngangsvilkår />}
+                        {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag />}
+                        {tab === 'vurderingsmomenter' && <Vurderingsmomenter />}
                     </React.Suspense>
                 </div>
             </div>

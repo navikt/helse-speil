@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -30,124 +30,128 @@ interface TimelineWithContentProps {
     activePeriod: TimelinePeriod | null;
 }
 
-const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
-    ({ arbeidsgivere, infotrygdutbetalinger, activePeriod }) => {
-        useEffect(() => {
-            const defaultZoomLevel = () => {
-                if (isBeregnetPeriode(activePeriod)) {
-                    if (dayjs(activePeriod.fom).isSameOrBefore(dayjs(Date.now()).subtract(1, 'year')))
-                        return ZoomLevel.FIRE_ÅR;
-                    else if (dayjs(activePeriod.fom).isSameOrBefore(dayjs(Date.now()).subtract(6, 'month')))
-                        return ZoomLevel.ETT_ÅR;
-                    else return ZoomLevel.SEKS_MÅNEDER;
-                }
-                return ZoomLevel.SEKS_MÅNEDER;
-            };
-            setCurrentZoomLevel(defaultZoomLevel());
-        }, []);
+const TimelineWithContent: React.FC<TimelineWithContentProps> = ({
+    arbeidsgivere,
+    infotrygdutbetalinger,
+    activePeriod,
+}) => {
+    useEffect(() => {
+        const defaultZoomLevel = () => {
+            if (isBeregnetPeriode(activePeriod)) {
+                if (dayjs(activePeriod.fom).isSameOrBefore(dayjs(Date.now()).subtract(1, 'year')))
+                    return ZoomLevel.FIRE_ÅR;
+                else if (dayjs(activePeriod.fom).isSameOrBefore(dayjs(Date.now()).subtract(6, 'month')))
+                    return ZoomLevel.ETT_ÅR;
+                else return ZoomLevel.SEKS_MÅNEDER;
+            }
+            return ZoomLevel.SEKS_MÅNEDER;
+        };
+        setCurrentZoomLevel(defaultZoomLevel());
+    }, []);
 
-        const {
-            zoomLevels,
-            currentZoomLevel,
-            setCurrentZoomLevel,
-            navigateForwards,
-            navigateBackwards,
-            canNavigateForwards,
-            canNavigateBackwards,
-        } = useTimelineControls(arbeidsgivere, infotrygdutbetalinger);
+    const {
+        zoomLevels,
+        currentZoomLevel,
+        setCurrentZoomLevel,
+        navigateForwards,
+        navigateBackwards,
+        canNavigateForwards,
+        canNavigateBackwards,
+    } = useTimelineControls(arbeidsgivere, infotrygdutbetalinger);
 
-        useKeyboard([
-            {
-                key: Key.Minus,
-                action: navigateForwards,
-                ignoreIfModifiers: false,
-                modifier: Key.Alt,
-            },
-            {
-                key: Key.NumpadAdd,
-                action: navigateForwards,
-                ignoreIfModifiers: false,
-                modifier: Key.Alt,
-            },
-            {
-                key: Key.Slash,
-                action: canNavigateBackwards ? navigateBackwards : () => {},
-                ignoreIfModifiers: false,
-                modifier: Key.Alt,
-            },
-            {
-                key: Key.NumpadSubtract,
-                action: canNavigateBackwards ? navigateBackwards : () => {},
-                ignoreIfModifiers: false,
-                modifier: Key.Alt,
-            },
-        ]);
+    useKeyboard([
+        {
+            key: Key.Minus,
+            action: navigateForwards,
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+        },
+        {
+            key: Key.NumpadAdd,
+            action: navigateForwards,
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+        },
+        {
+            key: Key.Slash,
+            action: canNavigateBackwards ? navigateBackwards : () => {},
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+        },
+        {
+            key: Key.NumpadSubtract,
+            action: canNavigateBackwards ? navigateBackwards : () => {},
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+        },
+    ]);
 
-        const start = currentZoomLevel.fom.startOf('day');
-        const end = currentZoomLevel.tom.endOf('day');
+    const start = currentZoomLevel.fom.startOf('day');
+    const end = currentZoomLevel.tom.endOf('day');
 
-        const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
-        const harArbeidsgiverMedFlereGenerasjoner = arbeidsgivere.some(
-            (arbeidsgiver) => arbeidsgiver.generasjoner.length > 1,
-        );
+    const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
+    const harArbeidsgiverMedFlereGenerasjoner = arbeidsgivere.some(
+        (arbeidsgiver) => arbeidsgiver.generasjoner.length > 1,
+    );
 
-        return (
-            <div className={styles.Timeline}>
-                <Pins start={start} end={end} arbeidsgivere={arbeidsgivere} />
-                <Labels start={start} end={end} />
-                <div className={styles.Rows}>
-                    {arbeidsgivere
-                        .filter((it) => it.generasjoner.length > 0 || it.ghostPerioder.length > 0)
-                        .map((arbeidsgiver, i) => {
-                            return arbeidsgiver.generasjoner.length > 1 ? (
-                                <ExpandableTimelineRow
-                                    key={i}
-                                    start={start}
-                                    end={end}
-                                    name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
-                                    generations={arbeidsgiver.generasjoner}
-                                    ghostPeriods={arbeidsgiver.ghostPerioder}
-                                    activePeriod={activePeriod}
-                                />
-                            ) : (
-                                <TimelineRow
-                                    key={i}
-                                    start={start}
-                                    end={end}
-                                    name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
-                                    periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
-                                    ghostPeriods={arbeidsgiver.ghostPerioder}
-                                    activePeriod={activePeriod}
-                                    alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
-                                />
-                            );
-                        })}
-                    {infotrygdPeriods.length > 0 && (
-                        <InfotrygdRow
-                            start={start}
-                            end={end}
-                            periods={infotrygdPeriods}
-                            alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
-                        />
-                    )}
-                </div>
-                <div className={styles.TimelineControls}>
-                    <ScrollButtons
-                        navigateForwards={navigateForwards}
-                        navigateBackwards={navigateBackwards}
-                        canNavigateForwards={canNavigateForwards}
-                        canNavigateBackwards={canNavigateBackwards}
+    return (
+        <div className={styles.Timeline}>
+            <Pins start={start} end={end} arbeidsgivere={arbeidsgivere} />
+            <Labels start={start} end={end} />
+            <div className={styles.Rows}>
+                {arbeidsgivere
+                    .filter((it) => it.generasjoner.length > 0 || it.ghostPerioder.length > 0)
+                    .map((arbeidsgiver, i) => {
+                        return arbeidsgiver.generasjoner.length > 1 ? (
+                            <ExpandableTimelineRow
+                                key={i}
+                                start={start}
+                                end={end}
+                                name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
+                                generations={arbeidsgiver.generasjoner}
+                                ghostPeriods={arbeidsgiver.ghostPerioder}
+                                activePeriod={activePeriod}
+                            />
+                        ) : (
+                            <TimelineRow
+                                key={i}
+                                start={start}
+                                end={end}
+                                name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
+                                periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
+                                ghostPeriods={arbeidsgiver.ghostPerioder}
+                                activePeriod={activePeriod}
+                                alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
+                            />
+                        );
+                    })}
+                {infotrygdPeriods.length > 0 && (
+                    <InfotrygdRow
+                        start={start}
+                        end={end}
+                        periods={infotrygdPeriods}
+                        alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
                     />
-                    <ZoomLevelPicker
-                        currentZoomLevel={currentZoomLevel}
-                        availableZoomLevels={zoomLevels}
-                        setActiveZoomLevel={setCurrentZoomLevel}
-                    />
-                </div>
+                )}
             </div>
-        );
-    },
-);
+            <div className={styles.TimelineControls}>
+                <ScrollButtons
+                    navigateForwards={navigateForwards}
+                    navigateBackwards={navigateBackwards}
+                    canNavigateForwards={canNavigateForwards}
+                    canNavigateBackwards={canNavigateBackwards}
+                />
+                <ZoomLevelPicker
+                    currentZoomLevel={currentZoomLevel}
+                    availableZoomLevels={zoomLevels}
+                    setActiveZoomLevel={setCurrentZoomLevel}
+                />
+            </div>
+        </div>
+    );
+};
+
+const TimelineWithContentMemoized = memo(TimelineWithContent);
 
 const TimelineContainer: React.FC = () => {
     const activePeriod = useActivePeriod();
@@ -166,7 +170,7 @@ const TimelineContainer: React.FC = () => {
     }
 
     return (
-        <TimelineWithContent
+        <TimelineWithContentMemoized
             arbeidsgivere={arbeidsgivere}
             infotrygdutbetalinger={infotrygdutbetalinger ?? []}
             activePeriod={activePeriod}
