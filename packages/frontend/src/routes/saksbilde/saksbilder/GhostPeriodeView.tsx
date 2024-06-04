@@ -35,7 +35,11 @@ export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod
                     skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                 />
                 <SaksbildeMenu />
-                {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag />}
+                {tab === 'sykepengegrunnlag' && (
+                    <div className={styles.RouteContainer}>
+                        <Sykepengegrunnlag />
+                    </div>
+                )}
             </div>
             <Historikk />
         </>

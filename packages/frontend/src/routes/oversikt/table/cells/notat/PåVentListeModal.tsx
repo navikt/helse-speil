@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { Detail, Heading } from '@navikt/ds-react';
+
 import { LinkButton } from '@components/LinkButton';
 import { TableModal } from '@components/TableModal';
 import { NotatType, Personnavn } from '@io/graphql';
@@ -8,8 +10,6 @@ import { getFormatertNavn } from '@utils/string';
 
 import { NotatListeRad } from './NotatListeRad';
 import { NyttNotatModal } from './NyttNotatModal';
-
-import styles from './NotatListeModal.module.css';
 
 interface PåVentListeModalProps {
     notater: Notat[];
@@ -42,10 +42,12 @@ export const PåVentListeModal = ({ notater, vedtaksperiodeId, navn, onClose, er
     ) : (
         <TableModal
             title={
-                <div className={styles.Title}>
-                    <p>Lagt på vent - notater</p>
-                    <p>Søker: {søkernavn}</p>
-                </div>
+                <>
+                    <Heading level="1" size="small">
+                        Lagt på vent - notater
+                    </Heading>
+                    <Detail>Søker: {søkernavn}</Detail>
+                </>
             }
             contentLabel="Lagt på vent - notater"
             isOpen
