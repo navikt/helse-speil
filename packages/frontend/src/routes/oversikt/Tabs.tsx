@@ -19,9 +19,11 @@ interface OppgaveTabProps {
 
 const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps) => {
     const [aktivTab, setAktivTab] = useSwitchTab();
+
+    // TODO: her skjer det noe rart med at aktivtab ikke blir rendret riktig ved hard refresh
     return (
         <button
-            className={classNames(styles.tab, aktivTab === tag && styles.active)}
+            className={classNames(styles.tab, { [styles.active]: aktivTab === tag })}
             role="tab"
             aria-selected={aktivTab === tag}
             onClick={() => setAktivTab(tag)}

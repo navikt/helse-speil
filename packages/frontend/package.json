@@ -10,7 +10,7 @@
     },
     "license": "MIT",
     "scripts": {
-        "dev": "next dev",
+        "dev": "PORT=1234 next dev",
         "build": "next build",
         "start": "next start",
         "lint": "next lint",

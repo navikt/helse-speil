@@ -61,7 +61,11 @@ const NavLenke = ({ tittel, to }: { tittel: string; to: string }) => {
     const { tab } = useParams<{ tab: string }>();
 
     return (
-        <Link className={classNames(styles.NavLink, { [styles.ActiveLink]: tab === to })} href={to} title={tittel}>
+        <Link
+            className={classNames(styles.NavLink, { [styles.ActiveLink]: decodeURI(tab) === to })}
+            href={to}
+            title={tittel}
+        >
             {tittel}
         </Link>
     );
