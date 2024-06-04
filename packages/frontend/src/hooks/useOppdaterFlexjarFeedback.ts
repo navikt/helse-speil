@@ -1,12 +1,10 @@
 import { FetchError } from '@io/graphql/errors';
 import { useMutation } from '@tanstack/react-query';
 
-import { BASE_URL } from '../constants';
-
 export function useOppdaterFlexjarFeedback() {
     return useMutation<unknown, Error, OppdaterFlexjarFeedbackRequest>({
         mutationFn: async (req) => {
-            return fetchFlexjar(`${BASE_URL}/flexjar/oppdater/${req.id}`, {
+            return fetchFlexjar(`/api/flexjar/oppdater/${req.id}`, {
                 method: 'POST',
                 body: JSON.stringify(req.body),
                 headers: {

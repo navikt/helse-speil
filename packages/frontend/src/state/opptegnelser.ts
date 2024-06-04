@@ -1,10 +1,6 @@
 import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { erProd } from '@/env';
-
-import { WEBSOCKETS_URL } from '../constants';
-
 const opptegnelsePollingTimeState = atom<number>({
     key: 'opptegnelsePollingTimeState',
     default: 5_000,
@@ -29,22 +25,6 @@ export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: Opptegnelse) 
             resetOpptegnelser();
         }
     }, [opptegnelser]);
-};
-
-export const useTestWebsockets = () => {
-    useEffect(() => {
-        if (erProd) return;
-        const wsConn = new WebSocket(`${WEBSOCKETS_URL}/ws/opptegnelse`);
-        wsConn.onopen = () => {
-            console.log('ws connection er åpnet');
-        };
-        wsConn.onmessage = (event) => {
-            console.log(`Mottatt over WS: ${event.data}`);
-            setTimeout(() => {
-                wsConn.send('hei, spesialist!');
-            }, 3000);
-        };
-    }, []);
 };
 
 export const useMottaOpptegnelser = () => {

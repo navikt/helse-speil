@@ -5,8 +5,6 @@ import { Dropdown, InternalHeader as Header } from '@navikt/ds-react';
 
 import { useCurrentPerson } from '@state/person';
 
-import { BASE_URL } from '../constants';
-
 import styles from './SystemMenu.module.css';
 
 export const redirigerTilArbeidOgInntektUrl = async (url: string, fødselsnummer: string | null) => {
@@ -31,7 +29,7 @@ export const redirigerTilArbeidOgInntektUrl = async (url: string, fødselsnummer
 };
 
 const settModiaContext = async (fødselsnummer: string) => {
-    const response = await fetch(`${BASE_URL}/settModiaContext`, {
+    const response = await fetch(`/api/modia/velgBruker`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -44,7 +42,7 @@ const settModiaContext = async (fødselsnummer: string) => {
     if (!response.ok) throw Error('Setting av context feilet');
 };
 const nullstillModiaContext = async () => {
-    const response = await fetch(`${BASE_URL}/settModiaContext/aktivbruker`, { method: 'delete' });
+    const response = await fetch(`/api/modia/aktivBruker`, { method: 'delete' });
     if (!response.ok) throw Error('Nullstilling av context feilet');
 };
 
