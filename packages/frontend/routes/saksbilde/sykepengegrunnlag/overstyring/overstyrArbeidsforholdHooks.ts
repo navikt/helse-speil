@@ -16,8 +16,10 @@ import {
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 
 type OverstyrtArbeidsforholdGetter = (
     organisasjonsnummerGhost: string,
@@ -32,6 +34,7 @@ type OverstyrtArbeidsforholdGetter = (
 
 export const useGetOverstyrtArbeidsforhold = (): OverstyrtArbeidsforholdGetter => {
     const person = useCurrentPerson() as FetchedPerson;
+    const valgtVedtaksperiode = useActivePeriod();
 
     return (organisasjonsnummerGhost, skjæringstidspunkt, arbeidsforholdSkalDeaktiveres, forklaring, begrunnelse) => ({
         fødselsnummer: person?.fodselsnummer,
@@ -46,6 +49,7 @@ export const useGetOverstyrtArbeidsforhold = (): OverstyrtArbeidsforholdGetter =
                 lovhjemmel: begrunnelse.lovhjemmel,
             },
         ],
+        vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(person.arbeidsgivere, valgtVedtaksperiode!),
     });
 };
 
@@ -105,6 +109,7 @@ export const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert?: () => void) =
                 ),
                 fodselsnummer: overstyrtArbeidsforhold.fødselsnummer,
                 skjaringstidspunkt: overstyrtArbeidsforhold.skjæringstidspunkt,
+                vedtaksperiodeId: overstyrtArbeidsforhold.vedtaksperiodeId,
             };
 
             void overstyrMutation({

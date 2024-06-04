@@ -64,6 +64,7 @@ export interface OverstyrtArbeidsforholdDTO {
     aktørId: string;
     skjæringstidspunkt: string;
     overstyrteArbeidsforhold: OverstyrtArbeidsforholdElementDTO[];
+    vedtaksperiodeId: string;
 }
 
 export interface OverstyrtArbeidsforholdElementDTO {
