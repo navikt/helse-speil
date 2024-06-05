@@ -11,5 +11,14 @@
     ],
     "importOrderSeparation": true,
     "importOrderSortSpecifiers": true,
-    "trailingComma": "all"
+    "trailingComma": "all",
+    "overrides": [
+        {
+            "files": ["*.yml", "*.yaml"],
+            "options": {
+                "bracketSpacing": false,
+                "tabWidth": 2
+            }
+        }
+    ]
 }

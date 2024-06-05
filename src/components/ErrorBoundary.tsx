@@ -23,8 +23,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
         return { hasError: true, error };
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    componentDidCatch(error: Error) {
         this.props.onError?.(error);
     }
 
