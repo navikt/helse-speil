@@ -4,6 +4,9 @@ documents: "./packages/frontend/io/graphql/**/*.graphql"
 config:
   scalars:
     UUID: 'string'
+    LocalDate: 'string'
+    LocalDateTime: 'string'
+    YearMonth: 'string'
 generates:
   ./packages/frontend/io/graphql/generated/possibletypes.ts:
     plugins:
