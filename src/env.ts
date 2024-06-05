@@ -5,6 +5,7 @@ export type PublicEnv = z.infer<typeof browserEnvSchema>;
 export const browserEnvSchema = z.object({
     NEXT_PUBLIC_RUNTIME_ENV: z.union([z.literal('test'), z.literal('dev'), z.literal('lokal'), z.literal('prod')]),
     NEXT_PUBLIC_ASSET_PREFIX: z.string().optional(),
+    NEXT_PUBLIC_AMPLITUDE_KEY: z.string().optional(),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
@@ -30,6 +31,7 @@ export const serverEnvSchema = z.object({
 export const browserEnv = browserEnvSchema.parse({
     NEXT_PUBLIC_RUNTIME_ENV: process.env.NEXT_PUBLIC_RUNTIME_ENV,
     NEXT_PUBLIC_ASSET_PREFIX: process.env.NEXT_PUBLIC_ASSET_PREFIX,
+    NEXT_PUBLIC_AMPLITUDE_KEY: process.env.NEXT_PUBLIC_AMPLITUDE_KEY,
 } satisfies Record<keyof PublicEnv, string | undefined>);
 
 const getRawServerConfig = (): Partial<unknown> =>

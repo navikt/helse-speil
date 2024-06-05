@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import React, { PropsWithChildren, useEffect } from 'react';
 
 import { useBrukerGrupper } from '@/auth/brukerContext';
-import { erDev, erProd } from '@/env';
+import { browserEnv, erDev, erProd } from '@/env';
 import { getDefaultFilters } from '@/routes/oversikt/table/state/filter';
 import * as amplitude from '@amplitude/analytics-browser';
 import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
@@ -12,12 +12,9 @@ import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-// TODO: Flytte til faktisk browserEnv i env.ts
-const apiKey = erProd ? '4000b8a4a426b0dbefbe011778062779' : '27bc226964689268f3258512c10dc2a1';
-
 const amplitudeClient = erProd || erDev ? amplitude : undefined;
 
-amplitudeClient?.init(apiKey, '', {
+amplitudeClient?.init(browserEnv.NEXT_PUBLIC_AMPLITUDE_KEY ?? '', '', {
     serverUrl: 'https://amplitude.nav.no/collect',
     serverZone: 'EU',
     defaultTracking: false,
