@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - master
+      # TODO: Fjerne dette før vi merger inn
       - wip-next
 
 env:
+  # TODO: Rename app før vi går i real dev/prod
   APP: speil-next
   TEAM: tbd
 
@@ -106,7 +108,8 @@ jobs:
     name: Deploy to prod
     needs: [build-production, test-and-lint]
     runs-on: ubuntu-latest
-    # Disable while I work on GHA stuff
+    # TODO: Enable denne
+    # if: github.ref == 'refs/heads/master'
     if: false
     steps:
       - uses: actions/checkout@v4
@@ -114,5 +117,5 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
-          RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml
+          RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml
           VAR: 'image=${{ needs.build-dev.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}'

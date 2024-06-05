@@ -24,16 +24,13 @@ spec:
   liveness:
     failureThreshold: 10
     initialDelay: 20
-    path: isAlive
+    path: /api/internal/isAlive
     periodSeconds: 5
     timeout: 1
   readiness:
     initialDelay: 20
-    path: isReady
+    path: /api/internal/isReady
     timeout: 1
-  redis:
-    - instance: sessions
-      access: readwrite
   replicas:
     cpuThresholdPercentage: 90
     max: 2
@@ -47,13 +44,11 @@ spec:
       memory: '128Mi'
   prometheus:
     enabled: true
+    path: /api/internal/metrics
   observability:
     autoInstrumentation:
       enabled: true
       runtime: nodejs
-  frontend:
-    generatedConfig:
-      mountPath: /app/dist/client/nais/nais
   azure:
     sidecar:
       enabled: true
@@ -78,8 +73,6 @@ spec:
   envFrom:
     - secret: speil
   env:
-    - name: DEBUG
-      value: global-tunnel
     - name: CLIENT_ID_SPESIALIST
       value: api://prod-gcp.tbd.spesialist/.default
     - name: SPESIALIST_BASE_URL

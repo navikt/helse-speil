@@ -31,9 +31,6 @@ spec:
     initialDelay: 20
     path: /api/internal/isReady
     timeout: 1
-  redis:
-    - instance: sessions
-      access: readwrite
   replicas:
     cpuThresholdPercentage: 90
     max: 2
@@ -77,8 +74,6 @@ spec:
   envFrom:
     - secret: speil
   env:
-    - name: DEBUG
-      value: global-tunnel
     - name: CLIENT_ID_SPESIALIST
       value: api://dev-gcp.tbd.spesialist/.default
     - name: SPESIALIST_BASE_URL
