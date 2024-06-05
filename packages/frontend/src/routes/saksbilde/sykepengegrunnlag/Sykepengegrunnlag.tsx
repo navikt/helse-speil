@@ -55,10 +55,6 @@ const SykepengegrunnlagContainer: React.FC = () => {
     return null;
 };
 
-const SykepengegrunnlagSkeleton = () => {
-    return <div />;
-};
-
 const SykepengegrunnlagError = () => {
     return (
         <Alert variant="error" size="small">
@@ -69,11 +65,9 @@ const SykepengegrunnlagError = () => {
 
 export const Sykepengegrunnlag = () => {
     return (
-        <React.Suspense fallback={<SykepengegrunnlagSkeleton />}>
-            <ErrorBoundary fallback={<SykepengegrunnlagError />}>
-                <SykepengegrunnlagContainer />
-            </ErrorBoundary>
-        </React.Suspense>
+        <ErrorBoundary fallback={<SykepengegrunnlagError />}>
+            <SykepengegrunnlagContainer />
+        </ErrorBoundary>
     );
 };
 

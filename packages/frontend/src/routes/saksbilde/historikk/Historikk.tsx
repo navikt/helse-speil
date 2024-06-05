@@ -1,16 +1,15 @@
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
-import dynamic from 'next/dynamic';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { Historikkmeny } from '@/routes/saksbilde/historikk/Historikkmeny';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { ÅpnetDokument } from '@components/ÅpnetDokument';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
-import { onLazyLoadFail } from '@utils/error';
 
 import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
@@ -27,10 +26,6 @@ import { Notathendelse } from './hendelser/notat/Notathendelse';
 import { useFilterState, useFilteredHistorikk, useShowHistorikkState } from './state';
 
 import styles from './Historikk.module.css';
-
-const Historikkmeny = dynamic(() =>
-    import('../historikk/Historikkmeny').then((res) => ({ default: res.Historikkmeny })).catch(onLazyLoadFail),
-);
 
 const getHistorikkTitle = (type: Filtertype): string => {
     switch (type) {

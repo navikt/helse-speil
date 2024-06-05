@@ -1,9 +1,13 @@
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
-import React from 'react';
+import React, { Suspense } from 'react';
 
-import { Loader } from '@navikt/ds-react';
+import { Heading, Loader } from '@navikt/ds-react';
 
+import Sykepengegrunnlag from '@/routes/saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
+import Utbetaling from '@/routes/saksbilde/utbetaling/Utbetaling';
+import Inngangsvilkår from '@/routes/saksbilde/vilkår/Inngangsvilkår';
+import Vurderingsmomenter from '@/routes/saksbilde/vurderingsmomenter/Vurderingsmomenter';
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { Arbeidsforholdoverstyring, Overstyring } from '@io/graphql';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
@@ -18,32 +22,7 @@ import { useVilkårsgrunnlag } from '../sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
 
-import styles from './PeriodeView.module.css';
-
-const Utbetaling = dynamic(() =>
-    import('../utbetaling/Utbetaling').then((res) => ({ default: res.Utbetaling })).catch(onLazyLoadFail),
-);
-const Inngangsvilkår = dynamic(() =>
-    import('../vilkår/Inngangsvilkår').then((res) => ({ default: res.Inngangsvilkår })).catch(onLazyLoadFail),
-);
-const Vurderingsmomenter = dynamic(() =>
-    import('../vurderingsmomenter/Vurderingsmomenter')
-        .then((res) => ({ default: res.Vurderingsmomenter }))
-        .catch(onLazyLoadFail),
-);
-const Sykepengegrunnlag = dynamic(() =>
-    import('../sykepengegrunnlag/Sykepengegrunnlag')
-        .then((res) => ({ default: res.Sykepengegrunnlag }))
-        .catch(onLazyLoadFail),
-);
-
-const BeregnetPeriodeViewLoader: React.FC = () => {
-    return (
-        <div className={styles.Skeleton}>
-            <Loader size="xlarge" />
-        </div>
-    );
-};
+import styles from './SharedViews.module.css';
 
 const useOverstyringerEtterSisteGodkjenteUtbetaling = (person: FetchedPerson): Array<Overstyring> => {
     const timestamp = getLatestUtbetalingTimestamp(person);
@@ -79,33 +58,27 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
         : undefined;
 
     return (
-        <>
-            <Venstremeny />
-            <div className={styles.Content}>
-                <Saksbildevarsler
-                    periodState={getPeriodState(period)}
-                    oppgavereferanse={period.oppgave?.id}
-                    varsler={period.varsler}
-                    erTidligereSaksbehandler={erTidligereSaksbehandler}
-                    erBeslutteroppgave={period.totrinnsvurdering?.erBeslutteroppgave}
-                    endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
-                    harDagOverstyringer={harDagOverstyringer}
-                    activePeriodTom={period.tom}
-                    skjæringstidspunkt={period.skjaeringstidspunkt}
-                    navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
-                />
-                <SaksbildeMenu />
-                <div className={styles.RouteContainer}>
-                    <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>
-                        {tab === 'dagoversikt' && <Utbetaling />}
-                        {decodeURI(tab) === 'inngangsvilkår' && <Inngangsvilkår />}
-                        {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag />}
-                        {tab === 'vurderingsmomenter' && <Vurderingsmomenter />}
-                    </React.Suspense>
-                </div>
+        <div className={styles.Content}>
+            <Saksbildevarsler
+                periodState={getPeriodState(period)}
+                oppgavereferanse={period.oppgave?.id}
+                varsler={period.varsler}
+                erTidligereSaksbehandler={erTidligereSaksbehandler}
+                erBeslutteroppgave={period.totrinnsvurdering?.erBeslutteroppgave}
+                endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
+                harDagOverstyringer={harDagOverstyringer}
+                activePeriodTom={period.tom}
+                skjæringstidspunkt={period.skjaeringstidspunkt}
+                navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
+            />
+            <SaksbildeMenu />
+            <div className={styles.RouteContainer}>
+                {tab === 'dagoversikt' && <Utbetaling />}
+                {decodeURI(tab) === 'inngangsvilkår' && <Inngangsvilkår />}
+                {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag />}
+                {tab === 'vurderingsmomenter' && <Vurderingsmomenter />}
             </div>
-            <Historikk />
-        </>
+        </div>
     );
 };
 

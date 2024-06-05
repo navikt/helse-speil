@@ -18,6 +18,7 @@ import { OppdaterPersondataButton } from './OppdaterPersondataButton';
 import { PåVentButton } from './PåVentButton';
 import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 
+// TODO: kan brukes i vanlig useQuery loading?
 const DropdownMenuContentSkeleton: React.FC = () => {
     return (
         <Dropdown.Menu placement="bottom-start">
@@ -99,9 +100,7 @@ export const DropdownMenu: React.FC = () => {
                 <Dropdown.Toggle className={styles.menu} onClick={toggleDropdown}>
                     Meny {open ? <Collapse title="collapse" /> : <Expand title="expand" />}
                 </Dropdown.Toggle>
-                <React.Suspense fallback={<DropdownMenuContentSkeleton />}>
-                    <DropdownMenuContent />
-                </React.Suspense>
+                <DropdownMenuContent />
             </Dropdown>
         </span>
     );

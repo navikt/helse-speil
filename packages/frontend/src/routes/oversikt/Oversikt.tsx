@@ -5,6 +5,7 @@ import React, { Suspense } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
+import { BehandletIdagTable } from '@/routes/oversikt/table/BehandletIdagTable';
 import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
 import { useLoadingToast } from '@hooks/useLoadingToast';
@@ -13,7 +14,6 @@ import { onLazyLoadFail } from '@utils/error';
 
 import { useKeyboardShortcuts } from '../saksbilde/useKeyboardShortcuts';
 import { IngenOppgaver } from './IngenOppgaver';
-import { Tabs } from './Tabs';
 import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';
 import { TabType, useAktivTab } from './tabState';
 import { OppgaverTable } from './table/OppgaverTable/OppgaverTable';
@@ -22,14 +22,14 @@ import { useFilters } from './table/state/filter';
 
 import styles from './Oversikt.module.css';
 
-const BehandletIdagTable = dynamic(() =>
-    import('./table/BehandletIdagTable').then((res) => ({ default: res.BehandletIdagTable })).catch(onLazyLoadFail),
-);
-
 const Filtermeny = dynamic(
     () => import('./filtermeny/Filtermeny').then((res) => ({ default: res.Filtermeny })).catch(onLazyLoadFail),
     { ssr: false },
 );
+
+const Tabs = dynamic(() => import('./Tabs').then((res) => ({ default: res.Tabs })).catch(onLazyLoadFail), {
+    ssr: false,
+});
 
 export const Oversikt = () => {
     const oppgaveFeed = useOppgaveFeed();
@@ -46,7 +46,10 @@ export const Oversikt = () => {
                     {oppgaveFeed.error?.message}
                 </Alert>
             )}
-            <Tabs />
+            {/*TODO: lage fallback*/}
+            <Suspense>
+                <Tabs />
+            </Suspense>
             <div className={styles.fullHeight}>
                 {/*TODO: lage fallback*/}
                 <Suspense>
@@ -54,9 +57,7 @@ export const Oversikt = () => {
                 </Suspense>
                 <section className={styles.Content}>
                     {aktivTab === TabType.BehandletIdag ? (
-                        <Suspense fallback={<OppgaverTableSkeleton />}>
-                            <BehandletIdagTable />
-                        </Suspense>
+                        <BehandletIdagTable />
                     ) : oppgaveFeed.loading ? (
                         <OppgaverTableSkeleton />
                     ) : oppgaveFeed.oppgaver ? (
