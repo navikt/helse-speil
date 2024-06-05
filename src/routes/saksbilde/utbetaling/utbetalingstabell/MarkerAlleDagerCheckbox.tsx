@@ -35,6 +35,7 @@ export const MarkerAlleDagerCheckbox: React.FC<MarkerAlleDagerCheckboxProps> = (
                 checked={alleDager.size === markerteDager.size}
                 {...rest}
                 hideLabel
+                size="small"
             >
                 Marker alle dager
             </Checkbox>

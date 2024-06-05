@@ -32,8 +32,8 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    left: 28px;
-    top: calc(28.5px + 32px);
+    left: 32px;
+    top: 65px;
 }
 
 .ErrorMessage {
