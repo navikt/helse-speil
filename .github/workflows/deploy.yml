@@ -94,7 +94,7 @@ jobs:
         name: Installer deps
         with:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-      - run: cp envs/.env.dev .env.production
+      - run: cp envs/.env.production .env.production
       - run: npm run build
       - uses: ./.github/actions/cdn-n-image
         name: Last opp til CDN og bygg docker image
@@ -112,6 +112,9 @@ jobs:
     name: Deploy to dev
     needs: [build-dev, test-and-lint]
     runs-on: ubuntu-latest
+    environment:
+      name: dev
+      url: https://speil.ansatt.dev.nav.no
     steps:
       - uses: actions/checkout@v4
       - uses: nais/deploy/actions/deploy@v2
@@ -125,6 +128,9 @@ jobs:
     name: Deploy to experimental dev
     needs: [build-experimental-dev, test-and-lint]
     runs-on: ubuntu-latest
+    environment:
+      name: dev-next
+      url: https://speil-next.intern.dev.nav.no
     steps:
       - uses: actions/checkout@v4
       - uses: nais/deploy/actions/deploy@v2
@@ -139,6 +145,9 @@ jobs:
     needs: [build-production, test-and-lint]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
+    environment:
+      name: production
+      url: https://speil.intern.nav.no
     steps:
       - uses: actions/checkout@v4
       - uses: nais/deploy/actions/deploy@v2

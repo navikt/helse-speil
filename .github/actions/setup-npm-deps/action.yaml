@@ -1,5 +1,5 @@
-name: Setup yarn deps
-description: Checkout code, init yarn with deps
+name: Setup npm deps
+description: Install npm dependencies
 
 inputs:
   NPM_AUTH_TOKEN:
