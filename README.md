@@ -10,24 +10,7 @@ Dette repoet bruker [prettier](https://prettier.io/) med [eslint-config-prettier
 for å sikre at all koden er på likt format. Hvordan utviklerne velger å overholde disse reglene er opp til den enkelte, men
 Prettier kan settes opp til å formatere kode automatisk on-save. Hvordan dette konfigureres avhenger av IDE / Editor.
 
--   [File Watchers i IntelliJ / WebStorm](https://prettier.io/docs/en/webstorm.html)
--   [Plugin for VSCode](https://github.com/prettier/prettier-vscode)
-
-## Kjøre lokalt
-
-Lokalt serveres frontend (det som kjører i browser) og backend (det som står for autentisering, sesjon og kommunikasjon med baksystem) hver for seg.
-
-### Opprett fil med miljøvariabler
-
-```shell
-cat > packages/backend/.env << EOF
-SESSION_SECRET=whatever
-SPESIALIST_BASE_URL=http://127.0.0.1:9001
-FLEXJAR_BASE_URL=http://127.0.0.1:9001
-MODIA_BASE_URL=http://127.0.0.1:9001
-SPESIALIST_WS_URL=ws://127.0.0.1:9001
-EOF
-```
+## Forutsetninger
 
 ### Sett opp tilgang til Github Package Registry
 
@@ -40,49 +23,43 @@ Dette tokenet trenger scopet `package:read`. Legg til følgende i `~/.bashrc` el
 export NPM_AUTH_TOKEN=<token>
 ```
 
-### Både frontend og backend med én kommando
+## Utvikle lokalt
+
+Lokal utvikling bruker nextjs dev server, denne kan spinnes opp med følgende kommando:
 
 ```shell
 npm run dev
 ```
 
-### Kjør spesialistbackenden slik:
+Appen er nå tilgjengelig på http://localhost:1234.
+
+Default i lokal utvikling er at Apollo går mot spesialist-mock på /api/spesialist.
+
+## Bygge for produksjon lokalt
+
+Dersom du vil teste produksjonsbygget lokalt, må du først flytte over tilhørende miljøvariabler til `.env.production` i root.
 
 ```shell
-npm run mock
+cp envs/.env.dev .env.production
 ```
 
-### Kun frontend servert av Vite
-
-Fra `packages/frontend`:
+eller
 
 ```shell
-npm run dev
+cp envs/.env.production .env.production
 ```
 
-### Backend som server både API og frontend som statiske filer
-
-Sørg for at du har en .env-fil, se [her](#Opprett-fil-med-miljøvariabler).
-
-Fra `packages/backend`:
-
-```shell
-npm run dev
-```
-
-Appen er nå tilgjengelig på http://localhost:3000.
-
-### Bygge bundles
+Deretter kan nextjs produksjonsbygg kjøres med:
 
 ```shell
 npm run build
 ```
 
-### Hente og oppdaterte GraphQL-typer
+## Hente og oppdaterte GraphQL-typer
 
 Speil henter schema fra spesialist i dev. For å kunne hente snakke med spesialist må man først koble til naisdevice.
 
-For å generere DocumentNodes som brukes i apollo queries og mutations må man først skrive en GraphQL spørring i [GraphQL mappen](packages/frontend/io/graphql).
+For å generere DocumentNodes som brukes i apollo queries og mutations må man først skrive en GraphQL spørring i [GraphQL mappen](src/io/graphql).
 
 **Kommando for å oppdatere GraphQL-typer:**
 
@@ -90,11 +67,11 @@ For å generere DocumentNodes som brukes i apollo queries og mutations må man f
 npm run generate-graphql
 ```
 
-### Kjøre speil frontend mot LocalGraphQLApi i Spesialist
+## Kjøre speil frontend mot LocalGraphQLApi i Spesialist
 
 Finn filen `LocalGraphQLApi.kt` i Spesialist og kjør main-funksjonen.
 
-Endre `baseUrl` fra `localhost:3000` til `0.0.0.0:4321` i `graphQLClient.ts` her i Speil.
+I `src/app/apollo/apolloClient.ts`, endre `erLokal` til `!erLokal`
 
 Start speil med `npm run dev`
 
