@@ -35,6 +35,13 @@ export default function RootLayout({
                               : 'favicon.ico'
                     }`}
                 />
+                <link
+                    rel="preload"
+                    href="https://cdn.nav.no/aksel/fonts/SourceSans3-normal.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                />
             </head>
             <body>
                 {/*TODO: Kan fjernes når vi går over til aksel sin modal*/}
