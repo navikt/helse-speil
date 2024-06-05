@@ -4,7 +4,6 @@ import React, { ReactNode } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { AgurkErrorBoundary } from '@components/AgurkErrorBoundary';
-import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';

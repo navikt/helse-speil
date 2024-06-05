@@ -1,5 +1,3 @@
-import { getToken } from '@navikt/oasis';
-
 import { postGraphQLQuery } from '@/app/api/graphql/graphql';
 import { hentWonderwallToken } from '@/auth/token';
 

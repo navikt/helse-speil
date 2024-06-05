@@ -1,4 +1,4 @@
-import { useQuery, useReadQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useNavigation } from '@hooks/useNavigation';
 import { FetchPersonDocument } from '@io/graphql';
 

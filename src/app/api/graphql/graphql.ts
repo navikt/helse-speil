@@ -1,10 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { requestAzureOboToken } from '@navikt/oasis';
-
 import { byttTilOboToken } from '@/auth/token';
 import { getServerEnv } from '@/env';
 import logger from '@/logger';
+import metrics from '@/observability/metrics';
 
 export const postGraphQLQuery = async (wonderwallToken: string, data: string): Promise<Response> => {
     const callId = uuidv4();
@@ -29,9 +28,10 @@ export const postGraphQLQuery = async (wonderwallToken: string, data: string): P
     logger.debug(
         `Kaller ${baseUrl} med X-Request-Id: ${callId}, operationName: ${operationName} og token: ${maskertToken}...`,
     );
-    const start = Date.now();
+    const stopTimer = metrics.spesialistRequestHistogram.startTimer({ route: '/api/graphql' });
     const response = await fetch(`${baseUrl}/graphql`, options);
-    const tidBrukt = Date.now() - start;
+    const timerSeconds = stopTimer();
+    const tidBrukt = +(timerSeconds * 1000).toFixed(0);
     logger.debug(
         `GraphQL-kall til ${baseUrl} med X-Request-Id: ${callId} og operationName: ${operationName} ferdig etter ${tidBrukt} ms`,
     );

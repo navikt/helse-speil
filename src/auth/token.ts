@@ -7,6 +7,7 @@ import { getToken, requestAzureOboToken, validateAzureToken } from '@navikt/oasi
 
 import { erLokal } from '@/env';
 import logger from '@/logger';
+import metrics from '@/observability/metrics';
 
 type TokenPayload = z.infer<typeof tokenPayloadSchema>;
 const tokenPayloadSchema = z.object({
@@ -40,6 +41,7 @@ export async function getTokenPayload(): Promise<TokenPayload> {
             redirect('/oauth2/login');
         }
 
+        metrics.authErrorCounter.inc({ type: 'invalid-jwt' }, 1);
         throw new Error(`JWT invalid, validation failed: ${validationResult.error.message}`, {
             cause: validationResult.error,
         });
@@ -54,6 +56,8 @@ export async function getTokenPayload(): Promise<TokenPayload> {
             groups: validationResult.payload.groups,
         } satisfies Record<keyof TokenPayload, unknown>);
     } catch (e) {
+        metrics.authErrorCounter.inc({ type: 'parse-error' }, 1);
+
         if (e instanceof ZodError) {
             logger.sikker.error(
                 `Klarte ikke å parse payloaden fra tokenet til ${validationResult.payload.preferred_username}\n\n${`The following envs are missing: ${
@@ -80,6 +84,7 @@ export async function byttTilOboToken(token: string, scope: string): Promise<Ret
         };
     }
 
+    metrics.oboCounter.inc({ targetClientId: scope }, 1);
     return requestAzureOboToken(token, scope);
 }
 
