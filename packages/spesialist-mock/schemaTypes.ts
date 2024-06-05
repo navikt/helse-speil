@@ -38,8 +38,8 @@ export type AnnulleringDataInput = {
     fodselsnummer: Scalars['String']['input'];
     kommentar?: InputMaybe<Scalars['String']['input']>;
     organisasjonsnummer: Scalars['String']['input'];
-    utbetalingId: Scalars['String']['input'];
-    vedtaksperiodeId: Scalars['String']['input'];
+    utbetalingId: Scalars['UUID']['input'];
+    vedtaksperiodeId: Scalars['UUID']['input'];
 };
 
 export type Antall = {
