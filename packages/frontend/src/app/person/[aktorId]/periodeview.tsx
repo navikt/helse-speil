@@ -13,7 +13,7 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-function Page(): ReactElement | null {
+function PeriodeView(): ReactElement | null {
     const activePeriod = useActivePeriod();
     const currentPerson = useCurrentPerson();
 
@@ -37,4 +37,4 @@ function Page(): ReactElement | null {
     }
 }
 
-export default Page;
+export default PeriodeView;

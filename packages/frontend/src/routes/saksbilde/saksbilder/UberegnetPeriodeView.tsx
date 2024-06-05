@@ -1,5 +1,6 @@
-import { useParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import React from 'react';
+import { last } from 'remeda';
 
 import Utbetaling from '@/routes/saksbilde/utbetaling/Utbetaling';
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
@@ -17,7 +18,7 @@ interface UberegnetPeriodeViewProps {
 }
 
 export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps) => {
-    const { tab } = useParams<{ tab: string }>();
+    const tab = last(usePathname().split('/'));
     useNavigateOnMount(Fane.Utbetaling);
 
     return (

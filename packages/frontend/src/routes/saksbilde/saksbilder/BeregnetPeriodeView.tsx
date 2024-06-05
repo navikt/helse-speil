@@ -1,8 +1,6 @@
-import dynamic from 'next/dynamic';
-import { useParams } from 'next/navigation';
-import React, { Suspense } from 'react';
-
-import { Heading, Loader } from '@navikt/ds-react';
+import { usePathname } from 'next/navigation';
+import React from 'react';
+import { last } from 'remeda';
 
 import Sykepengegrunnlag from '@/routes/saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
 import Utbetaling from '@/routes/saksbilde/utbetaling/Utbetaling';
@@ -12,15 +10,12 @@ import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler'
 import { Arbeidsforholdoverstyring, Overstyring } from '@io/graphql';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
-import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
 import { isArbeidsforholdoverstyring, isSpleisVilkarsgrunnlag } from '@utils/typeguards';
 
-import { Historikk } from '../historikk';
 import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
 import { useVilkårsgrunnlag } from '../sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
-import { Venstremeny } from '../venstremeny/Venstremeny';
 
 import styles from './SharedViews.module.css';
 
@@ -43,7 +38,7 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
     const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, period);
-    const { tab } = useParams<{ tab: string }>();
+    const tab = last(usePathname().split('/'));
     const navnPåDeaktiverteGhostArbeidsgivere = isSpleisVilkarsgrunnlag(vilkårsgrunnlag)
         ? person.arbeidsgivere
               .filter((arbeidsgiver) =>
@@ -74,7 +69,7 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
             <SaksbildeMenu />
             <div className={styles.RouteContainer}>
                 {tab === 'dagoversikt' && <Utbetaling />}
-                {decodeURI(tab) === 'inngangsvilkår' && <Inngangsvilkår />}
+                {decodeURI(tab ?? '') === 'inngangsvilkår' && <Inngangsvilkår />}
                 {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag />}
                 {tab === 'vurderingsmomenter' && <Vurderingsmomenter />}
             </div>

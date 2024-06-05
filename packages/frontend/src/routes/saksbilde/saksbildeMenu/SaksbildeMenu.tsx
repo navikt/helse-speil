@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import React from 'react';
+import { last } from 'remeda';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -58,11 +59,10 @@ const SaksbildeMenuUberegnetPeriode: React.FC = () => (
 );
 
 const NavLenke = ({ tittel, to }: { tittel: string; to: string }) => {
-    const { tab } = useParams<{ tab: string }>();
-
+    const tab = last(usePathname().split('/'));
     return (
         <Link
-            className={classNames(styles.NavLink, { [styles.ActiveLink]: decodeURI(tab) === to })}
+            className={classNames(styles.NavLink, { [styles.ActiveLink]: decodeURI(tab ?? '') === to })}
             href={to}
             title={tittel}
         >
