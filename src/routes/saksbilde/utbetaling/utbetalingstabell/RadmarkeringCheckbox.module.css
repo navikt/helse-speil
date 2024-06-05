@@ -1,17 +1,7 @@
 .container {
-    position: relative;
-    padding: 1rem;
-}
-
-.container > div {
-    position: absolute;
-    padding: 0;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.container > div > input {
-    max-height: 2rem;
-    max-width: 2rem;
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

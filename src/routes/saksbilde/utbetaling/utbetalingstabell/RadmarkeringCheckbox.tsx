@@ -11,7 +11,7 @@ interface RadmarkeringCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLI
 export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({ index, ...rest }) => {
     return (
         <div className={styles.container}>
-            <Checkbox {...rest} hideLabel>
+            <Checkbox {...rest} hideLabel size="small">
                 Velg rad {index + 1} for endring
             </Checkbox>
         </div>
