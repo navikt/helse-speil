@@ -4,12 +4,12 @@ on:
   push:
     branches:
       - master
+      - next/**
       # TODO: Fjerne dette før vi merger inn
       - wip-next
 
 env:
-  # TODO: Rename app før vi går i real dev/prod
-  APP: speil-next
+  APP: speil
   TEAM: tbd
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    runs-on: ubuntu-latest-16-cores
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -28,68 +28,85 @@ jobs:
       - run: npm run lint
 
   build-dev:
+    if: "!startsWith(github.ref, 'refs/heads/next/')"
     permissions:
       contents: 'read'
       id-token: 'write'
-    runs-on: ubuntu-latest-16-cores
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-npm-deps
+        name: Installer deps
         with:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - run: cp envs/.env.dev .env.production
       - run: npm run build
-      - name: Upload static files to CDN
-        uses: nais/deploy/actions/cdn-upload/v2@master
+      - uses: ./.github/actions/cdn-n-image
+        name: Last opp til CDN og bygg docker image
+        id: cdn-n-image
         with:
-          team: ${{env.TEAM}}
-          source: .next/static
-          destination: '/${{ env.APP }}/_next'
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          app: ${{ env.APP }}
+          team: ${{ env.TEAM }}
+          env: dev
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-      - uses: nais/docker-build-push@v0
-        name: Build and push image
-        id: docker-build-push
-        with:
-          team: tbd
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          image_suffix: dev
     outputs:
-      image: ${{ steps.docker-build-push.outputs.image }}
+      image: ${{ steps.cdn-n-image.outputs.image }}
 
-  build-production:
+  build-experimental-dev:
+    if: startsWith(github.ref, 'refs/heads/next/')
     permissions:
       contents: 'read'
       id-token: 'write'
-    runs-on: ubuntu-latest-16-cores
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-npm-deps
+        name: Installer deps
         with:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-      - run: cp envs/.env.production .env.production
+      - run: cp envs/.env.dev .env.production
       - run: npm run build
-      - name: Upload static files to CDN
-        uses: nais/deploy/actions/cdn-upload/v2@master
+      - uses: ./.github/actions/cdn-n-image
+        name: Last opp til CDN og bygg docker image
+        id: cdn-n-image
         with:
-          team: ${{env.TEAM}}
-          source: .next/static
-          destination: '/${{ env.APP }}/_next'
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          app: ${{ env.APP }}-next
+          team: ${{ env.TEAM }}
+          env: next
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-      - uses: nais/docker-build-push@v0
-        name: Build and push image
-        id: docker-build-push
-        with:
-          team: tbd
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          image_suffix: prod
     outputs:
-      image: ${{ steps.docker-build-push.outputs.image }}
+      image: ${{ steps.cdn-n-image.outputs.image }}
+
+  build-production:
+    if: github.ref == 'refs/heads/master'
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-npm-deps
+        name: Installer deps
+        with:
+          NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+      - run: cp envs/.env.dev .env.production
+      - run: npm run build
+      - uses: ./.github/actions/cdn-n-image
+        name: Last opp til CDN og bygg docker image
+        id: cdn-n-image
+        with:
+          app: ${{ env.APP }}
+          team: ${{ env.TEAM }}
+          env: prod
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+    outputs:
+      image: ${{ steps.cdn-n-image.outputs.image }}
 
   deploy-dev:
     name: Deploy to dev
@@ -104,18 +121,29 @@ jobs:
           RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml
           VAR: 'image=${{ needs.build-dev.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}'
 
-  deploy-prod:
-    name: Deploy to prod
-    needs: [build-production, test-and-lint]
+  deploy-experimental-dev:
+    name: Deploy to experimental dev
+    needs: [build-experimental-dev, test-and-lint]
     runs-on: ubuntu-latest
-    # TODO: Enable denne
-    # if: github.ref == 'refs/heads/master'
-    if: false
     steps:
       - uses: actions/checkout@v4
       - uses: nais/deploy/actions/deploy@v2
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
+          RESOURCE: deploy/next.yml
+          VAR: 'image=${{ needs.build-experimental-dev.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}-next'
+
+  deploy-prod:
+    name: Deploy to prod
+    needs: [build-production, test-and-lint]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nais/deploy/actions/deploy@v2
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-gcp
           RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml
           VAR: 'image=${{ needs.build-dev.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}'

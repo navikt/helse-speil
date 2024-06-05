@@ -1,0 +1,44 @@
+name: Setup yarn deps
+description: Checkout code, init yarn with deps
+
+inputs:
+  app:
+    required: true
+    description: app name
+  team:
+    required: true
+    description: team name
+  env:
+    required: true
+    description: GAR prefix
+  identity_provider:
+    required: true
+    description: for GAR
+  project_id:
+    required: true
+    description: for GAR
+
+outputs:
+  image:
+    description: 'Uploads nextjs static files to CDN and publishes docker image to GAR'
+    value: ${{ steps.docker-build-push.outputs.image }}
+
+runs:
+  using: composite
+  steps:
+    - name: Upload static files to CDN
+      uses: nais/deploy/actions/cdn-upload/v2@master
+      with:
+        team: ${{ inputs.team }}
+        source: .next/static
+        destination: '/${{ inputs.app }}/_next'
+        identity_provider: ${{ inputs.identity_provider }}
+        project_id: ${{ inputs.project_id }}
+    - uses: nais/docker-build-push@v0
+      name: Build and push image
+      id: docker-build-push
+      with:
+        team: ${{ inputs.team }}
+        identity_provider: ${{ inputs.identity_provider }}
+        project_id: ${{ inputs.project_id }}
+        image_suffix: ${{ inputs.env }}
