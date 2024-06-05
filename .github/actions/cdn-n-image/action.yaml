@@ -1,5 +1,5 @@
-name: Setup yarn deps
-description: Checkout code, init yarn with deps
+name: Upload to CDN and publish image
+description: Uploads nextjs static files to CDN and publishes docker image to GAR
 
 inputs:
   app:
@@ -20,7 +20,7 @@ inputs:
 
 outputs:
   image:
-    description: 'Uploads nextjs static files to CDN and publishes docker image to GAR'
+    description: The image name and tag in GAR
     value: ${{ steps.docker-build-push.outputs.image }}
 
 runs:
