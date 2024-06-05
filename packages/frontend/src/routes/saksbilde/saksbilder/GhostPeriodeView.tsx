@@ -1,5 +1,6 @@
-import { useParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import React from 'react';
+import { last } from 'remeda';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
@@ -20,8 +21,7 @@ export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod
     if (!activePeriod.skjaeringstidspunkt || !activePeriod.vilkarsgrunnlagId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
-    const { tab } = useParams<{ tab: string }>();
-
+    const tab = last(usePathname().split('/'));
     useNavigateOnMount(Fane.Sykepengegrunnlag);
 
     return (

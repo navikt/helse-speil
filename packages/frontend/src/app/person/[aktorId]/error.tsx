@@ -1,6 +1,6 @@
 'use client';
 
-import styles from './page.module.scss';
+import styles from './periodeview.module.scss';
 import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
