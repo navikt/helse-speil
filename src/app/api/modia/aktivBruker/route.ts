@@ -1,5 +1,3 @@
-import { getToken } from '@navikt/oasis';
-
 import { Handling, kallModia } from '@/app/api/modia/modia';
 import { hentWonderwallToken } from '@/auth/token';
 import logger from '@/logger';
