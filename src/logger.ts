@@ -1,12 +1,7 @@
 'use strict';
 
-import { Request } from 'express';
 import fs from 'fs';
 import winston from 'winston';
-
-import { getToken, parseAzureUserToken } from '@navikt/oasis';
-
-import { hentWonderwallToken } from '@/auth/token';
 
 import { erLokal } from './env';
 
@@ -51,35 +46,6 @@ const sikkerError = (message: string, ...meta: unknown[]) => {
     sikkerLogger.error(message, ...meta);
 };
 
-const requestMeta = (req: Request) => {
-    const user = userMeta(req);
-    return {
-        speilUser: user?.name ?? 'ukjent',
-        navIdent: user?.navIdent ?? 'ukjent',
-        headers: req.headers,
-        method: req.method,
-        url: req.url,
-        httpVersion: req.httpVersion,
-        path: req.path,
-        protocol: req.protocol,
-        query: req.query,
-        hostname: req.hostname,
-        ip: req.ip,
-        originalUrl: req.originalUrl,
-        params: req.params,
-    };
-};
-
-const userMeta = (req: Request): { name: string; navIdent: string } | null => {
-    const token = hentWonderwallToken(req);
-    if (!token) return null;
-
-    const parse = parseAzureUserToken(token);
-    if (!parse.ok) return null;
-
-    return { name: parse.name, navIdent: parse.NAVident };
-};
-
 export default {
     debug,
     info,
@@ -90,5 +56,4 @@ export default {
         warn: sikkerWarn,
         error: sikkerError,
     },
-    requestMeta,
 };

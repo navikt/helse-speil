@@ -1,9 +1,8 @@
 import spesialistSchema from './graphql.schema.json';
-import { Express } from 'express';
 import fs from 'fs';
 import { GraphQLError, GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
-import { createYoga } from 'graphql-yoga';
 import path from 'path';
+import { cwd } from 'process';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
@@ -76,7 +75,7 @@ const leggTilLagretData = (person: Person): void => {
 };
 
 const fetchPersondata = (): Record<string, Person> => {
-    const url = path.join(__dirname, '/data/personer');
+    const url = path.join(cwd(), 'src/spesialist-mock/data/personer');
     const filenames = fs.readdirSync(url);
 
     const files = filenames.map((filename) => {
@@ -372,18 +371,9 @@ const finnOppgaveId = () => {
     return undefined;
 };
 
-const buildSchema = (): GraphQLSchema => {
+export const buildSchema = (): GraphQLSchema => {
     return makeExecutableSchema({
         typeDefs: buildClientSchema(spesialistSchema as unknown as IntrospectionQuery),
         resolvers: getResolvers(),
     });
-};
-
-export const setUpGraphQLMiddleware = (app: Express) => {
-    const schema = buildSchema();
-    const yoga = createYoga({
-        schema,
-        graphiql: true,
-    });
-    app.use('/graphql', yoga);
 };

@@ -1,5 +1,6 @@
 import possibletypes from '@/app/apollo/possibletypes';
 import { ApolloClient, HttpLink, InMemoryCache, TypePolicies } from '@apollo/client';
+import { erLokal } from '@/env';
 
 const getTypePolicies = (): TypePolicies => {
     return {
@@ -47,7 +48,7 @@ const getTypePolicies = (): TypePolicies => {
 
 export const createApolloClient = () =>
     new ApolloClient({
-        link: new HttpLink({ uri: `/api/graphql` }),
+        link: new HttpLink({ uri: erLokal ? '/api/spesialist': `/api/graphql` }),
         cache: new InMemoryCache({
             dataIdFromObject: () => undefined,
             possibleTypes: possibletypes.possibleTypes,
