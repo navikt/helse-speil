@@ -1,6 +1,6 @@
 overwrite: true
 schema: "https://spesialist.intern.dev.nav.no/graphql/introspection"
-documents: "./packages/frontend/io/graphql/**/*.graphql"
+documents: "src/io/graphql/**/*.graphql"
 config:
   scalars:
     UUID: 'string'
@@ -8,21 +8,21 @@ config:
     LocalDateTime: 'string'
     YearMonth: 'string'
 generates:
-  ./packages/frontend/io/graphql/generated/possibletypes.ts:
+  ./src/io/graphql/generated/possibletypes.ts:
     plugins:
       - "fragment-matcher"
-  ./packages/frontend/io/graphql/generated/graphql.ts:
+  ./src/io/graphql/generated/graphql.ts:
     plugins:
       - "typescript"
       - "typescript-operations"
       - "typed-document-node"
-  ./packages/frontend/graphql.schema.json:
+  ./graphql.schema.json:
     plugins:
       - "introspection"
-  ./packages/spesialist-mock/graphql.schema.json:
+  ./src/spesialist-mock/graphql.schema.json:
     plugins:
       - "introspection"
-  ./packages/spesialist-mock/schemaTypes.ts:
+  ./src/spesialist-mock/schemaTypes.ts:
     plugins:
       - "typescript"
 hooks:

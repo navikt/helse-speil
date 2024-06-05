@@ -1,13 +1,35 @@
 {
     "compilerOptions": {
-        "moduleResolution": "Node",
-        "lib": ["ESNext", "DOM", "DOM.Iterable"],
-        "strictNullChecks": true,
-        "noImplicitThis": true,
-        "noImplicitAny": true,
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "noEmit": true,
+        "downlevelIteration": true,
         "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "bundler",
         "resolveJsonModule": true,
-        "noImplicitReturns": true
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "incremental": true,
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ],
+        "paths": {
+            "@/*": ["./src/*"],
+            "@test-wrappers": ["./src/test/wrappers"],
+            "@test-data/*": ["./src/test/data/*"],
+            "@io/*": ["./src/io/*"],
+            "@utils/*": ["./src/utils/*"],
+            "@components/*": ["./src/components/*"],
+            "@state/*": ["./src/state/*"],
+            "@hooks/*": ["./src/hooks/*"],
+            "@nais/*": ["./src/nais/*"]
+        }
     },
-    "types": ["typePatches"]
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/internal.d.ts", "src/global.d.ts"],
+    "exclude": ["node_modules"]
 }

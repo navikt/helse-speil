@@ -23,11 +23,9 @@ jobs:
         with:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - run: npm run test
-        working-directory: ./packages/frontend
       - run: npm run lint
         # TODO: Un-disable, aka enable
         if: false
-        working-directory: ./packages/frontend
 
   build-dev:
     permissions:
@@ -40,14 +38,13 @@ jobs:
       - uses: ./.github/actions/setup-npm-deps
         with:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-      - run: cp envs/.env.dev packages/frontend/.env.production
+      - run: cp envs/.env.dev .env.production
       - run: npm run build
-        working-directory: ./packages/frontend
       - name: Upload static files to CDN
         uses: nais/deploy/actions/cdn-upload/v2@master
         with:
           team: ${{env.TEAM}}
-          source: ./packages/frontend/.next/static
+          source: .next/static
           destination: "/${{ env.APP }}/_next"
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
@@ -58,8 +55,6 @@ jobs:
           team: tbd
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          dockerfile: packages/frontend/Dockerfile
-          docker_context: packages/frontend
           image_suffix: dev
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}
@@ -75,14 +70,13 @@ jobs:
       - uses: ./.github/actions/setup-npm-deps
         with:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-      - run: cp envs/.env.production packages/frontend/.env.production
+      - run: cp envs/.env.production .env.production
       - run: npm run build
-        working-directory: ./packages/frontend
       - name: Upload static files to CDN
         uses: nais/deploy/actions/cdn-upload/v2@master
         with:
           team: ${{env.TEAM}}
-          source: ./packages/frontend/.next/static
+          source: .next/static
           destination: "/${{ env.APP }}/_next"
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
@@ -93,8 +87,6 @@ jobs:
           team: tbd
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          dockerfile: packages/frontend/Dockerfile
-          docker_context: packages/frontend
           image_suffix: prod
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}

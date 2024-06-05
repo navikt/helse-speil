@@ -1,6 +1,6 @@
 {
   "name": "Spesialist GraphQL Schema",
-  "schemaPath": "./packages/frontend/graphql.schema.json",
+  "schemaPath": "graphql.schema.json",
   "extensions": {
     "endpoints": {
       "dev": {
