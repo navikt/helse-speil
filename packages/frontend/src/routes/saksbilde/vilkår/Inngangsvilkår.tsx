@@ -94,10 +94,6 @@ const InngangsvilkårContainer = () => {
     }
 };
 
-const InngangsvilkårSkeleton = () => {
-    return <div />;
-};
-
 const InngangsvilkårError = () => {
     return (
         <Alert variant="error" size="small">
@@ -108,11 +104,9 @@ const InngangsvilkårError = () => {
 
 export const Inngangsvilkår = () => {
     return (
-        <React.Suspense fallback={<InngangsvilkårSkeleton />}>
-            <ErrorBoundary fallback={<InngangsvilkårError />}>
-                <InngangsvilkårContainer />
-            </ErrorBoundary>
-        </React.Suspense>
+        <ErrorBoundary fallback={<InngangsvilkårError />}>
+            <InngangsvilkårContainer />
+        </ErrorBoundary>
     );
 };
 

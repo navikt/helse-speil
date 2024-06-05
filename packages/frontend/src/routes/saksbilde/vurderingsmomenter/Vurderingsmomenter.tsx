@@ -81,22 +81,8 @@ const VurderingsmomenterContainer = () => {
     return null;
 };
 
-const VurderingsmomenterSkeleton = () => {
-    return <div />;
-};
-
-const VurderingsmomenterError = () => {
-    return <div />;
-};
-
 export const Vurderingsmomenter = () => {
-    return (
-        <React.Suspense fallback={<VurderingsmomenterSkeleton />}>
-            <ErrorBoundary fallback={<VurderingsmomenterError />}>
-                <VurderingsmomenterContainer />
-            </ErrorBoundary>
-        </React.Suspense>
-    );
+    return <VurderingsmomenterContainer />;
 };
 
 export default Vurderingsmomenter;

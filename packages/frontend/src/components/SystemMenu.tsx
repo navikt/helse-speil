@@ -178,9 +178,5 @@ export const SystemMenuContent = () => {
 };
 
 export const SystemMenu: React.FC = () => {
-    return (
-        <React.Suspense fallback={null}>
-            <SystemMenuContent />
-        </React.Suspense>
-    );
+    return <SystemMenuContent />;
 };

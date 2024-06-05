@@ -2,22 +2,23 @@
 
 import React, { ReactElement } from 'react';
 
+import { SaksbildeMenu } from '@/routes/saksbilde/saksbildeMenu/SaksbildeMenu';
 import { AnnullertPeriodeView } from '@/routes/saksbilde/saksbilder/AnnullertPeriodeView';
+import BeregnetPeriodeView from '@/routes/saksbilde/saksbilder/BeregnetPeriodeView';
+import GhostPeriodeView from '@/routes/saksbilde/saksbilder/GhostPeriodeView';
 import { PeriodeTilAnnulleringView } from '@/routes/saksbilde/saksbilder/PeriodeTilAnnulleringView';
-import { BeregnetPeriodeView, GhostPeriodeView, UberegnetPeriodeView } from '@/routes/saksbilde/saksbilder/PeriodeView';
+import UberegnetPeriodeView from '@/routes/saksbilde/saksbilder/UberegnetPeriodeView';
 import { Periodetilstand } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
-
-import Loading from './loading';
 
 function Page(): ReactElement | null {
     const activePeriod = useActivePeriod();
     const currentPerson = useCurrentPerson();
 
     if (!activePeriod || !currentPerson) {
-        return <Loading />;
+        return <SaksbildeMenu />;
     } else if (isBeregnetPeriode(activePeriod)) {
         switch (activePeriod.periodetilstand) {
             case Periodetilstand.Annullert:

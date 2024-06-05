@@ -78,41 +78,40 @@ interface UtbetalingBeregnetPeriodeProps {
     arbeidsgiver: Arbeidsgiver;
 }
 
-const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = React.memo(
-    ({ period, person, arbeidsgiver }) => {
-        const overstyringIsEnabled = kanOverstyres(period);
-        const revurderingIsEnabled = kanRevurderes(person, period);
-        const overstyrRevurderingIsEnabled = kanOverstyreRevurdering(person, period);
-        const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, arbeidsgiver);
-        const readOnly = useIsReadOnlyOppgave();
-        const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
-        const gjenståendeDager = useGjenståendeDager(period);
+const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = ({ period, person, arbeidsgiver }) => {
+    const overstyringIsEnabled = kanOverstyres(period);
+    const revurderingIsEnabled = kanRevurderes(person, period);
+    const overstyrRevurderingIsEnabled = kanOverstyreRevurdering(person, period);
+    const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, arbeidsgiver);
+    const readOnly = useIsReadOnlyOppgave();
+    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
+    const gjenståendeDager = useGjenståendeDager(period);
 
-        const dager: Map<string, Utbetalingstabelldag> = useTabelldagerMap({
-            tidslinje: period.tidslinje,
-            gjenståendeDager: gjenståendeDager ?? period.gjenstaendeSykedager,
-            overstyringer: dagoverstyringer,
-            maksdato: period.maksdato,
-        });
+    const dager: Map<string, Utbetalingstabelldag> = useTabelldagerMap({
+        tidslinje: period.tidslinje,
+        gjenståendeDager: gjenståendeDager ?? period.gjenstaendeSykedager,
+        overstyringer: dagoverstyringer,
+        maksdato: period.maksdato,
+    });
 
-        const kanEndres =
-            overstyringIsEnabled.value || revurderingIsEnabled.value || overstyrRevurderingIsEnabled.value;
+    const kanEndres = overstyringIsEnabled.value || revurderingIsEnabled.value || overstyrRevurderingIsEnabled.value;
 
-        return kanEndres && !readOnly && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning ? (
-            <OverstyrbarUtbetaling
-                fom={period.fom}
-                tom={period.tom}
-                dager={dager}
-                erForkastet={period.utbetaling.status === Utbetalingstatus.Forkastet}
-                revurderingIsEnabled={revurderingIsEnabled.value}
-                overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled.value}
-                vedtaksperiodeId={period.vedtaksperiodeId}
-            />
-        ) : (
-            <ReadonlyUtbetaling fom={period.fom} tom={period.tom} dager={dager} />
-        );
-    },
-);
+    return kanEndres && !readOnly && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning ? (
+        <OverstyrbarUtbetaling
+            fom={period.fom}
+            tom={period.tom}
+            dager={dager}
+            erForkastet={period.utbetaling.status === Utbetalingstatus.Forkastet}
+            revurderingIsEnabled={revurderingIsEnabled.value}
+            overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled.value}
+            vedtaksperiodeId={period.vedtaksperiodeId}
+        />
+    ) : (
+        <ReadonlyUtbetaling fom={period.fom} tom={period.tom} dager={dager} />
+    );
+};
+
+const UtbetalingBeregnetPeriodeMemoized = React.memo(UtbetalingBeregnetPeriode);
 
 interface UtbetalingUberegnetPeriodeProps {
     periode: UberegnetPeriode;
@@ -166,7 +165,7 @@ const UtbetalingContainer = () => {
     if (!period || !isPerson(person) || !arbeidsgiver) {
         return null;
     } else if (isBeregnetPeriode(period)) {
-        return <UtbetalingBeregnetPeriode period={period} person={person} arbeidsgiver={arbeidsgiver} />;
+        return <UtbetalingBeregnetPeriodeMemoized period={period} person={person} arbeidsgiver={arbeidsgiver} />;
     } else if (isUberegnetPeriode(period)) {
         return <UtbetalingUberegnetPeriode periode={period} arbeidsgiver={arbeidsgiver} />;
     } else {
@@ -188,12 +187,13 @@ const UtbetalingError = () => {
 
 export const Utbetaling = () => {
     return (
-        <React.Suspense fallback={<UtbetalingSkeleton />}>
-            <ErrorBoundary fallback={<UtbetalingError />}>
-                <UtbetalingContainer />
-            </ErrorBoundary>
-        </React.Suspense>
+        <ErrorBoundary fallback={<UtbetalingError />}>
+            <UtbetalingContainer />
+        </ErrorBoundary>
     );
 };
 
 export default Utbetaling;
+function memo(UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps>) {
+    throw new Error('Function not implemented.');
+}

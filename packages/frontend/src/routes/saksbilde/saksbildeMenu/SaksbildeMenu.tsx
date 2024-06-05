@@ -94,7 +94,7 @@ const SaksbildeMenuContainer: React.FC = () => {
     return <SaksbildeMenuUberegnetPeriode />;
 };
 
-const SaksbildeMenuSkeleton: React.FC = () => {
+export const SaksbildeMenuSkeleton: React.FC = () => {
     return (
         <div className={classNames(styles.SaksbildeMenu, styles.Skeleton)}>
             <span className={styles.TabList}>
@@ -117,10 +117,8 @@ const SaksbildeMenuError: React.FC = () => {
 
 export const SaksbildeMenu: React.FC = () => {
     return (
-        <React.Suspense fallback={<SaksbildeMenuSkeleton />}>
-            <ErrorBoundary fallback={<SaksbildeMenuError />}>
-                <SaksbildeMenuContainer />
-            </ErrorBoundary>
-        </React.Suspense>
+        <ErrorBoundary fallback={<SaksbildeMenuError />}>
+            <SaksbildeMenuContainer />
+        </ErrorBoundary>
     );
 };

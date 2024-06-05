@@ -3,10 +3,12 @@
 import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { VenterPåEndringProvider } from '@/routes/saksbilde/VenterPåEndringContext';
+import { Historikk } from '@/routes/saksbilde/historikk';
 import { InfovarselOmStans } from '@/routes/saksbilde/infovarselOmStans/InfovarselOmStans';
 import { PersonHeader } from '@/routes/saksbilde/personHeader';
 import { Timeline } from '@/routes/saksbilde/timeline';
 import { useKeyboardShortcuts } from '@/routes/saksbilde/useKeyboardShortcuts';
+import { Venstremeny } from '@/routes/saksbilde/venstremeny/Venstremeny';
 import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
 import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
@@ -34,7 +36,9 @@ function Layout({ children }: PropsWithChildren): ReactElement {
             <Timeline />
             <AmplitudeProvider>
                 <VenterPåEndringProvider>
+                    <Venstremeny />
                     {children}
+                    <Historikk />
                     <Widget>
                         <EmojiTilbakemelding
                             feedbackId="speil-generell"

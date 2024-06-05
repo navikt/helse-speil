@@ -20,8 +20,6 @@ import { useOverstyrDager } from './utbetalingstabell/useOverstyrDager';
 
 import styles from './OverstyrbarUtbetaling.module.css';
 
-dayjs.extend(isBetween);
-
 const getKey = (dag: Utbetalingstabelldag) => dag.dato;
 
 const erReellEndring = (tilDag: Partial<Utbetalingstabelldag>, fraDag: Utbetalingstabelldag): boolean =>
