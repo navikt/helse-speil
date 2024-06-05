@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { Providers } from '@/app/providers';
 import { getTokenPayload } from '@/auth/token';
@@ -14,12 +14,8 @@ export const metadata: Metadata = {
     title: `Speil ${erLokal ? ' - localhost' : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev' ? ' - dev' : ''}`,
 };
 
-export default function RootLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
-    const payload = getTokenPayload();
+export default async function RootLayout({ children }: Readonly<PropsWithChildren>) {
+    const payload = await getTokenPayload();
 
     return (
         <html lang="en">
