@@ -4,11 +4,10 @@ import React, { memo, useEffect } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { useSuspenseQuery } from '@apollo/client';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { Arbeidsgiver, FetchPersonDocument, Infotrygdutbetaling } from '@io/graphql';
+import { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';

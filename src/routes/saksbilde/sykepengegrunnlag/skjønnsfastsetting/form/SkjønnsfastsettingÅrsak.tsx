@@ -1,18 +1,20 @@
 import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
 
 import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Radio, RadioGroup } from '@navikt/ds-react';
 
+import { SkjønnsfastsettingMal } from '@/external/sanity';
 import { EditButton } from '@components/EditButton';
 
-import { skjønnsfastsettingMaler } from '../state';
+type Props = {
+    maler: SkjønnsfastsettingMal[] | undefined;
+};
 
-export const SkjønnsfastsettingÅrsak = () => {
+export const SkjønnsfastsettingÅrsak = ({ maler }: Props) => {
     const { formState, register, setValue, resetField, getValues } = useFormContext();
-    const årsaker = useRecoilValue(skjønnsfastsettingMaler).flatMap((it) => it.arsak);
+    const årsaker = maler?.flatMap((it) => it.arsak) ?? [];
     const { ref, ...årsakValidation } = register('årsak', { required: 'Du må velge en årsak' });
 
     const resetType = () => {

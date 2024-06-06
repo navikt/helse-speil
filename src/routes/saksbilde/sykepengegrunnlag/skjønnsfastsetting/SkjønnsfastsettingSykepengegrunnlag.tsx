@@ -2,8 +2,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { erProd } from '@/env';
-import { gql, useQuery } from '@apollo/client';
+import { useSkjønnsfastsettelsesMaler } from '@/external/sanity';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 
 import { SykepengegrunnlagsgrenseView } from '../InntektsgrunnlagTable/SykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
@@ -11,7 +10,6 @@ import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
 import { SkjønnsfastsettingSammendrag } from './SkjønnsfastsettingSammendrag';
 import { SkjønnsfastsettingForm } from './form/SkjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { useSkjønnsfastsettingDefaults } from './form/SkjønnsfastsettingForm/useSkjønnsfastsettingDefaults';
-import { SkjønnsfastsettingMal, skjønnsfastsettingMaler } from './state';
 
 import styles from './SkjønnsfastsettingSykepengegrunnlag.module.css';
 
@@ -35,42 +33,13 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     avviksprosent,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editing, setEditing] = useState(false);
-    const setMaler = useSetRecoilState(skjønnsfastsettingMaler);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
     const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(inntekter);
-    const arbeidsforholdMal = (aktiveArbeidsgivere?.length ?? 0) > 1 ? 'FLERE_ARBEIDSGIVERE' : 'EN_ARBEIDSGIVER';
 
-    const { data, error, loading } = useQuery(
-        gql`
-            query SanityStuff($input: QueryPayload!) {
-                sanity(input: $input)
-                    @rest(type: "SanityFoo", endpoint: "sanity", path: "/", method: "POST", bodyKey: "input") {
-                    result
-                    query
-                }
-            }
-        `,
-        {
-            variables: {
-                input: { query: `*[_type == "skjonnsfastsettelseMal"]` },
-            },
-            onCompleted: (result) => {
-                console.log('SETTING MALER');
-                const mals =
-                    result?.sanity?.result
-                        ?.filter((it: SkjønnsfastsettingMal) =>
-                            avviksprosent <= 25 ? it.lovhjemmel.ledd !== '2' : true,
-                        )
-                        ?.filter((it: SkjønnsfastsettingMal) => it.arbeidsforholdMal.includes(arbeidsforholdMal))
-                        ?.filter((it: SkjønnsfastsettingMal) => (erProd ? it.iProd : true)) ?? [];
-
-                console.log(mals);
-                setMaler(mals);
-            },
-        },
+    const { maler, loading, error } = useSkjønnsfastsettelsesMaler(
+        avviksprosent,
+        (aktiveArbeidsgivere?.length ?? 0) > 1,
     );
-
-    console.log(data, error, loading);
 
     useEffect(() => {
         setEndretSykepengegrunnlag(null);
@@ -86,9 +55,10 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                     sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                     editing={editing}
                     setEditing={setEditing}
+                    maler={maler}
                 />
                 {!editing && skjønnsmessigFastsattÅrlig !== null && <SkjønnsfastsettingSammendrag />}
-                {editing && omregnetÅrsinntekt != null && sammenligningsgrunnlag != null && (
+                {editing && maler && omregnetÅrsinntekt != null && sammenligningsgrunnlag != null && (
                     <SkjønnsfastsettingForm
                         inntekter={inntekter}
                         omregnetÅrsinntekt={omregnetÅrsinntekt}
@@ -96,6 +66,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                         sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                         onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
                         setEditing={setEditing}
+                        maler={maler}
                     />
                 )}
             </div>
