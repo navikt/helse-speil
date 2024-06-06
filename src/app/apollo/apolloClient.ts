@@ -1,3 +1,5 @@
+import { RestLink } from 'apollo-link-rest';
+
 import possibletypes from '@/app/apollo/possibletypes';
 import { erLokal } from '@/env';
 import { ApolloClient, HttpLink, InMemoryCache, TypePolicies, from } from '@apollo/client';
@@ -47,9 +49,17 @@ const getTypePolicies = (): TypePolicies => {
     };
 };
 
+const restLink = new RestLink({
+    endpoints: {
+        sanity: 'https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production',
+        flexjar: '/api/flexjar',
+    },
+});
+
 export const createApolloClient = () =>
     new ApolloClient({
         link: from([
+            restLink,
             new RetryLink({
                 attempts: { max: 5 },
             }),
