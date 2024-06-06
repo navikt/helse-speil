@@ -155,4 +155,4 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
           RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml
-          VAR: 'image=${{ needs.build-dev.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}'
+          VAR: 'image=${{ needs.build-production.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}'
