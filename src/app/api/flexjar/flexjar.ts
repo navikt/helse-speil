@@ -42,7 +42,7 @@ const postFlexjarQuery = async (
     return responseData;
 };
 
-export const postOpprett = async (req: Request) => {
+export const postOpprett = async (req: Request): Promise<Response> => {
     const token = hentWonderwallToken(req);
     if (!token) {
         return new Response(null, { status: 401 });
@@ -53,11 +53,11 @@ export const postOpprett = async (req: Request) => {
         .catch((error) => logger.info(`Sending av feedback til flexjar feilet: ${error}`));
     logger.info(`Sending av feedback til flexjar, respons: ${JSON.stringify(response)}`);
 
-    if (response) Response.json(response, { status: 202 });
-    else new Response(null, { status: 500 });
+    if (response) return Response.json(response, { status: 202 });
+    else return new Response(null, { status: 500 });
 };
 
-export const postOppdater = async (id: string, req: Request) => {
+export const postOppdater = async (id: string, req: Request): Promise<Response> => {
     const token = hentWonderwallToken(req);
     if (!token) {
         return new Response(null, { status: 401 });
@@ -66,6 +66,6 @@ export const postOppdater = async (id: string, req: Request) => {
     const response = await postFlexjarQuery(token, await req.text(), 'PUT', id).catch((error) => {
         logger.info(`Oppdatering av feedback til flexjar feilet: ${error}`);
     });
-    if (response) Response.json({}, { status: 204 });
-    else new Response(null, { status: 500 });
+    if (response) return Response.json({}, { status: 204 });
+    else return new Response(null, { status: 500 });
 };
