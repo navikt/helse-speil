@@ -5,8 +5,6 @@ on:
     branches:
       - master
       - next/**
-      # TODO: Fjerne dette før vi merger inn
-      - wip-next
 
 env:
   APP: speil
@@ -142,7 +140,7 @@ jobs:
 
   deploy-prod:
     name: Deploy to prod
-    needs: [build-production, test-and-lint, deploy-dev]
+    needs: [build-production, test-and-lint]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     environment:

@@ -1,6 +1,7 @@
 import possibletypes from '@/app/apollo/possibletypes';
-import { ApolloClient, HttpLink, InMemoryCache, TypePolicies } from '@apollo/client';
 import { erLokal } from '@/env';
+import { ApolloClient, HttpLink, InMemoryCache, TypePolicies, from } from '@apollo/client';
+import { RetryLink } from '@apollo/client/link/retry';
 
 const getTypePolicies = (): TypePolicies => {
     return {
@@ -48,7 +49,12 @@ const getTypePolicies = (): TypePolicies => {
 
 export const createApolloClient = () =>
     new ApolloClient({
-        link: new HttpLink({ uri: erLokal ? '/api/spesialist': `/api/graphql` }),
+        link: from([
+            new RetryLink({
+                attempts: { max: 5 },
+            }),
+            new HttpLink({ uri: erLokal ? '/api/spesialist' : `/api/graphql` }),
+        ]),
         cache: new InMemoryCache({
             dataIdFromObject: () => undefined,
             possibleTypes: possibletypes.possibleTypes,
