@@ -34,7 +34,7 @@ export function useSkjønnsfastsettelsesMaler(avviksprosent: number, harFlereArb
                     @rest(
                         type: "SkjonnsfastsettelsesMalResult"
                         endpoint: "sanity"
-                        path: "/"
+                        path: ""
                         method: "POST"
                         bodyKey: "input"
                     ) {
