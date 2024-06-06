@@ -4,9 +4,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { BodyShort, Button, Textarea } from '@navikt/ds-react';
 
+import { FeedbackPayload } from '@/external/flexjar/types';
+import { useOppdaterFlexjarFeedback } from '@/external/flexjar/useOppdaterFlexjarFeedback';
+import { useOpprettFlexjarFeedback } from '@/external/flexjar/useOpprettFlexjarFeedback';
 import { Bold } from '@components/Bold';
-import { useOppdaterFlexjarFeedback } from '@hooks/useOppdaterFlexjarFeedback';
-import { useOpprettFlexjarFeedback } from '@hooks/useOpprettFlexjarFeedback';
 
 interface FlexjarFellesProps {
     feedbackId: string;
@@ -38,8 +39,8 @@ export function FlexjarFelles({
     const [textValue, setTextValue] = useState('');
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
     const textAreaRef = useRef(null);
-    const { mutate: giFeedback, data, reset } = useOpprettFlexjarFeedback();
-    const { mutate: oppdaterFeedback } = useOppdaterFlexjarFeedback();
+    const { mutate: giFeedback, data, error: opprettError, reset } = useOpprettFlexjarFeedback();
+    const { mutate: oppdaterFeedback, error: oppdaterError } = useOppdaterFlexjarFeedback();
 
     const fetchFeedback = useCallback(
         async (knappeklikk?: () => void): Promise<boolean> => {
@@ -47,17 +48,33 @@ export function FlexjarFelles({
                 return false;
             }
 
-            const body = {
+            const payload: FeedbackPayload = {
                 feedback: textValue,
                 feedbackId: feedbackId,
                 svar: activeState,
                 ...feedbackProps,
             };
+
             if (data?.id) {
-                oppdaterFeedback({ body, id: data.id, cb: knappeklikk });
+                oppdaterFeedback({
+                    variables: {
+                        id: data.id,
+                        payload,
+                    },
+                    onCompleted: knappeklikk,
+                });
                 return true;
             } else {
-                giFeedback(body);
+                giFeedback({
+                    variables: {
+                        payload: {
+                            feedback: textValue,
+                            feedbackId: feedbackId,
+                            svar: activeState,
+                            ...feedbackProps,
+                        },
+                    },
+                });
                 return false;
             }
         },
@@ -112,7 +129,13 @@ export function FlexjarFelles({
                         <form className={styles.form}>
                             <Textarea
                                 ref={textAreaRef}
-                                error={errorMsg}
+                                error={
+                                    errorMsg
+                                        ? errorMsg
+                                        : opprettError || oppdaterError
+                                          ? 'En ukjent feil oppstod, prøv igjen senere'
+                                          : undefined
+                                }
                                 label={getPlaceholder()}
                                 onKeyDown={async (e) => {
                                     if (e.key === 'Enter' && e.ctrlKey) {

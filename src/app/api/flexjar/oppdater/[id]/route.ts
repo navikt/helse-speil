@@ -1,7 +1,17 @@
 import { postOppdater } from '@/app/api/flexjar/flexjar';
+import { erLokal } from '@/env';
+import logger from '@/logger';
 
-export const dynamic = 'force-dynamic'; // defaults to auto
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request, { params }: { params: { id: string } }) {
-    const id = params.id; // 'a', 'b', or 'c'
-    return postOppdater(id, request);
+    if (erLokal) {
+        logger.info(`Mocker flexjar lokalt, mottok OPPDATERT feedback: ${JSON.stringify(request.json(), null, 2)}`);
+
+        return Response.json({
+            id: 'fake-lokal-flexjar-id',
+        });
+    }
+
+    return postOppdater(params.id, request);
 }

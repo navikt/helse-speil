@@ -37,7 +37,6 @@
         "@navikt/ds-icons": "^3.4.3",
         "@navikt/ds-react": "^6.8.0",
         "@navikt/oasis": "^3.3.0",
-        "@tanstack/react-query": "^5.40.0",
         "@types/uuid": "^9.0.8",
         "apollo-link-rest": "^0.9.0",
         "classnames": "^2.5.1",
