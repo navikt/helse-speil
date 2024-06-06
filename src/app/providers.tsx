@@ -24,7 +24,6 @@ import { ApolloProvider } from '@apollo/client';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useFetchPersonQuery } from '@state/person';
 import { useSetVarsler } from '@state/varsler';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -42,7 +41,6 @@ type Props = {
 
 export const Providers = ({ children, bruker }: PropsWithChildren<Props>): ReactElement => {
     const [apolloClient] = useState(() => createApolloClient());
-    const [queryClient] = useState(() => new QueryClient());
 
     const initializeState = useCallback(
         ({ set }: { set: SetRecoilState }) => {
@@ -52,7 +50,7 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
             hydrateAllFilters(set, bruker.grupper);
             hydrateSorteringForTab(set);
         },
-        [bruker.grupper],
+        [bruker.grupper, bruker.ident],
     );
 
     useLayoutEffect(() => {
@@ -65,9 +63,7 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
             <RecoilRoot initializeState={initializeState}>
                 <SyncAlerts>
                     <VenterPåEndringProvider>
-                        <BrukerContext.Provider value={bruker}>
-                            <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-                        </BrukerContext.Provider>
+                        <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
                     </VenterPåEndringProvider>
                 </SyncAlerts>
             </RecoilRoot>
