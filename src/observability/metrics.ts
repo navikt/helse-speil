@@ -1,26 +1,22 @@
 import { nextleton } from 'nextleton';
 import prometheus from 'prom-client';
 
-interface Counter {
-    inc: (id?: string) => void;
-}
-
 class Metrics {
     public authErrorCounter = new prometheus.Counter({
-        name: 'authError',
-        help: 'feil som oppstår ved autentisering',
+        name: 'speil_auth_error_total',
+        help: 'Errors occurring during authentication',
         labelNames: ['type'],
     });
 
     public oboCounter = new prometheus.Counter({
-        name: 'onBehalfOfVeksling',
-        help: 'antall ganger vi veksler ut token for å gjøre onBehalfOfKall',
-        labelNames: ['targetClientId'],
+        name: 'speil_on_behalf_of_exchange_total',
+        help: 'Number of times tokens are exchanged for on-behalf-of calls',
+        labelNames: ['target_client_id'],
     });
 
     public spesialistRequestHistogram = new prometheus.Histogram({
-        name: 'Requesttider',
-        help: 'Tid brukt på kall mot spesialist',
+        name: 'speil_spesialist_request_duration_seconds',
+        help: 'Time spent on calls to specialist',
         labelNames: ['route'],
     });
 }
