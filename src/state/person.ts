@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useApolloClient, useQuery } from '@apollo/client';
 import { useNavigation } from '@hooks/useNavigation';
 import { FetchPersonDocument } from '@io/graphql';
 
@@ -8,12 +8,13 @@ export const useCurrentPerson = (): FetchedPerson => {
 };
 
 const useFinnFødselsnummerForValgtPerson = (aktorId: string | undefined): string | undefined => {
-    const cacheRead = useQuery(FetchPersonDocument, {
-        fetchPolicy: 'cache-only',
+    const client = useApolloClient();
+    const cacheRead = client.readQuery({
+        query: FetchPersonDocument,
         variables: { aktorId: aktorId },
     });
 
-    return cacheRead.data?.person?.fodselsnummer;
+    return cacheRead?.person?.fodselsnummer;
 };
 
 export const useFetchPersonQuery = (force: boolean = false) => {

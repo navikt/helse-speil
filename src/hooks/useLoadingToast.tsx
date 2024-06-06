@@ -32,5 +32,5 @@ export const useLoadingToast = ({ isLoading, message }: UseIsLoadingToastOptions
             removeToast(toastKey.current);
         }
         return () => removeToast(toastKey.current);
-    }, [showToast]);
+    }, [addToast, message, removeToast, showToast]);
 };
