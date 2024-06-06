@@ -84,7 +84,7 @@ export async function byttTilOboToken(token: string, scope: string): Promise<Ret
         };
     }
 
-    metrics.oboCounter.inc({ targetClientId: scope }, 1);
+    metrics.oboCounter.inc({ target_client_id: scope }, 1);
     return requestAzureOboToken(token, scope);
 }
 
