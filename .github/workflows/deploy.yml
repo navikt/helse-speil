@@ -71,7 +71,7 @@ jobs:
         name: Last opp til CDN og bygg docker image
         id: cdn-n-image
         with:
-          app: ${{ env.APP }}-next
+          app: ${{ env.APP }}
           team: ${{ env.TEAM }}
           env: next
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
