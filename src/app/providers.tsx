@@ -15,6 +15,7 @@ import { RecoilRoot, SetRecoilState } from 'recoil';
 
 import { createApolloClient } from '@/app/apollo/apolloClient';
 import { Bruker, BrukerContext } from '@/auth/brukerContext';
+import { initInstrumentation } from '@/observability/faro';
 import { hydrateAllFilters } from '@/routes/oversikt/table/state/filter';
 import { hydrateSorteringForTab } from '@/routes/oversikt/table/state/sortation';
 import { VenterPåEndringProvider } from '@/routes/saksbilde/VenterPåEndringContext';
@@ -32,6 +33,8 @@ dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(customParseFormat);
 dayjs.locale('nb');
+
+initInstrumentation();
 
 type Props = {
     bruker: Bruker;
