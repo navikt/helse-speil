@@ -1,31 +1,30 @@
 import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
 import React, { useState } from 'react';
-import { useFormContext, useWatch } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
+import { useFormContext } from 'react-hook-form';
 
 import { BodyLong, BodyShort, Textarea } from '@navikt/ds-react';
 
+import { SkjønnsfastsettingMal } from '@/external/sanity';
 import { Button } from '@components/Button';
 import { Modal } from '@components/Modal';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { toKronerOgØre } from '@utils/locale';
 
 import { Skjønnsfastsettingstype } from '../skjønnsfastsetting';
-import { skjønnsfastsettingMaler } from '../state';
 import { ExpandableSkjønnsfastsettingBegrunnelseContent } from './ExpandableSkjønnsfastsettingBegrunnelse';
 
 interface SkjønnsfastsettingBegrunnelseProps {
     omregnetÅrsinntekt: number;
     sammenligningsgrunnlag: number;
+    valgtMal: SkjønnsfastsettingMal | undefined;
 }
 
 export const SkjønnsfastsettingBegrunnelse = ({
     omregnetÅrsinntekt,
     sammenligningsgrunnlag,
+    valgtMal,
 }: SkjønnsfastsettingBegrunnelseProps) => {
     const { formState, register, watch } = useFormContext();
-    const valgtÅrsak = useWatch({ name: 'årsak' });
-    const malFraSanity = useRecoilValue(skjønnsfastsettingMaler).find((it) => it.arsak === valgtÅrsak);
     const [showModal, setShowModal] = useState(false);
     const begrunnelseType = watch('type');
     const arbeidsgivere = watch('arbeidsgivere', []);
@@ -45,9 +44,9 @@ export const SkjønnsfastsettingBegrunnelse = ({
                         <span className={styles.Bold}>Begrunnelse</span> (teksten vises til bruker)
                     </BodyShort>
                     <ExpandableSkjønnsfastsettingBegrunnelseContent>
-                        {malFraSanity?.begrunnelse && (
+                        {valgtMal?.begrunnelse && (
                             <BodyLong className={styles.mal}>
-                                {malFraSanity.begrunnelse
+                                {valgtMal.begrunnelse
                                     .replace('${omregnetÅrsinntekt}', toKronerOgØre(omregnetÅrsinntekt))
                                     .replace('${omregnetMånedsinntekt}', toKronerOgØre(omregnetÅrsinntekt / 12))
                                     .replace('${sammenligningsgrunnlag}', toKronerOgØre(sammenligningsgrunnlag))}
@@ -76,12 +75,9 @@ export const SkjønnsfastsettingBegrunnelse = ({
                     }
                     resize
                 />
-                {malFraSanity?.konklusjon && (
+                {valgtMal?.konklusjon && (
                     <BodyLong className={styles.mal}>
-                        {malFraSanity.konklusjon.replace(
-                            '${skjønnsfastsattÅrsinntekt}',
-                            toKronerOgØre(skjønnsfastsatt),
-                        )}
+                        {valgtMal.konklusjon.replace('${skjønnsfastsattÅrsinntekt}', toKronerOgØre(skjønnsfastsatt))}
                     </BodyLong>
                 )}
             </div>

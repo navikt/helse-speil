@@ -1,4 +1,4 @@
-import { RecoilWrapper } from '@test-wrappers';
+import { ApolloWrapper } from '@test-wrappers';
 import fetchMock from 'jest-fetch-mock';
 import React from 'react';
 
@@ -62,7 +62,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
 
         render(
             <SykepengegrunnlagFraSpleis vilkårsgrunnlag={vilkårsgrunnlag} organisasjonsnummer={organisasjonsnummer} />,
-            { wrapper: RecoilWrapper },
+            { wrapper: ApolloWrapper },
         );
 
         expect(screen.getByText('Inntektsgrunnlag')).toBeVisible();
@@ -96,7 +96,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
 
         render(
             <SykepengegrunnlagFraSpleis vilkårsgrunnlag={vilkårsgrunnlag} organisasjonsnummer={organisasjonsnummer} />,
-            { wrapper: RecoilWrapper },
+            { wrapper: ApolloWrapper },
         );
 
         expect(screen.getByText('Inntektsgrunnlag')).toBeVisible();
@@ -107,12 +107,3 @@ describe('SykepengegrunnlagFraSpleis', () => {
         expect(screen.getAllByText(arbeidsgiver.navn)).toHaveLength(3);
     });
 });
-
-export function mockFetch(data: string) {
-    return jest.fn().mockImplementation(() =>
-        Promise.resolve({
-            ok: true,
-            json: () => data,
-        }),
-    );
-}
