@@ -1,4 +1,12 @@
-export const dynamic = 'force-dynamic'; // defaults to auto
-export async function GET(request: Request) {
-    return new Response('👍🏼');
+import { getServerEnv } from '@/env';
+
+export const dynamic = 'force-dynamic';
+
+export async function GET(): Promise<Response> {
+    try {
+        getServerEnv();
+        return new Response('👍🏼');
+    } catch (e) {
+        return new Response('Noe kødd med env, se loggene', { status: 500 });
+    }
 }
