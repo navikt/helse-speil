@@ -1,6 +1,7 @@
 import { browserEnv } from '@/env';
 import { Faro, getWebInstrumentations, initializeFaro } from '@grafana/faro-web-sdk';
-import { TracingInstrumentation } from '@grafana/faro-web-tracing';
+
+// import { TracingInstrumentation } from '@grafana/faro-web-tracing';
 
 let faro: Faro | null = null;
 export function initInstrumentation(): void {
@@ -20,7 +21,10 @@ export function getFaro(): Faro | null {
             // finne en kul måte å få en commit hash fra serveren?
             version: undefined,
         },
-        instrumentations: [...getWebInstrumentations(), new TracingInstrumentation()],
+        instrumentations: [
+            ...getWebInstrumentations(),
+            // new TracingInstrumentation()
+        ],
     });
     return faro;
 }
