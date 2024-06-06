@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { SkjønnsfastsettingMal } from '@/external/sanity';
 import { Bold } from '@components/Bold';
 import { EditButton } from '@components/EditButton';
 import { Endringstrekant } from '@components/Endringstrekant';
@@ -12,8 +13,6 @@ import { BeregnetPeriode, Kildetype, Sykepengegrunnlagsgrense } from '@io/graphq
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { somPenger, toKronerOgØre } from '@utils/locale';
-
-import { skjønnsfastsettingMaler } from './state';
 
 import styles from './SkjønnsfastsettingHeader.module.css';
 
@@ -24,6 +23,7 @@ interface SkjønnsfastsettingHeaderProps {
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     editing: boolean;
     setEditing: (state: boolean) => void;
+    maler: SkjønnsfastsettingMal[] | undefined;
 }
 
 export const SkjønnsfastsettingHeader = ({
@@ -33,15 +33,11 @@ export const SkjønnsfastsettingHeader = ({
     sykepengegrunnlagsgrense,
     editing,
     setEditing,
+    maler,
 }: SkjønnsfastsettingHeaderProps) => {
     const person = useCurrentPerson();
     const aktivPeriode = useActivePeriod();
-    const maler = useRecoilValue(skjønnsfastsettingMaler);
-    const [harMaler, setHarMaler] = useState(false);
-
-    useEffect(() => {
-        setHarMaler(maler.length > 0);
-    }, [maler]);
+    const harMaler = maler && maler.length > 0;
 
     if (!person || !aktivPeriode) return <></>;
 

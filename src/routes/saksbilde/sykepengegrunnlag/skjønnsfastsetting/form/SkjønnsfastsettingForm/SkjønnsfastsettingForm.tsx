@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 
 import { Button, Loader } from '@navikt/ds-react';
 
+import { SkjønnsfastsettingMal } from '@/external/sanity';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
@@ -17,7 +18,6 @@ import {
     Skjønnsfastsettingstype,
     usePostSkjønnsfastsattSykepengegrunnlag,
 } from '../../skjønnsfastsetting';
-import { skjønnsfastsettingMaler } from '../../state';
 import { SkjønnsfastsettingBegrunnelse } from '../SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '../SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from '../SkjønnsfastsettingÅrsak';
@@ -41,6 +41,7 @@ interface SkjønnsfastsettingFormProps {
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     onEndretSykepengegrunnlag: (endretSykepengegrunnlag: Maybe<number>) => void;
     setEditing: (state: boolean) => void;
+    maler: SkjønnsfastsettingMal[];
 }
 
 export const SkjønnsfastsettingForm = ({
@@ -50,12 +51,12 @@ export const SkjønnsfastsettingForm = ({
     sykepengegrunnlagsgrense,
     onEndretSykepengegrunnlag,
     setEditing,
+    maler,
 }: SkjønnsfastsettingFormProps) => {
     const period = useActivePeriod();
     const person = useCurrentPerson();
     const { aktiveArbeidsgivere, aktiveArbeidsgivereInntekter, defaults } = useSkjønnsfastsettingDefaults(inntekter);
     const erReadonly = useIsReadOnlyOppgave();
-    const maler = useRecoilValue(skjønnsfastsettingMaler);
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const avrundetSammenligningsgrunnlag = Math.round((sammenligningsgrunnlag + Number.EPSILON) * 100) / 100;
     const cancelEditing = () => {
@@ -134,7 +135,7 @@ export const SkjønnsfastsettingForm = ({
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <div className={styles.skjønnsfastsetting}>
-                    <SkjønnsfastsettingÅrsak />
+                    <SkjønnsfastsettingÅrsak maler={maler} />
                     {harValgt25Avvik && <SkjønnsfastsettingType />}
                     {((harValgt25Avvik && valgtType) || (valgtÅrsak !== '' && !harValgt25Avvik)) && (
                         <>
@@ -146,6 +147,7 @@ export const SkjønnsfastsettingForm = ({
                             <SkjønnsfastsettingBegrunnelse
                                 omregnetÅrsinntekt={omregnetÅrsinntekt}
                                 sammenligningsgrunnlag={avrundetSammenligningsgrunnlag}
+                                valgtMal={valgtMal}
                             />
                             {visFeilOppsummering && (
                                 <Feiloppsummering
