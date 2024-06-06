@@ -39,6 +39,7 @@
         "@navikt/oasis": "^3.3.0",
         "@tanstack/react-query": "^5.40.0",
         "@types/uuid": "^9.0.8",
+        "apollo-link-rest": "^0.9.0",
         "classnames": "^2.5.1",
         "dayjs": "^1.11.11",
         "framer-motion": "^11.2.10",

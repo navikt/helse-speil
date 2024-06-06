@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { erProd } from '@/env';
+import { gql, useQuery } from '@apollo/client';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 
 import { SykepengegrunnlagsgrenseView } from '../InntektsgrunnlagTable/SykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
@@ -39,25 +40,37 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(inntekter);
     const arbeidsforholdMal = (aktiveArbeidsgivere?.length ?? 0) > 1 ? 'FLERE_ARBEIDSGIVERE' : 'EN_ARBEIDSGIVER';
 
-    useEffect(() => {
-        const response = fetch('https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production', {
-            method: 'post',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify({ query: `*[_type == "skjonnsfastsettelseMal"]` }),
-        });
-        response
-            .then((response) => response.json())
-            .then((it) => {
-                setMaler(
-                    it.result
-                        .filter((it: SkjønnsfastsettingMal) =>
+    const { data, error, loading } = useQuery(
+        gql`
+            query SanityStuff($input: QueryPayload!) {
+                sanity(input: $input)
+                    @rest(type: "SanityFoo", endpoint: "sanity", path: "/", method: "POST", bodyKey: "input") {
+                    result
+                    query
+                }
+            }
+        `,
+        {
+            variables: {
+                input: { query: `*[_type == "skjonnsfastsettelseMal"]` },
+            },
+            onCompleted: (result) => {
+                console.log('SETTING MALER');
+                const mals =
+                    result?.sanity?.result
+                        ?.filter((it: SkjønnsfastsettingMal) =>
                             avviksprosent <= 25 ? it.lovhjemmel.ledd !== '2' : true,
                         )
-                        .filter((it: SkjønnsfastsettingMal) => it.arbeidsforholdMal.includes(arbeidsforholdMal))
-                        .filter((it: SkjønnsfastsettingMal) => (erProd ? it.iProd : true)),
-                );
-            });
-    }, []);
+                        ?.filter((it: SkjønnsfastsettingMal) => it.arbeidsforholdMal.includes(arbeidsforholdMal))
+                        ?.filter((it: SkjønnsfastsettingMal) => (erProd ? it.iProd : true)) ?? [];
+
+                console.log(mals);
+                setMaler(mals);
+            },
+        },
+    );
+
+    console.log(data, error, loading);
 
     useEffect(() => {
         setEndretSykepengegrunnlag(null);
