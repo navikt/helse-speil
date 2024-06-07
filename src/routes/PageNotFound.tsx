@@ -1,3 +1,5 @@
+'use client';
+
 import nissemyra from '../assets/nissemyra.svg';
 import React, { useEffect } from 'react';
 
