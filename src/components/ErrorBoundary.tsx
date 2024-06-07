@@ -1,5 +1,7 @@
 import React, { ReactNode, createRef } from 'react';
 
+import { getFaro } from '@/observability/faro';
+
 interface ErrorBoundaryState {
     hasError: boolean;
     error?: Error;
@@ -24,6 +26,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     }
 
     componentDidCatch(error: Error) {
+        getFaro()?.api.pushError(error);
         this.props.onError?.(error);
     }
 

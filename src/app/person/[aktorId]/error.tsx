@@ -1,11 +1,18 @@
 'use client';
 
 import styles from './periodeview.module.scss';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
+import { getFaro } from '@/observability/faro';
+
 function Error({ error }: { error: Error & { digest?: string } }) {
+    useEffect(() => {
+        console.error(error);
+        getFaro()?.api.pushError(error);
+    }, [error]);
+
     return (
         <Alert variant="error" size="small" className={styles.error}>
             {error.message}

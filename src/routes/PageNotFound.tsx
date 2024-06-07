@@ -1,11 +1,17 @@
 import nissemyra from '../assets/nissemyra.svg';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { BodyShort, Heading, Link } from '@navikt/ds-react';
+
+import { getFaro } from '@/observability/faro';
 
 import styles from './PageNotFound.module.css';
 
 export const PageNotFound = () => {
+    useEffect(() => {
+        getFaro()?.api.pushError(new Error('404 - Page not found (vår egen)'));
+    }, []);
+
     return (
         <main className={styles.PageNotFound}>
             <section>
