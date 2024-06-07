@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
 
 import { useSkjønnsfastsettelsesMaler } from '@/external/sanity';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
