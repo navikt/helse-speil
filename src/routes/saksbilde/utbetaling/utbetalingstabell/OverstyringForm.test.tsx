@@ -55,7 +55,7 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
-        await userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getByRole('button', { name: /Ferdig/i }));
 
         expect(await screen.findAllByText('Begrunnelse må fylles ut')).toHaveLength(2);
     });
@@ -77,7 +77,7 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
-        await userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getByRole('button', { name: /Ferdig/i }));
 
         expect(await screen.findByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
     });
@@ -99,7 +99,7 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
-        await userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getByRole('button', { name: /Ferdig/i }));
 
         expect(await screen.findByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
     });
@@ -121,7 +121,7 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
-        await userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getByRole('button', { name: /Ferdig/i }));
 
         expect(await screen.findByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
     });
@@ -146,7 +146,7 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
-        await userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getByRole('button', { name: /Ferdig/i }));
 
         expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
     });
@@ -171,7 +171,7 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
-        await userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getByRole('button', { name: /Ferdig/i }));
 
         expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
     });
@@ -196,7 +196,7 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
-        await userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getByRole('button', { name: /Ferdig/i }));
 
         expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
     });
@@ -218,7 +218,7 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
-        await userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getByRole('button', { name: /Ferdig/i }));
 
         expect(await screen.findByText(egenmeldingvalideringstekst)).toBeInTheDocument();
     });
