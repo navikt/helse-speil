@@ -16,7 +16,7 @@
         "lint": "next lint",
         "test": "jest",
         "generate-graphql": "graphql-codegen --config graphql-codegen.yml",
-        "prepare": "husky install",
+        "prepare": "husky",
         "lint-staged": "lint-staged"
     },
     "lint-staged": {
