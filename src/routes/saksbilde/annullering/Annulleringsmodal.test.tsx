@@ -1,25 +1,10 @@
-import { RecoilWrapper } from '@test-wrappers';
-import dayjs from 'dayjs';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import { createMock, render, screen, waitFor, within } from '@test-utils';
 import React from 'react';
 
-import { MockedProvider } from '@apollo/client/testing';
 import { AnnullerDocument, OpprettAbonnementDocument } from '@io/graphql';
-import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Annulleringsmodal } from './Annulleringsmodal';
-
-dayjs.extend(isSameOrAfter);
-
-let annulleringMutationKalt = false;
-
-jest.mock('../../../io/http', () => ({
-    postAbonnerPåAktør: () => {
-        return Promise.resolve();
-    },
-}));
 
 const defaultProps = {
     fødselsnummer: '12345678910',
@@ -32,8 +17,8 @@ const defaultProps = {
     onClose: () => null,
 };
 
-const mocks = [
-    {
+const createMocks = (annulerDone?: jest.Mock) => [
+    createMock({
         request: {
             query: AnnullerDocument,
             variables: {
@@ -49,15 +34,15 @@ const mocks = [
             },
         },
         result: () => {
-            annulleringMutationKalt = true;
+            annulerDone?.();
             return {
                 data: {
                     annuller: true,
                 },
             };
         },
-    },
-    {
+    }),
+    createMock({
         request: {
             query: OpprettAbonnementDocument,
             variables: {
@@ -66,52 +51,47 @@ const mocks = [
         },
         result: {
             data: {
+                __typename: 'Mutation',
                 opprettAbonnement: true,
             },
         },
-    },
+    }),
 ];
 
 describe('Annulleringsmodal', () => {
     test('viser feilmelding ved manglende begrunnelse', async () => {
-        render(
-            <MockedProvider mocks={mocks} addTypename={false}>
-                <RecoilWrapper>
-                    <Annulleringsmodal {...defaultProps} />
-                </RecoilWrapper>
-            </MockedProvider>,
-        );
-        await userEvent.click(screen.getByText('Annuller'));
-        await waitFor(() => {
-            expect(screen.getByText('Velg minst én begrunnelse')).toBeInTheDocument();
+        render(<Annulleringsmodal {...defaultProps} />, {
+            mocks: createMocks(),
         });
-    });
-    test('viser feilmelding ved manglende kommentar', async () => {
-        render(
-            <MockedProvider mocks={mocks} addTypename={false}>
-                <RecoilWrapper>
-                    <Annulleringsmodal {...defaultProps} />
-                </RecoilWrapper>
-            </MockedProvider>,
-        );
-        await userEvent.click(screen.getByText('Annet'));
-        await userEvent.click(screen.getByText('Annuller'));
-        await waitFor(() => {
-            expect(screen.getByText('Skriv en kommentar hvis du velger begrunnelsen "annet"')).toBeInTheDocument();
-        });
-    });
-    test('gjør annulleringsmutation på annuller', async () => {
-        render(
-            <MockedProvider mocks={mocks} addTypename={false}>
-                <RecoilWrapper>
-                    <Annulleringsmodal {...defaultProps} />
-                </RecoilWrapper>
-            </MockedProvider>,
-        );
-        await userEvent.click(screen.getByText('Ferie'));
-        const annulleringsknapp = screen.getByText('Annuller');
-        await userEvent.click(annulleringsknapp);
 
-        await waitFor(() => expect(annulleringMutationKalt).toBeTruthy());
+        await userEvent.click(screen.getByText('Annuller'));
+
+        expect(await screen.findByText('Velg minst én begrunnelse')).toBeInTheDocument();
+    });
+
+    test('viser feilmelding ved manglende kommentar', async () => {
+        render(<Annulleringsmodal {...defaultProps} />, { mocks: createMocks() });
+
+        const kanIkkeRevurderesSection = within(
+            screen.getByRole('group', {
+                name: /hvorfor kunne ikke vedtaket revurderes\?/i,
+            }),
+        );
+        await userEvent.click(kanIkkeRevurderesSection.getByRole('checkbox', { name: 'Annet' }));
+
+        await userEvent.click(screen.getByRole('button', { name: 'Annuller' }));
+
+        expect(screen.getByText('Skriv en kommentar hvis du velger begrunnelsen "annet"')).toBeInTheDocument();
+    });
+
+    test('gjør annulleringsmutation på annuller', async () => {
+        const annulleringMutationDone = jest.fn();
+
+        render(<Annulleringsmodal {...defaultProps} />, { mocks: createMocks(annulleringMutationDone) });
+
+        await userEvent.click(screen.getByRole('checkbox', { name: 'Ferie' }));
+        await userEvent.click(screen.getByRole('button', { name: 'Annuller' }));
+
+        await waitFor(() => expect(annulleringMutationDone).toHaveBeenCalled());
     });
 });

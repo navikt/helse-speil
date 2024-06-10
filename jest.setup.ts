@@ -1,7 +1,14 @@
+import dayjs from 'dayjs';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import * as mockRouter from 'next-router-mock';
+import ReactModal from 'react-modal';
+
+dayjs.extend(isSameOrAfter);
 
 require('jest-axe/extend-expect');
 require('@testing-library/jest-dom');
+
+ReactModal.setAppElement(document.createElement('div'));
 
 const useRouter = mockRouter.useRouter;
 
