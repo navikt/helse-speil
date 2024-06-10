@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React, { memo, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -151,8 +151,6 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = ({
     );
 };
 
-const TimelineWithContentMemoized = memo(TimelineWithContent);
-
 const TimelineContainer: React.FC = () => {
     const activePeriod = useActivePeriod();
     const { loading, data } = useFetchPersonQuery();
@@ -169,7 +167,7 @@ const TimelineContainer: React.FC = () => {
     const infotrygdutbetalinger = data.person.infotrygdutbetalinger;
 
     return (
-        <TimelineWithContentMemoized
+        <TimelineWithContent
             arbeidsgivere={arbeidsgivere}
             infotrygdutbetalinger={infotrygdutbetalinger ?? []}
             activePeriod={activePeriod}

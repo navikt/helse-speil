@@ -9,6 +9,26 @@ const getTypePolicies = (): TypePolicies => {
     return {
         Query: {
             fields: {
+                person: {
+                    read: (existing, { args, toReference, readField }) => {
+                        if (args?.fnr) {
+                            return toReference({
+                                __typename: 'Person',
+                                fodselsnummer: args.fnr,
+                            });
+                        }
+
+                        if (args?.aktorId) {
+                            const fnr = readField<string>('fodselsnummer', existing);
+                            if (!fnr) return;
+
+                            return toReference({
+                                __typename: 'Person',
+                                fodselsnummer: fnr,
+                            });
+                        }
+                    },
+                },
                 oppgaveFeed: {
                     keyArgs: ['filtrering', 'sortering'],
                     merge(_, incoming) {

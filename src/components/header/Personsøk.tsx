@@ -19,16 +19,6 @@ export const Personsøk: React.FC = () => {
     const rapporterError = useRapporterGraphQLErrors();
     const client = useApolloClient();
     const [hentPerson, { loading }] = useLazyQuery(FetchPersonDocument, {
-        onCompleted: (data) => {
-            client.writeQuery({
-                query: FetchPersonDocument,
-                variables: { aktorId: data.person?.aktorId },
-                data: {
-                    __typename: 'Query',
-                    person: data.person,
-                },
-            });
-        },
         onError: (error) => {
             rapporterError(error.graphQLErrors);
         },

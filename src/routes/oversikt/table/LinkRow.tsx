@@ -3,10 +3,6 @@ import React, { useRef } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { useLazyQuery } from '@apollo/client';
-import { useLoadingToast } from '@hooks/useLoadingToast';
-import { FetchPersonDocument } from '@io/graphql';
-
 import styles from './LinkRow.module.css';
 
 const shouldOpenInNewTab = (event: React.SyntheticEvent): boolean => {
@@ -24,23 +20,14 @@ interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
 export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
     const ref = useRef<HTMLTableRowElement | null>(null);
     const router = useRouter();
-    const [hentPerson, { loading }] = useLazyQuery(FetchPersonDocument);
-
-    useLoadingToast({ isLoading: loading, message: 'Henter person' });
 
     const navigate = (event: React.SyntheticEvent) => {
-        if (loading) {
-            return;
+        const destinationUrl = `/person/${aktørId}/dagoversikt`;
+        if (shouldOpenInNewTab(event)) {
+            window.open(destinationUrl, '_blank');
+        } else {
+            router.push(destinationUrl);
         }
-
-        hentPerson({ variables: { aktorId: aktørId } }).then(() => {
-            const destinationUrl = `/person/${aktørId}/dagoversikt`;
-            if (shouldOpenInNewTab(event)) {
-                window.open(destinationUrl, '_blank');
-            } else {
-                router.push(destinationUrl);
-            }
-        });
     };
 
     const onKeyDown = (event: React.KeyboardEvent) => {

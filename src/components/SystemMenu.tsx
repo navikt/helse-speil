@@ -1,9 +1,10 @@
-import React from 'react';
+import { useParams } from 'next/navigation';
+import React, { ReactElement } from 'react';
 
 import { ExternalLink, System } from '@navikt/ds-icons';
 import { Dropdown, InternalHeader as Header } from '@navikt/ds-react';
 
-import { useCurrentPerson } from '@state/person';
+import { useFetchPersonQuery } from '@state/person';
 
 import styles from './SystemMenu.module.css';
 
@@ -64,87 +65,87 @@ type CommonLinkProps = { tekst: string; snarveibokstav: string };
 type ButtonLink = CommonLinkProps & { action: () => void };
 type HrefLink = CommonLinkProps & { href: string };
 
-export const SystemMenuContent = () => {
-    const person = useCurrentPerson();
+const Link: React.FC<HrefLink> = ({ tekst, href, snarveibokstav }) => (
+    <Dropdown.Menu.GroupedList.Item key={tekst} as="a" href={href} target="_blank" className={styles.ExternalLink}>
+        <Lenkeinnhold tekst={tekst} snarveibokstav={snarveibokstav} />
+    </Dropdown.Menu.GroupedList.Item>
+);
 
-    const alleLinks: Array<HrefLink | ButtonLink> = [
-        {
-            tekst: 'A-inntekt',
-            action: () =>
-                redirigerTilArbeidOgInntektUrl(
-                    'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/a-inntekt',
-                    person?.fodselsnummer,
-                ),
-            snarveibokstav: 'E',
-        },
-        {
-            tekst: 'Aa-registeret',
-            action: () =>
-                redirigerTilArbeidOgInntektUrl(
-                    'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/arbeidstaker',
-                    person?.fodselsnummer,
-                ),
-            snarveibokstav: 'A',
-        },
-        {
-            tekst: 'Gosys',
-            href: person
-                ? `https://gosys.intern.nav.no/gosys/personoversikt/fnr=${person.fodselsnummer}`
-                : 'https://gosys.intern.nav.no/gosys/',
-            snarveibokstav: 'G',
-        },
-        {
-            tekst: 'Modia Sykefraværsoppfølging',
-            action: () => hoppTilModia(`https://syfomodiaperson.intern.nav.no/sykefravaer/`, person?.fodselsnummer),
-            snarveibokstav: 'S',
-        },
-        {
-            tekst: 'Modia Personoversikt',
-            href: person
-                ? `https://app.adeo.no/modiapersonoversikt/person/${person.fodselsnummer}`
-                : 'https://app.adeo.no/modiapersonoversikt',
-            snarveibokstav: 'M',
-        },
-        {
-            tekst: 'Oppdrag',
-            href: 'https://wasapp.adeo.no/oppdrag/venteregister/details.htm',
-            snarveibokstav: 'O',
-        },
-        {
-            tekst: 'Folketrygdloven kapittel 8',
-            href: 'https://lovdata.no/nav/folketrygdloven/kap8',
-            snarveibokstav: 'L',
-        },
-        { tekst: 'Brønnøysundregisteret', href: 'https://brreg.no', snarveibokstav: 'B' },
-        {
-            tekst: 'Rutiner for sykepenger',
-            href: 'https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-sykefravarsoppfolging-og-sykepenger/SitePages/Samhandlings--og-samordningsrutiner.aspx',
-            snarveibokstav: 'R',
-        },
-    ];
+const Button: React.FC<ButtonLink> = ({ tekst, action, snarveibokstav }) => (
+    <Dropdown.Menu.GroupedList.Item key={tekst} as="button" className={styles.ExternalLink} onClick={action}>
+        <Lenkeinnhold tekst={tekst} snarveibokstav={snarveibokstav} />
+    </Dropdown.Menu.GroupedList.Item>
+);
 
-    const Link: React.FC<HrefLink> = ({ tekst, href, snarveibokstav }) => (
-        <Dropdown.Menu.GroupedList.Item key={tekst} as="a" href={href} target="_blank" className={styles.ExternalLink}>
-            <Lenkeinnhold tekst={tekst} snarveibokstav={snarveibokstav} />
-        </Dropdown.Menu.GroupedList.Item>
-    );
+const Lenkeinnhold: React.FC<{ tekst: string; snarveibokstav: string }> = ({ tekst, snarveibokstav }) => (
+    <>
+        {tekst}
+        <ExternalLink />
+        <span className={styles.snarvei}>
+            <span className={styles.tast}>⇧</span>
+            <span className={styles.tast}>{snarveibokstav}</span>
+        </span>
+    </>
+);
 
-    const Button: React.FC<ButtonLink> = ({ tekst, action, snarveibokstav }) => (
-        <Dropdown.Menu.GroupedList.Item key={tekst} as="button" className={styles.ExternalLink} onClick={action}>
-            <Lenkeinnhold tekst={tekst} snarveibokstav={snarveibokstav} />
-        </Dropdown.Menu.GroupedList.Item>
-    );
+const createLinks = (maybeFnr: string | null): Array<HrefLink | ButtonLink> => [
+    {
+        tekst: 'A-inntekt',
+        action: () =>
+            redirigerTilArbeidOgInntektUrl(
+                'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/a-inntekt',
+                maybeFnr,
+            ),
+        snarveibokstav: 'E',
+    },
+    {
+        tekst: 'Aa-registeret',
+        action: () =>
+            redirigerTilArbeidOgInntektUrl(
+                'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/arbeidstaker',
+                maybeFnr,
+            ),
+        snarveibokstav: 'A',
+    },
+    {
+        tekst: 'Gosys',
+        href: maybeFnr
+            ? `https://gosys.intern.nav.no/gosys/personoversikt/fnr=${maybeFnr}`
+            : 'https://gosys.intern.nav.no/gosys/',
+        snarveibokstav: 'G',
+    },
+    {
+        tekst: 'Modia Sykefraværsoppfølging',
+        action: () => hoppTilModia(`https://syfomodiaperson.intern.nav.no/sykefravaer/`, maybeFnr),
+        snarveibokstav: 'S',
+    },
+    {
+        tekst: 'Modia Personoversikt',
+        href: maybeFnr
+            ? `https://app.adeo.no/modiapersonoversikt/person/${maybeFnr}`
+            : 'https://app.adeo.no/modiapersonoversikt',
+        snarveibokstav: 'M',
+    },
+    {
+        tekst: 'Oppdrag',
+        href: 'https://wasapp.adeo.no/oppdrag/venteregister/details.htm',
+        snarveibokstav: 'O',
+    },
+    {
+        tekst: 'Folketrygdloven kapittel 8',
+        href: 'https://lovdata.no/nav/folketrygdloven/kap8',
+        snarveibokstav: 'L',
+    },
+    { tekst: 'Brønnøysundregisteret', href: 'https://brreg.no', snarveibokstav: 'B' },
+    {
+        tekst: 'Rutiner for sykepenger',
+        href: 'https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-sykefravarsoppfolging-og-sykepenger/SitePages/Samhandlings--og-samordningsrutiner.aspx',
+        snarveibokstav: 'R',
+    },
+];
 
-    const Lenkeinnhold: React.FC<{ tekst: string; snarveibokstav: string }> = ({ tekst, snarveibokstav }) => (
-        <>
-            {tekst}
-            <ExternalLink />
-            <span className={styles.snarvei}>
-                <span className={styles.tast}>⇧</span>
-                <span className={styles.tast}>{snarveibokstav}</span>
-            </span>
-        </>
-    );
+export const SystemMenu = () => {
+    const params = useParams<{ aktorId?: string }>();
 
     return (
         <Dropdown>
@@ -154,29 +155,32 @@ export const SystemMenuContent = () => {
             <Dropdown.Menu className={styles.DropdownContent}>
                 <Dropdown.Menu.GroupedList>
                     <Dropdown.Menu.GroupedList.Heading>Systemer og oppslagsverk</Dropdown.Menu.GroupedList.Heading>
-                    {alleLinks.map((link) =>
-                        'href' in link ? (
-                            <Link
-                                key={link.tekst}
-                                tekst={link.tekst}
-                                href={link.href}
-                                snarveibokstav={link.snarveibokstav}
-                            />
-                        ) : (
-                            <Button
-                                key={link.tekst}
-                                tekst={link.tekst}
-                                action={link.action}
-                                snarveibokstav={link.snarveibokstav}
-                            />
-                        ),
-                    )}
+                    {params.aktorId ? <SystemMenuForUser /> : <SystemMenuNoUser />}
                 </Dropdown.Menu.GroupedList>
             </Dropdown.Menu>
         </Dropdown>
     );
 };
 
-export const SystemMenu: React.FC = () => {
-    return <SystemMenuContent />;
-};
+function SystemMenuForUser() {
+    const { data } = useFetchPersonQuery();
+    const maybeFnr: string | null = data?.person?.fodselsnummer ?? null;
+
+    return createLinks(maybeFnr).map((link) =>
+        'href' in link ? (
+            <Link key={link.tekst} tekst={link.tekst} href={link.href} snarveibokstav={link.snarveibokstav} />
+        ) : (
+            <Button key={link.tekst} tekst={link.tekst} action={link.action} snarveibokstav={link.snarveibokstav} />
+        ),
+    );
+}
+
+function SystemMenuNoUser() {
+    return createLinks(null).map((link) =>
+        'href' in link ? (
+            <Link key={link.tekst} tekst={link.tekst} href={link.href} snarveibokstav={link.snarveibokstav} />
+        ) : (
+            <Button key={link.tekst} tekst={link.tekst} action={link.action} snarveibokstav={link.snarveibokstav} />
+        ),
+    );
+}

@@ -1,6 +1,6 @@
 import { useParams } from 'next/navigation';
 
-import { useApolloClient, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { FetchPersonDocument } from '@io/graphql';
 
 export const useCurrentPerson = (): FetchedPerson => {
@@ -9,7 +9,6 @@ export const useCurrentPerson = (): FetchedPerson => {
 };
 
 export const useFetchPersonQuery = () => {
-    const client = useApolloClient();
     const { aktorId } = useParams<{ aktorId?: string }>();
 
     return useQuery(FetchPersonDocument, {
@@ -18,14 +17,5 @@ export const useFetchPersonQuery = () => {
             aktorId: aktorId,
         },
         skip: !aktorId,
-        onCompleted: (data) => {
-            const fnr = data.person?.fodselsnummer;
-
-            client.writeQuery({
-                query: FetchPersonDocument,
-                variables: { fnr },
-                data,
-            });
-        },
     });
 };

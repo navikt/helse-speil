@@ -13,11 +13,6 @@ interface GlobalFeilsideProps {
 export const GlobalFeilside: React.FC<GlobalFeilsideProps> = ({ error }) => {
     return (
         <>
-            <Header>
-                <Header.Title as="h1" className={styles.Title}>
-                    NAV Sykepenger
-                </Header.Title>
-            </Header>
             <Alert size="small" variant="error" className={styles.Alert}>
                 Det har skjedd en feil. Siden kan dessverre ikke vises
             </Alert>
