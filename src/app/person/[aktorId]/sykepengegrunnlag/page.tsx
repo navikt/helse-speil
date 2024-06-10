@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import PeriodeView from '@/app/person/[aktorId]/periodeview';
+import PeriodeView from '@/routes/saksbilde/periodeview/PeriodeView';
 
 function Page(): ReactElement | null {
     return <PeriodeView />;
