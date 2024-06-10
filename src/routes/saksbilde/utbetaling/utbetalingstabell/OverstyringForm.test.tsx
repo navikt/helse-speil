@@ -1,8 +1,8 @@
+import { render, screen } from '@test-utils';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { OverstyringForm } from './OverstyringForm';
@@ -26,42 +26,38 @@ const egenmeldingvalideringstekst =
 describe('OverstyringForm', () => {
     it('disabler submit-knappen om det ikke er noen overstyrte dager', () => {
         render(
-            <OverstyringForm
-                overstyrteDager={new Map()}
-                hale=""
-                snute=""
-                toggleOverstyring={() => null}
-                onSubmit={() => null}
-            />,
-            {
-                wrapper: FormWrapper,
-            },
+            <FormWrapper>
+                <OverstyringForm
+                    overstyrteDager={new Map()}
+                    hale=""
+                    snute=""
+                    toggleOverstyring={() => null}
+                    onSubmit={() => null}
+                />
+            </FormWrapper>,
         );
 
-        expect(screen.getAllByRole('button')[0]).toBeDisabled();
+        expect(screen.getByRole('button', { name: /Ferdig/i })).toBeDisabled();
     });
 
     it('viser feilmelding om begrunnelse ikke er fylt ut før innsending', async () => {
         const overstyrteDager = new Map([['2020-01-01', { dag: Sykedag, dato: '2020-01-01' } as Utbetalingstabelldag]]);
         render(
-            <OverstyringForm
-                overstyrteDager={overstyrteDager}
-                hale=""
-                snute=""
-                toggleOverstyring={() => null}
-                onSubmit={() => null}
-            />,
-            {
-                wrapper: FormWrapper,
-            },
+            <FormWrapper>
+                <OverstyringForm
+                    overstyrteDager={overstyrteDager}
+                    hale=""
+                    snute=""
+                    toggleOverstyring={() => null}
+                    onSubmit={() => null}
+                />
+            </FormWrapper>,
         );
 
-        expect(screen.getAllByRole('button')[0]).toBeEnabled();
+        expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
         await userEvent.click(screen.getAllByRole('button')[0]);
 
-        await waitFor(() => {
-            expect(screen.getAllByText('Begrunnelse må fylles ut')).toHaveLength(2);
-        });
+        expect(await screen.findAllByText('Begrunnelse må fylles ut')).toHaveLength(2);
     });
 
     it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType Syk', async () => {
@@ -69,24 +65,21 @@ describe('OverstyringForm', () => {
             ['2020-01-02', { dag: Arbeidsdag, fraType: 'Syk', dato: '2020-01-02' } as Utbetalingstabelldag],
         ]);
         render(
-            <OverstyringForm
-                overstyrteDager={overstyrteDager}
-                hale=""
-                snute=""
-                toggleOverstyring={() => null}
-                onSubmit={() => null}
-            />,
-            {
-                wrapper: FormWrapper,
-            },
+            <FormWrapper>
+                <OverstyringForm
+                    overstyrteDager={overstyrteDager}
+                    hale=""
+                    snute=""
+                    toggleOverstyring={() => null}
+                    onSubmit={() => null}
+                />
+            </FormWrapper>,
         );
 
-        expect(screen.getAllByRole('button')[0]).toBeEnabled();
+        expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
         await userEvent.click(screen.getAllByRole('button')[0]);
 
-        await waitFor(() => {
-            expect(screen.getByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
-        });
+        expect(await screen.findByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
     });
 
     it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType SykHelg', async () => {
@@ -94,24 +87,21 @@ describe('OverstyringForm', () => {
             ['2020-01-02', { dag: Arbeidsdag, fraType: 'SykHelg', dato: '2020-01-02' } as Utbetalingstabelldag],
         ]);
         render(
-            <OverstyringForm
-                overstyrteDager={overstyrteDager}
-                hale=""
-                snute=""
-                toggleOverstyring={() => null}
-                onSubmit={() => null}
-            />,
-            {
-                wrapper: FormWrapper,
-            },
+            <FormWrapper>
+                <OverstyringForm
+                    overstyrteDager={overstyrteDager}
+                    hale=""
+                    snute=""
+                    toggleOverstyring={() => null}
+                    onSubmit={() => null}
+                />
+            </FormWrapper>,
         );
 
-        expect(screen.getAllByRole('button')[0]).toBeEnabled();
+        expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
         await userEvent.click(screen.getAllByRole('button')[0]);
 
-        await waitFor(() => {
-            expect(screen.getByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
-        });
+        expect(await screen.findByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
     });
 
     it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType Ferie', async () => {
@@ -119,24 +109,21 @@ describe('OverstyringForm', () => {
             ['2020-01-02', { dag: Arbeidsdag, fraType: 'Ferie', dato: '2020-01-02' } as Utbetalingstabelldag],
         ]);
         render(
-            <OverstyringForm
-                overstyrteDager={overstyrteDager}
-                hale=""
-                snute=""
-                toggleOverstyring={() => null}
-                onSubmit={() => null}
-            />,
-            {
-                wrapper: FormWrapper,
-            },
+            <FormWrapper>
+                <OverstyringForm
+                    overstyrteDager={overstyrteDager}
+                    hale=""
+                    snute=""
+                    toggleOverstyring={() => null}
+                    onSubmit={() => null}
+                />
+            </FormWrapper>,
         );
 
-        expect(screen.getAllByRole('button')[0]).toBeEnabled();
+        expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
         await userEvent.click(screen.getAllByRole('button')[0]);
 
-        await waitFor(() => {
-            expect(screen.getByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
-        });
+        expect(await screen.findByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
     });
 
     it('viser ikke feilmelding dersom overstyring til arbeidsdag er ny dag, selv om fraType er Syk', async () => {
@@ -147,24 +134,21 @@ describe('OverstyringForm', () => {
             ],
         ]);
         render(
-            <OverstyringForm
-                overstyrteDager={overstyrteDager}
-                hale=""
-                snute=""
-                toggleOverstyring={() => null}
-                onSubmit={() => null}
-            />,
-            {
-                wrapper: FormWrapper,
-            },
+            <FormWrapper>
+                <OverstyringForm
+                    overstyrteDager={overstyrteDager}
+                    hale=""
+                    snute=""
+                    toggleOverstyring={() => null}
+                    onSubmit={() => null}
+                />
+            </FormWrapper>,
         );
 
-        expect(screen.getAllByRole('button')[0]).toBeEnabled();
+        expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
         await userEvent.click(screen.getAllByRole('button')[0]);
 
-        await waitFor(() => {
-            expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
-        });
+        expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
     });
 
     it('viser ikke feilmelding dersom overstyring til arbeidsdag er innenfor AGP, selv om fraType er Syk', async () => {
@@ -175,24 +159,21 @@ describe('OverstyringForm', () => {
             ],
         ]);
         render(
-            <OverstyringForm
-                overstyrteDager={overstyrteDager}
-                hale=""
-                snute=""
-                toggleOverstyring={() => null}
-                onSubmit={() => null}
-            />,
-            {
-                wrapper: FormWrapper,
-            },
+            <FormWrapper>
+                <OverstyringForm
+                    overstyrteDager={overstyrteDager}
+                    hale=""
+                    snute=""
+                    toggleOverstyring={() => null}
+                    onSubmit={() => null}
+                />
+            </FormWrapper>,
         );
 
-        expect(screen.getAllByRole('button')[0]).toBeEnabled();
+        expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
         await userEvent.click(screen.getAllByRole('button')[0]);
 
-        await waitFor(() => {
-            expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
-        });
+        expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
     });
 
     it('viser ikke feilmelding dersom overstyring til arbeidsdag er i hale av perioden, selv om fraType er Syk', async () => {
@@ -203,24 +184,21 @@ describe('OverstyringForm', () => {
             ],
         ]);
         render(
-            <OverstyringForm
-                overstyrteDager={overstyrteDager}
-                hale="2020-02-02"
-                snute="2020-01-01"
-                toggleOverstyring={() => null}
-                onSubmit={() => null}
-            />,
-            {
-                wrapper: FormWrapper,
-            },
+            <FormWrapper>
+                <OverstyringForm
+                    overstyrteDager={overstyrteDager}
+                    hale="2020-02-02"
+                    snute="2020-01-01"
+                    toggleOverstyring={() => null}
+                    onSubmit={() => null}
+                />
+            </FormWrapper>,
         );
 
-        expect(screen.getAllByRole('button')[0]).toBeEnabled();
+        expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
         await userEvent.click(screen.getAllByRole('button')[0]);
 
-        await waitFor(() => {
-            expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
-        });
+        expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
     });
 
     it('viser feilmelding dersom egenmelding ikke er ny dag eller innenfor agp', async () => {
@@ -228,23 +206,20 @@ describe('OverstyringForm', () => {
             ['2020-01-02', { dag: Egenmeldingsdag, fraType: 'Syk', dato: '2020-01-02' } as Utbetalingstabelldag],
         ]);
         render(
-            <OverstyringForm
-                overstyrteDager={overstyrteDager}
-                hale=""
-                snute=""
-                toggleOverstyring={() => null}
-                onSubmit={() => null}
-            />,
-            {
-                wrapper: FormWrapper,
-            },
+            <FormWrapper>
+                <OverstyringForm
+                    overstyrteDager={overstyrteDager}
+                    hale=""
+                    snute=""
+                    toggleOverstyring={() => null}
+                    onSubmit={() => null}
+                />
+            </FormWrapper>,
         );
 
-        expect(screen.getAllByRole('button')[0]).toBeEnabled();
+        expect(screen.getByRole('button', { name: /Ferdig/i })).toBeEnabled();
         await userEvent.click(screen.getAllByRole('button')[0]);
 
-        await waitFor(() => {
-            expect(screen.getByText(egenmeldingvalideringstekst)).toBeInTheDocument();
-        });
+        expect(await screen.findByText(egenmeldingvalideringstekst)).toBeInTheDocument();
     });
 });
