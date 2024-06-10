@@ -21,6 +21,7 @@ import { hydrateSorteringForTab } from '@/routes/oversikt/table/state/sortation'
 import { VenterPåEndringProvider } from '@/routes/saksbilde/VenterPåEndringContext';
 import { hydrateKanFrigiOppgaverState, hydrateTotrinnsvurderingState } from '@/state/toggles';
 import { ApolloProvider } from '@apollo/client';
+import { AnonymiseringProvider } from '@components/anonymizable/AnonymizationProvider';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useFetchPersonQuery } from '@state/person';
 import { useSetVarsler } from '@state/varsler';
@@ -63,7 +64,9 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
             <RecoilRoot initializeState={initializeState}>
                 <SyncAlerts>
                     <VenterPåEndringProvider>
-                        <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
+                        <AnonymiseringProvider>
+                            <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
+                        </AnonymiseringProvider>
                     </VenterPåEndringProvider>
                 </SyncAlerts>
             </RecoilRoot>
