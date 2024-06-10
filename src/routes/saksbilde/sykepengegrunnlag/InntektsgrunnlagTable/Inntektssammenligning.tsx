@@ -88,7 +88,7 @@ interface OmregnetÅrsinntektContentProps {
 }
 
 const OmregnetÅrsinntektContent = ({ arbeidsforholdErDeaktivert, beløp }: OmregnetÅrsinntektContentProps) => (
-    <BodyShort>{!arbeidsforholdErDeaktivert && beløp ? somPenger(beløp) : '-'}</BodyShort>
+    <BodyShort>{!arbeidsforholdErDeaktivert && (somPenger(beløp) ?? '-')}</BodyShort>
 );
 
 interface OmregnetÅrsinntektIkonProps {
