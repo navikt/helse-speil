@@ -40,23 +40,20 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
                 />
             </head>
             <body>
-                {/*TODO: Kan fjernes når vi går over til aksel sin modal*/}
-                <div id="root">
-                    <Providers
-                        bruker={{
-                            oid: payload.oid,
-                            epost: payload.preferred_username,
-                            navn: payload.name,
-                            ident: payload.NAVident,
-                            grupper: payload.groups,
-                        }}
-                    >
-                        <Header />
-                        <Varsler />
-                        {children}
-                        <Toasts />
-                    </Providers>
-                </div>
+                <Providers
+                    bruker={{
+                        oid: payload.oid,
+                        epost: payload.preferred_username,
+                        navn: payload.name,
+                        ident: payload.NAVident,
+                        grupper: payload.groups,
+                    }}
+                >
+                    <Header />
+                    <Varsler />
+                    {children}
+                    <Toasts />
+                </Providers>
             </body>
         </html>
     );

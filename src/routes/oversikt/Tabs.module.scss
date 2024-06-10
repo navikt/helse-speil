@@ -4,6 +4,8 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+  height: var(--a-spacing-12);
+  border: 8px dotted hotpink;
 
   > span {
     white-space: nowrap;

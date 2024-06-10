@@ -20,10 +20,6 @@ interface OppgaveTabProps {
 const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps) => {
     const [aktivTab, setAktivTab] = useSwitchTab();
 
-    // SSR step:
-    // * alle
-    // * client → noe annet en SSR steg → Hydration error
-    // TODO: her skjer det noe rart med at aktivtab ikke blir rendret riktig ved hard refresh
     return (
         <button
             className={classNames(styles.tab, { [styles.active]: aktivTab === tag })}
