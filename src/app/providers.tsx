@@ -72,7 +72,7 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
 };
 
 const SyncAlerts = ({ children }: PropsWithChildren) => {
-    const { loading } = useFetchPersonQuery(true);
+    const { loading } = useFetchPersonQuery();
 
     useLoadingToast({ isLoading: loading, message: 'Henter person' });
 
