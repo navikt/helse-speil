@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Maybe, Periodetilstand } from '@io/graphql';
@@ -25,24 +24,20 @@ export const useSetActivePeriodId = () => {
 export const useActivePeriod = (): ActivePeriod | null => {
     const person = useCurrentPerson();
     const activePeriodId = useRecoilValue(activePeriodIdState);
-    const setActivePeriodId = useSetRecoilState(activePeriodIdState);
     const periodToSelect = person ? findPeriodToSelect(person) : null;
-    useEffect(() => {
-        if (periodToSelect && activePeriodId === null) {
-            setActivePeriodId(periodToSelect.id);
-        }
-        const lastSelectedPeriod = findPeriod(activePeriodId!, person);
-        if (lastSelectedPeriod === null) setActivePeriodId(null);
-    }, [periodToSelect]);
+
     if (!person) return null;
-    return findPeriod(activePeriodId!, person) ?? periodToSelect;
+
+    return findPeriod(activePeriodId, person) ?? periodToSelect;
 };
 
 export const useSelectPeriod = () => {
     const setActivePeriodId = useSetRecoilState(activePeriodIdState);
     return (person: FetchedPerson) => {
         const periodToSelect = findPeriodToSelect(person);
-        periodToSelect && setActivePeriodId(periodToSelect.id);
+        if (periodToSelect) {
+            setActivePeriodId(periodToSelect.id);
+        }
     };
 };
 
@@ -67,10 +62,15 @@ const findPeriodToSelect = (person: FetchedPerson): Maybe<ActivePeriod> => {
     return periodeTilBehandling ?? aktuellePerioder[0] ?? null;
 };
 
-const findPeriod = (periodeId: string, person: FetchPersonQuery['person']) =>
-    person?.arbeidsgivere
-        .flatMap((arbeidsgiver) => [
-            ...arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder),
-            ...arbeidsgiver.ghostPerioder,
-        ])
-        .find((periode) => periode.id === periodeId) ?? null;
+const findPeriod = (periodeId: string | null, person: FetchPersonQuery['person']) => {
+    if (periodeId == null) return null;
+
+    return (
+        person?.arbeidsgivere
+            .flatMap((arbeidsgiver) => [
+                ...arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder),
+                ...arbeidsgiver.ghostPerioder,
+            ])
+            .find((periode) => periode.id === periodeId) ?? null
+    );
+};

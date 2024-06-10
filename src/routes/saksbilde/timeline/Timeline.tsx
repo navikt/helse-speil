@@ -155,19 +155,18 @@ const TimelineWithContentMemoized = memo(TimelineWithContent);
 
 const TimelineContainer: React.FC = () => {
     const activePeriod = useActivePeriod();
-    const currentPerson = useCurrentPerson();
-    const arbeidsgivere = currentPerson?.arbeidsgivere;
-    const infotrygdutbetalinger = currentPerson?.infotrygdutbetalinger;
-
-    const { loading } = useFetchPersonQuery();
+    const { loading, data } = useFetchPersonQuery();
 
     if (loading) {
         return <TimelineSkeleton />;
     }
 
-    if (!arbeidsgivere) {
+    if (!data?.person) {
         return null;
     }
+
+    const arbeidsgivere = data.person.arbeidsgivere;
+    const infotrygdutbetalinger = data.person.infotrygdutbetalinger;
 
     return (
         <TimelineWithContentMemoized

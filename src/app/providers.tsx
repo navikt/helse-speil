@@ -18,7 +18,6 @@ import { Bruker, BrukerContext } from '@/auth/brukerContext';
 import { initInstrumentation } from '@/observability/faro';
 import { hydrateAllFilters } from '@/routes/oversikt/table/state/filter';
 import { hydrateSorteringForTab } from '@/routes/oversikt/table/state/sortation';
-import { VenterPåEndringProvider } from '@/routes/saksbilde/VenterPåEndringContext';
 import { hydrateKanFrigiOppgaverState, hydrateTotrinnsvurderingState } from '@/state/toggles';
 import { ApolloProvider } from '@apollo/client';
 import { AnonymiseringProvider } from '@components/anonymizable/AnonymizationProvider';
@@ -63,11 +62,9 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
         <ApolloProvider client={apolloClient}>
             <RecoilRoot initializeState={initializeState}>
                 <SyncAlerts>
-                    <VenterPåEndringProvider>
-                        <AnonymiseringProvider>
-                            <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
-                        </AnonymiseringProvider>
-                    </VenterPåEndringProvider>
+                    <AnonymiseringProvider>
+                        <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
+                    </AnonymiseringProvider>
                 </SyncAlerts>
             </RecoilRoot>
         </ApolloProvider>

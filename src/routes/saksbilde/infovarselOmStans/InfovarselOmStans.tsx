@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -10,16 +10,16 @@ import { UnntattFraAutomatisering } from './UnntattFraAutomatisering';
 
 import styles from '../personHeader/PersonHeader.module.css';
 
-const InfovarselOmStansContainer: React.FC = () => {
+const InfovarselOmStansContainer = (): ReactElement | null => {
     const currentPerson = useCurrentPerson();
     const { loading } = useFetchPersonQuery();
 
     if (loading) {
-        return <div></div>;
+        return null;
     }
 
     if (!currentPerson) {
-        return <div />;
+        return null;
     }
 
     const unntattFraAutomatisering = currentPerson.personinfo.unntattFraAutomatisering;
