@@ -1,6 +1,9 @@
 import classNames from 'classnames';
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
+import { range } from 'remeda';
+
+import { Skeleton } from '@navikt/ds-react';
 
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 
@@ -14,7 +17,8 @@ import styles from './Filtermeny.module.css';
 interface FilterMenyProps {
     filters: Filter[];
 }
-export const Filtermeny = ({ filters }: FilterMenyProps) => {
+
+const Filtermeny = ({ filters }: FilterMenyProps) => {
     const showFiltermeny = useShowFiltermeny();
     const settBredde = useSetRecoilState(filtermenyWidth);
     const aktivTab = useAktivTab();
@@ -68,3 +72,19 @@ export const Filtermeny = ({ filters }: FilterMenyProps) => {
         </JusterbarSidemeny>
     );
 };
+
+export function FiltermenySkeleton() {
+    return (
+        <div className={classNames(styles.filtermeny, styles.filterSkeleton)}>
+            {range(0, 10).map((index) => (
+                <div className={styles.skeletonSection} key={index}>
+                    <Skeleton height={28} className={styles.topSkeleton} />
+                    <Skeleton height={28} />
+                    <Skeleton height={28} />
+                </div>
+            ))}
+        </div>
+    );
+}
+
+export default Filtermeny;

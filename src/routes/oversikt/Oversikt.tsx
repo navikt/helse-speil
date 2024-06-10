@@ -5,15 +5,16 @@ import React, { Suspense } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
+import { FiltermenySkeleton } from '@/routes/oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@/routes/oversikt/table/BehandletIdagTable';
 import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useOppgaveFeed } from '@state/oppgaver';
-import { onLazyLoadFail } from '@utils/error';
 
 import { useKeyboardShortcuts } from '../saksbilde/useKeyboardShortcuts';
 import { IngenOppgaver } from './IngenOppgaver';
+import { TabsSkeleton } from './Tabs';
 import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';
 import { TabType, useAktivTab } from './tabState';
 import { OppgaverTable } from './table/OppgaverTable/OppgaverTable';
@@ -22,13 +23,14 @@ import { useFilters } from './table/state/filter';
 
 import styles from './Oversikt.module.css';
 
-const Filtermeny = dynamic(
-    () => import('./filtermeny/Filtermeny').then((res) => ({ default: res.Filtermeny })).catch(onLazyLoadFail),
-    { ssr: false },
-);
-
-const Tabs = dynamic(() => import('./Tabs').then((res) => ({ default: res.Tabs })).catch(onLazyLoadFail), {
+const Filtermeny = dynamic(() => import('./filtermeny/Filtermeny'), {
     ssr: false,
+    loading: () => <FiltermenySkeleton />,
+});
+
+const Tabs = dynamic(() => import('./Tabs'), {
+    ssr: false,
+    loading: () => <TabsSkeleton />,
 });
 
 export const Oversikt = () => {
@@ -46,15 +48,9 @@ export const Oversikt = () => {
                     {oppgaveFeed.error?.message}
                 </Alert>
             )}
-            {/*TODO: lage fallback*/}
-            <Suspense>
-                <Tabs />
-            </Suspense>
+            <Tabs />
             <div className={styles.fullHeight}>
-                {/*TODO: lage fallback*/}
-                <Suspense>
-                    <Filtermeny filters={allFilters} />
-                </Suspense>
+                <Filtermeny filters={allFilters} />
                 <section className={styles.Content}>
                     {aktivTab === TabType.BehandletIdag ? (
                         <BehandletIdagTable />

@@ -1,9 +1,10 @@
 import styles from './Tabs.module.scss';
 import classNames from 'classnames';
-import React, { useEffect, useRef } from 'react';
+import React, { ReactElement, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
+import { Skeleton } from '@navikt/ds-react';
 
 import { useAntallOppgaver } from '@state/oppgaver';
 
@@ -99,7 +100,7 @@ const StatistikkButton = () => {
     );
 };
 
-export const Tabs = () => {
+const Tabs = () => {
     return (
         <div className={styles.tabs}>
             <FilterButton />
@@ -113,3 +114,13 @@ export const Tabs = () => {
         </div>
     );
 };
+
+export function TabsSkeleton(): ReactElement {
+    return (
+        <div className={styles.tabs}>
+            <Skeleton variant="circle" width={32} height={32} />
+        </div>
+    );
+}
+
+export default Tabs;
