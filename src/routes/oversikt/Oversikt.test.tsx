@@ -1,11 +1,10 @@
-import { ApolloWrapper } from '@test-wrappers';
+import { createMock, render, screen } from '@test-utils';
 import { axe } from 'jest-axe';
 import React from 'react';
 
 import { HentBehandlingsstatistikkDocument } from '@io/graphql';
 import { useAntallOppgaver, useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
-import { render } from '@testing-library/react';
 
 import { Oversikt } from './Oversikt';
 
@@ -28,8 +27,12 @@ describe('Oversikt', () => {
         });
 
         const { container } = render(<Oversikt />, {
-            wrapper: ({ children }) => <ApolloWrapper mocks={mocks}>{children}</ApolloWrapper>,
+            mocks,
         });
+
+        expect(
+            await screen.findByRole('region', { name: 'Toggle visning av behandlingsstatistikk' }),
+        ).toBeInTheDocument();
 
         const result = await axe(container);
 
@@ -38,35 +41,28 @@ describe('Oversikt', () => {
 });
 
 const mocks = [
-    {
-        request: {
-            query: HentBehandlingsstatistikkDocument,
-        },
-        result: () => {
-            return {
-                data: {
-                    behandlingsstatistikk: {
-                        antallAnnulleringer: 0,
-                        enArbeidsgiver: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                        flereArbeidsgivere: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                        beslutter: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                        egenAnsatt: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                        delvisRefusjon: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                        faresignaler: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                        forlengelser: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                        forlengelseIt: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                        forstegangsbehandling: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                        fortroligAdresse: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                        revurdering: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                        stikkprover: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                        utbetalingTilArbeidsgiver: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                        utbetalingTilSykmeldt: { automatisk: 1, manuelt: 1, tilgjengelig: 1 },
-                    },
+    createMock({
+        request: { query: HentBehandlingsstatistikkDocument },
+        result: {
+            data: {
+                behandlingsstatistikk: {
+                    antallAnnulleringer: 0,
+                    enArbeidsgiver: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                    flereArbeidsgivere: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                    beslutter: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                    egenAnsatt: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                    delvisRefusjon: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                    faresignaler: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                    forlengelser: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                    forlengelseIt: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                    forstegangsbehandling: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                    fortroligAdresse: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                    revurdering: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                    stikkprover: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                    utbetalingTilArbeidsgiver: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
+                    utbetalingTilSykmeldt: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
                 },
-            };
+            },
         },
-    },
+    }),
 ];
-
-// Testen oversteg default setting på 5000 ved kjøring lokalt
-jest.setTimeout(15000);

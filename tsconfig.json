@@ -20,6 +20,7 @@
         ],
         "paths": {
             "@/*": ["./src/*"],
+            "@test-utils": ["./src/test/test-utils"],
             "@test-wrappers": ["./src/test/wrappers"],
             "@test-data/*": ["./src/test/data/*"],
             "@io/*": ["./src/io/*"],

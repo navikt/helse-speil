@@ -2,7 +2,7 @@ import { RestLink } from 'apollo-link-rest';
 
 import possibletypes from '@/app/apollo/possibletypes';
 import { erLokal } from '@/env';
-import { ApolloClient, HttpLink, InMemoryCache, TypePolicies, from } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache, InMemoryCacheConfig, TypePolicies, from } from '@apollo/client';
 import { RetryLink } from '@apollo/client/link/retry';
 
 const getTypePolicies = (): TypePolicies => {
@@ -49,12 +49,19 @@ const getTypePolicies = (): TypePolicies => {
     };
 };
 
-const restLink = new RestLink({
+export const restLink = new RestLink({
+    uri: '/',
     endpoints: {
         sanity: 'https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production',
         flexjar: '/api/flexjar',
     },
 });
+
+export const apolloCacheConfig: InMemoryCacheConfig = {
+    dataIdFromObject: () => undefined,
+    possibleTypes: possibletypes.possibleTypes,
+    typePolicies: getTypePolicies(),
+};
 
 export const createApolloClient = () =>
     new ApolloClient({
@@ -65,9 +72,5 @@ export const createApolloClient = () =>
             }),
             new HttpLink({ uri: erLokal ? '/api/spesialist' : `/api/graphql` }),
         ]),
-        cache: new InMemoryCache({
-            dataIdFromObject: () => undefined,
-            possibleTypes: possibletypes.possibleTypes,
-            typePolicies: getTypePolicies(),
-        }),
+        cache: new InMemoryCache(apolloCacheConfig),
     });
