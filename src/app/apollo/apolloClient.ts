@@ -36,6 +36,7 @@ const getTypePolicies = (): TypePolicies => {
         Notater: { keyFields: ['id'] },
         Notat: { keyFields: ['id'] },
         Kommentar: { keyFields: ['id'] },
+        Periode: { keyFields: ['id'] },
         Kommentarer: { keyFields: ['id'] },
         Person: { keyFields: ['fodselsnummer'], merge: false },
         VarselDTO: { keyFields: ['generasjonId', 'kode'] },
@@ -43,6 +44,8 @@ const getTypePolicies = (): TypePolicies => {
         SoknadNav: { keyFields: ['id'] },
         Inntektsmelding: { keyFields: ['id'] },
         Utbetaling: { keyFields: ['id'] },
+        UberegnetPeriode: { keyFields: ['behandlingId'] },
+        BeregnetPeriode: { keyFields: ['behandlingId'] },
     };
 };
 
