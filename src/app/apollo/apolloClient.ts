@@ -38,7 +38,7 @@ const getTypePolicies = (): TypePolicies => {
         Kommentar: { keyFields: ['id'] },
         Periode: { keyFields: ['id'] },
         Kommentarer: { keyFields: ['id'] },
-        Person: { keyFields: ['fodselsnummer'] },
+        Person: { keyFields: ['fodselsnummer'], merge: false },
         VarselDTO: { keyFields: ['generasjonId', 'kode'] },
         SoknadArbeidsgiver: { keyFields: ['id'] },
         SoknadNav: { keyFields: ['id'] },
