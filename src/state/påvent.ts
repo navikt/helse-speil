@@ -81,7 +81,7 @@ export const useFjernPåVent = (): [
     const [fjernPåVentMutation, data] = useMutation(FjernPaVentDocument, {
         refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
     });
-    const periodeId = usePeriodeTilGodkjenning()?.id ?? null;
+    const behandlingId = usePeriodeTilGodkjenning()?.behandlingId ?? null;
 
     const fjernPåVent = (oppgavereferanse: string) =>
         fjernPåVentMutation({
@@ -90,7 +90,7 @@ export const useFjernPåVent = (): [
                 __typename: 'Mutation',
                 fjernPaVent: true,
             },
-            update: (cache) => oppdaterPåVentICache(cache, oppgavereferanse, periodeId, () => null),
+            update: (cache) => oppdaterPåVentICache(cache, oppgavereferanse, behandlingId, () => null),
         });
 
     return [fjernPåVent, data];
@@ -99,7 +99,7 @@ export const useFjernPåVent = (): [
 const oppdaterPåVentICache = (
     cache: ApolloCache<unknown>,
     oppgavereferanse: string,
-    periodeId: string | null,
+    behandlingId: string | null,
     påVent: (påVent: PaVent) => PaVent | null,
 ) => {
     cache.modify({
@@ -109,22 +109,22 @@ const oppdaterPåVentICache = (
                 return !påVent
                     ? existingEgenskaper.filter((it: Oppgaveegenskap) => it.egenskap !== Egenskap.PaVent)
                     : existingEgenskaper.some((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent)
-                    ? existingEgenskaper
-                    : existingEgenskaper.push({ egenskap: Egenskap.PaVent, kategori: Kategori.Status });
+                      ? existingEgenskaper
+                      : existingEgenskaper.push({ egenskap: Egenskap.PaVent, kategori: Kategori.Status });
             },
         },
     });
 
     cache.modify({
-        id: cache.identify({ __typename: 'BeregnetPeriode', id: periodeId }),
+        id: cache.identify({ __typename: 'BeregnetPeriode', behandlingId: behandlingId }),
         fields: {
             paVent: (value) => påVent(value),
             egenskaper(existingEgenskaper) {
                 return !påVent
                     ? existingEgenskaper.filter((it: Oppgaveegenskap) => it.egenskap !== Egenskap.PaVent)
                     : existingEgenskaper.some((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent)
-                    ? existingEgenskaper
-                    : existingEgenskaper.push({ egenskap: Egenskap.PaVent, kategori: Kategori.Status });
+                      ? existingEgenskaper
+                      : existingEgenskaper.push({ egenskap: Egenskap.PaVent, kategori: Kategori.Status });
             },
         },
     });

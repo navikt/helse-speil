@@ -72,7 +72,10 @@ export const Notat = () => {
                     data: data,
                 });
                 cache.modify({
-                    id: cache.identify({ __typename: aktivPeriode?.__typename, id: aktivPeriode?.id }),
+                    id: cache.identify({
+                        __typename: aktivPeriode?.__typename,
+                        behandlingId: aktivPeriode?.behandlingId,
+                    }),
                     fields: {
                         notater(existingNotater) {
                             return [
