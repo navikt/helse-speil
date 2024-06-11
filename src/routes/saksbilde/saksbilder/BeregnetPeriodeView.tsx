@@ -66,7 +66,7 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
                 skjæringstidspunkt={period.skjaeringstidspunkt}
                 navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
             />
-            <SaksbildeMenu />
+            <SaksbildeMenu activePeriod={period} />
             <div className={styles.RouteContainer}>
                 {tab === 'dagoversikt' && <Utbetaling />}
                 {decodeURI(tab ?? '') === 'inngangsvilkår' && <Inngangsvilkår />}

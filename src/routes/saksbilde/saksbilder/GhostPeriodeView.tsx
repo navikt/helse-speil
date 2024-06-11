@@ -30,7 +30,7 @@ export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod
                 periodState={getPeriodState(activePeriod)}
                 skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
             />
-            <SaksbildeMenu />
+            <SaksbildeMenu activePeriod={activePeriod} />
             {tab === 'sykepengegrunnlag' && (
                 <div className={styles.RouteContainer}>
                     <Sykepengegrunnlag />

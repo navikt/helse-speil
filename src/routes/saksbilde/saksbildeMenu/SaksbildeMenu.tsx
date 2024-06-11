@@ -1,20 +1,22 @@
 import classNames from 'classnames';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { last } from 'remeda';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { useActivePeriod } from '@state/periode';
-import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { DropdownMenu } from './dropdown/DropdownMenu';
 
 import styles from './SaksbildeMenu.module.css';
+
+type SaksbildeMenuProps = {
+    activePeriod: ActivePeriod;
+};
 
 const SaksbildeMenuGhostPeriode: React.FC = () => (
     <div className={styles.SaksbildeMenu}>
@@ -27,20 +29,18 @@ const SaksbildeMenuGhostPeriode: React.FC = () => (
     </div>
 );
 
-interface SaksbildeMenuBeregnetPeriodeProps {
-    activePeriod: FetchedBeregnetPeriode;
-}
-
-const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPeriodeProps) => (
+const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuProps) => (
     <div className={styles.SaksbildeMenu}>
         <div>
             <nav className={styles.TabList} role="tablist">
                 <NavLenke to="dagoversikt" tittel="Dagoversikt" />
                 <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />
                 <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
-                {activePeriod.risikovurdering?.funn && activePeriod.risikovurdering?.funn?.length > 0 && (
-                    <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />
-                )}
+                {isBeregnetPeriode(activePeriod) &&
+                    activePeriod.risikovurdering?.funn &&
+                    activePeriod.risikovurdering?.funn?.length > 0 && (
+                        <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />
+                    )}
             </nav>
             <DropdownMenu />
         </div>
@@ -71,18 +71,7 @@ const NavLenke = ({ tittel, to }: { tittel: string; to: string }) => {
     );
 };
 
-const SaksbildeMenuContainer: React.FC = () => {
-    const activePeriod = useActivePeriod();
-    const { loading } = useFetchPersonQuery();
-
-    if (loading) {
-        return <SaksbildeMenuSkeleton />;
-    }
-
-    if (!activePeriod) {
-        return null;
-    }
-
+const SaksbildeMenuContainer = ({ activePeriod }: SaksbildeMenuProps) => {
     if (isBeregnetPeriode(activePeriod)) {
         return <SaksbildeMenuBeregnetPeriode activePeriod={activePeriod} />;
     }
@@ -94,7 +83,7 @@ const SaksbildeMenuContainer: React.FC = () => {
     return <SaksbildeMenuUberegnetPeriode />;
 };
 
-export const SaksbildeMenuSkeleton: React.FC = () => {
+export const SaksbildeMenuSkeleton = (): ReactElement => {
     return (
         <div className={classNames(styles.SaksbildeMenu, styles.Skeleton)}>
             <span className={styles.TabList}>
@@ -115,10 +104,10 @@ const SaksbildeMenuError: React.FC = () => {
     );
 };
 
-export const SaksbildeMenu: React.FC = () => {
+export const SaksbildeMenu = (props: SaksbildeMenuProps) => {
     return (
         <ErrorBoundary fallback={<SaksbildeMenuError />}>
-            <SaksbildeMenuContainer />
+            <SaksbildeMenuContainer {...props} />
         </ErrorBoundary>
     );
 };

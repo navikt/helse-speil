@@ -6,13 +6,17 @@ import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
 
 import styles from './SharedViews.module.css';
 
-export const PeriodeTilAnnulleringView: React.FC = () => {
+type Props = {
+    activePeriod: FetchedBeregnetPeriode;
+};
+
+export const PeriodeTilAnnulleringView = ({ activePeriod }: Props) => {
     return (
         <div className={styles.Content}>
             <Alert variant="info" className={styles.Varsel}>
                 Utbetalingen er sendt til annullering
             </Alert>
-            <SaksbildeMenu />
+            <SaksbildeMenu activePeriod={activePeriod} />
         </div>
     );
 };

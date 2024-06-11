@@ -7,6 +7,7 @@ import { AnnullertPeriodeView } from '@/routes/saksbilde/saksbilder/AnnullertPer
 import BeregnetPeriodeView from '@/routes/saksbilde/saksbilder/BeregnetPeriodeView';
 import GhostPeriodeView from '@/routes/saksbilde/saksbilder/GhostPeriodeView';
 import { PeriodeTilAnnulleringView } from '@/routes/saksbilde/saksbilder/PeriodeTilAnnulleringView';
+import PeriodeViewSkeleton from '@/routes/saksbilde/saksbilder/PeriodeViewSkeleton';
 import UberegnetPeriodeView from '@/routes/saksbilde/saksbilder/UberegnetPeriodeView';
 import { Periodetilstand } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
@@ -18,13 +19,13 @@ function PeriodeView(): ReactElement | null {
     const currentPerson = useCurrentPerson();
 
     if (!activePeriod || !currentPerson) {
-        return <SaksbildeMenu />;
+        return <PeriodeViewSkeleton />;
     } else if (isBeregnetPeriode(activePeriod)) {
         switch (activePeriod.periodetilstand) {
             case Periodetilstand.Annullert:
-                return <AnnullertPeriodeView />;
+                return <AnnullertPeriodeView activePeriod={activePeriod} />;
             case Periodetilstand.TilAnnullering:
-                return <PeriodeTilAnnulleringView />;
+                return <PeriodeTilAnnulleringView activePeriod={activePeriod} />;
             default:
                 return <BeregnetPeriodeView period={activePeriod} person={currentPerson} />;
         }

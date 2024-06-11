@@ -1,5 +1,4 @@
 .SaksbildeMenu {
-    grid-area: sakslinje;
     display: flex;
     justify-content: space-between;
     height: 48px;

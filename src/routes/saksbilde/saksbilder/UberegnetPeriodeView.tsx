@@ -13,9 +13,9 @@ import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 
 import styles from './SharedViews.module.css';
 
-interface UberegnetPeriodeViewProps {
+type UberegnetPeriodeViewProps = {
     activePeriod: UberegnetPeriode;
-}
+};
 
 export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps) => {
     const tab = last(usePathname().split('/'));
@@ -24,7 +24,7 @@ export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps
     return (
         <div className={styles.Content}>
             <Saksbildevarsler periodState={getPeriodState(activePeriod)} varsler={activePeriod.varsler} />
-            <SaksbildeMenu />
+            <SaksbildeMenu activePeriod={activePeriod} />
             <div className={styles.RouteContainer}>{tab === 'dagoversikt' && <Utbetaling />}</div>
         </div>
     );
