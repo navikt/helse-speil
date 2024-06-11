@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { BeregnetPeriode } from '@io/graphql';
+import { BeregnetPeriodeFragment } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 
 import { FeedbackButton, FlexjarFelles } from './FlexjarFelles';
@@ -14,7 +14,7 @@ interface TilbakemeldingProps {
 export const Tilbakemelding = ({ feedbackId, tittel, sporsmal }: TilbakemeldingProps) => {
     const [activeState, setActiveState] = useState<string | number | null>(null);
     const [thanksFeedback, setThanksFeedback] = useState<boolean>(false);
-    const vedtaksperiodeId = (useActivePeriod() as BeregnetPeriode)?.vedtaksperiodeId;
+    const vedtaksperiodeId = (useActivePeriod() as BeregnetPeriodeFragment)?.vedtaksperiodeId;
 
     if (!vedtaksperiodeId) {
         return null;

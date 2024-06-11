@@ -1,16 +1,23 @@
 import dayjs from 'dayjs';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
-import { Arbeidsgiver, GhostPeriode, Maybe, Periode, Periodetilstand } from '@io/graphql';
+import { ActivePeriod } from '@/types/shared';
+import {
+    ArbeidsgiverFragment,
+    BeregnetPeriodeFragment,
+    GhostPeriodeFragment,
+    Maybe,
+    Periode,
+    Periodetilstand,
+    PersonFragment,
+    UberegnetPeriodeFragment,
+} from '@io/graphql';
 import { isGodkjent as utbetalingIsGodkjent } from '@state/selectors/utbetaling';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
-
-export const getOppgavereferanse = (period?: Maybe<Periode | GhostPeriode>): Maybe<string> => {
+export const getOppgavereferanse = (
+    period?: Maybe<BeregnetPeriodeFragment | UberegnetPeriodeFragment | GhostPeriodeFragment>,
+): Maybe<string> => {
     if (isBeregnetPeriode(period)) {
         return period.oppgave?.id ?? null;
     } else {
@@ -18,7 +25,10 @@ export const getOppgavereferanse = (period?: Maybe<Periode | GhostPeriode>): May
     }
 };
 
-export const harBlittUtbetaltTidligere = (period: FetchedBeregnetPeriode, arbeidsgiver: Arbeidsgiver): boolean => {
+export const harBlittUtbetaltTidligere = (
+    period: BeregnetPeriodeFragment,
+    arbeidsgiver: ArbeidsgiverFragment,
+): boolean => {
     if (arbeidsgiver.generasjoner.length <= 1) {
         return false;
     }
@@ -43,7 +53,7 @@ export const isNotReady = (period: Periode) =>
         Periodetilstand.ManglerInformasjon,
     ].includes(period.periodetilstand);
 
-export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: Arbeidsgiver): boolean => {
+export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: ArbeidsgiverFragment): boolean => {
     if (!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) {
         return false;
     }
@@ -70,13 +80,13 @@ export const overlapper =
         (dayjs(periode.tom).isSameOrAfter(other.fom) && dayjs(periode.tom).isSameOrBefore(other.tom));
 
 export const getOverlappendePerioder = (
-    person: FetchedPerson,
-    period: FetchedBeregnetPeriode,
-): Array<FetchedBeregnetPeriode> => {
+    person: PersonFragment,
+    period: BeregnetPeriodeFragment,
+): Array<BeregnetPeriodeFragment> => {
     return person.arbeidsgivere
         .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
         .filter(isBeregnetPeriode)
-        .filter(overlapper(period)) as Array<FetchedBeregnetPeriode>;
+        .filter(overlapper(period)) as Array<BeregnetPeriodeFragment>;
 };
 
 export const isForkastet = (periode?: Maybe<ActivePeriod>): boolean => {

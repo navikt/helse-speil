@@ -6,6 +6,7 @@ import React from 'react';
 import { ClockDashedIcon } from '@navikt/aksel-icons';
 import { BodyShort, Tag, Tooltip } from '@navikt/ds-react';
 
+import { DatePeriod, DateString } from '@/types/shared';
 import { EgenskaperTags } from '@components/EgenskaperTags';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { LovdataLenke } from '@components/LovdataLenke';
@@ -13,7 +14,15 @@ import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { Maksdatoikon } from '@components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '@components/ikoner/Skjæringstidspunktikon';
 import { Sykmeldingsperiodeikon } from '@components/ikoner/Sykmeldingsperiodeikon';
-import { Arbeidsgiver, Egenskap, Kategori, Periodetilstand, Periodetype, UberegnetPeriode } from '@io/graphql';
+import {
+    ArbeidsgiverFragment,
+    BeregnetPeriodeFragment,
+    Egenskap,
+    Kategori,
+    Periodetilstand,
+    Periodetype,
+    UberegnetPeriodeFragment,
+} from '@io/graphql';
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
 
 import { ArbeidsgiverRow } from './ArbeidsgiverRow';
@@ -72,7 +81,7 @@ const SkjæringstidspunktRow: React.FC<SkjæringstidspunktRowProps> = ({ periode
     );
 };
 
-const harRedusertAntallSykepengedager = (periode: FetchedBeregnetPeriode): boolean => {
+const harRedusertAntallSykepengedager = (periode: BeregnetPeriodeFragment): boolean => {
     const { forbrukteSykedager, gjenstaendeSykedager } = periode.periodevilkar.sykepengedager;
     return (
         typeof forbrukteSykedager === 'number' &&
@@ -82,7 +91,7 @@ const harRedusertAntallSykepengedager = (periode: FetchedBeregnetPeriode): boole
 };
 
 interface MaksdatoRowProps {
-    activePeriod: FetchedBeregnetPeriode;
+    activePeriod: BeregnetPeriodeFragment;
     gjenståendeSykedager: number | null;
 }
 
@@ -130,8 +139,8 @@ const MaksdatoRow: React.FC<MaksdatoRowProps> = ({ activePeriod, gjenståendeSyk
 };
 
 interface PeriodeCardUberegnetProps {
-    periode: UberegnetPeriode;
-    arbeidsgiver: Arbeidsgiver;
+    periode: UberegnetPeriodeFragment;
+    arbeidsgiver: ArbeidsgiverFragment;
     månedsbeløp?: number;
 }
 
@@ -174,8 +183,8 @@ const PeriodeCardUberegnet: React.FC<PeriodeCardUberegnetProps> = ({ periode, ar
 };
 
 interface PeriodeCardBeregnetProps {
-    periode: FetchedBeregnetPeriode;
-    arbeidsgiver: Arbeidsgiver;
+    periode: BeregnetPeriodeFragment;
+    arbeidsgiver: ArbeidsgiverFragment;
     månedsbeløp: number | undefined;
     gjenståendeSykedager: number | null;
 }
@@ -219,7 +228,7 @@ const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({
 };
 
 interface PeriodeCardGhostProps {
-    arbeidsgiver: Arbeidsgiver;
+    arbeidsgiver: ArbeidsgiverFragment;
 }
 
 const PeriodeCardGhost: React.FC<PeriodeCardGhostProps> = ({ arbeidsgiver }) => {

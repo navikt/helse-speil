@@ -1,3 +1,4 @@
+import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { getArbeidsgiverWithPeriod } from '@state/selectors/arbeidsgiver';
 import { getOverlappendePerioder, isForkastet, isGodkjent } from '@state/selectors/period';
 import { getPeriodState } from '@utils/mapping';
@@ -14,7 +15,7 @@ type OverstyringValidationError = {
 
 type OverstyringValidation = OverstyringValidationSuccess | OverstyringValidationError;
 
-const validateTilstand = (periode: FetchedBeregnetPeriode): void => {
+const validateTilstand = (periode: BeregnetPeriodeFragment): void => {
     if (
         !['tilGodkjenning', 'avslag', 'ingenUtbetaling', 'utbetalingFeilet', 'revurderes', 'venterPåKiling'].includes(
             getPeriodState(periode),
@@ -27,7 +28,7 @@ const validateTilstand = (periode: FetchedBeregnetPeriode): void => {
     }
 };
 
-const validateBeslutter = (periode: FetchedBeregnetPeriode): void => {
+const validateBeslutter = (periode: BeregnetPeriodeFragment): void => {
     if (periode.totrinnsvurdering?.erBeslutteroppgave) {
         throw {
             value: false,
@@ -36,7 +37,7 @@ const validateBeslutter = (periode: FetchedBeregnetPeriode): void => {
     }
 };
 
-export const kanOverstyres = (periode: FetchedBeregnetPeriode): OverstyringValidation => {
+export const kanOverstyres = (periode: BeregnetPeriodeFragment): OverstyringValidation => {
     try {
         validateBeslutter(periode);
         validateTilstand(periode);
@@ -47,7 +48,7 @@ export const kanOverstyres = (periode: FetchedBeregnetPeriode): OverstyringValid
     return { value: true };
 };
 
-const validateIkkeForkastet = (periode: FetchedBeregnetPeriode): void => {
+const validateIkkeForkastet = (periode: BeregnetPeriodeFragment): void => {
     if (isForkastet(periode)) {
         throw {
             value: false,
@@ -56,7 +57,7 @@ const validateIkkeForkastet = (periode: FetchedBeregnetPeriode): void => {
     }
 };
 
-const validateGodkjent = (periode: FetchedBeregnetPeriode): void => {
+const validateGodkjent = (periode: BeregnetPeriodeFragment): void => {
     if (!isGodkjent(periode)) {
         throw {
             value: false,
@@ -66,7 +67,7 @@ const validateGodkjent = (periode: FetchedBeregnetPeriode): void => {
     }
 };
 
-const validatePeriodeTilhørerNyesteGenerasjon = (person: FetchedPerson, periode: FetchedBeregnetPeriode): void => {
+const validatePeriodeTilhørerNyesteGenerasjon = (person: PersonFragment, periode: BeregnetPeriodeFragment): void => {
     const arbeidsgiver = getArbeidsgiverWithPeriod(person, periode);
 
     if (!arbeidsgiver) {
@@ -77,7 +78,7 @@ const validatePeriodeTilhørerNyesteGenerasjon = (person: FetchedPerson, periode
     }
 };
 
-export const kanRevurderes = (person: FetchedPerson, periode: FetchedBeregnetPeriode): OverstyringValidation => {
+export const kanRevurderes = (person: PersonFragment, periode: BeregnetPeriodeFragment): OverstyringValidation => {
     try {
         validatePeriodeTilhørerNyesteGenerasjon(person, periode);
         validateBeslutter(periode);
@@ -90,7 +91,7 @@ export const kanRevurderes = (person: FetchedPerson, periode: FetchedBeregnetPer
     return { value: true };
 };
 
-const validateRevurderes = (periode: FetchedBeregnetPeriode): void => {
+const validateRevurderes = (periode: BeregnetPeriodeFragment): void => {
     if (getPeriodState(periode) !== 'revurderes') {
         throw {
             value: false,
@@ -99,7 +100,10 @@ const validateRevurderes = (periode: FetchedBeregnetPeriode): void => {
     }
 };
 
-const validateOverlappendePerioderErTilRevurdering = (person: FetchedPerson, periode: FetchedBeregnetPeriode): void => {
+const validateOverlappendePerioderErTilRevurdering = (
+    person: PersonFragment,
+    periode: BeregnetPeriodeFragment,
+): void => {
     const tilstander = getOverlappendePerioder(person, periode).map(getPeriodState);
 
     const noenPerioderErTilRevurdering = tilstander.some((tilstand) => tilstand === 'revurderes');
@@ -113,8 +117,8 @@ const validateOverlappendePerioderErTilRevurdering = (person: FetchedPerson, per
 };
 
 export const kanOverstyreRevurdering = (
-    person: FetchedPerson,
-    periode: FetchedBeregnetPeriode,
+    person: PersonFragment,
+    periode: BeregnetPeriodeFragment,
 ): OverstyringValidation => {
     try {
         validateBeslutter(periode);

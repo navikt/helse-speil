@@ -3,6 +3,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { DateString } from '@/types/shared';
 import { getFormattedDatetimeString } from '@utils/date';
 
 type HendelseDateProps = {

@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
+import { DateString } from '@/types/shared';
 import { Dag, Dagoverstyring, Dagtype, Maybe, OverstyrtDag, Utbetalingsdagtype } from '@io/graphql';
 
 import {

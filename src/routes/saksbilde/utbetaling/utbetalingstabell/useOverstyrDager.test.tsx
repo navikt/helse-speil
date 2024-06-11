@@ -3,15 +3,15 @@ import React from 'react';
 
 import { MockedProvider } from '@apollo/client/testing';
 import { Kildetype, OpprettAbonnementDocument, OverstyrDagerMutationDocument } from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
-import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { renderHook, waitFor } from '@testing-library/react';
 
 import { tilOverstyrteDager, useOverstyrDager } from './useOverstyrDager';
 
-jest.mock('@state/person');
+jest.mock('@person/query');
 jest.mock('@state/arbeidsgiver');
 jest.mock('@state/toasts');
 jest.mock('@state/opptegnelser');

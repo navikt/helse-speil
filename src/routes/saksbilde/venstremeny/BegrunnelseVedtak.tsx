@@ -7,7 +7,14 @@ import { BodyShort, Textarea } from '@navikt/ds-react';
 
 import { useBrukerIdent } from '@/auth/brukerContext';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { AvslagInput, Avslagshandling, Avslagstype, Maybe, Utbetalingsdagtype } from '@io/graphql';
+import {
+    AvslagInput,
+    Avslagshandling,
+    Avslagstype,
+    BeregnetPeriodeFragment,
+    Maybe,
+    Utbetalingsdagtype,
+} from '@io/graphql';
 import { kanSkriveAvslag } from '@utils/featureToggles';
 
 import { SlettLokaleEndringerModal } from '../varsler/KalkulerEndringerVarsel';
@@ -20,7 +27,7 @@ interface BegrunnelseVedtakProps {
     setÅpenIModal: Dispatch<SetStateAction<boolean>>;
     avslag: Maybe<AvslagInput>;
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
-    periode: FetchedBeregnetPeriode;
+    periode: BeregnetPeriodeFragment;
 }
 
 export const BegrunnelseVedtak = ({

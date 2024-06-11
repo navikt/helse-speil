@@ -2,6 +2,8 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { DateString } from '@/types/shared';
+
 import { SlettLokaleEndringerModal } from '../../../varsler/KalkulerEndringerVarsel';
 
 import styles from './EditableInntekt.module.css';

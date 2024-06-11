@@ -2,22 +2,24 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 
+import { ActivePeriod, DateString } from '@/types/shared';
 import {
     Arbeidsforholdoverstyring,
-    Arbeidsgiver,
-    BeregnetPeriode,
+    ArbeidsgiverFragment,
+    BeregnetPeriodeFragment,
     Dagoverstyring,
-    GhostPeriode,
+    GhostPeriodeFragment,
     Hendelse,
     Inntektoverstyring,
-    UberegnetPeriode,
+    PersonFragment,
+    UberegnetPeriodeFragment,
     Utbetaling,
     Vurdering,
 } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
+import { useCurrentPerson } from '@person/query';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { isGodkjent } from '@state/selectors/utbetaling';
 import { ISO_DATOFORMAT } from '@utils/date';
@@ -31,9 +33,9 @@ import {
 } from '@utils/typeguards';
 
 export const findArbeidsgiverWithGhostPeriode = (
-    period: GhostPeriode,
-    arbeidsgivere: Array<Arbeidsgiver>,
-): Maybe<Arbeidsgiver> => {
+    period: GhostPeriodeFragment,
+    arbeidsgivere: Array<ArbeidsgiverFragment>,
+): Maybe<ArbeidsgiverFragment> => {
     return (
         arbeidsgivere.find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((periode) => periode.id === period.id)) ??
         null
@@ -41,23 +43,23 @@ export const findArbeidsgiverWithGhostPeriode = (
 };
 
 export const findArbeidsgiverWithPeriode = (
-    period: FetchedBeregnetPeriode | UberegnetPeriode,
-    arbeidsgivere: Array<Arbeidsgiver>,
-): Arbeidsgiver | null => {
+    period: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+    arbeidsgivere: Array<ArbeidsgiverFragment>,
+): ArbeidsgiverFragment | null => {
     return (
         arbeidsgivere.find((arbeidsgiver) =>
             arbeidsgiver.generasjoner
                 .flatMap((generasjon) => generasjon.perioder)
                 .filter(
-                    (periode): periode is UberegnetPeriode | BeregnetPeriode =>
+                    (periode): periode is UberegnetPeriodeFragment | BeregnetPeriodeFragment =>
                         isUberegnetPeriode(period) || isBeregnetPeriode(periode),
                 )
-                .find((periode: UberegnetPeriode | BeregnetPeriode) => periode.id === period.id),
+                .find((periode: UberegnetPeriodeFragment | BeregnetPeriodeFragment) => periode.id === period.id),
         ) ?? null
     );
 };
 
-export const useCurrentArbeidsgiver = (): Arbeidsgiver | null => {
+export const useCurrentArbeidsgiver = (): ArbeidsgiverFragment | null => {
     const activePeriod = useActivePeriod();
     const currentPerson = useCurrentPerson();
 
@@ -72,10 +74,10 @@ export const useCurrentArbeidsgiver = (): Arbeidsgiver | null => {
     return null;
 };
 
-export const useArbeidsgiver = (organisasjonsnummer: string): Arbeidsgiver | null =>
+export const useArbeidsgiver = (organisasjonsnummer: string): ArbeidsgiverFragment | null =>
     useCurrentPerson()?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
 
-export const useInntektsmeldinghendelser = (arbeidsgiver: Arbeidsgiver | null): Hendelse[] => {
+export const useInntektsmeldinghendelser = (arbeidsgiver: ArbeidsgiverFragment | null): Hendelse[] => {
     if (!arbeidsgiver) return [];
 
     // Ja, det er litt rotete kode for å deduplisere hendelser-lista, men
@@ -121,14 +123,14 @@ export const usePeriodIsInGeneration = (): number | null => {
     );
 };
 
-export const usePeriodeErIGenerasjon = (arbeidsgiver: Arbeidsgiver | null, periodeId: string): number | null =>
+export const usePeriodeErIGenerasjon = (arbeidsgiver: ArbeidsgiverFragment | null, periodeId: string): number | null =>
     arbeidsgiver?.generasjoner.findIndex((it) =>
         it.perioder.some(
             (periode) => (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) && periode.id === periodeId,
         ),
     ) ?? null;
 
-export const usePeriodeTilGodkjenning = (): BeregnetPeriode | null => {
+export const usePeriodeTilGodkjenning = (): BeregnetPeriodeFragment | null => {
     const person = useCurrentPerson();
 
     if (!person) return null;
@@ -138,7 +140,7 @@ export const usePeriodeTilGodkjenning = (): BeregnetPeriode | null => {
             .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder)
             .filter(
                 (periode) => isBeregnetPeriode(periode) && periode.periodetilstand === 'TilGodkjenning',
-            )?.[0] as BeregnetPeriode) ?? null
+            )?.[0] as BeregnetPeriodeFragment) ?? null
     );
 };
 
@@ -166,9 +168,9 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
         return null;
     }
 
-    const arbeidsgiverBeregnedePerioder: Array<FetchedBeregnetPeriode> = arbeidsgiverPerioder.filter((it) =>
+    const arbeidsgiverBeregnedePerioder: Array<BeregnetPeriodeFragment> = arbeidsgiverPerioder.filter((it) =>
         isBeregnetPeriode(it),
-    ) as Array<FetchedBeregnetPeriode>;
+    ) as Array<BeregnetPeriodeFragment>;
 
     if (arbeidsgiverBeregnedePerioder.length === 0 && isGhostPeriode(arbeidsgiverGhostPerioder[0])) {
         return arbeidsgiverGhostPerioder[0] ?? null;
@@ -239,8 +241,8 @@ export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateStr
 };
 
 export const useFinnesNyereUtbetaltPeriodePåPerson = (
-    period: FetchedBeregnetPeriode,
-    person: FetchedPerson,
+    period: BeregnetPeriodeFragment,
+    person: PersonFragment,
 ): boolean => {
     const nyesteUtbetaltPeriodePåPerson = person.arbeidsgivere
         .flatMap((it) => it.generasjoner[0]?.perioder)
@@ -285,7 +287,7 @@ export const useEndringerForPeriode = (organisasjonsnummer: string): UseEndringe
         .filter(isInntektoverstyring);
 
     const arbeidsforhold = endringer
-        .filter((it) => dayjs((periode as BeregnetPeriode).skjaeringstidspunkt).isSameOrBefore(it.timestamp))
+        .filter((it) => dayjs((periode as BeregnetPeriodeFragment).skjaeringstidspunkt).isSameOrBefore(it.timestamp))
         .filter(isArbeidsforholdoverstyring);
 
     const dager = endringer
@@ -298,7 +300,7 @@ export const useEndringerForPeriode = (organisasjonsnummer: string): UseEndringe
 export const useDagoverstyringer = (
     fom: DateString,
     tom: DateString,
-    arbeidsgiver?: Maybe<Arbeidsgiver>,
+    arbeidsgiver?: Maybe<ArbeidsgiverFragment>,
 ): Array<Dagoverstyring> => {
     return useMemo(() => {
         if (!arbeidsgiver) return [];
@@ -313,7 +315,7 @@ export const useDagoverstyringer = (
         );
     }, [arbeidsgiver, fom, tom]);
 };
-export const useHarDagOverstyringer = (periode: FetchedBeregnetPeriode): boolean => {
+export const useHarDagOverstyringer = (periode: BeregnetPeriodeFragment): boolean => {
     const arbeidsgiver = useCurrentArbeidsgiver();
     const dagendringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
 
@@ -352,7 +354,7 @@ export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringsti
     );
 };
 
-export const useGjenståendeDager = (periode: BeregnetPeriode | UberegnetPeriode): Maybe<number> => {
+export const useGjenståendeDager = (periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment): Maybe<number> => {
     const person = useCurrentPerson();
     const arbeidsgiver = findArbeidsgiverWithPeriode(periode, person?.arbeidsgivere ?? []);
     const periodeErIGenerasjon = usePeriodeErIGenerasjon(arbeidsgiver, periode.id);
@@ -369,7 +371,7 @@ export const useGjenståendeDager = (periode: BeregnetPeriode | UberegnetPeriode
         periodeErIGenerasjon
     ]?.perioder.filter(
         (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === periode.skjaeringstidspunkt && it.maksdato,
-    )[0] as BeregnetPeriode;
+    )[0] as BeregnetPeriodeFragment;
 
     if (!sisteBeregnedePeriodeISykefraværstilfellet) return null;
 
@@ -382,7 +384,7 @@ export const useGjenståendeDager = (periode: BeregnetPeriode | UberegnetPeriode
     return (sisteBeregnedePeriodeISykefraværstilfellet?.gjenstaendeSykedager ?? 0) + antallNavdagerEtterAktivPeriode;
 };
 
-const navdager = (arbeidsgivere: Array<Arbeidsgiver>, periodeErIGenerasjon: number | null): string[] => {
+const navdager = (arbeidsgivere: Array<ArbeidsgiverFragment>, periodeErIGenerasjon: number | null): string[] => {
     if (periodeErIGenerasjon === null || periodeErIGenerasjon === -1) return [];
     const alleNavdager = [
         ...arbeidsgivere.flatMap(

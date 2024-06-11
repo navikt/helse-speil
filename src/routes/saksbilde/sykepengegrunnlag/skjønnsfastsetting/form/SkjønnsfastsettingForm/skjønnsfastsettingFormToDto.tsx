@@ -1,5 +1,6 @@
 import { SkjønnsfastsettingMal } from '@/external/sanity';
-import { Arbeidsgiverinntekt } from '@io/graphql';
+import { ActivePeriod } from '@/types/shared';
+import { Arbeidsgiverinntekt, PersonFragment } from '@io/graphql';
 import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@io/http';
 import { toKronerOgØre } from '@utils/locale';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
@@ -14,7 +15,7 @@ interface InitierendeVedtaksperiodeForArbeidsgiver {
 }
 
 const finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt = (
-    person: FetchedPerson,
+    person: PersonFragment,
     period: ActivePeriod,
 ): InitierendeVedtaksperiodeForArbeidsgiver[] =>
     person?.arbeidsgivere.flatMap((arbeidsgiver) => ({
@@ -31,7 +32,7 @@ const finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt = (
 export const skjønnsfastsettingFormToDto = (
     form: SkjønnsfastsettingFormFields,
     inntekter: Arbeidsgiverinntekt[],
-    person: FetchedPerson,
+    person: PersonFragment,
     period: ActivePeriod,
     omregnetÅrsinntekt: number,
     sammenligningsgrunnlag: number,

@@ -35,6 +35,101 @@ fragment simulering on Simulering {
     }
 }
 
+fragment overstyring on Overstyring {
+    hendelseId
+    saksbehandler {
+        ident
+        navn
+    }
+    timestamp
+    ferdigstilt
+    __typename
+    ... on Dagoverstyring {
+        begrunnelse
+        dager {
+            grad
+            fraGrad
+            dato
+            type
+            fraType
+        }
+    }
+    ... on Inntektoverstyring {
+        inntekt {
+            skjaeringstidspunkt
+            forklaring
+            begrunnelse
+            manedligInntekt
+            fraManedligInntekt
+            refusjonsopplysninger {
+                fom
+                tom
+                belop
+            }
+            fraRefusjonsopplysninger {
+                fom
+                tom
+                belop
+            }
+        }
+    }
+    ... on Arbeidsforholdoverstyring {
+        begrunnelse
+        deaktivert
+        skjaeringstidspunkt
+        forklaring
+    }
+    ... on Sykepengegrunnlagskjonnsfastsetting {
+        skjonnsfastsatt {
+            arsak
+            type
+            begrunnelse
+            begrunnelseMal
+            begrunnelseFritekst
+            begrunnelseKonklusjon
+            arlig
+            fraArlig
+            skjaeringstidspunkt
+        }
+    }
+}
+
+fragment arbeidsgiver on Arbeidsgiver {
+    bransjer
+    navn
+    organisasjonsnummer
+    arbeidsforhold {
+        sluttdato
+        startdato
+        stillingsprosent
+        stillingstittel
+    }
+    ghostPerioder {
+        ...ghostPeriode
+    }
+    generasjoner {
+        id
+        perioder {
+            ... on UberegnetPeriode {
+                ...uberegnetPeriode
+            }
+            ... on BeregnetPeriode {
+                ...beregnetPeriode
+            }
+        }
+    }
+    overstyringer {
+        ...overstyring
+    }
+    inntekterFraAordningen {
+        skjaeringstidspunkt
+        inntekter {
+            maned
+            sum
+        }
+    }
+}
+
 fragment vilkarsgrunnlag on Vilkarsgrunnlag {
     id
     sykepengegrunnlag
@@ -107,7 +202,6 @@ fragment notat on Notat {
     saksbehandlerIdent
     vedtaksperiodeId
     feilregistrert
-    feilregistrert_tidspunkt
     type
     kommentarer {
         id
@@ -118,322 +212,255 @@ fragment notat on Notat {
     }
 }
 
-query FetchPerson($fnr: String, $aktorId: String) {
-    person(fnr: $fnr, aktorId: $aktorId) {
-        fodselsnummer
-        dodsdato
-        enhet {
-            id
-            navn
+fragment ghostPeriode on GhostPeriode {
+    id
+    deaktivert
+    vilkarsgrunnlagId
+    skjaeringstidspunkt
+    fom
+    tom
+    organisasjonsnummer
+}
+
+fragment uberegnetPeriode on UberegnetPeriode {
+    id
+    notater {
+        ...notat
+    }
+    ...periode
+}
+
+fragment beregnetPeriode on BeregnetPeriode {
+    id
+    beregningId
+    forbrukteSykedager
+    gjenstaendeSykedager
+    vedtaksperiodeId
+    handlinger {
+        type
+        tillatt
+        begrunnelse
+    }
+    notater {
+        ...notat
+    }
+    periodehistorikk {
+        type
+        timestamp
+        saksbehandler_ident
+        notat_id
+    }
+    maksdato
+    periodevilkar {
+        alder {
+            alderSisteSykedag
+            oppfylt
         }
-        infotrygdutbetalinger {
-            organisasjonsnummer
-            dagsats
+        sykepengedager {
+            forbrukteSykedager
+            gjenstaendeSykedager
+            maksdato
+            oppfylt
+            skjaeringstidspunkt
+        }
+    }
+    risikovurdering {
+        funn {
+            beskrivelse
+            kategori
+        }
+        kontrollertOk {
+            beskrivelse
+            kategori
+        }
+    }
+    utbetaling {
+        id
+        arbeidsgiverFagsystemId
+        arbeidsgiverNettoBelop
+        personFagsystemId
+        personNettoBelop
+        status
+        type
+        vurdering {
+            automatisk
+            godkjent
+            ident
+            tidsstempel
+        }
+        arbeidsgiversimulering {
+            ...simulering
+        }
+        personsimulering {
+            ...simulering
+        }
+    }
+    vilkarsgrunnlagId
+    oppgave {
+        id
+    }
+    paVent {
+        frist
+        begrunnelse
+        oid
+    }
+    totrinnsvurdering {
+        erBeslutteroppgave
+        erRetur
+        saksbehandler
+        beslutter
+    }
+    egenskaper {
+        egenskap
+        kategori
+    }
+    avslag {
+        type
+        begrunnelse
+        opprettet
+        saksbehandlerIdent
+        invalidert
+    }
+    ...periode
+}
+
+fragment periode on Periode {
+    behandlingId
+    fom
+    tom
+    erForkastet
+    inntektstype
+    opprettet
+    periodetype
+    tidslinje {
+        dato
+        grad
+        kilde {
+            id
+            type
+        }
+        sykdomsdagtype
+        utbetalingsdagtype
+        utbetalingsinfo {
+            arbeidsgiverbelop
+            inntekt
+            personbelop
+            refusjonsbelop
+            totalGrad
+            utbetaling
+        }
+        begrunnelser
+    }
+    vedtaksperiodeId
+    periodetilstand
+    skjaeringstidspunkt
+    varsler {
+        generasjonId
+        definisjonId
+        opprettet
+        kode
+        tittel
+        forklaring
+        handling
+        vurdering {
+            ident
+            status
+            tidsstempel
+        }
+    }
+    hendelser {
+        id
+        type
+        ... on Inntektsmelding {
+            beregnetInntekt
+            mottattDato
+            eksternDokumentId
+        }
+        ... on Sykmelding {
             fom
             tom
-            grad
-            typetekst
+            rapportertDato
         }
-        personinfo {
-            fornavn
-            mellomnavn
-            etternavn
-            adressebeskyttelse
-            fodselsdato
-            kjonn
-            reservasjon {
-                kanVarsles
-                reservert
-            }
-            unntattFraAutomatisering {
-                erUnntatt
-                arsaker
-                tidspunkt
-            }
+        ... on SoknadNav {
+            fom
+            tom
+            rapportertDato
+            sendtNav
+            eksternDokumentId
         }
-        tildeling {
-            navn
-            epost
-            oid
+        ... on SoknadArbeidsgiver {
+            fom
+            tom
+            rapportertDato
+            sendtArbeidsgiver
+            eksternDokumentId
         }
-        versjon
-        vilkarsgrunnlag {
-            ...vilkarsgrunnlag
+        ... on SoknadArbeidsledig {
+            fom
+            tom
+            rapportertDato
+            sendtNav
+            eksternDokumentId
         }
-        aktorId
-        arbeidsgivere {
-            bransjer
-            navn
-            organisasjonsnummer
-            arbeidsforhold {
-                sluttdato
-                startdato
-                stillingsprosent
-                stillingstittel
-            }
-            ghostPerioder {
-                __typename
-                id
-                deaktivert
-                vilkarsgrunnlagId
-                skjaeringstidspunkt
-                fom
-                tom
-                organisasjonsnummer
-            }
-            generasjoner {
-                id
-                perioder {
-                    __typename
-                    behandlingId
-                    fom
-                    tom
-                    erForkastet
-                    inntektstype
-                    opprettet
-                    periodetype
-                    tidslinje {
-                        dato
-                        grad
-                        kilde {
-                            id
-                            type
-                        }
-                        sykdomsdagtype
-                        utbetalingsdagtype
-                        utbetalingsinfo {
-                            arbeidsgiverbelop
-                            inntekt
-                            personbelop
-                            refusjonsbelop
-                            totalGrad
-                            utbetaling
-                        }
-                        begrunnelser
-                    }
-                    vedtaksperiodeId
-                    periodetilstand
-                    skjaeringstidspunkt
-                    varsler {
-                        generasjonId
-                        definisjonId
-                        opprettet
-                        kode
-                        tittel
-                        forklaring
-                        handling
-                        vurdering {
-                            ident
-                            status
-                            tidsstempel
-                        }
-                    }
-                    hendelser {
-                        id
-                        type
-                        ... on Inntektsmelding {
-                            beregnetInntekt
-                            mottattDato
-                            eksternDokumentId
-                        }
-                        ... on Sykmelding {
-                            fom
-                            tom
-                            rapportertDato
-                        }
-                        ... on SoknadNav {
-                            fom
-                            tom
-                            rapportertDato
-                            sendtNav
-                            eksternDokumentId
-                        }
-                        ... on SoknadArbeidsgiver {
-                            fom
-                            tom
-                            rapportertDato
-                            sendtArbeidsgiver
-                            eksternDokumentId
-                        }
-                        ... on SoknadArbeidsledig {
-                            fom
-                            tom
-                            rapportertDato
-                            sendtNav
-                            eksternDokumentId
-                        }
-                        ... on SoknadFrilans {
-                            fom
-                            tom
-                            rapportertDato
-                            sendtNav
-                            eksternDokumentId
-                        }
-                    }
-                    ... on UberegnetPeriode {
-                        id
-                        notater {
-                            ...notat
-                        }
-                    }
-                    ... on BeregnetPeriode {
-                        id
-                        beregningId
-                        forbrukteSykedager
-                        gjenstaendeSykedager
-                        handlinger {
-                            type
-                            tillatt
-                            begrunnelse
-                        }
-                        notater {
-                            ...notat
-                        }
-                        periodehistorikk {
-                            type
-                            timestamp
-                            saksbehandler_ident
-                            notat_id
-                        }
-                        maksdato
-                        periodevilkar {
-                            alder {
-                                alderSisteSykedag
-                                oppfylt
-                            }
-                            sykepengedager {
-                                forbrukteSykedager
-                                gjenstaendeSykedager
-                                maksdato
-                                oppfylt
-                                skjaeringstidspunkt
-                            }
-                        }
-                        risikovurdering {
-                            funn {
-                                beskrivelse
-                                kategori
-                            }
-                            kontrollertOk {
-                                beskrivelse
-                                kategori
-                            }
-                        }
-                        utbetaling {
-                            id
-                            arbeidsgiverFagsystemId
-                            arbeidsgiverNettoBelop
-                            personFagsystemId
-                            personNettoBelop
-                            status
-                            type
-                            vurdering {
-                                automatisk
-                                godkjent
-                                ident
-                                tidsstempel
-                            }
-                            arbeidsgiversimulering {
-                                ...simulering
-                            }
-                            personsimulering {
-                                ...simulering
-                            }
-                        }
-                        vilkarsgrunnlagId
-                        oppgave {
-                            id
-                        }
-                        paVent {
-                            frist,
-                            begrunnelse,
-                            oid
-                        }
-                        totrinnsvurdering {
-                            erBeslutteroppgave
-                            erRetur
-                            saksbehandler
-                            beslutter
-                        }
-                        egenskaper {
-                            egenskap
-                            kategori
-                        }
-                        avslag {
-                            type
-                            begrunnelse
-                            opprettet
-                            saksbehandlerIdent
-                            invalidert
-                        }
-                    }
-                }
-            }
-            overstyringer {
-                hendelseId
-                saksbehandler {
-                    ident
-                    navn
-                }
-                timestamp
-                ferdigstilt
-                __typename
-                ... on Dagoverstyring {
-                    begrunnelse
-                    dager {
-                        grad
-                        fraGrad
-                        dato
-                        type
-                        fraType
-                    }
-                }
-                ... on Inntektoverstyring {
-                    inntekt {
-                        skjaeringstidspunkt
-                        forklaring
-                        begrunnelse
-                        manedligInntekt
-                        fraManedligInntekt
-                        refusjonsopplysninger {
-                            fom
-                            tom
-                            belop
-                        }
-                        fraRefusjonsopplysninger {
-                            fom
-                            tom
-                            belop
-                        }
-                    }
-                }
-                ... on Arbeidsforholdoverstyring {
-                    begrunnelse
-                    deaktivert
-                    skjaeringstidspunkt
-                    forklaring
-                }
-                ... on Sykepengegrunnlagskjonnsfastsetting {
-                    skjonnsfastsatt {
-                        arsak
-                        type
-                        begrunnelse
-                        begrunnelseMal
-                        begrunnelseFritekst
-                        begrunnelseKonklusjon
-                        arlig
-                        fraArlig
-                        skjaeringstidspunkt
-                    }
-                }
-            }
-            inntekterFraAordningen {
-                skjaeringstidspunkt
-                inntekter {
-                    maned
-                    sum
-                }
-            }
+        ... on SoknadFrilans {
+            fom
+            tom
+            rapportertDato
+            sendtNav
+            eksternDokumentId
         }
+    }
+}
+
+fragment person on Person {
+    fodselsnummer
+    dodsdato
+    enhet {
+        id
+        navn
+    }
+    infotrygdutbetalinger {
+        organisasjonsnummer
+        dagsats
+        fom
+        tom
+        grad
+        typetekst
+    }
+    personinfo {
+        fornavn
+        mellomnavn
+        etternavn
+        adressebeskyttelse
+        fodselsdato
+        kjonn
+        reservasjon {
+            kanVarsles
+            reservert
+        }
+        unntattFraAutomatisering {
+            erUnntatt
+            arsaker
+            tidspunkt
+        }
+    }
+    tildeling {
+        navn
+        epost
+        oid
+    }
+    versjon
+    vilkarsgrunnlag {
+        ...vilkarsgrunnlag
+    }
+    aktorId
+    arbeidsgivere {
+        ...arbeidsgiver
+    }
+}
+
+query FetchPerson($fnr: String, $aktorId: String) {
+    person(fnr: $fnr, aktorId: $aktorId) {
+        ...person
     }
 }

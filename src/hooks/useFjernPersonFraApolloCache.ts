@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { useApolloClient } from '@apollo/client';
-import { useFetchPersonQuery } from '@state/person';
+import { useFetchPersonQuery } from '@person/query';
 
 export const useFjernPersonFraApolloCache = () => {
     const { data } = useFetchPersonQuery();

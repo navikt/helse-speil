@@ -2,8 +2,7 @@ import agurk from '../../assets/ingen-oppgaver-agurk.png';
 import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
 import brevkasse from '../../assets/ingen-oppgaver.png';
 import dayjs from 'dayjs';
-import isoWeek from 'dayjs/plugin/isoWeek';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { Heading } from '@navikt/ds-react';
 
@@ -11,11 +10,9 @@ import { TabType, useAktivTab } from './tabState';
 
 import styles from './IngenOppgaver.module.css';
 
-dayjs.extend(isoWeek);
-
 const erFredag = () => dayjs().isoWeekday() === 5;
 
-const Caption: React.FC<ChildrenProps> = ({ children }) => {
+const Caption = ({ children }: PropsWithChildren) => {
     return (
         <Heading as="figcaption" size="medium">
             {children}

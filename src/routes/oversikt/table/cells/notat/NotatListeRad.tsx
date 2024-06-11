@@ -3,9 +3,11 @@ import React from 'react';
 
 import { Loader } from '@navikt/ds-react';
 
+import { Notat } from '@/types/notat';
 import { useMutation } from '@apollo/client';
 import { LinkButton } from '@components/LinkButton';
 import { FeilregistrerNotatMutationDocument } from '@io/graphql';
+import { Saksbehandler } from '@state/authentication';
 import { useOperationErrorHandler } from '@state/varsler';
 import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
 

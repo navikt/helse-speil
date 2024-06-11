@@ -9,6 +9,7 @@ import {
     OverstyringArbeidsforholdInput,
 } from '@io/graphql';
 import { OverstyrtArbeidsforholdDTO } from '@io/http/types';
+import { useCurrentPerson } from '@person/query';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -17,7 +18,6 @@ import {
 } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 
@@ -33,7 +33,7 @@ type OverstyrtArbeidsforholdGetter = (
 ) => OverstyrtArbeidsforholdDTO;
 
 export const useGetOverstyrtArbeidsforhold = (): OverstyrtArbeidsforholdGetter => {
-    const person = useCurrentPerson() as FetchedPerson;
+    const person = useCurrentPerson();
     const valgtVedtaksperiode = useActivePeriod();
 
     return (organisasjonsnummerGhost, skjæringstidspunkt, arbeidsforholdSkalDeaktiveres, forklaring, begrunnelse) => ({

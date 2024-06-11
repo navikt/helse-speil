@@ -1,3 +1,4 @@
+// TODO: Globale types som bør nukes
 declare namespace Amplitude {
     type LogEvent =
         | 'oppgave godkjent'

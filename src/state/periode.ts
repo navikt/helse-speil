@@ -1,7 +1,8 @@
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { Maybe, Periodetilstand } from '@io/graphql';
-import { useCurrentPerson } from '@state/person';
+import { ActivePeriod } from '@/types/shared';
+import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 const activePeriodIdState = atom<string | null>({
@@ -33,7 +34,7 @@ export const useActivePeriod = (): ActivePeriod | null => {
 
 export const useSelectPeriod = () => {
     const setActivePeriodId = useSetRecoilState(activePeriodIdState);
-    return (person: FetchedPerson) => {
+    return (person: PersonFragment) => {
         const periodToSelect = findPeriodToSelect(person);
         if (periodToSelect) {
             setActivePeriodId(periodToSelect.id);
@@ -41,7 +42,7 @@ export const useSelectPeriod = () => {
     };
 };
 
-const findPeriodToSelect = (person: FetchedPerson): Maybe<ActivePeriod> => {
+const findPeriodToSelect = (person: PersonFragment): Maybe<ActivePeriod> => {
     const perioderINyesteGenerasjoner = person.arbeidsgivere.flatMap(
         (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
     );
@@ -62,7 +63,7 @@ const findPeriodToSelect = (person: FetchedPerson): Maybe<ActivePeriod> => {
     return periodeTilBehandling ?? aktuellePerioder[0] ?? null;
 };
 
-const findPeriod = (periodeId: string | null, person: FetchPersonQuery['person']) => {
+const findPeriod = (periodeId: string | null, person: PersonFragment) => {
     if (periodeId == null) return null;
 
     return (

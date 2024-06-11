@@ -2,13 +2,14 @@ import { ApolloWrapper } from '@test-wrappers';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 
+import { PeriodState } from '@/types/shared';
 import { Maybe, VarselDto } from '@io/graphql';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import { Saksbildevarsler } from './Saksbildevarsler';
 
-jest.mock('@state/person');
+jest.mock('@person/query');
 
 describe('Saksbildevarsler', () => {
     const SaksbildevarslerWrapper = ({
@@ -57,6 +58,9 @@ describe('Saksbildevarsler', () => {
                         opprettet: '2020-01-01',
                         kode: 'EN_KODE',
                         tittel: 'Dette er en aktivitet',
+                        forklaring: null,
+                        handling: null,
+                        vurdering: null,
                     },
                     {
                         __typename: 'VarselDTO',
@@ -65,6 +69,9 @@ describe('Saksbildevarsler', () => {
                         opprettet: '2020-01-01',
                         kode: 'EN_KODE',
                         tittel: 'Dette er også en aktivitet',
+                        forklaring: null,
+                        handling: null,
+                        vurdering: null,
                     },
                 ]}
             />,

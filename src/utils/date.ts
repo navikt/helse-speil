@@ -1,15 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import isoWeek from 'dayjs/plugin/isoWeek';
-import minMax from 'dayjs/plugin/minMax';
 
+import { DateString } from '@/types/shared';
 import { Maybe } from '@io/graphql';
-
-dayjs.extend(isoWeek);
-dayjs.extend(isSameOrBefore);
-dayjs.extend(isSameOrAfter);
-dayjs.extend(minMax);
 
 export const NORSK_DATOFORMAT_MED_KLOKKESLETT = 'DD.MM.YY kl. HH.mm';
 export const NORSK_DATOFORMAT = 'DD.MM.YYYY';

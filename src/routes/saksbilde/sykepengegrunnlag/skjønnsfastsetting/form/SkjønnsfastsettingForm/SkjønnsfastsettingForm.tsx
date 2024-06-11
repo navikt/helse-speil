@@ -9,8 +9,8 @@ import { ErrorMessage } from '@components/ErrorMessage';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 
 import { Feiloppsummering, Skjemafeil } from '../../../inntekt/EditableInntekt/Feiloppsummering';
 import {

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { DateString } from '@/types/shared';
 import { getFormattedDateString } from '@utils/date';
 
 import styles from './DateCell.module.css';

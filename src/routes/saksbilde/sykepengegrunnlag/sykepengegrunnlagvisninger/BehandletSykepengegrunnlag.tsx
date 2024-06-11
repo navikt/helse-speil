@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { DateString } from '@/types/shared';
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
 import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
-import { Arbeidsgiver, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
+import { ArbeidsgiverFragment, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 
 import { SykepengegrunnlagFraSpleis } from './spleis/SykepengegrunnlagFraSpleis';
@@ -11,7 +12,7 @@ interface BehandletSykepengegrunnlagProps {
     vurdering: Vurdering;
     vilkårsgrunnlag: VilkarsgrunnlagSpleis;
     skjæringstidspunkt: DateString;
-    arbeidsgiver: Omit<Arbeidsgiver, 'generasjoner' | 'ghostPerioder' | 'overstyringer'>;
+    arbeidsgiver: Omit<ArbeidsgiverFragment, 'generasjoner' | 'ghostPerioder' | 'overstyringer'>;
 }
 
 export const BehandletSykepengegrunnlag = ({

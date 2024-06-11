@@ -6,7 +6,10 @@ import { render, screen, within } from '@testing-library/react';
 
 import { InngangsvilkårWithContent } from './Inngangsvilkår';
 
-const getVilkårsgrunnlagSpleis = (overrides?: Partial<VilkarsgrunnlagSpleis>): VilkarsgrunnlagSpleis => ({
+const getVilkårsgrunnlagSpleis = (
+    // TODO: Erstatte global type med query type
+    overrides?: Partial<VilkarsgrunnlagSpleis>,
+): VilkarsgrunnlagSpleis => ({
     __typename: 'VilkarsgrunnlagSpleis',
     id: 'en-id',
     antallOpptjeningsdagerErMinst: 100,
@@ -21,6 +24,8 @@ const getVilkårsgrunnlagSpleis = (overrides?: Partial<VilkarsgrunnlagSpleis>): 
     sammenligningsgrunnlag: 1234567,
     skjaeringstidspunkt: '2022-01-01',
     sykepengegrunnlag: 1234567,
+    avviksprosent: null,
+    skjonnsmessigFastsattAarlig: null,
     sykepengegrunnlagsgrense: {
         __typename: 'Sykepengegrunnlagsgrense',
         grunnbelop: 106399,

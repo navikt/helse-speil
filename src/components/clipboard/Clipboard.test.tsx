@@ -39,7 +39,7 @@ describe('Clipboard', () => {
         expect(copiedText).toEqual('Denneskalkopieresutenmellomrom');
     });
     test('kopierer tekst fra kilderef om oppgitt', async () => {
-        const Container: React.FC<ChildrenProps> = () => {
+        const Container: React.FC = () => {
             const copyRef = useRef<HTMLParagraphElement>(null);
             return (
                 <>

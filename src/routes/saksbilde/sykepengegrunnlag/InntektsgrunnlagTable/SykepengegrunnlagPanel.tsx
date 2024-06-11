@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
-import { useCurrentPerson } from '@state/person';
+import { useCurrentPerson } from '@person/query';
 
 import { SkjønnsfastsettingSykepengegrunnlag } from '../skjønnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';

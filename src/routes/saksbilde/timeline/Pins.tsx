@@ -1,9 +1,9 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import React from 'react';
 
 import { BodyShort, Popover } from '@navikt/ds-react';
 
-import { Arbeidsgiver } from '@io/graphql';
+import { ArbeidsgiverFragment } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 
 import { useMaksdato } from './hooks/useMaksdato';
@@ -32,7 +32,7 @@ const shouldShowPin = (position?: Maybe<number>): boolean =>
 interface PinsProps {
     start: Dayjs;
     end: Dayjs;
-    arbeidsgivere: Array<Arbeidsgiver>;
+    arbeidsgivere: Array<ArbeidsgiverFragment>;
 }
 
 export const Pins: React.FC<PinsProps> = ({ arbeidsgivere, start, end }) => {

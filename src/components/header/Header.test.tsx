@@ -11,7 +11,7 @@ import { SpeilError } from '@utils/error';
 
 import { Header } from './Header';
 
-jest.mock('@state/person');
+jest.mock('@person/query');
 jest.mock('../../routes/saksbilde/useKeyboardShortcuts');
 
 let cachedVarsel: SpeilError | null = null;

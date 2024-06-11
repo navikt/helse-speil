@@ -3,9 +3,10 @@ import React from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { DateString } from '@/types/shared';
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
-import { Inntektskilde } from '@io/graphql';
+import { Inntektskilde, OverstyrtDag } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';

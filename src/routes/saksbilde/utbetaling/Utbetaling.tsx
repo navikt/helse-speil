@@ -2,12 +2,21 @@ import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
+import { DateString } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Arbeidsgiver, UberegnetPeriode, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
+import {
+    ArbeidsgiverFragment,
+    BeregnetPeriodeFragment,
+    PersonFragment,
+    UberegnetPeriodeFragment,
+    Utbetalingsdagtype,
+    Utbetalingstatus,
+} from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import {
     useCurrentArbeidsgiver,
     useDagoverstyringer,
@@ -15,7 +24,6 @@ import {
     useGjenståendeDager,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 import { isBeregnetPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
@@ -73,9 +81,9 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
 };
 
 interface UtbetalingBeregnetPeriodeProps {
-    period: FetchedBeregnetPeriode;
-    person: FetchedPerson;
-    arbeidsgiver: Arbeidsgiver;
+    period: BeregnetPeriodeFragment;
+    person: PersonFragment;
+    arbeidsgiver: ArbeidsgiverFragment;
 }
 
 const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = ({ period, person, arbeidsgiver }) => {
@@ -114,8 +122,8 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = ({ p
 const UtbetalingBeregnetPeriodeMemoized = React.memo(UtbetalingBeregnetPeriode);
 
 interface UtbetalingUberegnetPeriodeProps {
-    periode: UberegnetPeriode;
-    arbeidsgiver: Arbeidsgiver;
+    periode: UberegnetPeriodeFragment;
+    arbeidsgiver: ArbeidsgiverFragment;
 }
 
 const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({ periode, arbeidsgiver }) => {
@@ -173,10 +181,6 @@ const UtbetalingContainer = () => {
     }
 };
 
-const UtbetalingSkeleton = () => {
-    return <div />;
-};
-
 const UtbetalingError = () => {
     return (
         <Alert variant="error" size="small">
@@ -194,6 +198,3 @@ export const Utbetaling = () => {
 };
 
 export default Utbetaling;
-function memo(UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps>) {
-    throw new Error('Function not implemented.');
-}

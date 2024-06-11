@@ -1,3 +1,4 @@
+// TODO: Globale types som bør nukes
 declare type Extension = {
     code: number;
     [field: string]: string | object | number;

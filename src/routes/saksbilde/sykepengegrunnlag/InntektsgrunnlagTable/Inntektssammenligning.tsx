@@ -5,7 +5,7 @@ import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { Inntektskilde, OmregnetArsinntekt, Overstyring, Sammenligningsgrunnlag } from '@io/graphql';
+import { Inntektskilde, OmregnetArsinntekt, OverstyringFragment, Sammenligningsgrunnlag } from '@io/graphql';
 import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
@@ -93,13 +93,13 @@ const OmregnetÅrsinntektContent = ({ arbeidsforholdErDeaktivert, beløp }: Omre
 
 interface OmregnetÅrsinntektIkonProps {
     arbeidsforholdErDeaktivert?: Maybe<boolean>;
-    endringer: Array<Overstyring>;
+    endringer: Array<OverstyringFragment>;
     kilde?: Inntektskilde;
 }
 
 const OmregnetÅrsinntektIkon = ({ arbeidsforholdErDeaktivert, endringer, kilde }: OmregnetÅrsinntektIkonProps) =>
     kilde === Inntektskilde.Saksbehandler || arbeidsforholdErDeaktivert ? (
-        <EndringsloggButton endringer={endringer as Array<Overstyring>} />
+        <EndringsloggButton endringer={endringer} />
     ) : (
         kilde && kilde !== Inntektskilde.IkkeRapportert && <Kilde type={kilde}>{kildeForkortelse(kilde)}</Kilde>
     );

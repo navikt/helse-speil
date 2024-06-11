@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { Send, SpeechBubble, StopWatch, Success } from '@navikt/ds-icons';
 import { BodyShort, ErrorMessage } from '@navikt/ds-react';
 
+import { NotatType } from '@/types/notat';
 import { useMutation } from '@apollo/client';
 import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';

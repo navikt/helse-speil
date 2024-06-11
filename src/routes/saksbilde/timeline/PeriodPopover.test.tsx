@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ApolloWrapper } from '@/test/wrappers';
 import {
+    BeregnetPeriodeFragment,
     Dag,
     Inntektstype,
     Periodetilstand,
@@ -22,7 +23,7 @@ jest.mock('@state/arbeidsgiver');
 const getFetchedBeregnetPeriode = (
     arbeidsgiverUtbetalingsdager: Dag[] = [],
     personUtbetalingsdager: Dag[] = [],
-): FetchedBeregnetPeriode => {
+): BeregnetPeriodeFragment => {
     return {
         __typename: 'BeregnetPeriode',
         beregningId: 'EN_ID',
@@ -48,6 +49,9 @@ const getFetchedBeregnetPeriode = (
                 __typename: 'Dag',
                 dato: '2022-01-01',
                 kilde: {} as Kilde,
+                grad: null,
+                begrunnelser: null,
+                utbetalingsinfo: null,
                 sykdomsdagtype: Sykdomsdagtype.Arbeidsgiverdag,
                 utbetalingsdagtype: Utbetalingsdagtype.Arbeidsgiverperiodedag,
             },
@@ -63,11 +67,20 @@ const getFetchedBeregnetPeriode = (
             personNettoBelop: 100,
             status: Utbetalingstatus.Ubetalt,
             type: Utbetalingtype.Utbetaling,
+            personsimulering: null,
+            arbeidsgiversimulering: null,
+            vurdering: null,
         },
         varsler: [],
         vedtaksperiodeId: 'EN_ID',
         egenskaper: [],
         avslag: [],
+        vilkarsgrunnlagId: null,
+        totrinnsvurdering: null,
+        paVent: null,
+        oppgave: null,
+        forbrukteSykedager: null,
+        risikovurdering: null,
     };
 };
 
@@ -79,9 +92,16 @@ describe('PeriodPopover', () => {
             kilde: {} as Kilde,
             sykdomsdagtype: Sykdomsdagtype.Sykedag,
             utbetalingsdagtype: Utbetalingsdagtype.Navdag,
+            begrunnelser: null,
+            grad: null,
             utbetalingsinfo: {
                 __typename: 'Utbetalingsinfo',
                 arbeidsgiverbelop: 100,
+                inntekt: null,
+                personbelop: null,
+                refusjonsbelop: null,
+                totalGrad: null,
+                utbetaling: null,
             },
         },
     ];
@@ -92,9 +112,16 @@ describe('PeriodPopover', () => {
             kilde: {} as Kilde,
             sykdomsdagtype: Sykdomsdagtype.Sykedag,
             utbetalingsdagtype: Utbetalingsdagtype.Navdag,
+            grad: null,
+            begrunnelser: null,
             utbetalingsinfo: {
                 __typename: 'Utbetalingsinfo',
                 personbelop: 100,
+                arbeidsgiverbelop: null,
+                inntekt: null,
+                refusjonsbelop: null,
+                totalGrad: null,
+                utbetaling: null,
             },
         },
     ];

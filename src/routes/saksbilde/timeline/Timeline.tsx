@@ -1,3 +1,4 @@
+import { TimelinePeriod } from './timeline-types';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
@@ -7,9 +8,9 @@ import { BodyShort } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
+import { ArbeidsgiverFragment, Infotrygdutbetaling } from '@io/graphql';
+import { useFetchPersonQuery } from '@person/query';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
@@ -25,7 +26,7 @@ import { ZoomLevel, useTimelineControls } from './hooks/useTimelineControls';
 import styles from './Timeline.module.css';
 
 interface TimelineWithContentProps {
-    arbeidsgivere: Array<Arbeidsgiver>;
+    arbeidsgivere: Array<ArbeidsgiverFragment>;
     infotrygdutbetalinger: Array<Infotrygdutbetaling>;
     activePeriod: TimelinePeriod | null;
 }

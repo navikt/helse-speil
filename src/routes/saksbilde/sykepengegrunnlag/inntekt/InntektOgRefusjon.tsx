@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
+import { DateString } from '@/types/shared';
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
@@ -8,7 +9,7 @@ import { AnonymizableContainer } from '@components/anonymizable/AnonymizableCont
 import { Clipboard } from '@components/clipboard';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import {
-    Arbeidsgiver,
+    ArbeidsgiverFragment,
     InntektFraAOrdningen,
     Inntektskilde,
     Inntektstype,
@@ -17,14 +18,14 @@ import {
     VilkarsgrunnlagSpleis,
 } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
+import { useCurrentPerson } from '@person/query';
+import { getVilkårsgrunnlag } from '@person/utils';
 import {
     useEndringerForPeriode,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     useLokaleRefusjonsopplysninger,
     useLokaltMånedsbeløp,
 } from '@state/arbeidsgiver';
-import { useCurrentPerson } from '@state/person';
-import { getVilkårsgrunnlag } from '@state/selectors/person';
 
 import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
 import { OverstyrArbeidsforholdUtenSykdom } from '../overstyring/OverstyrArbeidsforholdUtenSykdom';
@@ -53,7 +54,7 @@ interface InntektUtenSykefraværProps {
     vilkårsgrunnlagId?: Maybe<string>;
     periodeId?: Maybe<string>;
     inntektstype?: Maybe<Inntektstype>;
-    arbeidsgiver: Arbeidsgiver;
+    arbeidsgiver: ArbeidsgiverFragment;
     refusjon?: Maybe<Refusjonsopplysning[]>;
     harSykefravær: boolean;
     inntektFraAOrdningen?: Array<InntektFraAOrdningen>;

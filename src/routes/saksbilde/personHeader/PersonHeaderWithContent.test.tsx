@@ -25,6 +25,8 @@ describe('Personlinje', () => {
                         arsaker: [],
                         tidspunkt: null,
                     },
+                    fodselsdato: null,
+                    reservasjon: null,
                 }}
                 isAnonymous={false}
             />,

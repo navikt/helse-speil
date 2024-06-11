@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useRef, useState } from 'react';
+import React, { PropsWithChildren, ReactElement, useRef, useState } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -33,11 +33,14 @@ const ErrorInnhold: React.FC<ErrorInnholdProps> = ({ sidenavn, errormelding }) =
     );
 };
 
-interface AgurkErrorBoundaryProps extends ChildrenProps {
+interface AgurkErrorBoundaryProps {
     sidenavn?: string;
 }
 
-export const AgurkErrorBoundary: React.FC<AgurkErrorBoundaryProps> = ({ children, sidenavn }) => {
+export const AgurkErrorBoundary = ({
+    children,
+    sidenavn,
+}: PropsWithChildren<AgurkErrorBoundaryProps>): ReactElement | null => {
     const [errormelding, setErrormelding] = useState<string | undefined>();
     if (!children) return null;
     return (

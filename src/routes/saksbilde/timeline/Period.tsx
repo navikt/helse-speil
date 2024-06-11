@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React, { ReactNode, useRef } from 'react';
 
+import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
+import { PeriodState } from '@/types/shared';
 import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
 import { useSetActivePeriodId } from '@state/periode';
 import { getPeriodState } from '@utils/mapping';
@@ -85,7 +87,7 @@ const getIcon = (periodCategory: Maybe<PeriodCategory>): ReactNode => {
     }
 };
 
-const getClassNames = (period: DatePeriod, notCurrent?: boolean, isActive?: boolean, className?: string) => {
+const getClassNames = (period: TimelinePeriod, notCurrent?: boolean, isActive?: boolean, className?: string) => {
     const periodState = getPeriodState(period);
     const periodCategory = getPeriodCategory(periodState);
 
@@ -101,7 +103,7 @@ const getClassNames = (period: DatePeriod, notCurrent?: boolean, isActive?: bool
 };
 
 interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    period: DatePeriod;
+    period: TimelinePeriod;
     notCurrent?: boolean;
     isActive?: boolean;
 }

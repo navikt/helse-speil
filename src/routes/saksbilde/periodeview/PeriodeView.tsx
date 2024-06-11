@@ -9,8 +9,8 @@ import { PeriodeTilAnnulleringView } from '@/routes/saksbilde/saksbilder/Periode
 import PeriodeViewSkeleton from '@/routes/saksbilde/saksbilder/PeriodeViewSkeleton';
 import UberegnetPeriodeView from '@/routes/saksbilde/saksbilder/UberegnetPeriodeView';
 import { Periodetilstand } from '@io/graphql';
+import { useFetchPersonQuery } from '@person/query';
 import { useActivePeriod } from '@state/periode';
-import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import PeriodeViewError from '../saksbilder/PeriodeViewError';

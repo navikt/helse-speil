@@ -13,7 +13,8 @@ import { VarselstatusType } from './Varsler';
 
 import styles from './Varsel.module.css';
 
-interface VarselProps extends HTMLAttributes<HTMLDivElement> {
+interface VarselProps {
+    className?: string;
     varsel: VarselDto;
     type: VarselstatusType;
 }

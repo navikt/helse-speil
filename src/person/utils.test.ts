@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
 
-import { BeregnetPeriode, GhostPeriode } from '@io/graphql';
+import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment } from '@io/graphql';
 import {
     Inntekter,
     getInntektFraAOrdningen,
@@ -10,7 +10,7 @@ import {
     getLatestUtbetalingTimestamp,
     getRequiredVilkårsgrunnlag,
     hasPeriod,
-} from '@state/selectors/person';
+} from '@person/utils';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
@@ -109,13 +109,13 @@ describe('getInntekter', () => {
 describe('getRequiredVilkårsgrunnlag', () => {
     it('returnerer vilkårsgrunnlaget for gitt id hvis den finnes', () => {
         const grunnlag = etVilkårsgrunnlagFraSpleis();
-        const person = enPerson({ vilkarsgrunnlag: [grunnlag] }) as unknown as FetchedPerson;
+        const person = enPerson({ vilkarsgrunnlag: [grunnlag] }) as unknown as PersonFragment;
 
         expect(getRequiredVilkårsgrunnlag(person, grunnlag.id)).toEqual(grunnlag);
     });
 
     it('thrower når vilkårsgrunnlaget ikke finnes', () => {
-        const person = enPerson() as unknown as FetchedPerson;
+        const person = enPerson() as unknown as PersonFragment;
 
         expect(() => getRequiredVilkårsgrunnlag(person, nanoid())).toThrow();
     });
@@ -123,31 +123,31 @@ describe('getRequiredVilkårsgrunnlag', () => {
 
 describe('hasPeriod', () => {
     it('returnerer true om personen har en gitt beregnet periode', () => {
-        const periode = enBeregnetPeriode() as unknown as BeregnetPeriode;
+        const periode = enBeregnetPeriode() as unknown as BeregnetPeriodeFragment;
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as PersonFragment;
 
         expect(hasPeriod(person, periode)).toEqual(true);
     });
 
     it('returnerer false om personen ikke har en gitt beregnet periode', () => {
-        const periode = enBeregnetPeriode() as unknown as BeregnetPeriode;
-        const person = enPerson() as unknown as FetchedPerson;
+        const periode = enBeregnetPeriode() as unknown as BeregnetPeriodeFragment;
+        const person = enPerson() as unknown as PersonFragment;
 
         expect(hasPeriod(person, periode)).toEqual(false);
     });
 
     it('returnerer true om personen har en gitt ghost-periode', () => {
-        const periode = enGhostPeriode() as unknown as GhostPeriode;
+        const periode = enGhostPeriode() as unknown as GhostPeriodeFragment;
         const arbeidsgiver = enArbeidsgiver().medGhostPerioder([periode]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as PersonFragment;
 
         expect(hasPeriod(person, periode)).toEqual(true);
     });
 
     it('returnerer false om personen ikke har en gitt ghost-periode', () => {
-        const periode = enGhostPeriode() as unknown as GhostPeriode;
-        const person = enPerson() as unknown as FetchedPerson;
+        const periode = enGhostPeriode() as unknown as GhostPeriodeFragment;
+        const person = enPerson() as unknown as PersonFragment;
 
         expect(hasPeriod(person, periode)).toEqual(false);
     });
@@ -166,7 +166,7 @@ describe('getLatestUtbetalingTimestamp', () => {
             enBeregnetPeriode().medUtbetaling(enUtbetaling({ vurdering: enVurdering({ tidsstempel: '2021-01-01' }) })),
             enBeregnetPeriode().medUtbetaling(enUtbetaling({ vurdering: enVurdering({ tidsstempel: '2003-01-01' }) })),
         ]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiverB, arbeidsgiverA]) as FetchedPerson;
+        const person = enPerson().medArbeidsgivere([arbeidsgiverB, arbeidsgiverA]) as PersonFragment;
 
         expect(getLatestUtbetalingTimestamp(person)).toEqual(dayjs(siste));
     });
@@ -175,7 +175,7 @@ describe('getLatestUtbetalingTimestamp', () => {
         const siste = dayjs('1970-01-01');
         const periodeUtenUtbetaling = enBeregnetPeriode().medUtbetaling(enUtbetaling({ vurdering: null }));
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeUtenUtbetaling]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as FetchedPerson;
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as PersonFragment;
 
         expect(getLatestUtbetalingTimestamp(person)).toEqual(siste);
     });

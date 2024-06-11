@@ -1,11 +1,13 @@
-import { Vilkårsgrupperad } from './Vilkårsgrupperad';
 import dayjs from 'dayjs';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { DateString } from '@/types/shared';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
+
+import { Vilkårsgrupperad } from './Vilkårsgrupperad';
 
 interface OpptjeningstidProps {
     skjæringstidspunkt: DateString;

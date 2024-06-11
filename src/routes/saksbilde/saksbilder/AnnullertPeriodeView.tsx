@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
+import { ActivePeriod } from '@/types/shared';
+
 import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
 
 import styles from './SharedViews.module.css';

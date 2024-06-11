@@ -1,10 +1,12 @@
+import { TimelinePeriod } from './timeline-types';
 import classNames from 'classnames';
+import { Dayjs } from 'dayjs';
 import React from 'react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
-import type { GhostPeriode, Periode } from '@io/graphql';
+import type { GhostPeriodeFragment, Periode } from '@io/graphql';
 
 import { Periods } from './Periods';
 
@@ -16,7 +18,7 @@ export interface TimelineRowProps {
     name: string;
     periods: Array<Periode>;
     activePeriod: TimelinePeriod | null;
-    ghostPeriods?: Array<GhostPeriode>;
+    ghostPeriods?: Array<GhostPeriodeFragment>;
     alignWithExpandable?: boolean;
 }
 

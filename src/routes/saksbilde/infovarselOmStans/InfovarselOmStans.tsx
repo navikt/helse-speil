@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
+import { useCurrentPerson, useFetchPersonQuery } from '@person/query';
 
 import { UnntattFraAutomatisering } from './UnntattFraAutomatisering';
 

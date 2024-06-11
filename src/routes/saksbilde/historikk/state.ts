@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import { GhostPeriode } from '@io/graphql';
+import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
+import { useFetchPersonQuery } from '@person/query';
 import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/arbeidsgiver';
 import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { toNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
-import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import {
@@ -29,8 +29,8 @@ const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
 };
 
 const getHendelserForBeregnetPeriode = (
-    period: FetchedBeregnetPeriode,
-    person: FetchedPerson,
+    period: BeregnetPeriodeFragment,
+    person: PersonFragment,
 ): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
     const dagoverstyringer = arbeidsgiver ? getDagoverstyringer(period, arbeidsgiver) : [];
@@ -72,7 +72,7 @@ const getHendelserForBeregnetPeriode = (
         .sort(byTimestamp);
 };
 
-const getHendelserForGhostPeriode = (period: GhostPeriode, person: FetchedPerson): Array<HendelseObject> => {
+const getHendelserForGhostPeriode = (period: GhostPeriodeFragment, person: PersonFragment): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithGhostPeriode(period, person.arbeidsgivere);
     const arbeidsforholdoverstyringer = arbeidsgiver ? getArbeidsforholdoverstyringhendelser(period, arbeidsgiver) : [];
     const annetarbeidsforholdoverstyringer = getAnnetArbeidsforholdoverstyringhendelser(
@@ -89,7 +89,10 @@ const getHendelserForGhostPeriode = (period: GhostPeriode, person: FetchedPerson
     );
 };
 
-const getHendelserForUberegnetPeriode = (period: UberegnetPeriode, person: FetchedPerson): Array<HendelseObject> => {
+const getHendelserForUberegnetPeriode = (
+    period: UberegnetPeriodeFragment,
+    person: PersonFragment,
+): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
     const dagoverstyringer = arbeidsgiver ? getDagoverstyringerForAUU(period, arbeidsgiver) : [];
     const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period.skjaeringstidspunkt, arbeidsgiver) : [];

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react';
 
-import { Arbeidsgiver, Utbetalingstatus } from '@io/graphql';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, Utbetalingstatus } from '@io/graphql';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { Annulleringsmodal } from '../../annullering/Annulleringsmodal';
@@ -49,9 +49,9 @@ const kanAnnullere = (harBeslutteroppgavePåSykefraværet: boolean, harMinstEnUt
 };
 
 interface AnnullerButtonProps {
-    person: FetchedPerson;
-    periode: FetchedBeregnetPeriode;
-    arbeidsgiver: Arbeidsgiver;
+    person: PersonFragment;
+    periode: BeregnetPeriodeFragment;
+    arbeidsgiver: ArbeidsgiverFragment;
 }
 
 export const AnnullerButton: React.FC<AnnullerButtonProps> = ({ person, periode, arbeidsgiver }) => {

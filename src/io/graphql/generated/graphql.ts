@@ -64,7 +64,7 @@ export type AntallOppgaver = {
 
 export type Arbeidsforhold = {
     __typename: 'Arbeidsforhold';
-    sluttdato?: Maybe<Scalars['LocalDate']['output']>;
+    sluttdato: Maybe<Scalars['LocalDate']['output']>;
     startdato: Scalars['LocalDate']['output'];
     stillingsprosent: Scalars['Int']['output'];
     stillingstittel: Scalars['String']['output'];
@@ -95,7 +95,7 @@ export type Arbeidsgiver = {
     arbeidsforhold: Array<Arbeidsforhold>;
     bransjer: Array<Scalars['String']['output']>;
     generasjoner: Array<Generasjon>;
-    ghostPerioder: Array<GhostPeriode>;
+    ghostPerioder: Array<GhostPeriodeFragment>;
     inntekterFraAordningen: Array<ArbeidsgiverInntekterFraAOrdningen>;
     navn: Scalars['String']['output'];
     organisasjonsnummer: Scalars['String']['output'];
@@ -111,10 +111,10 @@ export type ArbeidsgiverInntekterFraAOrdningen = {
 export type Arbeidsgiverinntekt = {
     __typename: 'Arbeidsgiverinntekt';
     arbeidsgiver: Scalars['String']['output'];
-    deaktivert?: Maybe<Scalars['Boolean']['output']>;
-    omregnetArsinntekt?: Maybe<OmregnetArsinntekt>;
-    sammenligningsgrunnlag?: Maybe<Sammenligningsgrunnlag>;
-    skjonnsmessigFastsatt?: Maybe<OmregnetArsinntekt>;
+    deaktivert: Maybe<Scalars['Boolean']['output']>;
+    omregnetArsinntekt: Maybe<OmregnetArsinntekt>;
+    sammenligningsgrunnlag: Maybe<Sammenligningsgrunnlag>;
+    skjonnsmessigFastsatt: Maybe<OmregnetArsinntekt>;
 };
 
 export type Arbeidsgiverrefusjon = {
@@ -125,8 +125,8 @@ export type Arbeidsgiverrefusjon = {
 
 export type AvsenderSystem = {
     __typename: 'AvsenderSystem';
-    navn?: Maybe<Scalars['String']['output']>;
-    versjon?: Maybe<Scalars['String']['output']>;
+    navn: Maybe<Scalars['String']['output']>;
+    versjon: Maybe<Scalars['String']['output']>;
 };
 
 export type Avslag = {
@@ -183,7 +183,7 @@ export type BehandletOppgave = {
     __typename: 'BehandletOppgave';
     aktorId: Scalars['String']['output'];
     antallArbeidsforhold: AntallArbeidsforhold;
-    ferdigstiltAv?: Maybe<Scalars['String']['output']>;
+    ferdigstiltAv: Maybe<Scalars['String']['output']>;
     ferdigstiltTidspunkt: Scalars['LocalDateTime']['output'];
     id: Scalars['String']['output'];
     oppgavetype: Oppgavetype;
@@ -218,43 +218,43 @@ export type BeregnetPeriode = Periode & {
     egenskaper: Array<Oppgaveegenskap>;
     erForkastet: Scalars['Boolean']['output'];
     fom: Scalars['LocalDate']['output'];
-    forbrukteSykedager?: Maybe<Scalars['Int']['output']>;
-    gjenstaendeSykedager?: Maybe<Scalars['Int']['output']>;
+    forbrukteSykedager: Maybe<Scalars['Int']['output']>;
+    gjenstaendeSykedager: Maybe<Scalars['Int']['output']>;
     handlinger: Array<Handling>;
     hendelser: Array<Hendelse>;
     id: Scalars['UUID']['output'];
     inntektstype: Inntektstype;
     maksdato: Scalars['LocalDate']['output'];
     notater: Array<Notat>;
-    oppgave?: Maybe<OppgaveForPeriodevisning>;
+    oppgave: Maybe<OppgaveForPeriodevisning>;
     /** @deprecated Oppgavereferanse bør hentes fra periodens oppgave */
-    oppgavereferanse?: Maybe<Scalars['String']['output']>;
+    oppgavereferanse: Maybe<Scalars['String']['output']>;
     opprettet: Scalars['LocalDateTime']['output'];
-    paVent?: Maybe<PaVent>;
+    paVent: Maybe<PaVent>;
     periodehistorikk: Array<PeriodeHistorikkElement>;
     periodetilstand: Periodetilstand;
     periodetype: Periodetype;
     periodevilkar: Periodevilkar;
-    risikovurdering?: Maybe<Risikovurdering>;
+    risikovurdering: Maybe<Risikovurdering>;
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     tidslinje: Array<Dag>;
     tom: Scalars['LocalDate']['output'];
-    totrinnsvurdering?: Maybe<Totrinnsvurdering>;
+    totrinnsvurdering: Maybe<Totrinnsvurdering>;
     utbetaling: Utbetaling;
     varsler: Array<VarselDto>;
     vedtaksperiodeId: Scalars['UUID']['output'];
-    vilkarsgrunnlagId?: Maybe<Scalars['UUID']['output']>;
+    vilkarsgrunnlagId: Maybe<Scalars['UUID']['output']>;
 };
 
 export type Dag = {
     __typename: 'Dag';
-    begrunnelser?: Maybe<Array<Begrunnelse>>;
+    begrunnelser: Maybe<Array<Begrunnelse>>;
     dato: Scalars['LocalDate']['output'];
-    grad?: Maybe<Scalars['Float']['output']>;
+    grad: Maybe<Scalars['Float']['output']>;
     kilde: Kilde;
     sykdomsdagtype: Sykdomsdagtype;
     utbetalingsdagtype: Utbetalingsdagtype;
-    utbetalingsinfo?: Maybe<Utbetalingsinfo>;
+    utbetalingsinfo: Maybe<Utbetalingsinfo>;
 };
 
 export type Dagoverstyring = Overstyring & {
@@ -288,22 +288,22 @@ export enum Dagtype {
 
 export type DokumentInntektsmelding = {
     __typename: 'DokumentInntektsmelding';
-    arbeidsgiverperioder?: Maybe<Array<ImPeriode>>;
-    avsenderSystem?: Maybe<AvsenderSystem>;
-    begrunnelseForReduksjonEllerIkkeUtbetalt?: Maybe<Scalars['String']['output']>;
-    beregnetInntekt?: Maybe<Scalars['Float']['output']>;
-    bruttoUtbetalt?: Maybe<Scalars['Float']['output']>;
-    endringIRefusjoner?: Maybe<Array<EndringIRefusjon>>;
-    ferieperioder?: Maybe<Array<ImPeriode>>;
-    foersteFravaersdag?: Maybe<Scalars['LocalDate']['output']>;
-    gjenopptakelseNaturalytelser?: Maybe<Array<GjenopptakelseNaturalytelse>>;
-    innsenderFulltNavn?: Maybe<Scalars['String']['output']>;
-    innsenderTelefon?: Maybe<Scalars['String']['output']>;
-    inntektEndringAarsak?: Maybe<InntektEndringAarsak>;
-    inntektsdato?: Maybe<Scalars['LocalDate']['output']>;
-    naerRelasjon?: Maybe<Scalars['Boolean']['output']>;
-    opphoerAvNaturalytelser?: Maybe<Array<OpphoerAvNaturalytelse>>;
-    refusjon?: Maybe<Refusjon>;
+    arbeidsgiverperioder: Maybe<Array<ImPeriode>>;
+    avsenderSystem: Maybe<AvsenderSystem>;
+    begrunnelseForReduksjonEllerIkkeUtbetalt: Maybe<Scalars['String']['output']>;
+    beregnetInntekt: Maybe<Scalars['Float']['output']>;
+    bruttoUtbetalt: Maybe<Scalars['Float']['output']>;
+    endringIRefusjoner: Maybe<Array<EndringIRefusjon>>;
+    ferieperioder: Maybe<Array<ImPeriode>>;
+    foersteFravaersdag: Maybe<Scalars['LocalDate']['output']>;
+    gjenopptakelseNaturalytelser: Maybe<Array<GjenopptakelseNaturalytelse>>;
+    innsenderFulltNavn: Maybe<Scalars['String']['output']>;
+    innsenderTelefon: Maybe<Scalars['String']['output']>;
+    inntektEndringAarsak: Maybe<InntektEndringAarsak>;
+    inntektsdato: Maybe<Scalars['LocalDate']['output']>;
+    naerRelasjon: Maybe<Scalars['Boolean']['output']>;
+    opphoerAvNaturalytelser: Maybe<Array<OpphoerAvNaturalytelse>>;
+    refusjon: Maybe<Refusjon>;
 };
 
 export enum Egenskap {
@@ -337,8 +337,8 @@ export enum Egenskap {
 
 export type EndringIRefusjon = {
     __typename: 'EndringIRefusjon';
-    beloep?: Maybe<Scalars['Float']['output']>;
-    endringsdato?: Maybe<Scalars['LocalDate']['output']>;
+    beloep: Maybe<Scalars['Float']['output']>;
+    endringsdato: Maybe<Scalars['LocalDate']['output']>;
 };
 
 export type Enhet = {
@@ -376,19 +376,19 @@ export type GhostPeriode = {
     organisasjonsnummer: Scalars['String']['output'];
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     tom: Scalars['LocalDate']['output'];
-    vilkarsgrunnlagId?: Maybe<Scalars['UUID']['output']>;
+    vilkarsgrunnlagId: Maybe<Scalars['UUID']['output']>;
 };
 
 export type GjenopptakelseNaturalytelse = {
     __typename: 'GjenopptakelseNaturalytelse';
-    beloepPrMnd?: Maybe<Scalars['Float']['output']>;
-    fom?: Maybe<Scalars['LocalDate']['output']>;
-    naturalytelse?: Maybe<Naturalytelse>;
+    beloepPrMnd: Maybe<Scalars['Float']['output']>;
+    fom: Maybe<Scalars['LocalDate']['output']>;
+    naturalytelse: Maybe<Naturalytelse>;
 };
 
 export type Handling = {
     __typename: 'Handling';
-    begrunnelse?: Maybe<Scalars['String']['output']>;
+    begrunnelse: Maybe<Scalars['String']['output']>;
     tillatt: Scalars['Boolean']['output'];
     type: Periodehandling;
 };
@@ -411,8 +411,8 @@ export enum Hendelsetype {
 
 export type ImPeriode = {
     __typename: 'IMPeriode';
-    fom?: Maybe<Scalars['LocalDate']['output']>;
-    tom?: Maybe<Scalars['LocalDate']['output']>;
+    fom: Maybe<Scalars['LocalDate']['output']>;
+    tom: Maybe<Scalars['LocalDate']['output']>;
 };
 
 export type Infotrygdutbetaling = {
@@ -428,9 +428,9 @@ export type Infotrygdutbetaling = {
 export type InntektEndringAarsak = {
     __typename: 'InntektEndringAarsak';
     aarsak: Scalars['String']['output'];
-    bleKjent?: Maybe<Scalars['LocalDate']['output']>;
-    gjelderFra?: Maybe<Scalars['LocalDate']['output']>;
-    perioder?: Maybe<Array<ImPeriode>>;
+    bleKjent: Maybe<Scalars['LocalDate']['output']>;
+    gjelderFra: Maybe<Scalars['LocalDate']['output']>;
+    perioder: Maybe<Array<ImPeriode>>;
 };
 
 export type InntektFraAOrdningen = {
@@ -468,7 +468,7 @@ export enum Inntektskilde {
 export type Inntektsmelding = Hendelse & {
     __typename: 'Inntektsmelding';
     beregnetInntekt: Scalars['Float']['output'];
-    eksternDokumentId?: Maybe<Scalars['UUID']['output']>;
+    eksternDokumentId: Maybe<Scalars['UUID']['output']>;
     id: Scalars['UUID']['output'];
     mottattDato: Scalars['LocalDateTime']['output'];
     type: Hendelsetype;
@@ -510,7 +510,7 @@ export enum Kjonn {
 
 export type Kommentar = {
     __typename: 'Kommentar';
-    feilregistrert_tidspunkt?: Maybe<Scalars['LocalDateTime']['output']>;
+    feilregistrert_tidspunkt: Maybe<Scalars['LocalDateTime']['output']>;
     id: Scalars['Int']['output'];
     opprettet: Scalars['LocalDateTime']['output'];
     saksbehandlerident: Scalars['String']['output'];
@@ -535,19 +535,19 @@ export enum Mottaker {
 export type Mutation = {
     __typename: 'Mutation';
     annuller: Scalars['Boolean']['output'];
-    feilregistrerKommentar?: Maybe<Kommentar>;
-    feilregistrerKommentarV2?: Maybe<Kommentar>;
-    feilregistrerNotat?: Maybe<Notat>;
-    fjernPaVent?: Maybe<Scalars['Boolean']['output']>;
+    feilregistrerKommentar: Maybe<Kommentar>;
+    feilregistrerKommentarV2: Maybe<Kommentar>;
+    feilregistrerNotat: Maybe<Notat>;
+    fjernPaVent: Maybe<Scalars['Boolean']['output']>;
     fjernTildeling: Scalars['Boolean']['output'];
     innvilgVedtak: Scalars['Boolean']['output'];
-    leggPaVent?: Maybe<PaVent>;
-    leggTilKommentar?: Maybe<Kommentar>;
-    leggTilNotat?: Maybe<Notat>;
+    leggPaVent: Maybe<PaVent>;
+    leggTilKommentar: Maybe<Kommentar>;
+    leggTilNotat: Maybe<Notat>;
     oppdaterPerson: Scalars['Boolean']['output'];
     opphevStans: Scalars['Boolean']['output'];
     opprettAbonnement: Scalars['Boolean']['output'];
-    opprettTildeling?: Maybe<Tildeling>;
+    opprettTildeling: Maybe<Tildeling>;
     overstyrArbeidsforhold: Scalars['Boolean']['output'];
     overstyrDager: Scalars['Boolean']['output'];
     overstyrInntektOgRefusjon: Scalars['Boolean']['output'];
@@ -692,7 +692,7 @@ export enum Naturalytelse {
 export type Notat = {
     __typename: 'Notat';
     feilregistrert: Scalars['Boolean']['output'];
-    feilregistrert_tidspunkt?: Maybe<Scalars['LocalDateTime']['output']>;
+    feilregistrert_tidspunkt: Maybe<Scalars['LocalDateTime']['output']>;
     id: Scalars['Int']['output'];
     kommentarer: Array<Kommentar>;
     opprettet: Scalars['LocalDateTime']['output'];
@@ -721,7 +721,7 @@ export type Notater = {
 export type OmregnetArsinntekt = {
     __typename: 'OmregnetArsinntekt';
     belop: Scalars['Float']['output'];
-    inntektFraAOrdningen?: Maybe<Array<InntektFraAOrdningen>>;
+    inntektFraAOrdningen: Maybe<Array<InntektFraAOrdningen>>;
     kilde: Inntektskilde;
     manedsbelop: Scalars['Float']['output'];
 };
@@ -743,8 +743,8 @@ export type OppgaveTilBehandling = {
     opprettet: Scalars['LocalDateTime']['output'];
     opprinneligSoknadsdato: Scalars['LocalDateTime']['output'];
     periodetype: Periodetype;
-    tidsfrist?: Maybe<Scalars['LocalDate']['output']>;
-    tildeling?: Maybe<Tildeling>;
+    tidsfrist: Maybe<Scalars['LocalDate']['output']>;
+    tildeling: Maybe<Tildeling>;
     vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
@@ -784,9 +784,9 @@ export enum Oppgavetype {
 
 export type OpphoerAvNaturalytelse = {
     __typename: 'OpphoerAvNaturalytelse';
-    beloepPrMnd?: Maybe<Scalars['Float']['output']>;
-    fom?: Maybe<Scalars['LocalDate']['output']>;
-    naturalytelse?: Maybe<Naturalytelse>;
+    beloepPrMnd: Maybe<Scalars['Float']['output']>;
+    fom: Maybe<Scalars['LocalDate']['output']>;
+    naturalytelse: Maybe<Naturalytelse>;
 };
 
 export type Opptegnelse = {
@@ -851,9 +851,9 @@ export type OverstyringRefusjonselementInput = {
 export type OverstyrtDag = {
     __typename: 'OverstyrtDag';
     dato: Scalars['LocalDate']['output'];
-    fraGrad?: Maybe<Scalars['Int']['output']>;
-    fraType?: Maybe<Dagtype>;
-    grad?: Maybe<Scalars['Int']['output']>;
+    fraGrad: Maybe<Scalars['Int']['output']>;
+    fraType: Maybe<Dagtype>;
+    grad: Maybe<Scalars['Int']['output']>;
     type: Dagtype;
 };
 
@@ -861,17 +861,17 @@ export type OverstyrtInntekt = {
     __typename: 'OverstyrtInntekt';
     begrunnelse: Scalars['String']['output'];
     forklaring: Scalars['String']['output'];
-    fraManedligInntekt?: Maybe<Scalars['Float']['output']>;
-    fraRefusjonsopplysninger?: Maybe<Array<Refusjonsopplysning>>;
+    fraManedligInntekt: Maybe<Scalars['Float']['output']>;
+    fraRefusjonsopplysninger: Maybe<Array<Refusjonsopplysning>>;
     manedligInntekt: Scalars['Float']['output'];
-    refusjonsopplysninger?: Maybe<Array<Refusjonsopplysning>>;
+    refusjonsopplysninger: Maybe<Array<Refusjonsopplysning>>;
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
 };
 
 export type PaVent = {
     __typename: 'PaVent';
-    begrunnelse?: Maybe<Scalars['String']['output']>;
-    frist?: Maybe<Scalars['LocalDate']['output']>;
+    begrunnelse: Maybe<Scalars['String']['output']>;
+    frist: Maybe<Scalars['LocalDate']['output']>;
     oid: Scalars['UUID']['output'];
 };
 
@@ -894,8 +894,8 @@ export type Periode = {
 
 export type PeriodeHistorikkElement = {
     __typename: 'PeriodeHistorikkElement';
-    notat_id?: Maybe<Scalars['Int']['output']>;
-    saksbehandler_ident?: Maybe<Scalars['String']['output']>;
+    notat_id: Maybe<Scalars['Int']['output']>;
+    saksbehandler_ident: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
 };
@@ -950,12 +950,12 @@ export type Person = {
     __typename: 'Person';
     aktorId: Scalars['String']['output'];
     arbeidsgivere: Array<Arbeidsgiver>;
-    dodsdato?: Maybe<Scalars['LocalDate']['output']>;
+    dodsdato: Maybe<Scalars['LocalDate']['output']>;
     enhet: Enhet;
     fodselsnummer: Scalars['String']['output'];
-    infotrygdutbetalinger?: Maybe<Array<Infotrygdutbetaling>>;
+    infotrygdutbetalinger: Maybe<Array<Infotrygdutbetaling>>;
     personinfo: Personinfo;
-    tildeling?: Maybe<Tildeling>;
+    tildeling: Maybe<Tildeling>;
     versjon: Scalars['Int']['output'];
     vilkarsgrunnlag: Array<Vilkarsgrunnlag>;
 };
@@ -964,19 +964,19 @@ export type Personinfo = {
     __typename: 'Personinfo';
     adressebeskyttelse: Adressebeskyttelse;
     etternavn: Scalars['String']['output'];
-    fodselsdato?: Maybe<Scalars['LocalDate']['output']>;
+    fodselsdato: Maybe<Scalars['LocalDate']['output']>;
     fornavn: Scalars['String']['output'];
     kjonn: Kjonn;
-    mellomnavn?: Maybe<Scalars['String']['output']>;
-    reservasjon?: Maybe<Reservasjon>;
-    unntattFraAutomatisering?: Maybe<UnntattFraAutomatiskGodkjenning>;
+    mellomnavn: Maybe<Scalars['String']['output']>;
+    reservasjon: Maybe<Reservasjon>;
+    unntattFraAutomatisering: Maybe<UnntattFraAutomatiskGodkjenning>;
 };
 
 export type Personnavn = {
     __typename: 'Personnavn';
     etternavn: Scalars['String']['output'];
     fornavn: Scalars['String']['output'];
-    mellomnavn?: Maybe<Scalars['String']['output']>;
+    mellomnavn: Maybe<Scalars['String']['output']>;
 };
 
 export type Query = {
@@ -984,12 +984,12 @@ export type Query = {
     antallOppgaver: AntallOppgaver;
     behandledeOppgaverFeed: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
-    hentInntektsmelding?: Maybe<DokumentInntektsmelding>;
+    hentInntektsmelding: Maybe<DokumentInntektsmelding>;
     hentSoknad: Soknad;
     notater: Array<Notater>;
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
-    person?: Maybe<Person>;
+    person: Maybe<Person>;
 };
 
 export type QueryBehandledeOppgaverFeedArgs = {
@@ -1029,8 +1029,8 @@ export type QueryPersonArgs = {
 
 export type Refusjon = {
     __typename: 'Refusjon';
-    beloepPrMnd?: Maybe<Scalars['Float']['output']>;
-    opphoersdato?: Maybe<Scalars['LocalDate']['output']>;
+    beloepPrMnd: Maybe<Scalars['Float']['output']>;
+    opphoersdato: Maybe<Scalars['LocalDate']['output']>;
 };
 
 export type Refusjonselement = {
@@ -1038,14 +1038,14 @@ export type Refusjonselement = {
     belop: Scalars['Float']['output'];
     fom: Scalars['LocalDate']['output'];
     meldingsreferanseId: Scalars['UUID']['output'];
-    tom?: Maybe<Scalars['LocalDate']['output']>;
+    tom: Maybe<Scalars['LocalDate']['output']>;
 };
 
 export type Refusjonsopplysning = {
     __typename: 'Refusjonsopplysning';
     belop: Scalars['Float']['output'];
     fom: Scalars['LocalDate']['output'];
-    tom?: Maybe<Scalars['LocalDate']['output']>;
+    tom: Maybe<Scalars['LocalDate']['output']>;
 };
 
 export type Reservasjon = {
@@ -1056,13 +1056,13 @@ export type Reservasjon = {
 
 export type Risikovurdering = {
     __typename: 'Risikovurdering';
-    funn?: Maybe<Array<Faresignal>>;
+    funn: Maybe<Array<Faresignal>>;
     kontrollertOk: Array<Faresignal>;
 };
 
 export type Saksbehandler = {
     __typename: 'Saksbehandler';
-    ident?: Maybe<Scalars['String']['output']>;
+    ident: Maybe<Scalars['String']['output']>;
     navn: Scalars['String']['output'];
 };
 
@@ -1075,9 +1075,9 @@ export type Sammenligningsgrunnlag = {
 export type Simulering = {
     __typename: 'Simulering';
     fagsystemId: Scalars['String']['output'];
-    perioder?: Maybe<Array<Simuleringsperiode>>;
+    perioder: Maybe<Array<Simuleringsperiode>>;
     tidsstempel: Scalars['LocalDateTime']['output'];
-    totalbelop?: Maybe<Scalars['Int']['output']>;
+    totalbelop: Maybe<Scalars['Int']['output']>;
     utbetalingslinjer: Array<Simuleringslinje>;
 };
 
@@ -1126,13 +1126,13 @@ export type SkjonnsfastsattSykepengegrunnlag = {
     __typename: 'SkjonnsfastsattSykepengegrunnlag';
     arlig: Scalars['Float']['output'];
     arsak: Scalars['String']['output'];
-    begrunnelse?: Maybe<Scalars['String']['output']>;
-    begrunnelseFritekst?: Maybe<Scalars['String']['output']>;
-    begrunnelseKonklusjon?: Maybe<Scalars['String']['output']>;
-    begrunnelseMal?: Maybe<Scalars['String']['output']>;
-    fraArlig?: Maybe<Scalars['Float']['output']>;
+    begrunnelse: Maybe<Scalars['String']['output']>;
+    begrunnelseFritekst: Maybe<Scalars['String']['output']>;
+    begrunnelseKonklusjon: Maybe<Scalars['String']['output']>;
+    begrunnelseMal: Maybe<Scalars['String']['output']>;
+    fraArlig: Maybe<Scalars['Float']['output']>;
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    type?: Maybe<Skjonnsfastsettingstype>;
+    type: Maybe<Skjonnsfastsettingstype>;
 };
 
 export type SkjonnsfastsettelseArbeidsgiverInput = {
@@ -1170,17 +1170,17 @@ export enum Skjonnsfastsettingstype {
 
 export type Soknad = {
     __typename: 'Soknad';
-    arbeidGjenopptatt?: Maybe<Scalars['LocalDate']['output']>;
-    egenmeldingsdagerFraSykmelding?: Maybe<Array<Scalars['LocalDate']['output']>>;
-    soknadsperioder?: Maybe<Array<Soknadsperioder>>;
-    sporsmal?: Maybe<Array<Sporsmal>>;
-    sykmeldingSkrevet?: Maybe<Scalars['LocalDateTime']['output']>;
-    type?: Maybe<Soknadstype>;
+    arbeidGjenopptatt: Maybe<Scalars['LocalDate']['output']>;
+    egenmeldingsdagerFraSykmelding: Maybe<Array<Scalars['LocalDate']['output']>>;
+    soknadsperioder: Maybe<Array<Soknadsperioder>>;
+    sporsmal: Maybe<Array<Sporsmal>>;
+    sykmeldingSkrevet: Maybe<Scalars['LocalDateTime']['output']>;
+    type: Maybe<Soknadstype>;
 };
 
 export type SoknadArbeidsgiver = Hendelse & {
     __typename: 'SoknadArbeidsgiver';
-    eksternDokumentId?: Maybe<Scalars['UUID']['output']>;
+    eksternDokumentId: Maybe<Scalars['UUID']['output']>;
     fom: Scalars['LocalDate']['output'];
     id: Scalars['UUID']['output'];
     rapportertDato: Scalars['LocalDateTime']['output'];
@@ -1191,7 +1191,7 @@ export type SoknadArbeidsgiver = Hendelse & {
 
 export type SoknadArbeidsledig = Hendelse & {
     __typename: 'SoknadArbeidsledig';
-    eksternDokumentId?: Maybe<Scalars['UUID']['output']>;
+    eksternDokumentId: Maybe<Scalars['UUID']['output']>;
     fom: Scalars['LocalDate']['output'];
     id: Scalars['UUID']['output'];
     rapportertDato: Scalars['LocalDateTime']['output'];
@@ -1202,7 +1202,7 @@ export type SoknadArbeidsledig = Hendelse & {
 
 export type SoknadFrilans = Hendelse & {
     __typename: 'SoknadFrilans';
-    eksternDokumentId?: Maybe<Scalars['UUID']['output']>;
+    eksternDokumentId: Maybe<Scalars['UUID']['output']>;
     fom: Scalars['LocalDate']['output'];
     id: Scalars['UUID']['output'];
     rapportertDato: Scalars['LocalDateTime']['output'];
@@ -1213,7 +1213,7 @@ export type SoknadFrilans = Hendelse & {
 
 export type SoknadNav = Hendelse & {
     __typename: 'SoknadNav';
-    eksternDokumentId?: Maybe<Scalars['UUID']['output']>;
+    eksternDokumentId: Maybe<Scalars['UUID']['output']>;
     fom: Scalars['LocalDate']['output'];
     id: Scalars['UUID']['output'];
     rapportertDato: Scalars['LocalDateTime']['output'];
@@ -1224,7 +1224,7 @@ export type SoknadNav = Hendelse & {
 
 export type SoknadSelvstendig = Hendelse & {
     __typename: 'SoknadSelvstendig';
-    eksternDokumentId?: Maybe<Scalars['UUID']['output']>;
+    eksternDokumentId: Maybe<Scalars['UUID']['output']>;
     fom: Scalars['LocalDate']['output'];
     id: Scalars['UUID']['output'];
     rapportertDato: Scalars['LocalDateTime']['output'];
@@ -1235,10 +1235,10 @@ export type SoknadSelvstendig = Hendelse & {
 
 export type Soknadsperioder = {
     __typename: 'Soknadsperioder';
-    faktiskGrad?: Maybe<Scalars['Int']['output']>;
+    faktiskGrad: Maybe<Scalars['Int']['output']>;
     fom: Scalars['LocalDate']['output'];
-    grad?: Maybe<Scalars['Int']['output']>;
-    sykmeldingsgrad?: Maybe<Scalars['Int']['output']>;
+    grad: Maybe<Scalars['Int']['output']>;
+    sykmeldingsgrad: Maybe<Scalars['Int']['output']>;
     tom: Scalars['LocalDate']['output'];
 };
 
@@ -1263,18 +1263,18 @@ export enum Sorteringsnokkel {
 
 export type Sporsmal = {
     __typename: 'Sporsmal';
-    kriterieForVisningAvUndersporsmal?: Maybe<Visningskriterium>;
-    sporsmalstekst?: Maybe<Scalars['String']['output']>;
-    svar?: Maybe<Array<Svar>>;
-    svartype?: Maybe<Svartype>;
-    tag?: Maybe<Scalars['String']['output']>;
-    undersporsmal?: Maybe<Array<Sporsmal>>;
-    undertekst?: Maybe<Scalars['String']['output']>;
+    kriterieForVisningAvUndersporsmal: Maybe<Visningskriterium>;
+    sporsmalstekst: Maybe<Scalars['String']['output']>;
+    svar: Maybe<Array<Svar>>;
+    svartype: Maybe<Svartype>;
+    tag: Maybe<Scalars['String']['output']>;
+    undersporsmal: Maybe<Array<Sporsmal>>;
+    undertekst: Maybe<Scalars['String']['output']>;
 };
 
 export type Svar = {
     __typename: 'Svar';
-    verdi?: Maybe<Scalars['String']['output']>;
+    verdi: Maybe<Scalars['String']['output']>;
 };
 
 export enum Svartype {
@@ -1331,8 +1331,8 @@ export enum Sykdomsdagtype {
 
 export type Sykepengedager = {
     __typename: 'Sykepengedager';
-    forbrukteSykedager?: Maybe<Scalars['Int']['output']>;
-    gjenstaendeSykedager?: Maybe<Scalars['Int']['output']>;
+    forbrukteSykedager: Maybe<Scalars['Int']['output']>;
+    gjenstaendeSykedager: Maybe<Scalars['Int']['output']>;
     maksdato: Scalars['LocalDate']['output'];
     oppfylt: Scalars['Boolean']['output'];
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
@@ -1381,10 +1381,10 @@ export type Tildeling = {
 
 export type Totrinnsvurdering = {
     __typename: 'Totrinnsvurdering';
-    beslutter?: Maybe<Scalars['UUID']['output']>;
+    beslutter: Maybe<Scalars['UUID']['output']>;
     erBeslutteroppgave: Scalars['Boolean']['output'];
     erRetur: Scalars['Boolean']['output'];
-    saksbehandler?: Maybe<Scalars['UUID']['output']>;
+    saksbehandler: Maybe<Scalars['UUID']['output']>;
 };
 
 export type UberegnetPeriode = Periode & {
@@ -1410,21 +1410,21 @@ export type UnntattFraAutomatiskGodkjenning = {
     __typename: 'UnntattFraAutomatiskGodkjenning';
     arsaker: Array<Scalars['String']['output']>;
     erUnntatt: Scalars['Boolean']['output'];
-    tidspunkt?: Maybe<Scalars['LocalDateTime']['output']>;
+    tidspunkt: Maybe<Scalars['LocalDateTime']['output']>;
 };
 
 export type Utbetaling = {
     __typename: 'Utbetaling';
     arbeidsgiverFagsystemId: Scalars['String']['output'];
     arbeidsgiverNettoBelop: Scalars['Int']['output'];
-    arbeidsgiversimulering?: Maybe<Simulering>;
+    arbeidsgiversimulering: Maybe<Simulering>;
     id: Scalars['UUID']['output'];
     personFagsystemId: Scalars['String']['output'];
     personNettoBelop: Scalars['Int']['output'];
-    personsimulering?: Maybe<Simulering>;
+    personsimulering: Maybe<Simulering>;
     status: Utbetalingstatus;
     type: Utbetalingtype;
-    vurdering?: Maybe<Vurdering>;
+    vurdering: Maybe<Vurdering>;
 };
 
 export enum Utbetalingsdagtype {
@@ -1441,12 +1441,12 @@ export enum Utbetalingsdagtype {
 
 export type Utbetalingsinfo = {
     __typename: 'Utbetalingsinfo';
-    arbeidsgiverbelop?: Maybe<Scalars['Int']['output']>;
-    inntekt?: Maybe<Scalars['Int']['output']>;
-    personbelop?: Maybe<Scalars['Int']['output']>;
-    refusjonsbelop?: Maybe<Scalars['Int']['output']>;
-    totalGrad?: Maybe<Scalars['Float']['output']>;
-    utbetaling?: Maybe<Scalars['Int']['output']>;
+    arbeidsgiverbelop: Maybe<Scalars['Int']['output']>;
+    inntekt: Maybe<Scalars['Int']['output']>;
+    personbelop: Maybe<Scalars['Int']['output']>;
+    refusjonsbelop: Maybe<Scalars['Int']['output']>;
+    totalGrad: Maybe<Scalars['Float']['output']>;
+    utbetaling: Maybe<Scalars['Int']['output']>;
 };
 
 export enum Utbetalingstatus {
@@ -1475,13 +1475,13 @@ export enum Utbetalingtype {
 export type VarselDto = {
     __typename: 'VarselDTO';
     definisjonId: Scalars['UUID']['output'];
-    forklaring?: Maybe<Scalars['String']['output']>;
+    forklaring: Maybe<Scalars['String']['output']>;
     generasjonId: Scalars['UUID']['output'];
-    handling?: Maybe<Scalars['String']['output']>;
+    handling: Maybe<Scalars['String']['output']>;
     kode: Scalars['String']['output'];
     opprettet: Scalars['LocalDateTime']['output'];
     tittel: Scalars['String']['output'];
-    vurdering?: Maybe<VarselvurderingDto>;
+    vurdering: Maybe<VarselvurderingDto>;
 };
 
 export enum Varselstatus {
@@ -1523,18 +1523,18 @@ export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
     __typename: 'VilkarsgrunnlagSpleis';
     antallOpptjeningsdagerErMinst: Scalars['Int']['output'];
     arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
-    avviksprosent?: Maybe<Scalars['Float']['output']>;
+    avviksprosent: Maybe<Scalars['Float']['output']>;
     grunnbelop: Scalars['Int']['output'];
     id: Scalars['UUID']['output'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float']['output'];
-    oppfyllerKravOmMedlemskap?: Maybe<Scalars['Boolean']['output']>;
+    oppfyllerKravOmMedlemskap: Maybe<Scalars['Boolean']['output']>;
     oppfyllerKravOmMinstelonn: Scalars['Boolean']['output'];
     oppfyllerKravOmOpptjening: Scalars['Boolean']['output'];
     opptjeningFra: Scalars['LocalDate']['output'];
-    sammenligningsgrunnlag?: Maybe<Scalars['Float']['output']>;
+    sammenligningsgrunnlag: Maybe<Scalars['Float']['output']>;
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    skjonnsmessigFastsattAarlig?: Maybe<Scalars['Float']['output']>;
+    skjonnsmessigFastsattAarlig: Maybe<Scalars['Float']['output']>;
     sykepengegrunnlag: Scalars['Float']['output'];
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
@@ -1588,12 +1588,12 @@ export type BehandledeOppgaverFeedQuery = {
             __typename: 'BehandletOppgave';
             id: string;
             aktorId: string;
-            ferdigstiltAv?: string | null;
+            ferdigstiltAv: string | null;
             ferdigstiltTidspunkt: string;
             antallArbeidsforhold: AntallArbeidsforhold;
             periodetype: Periodetype;
             oppgavetype: Oppgavetype;
-            personnavn: { __typename: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
+            personnavn: { __typename: 'Personnavn'; fornavn: string; mellomnavn: string | null; etternavn: string };
         }>;
     };
 };
@@ -1631,53 +1631,53 @@ export type FetchInntektsmeldingQueryVariables = Exact<{
 
 export type FetchInntektsmeldingQuery = {
     __typename: 'Query';
-    hentInntektsmelding?: {
+    hentInntektsmelding: {
         __typename: 'DokumentInntektsmelding';
-        begrunnelseForReduksjonEllerIkkeUtbetalt?: string | null;
-        bruttoUtbetalt?: number | null;
-        beregnetInntekt?: number | null;
-        inntektsdato?: string | null;
-        foersteFravaersdag?: string | null;
-        naerRelasjon?: boolean | null;
-        innsenderFulltNavn?: string | null;
-        innsenderTelefon?: string | null;
-        refusjon?: { __typename: 'Refusjon'; beloepPrMnd?: number | null; opphoersdato?: string | null } | null;
-        endringIRefusjoner?: Array<{
+        begrunnelseForReduksjonEllerIkkeUtbetalt: string | null;
+        bruttoUtbetalt: number | null;
+        beregnetInntekt: number | null;
+        inntektsdato: string | null;
+        foersteFravaersdag: string | null;
+        naerRelasjon: boolean | null;
+        innsenderFulltNavn: string | null;
+        innsenderTelefon: string | null;
+        refusjon: { __typename: 'Refusjon'; beloepPrMnd: number | null; opphoersdato: string | null } | null;
+        endringIRefusjoner: Array<{
             __typename: 'EndringIRefusjon';
-            endringsdato?: string | null;
-            beloep?: number | null;
+            endringsdato: string | null;
+            beloep: number | null;
         }> | null;
-        opphoerAvNaturalytelser?: Array<{
+        opphoerAvNaturalytelser: Array<{
             __typename: 'OpphoerAvNaturalytelse';
-            naturalytelse?: Naturalytelse | null;
-            fom?: string | null;
-            beloepPrMnd?: number | null;
+            naturalytelse: Naturalytelse | null;
+            fom: string | null;
+            beloepPrMnd: number | null;
         }> | null;
-        gjenopptakelseNaturalytelser?: Array<{
+        gjenopptakelseNaturalytelser: Array<{
             __typename: 'GjenopptakelseNaturalytelse';
-            naturalytelse?: Naturalytelse | null;
-            fom?: string | null;
-            beloepPrMnd?: number | null;
+            naturalytelse: Naturalytelse | null;
+            fom: string | null;
+            beloepPrMnd: number | null;
         }> | null;
-        arbeidsgiverperioder?: Array<{ __typename: 'IMPeriode'; fom?: string | null; tom?: string | null }> | null;
-        ferieperioder?: Array<{ __typename: 'IMPeriode'; fom?: string | null; tom?: string | null }> | null;
-        inntektEndringAarsak?: {
+        arbeidsgiverperioder: Array<{ __typename: 'IMPeriode'; fom: string | null; tom: string | null }> | null;
+        ferieperioder: Array<{ __typename: 'IMPeriode'; fom: string | null; tom: string | null }> | null;
+        inntektEndringAarsak: {
             __typename: 'InntektEndringAarsak';
             aarsak: string;
-            gjelderFra?: string | null;
-            bleKjent?: string | null;
-            perioder?: Array<{ __typename: 'IMPeriode'; fom?: string | null; tom?: string | null }> | null;
+            gjelderFra: string | null;
+            bleKjent: string | null;
+            perioder: Array<{ __typename: 'IMPeriode'; fom: string | null; tom: string | null }> | null;
         } | null;
-        avsenderSystem?: { __typename: 'AvsenderSystem'; navn?: string | null } | null;
+        avsenderSystem: { __typename: 'AvsenderSystem'; navn: string | null } | null;
     } | null;
 };
 
 export type SporsmalFragment = {
     __typename: 'Sporsmal';
-    sporsmalstekst?: string | null;
-    svartype?: Svartype | null;
-    tag?: string | null;
-    svar?: Array<{ __typename: 'Svar'; verdi?: string | null }> | null;
+    sporsmalstekst: string | null;
+    svartype: Svartype | null;
+    tag: string | null;
+    svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
 };
 
 export type FetchSoknadQueryVariables = Exact<{
@@ -1689,94 +1689,94 @@ export type FetchSoknadQuery = {
     __typename: 'Query';
     hentSoknad: {
         __typename: 'Soknad';
-        type?: Soknadstype | null;
-        arbeidGjenopptatt?: string | null;
-        sykmeldingSkrevet?: string | null;
-        egenmeldingsdagerFraSykmelding?: Array<string> | null;
-        soknadsperioder?: Array<{
+        type: Soknadstype | null;
+        arbeidGjenopptatt: string | null;
+        sykmeldingSkrevet: string | null;
+        egenmeldingsdagerFraSykmelding: Array<string> | null;
+        soknadsperioder: Array<{
             __typename: 'Soknadsperioder';
             fom: string;
             tom: string;
-            grad?: number | null;
-            faktiskGrad?: number | null;
-            sykmeldingsgrad?: number | null;
+            grad: number | null;
+            faktiskGrad: number | null;
+            sykmeldingsgrad: number | null;
         }> | null;
-        sporsmal?: Array<{
+        sporsmal: Array<{
             __typename: 'Sporsmal';
-            sporsmalstekst?: string | null;
-            svartype?: Svartype | null;
-            tag?: string | null;
-            undersporsmal?: Array<{
+            sporsmalstekst: string | null;
+            svartype: Svartype | null;
+            tag: string | null;
+            undersporsmal: Array<{
                 __typename: 'Sporsmal';
-                sporsmalstekst?: string | null;
-                svartype?: Svartype | null;
-                tag?: string | null;
-                undersporsmal?: Array<{
+                sporsmalstekst: string | null;
+                svartype: Svartype | null;
+                tag: string | null;
+                undersporsmal: Array<{
                     __typename: 'Sporsmal';
-                    sporsmalstekst?: string | null;
-                    svartype?: Svartype | null;
-                    tag?: string | null;
-                    undersporsmal?: Array<{
+                    sporsmalstekst: string | null;
+                    svartype: Svartype | null;
+                    tag: string | null;
+                    undersporsmal: Array<{
                         __typename: 'Sporsmal';
-                        sporsmalstekst?: string | null;
-                        svartype?: Svartype | null;
-                        tag?: string | null;
-                        undersporsmal?: Array<{
+                        sporsmalstekst: string | null;
+                        svartype: Svartype | null;
+                        tag: string | null;
+                        undersporsmal: Array<{
                             __typename: 'Sporsmal';
-                            sporsmalstekst?: string | null;
-                            svartype?: Svartype | null;
-                            tag?: string | null;
-                            undersporsmal?: Array<{
+                            sporsmalstekst: string | null;
+                            svartype: Svartype | null;
+                            tag: string | null;
+                            undersporsmal: Array<{
                                 __typename: 'Sporsmal';
-                                sporsmalstekst?: string | null;
-                                svartype?: Svartype | null;
-                                tag?: string | null;
-                                undersporsmal?: Array<{
+                                sporsmalstekst: string | null;
+                                svartype: Svartype | null;
+                                tag: string | null;
+                                undersporsmal: Array<{
                                     __typename: 'Sporsmal';
-                                    sporsmalstekst?: string | null;
-                                    svartype?: Svartype | null;
-                                    tag?: string | null;
-                                    undersporsmal?: Array<{
+                                    sporsmalstekst: string | null;
+                                    svartype: Svartype | null;
+                                    tag: string | null;
+                                    undersporsmal: Array<{
                                         __typename: 'Sporsmal';
-                                        sporsmalstekst?: string | null;
-                                        svartype?: Svartype | null;
-                                        tag?: string | null;
-                                        undersporsmal?: Array<{
+                                        sporsmalstekst: string | null;
+                                        svartype: Svartype | null;
+                                        tag: string | null;
+                                        undersporsmal: Array<{
                                             __typename: 'Sporsmal';
-                                            sporsmalstekst?: string | null;
-                                            svartype?: Svartype | null;
-                                            tag?: string | null;
-                                            undersporsmal?: Array<{
+                                            sporsmalstekst: string | null;
+                                            svartype: Svartype | null;
+                                            tag: string | null;
+                                            undersporsmal: Array<{
                                                 __typename: 'Sporsmal';
-                                                sporsmalstekst?: string | null;
-                                                svartype?: Svartype | null;
-                                                tag?: string | null;
-                                                undersporsmal?: Array<{
+                                                sporsmalstekst: string | null;
+                                                svartype: Svartype | null;
+                                                tag: string | null;
+                                                undersporsmal: Array<{
                                                     __typename: 'Sporsmal';
-                                                    sporsmalstekst?: string | null;
-                                                    svartype?: Svartype | null;
-                                                    tag?: string | null;
-                                                    svar?: Array<{ __typename: 'Svar'; verdi?: string | null }> | null;
+                                                    sporsmalstekst: string | null;
+                                                    svartype: Svartype | null;
+                                                    tag: string | null;
+                                                    svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
                                                 }> | null;
-                                                svar?: Array<{ __typename: 'Svar'; verdi?: string | null }> | null;
+                                                svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
                                             }> | null;
-                                            svar?: Array<{ __typename: 'Svar'; verdi?: string | null }> | null;
+                                            svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
                                         }> | null;
-                                        svar?: Array<{ __typename: 'Svar'; verdi?: string | null }> | null;
+                                        svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
                                     }> | null;
-                                    svar?: Array<{ __typename: 'Svar'; verdi?: string | null }> | null;
+                                    svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
                                 }> | null;
-                                svar?: Array<{ __typename: 'Svar'; verdi?: string | null }> | null;
+                                svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
                             }> | null;
-                            svar?: Array<{ __typename: 'Svar'; verdi?: string | null }> | null;
+                            svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
                         }> | null;
-                        svar?: Array<{ __typename: 'Svar'; verdi?: string | null }> | null;
+                        svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
                     }> | null;
-                    svar?: Array<{ __typename: 'Svar'; verdi?: string | null }> | null;
+                    svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
                 }> | null;
-                svar?: Array<{ __typename: 'Svar'; verdi?: string | null }> | null;
+                svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
             }> | null;
-            svar?: Array<{ __typename: 'Svar'; verdi?: string | null }> | null;
+            svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
         }> | null;
     };
 };
@@ -1787,11 +1787,11 @@ export type FeilregistrerKommentarMutationMutationVariables = Exact<{
 
 export type FeilregistrerKommentarMutationMutation = {
     __typename: 'Mutation';
-    feilregistrerKommentar?: {
+    feilregistrerKommentar: {
         __typename: 'Kommentar';
         id: number;
         opprettet: string;
-        feilregistrert_tidspunkt?: string | null;
+        feilregistrert_tidspunkt: string | null;
         saksbehandlerident: string;
         tekst: string;
     } | null;
@@ -1805,13 +1805,13 @@ export type LeggTilKommentarMutationVariables = Exact<{
 
 export type LeggTilKommentarMutation = {
     __typename: 'Mutation';
-    leggTilKommentar?: {
+    leggTilKommentar: {
         __typename: 'Kommentar';
         id: number;
         tekst: string;
         opprettet: string;
         saksbehandlerident: string;
-        feilregistrert_tidspunkt?: string | null;
+        feilregistrert_tidspunkt: string | null;
     } | null;
 };
 
@@ -1821,7 +1821,7 @@ export type FeilregistrerNotatMutationMutationVariables = Exact<{
 
 export type FeilregistrerNotatMutationMutation = {
     __typename: 'Mutation';
-    feilregistrerNotat?: {
+    feilregistrerNotat: {
         __typename: 'Notat';
         id: number;
         tekst: string;
@@ -1832,7 +1832,7 @@ export type FeilregistrerNotatMutationMutation = {
         saksbehandlerIdent: string;
         vedtaksperiodeId: string;
         feilregistrert: boolean;
-        feilregistrert_tidspunkt?: string | null;
+        feilregistrert_tidspunkt: string | null;
         type: NotatType;
         kommentarer: Array<{
             __typename: 'Kommentar';
@@ -1840,7 +1840,7 @@ export type FeilregistrerNotatMutationMutation = {
             tekst: string;
             opprettet: string;
             saksbehandlerident: string;
-            feilregistrert_tidspunkt?: string | null;
+            feilregistrert_tidspunkt: string | null;
         }>;
     } | null;
 };
@@ -1854,7 +1854,7 @@ export type LeggTilNotatMutationVariables = Exact<{
 
 export type LeggTilNotatMutation = {
     __typename: 'Mutation';
-    leggTilNotat?: {
+    leggTilNotat: {
         __typename: 'Notat';
         id: number;
         tekst: string;
@@ -1865,7 +1865,7 @@ export type LeggTilNotatMutation = {
         saksbehandlerIdent: string;
         vedtaksperiodeId: string;
         feilregistrert: boolean;
-        feilregistrert_tidspunkt?: string | null;
+        feilregistrert_tidspunkt: string | null;
         type: NotatType;
         kommentarer: Array<{
             __typename: 'Kommentar';
@@ -1873,7 +1873,7 @@ export type LeggTilNotatMutation = {
             tekst: string;
             opprettet: string;
             saksbehandlerident: string;
-            feilregistrert_tidspunkt?: string | null;
+            feilregistrert_tidspunkt: string | null;
         }>;
     } | null;
 };
@@ -1905,7 +1905,7 @@ export type FetchNotaterQuery = {
                 tekst: string;
                 opprettet: string;
                 saksbehandlerident: string;
-                feilregistrert_tidspunkt?: string | null;
+                feilregistrert_tidspunkt: string | null;
             }>;
         }>;
     }>;
@@ -1929,15 +1929,15 @@ export type OppgaveFeedQuery = {
             id: string;
             opprettet: string;
             opprinneligSoknadsdato: string;
-            tidsfrist?: string | null;
+            tidsfrist: string | null;
             vedtaksperiodeId: string;
             oppgavetype: Oppgavetype;
             periodetype: Periodetype;
             mottaker: Mottaker;
             antallArbeidsforhold: AntallArbeidsforhold;
             egenskaper: Array<{ __typename: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
-            navn: { __typename: 'Personnavn'; fornavn: string; etternavn: string; mellomnavn?: string | null };
-            tildeling?: { __typename: 'Tildeling'; epost: string; navn: string; oid: string } | null;
+            navn: { __typename: 'Personnavn'; fornavn: string; etternavn: string; mellomnavn: string | null };
+            tildeling: { __typename: 'Tildeling'; epost: string; navn: string; oid: string } | null;
         }>;
     };
 };
@@ -1991,7 +1991,7 @@ export type OverstyrInntektOgRefusjonMutationMutation = { __typename: 'Mutation'
 export type SimuleringFragment = {
     __typename: 'Simulering';
     fagsystemId: string;
-    totalbelop?: number | null;
+    totalbelop: number | null;
     tidsstempel: string;
     utbetalingslinjer: Array<{
         __typename: 'Simuleringslinje';
@@ -2000,7 +2000,7 @@ export type SimuleringFragment = {
         dagsats: number;
         grad: number;
     }>;
-    perioder?: Array<{
+    perioder: Array<{
         __typename: 'Simuleringsperiode';
         fom: string;
         tom: string;
@@ -2030,7 +2030,613 @@ export type SimuleringFragment = {
     }> | null;
 };
 
-type Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment = {
+export type Overstyring_Arbeidsforholdoverstyring_Fragment = {
+    __typename: 'Arbeidsforholdoverstyring';
+    begrunnelse: string;
+    deaktivert: boolean;
+    skjaeringstidspunkt: string;
+    forklaring: string;
+    hendelseId: string;
+    timestamp: string;
+    ferdigstilt: boolean;
+    saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+};
+
+export type Overstyring_Dagoverstyring_Fragment = {
+    __typename: 'Dagoverstyring';
+    begrunnelse: string;
+    hendelseId: string;
+    timestamp: string;
+    ferdigstilt: boolean;
+    dager: Array<{
+        __typename: 'OverstyrtDag';
+        grad: number | null;
+        fraGrad: number | null;
+        dato: string;
+        type: Dagtype;
+        fraType: Dagtype | null;
+    }>;
+    saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+};
+
+export type Overstyring_Inntektoverstyring_Fragment = {
+    __typename: 'Inntektoverstyring';
+    hendelseId: string;
+    timestamp: string;
+    ferdigstilt: boolean;
+    inntekt: {
+        __typename: 'OverstyrtInntekt';
+        skjaeringstidspunkt: string;
+        forklaring: string;
+        begrunnelse: string;
+        manedligInntekt: number;
+        fraManedligInntekt: number | null;
+        refusjonsopplysninger: Array<{
+            __typename: 'Refusjonsopplysning';
+            fom: string;
+            tom: string | null;
+            belop: number;
+        }> | null;
+        fraRefusjonsopplysninger: Array<{
+            __typename: 'Refusjonsopplysning';
+            fom: string;
+            tom: string | null;
+            belop: number;
+        }> | null;
+    };
+    saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+};
+
+export type Overstyring_Sykepengegrunnlagskjonnsfastsetting_Fragment = {
+    __typename: 'Sykepengegrunnlagskjonnsfastsetting';
+    hendelseId: string;
+    timestamp: string;
+    ferdigstilt: boolean;
+    skjonnsfastsatt: {
+        __typename: 'SkjonnsfastsattSykepengegrunnlag';
+        arsak: string;
+        type: Skjonnsfastsettingstype | null;
+        begrunnelse: string | null;
+        begrunnelseMal: string | null;
+        begrunnelseFritekst: string | null;
+        begrunnelseKonklusjon: string | null;
+        arlig: number;
+        fraArlig: number | null;
+        skjaeringstidspunkt: string;
+    };
+    saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+};
+
+export type OverstyringFragment =
+    | Overstyring_Arbeidsforholdoverstyring_Fragment
+    | Overstyring_Dagoverstyring_Fragment
+    | Overstyring_Inntektoverstyring_Fragment
+    | Overstyring_Sykepengegrunnlagskjonnsfastsetting_Fragment;
+
+export type ArbeidsgiverFragment = {
+    __typename: 'Arbeidsgiver';
+    bransjer: Array<string>;
+    navn: string;
+    organisasjonsnummer: string;
+    arbeidsforhold: Array<{
+        __typename: 'Arbeidsforhold';
+        sluttdato: string | null;
+        startdato: string;
+        stillingsprosent: number;
+        stillingstittel: string;
+    }>;
+    ghostPerioder: Array<{
+        __typename: 'GhostPeriode';
+        id: string;
+        deaktivert: boolean;
+        vilkarsgrunnlagId: string | null;
+        skjaeringstidspunkt: string;
+        fom: string;
+        tom: string;
+        organisasjonsnummer: string;
+    }>;
+    generasjoner: Array<{
+        __typename: 'Generasjon';
+        id: string;
+        perioder: Array<
+            | {
+                  __typename: 'BeregnetPeriode';
+                  id: string;
+                  beregningId: string;
+                  forbrukteSykedager: number | null;
+                  gjenstaendeSykedager: number | null;
+                  vedtaksperiodeId: string;
+                  maksdato: string;
+                  vilkarsgrunnlagId: string | null;
+                  behandlingId: string;
+                  fom: string;
+                  tom: string;
+                  erForkastet: boolean;
+                  inntektstype: Inntektstype;
+                  opprettet: string;
+                  periodetype: Periodetype;
+                  periodetilstand: Periodetilstand;
+                  skjaeringstidspunkt: string;
+                  handlinger: Array<{
+                      __typename: 'Handling';
+                      type: Periodehandling;
+                      tillatt: boolean;
+                      begrunnelse: string | null;
+                  }>;
+                  notater: Array<{
+                      __typename: 'Notat';
+                      id: number;
+                      tekst: string;
+                      opprettet: string;
+                      saksbehandlerOid: string;
+                      saksbehandlerNavn: string;
+                      saksbehandlerEpost: string;
+                      saksbehandlerIdent: string;
+                      vedtaksperiodeId: string;
+                      feilregistrert: boolean;
+                      type: NotatType;
+                      kommentarer: Array<{
+                          __typename: 'Kommentar';
+                          id: number;
+                          tekst: string;
+                          opprettet: string;
+                          saksbehandlerident: string;
+                          feilregistrert_tidspunkt: string | null;
+                      }>;
+                  }>;
+                  periodehistorikk: Array<{
+                      __typename: 'PeriodeHistorikkElement';
+                      type: PeriodehistorikkType;
+                      timestamp: string;
+                      saksbehandler_ident: string | null;
+                      notat_id: number | null;
+                  }>;
+                  periodevilkar: {
+                      __typename: 'Periodevilkar';
+                      alder: { __typename: 'Alder'; alderSisteSykedag: number; oppfylt: boolean };
+                      sykepengedager: {
+                          __typename: 'Sykepengedager';
+                          forbrukteSykedager: number | null;
+                          gjenstaendeSykedager: number | null;
+                          maksdato: string;
+                          oppfylt: boolean;
+                          skjaeringstidspunkt: string;
+                      };
+                  };
+                  risikovurdering: {
+                      __typename: 'Risikovurdering';
+                      funn: Array<{ __typename: 'Faresignal'; beskrivelse: string; kategori: Array<string> }> | null;
+                      kontrollertOk: Array<{ __typename: 'Faresignal'; beskrivelse: string; kategori: Array<string> }>;
+                  } | null;
+                  utbetaling: {
+                      __typename: 'Utbetaling';
+                      id: string;
+                      arbeidsgiverFagsystemId: string;
+                      arbeidsgiverNettoBelop: number;
+                      personFagsystemId: string;
+                      personNettoBelop: number;
+                      status: Utbetalingstatus;
+                      type: Utbetalingtype;
+                      vurdering: {
+                          __typename: 'Vurdering';
+                          automatisk: boolean;
+                          godkjent: boolean;
+                          ident: string;
+                          tidsstempel: string;
+                      } | null;
+                      arbeidsgiversimulering: {
+                          __typename: 'Simulering';
+                          fagsystemId: string;
+                          totalbelop: number | null;
+                          tidsstempel: string;
+                          utbetalingslinjer: Array<{
+                              __typename: 'Simuleringslinje';
+                              fom: string;
+                              tom: string;
+                              dagsats: number;
+                              grad: number;
+                          }>;
+                          perioder: Array<{
+                              __typename: 'Simuleringsperiode';
+                              fom: string;
+                              tom: string;
+                              utbetalinger: Array<{
+                                  __typename: 'Simuleringsutbetaling';
+                                  mottakerId: string;
+                                  mottakerNavn: string;
+                                  forfall: string;
+                                  feilkonto: boolean;
+                                  detaljer: Array<{
+                                      __typename: 'Simuleringsdetaljer';
+                                      fom: string;
+                                      tom: string;
+                                      utbetalingstype: string;
+                                      uforegrad: number;
+                                      typeSats: string;
+                                      tilbakeforing: boolean;
+                                      sats: number;
+                                      refunderesOrgNr: string;
+                                      konto: string;
+                                      klassekode: string;
+                                      antallSats: number;
+                                      belop: number;
+                                      klassekodebeskrivelse: string;
+                                  }>;
+                              }>;
+                          }> | null;
+                      } | null;
+                      personsimulering: {
+                          __typename: 'Simulering';
+                          fagsystemId: string;
+                          totalbelop: number | null;
+                          tidsstempel: string;
+                          utbetalingslinjer: Array<{
+                              __typename: 'Simuleringslinje';
+                              fom: string;
+                              tom: string;
+                              dagsats: number;
+                              grad: number;
+                          }>;
+                          perioder: Array<{
+                              __typename: 'Simuleringsperiode';
+                              fom: string;
+                              tom: string;
+                              utbetalinger: Array<{
+                                  __typename: 'Simuleringsutbetaling';
+                                  mottakerId: string;
+                                  mottakerNavn: string;
+                                  forfall: string;
+                                  feilkonto: boolean;
+                                  detaljer: Array<{
+                                      __typename: 'Simuleringsdetaljer';
+                                      fom: string;
+                                      tom: string;
+                                      utbetalingstype: string;
+                                      uforegrad: number;
+                                      typeSats: string;
+                                      tilbakeforing: boolean;
+                                      sats: number;
+                                      refunderesOrgNr: string;
+                                      konto: string;
+                                      klassekode: string;
+                                      antallSats: number;
+                                      belop: number;
+                                      klassekodebeskrivelse: string;
+                                  }>;
+                              }>;
+                          }> | null;
+                      } | null;
+                  };
+                  oppgave: { __typename: 'OppgaveForPeriodevisning'; id: string } | null;
+                  paVent: {
+                      __typename: 'PaVent';
+                      frist: string | null;
+                      begrunnelse: string | null;
+                      oid: string;
+                  } | null;
+                  totrinnsvurdering: {
+                      __typename: 'Totrinnsvurdering';
+                      erBeslutteroppgave: boolean;
+                      erRetur: boolean;
+                      saksbehandler: string | null;
+                      beslutter: string | null;
+                  } | null;
+                  egenskaper: Array<{ __typename: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
+                  avslag: Array<{
+                      __typename: 'Avslag';
+                      type: Avslagstype;
+                      begrunnelse: string;
+                      opprettet: string;
+                      saksbehandlerIdent: string;
+                      invalidert: boolean;
+                  }>;
+                  tidslinje: Array<{
+                      __typename: 'Dag';
+                      dato: string;
+                      grad: number | null;
+                      sykdomsdagtype: Sykdomsdagtype;
+                      utbetalingsdagtype: Utbetalingsdagtype;
+                      begrunnelser: Array<Begrunnelse> | null;
+                      kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                      utbetalingsinfo: {
+                          __typename: 'Utbetalingsinfo';
+                          arbeidsgiverbelop: number | null;
+                          inntekt: number | null;
+                          personbelop: number | null;
+                          refusjonsbelop: number | null;
+                          totalGrad: number | null;
+                          utbetaling: number | null;
+                      } | null;
+                  }>;
+                  varsler: Array<{
+                      __typename: 'VarselDTO';
+                      generasjonId: string;
+                      definisjonId: string;
+                      opprettet: string;
+                      kode: string;
+                      tittel: string;
+                      forklaring: string | null;
+                      handling: string | null;
+                      vurdering: {
+                          __typename: 'VarselvurderingDTO';
+                          ident: string;
+                          status: Varselstatus;
+                          tidsstempel: string;
+                      } | null;
+                  }>;
+                  hendelser: Array<
+                      | {
+                            __typename: 'Inntektsmelding';
+                            beregnetInntekt: number;
+                            mottattDato: string;
+                            eksternDokumentId: string | null;
+                            id: string;
+                            type: Hendelsetype;
+                        }
+                      | {
+                            __typename: 'SoknadArbeidsgiver';
+                            fom: string;
+                            tom: string;
+                            rapportertDato: string;
+                            sendtArbeidsgiver: string;
+                            eksternDokumentId: string | null;
+                            id: string;
+                            type: Hendelsetype;
+                        }
+                      | {
+                            __typename: 'SoknadArbeidsledig';
+                            fom: string;
+                            tom: string;
+                            rapportertDato: string;
+                            sendtNav: string;
+                            eksternDokumentId: string | null;
+                            id: string;
+                            type: Hendelsetype;
+                        }
+                      | {
+                            __typename: 'SoknadFrilans';
+                            fom: string;
+                            tom: string;
+                            rapportertDato: string;
+                            sendtNav: string;
+                            eksternDokumentId: string | null;
+                            id: string;
+                            type: Hendelsetype;
+                        }
+                      | {
+                            __typename: 'SoknadNav';
+                            fom: string;
+                            tom: string;
+                            rapportertDato: string;
+                            sendtNav: string;
+                            eksternDokumentId: string | null;
+                            id: string;
+                            type: Hendelsetype;
+                        }
+                      | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+                      | {
+                            __typename: 'Sykmelding';
+                            fom: string;
+                            tom: string;
+                            rapportertDato: string;
+                            id: string;
+                            type: Hendelsetype;
+                        }
+                  >;
+              }
+            | {
+                  __typename: 'UberegnetPeriode';
+                  id: string;
+                  behandlingId: string;
+                  fom: string;
+                  tom: string;
+                  erForkastet: boolean;
+                  inntektstype: Inntektstype;
+                  opprettet: string;
+                  periodetype: Periodetype;
+                  vedtaksperiodeId: string;
+                  periodetilstand: Periodetilstand;
+                  skjaeringstidspunkt: string;
+                  notater: Array<{
+                      __typename: 'Notat';
+                      id: number;
+                      tekst: string;
+                      opprettet: string;
+                      saksbehandlerOid: string;
+                      saksbehandlerNavn: string;
+                      saksbehandlerEpost: string;
+                      saksbehandlerIdent: string;
+                      vedtaksperiodeId: string;
+                      feilregistrert: boolean;
+                      type: NotatType;
+                      kommentarer: Array<{
+                          __typename: 'Kommentar';
+                          id: number;
+                          tekst: string;
+                          opprettet: string;
+                          saksbehandlerident: string;
+                          feilregistrert_tidspunkt: string | null;
+                      }>;
+                  }>;
+                  tidslinje: Array<{
+                      __typename: 'Dag';
+                      dato: string;
+                      grad: number | null;
+                      sykdomsdagtype: Sykdomsdagtype;
+                      utbetalingsdagtype: Utbetalingsdagtype;
+                      begrunnelser: Array<Begrunnelse> | null;
+                      kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                      utbetalingsinfo: {
+                          __typename: 'Utbetalingsinfo';
+                          arbeidsgiverbelop: number | null;
+                          inntekt: number | null;
+                          personbelop: number | null;
+                          refusjonsbelop: number | null;
+                          totalGrad: number | null;
+                          utbetaling: number | null;
+                      } | null;
+                  }>;
+                  varsler: Array<{
+                      __typename: 'VarselDTO';
+                      generasjonId: string;
+                      definisjonId: string;
+                      opprettet: string;
+                      kode: string;
+                      tittel: string;
+                      forklaring: string | null;
+                      handling: string | null;
+                      vurdering: {
+                          __typename: 'VarselvurderingDTO';
+                          ident: string;
+                          status: Varselstatus;
+                          tidsstempel: string;
+                      } | null;
+                  }>;
+                  hendelser: Array<
+                      | {
+                            __typename: 'Inntektsmelding';
+                            beregnetInntekt: number;
+                            mottattDato: string;
+                            eksternDokumentId: string | null;
+                            id: string;
+                            type: Hendelsetype;
+                        }
+                      | {
+                            __typename: 'SoknadArbeidsgiver';
+                            fom: string;
+                            tom: string;
+                            rapportertDato: string;
+                            sendtArbeidsgiver: string;
+                            eksternDokumentId: string | null;
+                            id: string;
+                            type: Hendelsetype;
+                        }
+                      | {
+                            __typename: 'SoknadArbeidsledig';
+                            fom: string;
+                            tom: string;
+                            rapportertDato: string;
+                            sendtNav: string;
+                            eksternDokumentId: string | null;
+                            id: string;
+                            type: Hendelsetype;
+                        }
+                      | {
+                            __typename: 'SoknadFrilans';
+                            fom: string;
+                            tom: string;
+                            rapportertDato: string;
+                            sendtNav: string;
+                            eksternDokumentId: string | null;
+                            id: string;
+                            type: Hendelsetype;
+                        }
+                      | {
+                            __typename: 'SoknadNav';
+                            fom: string;
+                            tom: string;
+                            rapportertDato: string;
+                            sendtNav: string;
+                            eksternDokumentId: string | null;
+                            id: string;
+                            type: Hendelsetype;
+                        }
+                      | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+                      | {
+                            __typename: 'Sykmelding';
+                            fom: string;
+                            tom: string;
+                            rapportertDato: string;
+                            id: string;
+                            type: Hendelsetype;
+                        }
+                  >;
+              }
+        >;
+    }>;
+    overstyringer: Array<
+        | {
+              __typename: 'Arbeidsforholdoverstyring';
+              begrunnelse: string;
+              deaktivert: boolean;
+              skjaeringstidspunkt: string;
+              forklaring: string;
+              hendelseId: string;
+              timestamp: string;
+              ferdigstilt: boolean;
+              saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+          }
+        | {
+              __typename: 'Dagoverstyring';
+              begrunnelse: string;
+              hendelseId: string;
+              timestamp: string;
+              ferdigstilt: boolean;
+              dager: Array<{
+                  __typename: 'OverstyrtDag';
+                  grad: number | null;
+                  fraGrad: number | null;
+                  dato: string;
+                  type: Dagtype;
+                  fraType: Dagtype | null;
+              }>;
+              saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+          }
+        | {
+              __typename: 'Inntektoverstyring';
+              hendelseId: string;
+              timestamp: string;
+              ferdigstilt: boolean;
+              inntekt: {
+                  __typename: 'OverstyrtInntekt';
+                  skjaeringstidspunkt: string;
+                  forklaring: string;
+                  begrunnelse: string;
+                  manedligInntekt: number;
+                  fraManedligInntekt: number | null;
+                  refusjonsopplysninger: Array<{
+                      __typename: 'Refusjonsopplysning';
+                      fom: string;
+                      tom: string | null;
+                      belop: number;
+                  }> | null;
+                  fraRefusjonsopplysninger: Array<{
+                      __typename: 'Refusjonsopplysning';
+                      fom: string;
+                      tom: string | null;
+                      belop: number;
+                  }> | null;
+              };
+              saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+          }
+        | {
+              __typename: 'Sykepengegrunnlagskjonnsfastsetting';
+              hendelseId: string;
+              timestamp: string;
+              ferdigstilt: boolean;
+              skjonnsfastsatt: {
+                  __typename: 'SkjonnsfastsattSykepengegrunnlag';
+                  arsak: string;
+                  type: Skjonnsfastsettingstype | null;
+                  begrunnelse: string | null;
+                  begrunnelseMal: string | null;
+                  begrunnelseFritekst: string | null;
+                  begrunnelseKonklusjon: string | null;
+                  arlig: number;
+                  fraArlig: number | null;
+                  skjaeringstidspunkt: string;
+              };
+              saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+          }
+    >;
+    inntekterFraAordningen: Array<{
+        __typename: 'ArbeidsgiverInntekterFraAOrdningen';
+        skjaeringstidspunkt: string;
+        inntekter: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }>;
+    }>;
+};
+
+export type Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment = {
     __typename: 'VilkarsgrunnlagInfotrygd';
     id: string;
     sykepengegrunnlag: number;
@@ -2040,25 +2646,25 @@ type Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment = {
     inntekter: Array<{
         __typename: 'Arbeidsgiverinntekt';
         arbeidsgiver: string;
-        deaktivert?: boolean | null;
-        sammenligningsgrunnlag?: {
+        deaktivert: boolean | null;
+        sammenligningsgrunnlag: {
             __typename: 'Sammenligningsgrunnlag';
             belop: number;
             inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }>;
         } | null;
-        omregnetArsinntekt?: {
+        omregnetArsinntekt: {
             __typename: 'OmregnetArsinntekt';
             belop: number;
             manedsbelop: number;
             kilde: Inntektskilde;
-            inntektFraAOrdningen?: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
+            inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
         } | null;
-        skjonnsmessigFastsatt?: {
+        skjonnsmessigFastsatt: {
             __typename: 'OmregnetArsinntekt';
             belop: number;
             manedsbelop: number;
             kilde: Inntektskilde;
-            inntektFraAOrdningen?: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
+            inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
         } | null;
     }>;
     arbeidsgiverrefusjoner: Array<{
@@ -2067,23 +2673,23 @@ type Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment = {
         refusjonsopplysninger: Array<{
             __typename: 'Refusjonselement';
             fom: string;
-            tom?: string | null;
+            tom: string | null;
             belop: number;
             meldingsreferanseId: string;
         }>;
     }>;
 };
 
-type Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment = {
+export type Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment = {
     __typename: 'VilkarsgrunnlagSpleis';
-    sammenligningsgrunnlag?: number | null;
-    skjonnsmessigFastsattAarlig?: number | null;
+    sammenligningsgrunnlag: number | null;
+    skjonnsmessigFastsattAarlig: number | null;
     oppfyllerKravOmMinstelonn: boolean;
-    oppfyllerKravOmMedlemskap?: boolean | null;
+    oppfyllerKravOmMedlemskap: boolean | null;
     oppfyllerKravOmOpptjening: boolean;
     antallOpptjeningsdagerErMinst: number;
     grunnbelop: number;
-    avviksprosent?: number | null;
+    avviksprosent: number | null;
     opptjeningFra: string;
     id: string;
     sykepengegrunnlag: number;
@@ -2099,25 +2705,25 @@ type Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment = {
     inntekter: Array<{
         __typename: 'Arbeidsgiverinntekt';
         arbeidsgiver: string;
-        deaktivert?: boolean | null;
-        sammenligningsgrunnlag?: {
+        deaktivert: boolean | null;
+        sammenligningsgrunnlag: {
             __typename: 'Sammenligningsgrunnlag';
             belop: number;
             inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }>;
         } | null;
-        omregnetArsinntekt?: {
+        omregnetArsinntekt: {
             __typename: 'OmregnetArsinntekt';
             belop: number;
             manedsbelop: number;
             kilde: Inntektskilde;
-            inntektFraAOrdningen?: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
+            inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
         } | null;
-        skjonnsmessigFastsatt?: {
+        skjonnsmessigFastsatt: {
             __typename: 'OmregnetArsinntekt';
             belop: number;
             manedsbelop: number;
             kilde: Inntektskilde;
-            inntektFraAOrdningen?: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
+            inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
         } | null;
     }>;
     arbeidsgiverrefusjoner: Array<{
@@ -2126,7 +2732,7 @@ type Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment = {
         refusjonsopplysninger: Array<{
             __typename: 'Refusjonselement';
             fom: string;
-            tom?: string | null;
+            tom: string | null;
             belop: number;
             meldingsreferanseId: string;
         }>;
@@ -2148,7 +2754,6 @@ export type NotatFragment = {
     saksbehandlerIdent: string;
     vedtaksperiodeId: string;
     feilregistrert: boolean;
-    feilregistrert_tidspunkt?: string | null;
     type: NotatType;
     kommentarer: Array<{
         __typename: 'Kommentar';
@@ -2156,7 +2761,1295 @@ export type NotatFragment = {
         tekst: string;
         opprettet: string;
         saksbehandlerident: string;
-        feilregistrert_tidspunkt?: string | null;
+        feilregistrert_tidspunkt: string | null;
+    }>;
+};
+
+export type GhostPeriodeFragment = {
+    __typename: 'GhostPeriode';
+    id: string;
+    deaktivert: boolean;
+    vilkarsgrunnlagId: string | null;
+    skjaeringstidspunkt: string;
+    fom: string;
+    tom: string;
+    organisasjonsnummer: string;
+};
+
+export type UberegnetPeriodeFragment = {
+    __typename: 'UberegnetPeriode';
+    id: string;
+    behandlingId: string;
+    fom: string;
+    tom: string;
+    erForkastet: boolean;
+    inntektstype: Inntektstype;
+    opprettet: string;
+    periodetype: Periodetype;
+    vedtaksperiodeId: string;
+    periodetilstand: Periodetilstand;
+    skjaeringstidspunkt: string;
+    notater: Array<{
+        __typename: 'Notat';
+        id: number;
+        tekst: string;
+        opprettet: string;
+        saksbehandlerOid: string;
+        saksbehandlerNavn: string;
+        saksbehandlerEpost: string;
+        saksbehandlerIdent: string;
+        vedtaksperiodeId: string;
+        feilregistrert: boolean;
+        type: NotatType;
+        kommentarer: Array<{
+            __typename: 'Kommentar';
+            id: number;
+            tekst: string;
+            opprettet: string;
+            saksbehandlerident: string;
+            feilregistrert_tidspunkt: string | null;
+        }>;
+    }>;
+    tidslinje: Array<{
+        __typename: 'Dag';
+        dato: string;
+        grad: number | null;
+        sykdomsdagtype: Sykdomsdagtype;
+        utbetalingsdagtype: Utbetalingsdagtype;
+        begrunnelser: Array<Begrunnelse> | null;
+        kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+        utbetalingsinfo: {
+            __typename: 'Utbetalingsinfo';
+            arbeidsgiverbelop: number | null;
+            inntekt: number | null;
+            personbelop: number | null;
+            refusjonsbelop: number | null;
+            totalGrad: number | null;
+            utbetaling: number | null;
+        } | null;
+    }>;
+    varsler: Array<{
+        __typename: 'VarselDTO';
+        generasjonId: string;
+        definisjonId: string;
+        opprettet: string;
+        kode: string;
+        tittel: string;
+        forklaring: string | null;
+        handling: string | null;
+        vurdering: {
+            __typename: 'VarselvurderingDTO';
+            ident: string;
+            status: Varselstatus;
+            tidsstempel: string;
+        } | null;
+    }>;
+    hendelser: Array<
+        | {
+              __typename: 'Inntektsmelding';
+              beregnetInntekt: number;
+              mottattDato: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadArbeidsgiver';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtArbeidsgiver: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadArbeidsledig';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadFrilans';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadNav';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+        | { __typename: 'Sykmelding'; fom: string; tom: string; rapportertDato: string; id: string; type: Hendelsetype }
+    >;
+};
+
+export type BeregnetPeriodeFragment = {
+    __typename: 'BeregnetPeriode';
+    id: string;
+    beregningId: string;
+    forbrukteSykedager: number | null;
+    gjenstaendeSykedager: number | null;
+    vedtaksperiodeId: string;
+    maksdato: string;
+    vilkarsgrunnlagId: string | null;
+    behandlingId: string;
+    fom: string;
+    tom: string;
+    erForkastet: boolean;
+    inntektstype: Inntektstype;
+    opprettet: string;
+    periodetype: Periodetype;
+    periodetilstand: Periodetilstand;
+    skjaeringstidspunkt: string;
+    handlinger: Array<{ __typename: 'Handling'; type: Periodehandling; tillatt: boolean; begrunnelse: string | null }>;
+    notater: Array<{
+        __typename: 'Notat';
+        id: number;
+        tekst: string;
+        opprettet: string;
+        saksbehandlerOid: string;
+        saksbehandlerNavn: string;
+        saksbehandlerEpost: string;
+        saksbehandlerIdent: string;
+        vedtaksperiodeId: string;
+        feilregistrert: boolean;
+        type: NotatType;
+        kommentarer: Array<{
+            __typename: 'Kommentar';
+            id: number;
+            tekst: string;
+            opprettet: string;
+            saksbehandlerident: string;
+            feilregistrert_tidspunkt: string | null;
+        }>;
+    }>;
+    periodehistorikk: Array<{
+        __typename: 'PeriodeHistorikkElement';
+        type: PeriodehistorikkType;
+        timestamp: string;
+        saksbehandler_ident: string | null;
+        notat_id: number | null;
+    }>;
+    periodevilkar: {
+        __typename: 'Periodevilkar';
+        alder: { __typename: 'Alder'; alderSisteSykedag: number; oppfylt: boolean };
+        sykepengedager: {
+            __typename: 'Sykepengedager';
+            forbrukteSykedager: number | null;
+            gjenstaendeSykedager: number | null;
+            maksdato: string;
+            oppfylt: boolean;
+            skjaeringstidspunkt: string;
+        };
+    };
+    risikovurdering: {
+        __typename: 'Risikovurdering';
+        funn: Array<{ __typename: 'Faresignal'; beskrivelse: string; kategori: Array<string> }> | null;
+        kontrollertOk: Array<{ __typename: 'Faresignal'; beskrivelse: string; kategori: Array<string> }>;
+    } | null;
+    utbetaling: {
+        __typename: 'Utbetaling';
+        id: string;
+        arbeidsgiverFagsystemId: string;
+        arbeidsgiverNettoBelop: number;
+        personFagsystemId: string;
+        personNettoBelop: number;
+        status: Utbetalingstatus;
+        type: Utbetalingtype;
+        vurdering: {
+            __typename: 'Vurdering';
+            automatisk: boolean;
+            godkjent: boolean;
+            ident: string;
+            tidsstempel: string;
+        } | null;
+        arbeidsgiversimulering: {
+            __typename: 'Simulering';
+            fagsystemId: string;
+            totalbelop: number | null;
+            tidsstempel: string;
+            utbetalingslinjer: Array<{
+                __typename: 'Simuleringslinje';
+                fom: string;
+                tom: string;
+                dagsats: number;
+                grad: number;
+            }>;
+            perioder: Array<{
+                __typename: 'Simuleringsperiode';
+                fom: string;
+                tom: string;
+                utbetalinger: Array<{
+                    __typename: 'Simuleringsutbetaling';
+                    mottakerId: string;
+                    mottakerNavn: string;
+                    forfall: string;
+                    feilkonto: boolean;
+                    detaljer: Array<{
+                        __typename: 'Simuleringsdetaljer';
+                        fom: string;
+                        tom: string;
+                        utbetalingstype: string;
+                        uforegrad: number;
+                        typeSats: string;
+                        tilbakeforing: boolean;
+                        sats: number;
+                        refunderesOrgNr: string;
+                        konto: string;
+                        klassekode: string;
+                        antallSats: number;
+                        belop: number;
+                        klassekodebeskrivelse: string;
+                    }>;
+                }>;
+            }> | null;
+        } | null;
+        personsimulering: {
+            __typename: 'Simulering';
+            fagsystemId: string;
+            totalbelop: number | null;
+            tidsstempel: string;
+            utbetalingslinjer: Array<{
+                __typename: 'Simuleringslinje';
+                fom: string;
+                tom: string;
+                dagsats: number;
+                grad: number;
+            }>;
+            perioder: Array<{
+                __typename: 'Simuleringsperiode';
+                fom: string;
+                tom: string;
+                utbetalinger: Array<{
+                    __typename: 'Simuleringsutbetaling';
+                    mottakerId: string;
+                    mottakerNavn: string;
+                    forfall: string;
+                    feilkonto: boolean;
+                    detaljer: Array<{
+                        __typename: 'Simuleringsdetaljer';
+                        fom: string;
+                        tom: string;
+                        utbetalingstype: string;
+                        uforegrad: number;
+                        typeSats: string;
+                        tilbakeforing: boolean;
+                        sats: number;
+                        refunderesOrgNr: string;
+                        konto: string;
+                        klassekode: string;
+                        antallSats: number;
+                        belop: number;
+                        klassekodebeskrivelse: string;
+                    }>;
+                }>;
+            }> | null;
+        } | null;
+    };
+    oppgave: { __typename: 'OppgaveForPeriodevisning'; id: string } | null;
+    paVent: { __typename: 'PaVent'; frist: string | null; begrunnelse: string | null; oid: string } | null;
+    totrinnsvurdering: {
+        __typename: 'Totrinnsvurdering';
+        erBeslutteroppgave: boolean;
+        erRetur: boolean;
+        saksbehandler: string | null;
+        beslutter: string | null;
+    } | null;
+    egenskaper: Array<{ __typename: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
+    avslag: Array<{
+        __typename: 'Avslag';
+        type: Avslagstype;
+        begrunnelse: string;
+        opprettet: string;
+        saksbehandlerIdent: string;
+        invalidert: boolean;
+    }>;
+    tidslinje: Array<{
+        __typename: 'Dag';
+        dato: string;
+        grad: number | null;
+        sykdomsdagtype: Sykdomsdagtype;
+        utbetalingsdagtype: Utbetalingsdagtype;
+        begrunnelser: Array<Begrunnelse> | null;
+        kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+        utbetalingsinfo: {
+            __typename: 'Utbetalingsinfo';
+            arbeidsgiverbelop: number | null;
+            inntekt: number | null;
+            personbelop: number | null;
+            refusjonsbelop: number | null;
+            totalGrad: number | null;
+            utbetaling: number | null;
+        } | null;
+    }>;
+    varsler: Array<{
+        __typename: 'VarselDTO';
+        generasjonId: string;
+        definisjonId: string;
+        opprettet: string;
+        kode: string;
+        tittel: string;
+        forklaring: string | null;
+        handling: string | null;
+        vurdering: {
+            __typename: 'VarselvurderingDTO';
+            ident: string;
+            status: Varselstatus;
+            tidsstempel: string;
+        } | null;
+    }>;
+    hendelser: Array<
+        | {
+              __typename: 'Inntektsmelding';
+              beregnetInntekt: number;
+              mottattDato: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadArbeidsgiver';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtArbeidsgiver: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadArbeidsledig';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadFrilans';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadNav';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+        | { __typename: 'Sykmelding'; fom: string; tom: string; rapportertDato: string; id: string; type: Hendelsetype }
+    >;
+};
+
+export type Periode_BeregnetPeriode_Fragment = {
+    __typename: 'BeregnetPeriode';
+    behandlingId: string;
+    fom: string;
+    tom: string;
+    erForkastet: boolean;
+    inntektstype: Inntektstype;
+    opprettet: string;
+    periodetype: Periodetype;
+    vedtaksperiodeId: string;
+    periodetilstand: Periodetilstand;
+    skjaeringstidspunkt: string;
+    tidslinje: Array<{
+        __typename: 'Dag';
+        dato: string;
+        grad: number | null;
+        sykdomsdagtype: Sykdomsdagtype;
+        utbetalingsdagtype: Utbetalingsdagtype;
+        begrunnelser: Array<Begrunnelse> | null;
+        kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+        utbetalingsinfo: {
+            __typename: 'Utbetalingsinfo';
+            arbeidsgiverbelop: number | null;
+            inntekt: number | null;
+            personbelop: number | null;
+            refusjonsbelop: number | null;
+            totalGrad: number | null;
+            utbetaling: number | null;
+        } | null;
+    }>;
+    varsler: Array<{
+        __typename: 'VarselDTO';
+        generasjonId: string;
+        definisjonId: string;
+        opprettet: string;
+        kode: string;
+        tittel: string;
+        forklaring: string | null;
+        handling: string | null;
+        vurdering: {
+            __typename: 'VarselvurderingDTO';
+            ident: string;
+            status: Varselstatus;
+            tidsstempel: string;
+        } | null;
+    }>;
+    hendelser: Array<
+        | {
+              __typename: 'Inntektsmelding';
+              beregnetInntekt: number;
+              mottattDato: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadArbeidsgiver';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtArbeidsgiver: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadArbeidsledig';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadFrilans';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadNav';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+        | { __typename: 'Sykmelding'; fom: string; tom: string; rapportertDato: string; id: string; type: Hendelsetype }
+    >;
+};
+
+export type Periode_UberegnetPeriode_Fragment = {
+    __typename: 'UberegnetPeriode';
+    behandlingId: string;
+    fom: string;
+    tom: string;
+    erForkastet: boolean;
+    inntektstype: Inntektstype;
+    opprettet: string;
+    periodetype: Periodetype;
+    vedtaksperiodeId: string;
+    periodetilstand: Periodetilstand;
+    skjaeringstidspunkt: string;
+    tidslinje: Array<{
+        __typename: 'Dag';
+        dato: string;
+        grad: number | null;
+        sykdomsdagtype: Sykdomsdagtype;
+        utbetalingsdagtype: Utbetalingsdagtype;
+        begrunnelser: Array<Begrunnelse> | null;
+        kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+        utbetalingsinfo: {
+            __typename: 'Utbetalingsinfo';
+            arbeidsgiverbelop: number | null;
+            inntekt: number | null;
+            personbelop: number | null;
+            refusjonsbelop: number | null;
+            totalGrad: number | null;
+            utbetaling: number | null;
+        } | null;
+    }>;
+    varsler: Array<{
+        __typename: 'VarselDTO';
+        generasjonId: string;
+        definisjonId: string;
+        opprettet: string;
+        kode: string;
+        tittel: string;
+        forklaring: string | null;
+        handling: string | null;
+        vurdering: {
+            __typename: 'VarselvurderingDTO';
+            ident: string;
+            status: Varselstatus;
+            tidsstempel: string;
+        } | null;
+    }>;
+    hendelser: Array<
+        | {
+              __typename: 'Inntektsmelding';
+              beregnetInntekt: number;
+              mottattDato: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadArbeidsgiver';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtArbeidsgiver: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadArbeidsledig';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadFrilans';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | {
+              __typename: 'SoknadNav';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
+        | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+        | { __typename: 'Sykmelding'; fom: string; tom: string; rapportertDato: string; id: string; type: Hendelsetype }
+    >;
+};
+
+export type PeriodeFragment = Periode_BeregnetPeriode_Fragment | Periode_UberegnetPeriode_Fragment;
+
+export type PersonFragment = {
+    __typename: 'Person';
+    fodselsnummer: string;
+    dodsdato: string | null;
+    versjon: number;
+    aktorId: string;
+    enhet: { __typename: 'Enhet'; id: string; navn: string };
+    infotrygdutbetalinger: Array<{
+        __typename: 'Infotrygdutbetaling';
+        organisasjonsnummer: string;
+        dagsats: number;
+        fom: string;
+        tom: string;
+        grad: string;
+        typetekst: string;
+    }> | null;
+    personinfo: {
+        __typename: 'Personinfo';
+        fornavn: string;
+        mellomnavn: string | null;
+        etternavn: string;
+        adressebeskyttelse: Adressebeskyttelse;
+        fodselsdato: string | null;
+        kjonn: Kjonn;
+        reservasjon: { __typename: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
+        unntattFraAutomatisering: {
+            __typename: 'UnntattFraAutomatiskGodkjenning';
+            erUnntatt: boolean;
+            arsaker: Array<string>;
+            tidspunkt: string | null;
+        } | null;
+    };
+    tildeling: { __typename: 'Tildeling'; navn: string; epost: string; oid: string } | null;
+    vilkarsgrunnlag: Array<
+        | {
+              __typename: 'VilkarsgrunnlagInfotrygd';
+              id: string;
+              sykepengegrunnlag: number;
+              skjaeringstidspunkt: string;
+              omregnetArsinntekt: number;
+              vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
+              inntekter: Array<{
+                  __typename: 'Arbeidsgiverinntekt';
+                  arbeidsgiver: string;
+                  deaktivert: boolean | null;
+                  sammenligningsgrunnlag: {
+                      __typename: 'Sammenligningsgrunnlag';
+                      belop: number;
+                      inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }>;
+                  } | null;
+                  omregnetArsinntekt: {
+                      __typename: 'OmregnetArsinntekt';
+                      belop: number;
+                      manedsbelop: number;
+                      kilde: Inntektskilde;
+                      inntektFraAOrdningen: Array<{
+                          __typename: 'InntektFraAOrdningen';
+                          maned: string;
+                          sum: number;
+                      }> | null;
+                  } | null;
+                  skjonnsmessigFastsatt: {
+                      __typename: 'OmregnetArsinntekt';
+                      belop: number;
+                      manedsbelop: number;
+                      kilde: Inntektskilde;
+                      inntektFraAOrdningen: Array<{
+                          __typename: 'InntektFraAOrdningen';
+                          maned: string;
+                          sum: number;
+                      }> | null;
+                  } | null;
+              }>;
+              arbeidsgiverrefusjoner: Array<{
+                  __typename: 'Arbeidsgiverrefusjon';
+                  arbeidsgiver: string;
+                  refusjonsopplysninger: Array<{
+                      __typename: 'Refusjonselement';
+                      fom: string;
+                      tom: string | null;
+                      belop: number;
+                      meldingsreferanseId: string;
+                  }>;
+              }>;
+          }
+        | {
+              __typename: 'VilkarsgrunnlagSpleis';
+              sammenligningsgrunnlag: number | null;
+              skjonnsmessigFastsattAarlig: number | null;
+              oppfyllerKravOmMinstelonn: boolean;
+              oppfyllerKravOmMedlemskap: boolean | null;
+              oppfyllerKravOmOpptjening: boolean;
+              antallOpptjeningsdagerErMinst: number;
+              grunnbelop: number;
+              avviksprosent: number | null;
+              opptjeningFra: string;
+              id: string;
+              sykepengegrunnlag: number;
+              skjaeringstidspunkt: string;
+              omregnetArsinntekt: number;
+              vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
+              sykepengegrunnlagsgrense: {
+                  __typename: 'Sykepengegrunnlagsgrense';
+                  grunnbelop: number;
+                  grense: number;
+                  virkningstidspunkt: string;
+              };
+              inntekter: Array<{
+                  __typename: 'Arbeidsgiverinntekt';
+                  arbeidsgiver: string;
+                  deaktivert: boolean | null;
+                  sammenligningsgrunnlag: {
+                      __typename: 'Sammenligningsgrunnlag';
+                      belop: number;
+                      inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }>;
+                  } | null;
+                  omregnetArsinntekt: {
+                      __typename: 'OmregnetArsinntekt';
+                      belop: number;
+                      manedsbelop: number;
+                      kilde: Inntektskilde;
+                      inntektFraAOrdningen: Array<{
+                          __typename: 'InntektFraAOrdningen';
+                          maned: string;
+                          sum: number;
+                      }> | null;
+                  } | null;
+                  skjonnsmessigFastsatt: {
+                      __typename: 'OmregnetArsinntekt';
+                      belop: number;
+                      manedsbelop: number;
+                      kilde: Inntektskilde;
+                      inntektFraAOrdningen: Array<{
+                          __typename: 'InntektFraAOrdningen';
+                          maned: string;
+                          sum: number;
+                      }> | null;
+                  } | null;
+              }>;
+              arbeidsgiverrefusjoner: Array<{
+                  __typename: 'Arbeidsgiverrefusjon';
+                  arbeidsgiver: string;
+                  refusjonsopplysninger: Array<{
+                      __typename: 'Refusjonselement';
+                      fom: string;
+                      tom: string | null;
+                      belop: number;
+                      meldingsreferanseId: string;
+                  }>;
+              }>;
+          }
+    >;
+    arbeidsgivere: Array<{
+        __typename: 'Arbeidsgiver';
+        bransjer: Array<string>;
+        navn: string;
+        organisasjonsnummer: string;
+        arbeidsforhold: Array<{
+            __typename: 'Arbeidsforhold';
+            sluttdato: string | null;
+            startdato: string;
+            stillingsprosent: number;
+            stillingstittel: string;
+        }>;
+        ghostPerioder: Array<{
+            __typename: 'GhostPeriode';
+            id: string;
+            deaktivert: boolean;
+            vilkarsgrunnlagId: string | null;
+            skjaeringstidspunkt: string;
+            fom: string;
+            tom: string;
+            organisasjonsnummer: string;
+        }>;
+        generasjoner: Array<{
+            __typename: 'Generasjon';
+            id: string;
+            perioder: Array<
+                | {
+                      __typename: 'BeregnetPeriode';
+                      id: string;
+                      beregningId: string;
+                      forbrukteSykedager: number | null;
+                      gjenstaendeSykedager: number | null;
+                      vedtaksperiodeId: string;
+                      maksdato: string;
+                      vilkarsgrunnlagId: string | null;
+                      behandlingId: string;
+                      fom: string;
+                      tom: string;
+                      erForkastet: boolean;
+                      inntektstype: Inntektstype;
+                      opprettet: string;
+                      periodetype: Periodetype;
+                      periodetilstand: Periodetilstand;
+                      skjaeringstidspunkt: string;
+                      handlinger: Array<{
+                          __typename: 'Handling';
+                          type: Periodehandling;
+                          tillatt: boolean;
+                          begrunnelse: string | null;
+                      }>;
+                      notater: Array<{
+                          __typename: 'Notat';
+                          id: number;
+                          tekst: string;
+                          opprettet: string;
+                          saksbehandlerOid: string;
+                          saksbehandlerNavn: string;
+                          saksbehandlerEpost: string;
+                          saksbehandlerIdent: string;
+                          vedtaksperiodeId: string;
+                          feilregistrert: boolean;
+                          type: NotatType;
+                          kommentarer: Array<{
+                              __typename: 'Kommentar';
+                              id: number;
+                              tekst: string;
+                              opprettet: string;
+                              saksbehandlerident: string;
+                              feilregistrert_tidspunkt: string | null;
+                          }>;
+                      }>;
+                      periodehistorikk: Array<{
+                          __typename: 'PeriodeHistorikkElement';
+                          type: PeriodehistorikkType;
+                          timestamp: string;
+                          saksbehandler_ident: string | null;
+                          notat_id: number | null;
+                      }>;
+                      periodevilkar: {
+                          __typename: 'Periodevilkar';
+                          alder: { __typename: 'Alder'; alderSisteSykedag: number; oppfylt: boolean };
+                          sykepengedager: {
+                              __typename: 'Sykepengedager';
+                              forbrukteSykedager: number | null;
+                              gjenstaendeSykedager: number | null;
+                              maksdato: string;
+                              oppfylt: boolean;
+                              skjaeringstidspunkt: string;
+                          };
+                      };
+                      risikovurdering: {
+                          __typename: 'Risikovurdering';
+                          funn: Array<{
+                              __typename: 'Faresignal';
+                              beskrivelse: string;
+                              kategori: Array<string>;
+                          }> | null;
+                          kontrollertOk: Array<{
+                              __typename: 'Faresignal';
+                              beskrivelse: string;
+                              kategori: Array<string>;
+                          }>;
+                      } | null;
+                      utbetaling: {
+                          __typename: 'Utbetaling';
+                          id: string;
+                          arbeidsgiverFagsystemId: string;
+                          arbeidsgiverNettoBelop: number;
+                          personFagsystemId: string;
+                          personNettoBelop: number;
+                          status: Utbetalingstatus;
+                          type: Utbetalingtype;
+                          vurdering: {
+                              __typename: 'Vurdering';
+                              automatisk: boolean;
+                              godkjent: boolean;
+                              ident: string;
+                              tidsstempel: string;
+                          } | null;
+                          arbeidsgiversimulering: {
+                              __typename: 'Simulering';
+                              fagsystemId: string;
+                              totalbelop: number | null;
+                              tidsstempel: string;
+                              utbetalingslinjer: Array<{
+                                  __typename: 'Simuleringslinje';
+                                  fom: string;
+                                  tom: string;
+                                  dagsats: number;
+                                  grad: number;
+                              }>;
+                              perioder: Array<{
+                                  __typename: 'Simuleringsperiode';
+                                  fom: string;
+                                  tom: string;
+                                  utbetalinger: Array<{
+                                      __typename: 'Simuleringsutbetaling';
+                                      mottakerId: string;
+                                      mottakerNavn: string;
+                                      forfall: string;
+                                      feilkonto: boolean;
+                                      detaljer: Array<{
+                                          __typename: 'Simuleringsdetaljer';
+                                          fom: string;
+                                          tom: string;
+                                          utbetalingstype: string;
+                                          uforegrad: number;
+                                          typeSats: string;
+                                          tilbakeforing: boolean;
+                                          sats: number;
+                                          refunderesOrgNr: string;
+                                          konto: string;
+                                          klassekode: string;
+                                          antallSats: number;
+                                          belop: number;
+                                          klassekodebeskrivelse: string;
+                                      }>;
+                                  }>;
+                              }> | null;
+                          } | null;
+                          personsimulering: {
+                              __typename: 'Simulering';
+                              fagsystemId: string;
+                              totalbelop: number | null;
+                              tidsstempel: string;
+                              utbetalingslinjer: Array<{
+                                  __typename: 'Simuleringslinje';
+                                  fom: string;
+                                  tom: string;
+                                  dagsats: number;
+                                  grad: number;
+                              }>;
+                              perioder: Array<{
+                                  __typename: 'Simuleringsperiode';
+                                  fom: string;
+                                  tom: string;
+                                  utbetalinger: Array<{
+                                      __typename: 'Simuleringsutbetaling';
+                                      mottakerId: string;
+                                      mottakerNavn: string;
+                                      forfall: string;
+                                      feilkonto: boolean;
+                                      detaljer: Array<{
+                                          __typename: 'Simuleringsdetaljer';
+                                          fom: string;
+                                          tom: string;
+                                          utbetalingstype: string;
+                                          uforegrad: number;
+                                          typeSats: string;
+                                          tilbakeforing: boolean;
+                                          sats: number;
+                                          refunderesOrgNr: string;
+                                          konto: string;
+                                          klassekode: string;
+                                          antallSats: number;
+                                          belop: number;
+                                          klassekodebeskrivelse: string;
+                                      }>;
+                                  }>;
+                              }> | null;
+                          } | null;
+                      };
+                      oppgave: { __typename: 'OppgaveForPeriodevisning'; id: string } | null;
+                      paVent: {
+                          __typename: 'PaVent';
+                          frist: string | null;
+                          begrunnelse: string | null;
+                          oid: string;
+                      } | null;
+                      totrinnsvurdering: {
+                          __typename: 'Totrinnsvurdering';
+                          erBeslutteroppgave: boolean;
+                          erRetur: boolean;
+                          saksbehandler: string | null;
+                          beslutter: string | null;
+                      } | null;
+                      egenskaper: Array<{ __typename: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
+                      avslag: Array<{
+                          __typename: 'Avslag';
+                          type: Avslagstype;
+                          begrunnelse: string;
+                          opprettet: string;
+                          saksbehandlerIdent: string;
+                          invalidert: boolean;
+                      }>;
+                      tidslinje: Array<{
+                          __typename: 'Dag';
+                          dato: string;
+                          grad: number | null;
+                          sykdomsdagtype: Sykdomsdagtype;
+                          utbetalingsdagtype: Utbetalingsdagtype;
+                          begrunnelser: Array<Begrunnelse> | null;
+                          kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                          utbetalingsinfo: {
+                              __typename: 'Utbetalingsinfo';
+                              arbeidsgiverbelop: number | null;
+                              inntekt: number | null;
+                              personbelop: number | null;
+                              refusjonsbelop: number | null;
+                              totalGrad: number | null;
+                              utbetaling: number | null;
+                          } | null;
+                      }>;
+                      varsler: Array<{
+                          __typename: 'VarselDTO';
+                          generasjonId: string;
+                          definisjonId: string;
+                          opprettet: string;
+                          kode: string;
+                          tittel: string;
+                          forklaring: string | null;
+                          handling: string | null;
+                          vurdering: {
+                              __typename: 'VarselvurderingDTO';
+                              ident: string;
+                              status: Varselstatus;
+                              tidsstempel: string;
+                          } | null;
+                      }>;
+                      hendelser: Array<
+                          | {
+                                __typename: 'Inntektsmelding';
+                                beregnetInntekt: number;
+                                mottattDato: string;
+                                eksternDokumentId: string | null;
+                                id: string;
+                                type: Hendelsetype;
+                            }
+                          | {
+                                __typename: 'SoknadArbeidsgiver';
+                                fom: string;
+                                tom: string;
+                                rapportertDato: string;
+                                sendtArbeidsgiver: string;
+                                eksternDokumentId: string | null;
+                                id: string;
+                                type: Hendelsetype;
+                            }
+                          | {
+                                __typename: 'SoknadArbeidsledig';
+                                fom: string;
+                                tom: string;
+                                rapportertDato: string;
+                                sendtNav: string;
+                                eksternDokumentId: string | null;
+                                id: string;
+                                type: Hendelsetype;
+                            }
+                          | {
+                                __typename: 'SoknadFrilans';
+                                fom: string;
+                                tom: string;
+                                rapportertDato: string;
+                                sendtNav: string;
+                                eksternDokumentId: string | null;
+                                id: string;
+                                type: Hendelsetype;
+                            }
+                          | {
+                                __typename: 'SoknadNav';
+                                fom: string;
+                                tom: string;
+                                rapportertDato: string;
+                                sendtNav: string;
+                                eksternDokumentId: string | null;
+                                id: string;
+                                type: Hendelsetype;
+                            }
+                          | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+                          | {
+                                __typename: 'Sykmelding';
+                                fom: string;
+                                tom: string;
+                                rapportertDato: string;
+                                id: string;
+                                type: Hendelsetype;
+                            }
+                      >;
+                  }
+                | {
+                      __typename: 'UberegnetPeriode';
+                      id: string;
+                      behandlingId: string;
+                      fom: string;
+                      tom: string;
+                      erForkastet: boolean;
+                      inntektstype: Inntektstype;
+                      opprettet: string;
+                      periodetype: Periodetype;
+                      vedtaksperiodeId: string;
+                      periodetilstand: Periodetilstand;
+                      skjaeringstidspunkt: string;
+                      notater: Array<{
+                          __typename: 'Notat';
+                          id: number;
+                          tekst: string;
+                          opprettet: string;
+                          saksbehandlerOid: string;
+                          saksbehandlerNavn: string;
+                          saksbehandlerEpost: string;
+                          saksbehandlerIdent: string;
+                          vedtaksperiodeId: string;
+                          feilregistrert: boolean;
+                          type: NotatType;
+                          kommentarer: Array<{
+                              __typename: 'Kommentar';
+                              id: number;
+                              tekst: string;
+                              opprettet: string;
+                              saksbehandlerident: string;
+                              feilregistrert_tidspunkt: string | null;
+                          }>;
+                      }>;
+                      tidslinje: Array<{
+                          __typename: 'Dag';
+                          dato: string;
+                          grad: number | null;
+                          sykdomsdagtype: Sykdomsdagtype;
+                          utbetalingsdagtype: Utbetalingsdagtype;
+                          begrunnelser: Array<Begrunnelse> | null;
+                          kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                          utbetalingsinfo: {
+                              __typename: 'Utbetalingsinfo';
+                              arbeidsgiverbelop: number | null;
+                              inntekt: number | null;
+                              personbelop: number | null;
+                              refusjonsbelop: number | null;
+                              totalGrad: number | null;
+                              utbetaling: number | null;
+                          } | null;
+                      }>;
+                      varsler: Array<{
+                          __typename: 'VarselDTO';
+                          generasjonId: string;
+                          definisjonId: string;
+                          opprettet: string;
+                          kode: string;
+                          tittel: string;
+                          forklaring: string | null;
+                          handling: string | null;
+                          vurdering: {
+                              __typename: 'VarselvurderingDTO';
+                              ident: string;
+                              status: Varselstatus;
+                              tidsstempel: string;
+                          } | null;
+                      }>;
+                      hendelser: Array<
+                          | {
+                                __typename: 'Inntektsmelding';
+                                beregnetInntekt: number;
+                                mottattDato: string;
+                                eksternDokumentId: string | null;
+                                id: string;
+                                type: Hendelsetype;
+                            }
+                          | {
+                                __typename: 'SoknadArbeidsgiver';
+                                fom: string;
+                                tom: string;
+                                rapportertDato: string;
+                                sendtArbeidsgiver: string;
+                                eksternDokumentId: string | null;
+                                id: string;
+                                type: Hendelsetype;
+                            }
+                          | {
+                                __typename: 'SoknadArbeidsledig';
+                                fom: string;
+                                tom: string;
+                                rapportertDato: string;
+                                sendtNav: string;
+                                eksternDokumentId: string | null;
+                                id: string;
+                                type: Hendelsetype;
+                            }
+                          | {
+                                __typename: 'SoknadFrilans';
+                                fom: string;
+                                tom: string;
+                                rapportertDato: string;
+                                sendtNav: string;
+                                eksternDokumentId: string | null;
+                                id: string;
+                                type: Hendelsetype;
+                            }
+                          | {
+                                __typename: 'SoknadNav';
+                                fom: string;
+                                tom: string;
+                                rapportertDato: string;
+                                sendtNav: string;
+                                eksternDokumentId: string | null;
+                                id: string;
+                                type: Hendelsetype;
+                            }
+                          | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+                          | {
+                                __typename: 'Sykmelding';
+                                fom: string;
+                                tom: string;
+                                rapportertDato: string;
+                                id: string;
+                                type: Hendelsetype;
+                            }
+                      >;
+                  }
+            >;
+        }>;
+        overstyringer: Array<
+            | {
+                  __typename: 'Arbeidsforholdoverstyring';
+                  begrunnelse: string;
+                  deaktivert: boolean;
+                  skjaeringstidspunkt: string;
+                  forklaring: string;
+                  hendelseId: string;
+                  timestamp: string;
+                  ferdigstilt: boolean;
+                  saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+              }
+            | {
+                  __typename: 'Dagoverstyring';
+                  begrunnelse: string;
+                  hendelseId: string;
+                  timestamp: string;
+                  ferdigstilt: boolean;
+                  dager: Array<{
+                      __typename: 'OverstyrtDag';
+                      grad: number | null;
+                      fraGrad: number | null;
+                      dato: string;
+                      type: Dagtype;
+                      fraType: Dagtype | null;
+                  }>;
+                  saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+              }
+            | {
+                  __typename: 'Inntektoverstyring';
+                  hendelseId: string;
+                  timestamp: string;
+                  ferdigstilt: boolean;
+                  inntekt: {
+                      __typename: 'OverstyrtInntekt';
+                      skjaeringstidspunkt: string;
+                      forklaring: string;
+                      begrunnelse: string;
+                      manedligInntekt: number;
+                      fraManedligInntekt: number | null;
+                      refusjonsopplysninger: Array<{
+                          __typename: 'Refusjonsopplysning';
+                          fom: string;
+                          tom: string | null;
+                          belop: number;
+                      }> | null;
+                      fraRefusjonsopplysninger: Array<{
+                          __typename: 'Refusjonsopplysning';
+                          fom: string;
+                          tom: string | null;
+                          belop: number;
+                      }> | null;
+                  };
+                  saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+              }
+            | {
+                  __typename: 'Sykepengegrunnlagskjonnsfastsetting';
+                  hendelseId: string;
+                  timestamp: string;
+                  ferdigstilt: boolean;
+                  skjonnsfastsatt: {
+                      __typename: 'SkjonnsfastsattSykepengegrunnlag';
+                      arsak: string;
+                      type: Skjonnsfastsettingstype | null;
+                      begrunnelse: string | null;
+                      begrunnelseMal: string | null;
+                      begrunnelseFritekst: string | null;
+                      begrunnelseKonklusjon: string | null;
+                      arlig: number;
+                      fraArlig: number | null;
+                      skjaeringstidspunkt: string;
+                  };
+                  saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+              }
+        >;
+        inntekterFraAordningen: Array<{
+            __typename: 'ArbeidsgiverInntekterFraAOrdningen';
+            skjaeringstidspunkt: string;
+            inntekter: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }>;
+        }>;
     }>;
 };
 
@@ -2167,14 +4060,14 @@ export type FetchPersonQueryVariables = Exact<{
 
 export type FetchPersonQuery = {
     __typename: 'Query';
-    person?: {
+    person: {
         __typename: 'Person';
         fodselsnummer: string;
-        dodsdato?: string | null;
+        dodsdato: string | null;
         versjon: number;
         aktorId: string;
         enhet: { __typename: 'Enhet'; id: string; navn: string };
-        infotrygdutbetalinger?: Array<{
+        infotrygdutbetalinger: Array<{
             __typename: 'Infotrygdutbetaling';
             organisasjonsnummer: string;
             dagsats: number;
@@ -2186,20 +4079,20 @@ export type FetchPersonQuery = {
         personinfo: {
             __typename: 'Personinfo';
             fornavn: string;
-            mellomnavn?: string | null;
+            mellomnavn: string | null;
             etternavn: string;
             adressebeskyttelse: Adressebeskyttelse;
-            fodselsdato?: string | null;
+            fodselsdato: string | null;
             kjonn: Kjonn;
-            reservasjon?: { __typename: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
-            unntattFraAutomatisering?: {
+            reservasjon: { __typename: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
+            unntattFraAutomatisering: {
                 __typename: 'UnntattFraAutomatiskGodkjenning';
                 erUnntatt: boolean;
                 arsaker: Array<string>;
-                tidspunkt?: string | null;
+                tidspunkt: string | null;
             } | null;
         };
-        tildeling?: { __typename: 'Tildeling'; navn: string; epost: string; oid: string } | null;
+        tildeling: { __typename: 'Tildeling'; navn: string; epost: string; oid: string } | null;
         vilkarsgrunnlag: Array<
             | {
                   __typename: 'VilkarsgrunnlagInfotrygd';
@@ -2211,8 +4104,8 @@ export type FetchPersonQuery = {
                   inntekter: Array<{
                       __typename: 'Arbeidsgiverinntekt';
                       arbeidsgiver: string;
-                      deaktivert?: boolean | null;
-                      sammenligningsgrunnlag?: {
+                      deaktivert: boolean | null;
+                      sammenligningsgrunnlag: {
                           __typename: 'Sammenligningsgrunnlag';
                           belop: number;
                           inntektFraAOrdningen: Array<{
@@ -2221,23 +4114,23 @@ export type FetchPersonQuery = {
                               sum: number;
                           }>;
                       } | null;
-                      omregnetArsinntekt?: {
+                      omregnetArsinntekt: {
                           __typename: 'OmregnetArsinntekt';
                           belop: number;
                           manedsbelop: number;
                           kilde: Inntektskilde;
-                          inntektFraAOrdningen?: Array<{
+                          inntektFraAOrdningen: Array<{
                               __typename: 'InntektFraAOrdningen';
                               maned: string;
                               sum: number;
                           }> | null;
                       } | null;
-                      skjonnsmessigFastsatt?: {
+                      skjonnsmessigFastsatt: {
                           __typename: 'OmregnetArsinntekt';
                           belop: number;
                           manedsbelop: number;
                           kilde: Inntektskilde;
-                          inntektFraAOrdningen?: Array<{
+                          inntektFraAOrdningen: Array<{
                               __typename: 'InntektFraAOrdningen';
                               maned: string;
                               sum: number;
@@ -2250,7 +4143,7 @@ export type FetchPersonQuery = {
                       refusjonsopplysninger: Array<{
                           __typename: 'Refusjonselement';
                           fom: string;
-                          tom?: string | null;
+                          tom: string | null;
                           belop: number;
                           meldingsreferanseId: string;
                       }>;
@@ -2258,14 +4151,14 @@ export type FetchPersonQuery = {
               }
             | {
                   __typename: 'VilkarsgrunnlagSpleis';
-                  sammenligningsgrunnlag?: number | null;
-                  skjonnsmessigFastsattAarlig?: number | null;
+                  sammenligningsgrunnlag: number | null;
+                  skjonnsmessigFastsattAarlig: number | null;
                   oppfyllerKravOmMinstelonn: boolean;
-                  oppfyllerKravOmMedlemskap?: boolean | null;
+                  oppfyllerKravOmMedlemskap: boolean | null;
                   oppfyllerKravOmOpptjening: boolean;
                   antallOpptjeningsdagerErMinst: number;
                   grunnbelop: number;
-                  avviksprosent?: number | null;
+                  avviksprosent: number | null;
                   opptjeningFra: string;
                   id: string;
                   sykepengegrunnlag: number;
@@ -2281,8 +4174,8 @@ export type FetchPersonQuery = {
                   inntekter: Array<{
                       __typename: 'Arbeidsgiverinntekt';
                       arbeidsgiver: string;
-                      deaktivert?: boolean | null;
-                      sammenligningsgrunnlag?: {
+                      deaktivert: boolean | null;
+                      sammenligningsgrunnlag: {
                           __typename: 'Sammenligningsgrunnlag';
                           belop: number;
                           inntektFraAOrdningen: Array<{
@@ -2291,23 +4184,23 @@ export type FetchPersonQuery = {
                               sum: number;
                           }>;
                       } | null;
-                      omregnetArsinntekt?: {
+                      omregnetArsinntekt: {
                           __typename: 'OmregnetArsinntekt';
                           belop: number;
                           manedsbelop: number;
                           kilde: Inntektskilde;
-                          inntektFraAOrdningen?: Array<{
+                          inntektFraAOrdningen: Array<{
                               __typename: 'InntektFraAOrdningen';
                               maned: string;
                               sum: number;
                           }> | null;
                       } | null;
-                      skjonnsmessigFastsatt?: {
+                      skjonnsmessigFastsatt: {
                           __typename: 'OmregnetArsinntekt';
                           belop: number;
                           manedsbelop: number;
                           kilde: Inntektskilde;
-                          inntektFraAOrdningen?: Array<{
+                          inntektFraAOrdningen: Array<{
                               __typename: 'InntektFraAOrdningen';
                               maned: string;
                               sum: number;
@@ -2320,7 +4213,7 @@ export type FetchPersonQuery = {
                       refusjonsopplysninger: Array<{
                           __typename: 'Refusjonselement';
                           fom: string;
-                          tom?: string | null;
+                          tom: string | null;
                           belop: number;
                           meldingsreferanseId: string;
                       }>;
@@ -2334,7 +4227,7 @@ export type FetchPersonQuery = {
             organisasjonsnummer: string;
             arbeidsforhold: Array<{
                 __typename: 'Arbeidsforhold';
-                sluttdato?: string | null;
+                sluttdato: string | null;
                 startdato: string;
                 stillingsprosent: number;
                 stillingstittel: string;
@@ -2343,7 +4236,7 @@ export type FetchPersonQuery = {
                 __typename: 'GhostPeriode';
                 id: string;
                 deaktivert: boolean;
-                vilkarsgrunnlagId?: string | null;
+                vilkarsgrunnlagId: string | null;
                 skjaeringstidspunkt: string;
                 fom: string;
                 tom: string;
@@ -2357,10 +4250,11 @@ export type FetchPersonQuery = {
                           __typename: 'BeregnetPeriode';
                           id: string;
                           beregningId: string;
-                          forbrukteSykedager?: number | null;
-                          gjenstaendeSykedager?: number | null;
+                          forbrukteSykedager: number | null;
+                          gjenstaendeSykedager: number | null;
+                          vedtaksperiodeId: string;
                           maksdato: string;
-                          vilkarsgrunnlagId?: string | null;
+                          vilkarsgrunnlagId: string | null;
                           behandlingId: string;
                           fom: string;
                           tom: string;
@@ -2368,14 +4262,13 @@ export type FetchPersonQuery = {
                           inntektstype: Inntektstype;
                           opprettet: string;
                           periodetype: Periodetype;
-                          vedtaksperiodeId: string;
                           periodetilstand: Periodetilstand;
                           skjaeringstidspunkt: string;
                           handlinger: Array<{
                               __typename: 'Handling';
                               type: Periodehandling;
                               tillatt: boolean;
-                              begrunnelse?: string | null;
+                              begrunnelse: string | null;
                           }>;
                           notater: Array<{
                               __typename: 'Notat';
@@ -2388,7 +4281,6 @@ export type FetchPersonQuery = {
                               saksbehandlerIdent: string;
                               vedtaksperiodeId: string;
                               feilregistrert: boolean;
-                              feilregistrert_tidspunkt?: string | null;
                               type: NotatType;
                               kommentarer: Array<{
                                   __typename: 'Kommentar';
@@ -2396,31 +4288,31 @@ export type FetchPersonQuery = {
                                   tekst: string;
                                   opprettet: string;
                                   saksbehandlerident: string;
-                                  feilregistrert_tidspunkt?: string | null;
+                                  feilregistrert_tidspunkt: string | null;
                               }>;
                           }>;
                           periodehistorikk: Array<{
                               __typename: 'PeriodeHistorikkElement';
                               type: PeriodehistorikkType;
                               timestamp: string;
-                              saksbehandler_ident?: string | null;
-                              notat_id?: number | null;
+                              saksbehandler_ident: string | null;
+                              notat_id: number | null;
                           }>;
                           periodevilkar: {
                               __typename: 'Periodevilkar';
                               alder: { __typename: 'Alder'; alderSisteSykedag: number; oppfylt: boolean };
                               sykepengedager: {
                                   __typename: 'Sykepengedager';
-                                  forbrukteSykedager?: number | null;
-                                  gjenstaendeSykedager?: number | null;
+                                  forbrukteSykedager: number | null;
+                                  gjenstaendeSykedager: number | null;
                                   maksdato: string;
                                   oppfylt: boolean;
                                   skjaeringstidspunkt: string;
                               };
                           };
-                          risikovurdering?: {
+                          risikovurdering: {
                               __typename: 'Risikovurdering';
-                              funn?: Array<{
+                              funn: Array<{
                                   __typename: 'Faresignal';
                                   beskrivelse: string;
                                   kategori: Array<string>;
@@ -2440,17 +4332,17 @@ export type FetchPersonQuery = {
                               personNettoBelop: number;
                               status: Utbetalingstatus;
                               type: Utbetalingtype;
-                              vurdering?: {
+                              vurdering: {
                                   __typename: 'Vurdering';
                                   automatisk: boolean;
                                   godkjent: boolean;
                                   ident: string;
                                   tidsstempel: string;
                               } | null;
-                              arbeidsgiversimulering?: {
+                              arbeidsgiversimulering: {
                                   __typename: 'Simulering';
                                   fagsystemId: string;
-                                  totalbelop?: number | null;
+                                  totalbelop: number | null;
                                   tidsstempel: string;
                                   utbetalingslinjer: Array<{
                                       __typename: 'Simuleringslinje';
@@ -2459,7 +4351,7 @@ export type FetchPersonQuery = {
                                       dagsats: number;
                                       grad: number;
                                   }>;
-                                  perioder?: Array<{
+                                  perioder: Array<{
                                       __typename: 'Simuleringsperiode';
                                       fom: string;
                                       tom: string;
@@ -2488,10 +4380,10 @@ export type FetchPersonQuery = {
                                       }>;
                                   }> | null;
                               } | null;
-                              personsimulering?: {
+                              personsimulering: {
                                   __typename: 'Simulering';
                                   fagsystemId: string;
-                                  totalbelop?: number | null;
+                                  totalbelop: number | null;
                                   tidsstempel: string;
                                   utbetalingslinjer: Array<{
                                       __typename: 'Simuleringslinje';
@@ -2500,7 +4392,7 @@ export type FetchPersonQuery = {
                                       dagsats: number;
                                       grad: number;
                                   }>;
-                                  perioder?: Array<{
+                                  perioder: Array<{
                                       __typename: 'Simuleringsperiode';
                                       fom: string;
                                       tom: string;
@@ -2530,19 +4422,19 @@ export type FetchPersonQuery = {
                                   }> | null;
                               } | null;
                           };
-                          oppgave?: { __typename: 'OppgaveForPeriodevisning'; id: string } | null;
-                          paVent?: {
+                          oppgave: { __typename: 'OppgaveForPeriodevisning'; id: string } | null;
+                          paVent: {
                               __typename: 'PaVent';
-                              frist?: string | null;
-                              begrunnelse?: string | null;
+                              frist: string | null;
+                              begrunnelse: string | null;
                               oid: string;
                           } | null;
-                          totrinnsvurdering?: {
+                          totrinnsvurdering: {
                               __typename: 'Totrinnsvurdering';
                               erBeslutteroppgave: boolean;
                               erRetur: boolean;
-                              saksbehandler?: string | null;
-                              beslutter?: string | null;
+                              saksbehandler: string | null;
+                              beslutter: string | null;
                           } | null;
                           egenskaper: Array<{ __typename: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
                           avslag: Array<{
@@ -2556,19 +4448,19 @@ export type FetchPersonQuery = {
                           tidslinje: Array<{
                               __typename: 'Dag';
                               dato: string;
-                              grad?: number | null;
+                              grad: number | null;
                               sykdomsdagtype: Sykdomsdagtype;
                               utbetalingsdagtype: Utbetalingsdagtype;
-                              begrunnelser?: Array<Begrunnelse> | null;
+                              begrunnelser: Array<Begrunnelse> | null;
                               kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
-                              utbetalingsinfo?: {
+                              utbetalingsinfo: {
                                   __typename: 'Utbetalingsinfo';
-                                  arbeidsgiverbelop?: number | null;
-                                  inntekt?: number | null;
-                                  personbelop?: number | null;
-                                  refusjonsbelop?: number | null;
-                                  totalGrad?: number | null;
-                                  utbetaling?: number | null;
+                                  arbeidsgiverbelop: number | null;
+                                  inntekt: number | null;
+                                  personbelop: number | null;
+                                  refusjonsbelop: number | null;
+                                  totalGrad: number | null;
+                                  utbetaling: number | null;
                               } | null;
                           }>;
                           varsler: Array<{
@@ -2578,9 +4470,9 @@ export type FetchPersonQuery = {
                               opprettet: string;
                               kode: string;
                               tittel: string;
-                              forklaring?: string | null;
-                              handling?: string | null;
-                              vurdering?: {
+                              forklaring: string | null;
+                              handling: string | null;
+                              vurdering: {
                                   __typename: 'VarselvurderingDTO';
                                   ident: string;
                                   status: Varselstatus;
@@ -2592,7 +4484,7 @@ export type FetchPersonQuery = {
                                     __typename: 'Inntektsmelding';
                                     beregnetInntekt: number;
                                     mottattDato: string;
-                                    eksternDokumentId?: string | null;
+                                    eksternDokumentId: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2602,7 +4494,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtArbeidsgiver: string;
-                                    eksternDokumentId?: string | null;
+                                    eksternDokumentId: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2612,7 +4504,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtNav: string;
-                                    eksternDokumentId?: string | null;
+                                    eksternDokumentId: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2622,7 +4514,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtNav: string;
-                                    eksternDokumentId?: string | null;
+                                    eksternDokumentId: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2632,7 +4524,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtNav: string;
-                                    eksternDokumentId?: string | null;
+                                    eksternDokumentId: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2671,7 +4563,6 @@ export type FetchPersonQuery = {
                               saksbehandlerIdent: string;
                               vedtaksperiodeId: string;
                               feilregistrert: boolean;
-                              feilregistrert_tidspunkt?: string | null;
                               type: NotatType;
                               kommentarer: Array<{
                                   __typename: 'Kommentar';
@@ -2679,25 +4570,25 @@ export type FetchPersonQuery = {
                                   tekst: string;
                                   opprettet: string;
                                   saksbehandlerident: string;
-                                  feilregistrert_tidspunkt?: string | null;
+                                  feilregistrert_tidspunkt: string | null;
                               }>;
                           }>;
                           tidslinje: Array<{
                               __typename: 'Dag';
                               dato: string;
-                              grad?: number | null;
+                              grad: number | null;
                               sykdomsdagtype: Sykdomsdagtype;
                               utbetalingsdagtype: Utbetalingsdagtype;
-                              begrunnelser?: Array<Begrunnelse> | null;
+                              begrunnelser: Array<Begrunnelse> | null;
                               kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
-                              utbetalingsinfo?: {
+                              utbetalingsinfo: {
                                   __typename: 'Utbetalingsinfo';
-                                  arbeidsgiverbelop?: number | null;
-                                  inntekt?: number | null;
-                                  personbelop?: number | null;
-                                  refusjonsbelop?: number | null;
-                                  totalGrad?: number | null;
-                                  utbetaling?: number | null;
+                                  arbeidsgiverbelop: number | null;
+                                  inntekt: number | null;
+                                  personbelop: number | null;
+                                  refusjonsbelop: number | null;
+                                  totalGrad: number | null;
+                                  utbetaling: number | null;
                               } | null;
                           }>;
                           varsler: Array<{
@@ -2707,9 +4598,9 @@ export type FetchPersonQuery = {
                               opprettet: string;
                               kode: string;
                               tittel: string;
-                              forklaring?: string | null;
-                              handling?: string | null;
-                              vurdering?: {
+                              forklaring: string | null;
+                              handling: string | null;
+                              vurdering: {
                                   __typename: 'VarselvurderingDTO';
                                   ident: string;
                                   status: Varselstatus;
@@ -2721,7 +4612,7 @@ export type FetchPersonQuery = {
                                     __typename: 'Inntektsmelding';
                                     beregnetInntekt: number;
                                     mottattDato: string;
-                                    eksternDokumentId?: string | null;
+                                    eksternDokumentId: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2731,7 +4622,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtArbeidsgiver: string;
-                                    eksternDokumentId?: string | null;
+                                    eksternDokumentId: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2741,7 +4632,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtNav: string;
-                                    eksternDokumentId?: string | null;
+                                    eksternDokumentId: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2751,7 +4642,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtNav: string;
-                                    eksternDokumentId?: string | null;
+                                    eksternDokumentId: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2761,7 +4652,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtNav: string;
-                                    eksternDokumentId?: string | null;
+                                    eksternDokumentId: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2788,7 +4679,7 @@ export type FetchPersonQuery = {
                       hendelseId: string;
                       timestamp: string;
                       ferdigstilt: boolean;
-                      saksbehandler: { __typename: 'Saksbehandler'; ident?: string | null; navn: string };
+                      saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
                   }
                 | {
                       __typename: 'Dagoverstyring';
@@ -2798,13 +4689,13 @@ export type FetchPersonQuery = {
                       ferdigstilt: boolean;
                       dager: Array<{
                           __typename: 'OverstyrtDag';
-                          grad?: number | null;
-                          fraGrad?: number | null;
+                          grad: number | null;
+                          fraGrad: number | null;
                           dato: string;
                           type: Dagtype;
-                          fraType?: Dagtype | null;
+                          fraType: Dagtype | null;
                       }>;
-                      saksbehandler: { __typename: 'Saksbehandler'; ident?: string | null; navn: string };
+                      saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
                   }
                 | {
                       __typename: 'Inntektoverstyring';
@@ -2817,21 +4708,21 @@ export type FetchPersonQuery = {
                           forklaring: string;
                           begrunnelse: string;
                           manedligInntekt: number;
-                          fraManedligInntekt?: number | null;
-                          refusjonsopplysninger?: Array<{
+                          fraManedligInntekt: number | null;
+                          refusjonsopplysninger: Array<{
                               __typename: 'Refusjonsopplysning';
                               fom: string;
-                              tom?: string | null;
+                              tom: string | null;
                               belop: number;
                           }> | null;
-                          fraRefusjonsopplysninger?: Array<{
+                          fraRefusjonsopplysninger: Array<{
                               __typename: 'Refusjonsopplysning';
                               fom: string;
-                              tom?: string | null;
+                              tom: string | null;
                               belop: number;
                           }> | null;
                       };
-                      saksbehandler: { __typename: 'Saksbehandler'; ident?: string | null; navn: string };
+                      saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
                   }
                 | {
                       __typename: 'Sykepengegrunnlagskjonnsfastsetting';
@@ -2841,16 +4732,16 @@ export type FetchPersonQuery = {
                       skjonnsfastsatt: {
                           __typename: 'SkjonnsfastsattSykepengegrunnlag';
                           arsak: string;
-                          type?: Skjonnsfastsettingstype | null;
-                          begrunnelse?: string | null;
-                          begrunnelseMal?: string | null;
-                          begrunnelseFritekst?: string | null;
-                          begrunnelseKonklusjon?: string | null;
+                          type: Skjonnsfastsettingstype | null;
+                          begrunnelse: string | null;
+                          begrunnelseMal: string | null;
+                          begrunnelseFritekst: string | null;
+                          begrunnelseKonklusjon: string | null;
                           arlig: number;
-                          fraArlig?: number | null;
+                          fraArlig: number | null;
                           skjaeringstidspunkt: string;
                       };
-                      saksbehandler: { __typename: 'Saksbehandler'; ident?: string | null; navn: string };
+                      saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
                   }
             >;
             inntekterFraAordningen: Array<{
@@ -2872,7 +4763,7 @@ export type FjernPaVentMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input'];
 }>;
 
-export type FjernPaVentMutation = { __typename: 'Mutation'; fjernPaVent?: boolean | null };
+export type FjernPaVentMutation = { __typename: 'Mutation'; fjernPaVent: boolean | null };
 
 export type LeggPaVentMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input'];
@@ -2885,10 +4776,10 @@ export type LeggPaVentMutationVariables = Exact<{
 
 export type LeggPaVentMutation = {
     __typename: 'Mutation';
-    leggPaVent?: { __typename: 'PaVent'; frist?: string | null; begrunnelse?: string | null; oid: string } | null;
+    leggPaVent: { __typename: 'PaVent'; frist: string | null; begrunnelse: string | null; oid: string } | null;
 };
 
-export type PaventFragment = { __typename: 'PaVent'; frist?: string | null; begrunnelse?: string | null; oid: string };
+export type PaventFragment = { __typename: 'PaVent'; frist: string | null; begrunnelse: string | null; oid: string };
 
 export type SkjonnsfastsettelseMutationMutationVariables = Exact<{
     skjonnsfastsettelse: SkjonnsfastsettelseInput;
@@ -2908,7 +4799,7 @@ export type OpprettTildelingMutationVariables = Exact<{
 
 export type OpprettTildelingMutation = {
     __typename: 'Mutation';
-    opprettTildeling?: { __typename: 'Tildeling'; navn: string; oid: string; epost: string } | null;
+    opprettTildeling: { __typename: 'Tildeling'; navn: string; oid: string; epost: string } | null;
 };
 
 export type TildelingFragment = { __typename: 'Tildeling'; navn: string; oid: string; epost: string };
@@ -2938,13 +4829,13 @@ export type SettVarselStatusMutation = {
     __typename: 'Mutation';
     settVarselstatus: {
         __typename: 'VarselDTO';
-        forklaring?: string | null;
+        forklaring: string | null;
         definisjonId: string;
         generasjonId: string;
-        handling?: string | null;
+        handling: string | null;
         kode: string;
         tittel: string;
-        vurdering?: {
+        vurdering: {
             __typename: 'VarselvurderingDTO';
             ident: string;
             status: Varselstatus;
@@ -3013,95 +4904,6 @@ export const SporsmalFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<SporsmalFragment, unknown>;
-export const SimuleringFragmentDoc = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'simulering' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Simulering' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'fagsystemId' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'totalbelop' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'utbetalingslinjer' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'dagsats' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
-                            ],
-                        },
-                    },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'perioder' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'utbetalinger' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerId' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerNavn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'forfall' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'feilkonto' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'detaljer' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'utbetalingstype' },
-                                                        },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'uforegrad' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'typeSats' } },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'tilbakeforing' },
-                                                        },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'sats' } },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'refunderesOrgNr' },
-                                                        },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'konto' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'klassekode' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'antallSats' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'klassekodebeskrivelse' },
-                                                        },
-                                                    ],
-                                                },
-                                            },
-                                        ],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<SimuleringFragment, unknown>;
 export const VilkarsgrunnlagFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -3253,6 +5055,28 @@ export const VilkarsgrunnlagFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<VilkarsgrunnlagFragment, unknown>;
+export const GhostPeriodeFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ghostPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'GhostPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GhostPeriodeFragment, unknown>;
 export const NotatFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -3272,7 +5096,6 @@ export const NotatFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                     {
                         kind: 'Field',
@@ -3293,6 +5116,3137 @@ export const NotatFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<NotatFragment, unknown>;
+export const PeriodeFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'periode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandlingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erForkastet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'inntektstype' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tidslinje' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'dato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'kilde' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'sykdomsdagtype' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'utbetalingsdagtype' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'utbetalingsinfo' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'inntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'personbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'refusjonsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'totalGrad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'utbetaling' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelser' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'periodetilstand' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'varsler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'handling' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hendelser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'Inntektsmelding' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beregnetInntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Sykmelding' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'SoknadNav' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadArbeidsgiver' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtArbeidsgiver' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadArbeidsledig' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadFrilans' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<PeriodeFragment, unknown>;
+export const UberegnetPeriodeFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'uberegnetPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UberegnetPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'notater' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'notat' } }],
+                        },
+                    },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'notat' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kommentarer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'periode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandlingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erForkastet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'inntektstype' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tidslinje' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'dato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'kilde' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'sykdomsdagtype' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'utbetalingsdagtype' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'utbetalingsinfo' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'inntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'personbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'refusjonsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'totalGrad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'utbetaling' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelser' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'periodetilstand' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'varsler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'handling' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hendelser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'Inntektsmelding' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beregnetInntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Sykmelding' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'SoknadNav' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadArbeidsgiver' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtArbeidsgiver' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadArbeidsledig' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadFrilans' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UberegnetPeriodeFragment, unknown>;
+export const SimuleringFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'simulering' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Simulering' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fagsystemId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'totalbelop' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'utbetalingslinjer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dagsats' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'perioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'utbetalinger' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerNavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'forfall' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'feilkonto' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'detaljer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'utbetalingstype' },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'uforegrad' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'typeSats' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'tilbakeforing' },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sats' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'refunderesOrgNr' },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'konto' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'klassekode' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'antallSats' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'klassekodebeskrivelse' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<SimuleringFragment, unknown>;
+export const BeregnetPeriodeFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'beregnetPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'BeregnetPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'beregningId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'forbrukteSykedager' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'gjenstaendeSykedager' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'handlinger' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tillatt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'notater' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'notat' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'periodehistorikk' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler_ident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'notat_id' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'maksdato' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'periodevilkar' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'alder' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'alderSisteSykedag' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'oppfylt' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sykepengedager' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'forbrukteSykedager' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'gjenstaendeSykedager' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'maksdato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'oppfylt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'risikovurdering' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'funn' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'kontrollertOk' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'utbetaling' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverFagsystemId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverNettoBelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personFagsystemId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personNettoBelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'automatisk' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'godkjent' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'arbeidsgiversimulering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'simulering' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'personsimulering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'simulering' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'oppgave' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'paVent' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'totrinnsvurdering' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'erBeslutteroppgave' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'erRetur' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'beslutter' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'egenskaper' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'egenskap' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'avslag' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'invalidert' } },
+                            ],
+                        },
+                    },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'notat' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kommentarer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'simulering' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Simulering' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fagsystemId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'totalbelop' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'utbetalingslinjer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dagsats' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'perioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'utbetalinger' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerNavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'forfall' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'feilkonto' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'detaljer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'utbetalingstype' },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'uforegrad' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'typeSats' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'tilbakeforing' },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sats' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'refunderesOrgNr' },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'konto' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'klassekode' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'antallSats' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'klassekodebeskrivelse' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'periode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandlingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erForkastet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'inntektstype' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tidslinje' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'dato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'kilde' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'sykdomsdagtype' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'utbetalingsdagtype' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'utbetalingsinfo' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'inntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'personbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'refusjonsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'totalGrad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'utbetaling' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelser' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'periodetilstand' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'varsler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'handling' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hendelser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'Inntektsmelding' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beregnetInntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Sykmelding' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'SoknadNav' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadArbeidsgiver' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtArbeidsgiver' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadArbeidsledig' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadFrilans' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<BeregnetPeriodeFragment, unknown>;
+export const OverstyringFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'overstyring' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Overstyring' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'hendelseId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'saksbehandler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'ferdigstilt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Dagoverstyring' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'dager' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraGrad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'dato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraType' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Inntektoverstyring' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'inntekt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedligInntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraManedligInntekt' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'refusjonsopplysninger' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'fraRefusjonsopplysninger' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'Arbeidsforholdoverstyring' },
+                        },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'Sykepengegrunnlagskjonnsfastsetting' },
+                        },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'skjonnsfastsatt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseMal' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseFritekst' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseKonklusjon' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arlig' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraArlig' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<OverstyringFragment, unknown>;
+export const ArbeidsgiverFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'arbeidsgiver' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Arbeidsgiver' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'bransjer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsforhold' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sluttdato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'startdato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'stillingsprosent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'stillingstittel' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'ghostPerioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ghostPeriode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'generasjoner' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'perioder' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'InlineFragment',
+                                                typeCondition: {
+                                                    kind: 'NamedType',
+                                                    name: { kind: 'Name', value: 'UberegnetPeriode' },
+                                                },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'uberegnetPeriode' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'InlineFragment',
+                                                typeCondition: {
+                                                    kind: 'NamedType',
+                                                    name: { kind: 'Name', value: 'BeregnetPeriode' },
+                                                },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'beregnetPeriode' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'overstyringer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'overstyring' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'inntekterFraAordningen' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'inntekter' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'notat' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kommentarer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'periode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandlingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erForkastet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'inntektstype' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tidslinje' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'dato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'kilde' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'sykdomsdagtype' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'utbetalingsdagtype' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'utbetalingsinfo' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'inntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'personbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'refusjonsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'totalGrad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'utbetaling' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelser' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'periodetilstand' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'varsler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'handling' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hendelser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'Inntektsmelding' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beregnetInntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Sykmelding' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'SoknadNav' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadArbeidsgiver' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtArbeidsgiver' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadArbeidsledig' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadFrilans' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'simulering' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Simulering' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fagsystemId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'totalbelop' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'utbetalingslinjer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dagsats' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'perioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'utbetalinger' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerNavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'forfall' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'feilkonto' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'detaljer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'utbetalingstype' },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'uforegrad' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'typeSats' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'tilbakeforing' },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sats' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'refunderesOrgNr' },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'konto' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'klassekode' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'antallSats' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'klassekodebeskrivelse' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ghostPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'GhostPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'uberegnetPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UberegnetPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'notater' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'notat' } }],
+                        },
+                    },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'beregnetPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'BeregnetPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'beregningId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'forbrukteSykedager' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'gjenstaendeSykedager' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'handlinger' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tillatt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'notater' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'notat' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'periodehistorikk' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler_ident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'notat_id' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'maksdato' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'periodevilkar' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'alder' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'alderSisteSykedag' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'oppfylt' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sykepengedager' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'forbrukteSykedager' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'gjenstaendeSykedager' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'maksdato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'oppfylt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'risikovurdering' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'funn' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'kontrollertOk' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'utbetaling' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverFagsystemId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverNettoBelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personFagsystemId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personNettoBelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'automatisk' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'godkjent' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'arbeidsgiversimulering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'simulering' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'personsimulering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'simulering' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'oppgave' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'paVent' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'totrinnsvurdering' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'erBeslutteroppgave' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'erRetur' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'beslutter' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'egenskaper' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'egenskap' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'avslag' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'invalidert' } },
+                            ],
+                        },
+                    },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'overstyring' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Overstyring' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'hendelseId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'saksbehandler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'ferdigstilt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Dagoverstyring' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'dager' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraGrad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'dato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraType' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Inntektoverstyring' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'inntekt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedligInntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraManedligInntekt' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'refusjonsopplysninger' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'fraRefusjonsopplysninger' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'Arbeidsforholdoverstyring' },
+                        },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'Sykepengegrunnlagskjonnsfastsetting' },
+                        },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'skjonnsfastsatt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseMal' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseFritekst' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseKonklusjon' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arlig' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraArlig' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<ArbeidsgiverFragment, unknown>;
+export const PersonFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'person' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Person' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fodselsnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dodsdato' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'enhet' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'infotrygdutbetalinger' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dagsats' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'typetekst' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personinfo' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'adressebeskyttelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'fodselsdato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kjonn' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'reservasjon' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kanVarsles' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'unntattFraAutomatisering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'erUnntatt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tildeling' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'versjon' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'vilkarsgrunnlag' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'vilkarsgrunnlag' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsgivere' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'arbeidsgiver' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ghostPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'GhostPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'notat' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kommentarer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'periode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandlingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erForkastet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'inntektstype' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tidslinje' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'dato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'kilde' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'sykdomsdagtype' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'utbetalingsdagtype' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'utbetalingsinfo' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'inntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'personbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'refusjonsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'totalGrad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'utbetaling' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelser' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'periodetilstand' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'varsler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'handling' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hendelser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'Inntektsmelding' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beregnetInntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Sykmelding' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'SoknadNav' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadArbeidsgiver' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtArbeidsgiver' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadArbeidsledig' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadFrilans' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'uberegnetPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UberegnetPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'notater' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'notat' } }],
+                        },
+                    },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'simulering' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Simulering' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fagsystemId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'totalbelop' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'utbetalingslinjer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dagsats' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'perioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'utbetalinger' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerNavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'forfall' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'feilkonto' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'detaljer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'utbetalingstype' },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'uforegrad' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'typeSats' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'tilbakeforing' },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sats' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'refunderesOrgNr' },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'konto' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'klassekode' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'antallSats' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'klassekodebeskrivelse' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'beregnetPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'BeregnetPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'beregningId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'forbrukteSykedager' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'gjenstaendeSykedager' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'handlinger' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tillatt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'notater' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'notat' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'periodehistorikk' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler_ident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'notat_id' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'maksdato' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'periodevilkar' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'alder' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'alderSisteSykedag' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'oppfylt' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sykepengedager' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'forbrukteSykedager' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'gjenstaendeSykedager' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'maksdato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'oppfylt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'risikovurdering' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'funn' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'kontrollertOk' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'utbetaling' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverFagsystemId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverNettoBelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personFagsystemId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personNettoBelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'automatisk' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'godkjent' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'arbeidsgiversimulering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'simulering' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'personsimulering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'simulering' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'oppgave' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'paVent' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'totrinnsvurdering' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'erBeslutteroppgave' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'erRetur' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'beslutter' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'egenskaper' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'egenskap' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'avslag' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'invalidert' } },
+                            ],
+                        },
+                    },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'overstyring' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Overstyring' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'hendelseId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'saksbehandler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'ferdigstilt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Dagoverstyring' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'dager' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraGrad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'dato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraType' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Inntektoverstyring' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'inntekt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedligInntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraManedligInntekt' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'refusjonsopplysninger' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'fraRefusjonsopplysninger' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'Arbeidsforholdoverstyring' },
+                        },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'Sykepengegrunnlagskjonnsfastsetting' },
+                        },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'skjonnsfastsatt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseMal' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseFritekst' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseKonklusjon' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arlig' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraArlig' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'vilkarsgrunnlag' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Vilkarsgrunnlag' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykepengegrunnlag' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'omregnetArsinntekt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'inntekter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sammenligningsgrunnlag' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'inntektFraAOrdningen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'omregnetArsinntekt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'inntektFraAOrdningen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kilde' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'skjonnsmessigFastsatt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'inntektFraAOrdningen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kilde' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsgiverrefusjoner' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'refusjonsopplysninger' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'meldingsreferanseId' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagtype' } },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'VilkarsgrunnlagSpleis' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sammenligningsgrunnlag' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'skjonnsmessigFastsattAarlig' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmMinstelonn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmMedlemskap' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmOpptjening' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'antallOpptjeningsdagerErMinst' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'avviksprosent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opptjeningFra' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sykepengegrunnlagsgrense' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grense' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'virkningstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'arbeidsgiver' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Arbeidsgiver' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'bransjer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsforhold' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sluttdato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'startdato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'stillingsprosent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'stillingstittel' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'ghostPerioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ghostPeriode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'generasjoner' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'perioder' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'InlineFragment',
+                                                typeCondition: {
+                                                    kind: 'NamedType',
+                                                    name: { kind: 'Name', value: 'UberegnetPeriode' },
+                                                },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'uberegnetPeriode' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'InlineFragment',
+                                                typeCondition: {
+                                                    kind: 'NamedType',
+                                                    name: { kind: 'Name', value: 'BeregnetPeriode' },
+                                                },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'beregnetPeriode' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'overstyringer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'overstyring' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'inntekterFraAordningen' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'inntekter' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<PersonFragment, unknown>;
 export const PaventFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -4403,39 +9357,44 @@ export const FetchNotaterDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'kommentarer' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
-                                                        },
-                                                    ],
-                                                },
-                                            },
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'notat' } },
                                         ],
                                     },
                                 },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'notat' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kommentarer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
                             ],
                         },
                     },
@@ -4850,1740 +9809,7 @@ export const FetchPersonDocument = {
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'fodselsnummer' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'dodsdato' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'enhet' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'infotrygdutbetalinger' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'dagsats' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'typetekst' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'personinfo' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'adressebeskyttelse' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fodselsdato' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'kjonn' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'reservasjon' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'kanVarsles' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
-                                                    ],
-                                                },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'unntattFraAutomatisering' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'erUnntatt' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
-                                                    ],
-                                                },
-                                            },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'tildeling' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                                        ],
-                                    },
-                                },
-                                { kind: 'Field', name: { kind: 'Name', value: 'versjon' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'vilkarsgrunnlag' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            {
-                                                kind: 'FragmentSpread',
-                                                name: { kind: 'Name', value: 'vilkarsgrunnlag' },
-                                            },
-                                        ],
-                                    },
-                                },
-                                { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'arbeidsgivere' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'bransjer' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'arbeidsforhold' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'sluttdato' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'startdato' } },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'stillingsprosent' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'stillingstittel' },
-                                                        },
-                                                    ],
-                                                },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'ghostPerioder' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'vilkarsgrunnlagId' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'skjaeringstidspunkt' },
-                                                        },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'organisasjonsnummer' },
-                                                        },
-                                                    ],
-                                                },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'generasjoner' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'perioder' },
-                                                            selectionSet: {
-                                                                kind: 'SelectionSet',
-                                                                selections: [
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: '__typename' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'behandlingId' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'fom' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'tom' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'erForkastet' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'inntektstype' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'opprettet' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'periodetype' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'tidslinje' },
-                                                                        selectionSet: {
-                                                                            kind: 'SelectionSet',
-                                                                            selections: [
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'dato',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'grad',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'kilde',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'id',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'type',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'sykdomsdagtype',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'utbetalingsdagtype',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'utbetalingsinfo',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'arbeidsgiverbelop',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'inntekt',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'personbelop',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'refusjonsbelop',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'totalGrad',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'utbetaling',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'begrunnelser',
-                                                                                    },
-                                                                                },
-                                                                            ],
-                                                                        },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: {
-                                                                            kind: 'Name',
-                                                                            value: 'vedtaksperiodeId',
-                                                                        },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: {
-                                                                            kind: 'Name',
-                                                                            value: 'periodetilstand',
-                                                                        },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: {
-                                                                            kind: 'Name',
-                                                                            value: 'skjaeringstidspunkt',
-                                                                        },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'varsler' },
-                                                                        selectionSet: {
-                                                                            kind: 'SelectionSet',
-                                                                            selections: [
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'generasjonId',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'definisjonId',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'opprettet',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'kode',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'tittel',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'forklaring',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'handling',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'vurdering',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'ident',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'status',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'tidsstempel',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                            ],
-                                                                        },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'hendelser' },
-                                                                        selectionSet: {
-                                                                            kind: 'SelectionSet',
-                                                                            selections: [
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: { kind: 'Name', value: 'id' },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'type',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'InlineFragment',
-                                                                                    typeCondition: {
-                                                                                        kind: 'NamedType',
-                                                                                        name: {
-                                                                                            kind: 'Name',
-                                                                                            value: 'Inntektsmelding',
-                                                                                        },
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'beregnetInntekt',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'mottattDato',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'eksternDokumentId',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'InlineFragment',
-                                                                                    typeCondition: {
-                                                                                        kind: 'NamedType',
-                                                                                        name: {
-                                                                                            kind: 'Name',
-                                                                                            value: 'Sykmelding',
-                                                                                        },
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'fom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'tom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'rapportertDato',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'InlineFragment',
-                                                                                    typeCondition: {
-                                                                                        kind: 'NamedType',
-                                                                                        name: {
-                                                                                            kind: 'Name',
-                                                                                            value: 'SoknadNav',
-                                                                                        },
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'fom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'tom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'rapportertDato',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'sendtNav',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'eksternDokumentId',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'InlineFragment',
-                                                                                    typeCondition: {
-                                                                                        kind: 'NamedType',
-                                                                                        name: {
-                                                                                            kind: 'Name',
-                                                                                            value: 'SoknadArbeidsgiver',
-                                                                                        },
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'fom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'tom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'rapportertDato',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'sendtArbeidsgiver',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'eksternDokumentId',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'InlineFragment',
-                                                                                    typeCondition: {
-                                                                                        kind: 'NamedType',
-                                                                                        name: {
-                                                                                            kind: 'Name',
-                                                                                            value: 'SoknadArbeidsledig',
-                                                                                        },
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'fom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'tom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'rapportertDato',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'sendtNav',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'eksternDokumentId',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'InlineFragment',
-                                                                                    typeCondition: {
-                                                                                        kind: 'NamedType',
-                                                                                        name: {
-                                                                                            kind: 'Name',
-                                                                                            value: 'SoknadFrilans',
-                                                                                        },
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'fom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'tom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'rapportertDato',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'sendtNav',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'eksternDokumentId',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                            ],
-                                                                        },
-                                                                    },
-                                                                    {
-                                                                        kind: 'InlineFragment',
-                                                                        typeCondition: {
-                                                                            kind: 'NamedType',
-                                                                            name: {
-                                                                                kind: 'Name',
-                                                                                value: 'UberegnetPeriode',
-                                                                            },
-                                                                        },
-                                                                        selectionSet: {
-                                                                            kind: 'SelectionSet',
-                                                                            selections: [
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: { kind: 'Name', value: 'id' },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'notater',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'FragmentSpread',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'notat',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                            ],
-                                                                        },
-                                                                    },
-                                                                    {
-                                                                        kind: 'InlineFragment',
-                                                                        typeCondition: {
-                                                                            kind: 'NamedType',
-                                                                            name: {
-                                                                                kind: 'Name',
-                                                                                value: 'BeregnetPeriode',
-                                                                            },
-                                                                        },
-                                                                        selectionSet: {
-                                                                            kind: 'SelectionSet',
-                                                                            selections: [
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: { kind: 'Name', value: 'id' },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'beregningId',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'forbrukteSykedager',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'gjenstaendeSykedager',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'handlinger',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'type',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'tillatt',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'begrunnelse',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'notater',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'FragmentSpread',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'notat',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'periodehistorikk',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'type',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'timestamp',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'saksbehandler_ident',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'notat_id',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'maksdato',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'periodevilkar',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'alder',
-                                                                                                },
-                                                                                                selectionSet: {
-                                                                                                    kind: 'SelectionSet',
-                                                                                                    selections: [
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'alderSisteSykedag',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'oppfylt',
-                                                                                                            },
-                                                                                                        },
-                                                                                                    ],
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'sykepengedager',
-                                                                                                },
-                                                                                                selectionSet: {
-                                                                                                    kind: 'SelectionSet',
-                                                                                                    selections: [
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'forbrukteSykedager',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'gjenstaendeSykedager',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'maksdato',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'oppfylt',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'skjaeringstidspunkt',
-                                                                                                            },
-                                                                                                        },
-                                                                                                    ],
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'risikovurdering',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'funn',
-                                                                                                },
-                                                                                                selectionSet: {
-                                                                                                    kind: 'SelectionSet',
-                                                                                                    selections: [
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'beskrivelse',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'kategori',
-                                                                                                            },
-                                                                                                        },
-                                                                                                    ],
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'kontrollertOk',
-                                                                                                },
-                                                                                                selectionSet: {
-                                                                                                    kind: 'SelectionSet',
-                                                                                                    selections: [
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'beskrivelse',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'kategori',
-                                                                                                            },
-                                                                                                        },
-                                                                                                    ],
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'utbetaling',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'id',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'arbeidsgiverFagsystemId',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'arbeidsgiverNettoBelop',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'personFagsystemId',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'personNettoBelop',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'status',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'type',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'vurdering',
-                                                                                                },
-                                                                                                selectionSet: {
-                                                                                                    kind: 'SelectionSet',
-                                                                                                    selections: [
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'automatisk',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'godkjent',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'ident',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'tidsstempel',
-                                                                                                            },
-                                                                                                        },
-                                                                                                    ],
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'arbeidsgiversimulering',
-                                                                                                },
-                                                                                                selectionSet: {
-                                                                                                    kind: 'SelectionSet',
-                                                                                                    selections: [
-                                                                                                        {
-                                                                                                            kind: 'FragmentSpread',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'simulering',
-                                                                                                            },
-                                                                                                        },
-                                                                                                    ],
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'personsimulering',
-                                                                                                },
-                                                                                                selectionSet: {
-                                                                                                    kind: 'SelectionSet',
-                                                                                                    selections: [
-                                                                                                        {
-                                                                                                            kind: 'FragmentSpread',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'simulering',
-                                                                                                            },
-                                                                                                        },
-                                                                                                    ],
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'vilkarsgrunnlagId',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'oppgave',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'id',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'paVent',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'frist',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'begrunnelse',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'oid',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'totrinnsvurdering',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'erBeslutteroppgave',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'erRetur',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'saksbehandler',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'beslutter',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'egenskaper',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'egenskap',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'kategori',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'avslag',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'type',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'begrunnelse',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'opprettet',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'saksbehandlerIdent',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'invalidert',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                            ],
-                                                                        },
-                                                                    },
-                                                                ],
-                                                            },
-                                                        },
-                                                    ],
-                                                },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'overstyringer' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'hendelseId' } },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'saksbehandler' },
-                                                            selectionSet: {
-                                                                kind: 'SelectionSet',
-                                                                selections: [
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'ident' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'navn' },
-                                                                    },
-                                                                ],
-                                                            },
-                                                        },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'ferdigstilt' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-                                                        {
-                                                            kind: 'InlineFragment',
-                                                            typeCondition: {
-                                                                kind: 'NamedType',
-                                                                name: { kind: 'Name', value: 'Dagoverstyring' },
-                                                            },
-                                                            selectionSet: {
-                                                                kind: 'SelectionSet',
-                                                                selections: [
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'begrunnelse' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'dager' },
-                                                                        selectionSet: {
-                                                                            kind: 'SelectionSet',
-                                                                            selections: [
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'grad',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'fraGrad',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'dato',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'type',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'fraType',
-                                                                                    },
-                                                                                },
-                                                                            ],
-                                                                        },
-                                                                    },
-                                                                ],
-                                                            },
-                                                        },
-                                                        {
-                                                            kind: 'InlineFragment',
-                                                            typeCondition: {
-                                                                kind: 'NamedType',
-                                                                name: { kind: 'Name', value: 'Inntektoverstyring' },
-                                                            },
-                                                            selectionSet: {
-                                                                kind: 'SelectionSet',
-                                                                selections: [
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'inntekt' },
-                                                                        selectionSet: {
-                                                                            kind: 'SelectionSet',
-                                                                            selections: [
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'skjaeringstidspunkt',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'forklaring',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'begrunnelse',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'manedligInntekt',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'fraManedligInntekt',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'refusjonsopplysninger',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'fom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'tom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'belop',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'fraRefusjonsopplysninger',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'fom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'tom',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'belop',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                            ],
-                                                                        },
-                                                                    },
-                                                                ],
-                                                            },
-                                                        },
-                                                        {
-                                                            kind: 'InlineFragment',
-                                                            typeCondition: {
-                                                                kind: 'NamedType',
-                                                                name: {
-                                                                    kind: 'Name',
-                                                                    value: 'Arbeidsforholdoverstyring',
-                                                                },
-                                                            },
-                                                            selectionSet: {
-                                                                kind: 'SelectionSet',
-                                                                selections: [
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'begrunnelse' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'deaktivert' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: {
-                                                                            kind: 'Name',
-                                                                            value: 'skjaeringstidspunkt',
-                                                                        },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'forklaring' },
-                                                                    },
-                                                                ],
-                                                            },
-                                                        },
-                                                        {
-                                                            kind: 'InlineFragment',
-                                                            typeCondition: {
-                                                                kind: 'NamedType',
-                                                                name: {
-                                                                    kind: 'Name',
-                                                                    value: 'Sykepengegrunnlagskjonnsfastsetting',
-                                                                },
-                                                            },
-                                                            selectionSet: {
-                                                                kind: 'SelectionSet',
-                                                                selections: [
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: {
-                                                                            kind: 'Name',
-                                                                            value: 'skjonnsfastsatt',
-                                                                        },
-                                                                        selectionSet: {
-                                                                            kind: 'SelectionSet',
-                                                                            selections: [
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'arsak',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'type',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'begrunnelse',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'begrunnelseMal',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'begrunnelseFritekst',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'begrunnelseKonklusjon',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'arlig',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'fraArlig',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'skjaeringstidspunkt',
-                                                                                    },
-                                                                                },
-                                                                            ],
-                                                                        },
-                                                                    },
-                                                                ],
-                                                            },
-                                                        },
-                                                    ],
-                                                },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'inntekterFraAordningen' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'skjaeringstidspunkt' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'inntekter' },
-                                                            selectionSet: {
-                                                                kind: 'SelectionSet',
-                                                                selections: [
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'maned' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'sum' },
-                                                                    },
-                                                                ],
-                                                            },
-                                                        },
-                                                    ],
-                                                },
-                                            },
-                                        ],
-                                    },
-                                },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'person' } }],
                         },
                     },
                 ],
@@ -6737,6 +9963,23 @@ export const FetchPersonDocument = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ghostPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'GhostPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'notat' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
             selectionSet: {
@@ -6751,7 +9994,6 @@ export const FetchPersonDocument = {
                     { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                     {
                         kind: 'Field',
@@ -6767,6 +10009,217 @@ export const FetchPersonDocument = {
                             ],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'periode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandlingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erForkastet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'inntektstype' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tidslinje' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'dato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'kilde' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'sykdomsdagtype' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'utbetalingsdagtype' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'utbetalingsinfo' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'inntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'personbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'refusjonsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'totalGrad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'utbetaling' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelser' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'periodetilstand' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'varsler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'handling' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hendelser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'Inntektsmelding' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beregnetInntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Sykmelding' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'SoknadNav' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadArbeidsgiver' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtArbeidsgiver' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadArbeidsledig' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadFrilans' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'uberegnetPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UberegnetPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'notater' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'notat' } }],
+                        },
+                    },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
                 ],
             },
         },
@@ -6849,6 +10302,591 @@ export const FetchPersonDocument = {
                                     },
                                 },
                             ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'beregnetPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'BeregnetPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'beregningId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'forbrukteSykedager' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'gjenstaendeSykedager' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'handlinger' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tillatt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'notater' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'notat' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'periodehistorikk' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler_ident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'notat_id' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'maksdato' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'periodevilkar' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'alder' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'alderSisteSykedag' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'oppfylt' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sykepengedager' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'forbrukteSykedager' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'gjenstaendeSykedager' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'maksdato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'oppfylt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'risikovurdering' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'funn' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'kontrollertOk' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'utbetaling' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverFagsystemId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverNettoBelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personFagsystemId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personNettoBelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'automatisk' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'godkjent' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'arbeidsgiversimulering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'simulering' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'personsimulering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'simulering' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'oppgave' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'paVent' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'totrinnsvurdering' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'erBeslutteroppgave' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'erRetur' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'beslutter' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'egenskaper' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'egenskap' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'avslag' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'invalidert' } },
+                            ],
+                        },
+                    },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'overstyring' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Overstyring' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'hendelseId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'saksbehandler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'ferdigstilt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Dagoverstyring' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'dager' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraGrad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'dato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraType' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Inntektoverstyring' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'inntekt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedligInntekt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraManedligInntekt' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'refusjonsopplysninger' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'fraRefusjonsopplysninger' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'Arbeidsforholdoverstyring' },
+                        },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'Sykepengegrunnlagskjonnsfastsetting' },
+                        },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'skjonnsfastsatt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseMal' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseFritekst' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseKonklusjon' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arlig' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fraArlig' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'arbeidsgiver' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Arbeidsgiver' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'bransjer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsforhold' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sluttdato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'startdato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'stillingsprosent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'stillingstittel' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'ghostPerioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ghostPeriode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'generasjoner' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'perioder' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'InlineFragment',
+                                                typeCondition: {
+                                                    kind: 'NamedType',
+                                                    name: { kind: 'Name', value: 'UberegnetPeriode' },
+                                                },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'uberegnetPeriode' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'InlineFragment',
+                                                typeCondition: {
+                                                    kind: 'NamedType',
+                                                    name: { kind: 'Name', value: 'BeregnetPeriode' },
+                                                },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'beregnetPeriode' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'overstyringer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'overstyring' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'inntekterFraAordningen' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'inntekter' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'person' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Person' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fodselsnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dodsdato' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'enhet' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'infotrygdutbetalinger' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dagsats' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'typetekst' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personinfo' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'adressebeskyttelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'fodselsdato' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kjonn' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'reservasjon' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kanVarsles' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'unntattFraAutomatisering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'erUnntatt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tildeling' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'versjon' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'vilkarsgrunnlag' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'vilkarsgrunnlag' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsgivere' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'arbeidsgiver' } }],
                         },
                     },
                 ],

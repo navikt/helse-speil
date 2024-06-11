@@ -1,11 +1,17 @@
-import dayjs from 'dayjs';
-import minMax from 'dayjs/plugin/minMax';
+import dayjs, { Dayjs } from 'dayjs';
 
-import { Arbeidsgiverinntekt, GhostPeriode, Inntektskilde, Vilkarsgrunnlag } from '@io/graphql';
+import { ActivePeriod, DateString } from '@/types/shared';
+import {
+    Arbeidsgiverinntekt,
+    BeregnetPeriodeFragment,
+    GhostPeriodeFragment,
+    Inntektskilde,
+    PersonFragment,
+    UberegnetPeriodeFragment,
+    Vilkarsgrunnlag,
+} from '@io/graphql';
 import { getRequiredTimestamp, isGodkjent } from '@state/selectors/utbetaling';
 import { isBeregnetPeriode, isDagoverstyring, isGhostPeriode } from '@utils/typeguards';
-
-dayjs.extend(minMax);
 
 export const getRequiredInntekt = (
     vilkårsgrunnlag: Vilkarsgrunnlag,
@@ -61,11 +67,11 @@ export const getInntekter = (grunnlag: Vilkarsgrunnlag, organisasjonsnummer: str
     return inntekter;
 };
 
-export const getVilkårsgrunnlag = (person: FetchedPerson, grunnlagId?: Maybe<string>): Vilkarsgrunnlag | null => {
+export const getVilkårsgrunnlag = (person: PersonFragment, grunnlagId?: Maybe<string>): Vilkarsgrunnlag | null => {
     return person.vilkarsgrunnlag.find(({ id }) => id === grunnlagId) ?? null;
 };
 
-export const getRequiredVilkårsgrunnlag = (person: FetchedPerson, grunnlagId?: Maybe<string>): Vilkarsgrunnlag => {
+export const getRequiredVilkårsgrunnlag = (person: PersonFragment, grunnlagId?: Maybe<string>): Vilkarsgrunnlag => {
     return (
         getVilkårsgrunnlag(person, grunnlagId) ??
         (() => {
@@ -74,14 +80,17 @@ export const getRequiredVilkårsgrunnlag = (person: FetchedPerson, grunnlagId?: 
     );
 };
 
-const hasGhostPeriod = (person: FetchedPerson, period: GhostPeriode): boolean => {
+const hasGhostPeriod = (person: PersonFragment, period: GhostPeriodeFragment): boolean => {
     return (
         person.arbeidsgivere.flatMap(({ ghostPerioder }) => ghostPerioder).find(({ id }) => id === period.id) !==
         undefined
     );
 };
 
-const hasRegularPeriod = (person: FetchedPerson, period: FetchedBeregnetPeriode | UberegnetPeriode): boolean => {
+const hasRegularPeriod = (
+    person: PersonFragment,
+    period: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+): boolean => {
     return (
         person.arbeidsgivere
             .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder))
@@ -89,7 +98,7 @@ const hasRegularPeriod = (person: FetchedPerson, period: FetchedBeregnetPeriode 
     );
 };
 
-export const hasPeriod = (person: FetchedPerson, period: ActivePeriod): boolean => {
+export const hasPeriod = (person: PersonFragment, period: ActivePeriod): boolean => {
     if (isGhostPeriode(period)) {
         return hasGhostPeriod(person, period);
     }
@@ -97,7 +106,7 @@ export const hasPeriod = (person: FetchedPerson, period: ActivePeriod): boolean 
     return hasRegularPeriod(person, period);
 };
 
-export const getLatestUtbetalingTimestamp = (person: FetchedPerson, after: DateString = '1970-01-01'): Dayjs => {
+export const getLatestUtbetalingTimestamp = (person: PersonFragment, after: DateString = '1970-01-01'): Dayjs => {
     let latest: Dayjs = dayjs(after);
 
     for (const arbeidsgiver of person.arbeidsgivere) {
@@ -111,7 +120,7 @@ export const getLatestUtbetalingTimestamp = (person: FetchedPerson, after: DateS
     return latest;
 };
 
-export const getOverstyringerForEksisterendePerioder = (person: FetchedPerson, after: Dayjs) => {
+export const getOverstyringerForEksisterendePerioder = (person: PersonFragment, after: Dayjs) => {
     const perioder = person.arbeidsgivere.flatMap((it) => it.generasjoner.flatMap((generasjon) => generasjon.perioder));
 
     return person.arbeidsgivere

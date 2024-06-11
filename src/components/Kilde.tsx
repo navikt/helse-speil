@@ -1,6 +1,6 @@
 import styles from './Kilde.module.scss';
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { Tooltip } from '@navikt/ds-react';
 

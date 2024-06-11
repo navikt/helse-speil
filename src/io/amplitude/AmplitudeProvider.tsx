@@ -4,10 +4,11 @@ import React, { PropsWithChildren, useEffect } from 'react';
 import { useBrukerGrupper } from '@/auth/brukerContext';
 import { browserEnv, erDev, erProd } from '@/env';
 import { getDefaultFilters } from '@/routes/oversikt/table/state/filter';
+import { ActivePeriod } from '@/types/shared';
 import * as amplitude from '@amplitude/analytics-browser';
 import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
 import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
-import { Egenskap, Kategori, Oppgaveegenskap, Periode } from '@io/graphql';
+import { Egenskap, Kategori, Oppgaveegenskap } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -21,7 +22,7 @@ amplitudeClient?.init(browserEnv.NEXT_PUBLIC_AMPLITUDE_KEY ?? '', '', {
 });
 
 const getEventProperties = (
-    period: Maybe<Periode | GhostPeriode>,
+    period: Maybe<ActivePeriod>,
     openedTimestamp: Dayjs,
     grupper: string[],
     reasons?: Array<string>,
@@ -134,7 +135,7 @@ const _AmplitudeProvider: React.FC<PropsWithChildren<object>> = ({ children }) =
     );
 };
 
-export const AmplitudeProvider: React.FC<ChildrenProps> = ({ children }) => {
+export const AmplitudeProvider: React.FC<PropsWithChildren> = ({ children }) => {
     return (
         <React.Suspense fallback={<>{children}</>}>
             <_AmplitudeProvider>{children}</_AmplitudeProvider>

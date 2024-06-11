@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 
 import { Button, DatePicker, TextField } from '@navikt/ds-react';
 
+import { DateString } from '@/types/shared';
 import { Kildetype } from '@io/graphql';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 

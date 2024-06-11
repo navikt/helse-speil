@@ -18,6 +18,10 @@ generates:
       - 'typed-document-node'
     config:
       nonOptionalTypename: true
+      exportFragmentSpreadSubTypes: true
+      dedupeFragments: true
+      avoidOptionals:
+        field: true
   ./graphql.schema.json:
     plugins:
       - 'introspection'

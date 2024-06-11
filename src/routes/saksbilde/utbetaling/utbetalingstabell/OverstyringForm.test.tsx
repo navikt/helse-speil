@@ -1,5 +1,5 @@
 import { render, screen } from '@test-utils';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import '@testing-library/jest-dom';
@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event';
 import { OverstyringForm } from './OverstyringForm';
 import { Arbeidsdag, Egenmeldingsdag, Sykedag } from './utbetalingstabelldager';
 
-const FormWrapper: React.FC<ChildrenProps> = ({ children }) => {
+const FormWrapper = ({ children }: PropsWithChildren) => {
     const form = useForm();
     return (
         <FormProvider {...form}>

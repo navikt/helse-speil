@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { ExternalLink, System } from '@navikt/ds-icons';
 import { Dropdown, InternalHeader as Header } from '@navikt/ds-react';
 
-import { useFetchPersonQuery } from '@state/person';
+import { useFetchPersonQuery } from '@person/query';
 
 import styles from './SystemMenu.module.css';
 

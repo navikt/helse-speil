@@ -1,4 +1,4 @@
-import { Inntektstype, Periodetilstand } from '@io/graphql';
+import { Inntektstype, Periodetilstand, PersonFragment } from '@io/graphql';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enGenerasjon } from '@test-data/generasjon';
 import { enOppgave } from '@test-data/oppgave';
@@ -49,7 +49,7 @@ describe('kanRevurderes', () => {
     it('returnerer false om perioden ikke er godkjent', () => {
         const periode = enBeregnetPeriode({ periodetilstand: Periodetilstand.IngenUtbetaling });
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as FetchedPerson;
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
         const expected = {
             value: false,
             reason: 'Vi støtter ikke revurdering av perioder som ikke er godkjente',
@@ -64,7 +64,7 @@ describe('kanRevurderes', () => {
         const arbeidsgiver = enArbeidsgiver({
             generasjoner: [enGenerasjon(), enGenerasjon({ perioder: [historiskPeriode] })],
         });
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
         const expected = {
             value: false,
             technical: 'Arbeidsgiver mangler eller periode er i tidligere generasjon',
@@ -76,7 +76,7 @@ describe('kanRevurderes', () => {
     it('returnerer false om perioden er forkastet', () => {
         const periode = enBeregnetPeriode({ erForkastet: true });
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as PersonFragment;
         const expected = {
             value: false,
             technical: 'Forkastet periode',
@@ -89,7 +89,7 @@ describe('kanRevurderes', () => {
 describe('kanOverstyreRevurdering', () => {
     it('returnerer false om perioden ikke er til revurdering', () => {
         const periode = enBeregnetPeriode();
-        const person = enPerson() as unknown as FetchedPerson;
+        const person = enPerson() as unknown as PersonFragment;
         const expected = {
             value: false,
             technical: 'Kan ikke overstyre revurdering om perioden ikke er til revurdering',
@@ -103,7 +103,7 @@ describe('kanOverstyreRevurdering', () => {
         const periodeB = enBeregnetPeriode();
         const arbeidsgiverA = enArbeidsgiver().medPerioder([periodeA]);
         const arbeidsgiverB = enArbeidsgiver().medPerioder([periodeB]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiverA, arbeidsgiverB]) as unknown as FetchedPerson;
+        const person = enPerson().medArbeidsgivere([arbeidsgiverA, arbeidsgiverB]) as unknown as PersonFragment;
         const expected = {
             value: false,
             technical: 'Ikke alle overlappende perioder er til revurdering',

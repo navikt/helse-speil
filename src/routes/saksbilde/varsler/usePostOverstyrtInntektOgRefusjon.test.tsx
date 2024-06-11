@@ -1,6 +1,7 @@
 import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
+import { Opptegnelse } from '@/spesialist-mock/opptegnelser';
 import { MockedProvider } from '@apollo/client/testing';
 import { OpprettAbonnementDocument, OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
 import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
@@ -108,7 +109,7 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
 
         (useHåndterOpptegnelser as jest.Mock).mockImplementation((callBack: (o: Opptegnelse) => void) => {
             callBack({
-                aktørId: 1,
+                aktorId: 1,
                 sekvensnummer: 1,
                 type: 'REVURDERING_FERDIGBEHANDLET',
                 payload: '{}',

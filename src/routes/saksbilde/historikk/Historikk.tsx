@@ -9,7 +9,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { ÅpnetDokument } from '@components/ÅpnetDokument';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { useFetchPersonQuery } from '@state/person';
+import { useFetchPersonQuery } from '@person/query';
 
 import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';

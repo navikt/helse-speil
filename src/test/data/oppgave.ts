@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 
+import { OverridableConstructor } from '@/types/shared';
 import {
     AntallArbeidsforhold,
     Egenskap,
@@ -21,12 +22,15 @@ export const enOppgaveForOversikten: OverridableConstructor<OppgaveTilBehandling
     navn: {
         __typename: 'Personnavn',
         etternavn: 'Etternavn',
+        mellomnavn: null,
         fornavn: 'Fornavn',
     },
     antallArbeidsforhold: AntallArbeidsforhold.EtArbeidsforhold,
     oppgavetype: Oppgavetype.Soknad,
     periodetype: Periodetype.Forstegangsbehandling,
     mottaker: Mottaker.Arbeidsgiver,
+    tidsfrist: null,
+    tildeling: null,
     egenskaper: [
         { __typename: 'Oppgaveegenskap', kategori: Kategori.Periodetype, egenskap: Egenskap.Forstegangsbehandling },
         { __typename: 'Oppgaveegenskap', kategori: Kategori.Oppgavetype, egenskap: Egenskap.Soknad },

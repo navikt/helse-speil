@@ -4,7 +4,7 @@ import React from 'react';
 
 import { CheckmarkIcon } from '@navikt/aksel-icons';
 
-import { Sporsmal, Svar, Svartype } from '@io/graphql';
+import { SporsmalFragment, Svar, Svartype } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
@@ -13,13 +13,13 @@ import { DokumentFragment } from './DokumentFragment';
 import styles from './Søknadsinnhold.module.css';
 
 interface SpørsmålProps {
-    spørsmål: Array<Sporsmal>;
+    spørsmål: SporsmalFragment[];
     rotnivå?: boolean;
 }
 
 export const Spørsmål: React.FC<SpørsmålProps> = ({ spørsmål, rotnivå = true }) => {
     return spørsmål?.map((it) => {
-        const underspørsmål = it?.undersporsmal && it.undersporsmal.length > 0 ? it.undersporsmal : null;
+        const underspørsmål = getUndersporsmal(it);
 
         return (
             <div
@@ -40,6 +40,12 @@ export const Spørsmål: React.FC<SpørsmålProps> = ({ spørsmål, rotnivå = t
         );
     });
 };
+
+function getUndersporsmal(it: SporsmalFragment) {
+    const sporsmal = it as SporsmalFragment & { undersporsmal: SporsmalFragment[] | null };
+
+    return sporsmal?.undersporsmal && sporsmal.undersporsmal.length > 0 ? sporsmal.undersporsmal : null;
+}
 
 const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
     if (svar.length === 0 || !svar[0].verdi) return;

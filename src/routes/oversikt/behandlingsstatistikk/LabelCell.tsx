@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { Tag } from '@components/Tag';
 
-const BaseCell: React.FC<ChildrenProps> = ({ children }) => {
+const BaseCell = ({ children }: PropsWithChildren): ReactElement => {
     return <BodyShort size="small">{children}</BodyShort>;
 };
 
-const EnArbeidsgiver: React.FC = () => {
+const EnArbeidsgiver = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="purple">EA</Tag>
@@ -17,7 +17,7 @@ const EnArbeidsgiver: React.FC = () => {
     );
 };
 
-const FlereArbeidsgivere: React.FC = () => {
+const FlereArbeidsgivere = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="purple">FA</Tag>
@@ -26,7 +26,7 @@ const FlereArbeidsgivere: React.FC = () => {
     );
 };
 
-const Førstegangsbehandling: React.FC = () => {
+const Førstegangsbehandling = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="purple">F</Tag>
@@ -35,7 +35,7 @@ const Førstegangsbehandling: React.FC = () => {
     );
 };
 
-const Forlengelser: React.FC = () => {
+const Forlengelser = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="blue">FL</Tag>
@@ -44,7 +44,7 @@ const Forlengelser: React.FC = () => {
     );
 };
 
-const ForlengelseInfotrygd: React.FC = () => {
+const ForlengelseInfotrygd = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="gray">FI</Tag>
@@ -53,7 +53,7 @@ const ForlengelseInfotrygd: React.FC = () => {
     );
 };
 
-const Vurderingsoppgaver: React.FC = () => {
+const Vurderingsoppgaver = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="orange">QA</Tag>
@@ -62,7 +62,7 @@ const Vurderingsoppgaver: React.FC = () => {
     );
 };
 
-const FortroligAdresse: React.FC = () => {
+const FortroligAdresse = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="red">FA</Tag>
@@ -71,7 +71,7 @@ const FortroligAdresse: React.FC = () => {
     );
 };
 
-const Stikkprøver: React.FC = () => {
+const Stikkprøver = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="red">S</Tag>
@@ -80,7 +80,7 @@ const Stikkprøver: React.FC = () => {
     );
 };
 
-const Revurdering: React.FC = () => {
+const Revurdering = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="orange">R</Tag>
@@ -89,7 +89,7 @@ const Revurdering: React.FC = () => {
     );
 };
 
-const Beslutter: React.FC = () => {
+const Beslutter = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="orange">B</Tag>
@@ -98,7 +98,7 @@ const Beslutter: React.FC = () => {
     );
 };
 
-const EgenAnsatt: React.FC = () => {
+const EgenAnsatt = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="orange">E</Tag>
@@ -106,7 +106,7 @@ const EgenAnsatt: React.FC = () => {
         </BaseCell>
     );
 };
-const Søknad: React.FC = () => {
+const Søknad = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="orange">SØ</Tag>
