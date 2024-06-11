@@ -1,12 +1,11 @@
 import styles from './Dokumenthendelse.module.scss';
 import classNames from 'classnames';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { ArrowForwardIcon } from '@navikt/aksel-icons';
 
 import { Kilde } from '@components/Kilde';
-import { useCurrentPerson } from '@state/person';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
 import { Hendelse } from '../Hendelse';
@@ -15,7 +14,9 @@ import { Inntektsmeldingsinnhold } from './Inntektsmeldingsinnhold';
 import { Søknadsinnhold } from './Søknadsinnhold';
 import { getKildetekst, getKildetype, openedDocument } from './dokument';
 
-type DokumenthendelseProps = Omit<DokumenthendelseObject, 'type' | 'id'>;
+type DokumenthendelseProps = Omit<DokumenthendelseObject, 'type' | 'id'> & {
+    fødselsnummer: string;
+};
 
 export interface ÅpnedeDokumenter {
     dokumentId: string;
@@ -24,11 +25,15 @@ export interface ÅpnedeDokumenter {
     timestamp: string;
 }
 
-export const Dokumenthendelse: React.FC<DokumenthendelseProps> = ({ dokumenttype, timestamp, dokumentId }) => {
+export const Dokumenthendelse = ({
+    dokumenttype,
+    timestamp,
+    dokumentId,
+    fødselsnummer,
+}: DokumenthendelseProps): ReactElement => {
     const [showDokumenter, setShowDokumenter] = useState(false);
     const [dokument, setDokument] = useState<ReactNode>(null);
     const [åpnedeDokumenter, setÅpnedeDokumenter] = useRecoilState<ÅpnedeDokumenter[]>(openedDocument);
-    const fødselsnummer = useCurrentPerson()?.fodselsnummer;
     const resetOpenedDocuments = useResetRecoilState(openedDocument);
 
     useEffect(() => {

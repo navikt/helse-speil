@@ -9,7 +9,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { ÅpnetDokument } from '@components/ÅpnetDokument';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
+import { useFetchPersonQuery } from '@state/person';
 
 import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
@@ -45,12 +45,11 @@ const getHistorikkTitle = (type: Filtertype): string => {
 };
 
 const HistorikkWithContent: React.FC = () => {
+    const { loading, data } = useFetchPersonQuery();
     const historikk = useFilteredHistorikk();
     const [filter] = useFilterState();
-
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
 
-    const { loading } = useFetchPersonQuery();
     useKeyboard([
         {
             key: Key.H,
@@ -59,6 +58,8 @@ const HistorikkWithContent: React.FC = () => {
             modifier: Key.Alt,
         },
     ]);
+
+    const person = data?.person ?? null;
 
     return (
         <div className={styles['historikk-container']}>
@@ -73,7 +74,7 @@ const HistorikkWithContent: React.FC = () => {
                     style={{ overflow: 'hidden' }}
                 >
                     {loading && <HistorikkSkeleton />}
-                    {!loading && (
+                    {!loading && person && (
                         <div className={styles.historikk}>
                             <ul>
                                 <div>{getHistorikkTitle(filter)}</div>
@@ -101,7 +102,13 @@ const HistorikkWithContent: React.FC = () => {
                                             );
                                         }
                                         case 'Dokument': {
-                                            return <Dokumenthendelse key={it.id} {...it} />;
+                                            return (
+                                                <Dokumenthendelse
+                                                    key={it.id}
+                                                    {...it}
+                                                    fødselsnummer={person.fodselsnummer}
+                                                />
+                                            );
                                         }
                                         case 'Notat': {
                                             return <Notathendelse key={it.id} {...it} />;
@@ -156,13 +163,6 @@ const HistorikkError = () => {
 };
 
 export const Historikk = () => {
-    const { loading } = useFetchPersonQuery();
-    const currentPerson = useCurrentPerson();
-
-    if (!currentPerson && !loading) {
-        return null;
-    }
-
     return (
         <ErrorBoundary fallback={<HistorikkError />}>
             <HistorikkWithContent />
