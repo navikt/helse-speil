@@ -51,6 +51,7 @@ describe('Saksbildevarsler', () => {
                 periodState="utbetalt"
                 varsler={[
                     {
+                        __typename: 'VarselDTO',
                         definisjonId: 'EN_ID',
                         generasjonId: 'EN_ID',
                         opprettet: '2020-01-01',
@@ -58,6 +59,7 @@ describe('Saksbildevarsler', () => {
                         tittel: 'Dette er en aktivitet',
                     },
                     {
+                        __typename: 'VarselDTO',
                         definisjonId: 'EN_ID',
                         generasjonId: 'EN_ID',
                         opprettet: '2020-01-01',

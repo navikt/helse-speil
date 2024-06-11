@@ -4,7 +4,7 @@ import { Sykedag } from '../../routes/saksbilde/utbetaling/utbetalingstabell/utb
 
 export const getUtbetalingstabellDag = (overrides?: Partial<Utbetalingstabelldag>): Utbetalingstabelldag => ({
     dato: '2022-01-01',
-    kilde: { id: '123', type: Kildetype.Inntektsmelding },
+    kilde: { __typename: 'Kilde', id: '123', type: Kildetype.Inntektsmelding },
     dag: Sykedag,
     erAGP: false,
     erAvvist: false,

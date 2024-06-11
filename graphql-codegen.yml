@@ -1,6 +1,6 @@
 overwrite: true
-schema: "https://spesialist.intern.dev.nav.no/graphql/introspection"
-documents: "src/io/graphql/**/*.graphql"
+schema: 'https://spesialist.intern.dev.nav.no/graphql/introspection'
+documents: 'src/io/graphql/**/*.graphql'
 config:
   scalars:
     UUID: 'string'
@@ -10,21 +10,23 @@ config:
 generates:
   ./src/io/graphql/generated/possibletypes.ts:
     plugins:
-      - "fragment-matcher"
+      - 'fragment-matcher'
   ./src/io/graphql/generated/graphql.ts:
     plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typed-document-node"
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typed-document-node'
+    config:
+      nonOptionalTypename: true
   ./graphql.schema.json:
     plugins:
-      - "introspection"
+      - 'introspection'
   ./src/spesialist-mock/graphql.schema.json:
     plugins:
-      - "introspection"
+      - 'introspection'
   ./src/spesialist-mock/schemaTypes.ts:
     plugins:
-      - "typescript"
+      - 'typescript'
 hooks:
   afterAllFileWrite:
     - prettier --write

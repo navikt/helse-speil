@@ -6,21 +6,25 @@ type Extensions = {
 };
 
 export const enPerson: OverridableConstructor<Person, Extensions> = (overrides) => ({
+    __typename: 'Person',
     aktorId: '1234567890',
     fodselsnummer: '12345678910',
     arbeidsgivere: [enArbeidsgiver()],
     personinfo: {
+        __typename: 'Personinfo',
         fornavn: 'Navn',
         etternavn: 'Navnesen',
         kjonn: Kjonn.Kvinne,
         adressebeskyttelse: Adressebeskyttelse.Ugradert,
         unntattFraAutomatisering: {
+            __typename: 'UnntattFraAutomatiskGodkjenning',
             erUnntatt: false,
             arsaker: [],
             tidspunkt: null,
         },
     },
     enhet: {
+        __typename: 'Enhet',
         id: '1234',
         navn: 'Oslo',
     },

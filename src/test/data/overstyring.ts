@@ -8,6 +8,7 @@ export const enDagoverstyring: OverridableConstructor<Dagoverstyring> = (overrid
     dager: [],
     hendelseId: nanoid(),
     saksbehandler: {
+        __typename: 'Saksbehandler',
         ident: 'A123456',
         navn: 'En saksbehandler',
     },
@@ -23,6 +24,7 @@ export const enArbeidsforholdoverstyring: OverridableConstructor<Arbeidsforholdo
     forklaring: 'En forklaring',
     hendelseId: nanoid(),
     saksbehandler: {
+        __typename: 'Saksbehandler',
         ident: 'A123456',
         navn: 'En saksbehandler',
     },
@@ -37,6 +39,7 @@ export const enInntektoverstyring: OverridableConstructor<Inntektoverstyring> = 
     begrunnelse: 'En begrunnelse',
     hendelseId: nanoid(),
     inntekt: {
+        __typename: 'OverstyrtInntekt',
         forklaring: 'En forklaring',
         fraManedligInntekt: 30000,
         manedligInntekt: 30000,
@@ -46,6 +49,7 @@ export const enInntektoverstyring: OverridableConstructor<Inntektoverstyring> = 
         begrunnelse: 'En begrunnelse',
     },
     saksbehandler: {
+        __typename: 'Saksbehandler',
         ident: 'A123456',
         navn: 'En saksbehandler',
     },

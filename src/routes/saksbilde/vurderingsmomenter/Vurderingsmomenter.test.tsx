@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Risikovurdering } from '@io/graphql';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
@@ -7,22 +8,23 @@ import { VurderingsmomenterWithContent } from './Vurderingsmomenter';
 
 describe('Vurderingsmomenter', () => {
     test('rendrer Vurderingsmomenter oppdaget og kontrollert', async () => {
-        const enRisikovurdering = {
+        const enRisikovurdering: Risikovurdering = {
+            __typename: 'Risikovurdering',
             funn: [
                 {
-                    kreverSupersaksbehandler: false,
+                    __typename: 'Faresignal',
                     beskrivelse: 'Går alltid med solbriller',
                     kategori: ['8-4'],
                 },
                 {
-                    kreverSupersaksbehandler: false,
+                    __typename: 'Faresignal',
                     beskrivelse: 'Spiser aldri lunsj',
                     kategori: ['8-4'],
                 },
             ],
             kontrollertOk: [
                 {
-                    kreverSupersaksbehandler: false,
+                    __typename: 'Faresignal',
                     beskrivelse: 'Er fra Vinderen',
                     kategori: [],
                 },
@@ -37,7 +39,8 @@ describe('Vurderingsmomenter', () => {
     });
 
     test('rendrer ikke Vurderingsmomenter kontrollert eller oppdaget', async () => {
-        const enRisikovurdering = {
+        const enRisikovurdering: Risikovurdering = {
+            __typename: 'Risikovurdering',
             kontrollertOk: [],
             funn: [],
         };

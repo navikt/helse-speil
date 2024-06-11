@@ -10,6 +10,7 @@ type Extensions = {
 };
 
 export const enArbeidsgiver: OverridableConstructor<Arbeidsgiver, Extensions> = (overrides) => ({
+    __typename: 'Arbeidsgiver',
     navn: 'Sjokkerende Elektriker',
     organisasjonsnummer: '987654321',
     arbeidsforhold: [],

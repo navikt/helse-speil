@@ -19,15 +19,18 @@ import { enOppgave } from '@test-data/oppgave';
 import { enUtbetaling } from '@test-data/utbetaling';
 
 export const enDag: OverridableConstructor<Dag> = (overrides) => ({
+    __typename: 'Dag',
     dato: '2020-01-01',
     grad: 100,
     kilde: {
+        __typename: 'Kilde',
         id: nanoid(),
         type: Kildetype.Soknad,
     },
     sykdomsdagtype: Sykdomsdagtype.Sykedag,
     utbetalingsdagtype: Utbetalingsdagtype.Navdag,
     utbetalingsinfo: {
+        __typename: 'Utbetalingsinfo',
         arbeidsgiverbelop: 1000,
         inntekt: 1000,
         refusjonsbelop: 1000,
@@ -69,11 +72,14 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
     periodetilstand: Periodetilstand.Utbetalt,
     periodetype: Periodetype.Forstegangsbehandling,
     periodevilkar: {
+        __typename: 'Periodevilkar',
         alder: {
+            __typename: 'Alder',
             alderSisteSykedag: 30,
             oppfylt: true,
         },
         sykepengedager: {
+            __typename: 'Sykepengedager',
             forbrukteSykedager: 0,
             gjenstaendeSykedager: 200,
             maksdato: '2020-12-30',

@@ -29,6 +29,7 @@ type OverstyringerPrDag = {
     hendelseId: string;
     begrunnelse: string;
     saksbehandler: {
+        __typename: 'Saksbehandler';
         ident?: Maybe<string>;
         navn: string;
     };

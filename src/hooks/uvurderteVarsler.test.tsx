@@ -38,6 +38,7 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
         skjaeringstidspunkt: 'ET_SKJAERINGSTIDSPUNKT',
         tidslinje: [
             {
+                __typename: 'Dag',
                 dato: '2022-01-01',
                 kilde: {} as Kilde,
                 sykdomsdagtype: Sykdomsdagtype.Arbeidsgiverdag,
@@ -45,6 +46,7 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
             },
         ],
         utbetaling: {
+            __typename: 'Utbetaling',
             arbeidsgiverFagsystemId: 'EN_ID',
             arbeidsgiverNettoBelop: 0,
             id: 'EN_ID',
@@ -62,6 +64,7 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
 
 const getVarsel = (status?: Varselstatus): VarselDto => {
     return {
+        __typename: 'VarselDTO',
         definisjonId: 'en verdi',
         generasjonId: 'en verdi',
         opprettet: '2020-01-01',
@@ -69,6 +72,7 @@ const getVarsel = (status?: Varselstatus): VarselDto => {
         tittel: '',
         vurdering: status
             ? {
+                  __typename: 'VarselvurderingDTO',
                   ident: 'en ident',
                   status: status,
                   tidsstempel: 'et tidsstempel',
@@ -79,6 +83,7 @@ const getVarsel = (status?: Varselstatus): VarselDto => {
 
 const getArbeidsgiver = (organisasjonsnummer: string, generasjoner: Generasjon[]): Arbeidsgiver => {
     return {
+        __typename: 'Arbeidsgiver',
         arbeidsforhold: [],
         bransjer: [],
         generasjoner: generasjoner,
@@ -93,6 +98,7 @@ const getArbeidsgiver = (organisasjonsnummer: string, generasjoner: Generasjon[]
 const getGenerasjoner = (periods: FetchedBeregnetPeriode[]) => {
     return [
         {
+            __typename: 'Generasjon' as const,
             id: 'EN_ID',
             perioder: periods,
         },

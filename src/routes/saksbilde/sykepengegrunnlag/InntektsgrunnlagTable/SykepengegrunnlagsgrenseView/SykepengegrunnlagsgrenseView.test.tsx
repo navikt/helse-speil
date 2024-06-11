@@ -9,7 +9,12 @@ describe('Sykepengegrunnlagsgrense', () => {
     test('rendrer SykepengegrunnlagsgrenseView med ubegrenset sykepengegrunnlag', () => {
         render(
             <SykepengegrunnlagsgrenseView
-                sykepengegrunnlagsgrense={{ grunnbelop: 106399, grense: 638394, virkningstidspunkt: '2021-05-01' }}
+                sykepengegrunnlagsgrense={{
+                    __typename: 'Sykepengegrunnlagsgrense',
+                    grunnbelop: 106399,
+                    grense: 638394,
+                    virkningstidspunkt: '2021-05-01',
+                }}
                 omregnetÅrsinntekt={600_000}
             />,
         );
@@ -21,7 +26,12 @@ describe('Sykepengegrunnlagsgrense', () => {
     test('rendrer SykepengegrunnlagsgrenseView med begrenset sykepengegrunnlag', () => {
         render(
             <SykepengegrunnlagsgrenseView
-                sykepengegrunnlagsgrense={{ grunnbelop: 106399, grense: 638394, virkningstidspunkt: '2021-05-01' }}
+                sykepengegrunnlagsgrense={{
+                    __typename: 'Sykepengegrunnlagsgrense',
+                    grunnbelop: 106399,
+                    grense: 638394,
+                    virkningstidspunkt: '2021-05-01',
+                }}
                 omregnetÅrsinntekt={650_000}
             />,
         );
