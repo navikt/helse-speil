@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 
 import { useApolloClient } from '@apollo/client';
-import { useCurrentPerson } from '@state/person';
+import { useFetchPersonQuery } from '@state/person';
 
 export const useFjernPersonFraApolloCache = () => {
-    const fodselsnummer = useCurrentPerson()?.fodselsnummer;
+    const { data } = useFetchPersonQuery();
+    const fodselsnummer = data?.person?.fodselsnummer;
     const client = useApolloClient();
 
     useEffect(() => {
