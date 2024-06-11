@@ -15,26 +15,25 @@ import { PersonHeaderWithContent } from './PersonHeaderWIthContent';
 import styles from './PersonHeader.module.css';
 
 const PersonHeaderContainer: React.FC = () => {
-    const currentPerson = useCurrentPerson();
     const isAnonymous = useIsAnonymous();
-    const { loading } = useFetchPersonQuery();
+    const { loading, data } = useFetchPersonQuery();
 
     if (loading) {
         return <PersonHeaderSkeleton />;
     }
 
-    if (!currentPerson) {
-        return <div className={styles.PersonHeader} />;
+    if (!data?.person) {
+        return null;
     }
 
     return (
         <PersonHeaderWithContent
-            fødselsnummer={currentPerson.fodselsnummer}
-            aktørId={currentPerson.aktorId}
-            enhet={currentPerson.enhet}
-            personinfo={currentPerson.personinfo}
+            fødselsnummer={data.person.fodselsnummer}
+            aktørId={data.person.aktorId}
+            enhet={data.person.enhet}
+            personinfo={data.person.personinfo}
             isAnonymous={isAnonymous}
-            dødsdato={currentPerson.dodsdato}
+            dødsdato={data.person.dodsdato}
         />
     );
 };

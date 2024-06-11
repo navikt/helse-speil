@@ -7,7 +7,7 @@ import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
 import styles from './SharedViews.module.css';
 
 type Props = {
-    activePeriod: FetchedBeregnetPeriode;
+    activePeriod: ActivePeriod;
 };
 
 export const AnnullertPeriodeView = ({ activePeriod }: Props) => {

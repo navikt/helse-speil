@@ -2,7 +2,6 @@
 
 import React, { ReactElement } from 'react';
 
-import { SaksbildeMenu } from '@/routes/saksbilde/saksbildeMenu/SaksbildeMenu';
 import { AnnullertPeriodeView } from '@/routes/saksbilde/saksbilder/AnnullertPeriodeView';
 import BeregnetPeriodeView from '@/routes/saksbilde/saksbilder/BeregnetPeriodeView';
 import GhostPeriodeView from '@/routes/saksbilde/saksbilder/GhostPeriodeView';
@@ -11,23 +10,31 @@ import PeriodeViewSkeleton from '@/routes/saksbilde/saksbilder/PeriodeViewSkelet
 import UberegnetPeriodeView from '@/routes/saksbilde/saksbilder/UberegnetPeriodeView';
 import { Periodetilstand } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
+import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+
+import PeriodeViewError from '../saksbilder/PeriodeViewError';
 
 function PeriodeView(): ReactElement | null {
     const activePeriod = useActivePeriod();
-    const currentPerson = useCurrentPerson();
+    const { loading, error, data } = useFetchPersonQuery();
 
-    if (!activePeriod || !currentPerson) {
+    if (loading) {
         return <PeriodeViewSkeleton />;
-    } else if (isBeregnetPeriode(activePeriod)) {
+    }
+
+    if (!activePeriod || !data?.person) {
+        return <PeriodeViewError />;
+    }
+
+    if (isBeregnetPeriode(activePeriod)) {
         switch (activePeriod.periodetilstand) {
             case Periodetilstand.Annullert:
                 return <AnnullertPeriodeView activePeriod={activePeriod} />;
             case Periodetilstand.TilAnnullering:
                 return <PeriodeTilAnnulleringView activePeriod={activePeriod} />;
             default:
-                return <BeregnetPeriodeView period={activePeriod} person={currentPerson} />;
+                return <BeregnetPeriodeView period={activePeriod} person={data.person} />;
         }
     } else if (isGhostPeriode(activePeriod)) {
         return <GhostPeriodeView activePeriod={activePeriod} />;
