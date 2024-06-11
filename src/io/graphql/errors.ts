@@ -11,6 +11,7 @@ export class NotFoundError extends FetchError {
     constructor() {
         super('Personen har ingen perioder til godkjenning eller tidligere utbetalinger i Speil');
         this.severity = 'info';
+        this.scope = '/';
     }
 }
 
@@ -31,11 +32,3 @@ export class FlereFodselsnumreError extends FetchError {
         this.severity = 'error';
     }
 }
-
-export const isFetchErrorArray = (errors: unknown): errors is Array<FetchError> => {
-    return (
-        Array.isArray(errors) &&
-        errors.length > 0 &&
-        errors.every((it) => it instanceof FetchError || it instanceof NotFoundError || it instanceof ProtectedError)
-    );
-};

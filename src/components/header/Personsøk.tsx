@@ -3,7 +3,7 @@ import React, { FormEvent, useRef } from 'react';
 
 import { Search } from '@navikt/ds-react';
 
-import { useApolloClient, useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import styles from '@components/header/Header.module.css';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FetchPersonDocument } from '@io/graphql';
@@ -17,12 +17,7 @@ export const Personsøk: React.FC = () => {
     const addVarsel = useAddVarsel();
     const router = useRouter();
     const rapporterError = useRapporterGraphQLErrors();
-    const client = useApolloClient();
-    const [hentPerson, { loading }] = useLazyQuery(FetchPersonDocument, {
-        onError: (error) => {
-            rapporterError(error.graphQLErrors);
-        },
-    });
+    const [hentPerson, { loading }] = useLazyQuery(FetchPersonDocument);
 
     useLoadingToast({ isLoading: loading, message: 'Henter person' });
 
@@ -49,7 +44,9 @@ export const Personsøk: React.FC = () => {
             }).then(({ data, error }) => {
                 if ((data?.person?.arbeidsgivere.length ?? 0) === 0) {
                     router.push('/');
-                    if (error?.graphQLErrors) rapporterError(error.graphQLErrors);
+                    if (error?.graphQLErrors) {
+                        rapporterError(error.graphQLErrors);
+                    }
                     return;
                 }
                 if (data?.person) {

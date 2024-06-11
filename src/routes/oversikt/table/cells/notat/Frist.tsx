@@ -23,7 +23,6 @@ export const Frist = () => {
                 {...register('frist', {
                     required: 'Frist må være satt',
                     validate: (value) => {
-                        console.log(value, dayjs(value, NORSK_DATOFORMAT).isValid());
                         return dayjs(value, NORSK_DATOFORMAT).isValid() || 'Ugyldig dato';
                     },
                 })}
