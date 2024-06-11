@@ -12,8 +12,8 @@ const config: Config = {
     coverageProvider: 'v8',
     testEnvironment: 'jsdom',
     setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-    transformIgnorePatterns: ['<rootDir>/node_modules'],
-    watchPathIgnorePatterns: ['<rootDir>/node_modules'],
+    transformIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/.next'],
+    watchPathIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/.next'],
     moduleNameMapper: {
         ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
         '^nanoid$': require.resolve('nanoid'),
