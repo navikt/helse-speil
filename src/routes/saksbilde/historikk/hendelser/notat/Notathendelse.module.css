@@ -30,6 +30,7 @@
 .Notat {
     white-space: pre-wrap;
     overflow: hidden;
+    font-family: inherit;
 }
 
 .Notat,
