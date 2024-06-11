@@ -18,7 +18,7 @@ const getTypePolicies = (): TypePolicies => {
                             });
                         }
 
-                        if (args?.aktorId) {
+                        if (args?.aktorId && existing) {
                             const fnr = readField<string>('fodselsnummer', existing);
                             if (!fnr) return;
 
