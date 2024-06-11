@@ -1,8 +1,17 @@
 import { BegrunnelseForOverstyring } from '../overstyring/overstyring.types';
 import dayjs from 'dayjs';
 
+import { DateString } from '@/types/shared';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Arbeidsgiver, BeregnetPeriode, Maybe, Periode, Periodetilstand } from '@io/graphql';
+import {
+    ArbeidsgiverFragment,
+    BeregnetPeriodeFragment,
+    Maybe,
+    Periode,
+    Periodetilstand,
+    PersonFragment,
+} from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import {
     useArbeidsgiver,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
@@ -10,11 +19,10 @@ import {
     usePeriodForSkjæringstidspunkt,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
-import { useCurrentPerson } from '@state/person';
 import { isForkastet } from '@state/selectors/period';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
-export const harIngenUtbetaltePerioderFor = (person: FetchedPerson, skjæringstidspunkt: DateString): boolean => {
+export const harIngenUtbetaltePerioderFor = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {
     return (
         person?.arbeidsgivere
             .flatMap((it) => it.generasjoner[0]?.perioder)
@@ -30,14 +38,14 @@ export const harIngenUtbetaltePerioderFor = (person: FetchedPerson, skjæringsti
             ) ?? false
     );
 };
-export const harPeriodeTilBeslutterFor = (person: FetchedPerson, skjæringstidspunkt: DateString): boolean => {
+export const harPeriodeTilBeslutterFor = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {
     return (
         (
             person?.arbeidsgivere
                 .flatMap((it) => it.generasjoner[0]?.perioder)
                 .filter(
                     (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === skjæringstidspunkt,
-                ) as unknown as Array<BeregnetPeriode>
+                ) as unknown as Array<BeregnetPeriodeFragment>
         ).some((it) => it.totrinnsvurdering?.erBeslutteroppgave) ?? false
     );
 };
@@ -65,14 +73,14 @@ export const useGhostInntektKanOverstyres = (skjæringstidspunkt: DateString, or
 };
 
 export const maybePeriodeTilGodkjenning = (
-    person: FetchedPerson,
+    person: PersonFragment,
     skjæringstidspunkt: DateString,
-): Maybe<BeregnetPeriode> => {
+): Maybe<BeregnetPeriodeFragment> => {
     return (
         (
             person?.arbeidsgivere
                 .flatMap((it) => it.generasjoner[0]?.perioder)
-                .filter(isBeregnetPeriode) as unknown as Array<BeregnetPeriode>
+                .filter(isBeregnetPeriode) as unknown as Array<BeregnetPeriodeFragment>
         ).find(
             (it) =>
                 it.periodetilstand === Periodetilstand.TilGodkjenning && it.skjaeringstidspunkt === skjæringstidspunkt,
@@ -114,7 +122,7 @@ export const useArbeidsforholdKanOverstyres = (
 
 const harBeregnetPeriodePåSkjæringstidspunkt = (perioder: Array<Periode>, skjæringstidspunkt: DateString): boolean =>
     perioder.filter(isBeregnetPeriode).find((it) => it.skjaeringstidspunkt === skjæringstidspunkt) !== undefined;
-const harIngenBeregnedePerioder = (arbeidsgiver: Arbeidsgiver, skjæringstidspunkt: DateString): boolean =>
+const harIngenBeregnedePerioder = (arbeidsgiver: ArbeidsgiverFragment, skjæringstidspunkt: DateString): boolean =>
     (
         arbeidsgiver?.generasjoner[0]?.perioder.filter(
             (it) => it.skjaeringstidspunkt === skjæringstidspunkt && isBeregnetPeriode(it),
@@ -122,7 +130,7 @@ const harIngenBeregnedePerioder = (arbeidsgiver: Arbeidsgiver, skjæringstidspun
     ).length === 0;
 
 const harIngenEtterfølgendePerioder = (
-    arbeidsgiver: Arbeidsgiver,
+    arbeidsgiver: ArbeidsgiverFragment,
     skjæringstidspunkt: DateString,
     fom: DateString,
 ): boolean =>

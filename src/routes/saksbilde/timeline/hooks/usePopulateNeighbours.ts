@@ -1,6 +1,8 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { useMemo } from 'react';
 
+import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
+import { DatePeriod, DateString } from '@/types/shared';
 import { Periode, Periodetype } from '@io/graphql';
 
 const overlaps = (period: DatePeriod, skjæringstidspunkt: DateString): boolean => {
@@ -14,8 +16,8 @@ const periodetype = (period: Periode): Periodetype =>
     period.periodetype === Periodetype.OvergangFraIt
         ? Periodetype.OvergangFraIt
         : overlaps(period, period.skjaeringstidspunkt)
-        ? Periodetype.Forstegangsbehandling
-        : Periodetype.Forlengelse;
+          ? Periodetype.Forstegangsbehandling
+          : Periodetype.Forlengelse;
 
 const withinADay = (a: Dayjs, b: Dayjs): boolean => Math.abs(a.diff(b, 'day')) < 1;
 

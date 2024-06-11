@@ -3,8 +3,10 @@ import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
+import { DateString } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Arbeidsgiver, Arbeidsgiverinntekt, BeregnetPeriode, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { ArbeidsgiverFragment, Arbeidsgiverinntekt, BeregnetPeriodeFragment, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import {
     useArbeidsgiver,
     useInntektsmeldinghendelser,
@@ -12,7 +14,6 @@ import {
 } from '@state/arbeidsgiver';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { useVilkårsgrunnlag } from '../useVilkårsgrunnlag';
@@ -20,7 +21,7 @@ import { InntektOgRefusjon } from './InntektOgRefusjon';
 
 import styles from './Inntekt.module.css';
 
-const hasSykefravær = (arbeidsgiver: Arbeidsgiver, fom: DateString): boolean => {
+const hasSykefravær = (arbeidsgiver: ArbeidsgiverFragment, fom: DateString): boolean => {
     return !!arbeidsgiver?.generasjoner[0]?.perioder.find((it) => it.fom === fom);
 };
 
@@ -88,7 +89,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
             erDeaktivert={inntekt.deaktivert}
             vilkårsgrunnlagId={vilkårsgrunnlagId}
             periodeId={periodeForSkjæringstidspunktForArbeidsgiver.id}
-            inntektstype={(periodeForSkjæringstidspunktForArbeidsgiver as BeregnetPeriode).inntektstype}
+            inntektstype={(periodeForSkjæringstidspunktForArbeidsgiver as BeregnetPeriodeFragment).inntektstype}
             arbeidsgiver={arbeidsgiver}
             refusjon={refusjonsopplysninger}
             harSykefravær={arbeidsgiverHarSykefraværForPerioden}

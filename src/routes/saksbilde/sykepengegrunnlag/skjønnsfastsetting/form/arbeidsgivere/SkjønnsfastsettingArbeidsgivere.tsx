@@ -4,7 +4,7 @@ import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Detail, Fieldset, Label } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import { Arbeidsgiver, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { ArbeidsgiverFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
 
 import { ArbeidsgiverForm, Skjønnsfastsettingstype } from '../../skjønnsfastsetting';
@@ -13,7 +13,7 @@ import { ArbeidsgiverRad } from './ArbeidsgiverRad';
 import styles from '../SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 
 interface SkjønnsfastsettingArbeidsgivereProps {
-    arbeidsgivere: Arbeidsgiver[];
+    arbeidsgivere: ArbeidsgiverFragment[];
     sammenligningsgrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
 }

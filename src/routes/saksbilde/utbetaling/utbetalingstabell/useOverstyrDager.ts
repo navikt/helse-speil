@@ -3,13 +3,9 @@ import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 
 import { FetchResult, useMutation } from '@apollo/client';
-import {
-    Arbeidsgiver,
-    OpprettAbonnementDocument,
-    OverstyrDagerMutationDocument,
-    OverstyrDagerMutationMutation,
-} from '@io/graphql';
+import { OpprettAbonnementDocument, OverstyrDagerMutationDocument, OverstyrDagerMutationMutation } from '@io/graphql';
 import { OverstyrtDagDTO, OverstyrtDagtype } from '@io/http';
+import { useCurrentPerson } from '@person/query';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import {
     kalkulererFerdigToastKey,
@@ -18,7 +14,6 @@ import {
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
-import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 
 type UsePostOverstyringState = 'loading' | 'hasValue' | 'hasError' | 'initial' | 'timedOut' | 'done';
@@ -37,7 +32,7 @@ type UsePostOverstyringResult = {
 
 export const useOverstyrDager = (): UsePostOverstyringResult => {
     const person = useCurrentPerson();
-    const arbeidsgiver = useCurrentArbeidsgiver() as Arbeidsgiver;
+    const arbeidsgiver = useCurrentArbeidsgiver();
     const personFørRefetchRef = useRef(person);
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
@@ -89,7 +84,8 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
                 overstyring: {
                     aktorId: person.aktorId,
                     fodselsnummer: person.fodselsnummer,
-                    organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+                    // TODO: Dårlig nullabilitetshåndtering
+                    organisasjonsnummer: arbeidsgiver?.organisasjonsnummer as string,
                     dager: tilOverstyrteDager(dager, overstyrteDager),
                     begrunnelse: begrunnelse,
                     vedtaksperiodeId,

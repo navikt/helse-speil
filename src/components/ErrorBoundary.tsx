@@ -1,4 +1,4 @@
-import React, { ReactNode, createRef } from 'react';
+import React, { PropsWithChildren, ReactNode, createRef } from 'react';
 
 import { getFaro } from '@/observability/faro';
 
@@ -10,9 +10,9 @@ interface ErrorBoundaryState {
 type ErrorBoundaryProps = {
     fallback: ReactNode | ((error: Error) => ReactNode);
     onError?: (error: Error) => void;
-} & ChildrenProps;
+};
 
-export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundary extends React.Component<PropsWithChildren<ErrorBoundaryProps>, ErrorBoundaryState> {
     errorMessageRef: React.RefObject<HTMLParagraphElement>;
 
     constructor(props: ErrorBoundaryProps) {

@@ -1,7 +1,7 @@
 import { useParams } from 'next/navigation';
 
 import { useQuery } from '@apollo/client';
-import { FetchPersonDocument } from '@io/graphql';
+import { FetchPersonDocument, PersonFragment } from '@io/graphql';
 
 /**
  * @deprecated Use useFetchPersonQuery instead
@@ -10,9 +10,9 @@ import { FetchPersonDocument } from '@io/graphql';
  * - få person via props fra parent
  * - bruke useFetchPersonQuery i stedet, og håndtere loading (+error) selv
  */
-export const useCurrentPerson = (): FetchedPerson => {
+export const useCurrentPerson = (): PersonFragment => {
     const { data } = useFetchPersonQuery();
-    return data?.person as FetchedPerson;
+    return data?.person as PersonFragment;
 };
 
 export const useFetchPersonQuery = () => {

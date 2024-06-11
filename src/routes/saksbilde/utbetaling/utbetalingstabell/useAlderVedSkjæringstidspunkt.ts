@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
+import { useCurrentPerson } from '@person/query';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const useAlderVedSkjæringstidspunkt = (): number | null => {

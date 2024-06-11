@@ -2,20 +2,23 @@ import React from 'react';
 
 import { Alert, BodyShort } from '@navikt/ds-react';
 
+import { PeriodState } from '@/types/shared';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { useForrigeGenerasjonPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import {
-    Arbeidsgiver,
+    ArbeidsgiverFragment,
+    BeregnetPeriodeFragment,
     Dag,
     Handling,
     Periode,
     Periodehandling,
     Periodetilstand,
+    PersonFragment,
     Utbetalingsdagtype,
 } from '@io/graphql';
+import { getVilkårsgrunnlag } from '@person/utils';
 import { useGjenståendeDager } from '@state/arbeidsgiver';
-import { getVilkårsgrunnlag } from '@state/selectors/person';
 import { getPeriodState } from '@utils/mapping';
 
 import { VarselObject } from '../varsler/Saksbildevarsler';
@@ -26,12 +29,12 @@ import { Utbetaling } from './utbetaling/Utbetaling';
 import styles from './Venstremeny.module.css';
 
 interface VenstremenyBeregnetPeriodeProps {
-    activePeriod: FetchedBeregnetPeriode;
-    currentPerson: FetchedPerson;
-    currentArbeidsgiver: Arbeidsgiver;
+    activePeriod: BeregnetPeriodeFragment;
+    currentPerson: PersonFragment;
+    currentArbeidsgiver: ArbeidsgiverFragment;
 }
 
-const finnUtbetaleTilgang = ({ handlinger }: FetchedBeregnetPeriode): Handling =>
+const finnUtbetaleTilgang = ({ handlinger }: BeregnetPeriodeFragment): Handling =>
     handlinger.find((handling) => handling.type === Periodehandling.Utbetale) as Handling;
 
 export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProps> = ({

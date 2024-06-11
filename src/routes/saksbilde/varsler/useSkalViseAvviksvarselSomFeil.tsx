@@ -1,7 +1,7 @@
 import { Inntektskilde, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import { useCurrentArbeidsgiver, usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { getPeriodState } from '@utils/mapping';
 
 import { useVilkårsgrunnlag } from '../sykepengegrunnlag/useVilkårsgrunnlag';

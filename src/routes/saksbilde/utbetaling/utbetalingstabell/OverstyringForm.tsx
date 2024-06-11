@@ -3,6 +3,8 @@ import { useFormContext } from 'react-hook-form';
 
 import { Button, ErrorSummary, Textarea } from '@navikt/ds-react';
 
+import { DateString } from '@/types/shared';
+
 import {
     andreYtelserValidering,
     arbeidIkkeGjenopptattValidering,

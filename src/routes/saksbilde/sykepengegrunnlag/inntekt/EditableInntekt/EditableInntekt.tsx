@@ -6,11 +6,13 @@ import { useRecoilValue } from 'recoil';
 
 import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
+import { DateString } from '@/types/shared';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { OmregnetArsinntekt } from '@io/graphql';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
+import { useCurrentPerson } from '@person/query';
 import {
     useArbeidsgiver,
     useLokaleRefusjonsopplysninger,
@@ -19,7 +21,6 @@ import {
 } from '@state/arbeidsgiver';
 import { inntektOgRefusjonState, useOverstyrtInntektMetadata, usePostOverstyrtInntekt } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 import { isGhostPeriode } from '@utils/typeguards';

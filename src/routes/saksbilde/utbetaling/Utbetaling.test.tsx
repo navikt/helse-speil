@@ -3,9 +3,9 @@ import { nanoid } from 'nanoid';
 import React from 'react';
 
 import { Inntektstype, Utbetalingsdagtype } from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import { useCurrentArbeidsgiver, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { useReadonly } from '@state/toggles';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enOppgave } from '@test-data/oppgave';
@@ -16,7 +16,7 @@ import { render, screen } from '@testing-library/react';
 
 import { Utbetaling } from './Utbetaling';
 
-jest.mock('@state/person');
+jest.mock('@person/query');
 jest.mock('@state/periode');
 jest.mock('@state/arbeidsgiver');
 jest.mock('@state/toggles');

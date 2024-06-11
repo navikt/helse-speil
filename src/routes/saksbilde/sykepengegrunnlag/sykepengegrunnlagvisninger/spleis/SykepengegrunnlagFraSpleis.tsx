@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { HTMLAttributes, useEffect, useState } from 'react';
 
 import { Arbeidsgiverinntekt, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { getRequiredInntekt } from '@person/utils';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
-import { getRequiredInntekt } from '@state/selectors/person';
 
 import { SykepengegrunnlagPanel } from '../../InntektsgrunnlagTable/SykepengegrunnlagPanel';
 import { Inntekt } from '../../inntekt/Inntekt';

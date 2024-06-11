@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { Alert, BodyShort, Button, Heading, Loader } from '@navikt/ds-react';

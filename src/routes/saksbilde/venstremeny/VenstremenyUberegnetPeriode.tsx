@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { Arbeidsgiver, UberegnetPeriode } from '@io/graphql';
+import { ArbeidsgiverFragment, UberegnetPeriodeFragment } from '@io/graphql';
 
 import { PeriodeCard } from './PeriodeCard';
 
 import styles from './Venstremeny.module.css';
 
 interface VenstremenyUberegnetPeriodeProps {
-    activePeriod: UberegnetPeriode;
-    currentArbeidsgiver: Arbeidsgiver;
+    activePeriod: UberegnetPeriodeFragment;
+    currentArbeidsgiver: ArbeidsgiverFragment;
 }
 
 export const VenstremenyUberegnetPeriode: React.FC<VenstremenyUberegnetPeriodeProps> = ({

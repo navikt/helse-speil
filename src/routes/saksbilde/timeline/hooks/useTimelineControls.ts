@@ -1,7 +1,9 @@
+import { TimelineZoomLevel } from '../timeline-types';
 import dayjs from 'dayjs';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 
-import type { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
+import { DateString } from '@/types/shared';
+import { ArbeidsgiverFragment, Infotrygdutbetaling } from '@io/graphql';
 
 type Periode = {
     fom: DateString;
@@ -40,7 +42,7 @@ const getEarliestDate = (perioder: Array<Periode>): Dayjs => {
 };
 
 const getMergedPeriods = (
-    arbeidsgivere: Array<Arbeidsgiver>,
+    arbeidsgivere: Array<ArbeidsgiverFragment>,
     infotrygdutbetalinger: Array<Infotrygdutbetaling>,
 ): Array<Periode> => {
     return [
@@ -81,7 +83,7 @@ type UseTimelineControlsResult = {
 };
 
 export const useTimelineControls = (
-    arbeidsgivere: Array<Arbeidsgiver>,
+    arbeidsgivere: Array<ArbeidsgiverFragment>,
     infotrygdutbetalinger: Array<Infotrygdutbetaling>,
 ): UseTimelineControlsResult => {
     const allPeriods = useMemo(

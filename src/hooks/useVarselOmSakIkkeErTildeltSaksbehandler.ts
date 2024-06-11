@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useCurrentPerson } from '@state/person';
+import { useCurrentPerson } from '@person/query';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { InfoAlert } from '@utils/error';
 

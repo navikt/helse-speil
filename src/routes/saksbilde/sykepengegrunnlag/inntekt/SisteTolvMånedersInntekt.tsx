@@ -4,6 +4,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { DateString } from '@/types/shared';
 import { Kilde } from '@components/Kilde';
 import { InntektFraAOrdningen, Inntektskilde } from '@io/graphql';
 import { ISO_DATOFORMAT } from '@utils/date';

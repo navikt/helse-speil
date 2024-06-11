@@ -1,4 +1,4 @@
-type Maybe<T> = import('@io/graphql').Maybe<T>;
+// TODO: Globale types som bør nukes
 type Kilde = import('@io/graphql').Kilde;
 type Begrunnelse = import('@io/graphql').Begrunnelse;
 type Speildag = import('./utbetalingstabelldager').Speildag;
@@ -30,7 +30,7 @@ type OverstyringerPrDag = {
     begrunnelse: string;
     saksbehandler: {
         __typename: 'Saksbehandler';
-        ident?: Maybe<string>;
+        ident: Maybe<string>;
         navn: string;
     };
     timestamp: DateString;

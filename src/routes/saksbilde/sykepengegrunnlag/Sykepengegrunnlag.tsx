@@ -3,10 +3,10 @@ import React from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { BeregnetPeriode } from '@io/graphql';
+import { BeregnetPeriodeFragment } from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import {
     isBeregnetPeriode,
     isGhostPeriode,
@@ -23,7 +23,7 @@ const SykepengegrunnlagContainer: React.FC = () => {
     const person = useCurrentPerson();
     const activePeriod = useActivePeriod();
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
-    const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriode).skjaeringstidspunkt);
+    const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriodeFragment).skjaeringstidspunkt);
     const arbeidsgiver = useCurrentArbeidsgiver();
 
     if (!((isGhostPeriode(activePeriod) || isBeregnetPeriode(activePeriod)) && arbeidsgiver && person)) return null;

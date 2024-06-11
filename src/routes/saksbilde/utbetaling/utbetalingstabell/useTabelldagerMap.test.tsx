@@ -1,12 +1,8 @@
-import dayjs from 'dayjs';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-
+import { DateString } from '@/types/shared';
 import { Dag, Dagoverstyring, Dagtype, Kildetype, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { renderHook } from '@testing-library/react';
 
 import { antallSykedagerTilOgMedMaksdato, createDagerMap, useTabelldagerMap } from './useTabelldagerMap';
-
-dayjs.extend(isSameOrBefore);
 
 const getDag = (dato: DateString, overrides?: Partial<Dag>): Dag => ({
     __typename: 'Dag',
@@ -14,6 +10,9 @@ const getDag = (dato: DateString, overrides?: Partial<Dag>): Dag => ({
     kilde: { __typename: 'Kilde', id: 'en-id', type: Kildetype.Inntektsmelding },
     sykdomsdagtype: Sykdomsdagtype.Sykedag,
     utbetalingsdagtype: Utbetalingsdagtype.Navdag,
+    begrunnelser: null,
+    grad: null,
+    utbetalingsinfo: null,
     ...overrides,
 });
 
@@ -71,7 +70,16 @@ describe('useTabelldagerMap', () => {
                 hendelseId: 'en-id',
                 timestamp: '2020-01-01',
                 begrunnelse: 'Fordi',
-                dager: [{ __typename: 'OverstyrtDag', dato: '2021-01-02', type: Dagtype.Sykedag, grad: 80 }],
+                dager: [
+                    {
+                        __typename: 'OverstyrtDag',
+                        dato: '2021-01-02',
+                        type: Dagtype.Sykedag,
+                        grad: 80,
+                        fraGrad: null,
+                        fraType: null,
+                    },
+                ],
                 saksbehandler: {
                     __typename: 'Saksbehandler',
                     navn: 'et-navn',

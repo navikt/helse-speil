@@ -2,12 +2,14 @@ import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
+import { BeregnetPeriodeFragment } from '@io/graphql';
+
 import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
 
 import styles from './SharedViews.module.css';
 
 type Props = {
-    activePeriod: FetchedBeregnetPeriode;
+    activePeriod: BeregnetPeriodeFragment;
 };
 
 export const PeriodeTilAnnulleringView = ({ activePeriod }: Props) => {

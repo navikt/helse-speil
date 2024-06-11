@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 
+import { PersonFragment } from '@/io/graphql';
+import { useCurrentPerson } from '@person/query';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { TildelingAlert } from '@state/oppgaver';
-import { useCurrentPerson } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { capitalizeName } from '@utils/locale';
 
-const erTildeltAnnenSaksbehandler = (saksbehandlerOid: string, personTilBehandling: FetchedPerson): boolean => {
+const erTildeltAnnenSaksbehandler = (saksbehandlerOid: string, personTilBehandling: PersonFragment): boolean => {
     if (!personTilBehandling.tildeling) return false;
     return personTilBehandling.tildeling && personTilBehandling.tildeling.oid !== saksbehandlerOid;
 };

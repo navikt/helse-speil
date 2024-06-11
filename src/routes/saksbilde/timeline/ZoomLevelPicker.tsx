@@ -1,3 +1,4 @@
+import { TimelineZoomLevel } from './timeline-types';
 import classNames from 'classnames';
 import React from 'react';
 

@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+import { DateString } from '@/types/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
 
 const finnDagerIHalen = (dager: Utbetalingstabelldag[], hale: DateString): Utbetalingstabelldag[] => {

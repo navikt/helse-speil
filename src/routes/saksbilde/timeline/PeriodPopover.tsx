@@ -5,10 +5,12 @@ import React, { ReactNode } from 'react';
 import type { PopoverProps } from '@navikt/ds-react';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
+import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
+import { DatePeriod, DateString, PeriodState } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useForrigeGenerasjonPeriodeMedPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
-import { NotatType, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
+import { BeregnetPeriodeFragment, NotatType, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
 import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
@@ -17,7 +19,7 @@ import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typ
 
 import styles from './PeriodPopover.module.css';
 
-const groupDayTypes = (period: FetchedBeregnetPeriode): Map<Utbetalingsdagtype, Array<DatePeriod>> => {
+const groupDayTypes = (period: BeregnetPeriodeFragment): Map<Utbetalingsdagtype, Array<DatePeriod>> => {
     const map = new Map<Utbetalingsdagtype, Array<DatePeriod>>();
 
     let currentDayType: Utbetalingsdagtype = period.tidslinje[0]?.utbetalingsdagtype;
@@ -73,7 +75,7 @@ const InfotrygdPopover: React.FC<DatePeriod> = ({ fom, tom }) => {
 };
 
 interface SpleisPopoverProps extends DatePeriod {
-    period: FetchedBeregnetPeriode;
+    period: BeregnetPeriodeFragment;
     state: PeriodState;
 }
 
@@ -202,7 +204,7 @@ const UberegnetPopover: React.FC<UberegnetPopoverProps> = ({ fom, tom, state }) 
 };
 
 interface PeriodPopoverProps extends Omit<PopoverProps, 'children'> {
-    period: DatePeriod;
+    period: TimelinePeriod;
     state: PeriodState;
 }
 

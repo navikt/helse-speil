@@ -1,3 +1,4 @@
+import { DateString } from '@/types/shared';
 import { Utbetaling } from '@io/graphql';
 
 export const isGodkjent = (utbetaling: Utbetaling): boolean => {

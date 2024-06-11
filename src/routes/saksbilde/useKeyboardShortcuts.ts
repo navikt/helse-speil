@@ -2,7 +2,7 @@ import { hoppTilModia, redirigerTilArbeidOgInntektUrl } from '@components/System
 import { copyString } from '@components/clipboard/util';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
-import { useFetchPersonQuery } from '@state/person';
+import { useFetchPersonQuery } from '@person/query';
 import { useAddToast } from '@state/toasts';
 import { isPerson } from '@utils/typeguards';
 

@@ -1,6 +1,6 @@
 import styles from './Modal.module.scss';
 import classNames from 'classnames';
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren, ReactNode } from 'react';
 import ReactModal from 'react-modal';
 
 if (process.env.NODE_ENV === 'production') {
@@ -16,7 +16,7 @@ if (ReactModal.defaultStyles.content) {
     ReactModal.defaultStyles.content.zIndex = 10001;
 }
 
-export interface ModalProps extends ChildrenProps {
+export interface ModalProps {
     isOpen: boolean;
     onRequestClose: (event: React.MouseEvent | React.KeyboardEvent) => void;
     title?: ReactNode;
@@ -26,7 +26,7 @@ export interface ModalProps extends ChildrenProps {
     closeIcon?: ReactNode;
 }
 
-export const Modal: React.FC<ModalProps> = ({
+export const Modal = ({
     isOpen,
     onRequestClose,
     title,
@@ -35,7 +35,7 @@ export const Modal: React.FC<ModalProps> = ({
     contentLabel,
     shouldReturnFocusAfterClose,
     closeIcon,
-}) => (
+}: PropsWithChildren<ModalProps>) => (
     <ReactModal
         id="modal"
         className={classNames(styles.modal, className)}

@@ -4,11 +4,12 @@ import React from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { Vilkårdata } from '@/mapping/vilkår';
+import { DateString } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Maybe, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
+import { getRequiredVilkårsgrunnlag } from '@person/utils';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
-import { getRequiredVilkårsgrunnlag } from '@state/selectors/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';

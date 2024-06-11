@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { Feilikon } from '@components/ikoner/Feilikon';
 import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
@@ -8,12 +8,12 @@ import { useRemoveToast } from '@state/toasts';
 
 import styles from './Toast.module.css';
 
-interface ToastProps extends ChildrenProps {
+type ToastProps = {
     id: string;
     variant?: 'success' | 'error';
-}
+};
 
-export const Toast: React.FC<ToastProps> = ({ id, children, variant }) => {
+export const Toast = ({ id, children, variant }: PropsWithChildren<ToastProps>) => {
     const removeToast = useRemoveToast();
     return (
         <motion.div

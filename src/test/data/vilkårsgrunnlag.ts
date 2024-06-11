@@ -1,14 +1,25 @@
 import { nanoid } from 'nanoid';
 
-import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygd, VilkarsgrunnlagSpleis, Vilkarsgrunnlagtype } from '@io/graphql';
+import { OverridableConstructor } from '@/types/shared';
+import {
+    Arbeidsgiverinntekt,
+    VilkarsgrunnlagFragment,
+    VilkarsgrunnlagInfotrygd,
+    VilkarsgrunnlagSpleis,
+    Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment,
+    Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment,
+    Vilkarsgrunnlagtype,
+} from '@io/graphql';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
 
 type VilkarsgrunnlagSpleisExtensions = {
-    medInntekter: (inntekter: Array<Arbeidsgiverinntekt>) => VilkarsgrunnlagSpleis & VilkarsgrunnlagSpleisExtensions;
+    medInntekter: (
+        inntekter: Array<Arbeidsgiverinntekt>,
+    ) => Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment & VilkarsgrunnlagSpleisExtensions;
 };
 
 export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
-    VilkarsgrunnlagSpleis,
+    Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment,
     VilkarsgrunnlagSpleisExtensions
 > = (overrides) => ({
     __typename: 'VilkarsgrunnlagSpleis',
@@ -26,6 +37,7 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
     sammenligningsgrunnlag: 600000,
     skjaeringstidspunkt: '2020-01-01',
     sykepengegrunnlag: 600000,
+    skjonnsmessigFastsattAarlig: null,
     sykepengegrunnlagsgrense: {
         __typename: 'Sykepengegrunnlagsgrense',
         grense: 600000,
@@ -40,7 +52,9 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
     },
 });
 
-export const etVilkårsgrunnlagFraInfotrygd: OverridableConstructor<VilkarsgrunnlagInfotrygd> = (overrides) => ({
+export const etVilkårsgrunnlagFraInfotrygd: OverridableConstructor<
+    Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment
+> = (overrides) => ({
     __typename: 'VilkarsgrunnlagInfotrygd',
     id: nanoid(),
     inntekter: [enArbeidsgiverinntekt()],

@@ -9,8 +9,8 @@ import {
     Tildeling,
     TildelingFragment,
 } from '@io/graphql';
+import { useFetchPersonQuery } from '@person/query';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useFetchPersonQuery } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { InfoAlert } from '@utils/error';
 
@@ -86,7 +86,7 @@ export const useOpprettTildeling = (): [
 };
 export const useFjernTildeling = (): [
     (oppgavereferanse: string) => Promise<FetchResult<FjernTildelingMutation>>,
-    MutationResult<OpprettTildelingMutation>,
+    MutationResult<FjernTildelingMutation>,
 ] => {
     const fødselsnummer = useFødselsnummer();
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();

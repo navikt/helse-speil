@@ -6,8 +6,8 @@ import { BodyShort } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Kjonn } from '@io/graphql';
+import { useCurrentPerson, useFetchPersonQuery } from '@person/query';
 import { useIsAnonymous } from '@state/anonymization';
-import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
 
 import { GenderIcon } from './GenderIcon';
 import { PersonHeaderWithContent } from './PersonHeaderWIthContent';

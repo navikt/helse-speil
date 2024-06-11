@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 
+import { DateString } from '@/types/shared';
 import { Arbeidsgiverrefusjon, Hendelse, Kildetype, Refusjonselement } from '@io/graphql';
 import { OverstyrtInntektOgRefusjonArbeidsgiver, OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
+import { useCurrentPerson } from '@person/query';
 import {
     useArbeidsgiver,
     useInntektsmeldinghendelser,
@@ -11,7 +13,6 @@ import {
 import { kalkulererFerdigToastKey, kalkulererToastKey, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 

@@ -7,16 +7,16 @@ import { EndringsloggArbeidsforhold } from '@components/endringslogg/Endringslog
 import { EndringsloggDager } from '@components/endringslogg/EndringsloggDager';
 import { EndringsloggInntekt } from '@components/endringslogg/EndringsloggInntekt';
 import { useInteractOutside } from '@hooks/useInteractOutside';
-import { Kildetype, Overstyring } from '@io/graphql';
+import { Kildetype, OverstyringFragment } from '@io/graphql';
 import { isArbeidsforholdoverstyringer, isInntektoverstyringer, isOverstyringerPrDag } from '@utils/typeguards';
 
 import styles from './EndringsloggButton.module.css';
 
-interface EndringsloggButtonProps<T extends Overstyring> extends React.HTMLAttributes<HTMLButtonElement> {
+interface EndringsloggButtonProps<T extends OverstyringFragment> extends React.HTMLAttributes<HTMLButtonElement> {
     endringer: Array<T>;
 }
 
-export const EndringsloggButton = <T extends Overstyring>({
+export const EndringsloggButton = <T extends OverstyringFragment>({
     endringer,
     ...buttonProps
 }: EndringsloggButtonProps<T>) => {

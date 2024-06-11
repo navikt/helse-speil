@@ -1,24 +1,26 @@
 import { nanoid } from 'nanoid';
 
+import { OverridableConstructor } from '@/types/shared';
 import {
-    Dag,
-    GhostPeriode,
+    BeregnetPeriodeFragment,
+    GhostPeriodeFragment,
     Inntektstype,
     Kildetype,
     OppgaveForPeriodevisning,
     Periodetilstand,
     Periodetype,
     Sykdomsdagtype,
-    UberegnetPeriode,
+    UberegnetPeriodeFragment,
     Utbetaling,
     Utbetalingsdagtype,
     Utbetalingstatus,
     Utbetalingtype,
 } from '@io/graphql';
 import { enOppgave } from '@test-data/oppgave';
+import { TestDag } from '@test-data/person-query-types';
 import { enUtbetaling } from '@test-data/utbetaling';
 
-export const enDag: OverridableConstructor<Dag> = (overrides) => ({
+export const enDag: OverridableConstructor<TestDag> = (overrides) => ({
     __typename: 'Dag',
     dato: '2020-01-01',
     grad: 100,
@@ -29,8 +31,10 @@ export const enDag: OverridableConstructor<Dag> = (overrides) => ({
     },
     sykdomsdagtype: Sykdomsdagtype.Sykedag,
     utbetalingsdagtype: Utbetalingsdagtype.Navdag,
+    begrunnelser: null,
     utbetalingsinfo: {
         __typename: 'Utbetalingsinfo',
+        personbelop: null,
         arbeidsgiverbelop: 1000,
         inntekt: 1000,
         refusjonsbelop: 1000,
@@ -41,15 +45,15 @@ export const enDag: OverridableConstructor<Dag> = (overrides) => ({
 });
 
 type Extensions = {
-    medUtbetaling(utbetaling: Utbetaling): FetchedBeregnetPeriode & Extensions;
-    medSkjæringstidspunkt(skjæringstidspunkt: string): FetchedBeregnetPeriode & Extensions;
-    medOppgave(oppgave?: OppgaveForPeriodevisning): FetchedBeregnetPeriode & Extensions;
-    somErForkastet(): FetchedBeregnetPeriode & Extensions;
-    somErTilGodkjenning(): FetchedBeregnetPeriode & Extensions;
-    somErTilRevurdering(): FetchedBeregnetPeriode & Extensions;
+    medUtbetaling(utbetaling: Utbetaling): BeregnetPeriodeFragment & Extensions;
+    medSkjæringstidspunkt(skjæringstidspunkt: string): BeregnetPeriodeFragment & Extensions;
+    medOppgave(oppgave?: OppgaveForPeriodevisning): BeregnetPeriodeFragment & Extensions;
+    somErForkastet(): BeregnetPeriodeFragment & Extensions;
+    somErTilGodkjenning(): BeregnetPeriodeFragment & Extensions;
+    somErTilRevurdering(): BeregnetPeriodeFragment & Extensions;
 };
 
-export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, Extensions> = (overrides) => ({
+export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, Extensions> = (overrides) => ({
     __typename: 'BeregnetPeriode',
     id: nanoid(),
     behandlingId: nanoid(),
@@ -65,6 +69,10 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
     gjenstaendeSykedager: 200,
     handlinger: [],
     hendelser: [],
+    oppgave: null,
+    totrinnsvurdering: null,
+    paVent: null,
+    risikovurdering: null,
     inntektstype: Inntektstype.Enarbeidsgiver,
     maksdato: '2020-12-30',
     notater: [],
@@ -124,7 +132,7 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
     avslag: [],
 });
 
-export const enUberegnetPeriode: OverridableConstructor<UberegnetPeriode> = (overrides) => ({
+export const enUberegnetPeriode: OverridableConstructor<UberegnetPeriodeFragment> = (overrides) => ({
     __typename: 'UberegnetPeriode',
     behandlingId: nanoid(),
     erForkastet: false,
@@ -145,7 +153,7 @@ export const enUberegnetPeriode: OverridableConstructor<UberegnetPeriode> = (ove
     ...overrides,
 });
 
-export const enGhostPeriode: OverridableConstructor<GhostPeriode> = (overrides) => ({
+export const enGhostPeriode: OverridableConstructor<GhostPeriodeFragment> = (overrides) => ({
     __typename: 'GhostPeriode',
     id: nanoid(),
     fom: '2020-01-01',

@@ -10,7 +10,13 @@ import { useMutation } from '@apollo/client';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
-import { AvslagInput, OpprettAbonnementDocument, Periodetilstand } from '@io/graphql';
+import {
+    AvslagInput,
+    BeregnetPeriodeFragment,
+    OpprettAbonnementDocument,
+    Periodetilstand,
+    PersonFragment,
+} from '@io/graphql';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { inntektOgRefusjonState } from '@state/overstyring';
@@ -28,7 +34,7 @@ import { SendTilGodkjenningButton } from './SendTilGodkjenningButton';
 
 import styles from './Utbetaling.module.css';
 
-const skalPolleEtterNestePeriode = (person: FetchedPerson) =>
+const skalPolleEtterNestePeriode = (person: PersonFragment) =>
     person.arbeidsgivere
         .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
         .some((periode) =>
@@ -39,10 +45,10 @@ const skalPolleEtterNestePeriode = (person: FetchedPerson) =>
             ].includes(periode.periodetilstand),
         );
 
-const hasOppgave = (period: FetchedBeregnetPeriode): boolean =>
+const hasOppgave = (period: BeregnetPeriodeFragment): boolean =>
     typeof period.oppgave?.id === 'string' && ['tilGodkjenning', 'revurderes'].includes(getPeriodState(period));
 
-const useOnGodkjenn = (period: FetchedBeregnetPeriode, person: FetchedPerson): (() => void) => {
+const useOnGodkjenn = (period: BeregnetPeriodeFragment, person: PersonFragment): (() => void) => {
     const router = useRouter();
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
@@ -72,8 +78,8 @@ export type BackendFeil = {
 };
 
 interface UtbetalingProps {
-    period: FetchedBeregnetPeriode;
-    person: FetchedPerson;
+    period: BeregnetPeriodeFragment;
+    person: PersonFragment;
     arbeidsgiver: string;
 }
 

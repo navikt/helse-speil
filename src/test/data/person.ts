@@ -1,18 +1,23 @@
-import { Adressebeskyttelse, Arbeidsgiver, Kjonn, Person } from '@io/graphql';
+import { OverridableConstructor } from '@/types/shared';
+import { Adressebeskyttelse, ArbeidsgiverFragment, Kjonn, PersonFragment } from '@io/graphql';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 
 type Extensions = {
-    medArbeidsgivere(arbeidsgivere: Array<Arbeidsgiver>): Person;
+    medArbeidsgivere(arbeidsgivere: Array<ArbeidsgiverFragment>): PersonFragment;
 };
 
-export const enPerson: OverridableConstructor<Person, Extensions> = (overrides) => ({
+export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (overrides) => ({
     __typename: 'Person',
     aktorId: '1234567890',
     fodselsnummer: '12345678910',
+    dodsdato: null,
+    infotrygdutbetalinger: null,
+    tildeling: null,
     arbeidsgivere: [enArbeidsgiver()],
     personinfo: {
         __typename: 'Personinfo',
         fornavn: 'Navn',
+        mellomnavn: null,
         etternavn: 'Navnesen',
         kjonn: Kjonn.Kvinne,
         adressebeskyttelse: Adressebeskyttelse.Ugradert,
@@ -22,6 +27,8 @@ export const enPerson: OverridableConstructor<Person, Extensions> = (overrides) 
             arsaker: [],
             tidspunkt: null,
         },
+        fodselsdato: null,
+        reservasjon: null,
     },
     enhet: {
         __typename: 'Enhet',
@@ -31,7 +38,7 @@ export const enPerson: OverridableConstructor<Person, Extensions> = (overrides) 
     versjon: 1,
     vilkarsgrunnlag: [],
     ...overrides,
-    medArbeidsgivere(arbeidsgivere: Array<Arbeidsgiver>): Person {
+    medArbeidsgivere(arbeidsgivere: Array<ArbeidsgiverFragment>): PersonFragment {
         this.arbeidsgivere = arbeidsgivere;
         return this;
     },

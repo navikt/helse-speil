@@ -2,6 +2,7 @@ import { ApolloWrapper } from '@test-wrappers';
 import fetchMock from 'jest-fetch-mock';
 import React from 'react';
 
+import { useCurrentPerson } from '@person/query';
 import { useIsAnonymous } from '@state/anonymization';
 import {
     useArbeidsgiver,
@@ -9,7 +10,6 @@ import {
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { useReadonly } from '@state/toggles';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
@@ -26,7 +26,7 @@ jest.mock('@state/periode');
 jest.mock('../../useVilkårsgrunnlag');
 jest.mock('@state/toggles');
 jest.mock('@state/anonymization');
-jest.mock('@state/person');
+jest.mock('@person/query');
 
 describe('SykepengegrunnlagFraSpleis', () => {
     afterEach(() => {

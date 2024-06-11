@@ -6,7 +6,7 @@ import { Button } from '@navikt/ds-react';
 import { useMutation } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { AmplitudeContext } from '@io/amplitude';
-import { Handling, Periodehandling, TilInfoTrygdDocument } from '@io/graphql';
+import { BeregnetPeriodeFragment, Handling, Periodehandling, TilInfoTrygdDocument } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 
 import { AvvisningModal, Avvisningsskjema } from './AvvisningModal';
@@ -25,12 +25,12 @@ const useAddInfotrygdtoast = () => {
 };
 
 interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError' | 'children'> {
-    activePeriod: FetchedBeregnetPeriode;
+    activePeriod: BeregnetPeriodeFragment;
     disabled: boolean;
     onSuccess?: () => void;
 }
 
-const finnKanAvvises = ({ handlinger }: FetchedBeregnetPeriode): Handling | null =>
+const finnKanAvvises = ({ handlinger }: BeregnetPeriodeFragment): Handling | null =>
     handlinger.find((handling) => handling.type === Periodehandling.Avvise) as Handling;
 
 export const AvvisningButton: React.FC<AvvisningButtonProps> = ({

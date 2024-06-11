@@ -5,7 +5,7 @@ import { last } from 'remeda';
 import Utbetaling from '@/routes/saksbilde/utbetaling/Utbetaling';
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
-import { UberegnetPeriode } from '@io/graphql';
+import { UberegnetPeriodeFragment } from '@io/graphql';
 import { getPeriodState } from '@utils/mapping';
 
 import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
@@ -14,7 +14,7 @@ import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import styles from './SharedViews.module.css';
 
 type UberegnetPeriodeViewProps = {
-    activePeriod: UberegnetPeriode;
+    activePeriod: UberegnetPeriodeFragment;
 };
 
 export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps) => {

@@ -4,7 +4,7 @@ import { last } from 'remeda';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
-import type { GhostPeriode } from '@io/graphql';
+import type { GhostPeriodeFragment } from '@io/graphql';
 import { getPeriodState } from '@utils/mapping';
 
 import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
@@ -14,7 +14,7 @@ import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import styles from './SharedViews.module.css';
 
 interface GhostPeriodeViewProps {
-    activePeriod: GhostPeriode;
+    activePeriod: GhostPeriodeFragment;
 }
 
 export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod }) => {

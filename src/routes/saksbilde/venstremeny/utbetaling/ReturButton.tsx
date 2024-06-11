@@ -5,8 +5,8 @@ import { Button } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { AmplitudeContext } from '@io/amplitude';
-import { SendIReturDocument } from '@io/graphql';
-import { useCurrentPerson } from '@state/person';
+import { BeregnetPeriodeFragment, SendIReturDocument } from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import { useAddToast } from '@state/toasts';
 
 import { Returnotat } from '../../notat/Returnotat';
@@ -25,7 +25,7 @@ const useAddReturtoast = () => {
 };
 
 interface ReturButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'children'> {
-    activePeriod: FetchedBeregnetPeriode;
+    activePeriod: BeregnetPeriodeFragment;
     disabled: boolean;
     onSuccess?: () => void;
 }

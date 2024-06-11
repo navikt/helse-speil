@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { GhostPeriode, Periode, Periodetilstand } from '@io/graphql';
+import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
+import { DatePeriod, InfotrygdPeriod } from '@/types/shared';
+import { GhostPeriode, GhostPeriodeFragment, Periode, Periodetilstand } from '@io/graphql';
 import { isNotReady } from '@state/selectors/period';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -40,7 +42,7 @@ const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
 const mergePeriods = (
     fromSpleis: Array<Periode>,
     fromInfotrygd: Array<InfotrygdPeriod>,
-    ghostPeriods: Array<GhostPeriode>,
+    ghostPeriods: Array<GhostPeriodeFragment>,
 ): Array<TimelinePeriod> => {
     const periodsFromSpleis = filterReadyPeriods(fromSpleis);
     return [...periodsFromSpleis, ...fromInfotrygd, ...ghostPeriods].sort(byFomAscending);
@@ -52,7 +54,7 @@ interface PeriodsProps {
     periods: Array<Periode>;
     activePeriod?: Maybe<TimelinePeriod>;
     infotrygdPeriods?: Array<InfotrygdPeriod>;
-    ghostPeriods?: Array<GhostPeriode>;
+    ghostPeriods?: Array<GhostPeriodeFragment>;
     notCurrent?: boolean;
 }
 

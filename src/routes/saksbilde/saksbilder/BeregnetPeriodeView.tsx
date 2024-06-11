@@ -1,5 +1,5 @@
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { last } from 'remeda';
 
 import Sykepengegrunnlag from '@/routes/saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
@@ -7,9 +7,9 @@ import Utbetaling from '@/routes/saksbilde/utbetaling/Utbetaling';
 import Inngangsvilkår from '@/routes/saksbilde/vilkår/Inngangsvilkår';
 import Vurderingsmomenter from '@/routes/saksbilde/vurderingsmomenter/Vurderingsmomenter';
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
-import { Arbeidsforholdoverstyring, Overstyring } from '@io/graphql';
+import { Arbeidsforholdoverstyring, BeregnetPeriodeFragment, Overstyring, PersonFragment } from '@io/graphql';
+import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@person/utils';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
-import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
 import { getPeriodState } from '@utils/mapping';
 import { isArbeidsforholdoverstyring, isSpleisVilkarsgrunnlag } from '@utils/typeguards';
 
@@ -19,17 +19,17 @@ import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 
 import styles from './SharedViews.module.css';
 
-const useOverstyringerEtterSisteGodkjenteUtbetaling = (person: FetchedPerson): Array<Overstyring> => {
+const useOverstyringerEtterSisteGodkjenteUtbetaling = (person: PersonFragment): Array<Overstyring> => {
     const timestamp = getLatestUtbetalingTimestamp(person);
     return getOverstyringerForEksisterendePerioder(person, timestamp);
 };
 
 interface BeregnetPeriodeViewProps {
-    period: FetchedBeregnetPeriode;
-    person: FetchedPerson;
+    period: BeregnetPeriodeFragment;
+    person: PersonFragment;
 }
 
-export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period, person }) => {
+export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps): ReactElement => {
     if (!period.skjaeringstidspunkt || !period.vilkarsgrunnlagId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }

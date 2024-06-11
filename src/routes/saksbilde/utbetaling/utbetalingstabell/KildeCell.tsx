@@ -26,7 +26,13 @@ const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps) => {
             return <Kilde type={Kildetype.Inntektsmelding}>IM</Kilde>;
         case 'SAKSBEHANDLER':
             return overstyringer ? (
-                <EndringsloggButton endringer={overstyringer} />
+                <EndringsloggButton
+                    // @ts-expect-error Se kommentar under
+                    endringer={
+                        // TODO: Dette ser ut som et type-brudd, siden OverstyringerPrDag ikke matcher 1:1 med OverstyringFragment
+                        overstyringer
+                    }
+                />
             ) : (
                 <Kilde type={Kildetype.Saksbehandler}>
                     <CaseworkerFilled title="Caseworker-ikon" height={10} width={10} />

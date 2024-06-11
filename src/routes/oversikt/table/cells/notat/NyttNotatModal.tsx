@@ -1,5 +1,5 @@
 import styles from './NyttNotatModal.module.scss';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
 import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';

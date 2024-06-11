@@ -1,6 +1,6 @@
 import styles from './Hendelse.module.scss';
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { Bold } from '@components/Bold';
 import { LoadingShimmer } from '@components/LoadingShimmer';

@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
 import { atom } from 'recoil';
 
+import { Notat } from '@/types/notat';
 import { useQuery } from '@apollo/client';
-import { FetchNotaterDocument, Notat as GraphQLNotat, NotatType } from '@io/graphql';
+import { FetchNotaterDocument, NotatFragment, NotatType } from '@io/graphql';
 import { ApolloResponse } from '@state/oppgaver';
 
 export const useQueryNotater = (vedtaksperiodeIder: string[]): ApolloResponse<Notat[]> => {
@@ -26,7 +27,7 @@ export const useNotaterForVedtaksperiode = (vedtaksperiodeId: string) => {
     return notater.data?.filter((notat) => notat.vedtaksperiodeId == vedtaksperiodeId) ?? [];
 };
 
-export const toNotat = (spesialistNotat: GraphQLNotat): Notat => ({
+export const toNotat = (spesialistNotat: NotatFragment): Notat => ({
     id: `${spesialistNotat.id}`,
     tekst: spesialistNotat.tekst,
     saksbehandler: {

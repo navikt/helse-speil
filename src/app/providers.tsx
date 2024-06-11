@@ -6,6 +6,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isBetween from 'dayjs/plugin/isBetween';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { usePathname } from 'next/navigation';
@@ -22,7 +23,7 @@ import { hydrateKanFrigiOppgaverState, hydrateTotrinnsvurderingState } from '@/s
 import { ApolloProvider } from '@apollo/client';
 import { AnonymiseringProvider } from '@components/anonymizable/AnonymizationProvider';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { useFetchPersonQuery } from '@state/person';
+import { useFetchPersonQuery } from '@person/query';
 import { useSetVarsler } from '@state/varsler';
 
 dayjs.extend(relativeTime);
@@ -30,6 +31,7 @@ dayjs.extend(minMax);
 dayjs.extend(isBetween);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
+dayjs.extend(isoWeek);
 dayjs.extend(customParseFormat);
 dayjs.locale('nb');
 

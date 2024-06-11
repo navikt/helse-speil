@@ -9,9 +9,9 @@ import { Bold } from '@components/Bold';
 import { EditButton } from '@components/EditButton';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
-import { BeregnetPeriode, Kildetype, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { BeregnetPeriodeFragment, Kildetype, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 
 import styles from './SkjønnsfastsettingHeader.module.css';
@@ -41,7 +41,7 @@ export const SkjønnsfastsettingHeader = ({
 
     if (!person || !aktivPeriode) return <></>;
 
-    const erBeslutteroppgave = (aktivPeriode as BeregnetPeriode).totrinnsvurdering?.erBeslutteroppgave ?? false;
+    const erBeslutteroppgave = (aktivPeriode as BeregnetPeriodeFragment).totrinnsvurdering?.erBeslutteroppgave ?? false;
     const visningEndretSykepengegrunnlag = endretSykepengegrunnlag
         ? endretSykepengegrunnlag > sykepengegrunnlagsgrense.grense
             ? sykepengegrunnlagsgrense.grense

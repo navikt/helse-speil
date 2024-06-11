@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
 
-import { Arbeidsgiver, Varselstatus } from '@io/graphql';
+import { DatePeriod } from '@/types/shared';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Varselstatus } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-export const useUvurderteVarslerPåPeriode = (periode: FetchedBeregnetPeriode | DatePeriod): boolean => {
+export const useUvurderteVarslerPåPeriode = (periode: BeregnetPeriodeFragment | DatePeriod): boolean => {
     const arbeidsgiver = useCurrentArbeidsgiver();
 
     if ((!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode)) || !arbeidsgiver) {
@@ -20,8 +21,8 @@ export const useUvurderteVarslerPåPeriode = (periode: FetchedBeregnetPeriode | 
 };
 
 export const useHarUvurderteVarslerPåEllerFør = (
-    activePeriod: FetchedBeregnetPeriode,
-    arbeidsgivere: Arbeidsgiver[],
+    activePeriod: BeregnetPeriodeFragment,
+    arbeidsgivere: ArbeidsgiverFragment[],
 ): boolean => {
     return arbeidsgivere
         .filter((arbeidsgivere) => arbeidsgivere.generasjoner.length > 0)

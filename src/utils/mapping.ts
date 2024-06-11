@@ -1,10 +1,18 @@
-import { GhostPeriode, Periode, Periodetilstand, Utbetalingtype } from '@io/graphql';
+import { DatePeriod, InfotrygdPeriod, PeriodState } from '@/types/shared';
+import {
+    BeregnetPeriodeFragment,
+    GhostPeriodeFragment,
+    Periode,
+    Periodetilstand,
+    UberegnetPeriodeFragment,
+    Utbetalingtype,
+} from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
-const hasBeenAssessedAutomatically = (period: FetchedBeregnetPeriode): boolean =>
+const hasBeenAssessedAutomatically = (period: BeregnetPeriodeFragment): boolean =>
     period.utbetaling.vurdering?.automatisk ?? false;
 
-const hasOppgave = (period: FetchedBeregnetPeriode): boolean => typeof period.oppgave?.id === 'string';
+const hasOppgave = (period: BeregnetPeriodeFragment): boolean => typeof period.oppgave?.id === 'string';
 
 const getInfotrygdPeriodState = (period: InfotrygdPeriod): PeriodState => {
     switch (period.typetekst) {
@@ -18,11 +26,11 @@ const getInfotrygdPeriodState = (period: InfotrygdPeriod): PeriodState => {
     }
 };
 
-const getGhostPeriodState = (period: GhostPeriode): PeriodState => {
+const getGhostPeriodState = (period: GhostPeriodeFragment): PeriodState => {
     return period.deaktivert ? 'utenSykefraværDeaktivert' : 'utenSykefravær';
 };
 
-export const getUberegnetPeriodState = (period: UberegnetPeriode): PeriodState => {
+export const getUberegnetPeriodState = (period: UberegnetPeriodeFragment): PeriodState => {
     switch (period.periodetilstand) {
         case Periodetilstand.IngenUtbetaling:
             return 'ingenUtbetaling';

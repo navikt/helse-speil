@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Dropdown, Loader } from '@navikt/ds-react';
 
 import { Personinfo, Personnavn } from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
-import { useCurrentPerson } from '@state/person';
 import { useFjernPåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 

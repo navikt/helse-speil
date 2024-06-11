@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import { InfotrygdPeriod } from '@/types/shared';
 import { Infotrygdutbetaling } from '@io/graphql';
 import { somDato } from '@utils/date';
 

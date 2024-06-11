@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 
 import { XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { Cancel, Refresh, Send, StopWatch, Success } from '@navikt/ds-icons';

@@ -1,7 +1,12 @@
-import { Arbeidsgiver, Arbeidsgiverinntekt, Skjonnsfastsettingstype } from '@io/graphql';
+import {
+    ArbeidsgiverFragment,
+    Arbeidsgiverinntekt,
+    BeregnetPeriodeFragment,
+    Skjonnsfastsettingstype,
+} from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import { Skjønnsfastsettingstype } from '../../skjønnsfastsetting';
@@ -10,7 +15,7 @@ import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
 export const useSkjønnsfastsettingDefaults = (
     inntekter: Arbeidsgiverinntekt[],
 ): {
-    aktiveArbeidsgivere?: Arbeidsgiver[];
+    aktiveArbeidsgivere?: ArbeidsgiverFragment[];
     aktiveArbeidsgivereInntekter?: Arbeidsgiverinntekt[];
     defaults: SkjønnsfastsettingFormFields;
 } => {
@@ -68,7 +73,7 @@ export const useSkjønnsfastsettingDefaults = (
         }
     };
 
-    const erReturoppgave = (period as BeregnetPeriode)?.totrinnsvurdering?.erRetur ?? false;
+    const erReturoppgave = (period as BeregnetPeriodeFragment)?.totrinnsvurdering?.erRetur ?? false;
     const forrigeSkjønnsfastsettelse = erReturoppgave
         ? arbeidsgiver?.overstyringer
               .filter(isSykepengegrunnlagskjønnsfastsetting)

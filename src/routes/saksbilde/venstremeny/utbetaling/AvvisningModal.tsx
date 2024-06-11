@@ -5,6 +5,7 @@ import { Button, Heading, Loader } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
+import { BeregnetPeriodeFragment } from '@io/graphql';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
 import { Begrunnelse } from './begrunnelse';
@@ -18,7 +19,7 @@ export type Avvisningsskjema = {
 };
 
 interface AvvisningModalProps {
-    activePeriod: FetchedBeregnetPeriode;
+    activePeriod: BeregnetPeriodeFragment;
     isSending: boolean;
     onApprove: (skjema: Avvisningsskjema) => void;
     onClose: () => void;

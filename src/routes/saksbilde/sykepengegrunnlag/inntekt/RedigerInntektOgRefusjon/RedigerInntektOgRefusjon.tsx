@@ -1,8 +1,9 @@
 import styles from './RedigerInntektOgRefusjon.module.scss';
 import React, { Dispatch, SetStateAction } from 'react';
 
+import { DateString } from '@/types/shared';
 import { EditButton } from '@components/EditButton';
-import { Arbeidsgiver, BeregnetPeriode } from '@io/graphql';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment } from '@io/graphql';
 import { usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { isInCurrentGeneration } from '@state/selectors/period';
 
@@ -12,7 +13,7 @@ interface RedigerInntektProps {
     erRevurdering: boolean;
     skjæringstidspunkt: DateString;
     organisasjonsnummer: string;
-    arbeidsgiver: Arbeidsgiver;
+    arbeidsgiver: ArbeidsgiverFragment;
 }
 
 export const RedigerInntektOgRefusjon = ({
@@ -26,7 +27,7 @@ export const RedigerInntektOgRefusjon = ({
     const periode = usePeriodForSkjæringstidspunktForArbeidsgiver(
         skjæringstidspunkt,
         organisasjonsnummer,
-    ) as BeregnetPeriode;
+    ) as BeregnetPeriodeFragment;
 
     if (!isInCurrentGeneration(periode, arbeidsgiver)) return null;
 

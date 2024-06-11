@@ -1,34 +1,35 @@
+import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
+import { InfotrygdPeriod } from '@/types/shared';
 import {
     Arbeidsforholdoverstyring,
-    Arbeidsgiver,
-    BeregnetPeriode,
+    ArbeidsgiverFragment,
+    BeregnetPeriodeFragment,
     Dagoverstyring,
-    GhostPeriode,
+    GhostPeriodeFragment,
     Inntektoverstyring,
     Maybe,
     Overstyring,
-    Periode,
     Person,
+    PersonFragment,
     Sykepengegrunnlagskjonnsfastsetting,
-    UberegnetPeriode,
+    UberegnetPeriodeFragment,
     Vilkarsgrunnlag,
     VilkarsgrunnlagInfotrygd,
     VilkarsgrunnlagSpleis,
     Vilkarsgrunnlagtype,
 } from '@io/graphql';
 
-export const isInfotrygdPeriod = (period?: Maybe<GhostPeriode | Periode | DatePeriod>): period is InfotrygdPeriod =>
+export const isInfotrygdPeriod = (period?: Maybe<TimelinePeriod>): period is InfotrygdPeriod =>
     (period as InfotrygdPeriod)?.typetekst !== undefined && (period as InfotrygdPeriod)?.typetekst !== null;
 
-export const isBeregnetPeriode = (
-    periode?: Maybe<GhostPeriode | Periode | DatePeriod>,
-): periode is FetchedBeregnetPeriode => (periode as BeregnetPeriode)?.__typename === 'BeregnetPeriode';
+export const isBeregnetPeriode = (periode?: Maybe<TimelinePeriod>): periode is BeregnetPeriodeFragment =>
+    (periode as BeregnetPeriodeFragment)?.__typename === 'BeregnetPeriode';
 
-export const isGhostPeriode = (period?: Maybe<GhostPeriode | Periode | DatePeriod>): period is GhostPeriode =>
-    (period as GhostPeriode)?.__typename === 'GhostPeriode';
+export const isGhostPeriode = (period?: Maybe<TimelinePeriod>): period is GhostPeriodeFragment =>
+    (period as GhostPeriodeFragment)?.__typename === 'GhostPeriode';
 
-export const isUberegnetPeriode = (period?: Maybe<GhostPeriode | Periode | DatePeriod>): period is UberegnetPeriode =>
-    (period as UberegnetPeriode)?.__typename === 'UberegnetPeriode';
+export const isUberegnetPeriode = (period?: Maybe<TimelinePeriod>): period is UberegnetPeriodeFragment =>
+    (period as UberegnetPeriodeFragment)?.__typename === 'UberegnetPeriode';
 
 export const isSpleisVilkarsgrunnlag = (
     vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>,
@@ -70,10 +71,10 @@ export const isSykepengegrunnlagskjønnsfastsetting = (
 ): overstyring is Sykepengegrunnlagskjonnsfastsetting =>
     (overstyring as Sykepengegrunnlagskjonnsfastsetting)?.__typename === 'Sykepengegrunnlagskjonnsfastsetting';
 
-export const isPerson = (person?: Maybe<FetchedPerson | Person>): person is FetchedPerson => {
+export const isPerson = (person?: Maybe<PersonFragment | Person>): person is PersonFragment => {
     return person !== undefined && person !== null && typeof person['fodselsnummer'] === 'string';
 };
 
-export const isArbeidsgiver = (arbeidsgiver?: Maybe<Arbeidsgiver>): arbeidsgiver is Arbeidsgiver => {
+export const isArbeidsgiver = (arbeidsgiver?: Maybe<ArbeidsgiverFragment>): arbeidsgiver is ArbeidsgiverFragment => {
     return arbeidsgiver !== undefined && arbeidsgiver !== null;
 };

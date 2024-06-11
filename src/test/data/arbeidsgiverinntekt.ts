@@ -1,6 +1,13 @@
 import dayjs from 'dayjs';
 
-import { Arbeidsgiverinntekt, InntektFraAOrdningen, Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
+import { DateString, OverridableConstructor } from '@/types/shared';
+import {
+    Arbeidsgiverinntekt,
+    InntektFraAOrdningen,
+    Inntektskilde,
+    OmregnetArsinntekt,
+    VilkarsgrunnlagFragment,
+} from '@io/graphql';
 
 const enInntektFraAOrdningen: OverridableConstructor<InntektFraAOrdningen> = (overrides) => ({
     __typename: 'InntektFraAOrdningen',
@@ -44,13 +51,15 @@ type ArbeidsgiverinntektExtensions = {
     ) => Arbeidsgiverinntekt & ArbeidsgiverinntektExtensions;
 };
 
-export const enArbeidsgiverinntekt: OverridableConstructor<Arbeidsgiverinntekt, ArbeidsgiverinntektExtensions> = (
-    overrides,
-) => ({
+export const enArbeidsgiverinntekt: OverridableConstructor<
+    VilkarsgrunnlagFragment['inntekter'][0],
+    ArbeidsgiverinntektExtensions
+> = (overrides) => ({
     __typename: 'Arbeidsgiverinntekt',
     arbeidsgiver: '987654321',
     deaktivert: false,
     omregnetArsinntekt: enOmregnetÅrsinntekt(),
+    skjonnsmessigFastsatt: null,
     sammenligningsgrunnlag: {
         __typename: 'Sammenligningsgrunnlag',
         belop: 600000,

@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { Link } from '@navikt/ds-react';
 
-interface LovdataLenkeProps extends ChildrenProps {
+type LovdataLenkeProps = {
     paragraf: string;
     harParagraf?: boolean;
-}
+};
 
-export const LovdataLenke: React.FC<LovdataLenkeProps> = ({ paragraf, children, harParagraf = true }) => {
+export const LovdataLenke = ({
+    paragraf,
+    children,
+    harParagraf = true,
+}: PropsWithChildren<LovdataLenkeProps>): ReactElement => {
     const [kapittel] = paragraf.split('-');
     return (
         <Link

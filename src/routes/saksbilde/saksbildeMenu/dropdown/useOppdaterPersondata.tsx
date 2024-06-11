@@ -4,8 +4,8 @@ import { Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { OppdaterPersonDocument, OpprettAbonnementDocument } from '@io/graphql';
+import { useCurrentPerson } from '@person/query';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
-import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { SpeilError } from '@utils/error';
@@ -24,7 +24,7 @@ const oppdatererPersondataMessage = () => (
 );
 
 export const useOppdaterPersondata = (): [forespørPersonoppdatering: () => Promise<void>] => {
-    const person = useCurrentPerson() as FetchedPerson;
+    const person = useCurrentPerson();
     const addVarsel = useAddVarsel();
     const addToast = useAddToast();
     const removeToast = useRemoveToast();

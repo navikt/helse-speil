@@ -1,5 +1,4 @@
-type ReactNode = import('react').ReactNode;
-
+// TODO: Globale types som bør nukes
 type Kommentar = import('@io/graphql').Kommentar;
 type OverstyrtDag = import('@io/graphql').OverstyrtDag;
 type Utbetalingtype = import('@io/graphql').Utbetalingtype;

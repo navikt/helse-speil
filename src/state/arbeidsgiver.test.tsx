@@ -1,6 +1,7 @@
 import { wrapperWithRecoilInitializer } from '@test-wrappers';
 import { nanoid } from 'nanoid';
 
+import { useCurrentPerson } from '@person/query';
 import {
     findArbeidsgiverWithGhostPeriode,
     findArbeidsgiverWithPeriode,
@@ -11,7 +12,6 @@ import {
     useUtbetalingForSkjæringstidspunkt,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsforholdoverstyring, enDagoverstyring, enInntektoverstyring } from '@test-data/overstyring';
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
@@ -19,7 +19,7 @@ import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
 import { renderHook } from '@testing-library/react';
 
-jest.mock('@state/person');
+jest.mock('@person/query');
 jest.mock('@state/periode');
 jest.unmock('@state/arbeidsgiver');
 

@@ -1,6 +1,7 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
+import { DatePeriod } from '@/types/shared';
 import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -27,7 +28,7 @@ interface InfoPinProps {
     period: DatePeriod;
 }
 
-export const InfoPin: React.FC<InfoPinProps> = ({ period }) => {
+export const InfoPin = ({ period }: InfoPinProps): ReactElement | null => {
     const showInfoPin = shouldShowInfoPin(period);
     const showNotatPin = shouldShowNotatPin(period);
 

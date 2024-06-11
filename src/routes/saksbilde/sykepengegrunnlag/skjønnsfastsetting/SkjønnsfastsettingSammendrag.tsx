@@ -2,7 +2,7 @@ import React from 'react';
 
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { Skjonnsfastsettingstype, Sykepengegrunnlagskjonnsfastsetting } from '@io/graphql';
-import { useCurrentPerson } from '@state/person';
+import { useCurrentPerson } from '@person/query';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import styles from './SkjønnsfastsettingSammendrag.module.css';
