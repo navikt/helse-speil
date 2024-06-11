@@ -148,6 +148,7 @@ const PeriodeCardUberegnet: React.FC<PeriodeCardUberegnetProps> = ({ periode, ar
                         <EgenskaperTags
                             egenskaper={[
                                 {
+                                    __typename: 'Oppgaveegenskap',
                                     egenskap:
                                         periode.periodetype === Periodetype.Forlengelse
                                             ? Egenskap.Forlengelse

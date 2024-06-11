@@ -14,7 +14,7 @@ jest.mock('./useAlderVedSkjæringstidspunkt', () => ({
 
 const enUtbetalingstabelldag = (dato: string, overrides?: Partial<Utbetalingstabelldag>): Utbetalingstabelldag => ({
     dato: dato,
-    kilde: { id: 'Sasdadgf', type: Kildetype.Inntektsmelding },
+    kilde: { __typename: 'Kilde', id: 'Sasdadgf', type: Kildetype.Inntektsmelding },
     dag: Sykedag,
     erAGP: false,
     erAvvist: false,

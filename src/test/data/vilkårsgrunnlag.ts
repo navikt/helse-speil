@@ -11,6 +11,7 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
     VilkarsgrunnlagSpleis,
     VilkarsgrunnlagSpleisExtensions
 > = (overrides) => ({
+    __typename: 'VilkarsgrunnlagSpleis',
     id: nanoid(),
     antallOpptjeningsdagerErMinst: 1234,
     arbeidsgiverrefusjoner: [],
@@ -26,6 +27,7 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
     skjaeringstidspunkt: '2020-01-01',
     sykepengegrunnlag: 600000,
     sykepengegrunnlagsgrense: {
+        __typename: 'Sykepengegrunnlagsgrense',
         grense: 600000,
         grunnbelop: 100000,
         virkningstidspunkt: '2020-01-01',

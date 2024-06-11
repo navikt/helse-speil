@@ -1,11 +1,13 @@
-import { InngangsvilkårWithContent } from './Inngangsvilkår';
 import React from 'react';
 
 import { VilkarsgrunnlagSpleis, Vilkarsgrunnlagtype, Vurdering } from '@io/graphql';
 import '@testing-library/jest-dom';
 import { render, screen, within } from '@testing-library/react';
 
+import { InngangsvilkårWithContent } from './Inngangsvilkår';
+
 const getVilkårsgrunnlagSpleis = (overrides?: Partial<VilkarsgrunnlagSpleis>): VilkarsgrunnlagSpleis => ({
+    __typename: 'VilkarsgrunnlagSpleis',
     id: 'en-id',
     antallOpptjeningsdagerErMinst: 100,
     arbeidsgiverrefusjoner: [],
@@ -19,12 +21,18 @@ const getVilkårsgrunnlagSpleis = (overrides?: Partial<VilkarsgrunnlagSpleis>): 
     sammenligningsgrunnlag: 1234567,
     skjaeringstidspunkt: '2022-01-01',
     sykepengegrunnlag: 1234567,
-    sykepengegrunnlagsgrense: { grunnbelop: 106399, grense: 6 * 106399, virkningstidspunkt: '2021-05-01' },
+    sykepengegrunnlagsgrense: {
+        __typename: 'Sykepengegrunnlagsgrense',
+        grunnbelop: 106399,
+        grense: 6 * 106399,
+        virkningstidspunkt: '2021-05-01',
+    },
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype.Spleis,
     ...overrides,
 });
 
 const getVurdering = (overrides?: Partial<Vurdering>): Vurdering => ({
+    __typename: 'Vurdering',
     godkjent: true,
     ident: 'en-saksbehandler',
     automatisk: false,

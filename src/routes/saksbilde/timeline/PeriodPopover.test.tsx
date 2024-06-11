@@ -24,6 +24,7 @@ const getFetchedBeregnetPeriode = (
     personUtbetalingsdager: Dag[] = [],
 ): FetchedBeregnetPeriode => {
     return {
+        __typename: 'BeregnetPeriode',
         beregningId: 'EN_ID',
         behandlingId: 'EN_BEHANDLING_ID',
         erForkastet: false,
@@ -44,6 +45,7 @@ const getFetchedBeregnetPeriode = (
         skjaeringstidspunkt: '2020-02-02',
         tidslinje: [
             {
+                __typename: 'Dag',
                 dato: '2022-01-01',
                 kilde: {} as Kilde,
                 sykdomsdagtype: Sykdomsdagtype.Arbeidsgiverdag,
@@ -53,6 +55,7 @@ const getFetchedBeregnetPeriode = (
             ...personUtbetalingsdager,
         ],
         utbetaling: {
+            __typename: 'Utbetaling',
             arbeidsgiverFagsystemId: 'EN_ID',
             arbeidsgiverNettoBelop: 100,
             id: 'EN_ID',
@@ -69,24 +72,28 @@ const getFetchedBeregnetPeriode = (
 };
 
 describe('PeriodPopover', () => {
-    const arbeidsgiverUtbetalingsdager = [
+    const arbeidsgiverUtbetalingsdager: Dag[] = [
         {
+            __typename: 'Dag',
             dato: '2022-01-02',
             kilde: {} as Kilde,
             sykdomsdagtype: Sykdomsdagtype.Sykedag,
             utbetalingsdagtype: Utbetalingsdagtype.Navdag,
             utbetalingsinfo: {
+                __typename: 'Utbetalingsinfo',
                 arbeidsgiverbelop: 100,
             },
         },
     ];
-    const personUtbetalingsdager = [
+    const personUtbetalingsdager: Dag[] = [
         {
+            __typename: 'Dag',
             dato: '2022-01-03',
             kilde: {} as Kilde,
             sykdomsdagtype: Sykdomsdagtype.Sykedag,
             utbetalingsdagtype: Utbetalingsdagtype.Navdag,
             utbetalingsinfo: {
+                __typename: 'Utbetalingsinfo',
                 personbelop: 100,
             },
         },

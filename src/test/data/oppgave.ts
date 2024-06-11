@@ -12,12 +12,14 @@ import {
 } from '@io/graphql';
 
 export const enOppgaveForOversikten: OverridableConstructor<OppgaveTilBehandling> = (overrides) => ({
+    __typename: 'OppgaveTilBehandling',
     id: nanoid(),
     vedtaksperiodeId: nanoid(),
     aktorId: 'en-aktør',
     opprettet: '2020-01-01',
     opprinneligSoknadsdato: '2020-01-01',
     navn: {
+        __typename: 'Personnavn',
         etternavn: 'Etternavn',
         fornavn: 'Fornavn',
     },
@@ -26,15 +28,16 @@ export const enOppgaveForOversikten: OverridableConstructor<OppgaveTilBehandling
     periodetype: Periodetype.Forstegangsbehandling,
     mottaker: Mottaker.Arbeidsgiver,
     egenskaper: [
-        { kategori: Kategori.Periodetype, egenskap: Egenskap.Forstegangsbehandling },
-        { kategori: Kategori.Oppgavetype, egenskap: Egenskap.Soknad },
-        { kategori: Kategori.Mottaker, egenskap: Egenskap.UtbetalingTilSykmeldt },
-        { kategori: Kategori.Inntektskilde, egenskap: Egenskap.EnArbeidsgiver },
+        { __typename: 'Oppgaveegenskap', kategori: Kategori.Periodetype, egenskap: Egenskap.Forstegangsbehandling },
+        { __typename: 'Oppgaveegenskap', kategori: Kategori.Oppgavetype, egenskap: Egenskap.Soknad },
+        { __typename: 'Oppgaveegenskap', kategori: Kategori.Mottaker, egenskap: Egenskap.UtbetalingTilSykmeldt },
+        { __typename: 'Oppgaveegenskap', kategori: Kategori.Inntektskilde, egenskap: Egenskap.EnArbeidsgiver },
     ],
     ...overrides,
 });
 
 export const enOppgave: OverridableConstructor<OppgaveForPeriodevisning> = (overrides) => ({
+    __typename: 'OppgaveForPeriodevisning',
     id: nanoid(),
     ...overrides,
 });

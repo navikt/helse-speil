@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { behandlingsstatistikk } from '@/spesialist-mock/data/behandlingsstatistikk';
 import { Antall, Behandlingsstatistikk } from '@io/graphql';
 
 import { LabelCell } from './LabelCell';
@@ -10,6 +11,7 @@ import styles from './BehandlingsstatistikkView.module.css';
 
 const getTotaltIdag = (statistikk: Behandlingsstatistikk): Antall => {
     return {
+        __typename: 'Antall',
         manuelt: statistikk.enArbeidsgiver.manuelt + statistikk.flereArbeidsgivere.manuelt,
         automatisk: statistikk.enArbeidsgiver.automatisk + statistikk.flereArbeidsgivere.automatisk,
         tilgjengelig: statistikk.enArbeidsgiver.tilgjengelig + statistikk.flereArbeidsgivere.tilgjengelig,
@@ -22,7 +24,8 @@ interface BehandlingsstatistikkTableProps {
 
 export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProps> = ({ behandlingsstatistikk }) => {
     const totaltIdag = getTotaltIdag(behandlingsstatistikk);
-    const søknad = {
+    const søknad: Antall = {
+        __typename: 'Antall',
         automatisk:
             behandlingsstatistikk.delvisRefusjon.automatisk +
             behandlingsstatistikk.utbetalingTilSykmeldt.automatisk +

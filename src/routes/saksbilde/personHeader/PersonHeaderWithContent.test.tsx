@@ -11,14 +11,16 @@ describe('Personlinje', () => {
             <PersonHeaderWithContent
                 fødselsnummer="12345678910"
                 aktørId="123456789"
-                enhet={{ id: '123', navn: 'Huttiheiti' }}
+                enhet={{ __typename: 'Enhet', id: '123', navn: 'Huttiheiti' }}
                 personinfo={{
+                    __typename: 'Personinfo',
                     fornavn: 'MARIUS',
                     mellomnavn: 'BORG',
                     etternavn: 'HØIBY',
                     adressebeskyttelse: Adressebeskyttelse.Ugradert,
                     kjonn: Kjonn.Mann,
                     unntattFraAutomatisering: {
+                        __typename: 'UnntattFraAutomatiskGodkjenning',
                         erUnntatt: false,
                         arsaker: [],
                         tidspunkt: null,

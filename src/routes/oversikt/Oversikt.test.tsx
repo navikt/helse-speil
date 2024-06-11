@@ -45,7 +45,9 @@ const mocks = [
         request: { query: HentBehandlingsstatistikkDocument },
         result: {
             data: {
+                __typename: 'Query',
                 behandlingsstatistikk: {
+                    __typename: 'Behandlingsstatistikk',
                     antallAnnulleringer: 0,
                     enArbeidsgiver: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
                     flereArbeidsgivere: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },

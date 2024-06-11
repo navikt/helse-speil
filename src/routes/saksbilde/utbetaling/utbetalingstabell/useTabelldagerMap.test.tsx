@@ -9,8 +9,9 @@ import { antallSykedagerTilOgMedMaksdato, createDagerMap, useTabelldagerMap } fr
 dayjs.extend(isSameOrBefore);
 
 const getDag = (dato: DateString, overrides?: Partial<Dag>): Dag => ({
+    __typename: 'Dag',
     dato: dato,
-    kilde: { id: 'en-id', type: Kildetype.Inntektsmelding },
+    kilde: { __typename: 'Kilde', id: 'en-id', type: Kildetype.Inntektsmelding },
     sykdomsdagtype: Sykdomsdagtype.Sykedag,
     utbetalingsdagtype: Utbetalingsdagtype.Navdag,
     ...overrides,
@@ -66,11 +67,13 @@ describe('useTabelldagerMap', () => {
     it('mapper overstyringer', () => {
         const overstyringer: Array<Dagoverstyring> = [
             {
+                __typename: 'Dagoverstyring',
                 hendelseId: 'en-id',
                 timestamp: '2020-01-01',
                 begrunnelse: 'Fordi',
-                dager: [{ dato: '2021-01-02', type: Dagtype.Sykedag, grad: 80 }],
+                dager: [{ __typename: 'OverstyrtDag', dato: '2021-01-02', type: Dagtype.Sykedag, grad: 80 }],
                 saksbehandler: {
+                    __typename: 'Saksbehandler',
                     navn: 'et-navn',
                     ident: 'en-ident',
                 },

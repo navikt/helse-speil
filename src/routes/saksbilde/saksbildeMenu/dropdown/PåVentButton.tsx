@@ -27,6 +27,7 @@ export const PåVentButton = ({ personinfo }: PåVentButtonProps) => {
     if (!periodeTilGodkjenning || oppgaveId === undefined) return null;
 
     const navn: Personnavn = {
+        __typename: 'Personnavn',
         fornavn: personinfo.fornavn,
         mellomnavn: personinfo.mellomnavn,
         etternavn: personinfo.etternavn,
