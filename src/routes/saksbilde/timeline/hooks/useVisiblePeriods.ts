@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs';
 import { useMemo } from 'react';
 
 import { DatePeriod } from '@/types/shared';

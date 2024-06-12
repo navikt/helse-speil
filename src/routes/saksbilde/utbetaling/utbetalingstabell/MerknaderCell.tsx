@@ -118,8 +118,8 @@ const foreldetDagMerknad = (isForeldet: boolean): React.ReactNode | undefined =>
         </Tooltip>
     ) : undefined;
 
-const avvisningsårsakerMerknad = (begrunnelser: Begrunnelse[], alderVedSkjæringstidspunkt?: Maybe<number>) =>
-    begrunnelser.map((begrunnelse, i) => (
+const avvisningsårsakerMerknad = (begrunnelser: Begrunnelse[] | null, alderVedSkjæringstidspunkt?: Maybe<number>) =>
+    begrunnelser?.map((begrunnelse, i) => (
         <React.Fragment key={i}>
             {i !== 0 && <BodyShort>,&nbsp;</BodyShort>}
             <Merknad begrunnelse={begrunnelse} alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt} />

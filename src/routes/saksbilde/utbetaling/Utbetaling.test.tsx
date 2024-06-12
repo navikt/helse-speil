@@ -41,7 +41,6 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling />, { wrapper: ApolloWrapper });
 
-        screen.debug();
         expect(screen.getByText('Revurder')).toBeVisible();
         expect(screen.getByText('3 dager')).toBeVisible();
         expect(screen.getByText('01.01.2020')).toBeVisible();
@@ -60,6 +59,7 @@ describe('Utbetaling', () => {
         (useActivePeriod as jest.Mock).mockReturnValue(periode);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
+        (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
         render(<Utbetaling />, { wrapper: ApolloWrapper });
 
@@ -77,6 +77,7 @@ describe('Utbetaling', () => {
         (useActivePeriod as jest.Mock).mockReturnValue(periode);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
+        (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
         render(<Utbetaling />, { wrapper: ApolloWrapper });
 

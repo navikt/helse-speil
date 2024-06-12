@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { Dayjs } from 'dayjs';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';

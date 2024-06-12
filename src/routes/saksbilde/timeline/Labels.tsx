@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs';
 import React, { useMemo } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
