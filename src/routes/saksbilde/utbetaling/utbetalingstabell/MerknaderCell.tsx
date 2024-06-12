@@ -105,10 +105,10 @@ const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): Ma
     }
 };
 
-const sisteUtbetalingsdagMerknad = (isMaksdato: boolean): string | undefined =>
-    isMaksdato ? 'Siste utbetalingsdag for sykepenger' : undefined;
+const sisteUtbetalingsdagMerknad = (isMaksdato: boolean): Maybe<string> =>
+    isMaksdato ? 'Siste utbetalingsdag for sykepenger' : null;
 
-const foreldetDagMerknad = (isForeldet: boolean) =>
+const foreldetDagMerknad = (isForeldet: boolean): Maybe<ReactElement> =>
     isForeldet ? (
         <Tooltip content="Foreldet">
             <span className={styles.container} data-testid="Foreldet">

@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -18,7 +18,7 @@ import { erHelg } from './helgUtils';
 
 import styles from './DagtypeCell.module.css';
 
-const getTypeIcon = (tabelldag?: Utbetalingstabelldag): Maybe<ReactNode> => {
+const getTypeIcon = (tabelldag?: Utbetalingstabelldag): Maybe<ReactElement> => {
     if (!tabelldag) return null;
 
     if (tabelldag.erAvvist || tabelldag.erForeldet) {
