@@ -39,6 +39,7 @@
     max-width: 100%;
     font-size: var(--a-font-size-large);
     line-height: var(--a-font-line-height-large);
+    margin: 0;
 }
 
 .NotatTruncated {
