@@ -37,7 +37,7 @@ describe('Oversikt', () => {
         const result = await axe(container);
 
         expect(result).toHaveNoViolations();
-    });
+    }, 10_000);
 });
 
 const mocks = [

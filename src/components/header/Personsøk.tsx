@@ -4,12 +4,13 @@ import React, { FormEvent, useRef } from 'react';
 import { Search } from '@navikt/ds-react';
 
 import { useLazyQuery } from '@apollo/client';
-import styles from '@components/header/Header.module.css';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FetchPersonDocument } from '@io/graphql';
 import { validFødselsnummer } from '@io/graphql/common';
 import { useAddVarsel, useRapporterGraphQLErrors } from '@state/varsler';
 import { SpeilError } from '@utils/error';
+
+import styles from './Personsøk.module.css';
 
 const erGyldigPersonId = (value: string) => value.match(/^\d{1,13}$/) !== null;
 
@@ -57,7 +58,7 @@ export const Personsøk: React.FC = () => {
     };
 
     return (
-        <form className={styles.SearchForm} onSubmit={søkOppPerson}>
+        <form className={styles.searchForm} onSubmit={søkOppPerson}>
             <Search label="Søk" size="small" variant="secondary" placeholder="Søk" ref={searchRef} />
         </form>
     );

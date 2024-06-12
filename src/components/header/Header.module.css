@@ -30,12 +30,6 @@
     font-weight: 600;
 }
 
-.SearchForm {
-    align-self: center;
-    margin-left: 24px;
-    margin-right: auto;
-}
-
 .utviklingTape {
     background: repeating-linear-gradient(-75deg, yellow, yellow 10px, black 10px, black 20px);
     margin-left: 200px;
