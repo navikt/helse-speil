@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import React, { Suspense } from 'react';
+import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
@@ -9,6 +9,7 @@ import { FiltermenySkeleton } from '@/routes/oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@/routes/oversikt/table/BehandletIdagTable';
 import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
+import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useOppgaveFeed } from '@state/oppgaver';
 
@@ -40,6 +41,7 @@ export const Oversikt = () => {
 
     useLoadingToast({ isLoading: oppgaveFeed.loading, message: 'Henter oppgaver' });
     useKeyboardShortcuts();
+    useFjernPersonFraApolloCache();
 
     return (
         <main className={styles.Oversikt}>

@@ -10,7 +10,6 @@ import { PersonHeader } from '@/routes/saksbilde/personHeader';
 import { Timeline } from '@/routes/saksbilde/timeline';
 import { useKeyboardShortcuts } from '@/routes/saksbilde/useKeyboardShortcuts';
 import { Venstremeny } from '@/routes/saksbilde/venstremeny/Venstremeny';
-import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { AmplitudeProvider } from '@io/amplitude';
@@ -20,7 +19,6 @@ import styles from './layout.module.css';
 
 function Layout({ children }: PropsWithChildren): ReactElement {
     useRefreshPersonVedOpptegnelse();
-    useFjernPersonFraApolloCache();
     usePollEtterOpptegnelser();
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useKeyboardShortcuts();

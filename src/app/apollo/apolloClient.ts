@@ -4,13 +4,14 @@ import possibletypes from '@/app/apollo/possibletypes';
 import { erLokal } from '@/env';
 import { ApolloClient, HttpLink, InMemoryCache, InMemoryCacheConfig, TypePolicies, from } from '@apollo/client';
 import { RetryLink } from '@apollo/client/link/retry';
+import { PersonFragment } from '@io/graphql';
 
 const getTypePolicies = (): TypePolicies => {
     return {
         Query: {
             fields: {
                 person: {
-                    read: (existing, { args, toReference, readField }) => {
+                    read: (existing, { args, toReference, readField, cache }) => {
                         if (args?.fnr) {
                             return toReference({
                                 __typename: 'Person',
@@ -18,14 +19,31 @@ const getTypePolicies = (): TypePolicies => {
                             });
                         }
 
-                        if (args?.aktorId && existing) {
-                            const fnr = readField<string>('fodselsnummer', existing);
-                            if (!fnr) return;
+                        if (args?.aktorId) {
+                            if (existing) {
+                                // Den ber om det som allerede ligger i cachen på aktorId
+                                const fnr = readField<string>('fodselsnummer', existing);
+                                if (!fnr) return;
+                                return toReference({
+                                    __typename: 'Person',
+                                    fodselsnummer: fnr,
+                                });
+                            } else {
+                                // Vi må se i cachen om det ligger en person med denne aktørIden, typisk når det bare er fetcha på fnr
+                                const values = Object.values(cache.extract());
+                                const relevantPerson = values.find(
+                                    (it) => it?.__typename === 'Person' && it.aktorId === args.aktorId,
+                                ) as PersonFragment | undefined;
 
-                            return toReference({
-                                __typename: 'Person',
-                                fodselsnummer: fnr,
-                            });
+                                if (relevantPerson == null) {
+                                    return;
+                                }
+
+                                return toReference({
+                                    __typename: 'Person',
+                                    fodselsnummer: relevantPerson?.fodselsnummer,
+                                });
+                            }
                         }
                     },
                 },
