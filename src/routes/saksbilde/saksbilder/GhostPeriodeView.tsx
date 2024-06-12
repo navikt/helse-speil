@@ -4,7 +4,7 @@ import { last } from 'remeda';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
-import type { GhostPeriodeFragment } from '@io/graphql';
+import type { GhostPeriodeFragment, PersonFragment } from '@io/graphql';
 import { getPeriodState } from '@utils/mapping';
 
 import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
@@ -15,9 +15,10 @@ import styles from './SharedViews.module.css';
 
 interface GhostPeriodeViewProps {
     activePeriod: GhostPeriodeFragment;
+    person: PersonFragment;
 }
 
-export const GhostPeriodeView = ({ activePeriod }: GhostPeriodeViewProps): ReactElement => {
+export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps): ReactElement => {
     if (!activePeriod.skjaeringstidspunkt || !activePeriod.vilkarsgrunnlagId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
@@ -33,7 +34,7 @@ export const GhostPeriodeView = ({ activePeriod }: GhostPeriodeViewProps): React
             <SaksbildeMenu activePeriod={activePeriod} />
             {tab === 'sykepengegrunnlag' && (
                 <div className={styles.RouteContainer}>
-                    <Sykepengegrunnlag />
+                    <Sykepengegrunnlag person={person} />
                 </div>
             )}
         </div>

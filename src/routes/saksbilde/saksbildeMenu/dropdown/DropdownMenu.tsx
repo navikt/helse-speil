@@ -68,7 +68,7 @@ const DropdownMenuContent = (): ReactElement | null => {
                 </>
             )}
             <Dropdown.Menu.List>
-                <OppdaterPersondataButton />
+                <OppdaterPersondataButton person={person} />
                 {isBeregnetPeriode(period) && isArbeidsgiver(arbeidsgiver) && (
                     <AnnullerButton person={person} periode={period} arbeidsgiver={arbeidsgiver} />
                 )}

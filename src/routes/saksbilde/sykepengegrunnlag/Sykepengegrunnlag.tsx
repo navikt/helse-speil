@@ -3,8 +3,7 @@ import React, { ReactElement } from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { BeregnetPeriodeFragment } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
+import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import {
@@ -19,14 +18,18 @@ import { SykepengegrunnlagFraInfogtrygd } from './sykepengegrunnlagvisninger/inf
 import { SykepengegrunnlagFraSpleis } from './sykepengegrunnlagvisninger/spleis/SykepengegrunnlagFraSpleis';
 import { useVilkårsgrunnlag } from './useVilkårsgrunnlag';
 
-const SykepengegrunnlagContainer = (): ReactElement | null => {
-    const person = useCurrentPerson();
+type SykepengegrunnlagProps = {
+    person: PersonFragment;
+};
+
+const SykepengegrunnlagContainer = ({ person }: SykepengegrunnlagProps): ReactElement | null => {
     const activePeriod = useActivePeriod();
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
     const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriodeFragment).skjaeringstidspunkt);
     const arbeidsgiver = useCurrentArbeidsgiver();
 
-    if (!((isGhostPeriode(activePeriod) || isBeregnetPeriode(activePeriod)) && arbeidsgiver && person)) return null;
+    if (!(isBeregnetPeriode(activePeriod) || isGhostPeriode(activePeriod))) return null;
+    if (!arbeidsgiver) return null;
 
     if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag)) {
         return vurdering ? (
@@ -35,17 +38,20 @@ const SykepengegrunnlagContainer = (): ReactElement | null => {
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                 arbeidsgiver={arbeidsgiver}
+                person={person}
             />
         ) : (
             <SykepengegrunnlagFraSpleis
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                 data-testid="ubehandlet-sykepengegrunnlag"
+                person={person}
             />
         );
     } else if (isInfotrygdVilkarsgrunnlag(vilkårsgrunnlag)) {
         return (
             <SykepengegrunnlagFraInfogtrygd
+                person={person}
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
             />
@@ -63,10 +69,10 @@ const SykepengegrunnlagError = (): ReactElement => {
     );
 };
 
-export const Sykepengegrunnlag = (): ReactElement => {
+export const Sykepengegrunnlag = ({ person }: SykepengegrunnlagProps): ReactElement => {
     return (
         <ErrorBoundary fallback={<SykepengegrunnlagError />}>
-            <SykepengegrunnlagContainer />
+            <SykepengegrunnlagContainer person={person} />
         </ErrorBoundary>
     );
 };

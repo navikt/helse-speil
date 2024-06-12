@@ -3,10 +3,10 @@ import React from 'react';
 
 import { MockedProvider } from '@apollo/client/testing';
 import { Kildetype, OpprettAbonnementDocument, OverstyrDagerMutationDocument } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import { enPerson } from '@test-data/person';
 import { renderHook, waitFor } from '@testing-library/react';
 
 import { tilOverstyrteDager, useOverstyrDager } from './useOverstyrDager';
@@ -23,11 +23,6 @@ const ORGNUMMER = 'orgnummer';
 const VEDTAKSPERIODE_ID = 'vedtaksperiode';
 const BEGRUNNELSE = 'begrunnelse';
 
-(useCurrentPerson as jest.Mock).mockReturnValue({
-    aktorId: AKTØR_ID,
-    fodselsnummer: FØDSELSNUMMER,
-});
-
 (useCurrentArbeidsgiver as jest.Mock).mockReturnValue({
     organisasjonsnummer: ORGNUMMER,
 });
@@ -38,67 +33,78 @@ const BEGRUNNELSE = 'begrunnelse';
 
 describe('useOverstyrDager', () => {
     test('skal ha state initial ved oppstart', async () => {
-        const { result } = renderHook(useOverstyrDager, {
+        const person = enPerson();
+        const { result } = renderHook((initialPerson) => useOverstyrDager(initialPerson), {
             wrapper: ({ children }) => (
                 <MockedProvider mocks={mocks}>
                     <RecoilWrapper>{children}</RecoilWrapper>
                 </MockedProvider>
             ),
+            initialProps: person,
         });
         expect(result.current.state).toBe('initial');
     });
     test('skal ha state hasValue etter posting av korrekt overstyring', async () => {
-        const { result, rerender } = renderHook(useOverstyrDager, {
+        const person = enPerson({
+            aktorId: AKTØR_ID,
+            fodselsnummer: FØDSELSNUMMER,
+        });
+        const { result, rerender } = renderHook((initialPerson) => useOverstyrDager(initialPerson), {
             wrapper: ({ children }) => (
                 <MockedProvider mocks={mocks}>
                     <RecoilWrapper>{children}</RecoilWrapper>
                 </MockedProvider>
             ),
+            initialProps: person,
         });
 
         const { postOverstyring } = result.current;
         await postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID);
 
-        rerender();
+        rerender(person);
         const { state } = result.current;
 
         await waitFor(() => expect(state).toBe('hasValue'));
     });
     test('skal ha state done etter person er oppdatert', async () => {
-        const { result, rerender } = renderHook(useOverstyrDager, {
+        const person = enPerson({
+            aktorId: AKTØR_ID,
+            fodselsnummer: FØDSELSNUMMER,
+        });
+        const { result, rerender } = renderHook((initialPerson) => useOverstyrDager(initialPerson), {
             wrapper: ({ children }) => (
                 <MockedProvider mocks={mocks}>
                     <RecoilWrapper>{children}</RecoilWrapper>
                 </MockedProvider>
             ),
+            initialProps: person,
         });
 
         const { postOverstyring } = result.current;
         await postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID);
 
-        (useCurrentPerson as jest.Mock).mockReturnValue({
-            aktorId: AKTØR_ID,
-            fodselsnummer: FØDSELSNUMMER,
-            noeNytt: 'yolo',
-        });
-
-        rerender();
+        rerender(enPerson());
         const { state } = result.current;
         await waitFor(() => expect(state).toBe('done'));
     });
     test('skal ha state hasError hvis ovberstyring ikke virker', async () => {
-        const { result, rerender } = renderHook(useOverstyrDager, {
+        const person = enPerson({
+            aktorId: AKTØR_ID,
+            fodselsnummer: FØDSELSNUMMER,
+        });
+        const { result, rerender } = renderHook((initialPerson) => useOverstyrDager(initialPerson), {
             wrapper: ({ children }) => (
                 <MockedProvider mocks={mocks}>
                     <RecoilWrapper>{children}</RecoilWrapper>
                 </MockedProvider>
             ),
+            initialProps: person,
         });
 
         const { postOverstyring } = result.current;
         await postOverstyring([], [], BEGRUNNELSE, 'en feil');
 
-        rerender();
+        rerender(person);
         const { state, error } = result.current;
         await waitFor(() => expect(state).toBe('hasError'));
         await waitFor(() => expect(error).not.toBeNull());

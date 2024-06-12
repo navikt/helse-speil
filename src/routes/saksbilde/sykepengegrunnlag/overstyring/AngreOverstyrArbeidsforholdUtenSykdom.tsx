@@ -4,6 +4,7 @@ import React from 'react';
 
 import { Button } from '@components/Button';
 import { TimeoutModal } from '@components/TimeoutModal';
+import { PersonFragment } from '@io/graphql';
 
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 
@@ -19,17 +20,19 @@ const UndoIcon = () => (
 );
 
 interface AngreOverstyrArbeidsforholdUtenSykdomProps {
+    person: PersonFragment;
     organisasjonsnummerAktivPeriode: string;
     skjæringstidspunkt: string;
     onClick: () => void;
 }
 
 export const AngreOverstyrArbeidsforholdUtenSykdom = ({
+    person,
     organisasjonsnummerAktivPeriode,
     skjæringstidspunkt,
     onClick,
 }: AngreOverstyrArbeidsforholdUtenSykdomProps) => {
-    const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold();
+    const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold(person);
     const { postOverstyring, timedOut, setTimedOut } = usePostOverstyrtArbeidsforhold();
     const begrunnelse: BegrunnelseForOverstyring = {
         id: '',

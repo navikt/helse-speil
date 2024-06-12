@@ -7,6 +7,7 @@ import {
     OpprettAbonnementDocument,
     OverstyrArbeidsforholdMutationDocument,
     OverstyringArbeidsforholdInput,
+    PersonFragment,
 } from '@io/graphql';
 import { OverstyrtArbeidsforholdDTO } from '@io/http/types';
 import { useCurrentPerson } from '@person/query';
@@ -17,7 +18,7 @@ import {
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodWithPerson } from '@state/periode';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 
@@ -32,9 +33,8 @@ type OverstyrtArbeidsforholdGetter = (
     bokstav?: string,
 ) => OverstyrtArbeidsforholdDTO;
 
-export const useGetOverstyrtArbeidsforhold = (): OverstyrtArbeidsforholdGetter => {
-    const person = useCurrentPerson();
-    const valgtVedtaksperiode = useActivePeriod();
+export const useGetOverstyrtArbeidsforhold = (person: PersonFragment): OverstyrtArbeidsforholdGetter => {
+    const valgtVedtaksperiode = useActivePeriodWithPerson(person);
 
     return (organisasjonsnummerGhost, skjæringstidspunkt, arbeidsforholdSkalDeaktiveres, forklaring, begrunnelse) => ({
         fødselsnummer: person?.fodselsnummer,

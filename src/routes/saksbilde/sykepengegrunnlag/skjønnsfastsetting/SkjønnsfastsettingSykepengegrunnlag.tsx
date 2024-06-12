@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
 import { useSkjønnsfastsettelsesMaler } from '@/external/sanity';
-import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { Arbeidsgiverinntekt, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { Maybe } from '@utils/ts';
 
 import { SykepengegrunnlagsgrenseView } from '../InntektsgrunnlagTable/SykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
@@ -14,6 +14,7 @@ import { useSkjønnsfastsettingDefaults } from './form/SkjønnsfastsettingForm/u
 import styles from './SkjønnsfastsettingSykepengegrunnlag.module.css';
 
 interface SkjønnsfastsettingSykepengegrunnlagProps {
+    person: PersonFragment;
     sykepengegrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     omregnetÅrsinntekt?: Maybe<number>;
@@ -24,6 +25,7 @@ interface SkjønnsfastsettingSykepengegrunnlagProps {
 }
 
 export const SkjønnsfastsettingSykepengegrunnlag = ({
+    person,
     sykepengegrunnlag,
     sykepengegrunnlagsgrense,
     omregnetÅrsinntekt,
@@ -36,6 +38,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
     const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(inntekter);
 
+    // TODO: legg inn loading og error
     const { maler, loading, error } = useSkjønnsfastsettelsesMaler(
         avviksprosent,
         (aktiveArbeidsgivere?.length ?? 0) > 1,
@@ -57,7 +60,9 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                     setEditing={setEditing}
                     maler={maler}
                 />
-                {!editing && skjønnsmessigFastsattÅrlig !== null && <SkjønnsfastsettingSammendrag />}
+                {!editing && skjønnsmessigFastsattÅrlig !== null && (
+                    <SkjønnsfastsettingSammendrag arbeidsgivere={person.arbeidsgivere} />
+                )}
                 {editing && maler && omregnetÅrsinntekt != null && sammenligningsgrunnlag != null && (
                     <SkjønnsfastsettingForm
                         inntekter={inntekter}

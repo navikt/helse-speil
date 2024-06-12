@@ -15,10 +15,10 @@ import {
     Inntektstype,
     Maybe,
     OmregnetArsinntekt,
+    PersonFragment,
     VilkarsgrunnlagSpleis,
 } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
-import { useCurrentPerson } from '@person/query';
 import { getVilkårsgrunnlag } from '@person/utils';
 import {
     useEndringerForPeriode,
@@ -47,6 +47,7 @@ import {
 import styles from './Inntekt.module.css';
 
 interface InntektUtenSykefraværProps {
+    person: PersonFragment;
     organisasjonsnummer: string;
     skjæringstidspunkt: DateString;
     erDeaktivert?: Maybe<boolean>;
@@ -63,6 +64,7 @@ interface InntektUtenSykefraværProps {
 }
 
 export const InntektOgRefusjon = ({
+    person,
     organisasjonsnummer,
     skjæringstidspunkt,
     erDeaktivert,
@@ -79,7 +81,6 @@ export const InntektOgRefusjon = ({
 }: InntektUtenSykefraværProps) => {
     const [editingInntekt, setEditingInntekt] = useState(false);
     const [endret, setEndret] = useState(false);
-    const person = useCurrentPerson();
 
     useEffect(() => {
         setEditingInntekt(false);
@@ -92,8 +93,6 @@ export const InntektOgRefusjon = ({
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
-
-    if (!person) return null;
 
     const erRevurdering = maybePeriodeTilGodkjenning(person, skjæringstidspunkt) === null;
     const erInntektskildeAordningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
@@ -150,6 +149,7 @@ export const InntektOgRefusjon = ({
             <div className={styles.aligncenter}>
                 <Bold>Beregnet månedsinntekt</Bold>
             </div>
+            {/*TODO: Slå sammen EditableInntekt*/}
             {editingInntekt && !harSykefravær && omregnetÅrsinntekt ? (
                 <EditableInntekt
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
@@ -158,6 +158,7 @@ export const InntektOgRefusjon = ({
                     begrunnelser={endreInntektUtenSykefraværBegrunnelser}
                     organisasjonsnummer={organisasjonsnummer}
                     skjæringstidspunkt={skjæringstidspunkt}
+                    person={person}
                 />
             ) : editingInntekt && harSykefravær && omregnetÅrsinntekt ? (
                 <EditableInntekt
@@ -167,6 +168,7 @@ export const InntektOgRefusjon = ({
                     begrunnelser={endreInntektMedSykefraværBegrunnelser}
                     organisasjonsnummer={organisasjonsnummer}
                     skjæringstidspunkt={skjæringstidspunkt}
+                    person={person}
                 />
             ) : (
                 <ReadOnlyInntekt
@@ -197,6 +199,7 @@ export const InntektOgRefusjon = ({
                     organisasjonsnummerAktivPeriode={organisasjonsnummer}
                     skjæringstidspunkt={skjæringstidspunkt}
                     arbeidsforholdErDeaktivert={erDeaktivert}
+                    person={person}
                 />
             )}
         </div>

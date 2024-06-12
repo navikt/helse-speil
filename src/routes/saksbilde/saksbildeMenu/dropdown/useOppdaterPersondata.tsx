@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { OppdaterPersonDocument, OpprettAbonnementDocument } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
+import { OppdaterPersonDocument, OpprettAbonnementDocument, PersonFragment } from '@io/graphql';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
@@ -23,8 +22,7 @@ const oppdatererPersondataMessage = () => (
     </>
 );
 
-export const useOppdaterPersondata = (): [forespørPersonoppdatering: () => Promise<void>] => {
-    const person = useCurrentPerson();
+export const useOppdaterPersondata = (person: PersonFragment): [forespørPersonoppdatering: () => Promise<void>] => {
     const addVarsel = useAddVarsel();
     const addToast = useAddToast();
     const removeToast = useRemoveToast();

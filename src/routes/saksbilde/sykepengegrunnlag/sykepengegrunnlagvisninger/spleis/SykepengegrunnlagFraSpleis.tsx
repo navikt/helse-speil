@@ -1,6 +1,6 @@
 import React, { HTMLAttributes, useEffect, useState } from 'react';
 
-import { Arbeidsgiverinntekt, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { Arbeidsgiverinntekt, PersonFragment, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { getRequiredInntekt } from '@person/utils';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 
@@ -13,11 +13,13 @@ import styles from './SykepengegrunnlagFraSpleis.module.css';
 interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement> {
     vilkårsgrunnlag: VilkarsgrunnlagSpleis;
     organisasjonsnummer: string;
+    person: PersonFragment;
 }
 
 export const SykepengegrunnlagFraSpleis = ({
     vilkårsgrunnlag,
     organisasjonsnummer,
+    person,
     ...rest
 }: SykepengegrunnlagFraSpleisProps) => {
     const inntekt = getRequiredInntekt(vilkårsgrunnlag, organisasjonsnummer);
@@ -48,10 +50,11 @@ export const SykepengegrunnlagFraSpleis = ({
                 aktivInntektskilde={aktivInntektskilde}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 skjønnsmessigFastsattÅrlig={vilkårsgrunnlag.skjonnsmessigFastsattAarlig}
+                person={person}
             />
             <span className={styles.strek} />
             {aktivInntektskilde.omregnetArsinntekt !== null ? (
-                <Inntekt inntekt={aktivInntektskilde} />
+                <Inntekt person={person} inntekt={aktivInntektskilde} />
             ) : (
                 <InntektUtenOmregnetÅrsinntekt inntekt={aktivInntektskilde} />
             )}

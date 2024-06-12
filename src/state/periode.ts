@@ -2,7 +2,8 @@ import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { ActivePeriod } from '@/types/shared';
 import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
+import { useCurrentPerson, useFetchPersonQuery } from '@person/query';
+import { raise } from '@utils/ts';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 const activePeriodIdState = atom<string | null>({
@@ -11,12 +12,12 @@ const activePeriodIdState = atom<string | null>({
 });
 
 export const useSetActivePeriodId = () => {
-    const person = useCurrentPerson();
+    const { data } = useFetchPersonQuery();
     const [activePeriodId, setActivePeriodId] = useRecoilState(activePeriodIdState);
 
     return (periodeId: string) => {
         if (activePeriodId === periodeId) return;
-        const periode = findPeriod(periodeId, person);
+        const periode = findPeriod(periodeId, data?.person ?? raise('Kan ikke aktivere periode uten person'));
         if (!periode) return;
         setActivePeriodId(periode.id);
     };
@@ -28,6 +29,13 @@ export const useActivePeriod = (): ActivePeriod | null => {
     const periodToSelect = person ? findPeriodToSelect(person) : null;
 
     if (!person) return null;
+
+    return findPeriod(activePeriodId, person) ?? periodToSelect;
+};
+
+export const useActivePeriodWithPerson = (person: PersonFragment) => {
+    const activePeriodId = useRecoilValue(activePeriodIdState);
+    const periodToSelect = person ? findPeriodToSelect(person) : null;
 
     return findPeriod(activePeriodId, person) ?? periodToSelect;
 };

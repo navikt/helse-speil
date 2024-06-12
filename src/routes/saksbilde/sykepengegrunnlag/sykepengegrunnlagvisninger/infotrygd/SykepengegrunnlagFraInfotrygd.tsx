@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
-import { VilkarsgrunnlagInfotrygd } from '@io/graphql';
+import { PersonFragment, VilkarsgrunnlagInfotrygd } from '@io/graphql';
 import { getRequiredInntekt } from '@person/utils';
 
 import { Inntekt } from '../../inntekt/Inntekt';
@@ -10,11 +10,13 @@ import { SykepengegrunnlagInfotrygd } from './SykepengegrunnlagInfotrygd';
 import styles from './SykepengegrunnlagFraInfotrygd.module.css';
 
 interface SykepengegrunnlagFraInfogtrygdProps {
+    person: PersonFragment;
     vilkårsgrunnlag: VilkarsgrunnlagInfotrygd;
     organisasjonsnummer: string;
 }
 
 export const SykepengegrunnlagFraInfogtrygd = ({
+    person,
     vilkårsgrunnlag,
     organisasjonsnummer,
 }: SykepengegrunnlagFraInfogtrygdProps) => {
@@ -28,7 +30,7 @@ export const SykepengegrunnlagFraInfogtrygd = ({
                     organisasjonsnummer={organisasjonsnummer}
                 />
                 <span className={styles.strek} />
-                <Inntekt inntekt={inntekt} />
+                <Inntekt person={person} inntekt={inntekt} />
             </div>
         </Infotrygdvurdering>
     );

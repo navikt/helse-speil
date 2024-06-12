@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
-import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
+import { ArbeidsgiverFragment, Arbeidsgiverinntekt, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { Maybe } from '@utils/ts';
 
 import { SkjønnsfastsettingSykepengegrunnlag } from '../skjønnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
@@ -20,13 +19,15 @@ interface SykepengegrunnlagPanelProps {
     setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
     aktivInntektskilde?: Arbeidsgiverinntekt;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
+    person: PersonFragment;
 }
 
 // Inntekter fra vilkårsgrunnlaget er ikke nødvendigvis i samme rekkefølge som arbeidsgiverne på personen. Det er viktig
 // at arbeidsgiverne vises i samme rekkefølge på sykepengegrunnlag-fanen som i tidslinja.
-const useSorterteInntekter = (inntekter: Arbeidsgiverinntekt[]): Arbeidsgiverinntekt[] => {
-    const { arbeidsgivere } = useCurrentPerson();
-
+const getSorterteInntekter = (
+    inntekter: Arbeidsgiverinntekt[],
+    arbeidsgivere: ArbeidsgiverFragment[],
+): Arbeidsgiverinntekt[] => {
     const orgnumre = arbeidsgivere.map((ag) => ag.organisasjonsnummer);
 
     const inntekterFraAndre = inntekter.filter((inntekt) => !orgnumre.includes(inntekt.arbeidsgiver));
@@ -47,11 +48,12 @@ export const SykepengegrunnlagPanel = ({
     aktivInntektskilde,
     sykepengegrunnlagsgrense,
     skjønnsmessigFastsattÅrlig,
+    person,
 }: SykepengegrunnlagPanelProps) => {
     return (
         <div className={styles.wrapper}>
             <InntektsgrunnlagTable
-                inntekter={useSorterteInntekter(inntekter)}
+                inntekter={getSorterteInntekter(inntekter, person.arbeidsgivere)}
                 setAktivInntektskilde={setAktivInntektskilde}
                 aktivInntektskilde={aktivInntektskilde}
                 omregnetÅrsinntekt={omregnetÅrsinntekt}
@@ -64,12 +66,13 @@ export const SykepengegrunnlagPanel = ({
                 avviksprosent={avviksprosent}
             />
             <SkjønnsfastsettingSykepengegrunnlag
+                person={person}
                 sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                 sykepengegrunnlag={sykepengegrunnlag}
                 omregnetÅrsinntekt={omregnetÅrsinntekt}
                 sammenligningsgrunnlag={sammenligningsgrunnlag}
                 skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
-                inntekter={useSorterteInntekter(inntekter)}
+                inntekter={getSorterteInntekter(inntekter, person.arbeidsgivere)}
                 avviksprosent={avviksprosent ?? 0}
             />
         </div>

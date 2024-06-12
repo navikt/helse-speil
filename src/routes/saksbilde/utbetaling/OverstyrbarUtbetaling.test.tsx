@@ -1,6 +1,7 @@
 import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
+import { enPerson } from '@test-data/person';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
@@ -39,8 +40,10 @@ const dager = new Map<string, Utbetalingstabelldag>([
 
 describe('OverstyrbarUtbetaling', () => {
     test('overstyrer utbetalingstabell', async () => {
+        const person = enPerson();
         render(
             <OverstyrbarUtbetaling
+                person={person}
                 fom="2022-01-01"
                 tom="2022-01-31"
                 dager={dager}

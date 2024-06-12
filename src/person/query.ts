@@ -10,9 +10,9 @@ import { FetchPersonDocument, PersonFragment } from '@io/graphql';
  * - få person via props fra parent
  * - bruke useFetchPersonQuery i stedet, og håndtere loading (+error) selv
  */
-export const useCurrentPerson = (): PersonFragment => {
+export const useCurrentPerson = (): PersonFragment | null => {
     const { data } = useFetchPersonQuery();
-    return data?.person as PersonFragment;
+    return data?.person ?? null;
 };
 
 export const useFetchPersonQuery = () => {

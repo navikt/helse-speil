@@ -70,7 +70,7 @@ export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps
             <div className={styles.RouteContainer}>
                 {tab === 'dagoversikt' && <Utbetaling />}
                 {decodeURI(tab ?? '') === 'inngangsvilkår' && <Inngangsvilkår />}
-                {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag />}
+                {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag person={person} />}
                 {tab === 'vurderingsmomenter' && <Vurderingsmomenter />}
             </div>
         </div>

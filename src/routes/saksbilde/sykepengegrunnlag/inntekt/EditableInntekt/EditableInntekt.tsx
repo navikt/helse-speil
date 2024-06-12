@@ -10,9 +10,8 @@ import { DateString } from '@/types/shared';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
-import { OmregnetArsinntekt } from '@io/graphql';
+import { OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
-import { useCurrentPerson } from '@person/query';
 import {
     useArbeidsgiver,
     useLokaleRefusjonsopplysninger,
@@ -44,6 +43,7 @@ interface InntektFormFields {
 }
 
 interface EditableInntektProps {
+    person: PersonFragment;
     omregnetÅrsinntekt: OmregnetArsinntekt;
     begrunnelser: BegrunnelseForOverstyring[];
     organisasjonsnummer: string;
@@ -53,6 +53,7 @@ interface EditableInntektProps {
 }
 
 export const EditableInntekt = ({
+    person,
     omregnetÅrsinntekt,
     begrunnelser,
     organisasjonsnummer,
@@ -72,7 +73,6 @@ export const EditableInntekt = ({
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
     const førstePeriodeForSkjæringstidspunkt = getFørstePeriodeForSkjæringstidspunkt(skjæringstidspunkt, arbeidsgiver);
-    const person = useCurrentPerson();
 
     const cancelEditing = () => {
         onEndre(false);

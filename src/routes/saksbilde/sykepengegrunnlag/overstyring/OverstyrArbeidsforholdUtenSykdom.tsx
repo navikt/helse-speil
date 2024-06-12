@@ -11,7 +11,7 @@ import { EditButton } from '@components/EditButton';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
-import { Maybe } from '@io/graphql';
+import { Maybe, PersonFragment } from '@io/graphql';
 
 import { VenterPåEndringContext } from '../../VenterPåEndringContext';
 import { Begrunnelser } from '../inntekt/Begrunnelser';
@@ -22,12 +22,14 @@ interface OverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;
     skjæringstidspunkt: string;
     arbeidsforholdErDeaktivert?: Maybe<boolean>;
+    person: PersonFragment;
 }
 
 export const OverstyrArbeidsforholdUtenSykdom = ({
     organisasjonsnummerAktivPeriode,
     skjæringstidspunkt,
     arbeidsforholdErDeaktivert,
+    person,
 }: OverstyrArbeidsforholdUtenSykdomProps) => {
     const [editingArbeidsforhold, setEditingArbeidsforhold] = useState(false);
 
@@ -52,6 +54,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                 )}
                 {skalViseAngreknapp && (
                     <AngreOverstyrArbeidsforholdUtenSykdom
+                        person={person}
                         organisasjonsnummerAktivPeriode={organisasjonsnummerAktivPeriode}
                         skjæringstidspunkt={skjæringstidspunkt}
                         onClick={() => oppdaterVenterPåEndringState({ visAngreknapp: false, visOverstyrKnapp: true })}
@@ -71,6 +74,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
             </div>
             {editingArbeidsforhold && (
                 <OverstyrArbeidsforholdSkjema
+                    person={person}
                     onClose={() => setEditingArbeidsforhold(false)}
                     organisasjonsnummerAktivPeriode={organisasjonsnummerAktivPeriode}
                     skjæringstidspunkt={skjæringstidspunkt}
@@ -82,6 +86,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
 };
 
 interface OverstyrArbeidsforholdSkjemaProps {
+    person: PersonFragment;
     onClose: () => void;
     organisasjonsnummerAktivPeriode: string;
     skjæringstidspunkt: string;
@@ -112,6 +117,7 @@ const begrunnelser: BegrunnelseForOverstyring[] = [
 ];
 
 const OverstyrArbeidsforholdSkjema = ({
+    person,
     onClose,
     organisasjonsnummerAktivPeriode,
     skjæringstidspunkt,
@@ -119,7 +125,7 @@ const OverstyrArbeidsforholdSkjema = ({
 }: OverstyrArbeidsforholdSkjemaProps) => {
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
-    const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold();
+    const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold(person);
 
     const { isLoading, error, timedOut, setTimedOut, postOverstyring } = usePostOverstyrtArbeidsforhold(onClose);
 

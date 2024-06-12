@@ -5,8 +5,13 @@ import { Alert } from '@navikt/ds-react';
 
 import { DateString } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { ArbeidsgiverFragment, Arbeidsgiverinntekt, BeregnetPeriodeFragment, VilkarsgrunnlagSpleis } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
+import {
+    ArbeidsgiverFragment,
+    Arbeidsgiverinntekt,
+    BeregnetPeriodeFragment,
+    PersonFragment,
+    VilkarsgrunnlagSpleis,
+} from '@io/graphql';
 import {
     useArbeidsgiver,
     useInntektsmeldinghendelser,
@@ -26,11 +31,11 @@ const hasSykefravær = (arbeidsgiver: ArbeidsgiverFragment, fom: DateString): bo
 };
 
 interface InntektContainerProps {
+    person: PersonFragment;
     inntekt: Arbeidsgiverinntekt;
 }
 
-const InntektContainer = ({ inntekt }: InntektContainerProps): ReactElement | null => {
-    const person = useCurrentPerson();
+const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElement | null => {
     const period = useActivePeriod();
     const periodeForSkjæringstidspunktForArbeidsgiver = usePeriodForSkjæringstidspunktForArbeidsgiver(
         period?.skjaeringstidspunkt ?? null,
@@ -78,6 +83,7 @@ const InntektContainer = ({ inntekt }: InntektContainerProps): ReactElement | nu
 
     return (
         <InntektOgRefusjon
+            person={person}
             inntektFraAOrdningen={
                 arbeidsgiver.inntekterFraAordningen.find(
                     (it) => it.skjaeringstidspunkt === periodeForSkjæringstidspunktForArbeidsgiver.skjaeringstidspunkt,
@@ -112,14 +118,15 @@ const InntektError = () => {
 };
 
 interface InntektProps {
+    person: PersonFragment;
     inntekt: Arbeidsgiverinntekt;
 }
 
-export const Inntekt = ({ inntekt }: InntektProps): ReactElement => {
+export const Inntekt = ({ person, inntekt }: InntektProps): ReactElement => {
     return (
         <ErrorBoundary fallback={<InntektError />}>
             <div className={classNames(styles.Inntektskilderinnhold, inntekt.deaktivert && styles.deaktivert)}>
-                <InntektContainer inntekt={inntekt} />
+                <InntektContainer person={person} inntekt={inntekt} />
             </div>
         </ErrorBoundary>
     );

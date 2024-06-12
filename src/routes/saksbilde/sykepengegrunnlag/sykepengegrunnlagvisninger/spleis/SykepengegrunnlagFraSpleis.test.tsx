@@ -1,8 +1,7 @@
-import { ApolloWrapper } from '@test-wrappers';
+import { render, screen } from '@test-utils';
 import fetchMock from 'jest-fetch-mock';
 import React from 'react';
 
-import { useCurrentPerson } from '@person/query';
 import { useIsAnonymous } from '@state/anonymization';
 import {
     useArbeidsgiver,
@@ -16,7 +15,6 @@ import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
-import { render, screen } from '@testing-library/react';
 
 import { useVilkårsgrunnlag } from '../../useVilkårsgrunnlag';
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
@@ -55,14 +53,16 @@ describe('SykepengegrunnlagFraSpleis', () => {
             arbeidsforholdendringer: [],
             dagendringer: [],
         });
-        (useCurrentPerson as jest.Mock).mockReturnValue(person);
         (useVilkårsgrunnlag as jest.Mock).mockReturnValue(vilkårsgrunnlag);
         (useIsAnonymous as jest.Mock).mockReturnValue(false);
         (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
         render(
-            <SykepengegrunnlagFraSpleis vilkårsgrunnlag={vilkårsgrunnlag} organisasjonsnummer={organisasjonsnummer} />,
-            { wrapper: ApolloWrapper },
+            <SykepengegrunnlagFraSpleis
+                vilkårsgrunnlag={vilkårsgrunnlag}
+                organisasjonsnummer={organisasjonsnummer}
+                person={person}
+            />,
         );
 
         expect(screen.getByText('Inntektsgrunnlag')).toBeVisible();
@@ -91,12 +91,14 @@ describe('SykepengegrunnlagFraSpleis', () => {
             arbeidsforholdendringer: [],
             dagendringer: [],
         });
-        (useCurrentPerson as jest.Mock).mockReturnValue(person);
         (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
         render(
-            <SykepengegrunnlagFraSpleis vilkårsgrunnlag={vilkårsgrunnlag} organisasjonsnummer={organisasjonsnummer} />,
-            { wrapper: ApolloWrapper },
+            <SykepengegrunnlagFraSpleis
+                vilkårsgrunnlag={vilkårsgrunnlag}
+                organisasjonsnummer={organisasjonsnummer}
+                person={person}
+            />,
         );
 
         expect(screen.getByText('Inntektsgrunnlag')).toBeVisible();

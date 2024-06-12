@@ -3,9 +3,13 @@ import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 
 import { FetchResult, useMutation } from '@apollo/client';
-import { OpprettAbonnementDocument, OverstyrDagerMutationDocument, OverstyrDagerMutationMutation } from '@io/graphql';
+import {
+    OpprettAbonnementDocument,
+    OverstyrDagerMutationDocument,
+    OverstyrDagerMutationMutation,
+    PersonFragment,
+} from '@io/graphql';
 import { OverstyrtDagDTO, OverstyrtDagtype } from '@io/http';
-import { useCurrentPerson } from '@person/query';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import {
     kalkulererFerdigToastKey,
@@ -30,8 +34,7 @@ type UsePostOverstyringResult = {
     error?: string;
 };
 
-export const useOverstyrDager = (): UsePostOverstyringResult => {
-    const person = useCurrentPerson();
+export const useOverstyrDager = (person: PersonFragment): UsePostOverstyringResult => {
     const arbeidsgiver = useCurrentArbeidsgiver();
     const personFørRefetchRef = useRef(person);
     const addToast = useAddToast();

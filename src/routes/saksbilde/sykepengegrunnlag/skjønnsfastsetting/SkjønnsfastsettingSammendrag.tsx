@@ -1,20 +1,26 @@
 import React from 'react';
+import * as R from 'remeda';
 
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
-import { Skjonnsfastsettingstype, Sykepengegrunnlagskjonnsfastsetting } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
+import { ArbeidsgiverFragment, Skjonnsfastsettingstype } from '@io/graphql';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import styles from './SkjønnsfastsettingSammendrag.module.css';
 
-export const SkjønnsfastsettingSammendrag = () => {
-    const person = useCurrentPerson();
-    const sisteSkjønnsfastsetting = person.arbeidsgivere[0].overstyringer
-        .filter((it) => isSykepengegrunnlagskjønnsfastsetting(it))
-        .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
-        .shift() as Sykepengegrunnlagskjonnsfastsetting;
+type Props = {
+    arbeidsgivere: ArbeidsgiverFragment[];
+};
+export const SkjønnsfastsettingSammendrag = ({ arbeidsgivere }: Props) => {
+    const sisteSkjønnsfastsetting = R.pipe(
+        arbeidsgivere,
+        R.first(),
+        (it) => it?.overstyringer ?? [],
+        R.filter(isSykepengegrunnlagskjønnsfastsetting),
+        R.sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp)),
+        R.first(),
+    );
 
-    if (!person || !sisteSkjønnsfastsetting) return <></>;
+    if (!sisteSkjønnsfastsetting) return <></>;
 
     return (
         <div className={styles.sammendrag}>

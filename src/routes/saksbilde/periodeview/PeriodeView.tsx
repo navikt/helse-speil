@@ -16,7 +16,8 @@ import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/ty
 
 function PeriodeView(): ReactElement | null {
     const activePeriod = useActivePeriod();
-    const { loading, error, data } = useFetchPersonQuery();
+    // TODO: legg til rette for error
+    const { loading, data } = useFetchPersonQuery();
 
     if (loading) {
         return <PeriodeViewSkeleton />;
@@ -36,7 +37,7 @@ function PeriodeView(): ReactElement | null {
                 return <BeregnetPeriodeView period={activePeriod} person={data.person} />;
         }
     } else if (isGhostPeriode(activePeriod)) {
-        return <GhostPeriodeView activePeriod={activePeriod} />;
+        return <GhostPeriodeView activePeriod={activePeriod} person={data.person} />;
     } else if (isUberegnetPeriode(activePeriod)) {
         return <UberegnetPeriodeView activePeriod={activePeriod} />;
     } else {
