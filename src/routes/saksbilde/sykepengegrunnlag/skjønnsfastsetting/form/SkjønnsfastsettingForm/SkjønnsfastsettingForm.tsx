@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatch } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
 
 import { Button, Loader } from '@navikt/ds-react';
 
@@ -11,6 +10,7 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useCurrentPerson } from '@person/query';
 import { useActivePeriod } from '@state/periode';
+import { Maybe } from '@utils/ts';
 
 import { Feiloppsummering, Skjemafeil } from '../../../inntekt/EditableInntekt/Feiloppsummering';
 import {

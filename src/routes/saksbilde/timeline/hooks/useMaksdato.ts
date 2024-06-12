@@ -1,5 +1,6 @@
 import { DateString } from '@/types/shared';
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Periode } from '@io/graphql';
+import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 const isValidDate = (date?: Maybe<DateString>): boolean => {

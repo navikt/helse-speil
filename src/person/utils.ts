@@ -11,6 +11,7 @@ import {
     Vilkarsgrunnlag,
 } from '@io/graphql';
 import { getRequiredTimestamp, isGodkjent } from '@state/selectors/utbetaling';
+import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isDagoverstyring, isGhostPeriode } from '@utils/typeguards';
 
 export const getRequiredInntekt = (

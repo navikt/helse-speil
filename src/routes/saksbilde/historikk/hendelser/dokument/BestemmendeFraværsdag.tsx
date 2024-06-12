@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import React from 'react';
 
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
+import { Maybe } from '@utils/ts';
 
 import { DokumentFragment } from './DokumentFragment';
 

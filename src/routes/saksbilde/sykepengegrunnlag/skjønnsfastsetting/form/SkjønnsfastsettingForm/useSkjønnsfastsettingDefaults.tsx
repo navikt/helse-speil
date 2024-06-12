@@ -7,6 +7,7 @@ import {
 import { useCurrentPerson } from '@person/query';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
+import { Maybe } from '@utils/ts';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import { Skjønnsfastsettingstype } from '../../skjønnsfastsetting';

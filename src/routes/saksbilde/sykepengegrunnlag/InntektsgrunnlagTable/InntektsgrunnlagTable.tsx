@@ -5,6 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { Bold } from '@components/Bold';
 import { Arbeidsgiverinntekt } from '@io/graphql';
 import { somPenger } from '@utils/locale';
+import { Maybe } from '@utils/ts';
 
 import { Inntektssammenligning } from './Inntektssammenligning';
 import { TableCell } from './TableCell';

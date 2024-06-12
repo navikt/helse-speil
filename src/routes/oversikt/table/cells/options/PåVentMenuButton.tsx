@@ -4,6 +4,7 @@ import { Dropdown } from '@navikt/ds-react';
 
 import { Personnavn, Tildeling } from '@io/graphql';
 import { useFjernPåVent } from '@state/påvent';
+import { Maybe } from '@utils/ts';
 
 import { PåVentNotatModal } from '../notat/PåVentNotatModal';
 

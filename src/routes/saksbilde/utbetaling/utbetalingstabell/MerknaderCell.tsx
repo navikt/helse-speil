@@ -3,6 +3,8 @@ import React from 'react';
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
+import { Begrunnelse } from '@io/graphql';
+import { Maybe } from '@utils/ts';
 
 import { CellContent } from '../../table/CellContent';
 
@@ -116,8 +118,8 @@ const foreldetDagMerknad = (isForeldet: boolean): React.ReactNode | undefined =>
         </Tooltip>
     ) : undefined;
 
-const avvisningsårsakerMerknad = (dag: Utbetalingstabelldag, alderVedSkjæringstidspunkt?: Maybe<number>) =>
-    dag.begrunnelser?.map((begrunnelse, i) => (
+const avvisningsårsakerMerknad = (begrunnelser: Begrunnelse[], alderVedSkjæringstidspunkt?: Maybe<number>) =>
+    begrunnelser.map((begrunnelse, i) => (
         <React.Fragment key={i}>
             {i !== 0 && <BodyShort>,&nbsp;</BodyShort>}
             <Merknad begrunnelse={begrunnelse} alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt} />
@@ -134,7 +136,7 @@ export const MerknaderCell = ({ dag, alderVedSkjæringstidspunkt, ...rest }: Mer
         <CellContent>
             {sisteUtbetalingsdagMerknad(dag.erMaksdato) ??
                 foreldetDagMerknad(dag.erForeldet) ??
-                avvisningsårsakerMerknad(dag, alderVedSkjæringstidspunkt)}
+                avvisningsårsakerMerknad(dag.begrunnelser, alderVedSkjæringstidspunkt)}
         </CellContent>
     </td>
 );

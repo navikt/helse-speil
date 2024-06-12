@@ -4,6 +4,7 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { toKronerOgØre } from '@utils/locale';
+import { Maybe } from '@utils/ts';
 
 import { MånedsbeløpInput } from '../MånedsbeløpInput';
 

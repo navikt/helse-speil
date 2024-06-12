@@ -7,6 +7,7 @@ import {
     GhostPeriodeFragment,
     Maybe,
     Periode,
+    PeriodeFragment,
     Periodetilstand,
     PersonFragment,
     UberegnetPeriodeFragment,
@@ -46,7 +47,7 @@ export const harBlittUtbetaltTidligere = (
     );
 };
 
-export const isNotReady = (period: Periode) =>
+export const isNotReady = (period: PeriodeFragment) =>
     [
         Periodetilstand.VenterPaEnAnnenPeriode,
         Periodetilstand.ForberederGodkjenning,

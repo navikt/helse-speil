@@ -6,6 +6,7 @@ import { PeriodState } from '@/types/shared';
 import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
 import { useSetActivePeriodId } from '@state/periode';
 import { getPeriodState } from '@utils/mapping';
+import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
 import { InfoPin } from './InfoPin';

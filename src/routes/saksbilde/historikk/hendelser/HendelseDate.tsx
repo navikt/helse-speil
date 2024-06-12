@@ -5,6 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { DateString } from '@/types/shared';
 import { getFormattedDatetimeString } from '@utils/date';
+import { Maybe } from '@utils/ts';
 
 type HendelseDateProps = {
     timestamp?: DateString;

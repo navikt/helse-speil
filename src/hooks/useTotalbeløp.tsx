@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import { Dag } from '@io/graphql';
+import { Maybe } from '@utils/ts';
 
 import {
     getDagerMedUtbetaling,

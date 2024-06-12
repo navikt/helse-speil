@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import React from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
@@ -13,6 +12,7 @@ import { BeregnetPeriodeFragment, Kildetype, Sykepengegrunnlagsgrense } from '@i
 import { useCurrentPerson } from '@person/query';
 import { useActivePeriod } from '@state/periode';
 import { somPenger, toKronerOgØre } from '@utils/locale';
+import { Maybe } from '@utils/ts';
 
 import styles from './SkjønnsfastsettingHeader.module.css';
 

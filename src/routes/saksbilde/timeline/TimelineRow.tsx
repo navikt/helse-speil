@@ -6,7 +6,7 @@ import React from 'react';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
-import type { GhostPeriodeFragment, Periode } from '@io/graphql';
+import type { GhostPeriodeFragment, PeriodeFragment } from '@io/graphql';
 
 import { Periods } from './Periods';
 
@@ -16,7 +16,7 @@ export interface TimelineRowProps {
     start: Dayjs;
     end: Dayjs;
     name: string;
-    periods: Array<Periode>;
+    periods: Array<PeriodeFragment>;
     activePeriod: TimelinePeriod | null;
     ghostPeriods?: Array<GhostPeriodeFragment>;
     alignWithExpandable?: boolean;

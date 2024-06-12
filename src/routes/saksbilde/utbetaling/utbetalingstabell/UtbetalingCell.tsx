@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { somPenger } from '@utils/locale';
+import { Maybe } from '@utils/ts';
 
 import { CellContent } from '../../table/CellContent';
 import { Cell } from './Cell';

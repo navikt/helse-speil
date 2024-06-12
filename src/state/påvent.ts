@@ -16,6 +16,7 @@ import {
 } from '@io/graphql';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { Maybe } from '@utils/ts';
 
 const useOptimistiskPaVent = (): PaventFragment => {
     const saksbehandler = useInnloggetSaksbehandler();

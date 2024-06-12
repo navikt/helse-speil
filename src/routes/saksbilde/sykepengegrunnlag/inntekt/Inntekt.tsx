@@ -14,6 +14,7 @@ import {
 } from '@state/arbeidsgiver';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
+import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { useVilkårsgrunnlag } from '../useVilkårsgrunnlag';

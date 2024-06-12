@@ -3,6 +3,7 @@ import React from 'react';
 import { Table, Tooltip } from '@navikt/ds-react';
 
 import { TextWithEllipsis } from '@components/TextWithEllipsis';
+import { Maybe } from '@utils/ts';
 
 interface BehandletAvCellProps {
     name?: Maybe<string>;

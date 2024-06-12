@@ -4,6 +4,7 @@ import { Tooltip } from '@navikt/ds-react';
 
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { useIsAnonymous } from '@state/anonymization';
+import { Maybe } from '@utils/ts';
 
 interface ArbeidsgiverikonMedTooltipProps {
     tooltipTekst?: Maybe<string>;
