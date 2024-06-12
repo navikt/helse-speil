@@ -1,9 +1,11 @@
+import { Dayjs } from 'dayjs';
 import React from 'react';
 
 import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
-import { DatePeriod, InfotrygdPeriod } from '@/types/shared';
-import { GhostPeriode, GhostPeriodeFragment, Periode, Periodetilstand } from '@io/graphql';
+import { ActivePeriod, DatePeriod, InfotrygdPeriod } from '@/types/shared';
+import { GhostPeriodeFragment, PeriodeFragment, Periodetilstand } from '@io/graphql';
 import { isNotReady } from '@state/selectors/period';
+import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { Period } from './Period';
@@ -15,7 +17,7 @@ import styles from './Periods.module.css';
 
 const byFomAscending = (a: DatePeriod, b: DatePeriod): number => new Date(b.fom).getTime() - new Date(a.fom).getTime();
 
-const filterReadyPeriods = (periods: Array<Periode>): Array<Periode> =>
+const filterReadyPeriods = (periods: Array<PeriodeFragment>): Array<PeriodeFragment> =>
     periods.filter((it) => !(it.erForkastet && isNotReady(it)));
 
 const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
@@ -27,7 +29,7 @@ const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
               : true,
     );
 
-const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
+const isActive = (activePeriod: Maybe<TimelinePeriod>, currentPeriod: Maybe<TimelinePeriod>): boolean => {
     if (isGhostPeriode(activePeriod) && isGhostPeriode(currentPeriod)) {
         return activePeriod.id === currentPeriod.id;
     } else if (isBeregnetPeriode(activePeriod) && isBeregnetPeriode(currentPeriod)) {
@@ -40,7 +42,7 @@ const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
 };
 
 const mergePeriods = (
-    fromSpleis: Array<Periode>,
+    fromSpleis: Array<PeriodeFragment>,
     fromInfotrygd: Array<InfotrygdPeriod>,
     ghostPeriods: Array<GhostPeriodeFragment>,
 ): Array<TimelinePeriod> => {
@@ -51,8 +53,8 @@ const mergePeriods = (
 interface PeriodsProps {
     start: Dayjs;
     end: Dayjs;
-    periods: Array<Periode>;
-    activePeriod?: Maybe<TimelinePeriod>;
+    periods: Array<PeriodeFragment>;
+    activePeriod: Maybe<TimelinePeriod>;
     infotrygdPeriods?: Array<InfotrygdPeriod>;
     ghostPeriods?: Array<GhostPeriodeFragment>;
     notCurrent?: boolean;
@@ -81,7 +83,7 @@ export const Periods: React.FC<PeriodsProps> = ({
                     period={period}
                     style={positions.get(i) ?? {}}
                     notCurrent={notCurrent}
-                    isActive={isActive(activePeriod as Periode, period as Periode)}
+                    isActive={isActive(activePeriod, period)}
                 />
             ))}
         </div>

@@ -10,6 +10,7 @@ import { InntektFraAOrdningen, Inntektskilde } from '@io/graphql';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { getMonthName, somPenger } from '@utils/locale';
+import { Maybe } from '@utils/ts';
 
 import styles from './SisteTolvMånedersInntekt.module.css';
 

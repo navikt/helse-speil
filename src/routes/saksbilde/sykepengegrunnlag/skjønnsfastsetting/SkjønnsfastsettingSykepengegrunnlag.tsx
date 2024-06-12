@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useSkjønnsfastsettelsesMaler } from '@/external/sanity';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { Maybe } from '@utils/ts';
 
 import { SykepengegrunnlagsgrenseView } from '../InntektsgrunnlagTable/SykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';

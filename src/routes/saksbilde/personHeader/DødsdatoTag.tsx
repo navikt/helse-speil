@@ -6,6 +6,7 @@ import { Tag } from '@navikt/ds-react';
 
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { NORSK_DATOFORMAT } from '@utils/date';
+import { Maybe } from '@utils/ts';
 
 import styles from './PersonHeader.module.css';
 

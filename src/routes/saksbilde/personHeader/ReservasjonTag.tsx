@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Reservasjon } from '@io/graphql';
+import { Maybe } from '@utils/ts';
 
 import { TagMedTooltip } from './TagMedTooltip';
 

@@ -9,6 +9,7 @@ import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Inntektskilde, Skjonnsfastsettingstype } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 import { somPenger } from '@utils/locale';
+import { Maybe } from '@utils/ts';
 
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
 import { Hendelse } from './Hendelse';

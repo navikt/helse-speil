@@ -2,6 +2,7 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { Kildetype } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
+import { Maybe } from '@utils/ts';
 
 export interface RefusjonFormFields {
     fom: string;

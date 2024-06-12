@@ -11,6 +11,7 @@ import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
 import { Egenskap, Kategori, Oppgaveegenskap } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
+import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 const amplitudeClient = erProd || erDev ? amplitude : undefined;

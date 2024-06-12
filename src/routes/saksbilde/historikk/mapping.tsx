@@ -22,6 +22,7 @@ import {
     Vurdering,
 } from '@io/graphql';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '@utils/date';
+import { Maybe } from '@utils/ts';
 import {
     isArbeidsforholdoverstyring,
     isBeregnetPeriode,

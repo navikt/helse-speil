@@ -20,6 +20,7 @@ import {
 import { getVilkårsgrunnlag } from '@person/utils';
 import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { getPeriodState } from '@utils/mapping';
+import { Maybe } from '@utils/ts';
 
 import { VarselObject } from '../varsler/Saksbildevarsler';
 import { PeriodeCard } from './PeriodeCard';

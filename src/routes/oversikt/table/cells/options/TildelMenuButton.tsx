@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Tildeling } from '@io/graphql';
 import { useOpprettTildeling } from '@state/tildeling';
+import { Maybe } from '@utils/ts';
 
 import { AsyncMenuButton } from './AsyncMenuButton';
 

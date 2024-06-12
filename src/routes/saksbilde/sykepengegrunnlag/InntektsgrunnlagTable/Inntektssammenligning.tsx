@@ -9,6 +9,7 @@ import { Inntektskilde, OmregnetArsinntekt, OverstyringFragment, Sammenligningsg
 import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
+import { Maybe } from '@utils/ts';
 
 import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
 import { EndringsloggButton } from '../inntekt/EndringsloggButton';

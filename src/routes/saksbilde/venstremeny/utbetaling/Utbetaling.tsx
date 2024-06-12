@@ -23,6 +23,7 @@ import { inntektOgRefusjonState } from '@state/overstyring';
 import { isRevurdering } from '@state/selectors/utbetaling';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { getPeriodState } from '@utils/mapping';
+import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { BegrunnelseVedtak } from '../BegrunnelseVedtak';

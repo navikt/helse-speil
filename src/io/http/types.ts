@@ -1,4 +1,5 @@
-import { Lovhjemmel } from '../../routes/saksbilde/sykepengegrunnlag/overstyring/overstyring.types';
+import { Lovhjemmel } from '@/routes/saksbilde/sykepengegrunnlag/overstyring/overstyring.types';
+import { Maybe } from '@utils/ts';
 
 export interface Options {
     method?: string;

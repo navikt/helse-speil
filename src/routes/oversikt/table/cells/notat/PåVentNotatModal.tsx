@@ -16,6 +16,7 @@ import { useLeggPåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { getFormatertNavn } from '@utils/string';
+import { Maybe } from '@utils/ts';
 
 import { Frist } from './Frist';
 import { SisteNotat } from './SisteNotat';

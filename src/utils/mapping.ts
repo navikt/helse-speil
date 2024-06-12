@@ -7,6 +7,7 @@ import {
     UberegnetPeriodeFragment,
     Utbetalingtype,
 } from '@io/graphql';
+import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
 const hasBeenAssessedAutomatically = (period: BeregnetPeriodeFragment): boolean =>

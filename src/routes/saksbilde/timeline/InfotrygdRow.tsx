@@ -25,7 +25,7 @@ export const InfotrygdRow: React.FC<InfotrygdRowProps> = ({ start, end, periods,
                 <BodyShort size="small">Infotrygd</BodyShort>
             </div>
             <div className={styles.Periods}>
-                <Periods periods={[]} start={start} end={end} infotrygdPeriods={periods} />
+                <Periods periods={[]} start={start} end={end} infotrygdPeriods={periods} activePeriod={null} />
             </div>
         </div>
     );

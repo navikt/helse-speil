@@ -5,6 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { somPenger } from '@utils/locale';
+import { Maybe } from '@utils/ts';
 
 import { TableCell } from './TableCell';
 

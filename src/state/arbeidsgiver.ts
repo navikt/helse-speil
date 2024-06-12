@@ -23,6 +23,7 @@ import { useActivePeriod } from '@state/periode';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { isGodkjent } from '@state/selectors/utbetaling';
 import { ISO_DATOFORMAT } from '@utils/date';
+import { Maybe } from '@utils/ts';
 import {
     isArbeidsforholdoverstyring,
     isBeregnetPeriode,

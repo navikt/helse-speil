@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
+import { ArbeidsgiverGenerasjon } from '@/types/shared';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
-import type { Generasjon } from '@io/graphql';
 
 import { Periods } from './Periods';
 import type { TimelineRowProps } from './TimelineRow';
@@ -11,7 +11,7 @@ import type { TimelineRowProps } from './TimelineRow';
 import styles from './TimelineRow.module.css';
 
 interface ExpandableTimelineRowProp extends Omit<TimelineRowProps, 'periods'> {
-    generations: Array<Generasjon>;
+    generations: Array<ArbeidsgiverGenerasjon>;
 }
 
 export const ExpandableTimelineRow: React.FC<ExpandableTimelineRowProp> = ({
