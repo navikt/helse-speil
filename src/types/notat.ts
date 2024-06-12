@@ -1,3 +1,5 @@
+import { Dayjs } from 'dayjs';
+
 import { Kommentar } from '@io/graphql';
 
 export type NotatSaksbehandler = {

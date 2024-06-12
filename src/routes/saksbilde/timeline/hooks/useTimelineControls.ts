@@ -1,5 +1,5 @@
 import { TimelineZoomLevel } from '../timeline-types';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 
 import { DateString } from '@/types/shared';
