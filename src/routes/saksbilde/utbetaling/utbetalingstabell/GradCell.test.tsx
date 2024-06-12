@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import '@testing-library/jest-dom';
@@ -10,10 +10,12 @@ import { GradCell } from './GradCell';
 describe('GradCell', () => {
     it('skal tegne en overstyringstrekant med tekst når grad går fra 100 % til 0 %', async () => {
         render(
-            <GradCell
-                tabelldag={getUtbetalingstabellDag({ grad: 100 })}
-                overstyrtDag={getUtbetalingstabellDag({ grad: 0 })}
-            />,
+            <CellWrapper>
+                <GradCell
+                    tabelldag={getUtbetalingstabellDag({ grad: 100 })}
+                    overstyrtDag={getUtbetalingstabellDag({ grad: 0 })}
+                />
+            </CellWrapper>,
         );
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
@@ -24,7 +26,12 @@ describe('GradCell', () => {
 
     it('skal tegne en overstyringstrekant med tekst når grad går fra null til 100 %', async () => {
         render(
-            <GradCell tabelldag={getUtbetalingstabellDag({ grad: null })} overstyrtDag={getUtbetalingstabellDag()} />,
+            <CellWrapper>
+                <GradCell
+                    tabelldag={getUtbetalingstabellDag({ grad: null })}
+                    overstyrtDag={getUtbetalingstabellDag()}
+                />
+            </CellWrapper>,
         );
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
@@ -34,7 +41,19 @@ describe('GradCell', () => {
     });
 
     it('rendrer ikke infotrekant når vi ikke overstyrer', () => {
-        render(<GradCell tabelldag={getUtbetalingstabellDag()} />);
+        render(
+            <CellWrapper>
+                <GradCell tabelldag={getUtbetalingstabellDag()} />
+            </CellWrapper>,
+        );
         expect(screen.queryByTestId('infotrekant')).not.toBeInTheDocument();
     });
 });
+
+const CellWrapper = ({ children }: PropsWithChildren) => (
+    <table>
+        <tbody>
+            <tr>{children}</tr>
+        </tbody>
+    </table>
+);
