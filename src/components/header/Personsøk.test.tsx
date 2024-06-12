@@ -55,7 +55,7 @@ describe('Personsøk', () => {
                         FetchPersonDocument,
                         {
                             __typename: 'Query',
-                            person: enPerson({ aktorId: '1234567891000', fodselsnummer: '1234567891000' }),
+                            person: enPerson({ aktorId: 'annen-bruker', fodselsnummer: '12345678910' }),
                         },
                         { aktorId: 'annen-bruker' },
                     ),
