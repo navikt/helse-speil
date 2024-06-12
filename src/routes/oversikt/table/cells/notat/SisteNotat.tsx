@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -11,7 +11,7 @@ interface SisteNotatProps {
     notat: Notat;
 }
 
-export const SisteNotat: React.FC<SisteNotatProps> = ({ notat }) => (
+export const SisteNotat = ({ notat }: SisteNotatProps): ReactElement => (
     <BodyShort as="p" className={styles.siste}>
         {notat.opprettet.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)} : {notat.tekst}
     </BodyShort>

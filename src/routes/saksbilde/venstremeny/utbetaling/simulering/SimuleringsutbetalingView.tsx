@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Simuleringsutbetaling } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
@@ -9,7 +9,7 @@ interface SimuleringsutbetalingViewProps {
     utbetaling: Simuleringsutbetaling;
 }
 
-export const SimuleringsutbetalingView: React.FC<SimuleringsutbetalingViewProps> = ({ utbetaling }) => {
+export const SimuleringsutbetalingView = ({ utbetaling }: SimuleringsutbetalingViewProps): ReactElement => {
     return (
         <>
             <SimuleringsperiodeValue label="Utbetales til ID" value={utbetaling.mottakerId} />

@@ -7,6 +7,8 @@ interface CardTitleProps extends React.HTMLAttributes<HTMLParagraphElement> {
     children: React.ReactNode;
 }
 
-export const CardTitle: React.FC<CardTitleProps> = (props) => (
-    <BodyShort className={styles.tittel} as="h3" {...props} />
+export const CardTitle = ({ children, ...props }: CardTitleProps) => (
+    <BodyShort className={styles.tittel} as="h3" {...props}>
+        {children}
+    </BodyShort>
 );

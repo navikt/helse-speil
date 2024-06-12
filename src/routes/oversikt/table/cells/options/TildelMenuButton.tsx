@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Tildeling } from '@io/graphql';
 import { useOpprettTildeling } from '@state/tildeling';
@@ -11,7 +11,7 @@ interface TildelMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEle
     tildeling?: Maybe<Tildeling>;
 }
 
-export const TildelMenuButton: React.FC<TildelMenuButtonProps> = ({ oppgavereferanse, tildeling }) => {
+export const TildelMenuButton = ({ oppgavereferanse, tildeling }: TildelMenuButtonProps): ReactElement => {
     const [tildelOppgave] = useOpprettTildeling();
     return (
         <AsyncMenuButton

@@ -1,7 +1,7 @@
 import React from 'react';
 
-export const Infotrygdikon: React.FC<React.SVGAttributes<SVGElement>> = (svgProps) => (
-    <svg viewBox="0 0 16 17" height={16} width={16} {...svgProps}>
+export const Infotrygdikon = ({ ...props }: React.SVGAttributes<SVGElement>) => (
+    <svg viewBox="0 0 16 17" height={16} width={16} {...props}>
         <title>Infotrygd</title>
         <path
             fillRule="evenodd"

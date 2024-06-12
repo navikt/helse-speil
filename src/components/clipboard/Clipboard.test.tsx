@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { ReactElement, useRef } from 'react';
 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -39,7 +39,7 @@ describe('Clipboard', () => {
         expect(copiedText).toEqual('Denneskalkopieresutenmellomrom');
     });
     test('kopierer tekst fra kilderef om oppgitt', async () => {
-        const Container: React.FC = () => {
+        const Container = (): ReactElement => {
             const copyRef = useRef<HTMLParagraphElement>(null);
             return (
                 <>

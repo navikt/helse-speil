@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Back, Next } from '@navikt/ds-icons';
 
@@ -11,12 +11,12 @@ interface ScrollButtonsProps {
     canNavigateBackwards: boolean;
 }
 
-export const ScrollButtons: React.FC<ScrollButtonsProps> = ({
+export const ScrollButtons = ({
     navigateForwards,
     navigateBackwards,
     canNavigateForwards,
     canNavigateBackwards,
-}) => {
+}: ScrollButtonsProps): ReactElement => {
     return (
         <div className={styles.ScrollButtons}>
             <button

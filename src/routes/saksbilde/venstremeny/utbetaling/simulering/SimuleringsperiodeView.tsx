@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Simuleringsperiode } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
@@ -12,7 +12,7 @@ interface SimuleringsperiodeProps {
     periode: Simuleringsperiode;
 }
 
-export const SimuleringsperiodeView: React.FC<SimuleringsperiodeProps> = ({ periode }) => {
+export const SimuleringsperiodeView = ({ periode }: SimuleringsperiodeProps): ReactElement => {
     return (
         <div className={styles.Simuleringsperiode}>
             <SimuleringsperiodeValue

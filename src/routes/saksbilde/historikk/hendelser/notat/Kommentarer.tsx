@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -13,7 +13,7 @@ interface KommentarerProps {
     saksbehandlerOid: string;
 }
 
-export const Kommentarer: React.FC<KommentarerProps> = ({ kommentarer, saksbehandlerOid }) => {
+export const Kommentarer = ({ kommentarer, saksbehandlerOid }: KommentarerProps): ReactElement | null => {
     if (kommentarer.length === 0) return null;
 
     return (

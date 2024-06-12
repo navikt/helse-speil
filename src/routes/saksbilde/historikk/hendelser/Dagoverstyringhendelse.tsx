@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
@@ -53,13 +53,13 @@ const groupSimilarDays = (days: Array<OverstyrtDag>): Array<GroupedDays> => {
 
 type DagoverstyringhendelseProps = Omit<DagoverstyringhendelseObject, 'type' | 'id'>;
 
-export const Dagoverstyringhendelse: React.FC<DagoverstyringhendelseProps> = ({
+export const Dagoverstyringhendelse = ({
     erRevurdering,
     saksbehandler,
     timestamp,
     begrunnelse,
     dager,
-}) => (
+}: DagoverstyringhendelseProps): ReactElement => (
     <Hendelse
         title={erRevurdering ? 'Dager revurdert' : 'Dager endret'}
         icon={

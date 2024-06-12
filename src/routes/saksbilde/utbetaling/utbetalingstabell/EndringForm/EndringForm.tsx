@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Button, TextField } from '@navikt/ds-react';
@@ -19,7 +19,7 @@ interface EndringFormProps {
     onSubmitEndring: (endring: Partial<Utbetalingstabelldag>) => void;
 }
 
-export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmitEndring }) => {
+export const EndringForm = ({ markerteDager, onSubmitEndring }: EndringFormProps): ReactElement => {
     const defaultEndring = { dag: alleTypeendringer[0], erAvvist: false, erForeldet: false };
     const [endring, setEndring] = useState<Partial<Utbetalingstabelldag>>(defaultEndring);
 

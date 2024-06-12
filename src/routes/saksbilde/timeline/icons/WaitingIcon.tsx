@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 type WaitingIconProps = React.SVGAttributes<SVGSVGElement>;
 
-export const WaitingIcon: React.FC<WaitingIconProps> = ({ ...svgProps }) => {
+export const WaitingIcon = ({ ...svgProps }: WaitingIconProps): ReactElement => {
     return (
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" {...svgProps}>
             <circle cx="9" cy="9" r="8.25" fill="white" stroke="#262626" strokeWidth="0.5" />

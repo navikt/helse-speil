@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 
 import styles from './JusterbarSidemeny.module.css';
 
@@ -13,7 +13,7 @@ interface JusterbarSidebarProps {
     åpnesTilVenstre?: boolean;
 }
 
-export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
+export const JusterbarSidemeny = ({
     visSidemeny,
     defaultBredde,
     children,
@@ -21,7 +21,7 @@ export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
     className,
     onChangeBredde,
     åpnesTilVenstre = false,
-}: JusterbarSidebarProps) => {
+}: JusterbarSidebarProps): ReactElement => {
     const [width, setWidth] = useState(() =>
         localStorageNavn && typeof window !== 'undefined'
             ? parseInt(localStorage.getItem(localStorageNavn) || defaultBredde.toString())

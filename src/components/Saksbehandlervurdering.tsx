@@ -1,10 +1,10 @@
 import styles from './Vurdering.module.scss';
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
 
-const Icon = () => (
+const Icon = (): ReactElement => (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
             fillRule="evenodd"
@@ -20,13 +20,13 @@ interface SaksbehandlervurderingProps extends React.HTMLAttributes<HTMLDivElemen
     ident: string;
 }
 
-export const Saksbehandlervurdering: React.FC<SaksbehandlervurderingProps> = ({
+export const Saksbehandlervurdering = ({
     className,
     children,
     title,
     ident,
     ...divProps
-}) => (
+}: SaksbehandlervurderingProps): ReactElement => (
     <div className={classNames(styles.container, styles['container__saksbehandler'], className)} {...divProps}>
         <div className={styles.ikoncontainer}>
             <Icon />

@@ -3,17 +3,16 @@
 import React, { ReactElement } from 'react';
 
 import { AnnullertPeriodeView } from '@/routes/saksbilde/saksbilder/AnnullertPeriodeView';
-import BeregnetPeriodeView from '@/routes/saksbilde/saksbilder/BeregnetPeriodeView';
-import GhostPeriodeView from '@/routes/saksbilde/saksbilder/GhostPeriodeView';
+import { BeregnetPeriodeView } from '@/routes/saksbilde/saksbilder/BeregnetPeriodeView';
+import { GhostPeriodeView } from '@/routes/saksbilde/saksbilder/GhostPeriodeView';
 import { PeriodeTilAnnulleringView } from '@/routes/saksbilde/saksbilder/PeriodeTilAnnulleringView';
-import PeriodeViewSkeleton from '@/routes/saksbilde/saksbilder/PeriodeViewSkeleton';
-import UberegnetPeriodeView from '@/routes/saksbilde/saksbilder/UberegnetPeriodeView';
+import { PeriodeViewError } from '@/routes/saksbilde/saksbilder/PeriodeViewError';
+import { PeriodeViewSkeleton } from '@/routes/saksbilde/saksbilder/PeriodeViewSkeleton';
+import { UberegnetPeriodeView } from '@/routes/saksbilde/saksbilder/UberegnetPeriodeView';
 import { Periodetilstand } from '@io/graphql';
 import { useFetchPersonQuery } from '@person/query';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
-
-import PeriodeViewError from '../saksbilder/PeriodeViewError';
 
 function PeriodeView(): ReactElement | null {
     const activePeriod = useActivePeriod();

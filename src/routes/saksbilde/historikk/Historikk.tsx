@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -44,7 +44,7 @@ const getHistorikkTitle = (type: Filtertype): string => {
     }
 };
 
-const HistorikkWithContent: React.FC = () => {
+const HistorikkWithContent = (): ReactElement => {
     const { loading, data } = useFetchPersonQuery();
     const historikk = useFilteredHistorikk();
     const [filter] = useFilterState();
@@ -137,7 +137,7 @@ const HistorikkWithContent: React.FC = () => {
     );
 };
 
-export const HistorikkSkeleton = () => {
+export const HistorikkSkeleton = (): ReactElement => {
     return (
         <div className={styles.historikk}>
             <ul>
@@ -150,7 +150,7 @@ export const HistorikkSkeleton = () => {
     );
 };
 
-const HistorikkError = () => {
+const HistorikkError = (): ReactElement => {
     return (
         <div className={classNames(styles.historikk, styles.error)}>
             <ul>
@@ -162,7 +162,7 @@ const HistorikkError = () => {
     );
 };
 
-export const Historikk = () => {
+export const Historikk = (): ReactElement => {
     return (
         <ErrorBoundary fallback={<HistorikkError />}>
             <HistorikkWithContent />

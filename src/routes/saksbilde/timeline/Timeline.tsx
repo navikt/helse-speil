@@ -1,7 +1,7 @@
 import { TimelinePeriod } from './timeline-types';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React, { useEffect } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -31,11 +31,11 @@ interface TimelineWithContentProps {
     activePeriod: TimelinePeriod | null;
 }
 
-const TimelineWithContent: React.FC<TimelineWithContentProps> = ({
+const TimelineWithContent = ({
     arbeidsgivere,
     infotrygdutbetalinger,
     activePeriod,
-}) => {
+}: TimelineWithContentProps): ReactElement => {
     useEffect(() => {
         const defaultZoomLevel = () => {
             if (isBeregnetPeriode(activePeriod)) {
@@ -152,7 +152,7 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = ({
     );
 };
 
-const TimelineContainer: React.FC = () => {
+const TimelineContainer = (): ReactElement | null => {
     const activePeriod = useActivePeriod();
     const { loading, data } = useFetchPersonQuery();
 
@@ -176,7 +176,7 @@ const TimelineContainer: React.FC = () => {
     );
 };
 
-const TimelineSkeleton: React.FC = () => {
+const TimelineSkeleton = (): ReactElement => {
     return (
         <div className={styles.Timeline}>
             <LabelsSkeleton />
@@ -196,7 +196,7 @@ const TimelineSkeleton: React.FC = () => {
     );
 };
 
-const TimelineError: React.FC = () => {
+const TimelineError = (): ReactElement => {
     return (
         <div className={classNames(styles.Timeline, styles.Error)}>
             <BodyShort>Det har skjedd en feil. Kan ikke vise tidslinjen for denne saken.</BodyShort>
@@ -204,7 +204,7 @@ const TimelineError: React.FC = () => {
     );
 };
 
-export const Timeline: React.FC = () => (
+export const Timeline = (): ReactElement => (
     <ErrorBoundary fallback={<TimelineError />}>
         <TimelineContainer />
     </ErrorBoundary>

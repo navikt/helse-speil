@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactElement, ReactNode, useState } from 'react';
 
 import { XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { Cancel, Refresh, Send, StopWatch, Success } from '@navikt/ds-icons';
@@ -58,7 +58,11 @@ const getIcon = (type: PeriodehistorikkType): ReactNode => {
 
 type HistorikkhendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
 
-export const Historikkhendelse: React.FC<HistorikkhendelseProps> = ({ historikktype, saksbehandler, timestamp }) => {
+export const Historikkhendelse = ({
+    historikktype,
+    saksbehandler,
+    timestamp,
+}: HistorikkhendelseProps): ReactElement => {
     const [expanded, setExpanded] = useState(false);
     const totrinnsvurderingReturTekst =
         'Perioden er automatisk reberegnet etter at den ble sendt til beslutter. Sjekk om evt. endringer har betydning for saken.';

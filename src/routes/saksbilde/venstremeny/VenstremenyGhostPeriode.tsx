@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { ArbeidsgiverFragment, GhostPeriodeFragment } from '@io/graphql';
 
@@ -11,10 +11,10 @@ interface VenstremenyGhostPeriodeProps {
     currentArbeidsgiver: ArbeidsgiverFragment;
 }
 
-export const VenstremenyGhostPeriode: React.FC<VenstremenyGhostPeriodeProps> = ({
+export const VenstremenyGhostPeriode = ({
     activePeriod,
     currentArbeidsgiver,
-}) => {
+}: VenstremenyGhostPeriodeProps): ReactElement => {
     if (!activePeriod.vilkarsgrunnlagId || !activePeriod.skjaeringstidspunkt) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }

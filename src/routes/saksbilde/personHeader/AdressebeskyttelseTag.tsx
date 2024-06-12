@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Tag } from '@navikt/ds-react';
 
@@ -11,7 +11,7 @@ interface AdressebeskyttelseTagProps {
     adressebeskyttelse: Adressebeskyttelse;
 }
 
-export const AdressebeskyttelseTag: React.FC<AdressebeskyttelseTagProps> = ({ adressebeskyttelse }) => {
+export const AdressebeskyttelseTag = ({ adressebeskyttelse }: AdressebeskyttelseTagProps): ReactElement | null => {
     if (adressebeskyttelse !== 'Fortrolig') {
         return null;
     }

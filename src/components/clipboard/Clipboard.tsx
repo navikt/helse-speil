@@ -1,6 +1,6 @@
 import styles from './Clipboard.module.scss';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import React, { PropsWithChildren, ReactElement, useEffect, useRef, useState } from 'react';
 
 import { Copy } from '@navikt/ds-icons';
 import { BodyShort, Tooltip, TooltipProps } from '@navikt/ds-react';
@@ -12,7 +12,7 @@ interface TooltipWrapperProps {
     children: React.ReactElement;
 }
 
-const TooltipWrapper: React.FC<TooltipWrapperProps> = ({ props, children }) => {
+const TooltipWrapper = ({ props, children }: TooltipWrapperProps): ReactElement => {
     if (!props) {
         return <>{children}</>;
     }

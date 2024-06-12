@@ -1,8 +1,8 @@
 import { Dayjs } from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
-import { ActivePeriod, DatePeriod, InfotrygdPeriod } from '@/types/shared';
+import { DatePeriod, InfotrygdPeriod } from '@/types/shared';
 import { GhostPeriodeFragment, PeriodeFragment, Periodetilstand } from '@io/graphql';
 import { isNotReady } from '@state/selectors/period';
 import { Maybe } from '@utils/ts';
@@ -60,7 +60,7 @@ interface PeriodsProps {
     notCurrent?: boolean;
 }
 
-export const Periods: React.FC<PeriodsProps> = ({
+export const Periods = ({
     start,
     end,
     periods,
@@ -68,7 +68,7 @@ export const Periods: React.FC<PeriodsProps> = ({
     ghostPeriods = [],
     notCurrent,
     activePeriod,
-}) => {
+}: PeriodsProps): ReactElement => {
     const allPeriods = mergePeriods(periods, infotrygdPeriods, ghostPeriods);
     const validPeriods = filterValidPeriods(allPeriods);
     const populatedPeriods = usePopulateNeighbours(validPeriods);

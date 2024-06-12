@@ -1,7 +1,7 @@
 import styles from './PeriodeCard.module.scss';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { ClockDashedIcon } from '@navikt/aksel-icons';
 import { BodyShort, Tag, Tooltip } from '@navikt/ds-react';
@@ -28,7 +28,7 @@ import { NORSK_DATOFORMAT_KORT } from '@utils/date';
 import { ArbeidsgiverRow } from './ArbeidsgiverRow';
 import { CardTitle } from './CardTitle';
 
-const VentepølseRow = () => (
+const VentepølseRow = (): ReactElement => (
     <>
         <Tooltip content="Sykmeldingsperiode">
             <div className={styles.iconContainer} style={{ width: '20px' }}>
@@ -43,7 +43,7 @@ interface SykmeldingsperiodeRowProps {
     periode: DatePeriod;
 }
 
-const SykmeldingsperiodeRow: React.FC<SykmeldingsperiodeRowProps> = ({ periode }) => {
+const SykmeldingsperiodeRow = ({ periode }: SykmeldingsperiodeRowProps): ReactElement => {
     const fom = dayjs(periode.fom).format(NORSK_DATOFORMAT_KORT);
     const tom = dayjs(periode.tom).format(NORSK_DATOFORMAT_KORT);
 
@@ -64,7 +64,7 @@ interface SkjæringstidspunktRowProps {
     skjæringstidspunkt: DateString;
 }
 
-const SkjæringstidspunktRow: React.FC<SkjæringstidspunktRowProps> = ({ periodetype, skjæringstidspunkt }) => {
+const SkjæringstidspunktRow = ({ periodetype, skjæringstidspunkt }: SkjæringstidspunktRowProps): ReactElement => {
     return (
         <>
             <Tooltip content="Skjæringstidspunkt">
@@ -95,7 +95,7 @@ interface MaksdatoRowProps {
     gjenståendeSykedager: number | null;
 }
 
-const MaksdatoRow: React.FC<MaksdatoRowProps> = ({ activePeriod, gjenståendeSykedager }) => {
+const MaksdatoRow = ({ activePeriod, gjenståendeSykedager }: MaksdatoRowProps): ReactElement => {
     const maksdato = dayjs(activePeriod.maksdato).format(NORSK_DATOFORMAT_KORT);
     const alderVedSisteSykedag = activePeriod.periodevilkar.alder.alderSisteSykedag ?? null;
 
@@ -144,7 +144,7 @@ interface PeriodeCardUberegnetProps {
     månedsbeløp?: number;
 }
 
-const PeriodeCardUberegnet: React.FC<PeriodeCardUberegnetProps> = ({ periode, arbeidsgiver, månedsbeløp }) => {
+const PeriodeCardUberegnet = ({ periode, arbeidsgiver, månedsbeløp }: PeriodeCardUberegnetProps): ReactElement => {
     return (
         <section className={styles.grid}>
             {[Periodetilstand.UtbetaltVenterPaEnAnnenPeriode, Periodetilstand.VenterPaEnAnnenPeriode].includes(
@@ -189,12 +189,12 @@ interface PeriodeCardBeregnetProps {
     gjenståendeSykedager: number | null;
 }
 
-const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({
+const PeriodeCardBeregnet = ({
     periode,
     arbeidsgiver,
     månedsbeløp,
     gjenståendeSykedager,
-}) => {
+}: PeriodeCardBeregnetProps): ReactElement => {
     const egenskaperForVisning = periode.egenskaper.filter(
         (it) => it.kategori !== Kategori.Mottaker && it.kategori !== Kategori.Inntektskilde,
     );
@@ -231,7 +231,7 @@ interface PeriodeCardGhostProps {
     arbeidsgiver: ArbeidsgiverFragment;
 }
 
-const PeriodeCardGhost: React.FC<PeriodeCardGhostProps> = ({ arbeidsgiver }) => {
+const PeriodeCardGhost = ({ arbeidsgiver }: PeriodeCardGhostProps): ReactElement => {
     return (
         <section className={styles.grid}>
             <ArbeidsgiverRow.Ghost
@@ -243,7 +243,7 @@ const PeriodeCardGhost: React.FC<PeriodeCardGhostProps> = ({ arbeidsgiver }) => 
     );
 };
 
-const PeriodeCardSkeleton: React.FC = () => {
+const PeriodeCardSkeleton = (): ReactElement => {
     return (
         <section className={classNames(styles.skeleton, styles.grid)}>
             <LoadingShimmer />

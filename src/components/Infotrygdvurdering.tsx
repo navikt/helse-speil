@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Heading } from '@navikt/ds-react';
 
 import styles from './Infotrygdvurdering.module.css';
 
-const Icon = () => (
+const Icon = (): ReactElement => (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
             fillRule="evenodd"
@@ -19,7 +19,7 @@ interface InfotrygdvurderingProps extends React.HTMLAttributes<HTMLDivElement> {
     title: string;
 }
 
-export const Infotrygdvurdering: React.FC<InfotrygdvurderingProps> = ({ children, title, ...divProps }) => (
+export const Infotrygdvurdering = ({ children, title, ...divProps }: InfotrygdvurderingProps): ReactElement => (
     <div className={styles.container} {...divProps}>
         <div className={styles.iconcontainer}>
             <Icon />

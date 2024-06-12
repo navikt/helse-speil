@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
 
@@ -16,7 +16,7 @@ interface SimuleringValueProps {
     value: string | number;
 }
 
-const SimuleringValue: React.FC<SimuleringValueProps> = ({ label, value }) => {
+const SimuleringValue = ({ label, value }: SimuleringValueProps): ReactElement => {
     return (
         <div className={styles.SimuleringValue}>
             <BodyShort size="small">{label}</BodyShort>
@@ -35,7 +35,7 @@ interface SimuleringViewProps {
     utbetalingId: string;
 }
 
-export const SimuleringView: React.FC<SimuleringViewProps> = ({ simulering, utbetalingId }) => {
+export const SimuleringView = ({ simulering, utbetalingId }: SimuleringViewProps): ReactElement => {
     const utbetalesTil = (() => {
         const utbetaling = simulering.perioder?.[0].utbetalinger[0] ?? null;
         return utbetaling ? `${utbetaling.mottakerId} ${utbetaling.mottakerNavn}` : null;

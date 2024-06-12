@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -20,7 +20,7 @@ type InntektsmeldinginnholdProps = {
     fødselsnummer: string;
 };
 
-export const Inntektsmeldingsinnhold: React.FC<InntektsmeldinginnholdProps> = ({ dokumentId, fødselsnummer }) => {
+export const Inntektsmeldingsinnhold = ({ dokumentId, fødselsnummer }: InntektsmeldinginnholdProps): ReactElement => {
     const inntektsmeldingssrespons = useQueryInntektsmelding(fødselsnummer, dokumentId);
     const inntektsmelding = inntektsmeldingssrespons.data;
 
@@ -221,7 +221,7 @@ export const Inntektsmeldingsinnhold: React.FC<InntektsmeldinginnholdProps> = ({
     );
 };
 
-const tilAvsendersystem = (avsenderSystem: string) => {
+const tilAvsendersystem = (avsenderSystem: string): string => {
     switch (avsenderSystem) {
         case 'NAV_NO':
             return 'NAV';

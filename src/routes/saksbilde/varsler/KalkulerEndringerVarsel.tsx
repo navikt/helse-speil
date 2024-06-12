@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactElement, ReactNode, useState } from 'react';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { Alert, BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
@@ -17,7 +17,7 @@ interface KalkulerEndringerVarselProps {
     skjæringstidspunkt?: string;
 }
 
-export const KalkulerEndringerVarsel: React.FC<KalkulerEndringerVarselProps> = ({ skjæringstidspunkt }) => {
+export const KalkulerEndringerVarsel = ({ skjæringstidspunkt }: KalkulerEndringerVarselProps): ReactElement | null => {
     const [lokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
     const slettLokaleOverstyringer = useResetRecoilState(inntektOgRefusjonState);
     const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntektOgRefusjon();
@@ -78,7 +78,7 @@ export const SlettLokaleEndringerModal = ({
     onClose,
     heading,
     tekst,
-}: SlettLokaleOverstyringerModalProps) => (
+}: SlettLokaleOverstyringerModalProps): ReactElement => (
     <Modal
         isOpen
         title={

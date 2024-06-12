@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { Maybe } from '@utils/ts';
@@ -11,8 +11,11 @@ type BestemmendeFraværsdagProps = {
     førsteFraværsdag: Maybe<string>;
 };
 
-export const BestemmendeFraværsdag: React.FC<BestemmendeFraværsdagProps> = ({ inntektsdato, førsteFraværsdag }) => {
-    if (!inntektsdato && !førsteFraværsdag) return;
+export const BestemmendeFraværsdag = ({
+    inntektsdato,
+    førsteFraværsdag,
+}: BestemmendeFraværsdagProps): ReactElement | null => {
+    if (!inntektsdato && !førsteFraværsdag) return null;
 
     return (
         <DokumentFragment overskrift="Bestemmende fraværsdag">

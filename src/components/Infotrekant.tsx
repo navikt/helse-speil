@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useRef, useState } from 'react';
+import React, { ReactElement, useRef, useState } from 'react';
 
 import { BodyShort, Popover } from '@navikt/ds-react';
 
@@ -9,7 +9,7 @@ interface InfotrekantProps extends React.HTMLAttributes<HTMLSpanElement> {
     text: string;
 }
 
-export const Infotrekant: React.FC<InfotrekantProps> = ({ className, text, ...spanProps }) => {
+export const Infotrekant = ({ className, text, ...spanProps }: InfotrekantProps): ReactElement => {
     const [showPopover, setShowPopover] = useState(false);
     const containerRef = useRef<HTMLSpanElement>(null);
 

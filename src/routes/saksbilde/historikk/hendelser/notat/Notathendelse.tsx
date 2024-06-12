@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Send, SpeechBubble, StopWatch, Success } from '@navikt/ds-icons';
 import { BodyShort, ErrorMessage } from '@navikt/ds-react';
@@ -25,7 +25,7 @@ import styles from './Notathendelse.module.css';
 
 type NotathendelseProps = Omit<NotathendelseObject, 'type'>;
 
-export const Notathendelse: React.FC<NotathendelseProps> = ({
+export const Notathendelse = ({
     id,
     tekst,
     notattype,
@@ -35,7 +35,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
     feilregistrert,
     kommentarer,
     erNyesteNotatMedType = false,
-}) => {
+}: NotathendelseProps): ReactElement => {
     const [showAddDialog, setShowAddDialog] = useState(false);
     const [expanded, setExpanded] = useState(false);
 
@@ -138,7 +138,7 @@ interface NotatTittelProps {
     notattype: NotatType;
 }
 
-const NotatTittel = ({ feilregistrert, notattype }: NotatTittelProps) => (
+const NotatTittel = ({ feilregistrert, notattype }: NotatTittelProps): ReactElement => (
     <span className={classNames(feilregistrert && styles.Feilregistrert)}>
         {notattype === 'OpphevStans' && 'Stans opphevet'}
         {notattype === 'PaaVent' && 'Lagt på vent'}
@@ -152,7 +152,7 @@ interface NotatIkonProps {
     notattype: NotatType;
 }
 
-const NotatIkon = ({ notattype }: NotatIkonProps) => {
+const NotatIkon = ({ notattype }: NotatIkonProps): ReactElement => {
     switch (notattype) {
         case 'OpphevStans':
             return <Success title="Suksess-ikon" className={classNames(styles.Innrammet, styles.OpphevStans)} />;

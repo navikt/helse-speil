@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import React, { useMemo } from 'react';
+import React, { ReactElement, useMemo } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -92,7 +92,7 @@ interface LabelsProps {
     end: Dayjs;
 }
 
-export const Labels: React.FC<LabelsProps> = ({ start, end }) => {
+export const Labels = ({ start, end }: LabelsProps): ReactElement => {
     const labels = useLabels(start, end);
 
     return (
@@ -114,6 +114,6 @@ export const Labels: React.FC<LabelsProps> = ({ start, end }) => {
     );
 };
 
-export const LabelsSkeleton: React.FC = () => {
+export const LabelsSkeleton = (): ReactElement => {
     return <div className={styles.Labels}></div>;
 };

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ReactNode, useRef } from 'react';
+import React, { ReactElement, ReactNode, useRef } from 'react';
 
 import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
 import { PeriodState } from '@/types/shared';
@@ -109,7 +109,7 @@ interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     isActive?: boolean;
 }
 
-export const Period: React.FC<PeriodProps> = ({ period, notCurrent, isActive, className, ...buttonProps }) => {
+export const Period = ({ period, notCurrent, isActive, className, ...buttonProps }: PeriodProps): ReactElement => {
     const setActivePeriodId = useSetActivePeriodId();
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);

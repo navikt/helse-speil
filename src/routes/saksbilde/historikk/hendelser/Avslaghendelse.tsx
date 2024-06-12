@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
@@ -15,12 +15,12 @@ import styles from './Overstyringshendelse.module.css';
 
 type AvslaghendelseProps = Omit<AvslaghendelseObject, 'type' | 'id'>;
 
-export const Avslaghendelse: React.FC<AvslaghendelseProps> = ({
+export const Avslaghendelse = ({
     avslagstype,
     begrunnelse,
     saksbehandler,
     timestamp,
-}) => {
+}: AvslaghendelseProps): ReactElement => {
     return (
         <Hendelse
             title="Individuell begrunnelse for avslag"

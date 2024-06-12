@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import React, { useContext, useState } from 'react';
+import React, { ReactElement, useContext, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
@@ -33,12 +33,12 @@ interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEleme
 const finnKanAvvises = ({ handlinger }: BeregnetPeriodeFragment): Handling | null =>
     handlinger.find((handling) => handling.type === Periodehandling.Avvise) as Handling;
 
-export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
+export const AvvisningButton = ({
     activePeriod,
     disabled = false,
     onSuccess,
     ...buttonProps
-}) => {
+}: AvvisningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
     const [kanIkkeAvvisesMelding, setKanIkkeAvvisesMelding] = useState<string | null>();
     const [sendTilInfotrygdMutation, { error, loading }] = useMutation(TilInfoTrygdDocument);

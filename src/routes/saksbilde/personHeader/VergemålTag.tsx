@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 
 import { TagMedTooltip } from './TagMedTooltip';
 
-export const VergemålTag: React.FC = () => {
+export const VergemålTag = (): ReactElement | null => {
     const periodeTilGodkjenning = usePeriodeTilGodkjenning();
     if (!periodeTilGodkjenning) return null;
 

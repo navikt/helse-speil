@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
@@ -10,7 +10,7 @@ interface GlobalFeilsideProps {
     error: Error;
 }
 
-export const GlobalFeilside: React.FC<GlobalFeilsideProps> = ({ error }) => {
+export const GlobalFeilside = ({ error }: GlobalFeilsideProps): ReactElement => {
     return (
         <>
             <Alert size="small" variant="error" className={styles.Alert}>

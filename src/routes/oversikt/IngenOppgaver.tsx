@@ -2,7 +2,7 @@ import agurk from '../../assets/ingen-oppgaver-agurk.png';
 import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
 import brevkasse from '../../assets/ingen-oppgaver.png';
 import dayjs from 'dayjs';
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { Heading } from '@navikt/ds-react';
 
@@ -12,7 +12,7 @@ import styles from './IngenOppgaver.module.css';
 
 const erFredag = () => dayjs().isoWeekday() === 5;
 
-const Caption = ({ children }: PropsWithChildren) => {
+const Caption = ({ children }: PropsWithChildren): ReactElement => {
     return (
         <Heading as="figcaption" size="medium">
             {children}
@@ -20,7 +20,7 @@ const Caption = ({ children }: PropsWithChildren) => {
     );
 };
 
-export const IngenOppgaver: React.FC = () => {
+export const IngenOppgaver = (): ReactElement | null => {
     const aktivTab = useAktivTab();
 
     switch (aktivTab) {

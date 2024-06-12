@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Clipboard } from '@components/clipboard';
@@ -11,7 +11,7 @@ interface FødselsnummerProps {
     fødselsnummer: string;
 }
 
-export const Fødselsnummer: React.FC<FødselsnummerProps> = ({ fødselsnummer }) => {
+export const Fødselsnummer = ({ fødselsnummer }: FødselsnummerProps): ReactElement => {
     return (
         <Clipboard
             preserveWhitespace={false}

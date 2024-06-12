@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Tag } from '@navikt/ds-react';
 
@@ -14,7 +14,7 @@ interface DødsdatoTagProps {
     dødsdato?: Maybe<string>;
 }
 
-export const DødsdatoTag: React.FC<DødsdatoTagProps> = ({ dødsdato }) => {
+export const DødsdatoTag = ({ dødsdato }: DødsdatoTagProps): ReactElement | null => {
     if (!dødsdato) {
         return null;
     }

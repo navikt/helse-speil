@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
@@ -14,7 +14,6 @@ import {
 } from '@state/arbeidsgiver';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
-import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { useVilkårsgrunnlag } from '../useVilkårsgrunnlag';
@@ -30,7 +29,7 @@ interface InntektContainerProps {
     inntekt: Arbeidsgiverinntekt;
 }
 
-const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
+const InntektContainer = ({ inntekt }: InntektContainerProps): ReactElement | null => {
     const person = useCurrentPerson();
     const period = useActivePeriod();
     const periodeForSkjæringstidspunktForArbeidsgiver = usePeriodForSkjæringstidspunktForArbeidsgiver(
@@ -116,7 +115,7 @@ interface InntektProps {
     inntekt: Arbeidsgiverinntekt;
 }
 
-export const Inntekt: React.FC<InntektProps> = ({ inntekt }) => {
+export const Inntekt = ({ inntekt }: InntektProps): ReactElement => {
     return (
         <ErrorBoundary fallback={<InntektError />}>
             <div className={classNames(styles.Inntektskilderinnhold, inntekt.deaktivert && styles.deaktivert)}>

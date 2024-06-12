@@ -1,7 +1,7 @@
 import styles from './ArbeidsgiverRow.module.scss';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Accordion, BodyShort, Tooltip } from '@navikt/ds-react';
 
@@ -19,7 +19,7 @@ interface OrganisasjonsnummerRowProps {
     organisasjonsnummer: string;
 }
 
-const OrganisasjonsnummerRow: React.FC<OrganisasjonsnummerRowProps> = ({ organisasjonsnummer }) => {
+const OrganisasjonsnummerRow = ({ organisasjonsnummer }: OrganisasjonsnummerRowProps): ReactElement => {
     return (
         <Clipboard
             preserveWhitespace={false}
@@ -35,7 +35,7 @@ interface ArbeidsforholdRowProps {
     arbeidsforhold: Array<Arbeidsforhold>;
 }
 
-const ArbeidsforholdRow: React.FC<ArbeidsforholdRowProps> = ({ arbeidsforhold }) => {
+const ArbeidsforholdRow = ({ arbeidsforhold }: ArbeidsforholdRowProps): ReactElement => {
     return (
         <>
             {arbeidsforhold.map((arbeidsforhold, i) => {
@@ -68,7 +68,7 @@ interface MånedsbeløpRowProps {
     månedsbeløp: number;
 }
 
-const MånedsbeløpRow: React.FC<MånedsbeløpRowProps> = ({ månedsbeløp }) => {
+const MånedsbeløpRow = ({ månedsbeløp }: MånedsbeløpRowProps): ReactElement => {
     return (
         <div className={styles.månedsbeløp}>
             <BodyShort>Månedsbeløp:</BodyShort>
@@ -84,12 +84,12 @@ interface ArbeidsgiverCardProps {
     månedsbeløp?: number;
 }
 
-const ArbeidsgiverRowView: React.FC<ArbeidsgiverCardProps> = ({
+const ArbeidsgiverRowView = ({
     navn,
     organisasjonsnummer,
     arbeidsforhold,
     månedsbeløp,
-}) => {
+}: ArbeidsgiverCardProps): ReactElement => {
     const [open, setOpen] = useState(false);
     return (
         <>
@@ -112,7 +112,7 @@ const ArbeidsgiverRowView: React.FC<ArbeidsgiverCardProps> = ({
     );
 };
 
-const ArbeidsgiverCardSkeleton: React.FC = () => {
+const ArbeidsgiverCardSkeleton = (): ReactElement => {
     return (
         <section className={classNames(styles.skeleton, styles.arbeidsgiverRow)}>
             <div className={styles.arbeidsgiver}>

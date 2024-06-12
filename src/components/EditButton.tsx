@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 import { Locked, Unlocked } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
@@ -18,7 +18,7 @@ interface EditButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
     closedIcon?: ReactNode;
 }
 
-export const EditButton: React.FC<EditButtonProps> = ({
+export const EditButton = ({
     isOpen,
     openText,
     closedText,
@@ -28,7 +28,7 @@ export const EditButton: React.FC<EditButtonProps> = ({
     closedIcon,
     className,
     ...rest
-}) => {
+}: EditButtonProps): ReactElement => {
     const icon = isOpen
         ? openIcon ?? <Unlocked viewBox="0 0 18 24" height={16} width={16} />
         : closedIcon ?? <Locked viewBox="0 0 16 24" height={16} width={16} />;

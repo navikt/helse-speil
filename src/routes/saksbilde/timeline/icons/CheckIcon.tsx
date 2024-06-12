@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { useId } from '@navikt/ds-react';
 
@@ -6,7 +6,7 @@ interface CheckIconProps extends React.SVGAttributes<SVGSVGElement> {
     alt?: string;
 }
 
-export const CheckIcon: React.FC<CheckIconProps> = ({ alt = 'Check-ikon', ...svgProps }) => {
+export const CheckIcon = ({ alt = 'Check-ikon', ...svgProps }: CheckIconProps): ReactElement => {
     let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (

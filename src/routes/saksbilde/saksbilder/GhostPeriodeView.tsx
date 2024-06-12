@@ -1,5 +1,5 @@
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { last } from 'remeda';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
@@ -17,7 +17,7 @@ interface GhostPeriodeViewProps {
     activePeriod: GhostPeriodeFragment;
 }
 
-export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod }) => {
+export const GhostPeriodeView = ({ activePeriod }: GhostPeriodeViewProps): ReactElement => {
     if (!activePeriod.skjaeringstidspunkt || !activePeriod.vilkarsgrunnlagId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
@@ -39,5 +39,3 @@ export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod
         </div>
     );
 };
-
-export default GhostPeriodeView;

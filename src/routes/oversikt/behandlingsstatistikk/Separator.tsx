@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import styles from './Separator.module.css';
 
-export const Separator: React.FC = () => {
+export const Separator = (): ReactElement => {
     return (
         <tbody className={styles.Separator}>
             <tr>

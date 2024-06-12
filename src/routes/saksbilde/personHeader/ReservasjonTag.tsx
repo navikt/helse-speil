@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Reservasjon } from '@io/graphql';
 import { Maybe } from '@utils/ts';
@@ -9,7 +9,7 @@ interface ReservasjonTagProps {
     reservasjon?: Maybe<Reservasjon>;
 }
 
-export const ReservasjonTag: React.FC<ReservasjonTagProps> = ({ reservasjon }) => {
+export const ReservasjonTag = ({ reservasjon }: ReservasjonTagProps): ReactElement | null => {
     if (reservasjon === null) {
         return (
             <TagMedTooltip

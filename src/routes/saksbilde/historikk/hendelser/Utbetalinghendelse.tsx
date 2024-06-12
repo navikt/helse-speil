@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Success } from '@navikt/ds-icons';
 
@@ -34,13 +34,13 @@ const getTitle = (type: Utbetalingtype, automatisk: boolean, godkjent: boolean):
 
 type UtbetalinghendelseProps = Omit<UtbetalinghendelseObject, 'type' | 'id'>;
 
-export const Utbetalinghendelse: React.FC<UtbetalinghendelseProps> = ({
+export const Utbetalinghendelse = ({
     automatisk,
     godkjent,
     utbetalingstype,
     saksbehandler,
     timestamp,
-}) => {
+}: UtbetalinghendelseProps): ReactElement => {
     const icon =
         utbetalingstype !== Utbetalingtype.Annullering && godkjent ? (
             <Success title="Success-ikon" className={classNames(styles.Innrammet, styles.Utbetalt)} />

@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import React, { ReactNode, useContext, useState } from 'react';
+import React, { ReactElement, ReactNode, useContext, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
@@ -37,7 +37,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     avslag: Maybe<AvslagInput>;
 }
 
-export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
+export const GodkjenningButton = ({
     children,
     oppgavereferanse,
     erBeslutteroppgave,
@@ -48,7 +48,7 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     personinfo,
     avslag = null,
     ...buttonProps
-}) => {
+}: GodkjenningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
     const [innvilgVedtakMutation, { error, loading }] = useMutation(InnvilgVedtakDocument);
     useKeyboard([{ key: Key.F6, action: () => !disabled && setShowModal(true), ignoreIfModifiers: false }]);

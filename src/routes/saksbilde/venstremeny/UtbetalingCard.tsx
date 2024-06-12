@@ -1,6 +1,5 @@
-import { BeløpTilUtbetaling } from './BeløpTilUtbetaling';
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -8,6 +7,7 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Maybe, Personinfo, Simulering, Utbetaling, Vilkarsgrunnlag } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
+import { BeløpTilUtbetaling } from './BeløpTilUtbetaling';
 import { CardTitle } from './CardTitle';
 
 import styles from './UtbetalingCard.module.css';
@@ -36,7 +36,7 @@ const UtbetalingCardBeregnet = ({
     periodePersonNettoBeløp,
     periodeArbeidsgiverNettoBeløp,
     gammeltTotalbeløp,
-}: UtbetalingCardProps) => (
+}: UtbetalingCardProps): ReactElement => (
     <section className={styles.Card}>
         <CardTitle>UTBETALINGSINFORMASJON</CardTitle>
         <div className={styles.Grid}>
@@ -71,7 +71,7 @@ interface DifferansevisningProps {
     differanse: number;
 }
 
-const Differansevisning = ({ gammeltTotalbeløp, differanse }: DifferansevisningProps) => (
+const Differansevisning = ({ gammeltTotalbeløp, differanse }: DifferansevisningProps): ReactElement => (
     <div className={styles.Grid}>
         <BodyShort>Forrige beløp for perioden</BodyShort>
         <BodyShort>{somPenger(gammeltTotalbeløp)}</BodyShort>
@@ -82,7 +82,7 @@ const Differansevisning = ({ gammeltTotalbeløp, differanse }: Differansevisning
     </div>
 );
 
-const UtbetalingCardSkeleton: React.FC = () => (
+const UtbetalingCardSkeleton = (): ReactElement => (
     <section className={classNames(styles.Skeleton, styles.Card)}>
         <LoadingShimmer style={{ width: 100 }} />
         <LoadingShimmer />

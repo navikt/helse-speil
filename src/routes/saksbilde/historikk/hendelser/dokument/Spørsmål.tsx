@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { CheckmarkIcon } from '@navikt/aksel-icons';
 
@@ -17,7 +17,7 @@ interface SpørsmålProps {
     rotnivå?: boolean;
 }
 
-export const Spørsmål: React.FC<SpørsmålProps> = ({ spørsmål, rotnivå = true }) => {
+export const Spørsmål = ({ spørsmål, rotnivå = true }: SpørsmålProps): ReactElement[] => {
     return spørsmål?.map((it) => {
         const underspørsmål = getUndersporsmal(it);
 
@@ -41,7 +41,7 @@ export const Spørsmål: React.FC<SpørsmålProps> = ({ spørsmål, rotnivå = t
     });
 };
 
-function getUndersporsmal(it: SporsmalFragment) {
+function getUndersporsmal(it: SporsmalFragment): SporsmalFragment[] | null {
     const sporsmal = it as SporsmalFragment & { undersporsmal: SporsmalFragment[] | null };
 
     return sporsmal?.undersporsmal && sporsmal.undersporsmal.length > 0 ? sporsmal.undersporsmal : null;

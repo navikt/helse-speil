@@ -19,7 +19,7 @@ type SaksbildeMenuProps = {
     activePeriod: ActivePeriod;
 };
 
-const SaksbildeMenuGhostPeriode: React.FC = () => (
+const SaksbildeMenuGhostPeriode = (): ReactElement => (
     <div className={styles.SaksbildeMenu}>
         <div>
             <nav className={styles.TabList} role="tablist">
@@ -30,7 +30,7 @@ const SaksbildeMenuGhostPeriode: React.FC = () => (
     </div>
 );
 
-const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuProps) => (
+const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuProps): ReactElement => (
     <div className={styles.SaksbildeMenu}>
         <div>
             <nav className={styles.TabList} role="tablist">
@@ -48,7 +48,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuProps) => (
     </div>
 );
 
-const SaksbildeMenuUberegnetPeriode: React.FC = () => (
+const SaksbildeMenuUberegnetPeriode = (): ReactElement => (
     <div className={styles.SaksbildeMenu}>
         <div>
             <nav className={styles.TabList} role="tablist">
@@ -59,7 +59,7 @@ const SaksbildeMenuUberegnetPeriode: React.FC = () => (
     </div>
 );
 
-const NavLenke = ({ tittel, to }: { tittel: string; to: string }) => {
+const NavLenke = ({ tittel, to }: { tittel: string; to: string }): ReactElement => {
     const tab = last(usePathname().split('/'));
     return (
         <Link
@@ -72,7 +72,7 @@ const NavLenke = ({ tittel, to }: { tittel: string; to: string }) => {
     );
 };
 
-const SaksbildeMenuContainer = ({ activePeriod }: SaksbildeMenuProps) => {
+const SaksbildeMenuContainer = ({ activePeriod }: SaksbildeMenuProps): ReactElement => {
     if (isBeregnetPeriode(activePeriod)) {
         return <SaksbildeMenuBeregnetPeriode activePeriod={activePeriod} />;
     }
@@ -97,7 +97,7 @@ export const SaksbildeMenuSkeleton = (): ReactElement => {
     );
 };
 
-const SaksbildeMenuError: React.FC = () => {
+const SaksbildeMenuError = (): ReactElement => {
     return (
         <div className={classNames(styles.SaksbildeMenu, styles.Error)}>
             <BodyShort>Det oppstod en feil. Kan ikke vise saksbildemeny.</BodyShort>
@@ -105,7 +105,7 @@ const SaksbildeMenuError: React.FC = () => {
     );
 };
 
-export const SaksbildeMenu = (props: SaksbildeMenuProps) => {
+export const SaksbildeMenu = (props: SaksbildeMenuProps): ReactElement => {
     return (
         <ErrorBoundary fallback={<SaksbildeMenuError />}>
             <SaksbildeMenuContainer {...props} />

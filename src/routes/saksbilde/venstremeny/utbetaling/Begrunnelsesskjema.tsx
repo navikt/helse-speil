@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactNode } from 'react';
+import React, { ChangeEvent, ReactElement, ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { Checkbox, Fieldset, Textarea } from '@navikt/ds-react';
@@ -15,7 +15,7 @@ interface BegrunnelseCheckboxProps {
     label?: ReactNode;
 }
 
-const BegrunnelseCheckbox: React.FC<BegrunnelseCheckboxProps> = ({ begrunnelse, label }) => {
+const BegrunnelseCheckbox = ({ begrunnelse, label }: BegrunnelseCheckboxProps): ReactElement => {
     const { register, clearErrors } = useFormContext();
 
     const { onChange, ...begrunnelserValidation } = register('begrunnelser');
@@ -40,7 +40,7 @@ interface BegrunnelsesskjemaProps {
     activePeriod: BeregnetPeriodeFragment;
 }
 
-export const Begrunnelsesskjema: React.FC<BegrunnelsesskjemaProps> = ({ activePeriod }) => {
+export const Begrunnelsesskjema = ({ activePeriod }: BegrunnelsesskjemaProps): ReactElement => {
     const { formState, clearErrors, watch } = useFormContext();
     const begrunnelser = watch(`begrunnelser`);
     const annet = begrunnelser ? begrunnelser.includes(Begrunnelse.Annet) : false;

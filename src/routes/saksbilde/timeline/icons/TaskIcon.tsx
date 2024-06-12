@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { useId } from '@navikt/ds-react';
 
@@ -6,7 +6,7 @@ interface TaskIconProps extends React.SVGAttributes<SVGSVGElement> {
     alt?: string;
 }
 
-export const TaskIcon: React.FC<TaskIconProps> = ({ alt = 'Task-ikon', ...svgProps }) => {
+export const TaskIcon = ({ alt = 'Task-ikon', ...svgProps }: TaskIconProps): ReactElement => {
     let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (

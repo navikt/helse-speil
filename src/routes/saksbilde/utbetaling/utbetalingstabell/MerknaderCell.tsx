@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 
@@ -15,7 +15,7 @@ interface MerknadProps {
     alderVedSkjæringstidspunkt?: Maybe<number>;
 }
 
-const Merknad: React.FC<MerknadProps> = ({ begrunnelse, alderVedSkjæringstidspunkt }) => {
+const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): ReactElement | null => {
     switch (begrunnelse) {
         case 'ETTER_DODSDATO':
             return <BodyShort>Personen er død</BodyShort>;
@@ -106,7 +106,7 @@ const Merknad: React.FC<MerknadProps> = ({ begrunnelse, alderVedSkjæringstidspu
     }
 };
 
-const sisteUtbetalingsdagMerknad = (isMaksdato: boolean): React.ReactNode | undefined =>
+const sisteUtbetalingsdagMerknad = (isMaksdato: boolean): string | undefined =>
     isMaksdato ? 'Siste utbetalingsdag for sykepenger' : undefined;
 
 const foreldetDagMerknad = (isForeldet: boolean): React.ReactNode | undefined =>
@@ -118,7 +118,10 @@ const foreldetDagMerknad = (isForeldet: boolean): React.ReactNode | undefined =>
         </Tooltip>
     ) : undefined;
 
-const avvisningsårsakerMerknad = (begrunnelser: Begrunnelse[] | null, alderVedSkjæringstidspunkt?: Maybe<number>) =>
+const avvisningsårsakerMerknad = (
+    begrunnelser: Begrunnelse[] | null,
+    alderVedSkjæringstidspunkt?: Maybe<number>,
+): ReactElement[] | undefined =>
     begrunnelser?.map((begrunnelse, i) => (
         <React.Fragment key={i}>
             {i !== 0 && <BodyShort>,&nbsp;</BodyShort>}
@@ -131,7 +134,7 @@ interface MerknaderCellProps extends React.HTMLAttributes<HTMLTableCellElement> 
     alderVedSkjæringstidspunkt?: Maybe<number>;
 }
 
-export const MerknaderCell = ({ dag, alderVedSkjæringstidspunkt, ...rest }: MerknaderCellProps) => (
+export const MerknaderCell = ({ dag, alderVedSkjæringstidspunkt, ...rest }: MerknaderCellProps): ReactElement => (
     <td {...rest}>
         <CellContent>
             {sisteUtbetalingsdagMerknad(dag.erMaksdato) ??

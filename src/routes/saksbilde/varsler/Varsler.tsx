@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { VarselDto, Varselstatus, VarselvurderingDto } from '@io/graphql';
 import { Maybe } from '@utils/ts';
@@ -34,7 +34,7 @@ interface VarslerProps {
     varsler: Array<VarselDto>;
 }
 
-export const Varsler: React.FC<VarslerProps> = React.memo(({ varsler }) => {
+export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
     const skalViseAvviksvarselSomFeil = useSkalViseAvviksvarselSomFeil();
 
     const varslerSomIkkeSkalVises = ['SB_EX_2'];

@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import React, { ReactNode, useContext, useState } from 'react';
+import React, { ReactElement, ReactNode, useContext, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
@@ -36,7 +36,7 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
     avslag: Maybe<AvslagInput>;
 }
 
-export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> = ({
+export const SendTilGodkjenningButton = ({
     children,
     oppgavereferanse,
     disabled = false,
@@ -46,7 +46,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     personinfo,
     avslag = null,
     ...buttonProps
-}) => {
+}: SendTilGodkjenningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
     const amplitude = useContext(AmplitudeContext);
     const addToast = useAddSendtTilGodkjenningtoast();

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, ReactElement, SetStateAction } from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
 
@@ -11,12 +11,12 @@ interface MarkerAlleDagerCheckboxProps extends Omit<React.InputHTMLAttributes<HT
     setMarkerteDager: Dispatch<SetStateAction<Map<string, Utbetalingstabelldag>>>;
 }
 
-export const MarkerAlleDagerCheckbox: React.FC<MarkerAlleDagerCheckboxProps> = ({
+export const MarkerAlleDagerCheckbox = ({
     alleDager,
     markerteDager,
     setMarkerteDager,
     ...rest
-}) => {
+}: MarkerAlleDagerCheckboxProps): ReactElement => {
     const hasSelectedSome = markerteDager.size > 0 && markerteDager.size !== alleDager.size;
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import styles from './Tag.module.css';
 
@@ -8,6 +8,6 @@ interface TagProps {
     color: 'purple' | 'red' | 'green' | 'orange' | 'blue' | 'gray';
 }
 
-export const Tag: React.FC<TagProps> = ({ children, color }) => {
+export const Tag = ({ children, color }: TagProps): ReactElement => {
     return <span className={classNames(styles.Tag, styles[color])}>{children}</span>;
 };

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 import { Antall } from '@io/graphql';
 
@@ -7,7 +7,7 @@ interface StatistikkRowProps {
     antall: Antall;
 }
 
-export const StatistikkRow: React.FC<StatistikkRowProps> = ({ children, antall }) => {
+export const StatistikkRow = ({ children, antall }: StatistikkRowProps): ReactElement => {
     return (
         <tr>
             <td>{children}</td>

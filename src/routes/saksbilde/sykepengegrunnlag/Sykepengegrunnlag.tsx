@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
@@ -19,7 +19,7 @@ import { SykepengegrunnlagFraInfogtrygd } from './sykepengegrunnlagvisninger/inf
 import { SykepengegrunnlagFraSpleis } from './sykepengegrunnlagvisninger/spleis/SykepengegrunnlagFraSpleis';
 import { useVilkårsgrunnlag } from './useVilkårsgrunnlag';
 
-const SykepengegrunnlagContainer: React.FC = () => {
+const SykepengegrunnlagContainer = (): ReactElement | null => {
     const person = useCurrentPerson();
     const activePeriod = useActivePeriod();
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
@@ -55,7 +55,7 @@ const SykepengegrunnlagContainer: React.FC = () => {
     return null;
 };
 
-const SykepengegrunnlagError = () => {
+const SykepengegrunnlagError = (): ReactElement => {
     return (
         <Alert variant="error" size="small">
             Noe gikk galt. Kan ikke vise sykepengegrunnlag for denne perioden.
@@ -63,7 +63,7 @@ const SykepengegrunnlagError = () => {
     );
 };
 
-export const Sykepengegrunnlag = () => {
+export const Sykepengegrunnlag = (): ReactElement => {
     return (
         <ErrorBoundary fallback={<SykepengegrunnlagError />}>
             <SykepengegrunnlagContainer />

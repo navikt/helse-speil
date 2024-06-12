@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-import { behandlingsstatistikk } from '@/spesialist-mock/data/behandlingsstatistikk';
 import { Antall, Behandlingsstatistikk } from '@io/graphql';
 
 import { LabelCell } from './LabelCell';
@@ -22,7 +21,9 @@ interface BehandlingsstatistikkTableProps {
     behandlingsstatistikk: Behandlingsstatistikk;
 }
 
-export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProps> = ({ behandlingsstatistikk }) => {
+export const BehandlingsstatistikkTable = ({
+    behandlingsstatistikk,
+}: BehandlingsstatistikkTableProps): ReactElement => {
     const totaltIdag = getTotaltIdag(behandlingsstatistikk);
     const søknad: Antall = {
         __typename: 'Antall',

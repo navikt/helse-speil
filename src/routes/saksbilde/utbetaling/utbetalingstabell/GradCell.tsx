@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Maybe } from '@utils/ts';
@@ -16,7 +16,7 @@ interface GradCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     overstyrtDag?: Utbetalingstabelldag;
 }
 
-export const GradCell: React.FC<GradCellProps> = ({ tabelldag, overstyrtDag, ...rest }) => {
+export const GradCell = ({ tabelldag, overstyrtDag, ...rest }: GradCellProps): ReactElement => {
     const gradErOverstyrt = overstyrtDag && overstyrtDag.grad !== tabelldag.grad;
     const overstyringstekst =
         typeof tabelldag.grad === 'number' ? `Endret fra ${tabelldag.grad} %` : 'Endret fra dag uten grad';

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -12,7 +12,7 @@ interface SimuleringsperiodeValueProps {
     value: string | number;
 }
 
-export const SimuleringsperiodeValue: React.FC<SimuleringsperiodeValueProps> = ({ label, value }) => {
+export const SimuleringsperiodeValue = ({ label, value }: SimuleringsperiodeValueProps): ReactElement => {
     return (
         <>
             <BodyShort size="small">{label}</BodyShort>

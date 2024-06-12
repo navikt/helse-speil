@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -15,11 +15,11 @@ interface OpptjeningstidProps {
     antallOpptjeningsdagerErMinst: number;
 }
 
-export const Opptjeningstid: React.FC<OpptjeningstidProps> = ({
+export const Opptjeningstid = ({
     skjæringstidspunkt,
     opptjeningFra,
     antallOpptjeningsdagerErMinst,
-}) => (
+}: OpptjeningstidProps): ReactElement => (
     <>
         <Vilkårsgrupperad label="Skjæringstidspunkt">
             {dayjs(skjæringstidspunkt).format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
@@ -36,7 +36,7 @@ type GrunnbeløpProps = {
     alder: number;
 };
 
-const Grunnbeløp = ({ grunnbeløp, alder }: GrunnbeløpProps) =>
+const Grunnbeløp = ({ grunnbeløp, alder }: GrunnbeløpProps): ReactElement =>
     alder >= 67 ? (
         <BodyShort>{`2G er ${somPenger(grunnbeløp * 2)}`}</BodyShort>
     ) : (
@@ -49,11 +49,11 @@ interface SykepengegrunnlagProps {
     alderVedSkjæringstidspunkt: number;
 }
 
-export const Sykepengegrunnlag: React.FC<SykepengegrunnlagProps> = ({
+export const Sykepengegrunnlag = ({
     sykepengegrunnlag,
     grunnbeløp,
     alderVedSkjæringstidspunkt,
-}) => (
+}: SykepengegrunnlagProps): ReactElement => (
     <>
         <Vilkårsgrupperad label="Sykepengegrunnlaget">
             {sykepengegrunnlag ? somPenger(sykepengegrunnlag) : 'Ikke funnet'}

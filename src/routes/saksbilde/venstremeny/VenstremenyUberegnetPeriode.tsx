@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { ArbeidsgiverFragment, UberegnetPeriodeFragment } from '@io/graphql';
 
@@ -11,10 +11,10 @@ interface VenstremenyUberegnetPeriodeProps {
     currentArbeidsgiver: ArbeidsgiverFragment;
 }
 
-export const VenstremenyUberegnetPeriode: React.FC<VenstremenyUberegnetPeriodeProps> = ({
+export const VenstremenyUberegnetPeriode = ({
     activePeriod,
     currentArbeidsgiver,
-}) => {
+}: VenstremenyUberegnetPeriodeProps): ReactElement => {
     return (
         <section className={styles.Venstremeny}>
             <PeriodeCard.Uberegnet periode={activePeriod} arbeidsgiver={currentArbeidsgiver} />

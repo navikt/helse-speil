@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Popover, PopoverProps } from '@navikt/ds-react';
 
@@ -17,7 +17,7 @@ interface NotattekstPopoverProps extends Omit<PopoverProps, 'children'> {
     tekst: string;
 }
 
-const NotattekstPopover: React.FC<NotattekstPopoverProps> = ({ tekst, ...popoverProps }) => {
+const NotattekstPopover = ({ tekst, ...popoverProps }: NotattekstPopoverProps): ReactElement => {
     return (
         <Popover placement="left" {...popoverProps}>
             <Popover.Content className={styles.NotattekstPopover}>
@@ -27,7 +27,7 @@ const NotattekstPopover: React.FC<NotattekstPopoverProps> = ({ tekst, ...popover
     );
 };
 
-export const SisteNotattekst: React.FC<SisteNotattekstProps> = ({ vedtaksperiodeId }: SisteNotattekstProps) => {
+export const SisteNotattekst = ({ vedtaksperiodeId }: SisteNotattekstProps): ReactElement | null => {
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
     const sisteNotat = useNotaterForVedtaksperiode(vedtaksperiodeId).shift();
 

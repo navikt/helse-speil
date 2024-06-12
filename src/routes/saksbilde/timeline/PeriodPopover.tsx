@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React, { ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 import type { PopoverProps } from '@navikt/ds-react';
 import { BodyShort, Popover } from '@navikt/ds-react';
@@ -62,7 +62,7 @@ const getDayTypesRender = (dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagt
     return `${antallDager} dager`;
 };
 
-const InfotrygdPopover: React.FC<DatePeriod> = ({ fom, tom }) => {
+const InfotrygdPopover = ({ fom, tom }: DatePeriod): ReactElement => {
     return (
         <>
             <BodyShort size="small">Behandlet i Infotrygd</BodyShort>
@@ -79,7 +79,7 @@ interface SpleisPopoverProps extends DatePeriod {
     state: PeriodState;
 }
 
-export const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, fom, tom }) => {
+export const BeregnetPopover = ({ period, state, fom, tom }: SpleisPopoverProps): ReactElement => {
     const dayTypes = groupDayTypes(period);
 
     const arbeidsgiverperiode = getDayTypesRender(Utbetalingsdagtype.Arbeidsgiverperiodedag, dayTypes);
@@ -173,7 +173,7 @@ export const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, f
     );
 };
 
-const GhostPopover: React.FC<DatePeriod> = ({ fom, tom }) => {
+const GhostPopover = ({ fom, tom }: DatePeriod): ReactElement => {
     return (
         <>
             <BodyShort size="small">Arbeidsforhold uten sykefravær</BodyShort>
@@ -189,7 +189,7 @@ interface UberegnetPopoverProps extends DatePeriod {
     state: PeriodState;
 }
 
-const UberegnetPopover: React.FC<UberegnetPopoverProps> = ({ fom, tom, state }) => {
+const UberegnetPopover = ({ fom, tom, state }: UberegnetPopoverProps): ReactElement => {
     const stateText = getPeriodStateText(state);
 
     return (
@@ -208,7 +208,7 @@ interface PeriodPopoverProps extends Omit<PopoverProps, 'children'> {
     state: PeriodState;
 }
 
-export const PeriodPopover: React.FC<PeriodPopoverProps> = ({ period, state, ...popoverProps }) => {
+export const PeriodPopover = ({ period, state, ...popoverProps }: PeriodPopoverProps): ReactElement => {
     const fom = dayjs(period.fom).format(NORSK_DATOFORMAT);
     const tom = dayjs(period.tom).format(NORSK_DATOFORMAT);
 

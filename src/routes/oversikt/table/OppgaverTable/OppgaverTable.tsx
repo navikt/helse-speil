@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
@@ -24,8 +24,8 @@ interface OppgaverTableProps {
     setPage: (newPage: number) => void;
 }
 
-export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(
-    ({ oppgaver, antallOppgaver, numberOfPages, currentPage, limit, setPage }) => {
+export const OppgaverTable = React.memo(
+    ({ oppgaver, antallOppgaver, numberOfPages, currentPage, limit, setPage }: OppgaverTableProps): ReactElement => {
         const tab = useAktivTab();
         const { activeFilters } = useFilters();
         const [sort, setSort] = useRecoilState(sortering);

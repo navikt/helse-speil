@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
@@ -15,14 +15,14 @@ import styles from './Overstyringshendelse.module.css';
 
 type ArbeidsforholdoverstyringhendelseProps = Omit<ArbeidsforholdoverstyringhendelseObject, 'type' | 'id'>;
 
-export const Arbeidsforholdoverstyringhendelse: React.FC<ArbeidsforholdoverstyringhendelseProps> = ({
+export const Arbeidsforholdoverstyringhendelse = ({
     erDeaktivert,
     saksbehandler,
     timestamp,
     begrunnelse,
     forklaring,
     skjæringstidspunkt,
-}) => {
+}: ArbeidsforholdoverstyringhendelseProps): ReactElement => {
     return (
         <Hendelse
             title={erDeaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -36,7 +36,7 @@ interface OverstyrbarUtbetalingProps {
     vedtaksperiodeId: string;
 }
 
-export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
+export const OverstyrbarUtbetaling = ({
     fom,
     tom,
     dager,
@@ -44,7 +44,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
     revurderingIsEnabled,
     overstyrRevurderingIsEnabled,
     vedtaksperiodeId,
-}) => {
+}: OverstyrbarUtbetalingProps): ReactElement => {
     const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
     const [overstyrer, setOverstyrer] = useState(false);

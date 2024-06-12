@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -6,7 +6,7 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 
 import styles from './Søknadsinnhold.module.css';
 
-export const DokumentLoader: React.FC = () => {
+export const DokumentLoader = (): ReactElement => {
     return (
         <div className={styles.skeleton}>
             <BodyShort>

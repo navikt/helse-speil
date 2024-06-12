@@ -1,5 +1,5 @@
 import styles from './Vurderingsmomenter.module.scss';
-import React, { ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -47,7 +47,9 @@ interface VurderingsmomenterWithContentProps {
     risikovurdering: Risikovurdering;
 }
 
-export const VurderingsmomenterWithContent: React.FC<VurderingsmomenterWithContentProps> = ({ risikovurdering }) => (
+export const VurderingsmomenterWithContent = ({
+    risikovurdering,
+}: VurderingsmomenterWithContentProps): ReactElement => (
     <AgurkErrorBoundary sidenavn="Vurderingsmomenter">
         <div className={styles.container}>
             {risikovurdering && harFunn(risikovurdering.funn) && risikovurdering.funn.length > 0 && (
@@ -70,7 +72,7 @@ export const VurderingsmomenterWithContent: React.FC<VurderingsmomenterWithConte
     </AgurkErrorBoundary>
 );
 
-const VurderingsmomenterContainer = () => {
+const VurderingsmomenterContainer = (): ReactElement | null => {
     const activePeriod = useActivePeriod();
 
     if (isBeregnetPeriode(activePeriod) && activePeriod.risikovurdering) {
@@ -80,7 +82,7 @@ const VurderingsmomenterContainer = () => {
     return null;
 };
 
-export const Vurderingsmomenter = () => {
+export const Vurderingsmomenter = (): ReactElement => {
     return <VurderingsmomenterContainer />;
 };
 

@@ -1,6 +1,6 @@
 import styles from './Hendelse.module.scss';
 import classNames from 'classnames';
-import React, { ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 import { Bold } from '@components/Bold';
 import { LoadingShimmer } from '@components/LoadingShimmer';
@@ -10,7 +10,7 @@ interface HendelseProps extends Omit<React.LiHTMLAttributes<HTMLLIElement>, 'tit
     icon?: ReactNode;
 }
 
-export const Hendelse: React.FC<HendelseProps> = ({ icon, title, className, children, ...liProps }) => {
+export const Hendelse = ({ icon, title, className, children, ...liProps }: HendelseProps): ReactElement => {
     return (
         <li className={classNames(styles.hendelse, className)} {...liProps}>
             <div className={styles.iconContainer}>{icon}</div>
@@ -22,7 +22,7 @@ export const Hendelse: React.FC<HendelseProps> = ({ icon, title, className, chil
     );
 };
 
-export const HendelseSkeleton: React.FC = () => {
+export const HendelseSkeleton = (): ReactElement => {
     return (
         <li className={styles.hendelse}>
             <div className={styles.iconContainer} />

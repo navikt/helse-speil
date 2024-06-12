@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
 
@@ -8,7 +8,7 @@ interface RadmarkeringCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLI
     index: number;
 }
 
-export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({ index, ...rest }) => {
+export const RadmarkeringCheckbox = ({ index, ...rest }: RadmarkeringCheckboxProps): ReactElement => {
     return (
         <div className={styles.container}>
             <Checkbox {...rest} hideLabel size="small">

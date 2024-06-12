@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
-import React, { PropsWithChildren, useEffect } from 'react';
+import React, { PropsWithChildren, ReactElement, useEffect } from 'react';
 
 import { useBrukerGrupper } from '@/auth/brukerContext';
 import { browserEnv, erDev, erProd } from '@/env';
@@ -98,7 +98,7 @@ const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string
     };
 };
 
-const _AmplitudeProvider: React.FC<PropsWithChildren<object>> = ({ children }) => {
+const _AmplitudeProvider = ({ children }: PropsWithChildren): ReactElement => {
     useStoreÅpnetTidspunkt();
 
     const logEvent = useLogEvent();
@@ -136,7 +136,7 @@ const _AmplitudeProvider: React.FC<PropsWithChildren<object>> = ({ children }) =
     );
 };
 
-export const AmplitudeProvider: React.FC<PropsWithChildren> = ({ children }) => {
+export const AmplitudeProvider = ({ children }: PropsWithChildren): ReactElement => {
     return (
         <React.Suspense fallback={<>{children}</>}>
             <_AmplitudeProvider>{children}</_AmplitudeProvider>

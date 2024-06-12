@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { LinkButton } from '@components/LinkButton';
@@ -76,12 +76,12 @@ interface OpenSimuleringButtonProps extends Omit<React.HTMLAttributes<HTMLAnchor
     utbetaling: Utbetaling;
 }
 
-export const OpenSimuleringButton: React.FC<OpenSimuleringButtonProps> = ({
+export const OpenSimuleringButton = ({
     simulering,
     utbetaling,
     className,
     ...anchorProps
-}) => {
+}: OpenSimuleringButtonProps): ReactElement => {
     return (
         <LinkButton
             onClick={() =>

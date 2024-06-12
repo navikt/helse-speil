@@ -65,19 +65,24 @@ type CommonLinkProps = { tekst: string; snarveibokstav: string };
 type ButtonLink = CommonLinkProps & { action: () => void };
 type HrefLink = CommonLinkProps & { href: string };
 
-const Link: React.FC<HrefLink> = ({ tekst, href, snarveibokstav }) => (
+const Link = ({ tekst, href, snarveibokstav }: HrefLink): ReactElement => (
     <Dropdown.Menu.GroupedList.Item key={tekst} as="a" href={href} target="_blank" className={styles.ExternalLink}>
         <Lenkeinnhold tekst={tekst} snarveibokstav={snarveibokstav} />
     </Dropdown.Menu.GroupedList.Item>
 );
 
-const Button: React.FC<ButtonLink> = ({ tekst, action, snarveibokstav }) => (
+const Button = ({ tekst, action, snarveibokstav }: ButtonLink): ReactElement => (
     <Dropdown.Menu.GroupedList.Item key={tekst} as="button" className={styles.ExternalLink} onClick={action}>
         <Lenkeinnhold tekst={tekst} snarveibokstav={snarveibokstav} />
     </Dropdown.Menu.GroupedList.Item>
 );
 
-const Lenkeinnhold: React.FC<{ tekst: string; snarveibokstav: string }> = ({ tekst, snarveibokstav }) => (
+type LenkeinnholdProps = {
+    tekst: string;
+    snarveibokstav: string;
+};
+
+const Lenkeinnhold = ({ tekst, snarveibokstav }: LenkeinnholdProps): ReactElement => (
     <>
         {tekst}
         <ExternalLink />
@@ -144,7 +149,7 @@ const createLinks = (maybeFnr: string | null): Array<HrefLink | ButtonLink> => [
     },
 ];
 
-export const SystemMenu = () => {
+export const SystemMenu = (): ReactElement => {
     const params = useParams<{ aktorId?: string }>();
 
     return (
@@ -162,7 +167,7 @@ export const SystemMenu = () => {
     );
 };
 
-function SystemMenuForUser() {
+function SystemMenuForUser(): ReactElement[] {
     const { data } = useFetchPersonQuery();
     const maybeFnr: string | null = data?.person?.fodselsnummer ?? null;
 
@@ -175,7 +180,7 @@ function SystemMenuForUser() {
     );
 }
 
-function SystemMenuNoUser() {
+function SystemMenuNoUser(): ReactElement[] {
     return createLinks(null).map((link) =>
         'href' in link ? (
             <Link key={link.tekst} tekst={link.tekst} href={link.href} snarveibokstav={link.snarveibokstav} />

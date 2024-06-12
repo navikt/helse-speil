@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, ReactElement } from 'react';
 
 import { ErrorColored } from '@navikt/ds-icons';
 
@@ -17,12 +17,12 @@ type AvhukingProps = {
     settVarselstatusVurdert: () => void;
 };
 
-export const Avhuking: React.FC<AvhukingProps> = ({
+export const Avhuking = ({
     type,
     varselstatus,
     settVarselstatusAktiv,
     settVarselstatusVurdert,
-}) => {
+}: AvhukingProps): ReactElement => {
     const disabledButton = varselstatus === Varselstatus.Godkjent || type === 'feil';
 
     const clickEvent = (event: MouseEvent<HTMLSpanElement>) => {

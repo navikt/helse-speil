@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, useRef } from 'react';
+import React, { FormEvent, ReactElement, useRef } from 'react';
 
 import { Search } from '@navikt/ds-react';
 
@@ -14,7 +14,7 @@ import styles from './Personsøk.module.css';
 
 const erGyldigPersonId = (value: string) => value.match(/^\d{1,13}$/) !== null;
 
-export const Personsøk: React.FC = () => {
+export const Personsøk = (): ReactElement => {
     const addVarsel = useAddVarsel();
     const router = useRouter();
     const rapporterError = useRapporterGraphQLErrors();

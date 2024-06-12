@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
 
@@ -7,7 +7,7 @@ import { Separator } from './Separator';
 
 import styles from './BehandlingsstatistikkView.module.css';
 
-const LoadingCells: React.FC = () => {
+const LoadingCells = (): ReactElement => {
     return (
         <>
             <td>
@@ -23,7 +23,7 @@ const LoadingCells: React.FC = () => {
     );
 };
 
-export const BehandlingsstatistikkSkeleton: React.FC = () => {
+export const BehandlingsstatistikkSkeleton = (): ReactElement => {
     return (
         <table>
             <thead>

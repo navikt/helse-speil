@@ -1,5 +1,5 @@
 import styles from './DropdownMenu.module.scss';
-import React, { useRef, useState } from 'react';
+import React, { ReactElement, useRef, useState } from 'react';
 
 import { Collapse, Expand } from '@navikt/ds-icons';
 import { Dropdown } from '@navikt/ds-react';
@@ -19,7 +19,7 @@ import { PåVentButton } from './PåVentButton';
 import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 
 // TODO: kan brukes i vanlig useQuery loading?
-const DropdownMenuContentSkeleton: React.FC = () => {
+const DropdownMenuContentSkeleton = (): ReactElement => {
     return (
         <Dropdown.Menu placement="bottom-start">
             <Dropdown.Menu.List>
@@ -36,7 +36,8 @@ const DropdownMenuContentSkeleton: React.FC = () => {
         </Dropdown.Menu>
     );
 };
-const DropdownMenuContent: React.FC = () => {
+
+const DropdownMenuContent = (): ReactElement | null => {
     const user = useInnloggetSaksbehandler();
     const period = useActivePeriod();
     const person = useCurrentPerson();
@@ -76,7 +77,7 @@ const DropdownMenuContent: React.FC = () => {
     );
 };
 
-export const DropdownMenu: React.FC = () => {
+export const DropdownMenu = (): ReactElement => {
     const [open, setOpen] = useState(false);
     const content = useRef<HTMLSpanElement>(null);
 

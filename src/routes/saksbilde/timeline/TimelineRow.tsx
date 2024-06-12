@@ -1,7 +1,7 @@
 import { TimelinePeriod } from './timeline-types';
 import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
@@ -22,7 +22,7 @@ export interface TimelineRowProps {
     alignWithExpandable?: boolean;
 }
 
-export const TimelineRow: React.FC<TimelineRowProps> = ({
+export const TimelineRow = ({
     start,
     end,
     name,
@@ -30,7 +30,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
     ghostPeriods,
     activePeriod,
     alignWithExpandable = false,
-}) => {
+}: TimelineRowProps): ReactElement => {
     return (
         <div className={styles.TimelineRow}>
             <ArbeidsgiverikonMedTooltip
@@ -52,7 +52,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
     );
 };
 
-export const TimelineRowSkeleton: React.FC = () => {
+export const TimelineRowSkeleton = (): ReactElement => {
     return (
         <div className={classNames(styles.TimelineRow, styles.TimelineRowSkeleton)}>
             <div className={styles.Name}>

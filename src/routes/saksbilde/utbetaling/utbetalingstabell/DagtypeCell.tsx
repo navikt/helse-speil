@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -102,7 +102,7 @@ interface DagtypeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     overstyrtDag?: Utbetalingstabelldag;
 }
 
-export const DagtypeCell: React.FC<DagtypeCellProps> = ({ tabelldag, overstyrtDag, ...rest }) => {
+export const DagtypeCell = ({ tabelldag, overstyrtDag, ...rest }: DagtypeCellProps): ReactElement => {
     const tekst = dekorerTekstOverstyrtDag(overstyrtDag) ?? dekorerTekst(tabelldag);
     const ikon = getTypeIcon(overstyrtDag) ?? getTypeIcon(tabelldag);
     const dagtypeErOverstyrt = overstyrtDag && tabelldag.dag.speilDagtype !== overstyrtDag.dag.speilDagtype;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort, Dropdown, InternalHeader as Header } from '@navikt/ds-react';
 
@@ -13,7 +13,7 @@ const useBrukerinfo = () => {
     return isLoggedIn ? { navn, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
 };
 
-export const UserMenu: React.FC = () => {
+export const UserMenu = (): ReactElement => {
     const { navn, ident } = useBrukerinfo();
     const isAnonymous = useIsAnonymous();
     const toggleAnonymity = useToggleAnonymity();

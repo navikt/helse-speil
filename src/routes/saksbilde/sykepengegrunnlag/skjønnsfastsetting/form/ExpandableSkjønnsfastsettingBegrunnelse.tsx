@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Accordion } from '@navikt/ds-react';
 
@@ -11,14 +11,14 @@ interface ExpandableSkjønnsfastsettingBegrunnelseProps extends React.HTMLAttrib
     onOpen?: (open: boolean) => void;
 }
 
-export const ExpandableSkjønnsfastsettingBegrunnelseContent: React.FC<ExpandableSkjønnsfastsettingBegrunnelseProps> = ({
+export const ExpandableSkjønnsfastsettingBegrunnelseContent = ({
     className,
     children,
     openText = 'Vis mer',
     closeText = 'Vis mindre',
     onOpen = () => {},
     ...divProps
-}) => {
+}: ExpandableSkjønnsfastsettingBegrunnelseProps): ReactElement => {
     const [open, setOpen] = useState(false);
     return (
         <Accordion>

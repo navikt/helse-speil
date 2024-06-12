@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { useQuery } from '@apollo/client';
 import { HentBehandlingsstatistikkDocument } from '@io/graphql';
@@ -11,7 +11,7 @@ import { useShowStatistikk } from './state';
 
 import styles from './BehandlingsstatistikkView.module.css';
 
-export const BehandlingsstatistikkView: React.FC = () => {
+export const BehandlingsstatistikkView = (): ReactElement => {
     const show = useShowStatistikk();
 
     const { loading, error, data } = useQuery(HentBehandlingsstatistikkDocument);

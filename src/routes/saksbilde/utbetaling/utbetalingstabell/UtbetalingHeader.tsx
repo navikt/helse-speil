@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { EditButton } from '@components/EditButton';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
@@ -14,13 +14,13 @@ interface UtbetalingHeaderProps {
     overstyrRevurderingIsEnabled?: boolean;
 }
 
-export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
+export const UtbetalingHeader = ({
     periodeErForkastet,
     toggleOverstyring,
     overstyrer,
     revurderingIsEnabled,
     overstyrRevurderingIsEnabled,
-}) => {
+}: UtbetalingHeaderProps): ReactElement => {
     const editButton = (
         <EditButton
             isOpen={overstyrer}

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Accordion } from '@navikt/ds-react';
 
@@ -11,14 +11,14 @@ interface ExpandableHistorikkContentProps extends React.HTMLAttributes<HTMLDivEl
     onOpen?: (open: boolean) => void;
 }
 
-export const ExpandableHistorikkContent: React.FC<ExpandableHistorikkContentProps> = ({
+export const ExpandableHistorikkContent = ({
     className,
     children,
     openText = 'Åpne',
     closeText = 'Lukk',
     onOpen = () => {},
     ...divProps
-}) => {
+}: ExpandableHistorikkContentProps): ReactElement => {
     const [open, setOpen] = useState(false);
     return (
         <Accordion>

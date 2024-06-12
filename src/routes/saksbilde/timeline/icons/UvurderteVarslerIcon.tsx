@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { useId } from '@navikt/ds-react';
 
@@ -6,10 +6,10 @@ interface UvurderteVarslerIconProps extends React.SVGAttributes<SVGSVGElement> {
     alt?: string;
 }
 
-export const UvurderteVarslerIcon: React.FC<UvurderteVarslerIconProps> = ({
+export const UvurderteVarslerIcon = ({
     alt = 'Uvurderte-varsler-ikon',
     ...svgProps
-}) => {
+}: UvurderteVarslerIconProps): ReactElement => {
     let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (

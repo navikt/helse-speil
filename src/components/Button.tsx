@@ -3,6 +3,6 @@ import React from 'react';
 
 import styles from './Button.module.css';
 
-export const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ className, ...props }) => {
+export const Button = ({ className, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
     return <button className={classNames(styles.Button, className)} {...props} />;
 };

@@ -4,12 +4,8 @@ import { SaksbildeMenuSkeleton } from '@/routes/saksbilde/saksbildeMenu/Saksbild
 
 import styles from './SharedViews.module.css';
 
-function PeriodeViewSkeleton(): ReactElement {
-    return (
-        <div className={styles.Content}>
-            <SaksbildeMenuSkeleton />
-        </div>
-    );
-}
-
-export default PeriodeViewSkeleton;
+export const PeriodeViewSkeleton = (): ReactElement => (
+    <div className={styles.Content}>
+        <SaksbildeMenuSkeleton />
+    </div>
+);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Tag, Tooltip } from '@navikt/ds-react';
 
@@ -9,7 +9,7 @@ type TagMedTooltipProps = {
     etikett: string;
 };
 
-export const TagMedTooltip: React.FC<TagMedTooltipProps> = ({ tooltipTekst, etikett }) => (
+export const TagMedTooltip = ({ tooltipTekst, etikett }: TagMedTooltipProps): ReactElement => (
     <Tooltip
         content={tooltipTekst}
         maxChar={120} /* Når tooltip-teksten er over maxChar, vises det en warn i console om at teksten er vel lang. */

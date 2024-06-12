@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -14,7 +14,7 @@ interface RefusjonProps {
     lokaleRefusjonsopplysninger: Refusjonsopplysning[];
 }
 
-export const Refusjonsoversikt: React.FC<RefusjonProps> = ({ refusjon, lokaleRefusjonsopplysninger }) => {
+export const Refusjonsoversikt = ({ refusjon, lokaleRefusjonsopplysninger }: RefusjonProps): ReactElement => {
     const refusjonIVisning = lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : refusjon;
     return (
         <div className={styles.Refusjonsoversikt}>

@@ -76,5 +76,3 @@ export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps
         </div>
     );
 };
-
-export default BeregnetPeriodeView;

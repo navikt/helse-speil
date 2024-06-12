@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
-export const BehandlingsstatistikkError: React.FC = () => {
+export const BehandlingsstatistikkError = (): ReactElement => {
     return (
         <Alert size="small" variant="error">
             Vi klarte ikke hente behandlingsstatistikken.

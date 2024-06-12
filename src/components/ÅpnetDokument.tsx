@@ -1,18 +1,17 @@
 import styles from './ÅpnetDokument.module.scss';
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { XMarkIcon } from '@navikt/aksel-icons';
 
+import { HendelseDate } from '@/routes/saksbilde/historikk/hendelser/HendelseDate';
+import { Inntektsmeldingsinnhold } from '@/routes/saksbilde/historikk/hendelser/dokument/Inntektsmeldingsinnhold';
+import { Søknadsinnhold } from '@/routes/saksbilde/historikk/hendelser/dokument/Søknadsinnhold';
+import { getKildetekst, getKildetype, openedDocument } from '@/routes/saksbilde/historikk/hendelser/dokument/dokument';
 import { Kilde } from '@components/Kilde';
 
-import { HendelseDate } from '../routes/saksbilde/historikk/hendelser/HendelseDate';
-import { Inntektsmeldingsinnhold } from '../routes/saksbilde/historikk/hendelser/dokument/Inntektsmeldingsinnhold';
-import { Søknadsinnhold } from '../routes/saksbilde/historikk/hendelser/dokument/Søknadsinnhold';
-import { getKildetekst, getKildetype, openedDocument } from '../routes/saksbilde/historikk/hendelser/dokument/dokument';
-
-export const ÅpnetDokument: React.FC = () => {
+export const ÅpnetDokument = (): ReactElement | null => {
     const [åpnedeDokumenter, setÅpnedeDokumenter] = useRecoilState(openedDocument);
 
     if ((åpnedeDokumenter?.length ?? 0) === 0) return null;

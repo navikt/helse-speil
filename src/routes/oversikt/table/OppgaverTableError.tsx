@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
 import styles from './table.module.css';
 
-export const OppgaverTableError: React.FC = () => {
+export const OppgaverTableError = (): ReactElement => {
     return (
         <div className={styles.TableContainer}>
             <div className={styles.Content}>

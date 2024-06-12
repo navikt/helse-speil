@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
@@ -17,7 +17,7 @@ import styles from './Overstyringshendelse.module.css';
 
 type AnnetArbeidsforholdoverstyringhendelseProps = Omit<AnnetArbeidsforholdoverstyringhendelseObject, 'type' | 'id'>;
 
-export const AnnetArbeidsforholdoverstyringhendelse: React.FC<AnnetArbeidsforholdoverstyringhendelseProps> = ({
+export const AnnetArbeidsforholdoverstyringhendelse = ({
     erDeaktivert,
     saksbehandler,
     timestamp,
@@ -25,7 +25,7 @@ export const AnnetArbeidsforholdoverstyringhendelse: React.FC<AnnetArbeidsforhol
     forklaring,
     skjæringstidspunkt,
     navn,
-}) => {
+}: AnnetArbeidsforholdoverstyringhendelseProps): ReactElement => {
     return (
         <Hendelse
             title={

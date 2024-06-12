@@ -1,5 +1,5 @@
 import styles from './PopoverHjelpetekst.module.scss';
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { ReactElement, ReactNode, useRef, useState } from 'react';
 
 import { Popover, PopoverProps } from '@navikt/ds-react';
 
@@ -7,7 +7,7 @@ interface PopoverHjelpetekstProps extends Pick<PopoverProps, 'offset'>, React.HT
     ikon: ReactNode;
 }
 
-export const PopoverHjelpetekst: React.FC<PopoverHjelpetekstProps> = ({ children, ikon, offset, ...divProps }) => {
+export const PopoverHjelpetekst = ({ children, ikon, offset, ...divProps }: PopoverHjelpetekstProps): ReactElement => {
     const ref = useRef<HTMLDivElement>(null);
     const [anchor, setAnchor] = useState<HTMLDivElement | null>(null);
 

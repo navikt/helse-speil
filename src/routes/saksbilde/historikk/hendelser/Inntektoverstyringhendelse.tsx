@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
@@ -18,12 +18,12 @@ import styles from './Overstyringshendelse.module.css';
 
 type InntektoverstyringhendelseProps = Omit<InntektoverstyringhendelseObject, 'type' | 'id'>;
 
-export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProps> = ({
+export const Inntektoverstyringhendelse = ({
     erRevurdering,
     saksbehandler,
     timestamp,
     inntekt,
-}) => {
+}: InntektoverstyringhendelseProps): ReactElement => {
     return (
         <>
             {inntekt.fraManedligInntekt !== inntekt.manedligInntekt && (

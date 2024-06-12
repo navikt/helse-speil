@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Alert, BodyShort } from '@navikt/ds-react';
 
@@ -26,7 +26,7 @@ interface InntektProps {
     inntekt: Arbeidsgiverinntekt;
 }
 
-export const InntektUtenOmregnetÅrsinntekt: React.FC<InntektProps> = ({ inntekt }) => {
+export const InntektUtenOmregnetÅrsinntekt = ({ inntekt }: InntektProps): ReactElement => {
     const arbeidsgiver = useArbeidsgiver(inntekt.arbeidsgiver);
 
     return (

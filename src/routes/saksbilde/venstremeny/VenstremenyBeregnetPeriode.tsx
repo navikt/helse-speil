@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Alert, BodyShort } from '@navikt/ds-react';
 
@@ -38,11 +38,11 @@ interface VenstremenyBeregnetPeriodeProps {
 const finnUtbetaleTilgang = ({ handlinger }: BeregnetPeriodeFragment): Handling =>
     handlinger.find((handling) => handling.type === Periodehandling.Utbetale) as Handling;
 
-export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProps> = ({
+export const VenstremenyBeregnetPeriode = ({
     activePeriod,
     currentPerson,
     currentArbeidsgiver,
-}) => {
+}: VenstremenyBeregnetPeriodeProps): ReactElement => {
     const vilkårsgrunnlag = getVilkårsgrunnlag(currentPerson, activePeriod.vilkarsgrunnlagId);
     const månedsbeløp = vilkårsgrunnlag?.inntekter.find(
         (it) => it.arbeidsgiver === currentArbeidsgiver.organisasjonsnummer,
@@ -98,7 +98,7 @@ type FeilmeldingProps = {
     handling: Handling;
 };
 
-const Feilmelding = ({ handling }: FeilmeldingProps) => {
+const Feilmelding = ({ handling }: FeilmeldingProps): ReactElement => {
     let errorMessage;
     if (handling.begrunnelse === 'IkkeTilgangTilRisk')
         errorMessage = 'Dette er en risk-sak. Det kreves egen tilgang for å behandle disse.';

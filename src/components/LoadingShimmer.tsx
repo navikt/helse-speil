@@ -1,8 +1,8 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import styles from './LoadingShimmer.module.css';
 
-export const LoadingShimmer: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...divProps }) => {
+export const LoadingShimmer = ({ className, ...divProps }: React.HTMLAttributes<HTMLDivElement>): ReactElement => {
     return <span className={classNames(styles.LoadingShimmer, className)} {...divProps} />;
 };

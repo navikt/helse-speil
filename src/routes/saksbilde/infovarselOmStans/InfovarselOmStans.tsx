@@ -37,7 +37,7 @@ const InfovarselOmStansContainer = (): ReactElement | null => {
     return null;
 };
 
-const InfovarselOmStansError: React.FC = () => {
+const InfovarselOmStansError = (): ReactElement => {
     return (
         <div className={classNames(styles.Error)}>
             <BodyShort>Det oppstod en feil. Kan ikke vise personinformasjon.</BodyShort>
@@ -45,7 +45,7 @@ const InfovarselOmStansError: React.FC = () => {
     );
 };
 
-export const InfovarselOmStans: React.FC = () => {
+export const InfovarselOmStans = (): ReactElement => {
     return (
         <ErrorBoundary fallback={<InfovarselOmStansError />}>
             <InfovarselOmStansContainer />

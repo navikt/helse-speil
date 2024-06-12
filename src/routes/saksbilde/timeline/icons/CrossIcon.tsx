@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { useId } from '@navikt/ds-react';
 
@@ -6,7 +6,7 @@ interface CrossIconProps extends React.SVGAttributes<SVGSVGElement> {
     alt?: string;
 }
 
-export const CrossIcon: React.FC<CrossIconProps> = ({ alt = 'Cross-ikon', ...svgProps }) => {
+export const CrossIcon = ({ alt = 'Cross-ikon', ...svgProps }: CrossIconProps): ReactElement => {
     let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (

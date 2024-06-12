@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { KjønnsnøytraltIkon } from '@components/ikoner/KjønnsnøytraltIkon';
 import { Kvinneikon } from '@components/ikoner/Kvinneikon';
@@ -9,7 +9,7 @@ interface GenderIconProps extends React.SVGAttributes<SVGElement> {
     gender?: Maybe<Kjonn>;
 }
 
-export const GenderIcon: React.FC<GenderIconProps> = ({ gender, ...svgProps }) => {
+export const GenderIcon = ({ gender, ...svgProps }: GenderIconProps): ReactElement => {
     switch (gender?.toLowerCase()) {
         case 'kvinne':
             return <Kvinneikon alt="Kvinne" {...svgProps} />;

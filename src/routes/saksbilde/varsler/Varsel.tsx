@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
 
@@ -30,7 +30,7 @@ const getErrorMessage = (errorCode: number) => {
     }
 };
 
-export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
+export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const varselVurdering = varsel.vurdering;
     const varselStatus = varselVurdering?.status ?? Varselstatus.Aktiv;

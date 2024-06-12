@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -17,7 +17,7 @@ import { VenstremenyUberegnetPeriode } from './VenstremenyUberegnetPeriode';
 
 import styles from './Venstremeny.module.css';
 
-const VenstremenyContainer: React.FC = () => {
+const VenstremenyContainer = (): ReactElement | null => {
     const activePeriod = useActivePeriod();
     const currentPerson = useCurrentPerson();
     const currentArbeidsgiver = useCurrentArbeidsgiver();
@@ -53,7 +53,7 @@ const VenstremenyContainer: React.FC = () => {
     return null;
 };
 
-const VenstremenySkeleton: React.FC = () => {
+const VenstremenySkeleton = (): ReactElement => {
     return (
         <section className={classNames(styles.Venstremeny, styles.Skeleton)}>
             <PeriodeCard.Skeleton />
@@ -62,7 +62,7 @@ const VenstremenySkeleton: React.FC = () => {
     );
 };
 
-const VenstremenyError: React.FC = () => {
+const VenstremenyError = (): ReactElement => {
     return (
         <section className={classNames(styles.Venstremeny, styles.Error)}>
             <BodyShort>Det har skjedd en feil. Kan ikke vise venstremenyen for perioden.</BodyShort>
@@ -70,7 +70,7 @@ const VenstremenyError: React.FC = () => {
     );
 };
 
-export const Venstremeny: React.FC = () => {
+export const Venstremeny = (): ReactElement => {
     return (
         <ErrorBoundary fallback={<VenstremenyError />}>
             <VenstremenyContainer />

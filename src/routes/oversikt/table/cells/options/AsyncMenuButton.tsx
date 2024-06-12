@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Dropdown, Loader } from '@navikt/ds-react';
 
@@ -12,7 +12,7 @@ interface AsyncMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElem
     swallorErrors?: boolean;
 }
 
-export const AsyncMenuButton: React.FC<AsyncMenuButtonProps> = ({
+export const AsyncMenuButton = ({
     children,
     asyncOperation,
     onSuccess,
@@ -20,7 +20,7 @@ export const AsyncMenuButton: React.FC<AsyncMenuButtonProps> = ({
     swallorErrors = true,
     className,
     ...buttonProps
-}) => {
+}: AsyncMenuButtonProps): ReactElement => {
     const [isPerformingAsyncOperation, setIsPerformingAsyncOperation] = useState(false);
 
     const onClick = (event: React.MouseEvent) => {

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort, BodyShortProps } from '@navikt/ds-react';
 
@@ -7,11 +7,11 @@ import { AnonymizableText } from './anonymizable/AnonymizableText';
 
 import styles from './TextWithEllipsis.module.css';
 
-export const TextWithEllipsis: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
+export const TextWithEllipsis = ({
     className,
     children,
     ...paragrahProps
-}) => {
+}: React.HTMLAttributes<HTMLParagraphElement>): ReactElement => {
     return (
         <BodyShort className={classNames(styles.TextWithEllipsis, className)} {...paragrahProps}>
             {children}
@@ -19,7 +19,11 @@ export const TextWithEllipsis: React.FC<React.HTMLAttributes<HTMLParagraphElemen
     );
 };
 
-export const AnonymizableTextWithEllipsis: React.FC<BodyShortProps> = ({ className, children, ...paragrahProps }) => {
+export const AnonymizableTextWithEllipsis = ({
+    className,
+    children,
+    ...paragrahProps
+}: BodyShortProps): ReactElement => {
     return (
         <AnonymizableText className={classNames(styles.TextWithEllipsis, className)} {...paragrahProps}>
             {children}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
@@ -52,7 +52,7 @@ interface ReadonlyUtbetalingProps {
     dager: Map<string, Utbetalingstabelldag>;
 }
 
-const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => {
+const ReadonlyUtbetaling = ({ fom, tom, dager }: ReadonlyUtbetalingProps): ReactElement => {
     const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const periodeErISisteGenerasjon = useIsInCurrentGeneration();
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
@@ -86,7 +86,7 @@ interface UtbetalingBeregnetPeriodeProps {
     arbeidsgiver: ArbeidsgiverFragment;
 }
 
-const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = ({ period, person, arbeidsgiver }) => {
+const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingBeregnetPeriodeProps): ReactElement => {
     const overstyringIsEnabled = kanOverstyres(period);
     const revurderingIsEnabled = kanRevurderes(person, period);
     const overstyrRevurderingIsEnabled = kanOverstyreRevurdering(person, period);
@@ -126,7 +126,10 @@ interface UtbetalingUberegnetPeriodeProps {
     arbeidsgiver: ArbeidsgiverFragment;
 }
 
-const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({ periode, arbeidsgiver }) => {
+const UtbetalingUberegnetPeriode = ({
+    periode,
+    arbeidsgiver,
+}: UtbetalingUberegnetPeriodeProps): ReactElement | null => {
     const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
     const antallAGPDagerBruktFørPerioden = arbeidsgiver.generasjoner[0].perioder
         .filter((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt)
@@ -165,7 +168,7 @@ const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({
     );
 };
 
-const UtbetalingContainer = () => {
+const UtbetalingContainer = (): ReactElement | null => {
     const period = useActivePeriod();
     const person = useCurrentPerson();
     const arbeidsgiver = useCurrentArbeidsgiver();
@@ -181,7 +184,7 @@ const UtbetalingContainer = () => {
     }
 };
 
-const UtbetalingError = () => {
+const UtbetalingError = (): ReactElement => {
     return (
         <Alert variant="error" size="small">
             Noe gikk galt. Kan ikke vise utbetaling for denne perioden.
@@ -189,7 +192,7 @@ const UtbetalingError = () => {
     );
 };
 
-export const Utbetaling = () => {
+export const Utbetaling = (): ReactElement => {
     return (
         <ErrorBoundary fallback={<UtbetalingError />}>
             <UtbetalingContainer />

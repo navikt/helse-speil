@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
@@ -20,14 +20,14 @@ interface RefusjonslinjeProps extends React.HTMLAttributes<HTMLTableRowElement> 
     lokalEndring: boolean;
 }
 
-export const Refusjonslinje: React.FC<RefusjonslinjeProps> = ({
+export const Refusjonslinje = ({
     className,
     dato,
     beløp,
     kilde,
     lokalEndring,
     ...rest
-}) => {
+}: RefusjonslinjeProps): ReactElement => {
     return (
         <tr className={classNames(styles.Refusjonslinje, className)} {...rest}>
             <td>

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { ArbeidsgiverGenerasjon } from '@/types/shared';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
@@ -14,14 +14,14 @@ interface ExpandableTimelineRowProp extends Omit<TimelineRowProps, 'periods'> {
     generations: Array<ArbeidsgiverGenerasjon>;
 }
 
-export const ExpandableTimelineRow: React.FC<ExpandableTimelineRowProp> = ({
+export const ExpandableTimelineRow = ({
     start,
     end,
     name,
     generations,
     ghostPeriods,
     activePeriod,
-}) => {
+}: ExpandableTimelineRowProp): ReactElement => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (

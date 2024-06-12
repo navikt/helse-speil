@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Accordion, Tag } from '@navikt/ds-react';
 
@@ -18,7 +18,7 @@ interface EkspanderbartVarselProps {
     type: VarselstatusType;
 }
 
-export const EkspanderbartVarsel: React.FC<EkspanderbartVarselProps> = ({ varsel, type }) => {
+export const EkspanderbartVarsel = ({ varsel, type }: EkspanderbartVarselProps): ReactElement => {
     const [open, setOpen] = useState(false);
 
     return (

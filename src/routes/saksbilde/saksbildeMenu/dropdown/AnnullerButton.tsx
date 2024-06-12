@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react';
 
@@ -16,13 +16,13 @@ interface AnnullerButtonWithContentProps {
     organisasjonsnummer: string;
 }
 
-const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
+const AnnullerButtonWithContent = ({
     utbetalingId,
     vedtaksperiodeId,
     aktørId,
     fødselsnummer,
     organisasjonsnummer,
-}) => {
+}: AnnullerButtonWithContentProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
 
     return (
@@ -54,7 +54,7 @@ interface AnnullerButtonProps {
     arbeidsgiver: ArbeidsgiverFragment;
 }
 
-export const AnnullerButton: React.FC<AnnullerButtonProps> = ({ person, periode, arbeidsgiver }) => {
+export const AnnullerButton = ({ person, periode, arbeidsgiver }: AnnullerButtonProps): ReactElement | null => {
     const harMinstEnUtbetaltPeriode =
         arbeidsgiver.generasjoner
             .flatMap((it) => it.perioder)

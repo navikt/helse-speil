@@ -13,7 +13,7 @@ interface ErrorInnholdProps {
     sidenavn?: string;
 }
 
-const ErrorInnhold: React.FC<ErrorInnholdProps> = ({ sidenavn, errormelding }) => {
+const ErrorInnhold = ({ sidenavn, errormelding }: ErrorInnholdProps): ReactElement => {
     const ref = useRef<HTMLParagraphElement>(null);
     return (
         <div className={styles.container}>

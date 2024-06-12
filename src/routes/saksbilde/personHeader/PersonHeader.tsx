@@ -1,12 +1,12 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Kjonn } from '@io/graphql';
-import { useCurrentPerson, useFetchPersonQuery } from '@person/query';
+import { useFetchPersonQuery } from '@person/query';
 import { useIsAnonymous } from '@state/anonymization';
 
 import { GenderIcon } from './GenderIcon';
@@ -14,7 +14,7 @@ import { PersonHeaderWithContent } from './PersonHeaderWIthContent';
 
 import styles from './PersonHeader.module.css';
 
-const PersonHeaderContainer: React.FC = () => {
+const PersonHeaderContainer = (): ReactElement | null => {
     const isAnonymous = useIsAnonymous();
     const { loading, data } = useFetchPersonQuery();
 
@@ -38,7 +38,7 @@ const PersonHeaderContainer: React.FC = () => {
     );
 };
 
-const PersonHeaderSkeleton: React.FC = () => {
+const PersonHeaderSkeleton = (): ReactElement => {
     return (
         <div className={styles.PersonHeader}>
             <GenderIcon gender={Kjonn.Ukjent} />
@@ -55,7 +55,7 @@ const PersonHeaderSkeleton: React.FC = () => {
     );
 };
 
-const PersonHeaderError: React.FC = () => {
+const PersonHeaderError = (): ReactElement => {
     return (
         <div className={classNames(styles.PersonHeader, styles.Error)}>
             <BodyShort>Det oppstod en feil. Kan ikke vise personinformasjon.</BodyShort>
@@ -63,7 +63,7 @@ const PersonHeaderError: React.FC = () => {
     );
 };
 
-export const PersonHeader: React.FC = () => {
+export const PersonHeader = (): ReactElement => {
     return (
         <ErrorBoundary fallback={<PersonHeaderError />}>
             <PersonHeaderContainer />

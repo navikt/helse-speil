@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { AnonymizableBold } from '@components/anonymizable/AnonymizableBold';
 import { Personinfo } from '@io/graphql';
@@ -13,7 +13,7 @@ interface NavnOgAlderProps {
     personinfo: Personinfo;
 }
 
-export const NavnOgAlder: React.FC<NavnOgAlderProps> = ({ personinfo }) => {
+export const NavnOgAlder = ({ personinfo }: NavnOgAlderProps): ReactElement => {
     const formattedName = capitalizeName(getFormattedName(personinfo));
     const formattedAge = personinfo.fodselsdato !== null && ` (${dayjs().diff(personinfo.fodselsdato, 'year')} år)`;
     return (

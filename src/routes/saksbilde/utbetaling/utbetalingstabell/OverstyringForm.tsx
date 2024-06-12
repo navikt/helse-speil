@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Button, ErrorSummary, Textarea } from '@navikt/ds-react';
@@ -23,13 +23,13 @@ interface OverstyringFormProps {
     onSubmit: () => void;
 }
 
-export const OverstyringForm: React.FC<OverstyringFormProps> = ({
+export const OverstyringForm = ({
     overstyrteDager,
     hale,
     snute,
     toggleOverstyring,
     onSubmit,
-}) => {
+}: OverstyringFormProps): ReactElement => {
     const { handleSubmit, register, formState, setError, clearErrors } = useFormContext();
     const [oppsummering, setOppsummering] = useState('');
     const oppsummeringRef = useRef<HTMLDivElement>(null);

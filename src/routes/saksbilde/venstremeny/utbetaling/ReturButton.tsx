@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import React, { useContext, useState } from 'react';
+import React, { ReactElement, useContext, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
@@ -30,12 +30,12 @@ interface ReturButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>,
     onSuccess?: () => void;
 }
 
-export const ReturButton: React.FC<ReturButtonProps> = ({
+export const ReturButton = ({
     activePeriod,
     disabled = false,
     onSuccess,
     ...buttonProps
-}) => {
+}: ReturButtonProps): ReactElement | null => {
     const [showNotat, setShowNotat] = useState(false);
     const [error, setError] = useState<string | undefined>();
 

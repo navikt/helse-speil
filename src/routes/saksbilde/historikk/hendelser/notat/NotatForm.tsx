@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Button, Loader, Textarea } from '@navikt/ds-react';
@@ -13,14 +13,14 @@ interface NotatFormProps extends Omit<React.FormHTMLAttributes<HTMLFormElement>,
     hasError: boolean;
 }
 
-export const NotatForm: React.FC<NotatFormProps> = ({
+export const NotatForm = ({
     label = 'Notat',
     onSubmitForm,
     closeForm,
     isFetching,
     hasError,
     ...formProps
-}) => {
+}: NotatFormProps): ReactElement => {
     const form = useForm();
 
     const submitForm = () => {

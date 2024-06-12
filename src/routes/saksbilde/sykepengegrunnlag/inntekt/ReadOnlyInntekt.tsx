@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -20,12 +20,12 @@ interface ReadOnlyInntektProps {
     inntektsendringer: Inntektoverstyring[];
 }
 
-export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({
+export const ReadOnlyInntekt = ({
     omregnetÅrsinntekt,
     lokaltMånedsbeløp = null,
     endret,
     inntektsendringer,
-}) => {
+}: ReadOnlyInntektProps): ReactElement => {
     const harInntektskildeAOrdningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
 
     return (

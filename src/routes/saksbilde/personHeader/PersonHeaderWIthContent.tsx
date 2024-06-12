@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -27,14 +27,14 @@ interface PersonHeaderWithContentProps {
     dødsdato?: Maybe<DateString>;
 }
 
-export const PersonHeaderWithContent: React.FC<PersonHeaderWithContentProps> = ({
+export const PersonHeaderWithContent = ({
     fødselsnummer,
     aktørId,
     enhet,
     personinfo,
     isAnonymous,
     dødsdato,
-}) => {
+}: PersonHeaderWithContentProps): ReactElement => {
     return (
         <div className={styles.PersonHeader}>
             <GenderIcon gender={isAnonymous ? Kjonn.Ukjent : personinfo.kjonn} />

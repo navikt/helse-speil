@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { useId } from '@navikt/ds-react';
 
@@ -6,7 +6,7 @@ interface BlankIconProps extends React.SVGAttributes<SVGSVGElement> {
     alt?: string;
 }
 
-export const BlankIcon: React.FC<BlankIconProps> = ({ alt = 'Blank-ikon', ...svgProps }) => {
+export const BlankIcon = ({ alt = 'Blank-ikon', ...svgProps }: BlankIconProps): ReactElement => {
     let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Infotrekant } from '@components/Infotrekant';
 
@@ -6,6 +6,6 @@ interface EndringstrekantProps {
     text?: string;
 }
 
-export const Endringstrekant: React.FC<EndringstrekantProps> = ({
+export const Endringstrekant = ({
     text = 'Endringene vil oppdateres og kalkuleres etter du har trykket på ferdig',
-}) => <Infotrekant text={text} />;
+}: EndringstrekantProps): ReactElement => <Infotrekant text={text} />;

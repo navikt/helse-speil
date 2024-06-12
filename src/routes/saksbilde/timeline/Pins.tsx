@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort, Popover } from '@navikt/ds-react';
 
@@ -15,7 +15,7 @@ import styles from './Pins.module.css';
 
 type PinProps = React.HTMLAttributes<HTMLDivElement>;
 
-const Pin: React.FC<PinProps> = ({ children, ...divProps }) => {
+const Pin = ({ children, ...divProps }: PinProps): ReactElement => {
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
 
     return (
@@ -36,7 +36,7 @@ interface PinsProps {
     arbeidsgivere: Array<ArbeidsgiverFragment>;
 }
 
-export const Pins: React.FC<PinsProps> = ({ arbeidsgivere, start, end }) => {
+export const Pins = ({ arbeidsgivere, start, end }: PinsProps): ReactElement => {
     const maksdato = useMaksdato(arbeidsgivere);
     const maksdatoPosition = maksdato ? getPosition(dayjs(maksdato), start, end) : -1;
 
