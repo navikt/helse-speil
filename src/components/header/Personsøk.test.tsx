@@ -1,4 +1,4 @@
-import { createMock, render, screen } from '@test-utils';
+import { createInitialQuery, createMock, render, screen } from '@test-utils';
 import { GraphQLError } from 'graphql';
 import mockRouter from 'next-router-mock';
 
@@ -49,17 +49,18 @@ describe('Personsøk', () => {
                 <Personsøk />
             </div>,
             {
-                mocks: [
-                    // Bruker på routen lastes først pga <Varsler />, vi må bare la det laste, kanskje bedre med initialQueries?
-                    createMock({
-                        request: { query: FetchPersonDocument, variables: { aktorId: 'annen-bruker' } },
-                        result: {
-                            data: {
-                                __typename: 'Query' as const,
-                                person: enPerson({ aktorId: '1234567891000', fodselsnummer: '1234567891000' }),
-                            },
+                initialQueries: [
+                    // Bruker på routen lastes først pga <Varsler />
+                    createInitialQuery(
+                        FetchPersonDocument,
+                        {
+                            __typename: 'Query',
+                            person: enPerson({ aktorId: '1234567891000', fodselsnummer: '1234567891000' }),
                         },
-                    }),
+                        { aktorId: 'annen-bruker' },
+                    ),
+                ],
+                mocks: [
                     createMock({
                         request: { query: FetchPersonDocument, variables: { aktorId: '1234567891000' } },
                         result: {

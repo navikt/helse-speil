@@ -1,4 +1,4 @@
-import { FetchResult } from '@apollo/client';
+import { Cache, FetchResult } from '@apollo/client';
 import { MockedResponse, ResultFunction } from '@apollo/client/testing';
 import { TypedDocumentNode } from '@graphql-typed-document-node/core';
 
@@ -10,4 +10,16 @@ export function createMock<Query, Variables extends Record<string, unknown>>(moc
     newData?: ResultFunction<FetchResult<Query>, Record<string, unknown>>;
 }): MockedResponse<Query> {
     return mockedResponse;
+}
+
+export function createInitialQuery<Query, Variables>(
+    typedDocumentNode: TypedDocumentNode<Query, Variables>,
+    data: Query,
+    variables?: Variables,
+): Cache.WriteQueryOptions<Query, Variables> {
+    return {
+        query: typedDocumentNode,
+        data,
+        variables,
+    };
 }
