@@ -5,8 +5,7 @@ import { Button } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { AmplitudeContext } from '@io/amplitude';
-import { BeregnetPeriodeFragment, SendIReturDocument } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
+import { BeregnetPeriodeFragment, PersonFragment, SendIReturDocument } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 
 import { Returnotat } from '../../notat/Returnotat';
@@ -25,12 +24,14 @@ const useAddReturtoast = () => {
 };
 
 interface ReturButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'children'> {
+    person: PersonFragment;
     activePeriod: BeregnetPeriodeFragment;
     disabled: boolean;
     onSuccess?: () => void;
 }
 
 export const ReturButton = ({
+    person,
     activePeriod,
     disabled = false,
     onSuccess,
@@ -40,7 +41,6 @@ export const ReturButton = ({
     const [error, setError] = useState<string | undefined>();
 
     const addReturtoast = useAddReturtoast();
-    const person = useCurrentPerson();
     const amplitude = useContext(AmplitudeContext);
     const [sendIReturMutation] = useMutation(SendIReturDocument);
 

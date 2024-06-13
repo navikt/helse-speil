@@ -200,6 +200,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                                 disabled={periodenErSendt}
                                 activePeriod={period}
                                 onSuccess={onAvvisUtbetaling}
+                                person={person}
                             />
                         )}
                     </div>
