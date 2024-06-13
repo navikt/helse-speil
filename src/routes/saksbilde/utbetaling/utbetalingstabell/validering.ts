@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
+import * as R from 'remeda';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
+import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { DateString } from '@/types/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
 
@@ -34,7 +35,7 @@ const finnDagerISnuten = (dager: Utbetalingstabelldag[], snute: DateString): Utb
 
 export const arbeidsdagValidering = (
     overstyrteDager: Map<string, Utbetalingstabelldag>,
-    hale: DateString,
+    alleDager: Map<string, Utbetalingstabelldag>,
     setError: (name: string, message: string) => void,
 ): boolean => {
     const overstyrtTilArbeidsdager = Array.from(overstyrteDager.values())
@@ -44,6 +45,12 @@ export const arbeidsdagValidering = (
     if (overstyrtTilArbeidsdager.length === 0) {
         return true;
     }
+
+    const { hale } = getHaleAndSnute(
+        alleDager,
+        undefined,
+        R.last([...Array.from(overstyrteDager.values())])?.dag.speilDagtype,
+    );
 
     const dagerIHalenAvPerioden = finnDagerIHalen(overstyrtTilArbeidsdager, hale);
 
@@ -67,8 +74,7 @@ export const arbeidsdagValidering = (
 
 export const andreYtelserValidering = (
     overstyrteDager: Map<string, Utbetalingstabelldag>,
-    hale: DateString,
-    snute: DateString,
+    alleDager: Map<string, Utbetalingstabelldag>,
     setError: (name: string, message: string) => void,
 ) => {
     const overstyrtTilAnnenYtelsesdag = Array.from(overstyrteDager.values())
@@ -88,6 +94,12 @@ export const andreYtelserValidering = (
     if (overstyrtTilAnnenYtelsesdag.length === 0) {
         return true;
     }
+
+    const { hale, snute } = getHaleAndSnute(
+        alleDager,
+        R.first([...Array.from(overstyrteDager.values())])?.dag.speilDagtype,
+        R.last([...Array.from(overstyrteDager.values())])?.dag.speilDagtype,
+    );
 
     const dagerIHalenAvPerioden = finnDagerIHalen(overstyrtTilAnnenYtelsesdag, hale);
     const dagerISnutenAvPerioden = finnDagerISnuten(overstyrtTilAnnenYtelsesdag, snute);
@@ -173,4 +185,27 @@ export const egenmeldingValidering = (
         return false;
     }
     return true;
+};
+
+type SnuteAndHale = {
+    snute: DateString;
+    hale: DateString;
+};
+
+const getHaleAndSnute = (
+    alleDager: Map<string, Utbetalingstabelldag>,
+    førsteOverstyrteDagtype?: Utbetalingstabelldagtype,
+    sisteOverstyrteDagtype?: Utbetalingstabelldagtype,
+): SnuteAndHale => {
+    // TODO: ikke sjekk mot visningstekst
+    const snute = førsteOverstyrteDagtype
+        ? R.first([...Array.from(alleDager.values())].filter((it) => it.dag.visningstekst !== førsteOverstyrteDagtype))
+              ?.dato ?? ''
+        : '';
+    const hale = sisteOverstyrteDagtype
+        ? R.last([...Array.from(alleDager.values())].filter((it) => it.dag.visningstekst !== sisteOverstyrteDagtype))
+              ?.dato ?? ''
+        : '';
+
+    return { snute, hale };
 };

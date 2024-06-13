@@ -4,7 +4,6 @@ import { useFormContext } from 'react-hook-form';
 import { Button, ErrorSummary, Textarea } from '@navikt/ds-react';
 
 import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
-import { DateString } from '@/types/shared';
 
 import {
     andreYtelserValidering,
@@ -18,16 +17,14 @@ import styles from './OverstyringForm.module.css';
 
 interface OverstyringFormProps {
     overstyrteDager: Map<string, Utbetalingstabelldag>;
-    hale: DateString;
-    snute: DateString;
+    alleDager: Map<string, Utbetalingstabelldag>;
     toggleOverstyring: () => void;
     onSubmit: () => void;
 }
 
 export const OverstyringForm = ({
     overstyrteDager,
-    hale,
-    snute,
+    alleDager,
     toggleOverstyring,
     onSubmit,
 }: OverstyringFormProps): ReactElement => {
@@ -53,9 +50,9 @@ export const OverstyringForm = ({
             'kanIkkeOverstyreTilEgenmelding',
         ]);
         if (
-            arbeidsdagValidering(overstyrteDager, hale, setCustomError) &&
+            arbeidsdagValidering(overstyrteDager, alleDager, setCustomError) &&
             arbeidIkkeGjenopptattValidering(overstyrteDager, setCustomError) &&
-            andreYtelserValidering(overstyrteDager, hale, snute, setCustomError) &&
+            andreYtelserValidering(overstyrteDager, alleDager, setCustomError) &&
             sykNavValidering(overstyrteDager, setCustomError) &&
             egenmeldingValidering(overstyrteDager, setCustomError)
         ) {

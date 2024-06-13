@@ -189,8 +189,7 @@ export const OverstyrbarUtbetaling = ({
                             <form onSubmit={(event) => event.preventDefault()}>
                                 <OverstyringForm
                                     overstyrteDager={alleOverstyrteDager}
-                                    hale={Array.from(alleDager.values())?.pop()?.dato ?? ''}
-                                    snute={Array.from(alleDager.values())?.shift()?.dato ?? ''}
+                                    alleDager={alleDager}
                                     toggleOverstyring={toggleOverstyring}
                                     onSubmit={onSubmitOverstyring}
                                 />

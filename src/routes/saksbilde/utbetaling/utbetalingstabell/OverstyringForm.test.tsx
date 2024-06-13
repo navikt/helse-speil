@@ -25,13 +25,23 @@ const egenmeldingvalideringstekst =
     'Egenmelding kan kun overstyres i arbeidsgiverperioden eller legges til som en ny dag.';
 
 describe('OverstyringForm', () => {
+    const alleDager = new Map([
+        [
+            '2020-01-01',
+            {
+                dag: Sykedag,
+                dato: '2020-01-01',
+            } as Utbetalingstabelldag,
+        ],
+        ['2020-01-02', { dag: Sykedag, dato: '2020-01-02' } as Utbetalingstabelldag],
+    ]);
+
     it('disabler submit-knappen om det ikke er noen overstyrte dager', () => {
         render(
             <FormWrapper>
                 <OverstyringForm
                     overstyrteDager={new Map()}
-                    hale=""
-                    snute=""
+                    alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
                 />
@@ -47,8 +57,7 @@ describe('OverstyringForm', () => {
             <FormWrapper>
                 <OverstyringForm
                     overstyrteDager={overstyrteDager}
-                    hale=""
-                    snute=""
+                    alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
                 />
@@ -61,16 +70,15 @@ describe('OverstyringForm', () => {
         expect(await screen.findAllByText('Begrunnelse må fylles ut')).toHaveLength(2);
     });
 
-    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType Syk', async () => {
+    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp, ikke i hale og overstyrt fraType Syk', async () => {
         const overstyrteDager = new Map([
-            ['2020-01-02', { dag: Arbeidsdag, fraType: 'Syk', dato: '2020-01-02' } as Utbetalingstabelldag],
+            ['2020-01-01', { dag: Arbeidsdag, fraType: 'Ferie', dato: '2020-01-01' } as Utbetalingstabelldag],
         ]);
         render(
             <FormWrapper>
                 <OverstyringForm
                     overstyrteDager={overstyrteDager}
-                    hale=""
-                    snute=""
+                    alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
                 />
@@ -83,16 +91,15 @@ describe('OverstyringForm', () => {
         expect(await screen.findByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
     });
 
-    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType SykHelg', async () => {
+    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp, ikke i hale og overstyrt fraType SykHelg', async () => {
         const overstyrteDager = new Map([
-            ['2020-01-02', { dag: Arbeidsdag, fraType: 'SykHelg', dato: '2020-01-02' } as Utbetalingstabelldag],
+            ['2020-01-01', { dag: Arbeidsdag, fraType: 'SykHelg', dato: '2020-01-01' } as Utbetalingstabelldag],
         ]);
         render(
             <FormWrapper>
                 <OverstyringForm
                     overstyrteDager={overstyrteDager}
-                    hale=""
-                    snute=""
+                    alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
                 />
@@ -105,16 +112,15 @@ describe('OverstyringForm', () => {
         expect(await screen.findByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
     });
 
-    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType Ferie', async () => {
+    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp, ikke i hale og overstyrt fraType Ferie', async () => {
         const overstyrteDager = new Map([
-            ['2020-01-02', { dag: Arbeidsdag, fraType: 'Ferie', dato: '2020-01-02' } as Utbetalingstabelldag],
+            ['2020-01-01', { dag: Arbeidsdag, fraType: 'Ferie', dato: '2020-01-01' } as Utbetalingstabelldag],
         ]);
         render(
             <FormWrapper>
                 <OverstyringForm
                     overstyrteDager={overstyrteDager}
-                    hale=""
-                    snute=""
+                    alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
                 />
@@ -138,8 +144,7 @@ describe('OverstyringForm', () => {
             <FormWrapper>
                 <OverstyringForm
                     overstyrteDager={overstyrteDager}
-                    hale=""
-                    snute=""
+                    alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
                 />
@@ -163,8 +168,7 @@ describe('OverstyringForm', () => {
             <FormWrapper>
                 <OverstyringForm
                     overstyrteDager={overstyrteDager}
-                    hale=""
-                    snute=""
+                    alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
                 />
@@ -180,16 +184,15 @@ describe('OverstyringForm', () => {
     it('viser ikke feilmelding dersom overstyring til arbeidsdag er i hale av perioden, selv om fraType er Syk', async () => {
         const overstyrteDager = new Map([
             [
-                '2020-02-02',
-                { dag: Arbeidsdag, fraType: 'Syk', erAGP: false, dato: '2020-02-02' } as Utbetalingstabelldag,
+                '2020-01-02',
+                { dag: Arbeidsdag, fraType: 'Syk', erAGP: false, dato: '2020-01-02' } as Utbetalingstabelldag,
             ],
         ]);
         render(
             <FormWrapper>
                 <OverstyringForm
                     overstyrteDager={overstyrteDager}
-                    hale="2020-02-02"
-                    snute="2020-01-01"
+                    alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
                 />
@@ -210,8 +213,7 @@ describe('OverstyringForm', () => {
             <FormWrapper>
                 <OverstyringForm
                     overstyrteDager={overstyrteDager}
-                    hale=""
-                    snute=""
+                    alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
                 />
