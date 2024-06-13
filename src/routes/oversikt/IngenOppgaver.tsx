@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import Image from 'next/image';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { Heading } from '@navikt/ds-react';
@@ -28,7 +29,7 @@ export const IngenOppgaver = (): ReactElement | null => {
         case TabType.BehandletIdag: {
             return (
                 <figure className={styles.IngenOppgaver}>
-                    <img alt="Tom brevkasse som smiler" src={brevkasse.src} />
+                    <Image alt="Tom brevkasse som smiler" src={brevkasse} />
                     <Caption>Du har ingen behandlede saker</Caption>
                 </figure>
             );
@@ -37,9 +38,9 @@ export const IngenOppgaver = (): ReactElement | null => {
             return (
                 <figure className={styles.IngenOppgaver}>
                     {erFredag() ? (
-                        <img alt="Agurk med armer og bein ikledd sombrero som holder en taco" src={fredagstaco.src} />
+                        <Image alt="Agurk med armer og bein ikledd sombrero som holder en taco" src={fredagstaco} />
                     ) : (
-                        <img alt="Agurk med armer og bein som holder kaffekopp" src={agurk.src} />
+                        <Image alt="Agurk med armer og bein som holder kaffekopp" src={agurk} />
                     )}
                     <Caption>Ooops! Ingen saker å plukke...</Caption>
                 </figure>
@@ -47,14 +48,14 @@ export const IngenOppgaver = (): ReactElement | null => {
         case TabType.Mine:
             return (
                 <figure className={styles.IngenOppgaver}>
-                    <img alt="Tom brevkasse som smiler" src={brevkasse.src} />
+                    <Image alt="Tom brevkasse som smiler" src={brevkasse} />
                     <Caption>Du har ingen tildelte saker</Caption>
                 </figure>
             );
         case TabType.Ventende:
             return (
                 <figure className={styles.IngenOppgaver}>
-                    <img alt="Tom brevkasse som smiler" src={brevkasse.src} />
+                    <Image alt="Tom brevkasse som smiler" src={brevkasse} />
                     <Caption>Du har ingen saker på vent</Caption>
                 </figure>
             );

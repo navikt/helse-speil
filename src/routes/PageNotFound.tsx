@@ -1,6 +1,7 @@
 'use client';
 
 import nissemyra from '../assets/nissemyra.svg';
+import Image from 'next/image';
 import React, { useEffect } from 'react';
 
 import { BodyShort, Heading, Link } from '@navikt/ds-react';
@@ -25,7 +26,7 @@ export const PageNotFound = () => {
                 </Heading>
                 <Link href="/">Til oppgavelista</Link>
             </section>
-            <img alt="Agurk med armer og bein ikledd en lue som leser et kart" src={nissemyra.src} />
+            <Image alt="Agurk med armer og bein ikledd en lue som leser et kart" src={nissemyra} />
         </main>
     );
 };
