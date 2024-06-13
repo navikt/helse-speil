@@ -1,6 +1,5 @@
-// TODO: Globale types som bør nukes
-declare namespace Amplitude {
-    type LogEvent =
+export namespace Amplitude {
+    export type LogEvent =
         | 'oppgave godkjent'
         | 'oppgave forkastet'
         | 'totrinnsoppgave returnert'
@@ -8,14 +7,14 @@ declare namespace Amplitude {
         | 'totrinnsoppgave til godkjenning'
         | 'annullert';
 
-    type Periodetype = 'FORLENGELSE' | 'FORSTEGANGSBEHANDLING' | 'INFOTRYGDFORLENGELSE' | 'OVERGANG_FRA_IT';
+    export type Periodetype = 'FORLENGELSE' | 'FORSTEGANGSBEHANDLING' | 'INFOTRYGDFORLENGELSE' | 'OVERGANG_FRA_IT';
 
-    type EventProperties = {
+    export type EventProperties = {
         varighet: number; // Tid i sekunder fra oppgaven ble åpnet til den ble godkjent/forkastet
         begrunnelser?: Array<string>;
     };
 
-    type EventPropertiesBeregnetPeriode = EventProperties & {
+    export type EventPropertiesBeregnetPeriode = EventProperties & {
         warnings: Array<string>;
         antallWarnings: number;
         inntektstype?: string;

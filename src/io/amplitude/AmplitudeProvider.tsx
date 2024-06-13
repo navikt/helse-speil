@@ -8,6 +8,7 @@ import { ActivePeriod } from '@/types/shared';
 import * as amplitude from '@amplitude/analytics-browser';
 import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
 import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
+import { Amplitude } from '@io/amplitude/types';
 import { Egenskap, Kategori, Oppgaveegenskap } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
