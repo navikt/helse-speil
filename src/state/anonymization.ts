@@ -7,7 +7,7 @@ const anonymityState = atom<boolean>({
     effects: [
         ({ onSet }) => {
             onSet((newValue) => {
-                sessionStorage.setItem('agurkmodus', JSON.stringify(newValue));
+                localStorage.setItem('agurkmodus', JSON.stringify(newValue));
             });
         },
     ],

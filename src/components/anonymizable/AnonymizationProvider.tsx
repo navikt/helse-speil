@@ -22,7 +22,7 @@ export const AnonymiseringProvider = ({ children }: PropsWithChildren) => {
 
     useEffect(() => {
         // Hydrer sessionStorage verdi for anonymisering "lazily" hindre SSR issues, fordi serveren vet ikke hva som er i sessionStorage
-        const anonymisering = sessionStorage.getItem('agurkmodus');
+        const anonymisering = localStorage.getItem('agurkmodus');
         if (anonymisering) {
             const anonymiseringBool = anonymisering === 'true';
             setAnonymity(anonymiseringBool);
