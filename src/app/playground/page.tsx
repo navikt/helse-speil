@@ -5,12 +5,13 @@ import React, { ReactElement } from 'react';
 
 import 'graphiql/graphiql.min.css';
 
-const GraphQLPlayground = dynamic(() => import('@/routes/playground/GraphQLPlayground'), {
-    ssr: false,
-});
+const GraphQLPlayground = dynamic(
+    () => import('@/routes/playground/GraphQLPlayground').then((mod) => mod.GraphQLPlayground),
+    {
+        ssr: false,
+    },
+);
 
-function Page(): ReactElement {
+export default function Page(): ReactElement {
     return <GraphQLPlayground />;
 }
-
-export default Page;

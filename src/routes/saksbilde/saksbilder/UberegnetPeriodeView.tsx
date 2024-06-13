@@ -2,7 +2,7 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import { last } from 'remeda';
 
-import Utbetaling from '@/routes/saksbilde/utbetaling/Utbetaling';
+import { Utbetaling } from '@/routes/saksbilde/utbetaling/Utbetaling';
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
 import { UberegnetPeriodeFragment } from '@io/graphql';

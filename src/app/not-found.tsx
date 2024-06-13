@@ -2,8 +2,6 @@ import React, { ReactElement } from 'react';
 
 import { PageNotFound } from '@/routes/PageNotFound';
 
-function NotFound(): ReactElement {
+export default function NotFound(): ReactElement {
     return <PageNotFound />;
 }
-
-export default NotFound;

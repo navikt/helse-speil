@@ -24,12 +24,12 @@ import { useFilters } from './table/state/filter';
 
 import styles from './Oversikt.module.css';
 
-const Filtermeny = dynamic(() => import('./filtermeny/Filtermeny'), {
+const Filtermeny = dynamic(() => import('./filtermeny/Filtermeny').then((mod) => mod.Filtermeny), {
     ssr: false,
     loading: () => <FiltermenySkeleton />,
 });
 
-const Tabs = dynamic(() => import('./Tabs'), {
+const Tabs = dynamic(() => import('./Tabs').then((mod) => mod.Tabs), {
     ssr: false,
     loading: () => <TabsSkeleton />,
 });

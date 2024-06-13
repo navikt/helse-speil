@@ -76,5 +76,3 @@ export const Sykepengegrunnlag = ({ person }: SykepengegrunnlagProps): ReactElem
         </ErrorBoundary>
     );
 };
-
-export default Sykepengegrunnlag;

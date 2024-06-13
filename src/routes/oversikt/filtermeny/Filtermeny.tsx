@@ -18,7 +18,7 @@ interface FilterMenyProps {
     filters: Filter[];
 }
 
-const Filtermeny = ({ filters }: FilterMenyProps) => {
+export const Filtermeny = ({ filters }: FilterMenyProps) => {
     const showFiltermeny = useShowFiltermeny();
     const settBredde = useSetRecoilState(filtermenyWidth);
     const aktivTab = useAktivTab();
@@ -86,5 +86,3 @@ export function FiltermenySkeleton() {
         </div>
     );
 }
-
-export default Filtermeny;

@@ -6,7 +6,7 @@ import { useAntallOppgaver, useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { render, screen, within } from '@testing-library/react';
 
-import Tabs from './Tabs';
+import { Tabs } from './Tabs';
 
 jest.mock('@state/oppgaver');
 

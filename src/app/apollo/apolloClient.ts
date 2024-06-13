@@ -1,6 +1,6 @@
 import { RestLink } from 'apollo-link-rest';
 
-import possibletypes from '@/app/apollo/possibletypes';
+import { possibleTypes } from '@/app/apollo/possibletypes';
 import { erLokal } from '@/env';
 import { ApolloClient, HttpLink, InMemoryCache, InMemoryCacheConfig, TypePolicies, from } from '@apollo/client';
 import { RetryLink } from '@apollo/client/link/retry';
@@ -97,7 +97,7 @@ export const restLink = new RestLink({
 
 export const apolloCacheConfig: InMemoryCacheConfig = {
     dataIdFromObject: () => undefined,
-    possibleTypes: possibletypes.possibleTypes,
+    possibleTypes: possibleTypes,
     typePolicies: getTypePolicies(),
 };
 

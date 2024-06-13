@@ -17,7 +17,7 @@ import { usePollEtterOpptegnelser } from '@io/http';
 
 import styles from './layout.module.css';
 
-function Layout({ children }: PropsWithChildren): ReactElement {
+export default function Layout({ children }: PropsWithChildren): ReactElement {
     useRefreshPersonVedOpptegnelse();
     usePollEtterOpptegnelser();
     useVarselOmSakErTildeltAnnenSaksbehandler();
@@ -39,5 +39,3 @@ function Layout({ children }: PropsWithChildren): ReactElement {
         </div>
     );
 }
-
-export default Layout;

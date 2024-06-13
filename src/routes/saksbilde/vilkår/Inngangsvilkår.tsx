@@ -110,5 +110,3 @@ export const Inngangsvilkår = () => {
         </ErrorBoundary>
     );
 };
-
-export default Inngangsvilkår;

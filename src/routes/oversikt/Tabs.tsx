@@ -100,7 +100,7 @@ const StatistikkButton = () => {
     );
 };
 
-const Tabs = () => {
+export const Tabs = () => {
     return (
         <div className={styles.tabs}>
             <FilterButton />
@@ -122,5 +122,3 @@ export function TabsSkeleton(): ReactElement {
         </div>
     );
 }
-
-export default Tabs;

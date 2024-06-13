@@ -14,7 +14,7 @@ import { useFetchPersonQuery } from '@person/query';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-function PeriodeView(): ReactElement | null {
+export function PeriodeView(): ReactElement | null {
     const activePeriod = useActivePeriod();
     // TODO: legg til rette for error
     const { loading, data } = useFetchPersonQuery();
@@ -44,5 +44,3 @@ function PeriodeView(): ReactElement | null {
         return null;
     }
 }
-
-export default PeriodeView;

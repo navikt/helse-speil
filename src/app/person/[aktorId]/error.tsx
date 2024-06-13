@@ -7,7 +7,7 @@ import { Alert } from '@navikt/ds-react';
 
 import { getFaro } from '@/observability/faro';
 
-function Error({ error }: { error: Error & { digest?: string } }) {
+export default function Error({ error }: { error: Error & { digest?: string } }) {
     useEffect(() => {
         console.error(error);
         getFaro()?.api.pushError(error);
@@ -19,5 +19,3 @@ function Error({ error }: { error: Error & { digest?: string } }) {
         </Alert>
     );
 }
-
-export default Error;

@@ -3,7 +3,7 @@ import React from 'react';
 
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 
-const GraphQLPlayground = () => {
+export const GraphQLPlayground = () => {
     const [fetcher, setFetcher] = React.useState(() =>
         createGraphiQLFetcher({
             url: `/api/graphql`,
@@ -12,5 +12,3 @@ const GraphQLPlayground = () => {
 
     return <GraphiQL isHeadersEditorEnabled={true} fetcher={fetcher} />;
 };
-
-export default GraphQLPlayground;

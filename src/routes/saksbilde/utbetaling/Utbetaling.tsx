@@ -202,5 +202,3 @@ export const Utbetaling = (): ReactElement => {
         </ErrorBoundary>
     );
 };
-
-export default Utbetaling;

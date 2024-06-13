@@ -85,5 +85,3 @@ const VurderingsmomenterContainer = (): ReactElement | null => {
 export const Vurderingsmomenter = (): ReactElement => {
     return <VurderingsmomenterContainer />;
 };
-
-export default Vurderingsmomenter;
