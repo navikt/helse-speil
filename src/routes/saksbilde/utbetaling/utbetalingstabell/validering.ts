@@ -111,7 +111,7 @@ export const andreYtelserValidering = (
     if (dagerSomKanOverstyresTilAnnenYtelse.length !== overstyrtTilAnnenYtelsesdag.length) {
         setError(
             'kanIkkeOverstyreTilAnnenYtelse',
-            'Andre ytelser kan legges til i forkant av eller i starten av perioden',
+            'Andre ytelser kan legges til i forkant av perioden, i starten av perioden eller i slutten av perioden',
         );
         return false;
     }
