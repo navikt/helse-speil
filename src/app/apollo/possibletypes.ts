@@ -1,8 +1,4 @@
-interface PossibleTypesResultData {
-    [key: string]: string[];
-}
-
-export const possibleTypes: PossibleTypesResultData = {
+export const possibleTypes: Record<string, string[]> = {
     Hendelse: [
         'Inntektsmelding',
         'SoknadArbeidsgiver',
