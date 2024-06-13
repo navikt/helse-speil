@@ -1,3 +1,4 @@
+import { Utbetalingstabelldagtype } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { OverstyrtDagtype } from '@io/http';
 

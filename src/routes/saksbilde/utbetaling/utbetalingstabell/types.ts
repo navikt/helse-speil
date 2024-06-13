@@ -25,7 +25,7 @@ export type Utbetalingstabelldagtype =
     | 'Omsorgspenger'
     | 'Opplæringspenger';
 
-type OverstyringerPrDag = {
+export type OverstyringerPrDag = {
     hendelseId: string;
     begrunnelse: string;
     saksbehandler: {

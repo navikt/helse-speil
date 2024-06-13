@@ -2,6 +2,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { OverstyringerPrDag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { getFormattedDateString } from '@utils/date';
 

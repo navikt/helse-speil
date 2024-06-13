@@ -2,6 +2,7 @@ import { Lovhjemmel } from '../../sykepengegrunnlag/overstyring/overstyring.type
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { FetchResult, useMutation } from '@apollo/client';
 import {
     OpprettAbonnementDocument,

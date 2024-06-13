@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import { Button, TextField } from '@navikt/ds-react';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Bold } from '@components/Bold';
 
 import { DagtypeSelect } from '../DagtypeSelect';

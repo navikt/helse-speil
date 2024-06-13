@@ -1,6 +1,7 @@
 import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { MockedProvider } from '@apollo/client/testing';
 import { Kildetype, OpprettAbonnementDocument, OverstyrDagerMutationDocument } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';

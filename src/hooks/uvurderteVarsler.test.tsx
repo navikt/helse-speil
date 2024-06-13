@@ -3,6 +3,7 @@ import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
     Inntektstype,
+    Kilde,
     Periodetilstand,
     Periodetype,
     Periodevilkar,

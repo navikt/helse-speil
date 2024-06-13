@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 

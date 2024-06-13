@@ -5,6 +5,7 @@ import {
     BeregnetPeriodeFragment,
     Dag,
     Inntektstype,
+    Kilde,
     Periodetilstand,
     Periodetype,
     Periodevilkar,

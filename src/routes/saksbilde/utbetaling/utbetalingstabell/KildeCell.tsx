@@ -2,6 +2,7 @@ import React from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 
+import { OverstyringerPrDag, Utbetalingstabelldagtype } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
 

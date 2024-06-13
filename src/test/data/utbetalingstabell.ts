@@ -1,3 +1,4 @@
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Kildetype } from '@io/graphql';
 
 import { Sykedag } from '../../routes/saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';

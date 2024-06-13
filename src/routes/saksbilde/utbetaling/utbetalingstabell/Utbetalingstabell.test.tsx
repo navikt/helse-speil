@@ -1,6 +1,7 @@
 import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Kildetype } from '@io/graphql';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';

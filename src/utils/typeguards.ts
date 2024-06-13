@@ -1,4 +1,5 @@
 import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
+import { OverstyringerPrDag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { InfotrygdPeriod } from '@/types/shared';
 import {
     Arbeidsforholdoverstyring,
