@@ -111,7 +111,7 @@ const oppdaterPåVentICache = (
                     ? existingEgenskaper.filter((it: Oppgaveegenskap) => it.egenskap !== Egenskap.PaVent)
                     : existingEgenskaper.some((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent)
                       ? existingEgenskaper
-                      : existingEgenskaper.push({ egenskap: Egenskap.PaVent, kategori: Kategori.Status });
+                      : [...existingEgenskaper, { egenskap: Egenskap.PaVent, kategori: Kategori.Status }];
             },
         },
     });
@@ -125,7 +125,7 @@ const oppdaterPåVentICache = (
                     ? existingEgenskaper.filter((it: Oppgaveegenskap) => it.egenskap !== Egenskap.PaVent)
                     : existingEgenskaper.some((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent)
                       ? existingEgenskaper
-                      : existingEgenskaper.push({ egenskap: Egenskap.PaVent, kategori: Kategori.Status });
+                      : [...existingEgenskaper, { egenskap: Egenskap.PaVent, kategori: Kategori.Status }];
             },
         },
     });
