@@ -1,7 +1,7 @@
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
-import { useCurrentPerson, useFetchPersonQuery } from '@person/query';
+import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
 import { ActivePeriod } from '@typer/shared';
 import { raise } from '@utils/ts';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';

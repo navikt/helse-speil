@@ -1,7 +1,7 @@
 import { NetworkStatus } from '@apollo/client';
-import { useFetchPersonQuery } from '@person/query';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useSelectPeriod } from '@state/periode';
+import { useFetchPersonQuery } from '@state/person';
 
 export const useRefreshPersonVedOpptegnelse = () => {
     const { data, networkStatus, refetch } = useFetchPersonQuery();

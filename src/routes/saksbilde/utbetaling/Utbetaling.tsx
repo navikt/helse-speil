@@ -15,7 +15,6 @@ import {
     Utbetalingsdagtype,
     Utbetalingstatus,
 } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
 import {
     useCurrentArbeidsgiver,
     useDagoverstyringer,
@@ -23,6 +22,7 @@ import {
     useGjenståendeDager,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';

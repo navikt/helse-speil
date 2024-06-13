@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 
 import { Arbeidsgiverrefusjon, Hendelse, Kildetype, Refusjonselement } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import {
     useArbeidsgiver,
@@ -12,6 +11,7 @@ import {
 import { kalkulererFerdigToastKey, kalkulererToastKey, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import {
     OverstyrtInntektOgRefusjonArbeidsgiver,

@@ -9,8 +9,8 @@ import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { BeregnetPeriodeFragment, Kildetype, Sykepengegrunnlagsgrense } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
 import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 import { Maybe } from '@utils/ts';
 

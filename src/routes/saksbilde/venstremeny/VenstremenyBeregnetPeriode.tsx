@@ -16,8 +16,8 @@ import {
     PersonFragment,
     Utbetalingsdagtype,
 } from '@io/graphql';
-import { getVilkårsgrunnlag } from '@person/utils';
 import { useGjenståendeDager } from '@state/arbeidsgiver';
+import { getVilkårsgrunnlag } from '@state/utils';
 import { PeriodState } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
 import { Maybe } from '@utils/ts';

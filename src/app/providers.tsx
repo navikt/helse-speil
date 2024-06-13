@@ -22,7 +22,7 @@ import { useLoadingToast } from '@hooks/useLoadingToast';
 import { initInstrumentation } from '@observability/faro';
 import { hydrateAllFilters } from '@oversikt/table/state/filter';
 import { hydrateSorteringForTab } from '@oversikt/table/state/sortation';
-import { useFetchPersonQuery } from '@person/query';
+import { useFetchPersonQuery } from '@state/person';
 import { hydrateKanFrigiOppgaverState, hydrateTotrinnsvurderingState } from '@state/toggles';
 import { useSetVarsler } from '@state/varsler';
 

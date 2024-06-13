@@ -17,7 +17,6 @@ import {
     PersonFragment,
     VilkarsgrunnlagSpleis,
 } from '@io/graphql';
-import { getVilkårsgrunnlag } from '@person/utils';
 import { EditableInntekt } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntekt';
 import { RedigerInntektOgRefusjon } from '@saksbilde/sykepengegrunnlag/inntekt/redigerInntektOgRefusjon/RedigerInntektOgRefusjon';
 import {
@@ -26,6 +25,7 @@ import {
     useLokaleRefusjonsopplysninger,
     useLokaltMånedsbeløp,
 } from '@state/arbeidsgiver';
+import { getVilkårsgrunnlag } from '@state/utils';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
 

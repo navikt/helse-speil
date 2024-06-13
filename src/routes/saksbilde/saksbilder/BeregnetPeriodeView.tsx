@@ -4,7 +4,6 @@ import { last } from 'remeda';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { Arbeidsforholdoverstyring, BeregnetPeriodeFragment, Overstyring, PersonFragment } from '@io/graphql';
-import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@person/utils';
 import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
@@ -13,6 +12,7 @@ import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
 import { Inngangsvilkår } from '@saksbilde/vilkår/Inngangsvilkår';
 import { Vurderingsmomenter } from '@saksbilde/vurderingsmomenter/Vurderingsmomenter';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
+import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/utils';
 import { getPeriodState } from '@utils/mapping';
 import { isArbeidsforholdoverstyring, isSpleisVilkarsgrunnlag } from '@utils/typeguards';
 

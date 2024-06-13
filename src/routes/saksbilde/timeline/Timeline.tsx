@@ -8,8 +8,8 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { ArbeidsgiverFragment, Infotrygdutbetaling } from '@io/graphql';
-import { useFetchPersonQuery } from '@person/query';
 import { useActivePeriod } from '@state/periode';
+import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
 import { isBeregnetPeriode } from '@utils/typeguards';
 

@@ -9,8 +9,8 @@ import {
     Tildeling,
     TildelingFragment,
 } from '@io/graphql';
-import { useFetchPersonQuery } from '@person/query';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useFetchPersonQuery } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { InfoAlert } from '@utils/error';
 

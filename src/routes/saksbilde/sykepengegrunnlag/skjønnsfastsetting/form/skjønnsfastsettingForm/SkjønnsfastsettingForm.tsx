@@ -8,7 +8,6 @@ import { TimeoutModal } from '@components/TimeoutModal';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
 import { Feiloppsummering, Skjemafeil } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/Feiloppsummering';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingType';
@@ -20,6 +19,7 @@ import {
     usePostSkjønnsfastsattSykepengegrunnlag,
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { Maybe } from '@utils/ts';
 
 import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';

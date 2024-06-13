@@ -1,6 +1,6 @@
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
 import { findArbeidsgiverWithPeriode, usePeriodIsInGeneration } from '@state/arbeidsgiver';
+import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const useForrigeGenerasjonPeriode = (

@@ -15,9 +15,9 @@ import {
     Utbetaling,
     Vurdering,
 } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { isGodkjent } from '@state/selectors/utbetaling';
 import { Refusjonsopplysning } from '@typer/overstyring';

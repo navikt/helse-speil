@@ -3,7 +3,6 @@
 import React, { ReactElement } from 'react';
 
 import { Periodetilstand } from '@io/graphql';
-import { useFetchPersonQuery } from '@person/query';
 import { AnnullertPeriodeView } from '@saksbilde/saksbilder/AnnullertPeriodeView';
 import { BeregnetPeriodeView } from '@saksbilde/saksbilder/BeregnetPeriodeView';
 import { GhostPeriodeView } from '@saksbilde/saksbilder/GhostPeriodeView';
@@ -12,6 +11,7 @@ import { PeriodeViewError } from '@saksbilde/saksbilder/PeriodeViewError';
 import { PeriodeViewSkeleton } from '@saksbilde/saksbilder/PeriodeViewSkeleton';
 import { UberegnetPeriodeView } from '@saksbilde/saksbilder/UberegnetPeriodeView';
 import { useActivePeriod } from '@state/periode';
+import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export function PeriodeView(): ReactElement | null {

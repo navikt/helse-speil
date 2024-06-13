@@ -12,7 +12,7 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { tilOverstyrteDager, useOverstyrDager } from './useOverstyrDager';
 
-jest.mock('@person/query');
+jest.mock('@state/person');
 jest.mock('@state/arbeidsgiver');
 jest.mock('@state/toasts');
 jest.mock('@state/opptegnelser');

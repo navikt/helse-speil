@@ -29,7 +29,6 @@
             "@io/*": ["./src/io/*"],
             "@nais/*": ["./src/nais/*"],
             "@observability/*": ["./src/observability/*"],
-            "@person/*": ["./src/person/*"],
             "@routes/*": ["./src/routes/*"],
             "@saksbilde/*": ["./src/routes/saksbilde/*"],
             "@oversikt/*": ["./src/routes/oversikt/*"],

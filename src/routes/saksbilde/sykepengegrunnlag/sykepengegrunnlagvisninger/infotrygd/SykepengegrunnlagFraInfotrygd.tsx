@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
 import { PersonFragment, VilkarsgrunnlagInfotrygd } from '@io/graphql';
-import { getRequiredInntekt } from '@person/utils';
 import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
+import { getRequiredInntekt } from '@state/utils';
 
 import { SykepengegrunnlagInfotrygd } from './SykepengegrunnlagInfotrygd';
 

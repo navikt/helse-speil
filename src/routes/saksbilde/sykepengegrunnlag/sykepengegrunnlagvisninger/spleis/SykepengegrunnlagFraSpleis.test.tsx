@@ -24,7 +24,7 @@ jest.mock('@state/periode');
 jest.mock('@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag');
 jest.mock('@state/toggles');
 jest.mock('@state/anonymization');
-jest.mock('@person/query');
+jest.mock('@state/person');
 
 describe('SykepengegrunnlagFraSpleis', () => {
     afterEach(() => {

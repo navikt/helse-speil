@@ -2,11 +2,11 @@ import dayjs from 'dayjs';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
 import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
-import { useFetchPersonQuery } from '@person/query';
 import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/arbeidsgiver';
 import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { toNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
+import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject, Hendelsetype } from '@typer/historikk';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 

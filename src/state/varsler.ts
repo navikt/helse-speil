@@ -4,7 +4,7 @@ import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { GraphQLErrors } from '@apollo/client/errors';
 import { FetchError, FlereFodselsnumreError, NotFoundError, ProtectedError } from '@io/graphql/errors';
-import { useFetchPersonQuery } from '@person/query';
+import { useFetchPersonQuery } from '@state/person';
 import { SpeilError } from '@utils/error';
 
 const varslerState = atom<Array<SpeilError>>({

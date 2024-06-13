@@ -8,8 +8,8 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { ÅpnetDokument } from '@components/ÅpnetDokument';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { useFetchPersonQuery } from '@person/query';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
+import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject } from '@typer/historikk';
 
 import { Notat } from '../notat/Notat';

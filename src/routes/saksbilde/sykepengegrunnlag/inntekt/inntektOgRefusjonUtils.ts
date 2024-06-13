@@ -9,7 +9,6 @@ import {
     Periodetilstand,
     PersonFragment,
 } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
 import {
     useArbeidsgiver,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
@@ -17,6 +16,7 @@ import {
     usePeriodForSkjæringstidspunkt,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
+import { useCurrentPerson } from '@state/person';
 import { isForkastet } from '@state/selectors/period';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 import { DateString } from '@typer/shared';

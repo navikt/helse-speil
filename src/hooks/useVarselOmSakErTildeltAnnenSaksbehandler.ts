@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 
 import { PersonFragment } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { TildelingAlert } from '@state/oppgaver';
+import { useCurrentPerson } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { capitalizeName } from '@utils/locale';
 

@@ -8,7 +8,6 @@ import {
     OverstyringArbeidsforholdInput,
     PersonFragment,
 } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -17,6 +16,7 @@ import {
 } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useActivePeriodWithPerson } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { BegrunnelseForOverstyring, OverstyrtArbeidsforholdDTO } from '@typer/overstyring';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';

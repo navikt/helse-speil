@@ -9,7 +9,7 @@ import { PeriodState } from '@typer/shared';
 
 import { Saksbildevarsler } from './Saksbildevarsler';
 
-jest.mock('@person/query');
+jest.mock('@state/person');
 
 describe('Saksbildevarsler', () => {
     const SaksbildevarslerWrapper = ({
