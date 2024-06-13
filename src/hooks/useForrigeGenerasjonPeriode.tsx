@@ -1,20 +1,20 @@
-import { BeregnetPeriodeFragment } from '@/io/graphql';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment } from '@/io/graphql';
 import { useCurrentPerson } from '@person/query';
-import { findArbeidsgiverWithPeriode, useCurrentArbeidsgiver, usePeriodIsInGeneration } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
+import { findArbeidsgiverWithPeriode, usePeriodIsInGeneration } from '@state/arbeidsgiver';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const useForrigeGenerasjonPeriode = () => {
-    const currentArbeidsgiver = useCurrentArbeidsgiver();
+export const useForrigeGenerasjonPeriode = (
+    currentArbeidsgiver: ArbeidsgiverFragment,
+    activePeriod: BeregnetPeriodeFragment,
+) => {
     const currentGeneration = usePeriodIsInGeneration();
-    const aktivPeriod = useActivePeriod();
 
-    if (!currentArbeidsgiver || currentGeneration === null || !isBeregnetPeriode(aktivPeriod)) {
+    if (currentGeneration === null) {
         return null;
     }
 
     return currentArbeidsgiver.generasjoner[currentGeneration + 1]?.perioder.find(
-        (periode) => periode.vedtaksperiodeId === aktivPeriod.vedtaksperiodeId,
+        (periode) => periode.vedtaksperiodeId === activePeriod.vedtaksperiodeId,
     );
 };
 

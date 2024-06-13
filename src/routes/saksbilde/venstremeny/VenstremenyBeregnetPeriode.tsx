@@ -50,7 +50,10 @@ export const VenstremenyBeregnetPeriode = ({
 
     const { personTotalbeløp, arbeidsgiverTotalbeløp } = useTotalbeløp(activePeriod.tidslinje);
 
-    const forrigeGenerasjonPeriode: Maybe<Periode> | undefined = useForrigeGenerasjonPeriode();
+    const forrigeGenerasjonPeriode: Maybe<Periode> | undefined = useForrigeGenerasjonPeriode(
+        currentArbeidsgiver,
+        activePeriod,
+    );
 
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigeGenerasjonPeriode?.tidslinje);
     const gjenståendeSykedager = useGjenståendeDager(activePeriod);
