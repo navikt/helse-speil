@@ -4,19 +4,21 @@ import React, { ReactElement, useRef, useState } from 'react';
 import { Collapse, Expand } from '@navikt/ds-icons';
 import { Dropdown } from '@navikt/ds-react';
 
+import { ActivePeriod } from '@/types/shared';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { useCurrentPerson } from '@person/query';
+import { PersonFragment } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useActivePeriod } from '@state/periode';
 import { isArbeidsgiver, isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
 import { AnnullerButton } from './AnnullerButton';
 import { OppdaterPersondataButton } from './OppdaterPersondataButton';
 import { PåVentButton } from './PåVentButton';
 import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
+
+// TODO: kan brukes i vanlig useQuery loading?
 
 // TODO: kan brukes i vanlig useQuery loading?
 const DropdownMenuContentSkeleton = (): ReactElement => {
@@ -37,10 +39,13 @@ const DropdownMenuContentSkeleton = (): ReactElement => {
     );
 };
 
-const DropdownMenuContent = (): ReactElement | null => {
+type DropdownMenuProps = {
+    person: PersonFragment;
+    activePeriod: ActivePeriod;
+};
+
+const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps): ReactElement | null => {
     const user = useInnloggetSaksbehandler();
-    const period = useActivePeriod();
-    const person = useCurrentPerson();
     const readOnly = useIsReadOnlyOppgave();
     const arbeidsgiver = useCurrentArbeidsgiver();
 
@@ -52,16 +57,16 @@ const DropdownMenuContent = (): ReactElement | null => {
 
     return (
         <Dropdown.Menu placement="bottom-start" className={styles.dropdown}>
-            {isBeregnetPeriode(period) && period.oppgave?.id && !readOnly && (
+            {isBeregnetPeriode(activePeriod) && activePeriod.oppgave?.id && !readOnly && (
                 <>
                     <Dropdown.Menu.List>
                         <>
                             <TildelingDropdownMenuButton
-                                oppgavereferanse={period.oppgave.id}
+                                oppgavereferanse={activePeriod.oppgave.id}
                                 erTildeltInnloggetBruker={personIsAssignedUser}
                                 tildeling={person?.tildeling}
                             />
-                            <PåVentButton personinfo={person.personinfo} />
+                            <PåVentButton person={person} />
                         </>
                     </Dropdown.Menu.List>
                     <Dropdown.Menu.Divider />
@@ -69,15 +74,15 @@ const DropdownMenuContent = (): ReactElement | null => {
             )}
             <Dropdown.Menu.List>
                 <OppdaterPersondataButton person={person} />
-                {isBeregnetPeriode(period) && isArbeidsgiver(arbeidsgiver) && (
-                    <AnnullerButton person={person} periode={period} arbeidsgiver={arbeidsgiver} />
+                {isBeregnetPeriode(activePeriod) && isArbeidsgiver(arbeidsgiver) && (
+                    <AnnullerButton person={person} periode={activePeriod} arbeidsgiver={arbeidsgiver} />
                 )}
             </Dropdown.Menu.List>
         </Dropdown.Menu>
     );
 };
 
-export const DropdownMenu = (): ReactElement => {
+export const DropdownMenu = ({ person, activePeriod }: DropdownMenuProps): ReactElement => {
     const [open, setOpen] = useState(false);
     const content = useRef<HTMLSpanElement>(null);
 
@@ -101,7 +106,7 @@ export const DropdownMenu = (): ReactElement => {
                 <Dropdown.Toggle className={styles.menu} onClick={toggleDropdown}>
                     Meny {open ? <Collapse title="collapse" /> : <Expand title="expand" />}
                 </Dropdown.Toggle>
-                <DropdownMenuContent />
+                <DropdownMenuContent person={person} activePeriod={activePeriod} />
             </Dropdown>
         </span>
     );

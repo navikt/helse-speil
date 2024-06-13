@@ -31,7 +31,7 @@ export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps
                 periodState={getPeriodState(activePeriod)}
                 skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
             />
-            <SaksbildeMenu activePeriod={activePeriod} />
+            <SaksbildeMenu person={person} activePeriod={activePeriod} />
             {tab === 'sykepengegrunnlag' && (
                 <div className={styles.RouteContainer}>
                     <Sykepengegrunnlag person={person} />

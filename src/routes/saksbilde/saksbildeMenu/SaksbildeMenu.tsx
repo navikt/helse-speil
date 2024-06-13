@@ -9,6 +9,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { ActivePeriod } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
+import { PersonFragment } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { DropdownMenu } from './dropdown/DropdownMenu';
@@ -16,21 +17,22 @@ import { DropdownMenu } from './dropdown/DropdownMenu';
 import styles from './SaksbildeMenu.module.css';
 
 type SaksbildeMenuProps = {
+    person: PersonFragment;
     activePeriod: ActivePeriod;
 };
 
-const SaksbildeMenuGhostPeriode = (): ReactElement => (
+const SaksbildeMenuGhostPeriode = ({ person, activePeriod }: SaksbildeMenuProps): ReactElement => (
     <div className={styles.SaksbildeMenu}>
         <div>
             <nav className={styles.TabList} role="tablist">
                 <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
             </nav>
-            <DropdownMenu />
+            <DropdownMenu person={person} activePeriod={activePeriod} />
         </div>
     </div>
 );
 
-const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuProps): ReactElement => (
+const SaksbildeMenuBeregnetPeriode = ({ person, activePeriod }: SaksbildeMenuProps): ReactElement => (
     <div className={styles.SaksbildeMenu}>
         <div>
             <nav className={styles.TabList} role="tablist">
@@ -43,18 +45,18 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuProps): Rea
                         <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />
                     )}
             </nav>
-            <DropdownMenu />
+            <DropdownMenu person={person} activePeriod={activePeriod} />
         </div>
     </div>
 );
 
-const SaksbildeMenuUberegnetPeriode = (): ReactElement => (
+const SaksbildeMenuUberegnetPeriode = ({ person, activePeriod }: SaksbildeMenuProps): ReactElement => (
     <div className={styles.SaksbildeMenu}>
         <div>
             <nav className={styles.TabList} role="tablist">
                 <NavLenke to="dagoversikt" tittel="Dagoversikt" />
             </nav>
-            <DropdownMenu />
+            <DropdownMenu person={person} activePeriod={activePeriod} />
         </div>
     </div>
 );
@@ -72,16 +74,16 @@ const NavLenke = ({ tittel, to }: { tittel: string; to: string }): ReactElement 
     );
 };
 
-const SaksbildeMenuContainer = ({ activePeriod }: SaksbildeMenuProps): ReactElement => {
+const SaksbildeMenuContainer = ({ person, activePeriod }: SaksbildeMenuProps): ReactElement => {
     if (isBeregnetPeriode(activePeriod)) {
-        return <SaksbildeMenuBeregnetPeriode activePeriod={activePeriod} />;
+        return <SaksbildeMenuBeregnetPeriode person={person} activePeriod={activePeriod} />;
     }
 
     if (isGhostPeriode(activePeriod)) {
-        return <SaksbildeMenuGhostPeriode />;
+        return <SaksbildeMenuGhostPeriode person={person} activePeriod={activePeriod} />;
     }
 
-    return <SaksbildeMenuUberegnetPeriode />;
+    return <SaksbildeMenuUberegnetPeriode person={person} activePeriod={activePeriod} />;
 };
 
 export const SaksbildeMenuSkeleton = (): ReactElement => {
@@ -91,7 +93,7 @@ export const SaksbildeMenuSkeleton = (): ReactElement => {
                 <LoadingShimmer />
                 <LoadingShimmer />
                 <LoadingShimmer />
-                <DropdownMenu />
+                <LoadingShimmer />
             </span>
         </div>
     );

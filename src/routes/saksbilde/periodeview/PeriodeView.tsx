@@ -30,16 +30,16 @@ export function PeriodeView(): ReactElement | null {
     if (isBeregnetPeriode(activePeriod)) {
         switch (activePeriod.periodetilstand) {
             case Periodetilstand.Annullert:
-                return <AnnullertPeriodeView activePeriod={activePeriod} />;
+                return <AnnullertPeriodeView activePeriod={activePeriod} person={data.person} />;
             case Periodetilstand.TilAnnullering:
-                return <PeriodeTilAnnulleringView activePeriod={activePeriod} />;
+                return <PeriodeTilAnnulleringView activePeriod={activePeriod} person={data.person} />;
             default:
                 return <BeregnetPeriodeView period={activePeriod} person={data.person} />;
         }
     } else if (isGhostPeriode(activePeriod)) {
         return <GhostPeriodeView activePeriod={activePeriod} person={data.person} />;
     } else if (isUberegnetPeriode(activePeriod)) {
-        return <UberegnetPeriodeView activePeriod={activePeriod} />;
+        return <UberegnetPeriodeView activePeriod={activePeriod} person={data.person} />;
     } else {
         return null;
     }

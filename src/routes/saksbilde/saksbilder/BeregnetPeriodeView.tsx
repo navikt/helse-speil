@@ -66,7 +66,7 @@ export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps
                 skjæringstidspunkt={period.skjaeringstidspunkt}
                 navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
             />
-            <SaksbildeMenu activePeriod={period} />
+            <SaksbildeMenu person={person} activePeriod={period} />
             <div className={styles.RouteContainer}>
                 {tab === 'dagoversikt' && <Utbetaling />}
                 {decodeURI(tab ?? '') === 'inngangsvilkår' && <Inngangsvilkår />}

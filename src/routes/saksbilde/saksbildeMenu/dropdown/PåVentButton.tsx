@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 
 import { Dropdown, Loader } from '@navikt/ds-react';
 
-import { Personinfo, Personnavn } from '@io/graphql';
-import { useCurrentPerson } from '@person/query';
+import { PersonFragment, Personnavn } from '@io/graphql';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useFjernPåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
@@ -11,10 +10,10 @@ import { useOperationErrorHandler } from '@state/varsler';
 import { PåVentNotatModal } from '../../../oversikt/table/cells/notat/PåVentNotatModal';
 
 interface PåVentButtonProps {
-    personinfo: Personinfo;
+    person: PersonFragment;
 }
 
-export const PåVentButton = ({ personinfo }: PåVentButtonProps) => {
+export const PåVentButton = ({ person }: PåVentButtonProps) => {
     const [visModal, setVisModal] = useState(false);
 
     const [fjernPåVent, { loading, error: fjernPåVentError }] = useFjernPåVent();
@@ -22,15 +21,15 @@ export const PåVentButton = ({ personinfo }: PåVentButtonProps) => {
     const periodeTilGodkjenning = usePeriodeTilGodkjenning();
     const oppgaveId = periodeTilGodkjenning?.oppgave?.id;
     const erPåVent = periodeTilGodkjenning?.paVent;
-    const tildeling = useCurrentPerson()?.tildeling ?? null;
+    const tildeling = person.tildeling;
 
     if (!periodeTilGodkjenning || oppgaveId === undefined) return null;
 
     const navn: Personnavn = {
         __typename: 'Personnavn',
-        fornavn: personinfo.fornavn,
-        mellomnavn: personinfo.mellomnavn,
-        etternavn: personinfo.etternavn,
+        fornavn: person.personinfo.fornavn,
+        mellomnavn: person.personinfo.mellomnavn,
+        etternavn: person.personinfo.etternavn,
     };
 
     const fjernFraPåVent = async () => {
