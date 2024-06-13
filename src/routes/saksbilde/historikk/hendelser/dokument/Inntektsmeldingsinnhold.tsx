@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { DokumenthendelseObject } from '@/routes/saksbilde/historikk/types';
 import { Bold } from '@components/Bold';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { NORSK_DATOFORMAT } from '@utils/date';
@@ -21,7 +22,7 @@ type InntektsmeldinginnholdProps = {
 };
 
 export const Inntektsmeldingsinnhold = ({ dokumentId, fødselsnummer }: InntektsmeldinginnholdProps): ReactElement => {
-    const inntektsmeldingssrespons = useQueryInntektsmelding(fødselsnummer, dokumentId);
+    const inntektsmeldingssrespons = useQueryInntektsmelding(fødselsnummer, dokumentId ?? '');
     const inntektsmelding = inntektsmeldingssrespons.data;
 
     return (

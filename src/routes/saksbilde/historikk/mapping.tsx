@@ -1,5 +1,17 @@
 import dayjs from 'dayjs';
 
+import {
+    AnnetArbeidsforholdoverstyringhendelseObject,
+    ArbeidsforholdoverstyringhendelseObject,
+    ArbeidsgiverSkjønnHendelse,
+    AvslaghendelseObject,
+    HendelseObject,
+    HistorikkhendelseObject,
+    InntektoverstyringhendelseObject,
+    NotathendelseObject,
+    SykepengegrunnlagskjonnsfastsettinghendelseObject,
+    UtbetalinghendelseObject,
+} from '@/routes/saksbilde/historikk/types';
 import { Notat } from '@/types/notat';
 import { DateString } from '@/types/shared';
 import {
@@ -9,6 +21,7 @@ import {
     Hendelse,
     Inntektoverstyring,
     Inntektsmelding,
+    NotatType,
     Periode,
     PeriodehistorikkType,
     PersonFragment,
@@ -415,7 +428,7 @@ export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObj
                 id: notat.id,
                 type: 'Notat',
                 tekst: notat.tekst,
-                notattype: notat.type,
+                notattype: notat.type as NotatType,
                 saksbehandler: notat.saksbehandler.ident ?? notat.saksbehandler.navn,
                 saksbehandlerOid: notat.saksbehandler.oid,
                 timestamp: notat.opprettet.format(ISO_TIDSPUNKTFORMAT),

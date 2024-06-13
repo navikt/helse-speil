@@ -4,6 +4,7 @@ import React, { ReactElement } from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { InntektoverstyringhendelseObject } from '@/routes/saksbilde/historikk/types';
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, Refusjonsopplysning } from '@io/graphql';

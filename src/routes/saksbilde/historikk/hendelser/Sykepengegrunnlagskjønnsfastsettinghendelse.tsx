@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { SykepengegrunnlagskjonnsfastsettinghendelseObject } from '@/routes/saksbilde/historikk/types';
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';

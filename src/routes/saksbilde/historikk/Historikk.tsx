@@ -5,6 +5,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Historikkmeny } from '@/routes/saksbilde/historikk/Historikkmeny';
+import { Filtertype, HendelseObject } from '@/routes/saksbilde/historikk/types';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { ÅpnetDokument } from '@components/ÅpnetDokument';

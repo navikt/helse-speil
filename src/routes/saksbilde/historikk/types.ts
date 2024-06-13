@@ -1,16 +1,19 @@
-// TODO: Globale types som bør nukes
-type Kommentar = import('@io/graphql').Kommentar;
-type OverstyrtDag = import('@io/graphql').OverstyrtDag;
-type Utbetalingtype = import('@io/graphql').Utbetalingtype;
-type OverstyrtInntekt = import('@io/graphql').OverstyrtInntekt;
-type PeriodehistorikkType = import('@io/graphql').PeriodehistorikkType;
-type SkjonnsfastsattSykepengegrunnlag = import('@io/graphql').SkjonnsfastsattSykepengegrunnlag;
-type Avslag = import('@io/graphql').Avslag;
-type Avslagstype = import('@io/graphql').Avslagstype;
+import { DateString } from '@/types/shared';
+import {
+    Avslagstype,
+    Kommentar,
+    NotatType,
+    OverstyrtDag,
+    OverstyrtInntekt,
+    PeriodehistorikkType,
+    SkjonnsfastsattSykepengegrunnlag,
+    Utbetalingtype,
+} from '@io/graphql';
+import { Maybe } from '@utils/ts';
 
-declare type Filtertype = 'Dokument' | 'Historikk' | 'Notat' | 'Overstyring';
+export type Filtertype = 'Dokument' | 'Historikk' | 'Notat' | 'Overstyring';
 
-declare type Hendelsetype =
+export type Hendelsetype =
     | 'Dagoverstyring'
     | 'Arbeidsforholdoverstyring'
     | 'AnnetArbeidsforholdoverstyring'
@@ -22,20 +25,20 @@ declare type Hendelsetype =
     | 'Historikk'
     | 'Avslag';
 
-declare type ArbeidsgiverSkjønnHendelse = {
+export type ArbeidsgiverSkjønnHendelse = {
     navn: string;
     årlig: number;
     fraÅrlig: number;
 };
 
-declare type BaseHendelseObject = {
+export type BaseHendelseObject = {
     id: string;
     type: Hendelsetype;
     timestamp?: DateString;
     saksbehandler?: Maybe<string>;
 };
 
-declare type DagoverstyringhendelseObject = BaseHendelseObject & {
+export type DagoverstyringhendelseObject = BaseHendelseObject & {
     type: 'Dagoverstyring';
     erRevurdering: boolean;
     saksbehandler: string;
@@ -44,7 +47,7 @@ declare type DagoverstyringhendelseObject = BaseHendelseObject & {
     dager: Array<OverstyrtDag>;
 };
 
-declare type ArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & {
+export type ArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & {
     type: 'Arbeidsforholdoverstyring';
     erDeaktivert: boolean;
     saksbehandler: string;
@@ -54,7 +57,7 @@ declare type ArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & {
     skjæringstidspunkt: DateString;
 };
 
-declare type AnnetArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & {
+export type AnnetArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & {
     type: 'AnnetArbeidsforholdoverstyring';
     erDeaktivert: boolean;
     saksbehandler: string;
@@ -65,7 +68,7 @@ declare type AnnetArbeidsforholdoverstyringhendelseObject = BaseHendelseObject &
     navn: string;
 };
 
-declare type InntektoverstyringhendelseObject = BaseHendelseObject & {
+export type InntektoverstyringhendelseObject = BaseHendelseObject & {
     type: 'Inntektoverstyring';
     erRevurdering: boolean;
     saksbehandler: string;
@@ -73,7 +76,7 @@ declare type InntektoverstyringhendelseObject = BaseHendelseObject & {
     inntekt: OverstyrtInntekt;
 };
 
-declare type SykepengegrunnlagskjonnsfastsettinghendelseObject = BaseHendelseObject & {
+export type SykepengegrunnlagskjonnsfastsettinghendelseObject = BaseHendelseObject & {
     type: 'Sykepengegrunnlagskjonnsfastsetting';
     saksbehandler: string;
     timestamp: DateString;
@@ -81,14 +84,14 @@ declare type SykepengegrunnlagskjonnsfastsettinghendelseObject = BaseHendelseObj
     arbeidsgivere: ArbeidsgiverSkjønnHendelse[];
 };
 
-declare type DokumenthendelseObject = BaseHendelseObject & {
+export type DokumenthendelseObject = BaseHendelseObject & {
     type: 'Dokument';
     dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad';
     timestamp: DateString;
-    dokumentId?: Maybe<UUIDString>;
+    dokumentId?: Maybe<string>;
 };
 
-declare type NotathendelseObject = BaseHendelseObject & {
+export type NotathendelseObject = BaseHendelseObject & {
     type: 'Notat';
     tekst: string;
     notattype: NotatType;
@@ -101,7 +104,7 @@ declare type NotathendelseObject = BaseHendelseObject & {
     erNyesteNotatMedType: boolean;
 };
 
-declare type UtbetalinghendelseObject = BaseHendelseObject & {
+export type UtbetalinghendelseObject = BaseHendelseObject & {
     type: 'Utbetaling';
     automatisk: boolean;
     godkjent: boolean;
@@ -110,19 +113,19 @@ declare type UtbetalinghendelseObject = BaseHendelseObject & {
     timestamp: DateString;
 };
 
-declare type HistorikkhendelseObject = BaseHendelseObject & {
+export type HistorikkhendelseObject = BaseHendelseObject & {
     type: 'Historikk';
     historikktype: PeriodehistorikkType;
     timestamp: DateString;
 };
 
-declare type AvslaghendelseObject = BaseHendelseObject & {
+export type AvslaghendelseObject = BaseHendelseObject & {
     type: 'Avslag';
     avslagstype: Avslagstype;
     begrunnelse: string;
 };
 
-declare type HendelseObject =
+export type HendelseObject =
     | DagoverstyringhendelseObject
     | ArbeidsforholdoverstyringhendelseObject
     | AnnetArbeidsforholdoverstyringhendelseObject

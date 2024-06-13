@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
+import { Filtertype, HendelseObject, Hendelsetype } from '@/routes/saksbilde/historikk/types';
 import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import { useFetchPersonQuery } from '@person/query';
 import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/arbeidsgiver';

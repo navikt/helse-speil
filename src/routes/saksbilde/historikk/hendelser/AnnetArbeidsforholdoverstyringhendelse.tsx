@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { AnnetArbeidsforholdoverstyringhendelseObject } from '@/routes/saksbilde/historikk/types';
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';

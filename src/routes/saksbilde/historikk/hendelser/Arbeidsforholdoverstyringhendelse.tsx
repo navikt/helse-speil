@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { ArbeidsforholdoverstyringhendelseObject } from '@/routes/saksbilde/historikk/types';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';

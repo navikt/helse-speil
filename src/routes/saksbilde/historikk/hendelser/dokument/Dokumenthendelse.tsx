@@ -5,6 +5,7 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { ArrowForwardIcon } from '@navikt/aksel-icons';
 
+import { DokumenthendelseObject } from '@/routes/saksbilde/historikk/types';
 import { Kilde } from '@components/Kilde';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
@@ -56,7 +57,7 @@ export const Dokumenthendelse = ({
         setÅpnedeDokumenter([
             ...åpnedeDokumenter,
             {
-                dokumentId: dokumentId,
+                dokumentId: dokumentId ?? '',
                 fødselsnummer: fødselsnummer,
                 dokumenttype: dokumenttype,
                 timestamp: timestamp,

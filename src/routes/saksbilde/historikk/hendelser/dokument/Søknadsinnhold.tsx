@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
+import { DokumenthendelseObject } from '@/routes/saksbilde/historikk/types';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
 
 import { DokumentFragment } from './DokumentFragment';
@@ -16,7 +17,7 @@ type SøknadsinnholdProps = {
 };
 
 export const Søknadsinnhold = ({ dokumentId, fødselsnummer }: SøknadsinnholdProps): ReactElement => {
-    const søknadsrespons = useQuerySoknad(fødselsnummer, dokumentId);
+    const søknadsrespons = useQuerySoknad(fødselsnummer, dokumentId ?? '');
     const søknad = søknadsrespons.data;
 
     return (

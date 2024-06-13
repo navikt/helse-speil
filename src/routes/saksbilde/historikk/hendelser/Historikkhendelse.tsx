@@ -5,6 +5,7 @@ import React, { ReactElement, ReactNode, useState } from 'react';
 import { XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { Cancel, Refresh, Send, StopWatch, Success } from '@navikt/ds-icons';
 
+import { HistorikkhendelseObject } from '@/routes/saksbilde/historikk/types';
 import { PeriodehistorikkType } from '@io/graphql';
 
 import { Hendelse } from './Hendelse';

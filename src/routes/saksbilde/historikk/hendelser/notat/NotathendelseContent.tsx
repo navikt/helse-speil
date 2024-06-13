@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useMutation } from '@apollo/client';
 import { LinkButton } from '@components/LinkButton';
-import { LeggTilKommentarDocument } from '@io/graphql';
+import { Kommentar, LeggTilKommentarDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import { Kommentarer } from './Kommentarer';
