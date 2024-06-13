@@ -1,5 +1,7 @@
 import { nanoid } from 'nanoid';
 
+import { Oppgave, UUID } from '@/spesialist-mock/types';
+
 export const getDefaultOppgave = (): Oppgave => ({
     id: nanoid(),
     erPåVent: false,

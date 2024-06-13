@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 
+import { UUID } from '@/spesialist-mock/types';
+
 import { oppgaver } from '../data/oppgaver';
 import {
     BeregnetPeriode,

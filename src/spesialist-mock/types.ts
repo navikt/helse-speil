@@ -1,19 +1,20 @@
-// TODO: Globale types som bør nukes
-declare type Extension = {
+import { Maybe } from '@utils/ts';
+
+export type Extension = {
     code: number;
     [field: string]: string | object | number;
 };
 
-declare type UUID = string;
+export type UUID = string;
 
-declare type Oppgave = {
+export type Oppgave = {
     id: string;
     erPåVent: boolean;
     tildelt?: Maybe<string>;
     totrinnsvurdering?: Maybe<Totrinnsvurdering>;
 };
 
-declare type Totrinnsvurdering = {
+export type Totrinnsvurdering = {
     saksbehandler?: Maybe<string>;
     beslutter?: Maybe<string>;
     erBeslutteroppgave: boolean;

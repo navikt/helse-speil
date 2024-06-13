@@ -4,6 +4,7 @@ import { GraphQLError, GraphQLSchema, IntrospectionQuery, buildClientSchema } fr
 import path from 'path';
 import { cwd } from 'process';
 
+import { Oppgave } from '@/spesialist-mock/types';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 
