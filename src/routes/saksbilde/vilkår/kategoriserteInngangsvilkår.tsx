@@ -4,8 +4,8 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Vilkarsgrunnlag, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
-import { Vilkårdata, Vilkårstype } from '@mapping/vilkår';
 import { DateString } from '@typer/shared';
+import { Vilkårdata, Vilkårstype } from '@typer/vilkår';
 
 import { EndretParagrafContainer } from './EndretParagrafContainer';
 import { Opptjeningstid, Sykepengegrunnlag } from './vilkårsgrupper/Vilkårsgrupper';

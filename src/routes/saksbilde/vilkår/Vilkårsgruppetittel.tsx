@@ -6,7 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { Kryssikon } from '@components/ikoner/Kryssikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
-import { Vilkårstype } from '@mapping/vilkår';
+import { Vilkårstype } from '@typer/vilkår';
 
 import styles from './Vilkarsgruppetittel.module.css';
 

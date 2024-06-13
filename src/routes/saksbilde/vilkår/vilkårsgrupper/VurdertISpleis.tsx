@@ -3,7 +3,7 @@ import React from 'react';
 
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
 import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
-import { Vilkårdata } from '@mapping/vilkår';
+import { Vilkårdata } from '@typer/vilkår';
 import { getFormattedDateString } from '@utils/date';
 
 import { Vilkårsgruppetittel } from '../Vilkårsgruppetittel';

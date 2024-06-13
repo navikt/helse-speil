@@ -27,7 +27,6 @@
             "@external/*": ["./src/external/*"],
             "@hooks/*": ["./src/hooks/*"],
             "@io/*": ["./src/io/*"],
-            "@mapping/*": ["./src/mapping/*"],
             "@nais/*": ["./src/nais/*"],
             "@observability/*": ["./src/observability/*"],
             "@person/*": ["./src/person/*"],
