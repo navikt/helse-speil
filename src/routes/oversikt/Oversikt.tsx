@@ -11,6 +11,7 @@ import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCach
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@oversikt/table/BehandletIdagTable';
+import { OppgaverTable } from '@oversikt/table/oppgaverTable/OppgaverTable';
 import { useKeyboardShortcuts } from '@saksbilde/useKeyboardShortcuts';
 import { useOppgaveFeed } from '@state/oppgaver';
 
@@ -18,7 +19,6 @@ import { IngenOppgaver } from './IngenOppgaver';
 import { TabsSkeleton } from './Tabs';
 import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';
 import { TabType, useAktivTab } from './tabState';
-import { OppgaverTable } from './table/OppgaverTable/OppgaverTable';
 import { OppgaverTableSkeleton } from './table/OppgaverTableSkeleton';
 import { useFilters } from './table/state/filter';
 

@@ -6,13 +6,16 @@ import { useForm } from 'react-hook-form';
 import { Button, DatePicker, TextField } from '@navikt/ds-react';
 
 import { Kildetype } from '@io/graphql';
+import {
+    OverstyrbarDagtype,
+    getDagFromType,
+} from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
+import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/kanVelgeGrad';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
 import { DagtypeSelect } from './DagtypeSelect';
-import { OverstyrbarDagtype, getDagFromType } from './EndringForm/endringFormUtils';
-import { kanVelgeGrad } from './EndringForm/kanVelgeGrad';
 import { Speildag, Sykedag } from './utbetalingstabelldager';
 
 import styles from './LeggTilDager.module.css';

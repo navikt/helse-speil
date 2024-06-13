@@ -18,6 +18,8 @@ import {
     VilkarsgrunnlagSpleis,
 } from '@io/graphql';
 import { getVilkårsgrunnlag } from '@person/utils';
+import { EditableInntekt } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntekt';
+import { RedigerInntektOgRefusjon } from '@saksbilde/sykepengegrunnlag/inntekt/redigerInntektOgRefusjon/RedigerInntektOgRefusjon';
 import {
     useEndringerForPeriode,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
@@ -30,10 +32,8 @@ import { DateString } from '@typer/shared';
 import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
 import { OverstyrArbeidsforholdUtenSykdom } from '../overstyring/OverstyrArbeidsforholdUtenSykdom';
 import { Refusjonsoversikt } from '../refusjon/Refusjonsoversikt';
-import { EditableInntekt } from './EditableInntekt/EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { RedigerGhostInntekt } from './RedigerGhostInntekt';
-import { RedigerInntektOgRefusjon } from './RedigerInntektOgRefusjon/RedigerInntektOgRefusjon';
 import { SisteTolvMånedersInntekt } from './SisteTolvMånedersInntekt';
 import {
     endreInntektMedSykefraværBegrunnelser,

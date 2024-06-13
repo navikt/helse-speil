@@ -8,10 +8,10 @@ import { BodyShort } from '@navikt/ds-react';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { useMap } from '@hooks/useMap';
 import { PersonFragment } from '@io/graphql';
+import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
-import { EndringForm } from './utbetalingstabell/EndringForm/EndringForm';
 import { LeggTilDager } from './utbetalingstabell/LeggTilDager';
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';

@@ -9,7 +9,7 @@ import { SkjønnsfastsettingMal } from '@external/sanity';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useCurrentPerson } from '@person/query';
-import { Feiloppsummering, Skjemafeil } from '@saksbilde/sykepengegrunnlag/inntekt/EditableInntekt/Feiloppsummering';
+import { Feiloppsummering, Skjemafeil } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/Feiloppsummering';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingÅrsak';

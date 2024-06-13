@@ -5,6 +5,7 @@ import { Detail, Fieldset, Label } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
 import { ArbeidsgiverFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
+import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 import {
     ArbeidsgiverForm,
     Skjønnsfastsettingstype,
@@ -12,8 +13,6 @@ import {
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
 
 import { ArbeidsgiverRad } from './ArbeidsgiverRad';
-
-import styles from '../SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 
 interface SkjønnsfastsettingArbeidsgivereProps {
     arbeidsgivere: ArbeidsgiverFragment[];

@@ -12,9 +12,8 @@ import { SystemMenu } from '@components/SystemMenu';
 import { UserMenu } from '@components/UserMenu';
 import { EasterEgg } from '@components/header/EasterEgg';
 import { Personsøk } from '@components/header/Personsøk';
+import { ToggleMenyButton } from '@components/header/toggleMeny/ToggleMenyButton';
 import { graphqlplayground } from '@utils/featureToggles';
-
-import { ToggleMenyButton } from './ToggleMeny/ToggleMenyButton';
 
 import styles from './Header.module.css';
 

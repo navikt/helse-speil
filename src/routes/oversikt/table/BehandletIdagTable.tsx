@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { HeaderCell } from '@oversikt/table/oppgaverTable/HeaderCell';
 import { useBehandledeOppgaverFeed } from '@state/behandledeOppgaver';
 
 import { IngenOppgaver } from '../IngenOppgaver';
 import { LinkRow } from './LinkRow';
-import { HeaderCell } from './OppgaverTable/HeaderCell';
 import { OppgaverTableError } from './OppgaverTableError';
 import { OppgaverTableSkeleton } from './OppgaverTableSkeleton';
 import { Pagination } from './Pagination';

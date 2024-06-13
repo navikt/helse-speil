@@ -5,7 +5,7 @@ import { StopWatch } from '@navikt/ds-icons';
 import { Button, Table, Tooltip } from '@navikt/ds-react';
 
 import { NotatType, Personnavn } from '@io/graphql';
-import { SisteNotattekst } from '@oversikt/table/OppgaverTable/SisteNotattekst';
+import { SisteNotattekst } from '@oversikt/table/oppgaverTable/SisteNotattekst';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 
 import { PåVentListeModal } from './PåVentListeModal';

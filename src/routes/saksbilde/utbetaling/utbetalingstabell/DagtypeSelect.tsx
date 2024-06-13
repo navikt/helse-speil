@@ -4,16 +4,15 @@ import { Select } from '@navikt/ds-react';
 
 import { Button } from '@components/Button';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-
-import { DagtypeModal } from './DagtypeModal';
+import styles from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm.module.css';
 import {
     OverstyrbarDagtype,
     alleTypeendringer,
     typeendringer,
     typeendringerAndreYtelser,
-} from './EndringForm/endringFormUtils';
+} from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 
-import styles from './EndringForm/EndringForm.module.css';
+import { DagtypeModal } from './DagtypeModal';
 
 interface DagtypeSelectProps {
     errorMessage?: string;

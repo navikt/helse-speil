@@ -4,10 +4,9 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 import { TextField } from '@navikt/ds-react';
 
 import { Arbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/Arbeidsgivernavn';
+import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { toKronerOgØre } from '@utils/locale';
-
-import styles from '../SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 
 interface ArbeidsgiverRadProps {
     arbeidsgiverNavn?: string;
