@@ -3,6 +3,8 @@ import React, { Dispatch, ReactElement, SetStateAction } from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
+
 import styles from './MarkerAlleDagerCheckbox.module.css';
 
 interface MarkerAlleDagerCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'value'> {

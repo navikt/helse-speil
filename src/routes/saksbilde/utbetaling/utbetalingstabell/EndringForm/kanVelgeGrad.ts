@@ -1,3 +1,5 @@
+import { Utbetalingstabelldagtype } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
+
 const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = [
     'Arbeid',
     'Ferie',

@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { DateString } from '@/types/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
 

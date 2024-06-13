@@ -3,6 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { Button, ErrorSummary, Textarea } from '@navikt/ds-react';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { DateString } from '@/types/shared';
 
 import {
