@@ -1,9 +1,9 @@
 import { RestLink } from 'apollo-link-rest';
 
-import { possibleTypes } from '@/app/apollo/possibletypes';
 import { erLokal } from '@/env';
 import { ApolloClient, HttpLink, InMemoryCache, InMemoryCacheConfig, TypePolicies, from } from '@apollo/client';
 import { RetryLink } from '@apollo/client/link/retry';
+import { possibleTypes } from '@app/apollo/possibletypes';
 import { PersonFragment } from '@io/graphql';
 
 const getTypePolicies = (): TypePolicies => {

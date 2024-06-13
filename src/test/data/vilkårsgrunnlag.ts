@@ -1,16 +1,13 @@
 import { nanoid } from 'nanoid';
 
-import { OverridableConstructor } from '@/types/shared';
 import {
     Arbeidsgiverinntekt,
-    VilkarsgrunnlagFragment,
-    VilkarsgrunnlagInfotrygd,
-    VilkarsgrunnlagSpleis,
     Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment,
     Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment,
     Vilkarsgrunnlagtype,
 } from '@io/graphql';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
+import { OverridableConstructor } from '@typer/shared';
 
 type VilkarsgrunnlagSpleisExtensions = {
     medInntekter: (

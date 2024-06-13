@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { DateString } from '@/types/shared';
+import { DateString } from '@typer/shared';
 
 interface BehandletTimestampCellProps {
     time: DateString;

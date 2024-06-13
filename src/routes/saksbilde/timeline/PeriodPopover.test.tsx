@@ -1,6 +1,6 @@
+import { ApolloWrapper } from '@test-wrappers';
 import React from 'react';
 
-import { ApolloWrapper } from '@/test/wrappers';
 import {
     BeregnetPeriodeFragment,
     Dag,

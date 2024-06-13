@@ -8,7 +8,6 @@ import {
     SkjonnsfastsettelseMutationDocument,
     SkjonnsfastsettelseType,
 } from '@io/graphql';
-import { SkjønnsfastsattArbeidsgiver, SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@io/http';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -17,6 +16,11 @@ import {
 } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import {
+    SkjønnsfastsattArbeidsgiver,
+    SkjønnsfastsattSykepengegrunnlagDTO,
+    SkjønnsfastsettingstypeDTO,
+} from '@typer/overstyring';
 
 export enum Skjønnsfastsettingstype {
     OMREGNET_ÅRSINNTEKT = 'OMREGNET_ÅRSINNTEKT',

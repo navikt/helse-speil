@@ -3,15 +3,14 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { OppgaveTilBehandling } from '@io/graphql';
+import { LinkRow } from '@oversikt/table/LinkRow';
+import { DatoCell } from '@oversikt/table/cells/DatoCell';
+import { EgenskaperTagsCell } from '@oversikt/table/cells/EgenskaperTagsCell';
+import { TildelingCell } from '@oversikt/table/cells/TildelingCell';
+import { PåVentCell } from '@oversikt/table/cells/notat/PåVentCell';
+import { OptionsCell } from '@oversikt/table/cells/options/OptionsCell';
+import { SortKey, dateSortKey, getVisningsDato } from '@oversikt/table/state/sortation';
 import { ISO_DATOFORMAT } from '@utils/date';
-
-import { LinkRow } from '../../LinkRow';
-import { DatoCell } from '../../cells/DatoCell';
-import { EgenskaperTagsCell } from '../../cells/EgenskaperTagsCell';
-import { TildelingCell } from '../../cells/TildelingCell';
-import { PåVentCell } from '../../cells/notat/PåVentCell';
-import { OptionsCell } from '../../cells/options/OptionsCell';
-import { SortKey, dateSortKey, getVisningsDato } from '../../state/sortation';
 
 interface TilGodkjenningOppgaveRowProps {
     oppgave: OppgaveTilBehandling;

@@ -6,7 +6,7 @@ import React, { ReactElement } from 'react';
 import 'graphiql/graphiql.min.css';
 
 const GraphQLPlayground = dynamic(
-    () => import('@/routes/playground/GraphQLPlayground').then((mod) => mod.GraphQLPlayground),
+    () => import('@routes/playground/GraphQLPlayground').then((mod) => mod.GraphQLPlayground),
     {
         ssr: false,
     },

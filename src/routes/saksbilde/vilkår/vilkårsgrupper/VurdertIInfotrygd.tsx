@@ -2,8 +2,8 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
+import { Vilkårdata } from '@mapping/vilkår';
 
-import { Vilkårdata } from '../../../../mapping/vilkår';
 import { Vilkårsgruppetittel } from '../Vilkårsgruppetittel';
 
 import styles from '../vilkår.module.css';

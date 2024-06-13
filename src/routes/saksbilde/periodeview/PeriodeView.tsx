@@ -2,15 +2,15 @@
 
 import React, { ReactElement } from 'react';
 
-import { AnnullertPeriodeView } from '@/routes/saksbilde/saksbilder/AnnullertPeriodeView';
-import { BeregnetPeriodeView } from '@/routes/saksbilde/saksbilder/BeregnetPeriodeView';
-import { GhostPeriodeView } from '@/routes/saksbilde/saksbilder/GhostPeriodeView';
-import { PeriodeTilAnnulleringView } from '@/routes/saksbilde/saksbilder/PeriodeTilAnnulleringView';
-import { PeriodeViewError } from '@/routes/saksbilde/saksbilder/PeriodeViewError';
-import { PeriodeViewSkeleton } from '@/routes/saksbilde/saksbilder/PeriodeViewSkeleton';
-import { UberegnetPeriodeView } from '@/routes/saksbilde/saksbilder/UberegnetPeriodeView';
 import { Periodetilstand } from '@io/graphql';
 import { useFetchPersonQuery } from '@person/query';
+import { AnnullertPeriodeView } from '@saksbilde/saksbilder/AnnullertPeriodeView';
+import { BeregnetPeriodeView } from '@saksbilde/saksbilder/BeregnetPeriodeView';
+import { GhostPeriodeView } from '@saksbilde/saksbilder/GhostPeriodeView';
+import { PeriodeTilAnnulleringView } from '@saksbilde/saksbilder/PeriodeTilAnnulleringView';
+import { PeriodeViewError } from '@saksbilde/saksbilder/PeriodeViewError';
+import { PeriodeViewSkeleton } from '@saksbilde/saksbilder/PeriodeViewSkeleton';
+import { UberegnetPeriodeView } from '@saksbilde/saksbilder/UberegnetPeriodeView';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 

@@ -1,9 +1,9 @@
 import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
-import { useKeyboardActions } from '@/routes/saksbilde/useKeyboardShortcuts';
 import { MockedProvider } from '@apollo/client/testing';
 import { FetchPersonDocument } from '@io/graphql';
+import { useKeyboardActions } from '@saksbilde/useKeyboardShortcuts';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -12,7 +12,7 @@ import { SpeilError } from '@utils/error';
 import { Header } from './Header';
 
 jest.mock('@person/query');
-jest.mock('../../routes/saksbilde/useKeyboardShortcuts');
+jest.mock('@saksbilde/useKeyboardShortcuts');
 
 let cachedVarsel: SpeilError | null = null;
 

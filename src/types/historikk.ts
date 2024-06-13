@@ -1,4 +1,3 @@
-import { DateString } from '@/types/shared';
 import {
     Avslagstype,
     Kommentar,
@@ -10,6 +9,8 @@ import {
     Utbetalingtype,
 } from '@io/graphql';
 import { Maybe } from '@utils/ts';
+
+import { DateString } from './shared';
 
 export type Filtertype = 'Dokument' | 'Historikk' | 'Notat' | 'Overstyring';
 

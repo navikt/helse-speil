@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 
-import { DateString } from '@/types/shared';
 import { Arbeidsgiverrefusjon, Hendelse, Kildetype, Refusjonselement } from '@io/graphql';
-import { OverstyrtInntektOgRefusjonArbeidsgiver, OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
 import { useCurrentPerson } from '@person/query';
+import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import {
     useArbeidsgiver,
     useInntektsmeldinghendelser,
@@ -14,9 +13,13 @@ import { kalkulererFerdigToastKey, kalkulererToastKey, kalkuleringFerdigToast } 
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useActivePeriod } from '@state/periode';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import {
+    OverstyrtInntektOgRefusjonArbeidsgiver,
+    OverstyrtInntektOgRefusjonDTO,
+    Refusjonsopplysning,
+} from '@typer/overstyring';
+import { DateString } from '@typer/shared';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
-
-import { useVilkårsgrunnlag } from '../routes/saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 
 export type OverstyrtInntektOgRefusjon = {
     aktørId: string | null;

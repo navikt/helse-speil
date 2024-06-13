@@ -1,4 +1,4 @@
-import { Oversikt } from '@/routes/oversikt/Oversikt';
+import { Oversikt } from '@oversikt/Oversikt';
 
 export default function Home() {
     return <Oversikt />;

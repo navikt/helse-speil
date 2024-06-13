@@ -1,5 +1,5 @@
-import { DateString } from '@/types/shared';
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Periode } from '@io/graphql';
+import { DateString } from '@typer/shared';
 import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode } from '@utils/typeguards';
 

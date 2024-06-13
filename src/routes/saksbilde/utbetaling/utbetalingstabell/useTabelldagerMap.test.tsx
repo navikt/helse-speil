@@ -1,6 +1,6 @@
-import { DateString } from '@/types/shared';
 import { Dag, Dagoverstyring, Dagtype, Kildetype, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { renderHook } from '@testing-library/react';
+import { DateString } from '@typer/shared';
 
 import { antallSykedagerTilOgMedMaksdato, createDagerMap, useTabelldagerMap } from './useTabelldagerMap';
 

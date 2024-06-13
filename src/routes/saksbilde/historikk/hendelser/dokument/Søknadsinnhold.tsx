@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { DokumenthendelseObject } from '@/routes/saksbilde/historikk/types';
+import { DokumenthendelseObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
 
 import { DokumentFragment } from './DokumentFragment';

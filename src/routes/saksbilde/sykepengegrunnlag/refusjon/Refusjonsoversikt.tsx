@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { Refusjonsopplysning } from '@io/http';
+import { Refusjonsopplysning } from '@typer/overstyring';
 
 import { Refusjonslinje } from './Refusjonslinje';
 

@@ -5,12 +5,12 @@ import {
     Skjonnsfastsettingstype,
 } from '@io/graphql';
 import { useCurrentPerson } from '@person/query';
+import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { Maybe } from '@utils/ts';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
-import { Skjønnsfastsettingstype } from '../../skjønnsfastsetting';
 import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
 
 export const useSkjønnsfastsettingDefaults = (

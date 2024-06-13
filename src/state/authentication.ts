@@ -1,4 +1,4 @@
-import { useBruker } from '@/auth/brukerContext';
+import { useBruker } from '@auth/brukerContext';
 
 export type Saksbehandler = {
     oid: string;

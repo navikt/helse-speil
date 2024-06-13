@@ -1,8 +1,8 @@
 import React, { PropsWithChildren, ReactElement } from 'react';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 
-import { BrukerContext } from '@/auth/brukerContext';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
+import { BrukerContext } from '@auth/brukerContext';
 
 interface RecoilProps {
     initializeState?: (mutableSnapshot: MutableSnapshot) => void;

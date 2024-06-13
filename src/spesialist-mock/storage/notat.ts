@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { UUID } from '@/spesialist-mock/types';
+import { UUID } from '@typer/spesialist-mock';
 
 import { oppgaver } from '../data/oppgaver';
 import {

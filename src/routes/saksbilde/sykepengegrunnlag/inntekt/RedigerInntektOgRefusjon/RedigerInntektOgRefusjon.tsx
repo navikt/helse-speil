@@ -1,11 +1,11 @@
 import styles from './RedigerInntektOgRefusjon.module.scss';
 import React, { Dispatch, SetStateAction } from 'react';
 
-import { DateString } from '@/types/shared';
 import { EditButton } from '@components/EditButton';
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment } from '@io/graphql';
 import { usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { isInCurrentGeneration } from '@state/selectors/period';
+import { DateString } from '@typer/shared';
 
 interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;

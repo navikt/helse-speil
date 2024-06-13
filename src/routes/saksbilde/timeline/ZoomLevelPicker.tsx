@@ -1,6 +1,7 @@
-import { TimelineZoomLevel } from './timeline-types';
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
+
+import { TimelineZoomLevel } from '@typer/timeline';
 
 import styles from './ZoomLevelPicker.module.css';
 

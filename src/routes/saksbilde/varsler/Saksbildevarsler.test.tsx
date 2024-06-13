@@ -2,10 +2,10 @@ import { ApolloWrapper } from '@test-wrappers';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 
-import { PeriodState } from '@/types/shared';
 import { Maybe, VarselDto } from '@io/graphql';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
+import { PeriodState } from '@typer/shared';
 
 import { Saksbildevarsler } from './Saksbildevarsler';
 

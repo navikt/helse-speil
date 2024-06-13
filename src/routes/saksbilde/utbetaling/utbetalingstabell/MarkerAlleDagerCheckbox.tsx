@@ -3,7 +3,7 @@ import React, { Dispatch, ReactElement, SetStateAction } from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import styles from './MarkerAlleDagerCheckbox.module.css';
 

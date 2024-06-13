@@ -2,9 +2,10 @@ import { createYoga } from 'graphql-yoga';
 import { notFound } from 'next/navigation';
 
 import { erDev, erProd } from '@/env';
-import { buildSchema } from '@/spesialist-mock/graphql';
+import { buildSchema } from '@spesialist-mock/graphql';
 
 let yogaRequestHandler: ((req: Request, ctx: {}) => Response | Promise<Response>) | null;
+
 function getRequestHandler() {
     if (yogaRequestHandler == null) {
         const { handleRequest } = createYoga({

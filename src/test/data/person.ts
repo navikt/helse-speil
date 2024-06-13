@@ -1,6 +1,6 @@
-import { OverridableConstructor } from '@/types/shared';
 import { Adressebeskyttelse, ArbeidsgiverFragment, Kjonn, PersonFragment } from '@io/graphql';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
+import { OverridableConstructor } from '@typer/shared';
 
 type Extensions = {
     medArbeidsgivere(arbeidsgivere: Array<ArbeidsgiverFragment>): PersonFragment;

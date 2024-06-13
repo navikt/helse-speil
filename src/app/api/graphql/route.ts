@@ -1,5 +1,5 @@
-import { postGraphQLQuery } from '@/app/api/graphql/graphql';
-import { hentWonderwallToken } from '@/auth/token';
+import { postGraphQLQuery } from '@app/api/graphql/graphql';
+import { hentWonderwallToken } from '@auth/token';
 
 export const dynamic = 'force-dynamic'; // defaults to auto
 export const POST = async (req: Request) => {

@@ -1,6 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
 
-import { ActivePeriod, DateString } from '@/types/shared';
 import {
     Arbeidsgiverinntekt,
     BeregnetPeriodeFragment,
@@ -11,6 +10,7 @@ import {
     Vilkarsgrunnlag,
 } from '@io/graphql';
 import { getRequiredTimestamp, isGodkjent } from '@state/selectors/utbetaling';
+import { ActivePeriod, DateString } from '@typer/shared';
 import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isDagoverstyring, isGhostPeriode } from '@utils/typeguards';
 

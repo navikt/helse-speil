@@ -1,7 +1,6 @@
 import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { MockedProvider } from '@apollo/client/testing';
 import { Kildetype, OpprettAbonnementDocument, OverstyrDagerMutationDocument } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
@@ -9,6 +8,7 @@ import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { enPerson } from '@test-data/person';
 import { renderHook, waitFor } from '@testing-library/react';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { tilOverstyrteDager, useOverstyrDager } from './useOverstyrDager';
 
@@ -16,7 +16,7 @@ jest.mock('@person/query');
 jest.mock('@state/arbeidsgiver');
 jest.mock('@state/toasts');
 jest.mock('@state/opptegnelser');
-jest.mock('@io/http');
+jest.mock('@io/graphql/polling');
 
 const AKTØR_ID = 'aktørId';
 const FØDSELSNUMMER = 'fødselsnummer';

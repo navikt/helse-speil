@@ -1,6 +1,6 @@
 import { erProd } from '@/env';
-import { Lovhjemmel } from '@/routes/saksbilde/sykepengegrunnlag/overstyring/overstyring.types';
 import { gql, useQuery } from '@apollo/client';
+import { Lovhjemmel } from '@typer/overstyring';
 
 export type ArbeidsforholdMal = 'EN_ARBEIDSGIVER' | 'FLERE_ARBEIDSGIVERE';
 

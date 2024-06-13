@@ -1,20 +1,6 @@
 import dayjs from 'dayjs';
 
 import {
-    AnnetArbeidsforholdoverstyringhendelseObject,
-    ArbeidsforholdoverstyringhendelseObject,
-    ArbeidsgiverSkjønnHendelse,
-    AvslaghendelseObject,
-    HendelseObject,
-    HistorikkhendelseObject,
-    InntektoverstyringhendelseObject,
-    NotathendelseObject,
-    SykepengegrunnlagskjonnsfastsettinghendelseObject,
-    UtbetalinghendelseObject,
-} from '@/routes/saksbilde/historikk/types';
-import { Notat } from '@/types/notat';
-import { DateString } from '@/types/shared';
-import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
@@ -34,6 +20,20 @@ import {
     UberegnetPeriodeFragment,
     Vurdering,
 } from '@io/graphql';
+import {
+    AnnetArbeidsforholdoverstyringhendelseObject,
+    ArbeidsforholdoverstyringhendelseObject,
+    ArbeidsgiverSkjønnHendelse,
+    AvslaghendelseObject,
+    HendelseObject,
+    HistorikkhendelseObject,
+    InntektoverstyringhendelseObject,
+    NotathendelseObject,
+    SykepengegrunnlagskjonnsfastsettinghendelseObject,
+    UtbetalinghendelseObject,
+} from '@typer/historikk';
+import { Notat } from '@typer/notat';
+import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '@utils/date';
 import { Maybe } from '@utils/ts';
 import {

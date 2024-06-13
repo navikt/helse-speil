@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import React, { PropsWithChildren } from 'react';
 
-import { Providers } from '@/app/providers';
-import { getTokenPayload } from '@/auth/token';
 import { browserEnv, erLokal } from '@/env';
+import { Providers } from '@app/providers';
+import { getTokenPayload } from '@auth/token';
 import { Toasts } from '@components/Toasts';
 import { Varsler } from '@components/Varsler';
 import { Header } from '@components/header/Header';

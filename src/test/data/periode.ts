@@ -1,6 +1,5 @@
 import { nanoid } from 'nanoid';
 
-import { OverridableConstructor } from '@/types/shared';
 import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
@@ -19,6 +18,7 @@ import {
 import { enOppgave } from '@test-data/oppgave';
 import { TestDag } from '@test-data/person-query-types';
 import { enUtbetaling } from '@test-data/utbetaling';
+import { OverridableConstructor } from '@typer/shared';
 
 export const enDag: OverridableConstructor<TestDag> = (overrides) => ({
     __typename: 'Dag',

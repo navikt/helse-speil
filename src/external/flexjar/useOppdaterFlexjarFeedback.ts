@@ -1,5 +1,5 @@
-import { FeedbackPayload } from '@/external/flexjar/types';
 import { gql, useMutation } from '@apollo/client';
+import { FeedbackPayload } from '@typer/flexjar';
 
 type OppdaterFeedbackVariables = { id: string; payload: FeedbackPayload };
 

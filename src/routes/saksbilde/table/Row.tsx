@@ -2,7 +2,7 @@ import styles from './Row.module.scss';
 import classNames from 'classnames';
 import React from 'react';
 
-import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
+import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
 import { helgetyper } from '../utbetaling/utbetalingstabell/helgUtils';
 

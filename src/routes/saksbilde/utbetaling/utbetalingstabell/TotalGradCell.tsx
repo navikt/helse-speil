@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Utbetalingstabelldagtype } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Endringstrekant } from '@components/Endringstrekant';
+import { CellContent } from '@saksbilde/table/CellContent';
+import { Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 import { Maybe } from '@utils/ts';
 
-import { CellContent } from '../../table/CellContent';
 import { Cell } from './Cell';
 import { helgetyper } from './helgUtils';
 

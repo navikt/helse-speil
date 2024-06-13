@@ -3,9 +3,9 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { DokumenthendelseObject } from '@/routes/saksbilde/historikk/types';
 import { Bold } from '@components/Bold';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
+import { DokumenthendelseObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 

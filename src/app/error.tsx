@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react';
 
-import { getFaro } from '@/observability/faro';
-import { GlobalFeilside } from '@/routes/GlobalFeilside';
+import { getFaro } from '@observability/faro';
+import { GlobalFeilside } from '@routes/GlobalFeilside';
 
 export default function Error({ error }: { error: Error }) {
     useEffect(() => {

@@ -2,11 +2,11 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { DateString } from '@/types/shared';
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Vilkarsgrunnlag, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
+import { Vilkårdata, Vilkårstype } from '@mapping/vilkår';
+import { DateString } from '@typer/shared';
 
-import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
 import { EndretParagrafContainer } from './EndretParagrafContainer';
 import { Opptjeningstid, Sykepengegrunnlag } from './vilkårsgrupper/Vilkårsgrupper';
 

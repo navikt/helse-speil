@@ -4,13 +4,13 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Historikkmeny } from '@/routes/saksbilde/historikk/Historikkmeny';
-import { Filtertype, HendelseObject } from '@/routes/saksbilde/historikk/types';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { ÅpnetDokument } from '@components/ÅpnetDokument';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useFetchPersonQuery } from '@person/query';
+import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
+import { Filtertype, HendelseObject } from '@typer/historikk';
 
 import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';

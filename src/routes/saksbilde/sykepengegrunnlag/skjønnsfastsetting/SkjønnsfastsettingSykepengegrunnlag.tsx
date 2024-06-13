@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
-import { useSkjønnsfastsettelsesMaler } from '@/external/sanity';
+import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
 import { Arbeidsgiverinntekt, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { Maybe } from '@utils/ts';
 

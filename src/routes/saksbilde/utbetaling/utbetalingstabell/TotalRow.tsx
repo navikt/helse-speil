@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Bold } from '@components/Bold';
+import { Row } from '@saksbilde/table/Row';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
-import { Row } from '../../table/Row';
 import { UtbetalingCell } from './UtbetalingCell';
 import { getDagerMedUtbetaling, getTotalArbeidsgiverbeløp, getTotalPersonbeløp } from './dagerUtils';
 

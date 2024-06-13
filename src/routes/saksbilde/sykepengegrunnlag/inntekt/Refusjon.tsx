@@ -11,7 +11,7 @@ import { Button } from '@components/Button';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
-import { Refusjonsopplysning } from '@io/http';
+import { Refusjonsopplysning } from '@typer/overstyring';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
 import { useRefusjonFormField } from './useRefusjonFormField';

@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 
-import { DateString, OverridableConstructor } from '@/types/shared';
 import {
     Arbeidsgiverinntekt,
     InntektFraAOrdningen,
@@ -8,6 +7,7 @@ import {
     OmregnetArsinntekt,
     VilkarsgrunnlagFragment,
 } from '@io/graphql';
+import { DateString, OverridableConstructor } from '@typer/shared';
 
 const enInntektFraAOrdningen: OverridableConstructor<InntektFraAOrdningen> = (overrides) => ({
     __typename: 'InntektFraAOrdningen',

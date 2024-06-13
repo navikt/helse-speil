@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, ReactNode, createRef } from 'react';
 
-import { getFaro } from '@/observability/faro';
+import { getFaro } from '@observability/faro';
 
 interface ErrorBoundaryState {
     hasError: boolean;

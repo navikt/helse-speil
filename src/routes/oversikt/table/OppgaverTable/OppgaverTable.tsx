@@ -3,8 +3,8 @@ import { useRecoilState } from 'recoil';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { OppgaveTilBehandling } from '@io/graphql';
+import { TabType, useAktivTab } from '@oversikt/tabState';
 
-import { TabType, useAktivTab } from '../../tabState';
 import { Pagination } from '../Pagination';
 import { useFilters, useSetMultipleFilters, useToggleFilter } from '../state/filter';
 import { sortering } from '../state/sortation';

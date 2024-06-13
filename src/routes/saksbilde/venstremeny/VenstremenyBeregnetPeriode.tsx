@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 
 import { Alert, BodyShort } from '@navikt/ds-react';
 
-import { PeriodState } from '@/types/shared';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { useForrigeGenerasjonPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
@@ -19,6 +18,7 @@ import {
 } from '@io/graphql';
 import { getVilkårsgrunnlag } from '@person/utils';
 import { useGjenståendeDager } from '@state/arbeidsgiver';
+import { PeriodState } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
 import { Maybe } from '@utils/ts';
 

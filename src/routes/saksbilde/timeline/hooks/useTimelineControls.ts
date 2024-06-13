@@ -1,9 +1,9 @@
-import { TimelineZoomLevel } from '../timeline-types';
 import dayjs, { Dayjs } from 'dayjs';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 
-import { DateString } from '@/types/shared';
 import { ArbeidsgiverFragment, Infotrygdutbetaling } from '@io/graphql';
+import { DateString } from '@typer/shared';
+import { TimelineZoomLevel } from '@typer/timeline';
 
 type Periode = {
     fom: DateString;

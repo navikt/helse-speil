@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { byttTilOboToken } from '@/auth/token';
 import { getServerEnv } from '@/env';
-import logger from '@/logger';
-import metrics from '@/observability/metrics';
+import { logger } from '@/logger';
+import { byttTilOboToken } from '@auth/token';
+import { metrics } from '@observability/metrics';
 
 export const postGraphQLQuery = async (wonderwallToken: string, data: string): Promise<Response> => {
     const callId = uuidv4();

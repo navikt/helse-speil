@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
-import { DatePeriod } from '@/types/shared';
 import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
+import { DatePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import styles from './InfoPin.module.css';

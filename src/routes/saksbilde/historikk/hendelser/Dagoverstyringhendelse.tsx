@@ -3,11 +3,11 @@ import React, { ReactElement } from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { DagoverstyringhendelseObject } from '@/routes/saksbilde/historikk/types';
-import { DateString } from '@/types/shared';
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, OverstyrtDag } from '@io/graphql';
+import { DagoverstyringhendelseObject } from '@typer/historikk';
+import { DateString } from '@typer/shared';
 import { getFormattedDateString } from '@utils/date';
 
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';

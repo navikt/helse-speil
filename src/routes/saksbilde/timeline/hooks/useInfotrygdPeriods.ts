@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import { InfotrygdPeriod } from '@/types/shared';
 import { Infotrygdutbetaling } from '@io/graphql';
+import { InfotrygdPeriod } from '@typer/shared';
 import { somDato } from '@utils/date';
 
 export const useInfotrygdPeriods = (infotrygdutbetalinger: Array<Infotrygdutbetaling>): Array<InfotrygdPeriod> =>

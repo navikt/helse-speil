@@ -1,4 +1,4 @@
-import { Utbetalingstabelldagtype } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
+import { Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
 const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = [
     'Arbeid',

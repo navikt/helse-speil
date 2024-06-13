@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
-import { DateString } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import {
     ArbeidsgiverFragment,
@@ -19,6 +18,7 @@ import {
 } from '@state/arbeidsgiver';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
+import { DateString } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { useVilkårsgrunnlag } from '../useVilkårsgrunnlag';

@@ -5,11 +5,11 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
-import { DateString } from '@/types/shared';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { useMap } from '@hooks/useMap';
 import { PersonFragment } from '@io/graphql';
+import { DateString } from '@typer/shared';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { EndringForm } from './utbetalingstabell/EndringForm/EndringForm';
 import { LeggTilDager } from './utbetalingstabell/LeggTilDager';

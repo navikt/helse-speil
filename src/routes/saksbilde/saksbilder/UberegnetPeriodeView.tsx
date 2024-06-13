@@ -2,14 +2,13 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import { last } from 'remeda';
 
-import { Utbetaling } from '@/routes/saksbilde/utbetaling/Utbetaling';
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
 import { PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
+import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
+import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
+import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
 import { getPeriodState } from '@utils/mapping';
-
-import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
-import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 
 import styles from './SharedViews.module.css';
 

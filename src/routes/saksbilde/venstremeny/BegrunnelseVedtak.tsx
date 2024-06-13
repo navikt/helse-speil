@@ -5,7 +5,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import { ExpandIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Textarea } from '@navikt/ds-react';
 
-import { useBrukerIdent } from '@/auth/brukerContext';
+import { useBrukerIdent } from '@auth/brukerContext';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
     AvslagInput,

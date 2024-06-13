@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
-import { DateString } from '@/types/shared';
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
@@ -18,7 +17,6 @@ import {
     PersonFragment,
     VilkarsgrunnlagSpleis,
 } from '@io/graphql';
-import { Refusjonsopplysning } from '@io/http';
 import { getVilkårsgrunnlag } from '@person/utils';
 import {
     useEndringerForPeriode,
@@ -26,6 +24,8 @@ import {
     useLokaleRefusjonsopplysninger,
     useLokaltMånedsbeløp,
 } from '@state/arbeidsgiver';
+import { Refusjonsopplysning } from '@typer/overstyring';
+import { DateString } from '@typer/shared';
 
 import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
 import { OverstyrArbeidsforholdUtenSykdom } from '../overstyring/OverstyrArbeidsforholdUtenSykdom';

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 
 import { Detail, Heading } from '@navikt/ds-react';
 
-import { Notat } from '@/types/notat';
 import { LinkButton } from '@components/LinkButton';
 import { TableModal } from '@components/TableModal';
 import { NotatType, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { Notat } from '@typer/notat';
 import { getFormatertNavn } from '@utils/string';
 
 import { NotatListeRad } from './NotatListeRad';

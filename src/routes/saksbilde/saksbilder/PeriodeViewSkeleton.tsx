@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { SaksbildeMenuSkeleton } from '@/routes/saksbilde/saksbildeMenu/SaksbildeMenu';
+import { SaksbildeMenuSkeleton } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
 
 import styles from './SharedViews.module.css';
 

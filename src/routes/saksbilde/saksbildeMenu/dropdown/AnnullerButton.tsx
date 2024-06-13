@@ -3,10 +3,9 @@ import React, { ReactElement, useState } from 'react';
 import { Dropdown } from '@navikt/ds-react';
 
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, Utbetalingstatus } from '@io/graphql';
+import { Annulleringsmodal } from '@saksbilde/annullering/Annulleringsmodal';
+import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonUtils';
 import { isBeregnetPeriode } from '@utils/typeguards';
-
-import { Annulleringsmodal } from '../../annullering/Annulleringsmodal';
-import { harPeriodeTilBeslutterFor } from '../../sykepengegrunnlag/inntekt/inntektOgRefusjonUtils';
 
 interface AnnullerButtonWithContentProps {
     vedtaksperiodeId: string;

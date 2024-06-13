@@ -5,8 +5,8 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { ArrowForwardIcon } from '@navikt/aksel-icons';
 
-import { DokumenthendelseObject } from '@/routes/saksbilde/historikk/types';
 import { Kilde } from '@components/Kilde';
+import { DokumenthendelseObject } from '@typer/historikk';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
 import { Hendelse } from '../Hendelse';

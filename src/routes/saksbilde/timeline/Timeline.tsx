@@ -1,4 +1,3 @@
-import { TimelinePeriod } from './timeline-types';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement, useEffect } from 'react';
@@ -11,6 +10,7 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { ArbeidsgiverFragment, Infotrygdutbetaling } from '@io/graphql';
 import { useFetchPersonQuery } from '@person/query';
 import { useActivePeriod } from '@state/periode';
+import { TimelinePeriod } from '@typer/timeline';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';

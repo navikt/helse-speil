@@ -4,8 +4,8 @@ import React from 'react';
 import { ClockIcon, FolderIcon, PencilWritingIcon } from '@navikt/aksel-icons';
 import { Caseworker } from '@navikt/ds-icons';
 
-import { Filtertype } from '@/routes/saksbilde/historikk/types';
 import { TabButton } from '@components/TabButton';
+import { Filtertype } from '@typer/historikk';
 
 import { useFilterState, useShowHistorikkState } from './state';
 

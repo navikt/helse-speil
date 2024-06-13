@@ -2,12 +2,11 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Begrunnelse } from '@io/graphql';
+import { CellContent } from '@saksbilde/table/CellContent';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { Maybe } from '@utils/ts';
-
-import { CellContent } from '../../table/CellContent';
 
 import styles from './MerknaderCell.module.css';
 

@@ -5,13 +5,13 @@ import React, { ReactElement, ReactNode } from 'react';
 import type { PopoverProps } from '@navikt/ds-react';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
-import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
-import { DatePeriod, DateString, PeriodState } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useForrigeGenerasjonPeriodeMedPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import { BeregnetPeriodeFragment, NotatType, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
 import { useGjenståendeDager } from '@state/arbeidsgiver';
+import { DatePeriod, DateString, PeriodState } from '@typer/shared';
+import { TimelinePeriod } from '@typer/timeline';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 import { getPeriodStateText } from '@utils/mapping';

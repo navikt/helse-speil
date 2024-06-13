@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import * as R from 'remeda';
 
-import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
-import { DateString } from '@/types/shared';
+import { DateString } from '@typer/shared';
+import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 import { ISO_DATOFORMAT } from '@utils/date';
 
 const finnDagerIHalen = (dager: Utbetalingstabelldag[], hale: DateString): Utbetalingstabelldag[] => {

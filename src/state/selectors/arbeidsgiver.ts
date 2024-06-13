@@ -1,5 +1,5 @@
-import { ActivePeriod } from '@/types/shared';
 import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
+import { ActivePeriod } from '@typer/shared';
 
 /**
  Finner arbeidsgiver HVIS perioden du sender inn er i nyeste generasjon.

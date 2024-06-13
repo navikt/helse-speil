@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import React, { ReactElement, ReactNode, useRef } from 'react';
 
-import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
-import { PeriodState } from '@/types/shared';
 import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
 import { useSetActivePeriodId } from '@state/periode';
+import { PeriodState } from '@typer/shared';
+import { TimelinePeriod } from '@typer/timeline';
 import { getPeriodState } from '@utils/mapping';
 import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';

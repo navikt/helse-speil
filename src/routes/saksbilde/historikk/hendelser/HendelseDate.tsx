@@ -3,7 +3,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { DateString } from '@/types/shared';
+import { DateString } from '@typer/shared';
 import { getFormattedDatetimeString } from '@utils/date';
 import { Maybe } from '@utils/ts';
 

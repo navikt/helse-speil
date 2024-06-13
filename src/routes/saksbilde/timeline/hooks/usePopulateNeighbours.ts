@@ -1,9 +1,9 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { useMemo } from 'react';
 
-import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
-import { DatePeriod, DateString } from '@/types/shared';
 import { Periode, Periodetype } from '@io/graphql';
+import { DatePeriod, DateString } from '@typer/shared';
+import { TimelinePeriod } from '@typer/timeline';
 
 const overlaps = (period: DatePeriod, skjæringstidspunkt: DateString): boolean => {
     const date = Date.parse(skjæringstidspunkt);

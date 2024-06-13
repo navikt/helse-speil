@@ -3,8 +3,8 @@ import React from 'react';
 import { SortState, Table } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
+import { SortKey, useUpdateSort } from '@oversikt/table/state/sortation';
 
-import { SortKey, useUpdateSort } from '../../state/sortation';
 import { DateSelectHeader } from '../DateSelectHeader';
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { MineSakerOppgaveRow } from './MineSakerOppgaveRow';
@@ -17,6 +17,7 @@ interface MineSakerTableProps {
     sort: SortState | undefined;
     setSort: (state: SortState | undefined) => void;
 }
+
 export const MineSakerTable = ({ oppgaver, sort, setSort }: MineSakerTableProps) => {
     const updateSort = useUpdateSort();
     return (

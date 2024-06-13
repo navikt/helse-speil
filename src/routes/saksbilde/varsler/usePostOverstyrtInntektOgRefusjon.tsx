@@ -8,7 +8,6 @@ import {
     OverstyrInntektOgRefusjonMutationMutation,
     OverstyringArbeidsgiverInput,
 } from '@io/graphql';
-import { OverstyrtInntektOgRefusjonDTO } from '@io/http';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -18,6 +17,7 @@ import {
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 
 interface PostOverstyrtInntektOgRefusjonResponse {
     isLoading: boolean;

@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 
 import { Button, DatePicker, TextField } from '@navikt/ds-react';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
-import { DateString } from '@/types/shared';
 import { Kildetype } from '@io/graphql';
+import { DateString } from '@typer/shared';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
 import { DagtypeSelect } from './DagtypeSelect';

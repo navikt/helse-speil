@@ -2,8 +2,6 @@ import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
-import { DateString } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
@@ -26,6 +24,8 @@ import {
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { isInCurrentGeneration } from '@state/selectors/period';
+import { DateString } from '@typer/shared';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 import { isBeregnetPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 

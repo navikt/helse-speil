@@ -3,8 +3,8 @@ import React, { ReactElement } from 'react';
 
 import { Success } from '@navikt/ds-icons';
 
-import { UtbetalinghendelseObject } from '@/routes/saksbilde/historikk/types';
 import { Utbetalingtype } from '@io/graphql';
+import { UtbetalinghendelseObject } from '@typer/historikk';
 
 import { Hendelse } from './Hendelse';
 import { HendelseDate } from './HendelseDate';

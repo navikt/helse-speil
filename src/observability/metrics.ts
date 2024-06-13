@@ -21,4 +21,4 @@ class Metrics {
     });
 }
 
-export default nextleton('metrics', () => new Metrics());
+export const metrics = nextleton('metrics', () => new Metrics());

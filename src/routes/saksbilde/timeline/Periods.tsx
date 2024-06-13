@@ -1,10 +1,10 @@
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
-import { DatePeriod, InfotrygdPeriod } from '@/types/shared';
 import { GhostPeriodeFragment, PeriodeFragment, Periodetilstand } from '@io/graphql';
 import { isNotReady } from '@state/selectors/period';
+import { DatePeriod, InfotrygdPeriod } from '@typer/shared';
+import { TimelinePeriod } from '@typer/timeline';
 import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 

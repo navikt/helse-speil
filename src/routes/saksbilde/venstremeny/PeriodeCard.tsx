@@ -6,7 +6,6 @@ import React, { ReactElement } from 'react';
 import { ClockDashedIcon } from '@navikt/aksel-icons';
 import { BodyShort, Tag, Tooltip } from '@navikt/ds-react';
 
-import { DatePeriod, DateString } from '@/types/shared';
 import { EgenskaperTags } from '@components/EgenskaperTags';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { LovdataLenke } from '@components/LovdataLenke';
@@ -23,6 +22,7 @@ import {
     Periodetype,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
+import { DatePeriod, DateString } from '@typer/shared';
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
 
 import { ArbeidsgiverRow } from './ArbeidsgiverRow';

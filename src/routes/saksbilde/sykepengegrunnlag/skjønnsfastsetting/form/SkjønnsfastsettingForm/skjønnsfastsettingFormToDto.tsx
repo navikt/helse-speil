@@ -1,12 +1,15 @@
-import { SkjønnsfastsettingMal } from '@/external/sanity';
-import { ActivePeriod } from '@/types/shared';
+import { SkjønnsfastsettingMal } from '@external/sanity';
 import { Arbeidsgiverinntekt, PersonFragment } from '@io/graphql';
-import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@io/http';
+import {
+    ArbeidsgiverForm,
+    Skjønnsfastsettingstype,
+} from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@typer/overstyring';
+import { ActivePeriod } from '@typer/shared';
 import { toKronerOgØre } from '@utils/locale';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-import { ArbeidsgiverForm, Skjønnsfastsettingstype } from '../../skjønnsfastsetting';
 import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
 
 interface InitierendeVedtaksperiodeForArbeidsgiver {

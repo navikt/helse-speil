@@ -1,4 +1,4 @@
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 const harPersonutbetaling = (dag: Utbetalingstabelldag): boolean =>
     typeof dag.personbeløp === 'number' && dag.personbeløp > 0;

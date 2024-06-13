@@ -2,11 +2,10 @@ import React, { HTMLAttributes, useEffect, useState } from 'react';
 
 import { Arbeidsgiverinntekt, PersonFragment, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { getRequiredInntekt } from '@person/utils';
+import { SykepengegrunnlagPanel } from '@saksbilde/sykepengegrunnlag/InntektsgrunnlagTable/SykepengegrunnlagPanel';
+import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
+import { InntektUtenOmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/InntektUtenOmregnetÅrsinntekt';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
-
-import { SykepengegrunnlagPanel } from '../../InntektsgrunnlagTable/SykepengegrunnlagPanel';
-import { Inntekt } from '../../inntekt/Inntekt';
-import { InntektUtenOmregnetÅrsinntekt } from '../../inntekt/InntektUtenOmregnetÅrsinntekt';
 
 import styles from './SykepengegrunnlagFraSpleis.module.css';
 

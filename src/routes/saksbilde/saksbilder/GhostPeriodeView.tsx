@@ -5,11 +5,10 @@ import { last } from 'remeda';
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
 import type { GhostPeriodeFragment, PersonFragment } from '@io/graphql';
+import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
+import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
+import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
 import { getPeriodState } from '@utils/mapping';
-
-import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
-import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
-import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 
 import styles from './SharedViews.module.css';
 

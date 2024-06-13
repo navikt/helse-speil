@@ -2,12 +2,12 @@ import React from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 
-import { OverstyringerPrDag, Utbetalingstabelldagtype } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
+import { EndringsloggButton } from '@saksbilde/sykepengegrunnlag/inntekt/EndringsloggButton';
+import { CellContent } from '@saksbilde/table/CellContent';
+import { OverstyringerPrDag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
-import { EndringsloggButton } from '../../sykepengegrunnlag/inntekt/EndringsloggButton';
-import { CellContent } from '../../table/CellContent';
 import { erHelg } from './helgUtils';
 
 import styles from './KildeCell.module.css';

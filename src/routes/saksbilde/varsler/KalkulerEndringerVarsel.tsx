@@ -6,8 +6,8 @@ import { Alert, BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 import { TimeoutModal } from '@components/TimeoutModal';
-import { OverstyrtInntektOgRefusjonDTO } from '@io/http';
 import { inntektOgRefusjonState } from '@state/overstyring';
+import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
 

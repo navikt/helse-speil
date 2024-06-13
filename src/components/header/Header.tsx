@@ -6,8 +6,8 @@ import React from 'react';
 
 import { InternalHeader } from '@navikt/ds-react';
 
-import { useBrukerGrupper } from '@/auth/brukerContext';
 import { erDev, erLokal, erUtvikling } from '@/env';
+import { useBrukerGrupper } from '@auth/brukerContext';
 import { SystemMenu } from '@components/SystemMenu';
 import { UserMenu } from '@components/UserMenu';
 import { EasterEgg } from '@components/header/EasterEgg';

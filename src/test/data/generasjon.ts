@@ -1,8 +1,8 @@
 import { nanoid } from 'nanoid';
 
-import { OverridableConstructor } from '@/types/shared';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { TestGenerasjon } from '@test-data/person-query-types';
+import { OverridableConstructor } from '@typer/shared';
 
 export const enGenerasjon: OverridableConstructor<TestGenerasjon> = (overrides) => ({
     __typename: 'Generasjon',

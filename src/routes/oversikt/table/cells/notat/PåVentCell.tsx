@@ -5,9 +5,9 @@ import { StopWatch } from '@navikt/ds-icons';
 import { Button, Table, Tooltip } from '@navikt/ds-react';
 
 import { NotatType, Personnavn } from '@io/graphql';
+import { SisteNotattekst } from '@oversikt/table/OppgaverTable/SisteNotattekst';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 
-import { SisteNotattekst } from '../../OppgaverTable/SisteNotattekst';
 import { PåVentListeModal } from './PåVentListeModal';
 
 import styles from './PåVentCell.module.css';

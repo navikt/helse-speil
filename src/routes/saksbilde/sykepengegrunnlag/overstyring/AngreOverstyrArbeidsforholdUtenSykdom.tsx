@@ -1,10 +1,10 @@
 import styles from './AngreOverstyrArbeidsforholdUtenSykdom.module.scss';
-import { BegrunnelseForOverstyring } from './overstyring.types';
 import React from 'react';
 
 import { Button } from '@components/Button';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { PersonFragment } from '@io/graphql';
+import { BegrunnelseForOverstyring } from '@typer/overstyring';
 
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 

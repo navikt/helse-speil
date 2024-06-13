@@ -1,7 +1,6 @@
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Kildetype } from '@io/graphql';
-
-import { Sykedag } from '../../routes/saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
+import { Sykedag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 export const getUtbetalingstabellDag = (overrides?: Partial<Utbetalingstabelldag>): Utbetalingstabelldag => ({
     dato: '2022-01-01',

@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Notat } from '@/types/notat';
+import { Notat } from '@typer/notat';
 import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
 
 import styles from './SisteNotat.module.css';

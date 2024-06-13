@@ -3,11 +3,11 @@ import React from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { SkjønnsfastsettingMal } from '@/external/sanity';
 import { Bold } from '@components/Bold';
 import { EditButton } from '@components/EditButton';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
+import { SkjønnsfastsettingMal } from '@external/sanity';
 import { BeregnetPeriodeFragment, Kildetype, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useCurrentPerson } from '@person/query';
 import { useActivePeriod } from '@state/periode';

@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 
-import { ActivePeriod } from '@/types/shared';
 import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
@@ -13,6 +12,7 @@ import {
     UberegnetPeriodeFragment,
 } from '@io/graphql';
 import { isGodkjent as utbetalingIsGodkjent } from '@state/selectors/utbetaling';
+import { ActivePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 

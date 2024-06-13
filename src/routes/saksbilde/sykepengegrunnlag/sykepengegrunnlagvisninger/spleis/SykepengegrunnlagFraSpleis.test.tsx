@@ -2,6 +2,7 @@ import { render, screen } from '@test-utils';
 import fetchMock from 'jest-fetch-mock';
 import React from 'react';
 
+import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { useIsAnonymous } from '@state/anonymization';
 import {
     useArbeidsgiver,
@@ -16,12 +17,11 @@ import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
 
-import { useVilkårsgrunnlag } from '../../useVilkårsgrunnlag';
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
 jest.mock('@state/arbeidsgiver');
 jest.mock('@state/periode');
-jest.mock('../../useVilkårsgrunnlag');
+jest.mock('@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag');
 jest.mock('@state/toggles');
 jest.mock('@state/anonymization');
 jest.mock('@person/query');

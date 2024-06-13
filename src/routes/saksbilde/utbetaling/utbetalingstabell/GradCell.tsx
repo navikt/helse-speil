@@ -1,10 +1,10 @@
 import React, { ReactElement } from 'react';
 
-import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Endringstrekant } from '@components/Endringstrekant';
+import { CellContent } from '@saksbilde/table/CellContent';
+import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 import { Maybe } from '@utils/ts';
 
-import { CellContent } from '../../table/CellContent';
 import { helgetyper } from './helgUtils';
 
 const dagtypeIsValid = (type: Utbetalingstabelldagtype): boolean =>

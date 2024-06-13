@@ -5,8 +5,8 @@ import { useFormContext } from 'react-hook-form';
 import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Radio, RadioGroup } from '@navikt/ds-react';
 
-import { SkjønnsfastsettingMal } from '@/external/sanity';
 import { EditButton } from '@components/EditButton';
+import { SkjønnsfastsettingMal } from '@external/sanity';
 
 type Props = {
     maler: SkjønnsfastsettingMal[] | undefined;

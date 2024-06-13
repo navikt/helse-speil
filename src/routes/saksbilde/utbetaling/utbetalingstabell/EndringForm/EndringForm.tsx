@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 
 import { Button, TextField } from '@navikt/ds-react';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Bold } from '@components/Bold';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { DagtypeSelect } from '../DagtypeSelect';
 import { OverstyrbarDagtype, alleTypeendringer, getDagFromType } from './endringFormUtils';

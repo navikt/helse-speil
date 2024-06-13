@@ -3,9 +3,9 @@ import React from 'react';
 
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
 import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
+import { Vilkårdata } from '@mapping/vilkår';
 import { getFormattedDateString } from '@utils/date';
 
-import { Vilkårdata } from '../../../../mapping/vilkår';
 import { Vilkårsgruppetittel } from '../Vilkårsgruppetittel';
 
 import styles from '../vilkår.module.css';

@@ -1,6 +1,6 @@
-import { Handling, kallModia } from '@/app/api/modia/modia';
-import { hentWonderwallToken } from '@/auth/token';
-import logger from '@/logger';
+import { logger } from '@/logger';
+import { Handling, kallModia } from '@app/api/modia/modia';
+import { hentWonderwallToken } from '@auth/token';
 
 export const dynamic = 'force-dynamic'; // defaults to auto
 export const POST = async (req: Request) => {

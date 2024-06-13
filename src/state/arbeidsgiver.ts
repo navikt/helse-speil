@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { ActivePeriod, DateString } from '@/types/shared';
 import {
     Arbeidsforholdoverstyring,
     ArbeidsgiverFragment,
@@ -16,12 +15,13 @@ import {
     Utbetaling,
     Vurdering,
 } from '@io/graphql';
-import { Refusjonsopplysning } from '@io/http';
 import { useCurrentPerson } from '@person/query';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { isGodkjent } from '@state/selectors/utbetaling';
+import { Refusjonsopplysning } from '@typer/overstyring';
+import { ActivePeriod, DateString } from '@typer/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { Maybe } from '@utils/ts';
 import {

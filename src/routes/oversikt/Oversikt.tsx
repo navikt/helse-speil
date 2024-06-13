@@ -5,15 +5,15 @@ import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
-import { FiltermenySkeleton } from '@/routes/oversikt/filtermeny/Filtermeny';
-import { BehandletIdagTable } from '@/routes/oversikt/table/BehandletIdagTable';
 import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
 import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
 import { useLoadingToast } from '@hooks/useLoadingToast';
+import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
+import { BehandletIdagTable } from '@oversikt/table/BehandletIdagTable';
+import { useKeyboardShortcuts } from '@saksbilde/useKeyboardShortcuts';
 import { useOppgaveFeed } from '@state/oppgaver';
 
-import { useKeyboardShortcuts } from '../saksbilde/useKeyboardShortcuts';
 import { IngenOppgaver } from './IngenOppgaver';
 import { TabsSkeleton } from './Tabs';
 import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';

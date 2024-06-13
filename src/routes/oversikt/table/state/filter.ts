@@ -1,9 +1,8 @@
 import { SetRecoilState, atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Egenskap } from '@io/graphql';
+import { TabType, tabState } from '@oversikt/tabState';
 import { harSpesialsaktilgang } from '@utils/featureToggles';
-
-import { TabType, tabState } from '../../tabState';
 
 export type Filter = {
     key: string | Egenskap;

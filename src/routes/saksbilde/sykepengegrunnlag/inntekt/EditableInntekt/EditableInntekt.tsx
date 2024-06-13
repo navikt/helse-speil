@@ -1,4 +1,3 @@
-import { BegrunnelseForOverstyring } from '../../overstyring/overstyring.types';
 import dayjs from 'dayjs';
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm } from 'react-hook-form';
@@ -6,12 +5,11 @@ import { useRecoilValue } from 'recoil';
 
 import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
-import { DateString } from '@/types/shared';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { OmregnetArsinntekt, PersonFragment } from '@io/graphql';
-import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
+import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
 import {
     useArbeidsgiver,
     useLokaleRefusjonsopplysninger,
@@ -20,11 +18,13 @@ import {
 } from '@state/arbeidsgiver';
 import { inntektOgRefusjonState, useOverstyrtInntektMetadata, usePostOverstyrtInntekt } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
+import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@typer/overstyring';
+import { BegrunnelseForOverstyring } from '@typer/overstyring';
+import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 import { isGhostPeriode } from '@utils/typeguards';
 
-import { getFørstePeriodeForSkjæringstidspunkt } from '../../../historikk/mapping';
 import { Begrunnelser } from '../Begrunnelser';
 import { Refusjon } from '../Refusjon';
 import { RefusjonFormFields } from '../useRefusjonFormField';

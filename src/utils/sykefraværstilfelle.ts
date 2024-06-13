@@ -1,7 +1,7 @@
 import * as R from 'remeda';
 
-import { ActivePeriod } from '@/types/shared';
 import { ArbeidsgiverFragment } from '@io/graphql';
+import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export const finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt = (

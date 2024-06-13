@@ -1,4 +1,3 @@
-import { BegrunnelseForOverstyring } from './overstyring.types';
 import { useEffect, useState } from 'react';
 
 import { useMutation } from '@apollo/client';
@@ -9,7 +8,6 @@ import {
     OverstyringArbeidsforholdInput,
     PersonFragment,
 } from '@io/graphql';
-import { OverstyrtArbeidsforholdDTO } from '@io/http/types';
 import { useCurrentPerson } from '@person/query';
 import {
     kalkulererFerdigToastKey,
@@ -20,6 +18,7 @@ import {
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useActivePeriodWithPerson } from '@state/periode';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import { BegrunnelseForOverstyring, OverstyrtArbeidsforholdDTO } from '@typer/overstyring';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 
 type OverstyrtArbeidsforholdGetter = (

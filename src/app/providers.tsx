@@ -14,16 +14,16 @@ import { PropsWithChildren, ReactElement, useCallback, useEffect, useLayoutEffec
 import ReactModal from 'react-modal';
 import { RecoilRoot, SetRecoilState } from 'recoil';
 
-import { createApolloClient } from '@/app/apollo/apolloClient';
-import { Bruker, BrukerContext } from '@/auth/brukerContext';
-import { initInstrumentation } from '@/observability/faro';
-import { hydrateAllFilters } from '@/routes/oversikt/table/state/filter';
-import { hydrateSorteringForTab } from '@/routes/oversikt/table/state/sortation';
-import { hydrateKanFrigiOppgaverState, hydrateTotrinnsvurderingState } from '@/state/toggles';
 import { ApolloProvider } from '@apollo/client';
+import { createApolloClient } from '@app/apollo/apolloClient';
+import { Bruker, BrukerContext } from '@auth/brukerContext';
 import { AnonymiseringProvider } from '@components/anonymizable/AnonymizationProvider';
 import { useLoadingToast } from '@hooks/useLoadingToast';
+import { initInstrumentation } from '@observability/faro';
+import { hydrateAllFilters } from '@oversikt/table/state/filter';
+import { hydrateSorteringForTab } from '@oversikt/table/state/sortation';
 import { useFetchPersonQuery } from '@person/query';
+import { hydrateKanFrigiOppgaverState, hydrateTotrinnsvurderingState } from '@state/toggles';
 import { useSetVarsler } from '@state/varsler';
 
 dayjs.extend(relativeTime);

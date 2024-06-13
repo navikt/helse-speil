@@ -3,13 +3,13 @@ import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
-import { Vilkårdata } from '@/mapping/vilkår';
-import { DateString } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Maybe, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
+import { Vilkårdata } from '@mapping/vilkår';
 import { useCurrentPerson } from '@person/query';
 import { getRequiredVilkårsgrunnlag } from '@person/utils';
 import { useActivePeriod } from '@state/periode';
+import { DateString } from '@typer/shared';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';

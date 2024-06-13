@@ -4,10 +4,10 @@ import { useFormContext } from 'react-hook-form';
 
 import { BodyLong, BodyShort, Textarea } from '@navikt/ds-react';
 
-import { SkjønnsfastsettingMal } from '@/external/sanity';
 import { Button } from '@components/Button';
 import { Modal } from '@components/Modal';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
+import { SkjønnsfastsettingMal } from '@external/sanity';
 import { toKronerOgØre } from '@utils/locale';
 
 import { Skjønnsfastsettingstype } from '../skjønnsfastsetting';

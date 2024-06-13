@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 
-import { OverridableConstructor } from '@/types/shared';
 import { Utbetaling, Utbetalingstatus, Utbetalingtype, Vurdering } from '@io/graphql';
+import { OverridableConstructor } from '@typer/shared';
 
 export const enVurdering: OverridableConstructor<Vurdering> = (overrides) => ({
     __typename: 'Vurdering',

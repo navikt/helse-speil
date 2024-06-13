@@ -2,17 +2,17 @@ import React, { ReactElement, ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Endringstrekant } from '@components/Endringstrekant';
+import { CellContent } from '@saksbilde/table/CellContent';
+import { IconAndreYtelser } from '@saksbilde/table/icons/IconAndreYtelser';
+import { IconArbeidsdag } from '@saksbilde/table/icons/IconArbeidsdag';
+import { IconEgenmelding } from '@saksbilde/table/icons/IconEgenmelding';
+import { IconFailure } from '@saksbilde/table/icons/IconFailure';
+import { IconFerie } from '@saksbilde/table/icons/IconFerie';
+import { IconPermisjon } from '@saksbilde/table/icons/IconPermisjon';
+import { IconSyk } from '@saksbilde/table/icons/IconSyk';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
-import { CellContent } from '../../table/CellContent';
-import { IconAndreYtelser } from '../../table/icons/IconAndreYtelser';
-import { IconArbeidsdag } from '../../table/icons/IconArbeidsdag';
-import { IconEgenmelding } from '../../table/icons/IconEgenmelding';
-import { IconFailure } from '../../table/icons/IconFailure';
-import { IconFerie } from '../../table/icons/IconFerie';
-import { IconPermisjon } from '../../table/icons/IconPermisjon';
-import { IconSyk } from '../../table/icons/IconSyk';
 import { erHelg } from './helgUtils';
 
 import styles from './DagtypeCell.module.css';

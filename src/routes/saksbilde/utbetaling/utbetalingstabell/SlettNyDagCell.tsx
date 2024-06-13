@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Button } from '@navikt/ds-react';
 
-import { CellContent } from '../../table/CellContent';
+import { CellContent } from '@saksbilde/table/CellContent';
 
 interface SlettNydagCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     slettSisteNyeDag?: () => void;

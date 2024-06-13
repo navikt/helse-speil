@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { useMemo } from 'react';
 
-import { DatePeriod } from '@/types/shared';
+import { DatePeriod } from '@typer/shared';
 
 type PeriodBorderRadius = {
     borderTopLeftRadius?: number;

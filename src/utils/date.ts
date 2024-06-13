@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 
-import { DateString } from '@/types/shared';
 import { Maybe } from '@io/graphql';
+import { DateString } from '@typer/shared';
 
 export const NORSK_DATOFORMAT_MED_KLOKKESLETT = 'DD.MM.YY kl. HH.mm';
 export const NORSK_DATOFORMAT = 'DD.MM.YYYY';

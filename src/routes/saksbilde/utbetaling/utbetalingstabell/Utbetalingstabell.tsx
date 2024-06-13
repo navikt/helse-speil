@@ -1,13 +1,13 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
-import { DateString } from '@/types/shared';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
+import { Row } from '@saksbilde/table/Row';
+import { DateString } from '@typer/shared';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { getFormattedDateString } from '@utils/date';
 
-import { Row } from '../../table/Row';
 import { DagtypeCell } from './DagtypeCell';
 import { DateCell } from './DateCell';
 import { GjenståendeDagerCell } from './GjenståendeDagerCell';

@@ -1,4 +1,3 @@
-import { TimelinePeriod } from './timeline-types';
 import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
@@ -7,6 +6,7 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import type { GhostPeriodeFragment, PeriodeFragment } from '@io/graphql';
+import { TimelinePeriod } from '@typer/timeline';
 
 import { Periods } from './Periods';
 

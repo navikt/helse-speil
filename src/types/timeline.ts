@@ -1,7 +1,8 @@
 import { Dayjs } from 'dayjs';
 
-import { BeregnetPeriodeFragment, GhostPeriodeFragment, UberegnetPeriodeFragment } from '@/io/graphql';
-import { DatePeriod, InfotrygdPeriod } from '@/types/shared';
+import { BeregnetPeriodeFragment, GhostPeriodeFragment, UberegnetPeriodeFragment } from '@io/graphql';
+
+import { DatePeriod, InfotrygdPeriod } from './shared';
 
 export type TimelineZoomLevel = {
     fom: Dayjs;

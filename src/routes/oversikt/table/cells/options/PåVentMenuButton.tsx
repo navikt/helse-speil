@@ -3,10 +3,9 @@ import React, { useState } from 'react';
 import { Dropdown } from '@navikt/ds-react';
 
 import { Personnavn, Tildeling } from '@io/graphql';
+import { PåVentNotatModal } from '@oversikt/table/cells/notat/PåVentNotatModal';
 import { useFjernPåVent } from '@state/påvent';
 import { Maybe } from '@utils/ts';
-
-import { PåVentNotatModal } from '../notat/PåVentNotatModal';
 
 import styles from './OptionsCell.module.css';
 

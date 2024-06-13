@@ -1,12 +1,12 @@
 import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { enPerson } from '@test-data/person';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 

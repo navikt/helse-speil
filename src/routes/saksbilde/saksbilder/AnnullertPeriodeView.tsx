@@ -2,10 +2,9 @@ import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
-import { ActivePeriod } from '@/types/shared';
 import { PersonFragment } from '@io/graphql';
-
-import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
+import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
+import { ActivePeriod } from '@typer/shared';
 
 import styles from './SharedViews.module.css';
 

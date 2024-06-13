@@ -1,4 +1,3 @@
-import { DatePeriod, InfotrygdPeriod, PeriodState } from '@/types/shared';
 import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
@@ -7,6 +6,7 @@ import {
     UberegnetPeriodeFragment,
     Utbetalingtype,
 } from '@io/graphql';
+import { DatePeriod, InfotrygdPeriod, PeriodState } from '@typer/shared';
 import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 

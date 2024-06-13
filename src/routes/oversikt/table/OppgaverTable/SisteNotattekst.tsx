@@ -3,9 +3,8 @@ import React, { ReactElement } from 'react';
 import { Popover, PopoverProps } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { usePopoverAnchor } from '@saksbilde/timeline/hooks/usePopoverAnchor';
 import { useNotaterForVedtaksperiode } from '@state/notater';
-
-import { usePopoverAnchor } from '../../../saksbilde/timeline/hooks/usePopoverAnchor';
 
 import styles from './SisteNotattekst.module.css';
 

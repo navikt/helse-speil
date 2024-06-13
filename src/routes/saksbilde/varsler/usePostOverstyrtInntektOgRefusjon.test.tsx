@@ -1,9 +1,9 @@
 import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
-import { Opptegnelse } from '@/spesialist-mock/opptegnelser';
 import { MockedProvider } from '@apollo/client/testing';
 import { OpprettAbonnementDocument, OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
+import { Opptegnelse } from '@spesialist-mock/opptegnelser';
 import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
@@ -17,7 +17,7 @@ jest.mock('@state/opptegnelser', () => ({
     useHåndterOpptegnelser: jest.fn(),
     useSetOpptegnelserPollingRate: jest.fn(),
 }));
-jest.mock('@io/http');
+jest.mock('@io/graphql/polling');
 
 const addToastMock = jest.fn();
 (useAddToast as jest.Mock).mockReturnValue((toast: ToastObject) => {

@@ -2,11 +2,11 @@ import { RecoilWrapper } from '@test-wrappers';
 import React, { PropsWithChildren, ReactElement } from 'react';
 import { MutableSnapshot } from 'recoil';
 
-import { apolloCacheConfig, restLink } from '@/app/apollo/apolloClient';
-import logger from '@/logger';
+import { logger } from '@/logger';
 import { ApolloLink, Cache, InMemoryCache } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import { MockLink, MockedProvider, MockedResponse } from '@apollo/client/testing';
+import { apolloCacheConfig, restLink } from '@app/apollo/apolloClient';
 import { RenderOptions, Screen, render, screen } from '@testing-library/react';
 
 type ProviderProps = {

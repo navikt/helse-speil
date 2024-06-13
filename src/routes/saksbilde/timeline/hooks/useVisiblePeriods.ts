@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { useMemo } from 'react';
 
-import { DatePeriod } from '@/types/shared';
+import { DatePeriod } from '@typer/shared';
 
 export const useVisiblePeriods = <T extends DatePeriod>(end: Dayjs, start: Dayjs, periods: Array<T>): Array<T> =>
     useMemo(

@@ -46,7 +46,7 @@ const sikkerError = (message: string, ...meta: unknown[]) => {
     sikkerLogger.error(message, ...meta);
 };
 
-export default {
+export const logger = {
     debug,
     info,
     warn,

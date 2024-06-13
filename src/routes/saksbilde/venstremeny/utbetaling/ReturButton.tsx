@@ -6,9 +6,8 @@ import { Button } from '@navikt/ds-react';
 import { useMutation } from '@apollo/client';
 import { AmplitudeContext } from '@io/amplitude';
 import { BeregnetPeriodeFragment, PersonFragment, SendIReturDocument } from '@io/graphql';
+import { Returnotat } from '@saksbilde/notat/Returnotat';
 import { useAddToast } from '@state/toasts';
-
-import { Returnotat } from '../../notat/Returnotat';
 
 const useAddReturtoast = () => {
     const addToast = useAddToast();

@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 
-import { OverridableConstructor } from '@/types/shared';
 import { Arbeidsforholdoverstyring, Dagoverstyring, Inntektoverstyring } from '@io/graphql';
+import { OverridableConstructor } from '@typer/shared';
 
 export const enDagoverstyring: OverridableConstructor<
     // TODO: Erstatte global type med query type

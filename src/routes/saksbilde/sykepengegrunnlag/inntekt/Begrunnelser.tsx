@@ -1,8 +1,9 @@
-import { BegrunnelseForOverstyring } from '../overstyring/overstyring.types';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Radio, RadioGroup } from '@navikt/ds-react';
+
+import { BegrunnelseForOverstyring } from '@typer/overstyring';
 
 import styles from './Begrunnelser.module.css';
 

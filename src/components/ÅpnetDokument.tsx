@@ -5,11 +5,11 @@ import { useRecoilState } from 'recoil';
 
 import { XMarkIcon } from '@navikt/aksel-icons';
 
-import { HendelseDate } from '@/routes/saksbilde/historikk/hendelser/HendelseDate';
-import { Inntektsmeldingsinnhold } from '@/routes/saksbilde/historikk/hendelser/dokument/Inntektsmeldingsinnhold';
-import { Søknadsinnhold } from '@/routes/saksbilde/historikk/hendelser/dokument/Søknadsinnhold';
-import { getKildetekst, getKildetype, openedDocument } from '@/routes/saksbilde/historikk/hendelser/dokument/dokument';
 import { Kilde } from '@components/Kilde';
+import { HendelseDate } from '@saksbilde/historikk/hendelser/HendelseDate';
+import { Inntektsmeldingsinnhold } from '@saksbilde/historikk/hendelser/dokument/Inntektsmeldingsinnhold';
+import { Søknadsinnhold } from '@saksbilde/historikk/hendelser/dokument/Søknadsinnhold';
+import { getKildetekst, getKildetype, openedDocument } from '@saksbilde/historikk/hendelser/dokument/dokument';
 
 export const ÅpnetDokument = (): ReactElement | null => {
     const [åpnedeDokumenter, setÅpnedeDokumenter] = useRecoilState(openedDocument);

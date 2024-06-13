@@ -4,10 +4,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { BodyShort, Button, Textarea } from '@navikt/ds-react';
 
-import { FeedbackPayload } from '@/external/flexjar/types';
-import { useOppdaterFlexjarFeedback } from '@/external/flexjar/useOppdaterFlexjarFeedback';
-import { useOpprettFlexjarFeedback } from '@/external/flexjar/useOpprettFlexjarFeedback';
 import { Bold } from '@components/Bold';
+import { useOppdaterFlexjarFeedback } from '@external/flexjar/useOppdaterFlexjarFeedback';
+import { useOpprettFlexjarFeedback } from '@external/flexjar/useOpprettFlexjarFeedback';
+import { FeedbackPayload } from '@typer/flexjar';
 
 interface FlexjarFellesProps {
     feedbackId: string;

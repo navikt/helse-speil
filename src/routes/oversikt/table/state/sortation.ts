@@ -3,9 +3,8 @@ import { AtomEffect, SetRecoilState, atom, selector, useSetRecoilState } from 'r
 import { SortState } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
+import { TabType, tabState } from '@oversikt/tabState';
 import { Maybe } from '@utils/ts';
-
-import { TabType, tabState } from '../../tabState';
 
 export enum SortKey {
     Saksbehandler = 'saksbehandler',

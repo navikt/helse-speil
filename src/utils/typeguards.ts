@@ -1,6 +1,3 @@
-import { TimelinePeriod } from '@/routes/saksbilde/timeline/timeline-types';
-import { OverstyringerPrDag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
-import { InfotrygdPeriod } from '@/types/shared';
 import {
     Arbeidsforholdoverstyring,
     ArbeidsgiverFragment,
@@ -19,6 +16,9 @@ import {
     VilkarsgrunnlagSpleis,
     Vilkarsgrunnlagtype,
 } from '@io/graphql';
+import { InfotrygdPeriod } from '@typer/shared';
+import { TimelinePeriod } from '@typer/timeline';
+import { OverstyringerPrDag } from '@typer/utbetalingstabell';
 
 export const isInfotrygdPeriod = (period?: Maybe<TimelinePeriod>): period is InfotrygdPeriod =>
     (period as InfotrygdPeriod)?.typetekst !== undefined && (period as InfotrygdPeriod)?.typetekst !== null;

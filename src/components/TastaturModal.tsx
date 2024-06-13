@@ -4,8 +4,7 @@ import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { Modal } from '@components/Modal';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
-
-import { useKeyboardActions } from '../routes/saksbilde/useKeyboardShortcuts';
+import { useKeyboardActions } from '@saksbilde/useKeyboardShortcuts';
 
 import styles from './TastaturModal.module.css';
 
@@ -13,6 +12,7 @@ interface TastaturModalProps {
     isOpen: boolean;
     onSetVisTastatursnarveier: (open: boolean) => void;
 }
+
 export const TastaturModal = ({ isOpen, onSetVisTastatursnarveier }: TastaturModalProps) => {
     const tastatursnarveier: Action[] = useKeyboardActions();
 

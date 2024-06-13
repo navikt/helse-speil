@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { DateString } from '@/types/shared';
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
 import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
 import { ArbeidsgiverFragment, PersonFragment, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
+import { DateString } from '@typer/shared';
 import { getFormattedDateString } from '@utils/date';
 
 import { SykepengegrunnlagFraSpleis } from './spleis/SykepengegrunnlagFraSpleis';

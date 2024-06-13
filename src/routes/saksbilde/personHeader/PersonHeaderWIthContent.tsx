@@ -2,10 +2,10 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { DateString } from '@/types/shared';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Clipboard } from '@components/clipboard';
 import { Enhet, Kjonn, Maybe, Personinfo } from '@io/graphql';
+import { DateString } from '@typer/shared';
 
 import { AdressebeskyttelseTag } from './AdressebeskyttelseTag';
 import { DødsdatoTag } from './DødsdatoTag';

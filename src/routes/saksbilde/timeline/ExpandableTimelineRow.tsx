@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
-import { ArbeidsgiverGenerasjon } from '@/types/shared';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
+import { ArbeidsgiverGenerasjon } from '@typer/shared';
 
 import { Periods } from './Periods';
 import type { TimelineRowProps } from './TimelineRow';

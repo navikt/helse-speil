@@ -1,5 +1,4 @@
 import styles from './OverstyrArbeidsforholdUtenSykdom.module.scss';
-import { BegrunnelseForOverstyring } from './overstyring.types';
 import classNames from 'classnames';
 import React, { useContext, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -12,8 +11,9 @@ import { ErrorMessage } from '@components/ErrorMessage';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Maybe, PersonFragment } from '@io/graphql';
+import { VenterPåEndringContext } from '@saksbilde/VenterPåEndringContext';
+import { BegrunnelseForOverstyring } from '@typer/overstyring';
 
-import { VenterPåEndringContext } from '../../VenterPåEndringContext';
 import { Begrunnelser } from '../inntekt/Begrunnelser';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';

@@ -3,11 +3,11 @@ import React, { Fragment } from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { SykepengegrunnlagskjonnsfastsettinghendelseObject } from '@/routes/saksbilde/historikk/types';
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Inntektskilde, Skjonnsfastsettingstype } from '@io/graphql';
+import { SykepengegrunnlagskjonnsfastsettinghendelseObject } from '@typer/historikk';
 import { getFormattedDateString } from '@utils/date';
 import { somPenger } from '@utils/locale';
 import { Maybe } from '@utils/ts';

@@ -1,5 +1,5 @@
-import { DateString } from '@/types/shared';
 import { Utbetaling } from '@io/graphql';
+import { DateString } from '@typer/shared';
 
 export const isGodkjent = (utbetaling: Utbetaling): boolean => {
     return utbetaling.vurdering?.godkjent ?? false;

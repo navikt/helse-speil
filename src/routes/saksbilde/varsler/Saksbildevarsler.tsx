@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 
 import { Accordion, Alert, BodyShort } from '@navikt/ds-react';
 
-import { DateString, PeriodState } from '@/types/shared';
 import { Maybe, Overstyring, VarselDto, Varselstatus } from '@io/graphql';
+import { DateString, PeriodState } from '@typer/shared';
 import {
     isArbeidsforholdoverstyring,
     isDagoverstyring,

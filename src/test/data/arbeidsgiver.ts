@@ -1,15 +1,13 @@
-import { OverridableConstructor } from '@/types/shared';
 import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
-    GhostPeriode,
     GhostPeriodeFragment,
     Overstyring,
     OverstyringFragment,
-    Periode,
 } from '@io/graphql';
 import { enGenerasjon } from '@test-data/generasjon';
 import { enGhostPeriode } from '@test-data/periode';
+import { OverridableConstructor } from '@typer/shared';
 
 type Extensions = {
     medPerioder(perioder: Array<BeregnetPeriodeFragment>): ArbeidsgiverFragment & Extensions;

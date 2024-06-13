@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
 import { useQuery } from '@apollo/client';
-import { OpptegnelserDocument } from '../graphql';
-import { useMottaOpptegnelser, useNyesteOpptegnelseSekvens, useOpptegnelserPollingRate } from '../../state/opptegnelser';
+import { OpptegnelserDocument } from '@io/graphql/index';
+import { useMottaOpptegnelser, useNyesteOpptegnelseSekvens, useOpptegnelserPollingRate } from '@state/opptegnelser';
 
 export const usePollEtterOpptegnelser = () => {
     const mottaOpptegnelser = useMottaOpptegnelser();

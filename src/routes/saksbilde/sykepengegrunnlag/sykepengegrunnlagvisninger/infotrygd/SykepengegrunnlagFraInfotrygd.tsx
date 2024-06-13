@@ -3,8 +3,8 @@ import React from 'react';
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
 import { PersonFragment, VilkarsgrunnlagInfotrygd } from '@io/graphql';
 import { getRequiredInntekt } from '@person/utils';
+import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
 
-import { Inntekt } from '../../inntekt/Inntekt';
 import { SykepengegrunnlagInfotrygd } from './SykepengegrunnlagInfotrygd';
 
 import styles from './SykepengegrunnlagFraInfotrygd.module.css';

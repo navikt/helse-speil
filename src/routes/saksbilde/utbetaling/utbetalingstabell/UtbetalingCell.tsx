@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
+import { CellContent } from '@saksbilde/table/CellContent';
 import { somPenger } from '@utils/locale';
 import { Maybe } from '@utils/ts';
 
-import { CellContent } from '../../table/CellContent';
 import { Cell } from './Cell';
 
-interface UtbetalingCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
+interface UtbetalingCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     erOverstyrt?: boolean;
     utbetaling?: Maybe<number>;
     erNyDag?: boolean;

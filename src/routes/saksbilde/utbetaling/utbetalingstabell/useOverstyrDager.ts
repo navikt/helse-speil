@@ -1,8 +1,6 @@
-import { Lovhjemmel } from '../../sykepengegrunnlag/overstyring/overstyring.types';
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { FetchResult, useMutation } from '@apollo/client';
 import {
     OpprettAbonnementDocument,
@@ -10,7 +8,6 @@ import {
     OverstyrDagerMutationMutation,
     PersonFragment,
 } from '@io/graphql';
-import { OverstyrtDagDTO, OverstyrtDagtype } from '@io/http';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import {
     kalkulererFerdigToastKey,
@@ -20,6 +17,8 @@ import {
 } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 type UsePostOverstyringState = 'loading' | 'hasValue' | 'hasError' | 'initial' | 'timedOut' | 'done';
 

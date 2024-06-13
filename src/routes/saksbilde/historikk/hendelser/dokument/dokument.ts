@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
-import { DokumenthendelseObject } from '@/routes/saksbilde/historikk/types';
 import { Kildetype } from '@io/graphql';
+import { DokumenthendelseObject } from '@typer/historikk';
 
 import { ÅpnedeDokumenter } from './Dokumenthendelse';
 

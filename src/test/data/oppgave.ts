@@ -1,6 +1,5 @@
 import { nanoid } from 'nanoid';
 
-import { OverridableConstructor } from '@/types/shared';
 import {
     AntallArbeidsforhold,
     Egenskap,
@@ -11,6 +10,7 @@ import {
     Oppgavetype,
     Periodetype,
 } from '@io/graphql';
+import { OverridableConstructor } from '@typer/shared';
 
 export const enOppgaveForOversikten: OverridableConstructor<OppgaveTilBehandling> = (overrides) => ({
     __typename: 'OppgaveTilBehandling',

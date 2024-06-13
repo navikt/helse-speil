@@ -1,9 +1,9 @@
-import julegurken from '../../assets/topplinjebilder/julegurken.svg';
-import påskegurken from '../../assets/topplinjebilder/påskegurken.svg';
-import sommergurken from '../../assets/topplinjebilder/sommergurken.svg';
 import dayjs from 'dayjs';
 import React from 'react';
 
+import julegurken from '@assets/topplinjebilder/julegurken.svg';
+import påskegurken from '@assets/topplinjebilder/påskegurken.svg';
+import sommergurken from '@assets/topplinjebilder/sommergurken.svg';
 import { ISO_DATOFORMAT } from '@utils/date';
 
 import styles from './EasterEgg.module.css';

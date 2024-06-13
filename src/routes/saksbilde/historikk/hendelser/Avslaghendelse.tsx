@@ -3,10 +3,10 @@ import React, { ReactElement } from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { AvslaghendelseObject } from '@/routes/saksbilde/historikk/types';
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { Avslagstype, Inntektskilde } from '@io/graphql';
+import { AvslaghendelseObject } from '@typer/historikk';
 
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
 import { Hendelse } from './Hendelse';

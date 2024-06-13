@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { byttTilOboToken, hentWonderwallToken } from '@/auth/token';
 import { getServerEnv } from '@/env';
-import logger from '@/logger';
+import { logger } from '@/logger';
+import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
 
 const postFlexjarQuery = async (
     wonderwallToken: string,

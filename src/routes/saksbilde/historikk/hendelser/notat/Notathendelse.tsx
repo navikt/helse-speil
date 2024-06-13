@@ -6,12 +6,12 @@ import React, { ReactElement, useState } from 'react';
 import { Send, SpeechBubble, StopWatch, Success } from '@navikt/ds-icons';
 import { BodyShort, ErrorMessage } from '@navikt/ds-react';
 
-import { NotathendelseObject } from '@/routes/saksbilde/historikk/types';
-import { NotatType } from '@/types/notat';
 import { useMutation } from '@apollo/client';
 import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
+import { NotathendelseObject } from '@typer/historikk';
+import { NotatType } from '@typer/notat';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { isBeregnetPeriode } from '@utils/typeguards';
 

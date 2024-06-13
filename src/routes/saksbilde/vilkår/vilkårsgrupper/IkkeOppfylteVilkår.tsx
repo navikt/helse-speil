@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Feilikon } from '@components/ikoner/Feilikon';
+import { Vilkårdata } from '@mapping/vilkår';
 
-import { Vilkårdata } from '../../../../mapping/vilkår';
 import { Vilkårsgruppetittel } from '../Vilkårsgruppetittel';
 import { Vilkårskategori } from '../Vilkårskategori';
 

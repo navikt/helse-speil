@@ -3,11 +3,10 @@ import React, { useState } from 'react';
 import { Dropdown, Loader } from '@navikt/ds-react';
 
 import { PersonFragment, Personnavn } from '@io/graphql';
+import { PåVentNotatModal } from '@oversikt/table/cells/notat/PåVentNotatModal';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useFjernPåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
-
-import { PåVentNotatModal } from '../../../oversikt/table/cells/notat/PåVentNotatModal';
 
 interface PåVentButtonProps {
     person: PersonFragment;

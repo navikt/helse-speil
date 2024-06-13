@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Advarselikon } from '@components/ikoner/Advarselikon';
+import { Vilkårdata } from '@mapping/vilkår';
 
-import { Vilkårdata } from '../../../../mapping/vilkår';
 import { Vilkårsgruppetittel } from '../Vilkårsgruppetittel';
 import { Vilkårskategori } from '../Vilkårskategori';
 

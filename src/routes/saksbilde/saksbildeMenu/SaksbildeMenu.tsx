@@ -6,10 +6,10 @@ import { last } from 'remeda';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { ActivePeriod } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { PersonFragment } from '@io/graphql';
+import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { DropdownMenu } from './dropdown/DropdownMenu';

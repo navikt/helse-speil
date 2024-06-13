@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import { atom } from 'recoil';
 
-import { Notat } from '@/types/notat';
 import { useQuery } from '@apollo/client';
 import { FetchNotaterDocument, NotatFragment, NotatType } from '@io/graphql';
 import { ApolloResponse } from '@state/oppgaver';
+import { Notat } from '@typer/notat';
 
 export const useQueryNotater = (vedtaksperiodeIder: string[]): ApolloResponse<Notat[]> => {
     const fetchNotater = useQuery(FetchNotaterDocument, {

@@ -14,11 +14,10 @@ import {
     OppgavesorteringInput,
     Sorteringsnokkel,
 } from '@io/graphql';
+import { TabType, tabEndret, useAktivTab } from '@oversikt/tabState';
+import { Filter, Oppgaveoversiktkolonne, filterEndret, useFilters } from '@oversikt/table/state/filter';
+import { SortKey, sorteringEndret, sortering as sorteringSelector } from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
-
-import { TabType, tabEndret, useAktivTab } from '../routes/oversikt/tabState';
-import { Filter, Oppgaveoversiktkolonne, filterEndret, useFilters } from '../routes/oversikt/table/state/filter';
-import { SortKey, sorteringEndret, sortering as sorteringSelector } from '../routes/oversikt/table/state/sortation';
 
 export interface ApolloResponse<T> {
     data?: T;

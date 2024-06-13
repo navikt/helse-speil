@@ -4,9 +4,9 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { DateString } from '@/types/shared';
 import { Kilde } from '@components/Kilde';
 import { InntektFraAOrdningen, Inntektskilde } from '@io/graphql';
+import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { getMonthName, somPenger } from '@utils/locale';

@@ -1,7 +1,5 @@
-import { BegrunnelseForOverstyring } from '../overstyring/overstyring.types';
 import dayjs from 'dayjs';
 
-import { DateString } from '@/types/shared';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
     ArbeidsgiverFragment,
@@ -20,6 +18,8 @@ import {
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
 import { isForkastet } from '@state/selectors/period';
+import { BegrunnelseForOverstyring } from '@typer/overstyring';
+import { DateString } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 export const harIngenUtbetaltePerioderFor = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {

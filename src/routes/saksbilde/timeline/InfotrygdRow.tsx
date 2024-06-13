@@ -4,8 +4,8 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { InfotrygdPeriod } from '@/types/shared';
 import { Infotrygdikon } from '@components/ikoner/Infotrygdikon';
+import { InfotrygdPeriod } from '@typer/shared';
 
 import { Periods } from './Periods';
 

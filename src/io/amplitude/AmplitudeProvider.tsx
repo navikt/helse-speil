@@ -1,17 +1,17 @@
 import dayjs, { Dayjs } from 'dayjs';
 import React, { PropsWithChildren, ReactElement, useEffect } from 'react';
 
-import { useBrukerGrupper } from '@/auth/brukerContext';
 import { browserEnv, erDev, erProd } from '@/env';
-import { getDefaultFilters } from '@/routes/oversikt/table/state/filter';
-import { ActivePeriod } from '@/types/shared';
 import * as amplitude from '@amplitude/analytics-browser';
+import { useBrukerGrupper } from '@auth/brukerContext';
 import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
 import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
-import { Amplitude } from '@io/amplitude/types';
 import { Egenskap, Kategori, Oppgaveegenskap } from '@io/graphql';
+import { getDefaultFilters } from '@oversikt/table/state/filter';
 import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
+import { Amplitude } from '@typer/amplitude';
+import { ActivePeriod } from '@typer/shared';
 import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode } from '@utils/typeguards';
 

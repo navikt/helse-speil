@@ -3,25 +3,25 @@ import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatc
 
 import { Button, Loader } from '@navikt/ds-react';
 
-import { SkjønnsfastsettingMal } from '@/external/sanity';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { TimeoutModal } from '@components/TimeoutModal';
+import { SkjønnsfastsettingMal } from '@external/sanity';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useCurrentPerson } from '@person/query';
-import { useActivePeriod } from '@state/periode';
-import { Maybe } from '@utils/ts';
-
-import { Feiloppsummering, Skjemafeil } from '../../../inntekt/EditableInntekt/Feiloppsummering';
+import { Feiloppsummering, Skjemafeil } from '@saksbilde/sykepengegrunnlag/inntekt/EditableInntekt/Feiloppsummering';
+import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
+import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingType';
+import { SkjønnsfastsettingÅrsak } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingÅrsak';
+import { SkjønnsfastsettingArbeidsgivere } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/arbeidsgivere/SkjønnsfastsettingArbeidsgivere';
 import {
     ArbeidsgiverForm,
     Skjønnsfastsettingstype,
     usePostSkjønnsfastsattSykepengegrunnlag,
-} from '../../skjønnsfastsetting';
-import { SkjønnsfastsettingBegrunnelse } from '../SkjønnsfastsettingBegrunnelse';
-import { SkjønnsfastsettingType } from '../SkjønnsfastsettingType';
-import { SkjønnsfastsettingÅrsak } from '../SkjønnsfastsettingÅrsak';
-import { SkjønnsfastsettingArbeidsgivere } from '../arbeidsgivere/SkjønnsfastsettingArbeidsgivere';
+} from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { useActivePeriod } from '@state/periode';
+import { Maybe } from '@utils/ts';
+
 import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
 import { useSkjønnsfastsettingDefaults } from './useSkjønnsfastsettingDefaults';
 

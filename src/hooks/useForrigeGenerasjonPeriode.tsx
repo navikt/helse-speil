@@ -1,4 +1,4 @@
-import { ArbeidsgiverFragment, BeregnetPeriodeFragment } from '@/io/graphql';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment } from '@io/graphql';
 import { useCurrentPerson } from '@person/query';
 import { findArbeidsgiverWithPeriode, usePeriodIsInGeneration } from '@state/arbeidsgiver';
 import { isBeregnetPeriode } from '@utils/typeguards';

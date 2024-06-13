@@ -6,8 +6,8 @@ import { ZodError, z } from 'zod';
 import { getToken, requestAzureOboToken, validateAzureToken } from '@navikt/oasis';
 
 import { erLokal } from '@/env';
-import logger from '@/logger';
-import metrics from '@/observability/metrics';
+import { logger } from '@/logger';
+import { metrics } from '@observability/metrics';
 
 type TokenPayload = z.infer<typeof tokenPayloadSchema>;
 const tokenPayloadSchema = z.object({

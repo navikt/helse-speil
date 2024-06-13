@@ -2,18 +2,18 @@
 
 import React, { PropsWithChildren, ReactElement } from 'react';
 
-import { VenterPåEndringProvider } from '@/routes/saksbilde/VenterPåEndringContext';
-import { EmojiTilbakemeldingMedPeriode } from '@/routes/saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
-import { Historikk } from '@/routes/saksbilde/historikk';
-import { InfovarselOmStans } from '@/routes/saksbilde/infovarselOmStans/InfovarselOmStans';
-import { PersonHeader } from '@/routes/saksbilde/personHeader';
-import { Timeline } from '@/routes/saksbilde/timeline';
-import { useKeyboardShortcuts } from '@/routes/saksbilde/useKeyboardShortcuts';
-import { Venstremeny } from '@/routes/saksbilde/venstremeny/Venstremeny';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { AmplitudeProvider } from '@io/amplitude';
-import { usePollEtterOpptegnelser } from '@io/http';
+import { usePollEtterOpptegnelser } from '@io/graphql/polling';
+import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
+import { EmojiTilbakemeldingMedPeriode } from '@saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
+import { Historikk } from '@saksbilde/historikk';
+import { InfovarselOmStans } from '@saksbilde/infovarselOmStans/InfovarselOmStans';
+import { PersonHeader } from '@saksbilde/personHeader';
+import { Timeline } from '@saksbilde/timeline';
+import { useKeyboardShortcuts } from '@saksbilde/useKeyboardShortcuts';
+import { Venstremeny } from '@saksbilde/venstremeny/Venstremeny';
 
 import styles from './layout.module.css';
 

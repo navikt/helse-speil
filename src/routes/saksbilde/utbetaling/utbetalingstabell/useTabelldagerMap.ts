@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
-import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
-import { DateString } from '@/types/shared';
 import { Dag, Dagoverstyring, Dagtype, Maybe, OverstyrtDag, Utbetalingsdagtype } from '@io/graphql';
+import { DateString } from '@typer/shared';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import {
     AAPdag,
