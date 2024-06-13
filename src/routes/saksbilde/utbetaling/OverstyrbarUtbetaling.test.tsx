@@ -1,6 +1,7 @@
 import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { enPerson } from '@test-data/person';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import '@testing-library/jest-dom';

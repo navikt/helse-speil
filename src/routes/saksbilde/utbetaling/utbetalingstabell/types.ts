@@ -1,9 +1,9 @@
-// TODO: Globale types som bør nukes
-type Kilde = import('@io/graphql').Kilde;
-type Begrunnelse = import('@io/graphql').Begrunnelse;
-type Speildag = import('./utbetalingstabelldager').Speildag;
+import { Speildag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
+import { DateString } from '@/types/shared';
+import { Begrunnelse, Kilde } from '@io/graphql';
+import { Maybe } from '@utils/ts';
 
-declare type Utbetalingstabelldagtype =
+export type Utbetalingstabelldagtype =
     | 'Syk'
     | 'Ferie'
     | 'FriskHelg'
@@ -41,7 +41,7 @@ type OverstyringerPrDag = {
     ferdigstilt: boolean;
 };
 
-declare type Utbetalingstabelldag = {
+export type Utbetalingstabelldag = {
     dato: DateString;
     kilde: Kilde;
     dag: Speildag;

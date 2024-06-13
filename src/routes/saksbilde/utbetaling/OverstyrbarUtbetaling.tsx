@@ -5,6 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { DateString } from '@/types/shared';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { useMap } from '@hooks/useMap';

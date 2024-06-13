@@ -2,6 +2,7 @@ import { render, screen } from '@test-utils';
 import React, { PropsWithChildren } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 

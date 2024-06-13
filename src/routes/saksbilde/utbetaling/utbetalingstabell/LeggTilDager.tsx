@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 
 import { Button, DatePicker, TextField } from '@navikt/ds-react';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { DateString } from '@/types/shared';
 import { Kildetype } from '@io/graphql';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
@@ -12,7 +13,7 @@ import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { DagtypeSelect } from './DagtypeSelect';
 import { OverstyrbarDagtype, getDagFromType } from './EndringForm/endringFormUtils';
 import { kanVelgeGrad } from './EndringForm/kanVelgeGrad';
-import { Sykedag } from './utbetalingstabelldager';
+import { Speildag, Sykedag } from './utbetalingstabelldager';
 
 import styles from './LeggTilDager.module.css';
 

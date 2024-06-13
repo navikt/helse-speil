@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { DateString } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
