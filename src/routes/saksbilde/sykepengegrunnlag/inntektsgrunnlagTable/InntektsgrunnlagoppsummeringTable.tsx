@@ -4,8 +4,8 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
+import { Maybe } from '@io/graphql';
 import { somPenger } from '@utils/locale';
-import { Maybe } from '@utils/ts';
 
 import { TableCell } from './TableCell';
 

@@ -5,7 +5,7 @@ import { Button } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { AmplitudeContext } from '@io/amplitude';
-import { BeregnetPeriodeFragment, PersonFragment, SendIReturDocument } from '@io/graphql';
+import { BeregnetPeriodeFragment, Maybe, PersonFragment, SendIReturDocument } from '@io/graphql';
 import { Returnotat } from '@saksbilde/notat/Returnotat';
 import { useAddToast } from '@state/toasts';
 
@@ -35,7 +35,7 @@ export const ReturButton = ({
     disabled = false,
     onSuccess,
     ...buttonProps
-}: ReturButtonProps): ReactElement | null => {
+}: ReturButtonProps): Maybe<ReactElement> => {
     const [showNotat, setShowNotat] = useState(false);
     const [error, setError] = useState<string | undefined>();
 

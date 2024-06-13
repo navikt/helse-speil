@@ -19,7 +19,7 @@ export const tabEndret = atom<boolean>({
     key: 'tabEndret',
     default: false,
 });
-export const useAktivTab = () => useRecoilValue(tabState);
+export const useAktivTab = (): TabType => useRecoilValue(tabState);
 
 export const useSwitchTab = (): [aktivTab: TabType, setAktivTab: (tab: TabType) => void] => {
     const [aktivTab, setAktivTab] = useRecoilState(tabState);

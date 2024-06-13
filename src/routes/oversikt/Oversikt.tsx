@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
@@ -34,7 +34,7 @@ const Tabs = dynamic(() => import('./Tabs').then((mod) => mod.Tabs), {
     loading: () => <TabsSkeleton />,
 });
 
-export const Oversikt = () => {
+export const Oversikt = (): ReactElement => {
     const oppgaveFeed = useOppgaveFeed();
     const aktivTab = useAktivTab();
     const { allFilters } = useFilters();

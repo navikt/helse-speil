@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
@@ -16,7 +16,7 @@ import { SøkerCell } from './cells/SøkerCell';
 
 import styles from './table.module.css';
 
-export const BehandletIdagTable = () => {
+export const BehandletIdagTable = (): ReactElement => {
     const behandledeOppgaverFeed = useBehandledeOppgaverFeed();
 
     if (behandledeOppgaverFeed.oppgaver !== undefined && behandledeOppgaverFeed.oppgaver.length === 0) {

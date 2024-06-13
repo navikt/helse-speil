@@ -1,10 +1,11 @@
 import React, { ReactElement } from 'react';
 
+import { Maybe } from '@io/graphql';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 
 import { TagMedTooltip } from './TagMedTooltip';
 
-export const VergemålTag = (): ReactElement | null => {
+export const VergemålTag = (): Maybe<ReactElement> => {
     const periodeTilGodkjenning = usePeriodeTilGodkjenning();
     if (!periodeTilGodkjenning) return null;
 

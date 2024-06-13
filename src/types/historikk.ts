@@ -1,6 +1,7 @@
 import {
     Avslagstype,
     Kommentar,
+    Maybe,
     NotatType,
     OverstyrtDag,
     OverstyrtInntekt,
@@ -8,7 +9,6 @@ import {
     SkjonnsfastsattSykepengegrunnlag,
     Utbetalingtype,
 } from '@io/graphql';
-import { Maybe } from '@utils/ts';
 
 import { DateString } from './shared';
 

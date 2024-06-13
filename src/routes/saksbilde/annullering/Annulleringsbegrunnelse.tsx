@@ -1,10 +1,10 @@
 import styles from './Annulleringsmodal.module.scss';
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { Alert, Fieldset, Checkbox as NavCheckbox, Textarea } from '@navikt/ds-react';
 
-export const Annulleringsbegrunnelse = () => {
+export const Annulleringsbegrunnelse = (): ReactElement => {
     const { register, formState, clearErrors, watch } = useFormContext();
     const begrunnelserWatch = watch(`begrunnelser`);
     const begrunnelser = {

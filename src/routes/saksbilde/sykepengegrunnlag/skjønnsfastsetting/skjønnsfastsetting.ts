@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useMutation } from '@apollo/client';
 import {
+    Maybe,
     OpprettAbonnementDocument,
     SkjonnsfastsettelseArbeidsgiverInput,
     SkjonnsfastsettelseInput,
@@ -52,7 +53,7 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
     });
 
     useEffect(() => {
-        const timeout: NodeJS.Timeout | number | null = calculating
+        const timeout: Maybe<NodeJS.Timeout | number> = calculating
             ? setTimeout(() => {
                   setTimedOut(true);
               }, 15000)

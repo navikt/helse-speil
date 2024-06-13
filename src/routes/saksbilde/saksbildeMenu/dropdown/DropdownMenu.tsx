@@ -7,7 +7,7 @@ import { Dropdown } from '@navikt/ds-react';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { PersonFragment } from '@io/graphql';
+import { Maybe, PersonFragment } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { ActivePeriod } from '@typer/shared';
@@ -44,7 +44,7 @@ type DropdownMenuProps = {
     activePeriod: ActivePeriod;
 };
 
-const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps): ReactElement | null => {
+const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps): Maybe<ReactElement> => {
     const user = useInnloggetSaksbehandler();
     const readOnly = useIsReadOnlyOppgave();
     const arbeidsgiver = useCurrentArbeidsgiver();

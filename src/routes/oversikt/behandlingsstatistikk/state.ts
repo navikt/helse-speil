@@ -24,4 +24,4 @@ export const useToggleStatistikk = () => {
     return () => setShow((show) => !show);
 };
 
-export const useShowStatistikk = () => useRecoilValue(showStatistikk);
+export const useShowStatistikk = (): boolean => useRecoilValue(showStatistikk);

@@ -18,7 +18,7 @@ interface OppgaveTabProps {
     numberOfTasks?: number;
 }
 
-const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps) => {
+const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps): ReactElement => {
     const [aktivTab, setAktivTab] = useSwitchTab();
 
     return (
@@ -34,21 +34,21 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps) => {
     );
 };
 
-const AlleSakerTab = () => <OppgaveTab tag={TabType.TilGodkjenning} label="Til godkjenning" />;
+const AlleSakerTab = (): ReactElement => <OppgaveTab tag={TabType.TilGodkjenning} label="Til godkjenning" />;
 
-const MineSakerTab = () => {
+const MineSakerTab = (): ReactElement => {
     const { antallMineSaker } = useAntallOppgaver();
     return <OppgaveTab tag={TabType.Mine} label="Mine saker" numberOfTasks={antallMineSaker} />;
 };
 
-const VentendeSakerTab = () => {
+const VentendeSakerTab = (): ReactElement => {
     const { antallPåVent } = useAntallOppgaver();
     return <OppgaveTab tag={TabType.Ventende} label="På vent" numberOfTasks={antallPåVent} />;
 };
 
-const BehandletIdagTab = () => <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet i dag" />;
+const BehandletIdagTab = (): ReactElement => <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet i dag" />;
 
-const FilterButton = () => {
+const FilterButton = (): ReactElement => {
     const toggleFiltermeny = useToggleFiltermeny();
     const showFiltermeny = useShowFiltermeny();
     const filtermenyBredde = useRecoilValue(filtermenyWidth);
@@ -78,7 +78,7 @@ const FilterButton = () => {
     );
 };
 
-const StatistikkButton = () => {
+const StatistikkButton = (): ReactElement => {
     const toggleStatistikk = useToggleStatistikk();
     const showStatistikk = useShowStatistikk();
 
@@ -100,7 +100,7 @@ const StatistikkButton = () => {
     );
 };
 
-export const Tabs = () => {
+export const Tabs = (): ReactElement => {
     return (
         <div className={styles.tabs}>
             <FilterButton />

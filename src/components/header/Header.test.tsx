@@ -2,7 +2,7 @@ import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
 import { MockedProvider } from '@apollo/client/testing';
-import { FetchPersonDocument } from '@io/graphql';
+import { FetchPersonDocument, Maybe } from '@io/graphql';
 import { useKeyboardActions } from '@saksbilde/useKeyboardShortcuts';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -14,7 +14,7 @@ import { Header } from './Header';
 jest.mock('@state/person');
 jest.mock('@saksbilde/useKeyboardShortcuts');
 
-let cachedVarsel: SpeilError | null = null;
+let cachedVarsel: Maybe<SpeilError> = null;
 
 jest.mock('@state/varsler', () => ({
     __esModule: true,

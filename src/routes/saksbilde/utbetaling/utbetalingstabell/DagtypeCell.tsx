@@ -3,6 +3,7 @@ import React, { ReactElement, ReactNode } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
+import { Maybe } from '@io/graphql';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { IconAndreYtelser } from '@saksbilde/table/icons/IconAndreYtelser';
 import { IconArbeidsdag } from '@saksbilde/table/icons/IconArbeidsdag';
@@ -17,7 +18,7 @@ import { erHelg } from './helgUtils';
 
 import styles from './DagtypeCell.module.css';
 
-const getTypeIcon = (tabelldag?: Utbetalingstabelldag): ReactNode | null => {
+const getTypeIcon = (tabelldag?: Utbetalingstabelldag): Maybe<ReactNode> => {
     if (!tabelldag) return null;
 
     if (tabelldag.erAvvist || tabelldag.erForeldet) {
@@ -51,10 +52,10 @@ const getTypeIcon = (tabelldag?: Utbetalingstabelldag): ReactNode | null => {
     }
 };
 
-const erTypeSomIkkeSkalDekoreres = (tabelldag: Utbetalingstabelldag) =>
+const erTypeSomIkkeSkalDekoreres = (tabelldag: Utbetalingstabelldag): boolean =>
     tabelldag.erAGP && ['SykNav', 'Egenmelding'].includes(tabelldag.dag.speilDagtype);
 
-const dekorerTekst = (tabelldag?: Utbetalingstabelldag): string | null => {
+const dekorerTekst = (tabelldag?: Utbetalingstabelldag): Maybe<string> => {
     if (!tabelldag) {
         return null;
     }
@@ -81,7 +82,7 @@ const dekorerTekst = (tabelldag?: Utbetalingstabelldag): string | null => {
     }
 };
 
-const dekorerTekstOverstyrtDag = (tabelldag?: Utbetalingstabelldag): string | null => {
+const dekorerTekstOverstyrtDag = (tabelldag?: Utbetalingstabelldag): Maybe<string> => {
     if (!tabelldag) {
         return null;
     }

@@ -7,13 +7,14 @@ import { BodyShort, Button, Textarea } from '@navikt/ds-react';
 import { Bold } from '@components/Bold';
 import { useOppdaterFlexjarFeedback } from '@external/flexjar/useOppdaterFlexjarFeedback';
 import { useOpprettFlexjarFeedback } from '@external/flexjar/useOpprettFlexjarFeedback';
+import { Maybe } from '@io/graphql';
 import { FeedbackPayload } from '@typer/flexjar';
 
 interface FlexjarFellesProps {
     feedbackId: string;
     children: React.ReactNode;
-    activeState: string | number | null;
-    setActiveState: (s: string | number | null) => void;
+    activeState: Maybe<number | string>;
+    setActiveState: (s: Maybe<number | string>) => void;
     thanksFeedback: boolean;
     setThanksFeedback: (b: boolean) => void;
     getPlaceholder: () => string;
@@ -37,7 +38,7 @@ export function FlexjarFelles({
     feedbackProps,
 }: FlexjarFellesProps) {
     const [textValue, setTextValue] = useState('');
-    const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [errorMsg, setErrorMsg] = useState<Maybe<string>>(null);
     const textAreaRef = useRef(null);
     const { mutate: giFeedback, data, error: opprettError, reset } = useOpprettFlexjarFeedback();
     const { mutate: oppdaterFeedback, error: oppdaterError } = useOppdaterFlexjarFeedback();
@@ -180,9 +181,9 @@ export function FlexjarFelles({
 interface FeedbackButtonProps {
     tekst: string;
     svar: string;
-    activeState: string | number | null;
+    activeState: Maybe<number | string>;
     setThanksFeedback: (b: boolean) => void;
-    setActiveState: (s: string | null | number) => void;
+    setActiveState: (s: Maybe<number | string>) => void;
 }
 
 export function FeedbackButton(props: FeedbackButtonProps) {

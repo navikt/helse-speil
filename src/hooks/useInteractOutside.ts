@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { Maybe } from '@io/graphql';
+
 interface UseFocusOutsideOptions {
     ref: React.RefObject<HTMLElement>;
     onInteractOutside: () => void;
@@ -8,7 +10,7 @@ interface UseFocusOutsideOptions {
 
 export const useInteractOutside = ({ ref, onInteractOutside, active = true }: UseFocusOutsideOptions) => {
     const [focused, setFocused] = useState(false);
-    const [modalRef, setModalRef] = useState<HTMLElement | null>(null);
+    const [modalRef, setModalRef] = useState<Maybe<HTMLElement>>(null);
 
     useEffect(() => {
         const onInteract = (event: FocusEvent | MouseEvent) => {

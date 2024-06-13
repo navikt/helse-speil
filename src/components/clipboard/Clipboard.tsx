@@ -5,6 +5,8 @@ import React, { PropsWithChildren, ReactElement, useEffect, useRef, useState } f
 import { Copy } from '@navikt/ds-icons';
 import { BodyShort, Tooltip, TooltipProps } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
+
 import { copyContentsToClipboard } from './util';
 
 interface TooltipWrapperProps {
@@ -42,7 +44,7 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
     };
 
     useEffect(() => {
-        let timeout: NodeJS.Timeout | null | number = null;
+        let timeout: Maybe<NodeJS.Timeout | number> = null;
         if (didCopy) {
             timeout = setTimeout(() => setDidCopy(false), 3000);
         }

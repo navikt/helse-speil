@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { ReactElement, useEffect, useRef } from 'react';
 import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { Button, Loader } from '@navikt/ds-react';
@@ -7,7 +7,7 @@ import { ErrorMessage } from '@components/ErrorMessage';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { Arbeidsgiverinntekt, Maybe, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { Feiloppsummering, Skjemafeil } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/Feiloppsummering';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingType';
@@ -20,7 +20,6 @@ import {
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { Maybe } from '@utils/ts';
 
 import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
 import { useSkjønnsfastsettingDefaults } from './useSkjønnsfastsettingDefaults';
@@ -52,7 +51,7 @@ export const SkjønnsfastsettingForm = ({
     onEndretSykepengegrunnlag,
     setEditing,
     maler,
-}: SkjønnsfastsettingFormProps) => {
+}: SkjønnsfastsettingFormProps): Maybe<ReactElement> => {
     const period = useActivePeriod();
     const person = useCurrentPerson();
     const { aktiveArbeidsgivere, aktiveArbeidsgivereInntekter, defaults } = useSkjønnsfastsettingDefaults(inntekter);

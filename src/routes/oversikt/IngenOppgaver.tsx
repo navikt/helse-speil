@@ -7,12 +7,13 @@ import { Heading } from '@navikt/ds-react';
 import agurk from '@assets/ingen-oppgaver-agurk.png';
 import fredagstaco from '@assets/ingen-oppgaver-fredagstaco.png';
 import brevkasse from '@assets/ingen-oppgaver.png';
+import { Maybe } from '@io/graphql';
 
 import { TabType, useAktivTab } from './tabState';
 
 import styles from './IngenOppgaver.module.css';
 
-const erFredag = () => dayjs().isoWeekday() === 5;
+const erFredag = (): boolean => dayjs().isoWeekday() === 5;
 
 const Caption = ({ children }: PropsWithChildren): ReactElement => {
     return (
@@ -22,7 +23,7 @@ const Caption = ({ children }: PropsWithChildren): ReactElement => {
     );
 };
 
-export const IngenOppgaver = (): ReactElement | null => {
+export const IngenOppgaver = (): Maybe<ReactElement> => {
     const aktivTab = useAktivTab();
 
     switch (aktivTab) {

@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react';
 
-import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, Utbetalingstatus } from '@io/graphql';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Maybe, PersonFragment, Utbetalingstatus } from '@io/graphql';
 import { Annulleringsmodal } from '@saksbilde/annullering/Annulleringsmodal';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonUtils';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -53,7 +53,7 @@ interface AnnullerButtonProps {
     arbeidsgiver: ArbeidsgiverFragment;
 }
 
-export const AnnullerButton = ({ person, periode, arbeidsgiver }: AnnullerButtonProps): ReactElement | null => {
+export const AnnullerButton = ({ person, periode, arbeidsgiver }: AnnullerButtonProps): Maybe<ReactElement> => {
     const harMinstEnUtbetaltPeriode =
         arbeidsgiver.generasjoner
             .flatMap((it) => it.perioder)

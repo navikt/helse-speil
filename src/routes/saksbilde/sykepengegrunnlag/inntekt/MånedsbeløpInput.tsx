@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import { Maybe } from '@utils/ts';
+import { Maybe } from '@io/graphql';
 
 import styles from './ManedsbeløpInput.module.css';
 

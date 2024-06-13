@@ -149,7 +149,7 @@ export const useTabelldagerMap = ({
     antallAGPDagerBruktFørPerioden,
 }: UseTabelldagerMapOptions): Map<string, Utbetalingstabelldag> =>
     useMemo(() => {
-        const antallDagerIgjen: number | null =
+        const antallDagerIgjen: Maybe<number> =
             typeof gjenståendeDager === 'number'
                 ? gjenståendeDager + antallSykedagerTilOgMedMaksdato(tidslinje, maksdato)
                 : null;

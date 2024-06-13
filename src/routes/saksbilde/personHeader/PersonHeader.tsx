@@ -5,7 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { Kjonn } from '@io/graphql';
+import { Kjonn, Maybe } from '@io/graphql';
 import { useIsAnonymous } from '@state/anonymization';
 import { useFetchPersonQuery } from '@state/person';
 
@@ -14,7 +14,7 @@ import { PersonHeaderWithContent } from './PersonHeaderWIthContent';
 
 import styles from './PersonHeader.module.css';
 
-const PersonHeaderContainer = (): ReactElement | null => {
+const PersonHeaderContainer = (): Maybe<ReactElement> => {
     const isAnonymous = useIsAnonymous();
     const { loading, data } = useFetchPersonQuery();
 

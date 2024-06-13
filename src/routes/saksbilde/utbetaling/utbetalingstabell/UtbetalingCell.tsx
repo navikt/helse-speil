@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
+import { Maybe } from '@io/graphql';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { somPenger } from '@utils/locale';
-import { Maybe } from '@utils/ts';
 
 import { Cell } from './Cell';
 

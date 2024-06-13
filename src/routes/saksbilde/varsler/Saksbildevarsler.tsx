@@ -23,13 +23,13 @@ export type VarselObject = {
     melding: string;
 };
 
-const sendtTilBeslutter = (erBeslutteroppgaveOgErTidligereSaksbehandler: boolean): VarselObject | null => {
+const sendtTilBeslutter = (erBeslutteroppgaveOgErTidligereSaksbehandler: boolean): Maybe<VarselObject> => {
     if (erBeslutteroppgaveOgErTidligereSaksbehandler) {
         return { grad: 'info', melding: 'Saken er sendt til beslutter' };
     }
     return null;
 };
-const tilstandfeil = (state: PeriodState): VarselObject | null => {
+const tilstandfeil = (state: PeriodState): Maybe<VarselObject> => {
     switch (state) {
         case 'annulleringFeilet':
             return { grad: 'error', melding: 'Annulleringen feilet. Kontakt utviklerteamet.' };
@@ -40,7 +40,7 @@ const tilstandfeil = (state: PeriodState): VarselObject | null => {
     }
 };
 
-const vedtaksperiodeVenter = (state: PeriodState): VarselObject | null =>
+const vedtaksperiodeVenter = (state: PeriodState): Maybe<VarselObject> =>
     state === 'venter'
         ? { grad: 'info', melding: 'Ikke klar til behandling - avventer system' }
         : state === 'venterPåKiling'
@@ -51,7 +51,7 @@ const vedtaksperiodeVenter = (state: PeriodState): VarselObject | null =>
             }
           : null;
 
-const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: string | null): VarselObject | null =>
+const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: Maybe<string>): Maybe<VarselObject> =>
     state === 'tilGodkjenning' && (typeof oppgavereferanse !== 'string' || oppgavereferanse.length === 0)
         ? {
               grad: 'error',
@@ -60,7 +60,7 @@ const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: string
           }
         : null;
 
-const ukjentTilstand = (state: PeriodState): VarselObject | null =>
+const ukjentTilstand = (state: PeriodState): Maybe<VarselObject> =>
     state === 'ukjent' ? { grad: 'error', melding: 'Kunne ikke lese informasjon om sakens tilstand.' } : null;
 
 const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: DateString): boolean => {

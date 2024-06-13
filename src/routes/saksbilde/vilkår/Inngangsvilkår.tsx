@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
@@ -74,7 +74,7 @@ export const InngangsvilkårWithContent = ({
     );
 };
 
-const InngangsvilkårContainer = () => {
+const InngangsvilkårContainer = (): Maybe<ReactElement> => {
     const activePeriod = useActivePeriod();
     const person = useCurrentPerson();
 
@@ -95,7 +95,7 @@ const InngangsvilkårContainer = () => {
     }
 };
 
-const InngangsvilkårError = () => {
+const InngangsvilkårError = (): ReactElement => {
     return (
         <Alert variant="error" size="small">
             Noe gikk galt. Kan ikke vise inngangsvilkår for denne perioden.
@@ -103,7 +103,7 @@ const InngangsvilkårError = () => {
     );
 };
 
-export const Inngangsvilkår = () => {
+export const Inngangsvilkår = (): ReactElement => {
     return (
         <ErrorBoundary fallback={<InngangsvilkårError />}>
             <InngangsvilkårContainer />

@@ -8,6 +8,7 @@ import {
     Kategori,
     LeggPaVentDocument,
     LeggPaVentMutation,
+    Maybe,
     NotatType,
     OppgaveFeedDocument,
     Oppgaveegenskap,
@@ -16,7 +17,6 @@ import {
 } from '@io/graphql';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { Maybe } from '@utils/ts';
 
 const useOptimistiskPaVent = (): PaventFragment => {
     const saksbehandler = useInnloggetSaksbehandler();
@@ -100,8 +100,8 @@ export const useFjernPåVent = (): [
 const oppdaterPåVentICache = (
     cache: ApolloCache<unknown>,
     oppgavereferanse: string,
-    behandlingId: string | null,
-    påVent: (påVent: PaVent) => PaVent | null,
+    behandlingId: Maybe<string>,
+    påVent: (påVent: PaVent) => Maybe<PaVent>,
 ) => {
     cache.modify({
         id: cache.identify({ __typename: 'OppgaveTilBehandling', id: oppgavereferanse }),

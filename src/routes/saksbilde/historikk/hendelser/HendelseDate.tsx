@@ -3,9 +3,9 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
 import { DateString } from '@typer/shared';
 import { getFormattedDatetimeString } from '@utils/date';
-import { Maybe } from '@utils/ts';
 
 type HendelseDateProps = {
     timestamp?: DateString;

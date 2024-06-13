@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import {
     ArbeidsforholdOverstyringHandlingInput,
+    Maybe,
     OpprettAbonnementDocument,
     OverstyrArbeidsforholdMutationDocument,
     OverstyringArbeidsforholdInput,
@@ -73,7 +74,7 @@ export const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert?: () => void) =
     });
 
     useEffect(() => {
-        const timeout: NodeJS.Timeout | number | null = calculating
+        const timeout: Maybe<NodeJS.Timeout | number> = calculating
             ? setTimeout(() => {
                   setTimedOut(true);
               }, 15000)

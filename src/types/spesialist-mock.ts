@@ -1,4 +1,4 @@
-import { Maybe } from '@utils/ts';
+import { Maybe } from '@io/graphql';
 
 export type Extension = {
     code: number;

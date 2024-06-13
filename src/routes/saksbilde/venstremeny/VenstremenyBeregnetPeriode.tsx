@@ -10,6 +10,7 @@ import {
     BeregnetPeriodeFragment,
     Dag,
     Handling,
+    Maybe,
     Periode,
     Periodehandling,
     Periodetilstand,
@@ -20,7 +21,6 @@ import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { PeriodState } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
-import { Maybe } from '@utils/ts';
 
 import { VarselObject } from '../varsler/Saksbildevarsler';
 import { PeriodeCard } from './PeriodeCard';
@@ -112,14 +112,14 @@ const Feilmelding = ({ handling }: FeilmeldingProps): ReactElement => {
 const getNumberOfDaysWithType = (timeline: Array<Dag>, type: Utbetalingsdagtype): number =>
     timeline.filter((it) => it.utbetalingsdagtype === type).length;
 
-const utbetaling = (state: PeriodState): VarselObject | null =>
+const utbetaling = (state: PeriodState): Maybe<VarselObject> =>
     ['tilUtbetaling', 'utbetalt', 'revurdert'].includes(state)
         ? { grad: 'info', melding: 'Utbetalingen er sendt til oppdragsystemet.' }
         : ['tilUtbetalingAutomatisk', 'utbetaltAutomatisk'].includes(state)
           ? { grad: 'info', melding: 'Perioden er automatisk godkjent' }
           : null;
 
-const tilstandinfo = (state: PeriodState): VarselObject | null => {
+const tilstandinfo = (state: PeriodState): Maybe<VarselObject> => {
     switch (state) {
         case 'kunFerie':
         case 'kunPermisjon':

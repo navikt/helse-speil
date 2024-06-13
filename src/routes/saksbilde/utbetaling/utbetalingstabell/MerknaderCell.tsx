@@ -3,10 +3,9 @@ import React, { ReactElement } from 'react';
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import { Begrunnelse } from '@io/graphql';
+import { Begrunnelse, Maybe } from '@io/graphql';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { Maybe } from '@utils/ts';
 
 import styles from './MerknaderCell.module.css';
 
@@ -15,7 +14,7 @@ interface MerknadProps {
     alderVedSkjæringstidspunkt?: Maybe<number>;
 }
 
-const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): ReactElement | null => {
+const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): Maybe<ReactElement> => {
     switch (begrunnelse) {
         case 'ETTER_DODSDATO':
             return <BodyShort>Personen er død</BodyShort>;
@@ -119,7 +118,7 @@ const foreldetDagMerknad = (isForeldet: boolean): React.ReactNode | undefined =>
     ) : undefined;
 
 const avvisningsårsakerMerknad = (
-    begrunnelser: Begrunnelse[] | null,
+    begrunnelser: Maybe<Begrunnelse[]>,
     alderVedSkjæringstidspunkt?: Maybe<number>,
 ): ReactElement[] | undefined =>
     begrunnelser?.map((begrunnelse, i) => (

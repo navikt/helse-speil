@@ -2,12 +2,12 @@ import React from 'react';
 
 import { Dropdown, Loader } from '@navikt/ds-react';
 
-import { Tildeling } from '@io/graphql';
+import { Maybe, Tildeling } from '@io/graphql';
 import { useFjernTildeling, useOpprettTildeling } from '@state/tildeling';
 
 interface TildelingDropdownMenuButtonProps {
     oppgavereferanse: string;
-    tildeling?: Tildeling | null;
+    tildeling?: Maybe<Tildeling>;
     erTildeltInnloggetBruker: boolean;
 }
 

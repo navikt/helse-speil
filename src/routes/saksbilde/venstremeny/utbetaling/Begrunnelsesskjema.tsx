@@ -3,8 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Checkbox, Fieldset, Textarea } from '@navikt/ds-react';
 
-import { BeregnetPeriodeFragment, Faresignal } from '@io/graphql';
-import { Maybe } from '@utils/ts';
+import { BeregnetPeriodeFragment, Faresignal, Maybe } from '@io/graphql';
 
 import { Begrunnelse } from './begrunnelse';
 

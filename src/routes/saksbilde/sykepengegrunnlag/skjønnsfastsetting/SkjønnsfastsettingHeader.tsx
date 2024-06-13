@@ -8,11 +8,10 @@ import { EditButton } from '@components/EditButton';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import { BeregnetPeriodeFragment, Kildetype, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { BeregnetPeriodeFragment, Kildetype, Maybe, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { somPenger, toKronerOgØre } from '@utils/locale';
-import { Maybe } from '@utils/ts';
 
 import styles from './SkjønnsfastsettingHeader.module.css';
 

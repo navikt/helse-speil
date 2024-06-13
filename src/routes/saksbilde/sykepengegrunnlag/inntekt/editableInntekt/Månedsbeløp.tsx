@@ -3,8 +3,8 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
 import { toKronerOgØre } from '@utils/locale';
-import { Maybe } from '@utils/ts';
 
 import { MånedsbeløpInput } from '../MånedsbeløpInput';
 

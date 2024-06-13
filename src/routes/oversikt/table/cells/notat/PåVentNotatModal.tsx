@@ -9,14 +9,13 @@ import { ApolloError } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { NotatType, Personnavn, Tildeling } from '@io/graphql';
+import { Maybe, NotatType, Personnavn, Tildeling } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 import { useLeggPåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { getFormatertNavn } from '@utils/string';
-import { Maybe } from '@utils/ts';
 
 import { Frist } from './Frist';
 import { SisteNotat } from './SisteNotat';

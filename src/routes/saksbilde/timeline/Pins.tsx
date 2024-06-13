@@ -3,9 +3,8 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Popover } from '@navikt/ds-react';
 
-import { ArbeidsgiverFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, Maybe } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
-import { Maybe } from '@utils/ts';
 
 import { useMaksdato } from './hooks/useMaksdato';
 import { getPosition } from './hooks/usePeriodStyling';

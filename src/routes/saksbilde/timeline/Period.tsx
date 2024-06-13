@@ -2,11 +2,11 @@ import classNames from 'classnames';
 import React, { ReactElement, ReactNode, useRef } from 'react';
 
 import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
+import { Maybe } from '@io/graphql';
 import { useSetActivePeriodId } from '@state/periode';
 import { PeriodState } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
 import { getPeriodState } from '@utils/mapping';
-import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
 import { InfoPin } from './InfoPin';

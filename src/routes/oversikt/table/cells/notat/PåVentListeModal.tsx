@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Detail, Heading } from '@navikt/ds-react';
 
@@ -20,7 +20,13 @@ interface PåVentListeModalProps {
     erPåVent?: boolean;
 }
 
-export const PåVentListeModal = ({ notater, vedtaksperiodeId, navn, onClose, erPåVent }: PåVentListeModalProps) => {
+export const PåVentListeModal = ({
+    notater,
+    vedtaksperiodeId,
+    navn,
+    onClose,
+    erPåVent,
+}: PåVentListeModalProps): ReactElement => {
     const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const søkernavn = getFormatertNavn(navn);

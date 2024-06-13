@@ -2,9 +2,9 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
 import { SlettLokaleEndringerModal } from '@saksbilde/varsler/KalkulerEndringerVarsel';
 import { DateString } from '@typer/shared';
-import { Maybe } from '@utils/ts';
 
 import styles from './EditableInntekt.module.css';
 

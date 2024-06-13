@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { EllipsisH } from '@navikt/ds-icons';
 import { Button, Dropdown, Table } from '@navikt/ds-react';
@@ -23,7 +23,7 @@ interface OptionsButtonProps {
     navn: Personnavn;
 }
 
-export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps) => {
+export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const readOnly = useIsReadOnlyOppgave();
     const erTildeltInnloggetBruker = erLike(oppgave.tildeling?.oid, innloggetSaksbehandler.oid);

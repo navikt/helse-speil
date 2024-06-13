@@ -1,5 +1,7 @@
 import { randomUUID } from 'crypto';
 
+import { Maybe } from '@io/graphql';
+
 import { antallTilfeldigeBehandledeOppgaver, antallTilfeldigeOppgaver } from '../constants';
 import {
     AntallArbeidsforhold,
@@ -156,7 +158,7 @@ const tilfeldigEtternavn = () => {
     return tilfeldigNavn(etternavnListe);
 };
 
-const tilfeldigNavn = (navneliste: (string | null)[]) => {
+const tilfeldigNavn = (navneliste: Maybe<string>[]) => {
     return navneliste[Math.floor(Math.random() * navneliste.length)];
 };
 

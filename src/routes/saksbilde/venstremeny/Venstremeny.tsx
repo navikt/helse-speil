@@ -4,6 +4,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { Maybe } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
@@ -17,7 +18,7 @@ import { VenstremenyUberegnetPeriode } from './VenstremenyUberegnetPeriode';
 
 import styles from './Venstremeny.module.css';
 
-const VenstremenyContainer = (): ReactElement | null => {
+const VenstremenyContainer = (): Maybe<ReactElement> => {
     const activePeriod = useActivePeriod();
     const currentPerson = useCurrentPerson();
     const currentArbeidsgiver = useCurrentArbeidsgiver();

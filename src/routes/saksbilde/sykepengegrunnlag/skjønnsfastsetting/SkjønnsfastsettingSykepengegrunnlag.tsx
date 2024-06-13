@@ -2,11 +2,10 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
-import { Arbeidsgiverinntekt, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { Arbeidsgiverinntekt, Maybe, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import { SkjønnsfastsettingForm } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { useSkjønnsfastsettingDefaults } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/useSkjønnsfastsettingDefaults';
-import { Maybe } from '@utils/ts';
 
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
 import { SkjønnsfastsettingSammendrag } from './SkjønnsfastsettingSammendrag';

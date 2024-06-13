@@ -4,14 +4,16 @@ import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
+
 export interface EmojiButtonProps {
     feedback: number;
     children: ReactNode;
     text: string;
     className: string;
-    activeState: number | string | null;
+    activeState: Maybe<number | string>;
     setThanksFeedback: (b: boolean) => void;
-    setActiveState: (s: number | string | null) => void;
+    setActiveState: (s: Maybe<number | string>) => void;
 }
 
 export const EmojiButton = (props: EmojiButtonProps) => {

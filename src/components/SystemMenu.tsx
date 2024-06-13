@@ -4,11 +4,12 @@ import React, { ReactElement } from 'react';
 import { ExternalLink, System } from '@navikt/ds-icons';
 import { Dropdown, InternalHeader as Header } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
 import { useFetchPersonQuery } from '@state/person';
 
 import styles from './SystemMenu.module.css';
 
-export const redirigerTilArbeidOgInntektUrl = async (url: string, fødselsnummer: string | null) => {
+export const redirigerTilArbeidOgInntektUrl = async (url: string, fødselsnummer: Maybe<string>) => {
     if (!fødselsnummer) {
         window.open('https://arbeid-og-inntekt.nais.adeo.no');
         return;
@@ -47,7 +48,7 @@ const nullstillModiaContext = async () => {
     if (!response.ok) throw Error('Nullstilling av context feilet');
 };
 
-export const hoppTilModia = async (url: string, fødselsnummer: string | null) => {
+export const hoppTilModia = async (url: string, fødselsnummer: Maybe<string>) => {
     const forbered = () => (fødselsnummer ? settModiaContext(fødselsnummer) : nullstillModiaContext());
     try {
         await forbered();
@@ -93,7 +94,7 @@ const Lenkeinnhold = ({ tekst, snarveibokstav }: LenkeinnholdProps): ReactElemen
     </>
 );
 
-const createLinks = (maybeFnr: string | null): Array<HrefLink | ButtonLink> => [
+const createLinks = (maybeFnr: Maybe<string>): Array<HrefLink | ButtonLink> => [
     {
         tekst: 'A-inntekt',
         action: () =>
@@ -169,7 +170,7 @@ export const SystemMenu = (): ReactElement => {
 
 function SystemMenuForUser(): ReactElement[] {
     const { data } = useFetchPersonQuery();
-    const maybeFnr: string | null = data?.person?.fodselsnummer ?? null;
+    const maybeFnr: Maybe<string> = data?.person?.fodselsnummer ?? null;
 
     return createLinks(maybeFnr).map((link) =>
         'href' in link ? (

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { ReactElement, useRef, useState } from 'react';
 
 import '@testing-library/jest-dom';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
@@ -8,7 +8,7 @@ import { useInteractOutside } from './useInteractOutside';
 
 afterEach(cleanup);
 
-const Consumer = () => {
+const Consumer = (): ReactElement => {
     const ref = useRef<HTMLButtonElement>(null);
     const [focused, setFocused] = useState(false);
 

@@ -8,6 +8,7 @@ import {
     ArbeidsgiverFragment,
     Arbeidsgiverinntekt,
     BeregnetPeriodeFragment,
+    Maybe,
     PersonFragment,
     VilkarsgrunnlagSpleis,
 } from '@io/graphql';
@@ -35,7 +36,7 @@ interface InntektContainerProps {
     inntekt: Arbeidsgiverinntekt;
 }
 
-const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElement | null => {
+const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<ReactElement> => {
     const period = useActivePeriod();
     const periodeForSkjæringstidspunktForArbeidsgiver = usePeriodForSkjæringstidspunktForArbeidsgiver(
         period?.skjaeringstidspunkt ?? null,
@@ -109,7 +110,7 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElem
     );
 };
 
-const InntektError = () => {
+const InntektError = (): ReactElement => {
     return (
         <Alert variant="error" size="small" className={styles.Inntekt}>
             Det har skjedd en feil. Kunne ikke vise inntekt for denne perioden.

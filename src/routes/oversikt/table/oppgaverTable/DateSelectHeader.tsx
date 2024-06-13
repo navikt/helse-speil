@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { Select, Table } from '@navikt/ds-react';
@@ -7,7 +7,7 @@ import { SortKey, dateSortKey } from '../state/sortation';
 
 import styles from './DateSelectHeader.module.css';
 
-export const DateSelectHeader = () => {
+export const DateSelectHeader = (): ReactElement => {
     const [datoKey, setDatoKey] = useRecoilState(dateSortKey);
     const lagreValgtDatoSortering = (key: string) => setDatoKey(key as unknown as SortKey);
 
@@ -32,7 +32,7 @@ export const DateSelectHeader = () => {
     );
 };
 
-const tilDatoKeyTekst = (key: string) => {
+const tilDatoKeyTekst = (key: string): string => {
     switch (key) {
         case 'søknadMottatt':
             return 'Søknad mottatt';

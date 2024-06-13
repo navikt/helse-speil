@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import { Vilkarsgrunnlag, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
+import { Maybe, Vilkarsgrunnlag, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
 import { DateString } from '@typer/shared';
 import { Vilkårdata, Vilkårstype } from '@typer/vilkår';
 
 import { EndretParagrafContainer } from './EndretParagrafContainer';
 import { Opptjeningstid, Sykepengegrunnlag } from './vilkårsgrupper/Vilkårsgrupper';
 
-const VilkårManglerData = () => <BodyShort>Mangler data om vilkåret</BodyShort>;
+const VilkårManglerData = (): ReactElement => <BodyShort>Mangler data om vilkåret</BodyShort>;
 
 const opptjeningstid = (skjæringstidspunkt: DateString, vilkår: Vilkarsgrunnlag): Vilkårdata => {
     switch (vilkår.vilkarsgrunnlagtype) {
@@ -114,7 +114,7 @@ export interface KategoriserteVilkår {
 export const kategoriserteInngangsvilkår = (
     vilkårsgrunnlag: Vilkarsgrunnlag,
     alderVedSkjæringstidspunkt: number,
-    vurdering?: Vurdering | null,
+    vurdering?: Maybe<Vurdering>,
 ): KategoriserteVilkår => {
     const vurdertIInfotrygd = vilkårsgrunnlag.vilkarsgrunnlagtype === 'INFOTRYGD';
     const vurdertISpleis = !vurdertIInfotrygd && vurdering;

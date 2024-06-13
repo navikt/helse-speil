@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { DatePicker, useDatepicker } from '@navikt/ds-react';
 
 import { NORSK_DATOFORMAT } from '@utils/date';
 
-export const Frist = () => {
+export const Frist = (): ReactElement => {
     const { setValue, register, formState } = useFormContext();
     const [hasError, setHasError] = useState(false);
     const { datepickerProps, inputProps } = useDatepicker({

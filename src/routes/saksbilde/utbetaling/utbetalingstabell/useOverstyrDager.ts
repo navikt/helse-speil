@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { FetchResult, useMutation } from '@apollo/client';
 import {
+    Maybe,
     OpprettAbonnementDocument,
     OverstyrDagerMutationDocument,
     OverstyrDagerMutationMutation,
@@ -59,7 +60,7 @@ export const useOverstyrDager = (person: PersonFragment): UsePostOverstyringResu
     }, [person]);
 
     useEffect(() => {
-        const timeout: NodeJS.Timeout | number | null = calculating
+        const timeout: Maybe<NodeJS.Timeout | number> = calculating
             ? setTimeout(() => {
                   setState('timedOut');
               }, 15000)

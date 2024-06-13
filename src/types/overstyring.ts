@@ -1,4 +1,4 @@
-import { Maybe } from '@utils/ts';
+import { Maybe } from '@io/graphql';
 
 export interface Lovhjemmel {
     paragraf: string;

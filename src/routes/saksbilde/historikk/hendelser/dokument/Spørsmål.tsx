@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 
 import { CheckmarkIcon } from '@navikt/aksel-icons';
 
-import { SporsmalFragment, Svar, Svartype } from '@io/graphql';
+import { Maybe, SporsmalFragment, Svar, Svartype } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
@@ -41,8 +41,8 @@ export const Spørsmål = ({ spørsmål, rotnivå = true }: SpørsmålProps): Re
     });
 };
 
-function getUndersporsmal(it: SporsmalFragment): SporsmalFragment[] | null {
-    const sporsmal = it as SporsmalFragment & { undersporsmal: SporsmalFragment[] | null };
+function getUndersporsmal(it: SporsmalFragment): Maybe<SporsmalFragment[]> {
+    const sporsmal = it as SporsmalFragment & { undersporsmal: Maybe<SporsmalFragment[]> };
 
     return sporsmal?.undersporsmal && sporsmal.undersporsmal.length > 0 ? sporsmal.undersporsmal : null;
 }

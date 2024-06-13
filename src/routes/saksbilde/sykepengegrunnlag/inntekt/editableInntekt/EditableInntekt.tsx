@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import React, { FormEvent, ReactElement, useEffect, useRef, useState } from 'react';
 import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 
@@ -60,7 +60,7 @@ export const EditableInntekt = ({
     skjæringstidspunkt,
     close,
     onEndre,
-}: EditableInntektProps) => {
+}: EditableInntektProps): ReactElement => {
     const form = useForm<InntektFormFields>({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const metadata = useOverstyrtInntektMetadata(skjæringstidspunkt, organisasjonsnummer);
@@ -313,7 +313,7 @@ export const EditableInntekt = ({
     );
 };
 
-const stringIsNaN = (value: string | undefined) => Number.isNaN(Number.parseFloat(value ?? 'NaN'));
+const stringIsNaN = (value: string | undefined): boolean => Number.isNaN(Number.parseFloat(value ?? 'NaN'));
 
 interface RefMedId extends CustomElement<FieldValues> {
     id?: string;

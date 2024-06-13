@@ -6,6 +6,7 @@ import { Alert, BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 import { TimeoutModal } from '@components/TimeoutModal';
+import { Maybe } from '@io/graphql';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 
@@ -17,7 +18,7 @@ interface KalkulerEndringerVarselProps {
     skjæringstidspunkt?: string;
 }
 
-export const KalkulerEndringerVarsel = ({ skjæringstidspunkt }: KalkulerEndringerVarselProps): ReactElement | null => {
+export const KalkulerEndringerVarsel = ({ skjæringstidspunkt }: KalkulerEndringerVarselProps): Maybe<ReactElement> => {
     const [lokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
     const slettLokaleOverstyringer = useResetRecoilState(inntektOgRefusjonState);
     const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntektOgRefusjon();

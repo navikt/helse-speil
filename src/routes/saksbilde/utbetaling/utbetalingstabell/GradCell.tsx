@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
+import { Maybe } from '@io/graphql';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
-import { Maybe } from '@utils/ts';
 
 import { helgetyper } from './helgUtils';
 

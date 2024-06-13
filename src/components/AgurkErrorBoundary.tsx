@@ -3,6 +3,8 @@ import React, { PropsWithChildren, ReactElement, useRef, useState } from 'react'
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
+
 import { ErrorBoundary } from './ErrorBoundary';
 import { Clipboard } from './clipboard';
 
@@ -40,7 +42,7 @@ interface AgurkErrorBoundaryProps {
 export const AgurkErrorBoundary = ({
     children,
     sidenavn,
-}: PropsWithChildren<AgurkErrorBoundaryProps>): ReactElement | null => {
+}: PropsWithChildren<AgurkErrorBoundaryProps>): Maybe<ReactElement> => {
     const [errormelding, setErrormelding] = useState<string | undefined>();
     if (!children) return null;
     return (

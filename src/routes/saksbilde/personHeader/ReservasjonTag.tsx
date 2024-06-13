@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Reservasjon } from '@io/graphql';
-import { Maybe } from '@utils/ts';
+import { Maybe, Reservasjon } from '@io/graphql';
 
 import { TagMedTooltip } from './TagMedTooltip';
 
@@ -9,7 +8,7 @@ interface ReservasjonTagProps {
     reservasjon?: Maybe<Reservasjon>;
 }
 
-export const ReservasjonTag = ({ reservasjon }: ReservasjonTagProps): ReactElement | null => {
+export const ReservasjonTag = ({ reservasjon }: ReservasjonTagProps): Maybe<ReactElement> => {
     if (reservasjon === null) {
         return (
             <TagMedTooltip

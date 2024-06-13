@@ -6,7 +6,7 @@ import { ActivePeriod } from '@typer/shared';
 import { raise } from '@utils/ts';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-const activePeriodIdState = atom<string | null>({
+const activePeriodIdState = atom<Maybe<string>>({
     key: 'activePeriodId',
     default: null,
 });
@@ -23,7 +23,7 @@ export const useSetActivePeriodId = () => {
     };
 };
 
-export const useActivePeriod = (): ActivePeriod | null => {
+export const useActivePeriod = (): Maybe<ActivePeriod> => {
     const person = useCurrentPerson();
     const activePeriodId = useRecoilValue(activePeriodIdState);
     const periodToSelect = person ? findPeriodToSelect(person) : null;
@@ -33,7 +33,7 @@ export const useActivePeriod = (): ActivePeriod | null => {
     return findPeriod(activePeriodId, person) ?? periodToSelect;
 };
 
-export const useActivePeriodWithPerson = (person: PersonFragment) => {
+export const useActivePeriodWithPerson = (person: PersonFragment): Maybe<ActivePeriod> => {
     const activePeriodId = useRecoilValue(activePeriodIdState);
     const periodToSelect = person ? findPeriodToSelect(person) : null;
 
@@ -71,7 +71,7 @@ const findPeriodToSelect = (person: PersonFragment): Maybe<ActivePeriod> => {
     return periodeTilBehandling ?? aktuellePerioder[0] ?? null;
 };
 
-const findPeriod = (periodeId: string | null, person: PersonFragment) => {
+const findPeriod = (periodeId: Maybe<string>, person: PersonFragment) => {
     if (periodeId == null) return null;
 
     return (

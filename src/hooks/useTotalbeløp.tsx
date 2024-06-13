@@ -1,13 +1,12 @@
 import { useMemo } from 'react';
 
-import { Dag } from '@io/graphql';
+import { Dag, Maybe } from '@io/graphql';
 import {
     getDagerMedUtbetaling,
     getTotalArbeidsgiverbeløp,
     getTotalPersonbeløp,
 } from '@saksbilde/utbetaling/utbetalingstabell/dagerUtils';
 import { useTabelldagerMap } from '@saksbilde/utbetaling/utbetalingstabell/useTabelldagerMap';
-import { Maybe } from '@utils/ts';
 
 export const useTotalbeløp = (tidslinje?: Maybe<Dag[]>) => {
     const dager = useTabelldagerMap({ tidslinje: tidslinje ?? [] });

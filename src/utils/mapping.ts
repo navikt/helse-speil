@@ -1,13 +1,13 @@
 import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
+    Maybe,
     Periode,
     Periodetilstand,
     UberegnetPeriodeFragment,
     Utbetalingtype,
 } from '@io/graphql';
 import { DatePeriod, InfotrygdPeriod, PeriodState } from '@typer/shared';
-import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
 const hasBeenAssessedAutomatically = (period: BeregnetPeriodeFragment): boolean =>

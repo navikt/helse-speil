@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button, Heading, Loader } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
-import { BeregnetPeriodeFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, Maybe } from '@io/graphql';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
 import { Begrunnelse } from './begrunnelse';
@@ -23,10 +23,16 @@ interface AvvisningModalProps {
     isSending: boolean;
     onApprove: (skjema: Avvisningsskjema) => void;
     onClose: () => void;
-    error: string | null;
+    error: Maybe<string>;
 }
 
-export const AvvisningModal = ({ activePeriod, isSending, onApprove, onClose, error }: AvvisningModalProps) => {
+export const AvvisningModal = ({
+    activePeriod,
+    isSending,
+    onApprove,
+    onClose,
+    error,
+}: AvvisningModalProps): ReactElement => {
     const form = useForm();
     const kommentar = form.watch('kommentar');
     const begrunnelser = form.watch(`begrunnelser`);

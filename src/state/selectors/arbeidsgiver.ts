@@ -1,4 +1,4 @@
-import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, Maybe, PersonFragment } from '@io/graphql';
 import { ActivePeriod } from '@typer/shared';
 
 /**
@@ -7,6 +7,6 @@ import { ActivePeriod } from '@typer/shared';
 export const getArbeidsgiverWithPeriod = (
     person: PersonFragment,
     period: ActivePeriod,
-): ArbeidsgiverFragment | null => {
+): Maybe<ArbeidsgiverFragment> => {
     return person.arbeidsgivere.find((it) => it.generasjoner[0]?.perioder.find((it) => it.id === period.id)) ?? null;
 };

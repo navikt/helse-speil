@@ -3,6 +3,8 @@ import React, { useRef } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
+
 import styles from './LinkRow.module.css';
 
 const shouldOpenInNewTab = (event: React.SyntheticEvent): boolean => {
@@ -18,7 +20,7 @@ interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
 }
 
 export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
-    const ref = useRef<HTMLTableRowElement | null>(null);
+    const ref = useRef<Maybe<HTMLTableRowElement>>(null);
     const router = useRouter();
 
     const navigate = (event: React.SyntheticEvent) => {

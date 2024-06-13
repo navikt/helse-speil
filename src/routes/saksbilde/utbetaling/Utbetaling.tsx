@@ -10,6 +10,7 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
+    Maybe,
     PersonFragment,
     UberegnetPeriodeFragment,
     Utbetalingsdagtype,
@@ -131,7 +132,7 @@ interface UtbetalingUberegnetPeriodeProps {
 const UtbetalingUberegnetPeriode = ({
     periode,
     arbeidsgiver,
-}: UtbetalingUberegnetPeriodeProps): ReactElement | null => {
+}: UtbetalingUberegnetPeriodeProps): Maybe<ReactElement> => {
     const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
     const antallAGPDagerBruktFørPerioden = arbeidsgiver.generasjoner[0].perioder
         .filter((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt)
@@ -171,7 +172,7 @@ const UtbetalingUberegnetPeriode = ({
     );
 };
 
-const UtbetalingContainer = (): ReactElement | null => {
+const UtbetalingContainer = (): Maybe<ReactElement> => {
     const period = useActivePeriod();
     const person = useCurrentPerson();
     const arbeidsgiver = useCurrentArbeidsgiver();

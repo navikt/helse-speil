@@ -2,16 +2,17 @@ import { hoppTilModia, redirigerTilArbeidOgInntektUrl } from '@components/System
 import { copyString } from '@components/clipboard/util';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
+import { Maybe } from '@io/graphql';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddToast } from '@state/toasts';
 import { isPerson } from '@utils/typeguards';
 
-const useCurrentFødselsnummer = (): string | null => {
+const useCurrentFødselsnummer = (): Maybe<string> => {
     const { loading, data } = useFetchPersonQuery();
     return !loading && data !== undefined && isPerson(data.person) ? data.person.fodselsnummer : null;
 };
 
-const useCurrentAktørId = (): string | null => {
+const useCurrentAktørId = (): Maybe<string> => {
     const { loading, data } = useFetchPersonQuery();
 
     return !loading && data !== undefined && isPerson(data.person) ? data.person.aktorId : null;

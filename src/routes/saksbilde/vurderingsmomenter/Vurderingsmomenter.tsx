@@ -72,7 +72,7 @@ export const VurderingsmomenterWithContent = ({
     </AgurkErrorBoundary>
 );
 
-const VurderingsmomenterContainer = (): ReactElement | null => {
+const VurderingsmomenterContainer = (): Maybe<ReactElement> => {
     const activePeriod = useActivePeriod();
 
     if (isBeregnetPeriode(activePeriod) && activePeriod.risikovurdering) {

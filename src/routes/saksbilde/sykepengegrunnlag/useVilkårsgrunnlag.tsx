@@ -1,7 +1,6 @@
-import { PersonFragment, Vilkarsgrunnlag } from '@io/graphql';
+import { Maybe, PersonFragment, Vilkarsgrunnlag } from '@io/graphql';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { ActivePeriod } from '@typer/shared';
-import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 export const useVilkårsgrunnlag = (

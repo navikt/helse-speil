@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { ShrinkIcon } from '@navikt/aksel-icons';
@@ -13,6 +13,7 @@ import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import {
     AvslagInput,
     BeregnetPeriodeFragment,
+    Maybe,
     OpprettAbonnementDocument,
     Periodetilstand,
     PersonFragment,
@@ -23,7 +24,6 @@ import { inntektOgRefusjonState } from '@state/overstyring';
 import { isRevurdering } from '@state/selectors/utbetaling';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { getPeriodState } from '@utils/mapping';
-import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { BegrunnelseVedtak } from '../BegrunnelseVedtak';
@@ -84,7 +84,7 @@ interface UtbetalingProps {
     arbeidsgiver: string;
 }
 
-export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) => {
+export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): Maybe<ReactElement> => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const [visBegrunnelseVedtak, setVisBegrunnelseVedtak] = useState(false);
     const [åpenIModal, setÅpenIModal] = useState(false);

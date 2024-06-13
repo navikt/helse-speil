@@ -4,13 +4,14 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { Maybe } from '@io/graphql';
 import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
 
 import { UnntattFraAutomatisering } from './UnntattFraAutomatisering';
 
 import styles from '../personHeader/PersonHeader.module.css';
 
-const InfovarselOmStansContainer = (): ReactElement | null => {
+const InfovarselOmStansContainer = (): Maybe<ReactElement> => {
     const currentPerson = useCurrentPerson();
     const { loading } = useFetchPersonQuery();
 

@@ -1,5 +1,5 @@
 import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';
@@ -9,7 +9,7 @@ import { EditButton } from '@components/EditButton';
 
 import { Skjønnsfastsettingstype } from '../skjønnsfastsetting';
 
-export const SkjønnsfastsettingType = () => {
+export const SkjønnsfastsettingType = (): ReactElement => {
     const { register, getValues, setValue } = useFormContext();
     const { ref, ...typeValidation } = register('type', {
         required: 'Du må velge en type',

@@ -7,6 +7,7 @@ import {
     Hendelse,
     Inntektoverstyring,
     Inntektsmelding,
+    Maybe,
     NotatType,
     Periode,
     PeriodehistorikkType,
@@ -35,7 +36,6 @@ import {
 import { Notat } from '@typer/notat';
 import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '@utils/date';
-import { Maybe } from '@utils/ts';
 import {
     isArbeidsforholdoverstyring,
     isBeregnetPeriode,
@@ -152,7 +152,7 @@ export const getPeriodehistorikk = (periode: BeregnetPeriodeFragment): Array<His
 const getTidligsteVurderingstidsstempelForPeriode = (
     period: BeregnetPeriodeFragment,
     arbeidsgiver: ArbeidsgiverFragment,
-): string | null => {
+): Maybe<string> => {
     return (
         [...arbeidsgiver.generasjoner]
             ?.reverse()
@@ -239,7 +239,7 @@ const periodeErAttestert = (periode: BeregnetPeriodeFragment): boolean => {
     );
 };
 
-export const getUtbetalingshendelse = (periode: BeregnetPeriodeFragment): UtbetalinghendelseObject | null => {
+export const getUtbetalingshendelse = (periode: BeregnetPeriodeFragment): Maybe<UtbetalinghendelseObject> => {
     if (!periode.utbetaling.vurdering || periodeErAttestert(periode)) {
         return null;
     }
@@ -310,7 +310,7 @@ const getSisteTomForIkkeGhostsPåSkjæringstidspunktet = (
 const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
     skjæringstidspunkt: DateString,
     arbeidsgiver: ArbeidsgiverFragment,
-): Vurdering | null => {
+): Maybe<Vurdering> => {
     const førsteVurdertePeriodeForSkjæringstidspunktet = getFørsteVurdertePeriodeForSkjæringstidspunktet(
         skjæringstidspunkt,
         arbeidsgiver,

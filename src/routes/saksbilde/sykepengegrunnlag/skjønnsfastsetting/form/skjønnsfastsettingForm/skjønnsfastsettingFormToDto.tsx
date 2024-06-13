@@ -1,5 +1,5 @@
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import { Arbeidsgiverinntekt, PersonFragment } from '@io/graphql';
+import { Arbeidsgiverinntekt, Maybe, PersonFragment } from '@io/graphql';
 import {
     ArbeidsgiverForm,
     Skjønnsfastsettingstype,
@@ -14,7 +14,7 @@ import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
 
 interface InitierendeVedtaksperiodeForArbeidsgiver {
     arbeidsgiver: string;
-    initierendeVedtaksperiodeId: string | null;
+    initierendeVedtaksperiodeId: Maybe<string>;
 }
 
 const finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt = (

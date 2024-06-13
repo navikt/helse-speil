@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { Table } from '@navikt/ds-react';
@@ -7,7 +7,7 @@ import { SortKey, dateSortKey } from '@oversikt/table/state/sortation';
 
 import { tilDatoHeaderTekst } from '../DateSelectHeader';
 
-export const TilGodkjenningSortHeaderRow = () => {
+export const TilGodkjenningSortHeaderRow = (): ReactElement => {
     const datoSelectKey = useRecoilValue(dateSortKey);
     return (
         <Table.Row>

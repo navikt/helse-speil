@@ -3,8 +3,8 @@ import React, { PropsWithChildren } from 'react';
 import { Tooltip } from '@navikt/ds-react';
 
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { Maybe } from '@io/graphql';
 import { useIsAnonymous } from '@state/anonymization';
-import { Maybe } from '@utils/ts';
 
 interface ArbeidsgiverikonMedTooltipProps {
     tooltipTekst?: Maybe<string>;

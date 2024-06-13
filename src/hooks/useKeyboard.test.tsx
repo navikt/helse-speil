@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 
 import { Key, useKeyboard } from './useKeyboard';
 
-const Consumer = () => {
+const Consumer = (): ReactElement => {
     const [pressedKey, setPressedKey] = useState('');
 
     useKeyboard([

@@ -1,6 +1,5 @@
-import { Begrunnelse, Kilde } from '@io/graphql';
+import { Begrunnelse, Kilde, Maybe } from '@io/graphql';
 import { Speildag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
-import { Maybe } from '@utils/ts';
 
 import { DateString } from './shared';
 

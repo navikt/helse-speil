@@ -1,6 +1,6 @@
 import styles from './OverstyrArbeidsforholdUtenSykdom.module.scss';
 import classNames from 'classnames';
-import React, { useContext, useRef, useState } from 'react';
+import React, { ReactElement, useContext, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Error } from '@navikt/ds-icons';
@@ -122,7 +122,7 @@ const OverstyrArbeidsforholdSkjema = ({
     organisasjonsnummerAktivPeriode,
     skjæringstidspunkt,
     onSubmit,
-}: OverstyrArbeidsforholdSkjemaProps) => {
+}: OverstyrArbeidsforholdSkjemaProps): ReactElement => {
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold(person);

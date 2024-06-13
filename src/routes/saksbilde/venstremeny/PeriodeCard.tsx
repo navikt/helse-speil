@@ -18,6 +18,7 @@ import {
     BeregnetPeriodeFragment,
     Egenskap,
     Kategori,
+    Maybe,
     Periodetilstand,
     Periodetype,
     UberegnetPeriodeFragment,
@@ -92,7 +93,7 @@ const harRedusertAntallSykepengedager = (periode: BeregnetPeriodeFragment): bool
 
 interface MaksdatoRowProps {
     activePeriod: BeregnetPeriodeFragment;
-    gjenståendeSykedager: number | null;
+    gjenståendeSykedager: Maybe<number>;
 }
 
 const MaksdatoRow = ({ activePeriod, gjenståendeSykedager }: MaksdatoRowProps): ReactElement => {
@@ -186,7 +187,7 @@ interface PeriodeCardBeregnetProps {
     periode: BeregnetPeriodeFragment;
     arbeidsgiver: ArbeidsgiverFragment;
     månedsbeløp: number | undefined;
-    gjenståendeSykedager: number | null;
+    gjenståendeSykedager: Maybe<number>;
 }
 
 const PeriodeCardBeregnet = ({

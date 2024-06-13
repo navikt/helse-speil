@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import { Popover, PopoverProps } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { Maybe } from '@io/graphql';
 import { usePopoverAnchor } from '@saksbilde/timeline/hooks/usePopoverAnchor';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 
@@ -26,7 +27,7 @@ const NotattekstPopover = ({ tekst, ...popoverProps }: NotattekstPopoverProps): 
     );
 };
 
-export const SisteNotattekst = ({ vedtaksperiodeId }: SisteNotattekstProps): ReactElement | null => {
+export const SisteNotattekst = ({ vedtaksperiodeId }: SisteNotattekstProps): Maybe<ReactElement> => {
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
     const sisteNotat = useNotaterForVedtaksperiode(vedtaksperiodeId).shift();
 

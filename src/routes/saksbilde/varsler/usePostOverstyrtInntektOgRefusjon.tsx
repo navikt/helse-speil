@@ -3,6 +3,7 @@ import { useResetRecoilState } from 'recoil';
 
 import { FetchResult, useMutation } from '@apollo/client';
 import {
+    Maybe,
     OpprettAbonnementDocument,
     OverstyrInntektOgRefusjonMutationDocument,
     OverstyrInntektOgRefusjonMutationMutation,
@@ -50,7 +51,7 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
     });
 
     useEffect(() => {
-        const timeout: NodeJS.Timeout | number | null = calculating
+        const timeout: Maybe<NodeJS.Timeout | number> = calculating
             ? setTimeout(() => {
                   setTimedOut(true);
               }, 15000)

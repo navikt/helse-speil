@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 import { Loader } from '@navikt/ds-react';
 
@@ -16,7 +16,7 @@ class PersonoppdateringAlert extends SpeilError {
     name = PersonoppdateringAlert.key;
 }
 
-const oppdatererPersondataMessage = () => (
+const oppdatererPersondataMessage = (): ReactElement => (
     <>
         Oppdaterer persondata <Loader size="xsmall" variant="inverted" />
     </>

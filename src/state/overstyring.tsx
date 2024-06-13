@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 
-import { Arbeidsgiverrefusjon, Hendelse, Kildetype, Refusjonselement } from '@io/graphql';
+import { Arbeidsgiverrefusjon, Hendelse, Kildetype, Maybe, Refusjonselement } from '@io/graphql';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import {
     useArbeidsgiver,
@@ -22,9 +22,9 @@ import { DateString } from '@typer/shared';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
 export type OverstyrtInntektOgRefusjon = {
-    aktørId: string | null;
-    fødselsnummer: string | null;
-    skjæringstidspunkt: string | null;
+    aktørId: Maybe<string>;
+    fødselsnummer: Maybe<string>;
+    skjæringstidspunkt: Maybe<string>;
     arbeidsgivere: OverstyrtInntektOgRefusjonArbeidsgiver[] | [];
 };
 
@@ -66,7 +66,7 @@ export const usePostOverstyrtInntekt = (
     });
 
     useEffect(() => {
-        const timeout: NodeJS.Timeout | number | null = calculating
+        const timeout: Maybe<NodeJS.Timeout | number> = calculating
             ? setTimeout(() => {
                   setTimedOut(true);
               }, 15000)

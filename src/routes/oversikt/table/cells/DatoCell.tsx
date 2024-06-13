@@ -3,8 +3,8 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
 import { NORSK_DATOFORMAT, somDato } from '@utils/date';
-import { Maybe } from '@utils/ts';
 
 import styles from './DatoCell.module.css';
 

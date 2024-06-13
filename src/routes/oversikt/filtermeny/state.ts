@@ -24,7 +24,7 @@ export const useToggleFiltermeny = () => {
     return () => setShow((show) => !show);
 };
 
-export const useShowFiltermeny = () => useRecoilValue(showFiltermeny);
+export const useShowFiltermeny = (): boolean => useRecoilValue(showFiltermeny);
 
 export const filtermenyWidth = atom<number>({
     key: 'filtermenyWidth',

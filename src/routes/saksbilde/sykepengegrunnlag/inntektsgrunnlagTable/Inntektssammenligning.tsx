@@ -5,11 +5,10 @@ import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { Inntektskilde, OmregnetArsinntekt, OverstyringFragment, Sammenligningsgrunnlag } from '@io/graphql';
+import { Inntektskilde, Maybe, OmregnetArsinntekt, OverstyringFragment, Sammenligningsgrunnlag } from '@io/graphql';
 import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
-import { Maybe } from '@utils/ts';
 
 import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
 import { EndringsloggButton } from '../inntekt/EndringsloggButton';

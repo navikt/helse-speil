@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
@@ -6,7 +6,7 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 
 import styles from './table.module.css';
 
-export const OppgaverTableSkeleton = () => {
+export const OppgaverTableSkeleton = (): ReactElement => {
     return (
         <div className={styles.TableContainer}>
             <div className={styles.Content}>
@@ -45,13 +45,13 @@ export const OppgaverTableSkeleton = () => {
     );
 };
 
-const HeaderCellSkeleton = () => (
+const HeaderCellSkeleton = (): ReactElement => (
     <Table.HeaderCell scope="col" colSpan={1}>
         <LoadingShimmer />
     </Table.HeaderCell>
 );
 
-const BodyCellSkeleton = () => (
+const BodyCellSkeleton = (): ReactElement => (
     <Table.DataCell>
         <div className={styles.cellSkeleton}>
             <LoadingShimmer />
@@ -59,7 +59,7 @@ const BodyCellSkeleton = () => (
     </Table.DataCell>
 );
 
-const BodyRowSkeleton = () => (
+const BodyRowSkeleton = (): ReactElement => (
     <Table.Row>
         <BodyCellSkeleton />
         <BodyCellSkeleton />

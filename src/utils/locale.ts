@@ -1,7 +1,9 @@
-export const somPenger = (value?: number | null) =>
+import { Maybe } from '@io/graphql';
+
+export const somPenger = (value?: Maybe<number>) =>
     value !== undefined && value !== null ? `${toKronerOgØre(value)} kr` : '-';
 
-export const somPengerUtenDesimaler = (value?: number | null) =>
+export const somPengerUtenDesimaler = (value?: Maybe<number>) =>
     value !== undefined && value !== null ? `${toKronerOgØre(value, 0, 'nb-NO')} kr` : '-';
 
 export const toKronerOgØre = (value: string | number, decimals = 2, locale = 'nb-NO'): string =>

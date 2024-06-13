@@ -1,8 +1,7 @@
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
-import { VarselDto, Varselstatus, VarselvurderingDto } from '@io/graphql';
-import { Maybe } from '@utils/ts';
+import { Maybe, VarselDto, Varselstatus, VarselvurderingDto } from '@io/graphql';
 
 import { EkspanderbartVarsel } from './EkspanderbartVarsel';
 import { Varsel } from './Varsel';

@@ -3,6 +3,7 @@ import {
     AntallOppgaverDocument,
     FjernTildelingDocument,
     FjernTildelingMutation,
+    Maybe,
     OppgaveFeedDocument,
     OpprettTildelingDocument,
     OpprettTildelingMutation,
@@ -28,7 +29,7 @@ const useLeggTilTildelingsvarsel = () => {
     return (message: string) => addVarsel(new TildelingAlert(message));
 };
 
-const useFødselsnummer = () => {
+const useFødselsnummer = (): string | undefined => {
     const { data } = useFetchPersonQuery();
     return data?.person?.fodselsnummer;
 };
@@ -112,7 +113,7 @@ const oppdaterTildelingICache = (
     cache: ApolloCache<unknown>,
     oppgavereferanse: string,
     fødselsnummer: string | undefined,
-    tildeling: (tildeling: Tildeling) => Tildeling | null,
+    tildeling: (tildeling: Tildeling) => Maybe<Tildeling>,
 ) => {
     cache.modify({
         id: cache.identify({ __typename: 'OppgaveTilBehandling', id: oppgavereferanse }),

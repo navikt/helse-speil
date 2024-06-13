@@ -1,15 +1,16 @@
 import styles from './Annulleringsmodal.module.scss';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import { useTotaltUtbetaltForSykefraværstilfellet } from './annullering';
 
-export const Annulleringsinformasjon = () => {
+export const Annulleringsinformasjon = (): Maybe<ReactElement> => {
     const { totalbeløp, førsteUtbetalingsdag, sisteUtbetalingsdag } = useTotaltUtbetaltForSykefraværstilfellet();
 
     if (!førsteUtbetalingsdag && !sisteUtbetalingsdag && !totalbeløp) return null;

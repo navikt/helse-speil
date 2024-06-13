@@ -3,7 +3,7 @@ import React from 'react';
 import { Table, Tooltip } from '@navikt/ds-react';
 
 import { TextWithEllipsis } from '@components/TextWithEllipsis';
-import { Maybe } from '@utils/ts';
+import { Maybe } from '@io/graphql';
 
 interface BehandletAvCellProps {
     name?: Maybe<string>;

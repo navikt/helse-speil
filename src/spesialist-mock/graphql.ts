@@ -6,6 +6,7 @@ import { cwd } from 'process';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
+import { Maybe } from '@io/graphql';
 import { Oppgave } from '@typer/spesialist-mock';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
@@ -55,8 +56,8 @@ const leggTilLagretData = (person: Person): void => {
 
                 periode.notater = NotatMock.getNotaterForPeriode(periode);
                 periode.varsler = VarselMock.getVarslerForPeriode(periode.varsler);
-                const oppgavereferanse: string | null = periode.oppgavereferanse ?? periode.oppgave?.id ?? null;
-                const oppgave: Oppgave | null = oppgavereferanse ? OppgaveMock.getOppgave(oppgavereferanse) : null;
+                const oppgavereferanse: Maybe<string> = periode.oppgavereferanse ?? periode.oppgave?.id ?? null;
+                const oppgave: Maybe<Oppgave> = oppgavereferanse ? OppgaveMock.getOppgave(oppgavereferanse) : null;
 
                 if (oppgave !== null && periode.oppgave === null) {
                     periode.oppgave = { id: oppgave.id };

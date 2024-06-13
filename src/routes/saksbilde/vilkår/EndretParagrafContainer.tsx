@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 
@@ -7,7 +7,7 @@ import { Advarselikon } from '@components/ikoner/Advarselikon';
 
 import styles from './EndretParagrafContainer.module.css';
 
-export const EndretParagrafContainer = () => (
+export const EndretParagrafContainer = (): ReactElement => (
     <span className={styles.Container}>
         <Tooltip content="Mellom 67 og 70 år - inntektsgrunnlaget må overstige 2G">
             <div className={styles.IkonContainer}>

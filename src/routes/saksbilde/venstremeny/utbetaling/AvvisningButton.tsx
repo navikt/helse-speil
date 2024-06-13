@@ -6,7 +6,7 @@ import { Button } from '@navikt/ds-react';
 import { useMutation } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { AmplitudeContext } from '@io/amplitude';
-import { BeregnetPeriodeFragment, Handling, Periodehandling, TilInfoTrygdDocument } from '@io/graphql';
+import { BeregnetPeriodeFragment, Handling, Maybe, Periodehandling, TilInfoTrygdDocument } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 
 import { AvvisningModal, Avvisningsskjema } from './AvvisningModal';
@@ -30,7 +30,7 @@ interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEleme
     onSuccess?: () => void;
 }
 
-const finnKanAvvises = ({ handlinger }: BeregnetPeriodeFragment): Handling | null =>
+const finnKanAvvises = ({ handlinger }: BeregnetPeriodeFragment): Maybe<Handling> =>
     handlinger.find((handling) => handling.type === Periodehandling.Avvise) as Handling;
 
 export const AvvisningButton = ({
@@ -40,7 +40,7 @@ export const AvvisningButton = ({
     ...buttonProps
 }: AvvisningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
-    const [kanIkkeAvvisesMelding, setKanIkkeAvvisesMelding] = useState<string | null>();
+    const [kanIkkeAvvisesMelding, setKanIkkeAvvisesMelding] = useState<Maybe<string>>();
     const [sendTilInfotrygdMutation, { error, loading }] = useMutation(TilInfoTrygdDocument);
 
     const amplitude = useContext(AmplitudeContext);

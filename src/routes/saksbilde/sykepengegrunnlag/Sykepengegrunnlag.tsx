@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
 import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import {
@@ -22,7 +22,7 @@ type SykepengegrunnlagProps = {
     person: PersonFragment;
 };
 
-const SykepengegrunnlagContainer = ({ person }: SykepengegrunnlagProps): ReactElement | null => {
+const SykepengegrunnlagContainer = ({ person }: SykepengegrunnlagProps): Maybe<ReactElement> => {
     const activePeriod = useActivePeriod();
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
     const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriodeFragment).skjaeringstidspunkt);

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
@@ -9,7 +9,7 @@ import { BodyShort, Button, ErrorMessage, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { LeggTilNotatDocument, NotatType } from '@io/graphql';
+import { LeggTilNotatDocument, Maybe, NotatType } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { lokaleNotaterState } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
@@ -19,7 +19,7 @@ import { ControlledTextarea } from './ControlledTextarea';
 
 import styles from './Notat.module.css';
 
-export const Notat = () => {
+export const Notat = (): Maybe<ReactElement> => {
     const notater = useRecoilValue(lokaleNotaterState);
     const oppdaterNotat = useSetRecoilState(lokaleNotaterState);
     const aktivPeriode = useActivePeriod();

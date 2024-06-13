@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react';
 
-import { Personnavn, Tildeling } from '@io/graphql';
+import { Maybe, Personnavn, Tildeling } from '@io/graphql';
 import { PåVentNotatModal } from '@oversikt/table/cells/notat/PåVentNotatModal';
 import { useFjernPåVent } from '@state/påvent';
-import { Maybe } from '@utils/ts';
 
 import styles from './OptionsCell.module.css';
 
@@ -23,7 +22,7 @@ export const PåVentMenuButton = ({
     tildeling,
     navn,
     erPåVent,
-}: PåVentMenuButtonProps) => {
+}: PåVentMenuButtonProps): ReactElement => {
     const [visModal, setVisModal] = useState(false);
 
     const [fjernPåVent] = useFjernPåVent();

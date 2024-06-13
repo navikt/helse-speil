@@ -1,7 +1,12 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
-import { ArbeidsgiverFragment, Arbeidsgiverinntekt, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
-import { Maybe } from '@utils/ts';
+import {
+    ArbeidsgiverFragment,
+    Arbeidsgiverinntekt,
+    Maybe,
+    PersonFragment,
+    Sykepengegrunnlagsgrense,
+} from '@io/graphql';
 
 import { SkjønnsfastsettingSykepengegrunnlag } from '../skjønnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';

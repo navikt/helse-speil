@@ -1,5 +1,5 @@
 import styles from './AngreOverstyrArbeidsforholdUtenSykdom.module.scss';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Button } from '@components/Button';
 import { TimeoutModal } from '@components/TimeoutModal';
@@ -8,7 +8,7 @@ import { BegrunnelseForOverstyring } from '@typer/overstyring';
 
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 
-const UndoIcon = () => (
+const UndoIcon = (): ReactElement => (
     <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
             fillRule="evenodd"
@@ -31,7 +31,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     organisasjonsnummerAktivPeriode,
     skjæringstidspunkt,
     onClick,
-}: AngreOverstyrArbeidsforholdUtenSykdomProps) => {
+}: AngreOverstyrArbeidsforholdUtenSykdomProps): ReactElement => {
     const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold(person);
     const { postOverstyring, timedOut, setTimedOut } = usePostOverstyrtArbeidsforhold();
     const begrunnelse: BegrunnelseForOverstyring = {

@@ -1,9 +1,8 @@
 import dayjs, { Dayjs } from 'dayjs';
 
-import { Arbeidsgiverinntekt, PersonFragment, Vilkarsgrunnlag } from '@io/graphql';
+import { Arbeidsgiverinntekt, Maybe, PersonFragment, Vilkarsgrunnlag } from '@io/graphql';
 import { getRequiredTimestamp, isGodkjent } from '@state/selectors/utbetaling';
 import { DateString } from '@typer/shared';
-import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode, isDagoverstyring } from '@utils/typeguards';
 
 export const getRequiredInntekt = (
@@ -15,7 +14,7 @@ export const getRequiredInntekt = (
         throw Error('Fant ikke inntekt');
     })();
 
-export const getVilkårsgrunnlag = (person: PersonFragment, grunnlagId?: Maybe<string>): Vilkarsgrunnlag | null => {
+export const getVilkårsgrunnlag = (person: PersonFragment, grunnlagId?: Maybe<string>): Maybe<Vilkarsgrunnlag> => {
     return person.vilkarsgrunnlag.find(({ id }) => id === grunnlagId) ?? null;
 };
 

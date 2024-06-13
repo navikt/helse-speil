@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Periode } from '@io/graphql';
+import { Dag, Maybe, Periode } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -29,7 +29,7 @@ export const useTotaltUtbetaltForSykefraværstilfellet = () => {
     };
 };
 
-const useUtbetaltTidslinjeForSykefraværstilfellet = () => {
+const useUtbetaltTidslinjeForSykefraværstilfellet = (): Maybe<Dag[]> => {
     const arbeidsgiver = useCurrentArbeidsgiver();
     const skjæringstidspunkt = useActivePeriod()?.skjaeringstidspunkt;
 
@@ -57,19 +57,19 @@ const useUtbetaltTidslinjeForSykefraværstilfellet = () => {
     return utbetaltePerioderTilAnnullering.flatMap((it) => it.tidslinje);
 };
 
-const finnSisteUtbetalingsdag = (utbetalingsdager: Array<Utbetalingstabelldag>) =>
+const finnSisteUtbetalingsdag = (utbetalingsdager: Array<Utbetalingstabelldag>): string | undefined =>
     utbetalingsdager
         .flatMap((it) => it.dato)
         .sort(dateDescending)
         .shift();
 
-const finnFørsteUtbetalingsdag = (utbetalingsdager: Array<Utbetalingstabelldag>) =>
+const finnFørsteUtbetalingsdag = (utbetalingsdager: Array<Utbetalingstabelldag>): string | undefined =>
     utbetalingsdager
         .flatMap((it) => it.dato)
         .sort(dateDescending)
         .pop();
 
-const finnUtbetaltePerioderPåSkjæringstidspunkt = (skjæringstidspunkt: string, perioder?: Array<Periode>) =>
+const finnUtbetaltePerioderPåSkjæringstidspunkt = (skjæringstidspunkt: string, perioder?: Array<Periode>): Periode[] =>
     perioder?.filter(
         (it) =>
             isBeregnetPeriode(it) &&

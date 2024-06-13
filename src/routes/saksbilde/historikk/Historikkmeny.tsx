@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { ClockIcon, FolderIcon, PencilWritingIcon } from '@navikt/aksel-icons';
 import { Caseworker } from '@navikt/ds-icons';
@@ -11,7 +11,7 @@ import { useFilterState, useShowHistorikkState } from './state';
 
 import styles from './Historikkmeny.module.css';
 
-export const Historikkmeny = () => {
+export const Historikkmeny = (): ReactElement => {
     const [filter, setFilter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
 

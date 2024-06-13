@@ -6,13 +6,12 @@ import * as amplitude from '@amplitude/analytics-browser';
 import { useBrukerGrupper } from '@auth/brukerContext';
 import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
 import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
-import { Egenskap, Kategori, Oppgaveegenskap } from '@io/graphql';
+import { Egenskap, Kategori, Maybe, Oppgaveegenskap } from '@io/graphql';
 import { getDefaultFilters } from '@oversikt/table/state/filter';
 import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
 import { Amplitude } from '@typer/amplitude';
 import { ActivePeriod } from '@typer/shared';
-import { Maybe } from '@utils/ts';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 const amplitudeClient = erProd || erDev ? amplitude : undefined;
@@ -73,10 +72,11 @@ const useStoreÅpnetTidspunkt = () => {
         }
     }, [oppgavereferanse]);
 };
-const finnAlleIKategori = (egenskaper: Oppgaveegenskap[], kategori: Kategori[]) =>
+
+const finnAlleIKategori = (egenskaper: Oppgaveegenskap[], kategori: Kategori[]): Oppgaveegenskap[] =>
     egenskaper.filter((it) => kategori.includes(it.kategori));
 
-const finnLabel = (egenskap: Egenskap, grupper: string[]) =>
+const finnLabel = (egenskap: Egenskap, grupper: string[]): string =>
     getDefaultFilters(grupper).find((it) => it.key === egenskap)?.label ?? egenskap.toString();
 
 const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string>) => void) => {

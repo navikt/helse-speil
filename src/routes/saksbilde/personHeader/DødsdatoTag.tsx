@@ -5,8 +5,8 @@ import React, { ReactElement } from 'react';
 import { Tag } from '@navikt/ds-react';
 
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
+import { Maybe } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
-import { Maybe } from '@utils/ts';
 
 import styles from './PersonHeader.module.css';
 
@@ -14,7 +14,7 @@ interface DødsdatoTagProps {
     dødsdato?: Maybe<string>;
 }
 
-export const DødsdatoTag = ({ dødsdato }: DødsdatoTagProps): ReactElement | null => {
+export const DødsdatoTag = ({ dødsdato }: DødsdatoTagProps): Maybe<ReactElement> => {
     if (!dødsdato) {
         return null;
     }

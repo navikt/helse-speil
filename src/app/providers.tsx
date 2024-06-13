@@ -10,7 +10,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { usePathname } from 'next/navigation';
-import { PropsWithChildren, ReactElement, useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { PropsWithChildren, ReactElement, ReactNode, useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import ReactModal from 'react-modal';
 import { RecoilRoot, SetRecoilState } from 'recoil';
 
@@ -73,7 +73,7 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
     );
 };
 
-const SyncAlerts = ({ children }: PropsWithChildren) => {
+const SyncAlerts = ({ children }: PropsWithChildren): ReactNode => {
     const { loading } = useFetchPersonQuery();
 
     useLoadingToast({ isLoading: loading, message: 'Henter person' });

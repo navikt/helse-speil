@@ -2,7 +2,7 @@
 
 import nissemyra from '../assets/nissemyra.svg';
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 import { BodyShort, Heading, Link } from '@navikt/ds-react';
 
@@ -10,7 +10,7 @@ import { getFaro } from '@observability/faro';
 
 import styles from './PageNotFound.module.css';
 
-export const PageNotFound = () => {
+export const PageNotFound = (): ReactElement => {
     useEffect(() => {
         getFaro()?.api.pushError(new Error('404 - Page not found (vår egen)'));
     }, []);

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
-import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
+import { Maybe, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { DatePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -28,7 +28,7 @@ interface InfoPinProps {
     period: DatePeriod;
 }
 
-export const InfoPin = ({ period }: InfoPinProps): ReactElement | null => {
+export const InfoPin = ({ period }: InfoPinProps): Maybe<ReactElement> => {
     const showInfoPin = shouldShowInfoPin(period);
     const showNotatPin = shouldShowNotatPin(period);
 
