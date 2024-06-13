@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Begrunnelse } from '@io/graphql';
 import { Maybe } from '@utils/ts';
@@ -139,7 +140,7 @@ export const MerknaderCell = ({ dag, alderVedSkjæringstidspunkt, ...rest }: Mer
         <CellContent>
             {sisteUtbetalingsdagMerknad(dag.erMaksdato) ??
                 foreldetDagMerknad(dag.erForeldet) ??
-                avvisningsårsakerMerknad(dag.begrunnelser, alderVedSkjæringstidspunkt)}
+                avvisningsårsakerMerknad(dag.begrunnelser ?? null, alderVedSkjæringstidspunkt)}
         </CellContent>
     </td>
 );

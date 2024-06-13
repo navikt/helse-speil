@@ -2,6 +2,7 @@ import React, { ReactElement, ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { Utbetalingstabelldag } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Endringstrekant } from '@components/Endringstrekant';
 
 import { CellContent } from '../../table/CellContent';

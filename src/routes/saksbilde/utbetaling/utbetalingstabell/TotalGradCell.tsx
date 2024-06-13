@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Utbetalingstabelldagtype } from '@/routes/saksbilde/utbetaling/utbetalingstabell/types';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Maybe } from '@utils/ts';
 
