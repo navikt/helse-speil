@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { GraphQLErrors } from '@apollo/client/errors';
-import { FetchError, FlereFodselsnumreError, NotFoundError, ProtectedError } from '@io/graphql/errors';
+import { FetchError, FlereFodselsnumreError, NotFoundError, NotReadyError, ProtectedError } from '@io/graphql/errors';
 import { useFetchPersonQuery } from '@state/person';
 import { SpeilError } from '@utils/error';
 
@@ -24,6 +24,9 @@ export const useVarsler = (): Array<SpeilError> => {
                 }
                 case 404: {
                     return new NotFoundError();
+                }
+                case 409: {
+                    return new NotReadyError();
                 }
                 case 500: {
                     if (error.extensions.feilkode === 'HarFlereFodselsnumre') {
@@ -52,6 +55,10 @@ export const useRapporterGraphQLErrors = (): ((graphQLErrors: GraphQLErrors) => 
                 }
                 case 404: {
                     addVarsel(new NotFoundError());
+                    break;
+                }
+                case 409: {
+                    addVarsel(new NotReadyError());
                     break;
                 }
                 case 500: {

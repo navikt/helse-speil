@@ -15,6 +15,14 @@ export class NotFoundError extends FetchError {
     }
 }
 
+export class NotReadyError extends FetchError {
+    constructor() {
+        super('Personen er ikke klar for visning ennå');
+        this.severity = 'info';
+        this.scope = '/';
+    }
+}
+
 export class ProtectedError extends FetchError {
     constructor() {
         super('Du har ikke tilgang til å søke opp denne personen');
