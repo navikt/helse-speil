@@ -6,7 +6,6 @@ import { BodyShort } from '@navikt/ds-react';
 import styles from './vilkår.module.css';
 
 interface VilkårskategoriProps extends React.HTMLAttributes<HTMLDivElement> {
-    children: ReactNode | ReactNode[];
     ikon: ReactNode;
 }
 

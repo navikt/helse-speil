@@ -3,9 +3,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-interface CardTitleProps extends React.HTMLAttributes<HTMLParagraphElement> {
-    children: React.ReactNode;
-}
+type CardTitleProps = React.HTMLAttributes<HTMLParagraphElement>;
 
 export const CardTitle = ({ children, ...props }: CardTitleProps) => (
     <BodyShort className={styles.tittel} as="h3" {...props}>

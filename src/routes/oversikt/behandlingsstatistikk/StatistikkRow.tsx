@@ -1,13 +1,12 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { Antall } from '@io/graphql';
 
 interface StatistikkRowProps {
-    children: ReactNode;
     antall: Antall;
 }
 
-export const StatistikkRow = ({ children, antall }: StatistikkRowProps): ReactElement => {
+export const StatistikkRow = ({ children, antall }: PropsWithChildren<StatistikkRowProps>): ReactElement => {
     return (
         <tr>
             <td>{children}</td>

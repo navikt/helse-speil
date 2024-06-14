@@ -1,15 +1,11 @@
 import styles from './Widget.module.scss';
-import React, { useState } from 'react';
+import React, { PropsWithChildren, ReactElement, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
 import { Glad } from '@components/flexjar/emojies';
 
-interface WidgetProps {
-    children: React.ReactNode;
-}
-
-export const Widget = ({ children }: WidgetProps) => {
+export const Widget = ({ children }: PropsWithChildren): ReactElement => {
     const [open, setOpen] = useState(false);
 
     return open ? (

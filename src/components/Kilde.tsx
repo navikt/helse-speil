@@ -1,6 +1,6 @@
 import styles from './Kilde.module.scss';
 import classNames from 'classnames';
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { Tooltip } from '@navikt/ds-react';
 
@@ -8,7 +8,6 @@ import { Inntektskilde, Kildetype } from '@io/graphql';
 
 interface KildeProps {
     type: KildeikonType;
-    children?: ReactNode;
     className?: string;
 }
 
@@ -65,7 +64,7 @@ const erTekst = (kilde: KildeikonType): boolean =>
     kilde !== Inntektskilde.Saksbehandler &&
     kilde !== Inntektskilde.SkjonnsmessigFastsatt;
 
-export const Kilde = ({ type, children, className }: KildeProps) => {
+export const Kilde = ({ type, children, className }: PropsWithChildren<KildeProps>) => {
     return (
         <Tooltip content={getKildeTypeTooltip(type)}>
             <div className={classNames(styles.kildeikon, styles[`kildeikon__${finnCSSklasse(type)}`], className)}>

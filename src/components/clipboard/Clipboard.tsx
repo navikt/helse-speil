@@ -11,7 +11,7 @@ import { copyContentsToClipboard } from './util';
 
 interface TooltipWrapperProps {
     props?: Omit<TooltipProps, 'children'>;
-    children: React.ReactElement;
+    children: ReactElement;
 }
 
 const TooltipWrapper = ({ props, children }: TooltipWrapperProps): ReactElement => {
@@ -22,14 +22,20 @@ const TooltipWrapper = ({ props, children }: TooltipWrapperProps): ReactElement 
     return <Tooltip {...props}>{children}</Tooltip>;
 };
 
-interface Props extends PropsWithChildren {
+interface Props {
     copySource?: React.RefObject<HTMLElement>;
     preserveWhitespace?: boolean;
     copyMessage?: string;
     tooltip?: Omit<TooltipProps, 'children'>;
 }
 
-export const Clipboard = ({ children, copySource, preserveWhitespace = true, copyMessage, tooltip }: Props) => {
+export const Clipboard = ({
+    children,
+    copySource,
+    preserveWhitespace = true,
+    copyMessage,
+    tooltip,
+}: PropsWithChildren<Props>) => {
     const [didCopy, setDidCopy] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
 

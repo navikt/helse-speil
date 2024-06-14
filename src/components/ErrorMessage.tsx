@@ -5,11 +5,9 @@ import { BodyShort } from '@navikt/ds-react';
 
 import styles from './ErrorMessage.module.css';
 
-export const ErrorMessage = ({
-    children,
-    className,
-    ...rest
-}: React.HTMLAttributes<HTMLParagraphElement>): ReactElement => (
+type ErrorMessageProps = React.HTMLAttributes<HTMLParagraphElement>;
+
+export const ErrorMessage = ({ children, className, ...rest }: ErrorMessageProps): ReactElement => (
     <BodyShort as="p" {...rest} className={classNames(styles.error, className)}>
         {children}
     </BodyShort>

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren, ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -12,14 +12,19 @@ import { Vilkårstype } from '@typer/vilkår';
 import styles from './Vilkarsgruppetittel.module.css';
 
 interface VilkårsgruppetittelProps {
-    children: ReactNode | ReactNode[];
     type?: Vilkårstype;
     oppfylt?: Maybe<boolean>;
     paragraf?: ReactNode;
     className?: string;
 }
 
-export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, className }: VilkårsgruppetittelProps) => (
+export const Vilkårsgruppetittel = ({
+    children,
+    oppfylt,
+    paragraf,
+    type,
+    className,
+}: PropsWithChildren<VilkårsgruppetittelProps>) => (
     <div className={classNames('vilkårsgruppetittel', className, [styles.header])}>
         <div className={styles.ikon}>
             {oppfylt === undefined || oppfylt === null ? (

@@ -5,9 +5,7 @@ import { OverridableComponent } from '@navikt/ds-react';
 
 import styles from './Anonymous.module.css';
 
-interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-    children: React.ReactNode;
-}
+type ContainerProps = React.HTMLAttributes<HTMLDivElement>;
 
 export const AnonymizableContainer: OverridableComponent<ContainerProps, HTMLDivElement> = forwardRef(
     ({ className, children, as: Component = 'div', ...rest }, ref) => {

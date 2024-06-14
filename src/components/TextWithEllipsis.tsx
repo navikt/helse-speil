@@ -7,11 +7,9 @@ import { AnonymizableText } from './anonymizable/AnonymizableText';
 
 import styles from './TextWithEllipsis.module.css';
 
-export const TextWithEllipsis = ({
-    className,
-    children,
-    ...paragrahProps
-}: React.HTMLAttributes<HTMLParagraphElement>): ReactElement => {
+type TextWithEllipsisProps = React.HTMLAttributes<HTMLParagraphElement>;
+
+export const TextWithEllipsis = ({ className, children, ...paragrahProps }: TextWithEllipsisProps): ReactElement => {
     return (
         <BodyShort className={classNames(styles.TextWithEllipsis, className)} {...paragrahProps}>
             {children}
