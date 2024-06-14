@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
 import { Vilkårdata } from '@typer/vilkår';
@@ -12,7 +12,7 @@ interface OppfylteVilkårProps {
     vilkår: Vilkårdata[];
 }
 
-export const OppfylteVilkår = ({ vilkår }: OppfylteVilkårProps) => (
+export const OppfylteVilkår = ({ vilkår }: OppfylteVilkårProps): ReactElement => (
     <ul className={styles.kolonne} data-testid="oppfylte-vilkår" aria-labelledby="oppfylte-vilkår">
         <Vilkårskategori id="oppfylte-vilkår" ikon={<GrøntSjekkikon />}>
             Oppfylte vilkår

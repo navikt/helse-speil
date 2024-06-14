@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Table, Tooltip } from '@navikt/ds-react';
 
@@ -17,7 +17,7 @@ interface SøkerProps {
     name: Name;
 }
 
-export const SøkerCell = ({ name }: SøkerProps) => {
+export const SøkerCell = ({ name }: SøkerProps): ReactElement => {
     const formatertNavn = getFormattedName(name);
 
     return (

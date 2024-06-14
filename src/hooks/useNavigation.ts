@@ -18,7 +18,7 @@ export enum Fane {
 
 const locations = ['/dagoversikt', '/inngangsvilkår', '/sykepengegrunnlag', '/vurderingsmomenter'];
 
-const locationFromCurrentPath = (path: string, locations: string[]) => {
+const locationFromCurrentPath = (path: string, locations: string[]): number => {
     const currentPathName = path.split('/')[3];
     return locations.findIndex((location) => location.slice(1) === currentPathName);
 };

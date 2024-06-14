@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Table, Tooltip } from '@navikt/ds-react';
 
@@ -9,7 +9,7 @@ interface BehandletAvCellProps {
     name?: Maybe<string>;
 }
 
-export const BehandletAvCell = ({ name }: BehandletAvCellProps) => {
+export const BehandletAvCell = ({ name }: BehandletAvCellProps): ReactElement => {
     return (
         <Table.DataCell>
             {name ? (

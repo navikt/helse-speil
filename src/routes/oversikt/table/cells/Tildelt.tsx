@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Tooltip } from '@navikt/ds-react';
 
@@ -9,7 +9,7 @@ interface TildeltProps {
     width: number;
 }
 
-export const Tildelt = ({ name, width }: TildeltProps) => {
+export const Tildelt = ({ name, width }: TildeltProps): ReactElement => {
     return (
         <Tooltip content={name}>
             <span>

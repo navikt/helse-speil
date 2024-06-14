@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
@@ -12,7 +12,7 @@ interface TildelingProps {
     kanTildeles: boolean;
 }
 
-export const TildelingCell = ({ oppgave, kanTildeles }: TildelingProps) =>
+export const TildelingCell = ({ oppgave, kanTildeles }: TildelingProps): ReactElement =>
     !kanTildeles ? (
         <Table.DataCell>
             <p style={{ width: 128 }} />

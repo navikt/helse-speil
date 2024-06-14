@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useEffect, useState } from 'react';
+import React, { HTMLAttributes, ReactElement, useEffect, useState } from 'react';
 
 import { Arbeidsgiverinntekt, PersonFragment, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
@@ -20,7 +20,7 @@ export const SykepengegrunnlagFraSpleis = ({
     organisasjonsnummer,
     person,
     ...rest
-}: SykepengegrunnlagFraSpleisProps) => {
+}: SykepengegrunnlagFraSpleisProps): ReactElement => {
     const inntekt = getRequiredInntekt(vilkårsgrunnlag, organisasjonsnummer);
 
     const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(inntekt);

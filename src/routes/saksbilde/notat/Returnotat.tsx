@@ -1,11 +1,11 @@
 import classNames from 'classnames';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, ReactElement, SetStateAction } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 
 import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
-import { NotatType } from '@io/graphql';
+import { Maybe, NotatType } from '@io/graphql';
 import { lokaleNotaterState } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { isGhostPeriode } from '@utils/typeguards';
@@ -20,7 +20,7 @@ interface ReturnotatProps {
     error?: string | undefined;
 }
 
-export const Returnotat = ({ onSubmit, setShowNotat, error }: ReturnotatProps) => {
+export const Returnotat = ({ onSubmit, setShowNotat, error }: ReturnotatProps): Maybe<ReactElement> => {
     const oppdaterNotat = useSetRecoilState(lokaleNotaterState);
     const aktivPeriode = useActivePeriod();
     const form = useForm();

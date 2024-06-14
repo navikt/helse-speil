@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Button, Loader } from '@navikt/ds-react';
 
@@ -12,7 +12,7 @@ interface IkkeTildeltProps {
     width: number;
 }
 
-export const IkkeTildelt = ({ oppgavereferanse, width }: IkkeTildeltProps) => {
+export const IkkeTildelt = ({ oppgavereferanse, width }: IkkeTildeltProps): ReactElement => {
     const saksbehandler = useInnloggetSaksbehandler();
     const [tildelOppgave, { loading }] = useOpprettTildeling();
 

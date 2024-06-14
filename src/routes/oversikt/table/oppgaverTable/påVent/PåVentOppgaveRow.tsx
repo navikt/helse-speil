@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { OppgaveTilBehandling } from '@io/graphql';
@@ -16,7 +16,7 @@ interface PåVentOppgaveRowProps {
     oppgave: OppgaveTilBehandling;
 }
 
-export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps) => {
+export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps): ReactElement => {
     const sorteringsnøkkel = useRecoilValue(dateSortKey);
 
     const erPåVent = oppgave.egenskaper.filter((it) => it.egenskap === 'PA_VENT').length === 1;

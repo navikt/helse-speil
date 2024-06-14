@@ -8,7 +8,13 @@ import {
 } from '@saksbilde/utbetaling/utbetalingstabell/dagerUtils';
 import { useTabelldagerMap } from '@saksbilde/utbetaling/utbetalingstabell/useTabelldagerMap';
 
-export const useTotalbeløp = (tidslinje?: Maybe<Dag[]>) => {
+type Totalbeløp = {
+    arbeidsgiverTotalbeløp: number;
+    personTotalbeløp: number;
+    totalbeløp: number;
+};
+
+export const useTotalbeløp = (tidslinje?: Maybe<Dag[]>): Totalbeløp => {
     const dager = useTabelldagerMap({ tidslinje: tidslinje ?? [] });
     const utbetalingsdager = getDagerMedUtbetaling(useMemo(() => Array.from(dager.values()), [dager]));
 

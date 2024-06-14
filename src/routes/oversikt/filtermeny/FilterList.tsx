@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Accordion, Checkbox } from '@navikt/ds-react';
 
@@ -14,7 +14,7 @@ interface FilterListProps extends React.HTMLAttributes<HTMLButtonElement> {
     text: string;
 }
 
-export const FilterList = ({ filters, text }: FilterListProps) => {
+export const FilterList = ({ filters, text }: FilterListProps): ReactElement => {
     const toggleFilter = useToggleFilter();
     const [open, setOpen] = useState(true);
 

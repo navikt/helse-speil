@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { SortState, Table } from '@navikt/ds-react';
 
@@ -18,7 +18,7 @@ interface MineSakerTableProps {
     setSort: (state: SortState | undefined) => void;
 }
 
-export const MineSakerTable = ({ oppgaver, sort, setSort }: MineSakerTableProps) => {
+export const MineSakerTable = ({ oppgaver, sort, setSort }: MineSakerTableProps): ReactElement => {
     const updateSort = useUpdateSort();
     return (
         <Table

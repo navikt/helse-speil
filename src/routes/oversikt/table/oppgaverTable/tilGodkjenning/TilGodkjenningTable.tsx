@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { SortState, Table } from '@navikt/ds-react';
 
@@ -19,7 +19,7 @@ interface TilGodkjenningTableProps {
     setSort: (state: SortState | undefined) => void;
 }
 
-export const TilGodkjenningTable = ({ oppgaver, readOnly, sort, setSort }: TilGodkjenningTableProps) => {
+export const TilGodkjenningTable = ({ oppgaver, readOnly, sort, setSort }: TilGodkjenningTableProps): ReactElement => {
     const updateSort = useUpdateSort();
     return (
         <Table

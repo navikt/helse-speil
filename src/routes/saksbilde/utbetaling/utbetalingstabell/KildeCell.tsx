@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 
 import { Kilde } from '@components/Kilde';
-import { Kildetype } from '@io/graphql';
+import { Kildetype, Maybe } from '@io/graphql';
 import { EndringsloggButton } from '@saksbilde/sykepengegrunnlag/inntekt/EndringsloggButton';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { OverstyringerPrDag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
@@ -17,7 +17,7 @@ interface KildeTypeIconProps {
     overstyringer?: Array<OverstyringerPrDag>;
 }
 
-const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps) => {
+const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps): Maybe<ReactElement> => {
     switch (kilde) {
         case 'SYKMELDING':
             return <Kilde type={Kildetype.Sykmelding}>SM</Kilde>;
@@ -50,7 +50,7 @@ interface KildeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     overstyringer?: Array<OverstyringerPrDag>;
 }
 
-export const KildeCell = ({ type, kilde, overstyringer, ...rest }: KildeCellProps) => {
+export const KildeCell = ({ type, kilde, overstyringer, ...rest }: KildeCellProps): ReactElement => {
     return (
         <td {...rest}>
             <CellContent className={styles.container}>

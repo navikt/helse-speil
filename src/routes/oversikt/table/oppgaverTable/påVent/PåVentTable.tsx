@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { SortState, Table } from '@navikt/ds-react';
 
@@ -18,7 +18,7 @@ interface PåVentTableProps {
     setSort: (state: SortState | undefined) => void;
 }
 
-export const PåVentTable = ({ oppgaver, sort, setSort }: PåVentTableProps) => {
+export const PåVentTable = ({ oppgaver, sort, setSort }: PåVentTableProps): ReactElement => {
     const updateSort = useUpdateSort();
     return (
         <Table

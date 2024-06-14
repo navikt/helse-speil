@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { useId } from '@navikt/ds-react';
 
-export const IconAndreYtelser = ({ width = 25, height = 16, alt = 'Nav-logo' }) => {
+export const IconAndreYtelser = ({ width = 25, height = 16, alt = 'Nav-logo' }): ReactElement => {
     let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (

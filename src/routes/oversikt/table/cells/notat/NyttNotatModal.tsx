@@ -1,5 +1,5 @@
 import styles from './NyttNotatModal.module.scss';
-import React, { ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
 import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
@@ -61,7 +61,7 @@ export const NyttNotatModal = ({
     notattype,
     ekstraInnhold,
     submitButtonText,
-}: NyttNotatModalProps) => {
+}: NyttNotatModalProps): ReactElement => {
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const { oid } = useInnloggetSaksbehandler();
     const [nyttNotat, { loading, error }] = useMutation(LeggTilNotatDocument);
@@ -168,7 +168,7 @@ interface ControlledTextareaProps {
     tillattTekstlengde: number;
 }
 
-const ControlledTextarea = ({ control, notattekst, tillattTekstlengde }: ControlledTextareaProps) => {
+const ControlledTextarea = ({ control, notattekst, tillattTekstlengde }: ControlledTextareaProps): ReactElement => {
     const { field, fieldState } = useController({
         control: control,
         name: 'tekst',
@@ -194,7 +194,7 @@ const ControlledTextarea = ({ control, notattekst, tillattTekstlengde }: Control
     );
 };
 
-const apolloErrorCode = (error: ApolloError | undefined) =>
+const apolloErrorCode = (error: ApolloError | undefined): number =>
     (
         error?.graphQLErrors[0].extensions['code'] as {
             value: number;

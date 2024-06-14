@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -21,7 +21,7 @@ interface SykepengegrunnlagInfotrygdProps {
 export const SykepengegrunnlagInfotrygd = ({
     vilkårsgrunnlag,
     organisasjonsnummer,
-}: SykepengegrunnlagInfotrygdProps) => {
+}: SykepengegrunnlagInfotrygdProps): ReactElement => {
     return (
         <div className={styles.sykepengegrunnlag}>
             <table className={styles.table}>
@@ -78,7 +78,7 @@ interface InfotrygdInntektProps {
     inntekt: Arbeidsgiverinntekt;
 }
 
-const InfotrygdInntekt = ({ aktivtOrgnummer, inntekt }: InfotrygdInntektProps) => {
+const InfotrygdInntekt = ({ aktivtOrgnummer, inntekt }: InfotrygdInntektProps): ReactElement => {
     const arbeidsgivernavn = useArbeidsgiver(inntekt.arbeidsgiver)?.navn;
     return (
         <tr

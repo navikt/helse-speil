@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import React, { useRef } from 'react';
+import React, { ReactElement, useRef } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
@@ -19,7 +19,7 @@ interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
     aktørId: string;
 }
 
-export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
+export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps): ReactElement => {
     const ref = useRef<Maybe<HTMLTableRowElement>>(null);
     const router = useRouter();
 

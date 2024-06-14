@@ -1,10 +1,10 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { StopWatch } from '@navikt/ds-icons';
 import { Button, Table, Tooltip } from '@navikt/ds-react';
 
-import { NotatType, Personnavn } from '@io/graphql';
+import { Maybe, NotatType, Personnavn } from '@io/graphql';
 import { SisteNotattekst } from '@oversikt/table/oppgaverTable/SisteNotattekst';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 
@@ -19,7 +19,7 @@ interface NotatCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     utgåttFrist: boolean;
 }
 
-export const PåVentCell = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: NotatCellProps) => {
+export const PåVentCell = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: NotatCellProps): ReactElement => {
     return (
         <Table.DataCell
             onClick={(event) => event.stopPropagation()}
@@ -40,7 +40,7 @@ export const PåVentCell = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }:
     );
 };
 
-const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: NotatCellProps) => {
+const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: NotatCellProps): Maybe<ReactElement> => {
     const [showModal, setShowModal] = useState(false);
     const notater = useNotaterForVedtaksperiode(vedtaksperiodeId).filter((it) => it.type === NotatType.PaaVent);
 

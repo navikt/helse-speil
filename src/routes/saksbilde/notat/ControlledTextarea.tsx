@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Control, useController } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 
@@ -17,7 +17,7 @@ export const ControlledTextarea = ({
     control,
     vedtaksperiodeId,
     notattype = NotatType.Generelt,
-}: ControlledTextareaProps) => {
+}: ControlledTextareaProps): ReactElement => {
     const [notater, setNotat] = useRecoilState(lokaleNotaterState);
     const lagretNotat =
         notater.find((notat) => notat.type === notattype && notat.vedtaksperiodeId === vedtaksperiodeId)?.tekst || '';

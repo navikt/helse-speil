@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { useId } from '@navikt/ds-react';
 
@@ -7,7 +7,7 @@ export const IconEgenmelding = ({
     height = 16,
     alt = 'Egenmeldingikon',
     fill = 'var(--a-text-default)',
-}) => {
+}): ReactElement => {
     let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (

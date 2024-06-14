@@ -1,7 +1,7 @@
 import { useParams } from 'next/navigation';
 
-import { useQuery } from '@apollo/client';
-import { FetchPersonDocument, Maybe, PersonFragment } from '@io/graphql';
+import { QueryResult, useQuery } from '@apollo/client';
+import { FetchPersonDocument, FetchPersonQuery, FetchPersonQueryVariables, Maybe, PersonFragment } from '@io/graphql';
 
 /**
  * @deprecated Use useFetchPersonQuery instead
@@ -15,7 +15,7 @@ export const useCurrentPerson = (): Maybe<PersonFragment> => {
     return data?.person ?? null;
 };
 
-export const useFetchPersonQuery = () => {
+export const useFetchPersonQuery = (): QueryResult<FetchPersonQuery, FetchPersonQueryVariables> => {
     const { aktorId } = useParams<{ aktorId?: string }>();
 
     return useQuery(FetchPersonDocument, {

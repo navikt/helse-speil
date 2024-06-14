@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { useId } from '@navikt/ds-react';
 
-export const IconArbeidsdag = ({ width = 16, height = 16, alt = 'Arbeidsdagikon', fill = 'var(--a-text-default)' }) => {
+export const IconArbeidsdag = ({
+    width = 16,
+    height = 16,
+    alt = 'Arbeidsdagikon',
+    fill = 'var(--a-text-default)',
+}): ReactElement => {
     let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (

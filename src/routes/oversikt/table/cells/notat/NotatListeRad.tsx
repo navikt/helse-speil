@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Loader } from '@navikt/ds-react';
 
@@ -18,7 +18,7 @@ interface NotatListeRadProps {
     innloggetSaksbehandler: Saksbehandler;
 }
 
-export const NotatListeRad = ({ notat, innloggetSaksbehandler }: NotatListeRadProps) => {
+export const NotatListeRad = ({ notat, innloggetSaksbehandler }: NotatListeRadProps): ReactElement => {
     const errorHandler = useOperationErrorHandler('Feilregistrering av notat');
     const [feilregistrerNotat, { loading }] = useMutation(FeilregistrerNotatMutationDocument, {
         variables: { id: parseInt(notat.id) },

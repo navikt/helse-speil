@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
 import { Button, Checkbox, Heading, Loader, Textarea } from '@navikt/ds-react';
@@ -30,7 +30,13 @@ interface PåVentNotatModalProps {
     tildeling: Maybe<Tildeling>;
 }
 
-export const PåVentNotatModal = ({ onClose, navn, vedtaksperiodeId, oppgaveId, tildeling }: PåVentNotatModalProps) => {
+export const PåVentNotatModal = ({
+    onClose,
+    navn,
+    vedtaksperiodeId,
+    oppgaveId,
+    tildeling,
+}: PåVentNotatModalProps): ReactElement => {
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
     const [leggPåVentMedNotat, { loading, error: leggPåVentError }] = useLeggPåVent();
@@ -129,7 +135,7 @@ interface ControlledTextareaProps {
     tillattTekstlengde: number;
 }
 
-const ControlledTextarea = ({ control, tillattTekstlengde }: ControlledTextareaProps) => {
+const ControlledTextarea = ({ control, tillattTekstlengde }: ControlledTextareaProps): ReactElement => {
     const { field, fieldState } = useController({
         control: control,
         name: 'tekst',
@@ -158,7 +164,7 @@ const ControlledTextarea = ({ control, tillattTekstlengde }: ControlledTextareaP
     );
 };
 
-const apolloErrorCode = (error: ApolloError | undefined) =>
+const apolloErrorCode = (error: ApolloError | undefined): number =>
     (
         error?.graphQLErrors[0].extensions['code'] as {
             value: number;

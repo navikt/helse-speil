@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
@@ -10,7 +10,8 @@ import styles from '../table.module.css';
 interface EgenskaperTagsCellProps {
     egenskaper: Oppgaveegenskap[];
 }
-export const EgenskaperTagsCell = ({ egenskaper }: EgenskaperTagsCellProps) => {
+
+export const EgenskaperTagsCell = ({ egenskaper }: EgenskaperTagsCellProps): ReactElement => {
     return (
         <Table.DataCell>
             <span className={styles.flexCell}>

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Chips } from '@navikt/ds-react';
 
@@ -13,7 +13,7 @@ interface FilterChipsProps {
     setMultipleFilters: (value: boolean, ...labels: string[]) => void;
 }
 
-export const FilterChips = ({ activeFilters, toggleFilter, setMultipleFilters }: FilterChipsProps) => {
+export const FilterChips = ({ activeFilters, toggleFilter, setMultipleFilters }: FilterChipsProps): ReactElement => {
     if (activeFilters.length > 0) {
         return (
             <Chips className={classNames(styles.filterChips)}>

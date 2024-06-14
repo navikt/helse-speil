@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
@@ -13,7 +13,7 @@ interface DatoProps {
     erUtgåttDato: boolean;
 }
 
-export const DatoCell = ({ date, erUtgåttDato }: DatoProps) => (
+export const DatoCell = ({ date, erUtgåttDato }: DatoProps): ReactElement => (
     <Table.DataCell className={classNames(styles.datocell, erUtgåttDato && styles.utgåttfrist)}>
         {date && `${somDato(date).format(NORSK_DATOFORMAT)}`}
     </Table.DataCell>

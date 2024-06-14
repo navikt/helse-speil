@@ -19,7 +19,7 @@ interface VarselProps {
     type: VarselstatusType;
 }
 
-const getErrorMessage = (errorCode: number) => {
+const getErrorMessage = (errorCode: number): string => {
     switch (errorCode) {
         case 404:
             return 'Varselet finnes ikke lenger. Oppdater siden (F5).';

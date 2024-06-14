@@ -1,7 +1,15 @@
 import { RestLink } from 'apollo-link-rest';
 
 import { erLokal } from '@/env';
-import { ApolloClient, HttpLink, InMemoryCache, InMemoryCacheConfig, TypePolicies, from } from '@apollo/client';
+import {
+    ApolloClient,
+    HttpLink,
+    InMemoryCache,
+    InMemoryCacheConfig,
+    NormalizedCacheObject,
+    TypePolicies,
+    from,
+} from '@apollo/client';
 import { RetryLink } from '@apollo/client/link/retry';
 import { possibleTypes } from '@app/apollo/possibletypes';
 import { PersonFragment } from '@io/graphql';
@@ -101,7 +109,7 @@ export const apolloCacheConfig: InMemoryCacheConfig = {
     typePolicies: getTypePolicies(),
 };
 
-export const createApolloClient = () =>
+export const createApolloClient = (): ApolloClient<NormalizedCacheObject> =>
     new ApolloClient({
         link: from([
             restLink,

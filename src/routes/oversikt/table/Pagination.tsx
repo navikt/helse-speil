@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Pagination as NavPagination } from '@navikt/ds-react';
 
@@ -12,7 +12,13 @@ interface PaginationProps {
     setPage: (newPage: number) => void;
 }
 
-export const Pagination = ({ numberOfEntries, numberOfPages, currentPage, limit, setPage }: PaginationProps) => (
+export const Pagination = ({
+    numberOfEntries,
+    numberOfPages,
+    currentPage,
+    limit,
+    setPage,
+}: PaginationProps): ReactElement => (
     <div className={styles.Pagination}>
         <NavPagination page={currentPage} onPageChange={setPage} count={numberOfPages} siblingCount={2} prevNextTexts />
         {numberOfEntries > 0 && (

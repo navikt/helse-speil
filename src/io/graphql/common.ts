@@ -1,4 +1,4 @@
-export const validFødselsnummer = (id: string) => {
+export const validFødselsnummer = (id: string): boolean => {
     const weights1 = [3, 7, 6, 1, 8, 9, 4, 5, 2];
     const weights2 = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
 

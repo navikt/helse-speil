@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { browserEnv, erLokal } from '@/env';
 import { Providers } from '@app/providers';
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: `Speil ${erLokal ? ' - localhost' : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev' ? ' - dev' : ''}`,
 };
 
-export default async function RootLayout({ children }: Readonly<PropsWithChildren>) {
+export default async function RootLayout({ children }: Readonly<PropsWithChildren>): Promise<ReactElement> {
     const payload = await getTokenPayload();
 
     return (

@@ -77,7 +77,7 @@ const beslutteroppgave = (
     harDagOverstyringer = false,
     activePeriodTom?: string,
     navnPåDeaktiverteGhostArbeidsgivere?: string,
-) => {
+): Maybe<{ grad: string; melding: string }> => {
     if (erBeslutteroppgave && ['tilGodkjenning', 'revurderes'].includes(periodState)) {
         const årsaker = [];
 

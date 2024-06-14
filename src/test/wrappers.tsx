@@ -12,7 +12,7 @@ export type ApolloProps = RecoilProps & {
     mocks?: MockedResponse[];
 };
 
-export const ApolloWrapper = ({ children, initializeState, mocks }: PropsWithChildren<ApolloProps>) => {
+export const ApolloWrapper = ({ children, initializeState, mocks }: PropsWithChildren<ApolloProps>): ReactElement => {
     return (
         <MockedProvider mocks={mocks}>
             <RecoilWrapper initializeState={initializeState}>{children}</RecoilWrapper>
@@ -20,7 +20,7 @@ export const ApolloWrapper = ({ children, initializeState, mocks }: PropsWithChi
     );
 };
 
-export const RecoilWrapper = ({ children, initializeState }: PropsWithChildren<RecoilProps>) => {
+export const RecoilWrapper = ({ children, initializeState }: PropsWithChildren<RecoilProps>): ReactElement => {
     return (
         <BrukerContext.Provider
             value={{

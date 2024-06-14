@@ -1,6 +1,6 @@
 import styles from './Row.module.scss';
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
@@ -24,7 +24,7 @@ export const Row = ({
     nyDag = false,
     erHelg = false,
     className = '',
-}: RowProps) => {
+}: RowProps): ReactElement => {
     const viseHelgStil = (type && [...helgetyper, 'Helg'].includes(type)) || erHelg;
     return (
         <tr

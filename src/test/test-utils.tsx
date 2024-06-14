@@ -29,7 +29,12 @@ const errorLoggingLink = onError(({ graphQLErrors, networkError }) => {
     }
 });
 
-const AllTheProviders = ({ children, mocks, initialQueries, state }: PropsWithChildren<ProviderProps>) => {
+const AllTheProviders = ({
+    children,
+    mocks,
+    initialQueries,
+    state,
+}: PropsWithChildren<ProviderProps>): ReactElement => {
     const mockLink = new MockLink(mocks ?? []);
     const link = ApolloLink.from([errorLoggingLink, restLink, mockLink]);
 

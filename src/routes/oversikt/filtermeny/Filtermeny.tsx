@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { range } from 'remeda';
 
@@ -18,7 +18,7 @@ interface FilterMenyProps {
     filters: Filter[];
 }
 
-export const Filtermeny = ({ filters }: FilterMenyProps) => {
+export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
     const showFiltermeny = useShowFiltermeny();
     const settBredde = useSetRecoilState(filtermenyWidth);
     const aktivTab = useAktivTab();
@@ -73,7 +73,7 @@ export const Filtermeny = ({ filters }: FilterMenyProps) => {
     );
 };
 
-export function FiltermenySkeleton() {
+export function FiltermenySkeleton(): ReactElement {
     return (
         <div className={classNames(styles.filtermeny, styles.filterSkeleton)}>
             {range(0, 10).map((index) => (

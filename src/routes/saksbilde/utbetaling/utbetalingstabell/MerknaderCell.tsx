@@ -108,14 +108,14 @@ const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): Ma
 const sisteUtbetalingsdagMerknad = (isMaksdato: boolean): string | undefined =>
     isMaksdato ? 'Siste utbetalingsdag for sykepenger' : undefined;
 
-const foreldetDagMerknad = (isForeldet: boolean): React.ReactNode | undefined =>
+const foreldetDagMerknad = (isForeldet: boolean) =>
     isForeldet ? (
         <Tooltip content="Foreldet">
             <span className={styles.container} data-testid="Foreldet">
                 <LovdataLenke paragraf="22-13">§ 22-13</LovdataLenke>
             </span>
         </Tooltip>
-    ) : undefined;
+    ) : null;
 
 const avvisningsårsakerMerknad = (
     begrunnelser: Maybe<Begrunnelse[]>,

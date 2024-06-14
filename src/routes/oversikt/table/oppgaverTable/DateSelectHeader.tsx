@@ -43,7 +43,7 @@ const tilDatoKeyTekst = (key: string): string => {
             return 'Opprettet dato';
     }
 };
-export const tilDatoHeaderTekst = (key: SortKey) => {
+export const tilDatoHeaderTekst = (key: SortKey): string => {
     switch (key) {
         case SortKey.SøknadMottatt:
             return 'Mottatt';
