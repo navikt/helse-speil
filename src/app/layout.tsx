@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Head from 'next/head';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { browserEnv, erLokal } from '@/env';
@@ -19,7 +20,7 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
 
     return (
         <html lang="en">
-            <head>
+            <Head>
                 <link
                     rel="icon"
                     type="image/x-icon"
@@ -38,7 +39,7 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
                     type="font/woff2"
                     crossOrigin="anonymous"
                 />
-            </head>
+            </Head>
             <body>
                 <Providers
                     bruker={{
