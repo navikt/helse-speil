@@ -24,7 +24,7 @@ interface PersonHeaderWithContentProps {
     enhet: Enhet;
     personinfo: Personinfo;
     isAnonymous: boolean;
-    dødsdato?: Maybe<DateString>;
+    dødsdato: Maybe<DateString>;
 }
 
 export const PersonHeaderWithContent = ({
@@ -38,7 +38,7 @@ export const PersonHeaderWithContent = ({
     return (
         <div className={styles.PersonHeader}>
             <GenderIcon gender={isAnonymous ? Kjonn.Ukjent : personinfo.kjonn} />
-            <NavnOgAlder personinfo={personinfo} />
+            <NavnOgAlder personinfo={personinfo} dodsdato={dødsdato} />
             <BodyShort className={styles.Separator}>/</BodyShort>
             <Fødselsnummer fødselsnummer={fødselsnummer} />
             <BodyShort className={styles.Separator}>/</BodyShort>
