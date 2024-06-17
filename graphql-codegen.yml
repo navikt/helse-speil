@@ -8,9 +8,6 @@ config:
     LocalDateTime: 'string'
     YearMonth: 'string'
 generates:
-  ./src/io/graphql/generated/possibletypes.ts:
-    plugins:
-      - 'fragment-matcher'
   ./src/io/graphql/generated/graphql.ts:
     plugins:
       - 'typescript'
