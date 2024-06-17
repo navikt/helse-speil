@@ -1151,7 +1151,7 @@ export type SkjonnsfastsettelseInput = {
     arbeidsgivere: Array<SkjonnsfastsettelseArbeidsgiverInput>;
     fodselsnummer: Scalars['String']['input'];
     skjaringstidspunkt: Scalars['LocalDate']['input'];
-    vedtaksperiodeId: Scalars['String']['input'];
+    vedtaksperiodeId: Scalars['UUID']['input'];
 };
 
 export enum SkjonnsfastsettelseType {
