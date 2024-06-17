@@ -26,7 +26,7 @@ export const PageNotFound = (): ReactElement => {
                 </Heading>
                 <Link href="/">Til oppgavelista</Link>
             </section>
-            <Image alt="Agurk med armer og bein ikledd en lue som leser et kart" src={nissemyra} />
+            <Image alt="Agurk med armer og bein ikledd en lue som leser et kart" priority={true} src={nissemyra} />
         </main>
     );
 };

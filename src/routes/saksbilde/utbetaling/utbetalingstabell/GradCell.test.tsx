@@ -1,4 +1,5 @@
-import React, { PropsWithChildren } from 'react';
+import { TestCellWrapper } from '@test-wrappers';
+import React from 'react';
 
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import '@testing-library/jest-dom';
@@ -10,12 +11,12 @@ import { GradCell } from './GradCell';
 describe('GradCell', () => {
     it('skal tegne en overstyringstrekant med tekst når grad går fra 100 % til 0 %', async () => {
         render(
-            <CellWrapper>
+            <TestCellWrapper>
                 <GradCell
                     tabelldag={getUtbetalingstabellDag({ grad: 100 })}
                     overstyrtDag={getUtbetalingstabellDag({ grad: 0 })}
                 />
-            </CellWrapper>,
+            </TestCellWrapper>,
         );
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
@@ -26,12 +27,12 @@ describe('GradCell', () => {
 
     it('skal tegne en overstyringstrekant med tekst når grad går fra null til 100 %', async () => {
         render(
-            <CellWrapper>
+            <TestCellWrapper>
                 <GradCell
                     tabelldag={getUtbetalingstabellDag({ grad: null })}
                     overstyrtDag={getUtbetalingstabellDag()}
                 />
-            </CellWrapper>,
+            </TestCellWrapper>,
         );
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
@@ -42,18 +43,10 @@ describe('GradCell', () => {
 
     it('rendrer ikke infotrekant når vi ikke overstyrer', () => {
         render(
-            <CellWrapper>
+            <TestCellWrapper>
                 <GradCell tabelldag={getUtbetalingstabellDag()} />
-            </CellWrapper>,
+            </TestCellWrapper>,
         );
         expect(screen.queryByTestId('infotrekant')).not.toBeInTheDocument();
     });
 });
-
-const CellWrapper = ({ children }: PropsWithChildren) => (
-    <table>
-        <tbody>
-            <tr>{children}</tr>
-        </tbody>
-    </table>
-);

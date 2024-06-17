@@ -7,7 +7,7 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { enPerson } from '@test-data/person';
-import { renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { tilOverstyrteDager, useOverstyrDager } from './useOverstyrDager';
@@ -59,8 +59,7 @@ describe('useOverstyrDager', () => {
             initialProps: person,
         });
 
-        const { postOverstyring } = result.current;
-        await postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID);
+        await act(() => result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID));
 
         rerender(person);
         const { state } = result.current;
@@ -81,8 +80,7 @@ describe('useOverstyrDager', () => {
             initialProps: person,
         });
 
-        const { postOverstyring } = result.current;
-        await postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID);
+        await act(() => result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID));
 
         rerender(enPerson());
         const { state } = result.current;
@@ -102,8 +100,7 @@ describe('useOverstyrDager', () => {
             initialProps: person,
         });
 
-        const { postOverstyring } = result.current;
-        await postOverstyring([], [], BEGRUNNELSE, 'en feil');
+        await act(() => result.current.postOverstyring([], [], BEGRUNNELSE, 'en feil'));
 
         rerender(person);
         const { state, error } = result.current;

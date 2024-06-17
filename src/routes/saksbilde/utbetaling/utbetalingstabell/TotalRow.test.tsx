@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
@@ -17,7 +17,11 @@ describe('TotalRow', () => {
             { dag: Sykedag, dagerIgjen: 121 },
             { dag: Sykedag, personbeløp: 1000, dagerIgjen: 120 },
         ] as Utbetalingstabelldag[];
-        render(<TotalRow dager={dager} overstyrer={false} />);
+        render(
+            <TestRowWrapper>
+                <TotalRow dager={dager} overstyrer={false} />
+            </TestRowWrapper>,
+        );
 
         expect(screen.getByText('3 dager')).toBeVisible();
     });
@@ -31,8 +35,18 @@ describe('TotalRow', () => {
             { dag: Sykedag, dagerIgjen: 1 },
             { dag: Sykedag, personbeløp: 1000, dagerIgjen: 0 },
         ] as Utbetalingstabelldag[];
-        render(<TotalRow dager={dager} overstyrer={false} />);
+        render(
+            <TestRowWrapper>
+                <TotalRow dager={dager} overstyrer={false} />
+            </TestRowWrapper>,
+        );
 
         expect(screen.getByText('3 dager')).toBeVisible();
     });
 });
+
+const TestRowWrapper = ({ children }: PropsWithChildren) => (
+    <table>
+        <tbody>{children}</tbody>
+    </table>
+);

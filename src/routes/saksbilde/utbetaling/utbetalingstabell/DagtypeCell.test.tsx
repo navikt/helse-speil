@@ -1,3 +1,4 @@
+import { TestCellWrapper } from '@test-wrappers';
 import React from 'react';
 
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
@@ -10,22 +11,36 @@ import { Feriedag } from './utbetalingstabelldager';
 
 describe('DagtypeCell', () => {
     it('rendrer tekst for dagtype', () => {
-        render(<DagtypeCell tabelldag={getUtbetalingstabellDag({ erAvvist: true })} />);
+        render(
+            <TestCellWrapper>
+                <DagtypeCell tabelldag={getUtbetalingstabellDag({ erAvvist: true })} />
+            </TestCellWrapper>,
+        );
         expect(screen.getByText('Syk (Avslått)')).toBeVisible();
 
-        render(<DagtypeCell tabelldag={getUtbetalingstabellDag({ erForeldet: true })} />);
+        render(
+            <TestCellWrapper>
+                <DagtypeCell tabelldag={getUtbetalingstabellDag({ erForeldet: true })} />
+            </TestCellWrapper>,
+        );
         expect(screen.getByText('Syk (Foreldet)')).toBeVisible();
 
-        render(<DagtypeCell tabelldag={getUtbetalingstabellDag({ erAGP: true })} />);
+        render(
+            <TestCellWrapper>
+                <DagtypeCell tabelldag={getUtbetalingstabellDag({ erAGP: true })} />
+            </TestCellWrapper>,
+        );
         expect(screen.getByText('Syk (AGP)')).toBeVisible();
     });
 
     it('prioriterer typen til den overstyrte dagen', () => {
         render(
-            <DagtypeCell
-                tabelldag={getUtbetalingstabellDag()}
-                overstyrtDag={getUtbetalingstabellDag({ dag: Feriedag })}
-            />,
+            <TestCellWrapper>
+                <DagtypeCell
+                    tabelldag={getUtbetalingstabellDag()}
+                    overstyrtDag={getUtbetalingstabellDag({ dag: Feriedag })}
+                />
+            </TestCellWrapper>,
         );
 
         expect(screen.getByText('Ferie')).toBeVisible();
@@ -33,10 +48,12 @@ describe('DagtypeCell', () => {
 
     it('rendrer tekst for overstyringsindikatoren når vi overstyrer fra Syk til Ferie', async () => {
         render(
-            <DagtypeCell
-                tabelldag={getUtbetalingstabellDag()}
-                overstyrtDag={getUtbetalingstabellDag({ dag: Feriedag })}
-            />,
+            <TestCellWrapper>
+                <DagtypeCell
+                    tabelldag={getUtbetalingstabellDag()}
+                    overstyrtDag={getUtbetalingstabellDag({ dag: Feriedag })}
+                />
+            </TestCellWrapper>,
         );
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
@@ -46,12 +63,20 @@ describe('DagtypeCell', () => {
     });
 
     it('rendrer ikke infotrekant når vi ikke overstyrer', () => {
-        render(<DagtypeCell tabelldag={getUtbetalingstabellDag()} />);
+        render(
+            <TestCellWrapper>
+                <DagtypeCell tabelldag={getUtbetalingstabellDag()} />
+            </TestCellWrapper>,
+        );
         expect(screen.queryByTestId('infotrekant')).not.toBeInTheDocument();
     });
 
     it('rendrer infotrekant når vi legger til dag', async () => {
-        render(<DagtypeCell tabelldag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag()} />);
+        render(
+            <TestCellWrapper>
+                <DagtypeCell tabelldag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag()} />
+            </TestCellWrapper>,
+        );
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
 

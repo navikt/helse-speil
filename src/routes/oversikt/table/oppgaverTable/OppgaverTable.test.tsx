@@ -23,6 +23,8 @@ describe('OppgaverTable', () => {
             { wrapper: ApolloWrapper },
         );
 
+        expect(await screen.findByText('Saksbehandler')).toBeInTheDocument();
+
         const result = await axe(container);
 
         expect(result).toHaveNoViolations();

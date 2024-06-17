@@ -30,7 +30,7 @@ export const IngenOppgaver = (): Maybe<ReactElement> => {
         case TabType.BehandletIdag: {
             return (
                 <figure className={styles.IngenOppgaver}>
-                    <Image alt="Tom brevkasse som smiler" src={brevkasse} />
+                    <Image alt="Tom brevkasse som smiler" priority={true} src={brevkasse} />
                     <Caption>Du har ingen behandlede saker</Caption>
                 </figure>
             );
@@ -39,9 +39,13 @@ export const IngenOppgaver = (): Maybe<ReactElement> => {
             return (
                 <figure className={styles.IngenOppgaver}>
                     {erFredag() ? (
-                        <Image alt="Agurk med armer og bein ikledd sombrero som holder en taco" src={fredagstaco} />
+                        <Image
+                            alt="Agurk med armer og bein ikledd sombrero som holder en taco"
+                            priority={true}
+                            src={fredagstaco}
+                        />
                     ) : (
-                        <Image alt="Agurk med armer og bein som holder kaffekopp" src={agurk} />
+                        <Image alt="Agurk med armer og bein som holder kaffekopp" priority={true} src={agurk} />
                     )}
                     <Caption>Ooops! Ingen saker å plukke...</Caption>
                 </figure>
@@ -49,14 +53,14 @@ export const IngenOppgaver = (): Maybe<ReactElement> => {
         case TabType.Mine:
             return (
                 <figure className={styles.IngenOppgaver}>
-                    <Image alt="Tom brevkasse som smiler" src={brevkasse} />
+                    <Image alt="Tom brevkasse som smiler" priority={true} src={brevkasse} />
                     <Caption>Du har ingen tildelte saker</Caption>
                 </figure>
             );
         case TabType.Ventende:
             return (
                 <figure className={styles.IngenOppgaver}>
-                    <Image alt="Tom brevkasse som smiler" src={brevkasse} />
+                    <Image alt="Tom brevkasse som smiler" priority={true} src={brevkasse} />
                     <Caption>Du har ingen saker på vent</Caption>
                 </figure>
             );

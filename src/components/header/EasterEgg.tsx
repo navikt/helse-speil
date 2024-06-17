@@ -20,11 +20,15 @@ export const EasterEgg = (): ReactElement => (
 
 const Påskepynt = (): Maybe<ReactElement> =>
     dayjs() < dayjs('2024-04-02', ISO_DATOFORMAT) ? (
-        <Image style={{ margin: '-4px 0 -5px 1.5rem' }} alt="Påskepynt" src={påskegurken} />
+        <Image style={{ margin: '-4px 0 -5px 1.5rem' }} priority={true} alt="Påskepynt" src={påskegurken} />
     ) : null;
 
 const Julepynt = (): Maybe<ReactElement> =>
-    dayjs().get('month') == 11 ? <Image style={{ marginLeft: '1.5rem' }} alt="Julepynt" src={julegurken} /> : null;
+    dayjs().get('month') == 11 ? (
+        <Image style={{ marginLeft: '1.5rem' }} priority={true} alt="Julepynt" src={julegurken} />
+    ) : null;
 
 const Sommergurken = (): Maybe<ReactElement> =>
-    dayjs().get('month') == 6 ? <Image style={{ marginLeft: '1.5rem' }} alt="Sommerpynt" src={sommergurken} /> : null;
+    dayjs().get('month') == 6 ? (
+        <Image style={{ marginLeft: '1.5rem' }} priority={true} alt="Sommerpynt" src={sommergurken} />
+    ) : null;

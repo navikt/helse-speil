@@ -7,7 +7,7 @@ import { Opptegnelse } from '@spesialist-mock/opptegnelser';
 import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
-import { renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
 
@@ -50,23 +50,26 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
                 </MockedProvider>
             ),
         });
-        await result.current.postOverstyring({
-            aktørId: 'aktørid',
-            fødselsnummer: 'fødselsnummer',
-            skjæringstidspunkt: '2020-01-01',
-            arbeidsgivere: [
-                {
-                    begrunnelse: 'begrunnelse',
-                    forklaring: 'forklaring',
-                    fraMånedligInntekt: 10000,
-                    månedligInntekt: 20000,
-                    organisasjonsnummer: 'organisasjonsnummer',
-                    fraRefusjonsopplysninger: [],
-                    refusjonsopplysninger: [],
-                },
-            ],
-            vedtaksperiodeId: '123',
-        });
+
+        await act(() =>
+            result.current.postOverstyring({
+                aktørId: 'aktørid',
+                fødselsnummer: 'fødselsnummer',
+                skjæringstidspunkt: '2020-01-01',
+                arbeidsgivere: [
+                    {
+                        begrunnelse: 'begrunnelse',
+                        forklaring: 'forklaring',
+                        fraMånedligInntekt: 10000,
+                        månedligInntekt: 20000,
+                        organisasjonsnummer: 'organisasjonsnummer',
+                        fraRefusjonsopplysninger: [],
+                        refusjonsopplysninger: [],
+                    },
+                ],
+                vedtaksperiodeId: '123',
+            }),
+        );
 
         rerender();
 
@@ -88,23 +91,26 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
                 </MockedProvider>
             ),
         });
-        await result.current.postOverstyring({
-            aktørId: 'aktørid',
-            fødselsnummer: 'fødselsnummer',
-            skjæringstidspunkt: '2020-01-01',
-            arbeidsgivere: [
-                {
-                    begrunnelse: 'begrunnelse',
-                    forklaring: 'forklaring',
-                    fraMånedligInntekt: 10000,
-                    månedligInntekt: 20000,
-                    organisasjonsnummer: 'organisasjonsnummer',
-                    fraRefusjonsopplysninger: [],
-                    refusjonsopplysninger: [],
-                },
-            ],
-            vedtaksperiodeId: '123',
-        });
+
+        await act(() =>
+            result.current.postOverstyring({
+                aktørId: 'aktørid',
+                fødselsnummer: 'fødselsnummer',
+                skjæringstidspunkt: '2020-01-01',
+                arbeidsgivere: [
+                    {
+                        begrunnelse: 'begrunnelse',
+                        forklaring: 'forklaring',
+                        fraMånedligInntekt: 10000,
+                        månedligInntekt: 20000,
+                        organisasjonsnummer: 'organisasjonsnummer',
+                        fraRefusjonsopplysninger: [],
+                        refusjonsopplysninger: [],
+                    },
+                ],
+                vedtaksperiodeId: '123',
+            }),
+        );
         rerender();
 
         (useHåndterOpptegnelser as jest.Mock).mockImplementation((callBack: (o: Opptegnelse) => void) => {
@@ -137,24 +143,25 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
             ),
         });
 
-        const { postOverstyring } = result.current;
-        await postOverstyring({
-            aktørId: 'aktørid',
-            fødselsnummer: 'fødselsnummer',
-            skjæringstidspunkt: '2020-01-01',
-            arbeidsgivere: [
-                {
-                    begrunnelse: 'begrunnelse',
-                    forklaring: 'forklaring',
-                    fraMånedligInntekt: 10000,
-                    månedligInntekt: 20000,
-                    organisasjonsnummer: 'en feil',
-                    fraRefusjonsopplysninger: [],
-                    refusjonsopplysninger: [],
-                },
-            ],
-            vedtaksperiodeId: '123',
-        });
+        await act(() =>
+            result.current.postOverstyring({
+                aktørId: 'aktørid',
+                fødselsnummer: 'fødselsnummer',
+                skjæringstidspunkt: '2020-01-01',
+                arbeidsgivere: [
+                    {
+                        begrunnelse: 'begrunnelse',
+                        forklaring: 'forklaring',
+                        fraMånedligInntekt: 10000,
+                        månedligInntekt: 20000,
+                        organisasjonsnummer: 'en feil',
+                        fraRefusjonsopplysninger: [],
+                        refusjonsopplysninger: [],
+                    },
+                ],
+                vedtaksperiodeId: '123',
+            }),
+        );
 
         rerender();
         const { isLoading, error } = result.current;
@@ -190,7 +197,7 @@ const mocks = [
         },
         result: {
             data: {
-                overstyrArbeidsforhold: true,
+                overstyrInntektOgRefusjon: true,
             },
         },
     },

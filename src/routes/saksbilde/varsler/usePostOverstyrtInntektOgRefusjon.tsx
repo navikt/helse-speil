@@ -34,8 +34,9 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const setPollingRate = useSetOpptegnelserPollingRate();
-    const slettLokaleOverstyringer = useResetRecoilState(inntektOgRefusjonState);
+    const resetLokaleOverstyringer = useResetRecoilState(inntektOgRefusjonState);
     const [calculating, setCalculating] = useState(false);
+    const [slettLokaleOverstyringer, setSlettLokaleOverstyringer] = useState(false);
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { loading, error }] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
@@ -46,9 +47,16 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
         if (erFerdigOpptegnelse && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
-            slettLokaleOverstyringer();
+            setSlettLokaleOverstyringer(true);
         }
     });
+
+    useEffect(() => {
+        if (slettLokaleOverstyringer) {
+            resetLokaleOverstyringer();
+            setSlettLokaleOverstyringer(false);
+        }
+    }, [resetLokaleOverstyringer, slettLokaleOverstyringer]);
 
     useEffect(() => {
         const timeout: Maybe<NodeJS.Timeout | number> = calculating
