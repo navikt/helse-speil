@@ -25,7 +25,7 @@
     display: flex;
 }
 
-.SaksbildeMenu.Skeleton .TabList > span:not(:last-of-type) {
+.SaksbildeMenu.Skeleton .TabList > span {
     margin: auto 13px;
 }
 
