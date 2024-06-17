@@ -50,3 +50,9 @@ export const TestCellWrapper = ({ children }: PropsWithChildren) => (
         </tbody>
     </table>
 );
+
+export const TestRowWrapper = ({ children }: PropsWithChildren) => (
+    <table>
+        <tbody>{children}</tbody>
+    </table>
+);

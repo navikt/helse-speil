@@ -1,4 +1,5 @@
-import React, { PropsWithChildren } from 'react';
+import { TestRowWrapper } from '@test-wrappers';
+import React from 'react';
 
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
@@ -44,9 +45,3 @@ describe('TotalRow', () => {
         expect(screen.getByText('3 dager')).toBeVisible();
     });
 });
-
-const TestRowWrapper = ({ children }: PropsWithChildren) => (
-    <table>
-        <tbody>{children}</tbody>
-    </table>
-);
