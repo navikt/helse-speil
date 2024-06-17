@@ -21,8 +21,15 @@ export const AnonymiseringProvider = ({ children }: PropsWithChildren) => {
     const setAnonymity = useSetAnonymity();
 
     useEffect(() => {
+        // Overgangskode for å unngå å miste anonymiseringsflagg, kan sikkert fjernes om noen dager
+        const gammelVerdi = localStorage.getItem('agurkmodus');
+        if (gammelVerdi !== null) {
+            localStorage.removeItem('agurkmodus');
+            localStorage.setItem('anonymisering', gammelVerdi);
+        }
+
         // Hydrer localStorage-verdi for anonymisering, fordi serveren vet ikke hva som er i localStorage (SSR)
-        const anonymisering = localStorage.getItem('anonymisering') ?? localStorage.getItem('agurkmodus');
+        const anonymisering = localStorage.getItem('anonymisering');
         if (anonymisering !== null) {
             const anonymiseringBool = anonymisering === 'true';
             setAnonymity(anonymiseringBool);
