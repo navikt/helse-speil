@@ -22,8 +22,8 @@ export const AnonymiseringProvider = ({ children }: PropsWithChildren) => {
 
     useEffect(() => {
         // Hydrer localStorage-verdi for anonymisering, fordi serveren vet ikke hva som er i localStorage (SSR)
-        const anonymisering = localStorage.getItem('agurkmodus');
-        if (anonymisering) {
+        const anonymisering = localStorage.getItem('anonymisering') ?? localStorage.getItem('agurkmodus');
+        if (anonymisering !== null) {
             const anonymiseringBool = anonymisering === 'true';
             setAnonymity(anonymiseringBool);
         }

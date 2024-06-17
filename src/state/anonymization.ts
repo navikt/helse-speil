@@ -5,9 +5,17 @@ const anonymityState = atom<boolean>({
     key: 'anonymityState',
     default: false,
     effects: [
+        () => {
+            // Overgangskode for å unngå å miste anonymiseringsflagg, kan sikkert fjernes om noen dager
+            const gammelVerdi = localStorage.getItem('agurkmodus');
+            if (gammelVerdi !== null) {
+                localStorage.removeItem('agurkmodus');
+                localStorage.setItem('anonymisering', gammelVerdi);
+            }
+        },
         ({ onSet }) => {
             onSet((newValue) => {
-                localStorage.setItem('agurkmodus', JSON.stringify(newValue));
+                localStorage.setItem('anonymisering', JSON.stringify(newValue));
             });
         },
     ],
