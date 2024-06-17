@@ -1,4 +1,3 @@
-import { ApolloWrapper, RecoilWrapper } from '@test-wrappers';
 import { nanoid } from 'nanoid';
 import React from 'react';
 
@@ -12,6 +11,7 @@ import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode, enDag } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
+import { ApolloWrapper, RecoilWrapper } from '@test-wrappers';
 import { render, screen } from '@testing-library/react';
 
 import { Utbetaling } from './Utbetaling';

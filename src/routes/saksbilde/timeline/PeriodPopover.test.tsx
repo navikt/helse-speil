@@ -1,4 +1,3 @@
-import { ApolloWrapper } from '@test-wrappers';
 import React from 'react';
 
 import {
@@ -15,6 +14,7 @@ import {
     Utbetalingtype,
 } from '@io/graphql';
 import { useGjenståendeDager } from '@state/arbeidsgiver';
+import { ApolloWrapper } from '@test-wrappers';
 import { render, screen } from '@testing-library/react';
 
 import { BeregnetPopover } from './PeriodPopover';

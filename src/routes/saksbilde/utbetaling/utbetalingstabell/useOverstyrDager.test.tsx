@@ -1,4 +1,3 @@
-import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
 import { MockedProvider } from '@apollo/client/testing';
@@ -7,6 +6,7 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { enPerson } from '@test-data/person';
+import { RecoilWrapper } from '@test-wrappers';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 

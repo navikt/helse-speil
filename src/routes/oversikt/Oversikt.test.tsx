@@ -1,10 +1,10 @@
-import { createMock, render, screen } from '@test-utils';
 import { axe } from 'jest-axe';
 import React from 'react';
 
 import { HentBehandlingsstatistikkDocument } from '@io/graphql';
 import { useAntallOppgaver, useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
+import { createMock, render, screen } from '@test-utils';
 
 import { Oversikt } from './Oversikt';
 

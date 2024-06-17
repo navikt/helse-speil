@@ -1,10 +1,10 @@
-import { createInitialQuery, createMock, render, screen } from '@test-utils';
 import { GraphQLError } from 'graphql';
 import mockRouter from 'next-router-mock';
 
 import { Varsler } from '@components/Varsler';
 import { FetchPersonDocument } from '@io/graphql';
 import { enPerson } from '@test-data/person';
+import { createInitialQuery, createMock, render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
 import { Personsøk } from './Personsøk';

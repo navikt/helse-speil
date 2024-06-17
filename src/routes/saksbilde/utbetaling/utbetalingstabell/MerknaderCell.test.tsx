@@ -1,8 +1,8 @@
-import { TestCellWrapper } from '@test-wrappers';
 import React from 'react';
 
 import { Begrunnelse } from '@io/graphql';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
+import { TestCellWrapper } from '@test-wrappers';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 

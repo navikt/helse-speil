@@ -1,9 +1,9 @@
-import { RecoilWrapper } from '@test-wrappers';
 import { axe } from 'jest-axe';
 import React from 'react';
 
 import { useAntallOppgaver, useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
+import { RecoilWrapper } from '@test-wrappers';
 import { render, screen, within } from '@testing-library/react';
 
 import { Tabs } from './Tabs';

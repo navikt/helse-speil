@@ -1,6 +1,5 @@
-import { ApolloWrapper } from '@test-wrappers';
-
 import { Adressebeskyttelse, Kjonn } from '@io/graphql';
+import { ApolloWrapper } from '@test-wrappers';
 import { render, screen } from '@testing-library/react';
 
 import { PersonHeaderWithContent } from './PersonHeaderWIthContent';

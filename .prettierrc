@@ -5,7 +5,7 @@
     "plugins": ["@trivago/prettier-plugin-sort-imports"],
     "importOrder": [
         "^@navikt\\/(.*)$",
-        "^(?!@emotion)@(.*)\\/(.*)$",
+        "^(@(.*)|@(.*)\\/(.*))$",
         "^([.]{1,2}\\/)+[æøåÆØÅa-zA-Z]+((\\/[æøåÆØÅa-zA-Z]+)+)?$",
         "^.*([.]css)$"
     ],

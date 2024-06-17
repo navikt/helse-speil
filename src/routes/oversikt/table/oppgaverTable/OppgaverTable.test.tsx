@@ -1,8 +1,8 @@
-import { ApolloWrapper } from '@test-wrappers';
 import { axe } from 'jest-axe';
 import React from 'react';
 
 import { enOppgaveForOversikten } from '@test-data/oppgave';
+import { ApolloWrapper } from '@test-wrappers';
 import { render, screen } from '@testing-library/react';
 
 import { OppgaverTable } from './OppgaverTable';

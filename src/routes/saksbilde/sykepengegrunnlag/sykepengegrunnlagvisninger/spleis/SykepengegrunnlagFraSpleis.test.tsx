@@ -1,4 +1,3 @@
-import { render, screen } from '@test-utils';
 import fetchMock from 'jest-fetch-mock';
 import React from 'react';
 
@@ -16,6 +15,7 @@ import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
+import { render, screen } from '@test-utils';
 
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 

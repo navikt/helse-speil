@@ -1,9 +1,9 @@
-import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
 import { MockedProvider } from '@apollo/client/testing';
 import { FetchPersonDocument, Maybe } from '@io/graphql';
 import { useKeyboardActions } from '@saksbilde/useKeyboardShortcuts';
+import { RecoilWrapper } from '@test-wrappers';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

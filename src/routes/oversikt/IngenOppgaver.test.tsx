@@ -1,8 +1,8 @@
-import { wrapperWithRecoilInitializer } from '@test-wrappers';
 import { axe } from 'jest-axe';
 import React from 'react';
 import { MutableSnapshot } from 'recoil';
 
+import { wrapperWithRecoilInitializer } from '@test-wrappers';
 import { render } from '@testing-library/react';
 
 import { IngenOppgaver } from './IngenOppgaver';

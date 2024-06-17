@@ -1,4 +1,3 @@
-import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
 import { MockedProvider } from '@apollo/client/testing';
@@ -7,6 +6,7 @@ import { Opptegnelse } from '@spesialist-mock/opptegnelser';
 import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
+import { RecoilWrapper } from '@test-wrappers';
 import { act, renderHook, waitFor } from '@testing-library/react';
 
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';

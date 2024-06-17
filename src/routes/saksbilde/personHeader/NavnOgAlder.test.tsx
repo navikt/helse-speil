@@ -1,8 +1,8 @@
-import { ApolloWrapper } from '@test-wrappers';
 import dayjs from 'dayjs';
 
 import { Adressebeskyttelse, Kjonn, Personinfo } from '@io/graphql';
 import { NavnOgAlder } from '@saksbilde/personHeader/NavnOgAlder';
+import { ApolloWrapper } from '@test-wrappers';
 import { cleanup, render, screen } from '@testing-library/react';
 
 describe('NavnOgAlder', () => {

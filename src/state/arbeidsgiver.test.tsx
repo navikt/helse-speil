@@ -1,4 +1,3 @@
-import { wrapperWithRecoilInitializer } from '@test-wrappers';
 import { nanoid } from 'nanoid';
 
 import {
@@ -17,6 +16,7 @@ import { enArbeidsforholdoverstyring, enDagoverstyring, enInntektoverstyring } f
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
+import { wrapperWithRecoilInitializer } from '@test-wrappers';
 import { renderHook } from '@testing-library/react';
 
 jest.mock('@state/person');

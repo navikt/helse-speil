@@ -1,7 +1,7 @@
-import { createMock, render, screen, waitFor, within } from '@test-utils';
 import React from 'react';
 
 import { AnnullerDocument, OpprettAbonnementDocument } from '@io/graphql';
+import { createMock, render, screen, waitFor, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
 import { Annulleringsmodal } from './Annulleringsmodal';
