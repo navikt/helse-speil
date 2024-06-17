@@ -72,10 +72,7 @@ export const Inntektsmeldingsinnhold = ({ dokumentId, fødselsnummer }: Inntekts
                             )}
                         </div>
                     )}
-                    <BestemmendeFraværsdag
-                        inntektsdato={inntektsmelding?.inntektsdato ?? null}
-                        førsteFraværsdag={inntektsmelding?.foersteFravaersdag ?? null}
-                    />
+                    <BestemmendeFraværsdag π førsteFraværsdag={inntektsmelding?.foersteFravaersdag ?? null} />
                     {(inntektsmelding.arbeidsgiverperioder?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
                             <Bold size="small">Arbeidsgiverperioder</Bold>

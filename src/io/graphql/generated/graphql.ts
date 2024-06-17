@@ -95,7 +95,7 @@ export type Arbeidsgiver = {
     arbeidsforhold: Array<Arbeidsforhold>;
     bransjer: Array<Scalars['String']['output']>;
     generasjoner: Array<Generasjon>;
-    ghostPerioder: Array<GhostPeriodeFragment>;
+    ghostPerioder: Array<GhostPeriode>;
     inntekterFraAordningen: Array<ArbeidsgiverInntekterFraAOrdningen>;
     navn: Scalars['String']['output'];
     organisasjonsnummer: Scalars['String']['output'];
@@ -1636,7 +1636,6 @@ export type FetchInntektsmeldingQuery = {
         begrunnelseForReduksjonEllerIkkeUtbetalt: string | null;
         bruttoUtbetalt: number | null;
         beregnetInntekt: number | null;
-        inntektsdato: string | null;
         foersteFravaersdag: string | null;
         naerRelasjon: boolean | null;
         innsenderFulltNavn: string | null;
@@ -8646,7 +8645,6 @@ export const FetchInntektsmeldingDocument = {
                                 },
                                 { kind: 'Field', name: { kind: 'Name', value: 'bruttoUtbetalt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'beregnetInntekt' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'inntektsdato' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'refusjon' },

@@ -3,7 +3,6 @@ query FetchInntektsmelding($fnr: String!, $dokumentId: String!) {
         begrunnelseForReduksjonEllerIkkeUtbetalt,
         bruttoUtbetalt,
         beregnetInntekt,
-        inntektsdato,
         refusjon {
             beloepPrMnd, opphoersdato
         },
