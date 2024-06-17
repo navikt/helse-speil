@@ -28,6 +28,7 @@ describe('Personlinje', () => {
                     reservasjon: null,
                 }}
                 isAnonymous={false}
+                dødsdato={null}
             />,
             { wrapper: ApolloWrapper },
         );
