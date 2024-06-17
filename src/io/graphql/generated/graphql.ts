@@ -300,7 +300,6 @@ export type DokumentInntektsmelding = {
     innsenderFulltNavn: Maybe<Scalars['String']['output']>;
     innsenderTelefon: Maybe<Scalars['String']['output']>;
     inntektEndringAarsak: Maybe<InntektEndringAarsak>;
-    inntektsdato: Maybe<Scalars['LocalDate']['output']>;
     naerRelasjon: Maybe<Scalars['Boolean']['output']>;
     opphoerAvNaturalytelser: Maybe<Array<OpphoerAvNaturalytelse>>;
     refusjon: Maybe<Refusjon>;

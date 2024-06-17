@@ -2881,18 +2881,6 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "inntektsdato",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "LocalDate",
-                            "ofType": null
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "naerRelasjon",
                         "description": null,
                         "args": [],
