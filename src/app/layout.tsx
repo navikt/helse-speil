@@ -13,6 +13,15 @@ import './globals.css';
 
 export const metadata: Metadata = {
     title: `Speil ${erLokal ? ' - localhost' : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev' ? ' - dev' : ''}`,
+    icons: {
+        icon: `/favicons/${
+            erLokal
+                ? 'favicon-local.ico'
+                : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev'
+                  ? 'favicon-dev.ico'
+                  : 'favicon.ico'
+        }`,
+    },
 };
 
 export default async function RootLayout({ children }: Readonly<PropsWithChildren>): Promise<ReactElement> {
@@ -21,17 +30,6 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
     return (
         <html lang="en">
             <Head>
-                <link
-                    rel="icon"
-                    type="image/x-icon"
-                    href={`/favicons/${
-                        erLokal
-                            ? 'favicon-local.ico'
-                            : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev'
-                              ? 'favicon-dev.ico'
-                              : 'favicon.ico'
-                    }`}
-                />
                 <link
                     rel="preload"
                     href="https://cdn.nav.no/aksel/fonts/SourceSans3-normal.woff2"
