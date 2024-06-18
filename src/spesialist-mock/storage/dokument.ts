@@ -189,7 +189,6 @@ export class DokumentMock {
             begrunnelseForReduksjonEllerIkkeUtbetalt: '',
             bruttoUtbetalt: null,
             beregnetInntekt: 35000.0,
-            inntektsdato: '2023-08-01',
             refusjon: {
                 beloepPrMnd: 0.0,
                 opphoersdato: null,
