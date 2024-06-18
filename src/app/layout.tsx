@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Head from 'next/head';
 import React, { PropsWithChildren, ReactElement } from 'react';
+import ReactDOM from 'react-dom';
 
 import { browserEnv, erLokal } from '@/env';
 import { Providers } from '@app/providers';
@@ -24,20 +24,17 @@ export const metadata: Metadata = {
     },
 };
 
+ReactDOM.preload('https://cdn.nav.no/aksel/fonts/SourceSans3-normal.woff2', {
+    as: 'font',
+    type: 'font/woff2',
+    crossOrigin: 'anonymous',
+});
+
 export default async function RootLayout({ children }: Readonly<PropsWithChildren>): Promise<ReactElement> {
     const payload = await getTokenPayload();
 
     return (
         <html lang="en">
-            <Head>
-                <link
-                    rel="preload"
-                    href="https://cdn.nav.no/aksel/fonts/SourceSans3-normal.woff2"
-                    as="font"
-                    type="font/woff2"
-                    crossOrigin="anonymous"
-                />
-            </Head>
             <body>
                 <Providers
                     bruker={{
