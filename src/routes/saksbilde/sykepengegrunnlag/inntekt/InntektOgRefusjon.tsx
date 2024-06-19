@@ -149,23 +149,14 @@ export const InntektOgRefusjon = ({
             <div className={styles.aligncenter}>
                 <Bold>Beregnet månedsinntekt</Bold>
             </div>
-            {/*TODO: Slå sammen EditableInntekt*/}
-            {editingInntekt && !harSykefravær && omregnetÅrsinntekt ? (
+            {editingInntekt && omregnetÅrsinntekt ? (
                 <EditableInntekt
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
                     close={() => setEditingInntekt(false)}
                     onEndre={setEndret}
-                    begrunnelser={endreInntektUtenSykefraværBegrunnelser}
-                    organisasjonsnummer={organisasjonsnummer}
-                    skjæringstidspunkt={skjæringstidspunkt}
-                    person={person}
-                />
-            ) : editingInntekt && harSykefravær && omregnetÅrsinntekt ? (
-                <EditableInntekt
-                    omregnetÅrsinntekt={omregnetÅrsinntekt}
-                    close={() => setEditingInntekt(false)}
-                    onEndre={setEndret}
-                    begrunnelser={endreInntektMedSykefraværBegrunnelser}
+                    begrunnelser={
+                        harSykefravær ? endreInntektMedSykefraværBegrunnelser : endreInntektUtenSykefraværBegrunnelser
+                    }
                     organisasjonsnummer={organisasjonsnummer}
                     skjæringstidspunkt={skjæringstidspunkt}
                     person={person}
