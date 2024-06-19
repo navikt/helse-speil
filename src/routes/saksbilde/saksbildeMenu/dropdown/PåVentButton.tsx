@@ -13,7 +13,7 @@ interface PåVentButtonProps {
 }
 
 export const PåVentButton = ({ person }: PåVentButtonProps): Maybe<ReactElement> => {
-    const [visModal, setVisModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     const [fjernPåVent, { loading, error: fjernPåVentError }] = useFjernPåVent();
     const errorHandler = useOperationErrorHandler('Legg på vent');
@@ -46,12 +46,12 @@ export const PåVentButton = ({ person }: PåVentButtonProps): Maybe<ReactElemen
                     {loading && <Loader size="xsmall" />}
                 </Dropdown.Menu.List.Item>
             ) : (
-                <Dropdown.Menu.List.Item onClick={() => setVisModal(true)}>Legg på vent</Dropdown.Menu.List.Item>
+                <Dropdown.Menu.List.Item onClick={() => setShowModal(true)}>Legg på vent</Dropdown.Menu.List.Item>
             )}
-            {visModal && (
+            {showModal && (
                 <PåVentNotatModal
-                    setVisModal={(visModal) => setVisModal(visModal)}
-                    visModal={visModal}
+                    setShowModal={(visModal) => setShowModal(visModal)}
+                    showModal={showModal}
                     navn={navn}
                     vedtaksperiodeId={periodeTilGodkjenning.vedtaksperiodeId}
                     oppgaveId={oppgaveId}

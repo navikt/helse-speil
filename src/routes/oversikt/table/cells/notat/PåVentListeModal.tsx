@@ -1,9 +1,9 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useRef, useState } from 'react';
 
-import { Detail, Heading } from '@navikt/ds-react';
+import { Heading, Modal, Table } from '@navikt/ds-react';
 
 import { LinkButton } from '@components/LinkButton';
-import { TableModal } from '@components/TableModal';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { NotatType, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { Notat } from '@typer/notat';
@@ -12,28 +12,29 @@ import { getFormatertNavn } from '@utils/string';
 import { NotatListeRad } from './NotatListeRad';
 import { NyttNotatModal } from './NyttNotatModal';
 
-interface PåVentListeModalProps {
+import styles from './PåVentListeModal.module.css';
+
+type PåVentListeModalProps = {
+    setShowModal: (visModal: boolean) => void;
+    showModal: boolean;
     notater: Notat[];
     vedtaksperiodeId: string;
     navn: Personnavn;
-    onClose: (event: React.SyntheticEvent) => void;
     erPåVent?: boolean;
-}
+};
 
 export const PåVentListeModal = ({
+    setShowModal,
+    showModal,
     notater,
     vedtaksperiodeId,
     navn,
-    onClose,
     erPåVent,
 }: PåVentListeModalProps): ReactElement => {
-    const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const søkernavn = getFormatertNavn(navn);
-
-    const closeModal = (event: React.SyntheticEvent) => {
-        onClose(event);
-    };
+    const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
+    const ref = useRef<HTMLDialogElement>(null);
 
     const toggleShowNyttNotatModal = () => {
         setShowNyttNotatModal((prevState) => !prevState);
@@ -47,41 +48,44 @@ export const PåVentListeModal = ({
             notattype={NotatType.PaaVent}
         />
     ) : (
-        <TableModal
-            title={
-                <>
-                    <Heading level="1" size="small">
-                        Lagt på vent - notater
-                    </Heading>
-                    <Detail>Søker: {søkernavn}</Detail>
-                </>
-            }
-            contentLabel="Lagt på vent - notater"
-            isOpen
-            onRequestClose={closeModal}
+        <Modal
+            ref={ref}
+            aria-label="Legg på vent modal"
+            portal
+            closeOnBackdropClick
+            open={showModal}
+            onClose={() => setShowModal(false)}
         >
-            <thead>
-                <tr>
-                    <th>Dato</th>
-                    <th>Saksbehandler</th>
-                    <th>Kommentar</th>
-                    <td />
-                </tr>
-            </thead>
-            <tbody>
-                {notater.map((notat) => (
-                    <NotatListeRad key={notat.id} notat={notat} innloggetSaksbehandler={innloggetSaksbehandler} />
-                ))}
-            </tbody>
-            {erPåVent && (
-                <tfoot>
-                    <tr>
-                        <td colSpan={4} style={{ textAlign: 'right', paddingTop: '1.5rem' }}>
-                            <LinkButton onClick={toggleShowNyttNotatModal}>Legg til nytt notat</LinkButton>
-                        </td>
-                    </tr>
-                </tfoot>
-            )}
-        </TableModal>
+            <Modal.Header>
+                <Heading level="1" size="small" className={styles.tittel}>
+                    Lagt på vent - notater
+                </Heading>
+                <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>
+            </Modal.Header>
+            <Modal.Body>
+                <Table zebraStripes>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>Dato</Table.HeaderCell>
+                            <Table.HeaderCell>Saksbehandler</Table.HeaderCell>
+                            <Table.HeaderCell>Kommentar</Table.HeaderCell>
+                            <Table.DataCell />
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {notater.map((notat) => (
+                            <NotatListeRad
+                                key={notat.id}
+                                notat={notat}
+                                innloggetSaksbehandler={innloggetSaksbehandler}
+                            />
+                        ))}
+                    </Table.Body>
+                </Table>
+            </Modal.Body>
+            <Modal.Footer>
+                {erPåVent && <LinkButton onClick={toggleShowNyttNotatModal}>Legg til nytt notat</LinkButton>}
+            </Modal.Footer>
+        </Modal>
     );
 };

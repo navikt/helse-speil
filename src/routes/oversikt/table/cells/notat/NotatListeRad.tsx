@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
-import { Loader } from '@navikt/ds-react';
+import { Loader, Table } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { LinkButton } from '@components/LinkButton';
@@ -26,11 +26,11 @@ export const NotatListeRad = ({ notat, innloggetSaksbehandler }: NotatListeRadPr
     });
 
     return (
-        <tr className={classNames(styles.NotatListeRad, notat.feilregistrert && styles.error)}>
-            <td>{`${notat.opprettet.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}`}</td>
-            <td>{notat.saksbehandler.ident}</td>
-            <td className={styles.Kommentar}>{notat.tekst}</td>
-            <td>
+        <Table.Row className={classNames(styles.NotatListeRad, notat.feilregistrert && styles.error)}>
+            <Table.DataCell>{`${notat.opprettet.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}`}</Table.DataCell>
+            <Table.DataCell>{notat.saksbehandler.ident}</Table.DataCell>
+            <Table.DataCell className={styles.Kommentar}>{notat.tekst}</Table.DataCell>
+            <Table.DataCell>
                 {notat.feilregistrert
                     ? 'Feilregistrert'
                     : notat.saksbehandler.oid === innloggetSaksbehandler.oid && (
@@ -38,7 +38,7 @@ export const NotatListeRad = ({ notat, innloggetSaksbehandler }: NotatListeRadPr
                               Feilregistrer {loading && <Loader size="xsmall" />}
                           </LinkButton>
                       )}
-            </td>
-        </tr>
+            </Table.DataCell>
+        </Table.Row>
     );
 };

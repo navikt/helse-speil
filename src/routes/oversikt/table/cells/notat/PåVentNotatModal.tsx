@@ -22,8 +22,8 @@ import { SisteNotat } from './SisteNotat';
 import styles from './PåVentNotatModal.module.css';
 
 interface PåVentNotatModalProps {
-    setVisModal: (visModal: boolean) => void;
-    visModal: boolean;
+    setShowModal: (visModal: boolean) => void;
+    showModal: boolean;
     navn: Personnavn;
     vedtaksperiodeId: string;
     oppgaveId: string;
@@ -31,8 +31,8 @@ interface PåVentNotatModalProps {
 }
 
 export const PåVentNotatModal = ({
-    setVisModal,
-    visModal,
+    setShowModal,
+    showModal,
     navn,
     vedtaksperiodeId,
     oppgaveId,
@@ -91,8 +91,8 @@ export const PåVentNotatModal = ({
             aria-label="Legg på vent modal"
             portal
             closeOnBackdropClick
-            open={visModal}
-            onClose={() => setVisModal(false)}
+            open={showModal}
+            onClose={() => setShowModal(false)}
         >
             <Modal.Header>
                 <Heading level="1" size="medium" className={styles.tittel}>
