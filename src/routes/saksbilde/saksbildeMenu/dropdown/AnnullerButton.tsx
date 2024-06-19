@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { Dropdown } from '@navikt/ds-react';
 
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Maybe, PersonFragment, Utbetalingstatus } from '@io/graphql';
-import { Annulleringsmodal } from '@saksbilde/annullering/Annulleringsmodal';
+import { AnnulleringsModal } from '@saksbilde/annullering/AnnulleringsModal';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonUtils';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -28,15 +28,14 @@ const AnnullerButtonWithContent = ({
         <>
             <Dropdown.Menu.List.Item onClick={() => setShowModal(true)}>Annuller</Dropdown.Menu.List.Item>
             {showModal && (
-                <Annulleringsmodal
+                <AnnulleringsModal
+                    setShowModal={setShowModal}
+                    showModal={showModal}
                     fødselsnummer={fødselsnummer}
                     aktørId={aktørId}
                     organisasjonsnummer={organisasjonsnummer}
                     vedtaksperiodeId={vedtaksperiodeId}
                     utbetalingId={utbetalingId}
-                    onClose={() => {
-                        setShowModal(false);
-                    }}
                 />
             )}
         </>

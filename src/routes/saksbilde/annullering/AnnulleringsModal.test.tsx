@@ -4,9 +4,11 @@ import { AnnullerDocument, OpprettAbonnementDocument } from '@io/graphql';
 import { createMock, render, screen, waitFor, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
-import { Annulleringsmodal } from './Annulleringsmodal';
+import { AnnulleringsModal } from './AnnulleringsModal';
 
 const defaultProps = {
+    setShowModal: () => null,
+    showModal: true,
     fødselsnummer: '12345678910',
     aktørId: '12345678910',
     organisasjonsnummer: '987654321',
@@ -14,7 +16,6 @@ const defaultProps = {
     utbetalingId: 'EN-UTBETALINGID',
     skjæringstidspunkt: '2022-01-01',
     linjer: [{ fom: '2022-01-01', tom: '2022-01-31', totalbelop: 30000 }],
-    onClose: () => null,
 };
 
 const createMocks = (annulerDone?: jest.Mock) => [
@@ -60,7 +61,7 @@ const createMocks = (annulerDone?: jest.Mock) => [
 
 describe('Annulleringsmodal', () => {
     test('viser feilmelding ved manglende begrunnelse', async () => {
-        render(<Annulleringsmodal {...defaultProps} />, {
+        render(<AnnulleringsModal {...defaultProps} />, {
             mocks: createMocks(),
         });
 
@@ -70,7 +71,7 @@ describe('Annulleringsmodal', () => {
     });
 
     test('viser feilmelding ved manglende kommentar', async () => {
-        render(<Annulleringsmodal {...defaultProps} />, { mocks: createMocks() });
+        render(<AnnulleringsModal {...defaultProps} />, { mocks: createMocks() });
 
         const kanIkkeRevurderesSection = within(
             screen.getByRole('group', {
@@ -87,7 +88,7 @@ describe('Annulleringsmodal', () => {
     test('gjør annulleringsmutation på annuller', async () => {
         const annulleringMutationDone = jest.fn();
 
-        render(<Annulleringsmodal {...defaultProps} />, { mocks: createMocks(annulleringMutationDone) });
+        render(<AnnulleringsModal {...defaultProps} />, { mocks: createMocks(annulleringMutationDone) });
 
         await userEvent.click(screen.getByRole('checkbox', { name: 'Ferie' }));
         await userEvent.click(screen.getByRole('button', { name: 'Annuller' }));
