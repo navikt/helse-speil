@@ -1,12 +1,10 @@
-import styles from './NyttNotatModal.module.scss';
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement, ReactNode, useRef } from 'react';
 import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
-import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
+import { Button, Heading, Loader, Modal, Textarea } from '@navikt/ds-react';
 
 import { ApolloError, useMutation } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
-import { GammelModal } from '@components/Modal';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { LeggTilNotatDocument, NotatType, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -15,12 +13,14 @@ import { getFormatertNavn } from '@utils/string';
 
 import { SisteNotat } from './SisteNotat';
 
-interface Notattekster {
+import styles from './PåVentModal.module.scss';
+
+type Notattekster = {
     tittel: string;
     description: string;
     submitTekst: string;
     errorTekst?: string;
-}
+};
 
 const notattypeTekster = (notattype: NotatType): Notattekster => {
     switch (notattype) {
@@ -41,8 +41,9 @@ const notattypeTekster = (notattype: NotatType): Notattekster => {
     }
 };
 
-interface NyttNotatModalProps {
-    onClose: (event: React.SyntheticEvent) => void;
+type NyttNotatModalProps = {
+    setShowModal: (visModal: boolean) => void;
+    showModal: boolean;
     navn: Personnavn;
     vedtaksperiodeId: string;
     onSubmitOverride?: (notattekst: string, frist?: string, begrunnelse?: string) => Promise<unknown>;
@@ -50,10 +51,11 @@ interface NyttNotatModalProps {
     notattype: NotatType;
     ekstraInnhold?: ReactNode;
     submitButtonText?: string;
-}
+};
 
 export const NyttNotatModal = ({
-    onClose,
+    setShowModal,
+    showModal,
     navn,
     vedtaksperiodeId,
     onSubmitOverride,
@@ -64,10 +66,10 @@ export const NyttNotatModal = ({
 }: NyttNotatModalProps): ReactElement => {
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const { oid } = useInnloggetSaksbehandler();
-    const [nyttNotat, { loading, error }] = useMutation(LeggTilNotatDocument);
-    const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
-
     const form = useForm();
+    const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
+    const [nyttNotat, { loading, error }] = useMutation(LeggTilNotatDocument);
+    const ref = useRef<HTMLDialogElement>(null);
 
     const notattekst = notattypeTekster(notattype);
 
@@ -75,10 +77,6 @@ export const NyttNotatModal = ({
         .filter((it) => !it.feilregistrert && it.type === notattype)
         .sort((a, b) => b.opprettet.diff(a.opprettet, 'millisecond'))
         .shift();
-
-    const closeModal = (event: React.SyntheticEvent) => {
-        onClose(event);
-    };
 
     const submit: SubmitHandler<FieldValues> = async (fieldValues) => {
         if (onSubmitOverride) {
@@ -115,7 +113,7 @@ export const NyttNotatModal = ({
                     });
                 },
             });
-            onClose({} as React.SyntheticEvent);
+            ref.current?.close();
         }
     };
 
@@ -128,37 +126,44 @@ export const NyttNotatModal = ({
             : undefined;
 
     return (
-        <GammelModal
-            title={<h1 className={styles.tittel}>{notattekst.tittel}</h1>}
-            contentLabel={notattekst.tittel}
-            isOpen
-            onRequestClose={closeModal}
+        <Modal
+            ref={ref}
+            aria-label="Legg på vent nytt notat modal"
+            portal
+            closeOnBackdropClick
+            open={showModal}
+            onClose={() => setShowModal(false)}
         >
-            <section className={styles.container}>
+            <Modal.Header>
+                <Heading level="1" size="medium" className={styles.tittel}>
+                    {notattekst.tittel}
+                </Heading>
                 {søkernavn && <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>}
+            </Modal.Header>
+            <Modal.Body>
                 {sisteNotat && <SisteNotat notat={sisteNotat} />}
                 {ekstraInnhold}
                 <FormProvider {...form}>
-                    <form onSubmit={form.handleSubmit(submit)}>
+                    <form onSubmit={form.handleSubmit(submit)} id="nytt-på-vent-notat-form">
                         <ControlledTextarea
                             control={form.control}
                             notattekst={notattekst}
                             tillattTekstlengde={tillattTekstlengde}
                         />
-                        <span className={styles.buttons}>
-                            <Button size="small" disabled={loading} type="submit">
-                                {submitButtonText ?? (onSubmitOverride ? notattekst.submitTekst : 'Lagre')}
-                                {loading && <Loader size="xsmall" />}
-                            </Button>
-                            <Button size="small" variant="secondary" onClick={closeModal} type="button">
-                                Avbryt
-                            </Button>
-                        </span>
                     </form>
                 </FormProvider>
-            </section>
-            {errorMessage && <ErrorMessage className={styles.errormessage}>{errorMessage}</ErrorMessage>}
-        </GammelModal>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button size="small" disabled={loading} form="nytt-på-vent-notat-form">
+                    {submitButtonText ?? (onSubmitOverride ? notattekst.submitTekst : 'Lagre')}
+                    {loading && <Loader size="xsmall" />}
+                </Button>
+                <Button size="small" variant="secondary" onClick={() => ref.current?.close()} type="button">
+                    Avbryt
+                </Button>
+                {errorMessage && <ErrorMessage className={styles.errormessage}>{errorMessage}</ErrorMessage>}
+            </Modal.Footer>
+        </Modal>
     );
 };
 
@@ -181,7 +186,7 @@ const ControlledTextarea = ({ control, notattekst, tillattTekstlengde }: Control
         },
     });
     return (
-        <NavTextarea
+        <Textarea
             {...field}
             className={styles.textarea}
             error={fieldState.error?.message}

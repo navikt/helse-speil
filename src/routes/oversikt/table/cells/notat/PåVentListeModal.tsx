@@ -12,7 +12,7 @@ import { getFormatertNavn } from '@utils/string';
 import { NotatListeRad } from './NotatListeRad';
 import { NyttNotatModal } from './NyttNotatModal';
 
-import styles from './PåVentListeModal.module.css';
+import styles from './PåVentModal.module.scss';
 
 type PåVentListeModalProps = {
     setShowModal: (visModal: boolean) => void;
@@ -42,7 +42,8 @@ export const PåVentListeModal = ({
 
     return showNyttNotatModal ? (
         <NyttNotatModal
-            onClose={toggleShowNyttNotatModal}
+            setShowModal={setShowNyttNotatModal}
+            showModal={showNyttNotatModal}
             navn={navn}
             vedtaksperiodeId={vedtaksperiodeId}
             notattype={NotatType.PaaVent}
@@ -50,14 +51,14 @@ export const PåVentListeModal = ({
     ) : (
         <Modal
             ref={ref}
-            aria-label="Legg på vent modal"
+            aria-label="Legg på vent notater modal"
             portal
             closeOnBackdropClick
             open={showModal}
             onClose={() => setShowModal(false)}
         >
             <Modal.Header>
-                <Heading level="1" size="small" className={styles.tittel}>
+                <Heading level="1" size="medium" className={styles.tittel}>
                     Lagt på vent - notater
                 </Heading>
                 <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>

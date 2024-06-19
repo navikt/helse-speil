@@ -1,0 +1,24 @@
+.tittel {
+  margin-bottom: 0.5rem;
+}
+
+.textarea {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  white-space: pre-line;
+
+  textarea {
+    width: 652px;
+    min-height: 120px;
+    height: max-content;
+    margin: 0;
+  }
+}
+
+.errormessage {
+  margin-top: 1rem;
+}
+
+.tildeling {
+  margin-top: 1rem;
+}

@@ -19,7 +19,7 @@ import { getFormatertNavn } from '@utils/string';
 import { Frist } from './Frist';
 import { SisteNotat } from './SisteNotat';
 
-import styles from './PåVentNotatModal.module.css';
+import styles from './PåVentModal.module.scss';
 
 interface PåVentNotatModalProps {
     setShowModal: (visModal: boolean) => void;
@@ -100,10 +100,10 @@ export const PåVentNotatModal = ({
                 </Heading>
                 {søkernavn && <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>}
             </Modal.Header>
-            <Modal.Body className={styles.container}>
+            <Modal.Body>
                 {sisteNotat && <SisteNotat notat={sisteNotat} />}
                 <FormProvider {...form}>
-                    <form onSubmit={form.handleSubmit(submit)} id="skjema">
+                    <form onSubmit={form.handleSubmit(submit)} id="på-vent-notat-form">
                         <ControlledTextarea control={form.control} tillattTekstlengde={tillattTekstlengde} />
                         <Frist />
                         <Checkbox
@@ -118,14 +118,14 @@ export const PåVentNotatModal = ({
                 </FormProvider>
             </Modal.Body>
             <Modal.Footer>
-                <Button size="small" form="skjema" disabled={loading}>
+                <Button size="small" form="på-vent-notat-form" disabled={loading}>
                     Legg på vent
                     {loading && <Loader size="xsmall" />}
                 </Button>
                 <Button size="small" variant="secondary" onClick={() => ref.current?.close()} type="button">
                     Avbryt
                 </Button>
-                {errorMessage && <ErrorMessage className={styles.error}>{errorMessage}</ErrorMessage>}
+                {errorMessage && <ErrorMessage className={styles.errormessage}>{errorMessage}</ErrorMessage>}
             </Modal.Footer>
         </Modal>
     );
@@ -154,6 +154,7 @@ const ControlledTextarea = ({ control, tillattTekstlengde }: ControlledTextareaP
             className={styles.textarea}
             error={fieldState.error?.message}
             label="Legg på vent"
+            hideLabel
             description={
                 'Skriv hvorfor saken er lagt på vent. Det gjør det lettere å starte igjen senere.\n' +
                 'Eks: Kontaktet arbeidsgiver, fikk ikke svar. Prøv igjen senere.\n' +
