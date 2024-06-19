@@ -1,9 +1,3 @@
-.dagtypeliste {
-    display: flex;
-    flex-direction: column;
-    margin-top: 1rem;
-}
-
 .dagtypeliste p {
     display: flex;
 }

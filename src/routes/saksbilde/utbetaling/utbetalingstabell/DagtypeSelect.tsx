@@ -61,7 +61,7 @@ export const DagtypeSelect = ({ errorMessage, clearErrors, setType }: DagtypeSel
                     ))}
                 </>
             </Select>
-            <DagtypeModal isOpen={showModal} onSetVisModal={(open) => setShowModal(open)} />
+            <DagtypeModal setShowModal={setShowModal} showModal={showModal} />
         </>
     );
 };

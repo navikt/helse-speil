@@ -1,40 +1,41 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { BodyShort, Heading, Modal } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { GammelModal } from '@components/Modal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 
 import styles from './DagtypeModal.module.css';
 
-interface TastaturModalProps {
-    isOpen: boolean;
-    onSetVisModal: (open: boolean) => void;
-}
+type TastaturModalProps = {
+    setShowModal: (visModal: boolean) => void;
+    showModal: boolean;
+};
 
-export const DagtypeModal = ({ isOpen, onSetVisModal }: TastaturModalProps) => {
+export const DagtypeModal = ({ setShowModal, showModal }: TastaturModalProps): ReactElement => {
     useKeyboard([
         {
             key: Key.D,
-            action: () => onSetVisModal(!isOpen),
+            action: () => setShowModal(!showModal),
             ignoreIfModifiers: false,
             modifier: Key.Alt,
         },
     ]);
 
     return (
-        <GammelModal
-            isOpen={isOpen}
-            onRequestClose={() => onSetVisModal(false)}
-            aria-labelledby="modal-heading"
-            title={
-                <Heading as="h2" size="small">
+        <Modal
+            aria-label="Dagtype modal"
+            portal
+            closeOnBackdropClick
+            open={showModal}
+            onClose={() => setShowModal(false)}
+        >
+            <Modal.Header>
+                <Heading level="1" size="medium">
                     Dagtyper
                 </Heading>
-            }
-        >
-            <div className={styles.dagtypeliste}>
+            </Modal.Header>
+            <Modal.Body className={styles.dagtypeliste}>
                 <Bold>Syk (NAV)</Bold>
                 <BodyShort>NAV skal betale alle eller noen av de første 16 dagene</BodyShort>
                 <Bold>Ferie</Bold>
@@ -53,7 +54,7 @@ export const DagtypeModal = ({ isOpen, onSetVisModal }: TastaturModalProps) => {
                 <BodyShort>Bruker hadde permisjon</BodyShort>
                 <Bold>Arbeid</Bold>
                 <BodyShort>Bruker var i arbeid</BodyShort>
-            </div>
-        </GammelModal>
+            </Modal.Body>
+        </Modal>
     );
 };
