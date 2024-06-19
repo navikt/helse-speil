@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { BodyShort, Dropdown, InternalHeader as Header } from '@navikt/ds-react';
 
@@ -17,7 +17,7 @@ export const UserMenu = (): ReactElement => {
     const { navn, ident } = useBrukerinfo();
     const isAnonymous = useIsAnonymous();
     const toggleAnonymity = useToggleAnonymity();
-    const [visTastatursnarveier, setVisTastatursnarveier] = React.useState(false);
+    const [visTastatursnarveier, setVisTastatursnarveier] = useState(false);
 
     return (
         <>
@@ -49,10 +49,7 @@ export const UserMenu = (): ReactElement => {
                     </Dropdown.Menu.List>
                 </Dropdown.Menu>
             </Dropdown>
-            <TastaturModal
-                isOpen={visTastatursnarveier}
-                onSetVisTastatursnarveier={(open) => setVisTastatursnarveier(open)}
-            />
+            <TastaturModal setShowModal={setVisTastatursnarveier} showModal={visTastatursnarveier} />
         </>
     );
 };

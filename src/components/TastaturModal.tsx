@@ -1,41 +1,44 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { BodyShort, Heading, Modal } from '@navikt/ds-react';
 
-import { GammelModal } from '@components/Modal';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useKeyboardActions } from '@saksbilde/useKeyboardShortcuts';
 
 import styles from './TastaturModal.module.css';
 
-interface TastaturModalProps {
-    isOpen: boolean;
-    onSetVisTastatursnarveier: (open: boolean) => void;
-}
+type TastaturModalProps = {
+    setShowModal: (visModal: boolean) => void;
+    showModal: boolean;
+};
 
-export const TastaturModal = ({ isOpen, onSetVisTastatursnarveier }: TastaturModalProps) => {
+export const TastaturModal = ({ setShowModal, showModal }: TastaturModalProps) => {
     const tastatursnarveier: Action[] = useKeyboardActions();
+    const ref = useRef<HTMLDialogElement>(null);
 
     useKeyboard([
         {
             key: Key.F1,
-            action: () => onSetVisTastatursnarveier(!isOpen),
+            action: () => setShowModal(!showModal),
             ignoreIfModifiers: false,
         },
     ]);
 
     return (
-        <GammelModal
-            isOpen={isOpen}
-            onRequestClose={() => onSetVisTastatursnarveier(false)}
-            aria-labelledby="modal-heading"
-            title={
-                <Heading as="h2" size="large">
+        <Modal
+            ref={ref}
+            aria-label="Tastatursnarveier modal"
+            portal
+            closeOnBackdropClick
+            open={showModal}
+            onClose={() => setShowModal(false)}
+        >
+            <Modal.Header>
+                <Heading level="1" size="large">
                     Tastatursnarveier
                 </Heading>
-            }
-        >
-            <div className={styles.snarveisliste}>
+            </Modal.Header>
+            <Modal.Body>
                 {Object.entries(tastatursnarveier)
                     .filter((snarvei) => snarvei[1]?.visningssnarvei !== undefined)
                     .map((snarvei, i) => {
@@ -50,7 +53,7 @@ export const TastaturModal = ({ isOpen, onSetVisTastatursnarveier }: TastaturMod
                             </BodyShort>
                         );
                     })}
-            </div>
-        </GammelModal>
+            </Modal.Body>
+        </Modal>
     );
 };

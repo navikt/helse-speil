@@ -1,9 +1,3 @@
-.snarveisliste {
-    display: flex;
-    flex-direction: column;
-    margin-top: 1rem;
-}
-
 .snarveisrad {
     display: flex;
     padding: 0.25rem 0.5rem;
