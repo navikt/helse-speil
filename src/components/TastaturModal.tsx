@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
 import { BodyShort, Heading, Modal } from '@navikt/ds-react';
 
@@ -14,7 +14,6 @@ type TastaturModalProps = {
 
 export const TastaturModal = ({ setShowModal, showModal }: TastaturModalProps) => {
     const tastatursnarveier: Action[] = useKeyboardActions();
-    const ref = useRef<HTMLDialogElement>(null);
 
     useKeyboard([
         {
@@ -26,7 +25,6 @@ export const TastaturModal = ({ setShowModal, showModal }: TastaturModalProps) =
 
     return (
         <Modal
-            ref={ref}
             aria-label="Tastatursnarveier modal"
             portal
             closeOnBackdropClick
