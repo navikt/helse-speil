@@ -3,6 +3,7 @@
 }
 
 .Textarea {
+    width: 652px;
     min-height: 120px;
     white-space: pre-line;
 }

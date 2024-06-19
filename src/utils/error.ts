@@ -1,3 +1,5 @@
+import { ApolloError } from '@apollo/client';
+
 type Severity = 'warning' | 'error' | 'info' | 'success';
 
 type SpeilErrorOptions = {
@@ -50,3 +52,10 @@ export const onLazyLoadFail = (error: Error): Promise<never> => {
         return Promise.reject(new LazyLoadError());
     }
 };
+
+export const apolloErrorCode = (error: ApolloError | undefined): number =>
+    (
+        error?.graphQLErrors[0].extensions['code'] as {
+            value: number;
+        }
+    ).value;

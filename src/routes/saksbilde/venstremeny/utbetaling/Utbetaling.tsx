@@ -189,11 +189,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                         {!isRevurdering &&
                             !period.totrinnsvurdering?.erBeslutteroppgave &&
                             !finnesNyereUtbetaltPeriodePåPerson && (
-                                <AvvisningButton
-                                    disabled={periodenErSendt}
-                                    activePeriod={period}
-                                    onSuccess={onAvvisUtbetaling}
-                                />
+                                <AvvisningButton disabled={periodenErSendt} activePeriod={period} />
                             )}
                         {erBeslutteroppgaveOgHarTilgang && (
                             <ReturButton

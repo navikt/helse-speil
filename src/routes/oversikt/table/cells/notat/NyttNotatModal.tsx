@@ -3,12 +3,13 @@ import { Control, FieldValues, FormProvider, SubmitHandler, useController, useFo
 
 import { Button, Heading, Loader, Modal, Textarea } from '@navikt/ds-react';
 
-import { ApolloError, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { LeggTilNotatDocument, NotatType, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useNotaterForVedtaksperiode } from '@state/notater';
+import { apolloErrorCode } from '@utils/error';
 import { getFormatertNavn } from '@utils/string';
 
 import { SisteNotat } from './SisteNotat';
@@ -198,10 +199,3 @@ const ControlledTextarea = ({ control, notattekst, tillattTekstlengde }: Control
         />
     );
 };
-
-const apolloErrorCode = (error: ApolloError | undefined): number =>
-    (
-        error?.graphQLErrors[0].extensions['code'] as {
-            value: number;
-        }
-    ).value;

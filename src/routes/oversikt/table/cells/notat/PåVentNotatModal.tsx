@@ -5,7 +5,6 @@ import { Control, FieldValues, FormProvider, SubmitHandler, useController, useFo
 
 import { Button, Checkbox, Heading, Loader, Modal, Textarea } from '@navikt/ds-react';
 
-import { ApolloError } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Maybe, NotatType, Personnavn, Tildeling } from '@io/graphql';
@@ -14,6 +13,7 @@ import { useNotaterForVedtaksperiode } from '@state/notater';
 import { useLeggPåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
+import { apolloErrorCode } from '@utils/error';
 import { getFormatertNavn } from '@utils/string';
 
 import { Frist } from './Frist';
@@ -165,10 +165,3 @@ const ControlledTextarea = ({ control, tillattTekstlengde }: ControlledTextareaP
         />
     );
 };
-
-const apolloErrorCode = (error: ApolloError | undefined): number =>
-    (
-        error?.graphQLErrors[0].extensions['code'] as {
-            value: number;
-        }
-    ).value;
