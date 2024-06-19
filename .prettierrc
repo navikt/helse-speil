@@ -7,7 +7,7 @@
         "^@navikt\\/(.*)$",
         "^(@(.*)|@(.*)\\/(.*))$",
         "^([.]{1,2}\\/)+[æøåÆØÅa-zA-Z]+((\\/[æøåÆØÅa-zA-Z]+)+)?$",
-        "^.*([.]css)$"
+        "^.*([.]css)|.*([.]scss)$"
     ],
     "importOrderSeparation": true,
     "importOrderSortSpecifiers": true,
