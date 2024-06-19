@@ -4,7 +4,7 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 import { Alert, BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
-import { Modal } from '@components/Modal';
+import { GammelModal } from '@components/Modal';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Maybe } from '@io/graphql';
 import { inntektOgRefusjonState } from '@state/overstyring';
@@ -80,7 +80,7 @@ export const SlettLokaleEndringerModal = ({
     heading,
     tekst,
 }: SlettLokaleOverstyringerModalProps): ReactElement => (
-    <Modal
+    <GammelModal
         isOpen
         title={
             <Heading as="h2" size="large">
@@ -105,5 +105,5 @@ export const SlettLokaleEndringerModal = ({
                 </Button>
             </div>
         </div>
-    </Modal>
+    </GammelModal>
 );

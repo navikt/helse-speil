@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { BodyLong, BodyShort, Textarea } from '@navikt/ds-react';
 
 import { Button } from '@components/Button';
-import { Modal } from '@components/Modal';
+import { GammelModal } from '@components/Modal';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { toKronerOgØre } from '@utils/locale';
@@ -81,7 +81,7 @@ export const SkjønnsfastsettingBegrunnelse = ({
                     </BodyLong>
                 )}
             </div>
-            <Modal
+            <GammelModal
                 isOpen={showModal}
                 onRequestClose={() => setShowModal(false)}
                 title="Beskriv arbeidssituasjonen til bruker nå og de siste 12 månedene, eventuelt tidligere år."
@@ -95,7 +95,7 @@ export const SkjønnsfastsettingBegrunnelse = ({
                         <li>Du har nylig begynt i arbeidslivet</li>
                     </ul>
                 </div>
-            </Modal>
+            </GammelModal>
         </>
     );
 };

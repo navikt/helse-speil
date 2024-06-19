@@ -1,13 +1,12 @@
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useRef } from 'react';
 import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
-import { Button, Checkbox, Heading, Loader, Textarea } from '@navikt/ds-react';
+import { Button, Checkbox, Heading, Loader, Modal, Textarea } from '@navikt/ds-react';
 
 import { ApolloError } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
-import { Modal } from '@components/Modal';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Maybe, NotatType, Personnavn, Tildeling } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -23,7 +22,8 @@ import { SisteNotat } from './SisteNotat';
 import styles from './PåVentNotatModal.module.css';
 
 interface PåVentNotatModalProps {
-    onClose: (event: React.SyntheticEvent) => void;
+    setVisModal: (visModal: boolean) => void;
+    visModal: boolean;
     navn: Personnavn;
     vedtaksperiodeId: string;
     oppgaveId: string;
@@ -31,7 +31,8 @@ interface PåVentNotatModalProps {
 }
 
 export const PåVentNotatModal = ({
-    onClose,
+    setVisModal,
+    visModal,
     navn,
     vedtaksperiodeId,
     oppgaveId,
@@ -44,6 +45,7 @@ export const PåVentNotatModal = ({
     const router = useRouter();
     const saksbehandler = useInnloggetSaksbehandler();
     const form = useForm();
+    const ref = useRef<HTMLDialogElement>(null);
 
     const { onChange, ...tildelingValidation } = form.register('tildeling');
 
@@ -58,13 +60,9 @@ export const PåVentNotatModal = ({
         .sort((a, b) => b.opprettet.diff(a.opprettet, 'millisecond'))
         .shift();
 
-    const closeModal = (event: React.SyntheticEvent) => {
-        onClose(event);
-    };
-
     const submit: SubmitHandler<FieldValues> = async (fieldValues) => {
-        settPåVent(fieldValues.tekst, fieldValues.frist, fieldValues.tildeling, fieldValues.begrunnelse);
-        onClose({} as React.SyntheticEvent);
+        await settPåVent(fieldValues.tekst, fieldValues.frist, fieldValues.tildeling, fieldValues.begrunnelse);
+        ref.current?.close();
     };
 
     const settPåVent = async (notattekst: string, frist: string, tildeling: boolean, begrunnelse?: Maybe<string>) => {
@@ -89,20 +87,23 @@ export const PåVentNotatModal = ({
 
     return (
         <Modal
-            title={
+            ref={ref}
+            aria-label="Legg på vent modal"
+            portal
+            closeOnBackdropClick
+            open={visModal}
+            onClose={() => setVisModal(false)}
+        >
+            <Modal.Header>
                 <Heading level="1" size="medium" className={styles.tittel}>
                     Legg på vent
                 </Heading>
-            }
-            contentLabel="Legg på vent"
-            isOpen
-            onRequestClose={closeModal}
-        >
-            <div className={styles.container}>
                 {søkernavn && <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>}
+            </Modal.Header>
+            <Modal.Body className={styles.container}>
                 {sisteNotat && <SisteNotat notat={sisteNotat} />}
                 <FormProvider {...form}>
-                    <form onSubmit={form.handleSubmit(submit)}>
+                    <form onSubmit={form.handleSubmit(submit)} id="skjema">
                         <ControlledTextarea control={form.control} tillattTekstlengde={tillattTekstlengde} />
                         <Frist />
                         <Checkbox
@@ -113,19 +114,19 @@ export const PåVentNotatModal = ({
                         >
                             {erTildeltSaksbehandler ? 'Behold tildeling' : 'Tildel meg'}
                         </Checkbox>
-                        <div className={styles.buttons}>
-                            <Button size="small" disabled={loading} type="submit">
-                                Legg på vent
-                                {loading && <Loader size="xsmall" />}
-                            </Button>
-                            <Button size="small" variant="secondary" onClick={closeModal} type="button">
-                                Avbryt
-                            </Button>
-                        </div>
                     </form>
                 </FormProvider>
-            </div>
-            {errorMessage && <ErrorMessage className={styles.error}>{errorMessage}</ErrorMessage>}
+            </Modal.Body>
+            <Modal.Footer>
+                <Button size="small" form="skjema" disabled={loading}>
+                    Legg på vent
+                    {loading && <Loader size="xsmall" />}
+                </Button>
+                <Button size="small" variant="secondary" onClick={() => ref.current?.close()} type="button">
+                    Avbryt
+                </Button>
+                {errorMessage && <ErrorMessage className={styles.error}>{errorMessage}</ErrorMessage>}
+            </Modal.Footer>
         </Modal>
     );
 };

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Dropdown, Loader } from '@navikt/ds-react';
 
-import { PersonFragment, Personnavn } from '@io/graphql';
+import { Maybe, PersonFragment, Personnavn } from '@io/graphql';
 import { PåVentNotatModal } from '@oversikt/table/cells/notat/PåVentNotatModal';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useFjernPåVent } from '@state/påvent';
@@ -12,7 +12,7 @@ interface PåVentButtonProps {
     person: PersonFragment;
 }
 
-export const PåVentButton = ({ person }: PåVentButtonProps) => {
+export const PåVentButton = ({ person }: PåVentButtonProps): Maybe<ReactElement> => {
     const [visModal, setVisModal] = useState(false);
 
     const [fjernPåVent, { loading, error: fjernPåVentError }] = useFjernPåVent();
@@ -50,7 +50,8 @@ export const PåVentButton = ({ person }: PåVentButtonProps) => {
             )}
             {visModal && (
                 <PåVentNotatModal
-                    onClose={() => setVisModal(false)}
+                    setVisModal={(visModal) => setVisModal(visModal)}
+                    visModal={visModal}
                     navn={navn}
                     vedtaksperiodeId={periodeTilGodkjenning.vedtaksperiodeId}
                     oppgaveId={oppgaveId}

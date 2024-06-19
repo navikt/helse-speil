@@ -1,6 +1,6 @@
 import styles from './Modal.module.scss';
 import classNames from 'classnames';
-import React, { PropsWithChildren, ReactNode } from 'react';
+import React, { PropsWithChildren, ReactElement, ReactNode } from 'react';
 import ReactModal from 'react-modal';
 
 if (process.env.NODE_ENV === 'production') {
@@ -26,7 +26,7 @@ export interface ModalProps {
     closeIcon?: ReactNode;
 }
 
-export const Modal = ({
+export const GammelModal = ({
     isOpen,
     onRequestClose,
     title,
@@ -35,7 +35,7 @@ export const Modal = ({
     contentLabel,
     shouldReturnFocusAfterClose,
     closeIcon,
-}: PropsWithChildren<ModalProps>) => (
+}: PropsWithChildren<ModalProps>): ReactElement => (
     <ReactModal
         id="modal"
         className={classNames(styles.modal, className)}

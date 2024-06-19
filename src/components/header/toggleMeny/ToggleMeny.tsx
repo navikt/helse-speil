@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Checkbox, CheckboxGroup } from '@navikt/ds-react';
 
-import { Modal } from '@components/Modal';
+import { GammelModal } from '@components/Modal';
 import { useToggleKanFrigiOppgaver, useToggleReadonly, useTotrinnsvurdering } from '@state/toggles';
 
 import styles from './ToggleMeny.module.css';
@@ -18,7 +18,7 @@ export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
     const [kanFrigiOppgaver, toggleKanFrigiOppgaver] = useToggleKanFrigiOppgaver();
 
     return (
-        <Modal isOpen={modalOpen} onRequestClose={onCloseModal}>
+        <GammelModal isOpen={modalOpen} onRequestClose={onCloseModal}>
             <form className={styles.ToggleMeny}>
                 <CheckboxGroup legend="Totrinnsvurdering">
                     <Checkbox
@@ -68,6 +68,6 @@ export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
                     </Checkbox>
                 </CheckboxGroup>
             </form>
-        </Modal>
+        </GammelModal>
     );
 };

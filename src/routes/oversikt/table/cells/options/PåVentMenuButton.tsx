@@ -23,13 +23,8 @@ export const PåVentMenuButton = ({
     navn,
     erPåVent,
 }: PåVentMenuButtonProps): ReactElement => {
-    const [visModal, setVisModal] = useState(false);
-
     const [fjernPåVent] = useFjernPåVent();
-
-    const åpneModal = () => {
-        setVisModal(true);
-    };
+    const [visModal, setVisModal] = useState(false);
 
     const fjernFraPåVent = async () => {
         await fjernPåVent(oppgavereferanse);
@@ -38,7 +33,7 @@ export const PåVentMenuButton = ({
     return (
         <>
             {!erPåVent ? (
-                <Dropdown.Menu.List.Item onClick={åpneModal} className={styles.MenuButton}>
+                <Dropdown.Menu.List.Item onClick={() => setVisModal(true)} className={styles.MenuButton}>
                     Legg på vent
                 </Dropdown.Menu.List.Item>
             ) : (
@@ -48,7 +43,8 @@ export const PåVentMenuButton = ({
             )}
             {visModal && (
                 <PåVentNotatModal
-                    onClose={() => setVisModal(false)}
+                    setVisModal={(visModal) => setVisModal(visModal)}
+                    visModal={visModal}
                     navn={navn}
                     vedtaksperiodeId={vedtaksperiodeId}
                     tildeling={tildeling}

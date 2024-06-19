@@ -1,7 +1,7 @@
 import styles from './ModalWrapper.module.scss';
 import React, { Dispatch, ReactNode, SetStateAction } from 'react';
 
-import { Modal } from '@components/Modal';
+import { GammelModal } from '@components/Modal';
 
 interface ModalWrapperProps {
     erÅpen: boolean;
@@ -12,9 +12,14 @@ interface ModalWrapperProps {
 
 export const ModalWrapper = ({ erÅpen, setErÅpen, closeIcon, children }: ModalWrapperProps) => {
     return erÅpen ? (
-        <Modal isOpen={erÅpen} onRequestClose={() => setErÅpen(false)} className={styles.modal} closeIcon={closeIcon}>
+        <GammelModal
+            isOpen={erÅpen}
+            onRequestClose={() => setErÅpen(false)}
+            className={styles.modal}
+            closeIcon={closeIcon}
+        >
             {children}
-        </Modal>
+        </GammelModal>
     ) : (
         children
     );

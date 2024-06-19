@@ -6,7 +6,7 @@ import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
 
 import { ApolloError, useMutation } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
-import { Modal } from '@components/Modal';
+import { GammelModal } from '@components/Modal';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { LeggTilNotatDocument, NotatType, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -128,7 +128,7 @@ export const NyttNotatModal = ({
             : undefined;
 
     return (
-        <Modal
+        <GammelModal
             title={<h1 className={styles.tittel}>{notattekst.tittel}</h1>}
             contentLabel={notattekst.tittel}
             isOpen
@@ -158,7 +158,7 @@ export const NyttNotatModal = ({
                 </FormProvider>
             </section>
             {errorMessage && <ErrorMessage className={styles.errormessage}>{errorMessage}</ErrorMessage>}
-        </Modal>
+        </GammelModal>
     );
 };
 

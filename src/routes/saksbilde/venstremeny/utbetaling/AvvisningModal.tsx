@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Button, Heading, Loader } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
-import { Modal } from '@components/Modal';
+import { GammelModal } from '@components/Modal';
 import { BeregnetPeriodeFragment, Maybe } from '@io/graphql';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
@@ -62,7 +62,7 @@ export const AvvisningModal = ({
     };
 
     return (
-        <Modal
+        <GammelModal
             className={styles.AvvisningModal}
             isOpen
             title={
@@ -88,6 +88,6 @@ export const AvvisningModal = ({
                     <ErrorMessage className={styles.Feilmelding}>{error}</ErrorMessage>
                 </form>
             </FormProvider>
-        </Modal>
+        </GammelModal>
     );
 };

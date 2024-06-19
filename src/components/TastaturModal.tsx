@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
 
-import { Modal } from '@components/Modal';
+import { GammelModal } from '@components/Modal';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useKeyboardActions } from '@saksbilde/useKeyboardShortcuts';
 
@@ -25,7 +25,7 @@ export const TastaturModal = ({ isOpen, onSetVisTastatursnarveier }: TastaturMod
     ]);
 
     return (
-        <Modal
+        <GammelModal
             isOpen={isOpen}
             onRequestClose={() => onSetVisTastatursnarveier(false)}
             aria-labelledby="modal-heading"
@@ -51,6 +51,6 @@ export const TastaturModal = ({ isOpen, onSetVisTastatursnarveier }: TastaturMod
                         );
                     })}
             </div>
-        </Modal>
+        </GammelModal>
     );
 };

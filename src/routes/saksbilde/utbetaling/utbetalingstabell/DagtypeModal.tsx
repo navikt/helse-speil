@@ -3,7 +3,7 @@ import React from 'react';
 import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { Modal } from '@components/Modal';
+import { GammelModal } from '@components/Modal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 
 import styles from './DagtypeModal.module.css';
@@ -24,7 +24,7 @@ export const DagtypeModal = ({ isOpen, onSetVisModal }: TastaturModalProps) => {
     ]);
 
     return (
-        <Modal
+        <GammelModal
             isOpen={isOpen}
             onRequestClose={() => onSetVisModal(false)}
             aria-labelledby="modal-heading"
@@ -54,6 +54,6 @@ export const DagtypeModal = ({ isOpen, onSetVisModal }: TastaturModalProps) => {
                 <Bold>Arbeid</Bold>
                 <BodyShort>Bruker var i arbeid</BodyShort>
             </div>
-        </Modal>
+        </GammelModal>
     );
 };

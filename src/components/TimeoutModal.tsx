@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
-import { Modal } from './Modal';
+import { GammelModal } from './Modal';
 
 interface Props {
     onRequestClose: () => void;
@@ -28,7 +28,7 @@ export const TimeoutModal = ({ onRequestClose }: Props) => {
     }
 
     return (
-        <Modal contentLabel="Kalkuleringen ser ut til å ta noe tid" isOpen onRequestClose={closeModal}>
+        <GammelModal contentLabel="Kalkuleringen ser ut til å ta noe tid" isOpen onRequestClose={closeModal}>
             <div className={styles.content}>
                 <p className={styles.tekst}>Kalkuleringen ser ut til å ta noe tid.</p>
                 <p className={styles.tekst}>Oppgaven vil dukke opp i oversikten når den er klar.</p>
@@ -42,6 +42,6 @@ export const TimeoutModal = ({ onRequestClose }: Props) => {
                     </Button>
                 </span>
             </div>
-        </Modal>
+        </GammelModal>
     );
 };

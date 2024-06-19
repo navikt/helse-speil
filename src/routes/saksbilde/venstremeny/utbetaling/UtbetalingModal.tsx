@@ -4,7 +4,7 @@ import { BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { ErrorMessage } from '@components/ErrorMessage';
-import { Modal } from '@components/Modal';
+import { GammelModal } from '@components/Modal';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
@@ -36,7 +36,7 @@ export const UtbetalingModal = ({
     arbeidsgiver,
     personinfo,
 }: UtbetalingModalProps) => (
-    <Modal
+    <GammelModal
         isOpen
         title={
             <Heading as="h2" size="large">
@@ -71,7 +71,7 @@ export const UtbetalingModal = ({
         <ErrorMessage className={styles.Feilmelding}>
             {error && (error.message || 'En feil har oppstått.')}
         </ErrorMessage>
-    </Modal>
+    </GammelModal>
 );
 
 interface TilUtbetalingProps {

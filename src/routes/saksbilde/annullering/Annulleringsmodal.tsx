@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { Modal } from '@components/Modal';
+import { GammelModal } from '@components/Modal';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { AmplitudeContext } from '@io/amplitude';
 import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument } from '@io/graphql';
@@ -93,7 +93,7 @@ export const Annulleringsmodal = ({
 
     return (
         <FormProvider {...form}>
-            <Modal className={styles.modal} isOpen={true} contentLabel="Feilmelding" onRequestClose={onClose}>
+            <GammelModal className={styles.modal} isOpen={true} contentLabel="Feilmelding" onRequestClose={onClose}>
                 <form className={styles.form} onSubmit={form.handleSubmit(() => sendAnnullering(annullering()))}>
                     <Alert inline variant="warning" className={styles.warning}>
                         Hvis du annullerer vil utbetalinger fjernes fra oppdragssystemet og du må behandle saken i
@@ -121,7 +121,7 @@ export const Annulleringsmodal = ({
                         </BodyShort>
                     )}
                 </form>
-            </Modal>
+            </GammelModal>
         </FormProvider>
     );
 };
