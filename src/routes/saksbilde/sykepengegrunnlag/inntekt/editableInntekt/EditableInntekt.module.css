@@ -27,6 +27,7 @@
 
 .OpprinneligMånedsbeløp.harEndringer {
     visibility: visible;
+    margin: 0;
 }
 
 .OmregnetTilÅrsinntekt.harEndringer > p {
