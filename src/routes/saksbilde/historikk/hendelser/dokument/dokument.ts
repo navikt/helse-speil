@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom, useResetRecoilState } from 'recoil';
 
 import { Kildetype } from '@io/graphql';
 import { DokumenthendelseObject } from '@typer/historikk';
@@ -37,3 +37,8 @@ export const openedDocument = atom<ÅpnedeDokumenter[]>({
     key: 'openedDocuments',
     default: [],
 });
+
+export const useResetOpenedDocuments = () => {
+    const resetOpenedDocuments = useResetRecoilState(openedDocument);
+    resetOpenedDocuments();
+};

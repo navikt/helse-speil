@@ -9,6 +9,7 @@ import { usePollEtterOpptegnelser } from '@io/graphql/polling';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { EmojiTilbakemeldingMedPeriode } from '@saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
 import { Historikk } from '@saksbilde/historikk';
+import { useResetOpenedDocuments } from '@saksbilde/historikk/hendelser/dokument/dokument';
 import { InfovarselOmStans } from '@saksbilde/infovarselOmStans/InfovarselOmStans';
 import { PersonHeader } from '@saksbilde/personHeader';
 import { Timeline } from '@saksbilde/timeline';
@@ -22,6 +23,7 @@ export default function Layout({ children }: PropsWithChildren): ReactElement {
     usePollEtterOpptegnelser();
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useKeyboardShortcuts();
+    useResetOpenedDocuments();
 
     return (
         <div className={styles.Saksbilde}>

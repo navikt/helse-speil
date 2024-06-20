@@ -1,7 +1,6 @@
-import styles from './Dokumenthendelse.module.scss';
 import classNames from 'classnames';
 import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import { ArrowForwardIcon } from '@navikt/aksel-icons';
 
@@ -14,6 +13,8 @@ import { HendelseDate } from '../HendelseDate';
 import { Inntektsmeldingsinnhold } from './Inntektsmeldingsinnhold';
 import { Søknadsinnhold } from './Søknadsinnhold';
 import { getKildetekst, getKildetype, openedDocument } from './dokument';
+
+import styles from './Dokumenthendelse.module.scss';
 
 type DokumenthendelseProps = Omit<DokumenthendelseObject, 'type' | 'id'> & {
     fødselsnummer: string;
@@ -35,7 +36,6 @@ export const Dokumenthendelse = ({
     const [showDokumenter, setShowDokumenter] = useState(false);
     const [dokument, setDokument] = useState<ReactNode>(null);
     const [åpnedeDokumenter, setÅpnedeDokumenter] = useRecoilState<ÅpnedeDokumenter[]>(openedDocument);
-    const resetOpenedDocuments = useResetRecoilState(openedDocument);
 
     useEffect(() => {
         if (!showDokumenter || !fødselsnummer) return;
@@ -48,10 +48,6 @@ export const Dokumenthendelse = ({
             setDokument(<Inntektsmeldingsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} />);
         }
     }, [showDokumenter]);
-
-    useEffect(() => {
-        resetOpenedDocuments();
-    }, []);
 
     const åpneINyKolonne = () => {
         setÅpnedeDokumenter([
