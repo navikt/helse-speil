@@ -1,56 +1,74 @@
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
 
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { Inntektoverstyring } from '@io/graphql';
 import { NORSK_DATOFORMAT, getFormattedDateString } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
-import { ModalProps } from '../Modal';
-import { TableModal } from '../TableModal';
-
 import styles from './Endringslogg.module.css';
 
-interface EndringsloggInntektProps extends ModalProps {
+type EndringsloggInntektProps = {
+    setShowModal: (visModal: boolean) => void;
+    showModal: boolean;
     endringer: Array<Inntektoverstyring>;
-}
+};
 
-export const EndringsloggInntekt = ({ endringer, ...modalProps }: EndringsloggInntektProps) => (
-    <TableModal {...modalProps} title="Endringslogg" contentLabel="Endringslogg">
-        <thead>
-            <tr>
-                <th>Dato</th>
-                <th>Månedsbeløp</th>
-                <th>Skjæringstidspunkt</th>
-                <th>Begrunnelse</th>
-                <th>Forklaring</th>
-                <th>Kilde</th>
-            </tr>
-        </thead>
-        <tbody>
-            {endringer
-                .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
-                .map((endring, i) => (
-                    <tr key={i}>
-                        <td>{dayjs(endring.timestamp).format(NORSK_DATOFORMAT)}</td>
-                        <td>
-                            <span className={styles.PreviousValue}>
-                                {somPenger(endring.inntekt.fraManedligInntekt)}
-                            </span>{' '}
-                            {somPenger(endring.inntekt.manedligInntekt)}
-                        </td>
-                        <td>{getFormattedDateString(endring.inntekt.skjaeringstidspunkt)}</td>
-                        <td>
-                            <BodyShort className={styles.Begrunnelse}>{endring.inntekt.begrunnelse}</BodyShort>
-                        </td>
-                        <td>
-                            <BodyShort className={styles.Begrunnelse}>{endring.inntekt.forklaring}</BodyShort>
-                        </td>
-                        <td>{endring.saksbehandler.ident ?? endring.saksbehandler.navn}</td>
-                    </tr>
-                ))}
-        </tbody>
-    </TableModal>
+export const EndringsloggInntekt = ({ endringer, setShowModal, showModal }: EndringsloggInntektProps): ReactElement => (
+    <Modal
+        aria-label="Endringslogg modal"
+        portal
+        closeOnBackdropClick
+        open={showModal}
+        onClose={() => setShowModal(false)}
+    >
+        <Modal.Header>
+            <Heading level="1" size="small">
+                Endringslogg
+            </Heading>
+        </Modal.Header>
+        <Modal.Body>
+            <Table zebraStripes>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>Dato</Table.HeaderCell>
+                        <Table.HeaderCell>Månedsbeløp</Table.HeaderCell>
+                        <Table.HeaderCell>Skjæringstidspunkt</Table.HeaderCell>
+                        <Table.HeaderCell>Begrunnelse</Table.HeaderCell>
+                        <Table.HeaderCell>Forklaring</Table.HeaderCell>
+                        <Table.HeaderCell>Kilde</Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {endringer
+                        .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
+                        .map((endring, i) => (
+                            <Table.Row key={i}>
+                                <Table.DataCell>{dayjs(endring.timestamp).format(NORSK_DATOFORMAT)}</Table.DataCell>
+                                <Table.DataCell>
+                                    <span className={styles.PreviousValue}>
+                                        {somPenger(endring.inntekt.fraManedligInntekt)}
+                                    </span>{' '}
+                                    {somPenger(endring.inntekt.manedligInntekt)}
+                                </Table.DataCell>
+                                <Table.DataCell>
+                                    {getFormattedDateString(endring.inntekt.skjaeringstidspunkt)}
+                                </Table.DataCell>
+                                <Table.DataCell>
+                                    <BodyShort className={styles.Begrunnelse}>{endring.inntekt.begrunnelse}</BodyShort>
+                                </Table.DataCell>
+                                <Table.DataCell>
+                                    <BodyShort className={styles.Begrunnelse}>{endring.inntekt.forklaring}</BodyShort>
+                                </Table.DataCell>
+                                <Table.DataCell>
+                                    {endring.saksbehandler.ident ?? endring.saksbehandler.navn}
+                                </Table.DataCell>
+                            </Table.Row>
+                        ))}
+                </Table.Body>
+            </Table>
+        </Modal.Body>
+    </Modal>
 );

@@ -1,52 +1,66 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
 
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { OverstyringerPrDag } from '@typer/utbetalingstabell';
 import { getFormattedDateString } from '@utils/date';
 
-import { ModalProps } from '../Modal';
-import { TableModal } from '../TableModal';
-
 import styles from './Endringslogg.module.css';
 
-interface EndringsloggDagerProps extends ModalProps {
+type EndringsloggDagerProps = {
+    setShowModal: (visModal: boolean) => void;
+    showModal: boolean;
     endringer: Array<OverstyringerPrDag>;
-}
+};
 
-export const EndringsloggDager = ({ endringer, ...modalProps }: EndringsloggDagerProps) => (
-    <TableModal {...modalProps} title="Endringslogg" contentLabel="Endringslogg">
-        <thead>
-            <tr>
-                <th>Dato</th>
-                <th>Dagtype</th>
-                <th>Grad</th>
-                <th>Begrunnelse</th>
-                <th>Kilde</th>
-                <th>Endret dato</th>
-            </tr>
-        </thead>
-        <tbody>
-            {endringer
-                .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
-                .map(({ begrunnelse, saksbehandler, timestamp, grad, fraGrad, dag, dato }, i) => (
-                    <tr key={i}>
-                        <td>{getFormattedDateString(dato)}</td>
-                        <td>{dag.speilDagtype}</td>
-                        <td>
-                            <span className={styles.PreviousValue}>
-                                {typeof fraGrad === 'number' && fraGrad !== grad && `${fraGrad} %`}
-                            </span>{' '}
-                            {typeof grad === 'number' && `${grad} %`}
-                        </td>
-                        <td>
-                            <BodyShort className={styles.Begrunnelse}>{begrunnelse}</BodyShort>
-                        </td>
-                        <td>{saksbehandler.ident ?? saksbehandler.navn}</td>
-                        <td>{getFormattedDateString(timestamp)}</td>
-                    </tr>
-                ))}
-        </tbody>
-    </TableModal>
+export const EndringsloggDager = ({ endringer, setShowModal, showModal }: EndringsloggDagerProps): ReactElement => (
+    <Modal
+        aria-label="Endringslogg modal"
+        portal
+        closeOnBackdropClick
+        open={showModal}
+        onClose={() => setShowModal(false)}
+    >
+        <Modal.Header>
+            <Heading level="1" size="small">
+                Endringslogg
+            </Heading>
+        </Modal.Header>
+        <Modal.Body>
+            <Table zebraStripes>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>Dato</Table.HeaderCell>
+                        <Table.HeaderCell>Dagtype</Table.HeaderCell>
+                        <Table.HeaderCell>Grad</Table.HeaderCell>
+                        <Table.HeaderCell>Begrunnelse</Table.HeaderCell>
+                        <Table.HeaderCell>Kilde</Table.HeaderCell>
+                        <Table.HeaderCell>Endret dato</Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {endringer
+                        .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
+                        .map(({ begrunnelse, saksbehandler, timestamp, grad, fraGrad, dag, dato }, i) => (
+                            <Table.Row key={i}>
+                                <Table.DataCell>{getFormattedDateString(dato)}</Table.DataCell>
+                                <Table.DataCell>{dag.speilDagtype}</Table.DataCell>
+                                <Table.DataCell>
+                                    <span className={styles.PreviousValue}>
+                                        {typeof fraGrad === 'number' && fraGrad !== grad && `${fraGrad} %`}
+                                    </span>{' '}
+                                    {typeof grad === 'number' && `${grad} %`}
+                                </Table.DataCell>
+                                <Table.DataCell>
+                                    <BodyShort className={styles.Begrunnelse}>{begrunnelse}</BodyShort>
+                                </Table.DataCell>
+                                <Table.DataCell>{saksbehandler.ident ?? saksbehandler.navn}</Table.DataCell>
+                                <Table.DataCell>{getFormattedDateString(timestamp)}</Table.DataCell>
+                            </Table.Row>
+                        ))}
+                </Table.Body>
+            </Table>
+        </Modal.Body>
+    </Modal>
 );

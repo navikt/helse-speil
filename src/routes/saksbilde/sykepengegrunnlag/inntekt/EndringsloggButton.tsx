@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { ReactElement, useRef, useState } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 
@@ -6,8 +6,7 @@ import { Kilde } from '@components/Kilde';
 import { EndringsloggArbeidsforhold } from '@components/endringslogg/EndringsloggArbeidsforhold';
 import { EndringsloggDager } from '@components/endringslogg/EndringsloggDager';
 import { EndringsloggInntekt } from '@components/endringslogg/EndringsloggInntekt';
-import { useInteractOutside } from '@hooks/useInteractOutside';
-import { Kildetype, OverstyringFragment } from '@io/graphql';
+import { Kildetype, Maybe, OverstyringFragment } from '@io/graphql';
 import { isArbeidsforholdoverstyringer, isInntektoverstyringer, isOverstyringerPrDag } from '@utils/typeguards';
 
 import styles from './EndringsloggButton.module.css';
@@ -19,18 +18,10 @@ interface EndringsloggButtonProps<T extends OverstyringFragment> extends React.H
 export const EndringsloggButton = <T extends OverstyringFragment>({
     endringer,
     ...buttonProps
-}: EndringsloggButtonProps<T>) => {
+}: EndringsloggButtonProps<T>): Maybe<ReactElement> => {
     const [visEndringslogg, setVisEndringslogg] = useState(false);
 
     const buttonRef = useRef<HTMLButtonElement>(null);
-
-    const close = () => setVisEndringslogg(false);
-
-    useInteractOutside({
-        ref: buttonRef,
-        active: visEndringslogg,
-        onInteractOutside: close,
-    });
 
     if (endringer.length === 0) {
         return null;
@@ -50,11 +41,23 @@ export const EndringsloggButton = <T extends OverstyringFragment>({
                 </Kilde>
             </button>
             {isArbeidsforholdoverstyringer(endringer) ? (
-                <EndringsloggArbeidsforhold endringer={endringer} isOpen={visEndringslogg} onRequestClose={close} />
+                <EndringsloggArbeidsforhold
+                    endringer={endringer}
+                    setShowModal={setVisEndringslogg}
+                    showModal={visEndringslogg}
+                />
             ) : isInntektoverstyringer(endringer) ? (
-                <EndringsloggInntekt endringer={endringer} isOpen={visEndringslogg} onRequestClose={close} />
+                <EndringsloggInntekt
+                    endringer={endringer}
+                    setShowModal={setVisEndringslogg}
+                    showModal={visEndringslogg}
+                />
             ) : isOverstyringerPrDag(endringer) ? (
-                <EndringsloggDager endringer={endringer} isOpen={visEndringslogg} onRequestClose={close} />
+                <EndringsloggDager
+                    endringer={endringer}
+                    setShowModal={setVisEndringslogg}
+                    showModal={visEndringslogg}
+                />
             ) : null}
         </>
     );

@@ -1,49 +1,72 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
 
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { Arbeidsforholdoverstyring } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 
-import { ModalProps } from '../Modal';
-import { TableModal } from '../TableModal';
-
 import styles from './Endringslogg.module.css';
 
-interface EndringsloggArbeidsforholdProps extends ModalProps {
+type EndringsloggArbeidsforholdProps = {
+    setShowModal: (visModal: boolean) => void;
+    showModal: boolean;
     endringer: Array<Arbeidsforholdoverstyring>;
-}
+};
 
-export const EndringsloggArbeidsforhold = ({ endringer, ...modalProps }: EndringsloggArbeidsforholdProps) => (
-    <TableModal {...modalProps} title="Endringslogg" contentLabel="Endringslogg">
-        <thead>
-            <tr>
-                <th>Dato</th>
-                <th />
-                <th>Skjæringstidspunkt</th>
-                <th>Begrunnelse</th>
-                <th>Forklaring</th>
-                <th>Kilde</th>
-            </tr>
-        </thead>
-        <tbody>
-            {endringer
-                .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
-                .map((endring, i) => (
-                    <tr key={i}>
-                        <td>{getFormattedDateString(endring.timestamp)}</td>
-                        <td>{endring.deaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}</td>
-                        <td>{getFormattedDateString(endring.skjaeringstidspunkt)}</td>
-                        <td>
-                            <BodyShort className={styles.Begrunnelse}>{endring.begrunnelse}</BodyShort>
-                        </td>
-                        <td>
-                            <BodyShort className={styles.Begrunnelse}>{endring.forklaring}</BodyShort>
-                        </td>
-                        <td>{endring.saksbehandler.ident ?? endring.saksbehandler.navn}</td>
-                    </tr>
-                ))}
-        </tbody>
-    </TableModal>
+export const EndringsloggArbeidsforhold = ({
+    endringer,
+    setShowModal,
+    showModal,
+}: EndringsloggArbeidsforholdProps): ReactElement => (
+    <Modal
+        aria-label="Endringslogg modal"
+        portal
+        closeOnBackdropClick
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        width="1200px"
+    >
+        <Modal.Header>
+            <Heading level="1" size="small">
+                Endringslogg
+            </Heading>
+        </Modal.Header>
+        <Modal.Body>
+            <Table zebraStripes>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>Dato</Table.HeaderCell>
+                        <Table.HeaderCell />
+                        <Table.HeaderCell>Skjæringstidspunkt</Table.HeaderCell>
+                        <Table.HeaderCell>Begrunnelse</Table.HeaderCell>
+                        <Table.HeaderCell>Forklaring</Table.HeaderCell>
+                        <Table.HeaderCell>Kilde</Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {endringer
+                        .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
+                        .map((endring, i) => (
+                            <Table.Row key={i}>
+                                <Table.DataCell>{getFormattedDateString(endring.timestamp)}</Table.DataCell>
+                                <Table.DataCell>
+                                    {endring.deaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
+                                </Table.DataCell>
+                                <Table.DataCell>{getFormattedDateString(endring.skjaeringstidspunkt)}</Table.DataCell>
+                                <Table.DataCell>
+                                    <BodyShort className={styles.Begrunnelse}>{endring.begrunnelse}</BodyShort>
+                                </Table.DataCell>
+                                <Table.DataCell>
+                                    <BodyShort className={styles.Begrunnelse}>{endring.forklaring}</BodyShort>
+                                </Table.DataCell>
+                                <Table.DataCell>
+                                    {endring.saksbehandler.ident ?? endring.saksbehandler.navn}
+                                </Table.DataCell>
+                            </Table.Row>
+                        ))}
+                </Table.Body>
+            </Table>
+        </Modal.Body>
+    </Modal>
 );
