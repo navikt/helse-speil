@@ -2,8 +2,6 @@ import React, { PropsWithChildren, ReactElement, useRef } from 'react';
 
 import { Button, Heading, Modal } from '@navikt/ds-react';
 
-import styles from '@saksbilde/varsler/Saksbildevarsler.module.css';
-
 type SlettLokaleEndringerModalProps = {
     showModal: boolean;
     onApprove: () => void;
@@ -33,7 +31,7 @@ export const SlettLokaleEndringerModal = ({
                     {heading}
                 </Heading>
             </Modal.Header>
-            <Modal.Body className={styles.Container}>{children}</Modal.Body>
+            <Modal.Body>{children}</Modal.Body>
             <Modal.Footer>
                 <Button
                     type="button"
