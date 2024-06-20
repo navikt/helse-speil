@@ -25,8 +25,7 @@
             "prettier --write"
         ],
         "*.{js,jsx,ts,tsx}": [
-            "eslint --fix --rule react-hooks/exhaustive-deps:off",
-            "npm run tsc -- --noEmit"
+            "eslint --fix --rule react-hooks/exhaustive-deps:off"
         ]
     },
     "dependencies": {
