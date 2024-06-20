@@ -99,6 +99,7 @@ export const AnnulleringsModal = ({
             closeOnBackdropClick
             open={showModal}
             onClose={() => setShowModal(false)}
+            width="850px"
         >
             <Modal.Header>
                 <Alert inline variant="warning" className={styles.warning}>
