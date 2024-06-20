@@ -10,7 +10,7 @@
     content: '';
     position: absolute;
     width: 4px;
-    background-color: var(--speil-color-infotrygd);
+    background-color: #78706a;
     height: calc(100% - 32px);
     top: 32px;
     left: 12px;
@@ -20,7 +20,7 @@
 
 .iconcontainer {
     position: absolute;
-    background-color: var(--speil-color-infotrygd);
+    background-color: #78706a;
     height: 1.5rem;
     width: 1.5rem;
     border-radius: 50%;

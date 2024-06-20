@@ -16,7 +16,7 @@
     padding-top: var(--padding);
     padding-bottom: calc(var(--padding) * 2);
     border-left: 6px solid var(--a-surface-action);
-    background-color: var(--speil-overstyring-background);
+    background-color: #f7f7f7;
 }
 
 .TableContainer {

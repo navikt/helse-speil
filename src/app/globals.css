@@ -8,57 +8,10 @@
 }
 
 :root {
-    --a-font-size-small: 0.75rem;
     --a-font-size-medium: 0.875rem;
     --a-font-size-large: 1rem;
-    --a-font-size-xlarge: 1.125rem;
-
-    --speil-background-secondary: #f8f8f8;
     --speil-light-hover: #e9e7e7;
-    --speil-light-hover-tabell: #e5f3ff;
-    --speil-ekspandert-info-background: #f7fdff;
-    --speil-ekspandert-success-background: #f4fcf6;
-    --speil-ekspandert-warning-background: #fffaf3;
-    --speil-ekspandert-danger-background: #fdf6f4;
-
-    --speil-etikett-forlengelse-background: #e0f5fb;
-    --speil-etikett-forlengelse-border: #5690a2;
-    --speil-etikett-forstegangs-background: #e0dae7;
-    --speil-etikett-forstegangs-border: #634689;
-    --speil-etikett-forlengelse-it-background: #f1f1f1;
-    --speil-etikett-forlengelse-it-border: #6a6a6a;
-    --speil-etikett-stikkprove-background: #f9d2cc;
-    --speil-etikett-stikkprove-border: #a32a17;
-    --speil-etikett-risk-background: #ffdbab;
-    --speil-etikett-risk-border: #d87f0a;
-    --speil-etikett-uts-background: #f9fccc;
-    --speil-etikett-uts-border: #666e00;
-    --speil-etikett-beslutter-background: #ffe9cc;
-    --speil-etikett-beslutter-border: #d87f0a;
-    --speil-etikett-retur-background: #ffe9cc;
-    --speil-etikett-retur-border: #d87f0a;
-
-    --speil-etikett-adressebeskyttelse-background: #f9d2cc;
-    --speil-etikett-adressebeskyttelse-border: #ba3a26;
-    --speil-etikett-dødsdato-background: #3e3832;
-    --speil-etikett-dødsdato-border: #000000;
-    --speil-etikett-dødsdato-color: #f8f8f8;
-
-    --speil-color-infotrygd: #78706a;
-    --speil-color-saksbehandler: #826ba1;
-    --speil-color-automatisk: #59514b;
-
-    --speil-overstyring-background: #f7f7f7;
-    --speil-table-row-border-color: #c6c2bf;
-
-    --speil-info-ikon: #5690a2;
-
-    --nav-lime-gronn-darken-40: #7a7e14;
-    --nav-lime-gronn-lighten-80: #ecefcc;
-    --nav-blaa-darken-20: #0056b4;
-
     --nav-infotrygd-bakgrunn-stiplet: repeating-linear-gradient(132deg, #fff, #fff 6px, #e3e0df 6px, #e3e0df 7.5px);
-
     --nav-infotrygd-bakgrunn-stiplet-hover: repeating-linear-gradient(
         132deg,
         var(--a-gray-100),
@@ -67,14 +20,12 @@
         #e3e0df 7.5px
     );
 
-    --nav-ghostpolse-bakgrunn: #ffffff;
     --nav-ghost-deaktivert-bakgrunn: #f1f1f1;
     --nav-ghost-deaktivert-border: #c6c2bf;
     --nav-ghost-deaktivert-pille-bakgrunn: #c9c9c9;
     --nav-ghost-deaktivert-pille-border: #6a6a6a;
 
     --speil-total-min-width: 1400px;
-    --speil-hoyremeny-width: 272px;
 }
 
 /* Sladding av sensitive data, f.eks. når man deler skjerm eller tar skjermbilder */
@@ -110,6 +61,6 @@ body {
 
 /*TODO: legg inn på komponentnivå evt. bytt til aksel table*/
 table {
-    order-collapse: collapse;
+    border-collapse: collapse;
     border-spacing: 0;
 }

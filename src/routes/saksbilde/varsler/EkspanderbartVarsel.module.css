@@ -62,7 +62,7 @@
 
 .content {
     --border-color: var(--a-border-warning);
-    --background-color: var(--speil-ekspandert-warning-background);
+    --background-color: #fffaf3;
     padding: 0.5rem 3.25rem;
     border: none !important;
     border-bottom: 1px solid var(--border-color) !important;

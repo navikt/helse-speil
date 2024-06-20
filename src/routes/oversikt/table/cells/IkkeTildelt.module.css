@@ -3,7 +3,7 @@
     height: 1.5rem;
     padding: 0 12px;
     box-sizing: border-box;
-    font-size: var(--a-font-size-small);
+    font-size: 0.75rem;
     align-items: center;
     white-space: nowrap;
 }

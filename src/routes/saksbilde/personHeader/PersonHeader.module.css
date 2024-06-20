@@ -5,7 +5,7 @@
     height: 48px;
     box-sizing: border-box;
     padding: 0 2rem;
-    background: var(--speil-background-secondary);
+    background: #f8f8f8;
     border-bottom: 1px solid var(--a-border-strong);
     color: var(--a-text-default);
     white-space: nowrap;
@@ -58,9 +58,9 @@
 }
 
 .Tag.dødsdato {
-    background: var(--speil-etikett-dødsdato-background);
-    border: 1px solid var(--speil-etikett-dødsdato-border);
-    color: var(--speil-etikett-dødsdato-color);
+    background: #3e3832;
+    border: 1px solid #000000;
+    color: #f8f8f8;
 }
 
 @keyframes placeHolderShimmer {

@@ -34,13 +34,13 @@
 
   &__saksbehandler {
     &:before, .ikoncontainer {
-      background-color: var(--speil-color-saksbehandler);
+      background-color: #826ba1;
     }
   }
 
   &__automatisk {
     &:before, .ikoncontainer {
-      background-color: var(--speil-color-automatisk)
+      background-color: #59514b;
     }
   }
 
