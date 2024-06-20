@@ -43,9 +43,9 @@ export const NotatKommentar = ({ kommentar, forfatterSaksbehandlerOid }: NotatKo
 
     return (
         <div key={kommentar.id} className={styles.Kommentar}>
-            <pre className={classNames({ [styles.Feilregistrert]: erFeilregistrert })}>
+            <div className={classNames({ [styles.Feilregistrert]: erFeilregistrert })}>
                 {kommentar.tekst} {erFeilregistrert && '(feilregistert)'}
-            </pre>
+            </div>
             {!kommentar.feilregistrert_tidspunkt && innloggetSaksbehandler.oid === forfatterSaksbehandlerOid && (
                 <HendelseDropdownMenu
                     feilregistrerAction={onFeilregistrerKommentar(kommentar.id)}

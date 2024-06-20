@@ -29,7 +29,7 @@
     font-size: inherit;
 }
 
-.Kommentar pre {
+.Kommentar > div {
     margin-right: 48px;
     white-space: pre-line;
     line-height: var(--a-font-line-height-medium);
