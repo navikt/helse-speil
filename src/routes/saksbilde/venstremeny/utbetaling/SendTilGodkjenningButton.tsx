@@ -90,6 +90,7 @@ export const SendTilGodkjenningButton = ({
             </Button>
             {showModal && (
                 <UtbetalingModal
+                    showModal={showModal}
                     utbetaling={utbetaling}
                     arbeidsgiver={arbeidsgiver}
                     personinfo={personinfo}

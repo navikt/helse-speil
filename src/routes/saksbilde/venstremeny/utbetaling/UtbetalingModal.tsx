@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-import { BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
+import { BodyShort, Button, Heading, Loader, Modal } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { ErrorMessage } from '@components/ErrorMessage';
-import { GammelModal } from '@components/Modal';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
@@ -15,7 +14,8 @@ import { BackendFeil } from './Utbetaling';
 
 import styles from '../BeløpTilUtbetaling.module.css';
 
-interface UtbetalingModalProps {
+type UtbetalingModalProps = {
+    showModal: boolean;
     isSending: boolean;
     onApprove: () => void;
     onClose: () => void;
@@ -24,9 +24,10 @@ interface UtbetalingModalProps {
     utbetaling?: Utbetaling;
     arbeidsgiver?: string;
     personinfo?: Personinfo;
-}
+};
 
 export const UtbetalingModal = ({
+    showModal,
     isSending,
     onApprove,
     onClose,
@@ -35,18 +36,14 @@ export const UtbetalingModal = ({
     utbetaling,
     arbeidsgiver,
     personinfo,
-}: UtbetalingModalProps) => (
-    <GammelModal
-        isOpen
-        title={
-            <Heading as="h2" size="large">
+}: UtbetalingModalProps): ReactElement => (
+    <Modal aria-label="Legg på vent modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
+        <Modal.Header>
+            <Heading level="1" size="large">
                 Er du sikker?
             </Heading>
-        }
-        contentLabel="Godkjenn utbetaling"
-        onRequestClose={onClose}
-    >
-        <div className={styles.modal}>
+        </Modal.Header>
+        <Modal.Body className={styles.modal}>
             {utbetaling && arbeidsgiver && personinfo && (
                 <TilUtbetaling utbetaling={utbetaling} arbeidsgiver={arbeidsgiver} personinfo={personinfo} />
             )}
@@ -56,22 +53,22 @@ export const UtbetalingModal = ({
                     ? 'sendes saken til beslutter for godkjenning.'
                     : 'blir utbetalingen sendt til oppdragsystemet.'}
             </BodyShort>
-            <div className={styles.buttons}>
-                <Button variant="primary" onClick={onApprove} disabled={isSending} autoFocus>
-                    <div className={styles.spinnerknapp}>
-                        <span>Ja</span>
-                        {isSending && <Loader size="xsmall" />}
-                    </div>
-                </Button>
-                <Button variant="secondary" onClick={onClose}>
-                    Avbryt
-                </Button>
-            </div>
-        </div>
-        <ErrorMessage className={styles.Feilmelding}>
-            {error && (error.message || 'En feil har oppstått.')}
-        </ErrorMessage>
-    </GammelModal>
+        </Modal.Body>
+        <Modal.Footer>
+            <Button variant="primary" onClick={onApprove} disabled={isSending} autoFocus>
+                <div className={styles.spinnerknapp}>
+                    <span>Ja</span>
+                    {isSending && <Loader size="xsmall" />}
+                </div>
+            </Button>
+            <Button variant="secondary" onClick={onClose}>
+                Avbryt
+            </Button>
+            {error && (
+                <ErrorMessage className={styles.Feilmelding}>{error.message ?? 'En feil har oppstått.'}</ErrorMessage>
+            )}
+        </Modal.Footer>
+    </Modal>
 );
 
 interface TilUtbetalingProps {
