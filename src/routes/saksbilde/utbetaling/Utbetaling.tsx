@@ -109,6 +109,7 @@ const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingB
     return kanEndres && !readOnly && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning ? (
         <OverstyrbarUtbetaling
             person={person}
+            arbeidsgiver={arbeidsgiver}
             fom={period.fom}
             tom={period.tom}
             dager={dager}
@@ -159,6 +160,7 @@ const UtbetalingUberegnetPeriode = ({
     return !skjæringstidspunktHarPeriodeTilBeslutter && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning ? (
         <OverstyrbarUtbetaling
             person={person}
+            arbeidsgiver={arbeidsgiver}
             fom={periode.fom}
             tom={periode.tom}
             dager={dager}

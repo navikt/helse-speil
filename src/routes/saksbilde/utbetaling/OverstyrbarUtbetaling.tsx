@@ -7,7 +7,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { TimeoutModal } from '@components/TimeoutModal';
 import { useMap } from '@hooks/useMap';
-import { PersonFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
 import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -30,6 +30,7 @@ const erReellEndring = (tilDag: Partial<Utbetalingstabelldag>, fraDag: Utbetalin
 
 interface OverstyrbarUtbetalingProps {
     person: PersonFragment;
+    arbeidsgiver: ArbeidsgiverFragment;
     fom: DateString;
     tom: DateString;
     dager: Map<string, Utbetalingstabelldag>;
@@ -41,6 +42,7 @@ interface OverstyrbarUtbetalingProps {
 
 export const OverstyrbarUtbetaling = ({
     person,
+    arbeidsgiver,
     fom,
     tom,
     dager,
@@ -52,7 +54,7 @@ export const OverstyrbarUtbetaling = ({
     const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
     const [overstyrer, setOverstyrer] = useState(false);
-    const { postOverstyring, error, state } = useOverstyrDager(person);
+    const { postOverstyring, error, state } = useOverstyrDager(person, arbeidsgiver);
 
     const [markerteDager, setMarkerteDager] = useMap<string, Utbetalingstabelldag>();
     const [overstyrteDager, setOverstyrteDager] = useMap<string, Utbetalingstabelldag>();

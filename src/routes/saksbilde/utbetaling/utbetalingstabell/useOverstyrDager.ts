@@ -3,13 +3,13 @@ import { useEffect, useRef, useState } from 'react';
 
 import { FetchResult, useMutation } from '@apollo/client';
 import {
+    ArbeidsgiverFragment,
     Maybe,
     OpprettAbonnementDocument,
     OverstyrDagerMutationDocument,
     OverstyrDagerMutationMutation,
     PersonFragment,
 } from '@io/graphql';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -35,8 +35,10 @@ type UsePostOverstyringResult = {
     error?: string;
 };
 
-export const useOverstyrDager = (person: PersonFragment): UsePostOverstyringResult => {
-    const arbeidsgiver = useCurrentArbeidsgiver();
+export const useOverstyrDager = (
+    person: PersonFragment,
+    arbeidsgiver: ArbeidsgiverFragment,
+): UsePostOverstyringResult => {
     const personFørRefetchRef = useRef(person);
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
@@ -88,8 +90,7 @@ export const useOverstyrDager = (person: PersonFragment): UsePostOverstyringResu
                 overstyring: {
                     aktorId: person.aktorId,
                     fodselsnummer: person.fodselsnummer,
-                    // TODO: Dårlig nullabilitetshåndtering
-                    organisasjonsnummer: arbeidsgiver?.organisasjonsnummer as string,
+                    organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
                     dager: tilOverstyrteDager(dager, overstyrteDager),
                     begrunnelse: begrunnelse,
                     vedtaksperiodeId,

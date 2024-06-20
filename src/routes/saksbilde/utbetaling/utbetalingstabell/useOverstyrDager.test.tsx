@@ -5,6 +5,7 @@ import { Kildetype, OpprettAbonnementDocument, OverstyrDagerMutationDocument } f
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enPerson } from '@test-data/person';
 import { RecoilWrapper } from '@test-wrappers';
 import { act, renderHook, waitFor } from '@testing-library/react';
@@ -35,7 +36,7 @@ const BEGRUNNELSE = 'begrunnelse';
 describe('useOverstyrDager', () => {
     test('skal ha state initial ved oppstart', async () => {
         const person = enPerson();
-        const { result } = renderHook((initialPerson) => useOverstyrDager(initialPerson), {
+        const { result } = renderHook((initialPerson) => useOverstyrDager(initialPerson, enArbeidsgiver()), {
             wrapper: ({ children }) => (
                 <MockedProvider mocks={mocks}>
                     <RecoilWrapper>{children}</RecoilWrapper>
@@ -50,18 +51,22 @@ describe('useOverstyrDager', () => {
             aktorId: AKTØR_ID,
             fodselsnummer: FØDSELSNUMMER,
         });
-        const { result, rerender } = renderHook((initialPerson) => useOverstyrDager(initialPerson), {
-            wrapper: ({ children }) => (
-                <MockedProvider mocks={mocks}>
-                    <RecoilWrapper>{children}</RecoilWrapper>
-                </MockedProvider>
-            ),
-            initialProps: person,
-        });
+        const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer: ORGNUMMER });
+        const { result, rerender } = renderHook(
+            (initialProps) => useOverstyrDager(initialProps.person, initialProps.arbeidsgiver),
+            {
+                wrapper: ({ children }) => (
+                    <MockedProvider mocks={mocks}>
+                        <RecoilWrapper>{children}</RecoilWrapper>
+                    </MockedProvider>
+                ),
+                initialProps: { person, arbeidsgiver },
+            },
+        );
 
         await act(() => result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID));
 
-        rerender(person);
+        rerender({ person, arbeidsgiver });
         const { state } = result.current;
 
         await waitFor(() => expect(state).toBe('hasValue'));
@@ -71,7 +76,7 @@ describe('useOverstyrDager', () => {
             aktorId: AKTØR_ID,
             fodselsnummer: FØDSELSNUMMER,
         });
-        const { result, rerender } = renderHook((initialPerson) => useOverstyrDager(initialPerson), {
+        const { result, rerender } = renderHook((initialPerson) => useOverstyrDager(initialPerson, enArbeidsgiver()), {
             wrapper: ({ children }) => (
                 <MockedProvider mocks={mocks}>
                     <RecoilWrapper>{children}</RecoilWrapper>
@@ -91,7 +96,7 @@ describe('useOverstyrDager', () => {
             aktorId: AKTØR_ID,
             fodselsnummer: FØDSELSNUMMER,
         });
-        const { result, rerender } = renderHook((initialPerson) => useOverstyrDager(initialPerson), {
+        const { result, rerender } = renderHook((initialPerson) => useOverstyrDager(initialPerson, enArbeidsgiver()), {
             wrapper: ({ children }) => (
                 <MockedProvider mocks={mocks}>
                     <RecoilWrapper>{children}</RecoilWrapper>
