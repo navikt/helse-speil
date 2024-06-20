@@ -1,11 +1,11 @@
-import styles from './BegrunnelseVedtak.module.scss';
 import classNames from 'classnames';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
 import { ExpandIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Textarea } from '@navikt/ds-react';
 
 import { useBrukerIdent } from '@auth/brukerContext';
+import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
     AvslagInput,
@@ -17,8 +17,9 @@ import {
 } from '@io/graphql';
 import { kanSkriveAvslag } from '@utils/featureToggles';
 
-import { SlettLokaleEndringerModal } from '../varsler/KalkulerEndringerVarsel';
 import { BegrunnelseVedtakReadonly } from './BegrunnelseVedtakReadonly';
+
+import styles from './BegrunnelseVedtak.module.scss';
 
 interface BegrunnelseVedtakProps {
     visBegrunnelseVedtak: boolean;
@@ -38,7 +39,7 @@ export const BegrunnelseVedtak = ({
     avslag,
     setAvslag,
     periode,
-}: BegrunnelseVedtakProps) => {
+}: BegrunnelseVedtakProps): Maybe<ReactElement> => {
     const ident = useBrukerIdent();
     const [showForkastEndringerModal, setShowForkastEndringerModal] = useState(false);
     const erReadOnly = useIsReadOnlyOppgave();
@@ -130,6 +131,8 @@ export const BegrunnelseVedtak = ({
             </div>
             {showForkastEndringerModal && (
                 <SlettLokaleEndringerModal
+                    heading="Er du sikker på at du vil forkaste endringene?"
+                    showModal={showForkastEndringerModal}
                     onApprove={() => {
                         if (periode.avslag.length > 0) {
                             setAvslag({ handling: Avslagshandling.Invalider });
@@ -140,13 +143,12 @@ export const BegrunnelseVedtak = ({
                         setVisBegrunnelseVedtak(false);
                     }}
                     onClose={() => setShowForkastEndringerModal(false)}
-                    tekst={
-                        <BodyShort>
-                            Ved å trykke <span style={{ fontWeight: 'bold' }}>Ja</span> vil den individuelle
-                            begrunnelsen ikke bli lagret.
-                        </BodyShort>
-                    }
-                />
+                >
+                    <BodyShort>
+                        Ved å trykke <span style={{ fontWeight: 'bold' }}>Ja</span> vil den individuelle begrunnelsen
+                        ikke bli lagret.
+                    </BodyShort>
+                </SlettLokaleEndringerModal>
             )}
         </>
     );

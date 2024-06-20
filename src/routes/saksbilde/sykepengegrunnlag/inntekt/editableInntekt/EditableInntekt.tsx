@@ -301,6 +301,7 @@ export const EditableInntekt = ({
                     {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
                     {showSlettLokaleOverstyringerModal && (
                         <EditableInntektSlettLokaleOverstyringerModal
+                            showModal={showSlettLokaleOverstyringerModal}
                             onApprove={form.handleSubmit(confirmChanges)}
                             onClose={() => setShowSlettLokaleOverstyringerModal(false)}
                             overstyrtSkjæringstidspunkt={lokaleInntektoverstyringer.skjæringstidspunkt}

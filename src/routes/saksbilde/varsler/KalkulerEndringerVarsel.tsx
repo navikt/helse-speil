@@ -1,10 +1,10 @@
-import React, { ReactElement, ReactNode, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
-import { Alert, BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
-import { GammelModal } from '@components/Modal';
+import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Maybe } from '@io/graphql';
 import { inntektOgRefusjonState } from '@state/overstyring';
@@ -56,54 +56,19 @@ export const KalkulerEndringerVarsel = ({ skjæringstidspunkt }: KalkulerEndring
             {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
             {showModal && (
                 <SlettLokaleEndringerModal
+                    heading="Er du sikker på at du vil forkaste endringene?"
+                    showModal={showModal}
                     onApprove={() => {
                         slettLokaleOverstyringer();
                         setShowModal(false);
                     }}
                     onClose={() => setShowModal(false)}
-                />
+                >
+                    <BodyShort>
+                        Ved å trykke <span style={{ fontWeight: 'bold' }}>Ja</span> vil endringene ikke bli lagret.
+                    </BodyShort>
+                </SlettLokaleEndringerModal>
             )}
         </>
     ) : null;
 };
-
-interface SlettLokaleOverstyringerModalProps {
-    onApprove: () => void;
-    onClose: () => void;
-    heading?: string;
-    tekst?: ReactNode;
-}
-
-export const SlettLokaleEndringerModal = ({
-    onApprove,
-    onClose,
-    heading,
-    tekst,
-}: SlettLokaleOverstyringerModalProps): ReactElement => (
-    <GammelModal
-        isOpen
-        title={
-            <Heading as="h2" size="large">
-                {heading ?? 'Er du sikker på at du vil forkaste endringene?'}
-            </Heading>
-        }
-        contentLabel="Slett lokale overstyringer"
-        onRequestClose={onClose}
-    >
-        <div className={styles.Container}>
-            {tekst ?? (
-                <BodyShort>
-                    Ved å trykke <span style={{ fontWeight: 'bold' }}>Ja</span> vil endringene ikke bli lagret.
-                </BodyShort>
-            )}
-            <div className={styles.Buttons}>
-                <Button variant="primary" onClick={onApprove}>
-                    <span>Ja</span>
-                </Button>
-                <Button variant="secondary" onClick={onClose}>
-                    Avbryt
-                </Button>
-            </div>
-        </div>
-    </GammelModal>
-);

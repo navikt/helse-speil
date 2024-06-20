@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { ReactElement, useContext, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Alert, BodyShort, Button, Heading, Loader, Modal } from '@navikt/ds-react';
@@ -32,7 +32,7 @@ export const AnnulleringsModal = ({
     organisasjonsnummer,
     vedtaksperiodeId,
     utbetalingId,
-}: AnnulleringsModalProps) => {
+}: AnnulleringsModalProps): ReactElement => {
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
     const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);

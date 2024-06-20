@@ -1,16 +1,19 @@
-import styles from './TimeoutModal.module.scss';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
+
 import { GammelModal } from './Modal';
 
-interface Props {
-    onRequestClose: () => void;
-}
+import styles from './TimeoutModal.module.scss';
 
-export const TimeoutModal = ({ onRequestClose }: Props) => {
+type TimeoutModalProps = {
+    onRequestClose: () => void;
+};
+
+export const TimeoutModal = ({ onRequestClose }: TimeoutModalProps): Maybe<ReactElement> => {
     const router = useRouter();
     const [open, setOpen] = useState(true);
 
