@@ -1,4 +1,3 @@
-import styles from './AngreOverstyrArbeidsforholdUtenSykdom.module.scss';
 import React, { ReactElement } from 'react';
 
 import { Button } from '@components/Button';
@@ -7,6 +6,8 @@ import { PersonFragment } from '@io/graphql';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
+
+import styles from './AngreOverstyrArbeidsforholdUtenSykdom.module.scss';
 
 const UndoIcon = (): ReactElement => (
     <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,7 +58,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
                 <UndoIcon />
                 Bruk arbeidsforholdet i beregningen likevel
             </Button>
-            {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
+            {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
         </>
     );
 };

@@ -53,7 +53,7 @@ export const KalkulerEndringerVarsel = ({ skjæringstidspunkt }: KalkulerEndring
                 </div>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
             </Alert>
-            {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
+            {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
             {showModal && (
                 <SlettLokaleEndringerModal
                     heading="Er du sikker på at du vil forkaste endringene?"

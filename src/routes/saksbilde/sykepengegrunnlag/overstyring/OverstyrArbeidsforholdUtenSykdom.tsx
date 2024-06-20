@@ -1,4 +1,3 @@
-import styles from './OverstyrArbeidsforholdUtenSykdom.module.scss';
 import classNames from 'classnames';
 import React, { ReactElement, useContext, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -17,6 +16,8 @@ import { BegrunnelseForOverstyring } from '@typer/overstyring';
 import { Begrunnelser } from '../inntekt/Begrunnelser';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
+
+import styles from './OverstyrArbeidsforholdUtenSykdom.module.scss';
 
 interface OverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;
@@ -182,7 +183,7 @@ const OverstyrArbeidsforholdSkjema = ({
                         </NavButton>
                     </span>
                     {error && <ErrorMessage>{error}</ErrorMessage>}
-                    {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
+                    {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
                 </div>
             </form>
         </FormProvider>

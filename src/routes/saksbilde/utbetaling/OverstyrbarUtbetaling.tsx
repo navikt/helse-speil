@@ -200,7 +200,7 @@ export const OverstyrbarUtbetaling = ({
                     </>
                 )}
             </div>
-            {state === 'timedOut' && <TimeoutModal onRequestClose={() => null} />}
+            {state === 'timedOut' && <TimeoutModal showModal={state === 'timedOut'} onClose={() => null} />}
             {state === 'hasError' && error && (
                 <BodyShort className={styles.ErrorMessage} role="alert">
                     {error}

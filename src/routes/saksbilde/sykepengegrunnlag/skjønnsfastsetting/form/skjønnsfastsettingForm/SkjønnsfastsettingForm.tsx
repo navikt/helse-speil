@@ -176,7 +176,7 @@ export const SkjønnsfastsettingForm = ({
                         </>
                     )}
                     {error && <ErrorMessage className={styles.error}>{error}</ErrorMessage>}
-                    {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
+                    {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
                 </div>
             </form>
         </FormProvider>
