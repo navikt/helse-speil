@@ -1,4 +1,3 @@
-import styles from './DropdownMenu.module.scss';
 import React, { ReactElement, useRef, useState } from 'react';
 
 import { Collapse, Expand } from '@navikt/ds-icons';
@@ -18,7 +17,7 @@ import { OppdaterPersondataButton } from './OppdaterPersondataButton';
 import { PåVentButton } from './PåVentButton';
 import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 
-// TODO: kan brukes i vanlig useQuery loading?
+import styles from './DropdownMenu.module.scss';
 
 // TODO: kan brukes i vanlig useQuery loading?
 const DropdownMenuContentSkeleton = (): ReactElement => {
