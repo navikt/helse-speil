@@ -11,19 +11,13 @@ import { somPenger } from '@utils/locale';
 import styles from './Endringslogg.module.css';
 
 type EndringsloggInntektProps = {
-    setShowModal: (visModal: boolean) => void;
+    onClose: () => void;
     showModal: boolean;
     endringer: Array<Inntektoverstyring>;
 };
 
-export const EndringsloggInntekt = ({ endringer, setShowModal, showModal }: EndringsloggInntektProps): ReactElement => (
-    <Modal
-        aria-label="Endringslogg modal"
-        portal
-        closeOnBackdropClick
-        open={showModal}
-        onClose={() => setShowModal(false)}
-    >
+export const EndringsloggInntekt = ({ endringer, onClose, showModal }: EndringsloggInntektProps): ReactElement => (
+    <Modal aria-label="Endringslogg modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
         <Modal.Header>
             <Heading level="1" size="small">
                 Endringslogg

@@ -43,19 +43,19 @@ export const EndringsloggButton = <T extends OverstyringFragment>({
             {isArbeidsforholdoverstyringer(endringer) ? (
                 <EndringsloggArbeidsforhold
                     endringer={endringer}
-                    setShowModal={setVisEndringslogg}
+                    onClose={() => setVisEndringslogg(false)}
                     showModal={visEndringslogg}
                 />
             ) : isInntektoverstyringer(endringer) ? (
                 <EndringsloggInntekt
                     endringer={endringer}
-                    setShowModal={setVisEndringslogg}
+                    onClose={() => setVisEndringslogg(false)}
                     showModal={visEndringslogg}
                 />
             ) : isOverstyringerPrDag(endringer) ? (
                 <EndringsloggDager
                     endringer={endringer}
-                    setShowModal={setVisEndringslogg}
+                    onClose={() => setVisEndringslogg(false)}
                     showModal={visEndringslogg}
                 />
             ) : null}

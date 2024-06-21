@@ -302,7 +302,10 @@ export const EditableInntekt = ({
                     {showSlettLokaleOverstyringerModal && (
                         <EditableInntektSlettLokaleOverstyringerModal
                             showModal={showSlettLokaleOverstyringerModal}
-                            onApprove={form.handleSubmit(confirmChanges)}
+                            onApprove={() => {
+                                form.handleSubmit(confirmChanges);
+                                setShowSlettLokaleOverstyringerModal(false);
+                            }}
                             onClose={() => setShowSlettLokaleOverstyringerModal(false)}
                             overstyrtSkjæringstidspunkt={lokaleInntektoverstyringer.skjæringstidspunkt}
                             skjæringstidspunkt={skjæringstidspunkt}

@@ -7,23 +7,17 @@ import { useToggleKanFrigiOppgaver, useToggleReadonly, useTotrinnsvurdering } fr
 import styles from './ToggleMeny.module.css';
 
 type ToggleMenyProps = {
-    setShowModal: (visModal: boolean) => void;
+    onClose: () => void;
     showModal: boolean;
 };
 
-export const ToggleMeny = ({ setShowModal, showModal }: ToggleMenyProps) => {
+export const ToggleMeny = ({ onClose, showModal }: ToggleMenyProps) => {
     const [totrinn, toggleTotrinn] = useTotrinnsvurdering();
     const [readOnly, toggleReadonly, toggleOverride] = useToggleReadonly();
     const [kanFrigiOppgaver, toggleKanFrigiOppgaver] = useToggleKanFrigiOppgaver();
 
     return (
-        <Modal
-            aria-label="Toggle meny modal"
-            portal
-            closeOnBackdropClick
-            open={showModal}
-            onClose={() => setShowModal(false)}
-        >
+        <Modal aria-label="Toggle meny modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
             <Modal.Header>
                 <Heading level="1" size="medium">
                     Toggles

@@ -64,7 +64,7 @@ const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: Notat
             </Tooltip>
             {showModal && (
                 <PåVentListeModal
-                    setShowModal={(visModal) => setShowModal(visModal)}
+                    onClose={() => setShowModal(false)}
                     showModal={showModal}
                     notater={notater}
                     vedtaksperiodeId={vedtaksperiodeId}

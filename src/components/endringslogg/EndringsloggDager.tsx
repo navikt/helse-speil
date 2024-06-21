@@ -9,19 +9,13 @@ import { getFormattedDateString } from '@utils/date';
 import styles from './Endringslogg.module.css';
 
 type EndringsloggDagerProps = {
-    setShowModal: (visModal: boolean) => void;
+    onClose: () => void;
     showModal: boolean;
     endringer: Array<OverstyringerPrDag>;
 };
 
-export const EndringsloggDager = ({ endringer, setShowModal, showModal }: EndringsloggDagerProps): ReactElement => (
-    <Modal
-        aria-label="Endringslogg modal"
-        portal
-        closeOnBackdropClick
-        open={showModal}
-        onClose={() => setShowModal(false)}
-    >
+export const EndringsloggDager = ({ endringer, onClose, showModal }: EndringsloggDagerProps): ReactElement => (
+    <Modal aria-label="Endringslogg modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
         <Modal.Header>
             <Heading level="1" size="small">
                 Endringslogg

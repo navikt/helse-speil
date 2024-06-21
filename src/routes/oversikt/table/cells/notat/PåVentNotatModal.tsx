@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-import React, { ReactElement, useRef } from 'react';
+import React, { ReactElement } from 'react';
 import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
 import { Button, Checkbox, Heading, Loader, Modal, Textarea } from '@navikt/ds-react';
@@ -22,7 +22,7 @@ import { SisteNotat } from './SisteNotat';
 import styles from './PåVentModal.module.scss';
 
 interface PåVentNotatModalProps {
-    setShowModal: (visModal: boolean) => void;
+    onClose: () => void;
     showModal: boolean;
     navn: Personnavn;
     vedtaksperiodeId: string;
@@ -31,7 +31,7 @@ interface PåVentNotatModalProps {
 }
 
 export const PåVentNotatModal = ({
-    setShowModal,
+    onClose,
     showModal,
     navn,
     vedtaksperiodeId,
@@ -45,7 +45,6 @@ export const PåVentNotatModal = ({
     const router = useRouter();
     const saksbehandler = useInnloggetSaksbehandler();
     const form = useForm();
-    const ref = useRef<HTMLDialogElement>(null);
 
     const { onChange, ...tildelingValidation } = form.register('tildeling');
 
@@ -62,7 +61,7 @@ export const PåVentNotatModal = ({
 
     const submit: SubmitHandler<FieldValues> = async (fieldValues) => {
         await settPåVent(fieldValues.tekst, fieldValues.frist, fieldValues.tildeling, fieldValues.begrunnelse);
-        ref.current?.close();
+        onClose();
     };
 
     const settPåVent = async (notattekst: string, frist: string, tildeling: boolean, begrunnelse?: Maybe<string>) => {
@@ -86,14 +85,7 @@ export const PåVentNotatModal = ({
             : undefined;
 
     return (
-        <Modal
-            ref={ref}
-            aria-label="Legg på vent modal"
-            portal
-            closeOnBackdropClick
-            open={showModal}
-            onClose={() => setShowModal(false)}
-        >
+        <Modal aria-label="Legg på vent modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
             <Modal.Header>
                 <Heading level="1" size="medium" className={styles.tittel}>
                     Legg på vent
@@ -118,11 +110,11 @@ export const PåVentNotatModal = ({
                 </FormProvider>
             </Modal.Body>
             <Modal.Footer>
-                <Button size="small" form="på-vent-notat-form" disabled={loading}>
+                <Button size="small" variant="primary" type="submit" form="på-vent-notat-form" disabled={loading}>
                     Legg på vent
                     {loading && <Loader size="xsmall" />}
                 </Button>
-                <Button size="small" variant="secondary" onClick={() => ref.current?.close()} type="button">
+                <Button size="small" variant="secondary" type="button" onClick={onClose}>
                     Avbryt
                 </Button>
                 {errorMessage && <ErrorMessage className={styles.errormessage}>{errorMessage}</ErrorMessage>}

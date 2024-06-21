@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 import { AnnulleringsModal } from './AnnulleringsModal';
 
 const defaultProps = {
-    setShowModal: () => null,
+    onClose: () => null,
     showModal: true,
     fødselsnummer: '12345678910',
     aktørId: '12345678910',

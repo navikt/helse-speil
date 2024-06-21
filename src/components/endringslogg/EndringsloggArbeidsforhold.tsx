@@ -9,14 +9,14 @@ import { getFormattedDateString } from '@utils/date';
 import styles from './Endringslogg.module.css';
 
 type EndringsloggArbeidsforholdProps = {
-    setShowModal: (visModal: boolean) => void;
+    onClose: () => void;
     showModal: boolean;
     endringer: Array<Arbeidsforholdoverstyring>;
 };
 
 export const EndringsloggArbeidsforhold = ({
     endringer,
-    setShowModal,
+    onClose,
     showModal,
 }: EndringsloggArbeidsforholdProps): ReactElement => (
     <Modal
@@ -24,7 +24,7 @@ export const EndringsloggArbeidsforhold = ({
         portal
         closeOnBackdropClick
         open={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={onClose}
         width="1200px"
     >
         <Modal.Header>

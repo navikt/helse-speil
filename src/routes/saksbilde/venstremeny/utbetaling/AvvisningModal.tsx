@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 import { useRouter } from 'next/navigation';
-import React, { ReactElement, useContext, useRef } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button, Heading, Loader, Modal } from '@navikt/ds-react';
@@ -37,17 +37,16 @@ type Avvisningsskjema = {
 };
 
 type AvvisningModalProps = {
-    setShowModal: (visModal: boolean) => void;
+    onClose: () => void;
     showModal: boolean;
     activePeriod: BeregnetPeriodeFragment;
 };
 
-export const AvvisningModal = ({ setShowModal, showModal, activePeriod }: AvvisningModalProps): ReactElement => {
+export const AvvisningModal = ({ onClose, showModal, activePeriod }: AvvisningModalProps): ReactElement => {
     const router = useRouter();
     const form = useForm();
     const [sendTilInfotrygdMutation, { error, loading }] = useMutation(TilInfoTrygdDocument);
     const amplitude = useContext(AmplitudeContext);
-    const ref = useRef<HTMLDialogElement>(null);
     const addInfotrygdtoast = useAddInfotrygdtoast();
     const kommentar = form.watch('kommentar');
     const begrunnelser = form.watch(`begrunnelser`);
@@ -90,7 +89,7 @@ export const AvvisningModal = ({ setShowModal, showModal, activePeriod }: Avvisn
             onCompleted: () => {
                 amplitude.logOppgaveForkastet([skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar]);
                 addInfotrygdtoast();
-                ref.current?.close();
+                onClose();
                 router.push('/');
             },
         });
@@ -104,14 +103,7 @@ export const AvvisningModal = ({ setShowModal, showModal, activePeriod }: Avvisn
             : undefined;
 
     return (
-        <Modal
-            ref={ref}
-            aria-label="Avvisning modal"
-            portal
-            closeOnBackdropClick
-            open={showModal}
-            onClose={() => setShowModal(false)}
-        >
+        <Modal aria-label="Avvisning modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
             <Modal.Header>
                 <Heading level="1" size="large">
                     Kan ikke behandles her
@@ -125,11 +117,11 @@ export const AvvisningModal = ({ setShowModal, showModal, activePeriod }: Avvisn
                 </FormProvider>
             </Modal.Body>
             <Modal.Footer>
-                <Button disabled={loading} form="avvisning-modal-skjema">
+                <Button variant="primary" type="submit" form="avvisning-modal-skjema" disabled={loading}>
                     Kan ikke behandles her
                     {loading && <Loader className={styles.Loader} size="xsmall" />}
                 </Button>
-                <Button variant="secondary" onClick={() => setShowModal(false)} type="button">
+                <Button variant="secondary" type="button" onClick={onClose}>
                     Avbryt
                 </Button>
                 {errorMessage && <ErrorMessage className={styles.Feilmelding}>{errorMessage}</ErrorMessage>}

@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useRef } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
 import { Button, Heading, Loader, Modal, Textarea } from '@navikt/ds-react';
@@ -43,7 +43,7 @@ const notattypeTekster = (notattype: NotatType): Notattekster => {
 };
 
 type NyttNotatModalProps = {
-    setShowModal: (visModal: boolean) => void;
+    onClose: () => void;
     showModal: boolean;
     navn: Personnavn;
     vedtaksperiodeId: string;
@@ -55,7 +55,7 @@ type NyttNotatModalProps = {
 };
 
 export const NyttNotatModal = ({
-    setShowModal,
+    onClose,
     showModal,
     navn,
     vedtaksperiodeId,
@@ -70,7 +70,6 @@ export const NyttNotatModal = ({
     const form = useForm();
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
     const [nyttNotat, { loading, error }] = useMutation(LeggTilNotatDocument);
-    const ref = useRef<HTMLDialogElement>(null);
 
     const notattekst = notattypeTekster(notattype);
 
@@ -114,7 +113,7 @@ export const NyttNotatModal = ({
                     });
                 },
             });
-            ref.current?.close();
+            onClose();
         }
     };
 
@@ -128,12 +127,11 @@ export const NyttNotatModal = ({
 
     return (
         <Modal
-            ref={ref}
             aria-label="Legg på vent nytt notat modal"
             portal
             closeOnBackdropClick
             open={showModal}
-            onClose={() => setShowModal(false)}
+            onClose={onClose}
         >
             <Modal.Header>
                 <Heading level="1" size="medium" className={styles.tittel}>
@@ -155,11 +153,11 @@ export const NyttNotatModal = ({
                 </FormProvider>
             </Modal.Body>
             <Modal.Footer>
-                <Button size="small" disabled={loading} form="nytt-på-vent-notat-form">
+                <Button size="small" variant="primary" type="submit" form="nytt-på-vent-notat-form" disabled={loading}>
                     {submitButtonText ?? (onSubmitOverride ? notattekst.submitTekst : 'Lagre')}
                     {loading && <Loader size="xsmall" />}
                 </Button>
-                <Button size="small" variant="secondary" onClick={() => ref.current?.close()} type="button">
+                <Button size="small" variant="secondary" type="button" onClick={onClose}>
                     Avbryt
                 </Button>
                 {errorMessage && <ErrorMessage className={styles.errormessage}>{errorMessage}</ErrorMessage>}

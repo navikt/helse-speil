@@ -29,7 +29,7 @@ export const TimeoutModal = ({ showModal, onClose }: TimeoutModalProps): ReactEl
             <Button as={NextLink} variant="secondary" href="/">
                 Tilbake til oversikten
             </Button>
-            <Button variant="tertiary" onClick={onClose}>
+            <Button variant="tertiary" type="button" onClick={onClose}>
                 Det er greit
             </Button>
         </Modal.Footer>

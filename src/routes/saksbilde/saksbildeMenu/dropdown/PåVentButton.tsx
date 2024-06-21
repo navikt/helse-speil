@@ -50,7 +50,7 @@ export const PåVentButton = ({ person }: PåVentButtonProps): Maybe<ReactElemen
             )}
             {showModal && (
                 <PåVentNotatModal
-                    setShowModal={(visModal) => setShowModal(visModal)}
+                    onClose={() => setShowModal(false)}
                     showModal={showModal}
                     navn={navn}
                     vedtaksperiodeId={periodeTilGodkjenning.vedtaksperiodeId}

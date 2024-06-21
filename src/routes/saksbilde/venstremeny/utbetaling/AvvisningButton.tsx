@@ -44,7 +44,11 @@ export const AvvisningButton = ({
                 <ErrorMessage>{kanIkkeAvvisesMelding}</ErrorMessage>
             ) : (
                 showModal && (
-                    <AvvisningModal setShowModal={setShowModal} showModal={showModal} activePeriod={activePeriod} />
+                    <AvvisningModal
+                        onClose={() => setShowModal(false)}
+                        showModal={showModal}
+                        activePeriod={activePeriod}
+                    />
                 )
             )}
         </>

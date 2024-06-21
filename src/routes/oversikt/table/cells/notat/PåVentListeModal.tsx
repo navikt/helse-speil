@@ -1,4 +1,4 @@
-import React, { ReactElement, useRef, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Heading, Modal, Table } from '@navikt/ds-react';
 
@@ -15,7 +15,7 @@ import { NyttNotatModal } from './NyttNotatModal';
 import styles from './PåVentModal.module.scss';
 
 type PåVentListeModalProps = {
-    setShowModal: (visModal: boolean) => void;
+    onClose: () => void;
     showModal: boolean;
     notater: Notat[];
     vedtaksperiodeId: string;
@@ -24,7 +24,7 @@ type PåVentListeModalProps = {
 };
 
 export const PåVentListeModal = ({
-    setShowModal,
+    onClose,
     showModal,
     notater,
     vedtaksperiodeId,
@@ -34,29 +34,17 @@ export const PåVentListeModal = ({
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const søkernavn = getFormatertNavn(navn);
     const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
-    const ref = useRef<HTMLDialogElement>(null);
-
-    const toggleShowNyttNotatModal = () => {
-        setShowNyttNotatModal((prevState) => !prevState);
-    };
 
     return showNyttNotatModal ? (
         <NyttNotatModal
-            setShowModal={setShowNyttNotatModal}
+            onClose={() => setShowNyttNotatModal(false)}
             showModal={showNyttNotatModal}
             navn={navn}
             vedtaksperiodeId={vedtaksperiodeId}
             notattype={NotatType.PaaVent}
         />
     ) : (
-        <Modal
-            ref={ref}
-            aria-label="Legg på vent notater modal"
-            portal
-            closeOnBackdropClick
-            open={showModal}
-            onClose={() => setShowModal(false)}
-        >
+        <Modal aria-label="Legg på vent notater modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
             <Modal.Header>
                 <Heading level="1" size="medium" className={styles.tittel}>
                     Lagt på vent - notater
@@ -85,7 +73,11 @@ export const PåVentListeModal = ({
                 </Table>
             </Modal.Body>
             <Modal.Footer>
-                {erPåVent && <LinkButton onClick={toggleShowNyttNotatModal}>Legg til nytt notat</LinkButton>}
+                {erPåVent && (
+                    <LinkButton onClick={() => setShowNyttNotatModal((prevState) => !prevState)}>
+                        Legg til nytt notat
+                    </LinkButton>
+                )}
             </Modal.Footer>
         </Modal>
     );

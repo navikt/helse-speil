@@ -43,7 +43,7 @@ export const PåVentMenuButton = ({
             )}
             {showModal && (
                 <PåVentNotatModal
-                    setShowModal={(visModal) => setShowModal(visModal)}
+                    onClose={() => setShowModal(false)}
                     showModal={showModal}
                     navn={navn}
                     vedtaksperiodeId={vedtaksperiodeId}

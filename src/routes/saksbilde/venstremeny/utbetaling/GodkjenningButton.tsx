@@ -56,10 +56,6 @@ export const GodkjenningButton = ({
     const amplitude = useContext(AmplitudeContext);
     const addUtbetalingstoast = useAddUtbetalingstoast();
 
-    const closeModal = () => {
-        setShowModal(false);
-    };
-
     const godkjennUtbetaling = () => {
         void innvilgVedtakMutation({
             variables: { oppgavereferanse: oppgavereferanse, avslag: avslag },
@@ -67,7 +63,7 @@ export const GodkjenningButton = ({
                 amplitude.logOppgaveGodkjent(erBeslutteroppgave);
                 addUtbetalingstoast();
                 onSuccess?.();
-                closeModal();
+                setShowModal(false);
             },
         });
     };
@@ -90,7 +86,7 @@ export const GodkjenningButton = ({
                     utbetaling={utbetaling}
                     arbeidsgiver={arbeidsgiver}
                     personinfo={personinfo}
-                    onClose={closeModal}
+                    onClose={() => setShowModal(false)}
                     onApprove={godkjennUtbetaling}
                     error={error && somBackendfeil(error)}
                     isSending={loading}

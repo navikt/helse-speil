@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext, useRef } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Alert, BodyShort, Button, Heading, Loader, Modal } from '@navikt/ds-react';
@@ -15,7 +15,7 @@ import { Annulleringsinformasjon } from './Annulleringsinformasjon';
 import styles from './Annulleringsmodal.module.scss';
 
 type AnnulleringsModalProps = {
-    setShowModal: (visModal: boolean) => void;
+    onClose: () => void;
     showModal: boolean;
     fødselsnummer: string;
     aktørId: string;
@@ -25,7 +25,7 @@ type AnnulleringsModalProps = {
 };
 
 export const AnnulleringsModal = ({
-    setShowModal,
+    onClose,
     showModal,
     fødselsnummer,
     aktørId,
@@ -38,7 +38,6 @@ export const AnnulleringsModal = ({
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
     const amplitude = useContext(AmplitudeContext);
     const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
-    const ref = useRef<HTMLDialogElement>(null);
 
     const form = useForm({ mode: 'onBlur' });
     const kommentar = form.watch('kommentar');
@@ -81,7 +80,7 @@ export const AnnulleringsModal = ({
                         variables: { personidentifikator: annullering.aktorId },
                         onCompleted: () => setOpptegnelsePollingTime(1000),
                     });
-                    ref.current?.close();
+                    onClose();
                 },
             });
         }
@@ -93,12 +92,11 @@ export const AnnulleringsModal = ({
 
     return (
         <Modal
-            ref={ref}
             aria-label="Legg på vent modal"
             portal
             closeOnBackdropClick
             open={showModal}
-            onClose={() => setShowModal(false)}
+            onClose={onClose}
             width="850px"
         >
             <Modal.Header>
@@ -129,16 +127,11 @@ export const AnnulleringsModal = ({
                 </FormProvider>
             </Modal.Body>
             <Modal.Footer>
-                <Button
-                    className={styles.annullerknapp}
-                    disabled={loading}
-                    type="submit"
-                    form="annullerings-modal-form"
-                >
+                <Button variant="primary" type="submit" form="annullerings-modal-form" disabled={loading}>
                     Annuller
                     {loading && <Loader size="xsmall" />}
                 </Button>
-                <Button variant="secondary" onClick={() => ref.current?.close()} type="button">
+                <Button variant="secondary" type="button" onClick={onClose}>
                     Avbryt
                 </Button>
                 {error && (

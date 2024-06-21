@@ -55,13 +55,13 @@ export const UtbetalingModal = ({
             </BodyShort>
         </Modal.Body>
         <Modal.Footer>
-            <Button variant="primary" onClick={onApprove} disabled={isSending} autoFocus>
+            <Button variant="primary" type="button" onClick={onApprove} disabled={isSending} autoFocus>
                 <div className={styles.spinnerknapp}>
                     <span>Ja</span>
                     {isSending && <Loader size="xsmall" />}
                 </div>
             </Button>
-            <Button variant="secondary" onClick={onClose}>
+            <Button variant="secondary" type="button" onClick={onClose}>
                 Avbryt
             </Button>
             {error && (
@@ -71,13 +71,13 @@ export const UtbetalingModal = ({
     </Modal>
 );
 
-interface TilUtbetalingProps {
+type TilUtbetalingProps = {
     utbetaling: Utbetaling;
     arbeidsgiver: string;
     personinfo: Personinfo;
-}
+};
 
-const TilUtbetaling = ({ utbetaling, arbeidsgiver, personinfo }: TilUtbetalingProps) => (
+const TilUtbetaling = ({ utbetaling, arbeidsgiver, personinfo }: TilUtbetalingProps): ReactElement => (
     <div className={styles.TilUtbetaling}>
         <div className={styles.Row}>
             <Bold>{utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}</Bold>

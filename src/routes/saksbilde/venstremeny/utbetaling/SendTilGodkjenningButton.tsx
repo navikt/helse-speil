@@ -60,10 +60,6 @@ export const SendTilGodkjenningButton = ({
         },
     ]);
 
-    const closeModal = () => {
-        setShowModal(false);
-    };
-
     const sendTilGodkjenning = async () => {
         await sendTilGodkjenningMutation({
             variables: { oppgavereferanse: oppgavereferanse, avslag: avslag },
@@ -71,7 +67,7 @@ export const SendTilGodkjenningButton = ({
                 amplitude.logTotrinnsoppgaveTilGodkjenning();
                 addToast();
                 onSuccess?.();
-                closeModal();
+                setShowModal(false);
             },
         });
     };
@@ -94,7 +90,7 @@ export const SendTilGodkjenningButton = ({
                     utbetaling={utbetaling}
                     arbeidsgiver={arbeidsgiver}
                     personinfo={personinfo}
-                    onClose={closeModal}
+                    onClose={() => setShowModal(false)}
                     onApprove={sendTilGodkjenning}
                     error={error && somBackendfeil(error)}
                     isSending={loading}
