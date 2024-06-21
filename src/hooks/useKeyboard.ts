@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export interface Action {
     key: string;
@@ -45,29 +45,32 @@ const shouldDisableKeyboard = (): boolean =>
     document.getElementById('modal') !== null;
 
 export const useKeyboard = (actions: Action[]) => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-        if (!event.code) return; // Valg i autocomplete-lister, f.eks. i søkefeltet, trigger et tynt keydown-event, som vi ikke trenger å håndtere her
-        const activeModifiers: string[] = [];
-        if (event.getModifierState('Alt')) activeModifiers.push(Key.Alt);
-        if (event.getModifierState('Shift')) activeModifiers.push(Key.Shift);
-        if (event.getModifierState('Meta')) activeModifiers.push(Key.Meta);
+    const handleKeyDown = useCallback(
+        (event: KeyboardEvent) => {
+            if (!event.code) return; // Valg i autocomplete-lister, f.eks. i søkefeltet, trigger et tynt keydown-event, som vi ikke trenger å håndtere her
+            const activeModifiers: string[] = [];
+            if (event.getModifierState('Alt')) activeModifiers.push(Key.Alt);
+            if (event.getModifierState('Shift')) activeModifiers.push(Key.Shift);
+            if (event.getModifierState('Meta')) activeModifiers.push(Key.Meta);
 
-        const action = Object.values(actions)
-            .filter((action: Action) => action.key === event.code)
-            .filter((action: Action) => action.modifier === undefined || activeModifiers.includes(action.modifier));
+            const action = Object.values(actions)
+                .filter((action: Action) => action.key === event.code)
+                .filter((action: Action) => action.modifier === undefined || activeModifiers.includes(action.modifier));
 
-        if (
-            !action ||
-            shouldDisableKeyboard() ||
-            (action[0]?.ignoreIfModifiers && activeModifiers.length) ||
-            action.length !== 1 ||
-            activeModifiers.includes(Key.Meta)
-        ) {
-            return;
-        }
+            if (
+                !action ||
+                shouldDisableKeyboard() ||
+                (action[0]?.ignoreIfModifiers && activeModifiers.length) ||
+                action.length !== 1 ||
+                activeModifiers.includes(Key.Meta)
+            ) {
+                return;
+            }
 
-        action[0].action();
-    };
+            action[0].action();
+        },
+        [actions],
+    );
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
