@@ -116,7 +116,7 @@ export const BegrunnelseVedtak = ({
                                         },
                                     });
                                 }}
-                                description="(Teksten vises til brukeren i melding om vedtak)"
+                                description="(Teksten vises til bruker)"
                                 aria-labelledby="begrunnelse-label begrunnelse-feil"
                                 style={{ whiteSpace: 'pre-line' }}
                                 className={styles.begrunnelse}
