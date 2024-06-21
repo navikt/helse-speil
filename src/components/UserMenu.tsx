@@ -3,6 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { BodyShort, Dropdown, InternalHeader as Header } from '@navikt/ds-react';
 
 import { TastaturModal } from '@components/TastaturModal';
+import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
@@ -18,6 +19,14 @@ export const UserMenu = (): ReactElement => {
     const isAnonymous = useIsAnonymous();
     const toggleAnonymity = useToggleAnonymity();
     const [visTastatursnarveier, setVisTastatursnarveier] = useState(false);
+
+    useKeyboard([
+        {
+            key: Key.F1,
+            action: () => setVisTastatursnarveier(!visTastatursnarveier),
+            ignoreIfModifiers: false,
+        },
+    ]);
 
     return (
         <>
@@ -49,7 +58,9 @@ export const UserMenu = (): ReactElement => {
                     </Dropdown.Menu.List>
                 </Dropdown.Menu>
             </Dropdown>
-            <TastaturModal setShowModal={setVisTastatursnarveier} showModal={visTastatursnarveier} />
+            {visTastatursnarveier && (
+                <TastaturModal onClose={() => setVisTastatursnarveier(false)} showModal={visTastatursnarveier} />
+            )}
         </>
     );
 };

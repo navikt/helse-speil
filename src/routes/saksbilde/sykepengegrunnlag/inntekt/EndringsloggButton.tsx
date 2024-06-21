@@ -40,25 +40,27 @@ export const EndringsloggButton = <T extends OverstyringFragment>({
                     <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
                 </Kilde>
             </button>
-            {isArbeidsforholdoverstyringer(endringer) ? (
+            {visEndringslogg && isArbeidsforholdoverstyringer(endringer) && (
                 <EndringsloggArbeidsforhold
                     endringer={endringer}
                     onClose={() => setVisEndringslogg(false)}
                     showModal={visEndringslogg}
                 />
-            ) : isInntektoverstyringer(endringer) ? (
+            )}
+            {visEndringslogg && isInntektoverstyringer(endringer) && (
                 <EndringsloggInntekt
                     endringer={endringer}
                     onClose={() => setVisEndringslogg(false)}
                     showModal={visEndringslogg}
                 />
-            ) : isOverstyringerPrDag(endringer) ? (
+            )}
+            {visEndringslogg && isOverstyringerPrDag(endringer) && (
                 <EndringsloggDager
                     endringer={endringer}
                     onClose={() => setVisEndringslogg(false)}
                     showModal={visEndringslogg}
                 />
-            ) : null}
+            )}
         </>
     );
 };

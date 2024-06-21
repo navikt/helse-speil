@@ -2,35 +2,21 @@ import React from 'react';
 
 import { BodyShort, Heading, Modal } from '@navikt/ds-react';
 
-import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
+import { Action } from '@hooks/useKeyboard';
 import { useKeyboardActions } from '@saksbilde/useKeyboardShortcuts';
 
 import styles from './TastaturModal.module.css';
 
 type TastaturModalProps = {
-    setShowModal: (visModal: boolean) => void;
+    onClose: () => void;
     showModal: boolean;
 };
 
-export const TastaturModal = ({ setShowModal, showModal }: TastaturModalProps) => {
+export const TastaturModal = ({ onClose, showModal }: TastaturModalProps) => {
     const tastatursnarveier: Action[] = useKeyboardActions();
 
-    useKeyboard([
-        {
-            key: Key.F1,
-            action: () => setShowModal(!showModal),
-            ignoreIfModifiers: false,
-        },
-    ]);
-
     return (
-        <Modal
-            aria-label="Tastatursnarveier modal"
-            portal
-            closeOnBackdropClick
-            open={showModal}
-            onClose={() => setShowModal(false)}
-        >
+        <Modal aria-label="Tastatursnarveier modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
             <Modal.Header>
                 <Heading level="1" size="large">
                     Tastatursnarveier

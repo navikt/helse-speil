@@ -9,7 +9,7 @@ export const ToggleMenyButton = () => {
     return (
         <div className={styles.Button}>
             <p onClick={() => setShowModal(!showModal)}>Toggles</p>
-            <ToggleMeny onClose={() => setShowModal(false)} showModal={showModal} />
+            {showModal && <ToggleMeny onClose={() => setShowModal(false)} showModal={showModal} />}
         </div>
     );
 };
