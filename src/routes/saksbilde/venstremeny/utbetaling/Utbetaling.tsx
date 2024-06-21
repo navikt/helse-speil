@@ -3,7 +3,6 @@ import { useRouter } from 'next/navigation';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { ShrinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
@@ -126,15 +125,13 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave;
 
     return (
-        <ModalWrapper
-            erÅpen={åpenIModal}
-            setErÅpen={setÅpenIModal}
-            closeIcon={<ShrinkIcon title="Minimer individuell begrunnelse" fontSize="1.5rem" />}
-        >
+        <ModalWrapper erÅpen={åpenIModal} setErÅpen={setÅpenIModal}>
             <div
                 className={classNames(
                     styles.container,
-                    (visBegrunnelseVedtak || period.avslag?.filter((it) => !it.invalidert).length > 0) && styles.aktiv,
+                    (visBegrunnelseVedtak || period.avslag?.filter((it) => !it.invalidert).length > 0) &&
+                        !åpenIModal &&
+                        styles.aktiv,
                 )}
             >
                 <BegrunnelseVedtak

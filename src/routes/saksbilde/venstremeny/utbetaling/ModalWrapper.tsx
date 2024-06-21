@@ -1,25 +1,28 @@
-import styles from './ModalWrapper.module.scss';
 import React, { Dispatch, ReactNode, SetStateAction } from 'react';
 
-import { GammelModal } from '@components/Modal';
+import { Modal } from '@navikt/ds-react';
 
-interface ModalWrapperProps {
+import styles from './ModalWrapper.module.scss';
+
+type ModalWrapperProps = {
     erÅpen: boolean;
     setErÅpen: Dispatch<SetStateAction<boolean>>;
     children: ReactNode;
-    closeIcon?: ReactNode;
-}
+};
 
-export const ModalWrapper = ({ erÅpen, setErÅpen, closeIcon, children }: ModalWrapperProps) => {
+export const ModalWrapper = ({ erÅpen, setErÅpen, children }: ModalWrapperProps): ReactNode => {
     return erÅpen ? (
-        <GammelModal
-            isOpen={erÅpen}
-            onRequestClose={() => setErÅpen(false)}
-            className={styles.modal}
-            closeIcon={closeIcon}
+        <Modal
+            aria-label="Modal"
+            portal
+            closeOnBackdropClick
+            open={erÅpen}
+            onClose={() => setErÅpen(false)}
+            width="800px"
         >
-            {children}
-        </GammelModal>
+            <Modal.Header />
+            <Modal.Body className={styles.modal}>{children}</Modal.Body>
+        </Modal>
     ) : (
         children
     );

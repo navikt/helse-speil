@@ -129,7 +129,7 @@ export const AvvisningModal = ({ setShowModal, showModal, activePeriod }: Avvisn
                     Kan ikke behandles her
                     {loading && <Loader className={styles.Loader} size="xsmall" />}
                 </Button>
-                <Button variant="secondary" onClick={() => ref.current?.close()} type="button">
+                <Button variant="secondary" onClick={() => setShowModal(false)} type="button">
                     Avbryt
                 </Button>
                 {errorMessage && <ErrorMessage className={styles.Feilmelding}>{errorMessage}</ErrorMessage>}
