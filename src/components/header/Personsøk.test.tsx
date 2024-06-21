@@ -81,6 +81,6 @@ describe('Personsøk', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Søk' }));
 
         expect(mockRouter.pathname).toEqual('/');
-        expect(screen.getByText('Personen har ingen perioder til godkjenning eller tidligere utbetalinger i Speil'));
+        expect(screen.getByText('Personen er ikke i Speil'));
     });
 });

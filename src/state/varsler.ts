@@ -14,7 +14,7 @@ const varslerState = atom<Array<SpeilError>>({
 
 export const useVarsler = (): Array<SpeilError> => {
     const params = useSearchParams();
-    const { error } = useFetchPersonQuery();
+    const { error, variables } = useFetchPersonQuery();
 
     const errors: SpeilError[] =
         error?.graphQLErrors.map((error: GraphQLError) => {
@@ -26,7 +26,7 @@ export const useVarsler = (): Array<SpeilError> => {
                     return new NotFoundError();
                 }
                 case 409: {
-                    return new NotReadyError();
+                    return new NotReadyError(variables?.fnr ?? variables?.aktorId ?? 'personen');
                 }
                 case 500: {
                     if (error.extensions.feilkode === 'HarFlereFodselsnumre') {
@@ -43,10 +43,10 @@ export const useVarsler = (): Array<SpeilError> => {
     return useRecoilValue(varslerState).concat(params.get('aktorId') !== undefined ? errors : []);
 };
 
-export const useRapporterGraphQLErrors = (): ((graphQLErrors: GraphQLErrors) => void) => {
+export const useRapporterGraphQLErrors = (): ((graphQLErrors: GraphQLErrors, søkeparameter: string) => void) => {
     const addVarsel = useAddVarsel();
 
-    return (errors) =>
+    return (errors, søkeparameter) =>
         errors.map((error: GraphQLError) => {
             switch (error.extensions?.code) {
                 case 403: {
@@ -58,7 +58,7 @@ export const useRapporterGraphQLErrors = (): ((graphQLErrors: GraphQLErrors) => 
                     break;
                 }
                 case 409: {
-                    addVarsel(new NotReadyError());
+                    addVarsel(new NotReadyError(søkeparameter));
                     break;
                 }
                 case 500: {
