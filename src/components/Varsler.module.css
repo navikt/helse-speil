@@ -1,9 +1,9 @@
-.Varsler {
+.varsler {
     position: relative;
     height: max-content;
     z-index: 1000;
 }
 
-.Varsler > * {
+.varsler > * {
     border-radius: 0;
 }

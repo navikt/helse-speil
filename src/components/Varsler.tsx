@@ -12,7 +12,7 @@ export const Varsler = () => {
     const varsler = useVarsler();
 
     return (
-        <div className={styles.Varsler}>
+        <div className={styles.varsler}>
             {varsler.map(({ name, severity, message }) => (
                 <Alert key={name} variant={severity} size="small">
                     {message}
