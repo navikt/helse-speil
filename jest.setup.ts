@@ -8,7 +8,6 @@ import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import * as mockRouter from 'next-router-mock';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
-import ReactModal from 'react-modal';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -21,8 +20,6 @@ dayjs.locale('nb');
 
 require('jest-axe/extend-expect');
 require('@testing-library/jest-dom');
-
-ReactModal.setAppElement(document.createElement('div'));
 
 mockRouter.default.useParser(
     createDynamicRouteParser([

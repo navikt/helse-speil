@@ -10,8 +10,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { usePathname } from 'next/navigation';
-import { PropsWithChildren, ReactElement, ReactNode, useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import ReactModal from 'react-modal';
+import { PropsWithChildren, ReactElement, ReactNode, useCallback, useEffect, useState } from 'react';
 import { RecoilRoot, SetRecoilState } from 'recoil';
 
 import { ApolloProvider } from '@apollo/client';
@@ -54,11 +53,6 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
         },
         [bruker.grupper, bruker.ident],
     );
-
-    useLayoutEffect(() => {
-        // TODO: Kan fjernes når vi går over til aksel sin modal
-        ReactModal.setAppElement('#root');
-    }, []);
 
     return (
         <ApolloProvider client={apolloClient}>
