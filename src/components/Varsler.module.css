@@ -7,3 +7,7 @@
 .varsler > * {
     border-radius: 0;
 }
+
+.varseltekst {
+    white-space: pre-line;
+}

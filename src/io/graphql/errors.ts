@@ -9,15 +9,18 @@ export class FetchError extends SpeilError {
 
 export class NotFoundError extends FetchError {
     constructor() {
-        super('Personen har ingen perioder til godkjenning eller tidligere utbetalinger i Speil');
+        super('Personen er ikke i Speil');
         this.severity = 'info';
         this.scope = '/';
     }
 }
 
 export class NotReadyError extends FetchError {
-    constructor() {
-        super('Personen er ikke klar for visning ennå');
+    constructor(søketekst: string) {
+        super(
+            `Det er ikke mottatt korrekt inntektsmelding eller søknad utover arbeidsgiverperioden for ${søketekst}.
+             Se i Gosys.`,
+        );
         this.severity = 'info';
         this.scope = '/';
     }

@@ -46,7 +46,7 @@ export const Personsøk = (): ReactElement => {
                 if ((data?.person?.arbeidsgivere.length ?? 0) === 0) {
                     router.push('/');
                     if (error?.graphQLErrors) {
-                        rapporterError(error.graphQLErrors);
+                        rapporterError(error.graphQLErrors, personId);
                     }
                     return;
                 }

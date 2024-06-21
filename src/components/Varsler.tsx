@@ -15,7 +15,7 @@ export const Varsler = () => {
         <div className={styles.varsler}>
             {varsler.map(({ name, severity, message }) => (
                 <Alert key={name} variant={severity} size="small">
-                    {message}
+                    <span className={styles.varseltekst}>{message}</span>
                 </Alert>
             ))}
         </div>
