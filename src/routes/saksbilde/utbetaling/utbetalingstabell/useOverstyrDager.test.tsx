@@ -21,7 +21,7 @@ jest.mock('@io/graphql/polling');
 
 const AKTØR_ID = 'aktørId';
 const FØDSELSNUMMER = 'fødselsnummer';
-const ORGNUMMER = 'orgnummer';
+const ORGNUMMER = '987654321';
 const VEDTAKSPERIODE_ID = 'vedtaksperiode';
 const BEGRUNNELSE = 'begrunnelse';
 
