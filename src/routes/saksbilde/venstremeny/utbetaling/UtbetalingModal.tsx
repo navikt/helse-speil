@@ -39,7 +39,7 @@ export const UtbetalingModal = ({
 }: UtbetalingModalProps): ReactElement => (
     <Modal aria-label="Legg på vent modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
         <Modal.Header>
-            <Heading level="1" size="large">
+            <Heading level="1" size="medium">
                 Er du sikker?
             </Heading>
         </Modal.Header>
@@ -61,7 +61,7 @@ export const UtbetalingModal = ({
                     {isSending && <Loader size="xsmall" />}
                 </div>
             </Button>
-            <Button variant="secondary" type="button" onClick={onClose}>
+            <Button variant="tertiary" type="button" onClick={onClose}>
                 Avbryt
             </Button>
             {error && (

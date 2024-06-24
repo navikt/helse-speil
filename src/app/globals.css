@@ -26,6 +26,16 @@
     --nav-ghost-deaktivert-pille-border: #6a6a6a;
 
     --speil-total-min-width: 1400px;
+
+    /* overstyrer plassering av knapper i aksel-modal */
+    .navds-modal__footer {
+        flex-flow: row wrap;
+    }
+
+    .navds-modal__footer :nth-of-type(2) {
+        margin-left: 0;
+        margin-right: auto;
+    }
 }
 
 /* Sladding av sensitive data, f.eks. når man deler skjerm eller tar skjermbilder */

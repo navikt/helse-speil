@@ -153,11 +153,11 @@ export const NyttNotatModal = ({
                 </FormProvider>
             </Modal.Body>
             <Modal.Footer>
-                <Button size="small" variant="primary" type="submit" form="nytt-på-vent-notat-form" disabled={loading}>
+                <Button variant="primary" type="submit" form="nytt-på-vent-notat-form" disabled={loading}>
                     {submitButtonText ?? (onSubmitOverride ? notattekst.submitTekst : 'Lagre')}
                     {loading && <Loader size="xsmall" />}
                 </Button>
-                <Button size="small" variant="secondary" type="button" onClick={onClose}>
+                <Button variant="tertiary" type="button" onClick={onClose}>
                     Avbryt
                 </Button>
                 {errorMessage && <ErrorMessage className={styles.errormessage}>{errorMessage}</ErrorMessage>}

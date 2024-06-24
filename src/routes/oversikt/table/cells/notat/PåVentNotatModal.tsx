@@ -110,11 +110,11 @@ export const PåVentNotatModal = ({
                 </FormProvider>
             </Modal.Body>
             <Modal.Footer>
-                <Button size="small" variant="primary" type="submit" form="på-vent-notat-form" disabled={loading}>
+                <Button variant="primary" type="submit" form="på-vent-notat-form" disabled={loading}>
                     Legg på vent
                     {loading && <Loader size="xsmall" />}
                 </Button>
-                <Button size="small" variant="secondary" type="button" onClick={onClose}>
+                <Button variant="tertiary" type="button" onClick={onClose}>
                     Avbryt
                 </Button>
                 {errorMessage && <ErrorMessage className={styles.errormessage}>{errorMessage}</ErrorMessage>}

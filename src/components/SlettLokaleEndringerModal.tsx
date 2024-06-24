@@ -27,7 +27,7 @@ export const SlettLokaleEndringerModal = ({
             <Button variant="primary" type="button" onClick={onApprove}>
                 Ja
             </Button>
-            <Button variant="secondary" type="button" onClick={onClose}>
+            <Button variant="tertiary" type="button" onClick={onClose}>
                 Avbryt
             </Button>
         </Modal.Footer>

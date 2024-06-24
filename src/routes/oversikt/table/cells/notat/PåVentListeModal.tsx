@@ -1,8 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 
-import { Heading, Modal, Table } from '@navikt/ds-react';
+import { Button, Heading, Modal, Table } from '@navikt/ds-react';
 
-import { LinkButton } from '@components/LinkButton';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { NotatType, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -74,9 +73,9 @@ export const PåVentListeModal = ({
             </Modal.Body>
             <Modal.Footer>
                 {erPåVent && (
-                    <LinkButton onClick={() => setShowNyttNotatModal((prevState) => !prevState)}>
+                    <Button variant="primary" onClick={() => setShowNyttNotatModal((prevState) => !prevState)}>
                         Legg til nytt notat
-                    </LinkButton>
+                    </Button>
                 )}
             </Modal.Footer>
         </Modal>

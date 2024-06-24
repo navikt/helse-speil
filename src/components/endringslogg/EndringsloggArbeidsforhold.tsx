@@ -28,7 +28,7 @@ export const EndringsloggArbeidsforhold = ({
         width="1200px"
     >
         <Modal.Header>
-            <Heading level="1" size="small">
+            <Heading level="1" size="medium">
                 Endringslogg
             </Heading>
         </Modal.Header>

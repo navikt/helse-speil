@@ -105,7 +105,7 @@ export const AvvisningModal = ({ onClose, showModal, activePeriod }: AvvisningMo
     return (
         <Modal aria-label="Avvisning modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
             <Modal.Header>
-                <Heading level="1" size="large">
+                <Heading level="1" size="medium">
                     Kan ikke behandles her
                 </Heading>
             </Modal.Header>
@@ -121,7 +121,7 @@ export const AvvisningModal = ({ onClose, showModal, activePeriod }: AvvisningMo
                     Kan ikke behandles her
                     {loading && <Loader className={styles.Loader} size="xsmall" />}
                 </Button>
-                <Button variant="secondary" type="button" onClick={onClose}>
+                <Button variant="tertiary" type="button" onClick={onClose}>
                     Avbryt
                 </Button>
                 {errorMessage && <ErrorMessage className={styles.Feilmelding}>{errorMessage}</ErrorMessage>}

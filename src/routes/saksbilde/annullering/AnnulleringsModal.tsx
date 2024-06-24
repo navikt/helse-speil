@@ -131,7 +131,7 @@ export const AnnulleringsModal = ({
                     Annuller
                     {loading && <Loader size="xsmall" />}
                 </Button>
-                <Button variant="secondary" type="button" onClick={onClose}>
+                <Button variant="tertiary" type="button" onClick={onClose}>
                     Avbryt
                 </Button>
                 {error && (
