@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { atom, useResetRecoilState } from 'recoil';
 
 import { Kildetype } from '@io/graphql';
@@ -40,5 +41,7 @@ export const openedDocument = atom<ÅpnedeDokumenter[]>({
 
 export const useResetOpenedDocuments = () => {
     const resetOpenedDocuments = useResetRecoilState(openedDocument);
-    resetOpenedDocuments();
+    useEffect(() => {
+        resetOpenedDocuments();
+    }, [resetOpenedDocuments]);
 };
