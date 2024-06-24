@@ -13,16 +13,10 @@
     margin: 8px 0;
 }
 
-.knapper {
+.buttons {
     display: flex;
-    gap: 8px;
-    margin-top: 10px;
-}
-
-.knapper > button > span {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    gap: var(--a-spacing-2);
+    margin-top: var(--a-spacing-4);
 }
 
 .feilmelding {

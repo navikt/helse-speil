@@ -45,7 +45,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
             </div>
             {!åpen && (
                 <div>
-                    <Button size="xsmall" onClick={() => setÅpen(true)}>
+                    <Button size="small" variant="primary" type="button" onClick={() => setÅpen(true)}>
                         Opphev stans
                     </Button>
                 </div>
@@ -57,11 +57,11 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                         description="Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn"
                         ref={textArea}
                     />
-                    <div className={styles.knapper}>
-                        <Button size="xsmall" variant="primary" type="submit" loading={loading || submitting}>
+                    <div className={styles.buttons}>
+                        <Button size="small" variant="primary" type="submit" loading={loading || submitting}>
                             Opphev stans
                         </Button>
-                        <Button size="xsmall" variant="secondary" type="button" onClick={() => setÅpen(false)}>
+                        <Button size="small" variant="tertiary" type="button" onClick={() => setÅpen(false)}>
                             Avbryt
                         </Button>
                     </div>
