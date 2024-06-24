@@ -3,7 +3,6 @@ import { useFormContext } from 'react-hook-form';
 
 import { Button, ErrorSummary, Textarea } from '@navikt/ds-react';
 
-import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import {
@@ -104,16 +103,16 @@ export const OverstyringForm = ({
             )}
             <span className={styles.buttons}>
                 <Button
-                    onClick={validering}
-                    type="button"
-                    disabled={overstyrteDager.size < 1}
                     size="small"
-                    data-testid="oppdater"
                     variant="secondary"
+                    type="button"
+                    data-testid="oppdater"
+                    onClick={validering}
+                    disabled={overstyrteDager.size < 1}
                 >
                     Ferdig ({overstyrteDager.size})
                 </Button>
-                <Button type="button" variant="tertiary" size="small" onClick={toggleOverstyring}>
+                <Button size="small" variant="tertiary" type="button" onClick={toggleOverstyring}>
                     Avbryt
                 </Button>
             </span>
