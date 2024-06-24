@@ -10,6 +10,7 @@ import { AvvisningModal } from './AvvisningModal';
 interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError' | 'children'> {
     activePeriod: BeregnetPeriodeFragment;
     disabled: boolean;
+    size: 'small' | 'medium';
 }
 
 const finnKanAvvises = ({ handlinger }: BeregnetPeriodeFragment): Maybe<Handling> =>
@@ -18,6 +19,7 @@ const finnKanAvvises = ({ handlinger }: BeregnetPeriodeFragment): Maybe<Handling
 export const AvvisningButton = ({
     activePeriod,
     disabled = false,
+    size,
     ...buttonProps
 }: AvvisningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
@@ -29,7 +31,7 @@ export const AvvisningButton = ({
             <Button
                 disabled={disabled}
                 variant="secondary"
-                size="small"
+                size={size}
                 data-testid="avvisning-button"
                 onClick={() =>
                     kanAvvises?.tillatt

@@ -147,6 +147,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                     <div className={styles.buttons}>
                         {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering ? (
                             <SendTilGodkjenningButton
+                                size={åpenIModal ? 'medium' : 'small'}
                                 utbetaling={period.utbetaling}
                                 arbeidsgiver={arbeidsgiver}
                                 personinfo={person.personinfo}
@@ -163,6 +164,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                             </SendTilGodkjenningButton>
                         ) : (
                             <GodkjenningButton
+                                size={åpenIModal ? 'medium' : 'small'}
                                 utbetaling={period.utbetaling}
                                 arbeidsgiver={arbeidsgiver}
                                 personinfo={person.personinfo}
@@ -186,10 +188,15 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                         {!isRevurdering &&
                             !period.totrinnsvurdering?.erBeslutteroppgave &&
                             !finnesNyereUtbetaltPeriodePåPerson && (
-                                <AvvisningButton disabled={periodenErSendt} activePeriod={period} />
+                                <AvvisningButton
+                                    size={åpenIModal ? 'medium' : 'small'}
+                                    disabled={periodenErSendt}
+                                    activePeriod={period}
+                                />
                             )}
                         {erBeslutteroppgaveOgHarTilgang && (
                             <ReturButton
+                                size={åpenIModal ? 'medium' : 'small'}
                                 disabled={periodenErSendt}
                                 activePeriod={period}
                                 onSuccess={onAvvisUtbetaling}

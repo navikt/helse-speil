@@ -34,6 +34,7 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
     arbeidsgiver: string;
     personinfo: Personinfo;
     avslag: Maybe<AvslagInput>;
+    size: 'small' | 'medium';
 }
 
 export const SendTilGodkjenningButton = ({
@@ -45,6 +46,7 @@ export const SendTilGodkjenningButton = ({
     arbeidsgiver,
     personinfo,
     avslag = null,
+    size,
     ...buttonProps
 }: SendTilGodkjenningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
@@ -77,7 +79,7 @@ export const SendTilGodkjenningButton = ({
             <Button
                 disabled={disabled}
                 variant="primary"
-                size="small"
+                size={size}
                 data-testid="godkjenning-button"
                 onClick={() => setShowModal(true)}
                 {...buttonProps}

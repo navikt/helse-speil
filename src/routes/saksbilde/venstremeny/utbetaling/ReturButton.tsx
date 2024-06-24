@@ -27,6 +27,7 @@ interface ReturButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>,
     activePeriod: BeregnetPeriodeFragment;
     disabled: boolean;
     onSuccess?: () => void;
+    size: 'small' | 'medium';
 }
 
 export const ReturButton = ({
@@ -34,6 +35,7 @@ export const ReturButton = ({
     activePeriod,
     disabled = false,
     onSuccess,
+    size,
     ...buttonProps
 }: ReturButtonProps): Maybe<ReactElement> => {
     const [showNotat, setShowNotat] = useState(false);
@@ -76,7 +78,7 @@ export const ReturButton = ({
             <Button
                 disabled={disabled}
                 variant="secondary"
-                size="small"
+                size={size}
                 data-testid="retur-button"
                 onClick={() => setShowNotat(true)}
                 {...buttonProps}

@@ -35,6 +35,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     arbeidsgiver: string;
     personinfo: Personinfo;
     avslag: Maybe<AvslagInput>;
+    size: 'small' | 'medium';
 }
 
 export const GodkjenningButton = ({
@@ -47,6 +48,7 @@ export const GodkjenningButton = ({
     arbeidsgiver,
     personinfo,
     avslag = null,
+    size,
     ...buttonProps
 }: GodkjenningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
@@ -73,7 +75,7 @@ export const GodkjenningButton = ({
             <Button
                 disabled={disabled}
                 variant="primary"
-                size="small"
+                size={size}
                 data-testid="godkjenning-button"
                 onClick={() => setShowModal(true)}
                 {...buttonProps}
