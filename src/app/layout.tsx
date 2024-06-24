@@ -35,22 +35,20 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
 
     return (
         <html lang="en">
-            <body>
-                <Providers
-                    bruker={{
-                        oid: payload.oid,
-                        epost: payload.preferred_username,
-                        navn: payload.name,
-                        ident: payload.NAVident,
-                        grupper: payload.groups,
-                    }}
-                >
-                    <Header />
-                    <Varsler />
-                    {children}
-                    <Toasts />
-                </Providers>
-            </body>
+            <Providers
+                bruker={{
+                    oid: payload.oid,
+                    epost: payload.preferred_username,
+                    navn: payload.name,
+                    ident: payload.NAVident,
+                    grupper: payload.groups,
+                }}
+            >
+                <Header />
+                <Varsler />
+                {children}
+                <Toasts />
+            </Providers>
         </html>
     );
 }

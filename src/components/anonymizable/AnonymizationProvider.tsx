@@ -37,8 +37,8 @@ export const AnonymiseringProvider = ({ children }: PropsWithChildren) => {
     }, [setAnonymity]);
 
     return (
-        <div id="root" style={anonymiser ? anomizedStyle : visibleStyle}>
-            {children}
-        </div>
+        <body style={anonymiser ? anomizedStyle : visibleStyle}>
+            <div id="root">{children}</div>
+        </body>
     );
 };

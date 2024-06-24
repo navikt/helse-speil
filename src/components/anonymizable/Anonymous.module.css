@@ -2,6 +2,7 @@
     color: var(--anonymizable-color);
     background-color: var(--anonymizable-color);
     border-radius: var(--anonymizable-border-radius);
+    width: fit-content;
 }
 
 .Anonymous::selection,
