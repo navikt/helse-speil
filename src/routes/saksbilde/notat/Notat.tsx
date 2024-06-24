@@ -5,7 +5,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { PlusCircleFillIcon } from '@navikt/aksel-icons';
 import { MinusCircle } from '@navikt/ds-icons';
-import { BodyShort, Button, ErrorMessage, Loader } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
@@ -119,11 +119,10 @@ export const Notat = (): Maybe<ReactElement> => {
                     <form onSubmit={form.handleSubmit(submit)} className={styles.form}>
                         <ControlledTextarea control={form.control} vedtaksperiodeId={aktivPeriode.vedtaksperiodeId} />
                         <span className={styles.buttons}>
-                            <Button size="small" variant="secondary" disabled={loading} type="submit">
+                            <Button size="small" variant="secondary" type="submit" loading={loading}>
                                 Lagre notat
-                                {loading && <Loader size="xsmall" />}
                             </Button>
-                            <Button size="small" variant="tertiary" onClick={lukkNotatfelt} type="button">
+                            <Button size="small" variant="tertiary" type="button" onClick={lukkNotatfelt}>
                                 Avbryt
                             </Button>
                         </span>

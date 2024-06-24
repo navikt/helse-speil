@@ -54,8 +54,8 @@
 
 .buttons {
     display: flex;
-    gap: 0.25rem;
-    padding-top: 1rem;
+    gap: var(--a-spacing-2);
+    margin-top: var(--a-spacing-4);
 }
 
 .buttons span {

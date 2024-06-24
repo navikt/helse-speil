@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useRef } from 'react';
 import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import { Button, Loader } from '@navikt/ds-react';
+import { Button } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { TimeoutModal } from '@components/TimeoutModal';
@@ -156,20 +156,15 @@ export const SkjønnsfastsettingForm = ({
                             )}
                             <div className={styles.buttons}>
                                 <Button
-                                    className={styles.button}
-                                    variant="secondary"
                                     size="small"
-                                    disabled={isLoading || erReadonly}
+                                    variant="secondary"
+                                    type="submit"
+                                    disabled={erReadonly}
+                                    loading={isLoading}
                                 >
                                     Lagre
-                                    {isLoading && <Loader size="xsmall" />}
                                 </Button>
-                                <Button
-                                    className={styles.button}
-                                    variant="tertiary"
-                                    onClick={cancelEditing}
-                                    size="small"
-                                >
+                                <Button size="small" variant="tertiary" type="button" onClick={cancelEditing}>
                                     Avbryt
                                 </Button>
                             </div>

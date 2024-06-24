@@ -3,7 +3,7 @@ import React, { FormEvent, ReactElement, useEffect, useRef, useState } from 'rea
 import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 
-import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
+import { Alert, BodyShort, Button } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
@@ -284,16 +284,15 @@ export const EditableInntekt = ({
                     )}
                     <span className={styles.Buttons}>
                         <Button
-                            className={styles.Button}
-                            disabled={isLoading}
-                            variant="secondary"
                             size="small"
+                            variant="secondary"
+                            type="submit"
+                            loading={isLoading}
                             onClick={validateRefusjon}
                         >
                             Lagre
-                            {isLoading && <Loader size="xsmall" />}
                         </Button>
-                        <Button className={styles.Button} variant="tertiary" size="small" onClick={cancelEditing}>
+                        <Button size="small" variant="tertiary" type="button" onClick={cancelEditing}>
                             Avbryt
                         </Button>
                     </span>

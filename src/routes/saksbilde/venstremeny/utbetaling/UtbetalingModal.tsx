@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Button, Heading, Loader, Modal } from '@navikt/ds-react';
+import { BodyShort, Button, Heading, Modal } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { ErrorMessage } from '@components/ErrorMessage';
@@ -55,11 +55,8 @@ export const UtbetalingModal = ({
             </BodyShort>
         </Modal.Body>
         <Modal.Footer>
-            <Button variant="primary" type="button" onClick={onApprove} disabled={isSending} autoFocus>
-                <div className={styles.spinnerknapp}>
-                    <span>Ja</span>
-                    {isSending && <Loader size="xsmall" />}
-                </div>
+            <Button variant="primary" type="button" autoFocus loading={isSending} onClick={onApprove}>
+                Ja
             </Button>
             <Button variant="tertiary" type="button" onClick={onClose}>
                 Avbryt

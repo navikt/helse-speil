@@ -1,24 +1,14 @@
-.NotatForm {
+.notatform {
     display: flex;
     flex-direction: column;
-    gap: 8px;
 }
 
-.NotatForm > span {
-    display: inline-flex;
-    gap: 16px;
-}
-
-.NotatForm > span > button {
-    max-width: max-content;
-}
-
-.NotatForm > span > button > span {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.NotatForm textarea {
+.notatform textarea {
     font-size: var(--a-font-size-medium);
+}
+
+.buttons {
+    display: flex;
+    gap: var(--a-spacing-2);
+    margin-top: var(--a-spacing-4);
 }

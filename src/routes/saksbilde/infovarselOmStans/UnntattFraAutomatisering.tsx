@@ -1,6 +1,6 @@
 import React, { FormEvent, useRef, useState } from 'react';
 
-import { Alert, BodyShort, Button, Loader, Textarea } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Textarea } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { useOpphevStans } from '@state/opphevStans';
@@ -58,11 +58,10 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                         ref={textArea}
                     />
                     <div className={styles.knapper}>
-                        <Button size="xsmall" disabled={loading || submitting}>
+                        <Button size="xsmall" variant="primary" type="submit" loading={loading || submitting}>
                             Opphev stans
-                            {(loading || submitting) && <Loader size="xsmall" />}
                         </Button>
-                        <Button variant="secondary" size="xsmall" onClick={() => setÅpen(false)}>
+                        <Button size="xsmall" variant="secondary" type="button" onClick={() => setÅpen(false)}>
                             Avbryt
                         </Button>
                     </div>

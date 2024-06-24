@@ -7,15 +7,10 @@
     border-radius: 0;
 }
 
-.Buttons {
+.buttons {
     display: flex;
     gap: 1rem;
     margin-top: 0.75rem;
-}
-
-.ButtonWithLoader > span {
-    display: flex;
-    column-gap: var(--a-spacing-1);
 }
 
 .varsler {

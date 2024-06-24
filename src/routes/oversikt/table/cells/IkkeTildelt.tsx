@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Button, Loader } from '@navikt/ds-react';
+import { Button } from '@navikt/ds-react';
 
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useOpprettTildeling } from '@state/tildeling';
@@ -28,10 +28,10 @@ export const IkkeTildelt = ({ oppgavereferanse, width }: IkkeTildeltProps): Reac
                 variant="secondary"
                 size="small"
                 onClick={tildel}
-                disabled={!saksbehandler || loading}
+                disabled={!saksbehandler}
+                loading={loading}
             >
                 Tildel meg
-                {loading && <Loader size="xsmall" />}
             </Button>
         </div>
     );

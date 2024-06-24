@@ -1,7 +1,7 @@
 import React, { ReactElement, useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Alert, BodyShort, Button, Heading, Loader, Modal } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Heading, Modal } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
@@ -127,9 +127,8 @@ export const AnnulleringsModal = ({
                 </FormProvider>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" type="submit" form="annullerings-modal-form" disabled={loading}>
+                <Button variant="primary" type="submit" form="annullerings-modal-form" loading={loading}>
                     Annuller
-                    {loading && <Loader size="xsmall" />}
                 </Button>
                 <Button variant="tertiary" type="button" onClick={onClose}>
                     Avbryt

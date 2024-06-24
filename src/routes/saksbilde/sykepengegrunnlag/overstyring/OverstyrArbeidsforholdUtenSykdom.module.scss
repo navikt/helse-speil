@@ -8,30 +8,8 @@
 
   .buttons {
     display: flex;
-    margin-top: 2rem;
-
-    > button:not(:last-of-type) {
-      margin-right: 0.5rem;
-    }
-
-    .formbutton {
-      display: flex;
-      align-items: center;
-      box-sizing: border-box;
-      padding: 5px 23px;
-
-      &:hover,
-      &:disabled,
-      &.navds-button:disabled {
-        border-width: 2px;
-        border-color: var(--a-border-default);
-        padding: 5px 23px;
-      }
-
-      > svg.spinner {
-        margin-left: 0.5rem;
-      }
-    }
+    margin-top: var(--a-spacing-4);
+    gap: var(--a-spacing-2);
   }
 
   .feiloppsummering {

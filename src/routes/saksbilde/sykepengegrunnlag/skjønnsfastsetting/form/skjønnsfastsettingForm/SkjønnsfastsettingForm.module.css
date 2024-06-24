@@ -9,14 +9,6 @@
     gap: var(--a-spacing-2);
 }
 
-.button svg {
-    margin-left: var(--a-spacing-2);
-}
-
-.button > span {
-    display: flex;
-}
-
 .arbeidsgivere {
     margin-bottom: var(--a-spacing-4);
 }

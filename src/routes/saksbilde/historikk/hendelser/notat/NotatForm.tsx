@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Button, Loader, Textarea } from '@navikt/ds-react';
+import { Button, Textarea } from '@navikt/ds-react';
 
 import styles from './NotatForm.module.css';
 
@@ -28,7 +28,7 @@ export const NotatForm = ({
     };
 
     return (
-        <form className={styles.NotatForm} onSubmit={form.handleSubmit(submitForm)} {...formProps}>
+        <form className={styles.notatform} onSubmit={form.handleSubmit(submitForm)} {...formProps}>
             <Textarea
                 autoFocus
                 label={label}
@@ -40,11 +40,11 @@ export const NotatForm = ({
                 }
                 {...form.register('Notattekst', { required: 'Tekstfeltet kan ikke være tomt' })}
             />
-            <span>
-                <Button size="small" disabled={isFetching}>
-                    Legg til {isFetching && <Loader size="xsmall" />}
+            <span className={styles.buttons}>
+                <Button size="small" variant="secondary" type="submit" loading={isFetching}>
+                    Legg til
                 </Button>
-                <Button size="small" variant="secondary" onClick={closeForm} type="button">
+                <Button size="small" variant="tertiary" type="button" onClick={closeForm}>
                     Avbryt
                 </Button>
             </span>

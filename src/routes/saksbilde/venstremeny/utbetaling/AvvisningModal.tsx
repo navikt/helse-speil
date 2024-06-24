@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import React, { ReactElement, useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Button, Heading, Loader, Modal } from '@navikt/ds-react';
+import { Button, Heading, Modal } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
@@ -117,14 +117,13 @@ export const AvvisningModal = ({ onClose, showModal, activePeriod }: AvvisningMo
                 </FormProvider>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" type="submit" form="avvisning-modal-skjema" disabled={loading}>
+                <Button variant="primary" type="submit" form="avvisning-modal-skjema" loading={loading}>
                     Kan ikke behandles her
-                    {loading && <Loader className={styles.Loader} size="xsmall" />}
                 </Button>
                 <Button variant="tertiary" type="button" onClick={onClose}>
                     Avbryt
                 </Button>
-                {errorMessage && <ErrorMessage className={styles.Feilmelding}>{errorMessage}</ErrorMessage>}
+                {errorMessage && <ErrorMessage className={styles.feilmelding}>{errorMessage}</ErrorMessage>}
             </Modal.Footer>
         </Modal>
     );

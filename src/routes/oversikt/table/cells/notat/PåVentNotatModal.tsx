@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
-import { Button, Checkbox, Heading, Loader, Modal, Textarea } from '@navikt/ds-react';
+import { Button, Checkbox, Heading, Modal, Textarea } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
@@ -110,9 +110,8 @@ export const PåVentNotatModal = ({
                 </FormProvider>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" type="submit" form="på-vent-notat-form" disabled={loading}>
+                <Button variant="primary" type="submit" form="på-vent-notat-form" loading={loading}>
                     Legg på vent
-                    {loading && <Loader size="xsmall" />}
                 </Button>
                 <Button variant="tertiary" type="button" onClick={onClose}>
                     Avbryt

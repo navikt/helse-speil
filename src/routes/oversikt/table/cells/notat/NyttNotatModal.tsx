@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
-import { Button, Heading, Loader, Modal, Textarea } from '@navikt/ds-react';
+import { Button, Heading, Modal, Textarea } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
@@ -153,9 +153,8 @@ export const NyttNotatModal = ({
                 </FormProvider>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" type="submit" form="nytt-på-vent-notat-form" disabled={loading}>
+                <Button variant="primary" type="submit" form="nytt-på-vent-notat-form" loading={loading}>
                     {submitButtonText ?? (onSubmitOverride ? notattekst.submitTekst : 'Lagre')}
-                    {loading && <Loader size="xsmall" />}
                 </Button>
                 <Button variant="tertiary" type="button" onClick={onClose}>
                     Avbryt

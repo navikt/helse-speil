@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
-import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
+import { Alert, BodyShort, Button } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
@@ -31,20 +31,21 @@ export const KalkulerEndringerVarsel = ({ skjæringstidspunkt }: KalkulerEndring
                 <BodyShort>
                     Endringene for sykepengegrunnlag må kalkuleres før du sender saken til godkjenning.
                 </BodyShort>
-                <div className={styles.Buttons}>
+                <div className={styles.buttons}>
                     <Button
-                        variant="primary"
                         size="small"
+                        variant="primary"
+                        type="button"
                         data-testid="kalkuler-button"
-                        disabled={isLoading}
+                        loading={isLoading}
                         onClick={() => postOverstyring(lokaleInntektoverstyringer as OverstyrtInntektOgRefusjonDTO)}
-                        className={styles.ButtonWithLoader}
                     >
-                        Kalkuler endringer ({antallRedigerteArbeidsgivere}){isLoading && <Loader size="xsmall" />}
+                        Kalkuler endringer ({antallRedigerteArbeidsgivere})
                     </Button>
                     <Button
-                        variant="tertiary"
                         size="small"
+                        variant="tertiary"
+                        type="button"
                         data-testid="kalkuler-avbryt-button"
                         onClick={() => setShowModal(true)}
                     >

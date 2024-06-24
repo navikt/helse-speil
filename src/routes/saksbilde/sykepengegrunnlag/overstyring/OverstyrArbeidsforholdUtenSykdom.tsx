@@ -3,7 +3,7 @@ import React, { ReactElement, useContext, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Error } from '@navikt/ds-icons';
-import { BodyShort, ErrorSummary, Loader, Button as NavButton } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorSummary } from '@navikt/ds-react';
 
 import { EditButton } from '@components/EditButton';
 import { ErrorMessage } from '@components/ErrorMessage';
@@ -168,19 +168,12 @@ const OverstyrArbeidsforholdSkjema = ({
                         </div>
                     )}
                     <span className={styles.buttons}>
-                        <NavButton as="button" disabled={isLoading} variant="secondary" className={styles.formbutton}>
+                        <Button size="small" variant="secondary" type="submit" loading={isLoading}>
                             Ferdig
-                            {isLoading && <Loader size="xsmall" />}
-                        </NavButton>
-                        <NavButton
-                            as="button"
-                            disabled={isLoading}
-                            variant="tertiary"
-                            onClick={onClose}
-                            className={styles.formbutton}
-                        >
+                        </Button>
+                        <Button size="small" variant="tertiary" type="button" onClick={onClose}>
                             Avbryt
-                        </NavButton>
+                        </Button>
                     </span>
                     {error && <ErrorMessage>{error}</ErrorMessage>}
                     {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
