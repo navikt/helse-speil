@@ -4,7 +4,7 @@ import { BodyShort, Button, Heading, Modal } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { ErrorMessage } from '@components/ErrorMessage';
-import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Personinfo, Utbetaling, Utbetalingstatus } from '@io/graphql';

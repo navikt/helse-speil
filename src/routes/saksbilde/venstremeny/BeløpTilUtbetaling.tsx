@@ -3,7 +3,7 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';

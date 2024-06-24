@@ -1,8 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Tooltip } from '@navikt/ds-react';
-
-import { TextWithEllipsis } from '@components/TextWithEllipsis';
+import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 interface TildeltProps {
     name: string;
@@ -12,9 +10,9 @@ interface TildeltProps {
 export const Tildelt = ({ name, width }: TildeltProps): ReactElement => {
     return (
         <Tooltip content={name}>
-            <span>
-                <TextWithEllipsis style={{ width: width }}>{name}</TextWithEllipsis>
-            </span>
+            <BodyShort truncate style={{ width: width }}>
+                {name}
+            </BodyShort>
         </Tooltip>
     );
 };

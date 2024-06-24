@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { Table, Tooltip } from '@navikt/ds-react';
 
-import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Personinfo } from '@io/graphql';
 import { capitalizeName } from '@utils/locale';
 

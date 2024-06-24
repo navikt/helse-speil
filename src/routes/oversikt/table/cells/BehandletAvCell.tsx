@@ -1,8 +1,7 @@
 import React, { ReactElement } from 'react';
 
-import { Table, Tooltip } from '@navikt/ds-react';
+import { BodyShort, Table, Tooltip } from '@navikt/ds-react';
 
-import { TextWithEllipsis } from '@components/TextWithEllipsis';
 import { Maybe } from '@io/graphql';
 
 interface BehandletAvCellProps {
@@ -14,9 +13,7 @@ export const BehandletAvCell = ({ name }: BehandletAvCellProps): ReactElement =>
         <Table.DataCell>
             {name ? (
                 <Tooltip content={name}>
-                    <span>
-                        <TextWithEllipsis style={{ width: 200 }}>{name}</TextWithEllipsis>
-                    </span>
+                    <BodyShort truncate>{name}</BodyShort>
                 </Tooltip>
             ) : (
                 '-'

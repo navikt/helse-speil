@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
-import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { ArbeidsgiverGenerasjon } from '@typer/shared';
 
@@ -31,7 +31,7 @@ export const ExpandableTimelineRow = ({
                 className={classNames(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
                 onClick={() => setIsExpanded((prevState) => !prevState)}
             >
-                <AnonymizableTextWithEllipsis size="small">{name}</AnonymizableTextWithEllipsis>
+                <AnonymizableTextWithEllipsis>{name}</AnonymizableTextWithEllipsis>
             </ArbeidsgiverikonMedTooltip>
             <div className={classNames(styles.Periods)}>
                 {generations[0] && (

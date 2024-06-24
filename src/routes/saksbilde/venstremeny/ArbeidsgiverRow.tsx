@@ -1,4 +1,3 @@
-import styles from './ArbeidsgiverRow.module.scss';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement, useState } from 'react';
@@ -6,14 +5,15 @@ import React, { ReactElement, useState } from 'react';
 import { Accordion, BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Clipboard } from '@components/clipboard';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { Arbeidsforhold } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { capitalize, somPenger } from '@utils/locale';
+
+import styles from './ArbeidsgiverRow.module.scss';
 
 interface OrganisasjonsnummerRowProps {
     organisasjonsnummer: string;

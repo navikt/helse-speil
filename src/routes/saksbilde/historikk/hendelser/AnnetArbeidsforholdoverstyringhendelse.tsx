@@ -5,7 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
-import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Inntektskilde } from '@io/graphql';
 import { AnnetArbeidsforholdoverstyringhendelseObject } from '@typer/historikk';
 import { getFormattedDateString } from '@utils/date';

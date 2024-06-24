@@ -12,3 +12,15 @@ export const AnonymizableText = ({ children, className, ...paragraphProps }: Bod
         </BodyShort>
     );
 };
+
+export const AnonymizableTextWithEllipsis = ({
+    className,
+    children,
+    ...paragrahProps
+}: BodyShortProps): ReactElement => {
+    return (
+        <AnonymizableText truncate className={className} {...paragrahProps}>
+            {children}
+        </AnonymizableText>
+    );
+};

@@ -3,7 +3,7 @@ import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { GhostPeriodeFragment, Maybe, PeriodeFragment } from '@io/graphql';
 import { TimelinePeriod } from '@typer/timeline';
@@ -37,7 +37,7 @@ export const TimelineRow = ({
                 tooltipTekst={name}
                 className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}
             >
-                <AnonymizableTextWithEllipsis size="small">{name}</AnonymizableTextWithEllipsis>
+                <AnonymizableTextWithEllipsis>{name}</AnonymizableTextWithEllipsis>
             </ArbeidsgiverikonMedTooltip>
             <div className={styles.Periods}>
                 <Periods
