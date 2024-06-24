@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Select } from '@navikt/ds-react';
 
 import { Button } from '@components/Button';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import { Key, useKeyboard } from '@hooks/useKeyboard';
 import styles from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm.module.css';
 import {
     OverstyrbarDagtype,
@@ -13,16 +12,14 @@ import {
     typeendringerAndreYtelser,
 } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 
-import { DagtypeModal } from './DagtypeModal';
-
 interface DagtypeSelectProps {
     errorMessage?: string;
     clearErrors: () => void;
     setType: (type: OverstyrbarDagtype) => void;
+    openDagtypeModal: () => void;
 }
 
-export const DagtypeSelect = ({ errorMessage, clearErrors, setType }: DagtypeSelectProps) => {
-    const [showModal, setShowModal] = useState(false);
+export const DagtypeSelect = ({ errorMessage, clearErrors, setType, openDagtypeModal }: DagtypeSelectProps) => {
     const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
         if (alleTypeendringer.map((dag) => dag.speilDagtype).includes(event.target.value as OverstyrbarDagtype)) {
             clearErrors();
@@ -30,15 +27,6 @@ export const DagtypeSelect = ({ errorMessage, clearErrors, setType }: DagtypeSel
             setType(type);
         }
     };
-
-    useKeyboard([
-        {
-            key: Key.D,
-            action: () => setShowModal(!showModal),
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
-        },
-    ]);
 
     return (
         <>
@@ -48,7 +36,7 @@ export const DagtypeSelect = ({ errorMessage, clearErrors, setType }: DagtypeSel
                 label={
                     <span className={styles.dagtypelabel}>
                         Dagtype{' '}
-                        <Button className={styles.button} type="button" onClick={() => setShowModal(true)}>
+                        <Button className={styles.button} type="button" onClick={openDagtypeModal}>
                             <SortInfoikon />
                         </Button>
                     </span>
@@ -71,7 +59,6 @@ export const DagtypeSelect = ({ errorMessage, clearErrors, setType }: DagtypeSel
                     ))}
                 </>
             </Select>
-            {showModal && <DagtypeModal onClose={() => setShowModal(false)} showModal={showModal} />}
         </>
     );
 };

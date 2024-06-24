@@ -6,8 +6,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { BodyShort } from '@navikt/ds-react';
 
 import { TimeoutModal } from '@components/TimeoutModal';
+import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useMap } from '@hooks/useMap';
 import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
+import { DagtypeModal } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeModal';
 import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -53,6 +55,7 @@ export const OverstyrbarUtbetaling = ({
 }: OverstyrbarUtbetalingProps): ReactElement => {
     const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
+    const [visDagtypeModal, setVisDagtypeModal] = useState(false);
     const [overstyrer, setOverstyrer] = useState(false);
     const { postOverstyring, error, state } = useOverstyrDager(person, arbeidsgiver);
 
@@ -141,6 +144,15 @@ export const OverstyrbarUtbetaling = ({
         }
     }, [state]);
 
+    useKeyboard([
+        {
+            key: Key.D,
+            action: () => overstyrer && setVisDagtypeModal(!visDagtypeModal),
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+        },
+    ]);
+
     return (
         <div
             className={classNames(styles.OverstyrbarUtbetaling, overstyrer && styles.overstyrer)}
@@ -155,6 +167,7 @@ export const OverstyrbarUtbetaling = ({
             />
             {overstyrer && (
                 <LeggTilDager
+                    openDagtypeModal={() => setVisDagtypeModal(true)}
                     periodeFom={Array.from(alleDager.values())[0].dato}
                     onSubmitPølsestrekk={onSubmitPølsestrekk}
                 />
@@ -186,7 +199,11 @@ export const OverstyrbarUtbetaling = ({
                                 />
                             ))}
                         </div>
-                        <EndringForm markerteDager={markerteDager} onSubmitEndring={onSubmitEndring} />
+                        <EndringForm
+                            markerteDager={markerteDager}
+                            onSubmitEndring={onSubmitEndring}
+                            openDagtypeModal={() => setVisDagtypeModal(true)}
+                        />
                         <FormProvider {...form}>
                             <form onSubmit={(event) => event.preventDefault()}>
                                 <OverstyringForm
@@ -206,6 +223,7 @@ export const OverstyrbarUtbetaling = ({
                     {error}
                 </BodyShort>
             )}
+            {visDagtypeModal && <DagtypeModal onClose={() => setVisDagtypeModal(false)} showModal={visDagtypeModal} />}
         </div>
     );
 };
