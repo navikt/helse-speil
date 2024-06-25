@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react';
 
+import { BodyShort } from '@navikt/ds-react';
+
 import { Antall, Behandlingsstatistikk } from '@io/graphql';
 
 import { LabelCell } from './LabelCell';
@@ -102,32 +104,32 @@ export const BehandlingsstatistikkTable = ({
             <tfoot>
                 <tr>
                     <td colSpan={4}>
-                        <p className={styles.FooterTotal}>
+                        <BodyShort size="small" className={styles.FooterTotal}>
                             FULLFØRTE SAKER I DAG:{' '}
                             <span>
                                 {totaltIdag.manuelt + totaltIdag.automatisk + behandlingsstatistikk.antallAnnulleringer}
                             </span>
-                        </p>
+                        </BodyShort>
                     </td>
                 </tr>
                 <tr>
                     <td colSpan={4}>
                         <div className={styles.FooterCellContainer}>
                             <div className={styles.FooterCell}>
-                                <p>{totaltIdag.manuelt}</p>
-                                <p>MANUELT</p>
+                                <BodyShort>{totaltIdag.manuelt}</BodyShort>
+                                <BodyShort>MANUELT</BodyShort>
                             </div>
                             <div className={styles.FooterCell}>
-                                <p>{totaltIdag.automatisk}</p>
-                                <p>AUTOMATISK</p>
+                                <BodyShort>{totaltIdag.automatisk}</BodyShort>
+                                <BodyShort>AUTOMATISK</BodyShort>
                             </div>
                             <div className={styles.FooterCell}>
-                                <p>{totaltIdag.tilgjengelig}</p>
-                                <p>TILGJENGELIG</p>
+                                <BodyShort>{totaltIdag.tilgjengelig}</BodyShort>
+                                <BodyShort>TILGJENGELIG</BodyShort>
                             </div>
                             <div className={styles.FooterCell}>
-                                <p>{behandlingsstatistikk.antallAnnulleringer}</p>
-                                <p>ANNULLERT</p>
+                                <BodyShort>{behandlingsstatistikk.antallAnnulleringer}</BodyShort>
+                                <BodyShort>ANNULLERT</BodyShort>
                             </div>
                         </div>
                     </td>

@@ -48,12 +48,7 @@
 .FooterTotal > span {
     display: inline;
     font-weight: var(--a-font-weight-bold);
-}
-
-.FooterTotal > div,
-.FooterTotal > span {
     font-size: var(--a-font-size-large);
-    height: var(--a-font-size-large);
     width: max-content;
     min-width: 3rem;
 }
@@ -88,8 +83,4 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.FooterCell p:first-of-type span {
-    height: var(--a-font-line-height-heading-small);
 }
