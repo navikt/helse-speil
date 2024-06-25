@@ -284,7 +284,7 @@ export const useEndringerForPeriode = (organisasjonsnummer: string): UseEndringe
     }
 
     const inntekter = endringer
-        .filter((it) => dayjs(it.timestamp).isSameOrBefore(periode.opprettet))
+        .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
         .filter(isInntektoverstyring);
 
     const arbeidsforhold = endringer
@@ -292,7 +292,7 @@ export const useEndringerForPeriode = (organisasjonsnummer: string): UseEndringe
         .filter(isArbeidsforholdoverstyring);
 
     const dager = endringer
-        .filter((it) => dayjs(it.timestamp).isSameOrBefore(periode.opprettet))
+        .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
         .filter(isDagoverstyring);
 
     return { inntektsendringer: inntekter, arbeidsforholdendringer: arbeidsforhold, dagendringer: dager };

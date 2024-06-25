@@ -18,10 +18,6 @@
     margin-top: var(--a-spacing-1);
 }
 
-.Kildeikon {
-    margin-left: 0.5rem;
-}
-
 .månedsbeløp {
     display: flex;
     justify-content: right;

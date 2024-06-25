@@ -17,7 +17,14 @@ type EndringsloggInntektProps = {
 };
 
 export const EndringsloggInntekt = ({ endringer, onClose, showModal }: EndringsloggInntektProps): ReactElement => (
-    <Modal aria-label="Endringslogg modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
+    <Modal
+        aria-label="Endringslogg modal"
+        width="1200px"
+        portal
+        closeOnBackdropClick
+        open={showModal}
+        onClose={onClose}
+    >
         <Modal.Header>
             <Heading level="1" size="medium">
                 Endringslogg

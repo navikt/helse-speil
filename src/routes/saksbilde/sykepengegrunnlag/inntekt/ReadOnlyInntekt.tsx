@@ -40,13 +40,11 @@ export const ReadOnlyInntekt = ({
                         <BodyShort>{somPenger(lokaltMånedsbeløp || omregnetÅrsinntekt?.manedsbelop)}</BodyShort>
                     </div>
                 </div>
-                <div style={{ position: 'relative' }}>
+                <div style={{ paddingLeft: '0.5rem' }}>
                     {endret || lokaltMånedsbeløp || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
                         <EndringsloggButton endringer={inntektsendringer} />
                     ) : (
-                        <Kilde type={omregnetÅrsinntekt?.kilde} className={styles.Kildeikon}>
-                            {kildeForkortelse(omregnetÅrsinntekt?.kilde)}
-                        </Kilde>
+                        <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </div>
                 <BodyShort>
