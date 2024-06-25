@@ -2,7 +2,13 @@ import React from 'react';
 
 import { Checkbox, CheckboxGroup, Heading, Modal } from '@navikt/ds-react';
 
-import { useToggleKanFrigiOppgaver, useToggleReadonly, useTotrinnsvurdering } from '@state/toggles';
+import {
+    ReadonlyState,
+    TotrinnsvurderingState,
+    useToggleKanFrigiOppgaver,
+    useToggleReadonly,
+    useTotrinnsvurdering,
+} from '@state/toggles';
 
 import styles from './ToggleMeny.module.css';
 
@@ -25,50 +31,29 @@ export const ToggleMeny = ({ onClose, showModal }: ToggleMenyProps) => {
             </Modal.Header>
             <Modal.Body>
                 <form className={styles.ToggleMeny}>
-                    <CheckboxGroup legend="Totrinnsvurdering">
-                        <Checkbox
-                            value="Har beslutterrolle"
-                            checked={totrinn.harBeslutterrolle}
-                            onChange={toggleTotrinn('harBeslutterrolle')}
-                        >
+                    <CheckboxGroup legend="Totrinnsvurdering" value={totrinnsvurderingStateToCheckboxValue(totrinn)}>
+                        <Checkbox value="harBeslutterrolle" onChange={toggleTotrinn('harBeslutterrolle')}>
                             Har beslutterrolle
                         </Checkbox>
-                        <Checkbox
-                            value="Totrinnsvurdering aktiv"
-                            checked={totrinn.erAktiv}
-                            onChange={toggleTotrinn('erAktiv')}
-                        >
+                        <Checkbox value="erAktiv" onChange={toggleTotrinn('erAktiv')}>
                             Totrinnsvurdering aktiv
                         </Checkbox>
-                        <Checkbox
-                            value="Kan beslutte egen beslutteroppgave"
-                            checked={totrinn.kanBeslutteEgne}
-                            onChange={toggleTotrinn('kanBeslutteEgne')}
-                        >
+                        <Checkbox value="kanBeslutteEgne" onChange={toggleTotrinn('kanBeslutteEgne')}>
                             Kan beslutte egen beslutteroppgave
                         </Checkbox>
                     </CheckboxGroup>
 
-                    <CheckboxGroup legend="Tildeling">
-                        <Checkbox
-                            value="Kan frigi andres oppgaver"
-                            checked={kanFrigiOppgaver}
-                            onChange={toggleKanFrigiOppgaver}
-                        >
+                    <CheckboxGroup legend="Tildeling" value={kanFrigiOppgaverStateToCheckboxValue(kanFrigiOppgaver)}>
+                        <Checkbox value="kanFrigiOppgaver" onChange={toggleKanFrigiOppgaver}>
                             Kan frigi andres oppgaver
                         </Checkbox>
                     </CheckboxGroup>
 
-                    <CheckboxGroup legend="Read only">
-                        <Checkbox value="Override readonly" checked={readOnly.override} onChange={toggleOverride}>
+                    <CheckboxGroup legend="Read only" value={readOnlyStateToCheckboxValue(readOnly)}>
+                        <Checkbox value="override" onChange={toggleOverride}>
                             Override readonly
                         </Checkbox>
-                        <Checkbox
-                            value="Oppgave er readonly"
-                            checked={readOnly.value}
-                            onChange={toggleReadonly}
-                            disabled={!readOnly.override}
-                        >
+                        <Checkbox value="readonly" onChange={toggleReadonly} disabled={!readOnly.override}>
                             Oppgave er readonly
                         </Checkbox>
                     </CheckboxGroup>
@@ -76,4 +61,22 @@ export const ToggleMeny = ({ onClose, showModal }: ToggleMenyProps) => {
             </Modal.Body>
         </Modal>
     );
+};
+
+const totrinnsvurderingStateToCheckboxValue = (totrinn: TotrinnsvurderingState): string[] => {
+    let array: string[] = [];
+    if (totrinn.erAktiv) array.push('erAktiv');
+    if (totrinn.harBeslutterrolle) array.push('harBeslutterrolle');
+    if (totrinn.kanBeslutteEgne) array.push('kanBeslutteEgne');
+    return array;
+};
+
+const kanFrigiOppgaverStateToCheckboxValue = (kanFrigiOppgaver: boolean): string[] =>
+    kanFrigiOppgaver ? ['kanFrigiOppgaver'] : [];
+
+const readOnlyStateToCheckboxValue = (readonly: ReadonlyState): string[] => {
+    let array: string[] = [];
+    if (readonly.override) array.push('override');
+    if (readonly.value) array.push('readonly');
+    return array;
 };

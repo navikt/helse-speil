@@ -4,7 +4,7 @@ import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { harBeslutterrolle, kanFrigiAndresOppgaver } from '@utils/featureToggles';
 
 // Totrinnsvurdering
-type TotrinnsvurderingState = {
+export type TotrinnsvurderingState = {
     erAktiv: boolean;
     harBeslutterrolle: boolean;
     kanBeslutteEgne: boolean;
@@ -77,7 +77,7 @@ export const useToggleKanFrigiOppgaver = (): [value: boolean, toggle: () => void
 };
 
 // Read only
-type ReadonlyState = {
+export type ReadonlyState = {
     value: boolean;
     override: boolean;
 };
