@@ -104,7 +104,7 @@ export const Dokumenthendelse = ({
             <Link
                 onClick={() =>
                     hoppTilModia(
-                        `https://spinnsyn-frontend-interne.intern.dev.nav.no/syk/sykepenger?id=${dokumentId}`,
+                        `https://spinnsyn-frontend-interne.intern.nav.no/syk/sykepenger?id=${dokumentId}`,
                         fødselsnummer,
                     )
                 }
