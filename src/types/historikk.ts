@@ -87,7 +87,7 @@ export type SykepengegrunnlagskjonnsfastsettinghendelseObject = BaseHendelseObje
 
 export type DokumenthendelseObject = BaseHendelseObject & {
     type: 'Dokument';
-    dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad';
+    dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad' | 'Vedtak';
     timestamp: DateString;
     dokumentId?: Maybe<string>;
 };

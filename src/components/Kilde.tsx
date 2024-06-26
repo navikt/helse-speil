@@ -1,4 +1,3 @@
-import styles from './Kilde.module.scss';
 import classNames from 'classnames';
 import React, { PropsWithChildren } from 'react';
 
@@ -6,17 +5,21 @@ import { Tooltip } from '@navikt/ds-react';
 
 import { Inntektskilde, Kildetype } from '@io/graphql';
 
+import styles from './Kilde.module.scss';
+
 interface KildeProps {
     type: KildeikonType;
     className?: string;
 }
 
-type KildeikonType = Kildetype | Inntektskilde | 'AINNTEKT' | undefined;
+type KildeikonType = Kildetype | Inntektskilde | 'AINNTEKT' | 'VEDTAK' | undefined;
 
 const finnCSSklasse = (type: KildeikonType) => {
     switch (type) {
         case 'AINNTEKT':
             return 'ainntekt';
+        case 'VEDTAK':
+            return 'melding om vedtak';
         case Inntektskilde.Aordningen:
             return 'aordningen';
         case Kildetype.Sykmelding:

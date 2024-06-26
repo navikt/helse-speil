@@ -118,6 +118,19 @@ export const getDokumenter = (period: Periode | GhostPeriodeFragment): Array<Hen
     });
 };
 
+export const getMeldingOmVedtak = (period: Periode): Array<HendelseObject> =>
+    isBeregnetPeriode(period) && period.utbetaling.vurdering?.godkjent
+        ? [
+              {
+                  id: period.utbetaling.id,
+                  type: 'Dokument',
+                  dokumenttype: 'Vedtak',
+                  timestamp: period.utbetaling.vurdering.tidsstempel,
+                  dokumentId: period.utbetaling.id,
+              },
+          ]
+        : [];
+
 export const getAvslag = (period: Periode): Array<AvslaghendelseObject> => {
     if (!isBeregnetPeriode(period)) {
         return [];

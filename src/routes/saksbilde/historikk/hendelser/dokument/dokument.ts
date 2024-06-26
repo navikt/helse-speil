@@ -17,6 +17,8 @@ export const getKildetype = (dokumenttype: DokumenthendelseObject['dokumenttype'
         case 'Søknad': {
             return Kildetype.Soknad;
         }
+        default:
+            return Kildetype.Ukjent;
     }
 };
 
@@ -30,6 +32,9 @@ export const getKildetekst = (dokumenttype: DokumenthendelseObject['dokumenttype
         }
         case 'Søknad': {
             return 'SØ';
+        }
+        case 'Vedtak': {
+            return 'MV';
         }
     }
 };

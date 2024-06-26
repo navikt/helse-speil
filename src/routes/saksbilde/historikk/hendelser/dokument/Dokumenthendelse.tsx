@@ -3,9 +3,14 @@ import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { ArrowForwardIcon } from '@navikt/aksel-icons';
+import { ExternalLink } from '@navikt/ds-icons';
+import { Link } from '@navikt/ds-react';
 
+import { useBrukerIdent } from '@auth/brukerContext';
 import { Kilde } from '@components/Kilde';
+import { hoppTilModia } from '@components/SystemMenu';
 import { DokumenthendelseObject } from '@typer/historikk';
+import { kanÅpneMeldingOmVedtak } from '@utils/featureToggles';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
 import { Hendelse } from '../Hendelse';
@@ -23,7 +28,7 @@ type DokumenthendelseProps = Omit<DokumenthendelseObject, 'type' | 'id'> & {
 export interface ÅpnedeDokumenter {
     dokumentId: string;
     fødselsnummer: string;
-    dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad';
+    dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad' | 'Vedtak';
     timestamp: string;
 }
 
@@ -36,6 +41,7 @@ export const Dokumenthendelse = ({
     const [showDokumenter, setShowDokumenter] = useState(false);
     const [dokument, setDokument] = useState<ReactNode>(null);
     const [åpnedeDokumenter, setÅpnedeDokumenter] = useRecoilState<ÅpnedeDokumenter[]>(openedDocument);
+    const ident = useBrukerIdent();
 
     useEffect(() => {
         if (!showDokumenter || !fødselsnummer) return;
@@ -61,7 +67,7 @@ export const Dokumenthendelse = ({
         ]);
     };
 
-    return (
+    return dokumenttype !== 'Vedtak' ? (
         <Hendelse
             title={
                 <span className={styles.header}>
@@ -86,5 +92,30 @@ export const Dokumenthendelse = ({
             )}
             <HendelseDate timestamp={timestamp} />
         </Hendelse>
+    ) : kanÅpneMeldingOmVedtak(ident) ? (
+        <Hendelse
+            title={
+                <span className={styles.header}>
+                    <span>Melding om vedtak</span>
+                </span>
+            }
+            icon={<Kilde type="VEDTAK">{getKildetekst(dokumenttype)}</Kilde>}
+        >
+            <Link
+                onClick={() =>
+                    hoppTilModia(
+                        `https://spinnsyn-frontend-interne.intern.dev.nav.no/syk/sykepenger?id=${dokumentId}`,
+                        fødselsnummer,
+                    )
+                }
+                className={styles['åpne-vedtak']}
+            >
+                Åpne vedtak i ny fane
+                <ExternalLink className={styles.eksternlenke} />
+            </Link>
+            <HendelseDate timestamp={timestamp} />
+        </Hendelse>
+    ) : (
+        <></>
     );
 };

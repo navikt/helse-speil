@@ -19,6 +19,7 @@ import {
     getDokumenter,
     getInntektoverstyringer,
     getInntektoverstyringerForGhost,
+    getMeldingOmVedtak,
     getNotathendelser,
     getPeriodehistorikk,
     getSykepengegrunnlagskjønnsfastsetting,
@@ -47,30 +48,33 @@ const getHendelserForBeregnetPeriode = (
         : [];
 
     const dokumenter = getDokumenter(period);
+    const meldingOmVedtak = getMeldingOmVedtak(period);
     const notater = getNotathendelser(period.notater.map(toNotat));
     const utbetaling = getUtbetalingshendelse(period);
     const periodehistorikk = getPeriodehistorikk(period);
     const avslag = getAvslag(period);
 
-    return [
-        ...dokumenter,
-        ...dagoverstyringer,
-        ...inntektoverstyringer,
-        ...arbeidsforholdoverstyringer,
-        ...annetarbeidsforholdoverstyringer,
-        ...sykepengegrunnlagskjønnsfastsetting,
-        ...avslag,
-    ]
-        .filter((it: HendelseObject) =>
-            period.utbetaling.vurdering?.tidsstempel
-                ? it.timestamp &&
-                  dayjs(it.timestamp).startOf('s').isSameOrBefore(period.utbetaling.vurdering.tidsstempel)
-                : true,
-        )
-        .concat(utbetaling ? [utbetaling] : [])
-        .concat(notater)
-        .concat(periodehistorikk)
-        .sort(byTimestamp);
+    return meldingOmVedtak.concat(
+        [
+            ...dokumenter,
+            ...dagoverstyringer,
+            ...inntektoverstyringer,
+            ...arbeidsforholdoverstyringer,
+            ...annetarbeidsforholdoverstyringer,
+            ...sykepengegrunnlagskjønnsfastsetting,
+            ...avslag,
+        ]
+            .filter((it: HendelseObject) =>
+                period.utbetaling.vurdering?.tidsstempel
+                    ? it.timestamp &&
+                      dayjs(it.timestamp).startOf('s').isSameOrBefore(period.utbetaling.vurdering.tidsstempel)
+                    : true,
+            )
+            .concat(utbetaling ? [utbetaling] : [])
+            .concat(notater)
+            .concat(periodehistorikk)
+            .sort(byTimestamp),
+    );
 };
 
 const getHendelserForGhostPeriode = (period: GhostPeriodeFragment, person: PersonFragment): Array<HendelseObject> => {
