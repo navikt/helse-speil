@@ -148,6 +148,11 @@ const createLinks = (maybeFnr: Maybe<string>): Array<HrefLink | ButtonLink> => [
         href: 'https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-sykefravarsoppfolging-og-sykepenger/SitePages/Samhandlings--og-samordningsrutiner.aspx',
         snarveibokstav: 'R',
     },
+    {
+        tekst: 'Demosider for vedtak',
+        action: () => hoppTilModia(`https://demo.ekstern.dev.nav.no/syk/sykepenger`, maybeFnr),
+        snarveibokstav: 'D',
+    },
 ];
 
 export const SystemMenu = (): ReactElement => {

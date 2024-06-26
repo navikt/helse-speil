@@ -81,6 +81,11 @@ const useModiaPersonoversikt = (): (() => void) => {
     return () => window.open(url, '_blank');
 };
 
+const useOpenDemosiderForVedtak = (): (() => void) => {
+    const fødselsnummer = useCurrentFødselsnummer();
+    return () => hoppTilModia('https://demo.ekstern.dev.nav.no/syk/sykepenger', fødselsnummer);
+};
+
 export const useKeyboardActions = (): Action[] => {
     const { navigateToNext, navigateToPrevious } = useNavigation();
     const clickPrevious = () => navigateToPrevious?.();
@@ -91,6 +96,7 @@ export const useKeyboardActions = (): Action[] => {
     const openGosys = useOpenGosys();
     const openModiaPersonoversikt = useModiaPersonoversikt();
     const openModiaSykefraværsoppfølging = useOpenModiaSykefraværsoppfølging();
+    const openDemosiderForVedtak = useOpenDemosiderForVedtak();
 
     return [
         {
@@ -228,10 +234,10 @@ export const useKeyboardActions = (): Action[] => {
             modifier: Key.Shift,
         },
         {
-            key: Key.G,
-            visningstekst: 'Åpne Gosys',
-            visningssnarvei: ['⇧', 'G'],
-            action: openGosys,
+            key: Key.D,
+            visningstekst: 'Demosider for vedtak',
+            visningssnarvei: ['⇧', 'D'],
+            action: openDemosiderForVedtak,
             ignoreIfModifiers: false,
             modifier: Key.Shift,
         },
@@ -244,6 +250,14 @@ export const useKeyboardActions = (): Action[] => {
                     'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/a-inntekt',
                     fødselsnummer,
                 ),
+            ignoreIfModifiers: false,
+            modifier: Key.Shift,
+        },
+        {
+            key: Key.G,
+            visningstekst: 'Åpne Gosys',
+            visningssnarvei: ['⇧', 'G'],
+            action: openGosys,
             ignoreIfModifiers: false,
             modifier: Key.Shift,
         },
