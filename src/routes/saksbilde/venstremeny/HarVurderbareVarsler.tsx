@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { Alert, Button, List } from '@navikt/ds-react';
+import { Alert, Button, Heading, List } from '@navikt/ds-react';
 
-import { AnonymizableBold } from '@components/anonymizable/AnonymizableBold';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Maybe, PersonFragment } from '@io/graphql';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useSetActivePeriodId } from '@state/periode';
@@ -41,25 +41,26 @@ export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): May
 
     return (
         <Alert variant="info">
-            <List as="ul" title="Perioder med varsler som må vurderes">
-                {arbeidsgivereMedVurderbareVarsler.map((arbeidsgiver) => (
-                    <List key={arbeidsgiver.navn} as="ul">
-                        {person.arbeidsgivere.length > 1 && <AnonymizableBold>{arbeidsgiver.navn}</AnonymizableBold>}
-                        {arbeidsgiver.perioder.map((periode) => (
-                            <List.Item key={periode.id} className={styles.li}>
-                                <Button
-                                    className={styles.button}
-                                    variant="tertiary"
-                                    onClick={() => setActivePeriodId(periode.id)}
-                                >
-                                    {dayjs(periode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)} –{' '}
-                                    {dayjs(periode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
-                                </Button>
-                            </List.Item>
-                        ))}
-                    </List>
-                ))}
-            </List>
+            <Heading spacing size="xsmall" level="3">
+                Perioder med varsler som må vurderes
+            </Heading>
+            {arbeidsgivereMedVurderbareVarsler.map((arbeidsgiver) => (
+                <List key={arbeidsgiver.navn} as="ul">
+                    {person.arbeidsgivere.length > 1 && <AnonymizableText>{arbeidsgiver.navn}</AnonymizableText>}
+                    {arbeidsgiver.perioder.map((periode) => (
+                        <List.Item key={periode.id} className={styles.li}>
+                            <Button
+                                className={styles.button}
+                                variant="tertiary"
+                                onClick={() => setActivePeriodId(periode.id)}
+                            >
+                                {dayjs(periode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)} –{' '}
+                                {dayjs(periode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
+                            </Button>
+                        </List.Item>
+                    ))}
+                </List>
+            ))}
         </Alert>
     );
 };
