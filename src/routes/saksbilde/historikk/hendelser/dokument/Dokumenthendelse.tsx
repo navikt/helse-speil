@@ -6,11 +6,9 @@ import { ArrowForwardIcon } from '@navikt/aksel-icons';
 import { ExternalLink } from '@navikt/ds-icons';
 import { Link } from '@navikt/ds-react';
 
-import { useBrukerIdent } from '@auth/brukerContext';
 import { Kilde } from '@components/Kilde';
 import { hoppTilModia } from '@components/SystemMenu';
 import { DokumenthendelseObject } from '@typer/historikk';
-import { kanÅpneMeldingOmVedtak } from '@utils/featureToggles';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
 import { Hendelse } from '../Hendelse';
@@ -41,7 +39,6 @@ export const Dokumenthendelse = ({
     const [showDokumenter, setShowDokumenter] = useState(false);
     const [dokument, setDokument] = useState<ReactNode>(null);
     const [åpnedeDokumenter, setÅpnedeDokumenter] = useRecoilState<ÅpnedeDokumenter[]>(openedDocument);
-    const ident = useBrukerIdent();
 
     useEffect(() => {
         if (!showDokumenter || !fødselsnummer) return;
@@ -92,7 +89,7 @@ export const Dokumenthendelse = ({
             )}
             <HendelseDate timestamp={timestamp} />
         </Hendelse>
-    ) : kanÅpneMeldingOmVedtak(ident) ? (
+    ) : (
         <Hendelse
             title={
                 <span className={styles.header}>
@@ -115,7 +112,5 @@ export const Dokumenthendelse = ({
             </Link>
             <HendelseDate timestamp={timestamp} />
         </Hendelse>
-    ) : (
-        <></>
     );
 };
