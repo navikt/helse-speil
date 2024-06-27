@@ -3,9 +3,9 @@ import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Button, DatePicker, TextField } from '@navikt/ds-react';
+import { Button, DatePicker, TextField, useDatepicker } from '@navikt/ds-react';
 
-import { Kildetype } from '@io/graphql';
+import { Kilde, Kildetype } from '@io/graphql';
 import {
     OverstyrbarDagtype,
     getDagFromType,
@@ -13,23 +13,23 @@ import {
 import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/kanVelgeGrad';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
+import { ISO_DATOFORMAT } from '@utils/date';
 
 import { DagtypeSelect } from './DagtypeSelect';
 import { Speildag, Sykedag } from './utbetalingstabelldager';
 
 import styles from './LeggTilDager.module.css';
 
+type EndringType = {
+    dag: Speildag;
+    fom: DateString;
+    grad?: number;
+};
+
 interface LeggTilDagerProps {
     periodeFom: DateString;
     onSubmitPølsestrekk: (nyeDager: Map<string, Utbetalingstabelldag>) => void;
     openDagtypeModal: () => void;
-}
-
-interface EndringType {
-    dag?: Speildag;
-    fom: DateString;
-    grad?: number;
 }
 
 export const LeggTilDager = React.memo(({ periodeFom, onSubmitPølsestrekk, openDagtypeModal }: LeggTilDagerProps) => {
@@ -58,22 +58,20 @@ interface StrekkePølseProps {
 }
 
 const StrekkePølse = React.memo(({ periodeFom, onSubmitPølsestrekk, openDagtypeModal }: StrekkePølseProps) => {
-    const defaultEndring = {
-        dag: Sykedag,
-        fom: dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'days').format(ISO_DATOFORMAT),
-        grad: undefined,
-    };
+    const periodeFomMinusEnDag = dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'day');
+
+    const defaultEndring = { dag: Sykedag, fom: periodeFomMinusEnDag.format(ISO_DATOFORMAT), grad: undefined };
     const [endring, setEndring] = useState<EndringType>(defaultEndring);
     const form = useForm();
 
     const handleSubmit = () => {
-        const nyeDagerMap = new Map();
+        const nyeDagerMap = new Map<string, Utbetalingstabelldag>();
 
         let endringFom = dayjs(endring.fom, ISO_DATOFORMAT);
         while (endringFom.isBefore(dayjs(periodeFom, ISO_DATOFORMAT))) {
             nyeDagerMap.set(endringFom.format(ISO_DATOFORMAT), {
                 dato: endringFom.format(ISO_DATOFORMAT),
-                kilde: { type: Kildetype.Saksbehandler },
+                kilde: { type: Kildetype.Saksbehandler } as Kilde,
                 dag: endring.dag,
                 erAGP: false,
                 erAvvist: false,
@@ -82,10 +80,13 @@ const StrekkePølse = React.memo(({ periodeFom, onSubmitPølsestrekk, openDagtyp
                 erHelg: endringFom.isoWeekday() > 5,
                 grad: endring?.grad,
                 erNyDag: true,
-            }) as Map<string, Utbetalingstabelldag>;
-            endringFom = endringFom.add(1, 'days');
+            });
+            endringFom = endringFom.add(1, 'day');
         }
 
+        const endringFomMinusEnDag = dayjs(endring.fom, ISO_DATOFORMAT).subtract(1, 'day').toDate();
+        fromSetSelected(endringFomMinusEnDag);
+        toSetSelected(endringFomMinusEnDag);
         onSubmitPølsestrekk(nyeDagerMap);
     };
 
@@ -107,44 +108,47 @@ const StrekkePølse = React.memo(({ periodeFom, onSubmitPølsestrekk, openDagtyp
         onChangeGrad(event);
     };
 
-    const oppdaterFom = (date?: DateString) => {
-        const fom = dayjs(date, NORSK_DATOFORMAT).isValid()
-            ? dayjs(date, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
-            : date === ''
-              ? periodeFom
-              : '';
-        setEndring({ ...endring, fom });
-    };
+    const {
+        datepickerProps: fromDatepickerProps,
+        inputProps: fromInputProps,
+        setSelected: fromSetSelected,
+    } = useDatepicker({
+        toDate: periodeFomMinusEnDag.toDate(),
+        defaultMonth: periodeFomMinusEnDag.toDate(),
+        defaultSelected: periodeFomMinusEnDag.toDate(),
+        onDateChange: (date: Date | undefined) => {
+            date && setEndring({ ...endring, fom: dayjs(date).format(ISO_DATOFORMAT) });
+        },
+    });
+
+    const {
+        datepickerProps: toDatepickerProps,
+        inputProps: toInputProps,
+        setSelected: toSetSelected,
+    } = useDatepicker({
+        defaultSelected: periodeFomMinusEnDag.toDate(),
+    });
 
     return (
         <form onSubmit={form.handleSubmit(handleSubmit)}>
             <div className={styles.StrekkePølse}>
-                <DatePicker
-                    // @ts-expect-error Det er noe muffins med date picker, hold ds oppdatert i håp om at feilen løses
-                    defaultMonth={dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'day').toDate()}
-                    onSelect={(date: Date | undefined) => {
-                        oppdaterFom(dayjs(date).format(NORSK_DATOFORMAT));
-                    }}
-                >
+                <DatePicker {...fromDatepickerProps}>
                     <DatePicker.Input
-                        label="Dato f.o.m."
-                        className={styles.DateInput}
+                        {...fromInputProps}
+                        label="Dato f.o.m"
                         size="small"
-                        placeholder="dd.mm.åååå"
-                        onBlur={(e) => {
-                            oppdaterFom(e.target.value);
-                        }}
-                        key={endring.fom}
-                        defaultValue={dayjs(endring.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
+                        className={styles.dateinput}
                     />
                 </DatePicker>
-                <DatePicker.Input
-                    label="Dato t.o.m."
-                    className={styles.DateInput}
-                    size="small"
-                    placeholder={dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'day').format(NORSK_DATOFORMAT)}
-                    disabled
-                />
+                <DatePicker {...toDatepickerProps}>
+                    <DatePicker.Input
+                        {...toInputProps}
+                        label="Dato t.o.m"
+                        size="small"
+                        className={styles.dateinput}
+                        disabled
+                    />
+                </DatePicker>
                 <DagtypeSelect
                     openDagtypeModal={openDagtypeModal}
                     clearErrors={() => form.clearErrors('dagtype')}

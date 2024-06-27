@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Select } from '@navikt/ds-react';
 
@@ -19,7 +19,12 @@ interface DagtypeSelectProps {
     openDagtypeModal: () => void;
 }
 
-export const DagtypeSelect = ({ errorMessage, clearErrors, setType, openDagtypeModal }: DagtypeSelectProps) => {
+export const DagtypeSelect = ({
+    errorMessage,
+    clearErrors,
+    setType,
+    openDagtypeModal,
+}: DagtypeSelectProps): ReactElement => {
     const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
         if (alleTypeendringer.map((dag) => dag.speilDagtype).includes(event.target.value as OverstyrbarDagtype)) {
             clearErrors();

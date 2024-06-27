@@ -31,11 +31,11 @@
     gap: 0.5rem;
 }
 
-.DateInput {
+.dateinput {
     opacity: 1;
 }
 
-.DateInput :disabled {
+.dateinput :disabled {
     opacity: 0.5;
 }
 
