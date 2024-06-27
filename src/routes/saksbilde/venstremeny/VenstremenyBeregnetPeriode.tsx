@@ -17,6 +17,7 @@ import {
     PersonFragment,
     Utbetalingsdagtype,
 } from '@io/graphql';
+import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
 import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { PeriodState } from '@typer/shared';
@@ -86,7 +87,10 @@ export const VenstremenyBeregnetPeriode = ({
             {activePeriod.periodetilstand === Periodetilstand.TilGodkjenning && !utbetaleTilgang.tillatt ? (
                 <Feilmelding handling={utbetaleTilgang} />
             ) : (
-                <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver.navn} />
+                <>
+                    <HarVurderbareVarsler person={currentPerson} />
+                    <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver.navn} />
+                </>
             )}
             {utbetalingsvarsler.map(({ grad, melding }, index) => (
                 <Alert className={styles.Varsel} variant={grad} key={index}>
@@ -103,6 +107,7 @@ type FeilmeldingProps = {
 
 const Feilmelding = ({ handling }: FeilmeldingProps): ReactElement => {
     let errorMessage;
+    //TODO: Fjerne IkkeTilgangTilRisk? Alle har vel tilgang?
     if (handling.begrunnelse === 'IkkeTilgangTilRisk')
         errorMessage = 'Dette er en risk-sak. Det kreves egen tilgang for å behandle disse.';
     else errorMessage = 'Du har ikke tilgang til å behandle denne saken';
