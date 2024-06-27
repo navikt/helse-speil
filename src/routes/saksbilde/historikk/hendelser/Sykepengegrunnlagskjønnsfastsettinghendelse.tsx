@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, ReactElement } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
@@ -40,7 +40,7 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
     timestamp,
     skjønnsfastsatt,
     arbeidsgivere,
-}: SykepengegrunnlagskjønnsfastsettinghendelseProps) => (
+}: SykepengegrunnlagskjønnsfastsettinghendelseProps): ReactElement => (
     <>
         <Hendelse
             title="Sykepengegrunnlag skjønnsfastsatt"

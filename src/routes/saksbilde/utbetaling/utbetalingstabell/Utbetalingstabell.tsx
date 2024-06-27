@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useMemo } from 'react';
+import React, { ReactElement, useMemo } from 'react';
 
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
@@ -40,7 +40,7 @@ export const Utbetalingstabell = ({
     markerteDager,
     overstyrer = false,
     slettSisteNyeDag,
-}: UtbetalingstabellProps) => {
+}: UtbetalingstabellProps): ReactElement => {
     const formattedFom = getFormattedDateString(fom);
     const formattedTom = getFormattedDateString(tom);
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
@@ -10,7 +10,12 @@ interface SlettNydagCellProps extends React.HTMLAttributes<HTMLTableCellElement>
     visSlettKnapp: boolean;
 }
 
-export const SlettNyDagCell = ({ slettSisteNyeDag, nyDag, visSlettKnapp, ...rest }: SlettNydagCellProps) => (
+export const SlettNyDagCell = ({
+    slettSisteNyeDag,
+    nyDag,
+    visSlettKnapp,
+    ...rest
+}: SlettNydagCellProps): ReactElement => (
     <td {...rest}>
         <CellContent>
             {nyDag && visSlettKnapp && slettSisteNyeDag !== undefined && (

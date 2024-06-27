@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Bold } from '@components/Bold';
 import { Row } from '@saksbilde/table/Row';
@@ -15,7 +15,7 @@ interface TotalRowProps {
     overstyrer?: boolean;
 }
 
-export const TotalRow = React.memo(({ dager, overstyrer }: TotalRowProps) => {
+export const TotalRow = React.memo(({ dager, overstyrer }: TotalRowProps): ReactElement => {
     const utbetalingsdager = getDagerMedUtbetaling(dager);
     const arbeidsgiverbeløpTotal = getTotalArbeidsgiverbeløp(utbetalingsdager);
     const personbeløpTotal = getTotalPersonbeløp(utbetalingsdager);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Maybe } from '@io/graphql';
@@ -18,7 +18,7 @@ interface TotalGradProps {
     erNyDag?: boolean;
 }
 
-export const TotalGradCell = ({ type, erOverstyrt, totalGradering, erNyDag = false }: TotalGradProps) => {
+export const TotalGradCell = ({ type, erOverstyrt, totalGradering, erNyDag = false }: TotalGradProps): ReactElement => {
     const showTotalGradering = typeof totalGradering === 'number' && dagtypeIsValid(type);
 
     return (

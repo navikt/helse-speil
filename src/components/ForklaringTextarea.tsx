@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Textarea } from '@navikt/ds-react';
@@ -7,7 +7,7 @@ interface ForklaringTextareaProps {
     description: string;
 }
 
-export const ForklaringTextarea = ({ description }: ForklaringTextareaProps) => {
+export const ForklaringTextarea = ({ description }: ForklaringTextareaProps): ReactElement => {
     const form = useFormContext();
 
     const [forklaring, setForklaring] = useState('');

@@ -43,7 +43,7 @@ export const wrapperWithRecoilInitializer =
         return <RecoilWrapper initializeState={initializer}>{children}</RecoilWrapper>;
     };
 
-export const TestCellWrapper = ({ children }: PropsWithChildren) => (
+export const TestCellWrapper = ({ children }: PropsWithChildren): ReactElement => (
     <table>
         <tbody>
             <tr>{children}</tr>
@@ -51,7 +51,7 @@ export const TestCellWrapper = ({ children }: PropsWithChildren) => (
     </table>
 );
 
-export const TestRowWrapper = ({ children }: PropsWithChildren) => (
+export const TestRowWrapper = ({ children }: PropsWithChildren): ReactElement => (
     <table>
         <tbody>{children}</tbody>
     </table>

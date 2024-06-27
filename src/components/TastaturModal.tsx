@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort, Heading, Modal } from '@navikt/ds-react';
 
@@ -12,7 +12,7 @@ type TastaturModalProps = {
     showModal: boolean;
 };
 
-export const TastaturModal = ({ onClose, showModal }: TastaturModalProps) => {
+export const TastaturModal = ({ onClose, showModal }: TastaturModalProps): ReactElement => {
     const tastatursnarveier: Action[] = useKeyboardActions();
 
     return (

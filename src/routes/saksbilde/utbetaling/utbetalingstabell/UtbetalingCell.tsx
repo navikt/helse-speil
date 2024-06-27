@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Maybe } from '@io/graphql';
@@ -13,7 +13,12 @@ interface UtbetalingCellProps extends React.HTMLAttributes<HTMLTableCellElement>
     erNyDag?: boolean;
 }
 
-export const UtbetalingCell = ({ erOverstyrt, utbetaling, erNyDag = false, style }: UtbetalingCellProps) => (
+export const UtbetalingCell = ({
+    erOverstyrt,
+    utbetaling,
+    erNyDag = false,
+    style,
+}: UtbetalingCellProps): ReactElement => (
     <Cell italic={erOverstyrt} style={style}>
         {erOverstyrt && !erNyDag && <Endringstrekant />}
         <CellContent flexEnd>{utbetaling ? somPenger(utbetaling) : '-'}</CellContent>

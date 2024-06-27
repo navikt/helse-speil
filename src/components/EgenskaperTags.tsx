@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Tag, TagProps, Tooltip } from '@navikt/ds-react';
 
@@ -115,7 +115,7 @@ interface EgenskaperTagsProps {
     egenskaper: Oppgaveegenskap[];
 }
 
-export const EgenskaperTags = ({ egenskaper }: EgenskaperTagsProps) => {
+export const EgenskaperTags = ({ egenskaper }: EgenskaperTagsProps): ReactElement => {
     return (
         <>
             {getData(egenskaper).map((egenskap, index) => (

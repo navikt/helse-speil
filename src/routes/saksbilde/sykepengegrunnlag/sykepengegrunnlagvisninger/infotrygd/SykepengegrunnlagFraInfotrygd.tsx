@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
 import { PersonFragment, VilkarsgrunnlagInfotrygd } from '@io/graphql';
@@ -19,7 +19,7 @@ export const SykepengegrunnlagFraInfogtrygd = ({
     person,
     vilkårsgrunnlag,
     organisasjonsnummer,
-}: SykepengegrunnlagFraInfogtrygdProps) => {
+}: SykepengegrunnlagFraInfogtrygdProps): ReactElement => {
     const inntekt = getRequiredInntekt(vilkårsgrunnlag, organisasjonsnummer);
 
     return (
