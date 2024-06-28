@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react';
 
+import { BodyShort } from '@navikt/ds-react';
+
 import { LoadingShimmer } from '@components/LoadingShimmer';
 
 import { LabelCell } from './LabelCell';
@@ -121,37 +123,37 @@ export const BehandlingsstatistikkSkeleton = (): ReactElement => {
             <tfoot>
                 <tr>
                     <td colSpan={4}>
-                        <p className={styles.FooterTotal}>
+                        <BodyShort className={styles.FooterTotal}>
                             FULLFØRTE SAKER I DAG: <LoadingShimmer />
-                        </p>
+                        </BodyShort>
                     </td>
                 </tr>
                 <tr>
                     <td colSpan={4}>
                         <div className={styles.FooterCellContainer}>
                             <div className={styles.FooterCell}>
-                                <p>
+                                <BodyShort>
                                     <LoadingShimmer />
-                                </p>
-                                <p>MANUELT</p>
+                                </BodyShort>
+                                <BodyShort>MANUELT</BodyShort>
                             </div>
                             <div className={styles.FooterCell}>
-                                <p>
+                                <BodyShort>
                                     <LoadingShimmer />
-                                </p>
-                                <p>AUTOMATISK</p>
+                                </BodyShort>
+                                <BodyShort>AUTOMATISK</BodyShort>
                             </div>
                             <div className={styles.FooterCell}>
-                                <p>
+                                <BodyShort>
                                     <LoadingShimmer />
-                                </p>
-                                <p>TILGJENGELIG</p>
+                                </BodyShort>
+                                <BodyShort>TILGJENGELIG</BodyShort>
                             </div>
                             <div className={styles.FooterCell}>
-                                <p>
+                                <BodyShort>
                                     <LoadingShimmer />
-                                </p>
-                                <p>ANNULLERT</p>
+                                </BodyShort>
+                                <BodyShort>ANNULLERT</BodyShort>
                             </div>
                         </div>
                     </td>
