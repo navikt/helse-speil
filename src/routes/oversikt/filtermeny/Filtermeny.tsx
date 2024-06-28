@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { range } from 'remeda';
 
-import { Skeleton } from '@navikt/ds-react';
+import { HStack, Skeleton } from '@navikt/ds-react';
 
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 
@@ -76,13 +76,30 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
 export function FiltermenySkeleton(): ReactElement {
     return (
         <div className={classNames(styles.filtermeny, styles.filterSkeleton)}>
-            {range(0, 10).map((index) => (
-                <div className={styles.skeletonSection} key={index}>
-                    <Skeleton height={28} className={styles.topSkeleton} />
-                    <Skeleton height={28} />
-                    <Skeleton height={28} />
-                </div>
-            ))}
+            <SkeletonSection numberOfFilters={2} />
+            <SkeletonSection numberOfFilters={2} />
+            <SkeletonSection numberOfFilters={2} />
+            <SkeletonSection numberOfFilters={3} />
+            <SkeletonSection numberOfFilters={2} />
+            <SkeletonSection numberOfFilters={4} />
+            <SkeletonSection numberOfFilters={8} />
+            <SkeletonSection numberOfFilters={2} />
         </div>
     );
 }
+
+type SkeletonSectionProps = {
+    numberOfFilters: number;
+};
+
+const SkeletonSection = ({ numberOfFilters }: SkeletonSectionProps): ReactElement => (
+    <div className={styles.skeletonSection}>
+        <Skeleton height={28} className={styles.topSkeleton} />
+        {range(0, numberOfFilters).map((index) => (
+            <HStack gap="4" wrap={false} key={index}>
+                <Skeleton height={28} width={28} />
+                <Skeleton height={28} width="100%" />
+            </HStack>
+        ))}
+    </div>
+);
