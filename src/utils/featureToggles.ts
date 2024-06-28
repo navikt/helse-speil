@@ -42,3 +42,6 @@ export const harBeslutterrolle = (grupper: string[]): boolean => grupper.include
 
 export const harSpesialsaktilgang = (grupper: string[]): boolean =>
     grupper.includes(groupIdSpesialsaker) || erUtvikling;
+
+export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
+    erCoachEllerSuper(ident) || erPåTeamBømlo(grupper) || erLokal;

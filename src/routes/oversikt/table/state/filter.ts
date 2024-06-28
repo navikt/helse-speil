@@ -2,7 +2,7 @@ import { SetRecoilState, atom, selector, useRecoilValue, useSetRecoilState } fro
 
 import { Egenskap } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
-import { harSpesialsaktilgang } from '@utils/featureToggles';
+import { harSpesialsaktilgang, kanFiltrerePåGosysEgenskap } from '@utils/featureToggles';
 
 export type Filter = {
     key: string | Egenskap;
@@ -173,6 +173,12 @@ const filters = [
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
+        key: Egenskap.Gosys,
+        label: 'Gosysvarsel',
+        active: false,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
+    },
+    {
         key: Egenskap.Spesialsak,
         label: '🌰',
         active: false,
@@ -198,8 +204,10 @@ const filters = [
     },
 ];
 
-export const getDefaultFilters = (grupper: string[]): Filter[] =>
-    filters.filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang(grupper));
+export const getDefaultFilters = (grupper: string[], ident: string): Filter[] =>
+    filters
+        .filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang(grupper))
+        .filter((filter) => filter.label !== 'Gosysvarsel' || kanFiltrerePåGosysEgenskap(ident, grupper));
 
 const storageKeyForFilters = (tab: TabType) => 'filtereForTab_' + tab;
 
@@ -232,12 +240,12 @@ const allFilters = atom<ActiveFiltersPerTab>({
     },
 });
 
-export const hydrateAllFilters = (set: SetRecoilState, grupper: string[]) => {
+export const hydrateAllFilters = (set: SetRecoilState, grupper: string[], ident: string) => {
     set(allFilters, (prevState) => ({
         ...prevState,
-        [TabType.TilGodkjenning]: hentValgteFiltre(TabType.TilGodkjenning, getDefaultFilters(grupper)),
-        [TabType.Mine]: hentValgteFiltre(TabType.Mine, getDefaultFilters(grupper)),
-        [TabType.Ventende]: hentValgteFiltre(TabType.Ventende, getDefaultFilters(grupper)),
+        [TabType.TilGodkjenning]: hentValgteFiltre(TabType.TilGodkjenning, getDefaultFilters(grupper, ident)),
+        [TabType.Mine]: hentValgteFiltre(TabType.Mine, getDefaultFilters(grupper, ident)),
+        [TabType.Ventende]: hentValgteFiltre(TabType.Ventende, getDefaultFilters(grupper, ident)),
         [TabType.BehandletIdag]: [],
     }));
 };

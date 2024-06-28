@@ -48,7 +48,7 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
             if (typeof window === 'undefined') return;
             hydrateTotrinnsvurderingState(set, bruker.grupper);
             hydrateKanFrigiOppgaverState(set, bruker.ident);
-            hydrateAllFilters(set, bruker.grupper);
+            hydrateAllFilters(set, bruker.grupper, bruker.ident);
             hydrateSorteringForTab(set);
         },
         [bruker.grupper, bruker.ident],

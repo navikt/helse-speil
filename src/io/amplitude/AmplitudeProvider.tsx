@@ -3,7 +3,7 @@ import React, { PropsWithChildren, ReactElement, useEffect } from 'react';
 
 import { browserEnv, erDev, erProd } from '@/env';
 import * as amplitude from '@amplitude/analytics-browser';
-import { useBrukerGrupper } from '@auth/brukerContext';
+import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
 import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
 import { Egenskap, Kategori, Maybe, Oppgaveegenskap } from '@io/graphql';
@@ -26,6 +26,7 @@ const getEventProperties = (
     period: Maybe<ActivePeriod>,
     openedTimestamp: Dayjs,
     grupper: string[],
+    ident: string,
     reasons?: Array<string>,
 ): Amplitude.EventProperties | Amplitude.EventPropertiesBeregnetPeriode => {
     if (isBeregnetPeriode(period)) {
@@ -35,20 +36,20 @@ const getEventProperties = (
             antallWarnings: period.varsler.length,
             begrunnelser: reasons,
             inntektstype: finnAlleIKategori(period.egenskaper, [Kategori.Inntektskilde])
-                .map((it) => finnLabel(it.egenskap, grupper))
+                .map((it) => finnLabel(it.egenskap, grupper, ident))
                 .pop(),
             mottaker: finnAlleIKategori(period.egenskaper, [Kategori.Mottaker])
-                .map((it) => finnLabel(it.egenskap, grupper))
+                .map((it) => finnLabel(it.egenskap, grupper, ident))
                 .pop(),
             oppgavetype: finnAlleIKategori(period.egenskaper, [Kategori.Oppgavetype])
-                .map((it) => finnLabel(it.egenskap, grupper))
+                .map((it) => finnLabel(it.egenskap, grupper, ident))
                 .pop(),
             periodetype: finnAlleIKategori(period.egenskaper, [Kategori.Periodetype])
-                .map((it) => finnLabel(it.egenskap, grupper))
+                .map((it) => finnLabel(it.egenskap, grupper, ident))
                 .pop(),
             egenskaper:
                 finnAlleIKategori(period.egenskaper, [Kategori.Ukategorisert, Kategori.Status])?.map((it) =>
-                    finnLabel(it.egenskap, grupper),
+                    finnLabel(it.egenskap, grupper, ident),
                 ) ?? [],
         };
     } else {
@@ -76,13 +77,14 @@ const useStoreÅpnetTidspunkt = () => {
 const finnAlleIKategori = (egenskaper: Oppgaveegenskap[], kategori: Kategori[]): Oppgaveegenskap[] =>
     egenskaper.filter((it) => kategori.includes(it.kategori));
 
-const finnLabel = (egenskap: Egenskap, grupper: string[]): string =>
-    getDefaultFilters(grupper).find((it) => it.key === egenskap)?.label ?? egenskap.toString();
+const finnLabel = (egenskap: Egenskap, grupper: string[], ident: string): string =>
+    getDefaultFilters(grupper, ident).find((it) => it.key === egenskap)?.label ?? egenskap.toString();
 
 const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string>) => void) => {
     const activePeriod = useActivePeriod();
     const oppgavereferanse = getOppgavereferanse(activePeriod);
     const grupper = useBrukerGrupper();
+    const ident = useBrukerIdent();
 
     return async (event: Amplitude.LogEvent, begrunnelser?: string[]) => {
         if (oppgavereferanse) {
@@ -91,7 +93,7 @@ const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string
             if (åpnetTidspunkt) {
                 await amplitudeClient?.track(
                     event,
-                    getEventProperties(activePeriod, åpnetTidspunkt, grupper, begrunnelser),
+                    getEventProperties(activePeriod, åpnetTidspunkt, grupper, ident, begrunnelser),
                 ).promise;
                 AmplitudeStorageHandler.removeÅpnetOppgaveTidspunkt(oppgavereferanse);
             }
