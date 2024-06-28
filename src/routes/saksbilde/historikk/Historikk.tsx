@@ -63,6 +63,8 @@ const HistorikkWithContent = (): ReactElement => {
 
     const person = data?.person ?? null;
 
+    if (loading) return <HistorikkSkeleton />;
+
     return (
         <div className={styles['historikk-container']}>
             <JusterbarSidemeny defaultBredde={320} visSidemeny={showHistorikk} localStorageNavn="historikkBredde">
@@ -75,7 +77,7 @@ const HistorikkWithContent = (): ReactElement => {
                     }}
                     style={{ overflow: 'hidden' }}
                 >
-                    {!loading && person && (
+                    {person && (
                         <div className={styles.historikk}>
                             <ul>
                                 <div>{getHistorikkTitle(filter)}</div>
