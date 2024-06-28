@@ -2,9 +2,10 @@ import classNames from 'classnames';
 import { motion } from 'framer-motion';
 import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { LoadingShimmer } from '@components/LoadingShimmer';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { ÅpnetDokument } from '@components/ÅpnetDokument';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
@@ -74,7 +75,6 @@ const HistorikkWithContent = (): ReactElement => {
                     }}
                     style={{ overflow: 'hidden' }}
                 >
-                    {loading && <HistorikkSkeleton />}
                     {!loading && person && (
                         <div className={styles.historikk}>
                             <ul>
@@ -140,14 +140,22 @@ const HistorikkWithContent = (): ReactElement => {
 
 export const HistorikkSkeleton = (): ReactElement => {
     return (
-        <div className={styles.historikk}>
-            <ul>
-                <div>HISTORIKK</div>
-                <HendelseSkeleton />
-                <HendelseSkeleton />
-                <HendelseSkeleton />
-            </ul>
-        </div>
+        <HStack className={styles.historikkskeletonwrapper}>
+            <div className={styles.historikkskeleton}>
+                <ul>
+                    <div>HISTORIKK</div>
+                    <HendelseSkeleton enLinje />
+                    <HendelseSkeleton />
+                    <HendelseSkeleton />
+                </ul>
+            </div>
+            <VStack gap="6" className={styles.historikkskeletonmeny}>
+                <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />
+                <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />
+                <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />
+                <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />
+            </VStack>
+        </HStack>
     );
 };
 

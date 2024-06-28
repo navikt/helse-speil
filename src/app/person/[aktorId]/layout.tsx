@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
@@ -8,7 +9,7 @@ import { AmplitudeProvider } from '@io/amplitude';
 import { usePollEtterOpptegnelser } from '@io/graphql/polling';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { EmojiTilbakemeldingMedPeriode } from '@saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
-import { Historikk } from '@saksbilde/historikk';
+import { HistorikkSkeleton } from '@saksbilde/historikk';
 import { useResetOpenedDocuments } from '@saksbilde/historikk/hendelser/dokument/dokument';
 import { InfovarselOmStans } from '@saksbilde/infovarselOmStans/InfovarselOmStans';
 import { PersonHeader } from '@saksbilde/personHeader';
@@ -17,6 +18,11 @@ import { useKeyboardShortcuts } from '@saksbilde/useKeyboardShortcuts';
 import { Venstremeny } from '@saksbilde/venstremeny/Venstremeny';
 
 import styles from './layout.module.css';
+
+const Historikk = dynamic(() => import('@saksbilde/historikk').then((mod) => mod.Historikk), {
+    ssr: false,
+    loading: () => <HistorikkSkeleton />,
+});
 
 export default function Layout({ children }: PropsWithChildren): ReactElement {
     useRefreshPersonVedOpptegnelse();
