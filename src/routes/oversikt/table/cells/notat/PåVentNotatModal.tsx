@@ -93,6 +93,7 @@ export const PåVentNotatModal = ({
                 {søkernavn && <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>}
             </Modal.Header>
             <Modal.Body>
+                {sisteNotat && <SisteNotat notat={sisteNotat} />}
                 <BodyShort>
                     Skriv hvorfor saken er lagt på vent. Det gjør det lettere å starte igjen senere.
                     <br />
@@ -100,7 +101,6 @@ export const PåVentNotatModal = ({
                     <br />
                     Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.
                 </BodyShort>
-                {sisteNotat && <SisteNotat notat={sisteNotat} />}
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(submit)} id="på-vent-notat-form">
                         <ControlledTextarea control={form.control} tillattTekstlengde={tillattTekstlengde} />
