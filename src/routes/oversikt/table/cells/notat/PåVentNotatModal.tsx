@@ -94,7 +94,7 @@ export const PåVentNotatModal = ({
             </Modal.Header>
             <Modal.Body>
                 {sisteNotat && <SisteNotat notat={sisteNotat} />}
-                <BodyShort>
+                <BodyShort className={styles.description}>
                     Skriv hvorfor saken er lagt på vent. Det gjør det lettere å starte igjen senere.
                     <br />
                     Eks: Kontaktet arbeidsgiver, fikk ikke svar. Prøv igjen senere.
