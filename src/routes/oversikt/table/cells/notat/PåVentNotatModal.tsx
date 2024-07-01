@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
-import { Button, Checkbox, Heading, Modal, Textarea } from '@navikt/ds-react';
+import { BodyShort, Button, Checkbox, Heading, Modal, Textarea } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
@@ -93,6 +93,13 @@ export const PåVentNotatModal = ({
                 {søkernavn && <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>}
             </Modal.Header>
             <Modal.Body>
+                <BodyShort>
+                    Skriv hvorfor saken er lagt på vent. Det gjør det lettere å starte igjen senere.
+                    <br />
+                    Eks: Kontaktet arbeidsgiver, fikk ikke svar. Prøv igjen senere.
+                    <br />
+                    Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.
+                </BodyShort>
                 {sisteNotat && <SisteNotat notat={sisteNotat} />}
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(submit)} id="på-vent-notat-form">
@@ -146,11 +153,6 @@ const ControlledTextarea = ({ control, tillattTekstlengde }: ControlledTextareaP
             error={fieldState.error?.message}
             label="Legg på vent"
             hideLabel
-            description={
-                'Skriv hvorfor saken er lagt på vent. Det gjør det lettere å starte igjen senere.\n' +
-                'Eks: Kontaktet arbeidsgiver, fikk ikke svar. Prøv igjen senere.\n' +
-                'Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.'
-            }
             maxLength={tillattTekstlengde}
             autoFocus
         />
