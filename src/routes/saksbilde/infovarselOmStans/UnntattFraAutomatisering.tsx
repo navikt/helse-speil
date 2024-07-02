@@ -76,31 +76,18 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
 };
 
 const årsakerSomTekst = (årsaker: string[]) => {
-    let returString = '';
-    årsaker.forEach((årsak, i, arr) => {
-        returString += årsakSomTekst(årsak);
-        if (i !== arr.length - 1) {
-            returString += ', ';
-        }
-    });
-    return returString;
+    const alle = årsaker.map(årsakSomTekst).join(', ');
+    return alle.charAt(0).toUpperCase() + alle.slice(1);
 };
 
-const årsakSomTekst = (årsak: string) => {
-    switch (årsak) {
-        case 'MEDISINSK_VILKAR':
-            return 'Medisinsk vilkår';
-        case 'AKTIVITETSKRAV':
-            return 'Aktivitetskrav';
-        case 'MANGLENDE_MEDVIRKNING':
-            return 'Manglende medvirkning';
-        // Årsakene under er avviklet hos iSyfo, men siden vi skal lese inn gamle stoppknapp-meldinger kan
-        // vi få inn noen med disse årsakene også
-        case 'BESTRIDELSE_SYKMELDING':
-            return 'Bestridelse sykmelding';
-        case 'TILBAKEDATERT_SYKMELDING':
-            return 'Tilbakedatert sykmelding';
-        default:
-            return 'Ukjent årsak';
-    }
+const årsakSomTekst = (årsak: string) => årsaktekster[årsak] ?? 'ukjent årsak';
+
+const årsaktekster: { [key: string]: string } = {
+    MEDISINSK_VILKAR: 'medisinsk vilkår',
+    AKTIVITETSKRAV: 'aktivitetskrav',
+    MANGLENDE_MEDVIRKNING: 'manglende medvirkning',
+    // Årsakene under er avviklet hos iSyfo, men siden vi skal lese inn gamle stoppknapp-meldinger kan
+    // vi få inn noen med disse årsakene også
+    BESTRIDELSE_SYKMELDING: 'bestridelse sykmelding',
+    TILBAKEDATERT_SYKMELDING: 'tilbakedatert sykmelding',
 };
