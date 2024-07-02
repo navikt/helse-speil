@@ -49,7 +49,7 @@ export const Returnotat = ({ onSubmit, setShowNotat, error }: ReturnotatProps): 
                 Forklar hvorfor saken sendes tilbake på en enkel måte, slik at det er lett å forstå hva som må vurderes
                 og gjøres annerledes.
                 <br />
-                (Blir ikke forevist den sykmeldte med mindre hen ber om innsyn)
+                (Blir ikke forevist den sykmeldte, med mindre hen ber om innsyn)
             </BodyShort>
             <form onSubmit={form.handleSubmit(submit)} className={styles.form}>
                 <ControlledTextarea
