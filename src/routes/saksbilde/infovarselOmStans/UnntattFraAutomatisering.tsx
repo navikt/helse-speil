@@ -40,7 +40,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                     </Tooltip>
                     {årsakerSomTekst(årsaker)}
                 </BodyShort>
-                <BodyShort>Se i Modia Sykefraværsoppfølging for mer info om denne personen.</BodyShort>
+                <BodyShort>Se notat i Modia Sykefraværsoppfølging eller Gosys for mer info.</BodyShort>
             </div>
             {!åpen && (
                 <div>
