@@ -21,8 +21,6 @@ export class SpeilError extends Error {
     }
 }
 
-export class ErrorAlert extends SpeilError {}
-
 export class InfoAlert extends SpeilError {
     name = 'info';
 
@@ -31,27 +29,6 @@ export class InfoAlert extends SpeilError {
         this.severity = 'info';
     }
 }
-
-export class LazyLoadPendingError extends Error {}
-
-export class LazyLoadError extends Error {
-    constructor(message?: string) {
-        super(message ?? 'Kunne ikke laste inn deler av siden. Kontakt en utvikler.');
-        this.name = 'LazyLoadError';
-    }
-}
-
-export const onLazyLoadFail = (error: Error): Promise<never> => {
-    const numberOfTimesFailed = Number(window.sessionStorage.getItem(error.message));
-
-    if (numberOfTimesFailed < 2) {
-        window.sessionStorage.setItem(error.message, `${numberOfTimesFailed + 1}`);
-        window.location.reload();
-        return Promise.reject(new LazyLoadPendingError());
-    } else {
-        return Promise.reject(new LazyLoadError());
-    }
-};
 
 export const apolloErrorCode = (error: ApolloError | undefined): number =>
     (
