@@ -220,8 +220,8 @@ const getResolvers = (): IResolvers => ({
                 return false;
             }
         },
-        leggPaVent: async (_, { oppgaveId, notatType, notatTekst }: MutationLeggPaVentArgs) => {
-            NotatMock.addNotat(oppgaveId, { tekst: notatTekst, type: notatType });
+        leggPaVent: async (_, { oppgaveId, notatTekst }: MutationLeggPaVentArgs) => {
+            NotatMock.addNotat(oppgaveId, { tekst: notatTekst, type: NotatType.PaaVent });
             PaVentMock.setPåVent(oppgaveId, {
                 frist: '2024-01-01',
                 begrunnelse: 'En begrunnelse',
