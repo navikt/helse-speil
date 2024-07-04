@@ -269,7 +269,7 @@ export const EditableInntekt = ({
                     )}
                     <Begrunnelser begrunnelser={begrunnelser} />
                     <ForklaringTextarea
-                        description={`Begrunn hvorfor det er gjort endringer i inntekt og/eller refusjon.\nEks. «Ny inntektsmelding kommet inn 18.10.2021»\nTeksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.`}
+                        description={`Begrunn hvorfor det er gjort endringer i inntekt og/eller refusjon.\nTeksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.`}
                     />
                     {visFeilOppsummering && (
                         <Feiloppsummering

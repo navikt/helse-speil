@@ -41,7 +41,8 @@ export const SkjønnsfastsettingBegrunnelse = ({
             <div className={styles.skjønnsfastsettingBegrunnelse}>
                 <div>
                     <BodyShort>
-                        <span className={styles.Bold}>Begrunnelse</span> (teksten vises til bruker)
+                        <span className={styles.Bold}>Begrunnelse</span> Teksten vises til den sykmeldte i «Svar på
+                        søknad om sykepenger».
                     </BodyShort>
                     <ExpandableSkjønnsfastsettingBegrunnelseContent>
                         {valgtMal?.begrunnelse && (
@@ -67,7 +68,7 @@ export const SkjønnsfastsettingBegrunnelse = ({
                     {...register('begrunnelseFritekst', {
                         required: 'Du må skrive en nærmere begrunnelse',
                     })}
-                    description="(Teksten vises til bruker)"
+                    description="Teksten vises til den sykmeldte i «Svar på søknad om sykepenger»."
                     error={
                         formState.errors.begrunnelseFritekst
                             ? (formState.errors.begrunnelseFritekst.message as string)

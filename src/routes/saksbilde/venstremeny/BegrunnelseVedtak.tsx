@@ -113,7 +113,7 @@ export const BegrunnelseVedtak = ({
                                         },
                                     });
                                 }}
-                                description="(Teksten vises til bruker)"
+                                description="Teksten vises til den sykmeldte i «Svar på søknad om sykepenger»."
                                 aria-labelledby="begrunnelse-label begrunnelse-feil"
                                 style={{ whiteSpace: 'pre-line' }}
                                 className={styles.begrunnelse}
