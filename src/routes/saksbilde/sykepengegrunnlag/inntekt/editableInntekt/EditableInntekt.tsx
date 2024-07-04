@@ -164,12 +164,17 @@ export const EditableInntekt = ({
                     new Date(b.fom).getTime() - new Date(a.fom).getTime(),
             );
 
-        if (
-            (omregnetÅrsinntekt.manedsbelop === Number(values?.manedsbelop) || stringIsNaN(values?.manedsbelop)) &&
-            JSON.stringify(refusjonsopplysninger) === JSON.stringify(metadata.fraRefusjonsopplysninger)
-        ) {
+        const harEndretRefusjonsopplysninger =
+            JSON.stringify(refusjonsopplysninger) !== JSON.stringify(metadata.fraRefusjonsopplysninger);
+        const harEndretMånedsbeløp =
+            omregnetÅrsinntekt.manedsbelop !== Number(values?.manedsbelop) && !stringIsNaN(values?.manedsbelop);
+
+        if (!harEndretMånedsbeløp && !harEndretRefusjonsopplysninger) {
             e.preventDefault();
             setHarIkkeSkjemaEndringer(true);
+            return;
+        } else if (harEndretMånedsbeløp && !harEndretRefusjonsopplysninger) {
+            form.handleSubmit(confirmChanges);
             return;
         } else {
             setHarIkkeSkjemaEndringer(false);
