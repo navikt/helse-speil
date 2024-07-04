@@ -32,7 +32,7 @@ export const NotatForm = ({
             <Textarea
                 autoFocus
                 label={label}
-                description="Blir ikke forevist den sykmeldte med mindre den sykmeldte ber om innsyn."
+                description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
                 aria-invalid={typeof form.formState.errors.Notattekst === 'object'}
                 error={
                     (form.formState.errors.Notattekst?.message as string) ??

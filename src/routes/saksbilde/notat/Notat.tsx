@@ -115,7 +115,7 @@ export const Notat = (): Maybe<ReactElement> => {
 
             {open && (
                 <>
-                    <BodyShort>Blir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.</BodyShort>
+                    <BodyShort>Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.</BodyShort>
                     <form onSubmit={form.handleSubmit(submit)} className={styles.form}>
                         <ControlledTextarea control={form.control} vedtaksperiodeId={aktivPeriode.vedtaksperiodeId} />
                         <span className={styles.buttons}>

@@ -57,7 +57,7 @@ export const ControlledTextarea = ({
             }}
             label={`${notattype}-notat`}
             hideLabel
-            description="Blir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn."
+            description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
             maxLength={1000}
             autoFocus
             value={lagretNotat}

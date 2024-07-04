@@ -29,14 +29,14 @@ const notattypeTekster = (notattype: NotatType): Notattekster => {
             return {
                 tittel: 'Retur',
                 description:
-                    'Skriv hvorfor saken returneres, så det er enkelt å forstå hva som må vurderes og gjøres om.\nEksempel: Ferie for 01.07.2022 må korrigeres.\nBlir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.',
+                    'Skriv hvorfor saken returneres, så det er enkelt å forstå hva som må vurderes og gjøres om.\nEksempel: Ferie for 01.07.2022 må korrigeres.\nTeksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.',
                 submitTekst: 'Returner',
                 errorTekst: 'Du må skrive et returnotat hvis du vil sende oppgaven i retur til saksbehandler.',
             };
         default:
             return {
                 tittel: 'Notat',
-                description: 'Blir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.',
+                description: 'Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.',
                 submitTekst: 'Legg til notat',
             };
     }

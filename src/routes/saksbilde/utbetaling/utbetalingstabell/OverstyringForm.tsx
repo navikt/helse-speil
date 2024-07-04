@@ -77,7 +77,7 @@ export const OverstyringForm = ({
                 description={
                     <span>
                         Begrunn hvorfor det er gjort endringer i sykdomstidslinjen. <br />
-                        Blir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.
+                        Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.
                     </span>
                 }
                 error={formState.errors.begrunnelse ? (formState.errors.begrunnelse.message as string) : null}
