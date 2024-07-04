@@ -5058,18 +5058,6 @@
                                 "deprecationReason": null
                             },
                             {
-                                "name": "notatType",
-                                "description": null,
-                                "type": {
-                                    "kind": "ENUM",
-                                    "name": "NotatType",
-                                    "ofType": null
-                                },
-                                "defaultValue": null,
-                                "isDeprecated": false,
-                                "deprecationReason": null
-                            },
-                            {
                                 "name": "oppgaveId",
                                 "description": null,
                                 "type": {
