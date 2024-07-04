@@ -1,5 +1,5 @@
 overwrite: true
-schema: 'https://spesialist.intern.dev.nav.no/graphql/introspection'
+schema: 'https://spesialist.intern.dev.nav.no/graphql'
 documents: 'src/io/graphql/**/*.graphql'
 config:
   scalars:
