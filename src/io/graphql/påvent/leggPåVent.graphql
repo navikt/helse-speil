@@ -1,5 +1,5 @@
-mutation LeggPaVent($oppgaveId: String!, $frist: LocalDate!, $tildeling: Boolean!, $begrunnelse: String, $notatType: NotatType!, $notatTekst: String!) {
-    leggPaVent(oppgaveId: $oppgaveId, frist: $frist, tildeling: $tildeling, begrunnelse: $begrunnelse, notatType: $notatType, notatTekst: $notatTekst) {
+mutation LeggPaVent($oppgaveId: String!, $frist: LocalDate!, $tildeling: Boolean!, $begrunnelse: String, $notatTekst: String!) {
+    leggPaVent(oppgaveId: $oppgaveId, frist: $frist, tildeling: $tildeling, begrunnelse: $begrunnelse, notatTekst: $notatTekst) {
         ...pavent
     }
 }

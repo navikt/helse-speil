@@ -9,7 +9,6 @@ import {
     LeggPaVentDocument,
     LeggPaVentMutation,
     Maybe,
-    NotatType,
     OppgaveFeedDocument,
     Oppgaveegenskap,
     PaVent,
@@ -66,7 +65,6 @@ export const useLeggPåVent = (): [
                 frist: frist,
                 tildeling: tildeling,
                 begrunnelse: begrunnelse,
-                notatType: NotatType.PaaVent,
                 notatTekst: notattekst,
             },
             update: (cache, result) =>

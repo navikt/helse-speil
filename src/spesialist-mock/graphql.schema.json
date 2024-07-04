@@ -5061,13 +5061,9 @@
                                 "name": "notatType",
                                 "description": null,
                                 "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "ENUM",
-                                        "name": "NotatType",
-                                        "ofType": null
-                                    }
+                                    "kind": "ENUM",
+                                    "name": "NotatType",
+                                    "ofType": null
                                 },
                                 "defaultValue": null,
                                 "isDeprecated": false,

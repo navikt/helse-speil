@@ -591,7 +591,7 @@ export type MutationLeggPaVentArgs = {
     begrunnelse?: InputMaybe<Scalars['String']['input']>;
     frist: Scalars['LocalDate']['input'];
     notatTekst: Scalars['String']['input'];
-    notatType: NotatType;
+    notatType?: InputMaybe<NotatType>;
     oppgaveId: Scalars['String']['input'];
     tildeling: Scalars['Boolean']['input'];
 };
@@ -4769,7 +4769,6 @@ export type LeggPaVentMutationVariables = Exact<{
     frist: Scalars['LocalDate']['input'];
     tildeling: Scalars['Boolean']['input'];
     begrunnelse?: InputMaybe<Scalars['String']['input']>;
-    notatType: NotatType;
     notatTekst: Scalars['String']['input'];
 }>;
 
@@ -10994,14 +10993,6 @@ export const LeggPaVentDocument = {
                 },
                 {
                     kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatType' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'NotatType' } },
-                    },
-                },
-                {
-                    kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
@@ -11032,11 +11023,6 @@ export const LeggPaVentDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'begrunnelse' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'notatType' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'notatType' } },
                             },
                             {
                                 kind: 'Argument',

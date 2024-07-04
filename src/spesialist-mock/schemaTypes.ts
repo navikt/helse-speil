@@ -589,7 +589,7 @@ export type MutationLeggPaVentArgs = {
     begrunnelse?: InputMaybe<Scalars['String']['input']>;
     frist: Scalars['LocalDate']['input'];
     notatTekst: Scalars['String']['input'];
-    notatType: NotatType;
+    notatType?: InputMaybe<NotatType>;
     oppgaveId: Scalars['String']['input'];
     tildeling: Scalars['Boolean']['input'];
 };
