@@ -99,7 +99,7 @@ export const PåVentNotatModal = ({
                     <br />
                     Eks: Kontaktet arbeidsgiver, fikk ikke svar. Prøv igjen senere.
                     <br />
-                    Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.
+                    Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.
                 </BodyShort>
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(submit)} id="på-vent-notat-form">
