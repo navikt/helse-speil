@@ -63,14 +63,12 @@ const dekorerTekst = (tabelldag?: Utbetalingstabelldag): Maybe<string> => {
     const visningstekst = tabelldag.dag.visningstekst;
     const speilDagtype = tabelldag.dag.speilDagtype;
 
-    if (tabelldag.erAvvist) {
+    if (tabelldag.erAvvist || tabelldag.erForeldet) {
         return `${visningstekst} (Avslått)`;
     } else if (erTypeSomIkkeSkalDekoreres(tabelldag)) {
         return visningstekst;
     } else if (tabelldag.erAGP) {
         return `${visningstekst} (AGP)`;
-    } else if (tabelldag.erForeldet) {
-        return `${visningstekst} (Foreldet)`;
     } else if (speilDagtype === 'FriskHelg') {
         return `${visningstekst} (Frisk)`;
     } else if (speilDagtype === 'SykHelg') {

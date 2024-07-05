@@ -16,14 +16,14 @@ describe('DagtypeCell', () => {
                 <DagtypeCell tabelldag={getUtbetalingstabellDag({ erAvvist: true })} />
             </TestCellWrapper>,
         );
-        expect(screen.getByText('Syk (Avslått)')).toBeVisible();
+        expect(screen.getAllByText('Syk (Avslått)')[0]).toBeVisible();
 
         render(
             <TestCellWrapper>
                 <DagtypeCell tabelldag={getUtbetalingstabellDag({ erForeldet: true })} />
             </TestCellWrapper>,
         );
-        expect(screen.getByText('Syk (Foreldet)')).toBeVisible();
+        expect(screen.getAllByText('Syk (Avslått)')[1]).toBeVisible();
 
         render(
             <TestCellWrapper>
