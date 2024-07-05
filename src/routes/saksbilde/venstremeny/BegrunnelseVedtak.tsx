@@ -47,8 +47,8 @@ export const BegrunnelseVedtak = ({
                 dag.utbetalingsdagtype,
             ),
     );
-    const avvisteDager = tidslinjeUtenAGPogHelg.filter(
-        (dag) => dag.utbetalingsdagtype === Utbetalingsdagtype.AvvistDag,
+    const avvisteDager = tidslinjeUtenAGPogHelg.filter((dag) =>
+        [Utbetalingsdagtype.AvvistDag, Utbetalingsdagtype.ForeldetDag].includes(dag.utbetalingsdagtype),
     );
 
     const avslagstype =
