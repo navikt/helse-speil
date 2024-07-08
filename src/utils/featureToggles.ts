@@ -9,7 +9,7 @@ const supersaksbehandlere = [eminem, 'N115007', 'C117102', 'K164523'];
 
 const fagkoordinatorer = ['M136300', 'S108267', 'K123956', 'G157538'];
 
-const enhetsledere = ['B138607', 'S145454'];
+const enhetsledere = ['S145454', 'K105348', 'L105454'];
 
 const coaches = [
     'J153777',
@@ -22,6 +22,7 @@ const coaches = [
     'K162139',
     'F160464',
     'M136300',
+    ...enhetsledere,
 ];
 
 const erCoachEllerSuper = (ident: string) => erCoach(ident) || erSupersaksbehandler(ident);
