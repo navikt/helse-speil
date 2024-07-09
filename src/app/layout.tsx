@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import React, { PropsWithChildren, ReactElement } from 'react';
 import ReactDOM from 'react-dom';
 
-import { browserEnv, erLokal, erUtvikling } from '@/env';
+import { browserEnv, erLokal } from '@/env';
 import { Providers } from '@app/providers';
 import { getTokenPayload } from '@auth/token';
 import { Toasts } from '@components/Toasts';
@@ -45,7 +45,7 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
                     grupper: payload.groups,
                 }}
             >
-                {erUtvikling && <Driftsmeldinger />}
+                <Driftsmeldinger />
                 <Header />
                 <Varsler />
                 {children}
