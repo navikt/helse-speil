@@ -173,6 +173,12 @@ const filters = [
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
+        key: Egenskap.Medlemskap,
+        label: 'Medlemskap',
+        active: false,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
+    },
+    {
         key: Egenskap.Gosys,
         label: 'Gosysvarsel',
         active: false,

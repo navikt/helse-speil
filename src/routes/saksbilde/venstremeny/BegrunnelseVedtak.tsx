@@ -103,7 +103,7 @@ export const BegrunnelseVedtak = ({
                             <Textarea
                                 label=""
                                 id="begrunnelse"
-                                value={avslag?.data?.begrunnelse ?? periode.avslag?.[0]?.begrunnelse ?? ''}
+                                value={avslag?.data?.begrunnelse ?? ''}
                                 onChange={(event) => {
                                     if (event.target.value === '') return setAvslag(null);
 
