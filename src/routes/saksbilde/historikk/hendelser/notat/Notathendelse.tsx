@@ -140,7 +140,7 @@ interface NotatTittelProps {
 }
 
 const NotatTittel = ({ feilregistrert, notattype }: NotatTittelProps): ReactElement => (
-    <span className={classNames(feilregistrert && styles.Feilregistrert)}>
+    <span className={classNames(feilregistrert)}>
         {notattype === 'OpphevStans' && 'Stans opphevet'}
         {notattype === 'PaaVent' && 'Lagt på vent'}
         {notattype === 'Retur' && 'Returnert'}
