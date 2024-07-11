@@ -38,7 +38,7 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
                         text="Tildelt"
                     />
                 )}
-                {aktivTab === TabType.TilGodkjenning && (
+                {(aktivTab === TabType.TilGodkjenning || aktivTab === TabType.Mine) && (
                     <FilterList
                         filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.PÅVENT)}
                         text="På vent"
