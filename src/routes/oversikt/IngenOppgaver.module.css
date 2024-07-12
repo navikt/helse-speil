@@ -9,7 +9,7 @@
     gap: 2rem;
 }
 
-.Caption {
+.IngenOppgaver figcaption {
     font-size: 1.25rem;
     flex: 1;
 }

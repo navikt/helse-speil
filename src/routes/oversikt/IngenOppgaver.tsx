@@ -1,12 +1,12 @@
-import agurk from '../../assets/ingen-oppgaver-agurk.png';
-import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
-import brevkasse from '../../assets/ingen-oppgaver.png';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { Heading } from '@navikt/ds-react';
 
+import agurk from '@assets/ingen-oppgaver-agurk.png';
+import fredagstaco from '@assets/ingen-oppgaver-fredagstaco.png';
+import brevkasse from '@assets/ingen-oppgaver.png';
 import { Maybe } from '@io/graphql';
 
 import { TabType, useAktivTab } from './tabState';
@@ -29,15 +29,10 @@ export const IngenOppgaver = (): Maybe<ReactElement> => {
     switch (aktivTab) {
         case TabType.BehandletIdag: {
             return (
-                <>
-                    <Image
-                        priority={true}
-                        alt="Tom brevkasse som smiler"
-                        src={brevkasse}
-                        className={styles.IngenOppgaver}
-                    />
-                    <BodyShort className={styles.Caption}>Du har ingen behandlede saker</BodyShort>
-                </>
+                <figure className={styles.IngenOppgaver}>
+                    <Image alt="Tom brevkasse som smiler" priority={true} src={brevkasse} />
+                    <Caption>Du har ingen behandlede saker</Caption>
+                </figure>
             );
         }
         case TabType.TilGodkjenning:
