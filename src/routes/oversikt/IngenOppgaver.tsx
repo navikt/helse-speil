@@ -43,9 +43,15 @@ export const IngenOppgaver = (): Maybe<ReactElement> => {
                             alt="Agurk med armer og bein ikledd sombrero som holder en taco"
                             priority={true}
                             src={fredagstaco}
+                            unoptimized
                         />
                     ) : (
-                        <Image alt="Agurk med armer og bein som holder kaffekopp" priority={true} src={agurk} />
+                        <Image
+                            alt="Agurk med armer og bein som holder kaffekopp"
+                            priority={true}
+                            src={agurk}
+                            unoptimized
+                        />
                     )}
                     <Caption>Ooops! Ingen saker å plukke...</Caption>
                 </figure>
@@ -53,14 +59,14 @@ export const IngenOppgaver = (): Maybe<ReactElement> => {
         case TabType.Mine:
             return (
                 <figure className={styles.IngenOppgaver}>
-                    <Image alt="Tom brevkasse som smiler" priority={true} src={brevkasse} />
+                    <Image alt="Tom brevkasse som smiler" priority={true} src={brevkasse} unoptimized />
                     <Caption>Du har ingen tildelte saker</Caption>
                 </figure>
             );
         case TabType.Ventende:
             return (
                 <figure className={styles.IngenOppgaver}>
-                    <Image alt="Tom brevkasse som smiler" priority={true} src={brevkasse} />
+                    <Image alt="Tom brevkasse som smiler" priority={true} src={brevkasse} unoptimized />
                     <Caption>Du har ingen saker på vent</Caption>
                 </figure>
             );
