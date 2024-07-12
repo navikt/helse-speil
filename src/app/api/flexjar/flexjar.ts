@@ -53,7 +53,7 @@ export const postOpprett = async (req: Request): Promise<Response> => {
         .catch((error) => logger.info(`Sending av feedback til flexjar feilet: ${error}`));
     logger.info(`Sending av feedback til flexjar, respons: ${JSON.stringify(response)}`);
 
-    if (response) return Response.json(response, { status: 202 });
+    if (response) return Response.json(response, { status: 200 });
     else return new Response(null, { status: 500 });
 };
 
