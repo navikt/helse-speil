@@ -30,7 +30,7 @@ export const IngenOppgaver = (): Maybe<ReactElement> => {
         case TabType.BehandletIdag: {
             return (
                 <figure className={styles.IngenOppgaver}>
-                    <Image alt="Tom brevkasse som smiler" priority={true} src={brevkasse} />
+                    <Image alt="Tom brevkasse som smiler" priority={true} src={brevkasse} unoptimized />
                     <Caption>Du har ingen behandlede saker</Caption>
                 </figure>
             );
