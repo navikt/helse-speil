@@ -1,4 +1,3 @@
-import styles from './FlexjarFelles.module.scss';
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -9,6 +8,8 @@ import { useOppdaterFlexjarFeedback } from '@external/flexjar/useOppdaterFlexjar
 import { useOpprettFlexjarFeedback } from '@external/flexjar/useOpprettFlexjarFeedback';
 import { Maybe } from '@io/graphql';
 import { FeedbackPayload } from '@typer/flexjar';
+
+import styles from './FlexjarFelles.module.scss';
 
 interface FlexjarFellesProps {
     feedbackId: string;
@@ -57,7 +58,7 @@ export function FlexjarFelles({
             };
 
             if (data?.id) {
-                oppdaterFeedback({
+                await oppdaterFeedback({
                     variables: {
                         id: data.id,
                         payload,
@@ -66,7 +67,7 @@ export function FlexjarFelles({
                 });
                 return true;
             } else {
-                giFeedback({
+                await giFeedback({
                     variables: {
                         payload,
                     },
