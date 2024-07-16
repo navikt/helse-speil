@@ -1,0 +1,13 @@
+.text {
+  padding: 0.4rem;
+  border-bottom-color: var(--a-gray-100);
+}
+
+.shimmer {
+  justify-content: space-between;
+}
+
+.shimmer > span {
+  width: max-content;
+  min-width: 4rem;
+}

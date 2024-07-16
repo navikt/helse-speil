@@ -192,6 +192,7 @@ export type BehandletOppgave = {
 export type Behandlingsstatistikk = {
     __typename?: 'Behandlingsstatistikk';
     antallAnnulleringer: Scalars['Int']['output'];
+    antallAvvisninger: Scalars['Int']['output'];
     beslutter: Antall;
     delvisRefusjon: Antall;
     egenAnsatt: Antall;

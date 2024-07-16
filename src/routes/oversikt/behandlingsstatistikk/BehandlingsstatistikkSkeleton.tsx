@@ -1,13 +1,12 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { Table } from '@navikt/ds-react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
+import { StatistikkOppsummertSkeleton } from '@oversikt/behandlingsstatistikk/StatistikkOppsummertSkeleton';
 
 import { LabelCell } from './LabelCell';
 import { Separator } from './Separator';
-
-import styles from './BehandlingsstatistikkView.module.css';
 
 const LoadingCells = (): ReactElement => {
     return (
@@ -27,138 +26,111 @@ const LoadingCells = (): ReactElement => {
 
 export const BehandlingsstatistikkSkeleton = (): ReactElement => {
     return (
-        <table>
-            <thead>
-                <tr>
-                    <td />
-                    <th>MANUELT</th>
-                    <th>AUTOMATISK</th>
-                    <th>TILGJENGELIG</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <LabelCell.EnArbeidsgiver />
-                    </td>
-                    <LoadingCells />
-                </tr>
-                <tr>
-                    <td>
-                        <LabelCell.FlereArbeidsgivere />
-                    </td>
-                    <LoadingCells />
-                </tr>
-            </tbody>
-            <Separator />
-            <tbody>
-                <tr>
-                    <td>
-                        <LabelCell.Førstegangsbehandling />
-                    </td>
-                    <LoadingCells />
-                </tr>
-                <tr>
-                    <td>
-                        <LabelCell.Forlengelser />
-                    </td>
-                    <LoadingCells />
-                </tr>
-                <tr>
-                    <td>
-                        <LabelCell.ForlengelseInfotrygd />
-                    </td>
-                    <LoadingCells />
-                </tr>
-            </tbody>
-            <Separator />
-            <tbody>
-                <tr>
-                    <td>
-                        <LabelCell.Søknad />
-                    </td>
-                    <LoadingCells />
-                </tr>
-                <tr>
-                    <td>
-                        <LabelCell.Revurdering />
-                    </td>
-                    <LoadingCells />
-                </tr>
-            </tbody>
-            <Separator />
-            <tbody>
-                <tr>
-                    <td>
-                        <LabelCell.Vurderingsoppgaver />
-                    </td>
-                    <LoadingCells />
-                </tr>
-                <tr>
-                    <td>
-                        <LabelCell.FortroligAdresse />
-                    </td>
-                    <LoadingCells />
-                </tr>
-                <tr>
-                    <td>
-                        <LabelCell.Stikkprøver />
-                    </td>
-                    <LoadingCells />
-                </tr>
-                <tr>
-                    <td>
-                        <LabelCell.Beslutter />
-                    </td>
-                    <LoadingCells />
-                </tr>
-                <tr>
-                    <td>
-                        <LabelCell.EgenAnsatt />
-                    </td>
-                    <LoadingCells />
-                </tr>
-            </tbody>
-            <Separator />
-            <tfoot>
-                <tr>
-                    <td colSpan={4}>
-                        <BodyShort className={styles.FooterTotal}>
-                            FULLFØRTE SAKER I DAG: <LoadingShimmer />
-                        </BodyShort>
-                    </td>
-                </tr>
-                <tr>
-                    <td colSpan={4}>
-                        <div className={styles.FooterCellContainer}>
-                            <div className={styles.FooterCell}>
-                                <BodyShort>
-                                    <LoadingShimmer />
-                                </BodyShort>
-                                <BodyShort>MANUELT</BodyShort>
-                            </div>
-                            <div className={styles.FooterCell}>
-                                <BodyShort>
-                                    <LoadingShimmer />
-                                </BodyShort>
-                                <BodyShort>AUTOMATISK</BodyShort>
-                            </div>
-                            <div className={styles.FooterCell}>
-                                <BodyShort>
-                                    <LoadingShimmer />
-                                </BodyShort>
-                                <BodyShort>TILGJENGELIG</BodyShort>
-                            </div>
-                            <div className={styles.FooterCell}>
-                                <BodyShort>
-                                    <LoadingShimmer />
-                                </BodyShort>
-                                <BodyShort>ANNULLERT</BodyShort>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
+        <>
+            <table>
+                <thead>
+                    <tr>
+                        <td />
+                        <th>MANUELT</th>
+                        <th>AUTOMATISK</th>
+                        <th>TILGJENGELIG</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <LabelCell.EnArbeidsgiver />
+                        </td>
+                        <LoadingCells />
+                    </tr>
+                    <tr>
+                        <td>
+                            <LabelCell.FlereArbeidsgivere />
+                        </td>
+                        <LoadingCells />
+                    </tr>
+                </tbody>
+                <Separator />
+                <tbody>
+                    <tr>
+                        <td>
+                            <LabelCell.Førstegangsbehandling />
+                        </td>
+                        <LoadingCells />
+                    </tr>
+                    <tr>
+                        <td>
+                            <LabelCell.Forlengelser />
+                        </td>
+                        <LoadingCells />
+                    </tr>
+                    <tr>
+                        <td>
+                            <LabelCell.ForlengelseInfotrygd />
+                        </td>
+                        <LoadingCells />
+                    </tr>
+                </tbody>
+                <Separator />
+                <tbody>
+                    <tr>
+                        <td>
+                            <LabelCell.Søknad />
+                        </td>
+                        <LoadingCells />
+                    </tr>
+                    <tr>
+                        <td>
+                            <LabelCell.Revurdering />
+                        </td>
+                        <LoadingCells />
+                    </tr>
+                </tbody>
+                <Separator />
+                <tbody>
+                    <tr>
+                        <td>
+                            <LabelCell.Vurderingsoppgaver />
+                        </td>
+                        <LoadingCells />
+                    </tr>
+                    <tr>
+                        <td>
+                            <LabelCell.FortroligAdresse />
+                        </td>
+                        <LoadingCells />
+                    </tr>
+                    <tr>
+                        <td>
+                            <LabelCell.Stikkprøver />
+                        </td>
+                        <LoadingCells />
+                    </tr>
+                    <tr>
+                        <td>
+                            <LabelCell.Beslutter />
+                        </td>
+                        <LoadingCells />
+                    </tr>
+                    <tr>
+                        <td>
+                            <LabelCell.EgenAnsatt />
+                        </td>
+                        <LoadingCells />
+                    </tr>
+                </tbody>
+                <Separator />
+            </table>
+            <Table>
+                <Table.Body>
+                    <StatistikkOppsummertSkeleton tittel="TILGJENGELIG"></StatistikkOppsummertSkeleton>
+                    <StatistikkOppsummertSkeleton tittel="FULLFØRTE SAKER I DAG"></StatistikkOppsummertSkeleton>
+                    <StatistikkOppsummertSkeleton tittel="MANUELT"></StatistikkOppsummertSkeleton>
+                    <StatistikkOppsummertSkeleton tittel="AUTOMATISK"></StatistikkOppsummertSkeleton>
+                    <StatistikkOppsummertSkeleton tittel="AVVIST"></StatistikkOppsummertSkeleton>
+                    <StatistikkOppsummertSkeleton tittel="ANNULLERT"></StatistikkOppsummertSkeleton>
+                </Table.Body>
+            </Table>
+        </>
     );
 };

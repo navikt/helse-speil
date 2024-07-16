@@ -70,4 +70,5 @@ export const behandlingsstatistikk = {
         tilgjengelig: 0,
     },
     antallAnnulleringer: 10,
+    antallAvvisninger: 12,
 };

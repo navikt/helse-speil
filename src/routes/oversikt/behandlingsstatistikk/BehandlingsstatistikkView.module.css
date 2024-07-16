@@ -13,7 +13,6 @@
     font-size: var(--a-font-size-medium);
     border-collapse: separate;
     border-spacing: 16px 0;
-    margin: 0 -16px;
 }
 
 .Behandlingsstatistikk > table tbody td,
@@ -35,52 +34,4 @@
     display: flex;
     align-items: center;
     gap: 8px;
-}
-
-.FooterTotal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-}
-
-.FooterTotal > span {
-    display: inline;
-    font-weight: var(--a-font-weight-bold);
-    font-size: var(--a-font-size-large);
-    width: max-content;
-    min-width: 3rem;
-}
-
-.FooterCellContainer {
-    margin-top: 16px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-areas:
-        'manuelt automatisk tilgjengelig'
-        'annullert annullert annullert';
-    gap: 16px;
-}
-
-.FooterCell {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.FooterCell:last-of-type {
-    grid-area: annullert;
-}
-
-.FooterCell p:first-of-type {
-    font-weight: var(--a-font-weight-bold);
-    font-size: var(--a-font-size-heading-xlarge);
-    line-height: var(--a-font-line-height-heading-xlarge);
-    height: var(--a-font-line-height-heading-xlarge);
-    min-width: 5rem;
-    width: max-content;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }

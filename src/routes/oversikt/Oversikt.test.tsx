@@ -49,6 +49,7 @@ const mocks = [
                 behandlingsstatistikk: {
                     __typename: 'Behandlingsstatistikk',
                     antallAnnulleringer: 0,
+                    antallAvvisninger: 0,
                     enArbeidsgiver: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
                     flereArbeidsgivere: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
                     beslutter: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },

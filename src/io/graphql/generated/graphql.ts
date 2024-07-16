@@ -194,6 +194,7 @@ export type BehandletOppgave = {
 export type Behandlingsstatistikk = {
     __typename: 'Behandlingsstatistikk';
     antallAnnulleringer: Scalars['Int']['output'];
+    antallAvvisninger: Scalars['Int']['output'];
     beslutter: Antall;
     delvisRefusjon: Antall;
     egenAnsatt: Antall;
@@ -1607,6 +1608,7 @@ export type HentBehandlingsstatistikkQuery = {
     behandlingsstatistikk: {
         __typename: 'Behandlingsstatistikk';
         antallAnnulleringer: number;
+        antallAvvisninger: number;
         enArbeidsgiver: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         flereArbeidsgivere: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         beslutter: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
@@ -8577,6 +8579,7 @@ export const HentBehandlingsstatistikkDocument = {
                                     },
                                 },
                                 { kind: 'Field', name: { kind: 'Name', value: 'antallAnnulleringer' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'antallAvvisninger' } },
                             ],
                         },
                     },
