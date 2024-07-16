@@ -1,4 +1,3 @@
-import styles from './PeriodeCard.module.scss';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
@@ -24,10 +23,12 @@ import {
     UberegnetPeriodeFragment,
 } from '@io/graphql';
 import { DatePeriod, DateString } from '@typer/shared';
-import { NORSK_DATOFORMAT_KORT } from '@utils/date';
+import { NORSK_DATOFORMAT } from '@utils/date';
 
 import { ArbeidsgiverRow } from './ArbeidsgiverRow';
 import { CardTitle } from './CardTitle';
+
+import styles from './PeriodeCard.module.scss';
 
 const VentepølseRow = (): ReactElement => (
     <>
@@ -45,8 +46,8 @@ interface SykmeldingsperiodeRowProps {
 }
 
 const SykmeldingsperiodeRow = ({ periode }: SykmeldingsperiodeRowProps): ReactElement => {
-    const fom = dayjs(periode.fom).format(NORSK_DATOFORMAT_KORT);
-    const tom = dayjs(periode.tom).format(NORSK_DATOFORMAT_KORT);
+    const fom = dayjs(periode.fom).format(NORSK_DATOFORMAT);
+    const tom = dayjs(periode.tom).format(NORSK_DATOFORMAT);
 
     return (
         <>
@@ -76,7 +77,7 @@ const SkjæringstidspunktRow = ({ periodetype, skjæringstidspunkt }: Skjærings
             {periodetype === Periodetype.OvergangFraIt ? (
                 <BodyShort>Skjæringstidspunkt i Infotrygd/Gosys</BodyShort>
             ) : (
-                <BodyShort>{dayjs(skjæringstidspunkt).format(NORSK_DATOFORMAT_KORT)}</BodyShort>
+                <BodyShort>{dayjs(skjæringstidspunkt).format(NORSK_DATOFORMAT)}</BodyShort>
             )}
         </>
     );
@@ -97,7 +98,7 @@ interface MaksdatoRowProps {
 }
 
 const MaksdatoRow = ({ activePeriod, gjenståendeSykedager }: MaksdatoRowProps): ReactElement => {
-    const maksdato = dayjs(activePeriod.maksdato).format(NORSK_DATOFORMAT_KORT);
+    const maksdato = dayjs(activePeriod.maksdato).format(NORSK_DATOFORMAT);
     const alderVedSisteSykedag = activePeriod.periodevilkar.alder.alderSisteSykedag ?? null;
 
     return (
