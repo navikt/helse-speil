@@ -211,7 +211,7 @@ export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (): boolean =>
 
     if (!aktivPeriode || generasjon !== 0) return false;
 
-    return periodeTilGodkjenning ? dayjs(aktivPeriode.fom).isBefore(periodeTilGodkjenning?.tom) : true;
+    return periodeTilGodkjenning ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.tom) : true;
 };
 
 export const useErGhostLikEllerFørPeriodeTilGodkjenning = (): boolean => {
