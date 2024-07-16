@@ -127,8 +127,8 @@ export const BehandlingsstatistikkSkeleton = (): ReactElement => {
                     <StatistikkOppsummertSkeleton tittel="FULLFØRTE SAKER I DAG"></StatistikkOppsummertSkeleton>
                     <StatistikkOppsummertSkeleton tittel="MANUELT"></StatistikkOppsummertSkeleton>
                     <StatistikkOppsummertSkeleton tittel="AUTOMATISK"></StatistikkOppsummertSkeleton>
-                    <StatistikkOppsummertSkeleton tittel="AVVIST"></StatistikkOppsummertSkeleton>
                     <StatistikkOppsummertSkeleton tittel="ANNULLERT"></StatistikkOppsummertSkeleton>
+                    <StatistikkOppsummertSkeleton tittel="AVVIST"></StatistikkOppsummertSkeleton>
                 </Table.Body>
             </Table>
         </>

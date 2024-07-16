@@ -111,8 +111,8 @@ export const BehandlingsstatistikkTable = ({
                     />
                     <StatistikkOppsummert tittel="MANUELT" antall={totaltIdag.manuelt} />
                     <StatistikkOppsummert tittel="AUTOMATISK" antall={totaltIdag.automatisk} />
-                    <StatistikkOppsummert tittel="AVVIST" antall={behandlingsstatistikk.antallAvvisninger} />
                     <StatistikkOppsummert tittel="ANNULLERT" antall={behandlingsstatistikk.antallAnnulleringer} />
+                    <StatistikkOppsummert tittel="AVVIST" antall={behandlingsstatistikk.antallAvvisninger} />
                 </Table.Body>
             </Table>
         </>
