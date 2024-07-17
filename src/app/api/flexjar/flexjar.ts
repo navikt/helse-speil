@@ -48,9 +48,9 @@ export const postOpprett = async (req: Request): Promise<Response> => {
         return new Response(null, { status: 401 });
     }
 
-    const response = await postFlexjarQuery(token, await req.json())
-        .then((response) => JSON.stringify(response))
-        .catch((error) => logger.info(`Sending av feedback til flexjar feilet: ${error}`));
+    const response = await postFlexjarQuery(token, await req.text()).catch((error) =>
+        logger.info(`Sending av feedback til flexjar feilet: ${error}`),
+    );
     logger.info(`Sending av feedback til flexjar, respons: ${JSON.stringify(response)}`);
 
     if (response) return Response.json(response, { status: 202 });
@@ -63,7 +63,7 @@ export const postOppdater = async (id: string, req: Request): Promise<Response> 
         return new Response(null, { status: 401 });
     }
 
-    const response = await postFlexjarQuery(token, await req.json(), 'PUT', id).catch((error) => {
+    const response = await postFlexjarQuery(token, await req.text(), 'PUT', id).catch((error) => {
         logger.info(`Oppdatering av feedback til flexjar feilet: ${error}`);
     });
     if (response) return Response.json({}, { status: 204 });
