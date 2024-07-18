@@ -70,14 +70,14 @@ export const useUpdateSort = () => {
     const setSorteringEndret = useSetRecoilState(sorteringEndret);
     return (sort: SortState | undefined, setSort: (state: SortState | undefined) => void, sortKey: SortKey) => {
         const sortState =
-            sort && sortKey === sort.orderBy && sort.direction === 'descending'
+            sort && sortKey === sort.orderBy && sort.direction === 'ascending'
                 ? undefined
                 : ({
                       orderBy: sortKey,
                       direction:
-                          sort && sortKey === sort.orderBy && sort.direction === 'ascending'
-                              ? 'descending'
-                              : 'ascending',
+                          sort && sortKey === sort.orderBy && sort.direction === 'descending'
+                              ? 'ascending'
+                              : 'descending',
                   } as SortState);
         setSort(sortState);
         setSorteringEndret(true);
@@ -95,6 +95,7 @@ const syncWithLocalStorageEffect: AtomEffect<SortKey> = ({ onSet, setSelf, trigg
         localStorage.setItem(key, `${newValue}`);
     });
 };
+
 export const dateSortKey = atom<SortKey>({
     key: 'dateSortKey',
     default: SortKey.Opprettet,
