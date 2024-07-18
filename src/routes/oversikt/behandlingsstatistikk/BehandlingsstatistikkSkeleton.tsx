@@ -81,15 +81,6 @@ export const BehandlingsstatistikkSkeleton = (): ReactElement => {
                     </tr>
                     <tr>
                         <td>
-                            <LabelCell.Revurdering />
-                        </td>
-                        <LoadingCells />
-                    </tr>
-                </tbody>
-                <Separator />
-                <tbody>
-                    <tr>
-                        <td>
                             <LabelCell.Vurderingsoppgaver />
                         </td>
                         <LoadingCells />
@@ -108,13 +99,19 @@ export const BehandlingsstatistikkSkeleton = (): ReactElement => {
                     </tr>
                     <tr>
                         <td>
-                            <LabelCell.Beslutter />
+                            <LabelCell.EgenAnsatt />
                         </td>
                         <LoadingCells />
                     </tr>
                     <tr>
                         <td>
-                            <LabelCell.EgenAnsatt />
+                            <LabelCell.Revurdering />
+                        </td>
+                        <LoadingCells />
+                    </tr>
+                    <tr>
+                        <td>
+                            <LabelCell.Beslutter />
                         </td>
                         <LoadingCells />
                     </tr>
