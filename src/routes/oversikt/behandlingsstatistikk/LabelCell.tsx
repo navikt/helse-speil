@@ -12,7 +12,7 @@ const EnArbeidsgiver = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="purple">EA</Tag>
-            ÉN ARB. GIVER
+            Én arb. giver
         </BaseCell>
     );
 };
@@ -21,7 +21,7 @@ const FlereArbeidsgivere = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="purple">FA</Tag>
-            FLERE ARB. GIVERE
+            Flere arb. givere
         </BaseCell>
     );
 };
@@ -30,7 +30,7 @@ const Førstegangsbehandling = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="purple">F</Tag>
-            FØRSTEGANGSBEH.
+            Førstegangsbeh.
         </BaseCell>
     );
 };
@@ -39,7 +39,7 @@ const Forlengelser = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="blue">FL</Tag>
-            FORLENGELSER
+            Forlengelser
         </BaseCell>
     );
 };
@@ -48,7 +48,7 @@ const ForlengelseInfotrygd = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="gray">FI</Tag>
-            FORLENGELSE - IT
+            Forlengelse - IT
         </BaseCell>
     );
 };
@@ -57,7 +57,7 @@ const Vurderingsoppgaver = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="orange">QA</Tag>
-            VURDERINGSOPPGAVER
+            Vurderingsoppgaver
         </BaseCell>
     );
 };
@@ -66,7 +66,7 @@ const FortroligAdresse = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="red">FA</Tag>
-            FORTROLIG ADRESSE
+            Fortrolig adresse
         </BaseCell>
     );
 };
@@ -75,7 +75,7 @@ const Stikkprøver = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="red">S</Tag>
-            STIKKPRØVER
+            Stikkprøver
         </BaseCell>
     );
 };
@@ -84,7 +84,7 @@ const Revurdering = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="orange">R</Tag>
-            REVURDERING
+            Revurdering
         </BaseCell>
     );
 };
@@ -93,7 +93,7 @@ const Beslutter = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="orange">B</Tag>
-            BESLUTTER
+            Beslutter
         </BaseCell>
     );
 };
@@ -102,7 +102,7 @@ const EgenAnsatt = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="orange">E</Tag>
-            EGEN ANSATT
+            Egen ansatt
         </BaseCell>
     );
 };
@@ -110,7 +110,7 @@ const Søknad = (): ReactElement => {
     return (
         <BaseCell>
             <Tag color="orange">SØ</Tag>
-            SØKNAD
+            Søknad
         </BaseCell>
     );
 };
