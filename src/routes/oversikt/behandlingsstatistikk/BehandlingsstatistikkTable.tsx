@@ -78,12 +78,6 @@ export const BehandlingsstatistikkTable = ({
                     <StatistikkRow antall={søknad}>
                         <LabelCell.Søknad />
                     </StatistikkRow>
-                    <StatistikkRow antall={behandlingsstatistikk.revurdering}>
-                        <LabelCell.Revurdering />
-                    </StatistikkRow>
-                </tbody>
-                <Separator />
-                <tbody>
                     <StatistikkRow antall={behandlingsstatistikk.faresignaler}>
                         <LabelCell.Vurderingsoppgaver />
                     </StatistikkRow>
@@ -93,11 +87,14 @@ export const BehandlingsstatistikkTable = ({
                     <StatistikkRow antall={behandlingsstatistikk.stikkprover}>
                         <LabelCell.Stikkprøver />
                     </StatistikkRow>
-                    <StatistikkRow antall={behandlingsstatistikk.beslutter}>
-                        <LabelCell.Beslutter />
-                    </StatistikkRow>
                     <StatistikkRow antall={behandlingsstatistikk.egenAnsatt}>
                         <LabelCell.EgenAnsatt />
+                    </StatistikkRow>
+                    <StatistikkRow antall={behandlingsstatistikk.revurdering}>
+                        <LabelCell.Revurdering />
+                    </StatistikkRow>
+                    <StatistikkRow antall={behandlingsstatistikk.beslutter}>
+                        <LabelCell.Beslutter />
                     </StatistikkRow>
                 </tbody>
                 <Separator />
