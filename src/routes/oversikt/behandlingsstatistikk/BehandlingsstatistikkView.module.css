@@ -15,15 +15,18 @@
     border-spacing: 16px 0;
 }
 
-.Behandlingsstatistikk > table tbody td,
-.Behandlingsstatistikk > table thead th {
+.Behandlingsstatistikk > table tbody td {
     text-align: right;
     height: 2rem;
     vertical-align: middle;
 }
 
 .Behandlingsstatistikk > table thead th {
-    padding-bottom: 16px;
+    text-align: right;
+    height: 2rem;
+    vertical-align: middle;
+    border-bottom: 0;
+    padding: 1px 1px 16px;
 }
 
 .Behandlingsstatistikk > table td:first-of-type {
@@ -34,4 +37,9 @@
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.datacell {
+    border-bottom: none;
+    padding: 0;
 }

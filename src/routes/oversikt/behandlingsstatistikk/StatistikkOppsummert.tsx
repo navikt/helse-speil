@@ -17,7 +17,7 @@ export const StatistikkOppsummert = ({
 }: PropsWithChildren<StatistikkOppsummertProps>): ReactElement => {
     return (
         <Table.Row>
-            <Table.DataCell className={styles.text}>
+            <Table.DataCell className={styles.datacell}>
                 <HStack justify="space-between">
                     <BodyShort>{tittel}:</BodyShort>
                     <BodyShort>
