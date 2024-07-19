@@ -9,7 +9,7 @@ import styles from './StatistikkOppsummering.module.scss';
 export const StatistikkOppsummertSkeleton = ({ tittel }: PropsWithChildren<{ tittel: string }>): ReactElement => {
     return (
         <Table.Row>
-            <Table.DataCell className={styles.text}>
+            <Table.DataCell className={styles.datacell}>
                 <BodyShort className={styles.shimmer}>
                     {tittel}:<LoadingShimmer />
                 </BodyShort>

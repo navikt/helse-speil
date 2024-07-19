@@ -8,18 +8,20 @@ import { StatistikkOppsummertSkeleton } from '@oversikt/behandlingsstatistikk/St
 import { LabelCell } from './LabelCell';
 import { Separator } from './Separator';
 
+import styles from './BehandlingsstatistikkView.module.css';
+
 const LoadingCells = (): ReactElement => {
     return (
         <>
-            <td>
+            <Table.DataCell className={styles.datacell}>
                 <LoadingShimmer />
-            </td>
-            <td>
+            </Table.DataCell>
+            <Table.DataCell className={styles.datacell}>
                 <LoadingShimmer />
-            </td>
-            <td>
+            </Table.DataCell>
+            <Table.DataCell className={styles.datacell}>
                 <LoadingShimmer />
-            </td>
+            </Table.DataCell>
         </>
     );
 };
@@ -27,97 +29,97 @@ const LoadingCells = (): ReactElement => {
 export const BehandlingsstatistikkSkeleton = (): ReactElement => {
     return (
         <>
-            <table>
-                <thead>
-                    <tr>
-                        <td />
-                        <th>MANUELT</th>
-                        <th>AUTOMATISK</th>
-                        <th>TILGJENGELIG</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
+            <Table>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell />
+                        <Table.HeaderCell textSize="small">MANUELT</Table.HeaderCell>
+                        <Table.HeaderCell textSize="small">AUTOM.</Table.HeaderCell>
+                        <Table.HeaderCell textSize="small">TILGJENGELIG</Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    <Table.Row>
+                        <Table.DataCell className={styles.datacell}>
                             <LabelCell.EnArbeidsgiver />
-                        </td>
+                        </Table.DataCell>
                         <LoadingCells />
-                    </tr>
-                    <tr>
-                        <td>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.DataCell className={styles.datacell}>
                             <LabelCell.FlereArbeidsgivere />
-                        </td>
+                        </Table.DataCell>
                         <LoadingCells />
-                    </tr>
-                </tbody>
+                    </Table.Row>
+                </Table.Body>
                 <Separator />
-                <tbody>
-                    <tr>
-                        <td>
+                <Table.Body>
+                    <Table.Row>
+                        <Table.DataCell className={styles.datacell}>
                             <LabelCell.Førstegangsbehandling />
-                        </td>
+                        </Table.DataCell>
                         <LoadingCells />
-                    </tr>
-                    <tr>
-                        <td>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.DataCell className={styles.datacell}>
                             <LabelCell.Forlengelser />
-                        </td>
+                        </Table.DataCell>
                         <LoadingCells />
-                    </tr>
-                    <tr>
-                        <td>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.DataCell className={styles.datacell}>
                             <LabelCell.ForlengelseInfotrygd />
-                        </td>
+                        </Table.DataCell>
                         <LoadingCells />
-                    </tr>
-                </tbody>
+                    </Table.Row>
+                </Table.Body>
                 <Separator />
-                <tbody>
-                    <tr>
-                        <td>
+                <Table.Body>
+                    <Table.Row>
+                        <Table.DataCell className={styles.datacell}>
                             <LabelCell.Søknad />
-                        </td>
+                        </Table.DataCell>
                         <LoadingCells />
-                    </tr>
-                    <tr>
-                        <td>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.DataCell className={styles.datacell}>
                             <LabelCell.Vurderingsoppgaver />
-                        </td>
+                        </Table.DataCell>
                         <LoadingCells />
-                    </tr>
-                    <tr>
-                        <td>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.DataCell className={styles.datacell}>
                             <LabelCell.FortroligAdresse />
-                        </td>
+                        </Table.DataCell>
                         <LoadingCells />
-                    </tr>
-                    <tr>
-                        <td>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.DataCell className={styles.datacell}>
                             <LabelCell.Stikkprøver />
-                        </td>
+                        </Table.DataCell>
                         <LoadingCells />
-                    </tr>
-                    <tr>
-                        <td>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.DataCell className={styles.datacell}>
                             <LabelCell.EgenAnsatt />
-                        </td>
+                        </Table.DataCell>
                         <LoadingCells />
-                    </tr>
-                    <tr>
-                        <td>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.DataCell className={styles.datacell}>
                             <LabelCell.Revurdering />
-                        </td>
+                        </Table.DataCell>
                         <LoadingCells />
-                    </tr>
-                    <tr>
-                        <td>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.DataCell className={styles.datacell}>
                             <LabelCell.Beslutter />
-                        </td>
+                        </Table.DataCell>
                         <LoadingCells />
-                    </tr>
-                </tbody>
+                    </Table.Row>
+                </Table.Body>
                 <Separator />
-            </table>
+            </Table>
             <Table>
                 <Table.Body>
                     <StatistikkOppsummertSkeleton tittel="TILGJENGELIG"></StatistikkOppsummertSkeleton>
