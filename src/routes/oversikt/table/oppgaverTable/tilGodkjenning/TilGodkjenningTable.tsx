@@ -15,8 +15,8 @@ import styles from '../../table.module.css';
 interface TilGodkjenningTableProps {
     oppgaver: OppgaveTilBehandling[];
     readOnly: boolean;
-    sort: SortState | undefined;
-    setSort: (state: SortState | undefined) => void;
+    sort: SortState;
+    setSort: (state: SortState) => void;
 }
 
 export const TilGodkjenningTable = ({ oppgaver, readOnly, sort, setSort }: TilGodkjenningTableProps): ReactElement => {

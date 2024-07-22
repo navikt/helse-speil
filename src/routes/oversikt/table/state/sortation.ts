@@ -20,7 +20,7 @@ const defaultSortation: SortState = {
 
 const storageKeyForSortering = (tab: TabType) => 'sorteringForTab_' + tab;
 
-const getSorteringFromLocalStorage = (tab: TabType): SortState | undefined => {
+const getSorteringFromLocalStorage = (tab: TabType): SortState => {
     const savedState = localStorage.getItem(storageKeyForSortering(tab));
     if (savedState != null) {
         return savedState ? JSON.parse(savedState) : undefined;
@@ -29,7 +29,7 @@ const getSorteringFromLocalStorage = (tab: TabType): SortState | undefined => {
     }
 };
 
-type SorteringPerTab = { [key in TabType]: SortState | undefined };
+type SorteringPerTab = { [key in TabType]: SortState };
 
 const sorteringPerTab = atom<SorteringPerTab>({
     key: 'sorteringPerTab',
@@ -55,7 +55,7 @@ export const sorteringEndret = atom<boolean>({
     default: false,
 });
 
-export const sortering = selector<SortState | undefined>({
+export const sortering = selector<SortState>({
     key: 'sortering',
     get: ({ get }) => {
         return get(sorteringPerTab)[get(tabState)];
@@ -68,17 +68,12 @@ export const sortering = selector<SortState | undefined>({
 
 export const useUpdateSort = () => {
     const setSorteringEndret = useSetRecoilState(sorteringEndret);
-    return (sort: SortState | undefined, setSort: (state: SortState | undefined) => void, sortKey: SortKey) => {
-        const sortState =
-            sort && sortKey === sort.orderBy && sort.direction === 'ascending'
-                ? undefined
-                : ({
-                      orderBy: sortKey,
-                      direction:
-                          sort && sortKey === sort.orderBy && sort.direction === 'descending'
-                              ? 'ascending'
-                              : 'descending',
-                  } as SortState);
+    return (sort: SortState, setSort: (state: SortState) => void, sortKey: SortKey) => {
+        const sortState = {
+            orderBy: sortKey,
+            direction: sort.direction === 'descending' ? 'ascending' : 'descending',
+        } as SortState;
+
         setSort(sortState);
         setSorteringEndret(true);
     };

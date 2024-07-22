@@ -14,8 +14,8 @@ import styles from '../../table.module.css';
 
 interface MineSakerTableProps {
     oppgaver: OppgaveTilBehandling[];
-    sort: SortState | undefined;
-    setSort: (state: SortState | undefined) => void;
+    sort: SortState;
+    setSort: (state: SortState) => void;
 }
 
 export const MineSakerTable = ({ oppgaver, sort, setSort }: MineSakerTableProps): ReactElement => {

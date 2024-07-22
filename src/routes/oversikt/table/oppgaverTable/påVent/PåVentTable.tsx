@@ -14,8 +14,8 @@ import styles from '../../table.module.css';
 
 interface PåVentTableProps {
     oppgaver: OppgaveTilBehandling[];
-    sort: SortState | undefined;
-    setSort: (state: SortState | undefined) => void;
+    sort: SortState;
+    setSort: (state: SortState) => void;
 }
 
 export const PåVentTable = ({ oppgaver, sort, setSort }: PåVentTableProps): ReactElement => {
