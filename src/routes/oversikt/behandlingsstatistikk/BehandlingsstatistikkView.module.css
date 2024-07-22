@@ -38,7 +38,15 @@
     gap: 8px;
 }
 
+.Behandlingsstatistikk > table tbody tr:hover {
+    background-color: transparent !important;
+}
+
 .datacell {
     border-bottom: none;
     padding: 0;
+}
+
+&:hover {
+    background: none;
 }
