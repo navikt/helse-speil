@@ -32,10 +32,18 @@ export const BehandlingsstatistikkSkeleton = (): ReactElement => {
             <Table>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell />
-                        <Table.HeaderCell textSize="small">MANUELT</Table.HeaderCell>
-                        <Table.HeaderCell textSize="small">AUTOM.</Table.HeaderCell>
-                        <Table.HeaderCell textSize="small">TILGJENGELIG</Table.HeaderCell>
+                        <Table.HeaderCell textSize="small" scope="col">
+                            OPPGAVETYPE
+                        </Table.HeaderCell>
+                        <Table.HeaderCell textSize="small" scope="col">
+                            MANUELT
+                        </Table.HeaderCell>
+                        <Table.HeaderCell textSize="small" scope="col">
+                            AUTOM.
+                        </Table.HeaderCell>
+                        <Table.HeaderCell textSize="small" scope="col">
+                            TILGJENGELIG
+                        </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -51,8 +59,8 @@ export const BehandlingsstatistikkSkeleton = (): ReactElement => {
                         </Table.DataCell>
                         <LoadingCells />
                     </Table.Row>
+                    <Separator />
                 </Table.Body>
-                <Separator />
                 <Table.Body>
                     <Table.Row>
                         <Table.DataCell className={styles.datacell}>
@@ -72,8 +80,8 @@ export const BehandlingsstatistikkSkeleton = (): ReactElement => {
                         </Table.DataCell>
                         <LoadingCells />
                     </Table.Row>
+                    <Separator />
                 </Table.Body>
-                <Separator />
                 <Table.Body>
                     <Table.Row>
                         <Table.DataCell className={styles.datacell}>
@@ -117,8 +125,8 @@ export const BehandlingsstatistikkSkeleton = (): ReactElement => {
                         </Table.DataCell>
                         <LoadingCells />
                     </Table.Row>
+                    <Separator />
                 </Table.Body>
-                <Separator />
             </Table>
             <Table>
                 <Table.Body>

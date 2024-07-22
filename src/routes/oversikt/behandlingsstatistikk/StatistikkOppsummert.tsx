@@ -20,9 +20,7 @@ export const StatistikkOppsummert = ({
             <Table.DataCell className={styles.datacell}>
                 <HStack justify="space-between">
                     <BodyShort>{tittel}:</BodyShort>
-                    <BodyShort>
-                        <Bold>{antall}</Bold>
-                    </BodyShort>
+                    <Bold>{antall}</Bold>
                 </HStack>
             </Table.DataCell>
         </Table.Row>

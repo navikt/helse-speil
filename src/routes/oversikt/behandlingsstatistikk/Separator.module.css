@@ -1,5 +1,7 @@
 .Separator td {
     height: max-content !important;
+    border-bottom: none;
+    padding: 0;
 }
 
 .Separator hr {

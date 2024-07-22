@@ -47,10 +47,18 @@ export const BehandlingsstatistikkTable = ({
             <Table>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell />
-                        <Table.HeaderCell textSize="small">MANUELT</Table.HeaderCell>
-                        <Table.HeaderCell textSize="small">AUTOM.</Table.HeaderCell>
-                        <Table.HeaderCell textSize="small">TILGJENGELIG</Table.HeaderCell>
+                        <Table.HeaderCell textSize="small" scope="col">
+                            OPPGAVETYPE
+                        </Table.HeaderCell>
+                        <Table.HeaderCell textSize="small" scope="col">
+                            MANUELT
+                        </Table.HeaderCell>
+                        <Table.HeaderCell textSize="small" scope="col">
+                            AUTOM.
+                        </Table.HeaderCell>
+                        <Table.HeaderCell textSize="small" scope="col">
+                            TILGJENGELIG
+                        </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -60,8 +68,8 @@ export const BehandlingsstatistikkTable = ({
                     <StatistikkRow antall={behandlingsstatistikk.flereArbeidsgivere}>
                         <LabelCell.FlereArbeidsgivere />
                     </StatistikkRow>
+                    <Separator />
                 </Table.Body>
-                <Separator />
                 <Table.Body>
                     <StatistikkRow antall={behandlingsstatistikk.forstegangsbehandling}>
                         <LabelCell.Førstegangsbehandling />
@@ -72,8 +80,8 @@ export const BehandlingsstatistikkTable = ({
                     <StatistikkRow antall={behandlingsstatistikk.forlengelseIt}>
                         <LabelCell.ForlengelseInfotrygd />
                     </StatistikkRow>
+                    <Separator />
                 </Table.Body>
-                <Separator />
                 <Table.Body>
                     <StatistikkRow antall={søknad}>
                         <LabelCell.Søknad />
@@ -96,8 +104,8 @@ export const BehandlingsstatistikkTable = ({
                     <StatistikkRow antall={behandlingsstatistikk.beslutter}>
                         <LabelCell.Beslutter />
                     </StatistikkRow>
+                    <Separator />
                 </Table.Body>
-                <Separator />
             </Table>
             <Table>
                 <Table.Body>
