@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 import React, { MouseEvent, ReactElement } from 'react';
 
-import { ErrorColored } from '@navikt/ds-icons';
+import { XMarkOctagonFillIcon } from '@navikt/aksel-icons';
 
 import { Varselstatus } from '@io/graphql';
+import { CheckIcon } from '@saksbilde/timeline/icons';
 
-import { CheckIcon } from '../timeline/icons';
 import { VarselstatusType } from './Varsler';
 
 import styles from './Avhuking.module.css';
@@ -59,7 +59,11 @@ export const Avhuking = ({
             onKeyDown={keyboardEvent}
             className={classNames(styles.avhuking, styles[type])}
         >
-            {type === 'feil' ? <ErrorColored width="24px" height="24px" /> : <CheckIcon width="24px" height="24px" />}
+            {type === 'feil' ? (
+                <XMarkOctagonFillIcon width="24px" height="24px" />
+            ) : (
+                <CheckIcon width="24px" height="24px" />
+            )}
         </span>
     );
 };
