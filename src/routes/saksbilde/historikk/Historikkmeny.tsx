@@ -52,7 +52,7 @@ export const Historikkmeny = (): ReactElement => {
                 onClick={activateFilter('Overstyring')}
                 title="Overstyring"
             >
-                <PersonPencilIcon fontSize="18px" />
+                <PersonPencilIcon title="Overstyring" fontSize="18px" />
             </TabButton>
         </div>
     );
