@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
-import { StopWatch } from '@navikt/ds-icons';
+import { TimerPauseIcon } from '@navikt/aksel-icons';
 import { Button, Table, Tooltip } from '@navikt/ds-react';
 
 import { Maybe, NotatType, Personnavn } from '@io/graphql';
@@ -59,7 +59,7 @@ const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: Notat
                     onClick={toggleModal}
                     onKeyUp={toggleModal}
                 >
-                    <StopWatch height={20} width={20} aria-label="Vis lagt på vent-notater" />
+                    <TimerPauseIcon fontSize="1.5rem" title="Vis lagt på vent-notater" />
                 </Button>
             </Tooltip>
             {showModal && (
