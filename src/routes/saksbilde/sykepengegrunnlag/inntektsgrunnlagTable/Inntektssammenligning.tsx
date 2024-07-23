@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { CaseworkerFilled } from '@navikt/ds-icons';
+import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
@@ -123,6 +123,6 @@ interface SkjønnsfastsettingIkonProps {
 const SkjønnsfastsettingIkon = ({ kilde }: SkjønnsfastsettingIkonProps) =>
     kilde === Inntektskilde.SkjonnsmessigFastsatt && (
         <Kilde type={kilde}>
-            <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
+            <PersonPencilFillIcon title="Person Pencil-ikon" height={20} width={20} />
         </Kilde>
     );

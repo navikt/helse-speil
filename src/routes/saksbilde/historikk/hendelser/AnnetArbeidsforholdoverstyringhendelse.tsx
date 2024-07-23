@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { CaseworkerFilled } from '@navikt/ds-icons';
+import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
@@ -39,7 +39,7 @@ export const AnnetArbeidsforholdoverstyringhendelse = ({
             }
             icon={
                 <Kilde type={Inntektskilde.Saksbehandler}>
-                    <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
+                    <PersonPencilFillIcon title="Person Pencil-ikon" height={20} width={20} />
                 </Kilde>
             }
         >

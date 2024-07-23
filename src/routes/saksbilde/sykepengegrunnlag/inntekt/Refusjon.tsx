@@ -1,9 +1,8 @@
-import styles from './Refusjon.module.scss';
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import { Controller } from 'react-hook-form';
 
-import { CaseworkerFilled } from '@navikt/ds-icons';
+import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, DatePicker } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
@@ -15,6 +14,8 @@ import { Refusjonsopplysning } from '@typer/overstyring';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
 import { useRefusjonFormField } from './useRefusjonFormField';
+
+import styles from './Refusjon.module.scss';
 
 interface RefusjonProps {
     fraRefusjonsopplysninger: Refusjonsopplysning[];
@@ -250,7 +251,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                         </div>
                                     ) : (
                                         <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                            <CaseworkerFilled title="Caseworker-ikon" height={12} width={12} />
+                                            <PersonPencilFillIcon title="Person Pencil-ikon" height={12} width={12} />
                                         </Kilde>
                                     ))}
                             </div>

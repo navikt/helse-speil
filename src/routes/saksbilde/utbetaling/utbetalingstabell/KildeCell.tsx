@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { CaseworkerFilled } from '@navikt/ds-icons';
+import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 
 import { Kilde } from '@components/Kilde';
 import { Kildetype, Maybe } from '@io/graphql';
@@ -36,7 +36,7 @@ const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps): Maybe<Reac
                 />
             ) : (
                 <Kilde type={Kildetype.Saksbehandler}>
-                    <CaseworkerFilled title="Caseworker-ikon" height={10} width={10} />
+                    <PersonPencilFillIcon title="Person Pencil-ikon" height={10} width={10} />
                 </Kilde>
             );
         default:

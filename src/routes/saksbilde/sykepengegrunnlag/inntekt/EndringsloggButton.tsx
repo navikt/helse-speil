@@ -1,6 +1,6 @@
 import React, { ReactElement, useRef, useState } from 'react';
 
-import { CaseworkerFilled } from '@navikt/ds-icons';
+import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 
 import { Kilde } from '@components/Kilde';
 import { EndringsloggArbeidsforhold } from '@components/endringslogg/EndringsloggArbeidsforhold';
@@ -37,7 +37,7 @@ export const EndringsloggButton = <T extends OverstyringFragment>({
                 onClick={() => setVisEndringslogg(true)}
             >
                 <Kilde type={Kildetype.Saksbehandler}>
-                    <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
+                    <PersonPencilFillIcon title="Person Pencil-ikon" height={20} width={20} />
                 </Kilde>
             </button>
             {visEndringslogg && isArbeidsforholdoverstyringer(endringer) && (

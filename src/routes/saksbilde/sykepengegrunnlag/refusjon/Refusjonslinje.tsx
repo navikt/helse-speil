@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { CaseworkerFilled } from '@navikt/ds-icons';
+import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
@@ -43,7 +43,7 @@ export const Refusjonslinje = ({
                 {kilde === Kildetype.Inntektsmelding && <Kilde type={kilde}>IM</Kilde>}
                 {kilde === Kildetype.Saksbehandler && (
                     <Kilde type={kilde} className={styles.Ikon}>
-                        <CaseworkerFilled title="Caseworker-ikon" />
+                        <PersonPencilFillIcon title="Person Pencil-ikon" />
                     </Kilde>
                 )}
             </td>
