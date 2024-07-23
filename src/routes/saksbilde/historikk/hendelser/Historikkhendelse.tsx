@@ -2,8 +2,14 @@ import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactElement, ReactNode, useState } from 'react';
 
-import { XMarkOctagonIcon } from '@navikt/aksel-icons';
-import { Cancel, Refresh, Send, StopWatch, Success } from '@navikt/ds-icons';
+import {
+    ArrowUndoIcon,
+    ArrowsSquarepathIcon,
+    CheckmarkCircleIcon,
+    PaperplaneIcon,
+    TimerPauseIcon,
+    XMarkOctagonIcon,
+} from '@navikt/aksel-icons';
 
 import { PeriodehistorikkType } from '@io/graphql';
 import { HistorikkhendelseObject } from '@typer/historikk';
@@ -37,19 +43,19 @@ const getTitle = (type: PeriodehistorikkType): string => {
 const getIcon = (type: PeriodehistorikkType): ReactNode => {
     switch (type) {
         case PeriodehistorikkType.TotrinnsvurderingAttestert: {
-            return <Success title="Success-ikon" className={classNames(styles.Innrammet, styles.Attestert)} />;
+            return <CheckmarkCircleIcon title="Checkmark-ircle-ikon" className={styles.Innrammet} />;
         }
         case PeriodehistorikkType.TotrinnsvurderingRetur: {
-            return <Cancel title="Cancel-ikon" className={classNames(styles.Innrammet)} />;
+            return <ArrowUndoIcon title="Arrow-undo-ikon" className={classNames(styles.Innrammet)} />;
         }
         case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning: {
-            return <Send title="Send-ikon" className={classNames(styles.Innrammet, styles.TilGodkjenning)} />;
+            return <PaperplaneIcon title="Paper-plane-ikon" className={styles.Innrammet} />;
         }
         case PeriodehistorikkType.VedtaksperiodeReberegnet: {
-            return <Refresh title="Refresh-ikon" className={classNames(styles.Innrammet)} />;
+            return <ArrowsSquarepathIcon title="Arrows-Squarepath-ikon" className={classNames(styles.Innrammet)} />;
         }
         case PeriodehistorikkType.FjernFraPaVent: {
-            return <StopWatch title="Stop-watch-ikon" className={classNames(styles.Innrammet, styles.pavent)} />;
+            return <TimerPauseIcon title="Paper-plane-ikon" className={classNames(styles.Innrammet, styles.pavent)} />;
         }
         case PeriodehistorikkType.StansAutomatiskBehandling: {
             return <XMarkOctagonIcon title="Stopp-ikon" className={classNames(styles.Innrammet, styles.opphevstans)} />;

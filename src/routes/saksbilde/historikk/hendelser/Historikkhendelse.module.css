@@ -6,16 +6,10 @@
     border-radius: 3px;
 }
 
-.Attestert,
-.Utbetalt,
 .opphevstans {
     padding: 0.08rem;
 }
 
-.TilGodkjenning {
-    padding: 0.015rem;
-}
-
 .pavent {
-    padding: 0.09rem;
+    padding: 0.03rem;
 }
