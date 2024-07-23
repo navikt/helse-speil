@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactElement, useState } from 'react';
 
-import { Send, SpeechBubble, StopWatch, Success } from '@navikt/ds-icons';
+import { ChatIcon, CheckmarkCircleIcon, PaperplaneIcon, TimerPauseIcon } from '@navikt/aksel-icons';
 import { BodyShort, ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
@@ -156,17 +156,14 @@ interface NotatIkonProps {
 const NotatIkon = ({ notattype }: NotatIkonProps): ReactElement => {
     switch (notattype) {
         case 'OpphevStans':
-            return <Success title="Suksess-ikon" className={classNames(styles.Innrammet, styles.OpphevStans)} />;
+            return <CheckmarkCircleIcon title="Checkmark Circle-ikon" className={styles.Innrammet} />;
         case 'PaaVent':
-            return <StopWatch title="Stop-watch-ikon" className={classNames(styles.Innrammet, styles.LagtPaaVent)} />;
-        case 'Retur':
-            return <Send title="Send-ikon" className={classNames(styles.Innrammet, styles.Retur)} />;
-        case 'Generelt':
             return (
-                <SpeechBubble
-                    title="Speech-bubble-ikon"
-                    className={classNames(styles.Innrammet, styles.InnrammetNotat)}
-                />
+                <TimerPauseIcon title="Timer-pause-ikon" className={classNames(styles.Innrammet, styles.LagtPaaVent)} />
             );
+        case 'Retur':
+            return <PaperplaneIcon title="Paper-plane-ikon" className={classNames(styles.Innrammet, styles.Retur)} />;
+        case 'Generelt':
+            return <ChatIcon title="Chat-ikon" className={styles.Innrammet} />;
     }
 };

@@ -8,19 +8,10 @@
 
 .Retur {
     transform: rotateY(0.5turn);
-    padding: 0.015rem;
-}
-
-.OpphevStans {
-    padding: 0.08rem;
 }
 
 .LagtPaaVent {
-    padding: 0.09rem;
-}
-
-.InnrammetNotat {
-    padding: 0.12rem;
+    padding: 0.03rem;
 }
 
 .Notat {
