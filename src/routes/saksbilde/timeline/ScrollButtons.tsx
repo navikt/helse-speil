@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Back, Next } from '@navikt/ds-icons';
+import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 
 import styles from './ScrollButtons.module.css';
 
@@ -25,7 +25,7 @@ export const ScrollButtons = ({
                 disabled={!canNavigateForwards}
                 aria-label="Navigate forwards"
             >
-                <Back title="Back-icon" />
+                <ChevronLeftIcon title="Back-left-icon" fontSize="1.25rem" />
             </button>
             <button
                 className={styles.Button}
@@ -33,7 +33,7 @@ export const ScrollButtons = ({
                 disabled={!canNavigateBackwards}
                 aria-label="Navigate backwards"
             >
-                <Next title="Next-icon" />
+                <ChevronRightIcon title="Next-right-icon" fontSize="1.25rem" />
             </button>
         </div>
     );
