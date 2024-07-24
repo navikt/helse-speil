@@ -1,13 +1,14 @@
-import styles from './Clipboard.module.scss';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { PropsWithChildren, ReactElement, useEffect, useRef, useState } from 'react';
 
-import { Copy } from '@navikt/ds-icons';
+import { FilesIcon } from '@navikt/aksel-icons';
 import { BodyShort, Tooltip, TooltipProps } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
 
 import { copyContentsToClipboard } from './util';
+
+import styles from './Clipboard.module.scss';
 
 interface TooltipWrapperProps {
     props?: Omit<TooltipProps, 'children'>;
@@ -64,7 +65,7 @@ export const Clipboard = ({
             <div ref={contentRef}>{children}</div>
             <TooltipWrapper props={tooltip}>
                 <button className={styles.button} onClick={copy}>
-                    <Copy aria-label={tooltip?.content} />
+                    <FilesIcon aria-label={tooltip?.content} fontSize="1.25rem" />
                     <AnimatePresence>
                         {didCopy && (
                             <motion.span
