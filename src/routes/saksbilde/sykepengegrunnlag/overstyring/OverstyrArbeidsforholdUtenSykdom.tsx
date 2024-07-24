@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { ReactElement, useContext, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Error } from '@navikt/ds-icons';
+import { XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, ErrorSummary } from '@navikt/ds-react';
 
 import { EditButton } from '@components/EditButton';
@@ -69,7 +69,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                         onOpen={() => setEditingArbeidsforhold(true)}
                         onClose={() => setEditingArbeidsforhold(false)}
                         openIcon={<></>}
-                        closedIcon={<Error />}
+                        closedIcon={<XMarkOctagonIcon />}
                     />
                 )}
             </div>
