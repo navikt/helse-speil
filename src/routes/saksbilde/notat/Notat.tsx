@@ -3,8 +3,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { PlusCircleFillIcon } from '@navikt/aksel-icons';
-import { MinusCircle } from '@navikt/ds-icons';
+import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
@@ -106,7 +105,7 @@ export const Notat = (): Maybe<ReactElement> => {
         <li className={styles.notat}>
             <div onClick={() => setOpen(!open)} className={classNames(styles.apneNotat, open && styles.apen)}>
                 {open ? (
-                    <MinusCircle title="nytt-notat" fontSize="1.5rem" />
+                    <MinusCircleIcon title="nytt-notat" fontSize="1.5rem" />
                 ) : (
                     <PlusCircleFillIcon title="nytt-notat" fontSize="1.5rem" />
                 )}
