@@ -86,7 +86,7 @@ type LenkeinnholdProps = {
 const Lenkeinnhold = ({ tekst, snarveibokstav }: LenkeinnholdProps): ReactElement => (
     <>
         {tekst}
-        <ExternalLinkIcon />
+        <ExternalLinkIcon fontSize="1.1rem" />
         <span className={styles.snarvei}>
             <span className={styles.tast}>⇧</span>
             <span className={styles.tast}>{snarveibokstav}</span>

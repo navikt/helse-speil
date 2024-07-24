@@ -2,8 +2,7 @@ import classNames from 'classnames';
 import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { ArrowForwardIcon } from '@navikt/aksel-icons';
-import { ExternalLink } from '@navikt/ds-icons';
+import { ArrowForwardIcon, ExternalLinkIcon } from '@navikt/aksel-icons';
 import { Link } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
@@ -108,7 +107,7 @@ export const Dokumenthendelse = ({
                 className={styles['åpne-vedtak']}
             >
                 Åpne vedtak i ny fane
-                <ExternalLink className={styles.eksternlenke} />
+                <ExternalLinkIcon className={styles.eksternlenke} />
             </Link>
             <HendelseDate timestamp={timestamp} />
         </Hendelse>
