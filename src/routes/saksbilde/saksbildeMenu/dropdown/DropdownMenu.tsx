@@ -1,6 +1,6 @@
 import React, { ReactElement, useRef, useState } from 'react';
 
-import { Collapse, Expand } from '@navikt/ds-icons';
+import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { Dropdown } from '@navikt/ds-react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
@@ -103,7 +103,12 @@ export const DropdownMenu = ({ person, activePeriod }: DropdownMenuProps): React
         <span ref={content}>
             <Dropdown onSelect={closeDropdown}>
                 <Dropdown.Toggle className={styles.menu} onClick={toggleDropdown}>
-                    Meny {open ? <Collapse title="collapse" /> : <Expand title="expand" />}
+                    Meny{' '}
+                    {open ? (
+                        <ChevronUpIcon title="collapse" fontSize="1.25rem" />
+                    ) : (
+                        <ChevronDownIcon title="expand" fontSize="1.25rem" />
+                    )}
                 </Dropdown.Toggle>
                 <DropdownMenuContent person={person} activePeriod={activePeriod} />
             </Dropdown>
