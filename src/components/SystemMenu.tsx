@@ -1,7 +1,7 @@
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { ExternalLink, System } from '@navikt/ds-icons';
+import { ExternalLinkIcon, MenuGridIcon } from '@navikt/aksel-icons';
 import { Dropdown, InternalHeader as Header } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
@@ -86,7 +86,7 @@ type LenkeinnholdProps = {
 const Lenkeinnhold = ({ tekst, snarveibokstav }: LenkeinnholdProps): ReactElement => (
     <>
         {tekst}
-        <ExternalLink />
+        <ExternalLinkIcon />
         <span className={styles.snarvei}>
             <span className={styles.tast}>⇧</span>
             <span className={styles.tast}>{snarveibokstav}</span>
@@ -161,7 +161,7 @@ export const SystemMenu = (): ReactElement => {
     return (
         <Dropdown>
             <Header.Button as={Dropdown.Toggle} aria-label="Toggle dropdown">
-                <System className={styles.SystemIcon} title="Toggle dropdown" />
+                <MenuGridIcon title="Menu-grid-icon" fontSize="2.25rem" />
             </Header.Button>
             <Dropdown.Menu className={styles.DropdownContent}>
                 <Dropdown.Menu.GroupedList>
