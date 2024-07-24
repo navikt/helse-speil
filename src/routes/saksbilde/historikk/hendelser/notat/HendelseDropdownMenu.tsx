@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { EllipsisH } from '@navikt/ds-icons';
+import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown } from '@navikt/ds-react';
 
 import styles from './HendelseDropdownMenu.module.css';
@@ -20,7 +20,7 @@ export const HendelseDropdownMenu = ({ feilregistrerAction, isFetching }: Dropdo
                 size="xsmall"
                 loading={isFetching}
             >
-                <EllipsisH height={32} width={32} />
+                <MenuElipsisHorizontalIcon height={32} width={32} />
             </Button>
             <Dropdown.Menu className={styles.Menu}>
                 <Dropdown.Menu.List>

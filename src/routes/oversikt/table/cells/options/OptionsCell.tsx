@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { EllipsisH } from '@navikt/ds-icons';
+import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown, Table } from '@navikt/ds-react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
@@ -42,7 +42,7 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
                         title="Mer"
                         className={styles.OptionsButton}
                     >
-                        <EllipsisH title="Alternativer" height={20} width={20} />
+                        <MenuElipsisHorizontalIcon title="Alternativer" height={20} width={20} />
                     </Button>
                     <Dropdown.Menu>
                         <Dropdown.Menu.List>
