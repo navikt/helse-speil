@@ -1,7 +1,6 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
-import { Success } from '@navikt/ds-icons';
+import { CheckmarkCircleIcon } from '@navikt/aksel-icons';
 
 import { Utbetalingtype } from '@io/graphql';
 import { UtbetalinghendelseObject } from '@typer/historikk';
@@ -44,7 +43,7 @@ export const Utbetalinghendelse = ({
 }: UtbetalinghendelseProps): ReactElement => {
     const icon =
         utbetalingstype !== Utbetalingtype.Annullering && godkjent ? (
-            <Success title="Success-ikon" className={classNames(styles.Innrammet, styles.Utbetalt)} />
+            <CheckmarkCircleIcon title="Checkmark-circle-ikon" className={styles.Innrammet} />
         ) : undefined;
     return (
         <Hendelse title={getTitle(utbetalingstype, automatisk, godkjent)} icon={icon}>
