@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { ReactElement, ReactNode } from 'react';
 
-import { Locked, Unlocked } from '@navikt/ds-icons';
+import { PadlockLockedIcon, PadlockUnlockedIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Button } from './Button';
@@ -30,8 +30,8 @@ export const EditButton = ({
     ...rest
 }: EditButtonProps): ReactElement => {
     const icon = isOpen
-        ? openIcon ?? <Unlocked viewBox="0 0 18 24" height={16} width={16} />
-        : closedIcon ?? <Locked viewBox="0 0 16 24" height={16} width={16} />;
+        ? openIcon ?? <PadlockUnlockedIcon viewBox="0 0 18 22" fontSize="1.2rem" />
+        : closedIcon ?? <PadlockLockedIcon viewBox="0 0 16 22" fontSize="1.2rem" />;
     return (
         <Button className={classNames(styles.EditButton, className)} onClick={isOpen ? onClose : onOpen} {...rest}>
             <>
