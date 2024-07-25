@@ -123,6 +123,6 @@ interface SkjønnsfastsettingIkonProps {
 const SkjønnsfastsettingIkon = ({ kilde }: SkjønnsfastsettingIkonProps) =>
     kilde === Inntektskilde.SkjonnsmessigFastsatt && (
         <Kilde type={kilde}>
-            <PersonPencilFillIcon title="Person Pencil-ikon" height={20} width={20} />
+            <PersonPencilFillIcon title="Saksbehandler ikon" height={20} width={20} />
         </Kilde>
     );

@@ -65,7 +65,7 @@ export const Dagoverstyringhendelse = ({
         title={erRevurdering ? 'Dager revurdert' : 'Dager endret'}
         icon={
             <Kilde type={Inntektskilde.Saksbehandler}>
-                <PersonPencilFillIcon title="Person Pencil-ikon" height={20} width={20} />
+                <PersonPencilFillIcon title="Saksbehandler ikon" height={20} width={20} />
             </Kilde>
         }
     >

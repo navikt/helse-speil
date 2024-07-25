@@ -1,4 +1,3 @@
-import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -7,6 +6,8 @@ import { BodyShort, Radio, RadioGroup } from '@navikt/ds-react';
 
 import { EditButton } from '@components/EditButton';
 import { SkjønnsfastsettingMal } from '@external/sanity';
+
+import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
 
 type Props = {
     maler: SkjønnsfastsettingMal[] | undefined;
@@ -60,7 +61,7 @@ export const SkjønnsfastsettingÅrsak = ({ maler }: Props) => {
                     ))
                 ) : (
                     <BodyShort className={styles.valgt}>
-                        <CheckmarkCircleFillIcon title="a11y-title" fontSize="1.5rem" /> {valgtÅrsak}
+                        <CheckmarkCircleFillIcon title="Sjekkmerke ikon" fontSize="1.5rem" /> {valgtÅrsak}
                     </BodyShort>
                 )}
             </RadioGroup>

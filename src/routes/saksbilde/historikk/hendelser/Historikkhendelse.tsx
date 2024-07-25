@@ -43,22 +43,22 @@ const getTitle = (type: PeriodehistorikkType): string => {
 const getIcon = (type: PeriodehistorikkType): ReactNode => {
     switch (type) {
         case PeriodehistorikkType.TotrinnsvurderingAttestert: {
-            return <CheckmarkCircleIcon title="Checkmark-ircle-ikon" className={styles.Innrammet} />;
+            return <CheckmarkCircleIcon title="Sjekkmerke ikon" className={styles.Innrammet} />;
         }
         case PeriodehistorikkType.TotrinnsvurderingRetur: {
-            return <ArrowUndoIcon title="Arrow-undo-ikon" className={classNames(styles.Innrammet)} />;
+            return <ArrowUndoIcon title="Pil tilbake ikon" className={classNames(styles.Innrammet)} />;
         }
         case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning: {
-            return <PaperplaneIcon title="Paper-plane-ikon" className={styles.Innrammet} />;
+            return <PaperplaneIcon title="Papirfly ikon" className={styles.Innrammet} />;
         }
         case PeriodehistorikkType.VedtaksperiodeReberegnet: {
-            return <ArrowsSquarepathIcon title="Arrows-Squarepath-ikon" className={classNames(styles.Innrammet)} />;
+            return <ArrowsSquarepathIcon title="Piler Firkantsti ikon" className={classNames(styles.Innrammet)} />;
         }
         case PeriodehistorikkType.FjernFraPaVent: {
-            return <TimerPauseIcon title="Paper-plane-ikon" className={classNames(styles.Innrammet, styles.pavent)} />;
+            return <TimerPauseIcon title="Timer ikon" className={classNames(styles.Innrammet, styles.pavent)} />;
         }
         case PeriodehistorikkType.StansAutomatiskBehandling: {
-            return <XMarkOctagonIcon title="Stopp-ikon" className={classNames(styles.Innrammet, styles.opphevstans)} />;
+            return <XMarkOctagonIcon title="Stopp ikon" className={classNames(styles.Innrammet, styles.opphevstans)} />;
         }
     }
 };

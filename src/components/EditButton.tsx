@@ -30,8 +30,8 @@ export const EditButton = ({
     ...rest
 }: EditButtonProps): ReactElement => {
     const icon = isOpen
-        ? openIcon ?? <PadlockUnlockedIcon viewBox="0 0 18 22" fontSize="1.2rem" />
-        : closedIcon ?? <PadlockLockedIcon viewBox="0 0 16 22" fontSize="1.2rem" />;
+        ? openIcon ?? <PadlockUnlockedIcon viewBox="0 0 18 22" fontSize="1.2rem" title="Hengelås åpen" />
+        : closedIcon ?? <PadlockLockedIcon viewBox="0 0 16 22" fontSize="1.2rem" title="Hengelås lukket" />;
     return (
         <Button className={classNames(styles.EditButton, className)} onClick={isOpen ? onClose : onOpen} {...rest}>
             <>

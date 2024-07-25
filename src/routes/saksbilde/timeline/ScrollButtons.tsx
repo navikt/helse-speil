@@ -25,7 +25,7 @@ export const ScrollButtons = ({
                 disabled={!canNavigateForwards}
                 aria-label="Navigate forwards"
             >
-                <ChevronLeftIcon title="Back-left-icon" fontSize="1.25rem" />
+                <ChevronLeftIcon title="Pil venstre" fontSize="1.25rem" />
             </button>
             <button
                 className={styles.Button}
@@ -33,7 +33,7 @@ export const ScrollButtons = ({
                 disabled={!canNavigateBackwards}
                 aria-label="Navigate backwards"
             >
-                <ChevronRightIcon title="Next-right-icon" fontSize="1.25rem" />
+                <ChevronRightIcon title="Pil høyre" fontSize="1.25rem" />
             </button>
         </div>
     );

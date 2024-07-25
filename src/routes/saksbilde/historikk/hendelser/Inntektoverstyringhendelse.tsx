@@ -32,7 +32,7 @@ export const Inntektoverstyringhendelse = ({
                     title={erRevurdering ? 'Månedsinntekt revurdert' : 'Månedsinntekt endret'}
                     icon={
                         <Kilde type={Inntektskilde.Saksbehandler}>
-                            <PersonPencilFillIcon title="Person Pencil-ikon" height={20} width={20} />
+                            <PersonPencilFillIcon title="Saksbehandler ikon" height={20} width={20} />
                         </Kilde>
                     }
                 >
@@ -68,7 +68,7 @@ export const Inntektoverstyringhendelse = ({
                     title={erRevurdering ? 'Refusjon revurdert' : 'Refusjon endret'}
                     icon={
                         <Kilde type={Inntektskilde.Saksbehandler}>
-                            <PersonPencilFillIcon title="Person Pencil-ikon" height={20} width={20} />
+                            <PersonPencilFillIcon title="Saksbehandler ikon" height={20} width={20} />
                         </Kilde>
                     }
                 >

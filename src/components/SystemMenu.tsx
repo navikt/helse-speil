@@ -86,7 +86,7 @@ type LenkeinnholdProps = {
 const Lenkeinnhold = ({ tekst, snarveibokstav }: LenkeinnholdProps): ReactElement => (
     <>
         {tekst}
-        <ExternalLinkIcon fontSize="1.1rem" />
+        <ExternalLinkIcon fontSize="1.1rem" title="Åpne ekstern lenke" />
         <span className={styles.snarvei}>
             <span className={styles.tast}>⇧</span>
             <span className={styles.tast}>{snarveibokstav}</span>
@@ -161,7 +161,7 @@ export const SystemMenu = (): ReactElement => {
     return (
         <Dropdown>
             <Header.Button as={Dropdown.Toggle} aria-label="Toggle dropdown">
-                <MenuGridIcon title="Menu-grid-icon" fontSize="2.25rem" />
+                <MenuGridIcon title="Systemmeny" fontSize="2.25rem" />
             </Header.Button>
             <Dropdown.Menu className={styles.DropdownContent}>
                 <Dropdown.Menu.GroupedList>

@@ -251,7 +251,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                         </div>
                                     ) : (
                                         <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                            <PersonPencilFillIcon title="Person Pencil-ikon" height={12} width={12} />
+                                            <PersonPencilFillIcon title="Saksbehandler ikon" height={12} width={12} />
                                         </Kilde>
                                     ))}
                             </div>

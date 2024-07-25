@@ -43,7 +43,7 @@ export const Refusjonslinje = ({
                 {kilde === Kildetype.Inntektsmelding && <Kilde type={kilde}>IM</Kilde>}
                 {kilde === Kildetype.Saksbehandler && (
                     <Kilde type={kilde} className={styles.Ikon}>
-                        <PersonPencilFillIcon title="Person Pencil-ikon" />
+                        <PersonPencilFillIcon title="Saksbehandler ikon" />
                     </Kilde>
                 )}
             </td>

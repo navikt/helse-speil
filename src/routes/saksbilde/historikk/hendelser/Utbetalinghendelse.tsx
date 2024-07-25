@@ -43,7 +43,7 @@ export const Utbetalinghendelse = ({
 }: UtbetalinghendelseProps): ReactElement => {
     const icon =
         utbetalingstype !== Utbetalingtype.Annullering && godkjent ? (
-            <CheckmarkCircleIcon title="Checkmark-circle-ikon" className={styles.Innrammet} />
+            <CheckmarkCircleIcon title="Sjekkmerke ikon" className={styles.Innrammet} />
         ) : undefined;
     return (
         <Hendelse title={getTitle(utbetalingstype, automatisk, godkjent)} icon={icon}>

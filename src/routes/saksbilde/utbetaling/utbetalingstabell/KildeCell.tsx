@@ -36,7 +36,7 @@ const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps): Maybe<Reac
                 />
             ) : (
                 <Kilde type={Kildetype.Saksbehandler}>
-                    <PersonPencilFillIcon title="Person Pencil-ikon" height={10} width={10} />
+                    <PersonPencilFillIcon title="Saksbehandler ikon" height={10} width={10} />
                 </Kilde>
             );
         default:

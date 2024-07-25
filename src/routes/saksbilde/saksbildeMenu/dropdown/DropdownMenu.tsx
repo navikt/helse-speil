@@ -105,9 +105,9 @@ export const DropdownMenu = ({ person, activePeriod }: DropdownMenuProps): React
                 <Dropdown.Toggle className={styles.menu} onClick={toggleDropdown}>
                     Meny{' '}
                     {open ? (
-                        <ChevronUpIcon title="collapse" fontSize="1.25rem" />
+                        <ChevronUpIcon title="lukke" fontSize="1.25rem" />
                     ) : (
-                        <ChevronDownIcon title="expand" fontSize="1.25rem" />
+                        <ChevronDownIcon title="åpne" fontSize="1.25rem" />
                     )}
                 </Dropdown.Toggle>
                 <DropdownMenuContent person={person} activePeriod={activePeriod} />

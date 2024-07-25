@@ -1,4 +1,3 @@
-import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
 import React, { ReactElement } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -8,6 +7,8 @@ import { BodyShort, Radio, RadioGroup } from '@navikt/ds-react';
 import { EditButton } from '@components/EditButton';
 
 import { Skjønnsfastsettingstype } from '../skjønnsfastsetting';
+
+import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
 
 export const SkjønnsfastsettingType = (): ReactElement => {
     const { register, getValues, setValue } = useFormContext();
@@ -54,7 +55,7 @@ export const SkjønnsfastsettingType = (): ReactElement => {
                     ))
                 ) : (
                     <BodyShort className={styles.valgt}>
-                        <CheckmarkCircleFillIcon title="a11y-title" fontSize="1.5rem" />{' '}
+                        <CheckmarkCircleFillIcon title="Sjekkmerke ikon" fontSize="1.5rem" />{' '}
                         {skjønnsfastsettelseTyper().find((it) => it.type === valgtType)?.valg}
                     </BodyShort>
                 )}

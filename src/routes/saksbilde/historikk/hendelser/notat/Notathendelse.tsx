@@ -156,14 +156,12 @@ interface NotatIkonProps {
 const NotatIkon = ({ notattype }: NotatIkonProps): ReactElement => {
     switch (notattype) {
         case 'OpphevStans':
-            return <CheckmarkCircleIcon title="Checkmark Circle-ikon" className={styles.Innrammet} />;
+            return <CheckmarkCircleIcon title="Sjekkmerke ikon" className={styles.Innrammet} />;
         case 'PaaVent':
-            return (
-                <TimerPauseIcon title="Timer-pause-ikon" className={classNames(styles.Innrammet, styles.LagtPaaVent)} />
-            );
+            return <TimerPauseIcon title="Timer ikon" className={classNames(styles.Innrammet, styles.LagtPaaVent)} />;
         case 'Retur':
-            return <PaperplaneIcon title="Paper-plane-ikon" className={classNames(styles.Innrammet, styles.Retur)} />;
+            return <PaperplaneIcon title="Papirfly ikon" className={classNames(styles.Innrammet, styles.Retur)} />;
         case 'Generelt':
-            return <ChatIcon title="Chat-ikon" className={styles.Innrammet} />;
+            return <ChatIcon title="Chat ikon" className={styles.Innrammet} />;
     }
 };
