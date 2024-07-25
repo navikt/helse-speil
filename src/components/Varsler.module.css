@@ -1,7 +1,7 @@
 .varsler {
     position: relative;
     height: max-content;
-    z-index: 1000;
+    z-index: 999;
 }
 
 .varsler > * {
