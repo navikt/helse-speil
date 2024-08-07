@@ -46,6 +46,7 @@ export const AnnulleringsModal = ({
 
     const harMinstÉnBegrunnelse = () => begrunnelser?.length > 0 ?? true;
     const harFeil = () => Object.keys(form.formState.errors).length > 0;
+    const arsaker = null;
 
     const annullering = (): AnnulleringDataInput => ({
         aktorId: aktørId,
@@ -54,6 +55,7 @@ export const AnnulleringsModal = ({
         vedtaksperiodeId,
         utbetalingId,
         begrunnelser,
+        arsaker,
         kommentar: kommentar ? (kommentar.trim() === '' ? undefined : kommentar.trim()) : undefined,
     });
 

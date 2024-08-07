@@ -30,6 +30,7 @@ const createMocks = (annulerDone?: jest.Mock) => [
                     vedtaksperiodeId: 'EN-VEDTAKSPERIODEID',
                     utbetalingId: 'EN-UTBETALINGID',
                     begrunnelser: ['ferie'],
+                    arsaker: null,
                     kommentar: undefined,
                 },
             },

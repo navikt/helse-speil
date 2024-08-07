@@ -32,8 +32,14 @@ export type Alder = {
     oppfylt: Scalars['Boolean']['output'];
 };
 
+export type AnnulleringArsakInput = {
+    _key: Scalars['String']['input'];
+    arsak: Scalars['String']['input'];
+};
+
 export type AnnulleringDataInput = {
     aktorId: Scalars['String']['input'];
+    arsaker?: InputMaybe<Array<AnnulleringArsakInput>>;
     begrunnelser: Array<Scalars['String']['input']>;
     fodselsnummer: Scalars['String']['input'];
     kommentar?: InputMaybe<Scalars['String']['input']>;
