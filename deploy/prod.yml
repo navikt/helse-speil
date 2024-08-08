@@ -8,8 +8,6 @@ metadata:
 spec:
   accessPolicy:
     outbound:
-      external:
-        - host: modiacontextholder.prod-fss-pub.nais.io
       rules:
         - application: spesialist
           cluster: prod-gcp
@@ -17,6 +15,9 @@ spec:
         - application: flexjar-backend
           cluster: prod-gcp
           namespace: flex
+        - application: modiacontextholder
+          namespace: personoversikt
+          cluster: prod-gcp
   image: {{image}}
   port: 3000
   ingresses:
@@ -87,8 +88,8 @@ spec:
     - name: CLIENT_ID_FLEXJAR
       value: api://prod-gcp.flex.flexjar-backend/.default
     - name: MODIA_BASE_URL
-      value: https://modiacontextholder.prod-fss-pub.nais.io/modiacontextholder
+      value: http://modiacontextholder.personoversikt
     - name: MODIA_API_SCOPE
-      value: api://prod-fss.personoversikt.modiacontextholder/.default
+      value: api://prod-gcp.personoversikt.modiacontextholder/.default
     - name: SPESIALIST_WS_URL
       value: ws://spesialist
