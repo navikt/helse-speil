@@ -1,39 +1,21 @@
-import styles from './Annulleringsmodal.module.scss';
 import React, { ChangeEvent, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Alert, Fieldset, Checkbox as NavCheckbox, Textarea } from '@navikt/ds-react';
+import { Alert, Fieldset, Checkbox as NavCheckbox, Skeleton, Textarea, VStack } from '@navikt/ds-react';
+
+import { useArsaker } from '@external/sanity';
+
+import styles from './Annulleringsmodal.module.scss';
 
 export const Annulleringsbegrunnelse = (): ReactElement => {
     const { register, formState, clearErrors, watch } = useFormContext();
-    const begrunnelserWatch = watch(`begrunnelser`);
-    const begrunnelser = {
-        andre_ytelser: 'Andre ytelser i samme periode',
-        annen_teknisk_feil: 'Annen teknisk feil',
-        arbeidsgiverperiode_skjæringstidspunkt: 'Arbeidsgiverperiode/skjæringstidspunkt',
-        avslåtte_dager: 'Avslåtte dager',
-        endring_tidligere_periode: 'Endringen er i en tidligere periode',
-        feil_ble_gjort_i_opprinnelig_automatisk_vedtak: 'Feil ble gjort i opprinnelig automatisk vedtak',
-        feil_ble_gjort_i_opprinnelig_manuelt_vedtak: 'Feil ble gjort i opprinnelig manuelt vedtak',
-        feil_ble_gjort_i_opprinnelig_vedtak_i_infotrygd: 'Feil ble gjort i opprinnelig vedtak i infotrygd',
-        feil_i_inntekt_fra_inntektsmelding: 'Feil i inntekt fra inntektsmelding',
-        ferie: 'Ferie',
-        gjenstående_dager: 'Gjenstående dager (inkludert maksdato)',
-        grunnlag_mangler_inntektkilder: 'Flere arbeidsgivere/inntektskilder skal med i grunnlaget',
-        periode_forkastet: 'Det vises en informasjonsboble som oppgir at det ikke er mulig å revurdere',
-        permisjon: 'Permisjon',
-        revurdering_feiler: 'Revurdering feiler',
-        sykepengegrunnlag: 'Sykepengegrunnlag',
-        sykmeldingsgrad: 'Sykmeldingsgrad',
-        utbetaling_av_perioden_skal_til_arbeidsgiver: 'Utbetaling av periode skal til arbeidsgiver',
-        utbetaling_av_perioden_skal_til_bruker: 'Utbetaling av perioden skal til bruker',
-        utbetalt_infotrygd: 'Periode utbetalt i Infotrygd',
-        utenlandsopphold: 'Utenlandsopphold',
-        visningsfeil: 'Visningsfeil i vedtak/utbetalingsoversikten',
-        yrkesskade: 'Yrkesskade',
-        annet: 'Annet',
-    };
-    const annet = begrunnelserWatch ? begrunnelserWatch.includes('annet') : false;
+    const begrunnelserWatch: string[] = watch(`begrunnelser`);
+
+    const { arsaker, loading } = useArsaker('annulleringsarsaker');
+
+    const annet = begrunnelserWatch
+        ? [...begrunnelserWatch]?.map((it) => JSON.parse(it)).some((it) => it.arsak === 'Annet')
+        : false;
 
     const { onChange: onChangeBegrunnelser, ...begrunnelserValidation } = register('begrunnelser');
 
@@ -51,20 +33,36 @@ export const Annulleringsbegrunnelse = (): ReactElement => {
                 className={styles.checkboxcontainer}
                 error={formState.errors.begrunnelser ? (formState.errors.begrunnelser.message as string) : null}
             >
-                {Object.entries(begrunnelser).map(([key, value], index) => (
-                    <NavCheckbox
-                        key={index}
-                        value={key}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                            onChangeBegrunnelser(event);
-                            clearErrors('begrunnelser');
-                        }}
-                        {...begrunnelserValidation}
-                        className={styles.begrunnelsecheckbox}
-                    >
-                        <p>{value}</p>
-                    </NavCheckbox>
-                ))}
+                {!loading &&
+                    arsaker?.[0]?.arsaker.map((årsak) => {
+                        return (
+                            <NavCheckbox
+                                key={årsak._key}
+                                value={JSON.stringify(årsak)}
+                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                    onChangeBegrunnelser(event);
+                                    clearErrors('begrunnelser');
+                                }}
+                                {...begrunnelserValidation}
+                                className={styles.begrunnelsecheckbox}
+                            >
+                                <p>{årsak.arsak}</p>
+                            </NavCheckbox>
+                        );
+                    })}
+                {loading && (
+                    <VStack gap="1" style={{ width: '50%' }}>
+                        {Array.from({ length: 20 }, (_, index) => (
+                            <div
+                                key={`skeleton${index}`}
+                                style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}
+                            >
+                                <Skeleton variant="rectangle" width="1.5rem" height="1.5rem" />
+                                <Skeleton variant="text" height="2.5rem" width="100%" />
+                            </div>
+                        ))}
+                    </VStack>
+                )}
             </Fieldset>
             <Controller
                 name="kommentar"

@@ -1,10 +1,13 @@
 import React from 'react';
 
+import { useArsaker } from '@external/sanity';
 import { AnnullerDocument, OpprettAbonnementDocument } from '@io/graphql';
 import { createMock, render, screen, waitFor, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
 import { AnnulleringsModal } from './AnnulleringsModal';
+
+jest.mock('@external/sanity');
 
 const defaultProps = {
     onClose: () => null,
@@ -29,8 +32,13 @@ const createMocks = (annulerDone?: jest.Mock) => [
                     organisasjonsnummer: '987654321',
                     vedtaksperiodeId: 'EN-VEDTAKSPERIODEID',
                     utbetalingId: 'EN-UTBETALINGID',
-                    begrunnelser: ['ferie'],
-                    arsaker: null,
+                    begrunnelser: ['Ferie'],
+                    arsaker: [
+                        {
+                            _key: 'key01',
+                            arsak: 'Ferie',
+                        },
+                    ],
                     kommentar: undefined,
                 },
             },
@@ -60,8 +68,26 @@ const createMocks = (annulerDone?: jest.Mock) => [
     }),
 ];
 
+(useArsaker as jest.Mock).mockReturnValue({
+    loading: false,
+    arsaker: [
+        {
+            arsaker: [
+                {
+                    _key: 'key01',
+                    arsak: 'Ferie',
+                },
+                {
+                    _key: 'key02',
+                    arsak: 'Annet',
+                },
+            ],
+        },
+    ],
+});
+
 describe('Annulleringsmodal', () => {
-    test('viser feilmelding ved manglende begrunnelse', async () => {
+    it('viser feilmelding ved manglende begrunnelse', async () => {
         render(<AnnulleringsModal {...defaultProps} />, {
             mocks: createMocks(),
         });

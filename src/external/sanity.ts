@@ -23,6 +23,16 @@ export interface Driftsmelding {
     opprettet: DateString;
 }
 
+export interface Arsaker {
+    _id: string;
+    arsaker: Arsak[];
+}
+
+export interface Arsak {
+    _key: string;
+    arsak: string;
+}
+
 type SkjønnsfastsettelseMalerQueryResult = {
     sanity: {
         result: SkjønnsfastsettingMal[];
@@ -32,6 +42,12 @@ type SkjønnsfastsettelseMalerQueryResult = {
 type DriftsmeldingerQueryResult = {
     sanity: {
         result: Driftsmelding[];
+    };
+};
+
+type ArsakerQueryResult = {
+    sanity: {
+        result: Arsaker[];
     };
 };
 
@@ -75,6 +91,7 @@ export function useSkjønnsfastsettelsesMaler(avviksprosent: number, harFlereArb
         error,
     };
 }
+
 export function useDriftsmelding() {
     const { data, error, loading } = useQuery<DriftsmeldingerQueryResult, SanityQueryVariables>(
         gql`
@@ -94,6 +111,30 @@ export function useDriftsmelding() {
 
     return {
         driftsmeldinger: data?.sanity?.result.filter((it: Driftsmelding) => (erProd ? it.iProd : true)) ?? [],
+        loading,
+        error,
+    };
+}
+
+export function useArsaker(id: string) {
+    const { data, error, loading } = useQuery<ArsakerQueryResult, SanityQueryVariables>(
+        gql`
+            query Arsaker($input: QueryPayload!) {
+                sanity(input: $input)
+                    @rest(type: "ArsakerResult", endpoint: "sanity", path: "", method: "POST", bodyKey: "input") {
+                    result
+                }
+            }
+        `,
+        {
+            variables: {
+                input: { query: `*[_type == "arsaker" && _id == "${id}"]` },
+            },
+        },
+    );
+
+    return {
+        arsaker: data?.sanity?.result ?? [],
         loading,
         error,
     };

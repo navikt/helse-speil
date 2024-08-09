@@ -46,3 +46,5 @@ export const harSpesialsaktilgang = (grupper: string[]): boolean =>
 
 export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
     erCoachEllerSuper(ident) || erPåTeamBømlo(grupper) || erLokal;
+
+export const erLokalEllerDev: boolean = erLokal || erDev;
