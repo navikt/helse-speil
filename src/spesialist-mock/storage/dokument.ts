@@ -6,7 +6,7 @@ export class DokumentMock {
             type: Soknadstype.Arbeidstaker,
             arbeidGjenopptatt: '2023-09-29',
             sykmeldingSkrevet: '2023-09-01T02:00:00',
-            egenmeldingsdagerFraSykmelding: ['2023-09-22', '2023-09-23', '2023-09-24', '2023-09-28'],
+            egenmeldingsdagerFraSykmelding: ['2023-09-22', '2023-09-21', '2023-09-24', '2023-09-20'],
             soknadsperioder: [
                 {
                     fom: '2023-09-01',

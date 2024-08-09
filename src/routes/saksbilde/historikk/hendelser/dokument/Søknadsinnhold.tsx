@@ -63,6 +63,9 @@ export const Søknadsinnhold = ({ dokumentId, fødselsnummer }: SøknadsinnholdP
                         <DokumentFragment overskrift="Egenmeldingsdager fra sykmelding">
                             {søknad.egenmeldingsdagerFraSykmelding
                                 ?.map((it) => dayjs(it).format(NORSK_DATOFORMAT))
+                                .sort((a, b) =>
+                                    dayjs(a, NORSK_DATOFORMAT).isAfter(dayjs(b, NORSK_DATOFORMAT)) ? 1 : -1,
+                                )
                                 .join(', ')
                                 .replace(/,(?=[^,]*$)/, ' og')}
                         </DokumentFragment>
