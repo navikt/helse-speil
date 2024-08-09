@@ -4,16 +4,20 @@
     margin-left: var(--a-spacing-6);
 }
 
-.filterSkeleton {
-    width: 297px;
-    border-right: 1px solid var(--a-border-strong);
+.filterskeleton {
+    width: 296px;
 }
 
-.topSkeleton {
+.justerbarlinjeplaceholder {
+    width: 0.5rem;
+    border-left: 1px solid var(--a-border-strong);
+}
+
+.topskeleton {
     margin-bottom: var(--a-spacing-2);
 }
 
-.skeletonSection {
+.skeletonsection {
     border-bottom: 2px solid var(--a-border-subtle);
     padding-bottom: var(--a-spacing-6);
     padding-right: var(--a-spacing-6);

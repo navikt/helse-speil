@@ -20,11 +20,6 @@
     vertical-align: bottom;
 }
 
-.DropdownHeader th {
-    padding: 0 var(--a-spacing-3) var(--a-spacing-4);
-    border-bottom: 0;
-}
-
 .Content {
     padding: 0;
     color: var(--a-text-default);
@@ -46,11 +41,28 @@
     gap: 12px;
 }
 
-.cellSkeleton {
-    position: relative;
+.filterchipsskeleton {
+    margin: -5px 16px -1px;
+}
+
+table tr.datoselectskeleton {
     height: 2rem;
-    display: flex;
-    align-items: center;
-    width: 128px;
-    max-width: 128px;
+}
+
+table .datoselectskeleton td {
+    border: 0;
+    padding: 0;
+}
+
+.bodyrowskeleton td {
+    padding-top: var(--a-spacing-2);
+    padding-bottom: var(--a-spacing-2);
+}
+
+.sortheaderrowskeleton th {
+    padding: 0 var(--a-spacing-4) var(--a-spacing-2);
+}
+
+.datoselectskeleton .selecttdskeleton {
+    padding: 0 0 0 var(--a-spacing-4);
 }

@@ -75,16 +75,19 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
 
 export function FiltermenySkeleton(): ReactElement {
     return (
-        <div className={classNames(styles.filtermeny, styles.filterSkeleton)}>
-            <SkeletonSection numberOfFilters={2} />
-            <SkeletonSection numberOfFilters={2} />
-            <SkeletonSection numberOfFilters={2} />
-            <SkeletonSection numberOfFilters={3} />
-            <SkeletonSection numberOfFilters={2} />
-            <SkeletonSection numberOfFilters={4} />
-            <SkeletonSection numberOfFilters={8} />
-            <SkeletonSection numberOfFilters={2} />
-        </div>
+        <HStack wrap={false}>
+            <div className={classNames(styles.filtermeny, styles.filterskeleton)}>
+                <SkeletonSection numberOfFilters={2} />
+                <SkeletonSection numberOfFilters={2} />
+                <SkeletonSection numberOfFilters={2} />
+                <SkeletonSection numberOfFilters={3} />
+                <SkeletonSection numberOfFilters={2} />
+                <SkeletonSection numberOfFilters={4} />
+                <SkeletonSection numberOfFilters={8} />
+                <SkeletonSection numberOfFilters={2} />
+            </div>
+            <div className={styles.justerbarlinjeplaceholder} />
+        </HStack>
     );
 }
 
@@ -93,8 +96,8 @@ type SkeletonSectionProps = {
 };
 
 const SkeletonSection = ({ numberOfFilters }: SkeletonSectionProps): ReactElement => (
-    <div className={styles.skeletonSection}>
-        <Skeleton height={28} className={styles.topSkeleton} />
+    <div className={styles.skeletonsection}>
+        <Skeleton height={28} className={styles.topskeleton} />
         {range(0, numberOfFilters).map((index) => (
             <HStack gap="4" wrap={false} key={index}>
                 <Skeleton height={28} width={28} />

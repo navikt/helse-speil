@@ -9,6 +9,7 @@ import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
 import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
 import { useLoadingToast } from '@hooks/useLoadingToast';
+import { BehandlingsstatistikkView } from '@oversikt/behandlingsstatistikk/BehandlingsstatistikkView';
 import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@oversikt/table/BehandletIdagTable';
 import { OppgaverTable } from '@oversikt/table/oppgaverTable/OppgaverTable';
@@ -17,7 +18,6 @@ import { useOppgaveFeed } from '@state/oppgaver';
 
 import { IngenOppgaver } from './IngenOppgaver';
 import { TabsSkeleton } from './Tabs';
-import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';
 import { TabType, useAktivTab } from './tabState';
 import { OppgaverTableSkeleton } from './table/OppgaverTableSkeleton';
 import { useFilters } from './table/state/filter';

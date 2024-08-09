@@ -1,16 +1,17 @@
-import styles from './Tabs.module.scss';
 import classNames from 'classnames';
 import React, { ReactElement, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
-import { Skeleton } from '@navikt/ds-react';
+import { HStack, Skeleton } from '@navikt/ds-react';
 
 import { useAntallOppgaver } from '@state/oppgaver';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 import { filtermenyWidth, useShowFiltermeny, useToggleFiltermeny } from './filtermeny/state';
 import { TabType, useSwitchTab } from './tabState';
+
+import styles from './Tabs.module.scss';
 
 interface OppgaveTabProps {
     tag: TabType;
@@ -118,7 +119,14 @@ export const Tabs = (): ReactElement => {
 export function TabsSkeleton(): ReactElement {
     return (
         <div className={styles.tabs}>
-            <Skeleton variant="circle" width={32} height={32} />
+            <Skeleton variant="circle" width={32} height={32} style={{ marginRight: 304 }} />
+            <HStack gap="8">
+                <Skeleton width={106} height={32} />
+                <Skeleton width={94} height={32} />
+                <Skeleton width={72} height={32} />
+                <Skeleton width={108} height={32} />
+            </HStack>
+            <Skeleton variant="circle" width={32} height={32} style={{ marginLeft: 'auto' }} />
         </div>
     );
 }
