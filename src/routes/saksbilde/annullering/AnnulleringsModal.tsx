@@ -9,7 +9,6 @@ import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering'
 import { AmplitudeContext } from '@io/amplitude';
 import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument } from '@io/graphql';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
-import { erLokalEllerDev } from '@utils/featureToggles';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
 import { Annulleringsinformasjon } from './Annulleringsinformasjon';
@@ -43,15 +42,14 @@ export const AnnulleringsModal = ({
 
     const form = useForm({ mode: 'onBlur' });
     const kommentar = form.watch('kommentar');
-    const årsaker: Arsak[] = ((form.watch('begrunnelser') as string[]) || [])?.map((begrunnelse: string) =>
+    const arsaker: Arsak[] = ((form.watch('begrunnelser') as string[]) || [])?.map((begrunnelse: string) =>
         JSON.parse(begrunnelse),
     );
-    const begrunnelser: string[] = årsaker?.map((årsak) => årsak.arsak);
-    const annenBegrunnelse = årsaker ? årsaker.some((it) => it.arsak === 'Annet') : false;
+    const begrunnelser: string[] = arsaker?.map((årsak) => årsak.arsak);
+    const annenBegrunnelse = arsaker ? arsaker.some((it) => it.arsak === 'Annet') : false;
 
-    const harMinstÉnBegrunnelse = () => årsaker?.length > 0 ?? true;
+    const harMinstÉnBegrunnelse = () => arsaker?.length > 0 ?? true;
     const harFeil = () => Object.keys(form.formState.errors).length > 0;
-    const arsaker = erLokalEllerDev ? årsaker : null;
 
     const annullering = (): AnnulleringDataInput => ({
         aktorId: aktørId,
