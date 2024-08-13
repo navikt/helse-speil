@@ -45,3 +45,8 @@
 p.fullBredde {
     grid-column: 1 / span 2;
 }
+
+.arbeidsgivernavn {
+    grid-column: 1 / span 2;
+    margin-bottom: 0.5rem;
+}

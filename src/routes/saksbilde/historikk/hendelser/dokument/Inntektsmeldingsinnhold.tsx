@@ -1,10 +1,13 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, HStack } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
+import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
+import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
+import { useMaybeArbeidsgiver } from '@state/arbeidsgiver';
 import { DokumenthendelseObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
@@ -24,11 +27,18 @@ type InntektsmeldinginnholdProps = {
 export const Inntektsmeldingsinnhold = ({ dokumentId, fødselsnummer }: InntektsmeldinginnholdProps): ReactElement => {
     const inntektsmeldingssrespons = useQueryInntektsmelding(fødselsnummer, dokumentId ?? '');
     const inntektsmelding = inntektsmeldingssrespons.data;
+    const arbeidsgiverNavn = useMaybeArbeidsgiver(inntektsmelding?.virksomhetsnummer)?.navn;
 
     return (
         <div>
             {inntektsmelding && (
                 <div className={styles.dokument}>
+                    {arbeidsgiverNavn && (
+                        <HStack gap="3" className={styles.arbeidsgivernavn}>
+                            <ArbeidsgiverikonMedTooltip />
+                            <AnonymizableTextWithEllipsis>{arbeidsgiverNavn}</AnonymizableTextWithEllipsis>
+                        </HStack>
+                    )}
                     {inntektsmelding.virksomhetsnummer && (
                         <DokumentFragment overskrift="Virksomhetsnummer">
                             {inntektsmelding.virksomhetsnummer}

@@ -78,6 +78,9 @@ export const useCurrentArbeidsgiver = (): Maybe<ArbeidsgiverFragment> => {
 export const useArbeidsgiver = (organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
     useCurrentPerson()?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
 
+export const useMaybeArbeidsgiver = (organisasjonsnummer?: Maybe<string>): Maybe<ArbeidsgiverFragment> =>
+    useCurrentPerson()?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
+
 export const useInntektsmeldinghendelser = (arbeidsgiver: Maybe<ArbeidsgiverFragment>): Hendelse[] => {
     if (!arbeidsgiver) return [];
 
