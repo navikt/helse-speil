@@ -59,11 +59,7 @@ export const Avhuking = ({
             onKeyDown={keyboardEvent}
             className={classNames(styles.avhuking, styles[type])}
         >
-            {type === 'feil' ? (
-                <XMarkOctagonFillIcon width="24px" height="24px" />
-            ) : (
-                <CheckIcon width="24px" height="24px" />
-            )}
+            {type === 'feil' ? <XMarkOctagonFillIcon fontSize="1.73rem" /> : <CheckIcon width="24px" height="24px" />}
         </span>
     );
 };

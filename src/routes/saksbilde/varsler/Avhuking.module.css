@@ -17,6 +17,12 @@
     cursor: pointer;
 }
 
+.avhuking.feil {
+    color: var(--a-red-500);
+    padding-left: 14px;
+    background: radial-gradient(circle at 50% 50%, var(--a-white) 25%, 0, transparent);
+}
+
 .avhuking.aktiv > svg > circle {
     fill: var(--a-white);
     stroke: var(--a-blue-500);
