@@ -29,6 +29,11 @@ export const Inntektsmeldingsinnhold = ({ dokumentId, fødselsnummer }: Inntekts
         <div>
             {inntektsmelding && (
                 <div className={styles.dokument}>
+                    {inntektsmelding.arbeidsforholdId && (
+                        <DokumentFragment overskrift="ArbeidsforholdId">
+                            {inntektsmelding.arbeidsforholdId}
+                        </DokumentFragment>
+                    )}
                     {inntektsmelding.inntektEndringAarsak && (
                         <div className={styles.inntektEndringAarsak}>
                             <Bold size="small" className={styles.fullBredde}>

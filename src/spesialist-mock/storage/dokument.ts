@@ -184,6 +184,7 @@ export class DokumentMock {
 
     static getMockedInntektsmelding = (): DokumentInntektsmelding => {
         return {
+            arbeidsforholdId: '123431242',
             innsenderFulltNavn: 'MUSKULØS VALS',
             innsenderTelefon: '12345678',
             begrunnelseForReduksjonEllerIkkeUtbetalt: '',

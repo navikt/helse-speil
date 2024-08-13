@@ -1642,6 +1642,7 @@ export type FetchInntektsmeldingQuery = {
     __typename: 'Query';
     hentInntektsmelding: {
         __typename: 'DokumentInntektsmelding';
+        arbeidsforholdId: string | null;
         begrunnelseForReduksjonEllerIkkeUtbetalt: string | null;
         bruttoUtbetalt: number | null;
         beregnetInntekt: number | null;
@@ -8648,6 +8649,7 @@ export const FetchInntektsmeldingDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsforholdId' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'begrunnelseForReduksjonEllerIkkeUtbetalt' },
