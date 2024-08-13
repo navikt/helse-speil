@@ -295,6 +295,7 @@ export enum Dagtype {
 
 export type DokumentInntektsmelding = {
     __typename: 'DokumentInntektsmelding';
+    arbeidsforholdId: Maybe<Scalars['String']['output']>;
     arbeidsgiverperioder: Maybe<Array<ImPeriode>>;
     avsenderSystem: Maybe<AvsenderSystem>;
     begrunnelseForReduksjonEllerIkkeUtbetalt: Maybe<Scalars['String']['output']>;
