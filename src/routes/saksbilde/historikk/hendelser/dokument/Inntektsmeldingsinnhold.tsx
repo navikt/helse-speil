@@ -29,6 +29,11 @@ export const Inntektsmeldingsinnhold = ({ dokumentId, fødselsnummer }: Inntekts
         <div>
             {inntektsmelding && (
                 <div className={styles.dokument}>
+                    {inntektsmelding.virksomhetsnummer && (
+                        <DokumentFragment overskrift="Virksomhetsnummer">
+                            {inntektsmelding.virksomhetsnummer}
+                        </DokumentFragment>
+                    )}
                     {inntektsmelding.arbeidsforholdId && (
                         <DokumentFragment overskrift="ArbeidsforholdId">
                             {inntektsmelding.arbeidsforholdId}
