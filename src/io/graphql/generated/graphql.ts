@@ -311,6 +311,7 @@ export type DokumentInntektsmelding = {
     naerRelasjon: Maybe<Scalars['Boolean']['output']>;
     opphoerAvNaturalytelser: Maybe<Array<OpphoerAvNaturalytelse>>;
     refusjon: Maybe<Refusjon>;
+    virksomhetsnummer: Maybe<Scalars['String']['output']>;
 };
 
 export enum Egenskap {
@@ -1643,6 +1644,7 @@ export type FetchInntektsmeldingQuery = {
     hentInntektsmelding: {
         __typename: 'DokumentInntektsmelding';
         arbeidsforholdId: string | null;
+        virksomhetsnummer: string | null;
         begrunnelseForReduksjonEllerIkkeUtbetalt: string | null;
         bruttoUtbetalt: number | null;
         beregnetInntekt: number | null;
@@ -8650,6 +8652,7 @@ export const FetchInntektsmeldingDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'arbeidsforholdId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'virksomhetsnummer' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'begrunnelseForReduksjonEllerIkkeUtbetalt' },

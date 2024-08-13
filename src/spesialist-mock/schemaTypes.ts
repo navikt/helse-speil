@@ -309,6 +309,7 @@ export type DokumentInntektsmelding = {
     naerRelasjon?: Maybe<Scalars['Boolean']['output']>;
     opphoerAvNaturalytelser?: Maybe<Array<OpphoerAvNaturalytelse>>;
     refusjon?: Maybe<Refusjon>;
+    virksomhetsnummer?: Maybe<Scalars['String']['output']>;
 };
 
 export enum Egenskap {

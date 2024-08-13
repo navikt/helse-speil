@@ -1,6 +1,7 @@
 query FetchInntektsmelding($fnr: String!, $dokumentId: String!) {
     hentInntektsmelding(fnr: $fnr, dokumentId: $dokumentId) {
         arbeidsforholdId,
+        virksomhetsnummer,
         begrunnelseForReduksjonEllerIkkeUtbetalt,
         bruttoUtbetalt,
         beregnetInntekt,
