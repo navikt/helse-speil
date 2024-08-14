@@ -10,7 +10,7 @@
     display: flex;
     align-items: center;
     flex-direction: row-reverse;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .header > span {
