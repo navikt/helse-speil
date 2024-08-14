@@ -34,6 +34,14 @@ export type Alder = {
     oppfylt: Scalars['Boolean']['output'];
 };
 
+export type Annullering = {
+    __typename: 'Annullering';
+    begrunnelse: Maybe<Scalars['String']['output']>;
+    saksbehandlerIdent: Scalars['String']['output'];
+    tidspunkt: Scalars['LocalDateTime']['output'];
+    utbetalingId: Scalars['UUID']['output'];
+};
+
 export type AnnulleringArsakInput = {
     _key: Scalars['String']['input'];
     arsak: Scalars['String']['input'];
@@ -219,6 +227,7 @@ export type Behandlingsstatistikk = {
 
 export type BeregnetPeriode = Periode & {
     __typename: 'BeregnetPeriode';
+    annullering: Maybe<Annullering>;
     avslag: Array<Avslag>;
     behandlingId: Scalars['UUID']['output'];
     beregningId: Scalars['UUID']['output'];
