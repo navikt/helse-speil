@@ -10,6 +10,7 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useMap } from '@hooks/useMap';
 import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
 import { DagtypeModal } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeModal';
+import { MinimumSykdomsgrad } from '@saksbilde/utbetaling/utbetalingstabell/MinimumSykdomsgrad';
 import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -57,6 +58,7 @@ export const OverstyrbarUtbetaling = ({
 
     const [visDagtypeModal, setVisDagtypeModal] = useState(false);
     const [overstyrer, setOverstyrer] = useState(false);
+    const [overstyrerMinimumSykdomsgrad, setOverstyrerMinimumSykdomsgrad] = useState(false);
     const { postOverstyring, error, state } = useOverstyrDager(person, arbeidsgiver);
 
     const [markerteDager, setMarkerteDager] = useMap<string, Utbetalingstabelldag>();
@@ -164,7 +166,10 @@ export const OverstyrbarUtbetaling = ({
                 overstyrer={overstyrer}
                 revurderingIsEnabled={revurderingIsEnabled}
                 overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled}
+                overstyrerMinimumSykdomsgrad={overstyrerMinimumSykdomsgrad}
+                setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
             />
+            {overstyrerMinimumSykdomsgrad && <MinimumSykdomsgrad />}
             {overstyrer && (
                 <LeggTilDager
                     openDagtypeModal={() => setVisDagtypeModal(true)}

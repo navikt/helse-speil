@@ -1,0 +1,48 @@
+.form {
+  width: 475px;
+  margin-top: -3.25rem;
+}
+
+.radiogroup span, .radiogroup legend {
+  font-size: 16px !important;
+}
+
+.buttons {
+  display: flex;
+  gap: var(--a-spacing-2);
+  margin-top: var(--a-spacing-6);
+}
+
+.fritekst {
+  margin: 1rem 0 0.5rem;
+}
+
+.fritekstlabel {
+  display: flex;
+  align-items: center;
+}
+
+.fritekstlabel .button {
+  margin-left: 0.25rem;
+  padding: 0;
+  color: black;
+}
+
+.fritekstlabel .button span {
+  display: flex;
+  align-items: baseline;
+}
+
+.fritekstlabel .button:hover {
+  background: transparent;
+}
+
+.fritekstlabel .button:hover svg,
+.fritekstlabel .button:focus svg {
+  background: black;
+  color: white;
+}
+
+.feiloppsummering {
+  margin: 1.5rem 0 0.5rem;
+}

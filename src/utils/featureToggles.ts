@@ -48,3 +48,5 @@ export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
     erCoachEllerSuper(ident) || erPåTeamBømlo(grupper) || erLokal;
 
 export const erLokalEllerDev: boolean = erLokal || erDev;
+
+export const kanOverstyreMinimumSykdomsgrad: boolean = erLokalEllerDev;

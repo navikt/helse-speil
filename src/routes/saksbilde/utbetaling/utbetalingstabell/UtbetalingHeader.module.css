@@ -5,8 +5,30 @@
     justify-content: flex-end;
     padding: 0 0 0 2rem;
     width: 100%;
+    gap: 1rem;
 }
 
 .infoboble {
     margin-top: 1rem;
+}
+
+.button {
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--a-surface-action);
+    border-radius: 0.25rem;
+    padding: 0 0.5rem;
+}
+
+.button > svg {
+    margin-top: -3px;
+}
+
+.button p {
+    text-decoration: none;
+}
+
+.button:hover {
+    background: var(--a-surface-action-subtle-hover);
 }
