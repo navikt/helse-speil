@@ -29,6 +29,10 @@ jest.mock('./utbetalingstabell/useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,
 }));
 
+jest.mock('@utils/featureToggles', () => ({
+    kanOverstyreMinimumSykdomsgrad: false,
+}));
+
 //TODO this is bad, need to make it go faster
 jest.setTimeout(15000);
 
