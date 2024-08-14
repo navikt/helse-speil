@@ -34,6 +34,7 @@ export type Alder = {
 
 export type Annullering = {
     __typename?: 'Annullering';
+    arsaker: Array<Scalars['String']['output']>;
     begrunnelse?: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent: Scalars['String']['output'];
     tidspunkt: Scalars['LocalDateTime']['output'];
