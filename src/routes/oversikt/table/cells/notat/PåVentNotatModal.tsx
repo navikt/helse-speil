@@ -1,7 +1,15 @@
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-import React, { ReactElement } from 'react';
-import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
+import React, { ReactElement, useEffect } from 'react';
+import {
+    Control,
+    FieldValues,
+    FormProvider,
+    SubmitHandler,
+    useController,
+    useForm,
+    useFormContext,
+} from 'react-hook-form';
 
 import { BodyShort, Button, Checkbox, Heading, Modal, Textarea } from '@navikt/ds-react';
 
@@ -135,6 +143,7 @@ interface ControlledTextareaProps {
 }
 
 const ControlledTextarea = ({ control, tillattTekstlengde }: ControlledTextareaProps): ReactElement => {
+    const { setFocus } = useFormContext();
     const { field, fieldState } = useController({
         control: control,
         name: 'tekst',
@@ -146,6 +155,10 @@ const ControlledTextarea = ({ control, tillattTekstlengde }: ControlledTextareaP
             },
         },
     });
+    useEffect(() => {
+        setFocus('tekst', { shouldSelect: true });
+    }, [setFocus]);
+
     return (
         <Textarea
             {...field}
@@ -154,7 +167,6 @@ const ControlledTextarea = ({ control, tillattTekstlengde }: ControlledTextareaP
             label="Legg på vent"
             hideLabel
             maxLength={tillattTekstlengde}
-            autoFocus
         />
     );
 };
