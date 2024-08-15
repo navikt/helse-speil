@@ -18,6 +18,7 @@ describe('Personlinje', () => {
                     etternavn: 'HØIBY',
                     adressebeskyttelse: Adressebeskyttelse.Ugradert,
                     kjonn: Kjonn.Mann,
+                    fullmakt: null,
                     unntattFraAutomatisering: {
                         __typename: 'UnntattFraAutomatiskGodkjenning',
                         erUnntatt: false,

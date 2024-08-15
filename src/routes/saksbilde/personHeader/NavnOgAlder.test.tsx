@@ -48,6 +48,7 @@ const defaultPersoninfo: Personinfo = {
     etternavn: 'WAYNE',
     adressebeskyttelse: Adressebeskyttelse.Ugradert,
     kjonn: Kjonn.Mann,
+    fullmakt: null,
     unntattFraAutomatisering: {
         __typename: 'UnntattFraAutomatiskGodkjenning',
         erUnntatt: false,
