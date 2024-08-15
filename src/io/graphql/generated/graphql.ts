@@ -985,6 +985,7 @@ export type Personinfo = {
     etternavn: Scalars['String']['output'];
     fodselsdato: Maybe<Scalars['LocalDate']['output']>;
     fornavn: Scalars['String']['output'];
+    fullmakt: Maybe<Scalars['Boolean']['output']>;
     kjonn: Kjonn;
     mellomnavn: Maybe<Scalars['String']['output']>;
     reservasjon: Maybe<Reservasjon>;

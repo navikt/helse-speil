@@ -441,6 +441,7 @@ fragment person on Person {
         adressebeskyttelse
         fodselsdato
         kjonn
+        fullmakt
         reservasjon {
             kanVarsles
             reservert
