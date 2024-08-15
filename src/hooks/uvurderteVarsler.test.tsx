@@ -66,6 +66,7 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
         vedtaksperiodeId: 'EN_ID',
         egenskaper: [],
         avslag: [],
+        annullering: null,
         risikovurdering: null,
         forbrukteSykedager: null,
         gjenstaendeSykedager: null,

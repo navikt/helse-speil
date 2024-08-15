@@ -321,6 +321,13 @@ fragment beregnetPeriode on BeregnetPeriode {
         saksbehandlerIdent
         invalidert
     }
+    annullering {
+        saksbehandlerIdent
+        utbetalingId
+        tidspunkt
+        arsaker
+        begrunnelse
+    }
     ...periode
 }
 
