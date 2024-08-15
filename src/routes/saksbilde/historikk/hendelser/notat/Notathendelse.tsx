@@ -3,7 +3,14 @@ import dayjs from 'dayjs';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactElement, useState } from 'react';
 
-import { ChatIcon, CheckmarkCircleIcon, PaperplaneIcon, TimerPauseIcon } from '@navikt/aksel-icons';
+import {
+    ChatIcon,
+    CheckmarkCircleIcon,
+    ChevronDownIcon,
+    ChevronUpIcon,
+    PaperplaneIcon,
+    TimerPauseIcon,
+} from '@navikt/aksel-icons';
 import { BodyShort, ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
@@ -118,6 +125,20 @@ export const Notathendelse = ({
                             </BodyShort>
                         )}
                 </AnimatePresence>
+                {isExpandable() && (
+                    <span className={styles.lesmer}>
+                        {expanded ? (
+                            <>
+                                Vis mindre <ChevronUpIcon title="Vis mer av notatet" fontSize="1.5rem" />
+                            </>
+                        ) : (
+                            <>
+                                Vis mer
+                                <ChevronDownIcon title="Vis mindre av notatet" fontSize="1.5rem" />
+                            </>
+                        )}
+                    </span>
+                )}
             </div>
             {error && <ErrorMessage>Kunne ikke feilregistrere notat. Prøv igjen senere.</ErrorMessage>}
             <HendelseDate timestamp={timestamp} ident={saksbehandler} />
