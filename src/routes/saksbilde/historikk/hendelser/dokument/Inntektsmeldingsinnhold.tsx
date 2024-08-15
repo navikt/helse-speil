@@ -5,7 +5,7 @@ import { BodyShort, HStack } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
+import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { useMaybeArbeidsgiver } from '@state/arbeidsgiver';
 import { DokumenthendelseObject } from '@typer/historikk';
@@ -41,12 +41,12 @@ export const Inntektsmeldingsinnhold = ({ dokumentId, fødselsnummer }: Inntekts
                     )}
                     {inntektsmelding.virksomhetsnummer && (
                         <DokumentFragment overskrift="Virksomhetsnummer">
-                            {inntektsmelding.virksomhetsnummer}
+                            <AnonymizableText>{inntektsmelding.virksomhetsnummer}</AnonymizableText>
                         </DokumentFragment>
                     )}
                     {inntektsmelding.arbeidsforholdId && (
                         <DokumentFragment overskrift="ArbeidsforholdId">
-                            {inntektsmelding.arbeidsforholdId}
+                            <AnonymizableText>{inntektsmelding.arbeidsforholdId}</AnonymizableText>
                         </DokumentFragment>
                     )}
                     {inntektsmelding.inntektEndringAarsak && (
