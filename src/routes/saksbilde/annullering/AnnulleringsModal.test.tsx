@@ -17,6 +17,7 @@ const defaultProps = {
     organisasjonsnummer: '987654321',
     vedtaksperiodeId: 'EN-VEDTAKSPERIODEID',
     utbetalingId: 'EN-UTBETALINGID',
+    arbeidsgiverFagsystemId: 'EN-FAGSYSTEMID',
     skjæringstidspunkt: '2022-01-01',
     linjer: [{ fom: '2022-01-01', tom: '2022-01-31', totalbelop: 30000 }],
 };
@@ -32,6 +33,7 @@ const createMocks = (annulerDone?: jest.Mock) => [
                     organisasjonsnummer: '987654321',
                     vedtaksperiodeId: 'EN-VEDTAKSPERIODEID',
                     utbetalingId: 'EN-UTBETALINGID',
+                    arbeidsgiverFagsystemId: 'EN-FAGSYSTEMID',
                     begrunnelser: ['Ferie'],
                     arsaker: [
                         {
