@@ -5,6 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Clipboard } from '@components/clipboard';
 import { Enhet, Kjonn, Maybe, Personinfo } from '@io/graphql';
+import { FullmaktTag } from '@saksbilde/personHeader/FullmaktTag';
 import { DateString } from '@typer/shared';
 
 import { AdressebeskyttelseTag } from './AdressebeskyttelseTag';
@@ -58,6 +59,7 @@ export const PersonHeaderWithContent = ({
                 <AdressebeskyttelseTag adressebeskyttelse={personinfo.adressebeskyttelse} />
                 <ReservasjonTag reservasjon={personinfo.reservasjon} />
                 <VergemålTag />
+                <FullmaktTag />
                 <UtlandTag />
                 <DødsdatoTag dødsdato={dødsdato} />
             </div>
