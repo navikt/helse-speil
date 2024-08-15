@@ -24,3 +24,12 @@
 .arbeidsgivere {
     margin-bottom: 0.5rem;
 }
+
+.annullertikon {
+    width: 20px;
+    height: 16px;
+    border: 1px solid var(--a-gray-700);
+    background: var(--a-gray-100);
+    border-radius: 3px;
+    padding: 0.08rem;
+}

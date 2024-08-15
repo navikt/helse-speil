@@ -23,6 +23,7 @@ import {
 } from '@io/graphql';
 import {
     AnnetArbeidsforholdoverstyringhendelseObject,
+    AnnulleringhendelseObject,
     ArbeidsforholdoverstyringhendelseObject,
     ArbeidsgiverSkjønnHendelse,
     AvslaghendelseObject,
@@ -146,6 +147,23 @@ export const getAvslag = (period: Periode): Array<AvslaghendelseObject> => {
             timestamp: avslag.opprettet,
         };
     });
+};
+
+export const getAnnullering = (period: Periode): Maybe<AnnulleringhendelseObject> => {
+    if (!isBeregnetPeriode(period)) return null;
+
+    if (!period.annullering) return null;
+
+    const { arsaker, begrunnelse, saksbehandlerIdent, tidspunkt } = period.annullering;
+
+    return {
+        id: `annullering-${period.annullering.utbetalingId}`,
+        type: 'Annullering',
+        årsaker: arsaker,
+        begrunnelse: begrunnelse,
+        saksbehandler: saksbehandlerIdent,
+        timestamp: tidspunkt,
+    };
 };
 
 export const getPeriodehistorikk = (periode: BeregnetPeriodeFragment): Array<HistorikkhendelseObject> => {

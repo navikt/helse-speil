@@ -12,6 +12,7 @@ import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/ty
 
 import {
     getAnnetArbeidsforholdoverstyringhendelser,
+    getAnnullering,
     getArbeidsforholdoverstyringhendelser,
     getAvslag,
     getDagoverstyringer,
@@ -53,6 +54,7 @@ const getHendelserForBeregnetPeriode = (
     const utbetaling = getUtbetalingshendelse(period);
     const periodehistorikk = getPeriodehistorikk(period);
     const avslag = getAvslag(period);
+    const annullering = getAnnullering(period);
 
     return meldingOmVedtak.concat(
         [
@@ -71,6 +73,7 @@ const getHendelserForBeregnetPeriode = (
                     : true,
             )
             .concat(utbetaling ? [utbetaling] : [])
+            .concat(annullering ? [annullering] : [])
             .concat(notater)
             .concat(periodehistorikk)
             .sort(byTimestamp),
@@ -158,6 +161,7 @@ const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
         'Historikk',
         'Notat',
         'Avslag',
+        'Annullering',
     ],
     Dokument: ['Dokument'],
     Notat: ['Notat'],

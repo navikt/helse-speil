@@ -812,7 +812,8 @@
                                             "egenskap": "PA_VENT"
                                         }
                                     ],
-                                    "avslag": []
+                                    "avslag": [],
+                                    "annullering": null
                                 }
                             ]
                         }

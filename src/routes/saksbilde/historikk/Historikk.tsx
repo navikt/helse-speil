@@ -10,6 +10,7 @@ import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSideme
 import { ÅpnetDokument } from '@components/ÅpnetDokument';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
+import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
 import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject } from '@typer/historikk';
 
@@ -124,6 +125,9 @@ const HistorikkWithContent = (): ReactElement => {
                                         }
                                         case 'Avslag': {
                                             return <Avslaghendelse key={it.id} {...it} />;
+                                        }
+                                        case 'Annullering': {
+                                            return <Annulleringhendelse key={it.id} {...it} />;
                                         }
                                         default:
                                             return null;

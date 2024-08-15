@@ -24,7 +24,8 @@ export type Hendelsetype =
     | 'Notat'
     | 'Utbetaling'
     | 'Historikk'
-    | 'Avslag';
+    | 'Avslag'
+    | 'Annullering';
 
 export type ArbeidsgiverSkjønnHendelse = {
     navn: string;
@@ -126,6 +127,12 @@ export type AvslaghendelseObject = BaseHendelseObject & {
     begrunnelse: string;
 };
 
+export type AnnulleringhendelseObject = BaseHendelseObject & {
+    type: 'Annullering';
+    årsaker: string[];
+    begrunnelse: string | null;
+};
+
 export type HendelseObject =
     | DagoverstyringhendelseObject
     | ArbeidsforholdoverstyringhendelseObject
@@ -136,4 +143,5 @@ export type HendelseObject =
     | NotathendelseObject
     | UtbetalinghendelseObject
     | HistorikkhendelseObject
-    | AvslaghendelseObject;
+    | AvslaghendelseObject
+    | AnnulleringhendelseObject;
