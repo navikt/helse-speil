@@ -20,6 +20,7 @@ export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (ove
         mellomnavn: null,
         etternavn: 'Navnesen',
         kjonn: Kjonn.Kvinne,
+        fullmakt: null,
         adressebeskyttelse: Adressebeskyttelse.Ugradert,
         unntattFraAutomatisering: {
             __typename: 'UnntattFraAutomatiskGodkjenning',

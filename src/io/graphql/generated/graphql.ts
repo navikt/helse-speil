@@ -3431,6 +3431,7 @@ export type PersonFragment = {
         adressebeskyttelse: Adressebeskyttelse;
         fodselsdato: string | null;
         kjonn: Kjonn;
+        fullmakt: boolean | null;
         reservasjon: { __typename: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
         unntattFraAutomatisering: {
             __typename: 'UnntattFraAutomatiskGodkjenning';
@@ -4130,6 +4131,7 @@ export type FetchPersonQuery = {
             adressebeskyttelse: Adressebeskyttelse;
             fodselsdato: string | null;
             kjonn: Kjonn;
+            fullmakt: boolean | null;
             reservasjon: { __typename: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
             unntattFraAutomatisering: {
                 __typename: 'UnntattFraAutomatiskGodkjenning';
@@ -7296,6 +7298,7 @@ export const PersonFragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'adressebeskyttelse' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'fodselsdato' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'kjonn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'fullmakt' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'reservasjon' },
@@ -10944,6 +10947,7 @@ export const FetchPersonDocument = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'adressebeskyttelse' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'fodselsdato' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'kjonn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'fullmakt' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'reservasjon' },
