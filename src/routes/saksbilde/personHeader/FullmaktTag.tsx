@@ -1,15 +1,12 @@
 import React, { ReactElement } from 'react';
 
 import { Maybe } from '@io/graphql';
-import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import { useFetchPersonQuery } from '@state/person';
 
 import { TagMedTooltip } from './TagMedTooltip';
 
 export const FullmaktTag = (): Maybe<ReactElement> => {
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning();
-    if (!periodeTilGodkjenning) return null;
-
-    const harFullmakt = periodeTilGodkjenning.varsler.find((varsel) => varsel.kode === 'SB_IK_1');
-
+    const { data } = useFetchPersonQuery();
+    const harFullmakt = data?.person?.personinfo?.fullmakt;
     return harFullmakt ? <TagMedTooltip tooltipTekst="Den sykmeldte er under fullmakt" etikett="Fullmakt" /> : null;
 };
