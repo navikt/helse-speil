@@ -24,6 +24,7 @@ type AnnulleringsModalProps = {
     vedtaksperiodeId: string;
     utbetalingId: string;
     arbeidsgiverFagsystemId: string;
+    personFagsystemId: string;
 };
 
 export const AnnulleringsModal = ({
@@ -35,6 +36,7 @@ export const AnnulleringsModal = ({
     vedtaksperiodeId,
     utbetalingId,
     arbeidsgiverFagsystemId,
+    personFagsystemId,
 }: AnnulleringsModalProps): ReactElement => {
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
     const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
@@ -60,6 +62,7 @@ export const AnnulleringsModal = ({
         vedtaksperiodeId,
         utbetalingId,
         arbeidsgiverFagsystemId,
+        personFagsystemId,
         begrunnelser,
         arsaker,
         kommentar: kommentar ? (kommentar.trim() === '' ? undefined : kommentar.trim()) : undefined,

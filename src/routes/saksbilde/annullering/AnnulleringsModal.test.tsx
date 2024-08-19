@@ -18,6 +18,7 @@ const defaultProps = {
     vedtaksperiodeId: 'EN-VEDTAKSPERIODEID',
     utbetalingId: 'EN-UTBETALINGID',
     arbeidsgiverFagsystemId: 'EN-FAGSYSTEMID',
+    personFagsystemId: 'EN-FAGSYSTEMID',
     skjæringstidspunkt: '2022-01-01',
     linjer: [{ fom: '2022-01-01', tom: '2022-01-31', totalbelop: 30000 }],
 };
@@ -34,6 +35,7 @@ const createMocks = (annulerDone?: jest.Mock) => [
                     vedtaksperiodeId: 'EN-VEDTAKSPERIODEID',
                     utbetalingId: 'EN-UTBETALINGID',
                     arbeidsgiverFagsystemId: 'EN-FAGSYSTEMID',
+                    personFagsystemId: 'EN-FAGSYSTEMID',
                     begrunnelser: ['Ferie'],
                     arsaker: [
                         {

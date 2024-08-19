@@ -11,6 +11,7 @@ interface AnnullerButtonWithContentProps {
     vedtaksperiodeId: string;
     utbetalingId: string;
     arbeidsgiverFagsystemId: string;
+    personFagsystemId: string;
     aktørId: string;
     fødselsnummer: string;
     organisasjonsnummer: string;
@@ -19,6 +20,7 @@ interface AnnullerButtonWithContentProps {
 const AnnullerButtonWithContent = ({
     utbetalingId,
     arbeidsgiverFagsystemId,
+    personFagsystemId,
     vedtaksperiodeId,
     aktørId,
     fødselsnummer,
@@ -39,6 +41,7 @@ const AnnullerButtonWithContent = ({
                     vedtaksperiodeId={vedtaksperiodeId}
                     utbetalingId={utbetalingId}
                     arbeidsgiverFagsystemId={arbeidsgiverFagsystemId}
+                    personFagsystemId={personFagsystemId}
                 />
             )}
         </>
@@ -77,6 +80,7 @@ export const AnnullerButton = ({ person, periode, arbeidsgiver }: AnnullerButton
             vedtaksperiodeId={periode.vedtaksperiodeId}
             utbetalingId={periode.utbetaling.id}
             arbeidsgiverFagsystemId={periode.utbetaling.arbeidsgiverFagsystemId}
+            personFagsystemId={periode.utbetaling.personFagsystemId}
             aktørId={person.aktorId}
             fødselsnummer={person.fodselsnummer}
             organisasjonsnummer={arbeidsgiver.organisasjonsnummer}

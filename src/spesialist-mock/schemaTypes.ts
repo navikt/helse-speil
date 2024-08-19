@@ -34,12 +34,13 @@ export type Alder = {
 
 export type Annullering = {
     __typename?: 'Annullering';
-    arbeidsgiverFagsystemId: Scalars['String']['output'];
+    arbeidsgiverFagsystemId?: Maybe<Scalars['String']['output']>;
     arsaker: Array<Scalars['String']['output']>;
     begrunnelse?: Maybe<Scalars['String']['output']>;
+    personFagsystemId?: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent: Scalars['String']['output'];
     tidspunkt: Scalars['LocalDateTime']['output'];
-    utbetalingId: Scalars['UUID']['output'];
+    utbetalingId?: Maybe<Scalars['UUID']['output']>;
 };
 
 export type AnnulleringArsakInput = {
@@ -55,6 +56,7 @@ export type AnnulleringDataInput = {
     fodselsnummer: Scalars['String']['input'];
     kommentar?: InputMaybe<Scalars['String']['input']>;
     organisasjonsnummer: Scalars['String']['input'];
+    personFagsystemId?: InputMaybe<Scalars['String']['input']>;
     utbetalingId: Scalars['UUID']['input'];
     vedtaksperiodeId: Scalars['UUID']['input'];
 };
