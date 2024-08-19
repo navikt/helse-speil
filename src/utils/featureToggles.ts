@@ -25,7 +25,7 @@ const coaches = [
     ...enhetsledere,
 ];
 
-const erCoachEllerSuper = (ident: string) => erCoach(ident) || erSupersaksbehandler(ident);
+export const erCoachEllerSuper = (ident: string) => erCoach(ident) || erSupersaksbehandler(ident);
 const erSupersaksbehandler = (ident: string) => supersaksbehandlere.includes(ident);
 const harTilgangTilAlt = (ident: string) =>
     [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(ident);

@@ -1,11 +1,12 @@
-import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { ExternalLinkIcon, MenuGridIcon } from '@navikt/aksel-icons';
 import { Dropdown, InternalHeader as Header } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
+import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useFetchPersonQuery } from '@state/person';
+import { erCoachEllerSuper } from '@utils/featureToggles';
 
 import styles from './SystemMenu.module.css';
 
@@ -156,8 +157,6 @@ const createLinks = (maybeFnr: Maybe<string>): Array<HrefLink | ButtonLink> => [
 ];
 
 export const SystemMenu = (): ReactElement => {
-    const params = useParams<{ aktorId?: string }>();
-
     return (
         <Dropdown>
             <Header.Button as={Dropdown.Toggle} aria-label="Toggle dropdown">
@@ -166,28 +165,29 @@ export const SystemMenu = (): ReactElement => {
             <Dropdown.Menu className={styles.DropdownContent}>
                 <Dropdown.Menu.GroupedList>
                     <Dropdown.Menu.GroupedList.Heading>Systemer og oppslagsverk</Dropdown.Menu.GroupedList.Heading>
-                    {params.aktorId ? <SystemMenuForUser /> : <SystemMenuNoUser />}
+                    <SystemMenuLinks />
                 </Dropdown.Menu.GroupedList>
             </Dropdown.Menu>
         </Dropdown>
     );
 };
 
-function SystemMenuForUser(): ReactElement[] {
+function SystemMenuLinks(): ReactElement[] {
     const { data } = useFetchPersonQuery();
     const maybeFnr: Maybe<string> = data?.person?.fodselsnummer ?? null;
+    const maybeAktoerId: Maybe<string> = data?.person?.aktorId ?? null;
+    const innloggetSaksbehandler = useInnloggetSaksbehandler();
+    const skalBetatesteLinks = erCoachEllerSuper(innloggetSaksbehandler.ident ?? '');
 
-    return createLinks(maybeFnr).map((link) =>
-        'href' in link ? (
-            <Link key={link.tekst} tekst={link.tekst} href={link.href} snarveibokstav={link.snarveibokstav} />
-        ) : (
-            <Button key={link.tekst} tekst={link.tekst} action={link.action} snarveibokstav={link.snarveibokstav} />
-        ),
-    );
-}
-
-function SystemMenuNoUser(): ReactElement[] {
-    return createLinks(null).map((link) =>
+    const links = createLinks(maybeFnr);
+    if (skalBetatesteLinks) {
+        links.push({
+            tekst: 'Foreldrepenger',
+            href: maybeAktoerId ? `https://fpsak.intern.nav.no/aktoer/${maybeAktoerId}` : 'https://fpsak.intern.nav.no',
+            snarveibokstav: 'F',
+        });
+    }
+    return links.map((link) =>
         'href' in link ? (
             <Link key={link.tekst} tekst={link.tekst} href={link.href} snarveibokstav={link.snarveibokstav} />
         ) : (

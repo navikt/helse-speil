@@ -3,6 +3,7 @@ import React from 'react';
 import { MockedProvider } from '@apollo/client/testing';
 import { FetchPersonDocument, Maybe } from '@io/graphql';
 import { useKeyboardActions } from '@saksbilde/useKeyboardShortcuts';
+import { createMock } from '@test-utils';
 import { RecoilWrapper } from '@test-wrappers';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -11,7 +12,6 @@ import { SpeilError } from '@utils/error';
 
 import { Header } from './Header';
 
-jest.mock('@state/person');
 jest.mock('@saksbilde/useKeyboardShortcuts');
 
 let cachedVarsel: Maybe<SpeilError> = null;
@@ -28,23 +28,20 @@ jest.mock('@state/varsler', () => ({
     useRapporterGraphQLErrors: () => () => {},
 }));
 
-const mocks = [
-    {
-        request: {
-            query: FetchPersonDocument,
-            variables: {
-                aktorId: '12345678910',
-            },
-        },
-        result: () => {
-            return {
-                data: {
-                    person: {},
-                },
-            };
+const fetchPersonMock = createMock({
+    request: {
+        query: FetchPersonDocument,
+        variables: {
+            aktorId: '12345678910',
         },
     },
-];
+    result: {
+        data: {
+            __typename: 'Query',
+            person: null,
+        },
+    },
+});
 
 describe('Header', () => {
     beforeEach(() => {
@@ -57,7 +54,7 @@ describe('Header', () => {
 
     it('legger til varsel ved ugyldig søk', async () => {
         render(
-            <MockedProvider mocks={mocks} addTypename={false}>
+            <MockedProvider mocks={[fetchPersonMock]} addTypename={false}>
                 <RecoilWrapper>
                     <Header />
                 </RecoilWrapper>
@@ -70,7 +67,7 @@ describe('Header', () => {
 
     it('legger ikke til varsel ved gyldig søk', async () => {
         render(
-            <MockedProvider mocks={mocks} addTypename={false}>
+            <MockedProvider mocks={[fetchPersonMock]} addTypename={false}>
                 <RecoilWrapper>
                     <Header />
                 </RecoilWrapper>
