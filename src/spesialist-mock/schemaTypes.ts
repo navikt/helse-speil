@@ -56,7 +56,7 @@ export type AnnulleringDataInput = {
     fodselsnummer: Scalars['String']['input'];
     kommentar?: InputMaybe<Scalars['String']['input']>;
     organisasjonsnummer: Scalars['String']['input'];
-    personFagsystemId?: InputMaybe<Scalars['String']['input']>;
+    personFagsystemId: Scalars['String']['input'];
     utbetalingId: Scalars['UUID']['input'];
     vedtaksperiodeId: Scalars['UUID']['input'];
 };

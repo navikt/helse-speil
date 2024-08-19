@@ -157,7 +157,7 @@ export const getAnnullering = (period: Periode): Maybe<AnnulleringhendelseObject
     const { arsaker, begrunnelse, saksbehandlerIdent, tidspunkt } = period.annullering;
 
     return {
-        id: `annullering-${period.annullering.utbetalingId}`,
+        id: `annullering-${period.annullering.arbeidsgiverFagsystemId}`,
         type: 'Annullering',
         årsaker: arsaker,
         begrunnelse: begrunnelse,

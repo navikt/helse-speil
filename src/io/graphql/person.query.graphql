@@ -323,7 +323,8 @@ fragment beregnetPeriode on BeregnetPeriode {
     }
     annullering {
         saksbehandlerIdent
-        utbetalingId
+        arbeidsgiverFagsystemId
+        personFagsystemId
         tidspunkt
         arsaker
         begrunnelse

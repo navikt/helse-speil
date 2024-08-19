@@ -58,7 +58,7 @@ export type AnnulleringDataInput = {
     fodselsnummer: Scalars['String']['input'];
     kommentar?: InputMaybe<Scalars['String']['input']>;
     organisasjonsnummer: Scalars['String']['input'];
-    personFagsystemId?: InputMaybe<Scalars['String']['input']>;
+    personFagsystemId: Scalars['String']['input'];
     utbetalingId: Scalars['UUID']['input'];
     vedtaksperiodeId: Scalars['UUID']['input'];
 };
@@ -2359,7 +2359,8 @@ export type ArbeidsgiverFragment = {
                   annullering: {
                       __typename: 'Annullering';
                       saksbehandlerIdent: string;
-                      utbetalingId: string | null;
+                      arbeidsgiverFagsystemId: string | null;
+                      personFagsystemId: string | null;
                       tidspunkt: string;
                       arsaker: Array<string>;
                       begrunnelse: string | null;
@@ -3116,7 +3117,8 @@ export type BeregnetPeriodeFragment = {
     annullering: {
         __typename: 'Annullering';
         saksbehandlerIdent: string;
-        utbetalingId: string | null;
+        arbeidsgiverFagsystemId: string | null;
+        personFagsystemId: string | null;
         tidspunkt: string;
         arsaker: Array<string>;
         begrunnelse: string | null;
@@ -3792,7 +3794,8 @@ export type PersonFragment = {
                       annullering: {
                           __typename: 'Annullering';
                           saksbehandlerIdent: string;
-                          utbetalingId: string | null;
+                          arbeidsgiverFagsystemId: string | null;
+                          personFagsystemId: string | null;
                           tidspunkt: string;
                           arsaker: Array<string>;
                           begrunnelse: string | null;
@@ -4500,7 +4503,8 @@ export type FetchPersonQuery = {
                           annullering: {
                               __typename: 'Annullering';
                               saksbehandlerIdent: string;
-                              utbetalingId: string | null;
+                              arbeidsgiverFagsystemId: string | null;
+                              personFagsystemId: string | null;
                               tidspunkt: string;
                               arsaker: Array<string>;
                               begrunnelse: string | null;
@@ -5939,7 +5943,8 @@ export const BeregnetPeriodeFragmentDoc = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'utbetalingId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverFagsystemId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personFagsystemId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
@@ -7097,7 +7102,8 @@ export const ArbeidsgiverFragmentDoc = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'utbetalingId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverFagsystemId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personFagsystemId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
@@ -7934,7 +7940,8 @@ export const PersonFragmentDoc = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'utbetalingId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverFagsystemId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personFagsystemId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
@@ -10637,7 +10644,8 @@ export const FetchPersonDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'utbetalingId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiverFagsystemId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personFagsystemId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
