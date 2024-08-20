@@ -31,6 +31,7 @@ const harTilgangTilAlt = (ident: string) =>
     [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(ident);
 const erCoach = (ident: string) => coaches.includes(ident);
 const kanFrigiSaker = (ident: string) => ['K162139'].includes(ident);
+const erFunksjoneltAnsvarligIPoHelse = (ident: string) => ['S114950'].includes(ident);
 
 const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdForTbd);
 
@@ -45,7 +46,7 @@ export const harSpesialsaktilgang = (grupper: string[]): boolean =>
     grupper.includes(groupIdSpesialsaker) || erUtvikling;
 
 export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
-    erCoachEllerSuper(ident) || erPåTeamBømlo(grupper) || erLokal;
+    erCoachEllerSuper(ident) || erFunksjoneltAnsvarligIPoHelse(ident) || erPåTeamBømlo(grupper) || erLokal;
 
 export const erLokalEllerDev: boolean = erLokal || erDev;
 
