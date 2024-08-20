@@ -4,9 +4,7 @@ import { ExternalLinkIcon, MenuGridIcon } from '@navikt/aksel-icons';
 import { Dropdown, InternalHeader as Header } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
-import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useFetchPersonQuery } from '@state/person';
-import { erCoachEllerSuper } from '@utils/featureToggles';
 
 import styles from './SystemMenu.module.css';
 
@@ -95,7 +93,7 @@ const Lenkeinnhold = ({ tekst, snarveibokstav }: LenkeinnholdProps): ReactElemen
     </>
 );
 
-const createLinks = (maybeFnr: Maybe<string>): Array<HrefLink | ButtonLink> => [
+const createLinks = (maybeFnr: Maybe<string>, maybeAktoerId: Maybe<string>): Array<HrefLink | ButtonLink> => [
     {
         tekst: 'A-inntekt',
         action: () =>
@@ -139,6 +137,11 @@ const createLinks = (maybeFnr: Maybe<string>): Array<HrefLink | ButtonLink> => [
         snarveibokstav: 'O',
     },
     {
+        tekst: 'Foreldrepenger',
+        href: maybeAktoerId ? `https://fpsak.intern.nav.no/aktoer/${maybeAktoerId}` : 'https://fpsak.intern.nav.no',
+        snarveibokstav: 'F',
+    },
+    {
         tekst: 'Folketrygdloven kapittel 8',
         href: 'https://lovdata.no/nav/folketrygdloven/kap8',
         snarveibokstav: 'L',
@@ -176,18 +179,8 @@ function SystemMenuLinks(): ReactElement[] {
     const { data } = useFetchPersonQuery();
     const maybeFnr: Maybe<string> = data?.person?.fodselsnummer ?? null;
     const maybeAktoerId: Maybe<string> = data?.person?.aktorId ?? null;
-    const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const skalBetatesteLinks = erCoachEllerSuper(innloggetSaksbehandler.ident ?? '');
 
-    const links = createLinks(maybeFnr);
-    if (skalBetatesteLinks) {
-        links.push({
-            tekst: 'Foreldrepenger',
-            href: maybeAktoerId ? `https://fpsak.intern.nav.no/aktoer/${maybeAktoerId}` : 'https://fpsak.intern.nav.no',
-            snarveibokstav: 'F',
-        });
-    }
-    return links.map((link) =>
+    return createLinks(maybeFnr, maybeAktoerId).map((link) =>
         'href' in link ? (
             <Link key={link.tekst} tekst={link.tekst} href={link.href} snarveibokstav={link.snarveibokstav} />
         ) : (

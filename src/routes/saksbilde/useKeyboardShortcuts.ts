@@ -3,10 +3,8 @@ import { copyString } from '@components/clipboard/util';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
 import { Maybe } from '@io/graphql';
-import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddToast } from '@state/toasts';
-import { erCoachEllerSuper } from '@utils/featureToggles';
 import { isPerson } from '@utils/typeguards';
 
 const useCurrentFødselsnummer = (): Maybe<string> => {
@@ -100,6 +98,7 @@ export const useKeyboardActions = (): Action[] => {
     const fødselsnummer = useCurrentFødselsnummer();
     const copyFødselsnummer = useCopyFødselsnummer();
     const copyAktørId = useCopyAktørId();
+    const openForeldrepenger = useOpenForeldrepenger();
     const openGosys = useOpenGosys();
     const openModiaPersonoversikt = useModiaPersonoversikt();
     const openModiaSykefraværsoppfølging = useOpenModiaSykefraværsoppfølging();
@@ -261,6 +260,14 @@ export const useKeyboardActions = (): Action[] => {
             modifier: Key.Shift,
         },
         {
+            key: Key.F,
+            visningstekst: 'Åpne Foreldrepenger',
+            visningssnarvei: ['⇧', 'F'],
+            action: openForeldrepenger,
+            ignoreIfModifiers: false,
+            modifier: Key.Shift,
+        },
+        {
             key: Key.G,
             visningstekst: 'Åpne Gosys',
             visningssnarvei: ['⇧', 'G'],
@@ -316,18 +323,6 @@ export const useKeyboardActions = (): Action[] => {
 };
 
 export const useKeyboardShortcuts = () => {
-    const openForeldrepenger = useOpenForeldrepenger();
-    const skalBetatesteLenker = erCoachEllerSuper(useInnloggetSaksbehandler().ident ?? '');
-    let actions = useKeyboardActions();
-    if (skalBetatesteLenker) {
-        actions.push({
-            key: Key.F,
-            visningstekst: 'Åpne Foreldrepenger',
-            visningssnarvei: ['⇧', 'F'],
-            action: openForeldrepenger,
-            ignoreIfModifiers: false,
-            modifier: Key.Shift,
-        });
-    }
+    const actions = useKeyboardActions();
     useKeyboard(actions);
 };
