@@ -1,6 +1,6 @@
 import React, { FormEvent, useRef, useState } from 'react';
 
-import { Alert, BodyShort, Button, Textarea, Tooltip } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Textarea } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { useOpphevStans } from '@state/opphevStans';
@@ -35,10 +35,12 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
             <Bold>Automatisk behandling stanset av veileder</Bold>
             <div className={styles.luft}>
                 <BodyShort>
-                    <Tooltip content={`Stansknappen ble trykket ${getFormattedDatetimeString(tidspunkt)}`}>
-                        <span style={{ fontWeight: 600 }}>Årsak til stans: </span>
-                    </Tooltip>
+                    <span style={{ fontWeight: 600 }}>Årsak til stans: </span>
                     {årsakerSomTekst(årsaker)}
+                </BodyShort>
+                <BodyShort>
+                    <span style={{ fontWeight: 600 }}>Stansknappen ble trykket: </span>
+                    {getFormattedDatetimeString(tidspunkt)}
                 </BodyShort>
                 <BodyShort>Se notat i Modia Sykefraværsoppfølging eller Gosys for mer info.</BodyShort>
             </div>
