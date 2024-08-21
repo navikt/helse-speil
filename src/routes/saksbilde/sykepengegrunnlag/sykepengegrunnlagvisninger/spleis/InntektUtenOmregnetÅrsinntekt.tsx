@@ -10,9 +10,9 @@ import { Clipboard } from '@components/clipboard';
 import { Arbeidsgiverinntekt, Inntektskilde } from '@io/graphql';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 
-import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '../../Arbeidsgivernavn';
 
-import styles from './Inntekt.module.css';
+import styles from '../../inntekt/Inntekt.module.css';
 
 const InntektError = (): ReactElement => {
     return (

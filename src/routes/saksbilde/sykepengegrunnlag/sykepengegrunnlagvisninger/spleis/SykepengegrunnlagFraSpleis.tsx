@@ -2,8 +2,8 @@ import React, { HTMLAttributes, ReactElement, useEffect, useState } from 'react'
 
 import { Arbeidsgiverinntekt, PersonFragment, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
-import { InntektUtenOmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/InntektUtenOmregnetÅrsinntekt';
 import { SykepengegrunnlagPanel } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/SykepengegrunnlagPanel';
+import { InntektUtenOmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/InntektUtenOmregnetÅrsinntekt';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { getRequiredInntekt } from '@state/utils';
 
