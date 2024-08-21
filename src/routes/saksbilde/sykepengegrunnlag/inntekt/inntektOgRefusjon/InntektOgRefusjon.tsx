@@ -18,7 +18,7 @@ import {
     VilkarsgrunnlagSpleis,
 } from '@io/graphql';
 import { EditableInntekt } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntekt';
-import { RedigerInntektOgRefusjon } from '@saksbilde/sykepengegrunnlag/inntekt/redigerInntektOgRefusjon/RedigerInntektOgRefusjon';
+import { RedigerInntektOgRefusjon } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/redigerInntektOgRefusjon/RedigerInntektOgRefusjon';
 import {
     useEndringerForPeriode,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
