@@ -29,9 +29,9 @@ import { getVilkårsgrunnlag } from '@state/utils';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
 
-import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
-import { OverstyrArbeidsforholdUtenSykdom } from '../overstyring/OverstyrArbeidsforholdUtenSykdom';
-import { Refusjonsoversikt } from '../refusjon/Refusjonsoversikt';
+import { Arbeidsgivernavn } from '../../Arbeidsgivernavn';
+import { OverstyrArbeidsforholdUtenSykdom } from '../../overstyring/OverstyrArbeidsforholdUtenSykdom';
+import { Refusjonsoversikt } from '../../refusjon/Refusjonsoversikt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { RedigerGhostInntekt } from './RedigerGhostInntekt';
 import { SisteTolvMånedersInntekt } from './SisteTolvMånedersInntekt';
@@ -44,7 +44,7 @@ import {
     useInntektKanRevurderes,
 } from './inntektOgRefusjonUtils';
 
-import styles from './Inntekt.module.css';
+import styles from '../Inntekt.module.css';
 
 interface InntektUtenSykefraværProps {
     person: PersonFragment;
@@ -178,7 +178,7 @@ export const InntektOgRefusjon = ({
                     skjæringstidspunkt={skjæringstidspunkt}
                     inntektFraAOrdningen={
                         erInntektskildeAordningen && !skalVise12mnd828
-                            ? omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen
+                            ? (omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen)
                             : inntektFraAOrdningen
                     }
                     erAktivGhost={erGhostperiode && !erDeaktivert}

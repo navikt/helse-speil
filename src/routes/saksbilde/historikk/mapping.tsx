@@ -47,7 +47,7 @@ import {
     isUberegnetPeriode,
 } from '@utils/typeguards';
 
-import { harIngenUtbetaltePerioderFor } from '../sykepengegrunnlag/inntekt/inntektOgRefusjonUtils';
+import { harIngenUtbetaltePerioderFor } from '../sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 
 const isInntektsmelding = (hendelse: Hendelse): hendelse is Inntektsmelding => {
     return hendelse.type === 'INNTEKTSMELDING';

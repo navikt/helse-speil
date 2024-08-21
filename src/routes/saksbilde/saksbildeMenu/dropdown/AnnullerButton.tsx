@@ -4,7 +4,7 @@ import { Dropdown } from '@navikt/ds-react';
 
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Maybe, PersonFragment, Utbetalingstatus } from '@io/graphql';
 import { AnnulleringsModal } from '@saksbilde/annullering/AnnulleringsModal';
-import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonUtils';
+import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 interface AnnullerButtonWithContentProps {

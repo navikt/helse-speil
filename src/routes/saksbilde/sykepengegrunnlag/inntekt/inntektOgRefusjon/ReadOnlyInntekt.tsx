@@ -9,7 +9,7 @@ import { Inntektoverstyring, Inntektskilde, Maybe, OmregnetArsinntekt } from '@i
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
-import { EndringsloggButton } from './EndringsloggButton';
+import { EndringsloggButton } from '../EndringsloggButton';
 
 import styles from './ReadOnlyInntekt.module.css';
 

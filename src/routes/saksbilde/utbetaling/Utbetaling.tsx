@@ -30,7 +30,7 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 import { isBeregnetPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
-import { harPeriodeTilBeslutterFor } from '../sykepengegrunnlag/inntekt/inntektOgRefusjonUtils';
+import { harPeriodeTilBeslutterFor } from '../sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';

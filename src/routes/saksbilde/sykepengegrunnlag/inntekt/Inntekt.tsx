@@ -23,7 +23,7 @@ import { DateString } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { useVilkårsgrunnlag } from '../useVilkårsgrunnlag';
-import { InntektOgRefusjon } from './InntektOgRefusjon';
+import { InntektOgRefusjon } from './inntektOgRefusjon/InntektOgRefusjon';
 
 import styles from './Inntekt.module.css';
 
