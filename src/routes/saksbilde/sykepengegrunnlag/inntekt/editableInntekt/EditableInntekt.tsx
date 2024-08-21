@@ -26,12 +26,12 @@ import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefr
 import { isGhostPeriode } from '@utils/typeguards';
 
 import { Begrunnelser } from '../Begrunnelser';
-import { Refusjon } from '../Refusjon';
-import { RefusjonFormFields } from '../useRefusjonFormField';
 import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';
 import { Feiloppsummering, Skjemafeil } from './Feiloppsummering';
 import { Månedsbeløp } from './Månedsbeløp';
 import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
+import { Refusjon } from './Refusjon';
+import { RefusjonFormFields } from './useRefusjonFormField';
 
 import styles from './EditableInntekt.module.css';
 
@@ -194,7 +194,7 @@ export const EditableInntekt = ({
         const sisteTomErFørPeriodensTom: boolean =
             refusjonsopplysninger?.[0]?.tom === null
                 ? false
-                : dayjs(refusjonsopplysninger?.[0]?.tom, ISO_DATOFORMAT).isBefore(period?.tom) ?? true;
+                : (dayjs(refusjonsopplysninger?.[0]?.tom, ISO_DATOFORMAT).isBefore(period?.tom) ?? true);
 
         const førsteFomErEtterFørstePeriodesFom: boolean = dayjs(
             refusjonsopplysninger?.[refusjonsopplysninger.length - 1]?.fom,
@@ -332,7 +332,7 @@ const formErrorsTilFeilliste = (errors: FieldErrors<InntektFormFields>): Skjemaf
         .filter(([id]) => id !== 'refusjonsopplysninger')
         .map(([id, error]) => {
             return {
-                id: error.type === 'custom' ? 'refusjonsopplysninger' : (error?.ref as RefMedId)?.id ?? id,
+                id: error.type === 'custom' ? 'refusjonsopplysninger' : ((error?.ref as RefMedId)?.id ?? id),
                 melding: error.message ?? id,
             };
         })
