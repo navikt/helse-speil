@@ -27,7 +27,7 @@ import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefr
 import { isGhostPeriode } from '@utils/typeguards';
 
 import { Begrunnelser } from '../Begrunnelser';
-import { Månedsbeløp } from '../Månedsbeløp';
+import { Månedsbeløp } from '../månedsbeløp/Månedsbeløp';
 import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';
 import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
 import { Refusjon } from './refusjon/Refusjon';
