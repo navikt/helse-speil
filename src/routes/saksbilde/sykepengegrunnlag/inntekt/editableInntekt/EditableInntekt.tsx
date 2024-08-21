@@ -30,8 +30,8 @@ import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektS
 import { Feiloppsummering, Skjemafeil } from './Feiloppsummering';
 import { Månedsbeløp } from './Månedsbeløp';
 import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
-import { Refusjon } from './Refusjon';
-import { RefusjonFormFields } from './useRefusjonFormField';
+import { Refusjon } from './refusjon/Refusjon';
+import { RefusjonFormFields } from './refusjon/useRefusjonFormField';
 
 import styles from './EditableInntekt.module.css';
 
