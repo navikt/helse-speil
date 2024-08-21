@@ -1,6 +1,8 @@
 import React, { PropsWithChildren, ReactElement } from 'react';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 
+import { Table } from '@navikt/ds-react';
+
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { BrukerContext } from '@auth/brukerContext';
 
@@ -44,15 +46,15 @@ export const wrapperWithRecoilInitializer =
     };
 
 export const TestCellWrapper = ({ children }: PropsWithChildren): ReactElement => (
-    <table>
-        <tbody>
-            <tr>{children}</tr>
-        </tbody>
-    </table>
+    <Table>
+        <Table.Body>
+            <Table.Row>{children}</Table.Row>
+        </Table.Body>
+    </Table>
 );
 
 export const TestRowWrapper = ({ children }: PropsWithChildren): ReactElement => (
-    <table>
-        <tbody>{children}</tbody>
-    </table>
+    <Table>
+        <Table.Body>{children}</Table.Body>
+    </Table>
 );
