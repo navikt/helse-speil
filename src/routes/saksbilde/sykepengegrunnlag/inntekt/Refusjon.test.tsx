@@ -71,4 +71,12 @@ describe('Refusjonskjema', () => {
         await act(() => fireEvent.click(knapper[0]));
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
     });
+
+    it('skal kunne legge til refusjonsopplysninger', async () => {
+        render(<TestRefusjon fraRefusjonsopplysninger={en_refusjonsopplysning} />);
+        expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
+        const knapper = await waitFor(() => screen.findAllByRole('button', { name: '+ Legg til' }));
+        await act(() => fireEvent.click(knapper[0]));
+        expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(2);
+    });
 });
