@@ -207,31 +207,37 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                             },
                         }}
                         render={() => (
-                            <input
-                                className={`${styles.BeløpInput} ${
-                                    formState.errors?.refusjonsopplysninger?.[index]?.beløp?.message
-                                        ? styles.InputError
-                                        : ''
-                                }`}
-                                type="number"
-                                onBlur={(event) => {
-                                    const nyttBeløp = Number(event.target.value);
+                            <>
+                                <label id={`refusjonsopplysninger.${index}.beløp`} className="navds-sr-only">
+                                    Månedlig refusjon
+                                </label>
+                                <input
+                                    className={`${styles.BeløpInput} ${
+                                        formState.errors?.refusjonsopplysninger?.[index]?.beløp?.message
+                                            ? styles.InputError
+                                            : ''
+                                    }`}
+                                    type="number"
+                                    onBlur={(event) => {
+                                        const nyttBeløp = Number(event.target.value);
 
-                                    if (nyttBeløp === refusjonsopplysning.beløp) return;
+                                        if (nyttBeløp === refusjonsopplysning.beløp) return;
 
-                                    clearErrors(`refusjonsopplysninger.${index}`);
-                                    updateRefusjonsopplysninger(
-                                        refusjonsopplysning.fom,
-                                        refusjonsopplysning?.tom ?? null,
-                                        Number(event.target.value),
-                                        index,
-                                    );
-                                }}
-                                defaultValue={
-                                    refusjonsopplysning.beløp &&
-                                    Math.round((refusjonsopplysning.beløp + Number.EPSILON) * 100) / 100
-                                }
-                            />
+                                        clearErrors(`refusjonsopplysninger.${index}`);
+                                        updateRefusjonsopplysninger(
+                                            refusjonsopplysning.fom,
+                                            refusjonsopplysning?.tom ?? null,
+                                            Number(event.target.value),
+                                            index,
+                                        );
+                                    }}
+                                    aria-labelledby={`refusjonsopplysninger.${index}.beløp`}
+                                    defaultValue={
+                                        refusjonsopplysning.beløp &&
+                                        Math.round((refusjonsopplysning.beløp + Number.EPSILON) * 100) / 100
+                                    }
+                                />
+                            </>
                         )}
                     />
                     <Controller
