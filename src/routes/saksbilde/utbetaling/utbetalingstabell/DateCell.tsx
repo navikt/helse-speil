@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Table } from '@navikt/ds-react';
+
 import { DateString } from '@typer/shared';
 import { getFormattedDateString } from '@utils/date';
 
@@ -12,7 +14,7 @@ interface DateCellProps {
 
 export const DateCell = ({ date, erOverstyrt }: DateCellProps) =>
     erOverstyrt ? (
-        <td className={styles.datecell}>{getFormattedDateString(date)}</td>
+        <Table.DataCell className={styles.datecell}>{getFormattedDateString(date)}</Table.DataCell>
     ) : (
-        <td>{getFormattedDateString(date)}</td>
+        <Table.DataCell>{getFormattedDateString(date)}</Table.DataCell>
     );

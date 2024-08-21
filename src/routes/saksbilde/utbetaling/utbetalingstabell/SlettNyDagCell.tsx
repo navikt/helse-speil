@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Button } from '@navikt/ds-react';
+import { Button, Table } from '@navikt/ds-react';
 
 import { CellContent } from '@saksbilde/table/CellContent';
 
@@ -16,7 +16,7 @@ export const SlettNyDagCell = ({
     visSlettKnapp,
     ...rest
 }: SlettNydagCellProps): ReactElement => (
-    <td {...rest}>
+    <Table.DataCell {...rest}>
         <CellContent>
             {nyDag && visSlettKnapp && slettSisteNyeDag !== undefined && (
                 <Button onClick={slettSisteNyeDag} size="small" variant="tertiary">
@@ -24,5 +24,5 @@ export const SlettNyDagCell = ({
                 </Button>
             )}
         </CellContent>
-    </td>
+    </Table.DataCell>
 );

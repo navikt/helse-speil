@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
+import { Table } from '@navikt/ds-react';
+
 import styles from './Cell.module.css';
 
 interface CellProps extends React.HTMLAttributes<HTMLTableCellElement> {
@@ -8,5 +10,5 @@ interface CellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 }
 
 export const Cell = ({ className, italic, children }: CellProps): ReactElement => (
-    <td className={classNames(className, italic && styles.italic)}>{children}</td>
+    <Table.DataCell className={classNames(className, italic && styles.italic)}>{children}</Table.DataCell>
 );

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Table } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Maybe } from '@io/graphql';
@@ -112,7 +112,7 @@ export const DagtypeCell = ({ tabelldag, overstyrtDag, ...rest }: DagtypeCellPro
         tabelldag.grad === overstyrtDag.grad;
 
     return (
-        <td {...rest}>
+        <Table.DataCell {...rest}>
             {dagtypeErOverstyrt ? (
                 <Endringstrekant text={`Endret fra ${tabelldag.dag.visningstekst}`} />
             ) : nyDag ? (
@@ -124,6 +124,6 @@ export const DagtypeCell = ({ tabelldag, overstyrtDag, ...rest }: DagtypeCellPro
                 <div className={styles.container}>{ikon}</div>
                 <BodyShort>{tekst}</BodyShort>
             </CellContent>
-        </td>
+        </Table.DataCell>
     );
 };

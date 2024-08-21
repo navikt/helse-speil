@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React, { ReactElement, useMemo } from 'react';
 
+import { Table } from '@navikt/ds-react';
+
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Row } from '@saksbilde/table/Row';
@@ -51,47 +53,44 @@ export const Utbetalingstabell = ({
     return (
         <section className={classNames(styles.container, overstyrer && styles.overstyrer)}>
             <div className={styles.tableContainer}>
-                <table
-                    className={styles.table}
-                    aria-label={`Utbetalinger for sykmeldingsperiode fra ${formattedFom} til ${formattedTom}`}
-                >
-                    <thead>
-                        <tr>
-                            <th className={styles.header} scope="col" colSpan={1}>
+                <Table aria-label={`Utbetalinger for sykmeldingsperiode fra ${formattedFom} til ${formattedTom}`}>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 Dato
-                            </th>
-                            <th className={styles.header} scope="col" colSpan={1}>
+                            </Table.ColumnHeader>
+                            <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 Dagtype
-                            </th>
-                            <th className={styles.header} scope="col" colSpan={1}>
+                            </Table.ColumnHeader>
+                            <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 Grad
-                            </th>
-                            <th className={styles.header} scope="col" colSpan={1}>
+                            </Table.ColumnHeader>
+                            <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 Kilde
-                            </th>
-                            <th className={styles.header} scope="col" colSpan={1}>
+                            </Table.ColumnHeader>
+                            <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 Total grad
-                            </th>
-                            <th className={styles.header} scope="col" colSpan={1}>
+                            </Table.ColumnHeader>
+                            <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 <ArbeidsgiverikonMedTooltip className={styles.headerContent}>
                                     Refusjon
                                 </ArbeidsgiverikonMedTooltip>
-                            </th>
-                            <th className={styles.header} scope="col" colSpan={1}>
+                            </Table.ColumnHeader>
+                            <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 <SykmeldtikonMedTooltip className={styles.headerContent}>
                                     Utbetaling
                                 </SykmeldtikonMedTooltip>
-                            </th>
-                            <th className={styles.header} scope="col" colSpan={1}>
+                            </Table.ColumnHeader>
+                            <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 Dager igjen
-                            </th>
-                            <th className={styles.header} scope="col" colSpan={1}>
+                            </Table.ColumnHeader>
+                            <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 Merknader
-                            </th>
-                            {overstyrer && <th className={styles.header} scope="col" colSpan={1} />}
-                        </tr>
-                    </thead>
-                    <tbody>
+                            </Table.ColumnHeader>
+                            {overstyrer && <Table.HeaderCell className={styles.header} scope="col" colSpan={1} />}
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
                         {dagerList.length > 0 && <TotalRow dager={dagerList} overstyrer={overstyrer} />}
                         {dagerList.map((tabelldag, i) => (
                             <Row
@@ -158,8 +157,8 @@ export const Utbetalingstabell = ({
                                 )}
                             </Row>
                         ))}
-                    </tbody>
-                </table>
+                    </Table.Body>
+                </Table>
             </div>
         </section>
     );

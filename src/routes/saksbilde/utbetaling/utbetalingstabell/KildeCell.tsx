@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
+import { Table } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { Kildetype, Maybe } from '@io/graphql';
@@ -52,10 +53,10 @@ interface KildeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 
 export const KildeCell = ({ type, kilde, overstyringer, ...rest }: KildeCellProps): ReactElement => {
     return (
-        <td {...rest}>
+        <Table.DataCell {...rest}>
             <CellContent className={styles.container}>
                 {!erHelg(type) && <KildeTypeIcon kilde={kilde} overstyringer={overstyringer} />}
             </CellContent>
-        </td>
+        </Table.DataCell>
     );
 };

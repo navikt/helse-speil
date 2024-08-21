@@ -1,10 +1,13 @@
-import styles from './Row.module.scss';
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
+
+import { Table } from '@navikt/ds-react';
 
 import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
 import { helgetyper } from '../utbetaling/utbetalingstabell/helgUtils';
+
+import styles from './Row.module.scss';
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
     erAvvist?: boolean;
@@ -27,7 +30,7 @@ export const Row = ({
 }: RowProps): ReactElement => {
     const viseHelgStil = (type && [...helgetyper, 'Helg'].includes(type)) || erHelg;
     return (
-        <tr
+        <Table.Row
             className={classNames(
                 styles.row,
                 markertDag && styles.markert,
@@ -39,6 +42,6 @@ export const Row = ({
             )}
         >
             {children}
-        </tr>
+        </Table.Row>
     );
 };

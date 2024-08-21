@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react';
 
+import { Table } from '@navikt/ds-react';
+
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Maybe } from '@io/graphql';
 import { CellContent } from '@saksbilde/table/CellContent';
@@ -23,12 +25,12 @@ export const GradCell = ({ tabelldag, overstyrtDag, ...rest }: GradCellProps): R
         typeof tabelldag.grad === 'number' ? `Endret fra ${tabelldag.grad} %` : 'Endret fra dag uten grad';
 
     return (
-        <td {...rest}>
+        <Table.DataCell {...rest}>
             {gradErOverstyrt && <Endringstrekant text={overstyringstekst} />}
             <CellContent flexEnd>
                 {dagtypeIsValid(overstyrtDag?.dag.speilDagtype ?? tabelldag.dag.speilDagtype) &&
                     renderGrad(overstyrtDag?.grad ?? tabelldag.grad)}
             </CellContent>
-        </td>
+        </Table.DataCell>
     );
 };

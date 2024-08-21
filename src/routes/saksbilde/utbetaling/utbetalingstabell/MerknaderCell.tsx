@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Tooltip } from '@navikt/ds-react';
+import { BodyShort, Table, Tooltip } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Begrunnelse, Maybe } from '@io/graphql';
@@ -134,11 +134,11 @@ interface MerknaderCellProps extends React.HTMLAttributes<HTMLTableCellElement> 
 }
 
 export const MerknaderCell = ({ dag, alderVedSkjæringstidspunkt, ...rest }: MerknaderCellProps): ReactElement => (
-    <td {...rest}>
+    <Table.DataCell {...rest}>
         <CellContent>
             {sisteUtbetalingsdagMerknad(dag.erMaksdato) ??
                 foreldetDagMerknad(dag.erForeldet) ??
                 avvisningsårsakerMerknad(dag.begrunnelser ?? null, alderVedSkjæringstidspunkt)}
         </CellContent>
-    </td>
+    </Table.DataCell>
 );
