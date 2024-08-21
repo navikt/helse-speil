@@ -11,6 +11,7 @@ import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
+import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/månedsbeløp/Månedsbeløp';
 import {
     useArbeidsgiver,
     useLokaleRefusjonsopplysninger,
@@ -27,7 +28,6 @@ import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefr
 import { isGhostPeriode } from '@utils/typeguards';
 
 import { Begrunnelser } from '../Begrunnelser';
-import { Månedsbeløp } from '../månedsbeløp/Månedsbeløp';
 import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';
 import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
 import { Refusjon } from './refusjon/Refusjon';
