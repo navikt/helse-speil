@@ -3,16 +3,30 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { Refusjon } from '@saksbilde/sykepengegrunnlag/inntekt/Refusjon';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { NORSK_DATOFORMAT } from '@utils/date';
 
 describe('Refusjonskjema', () => {
-    const refusjonsopplysninger: Refusjonsopplysning[] = [
+    const en_refusjonsopplysning: Refusjonsopplysning[] = [
         {
             fom: '2020-01-01',
             beløp: 10000,
             kilde: 'INNTEKTSMELDING',
+        },
+    ];
+
+    const to_refusjonsopplysninger: Refusjonsopplysning[] = [
+        {
+            fom: '2020-01-01',
+            beløp: 10000,
+            kilde: 'INNTEKTSMELDING',
+        },
+        {
+            fom: '2020-01-01',
+            tom: '2020-02-01',
+            beløp: 30000,
+            kilde: 'SAKSBEHANDLER',
         },
     ];
 
@@ -40,13 +54,21 @@ describe('Refusjonskjema', () => {
     });
 
     it('skal rendre skjema hvis det finnes refusjoner', () => {
-        render(<TestRefusjon fraRefusjonsopplysninger={refusjonsopplysninger} />);
+        render(<TestRefusjon fraRefusjonsopplysninger={en_refusjonsopplysning} />);
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
         expect(screen.queryByLabelText('fom')).toHaveValue(
-            dayjs(refusjonsopplysninger[0].fom).format(NORSK_DATOFORMAT),
+            dayjs(en_refusjonsopplysning[0].fom).format(NORSK_DATOFORMAT),
         );
         expect(screen.queryByLabelText('tom')).toHaveValue('');
-        expect(screen.queryByLabelText('Månedlig refusjon')).toHaveValue(refusjonsopplysninger[0].beløp);
+        expect(screen.queryByLabelText('Månedlig refusjon')).toHaveValue(en_refusjonsopplysning[0].beløp);
         expect(screen.queryByText('IM')).toBeInTheDocument();
+    });
+
+    it('skal kunne slette refusjonsopplysninger', async () => {
+        render(<TestRefusjon fraRefusjonsopplysninger={to_refusjonsopplysninger} />);
+        expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(2);
+        const knapper = await waitFor(() => screen.findAllByRole('button', { name: 'Slett' }));
+        await act(() => fireEvent.click(knapper[0]));
+        expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
     });
 });
