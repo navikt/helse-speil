@@ -52,7 +52,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                 <div>Månedlig refusjon</div>
             </div>
             {fields.map((refusjonsopplysning, index) => (
-                <div key={refusjonsopplysning.id} className={styles.RefusjonsRad}>
+                <div key={refusjonsopplysning.id} className={styles.RefusjonsRad} data-testid="refusjonsopplysningrad">
                     <DatePicker
                         defaultSelected={
                             refusjonsopplysning?.fom
