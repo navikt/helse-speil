@@ -12,7 +12,7 @@ describe('Refusjonskjema', () => {
         {
             fom: '2020-01-01',
             beløp: 10000,
-            kilde: 'IM',
+            kilde: 'INNTEKTSMELDING',
         },
     ];
 
@@ -47,5 +47,6 @@ describe('Refusjonskjema', () => {
         );
         expect(screen.queryByLabelText('tom')).toHaveValue('');
         expect(screen.queryByLabelText('Månedlig refusjon')).toHaveValue(refusjonsopplysninger[0].beløp);
+        expect(screen.queryByText('IM')).toBeInTheDocument();
     });
 });
