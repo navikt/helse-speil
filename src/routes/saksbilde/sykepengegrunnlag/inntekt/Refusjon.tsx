@@ -92,7 +92,8 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                             }}
                             render={() => (
                                 <DatePicker.Input
-                                    label=""
+                                    label="fom"
+                                    hideLabel
                                     className={styles.DateInput}
                                     size="small"
                                     placeholder="dd.mm.åååå"
@@ -139,7 +140,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                         onSelect={(date: Date | undefined) => {
                             updateRefusjonsopplysninger(
                                 refusjonsopplysning?.fom ?? null,
-                                date ? dayjs(date).format(ISO_DATOFORMAT) : refusjonsopplysning?.tom ?? null,
+                                date ? dayjs(date).format(ISO_DATOFORMAT) : (refusjonsopplysning?.tom ?? null),
                                 refusjonsopplysning.beløp,
                                 index,
                             );
@@ -163,7 +164,8 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                             }}
                             render={() => (
                                 <DatePicker.Input
-                                    label=""
+                                    label="tom"
+                                    hideLabel
                                     className={styles.DateInput}
                                     size="small"
                                     placeholder="dd.mm.åååå"
@@ -187,7 +189,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                         refusjonsopplysning?.tom &&
                                         dayjs(refusjonsopplysning.tom, ISO_DATOFORMAT).isValid()
                                             ? dayjs(refusjonsopplysning.tom, ISO_DATOFORMAT)?.format(NORSK_DATOFORMAT)
-                                            : refusjonsopplysning?.tom ?? undefined
+                                            : (refusjonsopplysning?.tom ?? undefined)
                                     }
                                     error={!!formState.errors?.refusjonsopplysninger?.[index]?.tom?.message}
                                 />
