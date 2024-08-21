@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { Alert, BodyShort, Button } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
+import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { OmregnetArsinntekt, PersonFragment } from '@io/graphql';
@@ -28,7 +29,6 @@ import { isGhostPeriode } from '@utils/typeguards';
 import { Begrunnelser } from '../Begrunnelser';
 import { Månedsbeløp } from '../Månedsbeløp';
 import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';
-import { Feiloppsummering, Skjemafeil } from './Feiloppsummering';
 import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
 import { Refusjon } from './refusjon/Refusjon';
 import { RefusjonFormFields } from './refusjon/useRefusjonFormField';

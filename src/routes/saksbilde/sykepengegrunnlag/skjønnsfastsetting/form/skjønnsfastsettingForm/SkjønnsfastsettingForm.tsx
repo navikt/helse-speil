@@ -4,11 +4,11 @@ import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatc
 import { Button } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
+import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiverinntekt, Maybe, Sykepengegrunnlagsgrense } from '@io/graphql';
-import { Feiloppsummering, Skjemafeil } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/Feiloppsummering';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingÅrsak';

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ErrorSummary } from '@navikt/ds-react';
 
-import styles from './EditableInntekt.module.css';
+import styles from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntekt.module.css';
 
 export interface Skjemafeil {
     id: string;
