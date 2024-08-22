@@ -7,7 +7,11 @@ import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 
 import styles from './MinimumSykdomsgrad.module.scss';
 
-export const MinimumSykdomsgrad = (): ReactElement => {
+interface MinimumSykdomsgradProps {
+    setOverstyrerMinimumSykdomsgrad: (overstyrer: boolean) => void;
+}
+
+export const MinimumSykdomsgrad = ({ setOverstyrerMinimumSykdomsgrad }: MinimumSykdomsgradProps): ReactElement => {
     const ref = useRef<HTMLDialogElement>(null);
     const form = useForm();
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
@@ -63,7 +67,12 @@ export const MinimumSykdomsgrad = (): ReactElement => {
                 <Button size="small" variant="secondary" type="submit">
                     Lagre
                 </Button>
-                <Button size="small" variant="tertiary" type="button">
+                <Button
+                    size="small"
+                    variant="tertiary"
+                    type="button"
+                    onClick={() => setOverstyrerMinimumSykdomsgrad(false)}
+                >
                     Avbryt
                 </Button>
             </span>

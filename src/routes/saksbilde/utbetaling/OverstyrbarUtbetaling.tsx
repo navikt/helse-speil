@@ -169,7 +169,9 @@ export const OverstyrbarUtbetaling = ({
                 overstyrerMinimumSykdomsgrad={overstyrerMinimumSykdomsgrad}
                 setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
             />
-            {overstyrerMinimumSykdomsgrad && <MinimumSykdomsgrad />}
+            {overstyrerMinimumSykdomsgrad && (
+                <MinimumSykdomsgrad setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad} />
+            )}
             {overstyrer && (
                 <LeggTilDager
                     openDagtypeModal={() => setVisDagtypeModal(true)}
