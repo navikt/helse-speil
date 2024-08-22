@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
-import { Detail, Fieldset, Label } from '@navikt/ds-react';
+import { Detail, Fieldset, Label, Table } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
 import { ArbeidsgiverFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
@@ -76,16 +76,16 @@ export const SkjønnsfastsettingArbeidsgivere = ({
             error={formState.errors.arbeidsgivere?.root?.message}
             className={styles.arbeidsgivere}
         >
-            <table className={styles.tabell}>
-                <thead>
-                    <tr>
-                        <th />
-                        <th>
+            <Table className={styles.tabell}>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell />
+                        <Table.HeaderCell>
                             <Label>Årsinntekt</Label>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
+                        </Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
                     {fields.map((field, index) => {
                         const årligField = register(`arbeidsgivere.${index}.årlig`, {
                             setValueAs: (value) => Number(value.toString().replaceAll(/\s/g, '').replaceAll(',', '.')),
@@ -107,25 +107,25 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                             />
                         );
                     })}
-                </tbody>
+                </Table.Body>
                 <tfoot className={styles.total}>
                     {type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT && antallArbeidsgivere > 1 && (
-                        <tr>
-                            <td>Til fordeling</td>
-                            <td className={styles.inntektSum}>{somPenger(tilFordeling)}</td>
-                        </tr>
+                        <Table.Row>
+                            <Table.DataCell>Til fordeling</Table.DataCell>
+                            <Table.DataCell className={styles.inntektSum}>{somPenger(tilFordeling)}</Table.DataCell>
+                        </Table.Row>
                     )}
-                    <tr>
-                        <td>Skjønnsfastsatt årsinntekt</td>
-                        <td className={styles.inntektSum}>
+                    <Table.Row>
+                        <Table.DataCell>Skjønnsfastsatt årsinntekt</Table.DataCell>
+                        <Table.DataCell className={styles.inntektSum}>
                             <Label>{somPenger(isNaN(inntektSum) ? 0 : inntektSum)}</Label>
-                        </td>
-                    </tr>
-                    <tr className={styles.sykepengegrunnlag}>
-                        <td>
+                        </Table.DataCell>
+                    </Table.Row>
+                    <Table.Row className={styles.sykepengegrunnlag}>
+                        <Table.DataCell>
                             <Label className={styles.Bold}>Sykepengegrunnlag</Label>
-                        </td>
-                        <td className={styles.inntektSum}>
+                        </Table.DataCell>
+                        <Table.DataCell className={styles.inntektSum}>
                             <Label className={styles.Bold}>
                                 {somPenger(
                                     isNaN(inntektSum)
@@ -135,11 +135,11 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                                           : inntektSum,
                                 )}
                             </Label>
-                        </td>
-                    </tr>
+                        </Table.DataCell>
+                    </Table.Row>
                     {erBegrensetTil6G && (
-                        <tr className={styles.erBegrenset}>
-                            <td>
+                        <Table.Row className={styles.erBegrenset}>
+                            <Table.DataCell>
                                 <Detail className={styles.detail}>
                                     <span>
                                         {`Sykepengegrunnlaget er begrenset til 6G: ${somPengerUtenDesimaler(
@@ -148,11 +148,11 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                                     </span>
                                     <LovdataLenke paragraf="8-10">§ 8-10</LovdataLenke>
                                 </Detail>
-                            </td>
-                        </tr>
+                            </Table.DataCell>
+                        </Table.Row>
                     )}
                 </tfoot>
-            </table>
+            </Table>
         </Fieldset>
     );
 };

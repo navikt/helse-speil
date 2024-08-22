@@ -1,7 +1,7 @@
 import React from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
-import { TextField } from '@navikt/ds-react';
+import { Table, TextField } from '@navikt/ds-react';
 
 import { Arbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/Arbeidsgivernavn';
 import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
@@ -25,11 +25,11 @@ export const ArbeidsgiverRad = ({
     antallArbeidsgivere,
     clearArbeidsgiverErrors,
 }: ArbeidsgiverRadProps) => (
-    <tr className={styles.arbeidsgiver}>
-        <td>
+    <Table.Row className={styles.arbeidsgiver}>
+        <Table.DataCell>
             <Arbeidsgivernavn arbeidsgivernavn={arbeidsgiverNavn} className={styles.arbeidsgivernavn} />
-        </td>
-        <td>
+        </Table.DataCell>
+        <Table.DataCell>
             <TextField
                 {...årligField}
                 onChange={(e) => {
@@ -50,8 +50,8 @@ export const ArbeidsgiverRad = ({
                 onFocus={(e) => e.target.select()}
             />
             <input {...orgnummerField} hidden style={{ display: 'none' }} />
-        </td>
-    </tr>
+        </Table.DataCell>
+    </Table.Row>
 );
 
 const formaterBeløp = (e: React.ChangeEvent<HTMLInputElement>) => {

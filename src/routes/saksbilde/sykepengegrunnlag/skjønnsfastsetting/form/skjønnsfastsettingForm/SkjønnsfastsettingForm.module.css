@@ -36,9 +36,14 @@
     text-align: right;
 }
 
+.tabell {
+    width: fit-content;
+}
+
 .tabell td,
 .tabell th {
     padding: 0 2rem 0.5rem 0;
+    border: none;
     vertical-align: middle;
 }
 
