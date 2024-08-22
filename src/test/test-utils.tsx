@@ -62,9 +62,6 @@ function customRender(
 
 async function openPlayground(screen: Screen): Promise<void> {
     screen.logTestingPlaygroundURL();
-
-    // TODO: Dette åpner det automatisk, men open funker ikke i jest pga ESM-kødd
-    // await open(screen.logTestingPlaygroundURL());
 }
 
 const customScreen = {
