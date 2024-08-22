@@ -85,7 +85,7 @@ export const VenstremenyBeregnetPeriode = ({
                 gammeltTotalbeløp={forrigeGenerasjonPeriode ? gammeltTotalbeløp : undefined}
             />
             {activePeriod.periodetilstand === Periodetilstand.TilGodkjenning && !utbetaleTilgang.tillatt ? (
-                <Feilmelding handling={utbetaleTilgang} />
+                <ErrorMessage>Du har ikke tilgang til å behandle denne saken</ErrorMessage>
             ) : (
                 <>
                     <HarVurderbareVarsler person={currentPerson} />
@@ -99,19 +99,6 @@ export const VenstremenyBeregnetPeriode = ({
             ))}
         </section>
     );
-};
-
-type FeilmeldingProps = {
-    handling: Handling;
-};
-
-const Feilmelding = ({ handling }: FeilmeldingProps): ReactElement => {
-    let errorMessage;
-    //TODO: Fjerne IkkeTilgangTilRisk? Alle har vel tilgang?
-    if (handling.begrunnelse === 'IkkeTilgangTilRisk')
-        errorMessage = 'Dette er en risk-sak. Det kreves egen tilgang for å behandle disse.';
-    else errorMessage = 'Du har ikke tilgang til å behandle denne saken';
-    return <ErrorMessage>{errorMessage}</ErrorMessage>;
 };
 
 const getNumberOfDaysWithType = (timeline: Array<Dag>, type: Utbetalingsdagtype): number =>
