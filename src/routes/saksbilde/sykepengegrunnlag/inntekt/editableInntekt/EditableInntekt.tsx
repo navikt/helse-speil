@@ -250,6 +250,8 @@ export const EditableInntekt = ({
     const visFeilOppsummering =
         !form.formState.isValid && form.formState.isSubmitted && Object.entries(form.formState.errors).length > 0;
 
+    console.log(form);
+
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(confirmChanges)}>

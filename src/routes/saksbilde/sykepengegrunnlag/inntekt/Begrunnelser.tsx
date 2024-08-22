@@ -21,15 +21,15 @@ interface BegrunnelserProps {
 }
 
 export const Begrunnelser = ({ begrunnelser }: BegrunnelserProps) => {
-    const form = useFormContext();
-    const { ref, ...begrunnelseValidation } = form.register('begrunnelseId', { required: 'Velg en begrunnelse' });
+    const { register, formState } = useFormContext();
+    const { ref, ...begrunnelseValidation } = register('begrunnelseId', { required: 'Velg en begrunnelse' });
     return (
         <RadioGroup
             legend="Begrunnelse"
             id="begrunnelseId"
             name="begrunnelseId"
             className={styles.begrunnelser}
-            error={form.formState.errors.begrunnelse ? (form.formState.errors.begrunnelse.message as string) : null}
+            error={formState.errors.begrunnelseId ? (formState.errors.begrunnelseId.message as string) : null}
         >
             {begrunnelser.map((begrunnelse, index) => (
                 <Radio ref={ref} value={begrunnelse.id} key={index} {...begrunnelseValidation}>
