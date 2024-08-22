@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Table } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Refusjonsopplysning } from '@typer/overstyring';
@@ -23,18 +23,18 @@ export const Refusjonsoversikt = ({ refusjon, lokaleRefusjonsopplysninger }: Ref
                     <Bold>Refusjon</Bold>
                 </div>
             </div>
-            <table className={styles.Table}>
-                <thead>
-                    <tr>
-                        <th>
+            <Table className={styles.Table}>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>
                             <BodyShort size="small">Fra og med dato</BodyShort>
-                        </th>
-                        <th>
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
                             <BodyShort size="small">Månedlig refusjon</BodyShort>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
+                        </Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
                     {refusjonIVisning.map((refusjonsopplysning, i) => (
                         <Refusjonslinje
                             key={i}
@@ -47,8 +47,8 @@ export const Refusjonsoversikt = ({ refusjon, lokaleRefusjonsopplysninger }: Ref
                             }
                         />
                     ))}
-                </tbody>
-            </table>
+                </Table.Body>
+            </Table>
         </div>
     );
 };

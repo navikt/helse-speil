@@ -33,11 +33,10 @@
 
 .Table td,
 .Table th {
-    text-align: flex-start;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+    padding: 0 2.5rem;
     height: 2rem;
     vertical-align: middle;
+    border: none;
 }
 
 .SisteRefusjonsdag {
