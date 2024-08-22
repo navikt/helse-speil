@@ -18,15 +18,13 @@
 }
 
 .table {
-    text-align: left;
-    border-collapse: collapse;
-    width: max-content;
     margin-bottom: 1.75rem;
 }
 
 .table td,
 .table th {
     padding: 0.25rem 0.5rem;
+    border: none;
 }
 
 .table td:not(:last-of-type),

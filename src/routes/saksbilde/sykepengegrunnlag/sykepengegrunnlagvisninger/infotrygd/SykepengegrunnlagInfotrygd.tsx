@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Table } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
@@ -24,51 +24,51 @@ export const SykepengegrunnlagInfotrygd = ({
 }: SykepengegrunnlagInfotrygdProps): ReactElement => {
     return (
         <div className={styles.sykepengegrunnlag}>
-            <table className={styles.table}>
-                <thead>
-                    <tr>
-                        <th />
-                        <th>
+            <Table className={styles.table}>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell />
+                        <Table.ColumnHeader>
                             <Bold>Inntektsgrunnlag</Bold>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
+                        </Table.ColumnHeader>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.HeaderCell>
                             <BodyShort as="p" className={styles.kolonnetittel}>
                                 Inntektskilde
                             </BodyShort>
-                        </th>
-                        <th>
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
                             <BodyShort as="p" className={styles.kolonnetittel}>
                                 Sykepengegrunnlag før 6G
                             </BodyShort>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
+                        </Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
                     {vilkårsgrunnlag.inntekter.map((inntekt, index) => (
                         <InfotrygdInntekt key={index} aktivtOrgnummer={organisasjonsnummer} inntekt={inntekt} />
                     ))}
-                </tbody>
+                </Table.Body>
                 <tfoot>
-                    <tr>
-                        <td>
+                    <Table.Row>
+                        <Table.DataCell>
                             <Bold>Total</Bold>
-                        </td>
-                        <td>
+                        </Table.DataCell>
+                        <Table.DataCell>
                             <Bold>{somPenger(vilkårsgrunnlag.omregnetArsinntekt)}</Bold>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        </Table.DataCell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.DataCell>
                             <Bold>Sykepengegrunnlag</Bold>
-                        </td>
-                        <td>
+                        </Table.DataCell>
+                        <Table.DataCell>
                             <Bold>{somPenger(vilkårsgrunnlag.sykepengegrunnlag)}</Bold>
-                        </td>
-                    </tr>
+                        </Table.DataCell>
+                    </Table.Row>
                 </tfoot>
-            </table>
+            </Table>
         </div>
     );
 };
@@ -81,20 +81,20 @@ interface InfotrygdInntektProps {
 const InfotrygdInntekt = ({ aktivtOrgnummer, inntekt }: InfotrygdInntektProps): ReactElement => {
     const arbeidsgivernavn = useArbeidsgiver(inntekt.arbeidsgiver)?.navn;
     return (
-        <tr
+        <Table.Row
             className={classNames(
                 styles.arbeidsgiverrad,
                 aktivtOrgnummer === inntekt.arbeidsgiver && styles.ergjeldende,
             )}
         >
-            <td>
+            <Table.DataCell>
                 <AnonymizableText>
                     {arbeidsgivernavn?.toLowerCase() === 'ikke tilgjengelig'
                         ? inntekt.arbeidsgiver
                         : `${arbeidsgivernavn} (${inntekt.arbeidsgiver})`}
                 </AnonymizableText>
-            </td>
-            <td>
+            </Table.DataCell>
+            <Table.DataCell>
                 <div className={styles.inntekt}>
                     <BodyShort>
                         {inntekt.omregnetArsinntekt ? somPenger(inntekt.omregnetArsinntekt.belop) : 'Ukjent'}
@@ -105,7 +105,7 @@ const InfotrygdInntekt = ({ aktivtOrgnummer, inntekt }: InfotrygdInntektProps): 
                         </Kilde>
                     )}
                 </div>
-            </td>
-        </tr>
+            </Table.DataCell>
+        </Table.Row>
     );
 };
