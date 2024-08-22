@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Table } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Maybe } from '@io/graphql';
@@ -23,24 +23,24 @@ export const InntektsgrunnlagoppsummeringTable = ({
     avviksprosent,
 }: InntektsgrunnlagoppsummeringTableProps) => {
     return (
-        <table className={classNames(styles.Table, styles.inntektsgrunnlagoppsummeringTable)}>
-            <tbody>
-                <tr className={styles.oppsummeringRow}>
+        <Table className={classNames(styles.Table, styles.inntektsgrunnlagoppsummeringTable)}>
+            <Table.Body>
+                <Table.Row className={styles.oppsummeringRow}>
                     <TableCellText text="Total omregnet årsinntekt" />
                     <TableCell content={<BodyShort>{somPenger(omregnetÅrsinntekt)}</BodyShort>} />
-                </tr>
-                <tr>
+                </Table.Row>
+                <Table.Row>
                     <TableCellText text="Total rapportert årsinntekt" />
                     <TableCell content={<BodyShort>{somPenger(sammenligningsgrunnlag)}</BodyShort>} />
-                </tr>
-            </tbody>
+                </Table.Row>
+            </Table.Body>
             <tfoot>
-                <tr className={styles.PaddedRow}>
+                <Table.Row className={styles.PaddedRow}>
                     <TableCellBold text="Utregnet avvik" />
                     <TableCell content={<Bold>{avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}</Bold>} />
-                </tr>
+                </Table.Row>
             </tfoot>
-        </table>
+        </Table>
     );
 };
 
@@ -49,9 +49,9 @@ interface TableCellTextProps {
 }
 
 const TableCellText = ({ text }: TableCellTextProps) => (
-    <td>
+    <Table.DataCell>
         <BodyShort>{text}</BodyShort>
-    </td>
+    </Table.DataCell>
 );
 
 interface TableCellBoldProps {
@@ -59,7 +59,7 @@ interface TableCellBoldProps {
 }
 
 const TableCellBold = ({ text }: TableCellBoldProps) => (
-    <td>
+    <Table.DataCell>
         <Bold>{text}</Bold>
-    </td>
+    </Table.DataCell>
 );
