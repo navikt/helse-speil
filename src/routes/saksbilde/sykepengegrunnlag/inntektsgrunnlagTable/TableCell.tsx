@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react';
 
+import { Table } from '@navikt/ds-react';
+
 import { TableCellWrapper } from './TableCellWrapper';
 
 interface TabelCellProps {
@@ -8,7 +10,7 @@ interface TabelCellProps {
 }
 
 export const TableCell = ({ content, ikon }: TabelCellProps) => (
-    <td>
+    <Table.DataCell>
         <TableCellWrapper content={content} ikon={ikon} />
-    </td>
+    </Table.DataCell>
 );

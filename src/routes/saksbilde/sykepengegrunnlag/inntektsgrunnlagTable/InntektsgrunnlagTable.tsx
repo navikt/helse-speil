@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Table } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Arbeidsgiverinntekt, Maybe } from '@io/graphql';
@@ -28,22 +28,22 @@ export const InntektsgrunnlagTable = ({
     sammenligningsgrunnlag,
     skjønnsmessigFastsattÅrlig,
 }: InntektsgrunnlagTableProps) => (
-    <table className={styles.Table}>
-        <thead>
-            <tr>
+    <Table className={styles.Table}>
+        <Table.Header>
+            <Table.Row>
                 <HeaderCellBold />
                 <HeaderCellBold text="Inntektsgrunnlag" />
                 <HeaderCellBold text="Sammenligningsgrunnlag" />
                 <HeaderCellBold text="Skjønnsfastsatt" />
-            </tr>
-            <tr>
+            </Table.Row>
+            <Table.Row>
                 <HeaderCellText text="Inntektskilde" />
                 <HeaderCellText text="Omregnet årsinntekt" />
                 <HeaderCellText text="Rapportert årsinntekt" />
                 <HeaderCellText text="Skjønnsfastsatt årsinntekt" />
-            </tr>
-        </thead>
-        <tbody className={styles.InntektsgrunnlagTableBody}>
+            </Table.Row>
+        </Table.Header>
+        <Table.Body className={styles.InntektsgrunnlagTableBody}>
             {inntekter.map((inntekt, index) => (
                 <Inntektssammenligning
                     key={index}
@@ -56,18 +56,18 @@ export const InntektsgrunnlagTable = ({
                     onSetAktivInntektskilde={() => setAktivInntektskilde(inntekt)}
                 />
             ))}
-        </tbody>
+        </Table.Body>
         <tfoot>
-            <tr>
-                <td>
+            <Table.Row>
+                <Table.DataCell>
                     <Bold>Total</Bold>
-                </td>
+                </Table.DataCell>
                 <TableCell content={<Bold>{somPenger(omregnetÅrsinntekt)}</Bold>} />
                 <TableCell content={<Bold>{somPenger(sammenligningsgrunnlag)}</Bold>} />
                 <TableCell content={<Bold>{somPenger(skjønnsmessigFastsattÅrlig)}</Bold>} />
-            </tr>
+            </Table.Row>
         </tfoot>
-    </table>
+    </Table>
 );
 
 interface HeaderCellBoldProps {
@@ -76,11 +76,11 @@ interface HeaderCellBoldProps {
 
 const HeaderCellBold = ({ text = undefined }: HeaderCellBoldProps) =>
     text === undefined ? (
-        <th />
+        <Table.HeaderCell />
     ) : (
-        <th>
+        <Table.HeaderCell>
             <Bold>{text}</Bold>
-        </th>
+        </Table.HeaderCell>
     );
 
 interface HeaderCellTextProps {
@@ -88,7 +88,7 @@ interface HeaderCellTextProps {
 }
 
 const HeaderCellText = ({ text }: HeaderCellTextProps) => (
-    <th>
+    <Table.HeaderCell>
         <BodyShort className={styles.ColumnTitle}>{text}</BodyShort>
-    </th>
+    </Table.HeaderCell>
 );
