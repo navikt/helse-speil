@@ -3,7 +3,6 @@ import React, { ReactElement, useRef, useState } from 'react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { Dropdown } from '@navikt/ds-react';
 
-import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Maybe, PersonFragment } from '@io/graphql';
@@ -18,25 +17,6 @@ import { PåVentButton } from './PåVentButton';
 import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 
 import styles from './DropdownMenu.module.scss';
-
-// TODO: kan brukes i vanlig useQuery loading?
-const DropdownMenuContentSkeleton = (): ReactElement => {
-    return (
-        <Dropdown.Menu placement="bottom-start">
-            <Dropdown.Menu.List>
-                <Dropdown.Menu.List.Item>
-                    <LoadingShimmer />
-                </Dropdown.Menu.List.Item>
-                <Dropdown.Menu.List.Item>
-                    <LoadingShimmer />
-                </Dropdown.Menu.List.Item>
-                <Dropdown.Menu.List.Item>
-                    <LoadingShimmer />
-                </Dropdown.Menu.List.Item>
-            </Dropdown.Menu.List>
-        </Dropdown.Menu>
-    );
-};
 
 type DropdownMenuProps = {
     person: PersonFragment;
