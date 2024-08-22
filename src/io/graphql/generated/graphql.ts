@@ -1319,6 +1319,7 @@ export enum Svartype {
     Kilometer = 'KILOMETER',
     Kvittering = 'KVITTERING',
     Land = 'LAND',
+    Oppsummering = 'OPPSUMMERING',
     Periode = 'PERIODE',
     Perioder = 'PERIODER',
     Prosent = 'PROSENT',
