@@ -11,6 +11,7 @@ import {
     Skjønnsfastsettingstype,
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
+import { isNumeric } from '@utils/tall';
 
 import { ArbeidsgiverRad } from './ArbeidsgiverRad';
 
@@ -155,5 +156,3 @@ export const SkjønnsfastsettingArbeidsgivere = ({
         </Fieldset>
     );
 };
-
-const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);

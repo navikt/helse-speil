@@ -25,6 +25,7 @@ import { BegrunnelseForOverstyring } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
+import { avrundetToDesimaler } from '@utils/tall';
 import { isGhostPeriode } from '@utils/typeguards';
 
 import { Begrunnelser } from '../Begrunnelser';
@@ -89,8 +90,7 @@ export const EditableInntekt = ({
     const values = form.getValues();
 
     const månedsbeløp = Number.parseFloat(values.manedsbelop);
-    const omregnetÅrsinntektMånedsbeløpRounded =
-        Math.round((omregnetÅrsinntekt.manedsbelop + Number.EPSILON) * 100) / 100;
+    const omregnetÅrsinntektMånedsbeløpRounded = avrundetToDesimaler(omregnetÅrsinntekt.manedsbelop);
     const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded;
 
     useEffect(() => {

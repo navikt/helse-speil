@@ -2,6 +2,7 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { Kildetype, Maybe } from '@io/graphql';
 import { Refusjonsopplysning } from '@typer/overstyring';
+import { avrundetToDesimaler } from '@utils/tall';
 
 export interface RefusjonFormFields {
     fom: string;
@@ -46,7 +47,7 @@ export function useRefusjonFormField() {
                 .map((refusjonsopplysning) => {
                     return {
                         ...refusjonsopplysning,
-                        beløp: Math.round((refusjonsopplysning.beløp + Number.EPSILON) * 100) / 100,
+                        beløp: avrundetToDesimaler(refusjonsopplysning.beløp),
                     };
                 }),
         );

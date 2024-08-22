@@ -5,6 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Maybe } from '@io/graphql';
+import { avrundetToDesimaler, isNumeric } from '@utils/tall';
 
 import styles from './ManedsbeløpInput.module.css';
 
@@ -19,13 +20,9 @@ export const MånedsbeløpInput = ({
     skalDeaktiveres,
     lokaltMånedsbeløp = null,
 }: MånedsbeløpInputProps) => {
-    const form = useFormContext();
-    const initialMånedsbeløpRounded =
-        initialMånedsbeløp && Math.round((initialMånedsbeløp + Number.EPSILON) * 100) / 100;
+    const { register, formState, trigger } = useFormContext();
 
-    const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
-
-    const { ref, onBlur, ...inputValidation } = form.register('manedsbelop', {
+    const { ref, onBlur, ...inputValidation } = register('manedsbelop', {
         disabled: skalDeaktiveres,
         required: 'Månedsbeløp mangler',
         min: { value: 0, message: 'Månedsbeløp må være 0 eller større' },
@@ -41,20 +38,20 @@ export const MånedsbeløpInput = ({
             <div className={styles.column}>
                 <input
                     className={classNames([styles.Input], {
-                        [styles.InputError]: !!form.formState.errors.manedsbelop?.message,
+                        [styles.InputError]: !!formState.errors.manedsbelop?.message,
                     })}
                     id="manedsbelop"
                     ref={ref}
-                    defaultValue={lokaltMånedsbeløp || initialMånedsbeløpRounded}
+                    defaultValue={lokaltMånedsbeløp || (initialMånedsbeløp && avrundetToDesimaler(initialMånedsbeløp))}
                     onBlur={(event) => {
-                        onBlur(event);
-                        form.trigger('manedsbelop');
+                        void onBlur(event);
+                        void trigger('manedsbelop');
                     }}
                     {...inputValidation}
                 />
-                {form.formState.errors.manedsbelop && (
+                {formState.errors.manedsbelop && (
                     <label className={styles.Feilmelding} htmlFor="manedsbelop">
-                        <>{form.formState.errors.manedsbelop.message}</>
+                        <>{formState.errors.manedsbelop.message}</>
                     </label>
                 )}
             </div>

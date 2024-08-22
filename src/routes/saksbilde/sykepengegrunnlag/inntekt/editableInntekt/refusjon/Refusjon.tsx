@@ -12,6 +12,7 @@ import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
+import { avrundetToDesimaler, isNumeric } from '@utils/tall';
 
 import { useRefusjonFormField } from './useRefusjonFormField';
 
@@ -39,8 +40,6 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
             lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : fraRefusjonsopplysninger,
         );
     }, []);
-
-    const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
 
     return (
         <div className={styles.RefusjonWrapper} id="refusjonsopplysninger">
@@ -233,8 +232,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                     }}
                                     aria-labelledby={`refusjonsopplysninger.${index}.beløp`}
                                     defaultValue={
-                                        refusjonsopplysning.beløp &&
-                                        Math.round((refusjonsopplysning.beløp + Number.EPSILON) * 100) / 100
+                                        refusjonsopplysning.beløp && avrundetToDesimaler(refusjonsopplysning.beløp)
                                     }
                                 />
                             </>

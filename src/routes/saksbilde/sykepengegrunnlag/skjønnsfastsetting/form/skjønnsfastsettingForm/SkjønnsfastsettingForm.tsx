@@ -20,6 +20,7 @@ import {
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
+import { avrundetToDesimaler } from '@utils/tall';
 
 import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
 import { useSkjønnsfastsettingDefaults } from './useSkjønnsfastsettingDefaults';
@@ -57,7 +58,7 @@ export const SkjønnsfastsettingForm = ({
     const { aktiveArbeidsgivere, aktiveArbeidsgivereInntekter, defaults } = useSkjønnsfastsettingDefaults(inntekter);
     const erReadonly = useIsReadOnlyOppgave();
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
-    const avrundetSammenligningsgrunnlag = Math.round((sammenligningsgrunnlag + Number.EPSILON) * 100) / 100;
+    const avrundetSammenligningsgrunnlag = avrundetToDesimaler(sammenligningsgrunnlag);
     const cancelEditing = () => {
         setEditing(false);
     };
@@ -190,11 +191,9 @@ const valgtInntekt = (
 ): number => {
     switch (type) {
         case Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT:
-            return Math.round(((inntekt.omregnetArsinntekt?.belop ?? 0) + Number.EPSILON) * 100) / 100;
+            return avrundetToDesimaler(inntekt.omregnetArsinntekt?.belop ?? 0);
         case Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT:
-            return antallAktiveArbeidsgivere > 1
-                ? 0
-                : Math.round((totaltSammenligningsgrunnlag + Number.EPSILON) * 100) / 100;
+            return antallAktiveArbeidsgivere > 1 ? 0 : avrundetToDesimaler(totaltSammenligningsgrunnlag);
         case Skjønnsfastsettingstype.ANNET:
         default:
             return 0;
