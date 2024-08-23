@@ -547,6 +547,15 @@ export type LovhjemmelInput = {
     paragraf: Scalars['String']['input'];
 };
 
+export type MinimumSykdomsgradOverstyring = Overstyring & {
+    __typename?: 'MinimumSykdomsgradOverstyring';
+    ferdigstilt: Scalars['Boolean']['output'];
+    hendelseId: Scalars['UUID']['output'];
+    minimumSykdomsgrad: OverstyrtMinimumSykdomsgrad;
+    saksbehandler: Saksbehandler;
+    timestamp: Scalars['LocalDateTime']['output'];
+};
+
 export enum Mottaker {
     Arbeidsgiver = 'ARBEIDSGIVER',
     Begge = 'BEGGE',
@@ -887,6 +896,14 @@ export type OverstyrtInntekt = {
     manedligInntekt: Scalars['Float']['output'];
     refusjonsopplysninger?: Maybe<Array<Refusjonsopplysning>>;
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
+};
+
+export type OverstyrtMinimumSykdomsgrad = {
+    __typename?: 'OverstyrtMinimumSykdomsgrad';
+    begrunnelse: Scalars['String']['output'];
+    fom: Scalars['LocalDate']['output'];
+    tom: Scalars['LocalDate']['output'];
+    vurdering: Scalars['Boolean']['output'];
 };
 
 export type PaVent = {

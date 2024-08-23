@@ -42,7 +42,6 @@ export type Annullering = {
     personFagsystemId: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent: Scalars['String']['output'];
     tidspunkt: Scalars['LocalDateTime']['output'];
-    utbetalingId: Maybe<Scalars['UUID']['output']>;
 };
 
 export type AnnulleringArsakInput = {
@@ -549,6 +548,15 @@ export type LovhjemmelInput = {
     paragraf: Scalars['String']['input'];
 };
 
+export type MinimumSykdomsgradOverstyring = Overstyring & {
+    __typename: 'MinimumSykdomsgradOverstyring';
+    ferdigstilt: Scalars['Boolean']['output'];
+    hendelseId: Scalars['UUID']['output'];
+    minimumSykdomsgrad: OverstyrtMinimumSykdomsgrad;
+    saksbehandler: Saksbehandler;
+    timestamp: Scalars['LocalDateTime']['output'];
+};
+
 export enum Mottaker {
     Arbeidsgiver = 'ARBEIDSGIVER',
     Begge = 'BEGGE',
@@ -889,6 +897,14 @@ export type OverstyrtInntekt = {
     manedligInntekt: Scalars['Float']['output'];
     refusjonsopplysninger: Maybe<Array<Refusjonsopplysning>>;
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
+};
+
+export type OverstyrtMinimumSykdomsgrad = {
+    __typename: 'OverstyrtMinimumSykdomsgrad';
+    begrunnelse: Scalars['String']['output'];
+    fom: Scalars['LocalDate']['output'];
+    tom: Scalars['LocalDate']['output'];
+    vurdering: Scalars['Boolean']['output'];
 };
 
 export type PaVent = {
@@ -2114,6 +2130,14 @@ export type Overstyring_Inntektoverstyring_Fragment = {
     saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
 };
 
+export type Overstyring_MinimumSykdomsgradOverstyring_Fragment = {
+    __typename: 'MinimumSykdomsgradOverstyring';
+    hendelseId: string;
+    timestamp: string;
+    ferdigstilt: boolean;
+    saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+};
+
 export type Overstyring_Sykepengegrunnlagskjonnsfastsetting_Fragment = {
     __typename: 'Sykepengegrunnlagskjonnsfastsetting';
     hendelseId: string;
@@ -2138,6 +2162,7 @@ export type OverstyringFragment =
     | Overstyring_Arbeidsforholdoverstyring_Fragment
     | Overstyring_Dagoverstyring_Fragment
     | Overstyring_Inntektoverstyring_Fragment
+    | Overstyring_MinimumSykdomsgradOverstyring_Fragment
     | Overstyring_Sykepengegrunnlagskjonnsfastsetting_Fragment;
 
 export type ArbeidsgiverFragment = {
@@ -2643,6 +2668,13 @@ export type ArbeidsgiverFragment = {
                       belop: number;
                   }> | null;
               };
+              saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+          }
+        | {
+              __typename: 'MinimumSykdomsgradOverstyring';
+              hendelseId: string;
+              timestamp: string;
+              ferdigstilt: boolean;
               saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
           }
         | {
@@ -4081,6 +4113,13 @@ export type PersonFragment = {
                   saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
               }
             | {
+                  __typename: 'MinimumSykdomsgradOverstyring';
+                  hendelseId: string;
+                  timestamp: string;
+                  ferdigstilt: boolean;
+                  saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+              }
+            | {
                   __typename: 'Sykepengegrunnlagskjonnsfastsetting';
                   hendelseId: string;
                   timestamp: string;
@@ -4787,6 +4826,13 @@ export type FetchPersonQuery = {
                               belop: number;
                           }> | null;
                       };
+                      saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
+                  }
+                | {
+                      __typename: 'MinimumSykdomsgradOverstyring';
+                      hendelseId: string;
+                      timestamp: string;
+                      ferdigstilt: boolean;
                       saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
                   }
                 | {
