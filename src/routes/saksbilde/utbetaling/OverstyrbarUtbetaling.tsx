@@ -10,8 +10,8 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useMap } from '@hooks/useMap';
 import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
 import { DagtypeModal } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeModal';
-import { MinimumSykdomsgrad } from '@saksbilde/utbetaling/utbetalingstabell/MinimumSykdomsgrad';
 import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
+import { MinimumSykdomsgrad } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgrad';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
