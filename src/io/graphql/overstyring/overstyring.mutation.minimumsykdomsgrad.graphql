@@ -1,0 +1,4 @@
+mutation MinimumSykdomsgradMutation($minimumSykdomsgrad: MinimumSykdomsgradInput!) {
+    minimumSykdomsgrad(minimumSykdomsgrad: $minimumSykdomsgrad)
+}
+

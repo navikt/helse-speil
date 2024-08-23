@@ -126,6 +126,11 @@ export type ArbeidsgiverInntekterFraAOrdningen = {
     skjaeringstidspunkt: Scalars['String']['output'];
 };
 
+export type ArbeidsgiverInput = {
+    berortVedtaksperiodeId: Scalars['UUID']['input'];
+    organisasjonsnummer: Scalars['String']['input'];
+};
+
 export type Arbeidsgiverinntekt = {
     __typename: 'Arbeidsgiverinntekt';
     arbeidsgiver: Scalars['String']['output'];
@@ -548,6 +553,17 @@ export type LovhjemmelInput = {
     paragraf: Scalars['String']['input'];
 };
 
+export type MinimumSykdomsgradInput = {
+    aktorId: Scalars['String']['input'];
+    arbeidsgivere: Array<ArbeidsgiverInput>;
+    begrunnelse: Scalars['String']['input'];
+    fodselsnummer: Scalars['String']['input'];
+    fom: Scalars['LocalDate']['input'];
+    initierendeVedtaksperiodeId: Scalars['UUID']['input'];
+    tom: Scalars['LocalDate']['input'];
+    vurdering: Scalars['Boolean']['input'];
+};
+
 export type MinimumSykdomsgradOverstyring = Overstyring & {
     __typename: 'MinimumSykdomsgradOverstyring';
     ferdigstilt: Scalars['Boolean']['output'];
@@ -576,6 +592,7 @@ export type Mutation = {
     leggPaVent: Maybe<PaVent>;
     leggTilKommentar: Maybe<Kommentar>;
     leggTilNotat: Maybe<Notat>;
+    minimumSykdomsgrad: Scalars['Boolean']['output'];
     oppdaterPerson: Scalars['Boolean']['output'];
     opphevStans: Scalars['Boolean']['output'];
     opprettAbonnement: Scalars['Boolean']['output'];
@@ -638,6 +655,10 @@ export type MutationLeggTilNotatArgs = {
     tekst: Scalars['String']['input'];
     type: NotatType;
     vedtaksperiodeId: Scalars['String']['input'];
+};
+
+export type MutationMinimumSykdomsgradArgs = {
+    minimumSykdomsgrad: MinimumSykdomsgradInput;
 };
 
 export type MutationOppdaterPersonArgs = {
@@ -2030,6 +2051,12 @@ export type OverstyrInntektOgRefusjonMutationMutationVariables = Exact<{
 }>;
 
 export type OverstyrInntektOgRefusjonMutationMutation = { __typename: 'Mutation'; overstyrInntektOgRefusjon: boolean };
+
+export type MinimumSykdomsgradMutationMutationVariables = Exact<{
+    minimumSykdomsgrad: MinimumSykdomsgradInput;
+}>;
+
+export type MinimumSykdomsgradMutationMutation = { __typename: 'Mutation'; minimumSykdomsgrad: boolean };
 
 export type SimuleringFragment = {
     __typename: 'Simulering';
@@ -9928,6 +9955,42 @@ export const OverstyrInntektOgRefusjonMutationDocument = {
     OverstyrInntektOgRefusjonMutationMutation,
     OverstyrInntektOgRefusjonMutationMutationVariables
 >;
+export const MinimumSykdomsgradMutationDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'MinimumSykdomsgradMutation' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'minimumSykdomsgrad' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'MinimumSykdomsgradInput' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'minimumSykdomsgrad' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'minimumSykdomsgrad' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'minimumSykdomsgrad' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<MinimumSykdomsgradMutationMutation, MinimumSykdomsgradMutationMutationVariables>;
 export const FetchPersonDocument = {
     kind: 'Document',
     definitions: [

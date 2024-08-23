@@ -125,6 +125,11 @@ export type ArbeidsgiverInntekterFraAOrdningen = {
     skjaeringstidspunkt: Scalars['String']['output'];
 };
 
+export type ArbeidsgiverInput = {
+    berortVedtaksperiodeId: Scalars['UUID']['input'];
+    organisasjonsnummer: Scalars['String']['input'];
+};
+
 export type Arbeidsgiverinntekt = {
     __typename?: 'Arbeidsgiverinntekt';
     arbeidsgiver: Scalars['String']['output'];
@@ -547,6 +552,17 @@ export type LovhjemmelInput = {
     paragraf: Scalars['String']['input'];
 };
 
+export type MinimumSykdomsgradInput = {
+    aktorId: Scalars['String']['input'];
+    arbeidsgivere: Array<ArbeidsgiverInput>;
+    begrunnelse: Scalars['String']['input'];
+    fodselsnummer: Scalars['String']['input'];
+    fom: Scalars['LocalDate']['input'];
+    initierendeVedtaksperiodeId: Scalars['UUID']['input'];
+    tom: Scalars['LocalDate']['input'];
+    vurdering: Scalars['Boolean']['input'];
+};
+
 export type MinimumSykdomsgradOverstyring = Overstyring & {
     __typename?: 'MinimumSykdomsgradOverstyring';
     ferdigstilt: Scalars['Boolean']['output'];
@@ -575,6 +591,7 @@ export type Mutation = {
     leggPaVent?: Maybe<PaVent>;
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
+    minimumSykdomsgrad: Scalars['Boolean']['output'];
     oppdaterPerson: Scalars['Boolean']['output'];
     opphevStans: Scalars['Boolean']['output'];
     opprettAbonnement: Scalars['Boolean']['output'];
@@ -637,6 +654,10 @@ export type MutationLeggTilNotatArgs = {
     tekst: Scalars['String']['input'];
     type: NotatType;
     vedtaksperiodeId: Scalars['String']['input'];
+};
+
+export type MutationMinimumSykdomsgradArgs = {
+    minimumSykdomsgrad: MinimumSykdomsgradInput;
 };
 
 export type MutationOppdaterPersonArgs = {
