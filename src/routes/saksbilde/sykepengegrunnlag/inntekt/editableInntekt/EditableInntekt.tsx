@@ -180,17 +180,6 @@ export const EditableInntekt = ({
             setHarIkkeSkjemaEndringer(false);
         }
 
-        form.clearErrors([
-            // @ts-expect-error Feil måhøre til et felt
-            'sisteTomErFørPeriodensTom',
-            // @ts-expect-error Feil måhøre til et felt
-            'førsteFomErEtterFørstePeriodesFom',
-            // @ts-expect-error Feil måhøre til et felt
-            'erGapIDatoer',
-            // @ts-expect-error Feil måhøre til et felt
-            'manglerRefusjonsopplysninger',
-        ]);
-
         const sisteTomErFørPeriodensTom: boolean =
             refusjonsopplysninger?.[0]?.tom === null
                 ? false
@@ -213,15 +202,13 @@ export const EditableInntekt = ({
         const manglerRefusjonsopplysninger: boolean = refusjonsopplysninger.length === 0;
 
         sisteTomErFørPeriodensTom &&
-            // @ts-expect-error Feil måhøre til et felt
-            form.setError('sisteTomErFørPeriodensTom', {
+            form.setError('refusjonsopplysninger', {
                 type: 'custom',
                 message: 'Siste til og med dato kan ikke være før periodens til og med dato.',
             });
 
         førsteFomErEtterFørstePeriodesFom &&
-            // @ts-expect-error Feil måhøre til et felt
-            form.setError('førsteFomErEtterFørstePeriodesFom', {
+            form.setError('refusjonsopplysninger', {
                 type: 'custom',
                 message: `Tidligste fra og med dato for refusjon må være lik eller før ${dayjs(
                     førstePeriodeForSkjæringstidspunkt?.fom,
@@ -230,12 +217,13 @@ export const EditableInntekt = ({
             });
 
         erGapIDatoer &&
-            // @ts-expect-error Feil måhøre til et felt
-            form.setError('erGapIDatoer', { type: 'custom', message: 'Refusjonsdatoene må være sammenhengende.' });
+            form.setError('refusjonsopplysninger', {
+                type: 'custom',
+                message: 'Refusjonsdatoene må være sammenhengende.',
+            });
 
         manglerRefusjonsopplysninger &&
-            // @ts-expect-error Feil måhøre til et felt
-            form.setError('manglerRefusjonsopplysninger', { type: 'custom', message: 'Mangler refusjonsopplysninger' });
+            form.setError('refusjonsopplysninger', { type: 'custom', message: 'Mangler refusjonsopplysninger' });
 
         if (
             !sisteTomErFørPeriodensTom &&
@@ -329,11 +317,8 @@ interface RefMedId extends CustomElement<FieldValues> {
 
 const formErrorsTilFeilliste = (errors: FieldErrors<InntektFormFields>): Skjemafeil[] =>
     Object.entries(errors)
-        .filter(([id]) => id !== 'refusjonsopplysninger')
-        .map(([id, error]) => {
-            return {
-                id: error.type === 'custom' ? 'refusjonsopplysninger' : ((error?.ref as RefMedId)?.id ?? id),
-                melding: error.message ?? id,
-            };
-        })
+        .map(([id, error]) => ({
+            id: (error?.ref as RefMedId)?.id ?? id,
+            melding: error.message ?? id,
+        }))
         .flat();
