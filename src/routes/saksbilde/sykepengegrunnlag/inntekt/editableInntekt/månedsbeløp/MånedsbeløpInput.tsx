@@ -20,7 +20,13 @@ export const MånedsbeløpInput = ({
     skalDeaktiveres,
     lokaltMånedsbeløp = null,
 }: MånedsbeløpInputProps) => {
-    const { register, formState, trigger } = useFormContext();
+    const {
+        register,
+        formState: {
+            errors: { manedsbelop },
+        },
+        trigger,
+    } = useFormContext();
 
     const { ref, onBlur, ...inputValidation } = register('manedsbelop', {
         disabled: skalDeaktiveres,
@@ -38,7 +44,7 @@ export const MånedsbeløpInput = ({
             <div className={styles.column}>
                 <input
                     className={classNames([styles.Input], {
-                        [styles.InputError]: !!formState.errors.manedsbelop?.message,
+                        [styles.InputError]: !!manedsbelop?.message,
                     })}
                     id="manedsbelop"
                     ref={ref}
@@ -49,9 +55,9 @@ export const MånedsbeløpInput = ({
                     }}
                     {...inputValidation}
                 />
-                {formState.errors.manedsbelop && (
+                {manedsbelop && (
                     <label className={styles.Feilmelding} htmlFor="manedsbelop">
-                        <>{formState.errors.manedsbelop.message}</>
+                        <>{manedsbelop.message}</>
                     </label>
                 )}
             </div>
