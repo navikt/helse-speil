@@ -2,6 +2,10 @@
   border-bottom: none;
   border-radius: 0;
   padding: 0.5rem;
+
+  > :global(.navds-alert__wrapper--maxwidth){
+    max-width: 100%;
+  }
 }
 
 .dato {
