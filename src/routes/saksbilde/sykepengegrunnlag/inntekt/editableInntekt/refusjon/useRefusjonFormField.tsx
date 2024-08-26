@@ -1,4 +1,4 @@
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray } from 'react-hook-form';
 
 import { Kildetype, Maybe } from '@io/graphql';
 import { Refusjonsopplysning } from '@typer/overstyring';
@@ -17,8 +17,6 @@ export interface RefusjonFormValues {
 }
 
 export function useRefusjonFormField() {
-    const { formState, clearErrors } = useFormContext<RefusjonFormValues>();
-
     const { fields, append, remove, replace, update } = useFieldArray<RefusjonFormValues>({
         name: 'refusjonsopplysninger',
     });
@@ -64,8 +62,6 @@ export function useRefusjonFormField() {
 
     return {
         fields,
-        clearErrors,
-        formState,
         addRefusjonsopplysning,
         removeRefusjonsopplysning,
         replaceRefusjonsopplysninger,

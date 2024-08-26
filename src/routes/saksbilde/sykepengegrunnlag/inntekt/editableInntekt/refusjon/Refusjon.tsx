@@ -1,20 +1,18 @@
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
-import { Controller, FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
+import { Controller, FieldError, FieldErrorsImpl, Merge, useFormContext } from 'react-hook-form';
 
-import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, DatePicker, ErrorMessage } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Button } from '@components/Button';
-import { Endringstrekant } from '@components/Endringstrekant';
-import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
+import { RefusjonKilde } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonKilde';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { avrundetToDesimaler, isNumeric } from '@utils/tall';
 
-import { RefusjonFormFields, useRefusjonFormField } from './useRefusjonFormField';
+import { RefusjonFormFields, RefusjonFormValues, useRefusjonFormField } from './useRefusjonFormField';
 
 import styles from './Refusjon.module.scss';
 
@@ -26,13 +24,12 @@ interface RefusjonProps {
 export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger }: RefusjonProps) => {
     const {
         fields,
-        clearErrors,
-        formState,
         addRefusjonsopplysning,
         removeRefusjonsopplysning,
         replaceRefusjonsopplysninger,
         updateRefusjonsopplysninger,
     } = useRefusjonFormField();
+    const { formState, clearErrors } = useFormContext<RefusjonFormValues>();
 
     useEffect(() => {
         replaceRefusjonsopplysninger(
@@ -241,34 +238,16 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                 </>
                             )}
                         />
-                        <Controller
-                            name={`refusjonsopplysninger.${index}.kilde`}
-                            render={() => (
-                                <div className={styles.refusjonsopplysninger}>
-                                    {refusjonsopplysning.kilde === Kildetype.Inntektsmelding && (
-                                        <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                            IM
-                                        </Kilde>
-                                    )}
-                                    {refusjonsopplysning.kilde === Kildetype.Saksbehandler &&
-                                        (lokaleRefusjonsopplysninger.length > 0 &&
-                                        JSON.stringify(lokaleRefusjonsopplysninger?.[index]) !==
-                                            JSON.stringify(fraRefusjonsopplysninger?.[index]) ? (
-                                            <div style={{ position: 'relative', width: '20px' }}>
-                                                <Endringstrekant />
-                                            </div>
-                                        ) : (
-                                            <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                                <PersonPencilFillIcon
-                                                    title="Saksbehandler ikon"
-                                                    height={12}
-                                                    width={12}
-                                                />
-                                            </Kilde>
-                                        ))}
-                                </div>
-                            )}
+
+                        <RefusjonKilde
+                            kilde={refusjonsopplysning.kilde as Kildetype}
+                            harLokaleOpplysninger={lokaleRefusjonsopplysninger.length > 0}
+                            harEndringer={
+                                JSON.stringify(lokaleRefusjonsopplysninger?.[index]) !==
+                                JSON.stringify(fraRefusjonsopplysninger?.[index])
+                            }
                         />
+
                         <Button
                             type="button"
                             onClick={removeRefusjonsopplysning(index)}
