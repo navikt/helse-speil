@@ -17,10 +17,9 @@ export interface RefusjonFormValues {
 }
 
 export function useRefusjonFormField() {
-    const { formState, control, clearErrors } = useFormContext<RefusjonFormValues>();
+    const { formState, clearErrors } = useFormContext<RefusjonFormValues>();
 
     const { fields, append, remove, replace, update } = useFieldArray<RefusjonFormValues>({
-        control,
         name: 'refusjonsopplysninger',
     });
 
@@ -65,7 +64,6 @@ export function useRefusjonFormField() {
 
     return {
         fields,
-        control,
         clearErrors,
         formState,
         addRefusjonsopplysning,

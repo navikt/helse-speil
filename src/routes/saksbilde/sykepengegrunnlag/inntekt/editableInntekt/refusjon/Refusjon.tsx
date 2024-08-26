@@ -26,7 +26,6 @@ interface RefusjonProps {
 export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger }: RefusjonProps) => {
     const {
         fields,
-        control,
         clearErrors,
         formState,
         addRefusjonsopplysning,
@@ -77,7 +76,6 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                             }}
                         >
                             <Controller
-                                control={control}
                                 name={`refusjonsopplysninger.${index}.fom`}
                                 rules={{
                                     required: false,
@@ -149,7 +147,6 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                             }}
                         >
                             <Controller
-                                control={control}
                                 name={`refusjonsopplysninger.${index}.tom`}
                                 rules={{
                                     required: false,
@@ -201,7 +198,6 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                             />
                         </DatePicker>
                         <Controller
-                            control={control}
                             name={`refusjonsopplysninger.${index}.beløp`}
                             rules={{
                                 required: true,
@@ -246,7 +242,6 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                             )}
                         />
                         <Controller
-                            control={control}
                             name={`refusjonsopplysninger.${index}.kilde`}
                             render={() => (
                                 <div className={styles.refusjonsopplysninger}>
