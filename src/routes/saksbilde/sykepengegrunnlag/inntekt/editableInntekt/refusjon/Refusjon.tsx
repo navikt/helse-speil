@@ -1,18 +1,21 @@
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
-import { Controller, FieldError, FieldErrorsImpl, Merge, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
-import { BodyShort, DatePicker, ErrorMessage } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Button } from '@components/Button';
-import { Kildetype, Maybe } from '@io/graphql';
+import { Kildetype } from '@io/graphql';
+import { FomPicker } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/FomPicker';
+import { RefusjonFeiloppsummering } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonFeiloppsumering';
 import { RefusjonKilde } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonKilde';
+import { RefusjonsBeløpInput } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonsBeløpInput';
+import { TomPicker } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/TomPicker';
 import { Refusjonsopplysning } from '@typer/overstyring';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
-import { avrundetToDesimaler, isNumeric } from '@utils/tall';
+import { ISO_DATOFORMAT } from '@utils/date';
 
-import { RefusjonFormFields, RefusjonFormValues, useRefusjonFormField } from './useRefusjonFormField';
+import { RefusjonFormValues, useRefusjonFormField } from './useRefusjonFormField';
 
 import styles from './Refusjon.module.scss';
 
@@ -127,7 +130,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                         </Button>
                     </div>
 
-                    <Feiloppsummering error={formState.errors.refusjonsopplysninger?.[`${index}`]} />
+                    <RefusjonFeiloppsummering error={formState.errors.refusjonsopplysninger?.[`${index}`]} />
                 </div>
             ))}
             <div className={styles.labelContainer}>
@@ -143,193 +146,3 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
         </div>
     );
 };
-
-interface RefusjonsBeløpInputProps {
-    index: number;
-    refusjonsopplysning: Refusjonsopplysning;
-    updateBeløp: (nyttBeløp: number) => void;
-}
-
-const RefusjonsBeløpInput = ({ index, refusjonsopplysning, updateBeløp }: RefusjonsBeløpInputProps) => {
-    const {
-        register,
-        clearErrors,
-        formState: {
-            errors: { refusjonsopplysninger },
-        },
-    } = useFormContext<RefusjonFormValues>();
-    const { ref, onBlur, ...inputValidation } = register(`refusjonsopplysninger.${index}.beløp`, {
-        required: 'Refusjonsopplysningsbeløp mangler',
-        min: { value: 0, message: 'Refusjonsopplysningsbeløp må være 0 eller større' },
-        validate: {
-            måVæreNumerisk: (value) => isNumeric(value.toString()) || 'Refusjonsbeløp må være et beløp',
-        },
-        setValueAs: (value) => Number(value.toString().replaceAll(' ', '').replaceAll(',', '.')),
-    });
-
-    return (
-        <>
-            <label id={`refusjonsopplysninger.${index}.beløp`} className="navds-sr-only">
-                Månedlig refusjon
-            </label>
-            <input
-                className={`${styles.BeløpInput} ${
-                    refusjonsopplysninger?.[index]?.beløp?.message ? styles.InputError : ''
-                }`}
-                ref={ref}
-                aria-labelledby={`refusjonsopplysninger.${index}.beløp`}
-                defaultValue={refusjonsopplysning.beløp && avrundetToDesimaler(refusjonsopplysning.beløp)}
-                onBlur={(event) => {
-                    const nyttBeløp = Number(event.target.value.replaceAll(' ', '').replaceAll(',', '.'));
-
-                    if (nyttBeløp === refusjonsopplysning.beløp) return;
-
-                    clearErrors(`refusjonsopplysninger.${index}`);
-                    updateBeløp(nyttBeløp);
-                    void onBlur(event);
-                }}
-                {...inputValidation}
-            />
-        </>
-    );
-};
-
-interface TomPickerProps {
-    name: string;
-    fom?: string;
-    tom?: Maybe<string>;
-    error: boolean;
-    onSelect: (date: Date | undefined) => void;
-    clearErrors: () => void;
-    updateTom: (nyTom: Maybe<string>) => void;
-}
-
-const TomPicker = ({ name, fom, tom, error, onSelect, clearErrors, updateTom }: TomPickerProps) => {
-    return (
-        <DatePicker
-            defaultSelected={tom ? dayjs(tom, ISO_DATOFORMAT).toDate() : undefined}
-            // @ts-expect-error Det er noe muffins med date picker, hold ds oppdatert i håp om at feilen løses
-            defaultMonth={
-                tom
-                    ? dayjs(tom, ISO_DATOFORMAT).isValid()
-                        ? dayjs(tom, ISO_DATOFORMAT).toDate()
-                        : undefined
-                    : undefined
-            }
-            onSelect={(date: Date | undefined) => onSelect(date)}
-        >
-            <Controller
-                name={name}
-                rules={{
-                    required: false,
-                    validate: {
-                        måHaGyldigFormat: (value) =>
-                            tom === null || dayjs(value, ISO_DATOFORMAT).isValid() || 'Datoen må ha format dd.mm.åååå',
-                        tomKanIkkeværeFørFom: (value) =>
-                            tom === null || dayjs(value).isSameOrAfter(fom) || 'Tom kan ikke være før fom',
-                    },
-                }}
-                render={() => (
-                    <DatePicker.Input
-                        label="tom"
-                        hideLabel
-                        className={styles.DateInput}
-                        size="small"
-                        placeholder="dd.mm.åååå"
-                        onBlur={(e) => {
-                            const nyTom = dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
-                                ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
-                                : e.target.value === ''
-                                  ? null
-                                  : e.target.value;
-                            if (nyTom === tom) return;
-
-                            clearErrors();
-                            updateTom(nyTom);
-                        }}
-                        defaultValue={
-                            tom && dayjs(tom, ISO_DATOFORMAT).isValid()
-                                ? dayjs(tom, ISO_DATOFORMAT)?.format(NORSK_DATOFORMAT)
-                                : (tom ?? undefined)
-                        }
-                        error={error}
-                    />
-                )}
-            />
-        </DatePicker>
-    );
-};
-
-interface FomPickerProps {
-    name: string;
-    fom?: string;
-    tom?: Maybe<string>;
-    error: boolean;
-    onSelect: (date: Date | undefined) => void;
-    clearErrors: () => void;
-    updateFom: (nyFom: string) => void;
-}
-
-const FomPicker = ({ name, fom, tom, error, onSelect, clearErrors, updateFom }: FomPickerProps) => (
-    <DatePicker
-        defaultSelected={fom ? dayjs(fom, ISO_DATOFORMAT).toDate() : undefined}
-        // @ts-expect-error Det er noe muffins med date picker, hold ds oppdatert i håp om at feilen løses
-        defaultMonth={
-            fom ? (dayjs(fom, ISO_DATOFORMAT).isValid() ? dayjs(fom, ISO_DATOFORMAT).toDate() : undefined) : undefined
-        }
-        onSelect={(date: Date | undefined) => {
-            onSelect(date);
-        }}
-    >
-        <Controller
-            name={name}
-            rules={{
-                required: false,
-                validate: {
-                    måHaGyldigFormat: (value) =>
-                        dayjs(value, ISO_DATOFORMAT).isValid() || 'Datoen må ha format dd.mm.åååå',
-                    fomKanIkkeværeEtterTom: (value) =>
-                        tom === null || dayjs(value).isSameOrBefore(tom) || 'Fom kan ikke være etter tom',
-                },
-            }}
-            render={() => (
-                <DatePicker.Input
-                    label="fom"
-                    hideLabel
-                    className={styles.DateInput}
-                    size="small"
-                    placeholder="dd.mm.åååå"
-                    onBlur={(e) => {
-                        const nyFom = dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
-                            ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
-                            : e.target.value;
-
-                        if (nyFom === fom) return;
-                        clearErrors();
-
-                        updateFom(nyFom);
-                    }}
-                    defaultValue={
-                        fom && dayjs(fom, ISO_DATOFORMAT).isValid()
-                            ? dayjs(fom, ISO_DATOFORMAT)?.format(NORSK_DATOFORMAT)
-                            : fom
-                    }
-                    error={error}
-                />
-            )}
-        />
-    </DatePicker>
-);
-
-interface FeiloppsummeringProps {
-    error: Merge<FieldError, FieldErrorsImpl<RefusjonFormFields>> | undefined;
-}
-
-const Feiloppsummering = ({ error }: FeiloppsummeringProps) =>
-    error != null ? (
-        <>
-            {error?.fom && <ErrorMessage>{error.fom.message}</ErrorMessage>}
-            {error?.tom && <ErrorMessage>{error.tom.message}</ErrorMessage>}
-            {error?.beløp && <ErrorMessage>{error.beløp.message}</ErrorMessage>}
-        </>
-    ) : null;
