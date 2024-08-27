@@ -44,7 +44,7 @@ export const RefusjonsBeløpInput = ({ index, refusjonsopplysning, updateBeløp 
                 onBlur={(event) => {
                     const nyttBeløp = Number(event.target.value.replaceAll(' ', '').replaceAll(',', '.'));
 
-                    if (nyttBeløp === refusjonsopplysning.beløp) return;
+                    if (nyttBeløp === refusjonsopplysning.beløp || Number.isNaN(nyttBeløp)) return;
 
                     clearErrors(`refusjonsopplysninger.${index}`);
                     updateBeløp(nyttBeløp);
