@@ -110,3 +110,19 @@ export enum SkjønnsfastsettingstypeDTO {
     RAPPORTERT_ÅRSINNTEKT = 'RAPPORTERT_ÅRSINNTEKT',
     ANNET = 'ANNET',
 }
+
+export interface OverstyrtMinimumSykdomsgradDTO {
+    aktørId: string;
+    fødselsnummer: string;
+    fom: string;
+    tom: string;
+    vurdering: boolean;
+    begrunnelse: string;
+    arbeidsgivere: MinimumSykdomsgradArbeidsgiver[];
+    initierendeVedtaksperiodeId: string;
+}
+
+export interface MinimumSykdomsgradArbeidsgiver {
+    organisasjonsnummer: string;
+    berørtVedtaksperiodeId: string;
+}

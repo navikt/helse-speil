@@ -3,22 +3,77 @@ import { useForm } from 'react-hook-form';
 
 import { Button, ErrorSummary, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 
+import { ErrorMessage } from '@components/ErrorMessage';
+import { TimeoutModal } from '@components/TimeoutModal';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
+import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { overlapper } from '@state/selectors/period';
+import { DateString } from '@typer/shared';
+
+import {
+    getGjeldendeFom,
+    getGjeldendeTom,
+    getOverlappendeArbeidsgivere,
+    getOverlappendeOverstyringFraAnnenPeriode,
+    usePostOverstyringMinimumSykdomsgrad,
+} from './minimumSykdomsgrad';
 
 import styles from './MinimumSykdomsgrad.module.scss';
 
-interface MinimumSykdomsgradProps {
+interface MinimumSykdomsgradFormProps {
+    person: PersonFragment;
+    fom: DateString;
+    tom: DateString;
+    periode: BeregnetPeriodeFragment;
     setOverstyrerMinimumSykdomsgrad: (overstyrer: boolean) => void;
 }
 
-export const MinimumSykdomsgrad = ({ setOverstyrerMinimumSykdomsgrad }: MinimumSykdomsgradProps): ReactElement => {
+export const MinimumSykdomsgradForm = ({
+    person,
+    fom,
+    tom,
+    periode,
+    setOverstyrerMinimumSykdomsgrad,
+}: MinimumSykdomsgradFormProps): ReactElement => {
+    const { isLoading, error, postMinimumSykdomsgrad, timedOut, setTimedOut } = usePostOverstyringMinimumSykdomsgrad(
+        () => setOverstyrerMinimumSykdomsgrad(false),
+    );
     const ref = useRef<HTMLDialogElement>(null);
     const form = useForm();
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const { ...merEnn20Validation } = form.register('MerEnn20', { required: 'Må velge et alternativ' });
 
+    const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, periode);
+    const overlappendeOverstyringFraAnnenPeriode = getOverlappendeOverstyringFraAnnenPeriode(person, periode);
+    const gjeldendeFom = getGjeldendeFom(overlappendeOverstyringFraAnnenPeriode, fom);
+    const gjeldendeTom = getGjeldendeTom(overlappendeOverstyringFraAnnenPeriode, tom);
+
+    console.log(
+        overlappendeArbeidsgivere,
+        overlappendeOverstyringFraAnnenPeriode,
+        fom,
+        gjeldendeFom,
+        tom,
+        gjeldendeTom,
+    );
+
     const submitForm = () => {
-        console.log(form.getValues());
+        const skjemaverdier = form.getValues();
+        postMinimumSykdomsgrad({
+            aktørId: person.aktorId,
+            fødselsnummer: person.fodselsnummer,
+            fom: gjeldendeFom,
+            tom: gjeldendeTom,
+            vurdering: skjemaverdier.MerEnn20 === 'Ja',
+            begrunnelse: skjemaverdier.Begrunnelse,
+            arbeidsgivere: overlappendeArbeidsgivere.map((it) => {
+                return {
+                    organisasjonsnummer: it.organisasjonsnummer,
+                    berørtVedtaksperiodeId: it.generasjoner[0].perioder.find(overlapper(periode))?.vedtaksperiodeId!!,
+                };
+            }),
+            initierendeVedtaksperiodeId: periode.vedtaksperiodeId,
+        });
     };
 
     return (
@@ -64,7 +119,7 @@ export const MinimumSykdomsgrad = ({ setOverstyrerMinimumSykdomsgrad }: MinimumS
                 </div>
             )}
             <span className={styles.buttons}>
-                <Button size="small" variant="secondary" type="submit">
+                <Button size="small" variant="secondary" type="submit" loading={isLoading}>
                     Lagre
                 </Button>
                 <Button
@@ -76,6 +131,8 @@ export const MinimumSykdomsgrad = ({ setOverstyrerMinimumSykdomsgrad }: MinimumS
                     Avbryt
                 </Button>
             </span>
+            {error && <ErrorMessage className={styles.error}>{error}</ErrorMessage>}
+            {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
         </form>
     );
 };

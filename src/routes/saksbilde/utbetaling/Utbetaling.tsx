@@ -117,6 +117,7 @@ const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingB
             revurderingIsEnabled={revurderingIsEnabled.value}
             overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled.value}
             vedtaksperiodeId={period.vedtaksperiodeId}
+            periode={period}
         />
     ) : (
         <ReadonlyUtbetaling fom={period.fom} tom={period.tom} dager={dager} />
@@ -168,6 +169,7 @@ const UtbetalingUberegnetPeriode = ({
             revurderingIsEnabled={false}
             overstyrRevurderingIsEnabled={false}
             vedtaksperiodeId={periode.vedtaksperiodeId}
+            periode={periode}
         />
     ) : (
         <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />

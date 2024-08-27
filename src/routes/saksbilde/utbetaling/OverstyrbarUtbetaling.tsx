@@ -8,12 +8,13 @@ import { BodyShort } from '@navikt/ds-react';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useMap } from '@hooks/useMap';
-import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import { DagtypeModal } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeModal';
 import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
-import { MinimumSykdomsgrad } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgrad';
+import { MinimumSykdomsgradForm } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradForm';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { LeggTilDager } from './utbetalingstabell/LeggTilDager';
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
@@ -41,6 +42,7 @@ interface OverstyrbarUtbetalingProps {
     revurderingIsEnabled: boolean;
     overstyrRevurderingIsEnabled: boolean;
     vedtaksperiodeId: string;
+    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment;
 }
 
 export const OverstyrbarUtbetaling = ({
@@ -53,6 +55,7 @@ export const OverstyrbarUtbetaling = ({
     revurderingIsEnabled,
     overstyrRevurderingIsEnabled,
     vedtaksperiodeId,
+    periode,
 }: OverstyrbarUtbetalingProps): ReactElement => {
     const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
@@ -169,8 +172,14 @@ export const OverstyrbarUtbetaling = ({
                 overstyrerMinimumSykdomsgrad={overstyrerMinimumSykdomsgrad}
                 setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
             />
-            {overstyrerMinimumSykdomsgrad && (
-                <MinimumSykdomsgrad setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad} />
+            {overstyrerMinimumSykdomsgrad && isBeregnetPeriode(periode) && (
+                <MinimumSykdomsgradForm
+                    person={person}
+                    fom={fom}
+                    tom={tom}
+                    periode={periode}
+                    setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
+                />
             )}
             {overstyrer && (
                 <LeggTilDager

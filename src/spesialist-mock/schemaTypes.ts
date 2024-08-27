@@ -40,7 +40,6 @@ export type Annullering = {
     personFagsystemId?: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent: Scalars['String']['output'];
     tidspunkt: Scalars['LocalDateTime']['output'];
-    utbetalingId?: Maybe<Scalars['UUID']['output']>;
 };
 
 export type AnnulleringArsakInput = {
@@ -923,6 +922,7 @@ export type OverstyrtMinimumSykdomsgrad = {
     __typename?: 'OverstyrtMinimumSykdomsgrad';
     begrunnelse: Scalars['String']['output'];
     fom: Scalars['LocalDate']['output'];
+    initierendeVedtaksperiodeId: Scalars['UUID']['output'];
     tom: Scalars['LocalDate']['output'];
     vurdering: Scalars['Boolean']['output'];
 };
