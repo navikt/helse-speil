@@ -11,6 +11,7 @@ import { FomPicker } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/
 import { RefusjonFeiloppsummering } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonFeiloppsumering';
 import { RefusjonKilde } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonKilde';
 import { RefusjonsBeløpInput } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonsBeløpInput';
+import { RefusjonsperiodeInput } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonsperiodeInput';
 import { TomPicker } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/TomPicker';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ISO_DATOFORMAT } from '@utils/date';
@@ -52,6 +53,11 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
             {fields.map((refusjonsopplysning, index) => (
                 <div key={refusjonsopplysning.id}>
                     <div className={styles.RefusjonsRad} data-testid="refusjonsopplysningrad">
+                        <RefusjonsperiodeInput
+                            index={index}
+                            refusjonsopplysning={refusjonsopplysning}
+                            updateRefusjonsopplysninger={updateRefusjonsopplysninger}
+                        />
                         <FomPicker
                             name={`refusjonsopplysninger.${index}.fom`}
                             fom={refusjonsopplysning.fom}
