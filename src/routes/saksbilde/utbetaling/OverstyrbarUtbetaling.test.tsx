@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
+import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import { RecoilWrapper } from '@test-wrappers';
@@ -48,6 +49,7 @@ describe('OverstyrbarUtbetaling', () => {
     test('overstyrer utbetalingstabell', async () => {
         const person = enPerson();
         const arbeidsgiver = enArbeidsgiver();
+        const periode = enBeregnetPeriode();
         render(
             <OverstyrbarUtbetaling
                 arbeidsgiver={arbeidsgiver}
@@ -59,6 +61,7 @@ describe('OverstyrbarUtbetaling', () => {
                 revurderingIsEnabled={false}
                 overstyrRevurderingIsEnabled={false}
                 vedtaksperiodeId="d7d208c3-a9a1-4c03-885f-aeffa4475a49"
+                periode={periode}
             />,
             { wrapper: RecoilWrapper },
         );
