@@ -89,7 +89,10 @@ export const Notathendelse = ({
                 role="button"
                 tabIndex={0}
                 onKeyDown={toggleNotat}
-                onClick={() => setExpanded(isExpandable() && !expanded)}
+                onClick={() => {
+                    // ikke minimer når man markerer tekst
+                    if (window.getSelection()?.type !== 'Range') setExpanded(isExpandable() && !expanded);
+                }}
                 className={styles.NotatTextWrapper}
             >
                 <AnimatePresence mode="wait">
