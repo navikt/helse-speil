@@ -351,14 +351,21 @@ const getResolvers = (): IResolvers => ({
         },
     },
     Overstyring: {
-        __resolveType: (overstyring: { dager?: Array<object>; inntekt?: object; skjonnsfastsatt?: object }) =>
+        __resolveType: (overstyring: {
+            dager?: Array<object>;
+            inntekt?: object;
+            skjonnsfastsatt?: object;
+            minimumSykdomsgrad?: object;
+        }) =>
             overstyring.dager
                 ? 'Dagoverstyring'
                 : overstyring.inntekt
                   ? 'Inntektoverstyring'
                   : overstyring.skjonnsfastsatt
                     ? 'Sykepengegrunnlagskjonnsfastsetting'
-                    : 'Arbeidsforholdoverstyring',
+                    : overstyring.minimumSykdomsgrad
+                      ? 'MinimumSykdomsgradOverstyring'
+                      : 'Arbeidsforholdoverstyring',
     },
 });
 

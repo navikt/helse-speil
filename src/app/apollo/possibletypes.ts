@@ -13,6 +13,7 @@ export const possibleTypes: Record<string, string[]> = {
         'Dagoverstyring',
         'Inntektoverstyring',
         'Sykepengegrunnlagskjonnsfastsetting',
+        'MinimumSykdomsgradOverstyring',
     ],
     Periode: ['BeregnetPeriode', 'UberegnetPeriode'],
     Vilkarsgrunnlag: ['VilkarsgrunnlagInfotrygd', 'VilkarsgrunnlagSpleis'],

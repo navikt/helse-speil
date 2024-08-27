@@ -2163,6 +2163,14 @@ export type Overstyring_MinimumSykdomsgradOverstyring_Fragment = {
     hendelseId: string;
     timestamp: string;
     ferdigstilt: boolean;
+    minimumSykdomsgrad: {
+        __typename: 'OverstyrtMinimumSykdomsgrad';
+        fom: string;
+        tom: string;
+        vurdering: boolean;
+        begrunnelse: string;
+        initierendeVedtaksperiodeId: string;
+    };
     saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
 };
 
@@ -2703,6 +2711,14 @@ export type ArbeidsgiverFragment = {
               hendelseId: string;
               timestamp: string;
               ferdigstilt: boolean;
+              minimumSykdomsgrad: {
+                  __typename: 'OverstyrtMinimumSykdomsgrad';
+                  fom: string;
+                  tom: string;
+                  vurdering: boolean;
+                  begrunnelse: string;
+                  initierendeVedtaksperiodeId: string;
+              };
               saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
           }
         | {
@@ -4145,6 +4161,14 @@ export type PersonFragment = {
                   hendelseId: string;
                   timestamp: string;
                   ferdigstilt: boolean;
+                  minimumSykdomsgrad: {
+                      __typename: 'OverstyrtMinimumSykdomsgrad';
+                      fom: string;
+                      tom: string;
+                      vurdering: boolean;
+                      begrunnelse: string;
+                      initierendeVedtaksperiodeId: string;
+                  };
                   saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
               }
             | {
@@ -4861,6 +4885,14 @@ export type FetchPersonQuery = {
                       hendelseId: string;
                       timestamp: string;
                       ferdigstilt: boolean;
+                      minimumSykdomsgrad: {
+                          __typename: 'OverstyrtMinimumSykdomsgrad';
+                          fom: string;
+                          tom: string;
+                          vurdering: boolean;
+                          begrunnelse: string;
+                          initierendeVedtaksperiodeId: string;
+                      };
                       saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
                   }
                 | {
@@ -6483,6 +6515,35 @@ export const OverstyringFragmentDoc = {
                             ],
                         },
                     },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'MinimumSykdomsgradOverstyring' },
+                        },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'minimumSykdomsgrad' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'vurdering' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'initierendeVedtaksperiodeId' },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
                 ],
             },
         },
@@ -7328,6 +7389,35 @@ export const ArbeidsgiverFragmentDoc = {
                             ],
                         },
                     },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'MinimumSykdomsgradOverstyring' },
+                        },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'minimumSykdomsgrad' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'vurdering' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'initierendeVedtaksperiodeId' },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
                 ],
             },
         },
@@ -8160,6 +8250,35 @@ export const PersonFragmentDoc = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'arlig' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'fraArlig' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'MinimumSykdomsgradOverstyring' },
+                        },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'minimumSykdomsgrad' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'vurdering' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'initierendeVedtaksperiodeId' },
+                                            },
                                         ],
                                     },
                                 },
@@ -10900,6 +11019,35 @@ export const FetchPersonDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'arlig' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'fraArlig' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'MinimumSykdomsgradOverstyring' },
+                        },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'minimumSykdomsgrad' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'vurdering' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'initierendeVedtaksperiodeId' },
+                                            },
                                         ],
                                     },
                                 },

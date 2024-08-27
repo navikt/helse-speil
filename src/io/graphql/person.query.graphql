@@ -92,6 +92,15 @@ fragment overstyring on Overstyring {
             skjaeringstidspunkt
         }
     }
+    ... on MinimumSykdomsgradOverstyring {
+        minimumSykdomsgrad {
+            fom
+            tom
+            vurdering
+            begrunnelse
+            initierendeVedtaksperiodeId
+        }
+    }
 }
 
 fragment arbeidsgiver on Arbeidsgiver {
