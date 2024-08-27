@@ -561,7 +561,7 @@
                                             "begrunnelser": null
                                         }
                                     ],
-                                    "vedtaksperiodeId": "e1ed98f4-53c8-4708-aa0b-5d24d5c20a67",
+                                    "vedtaksperiodeId": "5decb2f6-163b-469f-b733-84d9b20eb9ce",
                                     "behandlingId": "d43d63b3-9241-4ea8-a86c-ff9da316cc0c",
                                     "periodetilstand": "TilGodkjenning",
                                     "skjaeringstidspunkt": "2023-03-01",
@@ -608,7 +608,36 @@
                                             "tillatt": true
                                         }
                                     ],
-                                    "notater": [],
+                                    "notater": [
+                                        {
+                                            "id": 41,
+                                            "tekst": "Må sjekke noe på denne",
+                                            "opprettet": "2024-06-05T09:13:22.223561",
+                                            "saksbehandlerOid": "a3c4b753-3049-4d63-b66b-2b767c708992",
+                                            "saksbehandlerNavn": "Brumsen, Ole",
+                                            "saksbehandlerEpost": "Ole.Brumsen@nav.no",
+                                            "saksbehandlerIdent": "B150563",
+                                            "vedtaksperiodeId": "5decb2f6-163b-469f-b733-84d9b20eb9ce",
+                                            "feilregistrert": false,
+                                            "type": "PaaVent",
+                                            "kommentarer": [],
+                                            "__typename": "Notat"
+                                        },
+                                        {
+                                            "id": 42,
+                                            "tekst": "Purring har skjedd!",
+                                            "opprettet": "2024-08-27T15:14:37.508022",
+                                            "saksbehandlerOid": "a3c4b753-3049-4d63-b66b-2b767c708992",
+                                            "saksbehandlerNavn": "Brumsen, Ole",
+                                            "saksbehandlerEpost": "Ole.Brumsen@nav.no",
+                                            "saksbehandlerIdent": "B150563",
+                                            "vedtaksperiodeId": "5decb2f6-163b-469f-b733-84d9b20eb9ce",
+                                            "feilregistrert": false,
+                                            "feilregistrert_tidspunkt": "null",
+                                            "type": "Generelt",
+                                            "kommentarer": []
+                                        }
+                                    ],
                                     "periodehistorikk": [],
                                     "maksdato": "2024-02-27",
                                     "periodevilkar": {

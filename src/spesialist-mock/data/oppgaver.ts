@@ -38,7 +38,7 @@ export const oppgaver: OppgaveTilBehandling[] = [
     },
     {
         id: '4420',
-        vedtaksperiodeId: 'd7d208c3-a9a1-4c03-885f-aeffa4475a49',
+        vedtaksperiodeId: '5decb2f6-163b-469f-b733-84d9b20eb9ce',
         aktorId: '2805594640665',
         opprettet: '2023-04-02T11:09:57',
         opprinneligSoknadsdato: '2023-01-21 09:48:33.10625',

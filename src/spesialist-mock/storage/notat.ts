@@ -102,17 +102,10 @@ export class NotatMock {
         );
     };
 
-    static getNotaterForPeriode = (periode: BeregnetPeriode): Array<Notat> => {
-        const notaterFraPeriode = periode.notater ?? [];
-        const notaterPåVedtaksperiodeId = periode.vedtaksperiodeId
-            ? NotatMock.getNotater(periode.vedtaksperiodeId)
-            : [];
-        const notaterPåOppgavereferanse = periode.oppgavereferanse
-            ? NotatMock.getNotater(periode.oppgavereferanse)
-            : [];
-
-        return [...notaterFraPeriode, ...notaterPåVedtaksperiodeId, ...notaterPåOppgavereferanse];
-    };
+    static getNotaterForPeriode = (periode: BeregnetPeriode): Array<Notat> => [
+        ...NotatMock.getNotater(periode.vedtaksperiodeId),
+        ...NotatMock.getNotater(periode.oppgavereferanse ?? '-1'),
+    ];
 
     private static getMockedNotat = (vedtaksperiodeId: string, overrides?: Partial<Notat>): Notat => {
         return {

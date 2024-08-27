@@ -14,6 +14,7 @@ import { behandledeOppgaverliste, oppgaveliste } from './data/oppgaveoversikt';
 import { FlereFodselsnumreError, ManglendeAvviksvurderingError, NotFoundError, NotReadyError } from './errors';
 import { hentOpptegnelser, opprettAbonnement } from './opptegnelser';
 import {
+    Arbeidsgiver,
     BeregnetPeriode,
     FiltreringInput,
     MutationFeilregistrerKommentarArgs,
@@ -28,6 +29,7 @@ import {
     MutationSendIReturArgs,
     MutationSendTilGodkjenningArgs,
     MutationSettVarselstatusArgs,
+    Notat,
     NotatType,
     OppgavesorteringInput,
     Person,
@@ -76,16 +78,19 @@ const leggTilLagretData = (person: Person): void => {
     person.tildeling = tildeling;
 };
 
-const fetchPersondata = (): Record<string, Person> => {
+const lesTestpersoner = (): Person[] => {
     const url = path.join(cwd(), 'src/spesialist-mock/data/personer');
     const filenames = fs.readdirSync(url);
-
-    const files = filenames.map((filename) => {
+    return filenames.map((filename) => {
         const raw = fs.readFileSync(path.join(url, filename), { encoding: 'utf-8' });
-        return JSON.parse(raw);
+        return JSON.parse(raw).data.person;
     });
+};
 
-    return files.reduce((data, { data: { person } }) => {
+const fetchPersondata = (): Record<string, Person> => {
+    const personer = lesTestpersoner();
+
+    return personer.reduce((data: Record<string, Person>, person) => {
         leggTilLagretData(person);
         data[person.aktorId] = person;
         data[person.fodselsnummer] = person;
@@ -381,7 +386,24 @@ const finnOppgaveId = () => {
     return undefined;
 };
 
+// Henter notater fra testpersonene og putter dem inn i NotatMock, slik at de er synlige på oversikten også
+const puttNotaterFraTestpersonerIMock = (): void => {
+    const personer = lesTestpersoner();
+
+    personer.forEach((person) => {
+        const notater: Notat[] = person.arbeidsgivere.flatMap((ag: Arbeidsgiver) =>
+            ag.generasjoner
+                .flatMap((g) => g.perioder.flatMap((p) => (p as BeregnetPeriode).notater))
+                .filter((notat: Notat) => !!notat),
+        );
+        notater.forEach((notat) => {
+            NotatMock.addNotat(notat.vedtaksperiodeId, notat);
+        });
+    });
+};
+
 export const buildSchema = (): GraphQLSchema => {
+    puttNotaterFraTestpersonerIMock();
     return makeExecutableSchema({
         typeDefs: buildClientSchema(spesialistSchema as unknown as IntrospectionQuery),
         resolvers: getResolvers(),
