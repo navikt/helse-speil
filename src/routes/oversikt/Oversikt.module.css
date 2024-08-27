@@ -21,6 +21,10 @@
     height: calc(100vh - 112px);
 }
 
+.driftsmelding {
+    height: calc(100vh - 201px);
+}
+
 .Alert {
     border-radius: 0;
 }

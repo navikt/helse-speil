@@ -1,6 +1,7 @@
 import { axe } from 'jest-axe';
 import React from 'react';
 
+import { useDriftsmelding } from '@external/sanity';
 import { HentBehandlingsstatistikkDocument } from '@io/graphql';
 import { useAntallOppgaver, useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
@@ -9,12 +10,14 @@ import { createMock, render, screen } from '@test-utils';
 import { Oversikt } from './Oversikt';
 
 jest.mock('@state/oppgaver');
+jest.mock('@external/sanity');
 
 describe('Oversikt', () => {
     it('rendrer uten violations', async () => {
         const oppgaver = [enOppgaveForOversikten()];
 
         (useAntallOppgaver as jest.Mock).mockReturnValue({ antallMineSaker: 0, antallPåVent: 0 });
+        (useDriftsmelding as jest.Mock).mockReturnValue({ driftsmelding: null });
         (useOppgaveFeed as jest.Mock).mockReturnValue({
             oppgaver,
             error: undefined,
