@@ -95,49 +95,17 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                 );
                             }}
                         />
-                        <Controller
-                            name={`refusjonsopplysninger.${index}.beløp`}
-                            rules={{
-                                required: true,
-                                validate: {
-                                    måVæreNumerisk: (value) =>
-                                        isNumeric(value.toString()) || 'Refusjonsbeløp må være et beløp',
-                                },
-                            }}
-                            render={() => (
-                                <>
-                                    <label id={`refusjonsopplysninger.${index}.beløp`} className="navds-sr-only">
-                                        Månedlig refusjon
-                                    </label>
-                                    <input
-                                        className={`${styles.BeløpInput} ${
-                                            formState.errors?.refusjonsopplysninger?.[index]?.beløp?.message
-                                                ? styles.InputError
-                                                : ''
-                                        }`}
-                                        type="number"
-                                        onBlur={(event) => {
-                                            const nyttBeløp = Number(
-                                                event.target.value.replaceAll(' ', '').replaceAll(',', '.'),
-                                            );
-
-                                            if (nyttBeløp === refusjonsopplysning.beløp) return;
-
-                                            clearErrors(`refusjonsopplysninger.${index}`);
-                                            updateRefusjonsopplysninger(
-                                                refusjonsopplysning.fom,
-                                                refusjonsopplysning?.tom ?? null,
-                                                nyttBeløp,
-                                                index,
-                                            );
-                                        }}
-                                        aria-labelledby={`refusjonsopplysninger.${index}.beløp`}
-                                        defaultValue={
-                                            refusjonsopplysning.beløp && avrundetToDesimaler(refusjonsopplysning.beløp)
-                                        }
-                                    />
-                                </>
-                            )}
+                        <RefusjonsBeløpInput
+                            index={index}
+                            refusjonsopplysning={refusjonsopplysning}
+                            updateBeløp={(nyttBeløp) =>
+                                updateRefusjonsopplysninger(
+                                    refusjonsopplysning.fom,
+                                    refusjonsopplysning?.tom ?? null,
+                                    nyttBeløp,
+                                    index,
+                                )
+                            }
                         />
 
                         <RefusjonKilde
@@ -173,6 +141,56 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                 </Button>
             </div>
         </div>
+    );
+};
+
+interface RefusjonsBeløpInputProps {
+    index: number;
+    refusjonsopplysning: Refusjonsopplysning;
+    updateBeløp: (nyttBeløp: number) => void;
+}
+
+const RefusjonsBeløpInput = ({ index, refusjonsopplysning, updateBeløp }: RefusjonsBeløpInputProps) => {
+    const {
+        register,
+        clearErrors,
+        formState: {
+            errors: { refusjonsopplysninger },
+        },
+    } = useFormContext<RefusjonFormValues>();
+    const { ref, onBlur, ...inputValidation } = register(`refusjonsopplysninger.${index}.beløp`, {
+        required: 'Refusjonsopplysningsbeløp mangler',
+        min: { value: 0, message: 'Refusjonsopplysningsbeløp må være 0 eller større' },
+        validate: {
+            måVæreNumerisk: (value) => isNumeric(value.toString()) || 'Refusjonsbeløp må være et beløp',
+        },
+        setValueAs: (value) => Number(value.toString().replaceAll(' ', '').replaceAll(',', '.')),
+    });
+
+    return (
+        <>
+            <label id={`refusjonsopplysninger.${index}.beløp`} className="navds-sr-only">
+                Månedlig refusjon
+            </label>
+            <input
+                className={`${styles.BeløpInput} ${
+                    refusjonsopplysninger?.[index]?.beløp?.message ? styles.InputError : ''
+                }`}
+                ref={ref}
+                aria-labelledby={`refusjonsopplysninger.${index}.beløp`}
+                defaultValue={refusjonsopplysning.beløp && avrundetToDesimaler(refusjonsopplysning.beløp)}
+                onBlur={(event) => {
+                    const nyttBeløp = Number(event.target.value.replaceAll(' ', '').replaceAll(',', '.'));
+
+                    if (nyttBeløp === refusjonsopplysning.beløp) return;
+
+                    clearErrors(`refusjonsopplysninger.${index}`);
+                    updateBeløp(nyttBeløp);
+                    void onBlur(event);
+                }}
+                {...inputValidation}
+            />
+        </>
     );
 };
 
