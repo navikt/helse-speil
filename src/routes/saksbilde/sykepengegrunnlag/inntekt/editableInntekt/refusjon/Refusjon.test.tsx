@@ -60,7 +60,7 @@ describe('Refusjonskjema', () => {
             dayjs(en_refusjonsopplysning[0].fom).format(NORSK_DATOFORMAT),
         );
         expect(screen.queryByLabelText('tom')).toHaveValue('');
-        expect(screen.queryByLabelText('Månedlig refusjon')).toHaveValue(en_refusjonsopplysning[0].beløp);
+        expect(screen.queryByLabelText('Månedlig refusjon')).toHaveValue(en_refusjonsopplysning[0].beløp.toString());
         expect(screen.queryByText('IM')).toBeInTheDocument();
     });
 
