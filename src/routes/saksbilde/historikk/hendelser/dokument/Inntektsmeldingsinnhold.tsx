@@ -34,9 +34,11 @@ export const Inntektsmeldingsinnhold = ({ dokumentId, fødselsnummer }: Inntekts
             {inntektsmelding && (
                 <div className={styles.dokument}>
                     {arbeidsgiverNavn && (
-                        <HStack gap="3" className={styles.arbeidsgivernavn}>
+                        <HStack gap="3" className={styles.arbeidsgiver}>
                             <ArbeidsgiverikonMedTooltip />
-                            <AnonymizableTextWithEllipsis>{arbeidsgiverNavn}</AnonymizableTextWithEllipsis>
+                            <AnonymizableTextWithEllipsis className={styles.arbeidsgivernavn}>
+                                {arbeidsgiverNavn}
+                            </AnonymizableTextWithEllipsis>
                         </HStack>
                     )}
                     {inntektsmelding.virksomhetsnummer && (

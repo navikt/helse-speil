@@ -46,8 +46,12 @@ p.fullBredde {
     grid-column: 1 / span 2;
 }
 
-.arbeidsgivernavn {
+.arbeidsgiver {
     grid-column: 1 / span 2;
     margin-bottom: 0.5rem;
     align-items: center;
+}
+
+.arbeidsgivernavn {
+    max-width: 72%;
 }
