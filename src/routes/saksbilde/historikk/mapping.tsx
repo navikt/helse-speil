@@ -30,6 +30,7 @@ import {
     HendelseObject,
     HistorikkhendelseObject,
     InntektoverstyringhendelseObject,
+    MinimumSykdomsgradhendelseObject,
     NotathendelseObject,
     SykepengegrunnlagskjonnsfastsettinghendelseObject,
     UtbetalinghendelseObject,
@@ -43,6 +44,7 @@ import {
     isDagoverstyring,
     isGhostPeriode,
     isInntektoverstyring,
+    isMinimumSykdomsgradsoverstyring,
     isSykepengegrunnlagskjønnsfastsetting,
     isUberegnetPeriode,
 } from '@utils/typeguards';
@@ -451,6 +453,39 @@ export const getSykepengegrunnlagskjønnsfastsetting = (
             skjønnsfastsatt: overstyring.skjonnsfastsatt,
             arbeidsgivere: getArbeidsgivereÅrsinntekt(arbeidsgivere, overstyring.hendelseId),
         }));
+
+export const getMinimumSykdomsgradoverstyring = (
+    period: BeregnetPeriodeFragment,
+    arbeidsgiver: ArbeidsgiverFragment,
+): Array<MinimumSykdomsgradhendelseObject> => {
+    const førsteVurdertePeriodeForArbeidsgiver = getFørsteVurdertePeriodeForSkjæringstidspunktet(
+        period.skjaeringstidspunkt,
+        arbeidsgiver,
+    );
+    const sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet = getSisteVurdertePeriodeForSkjæringstidspunktet(
+        period.skjaeringstidspunkt,
+        arbeidsgiver,
+    );
+
+    return arbeidsgiver.overstyringer
+        .filter(isMinimumSykdomsgradsoverstyring)
+        .filter(
+            (it) =>
+                dayjs(it.minimumSykdomsgrad.fom, ISO_DATOFORMAT).isSameOrAfter(
+                    førsteVurdertePeriodeForArbeidsgiver?.fom,
+                ) &&
+                dayjs(it.minimumSykdomsgrad.fom, ISO_DATOFORMAT).isSameOrBefore(
+                    sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet?.tom,
+                ),
+        )
+        .map((overstyring) => ({
+            id: overstyring.hendelseId,
+            type: 'MinimumSykdomsgradoverstyring',
+            saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
+            timestamp: overstyring.timestamp,
+            minimumSykdomsgrad: overstyring.minimumSykdomsgrad,
+        }));
+};
 
 export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObject> =>
     notater.map(

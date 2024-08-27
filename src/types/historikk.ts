@@ -5,6 +5,7 @@ import {
     NotatType,
     OverstyrtDag,
     OverstyrtInntekt,
+    OverstyrtMinimumSykdomsgrad,
     PeriodehistorikkType,
     SkjonnsfastsattSykepengegrunnlag,
     Utbetalingtype,
@@ -20,6 +21,7 @@ export type Hendelsetype =
     | 'AnnetArbeidsforholdoverstyring'
     | 'Inntektoverstyring'
     | 'Sykepengegrunnlagskjonnsfastsetting'
+    | 'MinimumSykdomsgradoverstyring'
     | 'Dokument'
     | 'Notat'
     | 'Utbetaling'
@@ -86,6 +88,13 @@ export type SykepengegrunnlagskjonnsfastsettinghendelseObject = BaseHendelseObje
     arbeidsgivere: ArbeidsgiverSkjønnHendelse[];
 };
 
+export type MinimumSykdomsgradhendelseObject = BaseHendelseObject & {
+    type: 'MinimumSykdomsgradoverstyring';
+    saksbehandler: string;
+    timestamp: DateString;
+    minimumSykdomsgrad: OverstyrtMinimumSykdomsgrad;
+};
+
 export type DokumenthendelseObject = BaseHendelseObject & {
     type: 'Dokument';
     dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad' | 'Vedtak';
@@ -139,6 +148,7 @@ export type HendelseObject =
     | AnnetArbeidsforholdoverstyringhendelseObject
     | InntektoverstyringhendelseObject
     | SykepengegrunnlagskjonnsfastsettinghendelseObject
+    | MinimumSykdomsgradhendelseObject
     | DokumenthendelseObject
     | NotathendelseObject
     | UtbetalinghendelseObject

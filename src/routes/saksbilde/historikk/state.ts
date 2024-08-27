@@ -21,6 +21,7 @@ import {
     getInntektoverstyringer,
     getInntektoverstyringerForGhost,
     getMeldingOmVedtak,
+    getMinimumSykdomsgradoverstyring,
     getNotathendelser,
     getPeriodehistorikk,
     getSykepengegrunnlagskjønnsfastsetting,
@@ -48,6 +49,8 @@ const getHendelserForBeregnetPeriode = (
         ? getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, arbeidsgiver, person.arbeidsgivere)
         : [];
 
+    const minimumSykdomsgradoverstyring = arbeidsgiver ? getMinimumSykdomsgradoverstyring(period, arbeidsgiver) : [];
+
     const dokumenter = getDokumenter(period);
     const meldingOmVedtak = getMeldingOmVedtak(period);
     const notater = getNotathendelser(period.notater.map(toNotat));
@@ -64,6 +67,7 @@ const getHendelserForBeregnetPeriode = (
             ...arbeidsforholdoverstyringer,
             ...annetarbeidsforholdoverstyringer,
             ...sykepengegrunnlagskjønnsfastsetting,
+            ...minimumSykdomsgradoverstyring,
             ...avslag,
         ]
             .filter((it: HendelseObject) =>
@@ -156,6 +160,7 @@ const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
         'AnnetArbeidsforholdoverstyring',
         'Inntektoverstyring',
         'Sykepengegrunnlagskjonnsfastsetting',
+        'MinimumSykdomsgradoverstyring',
         'Dokument',
         'Utbetaling',
         'Historikk',
@@ -171,6 +176,7 @@ const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
         'AnnetArbeidsforholdoverstyring',
         'Inntektoverstyring',
         'Sykepengegrunnlagskjonnsfastsetting',
+        'MinimumSykdomsgradoverstyring',
     ],
 };
 

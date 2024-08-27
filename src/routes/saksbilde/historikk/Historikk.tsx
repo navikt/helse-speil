@@ -11,6 +11,7 @@ import { ÅpnetDokument } from '@components/ÅpnetDokument';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
+import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/MinimumSykdomsgradhendelse';
 import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject } from '@typer/historikk';
 
@@ -104,6 +105,9 @@ const HistorikkWithContent = (): ReactElement => {
                                                     {...it}
                                                 />
                                             );
+                                        }
+                                        case 'MinimumSykdomsgradoverstyring': {
+                                            return <MinimumSykdomsgradhendelse key={`${it.id}-${index}`} {...it} />;
                                         }
                                         case 'Dokument': {
                                             return (
