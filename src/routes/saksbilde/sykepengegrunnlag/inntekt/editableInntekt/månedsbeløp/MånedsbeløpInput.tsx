@@ -5,6 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Maybe } from '@io/graphql';
+import { InntektFormFields } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntekt';
 import { avrundetToDesimaler, isNumeric } from '@utils/tall';
 
 import styles from './ManedsbeløpInput.module.css';
@@ -26,7 +27,7 @@ export const MånedsbeløpInput = ({
             errors: { manedsbelop },
         },
         trigger,
-    } = useFormContext();
+    } = useFormContext<InntektFormFields>();
 
     const { ref, onBlur, ...inputValidation } = register('manedsbelop', {
         disabled: skalDeaktiveres,
@@ -34,7 +35,8 @@ export const MånedsbeløpInput = ({
         min: { value: 0, message: 'Månedsbeløp må være 0 eller større' },
         validate: {
             måVæreNumerisk: (value) => isNumeric(value) || 'Månedsbeløp må være et beløp',
-            måVæreMindreEnn: (value) => value < 10000000 || 'Systemet håndterer ikke månedsbeløp over 10 millioner',
+            måVæreMindreEnn: (value) =>
+                Number(value) < 10000000 || 'Systemet håndterer ikke månedsbeløp over 10 millioner',
         },
         setValueAs: (value) => value.replaceAll(' ', '').replaceAll(',', '.'),
     });

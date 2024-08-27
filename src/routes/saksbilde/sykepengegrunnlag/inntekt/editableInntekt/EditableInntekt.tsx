@@ -44,7 +44,7 @@ import { RefusjonFormFields } from './refusjon/useRefusjonFormField';
 
 import styles from './EditableInntekt.module.css';
 
-interface InntektFormFields {
+export interface InntektFormFields {
     begrunnelseId: string;
     forklaring: string;
     manedsbelop: string;
