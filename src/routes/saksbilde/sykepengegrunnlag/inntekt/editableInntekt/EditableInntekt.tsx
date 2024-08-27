@@ -1,6 +1,14 @@
 import dayjs from 'dayjs';
 import React, { FormEvent, ReactElement, useEffect, useRef, useState } from 'react';
-import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm } from 'react-hook-form';
+import {
+    CustomElement,
+    FieldErrors,
+    FieldValues,
+    FormProvider,
+    UseFormClearErrors,
+    UseFormSetError,
+    useForm,
+} from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 
 import { Alert, BodyShort, Button } from '@navikt/ds-react';
@@ -9,7 +17,7 @@ import { ErrorMessage } from '@components/ErrorMessage';
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
-import { OmregnetArsinntekt, PersonFragment } from '@io/graphql';
+import { Maybe, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/månedsbeløp/Månedsbeløp';
 import {
@@ -22,7 +30,7 @@ import { inntektOgRefusjonState, useOverstyrtInntektMetadata, usePostOverstyrtIn
 import { useActivePeriod } from '@state/periode';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@typer/overstyring';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
-import { DateString } from '@typer/shared';
+import { ActivePeriod, DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 import { avrundetToDesimaler } from '@utils/tall';
@@ -151,89 +159,18 @@ export const EditableInntekt = ({
         postOverstyring(overstyrtInntektOgRefusjon, metadata.organisasjonsnummer);
     };
 
-    const validateRefusjon = (e: FormEvent) => {
-        if (isGhostPeriode(period)) {
-            form.handleSubmit(confirmChanges);
-            return;
-        }
-
-        const refusjonsopplysninger =
-            values?.refusjonsopplysninger &&
-            [...values.refusjonsopplysninger].sort(
-                (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
-                    new Date(b.fom).getTime() - new Date(a.fom).getTime(),
-            );
-
-        const harEndretRefusjonsopplysninger =
-            JSON.stringify(refusjonsopplysninger) !== JSON.stringify(metadata.fraRefusjonsopplysninger);
-        const harEndretMånedsbeløp =
-            omregnetÅrsinntekt.manedsbelop !== Number(values?.manedsbelop) && !stringIsNaN(values?.manedsbelop);
-
-        if (!harEndretMånedsbeløp && !harEndretRefusjonsopplysninger) {
-            e.preventDefault();
-            setHarIkkeSkjemaEndringer(true);
-            return;
-        } else if (harEndretMånedsbeløp && !harEndretRefusjonsopplysninger) {
-            form.handleSubmit(confirmChanges);
-            return;
-        } else {
-            setHarIkkeSkjemaEndringer(false);
-        }
-
-        const sisteTomErFørPeriodensTom: boolean =
-            refusjonsopplysninger?.[0]?.tom === null
-                ? false
-                : (dayjs(refusjonsopplysninger?.[0]?.tom, ISO_DATOFORMAT).isBefore(period?.tom) ?? true);
-
-        const førsteFomErEtterFørstePeriodesFom: boolean = dayjs(
-            refusjonsopplysninger?.[refusjonsopplysninger.length - 1]?.fom,
-            ISO_DATOFORMAT,
-        ).isAfter(førstePeriodeForSkjæringstidspunkt?.fom);
-
-        const erGapIDatoer: boolean = refusjonsopplysninger?.some(
-            (refusjonsopplysning: Refusjonsopplysning, index: number) => {
-                const isNotLast = index < refusjonsopplysninger.length - 1;
-                const currentFom = dayjs(refusjonsopplysning.fom, ISO_DATOFORMAT);
-                const previousTom = dayjs(refusjonsopplysninger[index + 1]?.tom ?? '1970-01-01', ISO_DATOFORMAT);
-                return isNotLast && currentFom.subtract(1, 'day').diff(previousTom) !== 0;
-            },
-        );
-
-        const manglerRefusjonsopplysninger: boolean = refusjonsopplysninger.length === 0;
-
-        sisteTomErFørPeriodensTom &&
-            form.setError('refusjonsopplysninger', {
-                type: 'custom',
-                message: 'Siste til og med dato kan ikke være før periodens til og med dato.',
-            });
-
-        førsteFomErEtterFørstePeriodesFom &&
-            form.setError('refusjonsopplysninger', {
-                type: 'custom',
-                message: `Tidligste fra og med dato for refusjon må være lik eller før ${dayjs(
-                    førstePeriodeForSkjæringstidspunkt?.fom,
-                    ISO_DATOFORMAT,
-                ).format(NORSK_DATOFORMAT)}`,
-            });
-
-        erGapIDatoer &&
-            form.setError('refusjonsopplysninger', {
-                type: 'custom',
-                message: 'Refusjonsdatoene må være sammenhengende.',
-            });
-
-        manglerRefusjonsopplysninger &&
-            form.setError('refusjonsopplysninger', { type: 'custom', message: 'Mangler refusjonsopplysninger' });
-
-        if (
-            !sisteTomErFørPeriodensTom &&
-            !førsteFomErEtterFørstePeriodesFom &&
-            !erGapIDatoer &&
-            !manglerRefusjonsopplysninger
-        ) {
-            form.handleSubmit(confirmChanges);
-        }
-    };
+    const validateRefusjon = refusjonsvalidator(
+        period,
+        values,
+        metadata.fraRefusjonsopplysninger,
+        omregnetÅrsinntekt.manedsbelop,
+        setHarIkkeSkjemaEndringer,
+        confirmChanges,
+        form.handleSubmit,
+        form.setError,
+        form.clearErrors,
+        førstePeriodeForSkjæringstidspunkt?.fom,
+    );
 
     const visFeilOppsummering =
         !form.formState.isValid && form.formState.isSubmitted && Object.entries(form.formState.errors).length > 0;
@@ -322,3 +259,102 @@ const formErrorsTilFeilliste = (errors: FieldErrors<InntektFormFields>): Skjemaf
             melding: error.message ?? id,
         }))
         .flat();
+
+const refusjonsvalidator =
+    (
+        period: Maybe<ActivePeriod>,
+        values: InntektFormFields,
+        fraRefusjonsopplysninger: Refusjonsopplysning[],
+        omregnetÅrsinntektBeløp: number,
+        setHarIkkeSkjemaEndringer: (harEndringer: boolean) => void,
+        confirmChanges: () => void,
+        handleSubmit: (handler: () => void) => void,
+        setError: UseFormSetError<InntektFormFields>,
+        clearErrors: UseFormClearErrors<InntektFormFields>,
+        førstePeriodeForSkjæringstidspunktFom?: string,
+    ) =>
+    (e: FormEvent) => {
+        if (isGhostPeriode(period)) {
+            handleSubmit(confirmChanges);
+            return;
+        }
+
+        const refusjonsopplysninger =
+            values?.refusjonsopplysninger &&
+            [...values.refusjonsopplysninger].sort(
+                (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
+                    new Date(b.fom).getTime() - new Date(a.fom).getTime(),
+            );
+
+        const harEndretRefusjonsopplysninger =
+            JSON.stringify(refusjonsopplysninger) !== JSON.stringify(fraRefusjonsopplysninger);
+        const harEndretMånedsbeløp =
+            omregnetÅrsinntektBeløp !== Number(values?.manedsbelop) && !stringIsNaN(values?.manedsbelop);
+
+        if (!harEndretMånedsbeløp && !harEndretRefusjonsopplysninger) {
+            e.preventDefault();
+            setHarIkkeSkjemaEndringer(true);
+            return;
+        } else if (harEndretMånedsbeløp && !harEndretRefusjonsopplysninger) {
+            handleSubmit(confirmChanges);
+            return;
+        } else {
+            setHarIkkeSkjemaEndringer(false);
+        }
+
+        clearErrors(['refusjonsopplysninger']);
+
+        const sisteTomErFørPeriodensTom: boolean =
+            refusjonsopplysninger?.[0]?.tom === null
+                ? false
+                : (dayjs(refusjonsopplysninger?.[0]?.tom, ISO_DATOFORMAT).isBefore(period?.tom) ?? true);
+
+        const førsteFomErEtterFørstePeriodesFom: boolean = dayjs(
+            refusjonsopplysninger?.[refusjonsopplysninger.length - 1]?.fom,
+            ISO_DATOFORMAT,
+        ).isAfter(førstePeriodeForSkjæringstidspunktFom);
+
+        const erGapIDatoer: boolean = refusjonsopplysninger?.some(
+            (refusjonsopplysning: Refusjonsopplysning, index: number) => {
+                const isNotLast = index < refusjonsopplysninger.length - 1;
+                const currentFom = dayjs(refusjonsopplysning.fom, ISO_DATOFORMAT);
+                const previousTom = dayjs(refusjonsopplysninger[index + 1]?.tom ?? '1970-01-01', ISO_DATOFORMAT);
+                return isNotLast && currentFom.subtract(1, 'day').diff(previousTom) !== 0;
+            },
+        );
+
+        const manglerRefusjonsopplysninger: boolean = refusjonsopplysninger.length === 0;
+
+        sisteTomErFørPeriodensTom &&
+            setError('refusjonsopplysninger', {
+                type: 'custom',
+                message: 'Siste til og med dato kan ikke være før periodens til og med dato.',
+            });
+
+        førsteFomErEtterFørstePeriodesFom &&
+            setError('refusjonsopplysninger', {
+                type: 'custom',
+                message: `Tidligste fra og med dato for refusjon må være lik eller før ${dayjs(
+                    førstePeriodeForSkjæringstidspunktFom,
+                    ISO_DATOFORMAT,
+                ).format(NORSK_DATOFORMAT)}`,
+            });
+
+        erGapIDatoer &&
+            setError('refusjonsopplysninger', {
+                type: 'custom',
+                message: 'Refusjonsdatoene må være sammenhengende.',
+            });
+
+        manglerRefusjonsopplysninger &&
+            setError('refusjonsopplysninger', { type: 'custom', message: 'Mangler refusjonsopplysninger' });
+
+        if (
+            !sisteTomErFørPeriodensTom &&
+            !førsteFomErEtterFørstePeriodesFom &&
+            !erGapIDatoer &&
+            !manglerRefusjonsopplysninger
+        ) {
+            handleSubmit(confirmChanges);
+        }
+    };
