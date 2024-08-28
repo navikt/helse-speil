@@ -11,7 +11,7 @@ import {
     Skjønnsfastsettingstype,
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
-import { isNumeric } from '@utils/tall';
+import { avrundetToDesimaler, isNumeric } from '@utils/tall';
 
 import { ArbeidsgiverRad } from './ArbeidsgiverRad';
 
@@ -45,7 +45,8 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                     'Årsinntekt må være et beløp med maks to desimaler',
                 sammenligningsgrunnlagMåVæreFordelt: (values) =>
                     type !== Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT ||
-                    sammenligningsgrunnlag - values.reduce((sum, { årlig }) => sum + årlig, 0) === 0 ||
+                    avrundetToDesimaler(sammenligningsgrunnlag - values.reduce((sum, { årlig }) => sum + årlig, 0)) ===
+                        0 ||
                     'Du må fordele hele sammenligningsgrunnlaget',
             },
         },
