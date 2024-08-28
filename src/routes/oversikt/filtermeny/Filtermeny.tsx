@@ -77,13 +77,13 @@ export function FiltermenySkeleton(): ReactElement {
     return (
         <HStack wrap={false}>
             <div className={classNames(styles.filtermeny, styles.filterskeleton)}>
-                <SkeletonSection numberOfFilters={2} />
-                <SkeletonSection numberOfFilters={2} />
+                <SkeletonSection numberOfFilters={1} />
+                <SkeletonSection numberOfFilters={1} />
                 <SkeletonSection numberOfFilters={2} />
                 <SkeletonSection numberOfFilters={3} />
                 <SkeletonSection numberOfFilters={2} />
                 <SkeletonSection numberOfFilters={4} />
-                <SkeletonSection numberOfFilters={8} />
+                <SkeletonSection numberOfFilters={12} />
                 <SkeletonSection numberOfFilters={2} />
             </div>
             <div className={styles.justerbarlinjeplaceholder} />
@@ -97,11 +97,12 @@ type SkeletonSectionProps = {
 
 const SkeletonSection = ({ numberOfFilters }: SkeletonSectionProps): ReactElement => (
     <div className={styles.skeletonsection}>
-        <Skeleton height={28} className={styles.topskeleton} />
+        <Skeleton height={28} />
         {range(0, numberOfFilters).map((index) => (
-            <HStack gap="4" wrap={false} key={index}>
-                <Skeleton height={28} width={28} />
-                <Skeleton height={28} width="100%" />
+            <HStack gap="2" wrap={false} key={index}>
+                <Skeleton height={28} width={156} />
+                <Skeleton height={28} width={24} />
+                <Skeleton height={28} width={24} />
             </HStack>
         ))}
     </div>

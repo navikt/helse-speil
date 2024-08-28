@@ -3,14 +3,14 @@ import React, { ReactElement } from 'react';
 
 import { Chips } from '@navikt/ds-react';
 
-import { Filter } from '../state/filter';
+import { Filter, FilterStatus } from '../state/filter';
 
 import styles from './filterChips.module.css';
 
 interface FilterChipsProps {
     activeFilters: Filter[];
-    toggleFilter: (label: string) => void;
-    setMultipleFilters: (value: boolean, ...labels: string[]) => void;
+    toggleFilter: (label: string, status: FilterStatus) => void;
+    setMultipleFilters: (filterStatus: FilterStatus, ...keys: string[]) => void;
 }
 
 export const FilterChips = ({ activeFilters, toggleFilter, setMultipleFilters }: FilterChipsProps): ReactElement => {
@@ -18,13 +18,19 @@ export const FilterChips = ({ activeFilters, toggleFilter, setMultipleFilters }:
         return (
             <Chips className={classNames(styles.filterChips)}>
                 {activeFilters.map((filter) => (
-                    <Chips.Removable key={filter.label} onClick={() => toggleFilter(filter.label)}>
+                    <Chips.Removable
+                        className={classNames(filter.status === FilterStatus.OUT && styles.filteredOut)}
+                        key={filter.key}
+                        onClick={() => toggleFilter(filter.key, FilterStatus.OFF)}
+                    >
                         {filter.label}
                     </Chips.Removable>
                 ))}
                 {activeFilters.length > 0 && (
                     <Chips.Removable
-                        onClick={() => setMultipleFilters(false, ...activeFilters.map((filter) => filter.label))}
+                        onClick={() =>
+                            setMultipleFilters(FilterStatus.OFF, ...activeFilters.map((filter) => filter.key))
+                        }
                         variant="neutral"
                     >
                         Nullstill alle

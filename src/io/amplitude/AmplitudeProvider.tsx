@@ -6,7 +6,7 @@ import * as amplitude from '@amplitude/analytics-browser';
 import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
 import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
-import { Egenskap, Kategori, Maybe, Oppgaveegenskap } from '@io/graphql';
+import { Kategori, Maybe, Oppgaveegenskap } from '@io/graphql';
 import { getDefaultFilters } from '@oversikt/table/state/filter';
 import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
@@ -77,7 +77,7 @@ const useStoreÅpnetTidspunkt = () => {
 const finnAlleIKategori = (egenskaper: Oppgaveegenskap[], kategori: Kategori[]): Oppgaveegenskap[] =>
     egenskaper.filter((it) => kategori.includes(it.kategori));
 
-const finnLabel = (egenskap: Egenskap, grupper: string[], ident: string): string =>
+const finnLabel = (egenskap: string, grupper: string[], ident: string): string =>
     getDefaultFilters(grupper, ident).find((it) => it.key === egenskap)?.label ?? egenskap.toString();
 
 const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string>) => void) => {

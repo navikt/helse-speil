@@ -15,7 +15,7 @@ import {
     Sorteringsnokkel,
 } from '@io/graphql';
 import { TabType, tabEndret, useAktivTab } from '@oversikt/tabState';
-import { Filter, Oppgaveoversiktkolonne, filterEndret, useFilters } from '@oversikt/table/state/filter';
+import { Filter, FilterStatus, Oppgaveoversiktkolonne, filterEndret, useFilters } from '@oversikt/table/state/filter';
 import { SortKey, sorteringEndret, sortering as sorteringSelector } from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
 
@@ -149,15 +149,9 @@ export class TildelingAlert extends InfoAlert {
 }
 
 const tildeltFiltrering = (activeFilters: Filter[]) => {
-    if (
-        activeFilters.some((filter) => filter.key === 'TILDELTE_SAKER') &&
-        !activeFilters.some((filter) => filter.key === 'UFORDELTE_SAKER')
-    ) {
+    if (activeFilters.some((filter) => filter.key === 'TILDELTE_SAKER' && filter.status === FilterStatus.ON)) {
         return true;
-    } else if (
-        activeFilters.some((filter) => filter.key === 'UFORDELTE_SAKER') &&
-        !activeFilters.some((filter) => filter.key === 'TILDELTE_SAKER')
-    ) {
+    } else if (activeFilters.some((filter) => filter.key === 'TILDELTE_SAKER' && filter.status === FilterStatus.OUT)) {
         return false;
     } else {
         return null;
@@ -184,18 +178,22 @@ const finnKategori = (kolonne: Oppgaveoversiktkolonne) => {
 
 const filtrering = (activeFilters: Filter[], aktivTab: TabType): FiltreringInput => ({
     egenskaper: activeFilters
-        .filter((filter) => Object.values(Egenskap).includes(filter.key as Egenskap))
+        .filter(
+            (filter) => Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.ON,
+        )
         .map((filter) => ({
             egenskap: filter.key as Egenskap,
             kategori: finnKategori(filter.column),
         })),
     ekskluderteEgenskaper: activeFilters
-        .filter((filter) => filter.key === 'IKKE_PA_VENT')
+        .filter(
+            (filter) => Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.OUT,
+        )
         .map((filter) => ({
-            egenskap: Egenskap.PaVent,
+            egenskap: filter.key as Egenskap,
             kategori: finnKategori(filter.column),
         })),
-    ingenUkategoriserteEgenskaper: activeFilters.some((filter) => filter.key === 'INGEN_EGENSKAPER'),
+    ingenUkategoriserteEgenskaper: false,
     tildelt: tildeltFiltrering(activeFilters),
     egneSaker: aktivTab === TabType.Mine,
     egneSakerPaVent: aktivTab === TabType.Ventende,

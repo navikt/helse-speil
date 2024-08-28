@@ -1,11 +1,12 @@
 import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
-import { Accordion, Checkbox } from '@navikt/ds-react';
+import { Accordion, VStack } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
+import { AvOgPåKnapper } from '@oversikt/filtermeny/AvOgPåKnapper';
 
-import { Filter, useToggleFilter } from '../table/state/filter';
+import { Filter } from '../table/state/filter';
 
 import styles from './FilterList.module.css';
 
@@ -15,7 +16,6 @@ interface FilterListProps extends React.HTMLAttributes<HTMLButtonElement> {
 }
 
 export const FilterList = ({ filters, text }: FilterListProps): ReactElement => {
-    const toggleFilter = useToggleFilter();
     const [open, setOpen] = useState(true);
 
     return (
@@ -25,17 +25,11 @@ export const FilterList = ({ filters, text }: FilterListProps): ReactElement => 
                     <Bold>{text}</Bold>
                 </Accordion.Header>
                 <Accordion.Content className={classNames(styles.innhold)}>
-                    {filters.map((it) => (
-                        <Checkbox
-                            className={styles.checkbox}
-                            size="medium"
-                            checked={it.active}
-                            onChange={() => toggleFilter(it.label)}
-                            key={it.key}
-                        >
-                            {it.label}
-                        </Checkbox>
-                    ))}
+                    <VStack gap="2">
+                        {filters.map((it) => (
+                            <AvOgPåKnapper filter={it} key={it.key} />
+                        ))}
+                    </VStack>
                 </Accordion.Content>
             </Accordion.Item>
         </Accordion>

@@ -7,9 +7,15 @@ import { harSpesialsaktilgang, kanFiltrerePåGosysEgenskap } from '@utils/featur
 export type Filter = {
     key: string | Egenskap;
     label: string;
-    active: boolean;
+    status: FilterStatus;
     column: Oppgaveoversiktkolonne;
 };
+
+export enum FilterStatus {
+    ON = 'ON',
+    OFF = 'OFF',
+    OUT = 'OUT',
+}
 
 export enum Oppgaveoversiktkolonne {
     TILDELING = 'TILDELING',
@@ -28,213 +34,194 @@ type ActiveFiltersPerTab = {
 
 const filters = [
     {
-        key: 'UFORDELTE_SAKER',
-        label: 'Ufordelte saker',
-        active: false,
-        column: Oppgaveoversiktkolonne.TILDELING,
-    },
-    {
         key: 'TILDELTE_SAKER',
         label: 'Tildelte saker',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.TILDELING,
     },
     {
         key: Egenskap.PaVent,
         label: 'På vent',
-        active: false,
-        column: Oppgaveoversiktkolonne.PÅVENT,
-    },
-    {
-        key: 'IKKE_PA_VENT',
-        label: 'Ikke på vent',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.PÅVENT,
     },
     {
         key: Egenskap.Beslutter,
         label: 'Beslutter',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.STATUS,
     },
     {
         key: Egenskap.Retur,
         label: 'Retur',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.STATUS,
     },
     {
         key: Egenskap.Forstegangsbehandling,
         label: 'Førstegangsbehandling',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
         key: Egenskap.Forlengelse,
         label: 'Forlengelse',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
         key: Egenskap.OvergangFraIt,
         label: 'Forlengelse - IT',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
         key: Egenskap.Soknad,
         label: 'Søknad',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.OPPGAVETYPE,
     },
     {
         key: Egenskap.Revurdering,
         label: 'Revurdering',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.OPPGAVETYPE,
     },
     {
         key: Egenskap.UtbetalingTilSykmeldt,
         label: 'Sykmeldt',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
         key: Egenskap.UtbetalingTilArbeidsgiver,
         label: 'Arbeidsgiver',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
         key: Egenskap.DelvisRefusjon,
         label: 'Begge',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
         key: Egenskap.IngenUtbetaling,
         label: 'Ingen mottaker',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
         key: Egenskap.Haster,
         label: 'Haster',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: Egenskap.Vergemal,
         label: 'Vergemål',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: Egenskap.Utland,
         label: 'Utland',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: Egenskap.EgenAnsatt,
         label: 'Egen ansatt',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: Egenskap.Stikkprove,
         label: 'Stikkprøve',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: Egenskap.RiskQa,
         label: 'Risk QA',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
 
     {
         key: Egenskap.FortroligAdresse,
         label: 'Fortrolig adresse',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: Egenskap.Skjonnsfastsettelse,
         label: 'Skjønnsfastsettelse',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: Egenskap.Tilbakedatert,
         label: 'Tilbakedatert',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: Egenskap.Medlemskap,
         label: 'Medlemskap',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: Egenskap.Gosys,
         label: 'Gosysvarsel',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: Egenskap.Spesialsak,
         label: '🌰',
-        active: false,
-        column: Oppgaveoversiktkolonne.EGENSKAPER,
-    },
-    {
-        key: 'INGEN_EGENSKAPER',
-        label: 'Ingen egenskaper',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: Egenskap.EnArbeidsgiver,
         label: 'En arbeidsgiver',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
     {
         key: Egenskap.FlereArbeidsgivere,
         label: 'Flere arbeidsgivere',
-        active: false,
+        status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
 ];
 
 export const getDefaultFilters = (grupper: string[], ident: string): Filter[] =>
     filters
-        .filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang(grupper))
-        .filter((filter) => filter.label !== 'Gosysvarsel' || kanFiltrerePåGosysEgenskap(ident, grupper));
+        .filter((filter) => filter.key !== 'SPESIALSAK' || harSpesialsaktilgang(grupper))
+        .filter((filter) => filter.key !== 'GOSYS' || kanFiltrerePåGosysEgenskap(ident, grupper));
 
 const storageKeyForFilters = (tab: TabType) => 'filtereForTab_' + tab;
 
-const hentValgteFiltre = (tab: TabType, defaultFilters: Filter[]) => {
+const hentValgteFiltre = (tab: TabType, defaultFilters: Filter[]): Filter[] => {
     const filters = localStorage.getItem(storageKeyForFilters(tab));
-    if (filters == null && tab === TabType.TilGodkjenning)
-        return defaultFilters.map(makeFilterActive('Ufordelte saker'));
-    if (filters == null && tab === TabType.Mine) return defaultFilters.map(makeFilterActive('Ikke på vent'));
+    if (filters == null && tab === TabType.TilGodkjenning) return defaultFilters.map(filterOut('TILDELTE_SAKER'));
+    if (filters == null && tab === TabType.Mine) return defaultFilters.map(filterOut('PA_VENT'));
     if (filters == null) {
         return defaultFilters;
     }
 
-    const aktiveFiltre = JSON.parse(filters);
+    const activeFilters: Filter[] = JSON.parse(filters);
 
-    return defaultFilters.map((f) => {
-        return aktiveFiltre.includes(f.key) ? { ...f, active: true } : f;
-    });
+    return defaultFilters.map(
+        (defaultFilter) =>
+            activeFilters.find((activeFilter) => defaultFilter.key === activeFilter.key) || defaultFilter,
+    );
 };
 
-const makeFilterActive = (targetFilterLabel: string) => (it: Filter) =>
-    it.label === targetFilterLabel ? { ...it, active: true } : it;
+const filterOut = (key: string) => (it: Filter) => (it.key === key ? { ...it, status: FilterStatus.OUT } : it);
 
 const allFilters = atom<ActiveFiltersPerTab>({
     key: 'activeFiltersPerTab',
@@ -266,7 +253,7 @@ const filtersState = selector<Filter[]>({
         const tab = get(tabState);
 
         if (Array.isArray(newValue)) {
-            const aktiveFiltre = newValue.filter((f) => f.active).map((f) => f.key);
+            const aktiveFiltre = newValue.filter((f) => f.status !== FilterStatus.OFF);
             localStorage.setItem(storageKeyForFilters(tab), JSON.stringify(aktiveFiltre));
         }
 
@@ -281,14 +268,14 @@ export const filterEndret = atom<boolean>({
 
 export const useFilters = () => ({
     allFilters: useRecoilValue(filtersState),
-    activeFilters: useRecoilValue(filtersState).filter((filter) => filter.active),
+    activeFilters: useRecoilValue(filtersState).filter((filter) => filter.status !== FilterStatus.OFF),
 });
 
 export const useSetMultipleFilters = () => {
     const setFilters = useSetRecoilState(filtersState);
     const setFilterEndret = useSetRecoilState(filterEndret);
-    return (state: boolean, ...labels: string[]) => {
-        setFilters((filters) => filters.map((it) => (labels.includes(it.label) ? { ...it, active: state } : it)));
+    return (filterStatus: FilterStatus, ...keys: string[]) => {
+        setFilters((filters) => filters.map((it) => (keys.includes(it.key) ? { ...it, status: filterStatus } : it)));
         setFilterEndret(true);
     };
 };
@@ -296,8 +283,8 @@ export const useSetMultipleFilters = () => {
 export const useToggleFilter = () => {
     const setFilters = useSetRecoilState(filtersState);
     const setFilterEndret = useSetRecoilState(filterEndret);
-    return (label: string) => {
-        setFilters((filters) => filters.map((it) => (it.label === label ? { ...it, active: !it.active } : it)));
+    return (key: string, status: FilterStatus) => {
+        setFilters((filters) => filters.map((it) => (it.key === key ? { ...it, status } : it)));
         setFilterEndret(true);
     };
 };
