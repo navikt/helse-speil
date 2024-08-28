@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -7,13 +6,11 @@ import { BodyShort } from '@navikt/ds-react';
 import { Bold } from '@components/Bold';
 import { Button } from '@components/Button';
 import { Kildetype } from '@io/graphql';
-import { FomPicker } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/FomPicker';
 import { RefusjonFeiloppsummering } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonFeiloppsumering';
 import { RefusjonKilde } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonKilde';
 import { RefusjonsBeløpInput } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonsBeløpInput';
-import { TomPicker } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/TomPicker';
+import { RefusjonsperiodeInput } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonsperiodeInput';
 import { Refusjonsopplysning } from '@typer/overstyring';
-import { ISO_DATOFORMAT } from '@utils/date';
 
 import { RefusjonFormValues, useRefusjonFormField } from './useRefusjonFormField';
 
@@ -52,51 +49,10 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
             {fields.map((refusjonsopplysning, index) => (
                 <div key={refusjonsopplysning.id}>
                     <div className={styles.RefusjonsRad} data-testid="refusjonsopplysningrad">
-                        <FomPicker
-                            name={`refusjonsopplysninger.${index}.fom`}
-                            fom={refusjonsopplysning.fom}
-                            tom={refusjonsopplysning.tom}
-                            error={!!formState.errors?.refusjonsopplysninger?.[index]?.fom?.message}
-                            onSelect={(date) => {
-                                updateRefusjonsopplysninger(
-                                    date ? dayjs(date).format(ISO_DATOFORMAT) : refusjonsopplysning.fom,
-                                    refusjonsopplysning?.tom ?? null,
-                                    refusjonsopplysning.beløp,
-                                    index,
-                                );
-                            }}
-                            clearErrors={() => clearErrors(`refusjonsopplysninger.${index}`)}
-                            updateFom={(nyFom) => {
-                                updateRefusjonsopplysninger(
-                                    nyFom,
-                                    refusjonsopplysning?.tom ?? null,
-                                    refusjonsopplysning.beløp,
-                                    index,
-                                );
-                            }}
-                        />
-                        <TomPicker
-                            name={`refusjonsopplysninger.${index}.tom`}
-                            fom={refusjonsopplysning.fom}
-                            tom={refusjonsopplysning.tom}
-                            error={!!formState.errors?.refusjonsopplysninger?.[index]?.tom?.message}
-                            onSelect={(date) => {
-                                updateRefusjonsopplysninger(
-                                    refusjonsopplysning?.fom ?? null,
-                                    date ? dayjs(date).format(ISO_DATOFORMAT) : (refusjonsopplysning?.tom ?? null),
-                                    refusjonsopplysning.beløp,
-                                    index,
-                                );
-                            }}
-                            clearErrors={() => clearErrors(`refusjonsopplysninger.${index}`)}
-                            updateTom={(nyTom) => {
-                                updateRefusjonsopplysninger(
-                                    refusjonsopplysning?.fom ?? null,
-                                    nyTom,
-                                    refusjonsopplysning.beløp,
-                                    index,
-                                );
-                            }}
+                        <RefusjonsperiodeInput
+                            index={index}
+                            refusjonsopplysning={refusjonsopplysning}
+                            updateRefusjonsopplysninger={updateRefusjonsopplysninger}
                         />
                         <RefusjonsBeløpInput
                             index={index}
