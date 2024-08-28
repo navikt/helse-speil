@@ -42,6 +42,7 @@ export const oppgaver: OppgaveTilBehandling[] = [
         aktorId: '2805594640665',
         opprettet: '2023-04-02T11:09:57',
         opprinneligSoknadsdato: '2023-01-21 09:48:33.10625',
+        tidsfrist: '2023-02-21',
         navn: {
             fornavn: 'PUNKTLIG',
             mellomnavn: null,

@@ -21,10 +21,7 @@ interface NotatCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 
 export const PåVentCell = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: NotatCellProps): ReactElement => {
     return (
-        <Table.DataCell
-            onClick={(event) => event.stopPropagation()}
-            className={classNames(styles.PåVentCell, utgåttFrist && styles.utgåttFrist)}
-        >
+        <Table.DataCell onClick={(event) => event.stopPropagation()} className={classNames(styles.PåVentCell)}>
             {erPåVent && (
                 <div className={styles.KnappOgTekst}>
                     <PåVentKnapp
