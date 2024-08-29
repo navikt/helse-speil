@@ -16,3 +16,9 @@ export const getFormattedDatetimeString = (dateString?: Maybe<DateString>): stri
     typeof dateString === 'string' ? dayjs(dateString).format(NORSK_DATOFORMAT_MED_KLOKKESLETT) : '';
 
 export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORMAT);
+
+export const somDate = (dato?: string): Date | undefined =>
+    dayjs(dato, ISO_DATOFORMAT, true).isValid() ? dayjs(dato, ISO_DATOFORMAT).toDate() : undefined;
+
+export const somNorskDato = (dato: string | undefined): string | undefined =>
+    dato ? dayjs(somDate(dato)).format(NORSK_DATOFORMAT) : undefined;

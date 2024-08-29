@@ -9,7 +9,7 @@ import {
     RefusjonFormFields,
     RefusjonFormValues,
 } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/useRefusjonFormField';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
+import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somDate, somNorskDato } from '@utils/date';
 
 interface RefusjonsperiodeInputProps {
     index: number;
@@ -179,9 +179,3 @@ const useTomField = (
         setTomField,
     };
 };
-
-const somDate = (dato?: string): Date | undefined =>
-    dayjs(dato, ISO_DATOFORMAT, true).isValid() ? dayjs(dato, ISO_DATOFORMAT).toDate() : undefined;
-
-const somNorskDato = (dato: string | undefined): string | undefined =>
-    dato ? dayjs(somDate(dato)).format(NORSK_DATOFORMAT) : undefined;
