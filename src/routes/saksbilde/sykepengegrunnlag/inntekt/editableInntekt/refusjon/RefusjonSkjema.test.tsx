@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Refusjon } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/Refusjon';
+import { RefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonSkjema';
 import '@testing-library/jest-dom';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Refusjonsopplysning } from '@typer/overstyring';
@@ -30,7 +30,7 @@ describe('Refusjonskjema', () => {
         },
     ];
 
-    const TestRefusjon = ({
+    const TestRefusjonSkjema = ({
         fraRefusjonsopplysninger,
         lokaleRefusjonsopplysninger,
     }: {
@@ -40,7 +40,7 @@ describe('Refusjonskjema', () => {
         const methods = useForm();
         return (
             <FormProvider {...methods}>
-                <Refusjon
+                <RefusjonSkjema
                     fraRefusjonsopplysninger={fraRefusjonsopplysninger ?? []}
                     lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger ?? []}
                 />
@@ -49,23 +49,24 @@ describe('Refusjonskjema', () => {
     };
 
     it('skal rendre tomt skjema hvis det ikke finnes refusjoner', () => {
-        render(<TestRefusjon />);
+        render(<TestRefusjonSkjema />);
         expect(screen.queryByTestId('refusjonsopplysningrad')).toBeNull();
     });
 
     it('skal rendre skjema hvis det finnes refusjoner', () => {
-        render(<TestRefusjon fraRefusjonsopplysninger={en_refusjonsopplysning} />);
+        render(<TestRefusjonSkjema fraRefusjonsopplysninger={en_refusjonsopplysning} />);
+        screen.debug();
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
-        expect(screen.queryByLabelText('fom')).toHaveValue(
+        expect(screen.queryByLabelText('Fra og med dato')).toHaveValue(
             dayjs(en_refusjonsopplysning[0].fom).format(NORSK_DATOFORMAT),
         );
-        expect(screen.queryByLabelText('tom')).toHaveValue('');
+        expect(screen.queryByLabelText('Til og med dato')).toHaveValue('');
         expect(screen.queryByLabelText('Månedlig refusjon')).toHaveValue(en_refusjonsopplysning[0].beløp.toString());
         expect(screen.queryByText('IM')).toBeInTheDocument();
     });
 
     it('skal kunne slette refusjonsopplysninger', async () => {
-        render(<TestRefusjon fraRefusjonsopplysninger={to_refusjonsopplysninger} />);
+        render(<TestRefusjonSkjema fraRefusjonsopplysninger={to_refusjonsopplysninger} />);
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(2);
         const knapper = await waitFor(() => screen.findAllByRole('button', { name: 'Slett' }));
         await act(() => fireEvent.click(knapper[0]));
@@ -73,7 +74,7 @@ describe('Refusjonskjema', () => {
     });
 
     it('skal kunne legge til refusjonsopplysninger', async () => {
-        render(<TestRefusjon fraRefusjonsopplysninger={en_refusjonsopplysning} />);
+        render(<TestRefusjonSkjema fraRefusjonsopplysninger={en_refusjonsopplysning} />);
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
         const knapper = await waitFor(() => screen.findAllByRole('button', { name: '+ Legg til' }));
         await act(() => fireEvent.click(knapper[0]));

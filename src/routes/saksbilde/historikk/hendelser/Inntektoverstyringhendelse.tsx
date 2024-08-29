@@ -98,9 +98,10 @@ export const Inntektoverstyringhendelse = ({
                                                         )}
                                                         -
                                                         {dayjs(fraRefusjonsopplysning?.tom, ISO_DATOFORMAT).isValid()
-                                                            ? dayjs(fraRefusjonsopplysning?.tom, ISO_DATOFORMAT).format(
-                                                                  NORSK_DATOFORMAT,
-                                                              ) ?? ''
+                                                            ? (dayjs(
+                                                                  fraRefusjonsopplysning?.tom,
+                                                                  ISO_DATOFORMAT,
+                                                              ).format(NORSK_DATOFORMAT) ?? '')
                                                             : ' '}
                                                         {': '}
                                                         {fraRefusjonsopplysning.belop}
@@ -122,9 +123,9 @@ export const Inntektoverstyringhendelse = ({
                                                 )}
                                                 -
                                                 {dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).isValid()
-                                                    ? dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).format(
+                                                    ? (dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).format(
                                                           NORSK_DATOFORMAT,
-                                                      ) ?? ''
+                                                      ) ?? '')
                                                     : ' '}
                                                 {': '}
                                                 {refusjonsopplysning.belop}

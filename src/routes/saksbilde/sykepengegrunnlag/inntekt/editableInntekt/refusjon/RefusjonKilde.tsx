@@ -6,7 +6,7 @@ import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
 
-import styles from './Refusjon.module.scss';
+import styles from './RefusjonSkjema.module.scss';
 
 interface RefusjonKildeProps {
     kilde: Kildetype;

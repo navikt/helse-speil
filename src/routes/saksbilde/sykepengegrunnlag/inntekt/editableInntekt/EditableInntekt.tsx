@@ -39,7 +39,7 @@ import { isGhostPeriode } from '@utils/typeguards';
 import { Begrunnelser } from '../Begrunnelser';
 import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';
 import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
-import { Refusjon } from './refusjon/Refusjon';
+import { RefusjonSkjema } from './refusjon/RefusjonSkjema';
 import { RefusjonFormFields } from './refusjon/useRefusjonFormField';
 
 import styles from './EditableInntekt.module.css';
@@ -192,7 +192,7 @@ export const EditableInntekt = ({
                         harEndringer={harEndringer}
                     />
                     {metadata.fraRefusjonsopplysninger.length > 0 && (
-                        <Refusjon
+                        <RefusjonSkjema
                             fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}
                             lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger}
                         />

@@ -14,14 +14,14 @@ import { Refusjonsopplysning } from '@typer/overstyring';
 
 import { RefusjonFormValues, useRefusjonFormField } from './useRefusjonFormField';
 
-import styles from './Refusjon.module.scss';
+import styles from './RefusjonSkjema.module.scss';
 
 interface RefusjonProps {
     fraRefusjonsopplysninger: Refusjonsopplysning[];
     lokaleRefusjonsopplysninger: Refusjonsopplysning[];
 }
 
-export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger }: RefusjonProps) => {
+export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger }: RefusjonProps) => {
     const { fields, addRefusjonsopplysning, removeRefusjonsopplysning, replaceRefusjonsopplysninger } =
         useRefusjonFormField();
     const { formState } = useFormContext<RefusjonFormValues>();

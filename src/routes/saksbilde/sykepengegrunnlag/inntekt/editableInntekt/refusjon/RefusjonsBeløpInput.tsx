@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import styles from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/Refusjon.module.scss';
+import styles from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonSkjema.module.scss';
 import { RefusjonFormValues } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/useRefusjonFormField';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { avrundetToDesimaler, isNumeric } from '@utils/tall';
