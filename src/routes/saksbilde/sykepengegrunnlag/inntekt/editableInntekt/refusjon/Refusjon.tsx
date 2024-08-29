@@ -22,14 +22,9 @@ interface RefusjonProps {
 }
 
 export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger }: RefusjonProps) => {
-    const {
-        fields,
-        addRefusjonsopplysning,
-        removeRefusjonsopplysning,
-        replaceRefusjonsopplysninger,
-        updateRefusjonsopplysninger,
-    } = useRefusjonFormField();
-    const { formState, clearErrors } = useFormContext<RefusjonFormValues>();
+    const { fields, addRefusjonsopplysning, removeRefusjonsopplysning, replaceRefusjonsopplysninger } =
+        useRefusjonFormField();
+    const { formState } = useFormContext<RefusjonFormValues>();
 
     useEffect(() => {
         replaceRefusjonsopplysninger(
@@ -50,18 +45,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                 <div key={refusjonsopplysning.id}>
                     <div className={styles.RefusjonsRad} data-testid="refusjonsopplysningrad">
                         <RefusjonsperiodeInput index={index} refusjonsopplysning={refusjonsopplysning} />
-                        <RefusjonsBeløpInput
-                            index={index}
-                            refusjonsopplysning={refusjonsopplysning}
-                            updateBeløp={(nyttBeløp) =>
-                                updateRefusjonsopplysninger(
-                                    refusjonsopplysning.fom,
-                                    refusjonsopplysning?.tom ?? null,
-                                    nyttBeløp,
-                                    index,
-                                )
-                            }
-                        />
+                        <RefusjonsBeløpInput index={index} refusjonsopplysning={refusjonsopplysning} />
 
                         <RefusjonKilde
                             kilde={refusjonsopplysning.kilde as Kildetype}

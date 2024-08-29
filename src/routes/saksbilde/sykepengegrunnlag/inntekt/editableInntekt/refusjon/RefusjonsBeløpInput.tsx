@@ -9,13 +9,13 @@ import { avrundetToDesimaler, isNumeric } from '@utils/tall';
 interface RefusjonsBeløpInputProps {
     index: number;
     refusjonsopplysning: Refusjonsopplysning;
-    updateBeløp: (nyttBeløp: number) => void;
 }
 
-export const RefusjonsBeløpInput = ({ index, refusjonsopplysning, updateBeløp }: RefusjonsBeløpInputProps) => {
+export const RefusjonsBeløpInput = ({ index, refusjonsopplysning }: RefusjonsBeløpInputProps) => {
     const {
         register,
         clearErrors,
+        setValue,
         formState: {
             errors: { refusjonsopplysninger },
         },
@@ -47,7 +47,7 @@ export const RefusjonsBeløpInput = ({ index, refusjonsopplysning, updateBeløp 
                     if (nyttBeløp === refusjonsopplysning.beløp || Number.isNaN(nyttBeløp)) return;
 
                     clearErrors(`refusjonsopplysninger.${index}`);
-                    updateBeløp(nyttBeløp);
+                    setValue(`refusjonsopplysninger.${index}.beløp`, nyttBeløp);
                     void onBlur(event);
                 }}
                 {...inputValidation}
