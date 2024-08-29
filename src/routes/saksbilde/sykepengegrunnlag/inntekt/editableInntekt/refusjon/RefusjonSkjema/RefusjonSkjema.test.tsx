@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { RefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonSkjema';
+import { RefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonSkjema/RefusjonSkjema';
 import '@testing-library/jest-dom';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Refusjonsopplysning } from '@typer/overstyring';

@@ -39,7 +39,7 @@ import { isGhostPeriode } from '@utils/typeguards';
 import { Begrunnelser } from '../Begrunnelser';
 import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';
 import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
-import { RefusjonSkjema } from './refusjon/RefusjonSkjema';
+import { RefusjonSkjema } from './refusjon/RefusjonSkjema/RefusjonSkjema';
 import { RefusjonFormFields } from './refusjon/hooks/useRefusjonFormField';
 
 import styles from './EditableInntekt.module.css';
