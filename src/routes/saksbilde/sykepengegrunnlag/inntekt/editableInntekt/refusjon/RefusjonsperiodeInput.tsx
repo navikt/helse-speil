@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import React, { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { DatePicker, HStack, useDatepicker } from '@navikt/ds-react';
+import { DatePicker, HStack } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
 import { useFomField } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/useFomField';
@@ -10,7 +10,8 @@ import {
     RefusjonFormFields,
     RefusjonFormValues,
 } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/useRefusjonFormField';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somDate, somNorskDato } from '@utils/date';
+import { useTomField } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/useTomField';
+import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
 
 interface RefusjonsperiodeInputProps {
     index: number;
@@ -92,39 +93,4 @@ export const RefusjonsperiodeInput = ({
             </DatePicker>
         </HStack>
     );
-};
-
-const useTomField = (
-    fom: string,
-    tom: string | undefined,
-    index: number,
-    updateTom: (date: Date | undefined) => void,
-) => {
-    const { register, setValue } = useFormContext<RefusjonFormValues>();
-
-    const tomField = register(`refusjonsopplysninger.${index}.tom`, {
-        required: false,
-        validate: {
-            måHaGyldigFormat: (value) =>
-                value == undefined || dayjs(value, ISO_DATOFORMAT).isValid() || 'Datoen må ha format dd.mm.åååå',
-            fomKanIkkeværeEtterTom: (value) =>
-                tom == undefined || dayjs(value).isSameOrAfter(fom) || 'Tom kan ikke være før fom',
-        },
-    });
-
-    const tomDatePicker = useDatepicker({
-        defaultSelected: somDate(tom),
-        defaultMonth: somDate(tom) ?? somDate(fom),
-        onDateChange: updateTom,
-    });
-
-    const setTomField = (nyTom: string | undefined) => {
-        setValue(`refusjonsopplysninger.${index}.tom`, nyTom);
-    };
-
-    return {
-        tomField,
-        tomDatePicker,
-        setTomField,
-    };
 };
