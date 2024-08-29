@@ -40,7 +40,7 @@ import { Begrunnelser } from '../Begrunnelser';
 import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';
 import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
 import { RefusjonSkjema } from './refusjon/RefusjonSkjema';
-import { RefusjonFormFields } from './refusjon/useRefusjonFormField';
+import { RefusjonFormFields } from './refusjon/hooks/useRefusjonFormField';
 
 import styles from './EditableInntekt.module.css';
 

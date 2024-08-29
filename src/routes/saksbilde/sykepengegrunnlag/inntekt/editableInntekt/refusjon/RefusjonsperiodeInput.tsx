@@ -3,9 +3,9 @@ import { useFormContext } from 'react-hook-form';
 
 import { DatePicker, HStack } from '@navikt/ds-react';
 
-import { useFomField } from './useFomField';
-import { RefusjonFormFields, RefusjonFormValues } from './useRefusjonFormField';
-import { useTomField } from './useTomField';
+import { useFomField } from './hooks/useFomField';
+import { RefusjonFormFields, RefusjonFormValues } from './hooks/useRefusjonFormField';
+import { useTomField } from './hooks/useTomField';
 
 interface RefusjonsperiodeInputProps {
     index: number;

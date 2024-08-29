@@ -12,7 +12,7 @@ import { RefusjonsBeløpInput } from '@saksbilde/sykepengegrunnlag/inntekt/edita
 import { RefusjonsperiodeInput } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonsperiodeInput';
 import { Refusjonsopplysning } from '@typer/overstyring';
 
-import { RefusjonFormValues, useRefusjonFormField } from './useRefusjonFormField';
+import { RefusjonFormValues, useRefusjonFormField } from './hooks/useRefusjonFormField';
 
 import styles from './RefusjonSkjema.module.scss';
 
