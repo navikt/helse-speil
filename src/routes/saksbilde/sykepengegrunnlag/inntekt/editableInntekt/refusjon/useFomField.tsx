@@ -55,6 +55,5 @@ export const useFomField = (fom: string, tom: string | undefined, index: number)
     return {
         fomField: { ...fomField, onChange: onChangeFom, value: fomValue },
         fomDatePicker,
-        setFomField,
     };
 };

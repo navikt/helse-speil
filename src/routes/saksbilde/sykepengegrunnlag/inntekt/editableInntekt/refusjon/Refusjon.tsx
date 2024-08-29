@@ -49,11 +49,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
             {fields.map((refusjonsopplysning, index) => (
                 <div key={refusjonsopplysning.id}>
                     <div className={styles.RefusjonsRad} data-testid="refusjonsopplysningrad">
-                        <RefusjonsperiodeInput
-                            index={index}
-                            refusjonsopplysning={refusjonsopplysning}
-                            updateRefusjonsopplysninger={updateRefusjonsopplysninger}
-                        />
+                        <RefusjonsperiodeInput index={index} refusjonsopplysning={refusjonsopplysning} />
                         <RefusjonsBeløpInput
                             index={index}
                             refusjonsopplysning={refusjonsopplysning}
