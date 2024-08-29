@@ -14,7 +14,7 @@ interface RefusjonsperiodeInputProps {
 
 export const RefusjonsperiodeInput = ({
     index,
-    refusjonsopplysning: { fom, tom: rawTom, beløp },
+    refusjonsopplysning: { fom, tom: rawTom },
 }: RefusjonsperiodeInputProps) => {
     const tom = rawTom ?? undefined;
     const {
