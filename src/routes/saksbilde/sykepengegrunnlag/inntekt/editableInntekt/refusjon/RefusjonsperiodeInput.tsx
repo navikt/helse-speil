@@ -29,17 +29,7 @@ export const RefusjonsperiodeInput = ({
         },
     } = useFormContext<RefusjonFormValues>();
 
-    const [fomValue, setFomValue] = useState<string>(somNorskDato(fom) ?? fom);
     const [tomValue, setTomValue] = useState<string>(somNorskDato(tom ?? undefined) ?? '');
-
-    const updateFom = useCallback(
-        (date: Date | undefined) => {
-            const isoDate = dayjs(date).format(ISO_DATOFORMAT);
-            updateRefusjonsopplysninger(isoDate, tom ?? null, beløp, index);
-            setFomValue(dayjs(date).format(NORSK_DATOFORMAT));
-        },
-        [beløp, index, tom, updateRefusjonsopplysninger],
-    );
 
     const updateTom = (date: Date | undefined) => {
         const isoDate = dayjs(date).format(ISO_DATOFORMAT);
@@ -51,24 +41,12 @@ export const RefusjonsperiodeInput = ({
         fomField,
         fomDatePicker: { datepickerProps: fomDatePickerProps, inputProps: fomInputProps },
         setFomField,
-    } = useFomField(fom, tom, index, updateFom);
+    } = useFomField(fom, tom, index);
     const {
         tomField,
         tomDatePicker: { datepickerProps: tomDatePickerProps, inputProps: tomInputProps },
         setTomField,
     } = useTomField(fom, tom, index, updateTom);
-
-    const onChangeFom = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            const date = dayjs(event.target.value, NORSK_DATOFORMAT, true).format(ISO_DATOFORMAT);
-            const validDate = date !== 'Invalid Date';
-
-            setFomValue(event.target.value);
-            validDate && setFomField(date);
-            event.currentTarget.focus();
-        },
-        [beløp, index, tom, updateRefusjonsopplysninger],
-    );
 
     const onChangeTom = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +57,7 @@ export const RefusjonsperiodeInput = ({
             validDate && setFomField(date);
             event.currentTarget.focus();
         },
-        [beløp, fom, index, updateRefusjonsopplysninger],
+        [setFomField, setTomField],
     );
 
     const { ref: fomRef, ...fomFieldProps } = fomField;
@@ -92,8 +70,6 @@ export const RefusjonsperiodeInput = ({
                     {...fomFieldProps}
                     {...fomInputProps}
                     setAnchorRef={fomRef}
-                    onChange={onChangeFom}
-                    value={fomValue}
                     label="Fra og med dato"
                     hideLabel
                     size="small"
@@ -117,13 +93,34 @@ export const RefusjonsperiodeInput = ({
     );
 };
 
-const useFomField = (
-    fom: string,
-    tom: string | undefined,
-    index: number,
-    updateFom: (date: Date | undefined) => void,
-) => {
+const useFomField = (fom: string, tom: string | undefined, index: number) => {
     const { register, setValue } = useFormContext<RefusjonFormValues>();
+    const [fomValue, setFomValue] = useState<string>(somNorskDato(fom) ?? fom);
+
+    const setFomField = useCallback(
+        (nyFom: string) => {
+            setValue(`refusjonsopplysninger.${index}.fom`, nyFom);
+        },
+        [index, setValue],
+    );
+
+    const updateFom = useCallback(
+        (date: Date | undefined) => {
+            const isoDate = dayjs(date).format(ISO_DATOFORMAT);
+            setFomField(isoDate);
+            setFomValue(dayjs(date).format(NORSK_DATOFORMAT));
+        },
+        [setFomField],
+    );
+
+    const onChangeFom = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const date = dayjs(event.target.value, NORSK_DATOFORMAT, true).format(ISO_DATOFORMAT);
+        const validDate = date !== 'Invalid Date';
+
+        setFomValue(event.target.value);
+        validDate && setFomField(date);
+        event.currentTarget.focus();
+    };
 
     const fomField = register(`refusjonsopplysninger.${index}.fom`, {
         required: false,
@@ -141,12 +138,8 @@ const useFomField = (
         onDateChange: updateFom,
     });
 
-    const setFomField = (nyFom: string) => {
-        setValue(`refusjonsopplysninger.${index}.fom`, nyFom);
-    };
-
     return {
-        fomField,
+        fomField: { ...fomField, onChange: onChangeFom, value: fomValue },
         fomDatePicker,
         setFomField,
     };
@@ -190,4 +183,5 @@ const useTomField = (
 const somDate = (dato?: string): Date | undefined =>
     dayjs(dato, ISO_DATOFORMAT, true).isValid() ? dayjs(dato, ISO_DATOFORMAT).toDate() : undefined;
 
-const somNorskDato = (dato: string | undefined) => (dato ? dayjs(somDate(dato)).format(NORSK_DATOFORMAT) : undefined);
+const somNorskDato = (dato: string | undefined): string | undefined =>
+    dato ? dayjs(somDate(dato)).format(NORSK_DATOFORMAT) : undefined;
