@@ -70,7 +70,7 @@ export const EditableInntekt = ({
     close,
     onEndre,
 }: EditableInntektProps): ReactElement => {
-    const form = useForm<InntektFormFields>({ shouldFocusError: false, mode: 'onBlur' });
+    const form = useForm<InntektFormFields>({ shouldFocusError: false, mode: 'onSubmit', reValidateMode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const metadata = useOverstyrtInntektMetadata(skjæringstidspunkt, organisasjonsnummer);
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);

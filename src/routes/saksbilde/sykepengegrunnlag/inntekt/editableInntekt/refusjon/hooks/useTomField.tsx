@@ -8,27 +8,8 @@ import { RefusjonFormValues } from '@saksbilde/sykepengegrunnlag/inntekt/editabl
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somDate, somNorskDato } from '@utils/date';
 
 export const useTomField = (fom: string, tom: string | undefined, index: number) => {
-    const { register, setValue } = useFormContext<RefusjonFormValues>();
+    const { register, setValue, clearErrors } = useFormContext<RefusjonFormValues>();
     const [tomValue, setTomValue] = useState<string>(somNorskDato(tom ?? undefined) ?? '');
-
-    const setTomField = (nyTom: string | undefined) => {
-        setValue(`refusjonsopplysninger.${index}.tom`, nyTom);
-    };
-
-    const updateTom = (date: Date | undefined) => {
-        const isoDate = dayjs(date).format(ISO_DATOFORMAT);
-        setTomField(isoDate);
-        setTomValue(dayjs(date).format(NORSK_DATOFORMAT));
-    };
-
-    const onChangeTom = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const date = dayjs(event.target.value, NORSK_DATOFORMAT, true).format(ISO_DATOFORMAT);
-        const validDate = date !== 'Invalid Date';
-
-        setTomField(event.target.value);
-        validDate && setTomField(date);
-        event.currentTarget.focus();
-    };
 
     const tomField = register(`refusjonsopplysninger.${index}.tom`, {
         required: false,
@@ -39,6 +20,27 @@ export const useTomField = (fom: string, tom: string | undefined, index: number)
                 tom == undefined || dayjs(value).isSameOrAfter(fom) || 'Tom kan ikke være før fom',
         },
     });
+
+    const setTomField = (nyTom: string | undefined) => {
+        clearErrors(`refusjonsopplysninger.${index}.tom`);
+        setValue(`refusjonsopplysninger.${index}.tom`, nyTom, {
+            shouldDirty: true,
+            shouldTouch: true,
+        });
+    };
+
+    const updateTom = (date: Date | undefined) => {
+        const isoDate = dayjs(date, ISO_DATOFORMAT, true).format(ISO_DATOFORMAT);
+        setTomField(isoDate);
+        setTomValue(dayjs(date).format(NORSK_DATOFORMAT));
+    };
+
+    const onChangeTom = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const date = dayjs(event.target.value, NORSK_DATOFORMAT, true).format(ISO_DATOFORMAT);
+        const validDate = date !== 'Invalid Date';
+        setTomValue(event.target.value);
+        setTomField(validDate ? date : event.target.value);
+    };
 
     const tomDatePicker = useDatepicker({
         defaultSelected: somDate(tom),

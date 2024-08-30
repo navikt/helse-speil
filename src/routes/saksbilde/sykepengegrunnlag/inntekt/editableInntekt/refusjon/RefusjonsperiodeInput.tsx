@@ -39,9 +39,8 @@ export const RefusjonsperiodeInput = ({
         <HStack wrap gap="2" justify="center" paddingBlock="2 0">
             <DatePicker {...fomDatePickerProps}>
                 <DatePicker.Input
-                    {...fomFieldProps}
                     {...fomInputProps}
-                    setAnchorRef={fomRef}
+                    {...fomFieldProps}
                     label="Fra og med dato"
                     hideLabel
                     size="small"
@@ -50,9 +49,8 @@ export const RefusjonsperiodeInput = ({
             </DatePicker>
             <DatePicker {...tomDatePickerProps}>
                 <DatePicker.Input
-                    {...tomFieldProps}
                     {...tomInputProps}
-                    setAnchorRef={tomRef}
+                    {...tomFieldProps}
                     label="Til og med dato"
                     hideLabel
                     size="small"
