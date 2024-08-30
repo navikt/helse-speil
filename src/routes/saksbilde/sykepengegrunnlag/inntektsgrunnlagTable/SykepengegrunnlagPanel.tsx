@@ -3,10 +3,12 @@ import React, { Dispatch, SetStateAction } from 'react';
 import {
     ArbeidsgiverFragment,
     Arbeidsgiverinntekt,
+    Inntektskilde,
     Maybe,
     PersonFragment,
     Sykepengegrunnlagsgrense,
 } from '@io/graphql';
+import { TilkommenInntekt } from '@saksbilde/sykepengegrunnlag/tilkommen/TilkommenInntekt';
 
 import { SkjønnsfastsettingSykepengegrunnlag } from '../skjønnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
@@ -80,6 +82,9 @@ export const SykepengegrunnlagPanel = ({
                 inntekter={getSorterteInntekter(inntekter, person.arbeidsgivere)}
                 avviksprosent={avviksprosent ?? 0}
             />
+            {aktivInntektskilde?.omregnetArsinntekt?.kilde === Inntektskilde.Soknad && (
+                <TilkommenInntekt person={person} inntekter={inntekter} />
+            )}
         </div>
     );
 };
