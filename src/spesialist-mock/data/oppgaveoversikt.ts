@@ -63,9 +63,13 @@ const filtrer = (oppgaver: OppgaveTilBehandling[], filtrering: FiltreringInput):
             (oppgave) =>
                 // OBS: Dette er ikke helt sånn filtrering av egenskaper gjøres backend.
                 filtrering.egenskaper.length === 0 ||
-                filtrering.egenskaper.every((egenskap) =>
-                    oppgave.egenskaper.map((oppgaveegenskap) => oppgaveegenskap.egenskap).includes(egenskap.egenskap),
-                ),
+                filtrering.egenskaper
+                    .filter((f) => f.egenskap !== Egenskap.Infotrygdforlengelse)
+                    .every((egenskap) =>
+                        oppgave.egenskaper
+                            .map((oppgaveegenskap) => oppgaveegenskap.egenskap)
+                            .includes(egenskap.egenskap),
+                    ),
         )
         .filter(
             (oppgave) =>

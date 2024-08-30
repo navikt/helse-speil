@@ -177,7 +177,7 @@ const finnKategori = (kolonne: Oppgaveoversiktkolonne) => {
 };
 
 const filtrering = (activeFilters: Filter[], aktivTab: TabType): FiltreringInput => ({
-    egenskaper: activeFilters
+    egenskaper: hackInnInfotrygdforlengelse(activeFilters)
         .filter(
             (filter) => Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.ON,
         )
@@ -185,7 +185,7 @@ const filtrering = (activeFilters: Filter[], aktivTab: TabType): FiltreringInput
             egenskap: filter.key as Egenskap,
             kategori: finnKategori(filter.column),
         })),
-    ekskluderteEgenskaper: activeFilters
+    ekskluderteEgenskaper: hackInnInfotrygdforlengelse(activeFilters)
         .filter(
             (filter) => Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.OUT,
         )
@@ -198,6 +198,23 @@ const filtrering = (activeFilters: Filter[], aktivTab: TabType): FiltreringInput
     egneSaker: aktivTab === TabType.Mine,
     egneSakerPaVent: aktivTab === TabType.Ventende,
 });
+
+// Vi viser begge egenskapene forlengelse og infotrygdforlengelse som "Forlengelse"
+// og vi har ikke eget filter for infotrygdforlengelse.
+// Så når man filtrerer på Forlengelse må vi også sende med Infotrygdforlengelse-egenskapen i filtreringen til Spesialist
+const hackInnInfotrygdforlengelse = (activeFilters: Filter[]): Filter[] => {
+    let filterArray: Filter[] = [...activeFilters];
+    const forlengelseFilter = activeFilters.find((f) => f.key === Egenskap.Forlengelse);
+    if (forlengelseFilter) {
+        filterArray.push({
+            key: Egenskap.Infotrygdforlengelse,
+            label: 'Forlengelse',
+            status: forlengelseFilter.status,
+            column: Oppgaveoversiktkolonne.PERIODETYPE,
+        });
+    }
+    return filterArray;
+};
 
 const finnSorteringsNøkkel = (sortKey: SortKey) => {
     switch (sortKey) {
