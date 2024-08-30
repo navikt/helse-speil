@@ -5,6 +5,7 @@ import {
     Dagoverstyring,
     GhostPeriodeFragment,
     Inntektoverstyring,
+    Inntektskilde,
     Maybe,
     MinimumSykdomsgradOverstyring,
     Overstyring,
@@ -32,6 +33,12 @@ export const isGhostPeriode = (period?: Maybe<TimelinePeriod>): period is GhostP
 
 export const isUberegnetPeriode = (period?: Maybe<TimelinePeriod>): period is UberegnetPeriodeFragment =>
     (period as UberegnetPeriodeFragment)?.__typename === 'UberegnetPeriode';
+
+export const isTilkommenInntekt = (periode?: Maybe<TimelinePeriod>, vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>) =>
+    isGhostPeriode(periode) && vilkårsgrunnlag
+        ? (vilkårsgrunnlag.inntekter?.find((it) => it?.arbeidsgiver === periode?.organisasjonsnummer)
+              ?.omregnetArsinntekt?.kilde ?? '') === Inntektskilde.Soknad
+        : false;
 
 export const isSpleisVilkarsgrunnlag = (
     vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>,

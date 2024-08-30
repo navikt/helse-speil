@@ -2,23 +2,31 @@ import classNames from 'classnames';
 import React, { ReactElement, ReactNode, useRef } from 'react';
 
 import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
-import { Maybe } from '@io/graphql';
+import { GhostPeriodeFragment, Maybe, Vilkarsgrunnlag } from '@io/graphql';
 import { useSetActivePeriodId } from '@state/periode';
+import { useFetchPersonQuery } from '@state/person';
+import { getVilkårsgrunnlag } from '@state/utils';
 import { PeriodState } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
 import { getPeriodState } from '@utils/mapping';
-import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
+import {
+    isBeregnetPeriode,
+    isGhostPeriode,
+    isInfotrygdPeriod,
+    isTilkommenInntekt,
+    isUberegnetPeriode,
+} from '@utils/typeguards';
 
 import { InfoPin } from './InfoPin';
 import { PeriodPopover } from './PeriodPopover';
 import { useIsWiderThan } from './hooks/useIsWiderThan';
 import { usePopoverAnchor } from './hooks/usePopoverAnchor';
-import { BlankIcon, CheckIcon, CrossIcon, TaskIcon, WaitingIcon } from './icons';
+import { BlankIcon, CheckIcon, CrossIcon, PlusIcon, TaskIcon, WaitingIcon } from './icons';
 import { UvurderteVarslerIcon } from './icons/UvurderteVarslerIcon';
 
 import styles from './Period.module.css';
 
-type PeriodCategory = 'success' | 'error' | 'attention' | 'waiting' | 'neutral' | 'neutralError';
+type PeriodCategory = 'success' | 'error' | 'attention' | 'waiting' | 'neutral' | 'neutralError' | 'plus';
 
 const getPeriodCategory = (periodState: PeriodState): Maybe<PeriodCategory> => {
     switch (periodState) {
@@ -58,6 +66,8 @@ const getPeriodCategory = (periodState: PeriodState): Maybe<PeriodCategory> => {
             return 'neutral';
         case 'forkastetIngenUtbetaling':
             return 'neutralError';
+        case 'tilkommenInntekt':
+            return 'plus';
         case 'infotrygdUkjent':
         case 'ukjent':
         default: {
@@ -82,13 +92,22 @@ const getIcon = (periodCategory: Maybe<PeriodCategory>): ReactNode => {
         case 'waiting': {
             return <WaitingIcon />;
         }
+        case 'plus': {
+            return <PlusIcon />;
+        }
         default: {
             return <BlankIcon />;
         }
     }
 };
 
-const getClassNames = (period: TimelinePeriod, notCurrent?: boolean, isActive?: boolean, className?: string) => {
+const getClassNames = (
+    period: TimelinePeriod,
+    vilkårsgrunnlag: Maybe<Vilkarsgrunnlag>,
+    notCurrent?: boolean,
+    isActive?: boolean,
+    className?: string,
+) => {
     const periodState = getPeriodState(period);
     const periodCategory = getPeriodCategory(periodState);
 
@@ -100,6 +119,7 @@ const getClassNames = (period: TimelinePeriod, notCurrent?: boolean, isActive?: 
         notCurrent && styles.old,
         isInfotrygdPeriod(period) && styles.legacy,
         isGhostPeriode(period) && styles.blank,
+        isTilkommenInntekt(period, vilkårsgrunnlag) && styles.tilkommen,
     );
 };
 
@@ -114,6 +134,8 @@ export const Period = ({ period, notCurrent, isActive, className, ...buttonProps
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
     const harUvurderteVarsler = useUvurderteVarslerPåPeriode(period);
+    const { data } = useFetchPersonQuery();
+    const vilkårsgrunnlag = getVilkårsgrunnlag(data?.person!!, (period as GhostPeriodeFragment).vilkarsgrunnlagId);
 
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
 
@@ -124,13 +146,14 @@ export const Period = ({ period, notCurrent, isActive, className, ...buttonProps
         }
     };
 
-    const periodState = getPeriodState(period);
+    const periodState = getPeriodState(period, vilkårsgrunnlag);
+    console.log(periodState);
     const periodCategory = getPeriodCategory(periodState);
 
     return (
         <>
             <button
-                className={getClassNames(period, notCurrent, isActive, className)}
+                className={getClassNames(period, vilkårsgrunnlag, notCurrent, isActive, className)}
                 {...buttonProps}
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
