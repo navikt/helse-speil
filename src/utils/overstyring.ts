@@ -104,7 +104,7 @@ const validateOverlappendePerioderErTilRevurdering = (
     person: PersonFragment,
     periode: BeregnetPeriodeFragment,
 ): void => {
-    const tilstander = getOverlappendePerioder(person, periode).map(getPeriodState);
+    const tilstander = getOverlappendePerioder(person, periode).map((it) => getPeriodState(it));
 
     const noenPerioderErTilRevurdering = tilstander.some((tilstand) => tilstand === 'revurderes');
     const allePerioderErTilRevurdering = tilstander.every((tilstand) => tilstand === 'revurderes');
