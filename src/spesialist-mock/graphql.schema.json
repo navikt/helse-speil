@@ -188,18 +188,6 @@
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
-                    },
-                    {
-                        "name": "utbetalingId",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "UUID",
-                            "ofType": null
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
                     }
                 ],
                 "inputFields": null,
@@ -4570,6 +4558,12 @@
                     },
                     {
                         "name": "SKJONNSMESSIG_FASTSATT",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "SOKNAD",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -15705,6 +15699,13 @@
                         "deprecationReason": null
                     }
                 ]
+            },
+            {
+                "name": "oneOf",
+                "description": "Indicates an Input Object is a OneOf Input Object.",
+                "isRepeatable": false,
+                "locations": ["INPUT_OBJECT"],
+                "args": []
             },
             {
                 "name": "skip",

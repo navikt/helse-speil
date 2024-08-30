@@ -489,6 +489,7 @@ export enum Inntektskilde {
     Inntektsmelding = 'INNTEKTSMELDING',
     Saksbehandler = 'SAKSBEHANDLER',
     SkjonnsmessigFastsatt = 'SKJONNSMESSIG_FASTSATT',
+    Soknad = 'SOKNAD',
 }
 
 export type Inntektsmelding = Hendelse & {
