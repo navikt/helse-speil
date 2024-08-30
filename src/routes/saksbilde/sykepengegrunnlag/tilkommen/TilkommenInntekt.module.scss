@@ -1,0 +1,83 @@
+.heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .ikon {
+    &:after {
+      display: flex;
+      content: '';
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background: #E0D8E9;
+      border: 1px solid #8269A2;
+    }
+  }
+}
+
+.formWrapper {
+  background-color: var(--a-surface-subtle);
+  padding: var(--a-spacing-4) var(--a-spacing-6) var(--a-spacing-4) var(--a-spacing-4);
+  border-left: 3px solid transparent;
+  margin: 0 1rem 0 -0.5rem;
+  border-radius: 15px;
+}
+
+.formWrapper.redigerer {
+  background-color: var(--a-surface-subtle);
+  padding-left: 37px;
+  border-left: 3px solid var(--a-surface-action);
+  margin: 0 0 var(--a-spacing-2) -2rem;
+  border-radius: 0;
+}
+
+
+.header {
+  display: flex;
+  margin-bottom: 1.5rem;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header.editing {
+  justify-content: space-between;
+}
+
+.editing {
+  background-color: #F2F3F5;
+  border-left: var(--border-size) solid var(--a-surface-action);
+  padding: 0.75rem var(--horizontal-padding) 24px;
+  margin: 0 calc(var(--horizontal-padding) * -1) 0 calc((var(--horizontal-padding) + var(--border-size)) * -1);
+}
+
+.arbeidsgiverHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 1.5rem;
+}
+
+.arbeidsgivernavn {
+  max-width: 228px;
+  font-weight: 600;
+}
+
+.organisasjonsnummer {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+
+.innhold {
+  display: grid;
+  column-gap: 8px;
+  grid-template-columns: 210px auto;
+  grid-column: 1 / span 2;
+}
+
+.innhold > p:nth-child(even):not(:nth-last-child(2)) {
+  padding-bottom: 0.5rem;
+}
