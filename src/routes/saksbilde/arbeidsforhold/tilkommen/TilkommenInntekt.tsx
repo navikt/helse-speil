@@ -44,14 +44,10 @@ export const TilkommenInntekt = ({ person, inntekt, aktivPeriode, arbeidsgiver }
                     <div className={styles.innhold}>
                         <Bold>Starttidspunkt</Bold>
                         <BodyShort>{dayjs(aktivPeriode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}</BodyShort>
+                        <Bold>Slutttidspunkt</Bold>
+                        <BodyShort>{dayjs(aktivPeriode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}</BodyShort>
                         <Bold>Tilkommen inntekt</Bold>
                         <BodyShort>{toKronerOgØre(inntekt.omregnetArsinntekt?.manedsbelop ?? 0)} kr</BodyShort>
-                        <Bold>Maks utbetaling </Bold>
-                        <BodyShort>-</BodyShort>
-                        <Bold>Opprettholdt inntekt</Bold>
-                        <BodyShort>-</BodyShort>
-                        <Bold>Total grad</Bold>
-                        <BodyShort>-</BodyShort>
                     </div>
                 </div>
                 {/*{editing && (*/}
