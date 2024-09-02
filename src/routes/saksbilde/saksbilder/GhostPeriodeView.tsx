@@ -8,7 +8,9 @@ import type { GhostPeriodeFragment, PersonFragment } from '@io/graphql';
 import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
+import { getVilkårsgrunnlag } from '@state/utils';
 import { getPeriodState } from '@utils/mapping';
+import { isTilkommenInntekt } from '@utils/typeguards';
 
 import styles from './SharedViews.module.css';
 
@@ -22,7 +24,11 @@ export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
     const tab = last(usePathname().split('/'));
-    useNavigateOnMount(Fane.Sykepengegrunnlag);
+    useNavigateOnMount(
+        isTilkommenInntekt(activePeriod, getVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId))
+            ? Fane.Arbeidsforhold
+            : Fane.Sykepengegrunnlag,
+    );
 
     return (
         <div className={styles.Content} data-testid="saksbilde-content-uten-sykefravær">
@@ -32,6 +38,11 @@ export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps
             />
             <SaksbildeMenu person={person} activePeriod={activePeriod} />
             {tab === 'sykepengegrunnlag' && (
+                <div className={styles.RouteContainer}>
+                    <Sykepengegrunnlag person={person} />
+                </div>
+            )}
+            {tab === 'arbeidsforhold' && (
                 <div className={styles.RouteContainer}>
                     <Sykepengegrunnlag person={person} />
                 </div>

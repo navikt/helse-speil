@@ -26,7 +26,6 @@ export function PeriodeView(): Maybe<ReactElement> {
     if (!activePeriod || !data?.person) {
         return <PeriodeViewError />;
     }
-
     if (isBeregnetPeriode(activePeriod)) {
         switch (activePeriod.periodetilstand) {
             case Periodetilstand.Annullert:

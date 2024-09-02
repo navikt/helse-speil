@@ -28,6 +28,7 @@ mockRouter.default.useParser(
         '/person/[aktorId]/inngangsvilkår',
         '/person/[aktorId]/sykepengegrunnlag',
         '/person/[aktorId]/vurderingsmomenter',
+        '/person/[aktorId]/arbeidsforhold',
     ]),
 );
 
