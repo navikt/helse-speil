@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import styles from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonSkjema/RefusjonSkjema.module.scss';
 import { RefusjonFormValues } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/hooks/useRefusjonFormField';
 import { Refusjonsopplysning } from '@typer/overstyring';
+import { toKronerOgØre } from '@utils/locale';
 import { avrundetToDesimaler, isNumeric } from '@utils/tall';
 
 interface RefusjonsBeløpInputProps {
@@ -29,20 +30,36 @@ export const RefusjonsBeløpInput = ({ index, refusjonsopplysning }: RefusjonsBe
         setValueAs: (value) => Number(value.toString().replaceAll(' ', '').replaceAll(',', '.')),
     });
 
+    const defaultValue = refusjonsopplysning.beløp && avrundetToDesimaler(refusjonsopplysning.beløp);
+
+    const [visningsverdi, setVisningsverdi] = useState<string>(toKronerOgØre(defaultValue ?? 0));
+
     return (
         <>
             <label id={`refusjonsopplysninger.${index}.beløp`} className="navds-sr-only">
                 Månedlig refusjon
             </label>
             <input
+                {...inputValidation}
                 className={`${styles.BeløpInput} ${
                     refusjonsopplysninger?.[index]?.beløp?.message ? styles.InputError : ''
                 }`}
                 ref={ref}
                 aria-labelledby={`refusjonsopplysninger.${index}.beløp`}
-                defaultValue={refusjonsopplysning.beløp && avrundetToDesimaler(refusjonsopplysning.beløp)}
+                value={visningsverdi}
+                onChange={(event) => {
+                    setVisningsverdi(event.target.value);
+                }}
                 onBlur={(event) => {
-                    const nyttBeløp = Number(event.target.value.replaceAll(' ', '').replaceAll(',', '.'));
+                    const nyttBeløp = Number(
+                        event.target.value
+                            .replaceAll(' ', '')
+                            .replaceAll(',', '.')
+                            // Når tallet blir formattert av toKronerOgØre får det non braking space i stedet for ' '
+                            .replaceAll(String.fromCharCode(160), ''),
+                    );
+
+                    setVisningsverdi(Number.isNaN(nyttBeløp) ? event.target.value : toKronerOgØre(nyttBeløp));
 
                     if (nyttBeløp === refusjonsopplysning.beløp || Number.isNaN(nyttBeløp)) return;
 
@@ -50,7 +67,6 @@ export const RefusjonsBeløpInput = ({ index, refusjonsopplysning }: RefusjonsBe
                     setValue(`refusjonsopplysninger.${index}.beløp`, nyttBeløp);
                     void onBlur(event);
                 }}
-                {...inputValidation}
             />
         </>
     );
