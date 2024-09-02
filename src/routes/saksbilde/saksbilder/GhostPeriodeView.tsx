@@ -5,6 +5,7 @@ import { last } from 'remeda';
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
 import type { GhostPeriodeFragment, PersonFragment } from '@io/graphql';
+import { Arbeidsforhold } from '@saksbilde/arbeidsforhold/Arbeidsforhold';
 import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
@@ -44,7 +45,7 @@ export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps
             )}
             {tab === 'arbeidsforhold' && (
                 <div className={styles.RouteContainer}>
-                    <Sykepengegrunnlag person={person} />
+                    <Arbeidsforhold person={person} aktivPeriode={activePeriod} />
                 </div>
             )}
         </div>
