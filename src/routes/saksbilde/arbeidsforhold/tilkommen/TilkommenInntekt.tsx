@@ -5,10 +5,8 @@ import React, { useState } from 'react';
 import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { Arbeidsgiverinntekt, GhostPeriodeFragment, PersonFragment } from '@io/graphql';
-import { TilkommenInntektHeader } from '@saksbilde/sykepengegrunnlag/tilkommen/TilkommenInntektHeader';
-import { useArbeidsgiver } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
+import { ArbeidsgiverFragment, Arbeidsgiverinntekt, GhostPeriodeFragment, PersonFragment } from '@io/graphql';
+import { TilkommenInntektHeader } from '@saksbilde/arbeidsforhold/tilkommen/TilkommenInntektHeader';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
@@ -16,16 +14,13 @@ import styles from './TilkommenInntekt.module.scss';
 
 interface TilkommenInntektProps {
     person: PersonFragment;
-    inntekter: Arbeidsgiverinntekt[];
+    inntekt: Arbeidsgiverinntekt;
+    aktivPeriode: GhostPeriodeFragment;
+    arbeidsgiver: ArbeidsgiverFragment;
 }
 
-export const TilkommenInntekt = ({ person, inntekter }: TilkommenInntektProps) => {
+export const TilkommenInntekt = ({ person, inntekt, aktivPeriode, arbeidsgiver }: TilkommenInntektProps) => {
     const [editing, setEditing] = useState(false);
-    const aktivPeriode = useActivePeriod();
-    const arbeidsgiver = useArbeidsgiver((aktivPeriode as GhostPeriodeFragment).organisasjonsnummer);
-    const inntekt = inntekter.find((it) => it.arbeidsgiver === arbeidsgiver?.organisasjonsnummer);
-
-    if (!aktivPeriode || !arbeidsgiver || !inntekt) return null;
 
     return (
         <div>
