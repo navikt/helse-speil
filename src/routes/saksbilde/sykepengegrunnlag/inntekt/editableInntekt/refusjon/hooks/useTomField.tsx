@@ -15,7 +15,7 @@ export const useTomField = (fom: string, tom: string | undefined, index: number)
         required: false,
         validate: {
             måHaGyldigFormat: (value) =>
-                value == undefined || dayjs(value, ISO_DATOFORMAT).isValid() || 'Datoen må ha format dd.mm.åååå',
+                value == undefined || dayjs(value, ISO_DATOFORMAT, true).isValid() || 'Datoen må ha format dd.mm.åååå',
             fomKanIkkeværeEtterTom: (value) =>
                 tom == undefined || dayjs(value).isSameOrAfter(fom) || 'Tom kan ikke være før fom',
         },
@@ -30,8 +30,7 @@ export const useTomField = (fom: string, tom: string | undefined, index: number)
     };
 
     const updateTom = (date: Date | undefined) => {
-        const isoDate = dayjs(date, ISO_DATOFORMAT, true).format(ISO_DATOFORMAT);
-        setTomField(isoDate);
+        setTomField(dayjs(date).format(ISO_DATOFORMAT));
         setTomValue(dayjs(date).format(NORSK_DATOFORMAT));
     };
 

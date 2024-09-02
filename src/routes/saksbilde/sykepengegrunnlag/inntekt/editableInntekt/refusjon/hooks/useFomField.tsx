@@ -30,8 +30,7 @@ export const useFomField = (fom: string, tom: string | undefined, index: number)
     };
 
     const updateFom = (date: Date | undefined) => {
-        const isoDate = dayjs(date, ISO_DATOFORMAT, true).format(ISO_DATOFORMAT);
-        setFomField(isoDate);
+        setFomField(dayjs(date).format(ISO_DATOFORMAT));
         setFomValue(dayjs(date).format(NORSK_DATOFORMAT));
     };
 
