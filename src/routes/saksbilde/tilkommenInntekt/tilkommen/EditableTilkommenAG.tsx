@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 
-import { Alert, BodyShort, Button } from '@navikt/ds-react';
+import { Alert, Button } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Feiloppsummering } from '@components/Feiloppsummering';
@@ -15,7 +15,6 @@ import {
 } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntekt';
 import styles from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntekt.module.css';
 import { EditableInntektSlettLokaleOverstyringerModal } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntektSlettLokaleOverstyringerModal';
-import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/OmregnetÅrsinntekt';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/månedsbeløp/Månedsbeløp';
 import { useLokaltMånedsbeløp } from '@state/arbeidsgiver';
 import { inntektOgRefusjonState, usePostOverstyrtInntekt } from '@state/overstyring';
@@ -122,12 +121,6 @@ export const EditableTilkommenAG = ({
                         månedsbeløp={omregnetÅrsinntekt.manedsbelop}
                         kilde={omregnetÅrsinntekt.kilde}
                         lokaltMånedsbeløp={lokaltMånedsbeløp}
-                        harEndringer={harEndringer}
-                    />
-                    <BodyShort className={styles.Warning}>Endringen vil gjelde fra skjæringstidspunktet</BodyShort>
-                    <OmregnetÅrsinntekt
-                        beløp={omregnetÅrsinntekt.belop}
-                        kilde={omregnetÅrsinntekt.kilde}
                         harEndringer={harEndringer}
                     />
                     <ForklaringTextarea
