@@ -28,7 +28,7 @@ interface TilkommenInntektFormFields {
     forklaring: string;
 }
 
-interface EditableTilkommenInntektProps {
+interface EditableTilkommenAGProps {
     person: PersonFragment;
     arbeidsgiver: ArbeidsgiverFragment;
     aktivPeriode: GhostPeriodeFragment;
@@ -37,14 +37,14 @@ interface EditableTilkommenInntektProps {
     onEndre: (erEndret: boolean) => void;
 }
 
-export const EditableTilkommenInntekt = ({
+export const EditableTilkommenAG = ({
     person,
     arbeidsgiver,
     aktivPeriode,
     omregnetÅrsinntekt,
     close,
     onEndre,
-}: EditableTilkommenInntektProps): ReactElement => {
+}: EditableTilkommenAGProps): ReactElement => {
     const form = useForm<TilkommenInntektFormFields>({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(arbeidsgiver.organisasjonsnummer, aktivPeriode.skjaeringstidspunkt);

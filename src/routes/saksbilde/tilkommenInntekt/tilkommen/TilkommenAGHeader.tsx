@@ -9,9 +9,9 @@ import { ArbeidsgiverFragment, GhostPeriodeFragment, Kildetype, Maybe, PersonFra
 import { Arbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/Arbeidsgivernavn';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 
-import styles from './TilkommenInntekt.module.scss';
+import styles from './TilkommenAG.module.scss';
 
-interface TilkommenInntektHeaderProps {
+interface TilkommenAGHeaderProps {
     person: PersonFragment;
     arbeidsgiver: Maybe<ArbeidsgiverFragment>;
     periode: GhostPeriodeFragment;
@@ -19,13 +19,7 @@ interface TilkommenInntektHeaderProps {
     setEditing: (state: boolean) => void;
 }
 
-export const TilkommenInntektHeader = ({
-    person,
-    arbeidsgiver,
-    periode,
-    editing,
-    setEditing,
-}: TilkommenInntektHeaderProps) => {
+export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setEditing }: TilkommenAGHeaderProps) => {
     const harBeslutteroppgave = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
 
     return (
