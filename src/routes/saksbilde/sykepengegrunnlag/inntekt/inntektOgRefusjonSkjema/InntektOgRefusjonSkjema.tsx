@@ -246,13 +246,13 @@ export const InntektOgRefusjonSkjema = ({
     );
 };
 
-const stringIsNaN = (value: string | undefined): boolean => Number.isNaN(Number.parseFloat(value ?? 'NaN'));
+export const stringIsNaN = (value: string | undefined): boolean => Number.isNaN(Number.parseFloat(value ?? 'NaN'));
 
 interface RefMedId extends CustomElement<FieldValues> {
     id?: string;
 }
 
-const formErrorsTilFeilliste = (errors: FieldErrors<InntektFormFields>): Skjemafeil[] =>
+export const formErrorsTilFeilliste = (errors: FieldErrors<InntektFormFields>): Skjemafeil[] =>
     Object.entries(errors)
         .map(([id, error]) => ({
             id: (error?.ref as RefMedId)?.id ?? id,

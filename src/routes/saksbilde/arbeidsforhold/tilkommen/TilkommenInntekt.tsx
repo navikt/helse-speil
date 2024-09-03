@@ -6,6 +6,7 @@ import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { ArbeidsgiverFragment, Arbeidsgiverinntekt, GhostPeriodeFragment, PersonFragment } from '@io/graphql';
+import { EditableTilkommenInntekt } from '@saksbilde/arbeidsforhold/tilkommen/EditableTilkommenInntekt';
 import { TilkommenInntektHeader } from '@saksbilde/arbeidsforhold/tilkommen/TilkommenInntektHeader';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
@@ -21,6 +22,7 @@ interface TilkommenInntektProps {
 
 export const TilkommenInntekt = ({ person, inntekt, aktivPeriode, arbeidsgiver }: TilkommenInntektProps) => {
     const [editing, setEditing] = useState(false);
+    const [endret, setEndret] = useState(false);
 
     return (
         <div>
@@ -41,22 +43,26 @@ export const TilkommenInntekt = ({ person, inntekt, aktivPeriode, arbeidsgiver }
                         setEditing={setEditing}
                     />
 
-                    <div className={styles.innhold}>
-                        <Bold>Starttidspunkt</Bold>
-                        <BodyShort>{dayjs(aktivPeriode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}</BodyShort>
-                        <Bold>Slutttidspunkt</Bold>
-                        <BodyShort>{dayjs(aktivPeriode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}</BodyShort>
-                        <Bold>Tilkommen inntekt</Bold>
-                        <BodyShort>{toKronerOgØre(inntekt.omregnetArsinntekt?.manedsbelop ?? 0)} kr</BodyShort>
-                    </div>
+                    {editing && inntekt.omregnetArsinntekt ? (
+                        <EditableTilkommenInntekt
+                            person={person}
+                            arbeidsgiver={arbeidsgiver}
+                            aktivPeriode={aktivPeriode}
+                            omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
+                            close={() => setEditing(false)}
+                            onEndre={setEndret}
+                        />
+                    ) : (
+                        <div className={styles.innhold}>
+                            <Bold>Starttidspunkt</Bold>
+                            <BodyShort>{dayjs(aktivPeriode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}</BodyShort>
+                            <Bold>Slutttidspunkt</Bold>
+                            <BodyShort>{dayjs(aktivPeriode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}</BodyShort>
+                            <Bold>Tilkommen inntekt</Bold>
+                            <BodyShort>{toKronerOgØre(inntekt.omregnetArsinntekt?.manedsbelop ?? 0)} kr</BodyShort>
+                        </div>
+                    )}
                 </div>
-                {/*{editing && (*/}
-                {/*    <TilkommenInntektForm*/}
-                {/*        inntekter={inntekter}*/}
-                {/*        onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}*/}
-                {/*        setEditing={setEditing}*/}
-                {/*    />*/}
-                {/*)}*/}
             </div>
         </div>
     );
