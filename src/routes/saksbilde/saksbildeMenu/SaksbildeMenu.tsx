@@ -28,7 +28,7 @@ const SaksbildeMenuGhostPeriode = ({ person, activePeriod }: SaksbildeMenuProps)
             <nav className={styles.TabList} role="tablist">
                 {isGhostPeriode(activePeriod) &&
                 isTilkommenInntekt(activePeriod, getVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId)) ? (
-                    <NavLenke to="arbeidsforhold" tittel="Arbeidsforhold" />
+                    <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />
                 ) : (
                     <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
                 )}

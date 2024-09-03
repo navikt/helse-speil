@@ -5,9 +5,9 @@ import { last } from 'remeda';
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
 import type { GhostPeriodeFragment, PersonFragment } from '@io/graphql';
-import { Arbeidsforhold } from '@saksbilde/arbeidsforhold/Arbeidsforhold';
 import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
+import { TilkommenInntekt } from '@saksbilde/tilkommenInntekt/TilkommenInntekt';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { getPeriodState } from '@utils/mapping';
@@ -27,7 +27,7 @@ export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps
     const tab = last(usePathname().split('/'));
     useNavigateOnMount(
         isTilkommenInntekt(activePeriod, getVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId))
-            ? Fane.Arbeidsforhold
+            ? Fane.TilkommenInntekt
             : Fane.Sykepengegrunnlag,
     );
 
@@ -43,9 +43,9 @@ export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps
                     <Sykepengegrunnlag person={person} />
                 </div>
             )}
-            {tab === 'arbeidsforhold' && (
+            {tab === 'tilkommen-inntekt' && (
                 <div className={styles.RouteContainer}>
-                    <Arbeidsforhold person={person} aktivPeriode={activePeriod} />
+                    <TilkommenInntekt person={person} aktivPeriode={activePeriod} />
                 </div>
             )}
         </div>

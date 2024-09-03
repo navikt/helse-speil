@@ -6,22 +6,22 @@ import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { ArbeidsgiverFragment, Arbeidsgiverinntekt, GhostPeriodeFragment, PersonFragment } from '@io/graphql';
-import { EditableTilkommenInntekt } from '@saksbilde/arbeidsforhold/tilkommen/EditableTilkommenInntekt';
-import { TilkommenInntektHeader } from '@saksbilde/arbeidsforhold/tilkommen/TilkommenInntektHeader';
 import { OverstyrArbeidsforholdUtenSykdom } from '@saksbilde/sykepengegrunnlag/overstyring/OverstyrArbeidsforholdUtenSykdom';
+import { EditableTilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/EditableTilkommenAG';
+import { TilkommenAGHeader } from '@saksbilde/tilkommenInntekt/tilkommen/TilkommenAGHeader';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
-import styles from './TilkommenInntekt.module.scss';
+import styles from './TilkommenAG.module.scss';
 
-interface TilkommenInntektProps {
+interface TilkommenAGProps {
     person: PersonFragment;
     inntekt: Arbeidsgiverinntekt;
     aktivPeriode: GhostPeriodeFragment;
     arbeidsgiver: ArbeidsgiverFragment;
 }
 
-export const TilkommenInntekt = ({ person, inntekt, aktivPeriode, arbeidsgiver }: TilkommenInntektProps) => {
+export const TilkommenAG = ({ person, inntekt, aktivPeriode, arbeidsgiver }: TilkommenAGProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
 
@@ -36,7 +36,7 @@ export const TilkommenInntekt = ({ person, inntekt, aktivPeriode, arbeidsgiver }
                     </Heading>
                 </div>
                 <div className={classNames(styles.formWrapper, { [styles.redigerer]: editing })}>
-                    <TilkommenInntektHeader
+                    <TilkommenAGHeader
                         person={person}
                         arbeidsgiver={arbeidsgiver}
                         periode={aktivPeriode as GhostPeriodeFragment}
@@ -45,7 +45,7 @@ export const TilkommenInntekt = ({ person, inntekt, aktivPeriode, arbeidsgiver }
                     />
 
                     {editing && inntekt.omregnetArsinntekt ? (
-                        <EditableTilkommenInntekt
+                        <EditableTilkommenAG
                             person={person}
                             arbeidsgiver={arbeidsgiver}
                             aktivPeriode={aktivPeriode}
