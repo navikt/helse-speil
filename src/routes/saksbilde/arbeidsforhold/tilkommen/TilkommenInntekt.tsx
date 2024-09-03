@@ -8,6 +8,7 @@ import { Bold } from '@components/Bold';
 import { ArbeidsgiverFragment, Arbeidsgiverinntekt, GhostPeriodeFragment, PersonFragment } from '@io/graphql';
 import { EditableTilkommenInntekt } from '@saksbilde/arbeidsforhold/tilkommen/EditableTilkommenInntekt';
 import { TilkommenInntektHeader } from '@saksbilde/arbeidsforhold/tilkommen/TilkommenInntektHeader';
+import { OverstyrArbeidsforholdUtenSykdom } from '@saksbilde/sykepengegrunnlag/overstyring/OverstyrArbeidsforholdUtenSykdom';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
@@ -54,12 +55,14 @@ export const TilkommenInntekt = ({ person, inntekt, aktivPeriode, arbeidsgiver }
                         />
                     ) : (
                         <div className={styles.innhold}>
-                            <Bold>Starttidspunkt</Bold>
-                            <BodyShort>{dayjs(aktivPeriode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}</BodyShort>
-                            <Bold>Slutttidspunkt</Bold>
-                            <BodyShort>{dayjs(aktivPeriode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}</BodyShort>
                             <Bold>Tilkommen inntekt</Bold>
                             <BodyShort>{toKronerOgØre(inntekt.omregnetArsinntekt?.manedsbelop ?? 0)} kr</BodyShort>
+                            <OverstyrArbeidsforholdUtenSykdom
+                                organisasjonsnummerAktivPeriode={arbeidsgiver.organisasjonsnummer}
+                                skjæringstidspunkt={aktivPeriode.skjaeringstidspunkt}
+                                arbeidsforholdErDeaktivert={aktivPeriode.deaktivert}
+                                person={person}
+                            />
                         </div>
                     )}
                 </div>
