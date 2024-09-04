@@ -83,7 +83,9 @@ export const SisteTolvMånedersInntekt = ({
                 <ParagrafOverskrift harInntekterForSammenligningsgrunnlag={harInntekterForSammenligningsgrunnlag} />
                 <Gjennomsnitt3Mnd
                     siste3mndInntekter828={sisteXmåneder.slice(0, 3)}
-                    harInntekterForSammenligningsgrunnlag={harInntekterForSammenligningsgrunnlag}
+                    siste3mndInntekter830={inntekterForSammenligningsgrunnlag?.filter((it) =>
+                        sisteXmåneder.slice(0, 3).some((siste3mnd) => siste3mnd.maned === it.maned),
+                    )}
                 />
                 {sisteXmåneder.map((inntekt, i) => (
                     <React.Fragment key={i}>
@@ -126,19 +128,26 @@ const ParagrafOverskrift = ({
 
 const Gjennomsnitt3Mnd = ({
     siste3mndInntekter828,
-    harInntekterForSammenligningsgrunnlag,
+    siste3mndInntekter830,
 }: {
     siste3mndInntekter828: (InntektFraAOrdningen | { maned: string; sum: null })[];
-    harInntekterForSammenligningsgrunnlag: boolean;
+    siste3mndInntekter830: (InntektFraAOrdningen | { maned: string; sum: null })[];
 }) => {
-    const gjennomsnittSiste3Mnd =
+    const gjennomsnittSiste3Mnd828 =
         siste3mndInntekter828.filter((it) => it.sum !== null).reduce((acc, obj) => acc + (obj?.sum ?? 0), 0) / 3;
+
+    const harSiste3Mnd830 = siste3mndInntekter830.length > 0;
+    const gjennomsnittSiste3Mnd830 = harSiste3Mnd830
+        ? siste3mndInntekter830.reduce((acc, obj) => acc + (obj?.sum ?? 0), 0) / 3
+        : 0;
 
     return (
         <>
             <BodyShort className={classNames(styles.bold, styles.gjennomsnitt)}>Gjennomsnitt siste 3 mnd</BodyShort>
-            <BodyShort className={styles.gjennomsnitt}>{somPenger(gjennomsnittSiste3Mnd)}</BodyShort>
-            {harInntekterForSammenligningsgrunnlag && <div className={styles.gjennomsnitt} />}
+            <BodyShort className={styles.gjennomsnitt}>{somPenger(gjennomsnittSiste3Mnd828)}</BodyShort>
+            {harSiste3Mnd830 && (
+                <BodyShort className={styles.gjennomsnitt}>{somPenger(gjennomsnittSiste3Mnd830)}</BodyShort>
+            )}
         </>
     );
 };
