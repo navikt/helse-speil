@@ -17,55 +17,56 @@ import styles from './TilkommenAG.module.scss';
 interface TilkommenAGProps {
     person: PersonFragment;
     inntekt: Arbeidsgiverinntekt;
-    aktivPeriode: GhostPeriodeFragment;
+    periode: GhostPeriodeFragment;
     arbeidsgiver: ArbeidsgiverFragment;
 }
 
-export const TilkommenAG = ({ person, inntekt, aktivPeriode, arbeidsgiver }: TilkommenAGProps) => {
+export const TilkommenAG = ({ person, inntekt, periode, arbeidsgiver }: TilkommenAGProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
 
     return (
-        <div>
-            <div>
-                <div className={styles.heading}>
-                    <div className={styles.ikon} />
-                    <Heading size="small">
-                        Tilkommen inntekt {dayjs(aktivPeriode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)} –
-                        {dayjs(aktivPeriode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
-                    </Heading>
-                </div>
-                <div className={classNames(styles.formWrapper, { [styles.redigerer]: editing })}>
-                    <TilkommenAGHeader
+        <div className={styles.tilkommenAG}>
+            <Heading size="small">
+                Tilkommen inntekt {dayjs(periode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)} –
+                {dayjs(periode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
+            </Heading>
+            <div
+                className={classNames(
+                    styles.formWrapper,
+                    { [styles.deaktivert]: periode.deaktivert },
+                    { [styles.redigerer]: editing },
+                )}
+            >
+                <TilkommenAGHeader
+                    person={person}
+                    arbeidsgiver={arbeidsgiver}
+                    periode={periode as GhostPeriodeFragment}
+                    editing={editing}
+                    setEditing={setEditing}
+                />
+
+                {editing && inntekt.omregnetArsinntekt ? (
+                    <EditableTilkommenAG
                         person={person}
                         arbeidsgiver={arbeidsgiver}
-                        periode={aktivPeriode as GhostPeriodeFragment}
-                        editing={editing}
-                        setEditing={setEditing}
+                        aktivPeriode={periode}
+                        omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
+                        close={() => setEditing(false)}
+                        onEndre={setEndret}
                     />
-
-                    {editing && inntekt.omregnetArsinntekt ? (
-                        <EditableTilkommenAG
+                ) : (
+                    <div className={styles.innhold}>
+                        <Bold>Tilkommen inntekt</Bold>
+                        <BodyShort>{toKronerOgØre(inntekt.omregnetArsinntekt?.manedsbelop ?? 0)} kr</BodyShort>
+                        <OverstyrArbeidsforholdUtenSykdom
+                            organisasjonsnummerAktivPeriode={arbeidsgiver.organisasjonsnummer}
+                            skjæringstidspunkt={periode.skjaeringstidspunkt}
+                            arbeidsforholdErDeaktivert={periode.deaktivert}
                             person={person}
-                            arbeidsgiver={arbeidsgiver}
-                            aktivPeriode={aktivPeriode}
-                            omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
-                            close={() => setEditing(false)}
-                            onEndre={setEndret}
                         />
-                    ) : (
-                        <div className={styles.innhold}>
-                            <Bold>Tilkommen inntekt</Bold>
-                            <BodyShort>{toKronerOgØre(inntekt.omregnetArsinntekt?.manedsbelop ?? 0)} kr</BodyShort>
-                            <OverstyrArbeidsforholdUtenSykdom
-                                organisasjonsnummerAktivPeriode={arbeidsgiver.organisasjonsnummer}
-                                skjæringstidspunkt={aktivPeriode.skjaeringstidspunkt}
-                                arbeidsforholdErDeaktivert={aktivPeriode.deaktivert}
-                                person={person}
-                            />
-                        </div>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
         </div>
     );
