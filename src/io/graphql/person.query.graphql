@@ -121,6 +121,9 @@ fragment arbeidsgiver on Arbeidsgiver {
     ghostPerioder {
         ...ghostPeriode
     }
+    nyeInntektsforholdPerioder {
+        ...nyttInntektsforholdPeriode
+    }
     generasjoner {
         id
         perioder {
@@ -231,6 +234,14 @@ fragment ghostPeriode on GhostPeriode {
     deaktivert
     vilkarsgrunnlagId
     skjaeringstidspunkt
+    fom
+    tom
+    organisasjonsnummer
+}
+
+fragment nyttInntektsforholdPeriode on NyttInntektsforholdPeriode {
+    id
+    vilkarsgrunnlagId
     fom
     tom
     organisasjonsnummer

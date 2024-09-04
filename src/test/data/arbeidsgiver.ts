@@ -23,6 +23,7 @@ export const enArbeidsgiver: OverridableConstructor<ArbeidsgiverFragment, Extens
     arbeidsforhold: [],
     bransjer: [],
     generasjoner: [enGenerasjon()],
+    nyeInntektsforholdPerioder: [],
     ghostPerioder: [enGhostPeriode()],
     overstyringer: [],
     inntekterFraAordningen: [],

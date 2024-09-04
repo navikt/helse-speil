@@ -116,6 +116,7 @@ export type Arbeidsgiver = {
     ghostPerioder: Array<GhostPeriode>;
     inntekterFraAordningen: Array<ArbeidsgiverInntekterFraAOrdningen>;
     navn: Scalars['String']['output'];
+    nyeInntektsforholdPerioder: Array<NyttInntektsforholdPeriode>;
     organisasjonsnummer: Scalars['String']['output'];
     overstyringer: Array<Overstyring>;
 };
@@ -769,6 +770,15 @@ export type Notater = {
     __typename: 'Notater';
     id: Scalars['UUID']['output'];
     notater: Array<Notat>;
+};
+
+export type NyttInntektsforholdPeriode = {
+    __typename: 'NyttInntektsforholdPeriode';
+    fom: Scalars['LocalDate']['output'];
+    id: Scalars['UUID']['output'];
+    organisasjonsnummer: Scalars['String']['output'];
+    tom: Scalars['LocalDate']['output'];
+    vilkarsgrunnlagId: Maybe<Scalars['UUID']['output']>;
 };
 
 export type OmregnetArsinntekt = {
@@ -2237,6 +2247,14 @@ export type ArbeidsgiverFragment = {
         tom: string;
         organisasjonsnummer: string;
     }>;
+    nyeInntektsforholdPerioder: Array<{
+        __typename: 'NyttInntektsforholdPeriode';
+        id: string;
+        vilkarsgrunnlagId: string | null;
+        fom: string;
+        tom: string;
+        organisasjonsnummer: string;
+    }>;
     generasjoner: Array<{
         __typename: 'Generasjon';
         id: string;
@@ -2897,6 +2915,15 @@ export type GhostPeriodeFragment = {
     deaktivert: boolean;
     vilkarsgrunnlagId: string | null;
     skjaeringstidspunkt: string;
+    fom: string;
+    tom: string;
+    organisasjonsnummer: string;
+};
+
+export type NyttInntektsforholdPeriodeFragment = {
+    __typename: 'NyttInntektsforholdPeriode';
+    id: string;
+    vilkarsgrunnlagId: string | null;
     fom: string;
     tom: string;
     organisasjonsnummer: string;
@@ -3679,6 +3706,14 @@ export type PersonFragment = {
             tom: string;
             organisasjonsnummer: string;
         }>;
+        nyeInntektsforholdPerioder: Array<{
+            __typename: 'NyttInntektsforholdPeriode';
+            id: string;
+            vilkarsgrunnlagId: string | null;
+            fom: string;
+            tom: string;
+            organisasjonsnummer: string;
+        }>;
         generasjoner: Array<{
             __typename: 'Generasjon';
             id: string;
@@ -4404,6 +4439,14 @@ export type FetchPersonQuery = {
                 deaktivert: boolean;
                 vilkarsgrunnlagId: string | null;
                 skjaeringstidspunkt: string;
+                fom: string;
+                tom: string;
+                organisasjonsnummer: string;
+            }>;
+            nyeInntektsforholdPerioder: Array<{
+                __typename: 'NyttInntektsforholdPeriode';
+                id: string;
+                vilkarsgrunnlagId: string | null;
                 fom: string;
                 tom: string;
                 organisasjonsnummer: string;
@@ -5271,6 +5314,26 @@ export const GhostPeriodeFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<GhostPeriodeFragment, unknown>;
+export const NyttInntektsforholdPeriodeFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NyttInntektsforholdPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<NyttInntektsforholdPeriodeFragment, unknown>;
 export const NotatFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -6609,6 +6672,16 @@ export const ArbeidsgiverFragmentDoc = {
                     },
                     {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'nyeInntektsforholdPerioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'generasjoner' },
                         selectionSet: {
                             kind: 'SelectionSet',
@@ -7010,6 +7083,21 @@ export const ArbeidsgiverFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NyttInntektsforholdPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
@@ -7598,6 +7686,21 @@ export const PersonFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NyttInntektsforholdPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
@@ -8517,6 +8620,16 @@ export const PersonFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ghostPeriode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nyeInntektsforholdPerioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' } },
+                            ],
                         },
                     },
                     {
@@ -10387,6 +10500,21 @@ export const FetchPersonDocument = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NyttInntektsforholdPeriode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'notat' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
             selectionSet: {
@@ -11152,6 +11280,16 @@ export const FetchPersonDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ghostPeriode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nyeInntektsforholdPerioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' } },
+                            ],
                         },
                     },
                     {

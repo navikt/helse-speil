@@ -114,6 +114,7 @@ export type Arbeidsgiver = {
     ghostPerioder: Array<GhostPeriode>;
     inntekterFraAordningen: Array<ArbeidsgiverInntekterFraAOrdningen>;
     navn: Scalars['String']['output'];
+    nyeInntektsforholdPerioder: Array<NyttInntektsforholdPeriode>;
     organisasjonsnummer: Scalars['String']['output'];
     overstyringer: Array<Overstyring>;
 };
@@ -767,6 +768,15 @@ export type Notater = {
     __typename?: 'Notater';
     id: Scalars['UUID']['output'];
     notater: Array<Notat>;
+};
+
+export type NyttInntektsforholdPeriode = {
+    __typename?: 'NyttInntektsforholdPeriode';
+    fom: Scalars['LocalDate']['output'];
+    id: Scalars['UUID']['output'];
+    organisasjonsnummer: Scalars['String']['output'];
+    tom: Scalars['LocalDate']['output'];
+    vilkarsgrunnlagId?: Maybe<Scalars['UUID']['output']>;
 };
 
 export type OmregnetArsinntekt = {
