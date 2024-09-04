@@ -3,30 +3,56 @@ import React, { ReactElement } from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { GhostPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
+import {
+    ArbeidsgiverFragment,
+    BeregnetPeriodeFragment,
+    GhostPeriodeFragment,
+    Maybe,
+    PersonFragment,
+} from '@io/graphql';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { TilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/TilkommenAG';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { findArbeidsgiverWithGhostPeriode } from '@state/arbeidsgiver';
 import { getRequiredInntekt } from '@state/utils';
+import { isTilkommenInntekt } from '@utils/typeguards';
 
 type TilkommenInntektProps = {
     person: PersonFragment;
-    aktivPeriode: GhostPeriodeFragment;
+    aktivPeriode: BeregnetPeriodeFragment | GhostPeriodeFragment;
 };
 
 const TilkommenInntektContainer = ({ person, aktivPeriode }: TilkommenInntektProps): Maybe<ReactElement> => {
-    const arbeidsgiver = useCurrentArbeidsgiver();
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, aktivPeriode);
-    if (!arbeidsgiver || !vilkårsgrunnlag) return null;
-    const inntekt = getRequiredInntekt(vilkårsgrunnlag, arbeidsgiver.organisasjonsnummer);
+    const tilkomnePerioder: GhostPeriodeFragment[] = person.arbeidsgivere.flatMap((it: ArbeidsgiverFragment) =>
+        it.ghostPerioder.filter(
+            (it) =>
+                it.skjaeringstidspunkt === aktivPeriode.skjaeringstidspunkt && isTilkommenInntekt(it, vilkårsgrunnlag),
+        ),
+    );
+
+    if (!tilkomnePerioder || !vilkårsgrunnlag) return null;
 
     return (
-        <TilkommenAG
-            person={person}
-            inntekt={inntekt}
-            aktivPeriode={aktivPeriode as GhostPeriodeFragment}
-            arbeidsgiver={arbeidsgiver!!}
-        />
+        <>
+            {tilkomnePerioder
+                ?.sort((a, b) => (a.deaktivert && !b.deaktivert ? 1 : !a.deaktivert && b.deaktivert ? -1 : 0))
+                .map((ag) => {
+                    const inntekt = getRequiredInntekt(vilkårsgrunnlag, ag.organisasjonsnummer);
+                    const arbeidsgiver = findArbeidsgiverWithGhostPeriode(ag, person.arbeidsgivere);
+
+                    if (!arbeidsgiver) return null;
+
+                    return (
+                        <TilkommenAG
+                            key={ag.id}
+                            person={person}
+                            inntekt={inntekt}
+                            periode={ag}
+                            arbeidsgiver={arbeidsgiver}
+                        />
+                    );
+                }) ?? null}
+        </>
     );
 };
 
