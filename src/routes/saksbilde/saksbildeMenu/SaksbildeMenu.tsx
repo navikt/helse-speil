@@ -50,6 +50,8 @@ const SaksbildeMenuBeregnetPeriode = ({ person, activePeriod }: SaksbildeMenuPro
                     activePeriod.risikovurdering?.funn?.length > 0 && (
                         <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />
                     )}
+
+                {true && <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />}
             </nav>
             <DropdownMenu person={person} activePeriod={activePeriod} />
         </div>

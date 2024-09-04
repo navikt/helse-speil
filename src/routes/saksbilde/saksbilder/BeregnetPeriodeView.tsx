@@ -7,6 +7,7 @@ import { Arbeidsforholdoverstyring, BeregnetPeriodeFragment, Overstyring, Person
 import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
+import { TilkommenInntekt } from '@saksbilde/tilkommenInntekt/TilkommenInntekt';
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
 import { Inngangsvilkår } from '@saksbilde/vilkår/Inngangsvilkår';
@@ -71,6 +72,7 @@ export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps
                 {decodeURI(tab ?? '') === 'inngangsvilkår' && <Inngangsvilkår />}
                 {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag person={person} />}
                 {tab === 'vurderingsmomenter' && <Vurderingsmomenter />}
+                {tab === 'tilkommen-inntekt' && <TilkommenInntekt person={person} aktivPeriode={period} />}
             </div>
         </div>
     );
