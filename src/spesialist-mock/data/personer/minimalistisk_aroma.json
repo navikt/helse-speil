@@ -2537,6 +2537,16 @@
                         }
                     ]
                 }
+            ],
+            "tilleggsinfoForInntektskilder": [
+                {
+                    "orgnummer": "972674818",
+                    "navn": "PENGELØS SPAREBANK"
+                },
+                {
+                    "orgnummer": "907670201",
+                    "navn": "KLONELABBEN"
+                }
             ]
         }
     }

@@ -645,6 +645,12 @@
                     "overstyringer": [],
                     "inntekterFraAordningen": []
                 }
+            ],
+            "tilleggsinfoForInntektskilder": [
+                {
+                    "orgnummer": "972674818",
+                    "navn": "PENGELØS SPAREBANK"
+                }
             ]
         }
     }

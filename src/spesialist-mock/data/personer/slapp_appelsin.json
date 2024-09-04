@@ -975,6 +975,16 @@
                     "overstyringer": [],
                     "inntekterFraAordningen": []
                 }
+            ],
+            "tilleggsinfoForInntektskilder": [
+                {
+                    "orgnummer": "967170232",
+                    "navn": "SNILL TORPEDO"
+                },
+                {
+                    "orgnummer": "839942907",
+                    "navn": "HÅRREISENDE FRISØR"
+                }
             ]
         }
     }

@@ -26742,6 +26742,12 @@
                     ],
                     "inntekterFraAordningen": []
                 }
+            ],
+            "tilleggsinfoForInntektskilder": [
+                {
+                    "orgnummer": "815493000",
+                    "navn": "FISKEFINGER ENGINEERING"
+                }
             ]
         }
     }

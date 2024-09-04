@@ -1018,6 +1018,7 @@ export type Person = {
     infotrygdutbetalinger: Maybe<Array<Infotrygdutbetaling>>;
     personinfo: Personinfo;
     tildeling: Maybe<Tildeling>;
+    tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>;
     versjon: Scalars['Int']['output'];
     vilkarsgrunnlag: Array<Vilkarsgrunnlag>;
 };
@@ -1441,6 +1442,12 @@ export type Tildeling = {
     epost: Scalars['String']['output'];
     navn: Scalars['String']['output'];
     oid: Scalars['UUID']['output'];
+};
+
+export type TilleggsinfoForInntektskilde = {
+    __typename: 'TilleggsinfoForInntektskilde';
+    navn: Scalars['String']['output'];
+    orgnummer: Scalars['String']['output'];
 };
 
 export type Totrinnsvurdering = {
@@ -2201,6 +2208,12 @@ export type OverstyringFragment =
     | Overstyring_Inntektoverstyring_Fragment
     | Overstyring_MinimumSykdomsgradOverstyring_Fragment
     | Overstyring_Sykepengegrunnlagskjonnsfastsetting_Fragment;
+
+export type TilleggsinfoForInntektskildeFragment = {
+    __typename: 'TilleggsinfoForInntektskilde';
+    orgnummer: string;
+    navn: string;
+};
 
 export type ArbeidsgiverFragment = {
     __typename: 'Arbeidsgiver';
@@ -4198,6 +4211,11 @@ export type PersonFragment = {
             inntekter: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }>;
         }>;
     }>;
+    tilleggsinfoForInntektskilder: Array<{
+        __typename: 'TilleggsinfoForInntektskilde';
+        orgnummer: string;
+        navn: string;
+    }>;
 };
 
 export type FetchPersonQueryVariables = Exact<{
@@ -4921,6 +4939,11 @@ export type FetchPersonQuery = {
                 skjaeringstidspunkt: string;
                 inntekter: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }>;
             }>;
+        }>;
+        tilleggsinfoForInntektskilder: Array<{
+            __typename: 'TilleggsinfoForInntektskilde';
+            orgnummer: string;
+            navn: string;
         }>;
     } | null;
 };
@@ -7424,6 +7447,23 @@ export const ArbeidsgiverFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<ArbeidsgiverFragment, unknown>;
+export const TilleggsinfoForInntektskildeFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'tilleggsinfoForInntektskilde' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'TilleggsinfoForInntektskilde' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'orgnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<TilleggsinfoForInntektskildeFragment, unknown>;
 export const PersonFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -7529,6 +7569,19 @@ export const PersonFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'arbeidsgiver' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tilleggsinfoForInntektskilder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'FragmentSpread',
+                                    name: { kind: 'Name', value: 'tilleggsinfoForInntektskilde' },
+                                },
+                            ],
                         },
                     },
                 ],
@@ -8546,6 +8599,18 @@ export const PersonFragmentDoc = {
                             ],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'tilleggsinfoForInntektskilde' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'TilleggsinfoForInntektskilde' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'orgnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                 ],
             },
         },
@@ -11174,6 +11239,18 @@ export const FetchPersonDocument = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'tilleggsinfoForInntektskilde' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'TilleggsinfoForInntektskilde' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'orgnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'person' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Person' } },
             selectionSet: {
@@ -11274,6 +11351,19 @@ export const FetchPersonDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'arbeidsgiver' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tilleggsinfoForInntektskilder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'FragmentSpread',
+                                    name: { kind: 'Name', value: 'tilleggsinfoForInntektskilde' },
+                                },
+                            ],
                         },
                     },
                 ],

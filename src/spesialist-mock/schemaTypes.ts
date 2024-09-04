@@ -1016,6 +1016,7 @@ export type Person = {
     infotrygdutbetalinger?: Maybe<Array<Infotrygdutbetaling>>;
     personinfo: Personinfo;
     tildeling?: Maybe<Tildeling>;
+    tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>;
     versjon: Scalars['Int']['output'];
     vilkarsgrunnlag: Array<Vilkarsgrunnlag>;
 };
@@ -1439,6 +1440,12 @@ export type Tildeling = {
     epost: Scalars['String']['output'];
     navn: Scalars['String']['output'];
     oid: Scalars['UUID']['output'];
+};
+
+export type TilleggsinfoForInntektskilde = {
+    __typename?: 'TilleggsinfoForInntektskilde';
+    navn: Scalars['String']['output'];
+    orgnummer: Scalars['String']['output'];
 };
 
 export type Totrinnsvurdering = {

@@ -12,13 +12,14 @@ import {
     Inntektoverstyring,
     Maybe,
     PersonFragment,
+    TilleggsinfoForInntektskildeFragment,
     UberegnetPeriodeFragment,
     Utbetaling,
     Vurdering,
 } from '@io/graphql';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
+import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { isGodkjent } from '@state/selectors/utbetaling';
 import { Refusjonsopplysning } from '@typer/overstyring';
@@ -77,6 +78,9 @@ export const useCurrentArbeidsgiver = (): Maybe<ArbeidsgiverFragment> => {
 
 export const useArbeidsgiver = (organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
     useCurrentPerson()?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
+
+export const useTilleggsinfo = (): Maybe<TilleggsinfoForInntektskildeFragment[]> =>
+    useFetchPersonQuery()?.data?.person?.tilleggsinfoForInntektskilder ?? [];
 
 export const useMaybeArbeidsgiver = (organisasjonsnummer?: Maybe<string>): Maybe<ArbeidsgiverFragment> =>
     useCurrentPerson()?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;

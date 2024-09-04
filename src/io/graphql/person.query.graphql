@@ -103,6 +103,11 @@ fragment overstyring on Overstyring {
     }
 }
 
+fragment tilleggsinfoForInntektskilde on TilleggsinfoForInntektskilde {
+    orgnummer
+    navn
+}
+
 fragment arbeidsgiver on Arbeidsgiver {
     bransjer
     navn
@@ -474,6 +479,9 @@ fragment person on Person {
     aktorId
     arbeidsgivere {
         ...arbeidsgiver
+    }
+    tilleggsinfoForInntektskilder {
+        ...tilleggsinfoForInntektskilde
     }
 }
 

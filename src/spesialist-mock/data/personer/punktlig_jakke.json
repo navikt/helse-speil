@@ -760,6 +760,16 @@
                     "overstyringer": [],
                     "inntekterFraAordningen": []
                 }
+            ],
+            "tilleggsinfoForInntektskilder": [
+                {
+                    "orgnummer": "896929119",
+                    "navn": "SAUEFABRIKK"
+                },
+                {
+                    "orgnummer": "896929120",
+                    "navn": "HEST"
+                }
             ]
         }
     }

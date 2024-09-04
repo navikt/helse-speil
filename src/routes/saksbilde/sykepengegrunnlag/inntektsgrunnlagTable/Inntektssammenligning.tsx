@@ -6,7 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, Maybe, OmregnetArsinntekt, OverstyringFragment, Sammenligningsgrunnlag } from '@io/graphql';
-import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
+import { useEndringerForPeriode, useTilleggsinfo } from '@state/arbeidsgiver';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
@@ -35,7 +35,7 @@ export const Inntektssammenligning = ({
     erGjeldende,
     onSetAktivInntektskilde,
 }: InntektssammenligningProps) => {
-    const arbeidsgivernavn = useArbeidsgiver(organisasjonsnummer)?.navn;
+    const arbeidsgivernavn = useTilleggsinfo()?.find((it) => it.orgnummer === organisasjonsnummer)?.navn;
     const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
 
     return (
