@@ -122,6 +122,7 @@
                         }
                     ],
                     "ghostPerioder": [],
+                    "nyeInntektsforholdPerioder": [],
                     "generasjoner": [
                         {
                             "id": "1048d54f-e00b-4a4a-9b1d-7a4d5dd7a017",
@@ -971,6 +972,7 @@
                             "organisasjonsnummer": "839942907"
                         }
                     ],
+                    "nyeInntektsforholdPerioder": [],
                     "generasjoner": [],
                     "overstyringer": [],
                     "inntekterFraAordningen": []
