@@ -38,7 +38,7 @@ export const useTomField = (fom: string, tom: string | undefined, index: number)
         const date = dayjs(event.target.value, NORSK_DATOFORMAT, true).format(ISO_DATOFORMAT);
         const validDate = date !== 'Invalid Date';
         setTomValue(event.target.value);
-        setTomField(validDate ? date : event.target.value);
+        setTomField(validDate ? date : undefined);
     };
 
     const tomDatePicker = useDatepicker({
