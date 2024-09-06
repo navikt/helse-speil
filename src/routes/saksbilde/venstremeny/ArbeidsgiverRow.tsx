@@ -131,5 +131,6 @@ export const ArbeidsgiverRow = {
     Beregnet: ArbeidsgiverRowView,
     Uberegnet: ArbeidsgiverRowView,
     Ghost: ArbeidsgiverRowView,
+    Tilkommen: ArbeidsgiverRowView,
     Skeleton: ArbeidsgiverCardSkeleton,
 };

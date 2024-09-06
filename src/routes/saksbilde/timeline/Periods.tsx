@@ -11,7 +11,7 @@ import {
 import { isNotReady } from '@state/selectors/period';
 import { DatePeriod, InfotrygdPeriod } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
 
 import { Period } from './Period';
 import { usePeriodStyling } from './hooks/usePeriodStyling';
@@ -40,6 +40,8 @@ const isActive = (activePeriod: Maybe<TimelinePeriod>, currentPeriod: Maybe<Time
     } else if (isBeregnetPeriode(activePeriod) && isBeregnetPeriode(currentPeriod)) {
         return activePeriod.id === currentPeriod.id;
     } else if (isUberegnetPeriode(activePeriod) && isUberegnetPeriode(currentPeriod)) {
+        return activePeriod.id === currentPeriod.id;
+    } else if (isTilkommenInntekt(activePeriod) && isTilkommenInntekt(currentPeriod)) {
         return activePeriod.id === currentPeriod.id;
     } else {
         return false;

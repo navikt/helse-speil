@@ -9,6 +9,7 @@ import {
     Inntektsmelding,
     Maybe,
     NotatType,
+    NyttInntektsforholdPeriodeFragment,
     Periode,
     PeriodehistorikkType,
     PersonFragment,
@@ -390,7 +391,7 @@ export const getInntektoverstyringerForGhost = (
 };
 
 export const getArbeidsforholdoverstyringhendelser = (
-    period: BeregnetPeriodeFragment | GhostPeriodeFragment,
+    period: BeregnetPeriodeFragment | GhostPeriodeFragment | NyttInntektsforholdPeriodeFragment,
     arbeidsgiver: ArbeidsgiverFragment,
 ): Array<ArbeidsforholdoverstyringhendelseObject> => {
     return arbeidsgiver.overstyringer

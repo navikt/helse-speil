@@ -1,14 +1,24 @@
 import dayjs from 'dayjs';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
-import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/arbeidsgiver';
+import {
+    BeregnetPeriodeFragment,
+    GhostPeriodeFragment,
+    NyttInntektsforholdPeriodeFragment,
+    PersonFragment,
+    UberegnetPeriodeFragment,
+} from '@io/graphql';
+import {
+    findArbeidsgiverWithGhostPeriode,
+    findArbeidsgiverWithNyttInntektsforholdPeriode,
+    findArbeidsgiverWithPeriode,
+} from '@state/arbeidsgiver';
 import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { toNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject, Hendelsetype } from '@typer/historikk';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
 
 import {
     getAnnetArbeidsforholdoverstyringhendelser,
@@ -101,6 +111,19 @@ const getHendelserForGhostPeriode = (period: GhostPeriodeFragment, person: Perso
     );
 };
 
+const getHendelserForNyttInntektsforholdPeriode = (
+    period: NyttInntektsforholdPeriodeFragment,
+    person: PersonFragment,
+): Array<HendelseObject> => {
+    const arbeidsgiver = findArbeidsgiverWithNyttInntektsforholdPeriode(period, person.arbeidsgivere);
+    const arbeidsforholdoverstyringer = arbeidsgiver ? getArbeidsforholdoverstyringhendelser(period, arbeidsgiver) : [];
+    const inntektoverstyringer = arbeidsgiver
+        ? getInntektoverstyringerForGhost(period.skjaeringstidspunkt, arbeidsgiver, person)
+        : [];
+
+    return [...arbeidsforholdoverstyringer, ...inntektoverstyringer].sort(byTimestamp);
+};
+
 const getHendelserForUberegnetPeriode = (
     period: UberegnetPeriodeFragment,
     person: PersonFragment,
@@ -139,6 +162,10 @@ const useHistorikk = (): HendelseObject[] => {
 
     if (isGhostPeriode(activePeriod)) {
         return getHendelserForGhostPeriode(activePeriod, person);
+    }
+
+    if (isTilkommenInntekt(activePeriod)) {
+        return getHendelserForNyttInntektsforholdPeriode(activePeriod, person);
     }
 
     if (isUberegnetPeriode(activePeriod)) {

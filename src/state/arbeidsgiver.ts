@@ -84,6 +84,8 @@ export const useCurrentArbeidsgiver = (): Maybe<ArbeidsgiverFragment> => {
         return findArbeidsgiverWithPeriode(activePeriod, currentPerson.arbeidsgivere);
     } else if (isGhostPeriode(activePeriod)) {
         return findArbeidsgiverWithGhostPeriode(activePeriod, currentPerson.arbeidsgivere);
+    } else if (isTilkommenInntekt(activePeriod)) {
+        return findArbeidsgiverWithNyttInntektsforholdPeriode(activePeriod, currentPerson.arbeidsgivere);
     }
 
     return null;

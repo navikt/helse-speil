@@ -245,6 +245,22 @@ const PeriodeCardGhost = ({ arbeidsgiver }: PeriodeCardGhostProps): ReactElement
     );
 };
 
+interface PeriodeCardTilkommenProps {
+    arbeidsgiver: ArbeidsgiverFragment;
+}
+
+const PeriodeCardTilkommen = ({ arbeidsgiver }: PeriodeCardTilkommenProps): ReactElement => {
+    return (
+        <section className={styles.grid}>
+            <ArbeidsgiverRow.Tilkommen
+                navn={arbeidsgiver.navn}
+                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                arbeidsforhold={arbeidsgiver.arbeidsforhold}
+            />
+        </section>
+    );
+};
+
 const PeriodeCardSkeleton = (): ReactElement => {
     return (
         <section className={classNames(styles.skeleton, styles.grid)}>
@@ -266,5 +282,6 @@ export const PeriodeCard = {
     Beregnet: PeriodeCardBeregnet,
     Uberegnet: PeriodeCardUberegnet,
     Ghost: PeriodeCardGhost,
+    Tilkommen: PeriodeCardTilkommen,
     Skeleton: PeriodeCardSkeleton,
 };
