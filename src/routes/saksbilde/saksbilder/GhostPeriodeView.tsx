@@ -9,7 +9,6 @@ import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
 import { TilkommenInntekt } from '@saksbilde/tilkommenInntekt/TilkommenInntekt';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
-import { getVilkårsgrunnlag } from '@state/utils';
 import { getPeriodState } from '@utils/mapping';
 import { isTilkommenInntekt } from '@utils/typeguards';
 
@@ -25,11 +24,7 @@ export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
     const tab = last(usePathname().split('/'));
-    useNavigateOnMount(
-        isTilkommenInntekt(activePeriod, getVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId))
-            ? Fane.TilkommenInntekt
-            : Fane.Sykepengegrunnlag,
-    );
+    useNavigateOnMount(isTilkommenInntekt(activePeriod) ? Fane.TilkommenInntekt : Fane.Sykepengegrunnlag);
 
     return (
         <div className={styles.Content} data-testid="saksbilde-content-uten-sykefravær">

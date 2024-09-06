@@ -11,6 +11,7 @@ import {
     Hendelse,
     Inntektoverstyring,
     Maybe,
+    NyttInntektsforholdPeriodeFragment,
     PersonFragment,
     TilleggsinfoForInntektskildeFragment,
     UberegnetPeriodeFragment,
@@ -31,6 +32,7 @@ import {
     isDagoverstyring,
     isGhostPeriode,
     isInntektoverstyring,
+    isTilkommenInntekt,
     isUberegnetPeriode,
 } from '@utils/typeguards';
 
@@ -41,6 +43,17 @@ export const findArbeidsgiverWithGhostPeriode = (
     return (
         arbeidsgivere.find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((periode) => periode.id === period.id)) ??
         null
+    );
+};
+
+export const findArbeidsgiverWithNyttInntektsforholdPeriode = (
+    period: NyttInntektsforholdPeriodeFragment,
+    arbeidsgivere: Array<ArbeidsgiverFragment>,
+): Maybe<ArbeidsgiverFragment> => {
+    return (
+        arbeidsgivere.find((arbeidsgiver) =>
+            arbeidsgiver.nyeInntektsforholdPerioder.find((periode) => periode.id === period.id),
+        ) ?? null
     );
 };
 
@@ -274,7 +287,7 @@ export const useEndringerForPeriode = (organisasjonsnummer: string): UseEndringe
     const endringer = useArbeidsgiver(organisasjonsnummer)?.overstyringer;
     const periode = useActivePeriod();
 
-    if (!endringer || !periode) {
+    if (!endringer || !periode || isTilkommenInntekt(periode)) {
         return { inntektsendringer: [], arbeidsforholdendringer: [], dagendringer: [] };
     }
 

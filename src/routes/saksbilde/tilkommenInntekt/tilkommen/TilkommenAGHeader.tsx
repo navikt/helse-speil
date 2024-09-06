@@ -5,7 +5,13 @@ import { EditButton } from '@components/EditButton';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Clipboard } from '@components/clipboard';
-import { ArbeidsgiverFragment, GhostPeriodeFragment, Kildetype, Maybe, PersonFragment } from '@io/graphql';
+import {
+    ArbeidsgiverFragment,
+    Kildetype,
+    Maybe,
+    NyttInntektsforholdPeriodeFragment,
+    PersonFragment,
+} from '@io/graphql';
 import { Arbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/Arbeidsgivernavn';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 
@@ -14,7 +20,7 @@ import styles from './TilkommenAG.module.scss';
 interface TilkommenAGHeaderProps {
     person: PersonFragment;
     arbeidsgiver: Maybe<ArbeidsgiverFragment>;
-    periode: GhostPeriodeFragment;
+    periode: NyttInntektsforholdPeriodeFragment;
     editing: boolean;
     setEditing: (state: boolean) => void;
 }

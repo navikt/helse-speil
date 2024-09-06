@@ -8,7 +8,12 @@ import { ErrorMessage } from '@components/ErrorMessage';
 import { Feiloppsummering } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
-import { ArbeidsgiverFragment, GhostPeriodeFragment, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
+import {
+    ArbeidsgiverFragment,
+    NyttInntektsforholdPeriodeFragment,
+    OmregnetArsinntekt,
+    PersonFragment,
+} from '@io/graphql';
 import {
     formErrorsTilFeilliste,
     stringIsNaN,
@@ -30,7 +35,7 @@ interface TilkommenInntektFormFields {
 interface EditableTilkommenAGProps {
     person: PersonFragment;
     arbeidsgiver: ArbeidsgiverFragment;
-    aktivPeriode: GhostPeriodeFragment;
+    aktivPeriode: NyttInntektsforholdPeriodeFragment;
     omregnetÅrsinntekt: OmregnetArsinntekt;
     close: () => void;
     onEndre: (erEndret: boolean) => void;

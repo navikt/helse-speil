@@ -5,8 +5,12 @@ import React, { useState } from 'react';
 import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { ArbeidsgiverFragment, Arbeidsgiverinntekt, GhostPeriodeFragment, PersonFragment } from '@io/graphql';
-import { OverstyrArbeidsforholdUtenSykdom } from '@saksbilde/sykepengegrunnlag/overstyring/OverstyrArbeidsforholdUtenSykdom';
+import {
+    ArbeidsgiverFragment,
+    Arbeidsgiverinntekt,
+    NyttInntektsforholdPeriodeFragment,
+    PersonFragment,
+} from '@io/graphql';
 import { EditableTilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/EditableTilkommenAG';
 import { TilkommenAGHeader } from '@saksbilde/tilkommenInntekt/tilkommen/TilkommenAGHeader';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
@@ -17,7 +21,7 @@ import styles from './TilkommenAG.module.scss';
 interface TilkommenAGProps {
     person: PersonFragment;
     inntekt: Arbeidsgiverinntekt;
-    periode: GhostPeriodeFragment;
+    periode: NyttInntektsforholdPeriodeFragment;
     arbeidsgiver: ArbeidsgiverFragment;
 }
 
@@ -34,14 +38,14 @@ export const TilkommenAG = ({ person, inntekt, periode, arbeidsgiver }: Tilkomme
             <div
                 className={classNames(
                     styles.formWrapper,
-                    { [styles.deaktivert]: periode.deaktivert },
+                    // { [styles.deaktivert]: periode.deaktivert },
                     { [styles.redigerer]: editing },
                 )}
             >
                 <TilkommenAGHeader
                     person={person}
                     arbeidsgiver={arbeidsgiver}
-                    periode={periode as GhostPeriodeFragment}
+                    periode={periode}
                     editing={editing}
                     setEditing={setEditing}
                 />
@@ -59,12 +63,12 @@ export const TilkommenAG = ({ person, inntekt, periode, arbeidsgiver }: Tilkomme
                     <div className={styles.innhold}>
                         <Bold>Tilkommen inntekt</Bold>
                         <BodyShort>{toKronerOgØre(inntekt.omregnetArsinntekt?.manedsbelop ?? 0)} kr</BodyShort>
-                        <OverstyrArbeidsforholdUtenSykdom
-                            organisasjonsnummerAktivPeriode={arbeidsgiver.organisasjonsnummer}
-                            skjæringstidspunkt={periode.skjaeringstidspunkt}
-                            arbeidsforholdErDeaktivert={periode.deaktivert}
-                            person={person}
-                        />
+                        {/*<OverstyrArbeidsforholdUtenSykdom*/}
+                        {/*    organisasjonsnummerAktivPeriode={arbeidsgiver.organisasjonsnummer}*/}
+                        {/*    skjæringstidspunkt={skjæringstidspunkt}*/}
+                        {/*    arbeidsforholdErDeaktivert={periode.deaktivert}*/}
+                        {/*    person={person}*/}
+                        {/*/>*/}
                     </div>
                 )}
             </div>

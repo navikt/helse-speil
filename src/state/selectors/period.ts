@@ -5,6 +5,7 @@ import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
     Maybe,
+    NyttInntektsforholdPeriodeFragment,
     Periode,
     PeriodeFragment,
     Periodetilstand,
@@ -17,7 +18,9 @@ import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export const getOppgavereferanse = (
-    period?: Maybe<BeregnetPeriodeFragment | UberegnetPeriodeFragment | GhostPeriodeFragment>,
+    period?: Maybe<
+        BeregnetPeriodeFragment | UberegnetPeriodeFragment | GhostPeriodeFragment | NyttInntektsforholdPeriodeFragment
+    >,
 ): Maybe<string> => {
     if (isBeregnetPeriode(period)) {
         return period.oppgave?.id ?? null;

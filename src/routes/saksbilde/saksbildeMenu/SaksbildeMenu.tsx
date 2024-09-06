@@ -9,7 +9,6 @@ import { BodyShort } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { PersonFragment } from '@io/graphql';
-import { getVilkårsgrunnlag } from '@state/utils';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt } from '@utils/typeguards';
 
@@ -26,8 +25,7 @@ const SaksbildeMenuGhostPeriode = ({ person, activePeriod }: SaksbildeMenuProps)
     <div className={styles.SaksbildeMenu}>
         <div>
             <nav className={styles.TabList} role="tablist">
-                {isGhostPeriode(activePeriod) &&
-                isTilkommenInntekt(activePeriod, getVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId)) ? (
+                {isTilkommenInntekt(activePeriod) ? (
                     <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />
                 ) : (
                     <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />

@@ -111,6 +111,7 @@ const TimelineWithContent = ({
                                 name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
                                 generations={arbeidsgiver.generasjoner}
                                 ghostPeriods={arbeidsgiver.ghostPerioder}
+                                nyeInntektsforholdPeriods={arbeidsgiver.nyeInntektsforholdPerioder}
                                 activePeriod={activePeriod}
                             />
                         ) : (
@@ -121,6 +122,7 @@ const TimelineWithContent = ({
                                 name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
                                 periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
                                 ghostPeriods={arbeidsgiver.ghostPerioder}
+                                nyeInntektsforholdPeriods={arbeidsgiver.nyeInntektsforholdPerioder}
                                 activePeriod={activePeriod}
                                 alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
                             />

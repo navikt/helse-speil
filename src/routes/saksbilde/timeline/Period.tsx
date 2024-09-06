@@ -2,10 +2,8 @@ import classNames from 'classnames';
 import React, { ReactElement, ReactNode, useRef } from 'react';
 
 import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
-import { GhostPeriodeFragment, Maybe, Vilkarsgrunnlag } from '@io/graphql';
+import { Maybe } from '@io/graphql';
 import { useSetActivePeriodId } from '@state/periode';
-import { useFetchPersonQuery } from '@state/person';
-import { getVilkårsgrunnlag } from '@state/utils';
 import { PeriodState } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
 import { getPeriodState } from '@utils/mapping';
@@ -101,13 +99,7 @@ const getIcon = (periodCategory: Maybe<PeriodCategory>): ReactNode => {
     }
 };
 
-const getClassNames = (
-    period: TimelinePeriod,
-    vilkårsgrunnlag: Maybe<Vilkarsgrunnlag>,
-    notCurrent?: boolean,
-    isActive?: boolean,
-    className?: string,
-) => {
+const getClassNames = (period: TimelinePeriod, notCurrent?: boolean, isActive?: boolean, className?: string) => {
     const periodState = getPeriodState(period);
     const periodCategory = getPeriodCategory(periodState);
 
@@ -119,7 +111,7 @@ const getClassNames = (
         notCurrent && styles.old,
         isInfotrygdPeriod(period) && styles.legacy,
         isGhostPeriode(period) && styles.blank,
-        isTilkommenInntekt(period, vilkårsgrunnlag) && styles.tilkommen,
+        isTilkommenInntekt(period) && styles.tilkommen,
     );
 };
 
@@ -134,26 +126,28 @@ export const Period = ({ period, notCurrent, isActive, className, ...buttonProps
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
     const harUvurderteVarsler = useUvurderteVarslerPåPeriode(period);
-    const { data } = useFetchPersonQuery();
-    const vilkårsgrunnlag = getVilkårsgrunnlag(data?.person!!, (period as GhostPeriodeFragment).vilkarsgrunnlagId);
 
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
 
     const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         buttonProps.onClick?.(event);
-        if (isBeregnetPeriode(period) || isUberegnetPeriode(period) || isGhostPeriode(period)) {
+        if (
+            isBeregnetPeriode(period) ||
+            isUberegnetPeriode(period) ||
+            isGhostPeriode(period) ||
+            isTilkommenInntekt(period)
+        ) {
             setActivePeriodId(period.id);
         }
     };
 
-    const periodState = getPeriodState(period, vilkårsgrunnlag);
-    console.log(periodState);
+    const periodState = getPeriodState(period);
     const periodCategory = getPeriodCategory(periodState);
 
     return (
         <>
             <button
-                className={getClassNames(period, vilkårsgrunnlag, notCurrent, isActive, className)}
+                className={getClassNames(period, notCurrent, isActive, className)}
                 {...buttonProps}
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
