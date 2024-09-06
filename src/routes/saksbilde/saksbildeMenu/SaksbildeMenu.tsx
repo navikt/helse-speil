@@ -25,11 +25,21 @@ const SaksbildeMenuGhostPeriode = ({ person, activePeriod }: SaksbildeMenuProps)
     <div className={styles.SaksbildeMenu}>
         <div>
             <nav className={styles.TabList} role="tablist">
-                {isTilkommenInntekt(activePeriod) ? (
+                <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
+                {harTilkommenInntektPåSkjæringstidspunkt(person, activePeriod.skjaeringstidspunkt) && (
                     <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />
-                ) : (
-                    <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
                 )}
+            </nav>
+            <DropdownMenu person={person} activePeriod={activePeriod} />
+        </div>
+    </div>
+);
+
+const SaksbildeMenuNyeInntektsforholdPeriode = ({ person, activePeriod }: SaksbildeMenuProps): ReactElement => (
+    <div className={styles.SaksbildeMenu}>
+        <div>
+            <nav className={styles.TabList} role="tablist">
+                <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />
             </nav>
             <DropdownMenu person={person} activePeriod={activePeriod} />
         </div>
@@ -49,7 +59,9 @@ const SaksbildeMenuBeregnetPeriode = ({ person, activePeriod }: SaksbildeMenuPro
                         <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />
                     )}
 
-                {true && <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />}
+                {harTilkommenInntektPåSkjæringstidspunkt(person, activePeriod.skjaeringstidspunkt) && (
+                    <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />
+                )}
             </nav>
             <DropdownMenu person={person} activePeriod={activePeriod} />
         </div>
@@ -61,6 +73,9 @@ const SaksbildeMenuUberegnetPeriode = ({ person, activePeriod }: SaksbildeMenuPr
         <div>
             <nav className={styles.TabList} role="tablist">
                 <NavLenke to="dagoversikt" tittel="Dagoversikt" />
+                {harTilkommenInntektPåSkjæringstidspunkt(person, activePeriod.skjaeringstidspunkt) && (
+                    <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />
+                )}
             </nav>
             <DropdownMenu person={person} activePeriod={activePeriod} />
         </div>
@@ -87,6 +102,10 @@ const SaksbildeMenuContainer = ({ person, activePeriod }: SaksbildeMenuProps): R
 
     if (isGhostPeriode(activePeriod)) {
         return <SaksbildeMenuGhostPeriode person={person} activePeriod={activePeriod} />;
+    }
+
+    if (isTilkommenInntekt(activePeriod)) {
+        return <SaksbildeMenuNyeInntektsforholdPeriode person={person} activePeriod={activePeriod} />;
     }
 
     return <SaksbildeMenuUberegnetPeriode person={person} activePeriod={activePeriod} />;
@@ -120,3 +139,8 @@ export const SaksbildeMenu = (props: SaksbildeMenuProps): ReactElement => {
         </ErrorBoundary>
     );
 };
+
+const harTilkommenInntektPåSkjæringstidspunkt = (person: PersonFragment, skjæringstidspunkt: string) =>
+    person.arbeidsgivere.flatMap((ag) =>
+        ag.nyeInntektsforholdPerioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt),
+    ).length > 0;
