@@ -6,7 +6,6 @@ import {
     Periodetilstand,
     UberegnetPeriodeFragment,
     Utbetalingtype,
-    Vilkarsgrunnlag,
 } from '@io/graphql';
 import { DatePeriod, InfotrygdPeriod, PeriodState } from '@typer/shared';
 import {
@@ -55,12 +54,9 @@ export const getUberegnetPeriodState = (period: UberegnetPeriodeFragment): Perio
     }
 };
 
-export const getPeriodState = (
-    period?: Maybe<Periode | DatePeriod>,
-    vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>,
-): PeriodState => {
+export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodState => {
     if (!period) return 'ukjent';
-    if (isTilkommenInntekt(period, vilkårsgrunnlag)) return 'tilkommenInntekt';
+    if (isTilkommenInntekt(period)) return 'tilkommenInntekt';
     if (isGhostPeriode(period)) return getGhostPeriodState(period);
     if (isInfotrygdPeriod(period)) return getInfotrygdPeriodState(period);
     if (isUberegnetPeriode(period)) return getUberegnetPeriodState(period);

@@ -20,6 +20,7 @@ export const ExpandableTimelineRow = ({
     name,
     generations,
     ghostPeriods,
+    nyeInntektsforholdPeriods,
     activePeriod,
 }: ExpandableTimelineRowProp): ReactElement => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -40,6 +41,7 @@ export const ExpandableTimelineRow = ({
                         end={end}
                         periods={generations[0].perioder}
                         ghostPeriods={ghostPeriods}
+                        nyeInntektsforholdPeriods={nyeInntektsforholdPeriods}
                         activePeriod={activePeriod}
                     />
                 )}
