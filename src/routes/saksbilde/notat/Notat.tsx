@@ -12,7 +12,7 @@ import { LeggTilNotatDocument, Maybe, NotatType } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { lokaleNotaterState } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
-import { isGhostPeriode } from '@utils/typeguards';
+import { isGhostPeriode, isTilkommenInntekt } from '@utils/typeguards';
 
 import { ControlledTextarea } from './ControlledTextarea';
 
@@ -27,9 +27,10 @@ export const Notat = (): Maybe<ReactElement> => {
     const [nyttNotat, { loading, error }] = useMutation(LeggTilNotatDocument);
     const { oid } = useInnloggetSaksbehandler();
 
-    const erGhostEllerHarIkkeAktivPeriode = isGhostPeriode(aktivPeriode) || !aktivPeriode;
+    const erGhostTilkommenEllerHarIkkeAktivPeriode =
+        isGhostPeriode(aktivPeriode) || isTilkommenInntekt(aktivPeriode) || !aktivPeriode;
     const harPåbegyntNotat =
-        !erGhostEllerHarIkkeAktivPeriode &&
+        !erGhostTilkommenEllerHarIkkeAktivPeriode &&
         notater.find(
             (notat) => notat.type === NotatType.Generelt && notat.vedtaksperiodeId === aktivPeriode.vedtaksperiodeId,
         )?.tekst !== undefined;
@@ -49,7 +50,7 @@ export const Notat = (): Maybe<ReactElement> => {
         },
     ]);
 
-    if (erGhostEllerHarIkkeAktivPeriode) return null;
+    if (erGhostTilkommenEllerHarIkkeAktivPeriode) return null;
 
     const submit: SubmitHandler<FieldValues> = (data) => {
         void nyttNotat({
