@@ -777,6 +777,7 @@ export type NyttInntektsforholdPeriode = {
     fom: Scalars['LocalDate']['output'];
     id: Scalars['UUID']['output'];
     organisasjonsnummer: Scalars['String']['output'];
+    skjaeringstidspunkt: Scalars['LocalDate']['output'];
     tom: Scalars['LocalDate']['output'];
     vilkarsgrunnlagId: Maybe<Scalars['UUID']['output']>;
 };
@@ -2254,6 +2255,7 @@ export type ArbeidsgiverFragment = {
         fom: string;
         tom: string;
         organisasjonsnummer: string;
+        skjaeringstidspunkt: string;
     }>;
     generasjoner: Array<{
         __typename: 'Generasjon';
@@ -2927,6 +2929,7 @@ export type NyttInntektsforholdPeriodeFragment = {
     fom: string;
     tom: string;
     organisasjonsnummer: string;
+    skjaeringstidspunkt: string;
 };
 
 export type UberegnetPeriodeFragment = {
@@ -3713,6 +3716,7 @@ export type PersonFragment = {
             fom: string;
             tom: string;
             organisasjonsnummer: string;
+            skjaeringstidspunkt: string;
         }>;
         generasjoner: Array<{
             __typename: 'Generasjon';
@@ -4450,6 +4454,7 @@ export type FetchPersonQuery = {
                 fom: string;
                 tom: string;
                 organisasjonsnummer: string;
+                skjaeringstidspunkt: string;
             }>;
             generasjoner: Array<{
                 __typename: 'Generasjon';
@@ -5329,6 +5334,7 @@ export const NyttInntektsforholdPeriodeFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
                 ],
             },
         },
@@ -7101,6 +7107,7 @@ export const ArbeidsgiverFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
                 ],
             },
         },
@@ -7704,6 +7711,7 @@ export const PersonFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
                 ],
             },
         },
@@ -10510,6 +10518,7 @@ export const FetchPersonDocument = {
                     { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
                 ],
             },
         },

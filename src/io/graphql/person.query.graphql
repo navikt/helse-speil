@@ -245,6 +245,7 @@ fragment nyttInntektsforholdPeriode on NyttInntektsforholdPeriode {
     fom
     tom
     organisasjonsnummer
+    skjaeringstidspunkt
 }
 
 fragment uberegnetPeriode on UberegnetPeriode {

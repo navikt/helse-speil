@@ -775,6 +775,7 @@ export type NyttInntektsforholdPeriode = {
     fom: Scalars['LocalDate']['output'];
     id: Scalars['UUID']['output'];
     organisasjonsnummer: Scalars['String']['output'];
+    skjaeringstidspunkt: Scalars['LocalDate']['output'];
     tom: Scalars['LocalDate']['output'];
     vilkarsgrunnlagId?: Maybe<Scalars['UUID']['output']>;
 };
