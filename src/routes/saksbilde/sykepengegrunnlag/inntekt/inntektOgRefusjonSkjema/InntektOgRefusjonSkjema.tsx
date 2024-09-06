@@ -19,7 +19,7 @@ import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Maybe, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
-import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/månedsbeløp/Månedsbeløp';
+import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
 import {
     useArbeidsgiver,
     useLokaleRefusjonsopplysninger,
@@ -42,7 +42,7 @@ import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
 import { RefusjonSkjema } from './refusjon/RefusjonSkjema/RefusjonSkjema';
 import { RefusjonFormFields } from './refusjon/hooks/useRefusjonFormField';
 
-import styles from './EditableInntekt.module.css';
+import styles from './InntektOgRefusjonSkjema.module.css';
 
 export interface InntektFormFields {
     begrunnelseId: string;
@@ -61,7 +61,7 @@ interface EditableInntektProps {
     onEndre: (erEndret: boolean) => void;
 }
 
-export const EditableInntekt = ({
+export const InntektOgRefusjonSkjema = ({
     person,
     omregnetÅrsinntekt,
     begrunnelser,

@@ -8,7 +8,7 @@ import { Endringstrekant } from '@components/Endringstrekant';
 import { Inntektskilde } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
-import styles from './EditableInntekt.module.css';
+import styles from './InntektOgRefusjonSkjema.module.css';
 
 interface OmregnetÅrsinntektProps {
     beløp: number;

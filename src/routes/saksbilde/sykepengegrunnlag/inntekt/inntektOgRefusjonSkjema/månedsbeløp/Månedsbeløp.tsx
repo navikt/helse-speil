@@ -8,7 +8,7 @@ import { toKronerOgØre } from '@utils/locale';
 
 import { MånedsbeløpInput } from './MånedsbeløpInput';
 
-import styles from '../EditableInntekt.module.css';
+import styles from '../InntektOgRefusjonSkjema.module.css';
 
 interface MånedsbeløpProps {
     månedsbeløp: number;

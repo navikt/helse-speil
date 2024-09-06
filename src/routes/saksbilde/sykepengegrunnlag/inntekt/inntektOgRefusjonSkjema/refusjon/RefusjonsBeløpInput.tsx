@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import styles from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/RefusjonSkjema/RefusjonSkjema.module.scss';
-import { RefusjonFormValues } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/refusjon/hooks/useRefusjonFormField';
+import styles from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonSkjema/RefusjonSkjema.module.scss';
+import { RefusjonFormValues } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/hooks/useRefusjonFormField';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { toKronerOgØre } from '@utils/locale';
 import { avrundetToDesimaler, isNumeric } from '@utils/tall';

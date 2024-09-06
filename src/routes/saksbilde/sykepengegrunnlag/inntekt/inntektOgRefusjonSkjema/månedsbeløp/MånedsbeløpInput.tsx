@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Maybe } from '@io/graphql';
-import { InntektFormFields } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntekt';
+import { InntektFormFields } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
 import { toKronerOgØre } from '@utils/locale';
 import { avrundetToDesimaler, isNumeric } from '@utils/tall';
 

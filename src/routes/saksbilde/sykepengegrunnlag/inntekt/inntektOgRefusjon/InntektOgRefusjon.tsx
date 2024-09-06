@@ -17,8 +17,8 @@ import {
     PersonFragment,
     VilkarsgrunnlagSpleis,
 } from '@io/graphql';
-import { EditableInntekt } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntekt';
 import { RedigerInntektOgRefusjon } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/redigerInntektOgRefusjon/RedigerInntektOgRefusjon';
+import { InntektOgRefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
 import {
     useEndringerForPeriode,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
@@ -150,7 +150,7 @@ export const InntektOgRefusjon = ({
                 <Bold>Beregnet månedsinntekt</Bold>
             </div>
             {editingInntekt && omregnetÅrsinntekt ? (
-                <EditableInntekt
+                <InntektOgRefusjonSkjema
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
                     close={() => setEditingInntekt(false)}
                     onEndre={setEndret}

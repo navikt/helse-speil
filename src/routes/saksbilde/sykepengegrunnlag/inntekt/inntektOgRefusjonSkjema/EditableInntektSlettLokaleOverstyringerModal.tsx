@@ -6,7 +6,7 @@ import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal
 import { Maybe } from '@io/graphql';
 import { DateString } from '@typer/shared';
 
-import styles from './EditableInntekt.module.css';
+import styles from './InntektOgRefusjonSkjema.module.css';
 
 type EditableInntektSlettLokaleOverstyringerModalProps = {
     showModal: boolean;
