@@ -8,7 +8,7 @@ import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 import { Maybe, NotatType } from '@io/graphql';
 import { lokaleNotaterState } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
-import { isGhostPeriode } from '@utils/typeguards';
+import { isGhostPeriode, isTilkommenInntekt } from '@utils/typeguards';
 
 import { ControlledTextarea } from './ControlledTextarea';
 
@@ -25,9 +25,10 @@ export const Returnotat = ({ onSubmit, setShowNotat, error }: ReturnotatProps): 
     const aktivPeriode = useActivePeriod();
     const form = useForm();
 
-    const erGhostEllerHarIkkeAktivPeriode = isGhostPeriode(aktivPeriode) || !aktivPeriode;
+    const erGhostTilkommenEllerHarIkkeAktivPeriode =
+        isGhostPeriode(aktivPeriode) || isTilkommenInntekt(aktivPeriode) || !aktivPeriode;
 
-    if (erGhostEllerHarIkkeAktivPeriode) return null;
+    if (erGhostTilkommenEllerHarIkkeAktivPeriode) return null;
 
     const submit: SubmitHandler<FieldValues> = (data) => {
         void onSubmit(data.tekst);
