@@ -79,6 +79,7 @@ const findPeriod = (periodeId: Maybe<string>, person: PersonFragment) => {
             .flatMap((arbeidsgiver) => [
                 ...arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder),
                 ...arbeidsgiver.ghostPerioder,
+                ...arbeidsgiver.nyeInntektsforholdPerioder,
             ])
             .find((periode) => periode.id === periodeId) ?? null
     );
