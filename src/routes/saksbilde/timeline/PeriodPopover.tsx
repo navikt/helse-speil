@@ -15,7 +15,7 @@ import { TimelinePeriod } from '@typer/timeline';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 import { getPeriodStateText } from '@utils/mapping';
-import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isTilkommenInntekt } from '@utils/typeguards';
 
 import styles from './PeriodPopover.module.css';
 
@@ -185,6 +185,18 @@ const GhostPopover = ({ fom, tom }: DatePeriod): ReactElement => {
     );
 };
 
+const TilkommenPopover = ({ fom, tom }: DatePeriod): ReactElement => {
+    return (
+        <>
+            <BodyShort size="small">Tilkommen inntekt</BodyShort>
+            <BodyShort size="small">Periode:</BodyShort>
+            <BodyShort size="small">
+                {fom} - {tom}
+            </BodyShort>
+        </>
+    );
+};
+
 interface UberegnetPopoverProps extends DatePeriod {
     state: PeriodState;
 }
@@ -222,6 +234,8 @@ export const PeriodPopover = ({ period, state, ...popoverProps }: PeriodPopoverP
                         <BeregnetPopover period={period} state={state} fom={fom} tom={tom} />
                     ) : isGhostPeriode(period) ? (
                         <GhostPopover fom={fom} tom={tom} />
+                    ) : isTilkommenInntekt(period) ? (
+                        <TilkommenPopover fom={fom} tom={tom} />
                     ) : (
                         <UberegnetPopover state={state} fom={fom} tom={tom} />
                     )}
