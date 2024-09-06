@@ -112,6 +112,7 @@ const getArbeidsgiver = (
         organisasjonsnummer: organisasjonsnummer,
         overstyringer: [],
         inntekterFraAordningen: [],
+        nyeInntektsforholdPerioder: [],
     };
 };
 
