@@ -37,8 +37,8 @@ import { avrundetToDesimaler } from '@utils/tall';
 import { isGhostPeriode } from '@utils/typeguards';
 
 import { Begrunnelser } from '../Begrunnelser';
-import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';
 import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
+import { SlettLokaleOverstyringerModal } from './SlettLokaleOverstyringerModal';
 import { RefusjonSkjema } from './refusjon/RefusjonSkjema/RefusjonSkjema';
 import { RefusjonFormFields } from './refusjon/hooks/useRefusjonFormField';
 
@@ -229,7 +229,7 @@ export const InntektOgRefusjonSkjema = ({
                     {error && <ErrorMessage>{error}</ErrorMessage>}
                     {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
                     {showSlettLokaleOverstyringerModal && (
-                        <EditableInntektSlettLokaleOverstyringerModal
+                        <SlettLokaleOverstyringerModal
                             showModal={showSlettLokaleOverstyringerModal}
                             onApprove={() => {
                                 form.handleSubmit(confirmChanges);

@@ -16,7 +16,7 @@ type EditableInntektSlettLokaleOverstyringerModalProps = {
     overstyrtSkjæringstidspunkt: Maybe<DateString>;
 };
 
-export const EditableInntektSlettLokaleOverstyringerModal = ({
+export const SlettLokaleOverstyringerModal = ({
     showModal,
     onApprove,
     onClose,
