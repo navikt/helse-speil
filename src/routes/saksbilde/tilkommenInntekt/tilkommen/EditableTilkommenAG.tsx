@@ -14,13 +14,13 @@ import {
     OmregnetArsinntekt,
     PersonFragment,
 } from '@io/graphql';
+import styles from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntekt.module.css';
 import {
     formErrorsTilFeilliste,
     stringIsNaN,
-} from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntekt';
-import styles from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntekt.module.css';
-import { EditableInntektSlettLokaleOverstyringerModal } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntektSlettLokaleOverstyringerModal';
-import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/månedsbeløp/Månedsbeløp';
+} from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
+import { SlettLokaleOverstyringerModal } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/SlettLokaleOverstyringerModal';
+import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
 import { useLokaltMånedsbeløp } from '@state/arbeidsgiver';
 import { inntektOgRefusjonState, usePostOverstyrtInntekt } from '@state/overstyring';
 import type { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
@@ -153,7 +153,7 @@ export const EditableTilkommenAG = ({
                     {error && <ErrorMessage>{error}</ErrorMessage>}
                     {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
                     {showSlettLokaleOverstyringerModal && (
-                        <EditableInntektSlettLokaleOverstyringerModal
+                        <SlettLokaleOverstyringerModal
                             showModal={showSlettLokaleOverstyringerModal}
                             onApprove={() => {
                                 form.handleSubmit(confirmChanges);
