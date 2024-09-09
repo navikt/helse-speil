@@ -11,6 +11,7 @@ import { ArbeidsgiverFragment, Infotrygdutbetaling, Maybe } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
+import { skalViseTilkommenInntekt } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
@@ -101,7 +102,12 @@ const TimelineWithContent = ({
             <Labels start={start} end={end} />
             <div className={styles.Rows}>
                 {arbeidsgivere
-                    .filter((it) => it.generasjoner.length > 0 || it.ghostPerioder.length > 0)
+                    .filter(
+                        (it) =>
+                            it.generasjoner.length > 0 ||
+                            it.ghostPerioder.length > 0 ||
+                            (it.nyeInntektsforholdPerioder.length > 0 && skalViseTilkommenInntekt),
+                    )
                     .map((arbeidsgiver, i) => {
                         return arbeidsgiver.generasjoner.length > 1 ? (
                             <ExpandableTimelineRow
