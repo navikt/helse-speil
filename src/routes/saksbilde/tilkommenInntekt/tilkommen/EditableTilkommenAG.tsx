@@ -14,11 +14,11 @@ import {
     OmregnetArsinntekt,
     PersonFragment,
 } from '@io/graphql';
-import styles from '@saksbilde/sykepengegrunnlag/inntekt/editableInntekt/EditableInntekt.module.css';
 import {
     formErrorsTilFeilliste,
     stringIsNaN,
 } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
+import styles from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema.module.css';
 import { SlettLokaleOverstyringerModal } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/SlettLokaleOverstyringerModal';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
 import { useLokaltMånedsbeløp } from '@state/arbeidsgiver';
