@@ -26,12 +26,12 @@ const filterReadyPeriods = (periods: Array<PeriodeFragment>): Array<PeriodeFragm
     periods.filter((it) => !(it.erForkastet && isNotReady(it)));
 
 const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
-    periods.filter((it) =>
-        isBeregnetPeriode(it)
-            ? it.periodetilstand !== Periodetilstand.TilInfotrygd
-            : isGhostPeriode(it)
-              ? !it.deaktivert
-              : isTilkommenInntekt(it),
+    periods.filter(
+        (it) =>
+            (isBeregnetPeriode(it) && it.periodetilstand !== Periodetilstand.TilInfotrygd) ||
+            isUberegnetPeriode(it) ||
+            (isGhostPeriode(it) && !it.deaktivert) ||
+            isTilkommenInntekt(it),
     );
 
 const isActive = (activePeriod: Maybe<TimelinePeriod>, currentPeriod: Maybe<TimelinePeriod>): boolean => {
