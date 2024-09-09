@@ -31,7 +31,7 @@ const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
             ? it.periodetilstand !== Periodetilstand.TilInfotrygd
             : isGhostPeriode(it)
               ? !it.deaktivert
-              : true,
+              : isTilkommenInntekt(it),
     );
 
 const isActive = (activePeriod: Maybe<TimelinePeriod>, currentPeriod: Maybe<TimelinePeriod>): boolean => {
