@@ -142,5 +142,7 @@ export const SaksbildeMenu = (props: SaksbildeMenuProps): ReactElement => {
 
 const harTilkommenInntektPåSkjæringstidspunkt = (person: PersonFragment, skjæringstidspunkt: string) =>
     person.arbeidsgivere.flatMap((ag) =>
-        ag.nyeInntektsforholdPerioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt),
+        ag.nyeInntektsforholdPerioder.filter(
+            (it) => isTilkommenInntekt(it) && it.skjaeringstidspunkt === skjæringstidspunkt,
+        ),
     ).length > 0;
