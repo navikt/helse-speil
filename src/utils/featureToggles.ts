@@ -51,3 +51,5 @@ export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
 export const erLokalEllerDev: boolean = erLokal || erDev;
 
 export const kanOverstyreMinimumSykdomsgrad: boolean = erLokalEllerDev;
+
+export const skalViseTilkommenInntekt: boolean = erLokalEllerDev;
