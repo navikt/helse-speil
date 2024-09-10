@@ -11,7 +11,13 @@ import {
 import { isNotReady } from '@state/selectors/period';
 import { DatePeriod, InfotrygdPeriod } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
-import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
+import {
+    isBeregnetPeriode,
+    isGhostPeriode,
+    isInfotrygdPeriod,
+    isTilkommenInntekt,
+    isUberegnetPeriode,
+} from '@utils/typeguards';
 
 import { Period } from './Period';
 import { usePeriodStyling } from './hooks/usePeriodStyling';
@@ -30,6 +36,7 @@ const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
         (it) =>
             (isBeregnetPeriode(it) && it.periodetilstand !== Periodetilstand.TilInfotrygd) ||
             isUberegnetPeriode(it) ||
+            isInfotrygdPeriod(it) ||
             (isGhostPeriode(it) && !it.deaktivert) ||
             isTilkommenInntekt(it),
     );
