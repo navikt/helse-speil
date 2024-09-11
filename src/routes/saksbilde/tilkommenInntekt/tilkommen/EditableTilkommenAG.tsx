@@ -62,6 +62,7 @@ export const EditableTilkommenAG = ({
     };
 
     const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntekt(
+        person,
         cancelEditing,
         showSlettLokaleOverstyringerModal,
         setShowSlettLokaleOverstyringerModal,

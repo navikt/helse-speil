@@ -8,14 +8,14 @@ import { EditButton } from '@components/EditButton';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import { BeregnetPeriodeFragment, Kildetype, Maybe, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { BeregnetPeriodeFragment, Kildetype, Maybe, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 
 import styles from './SkjønnsfastsettingHeader.module.css';
 
 interface SkjønnsfastsettingHeaderProps {
+    person: PersonFragment;
     sykepengegrunnlag: number;
     endretSykepengegrunnlag: Maybe<number>;
     skjønnsmessigFastsattÅrlig?: Maybe<number>;
@@ -26,6 +26,7 @@ interface SkjønnsfastsettingHeaderProps {
 }
 
 export const SkjønnsfastsettingHeader = ({
+    person,
     sykepengegrunnlag,
     endretSykepengegrunnlag,
     skjønnsmessigFastsattÅrlig,
@@ -34,7 +35,6 @@ export const SkjønnsfastsettingHeader = ({
     setEditing,
     maler,
 }: SkjønnsfastsettingHeaderProps) => {
-    const person = useCurrentPerson();
     const aktivPeriode = useActivePeriod();
     const harMaler = maler && maler.length > 0;
 

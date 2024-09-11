@@ -35,7 +35,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editing, setEditing] = useState(false);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
-    const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(inntekter);
+    const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(person, inntekter);
 
     // TODO: legg inn loading og error
     const { maler, loading, error } = useSkjønnsfastsettelsesMaler(
@@ -51,6 +51,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
         <div>
             <div className={classNames(styles.formWrapper, { [styles.redigerer]: editing })}>
                 <SkjønnsfastsettingHeader
+                    person={person}
                     sykepengegrunnlag={sykepengegrunnlag}
                     endretSykepengegrunnlag={endretSykepengegrunnlag}
                     skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
@@ -64,6 +65,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                 )}
                 {editing && maler && omregnetÅrsinntekt != null && sammenligningsgrunnlag != null && (
                     <SkjønnsfastsettingForm
+                        person={person}
                         inntekter={inntekter}
                         omregnetÅrsinntekt={omregnetÅrsinntekt}
                         sammenligningsgrunnlag={sammenligningsgrunnlag}

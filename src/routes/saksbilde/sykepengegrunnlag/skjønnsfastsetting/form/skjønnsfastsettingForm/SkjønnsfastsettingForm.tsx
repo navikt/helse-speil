@@ -8,7 +8,7 @@ import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Arbeidsgiverinntekt, Maybe, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { Arbeidsgiverinntekt, Maybe, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingÅrsak';
@@ -19,7 +19,6 @@ import {
     usePostSkjønnsfastsattSykepengegrunnlag,
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { avrundetToDesimaler } from '@utils/tall';
 
 import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
@@ -35,6 +34,7 @@ export interface SkjønnsfastsettingFormFields {
 }
 
 interface SkjønnsfastsettingFormProps {
+    person: PersonFragment;
     inntekter: Arbeidsgiverinntekt[];
     omregnetÅrsinntekt: number;
     sammenligningsgrunnlag: number;
@@ -45,6 +45,7 @@ interface SkjønnsfastsettingFormProps {
 }
 
 export const SkjønnsfastsettingForm = ({
+    person,
     inntekter,
     omregnetÅrsinntekt,
     sammenligningsgrunnlag,
@@ -54,8 +55,10 @@ export const SkjønnsfastsettingForm = ({
     maler,
 }: SkjønnsfastsettingFormProps): Maybe<ReactElement> => {
     const period = useActivePeriod();
-    const person = useCurrentPerson();
-    const { aktiveArbeidsgivere, aktiveArbeidsgivereInntekter, defaults } = useSkjønnsfastsettingDefaults(inntekter);
+    const { aktiveArbeidsgivere, aktiveArbeidsgivereInntekter, defaults } = useSkjønnsfastsettingDefaults(
+        person,
+        inntekter,
+    );
     const erReadonly = useIsReadOnlyOppgave();
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const avrundetSammenligningsgrunnlag = avrundetToDesimaler(sammenligningsgrunnlag);

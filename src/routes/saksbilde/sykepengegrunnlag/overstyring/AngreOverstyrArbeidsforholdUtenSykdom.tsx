@@ -34,7 +34,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     onClick,
 }: AngreOverstyrArbeidsforholdUtenSykdomProps): ReactElement => {
     const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold(person);
-    const { postOverstyring, timedOut, setTimedOut } = usePostOverstyrtArbeidsforhold();
+    const { postOverstyring, timedOut, setTimedOut } = usePostOverstyrtArbeidsforhold(person.aktorId);
     const begrunnelse: BegrunnelseForOverstyring = {
         id: '',
         forklaring: 'Angret å ikke bruke det i beregningen',

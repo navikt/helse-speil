@@ -16,7 +16,6 @@ import {
     usePeriodForSkjæringstidspunkt,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
-import { useCurrentPerson } from '@state/person';
 import { isForkastet } from '@state/selectors/period';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
@@ -50,8 +49,11 @@ export const harPeriodeTilBeslutterFor = (person: PersonFragment, skjæringstids
     );
 };
 
-export const useGhostInntektKanOverstyres = (skjæringstidspunkt: DateString, organisasjonsnummer: string): boolean => {
-    const person = useCurrentPerson();
+export const useGhostInntektKanOverstyres = (
+    person: PersonFragment,
+    skjæringstidspunkt: DateString,
+    organisasjonsnummer: string,
+): boolean => {
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
 
@@ -89,10 +91,10 @@ export const maybePeriodeTilGodkjenning = (
 };
 
 export const useArbeidsforholdKanOverstyres = (
+    person: PersonFragment,
     skjæringstidspunkt: DateString,
     organisasjonsnummer: string,
 ): boolean => {
-    const person = useCurrentPerson();
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
     const erGhostLikEllerEtterPeriodeTilGodkjenning = useErGhostLikEllerFørPeriodeTilGodkjenning();
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
@@ -140,8 +142,7 @@ const harIngenEtterfølgendePerioder = (
         ) ?? []
     ).length === 0;
 
-export const useInntektKanRevurderes = (skjæringstidspunkt: DateString): boolean => {
-    const person = useCurrentPerson();
+export const useInntektKanRevurderes = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {
     const periodeVedSkjæringstidspunkt = usePeriodForSkjæringstidspunkt(skjæringstidspunkt);
     const isReadOnlyOppgave = useIsReadOnlyOppgave();
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();

@@ -86,10 +86,10 @@ export const InntektOgRefusjon = ({
         setEditingInntekt(false);
     }, [periodeId]);
 
-    const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(skjæringstidspunkt, organisasjonsnummer);
-    const ghostInntektKanOverstyres = useGhostInntektKanOverstyres(skjæringstidspunkt, organisasjonsnummer);
+    const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer);
+    const ghostInntektKanOverstyres = useGhostInntektKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer);
     const { inntektsendringer } = useEndringerForPeriode(organisasjonsnummer);
-    const kanRevurderes = useInntektKanRevurderes(skjæringstidspunkt);
+    const kanRevurderes = useInntektKanRevurderes(person, skjæringstidspunkt);
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();

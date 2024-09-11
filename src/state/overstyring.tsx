@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 
-import { Arbeidsgiverrefusjon, Hendelse, Kildetype, Maybe, Refusjonselement } from '@io/graphql';
+import { Arbeidsgiverrefusjon, Hendelse, Kildetype, Maybe, PersonFragment, Refusjonselement } from '@io/graphql';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import {
     useArbeidsgiver,
@@ -11,7 +11,6 @@ import {
 import { kalkulererFerdigToastKey, kalkulererToastKey, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import {
     OverstyrtInntektOgRefusjonArbeidsgiver,
@@ -39,12 +38,11 @@ export const inntektOgRefusjonState = atom<OverstyrtInntektOgRefusjon>({
 });
 
 export const usePostOverstyrtInntekt = (
+    person: PersonFragment,
     onFerdigKalkulert: () => void,
     showSlettLokaleOverstyringerModal: boolean,
     setShowSlettLokaleOverstyringerModal: (data: boolean) => void,
 ) => {
-    const person = useCurrentPerson();
-
     if (!isPerson(person)) {
         throw Error('Mangler persondata.');
     }
@@ -169,10 +167,10 @@ export const mapOgSorterRefusjoner = (
         }));
 };
 export const useOverstyrtInntektMetadata = (
+    person: PersonFragment,
     skjæringstidspunkt: DateString,
     organisasjonsnummer: string,
 ): OverstyrtInntektMetadata => {
-    const person = useCurrentPerson();
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
     const activePeriod = useActivePeriod();
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);

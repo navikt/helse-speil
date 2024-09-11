@@ -17,7 +17,6 @@ import {
 } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useActivePeriodWithPerson } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { BegrunnelseForOverstyring, OverstyrtArbeidsforholdDTO } from '@typer/overstyring';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
@@ -53,10 +52,9 @@ export const useGetOverstyrtArbeidsforhold = (person: PersonFragment): Overstyrt
     });
 };
 
-export const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert?: () => void) => {
+export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkulert?: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const aktørId = useCurrentPerson()?.aktorId;
     const setPollingRate = useSetOpptegnelserPollingRate();
 
     const [calculating, setCalculating] = useState(false);

@@ -128,7 +128,10 @@ const OverstyrArbeidsforholdSkjema = ({
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold(person);
 
-    const { isLoading, error, timedOut, setTimedOut, postOverstyring } = usePostOverstyrtArbeidsforhold(onClose);
+    const { isLoading, error, timedOut, setTimedOut, postOverstyring } = usePostOverstyrtArbeidsforhold(
+        person.aktorId,
+        onClose,
+    );
 
     const confirmChanges = () => {
         const { begrunnelseId, forklaring } = form.getValues();
