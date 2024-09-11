@@ -61,7 +61,7 @@
         "zod": "^3.23.8"
     },
     "devDependencies": {
-        "@graphiql/toolkit": "^0.9.2",
+        "@graphiql/toolkit": "^0.11.0",
         "@graphql-codegen/cli": "^5.0.2",
         "@graphql-codegen/fragment-matcher": "^5.0.2",
         "@graphql-codegen/introspection": "^4.0.3",
