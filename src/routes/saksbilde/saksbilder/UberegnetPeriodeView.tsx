@@ -25,7 +25,7 @@ export const UberegnetPeriodeView = ({ person, activePeriod }: UberegnetPeriodeV
         <div className={styles.Content}>
             <Saksbildevarsler periodState={getPeriodState(activePeriod)} varsler={activePeriod.varsler} />
             <SaksbildeMenu person={person} activePeriod={activePeriod} />
-            <div className={styles.RouteContainer}>{tab === 'dagoversikt' && <Utbetaling />}</div>
+            <div className={styles.RouteContainer}>{tab === 'dagoversikt' && <Utbetaling person={person} />}</div>
         </div>
     );
 };

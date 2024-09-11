@@ -23,7 +23,6 @@ import {
     useGjenståendeDager,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -127,11 +126,13 @@ const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingB
 const UtbetalingBeregnetPeriodeMemoized = React.memo(UtbetalingBeregnetPeriode);
 
 interface UtbetalingUberegnetPeriodeProps {
+    person: PersonFragment;
     periode: UberegnetPeriodeFragment;
     arbeidsgiver: ArbeidsgiverFragment;
 }
 
 const UtbetalingUberegnetPeriode = ({
+    person,
     periode,
     arbeidsgiver,
 }: UtbetalingUberegnetPeriodeProps): Maybe<ReactElement> => {
@@ -152,7 +153,6 @@ const UtbetalingUberegnetPeriode = ({
         overstyringer: dagoverstyringer,
         antallAGPDagerBruktFørPerioden: antallAGPDagerBruktFørPerioden,
     });
-    const person = useCurrentPerson();
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
     if (!person) return null;
 
@@ -176,9 +176,12 @@ const UtbetalingUberegnetPeriode = ({
     );
 };
 
-const UtbetalingContainer = (): Maybe<ReactElement> => {
+type UtbetalingContainerProps = {
+    person: PersonFragment;
+};
+
+const UtbetalingContainer = ({ person }: UtbetalingContainerProps): Maybe<ReactElement> => {
     const period = useActivePeriod();
-    const person = useCurrentPerson();
     const arbeidsgiver = useCurrentArbeidsgiver();
 
     if (!period || !isPerson(person) || !arbeidsgiver) {
@@ -186,7 +189,7 @@ const UtbetalingContainer = (): Maybe<ReactElement> => {
     } else if (isBeregnetPeriode(period)) {
         return <UtbetalingBeregnetPeriodeMemoized period={period} person={person} arbeidsgiver={arbeidsgiver} />;
     } else if (isUberegnetPeriode(period)) {
-        return <UtbetalingUberegnetPeriode periode={period} arbeidsgiver={arbeidsgiver} />;
+        return <UtbetalingUberegnetPeriode person={person} periode={period} arbeidsgiver={arbeidsgiver} />;
     } else {
         return null;
     }
@@ -200,11 +203,14 @@ const UtbetalingError = (): ReactElement => {
     );
 };
 
-// TODO: ta inn person som prop
-export const Utbetaling = (): ReactElement => {
+type UtbetalingProps = {
+    person: PersonFragment;
+};
+
+export const Utbetaling = ({ person }: UtbetalingProps): ReactElement => {
     return (
         <ErrorBoundary fallback={<UtbetalingError />}>
-            <UtbetalingContainer />
+            <UtbetalingContainer person={person} />
         </ErrorBoundary>
     );
 };

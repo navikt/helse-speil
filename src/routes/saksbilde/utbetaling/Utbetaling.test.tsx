@@ -4,7 +4,6 @@ import React from 'react';
 import { Inntektstype, Utbetalingsdagtype } from '@io/graphql';
 import { useCurrentArbeidsgiver, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
 import { useReadonly } from '@state/toggles';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enOppgave } from '@test-data/oppgave';
@@ -38,11 +37,10 @@ describe('Utbetaling', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValue(periode);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useCurrentPerson as jest.Mock).mockReturnValue(person);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
         (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
-        render(<Utbetaling />, { wrapper: ApolloWrapper });
+        render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
         expect(screen.getByText('Revurder')).toBeVisible();
         expect(screen.getByText('3 dager')).toBeVisible();
@@ -61,10 +59,9 @@ describe('Utbetaling', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValue(periode);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useCurrentPerson as jest.Mock).mockReturnValue(person);
         (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
-        render(<Utbetaling />, { wrapper: ApolloWrapper });
+        render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
         expect(screen.getByText('Kan ikke revurdere perioden på grunn av manglende datagrunnlag')).toBeVisible();
     });
@@ -79,10 +76,9 @@ describe('Utbetaling', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValue(periode);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useCurrentPerson as jest.Mock).mockReturnValue(person);
         (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
-        render(<Utbetaling />, { wrapper: ApolloWrapper });
+        render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
         expect(screen.getByText('Endre')).toBeVisible();
     });
@@ -95,9 +91,8 @@ describe('Utbetaling', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useCurrentPerson as jest.Mock).mockReturnValue(person);
 
-        render(<Utbetaling />, { wrapper: ApolloWrapper });
+        render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
         expect(screen.getByText('Endre')).toBeVisible();
     });
@@ -110,10 +105,9 @@ describe('Utbetaling', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useCurrentPerson as jest.Mock).mockReturnValue(person);
         (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
-        render(<Utbetaling />, { wrapper: ApolloWrapper });
+        render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
         expect(screen.getByText('Endre')).toBeVisible();
     });
@@ -126,10 +120,9 @@ describe('Utbetaling', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useCurrentPerson as jest.Mock).mockReturnValue(person);
         (useReadonly as jest.Mock).mockReturnValue({ value: true, override: true });
 
-        render(<Utbetaling />, { wrapper: RecoilWrapper });
+        render(<Utbetaling person={person} />, { wrapper: RecoilWrapper });
 
         expect(screen.queryByText('Endre')).not.toBeInTheDocument();
     });
@@ -145,9 +138,8 @@ describe('Utbetaling', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiverA);
-        (useCurrentPerson as jest.Mock).mockReturnValue(person);
 
-        render(<Utbetaling />, { wrapper: RecoilWrapper });
+        render(<Utbetaling person={person} />, { wrapper: RecoilWrapper });
 
         expect(screen.queryByText('Endre')).not.toBeInTheDocument();
         expect(screen.queryByText('Revurder')).not.toBeInTheDocument();
