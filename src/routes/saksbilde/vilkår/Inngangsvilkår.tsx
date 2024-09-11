@@ -6,7 +6,7 @@ import { Alert } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Maybe, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
+import { useFetchPersonQuery } from '@state/person';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { Vilkårdata } from '@typer/vilkår';
@@ -76,9 +76,11 @@ export const InngangsvilkårWithContent = ({
 
 const InngangsvilkårContainer = (): Maybe<ReactElement> => {
     const activePeriod = useActivePeriod();
-    const person = useCurrentPerson();
+    const { loading, data } = useFetchPersonQuery();
 
-    if (!activePeriod || !person?.personinfo.fodselsdato) {
+    const person = data?.person;
+
+    if (loading || !activePeriod || !person?.personinfo.fodselsdato) {
         return null;
     } else if (isBeregnetPeriode(activePeriod)) {
         const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId);

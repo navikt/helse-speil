@@ -5,21 +5,17 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Maybe } from '@io/graphql';
-import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
+import { useFetchPersonQuery } from '@state/person';
 
 import { UnntattFraAutomatisering } from './UnntattFraAutomatisering';
 
 import styles from '../personHeader/PersonHeader.module.css';
 
 const InfovarselOmStansContainer = (): Maybe<ReactElement> => {
-    const currentPerson = useCurrentPerson();
-    const { loading } = useFetchPersonQuery();
+    const { data, loading } = useFetchPersonQuery();
 
-    if (loading) {
-        return null;
-    }
-
-    if (!currentPerson) {
+    const currentPerson = data?.person;
+    if (loading || currentPerson == null) {
         return null;
     }
 

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { PersonFragment } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { TildelingAlert } from '@state/oppgaver';
-import { useCurrentPerson } from '@state/person';
+import { useFetchPersonQuery } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { capitalizeName } from '@utils/locale';
 
@@ -13,7 +13,8 @@ const erTildeltAnnenSaksbehandler = (saksbehandlerOid: string, personTilBehandli
 };
 
 export const useVarselOmSakErTildeltAnnenSaksbehandler = () => {
-    const personTilBehandling = useCurrentPerson();
+    const { data } = useFetchPersonQuery();
+    const personTilBehandling = data?.person ?? null;
     const saksbehandler = useInnloggetSaksbehandler();
 
     const addVarsel = useAddVarsel();
