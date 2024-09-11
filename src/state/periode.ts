@@ -36,7 +36,7 @@ export const useActivePeriodOld = (): Maybe<ActivePeriod> => {
     return findPeriod(activePeriodId, person) ?? periodToSelect;
 };
 
-export const useActivePeriods = (person: PersonFragment): Maybe<ActivePeriod> => {
+export const useActivePeriod = (person: PersonFragment): Maybe<ActivePeriod> => {
     const activePeriodId = useRecoilValue(activePeriodIdState);
     const periodToSelect = person ? findPeriodToSelect(person) : null;
 

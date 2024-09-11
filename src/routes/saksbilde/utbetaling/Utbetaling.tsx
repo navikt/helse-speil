@@ -22,7 +22,7 @@ import {
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     useGjenståendeDager,
 } from '@state/arbeidsgiver';
-import { useActivePeriodOld } from '@state/periode';
+import { useActivePeriod } from '@state/periode';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -36,8 +36,8 @@ import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 
 import styles from './Utbetaling.module.css';
 
-const useIsInCurrentGeneration = (): boolean => {
-    const period = useActivePeriodOld();
+const useIsInCurrentGeneration = (person: PersonFragment): boolean => {
+    const period = useActivePeriod(person);
     const arbeidsgiver = useCurrentArbeidsgiver();
 
     if (!period || !arbeidsgiver) {
@@ -56,7 +56,7 @@ interface ReadonlyUtbetalingProps {
 
 const ReadonlyUtbetaling = ({ fom, tom, dager, person }: ReadonlyUtbetalingProps): ReactElement => {
     const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
-    const periodeErISisteGenerasjon = useIsInCurrentGeneration();
+    const periodeErISisteGenerasjon = useIsInCurrentGeneration(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
 
     const harTidligereSkjæringstidspunktOgISisteGenerasjon = !hasLatestSkjæringstidspunkt && periodeErISisteGenerasjon;
@@ -187,7 +187,7 @@ type UtbetalingContainerProps = {
 };
 
 const UtbetalingContainer = ({ person }: UtbetalingContainerProps): Maybe<ReactElement> => {
-    const period = useActivePeriodOld();
+    const period = useActivePeriod(person);
     const arbeidsgiver = useCurrentArbeidsgiver();
 
     if (!period || !isPerson(person) || !arbeidsgiver) {
