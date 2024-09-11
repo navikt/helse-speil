@@ -27,7 +27,7 @@ import {
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
 import { inntektOgRefusjonState, useOverstyrtInntektMetadata, usePostOverstyrtInntekt } from '@state/overstyring';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@typer/overstyring';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 import { ActivePeriod, DateString } from '@typer/shared';
@@ -75,7 +75,7 @@ export const InntektOgRefusjonSkjema = ({
     const metadata = useOverstyrtInntektMetadata(person, skjæringstidspunkt, organisasjonsnummer);
     const arbeidsgiver = useArbeidsgiver(person, organisasjonsnummer);
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(person, skjæringstidspunkt, organisasjonsnummer);
-    const valgtVedtaksperiode = useActivePeriod();
+    const valgtVedtaksperiode = useActivePeriodOld();
     const [harIkkeSkjemaEndringer, setHarIkkeSkjemaEndringer] = useState(false);
     const [showSlettLokaleOverstyringerModal, setShowSlettLokaleOverstyringerModal] = useState(false);
     const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);

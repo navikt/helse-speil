@@ -7,7 +7,7 @@ import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { Maybe, NotatType } from '@io/graphql';
 import { lokaleNotaterState } from '@state/notater';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { isGhostPeriode, isTilkommenInntekt } from '@utils/typeguards';
 
 import { ControlledTextarea } from './ControlledTextarea';
@@ -22,7 +22,7 @@ interface ReturnotatProps {
 
 export const Returnotat = ({ onSubmit, setShowNotat, error }: ReturnotatProps): Maybe<ReactElement> => {
     const oppdaterNotat = useSetRecoilState(lokaleNotaterState);
-    const aktivPeriode = useActivePeriod();
+    const aktivPeriode = useActivePeriodOld();
     const form = useForm();
 
     const erGhostTilkommenEllerHarIkkeAktivPeriode =

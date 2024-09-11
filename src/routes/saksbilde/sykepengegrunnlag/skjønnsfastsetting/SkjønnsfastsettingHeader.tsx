@@ -9,7 +9,7 @@ import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { BeregnetPeriodeFragment, Kildetype, Maybe, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 
 import styles from './SkjønnsfastsettingHeader.module.css';
@@ -35,7 +35,7 @@ export const SkjønnsfastsettingHeader = ({
     setEditing,
     maler,
 }: SkjønnsfastsettingHeaderProps) => {
-    const aktivPeriode = useActivePeriod();
+    const aktivPeriode = useActivePeriodOld();
     const harMaler = maler && maler.length > 0;
 
     if (!person || !aktivPeriode) return <></>;

@@ -1,6 +1,6 @@
 import { Inntektskilde, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { useCurrentArbeidsgiver, usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { getPeriodState } from '@utils/mapping';
 
@@ -11,7 +11,7 @@ export const useSkalViseAvviksvarselSomFeil = () => {
     const { data } = useFetchPersonQuery();
     const person = data?.person;
     const arbeidsgiver = useCurrentArbeidsgiver();
-    const aktivPeriode = useActivePeriod();
+    const aktivPeriode = useActivePeriodOld();
     const periodeTilGodkjenning = usePeriodeTilGodkjenning();
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeTilGodkjenning);
     const harBlittSkjønnsmessigFastsatt =

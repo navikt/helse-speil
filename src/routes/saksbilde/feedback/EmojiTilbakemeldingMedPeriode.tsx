@@ -2,11 +2,11 @@ import React, { ReactElement } from 'react';
 
 import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const EmojiTilbakemeldingMedPeriode = (): ReactElement => {
-    const aktivPeriode = useActivePeriod();
+    const aktivPeriode = useActivePeriodOld();
 
     return (
         <Widget>

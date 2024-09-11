@@ -22,7 +22,7 @@ import {
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     useGjenståendeDager,
 } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -37,7 +37,7 @@ import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 import styles from './Utbetaling.module.css';
 
 const useIsInCurrentGeneration = (): boolean => {
-    const period = useActivePeriod();
+    const period = useActivePeriodOld();
     const arbeidsgiver = useCurrentArbeidsgiver();
 
     if (!period || !arbeidsgiver) {
@@ -187,7 +187,7 @@ type UtbetalingContainerProps = {
 };
 
 const UtbetalingContainer = ({ person }: UtbetalingContainerProps): Maybe<ReactElement> => {
-    const period = useActivePeriod();
+    const period = useActivePeriodOld();
     const arbeidsgiver = useCurrentArbeidsgiver();
 
     if (!period || !isPerson(person) || !arbeidsgiver) {

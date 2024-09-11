@@ -18,7 +18,7 @@ import {
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { DateString } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -37,7 +37,7 @@ interface InntektContainerProps {
 }
 
 const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<ReactElement> => {
-    const period = useActivePeriod();
+    const period = useActivePeriodOld();
     const periodeForSkjæringstidspunktForArbeidsgiver = usePeriodForSkjæringstidspunktForArbeidsgiver(
         person,
         period?.skjaeringstidspunkt ?? null,

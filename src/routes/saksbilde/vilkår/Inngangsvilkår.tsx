@@ -5,7 +5,7 @@ import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Maybe, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
@@ -75,7 +75,7 @@ export const InngangsvilkårWithContent = ({
 };
 
 const InngangsvilkårContainer = (): Maybe<ReactElement> => {
-    const activePeriod = useActivePeriod();
+    const activePeriod = useActivePeriodOld();
     const { loading, data } = useFetchPersonQuery();
 
     const person = data?.person;

@@ -1,9 +1,9 @@
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const useActivePeriodHasLatestSkjæringstidspunkt = (): boolean => {
-    const period = useActivePeriod();
+    const period = useActivePeriodOld();
     const arbeidsgiver = useCurrentArbeidsgiver();
 
     if (!period || !arbeidsgiver || !isBeregnetPeriode(period)) {

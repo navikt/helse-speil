@@ -5,7 +5,7 @@ import { Alert } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
 import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import {
     isBeregnetPeriode,
     isGhostPeriode,
@@ -23,7 +23,7 @@ type SykepengegrunnlagProps = {
 };
 
 const SykepengegrunnlagContainer = ({ person }: SykepengegrunnlagProps): Maybe<ReactElement> => {
-    const activePeriod = useActivePeriod();
+    const activePeriod = useActivePeriodOld();
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
     const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriodeFragment).skjaeringstidspunkt);
     const arbeidsgiver = useCurrentArbeidsgiver();

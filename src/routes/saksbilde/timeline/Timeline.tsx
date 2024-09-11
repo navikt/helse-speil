@@ -8,7 +8,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { ArbeidsgiverFragment, Infotrygdutbetaling, Maybe } from '@io/graphql';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
 import { skalViseTilkommenInntekt } from '@utils/featureToggles';
@@ -161,7 +161,7 @@ const TimelineWithContent = ({
 };
 
 const TimelineContainer = (): Maybe<ReactElement> => {
-    const activePeriod = useActivePeriod();
+    const activePeriod = useActivePeriodOld();
     const { loading, data } = useFetchPersonQuery();
 
     if (loading) {

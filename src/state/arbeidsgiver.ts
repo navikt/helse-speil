@@ -19,7 +19,7 @@ import {
     Vurdering,
 } from '@io/graphql';
 import { inntektOgRefusjonState } from '@state/overstyring';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { isGodkjent } from '@state/selectors/utbetaling';
@@ -75,7 +75,7 @@ export const findArbeidsgiverWithPeriode = (
 };
 
 export const useCurrentArbeidsgiver = (): Maybe<ArbeidsgiverFragment> => {
-    const activePeriod = useActivePeriod();
+    const activePeriod = useActivePeriodOld();
     const { data } = useFetchPersonQuery();
     const currentPerson = data?.person;
 
@@ -135,7 +135,7 @@ export const usePeriodForSkjæringstidspunkt = (skjæringstidspunkt: DateString)
 };
 
 export const usePeriodIsInGeneration = (): Maybe<number> => {
-    const period = useActivePeriod();
+    const period = useActivePeriodOld();
     const arbeidsgiver = useCurrentArbeidsgiver();
 
     if (!period || !arbeidsgiver) {
@@ -228,7 +228,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
 };
 
 export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (): boolean => {
-    const aktivPeriode = useActivePeriod();
+    const aktivPeriode = useActivePeriodOld();
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration();
     const periodeTilGodkjenning = usePeriodeTilGodkjenning();
     const aktivPeriodeGhostGenerasjon = -1;
@@ -240,7 +240,7 @@ export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (): boolean =>
 };
 
 export const useErGhostLikEllerFørPeriodeTilGodkjenning = (): boolean => {
-    const aktivPeriode = useActivePeriod();
+    const aktivPeriode = useActivePeriodOld();
     const periodeTilGodkjenning = usePeriodeTilGodkjenning();
 
     if (!aktivPeriode) return false;
@@ -291,7 +291,7 @@ type UseEndringerForPeriodeResult = {
 export const useEndringerForPeriode = (
     endringer: Array<OverstyringFragment> | undefined,
 ): UseEndringerForPeriodeResult => {
-    const periode = useActivePeriod();
+    const periode = useActivePeriodOld();
 
     if (!endringer || !periode || isTilkommenInntekt(periode)) {
         return { inntektsendringer: [], arbeidsforholdendringer: [], dagendringer: [] };

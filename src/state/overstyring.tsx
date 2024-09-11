@@ -10,7 +10,7 @@ import {
 } from '@state/arbeidsgiver';
 import { kalkulererFerdigToastKey, kalkulererToastKey, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import {
     OverstyrtInntektOgRefusjonArbeidsgiver,
@@ -172,7 +172,7 @@ export const useOverstyrtInntektMetadata = (
     organisasjonsnummer: string,
 ): OverstyrtInntektMetadata => {
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(person, skjæringstidspunkt, organisasjonsnummer);
-    const activePeriod = useActivePeriod();
+    const activePeriod = useActivePeriodOld();
     const arbeidsgiver = useArbeidsgiver(person, organisasjonsnummer);
     const inntektsmeldinghendelser = useInntektsmeldinghendelser(arbeidsgiver);
     const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, activePeriod);

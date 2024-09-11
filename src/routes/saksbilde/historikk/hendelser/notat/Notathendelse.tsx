@@ -16,7 +16,7 @@ import { BodyShort, ErrorMessage } from '@navikt/ds-react';
 import { useMutation } from '@apollo/client';
 import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { NotathendelseObject } from '@typer/historikk';
 import { NotatType } from '@typer/notat';
 import { NORSK_DATOFORMAT } from '@utils/date';
@@ -48,7 +48,7 @@ export const Notathendelse = ({
     const [expanded, setExpanded] = useState(false);
 
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const activePeriod = useActivePeriod();
+    const activePeriod = useActivePeriodOld();
 
     const [feilregistrerNotat, { loading, error }] = useMutation(FeilregistrerNotatMutationDocument, {
         variables: { id: parseInt(id) },

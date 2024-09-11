@@ -8,7 +8,7 @@ import {
 } from '@io/graphql';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
@@ -21,7 +21,7 @@ export const useSkjønnsfastsettingDefaults = (
     aktiveArbeidsgivereInntekter?: Arbeidsgiverinntekt[];
     defaults: SkjønnsfastsettingFormFields;
 } => {
-    const period = useActivePeriod();
+    const period = useActivePeriodOld();
     const arbeidsgiver = useCurrentArbeidsgiver();
 
     if (!period || !person || !arbeidsgiver)

@@ -23,8 +23,20 @@ export const useSetActivePeriodId = () => {
     };
 };
 
-export const useActivePeriod = (): Maybe<ActivePeriod> => {
+/**
+ * @deprecated Use useActivePeriods instead
+ */
+export const useActivePeriodOld = (): Maybe<ActivePeriod> => {
     const person = useCurrentPerson();
+    const activePeriodId = useRecoilValue(activePeriodIdState);
+    const periodToSelect = person ? findPeriodToSelect(person) : null;
+
+    if (!person) return null;
+
+    return findPeriod(activePeriodId, person) ?? periodToSelect;
+};
+
+export const useActivePeriods = (person: PersonFragment): Maybe<ActivePeriod> => {
     const activePeriodId = useRecoilValue(activePeriodIdState);
     const periodToSelect = person ? findPeriodToSelect(person) : null;
 

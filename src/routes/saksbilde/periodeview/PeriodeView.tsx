@@ -11,12 +11,12 @@ import { PeriodeTilAnnulleringView } from '@saksbilde/saksbilder/PeriodeTilAnnul
 import { PeriodeViewError } from '@saksbilde/saksbilder/PeriodeViewError';
 import { PeriodeViewSkeleton } from '@saksbilde/saksbilder/PeriodeViewSkeleton';
 import { UberegnetPeriodeView } from '@saksbilde/saksbilder/UberegnetPeriodeView';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
 
 export function PeriodeView(): Maybe<ReactElement> {
-    const activePeriod = useActivePeriod();
+    const activePeriod = useActivePeriodOld();
     // TODO: legg til rette for error
     const { loading, data } = useFetchPersonQuery();
 

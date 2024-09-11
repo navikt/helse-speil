@@ -8,7 +8,7 @@ import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
 import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
 import { Kategori, Maybe, Oppgaveegenskap } from '@io/graphql';
 import { getDefaultFilters } from '@oversikt/table/state/filter';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
 import { Amplitude } from '@typer/amplitude';
 import { ActivePeriod } from '@typer/shared';
@@ -61,7 +61,7 @@ const getEventProperties = (
 };
 
 const useStoreÅpnetTidspunkt = () => {
-    const activePeriod = useActivePeriod();
+    const activePeriod = useActivePeriodOld();
     const oppgavereferanse = getOppgavereferanse(activePeriod);
 
     useEffect(() => {
@@ -81,7 +81,7 @@ const finnLabel = (egenskap: string, grupper: string[], ident: string): string =
     getDefaultFilters(grupper, ident).find((it) => it.key === egenskap)?.label ?? egenskap.toString();
 
 const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string>) => void) => {
-    const activePeriod = useActivePeriod();
+    const activePeriod = useActivePeriodOld();
     const oppgavereferanse = getOppgavereferanse(activePeriod);
     const grupper = useBrukerGrupper();
     const ident = useBrukerIdent();

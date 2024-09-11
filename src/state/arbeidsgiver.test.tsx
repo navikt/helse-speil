@@ -9,7 +9,7 @@ import {
     usePeriodForSkjæringstidspunkt,
     useUtbetalingForSkjæringstidspunkt,
 } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsforholdoverstyring, enDagoverstyring, enInntektoverstyring } from '@test-data/overstyring';
@@ -83,7 +83,7 @@ describe('useCurrentArbeidsgiver', () => {
 
         (useFetchPersonQuery as jest.Mock).mockReturnValueOnce({ data: { person: person } });
         (useCurrentPerson as jest.Mock).mockReturnValueOnce(person);
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
+        (useActivePeriodOld as jest.Mock).mockReturnValueOnce(periode);
 
         const { result } = renderHook(() => useCurrentArbeidsgiver());
 
@@ -134,7 +134,7 @@ describe('usePeriodForSkjæringstidspunkt', () => {
 
         (useFetchPersonQuery as jest.Mock).mockReturnValueOnce({ data: { person: person } });
         (useCurrentPerson as jest.Mock).mockReturnValueOnce(person);
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(a);
+        (useActivePeriodOld as jest.Mock).mockReturnValueOnce(a);
 
         const { result } = renderHook(() => usePeriodForSkjæringstidspunkt('2020-01-01'));
 
@@ -147,7 +147,7 @@ describe('usePeriodForSkjæringstidspunkt', () => {
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         (useCurrentPerson as jest.Mock).mockReturnValueOnce(person);
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
+        (useActivePeriodOld as jest.Mock).mockReturnValueOnce(periode);
 
         const { result } = renderHook(() => usePeriodForSkjæringstidspunkt('1970-01-01'));
 
@@ -169,7 +169,7 @@ describe('useUtbetalingForSkjæringstidspunkt', () => {
 
         (useFetchPersonQuery as jest.Mock).mockReturnValueOnce({ data: { person: person } });
         (useCurrentPerson as jest.Mock).mockReturnValueOnce(person);
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
+        (useActivePeriodOld as jest.Mock).mockReturnValueOnce(periode);
 
         const { result } = renderHook(() => useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt));
 
@@ -178,7 +178,7 @@ describe('useUtbetalingForSkjæringstidspunkt', () => {
 
     it('returnerer null hvis det ikke finnes en utbetaling for en periode med gitt skjæringstidspunkt', () => {
         (useCurrentPerson as jest.Mock).mockReturnValueOnce(enPerson());
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(enBeregnetPeriode());
+        (useActivePeriodOld as jest.Mock).mockReturnValueOnce(enBeregnetPeriode());
 
         const { result } = renderHook(() => useUtbetalingForSkjæringstidspunkt('2021-02-04'));
 
@@ -199,7 +199,7 @@ describe('useEndringerForPeriode', () => {
         const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer, overstyringer }).medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
+        (useActivePeriodOld as jest.Mock).mockReturnValueOnce(periode);
 
         const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
 
@@ -219,7 +219,7 @@ describe('useEndringerForPeriode', () => {
             .medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
+        (useActivePeriodOld as jest.Mock).mockReturnValueOnce(periode);
 
         const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
 
@@ -239,7 +239,7 @@ describe('useEndringerForPeriode', () => {
             .medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
+        (useActivePeriodOld as jest.Mock).mockReturnValueOnce(periode);
 
         const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
 
@@ -260,7 +260,7 @@ describe('useEndringerForPeriode', () => {
             .medGhostPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
+        (useActivePeriodOld as jest.Mock).mockReturnValueOnce(periode);
 
         const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
 

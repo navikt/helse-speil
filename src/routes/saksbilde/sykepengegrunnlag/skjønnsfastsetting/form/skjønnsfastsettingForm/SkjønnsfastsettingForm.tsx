@@ -18,7 +18,7 @@ import {
     Skjønnsfastsettingstype,
     usePostSkjønnsfastsattSykepengegrunnlag,
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { avrundetToDesimaler } from '@utils/tall';
 
 import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
@@ -54,7 +54,7 @@ export const SkjønnsfastsettingForm = ({
     setEditing,
     maler,
 }: SkjønnsfastsettingFormProps): Maybe<ReactElement> => {
-    const period = useActivePeriod();
+    const period = useActivePeriodOld();
     const { aktiveArbeidsgivere, aktiveArbeidsgivereInntekter, defaults } = useSkjønnsfastsettingDefaults(
         person,
         inntekter,

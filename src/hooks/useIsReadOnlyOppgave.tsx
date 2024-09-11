@@ -1,11 +1,11 @@
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { useHarBeslutteroppgavetilgang } from '@hooks/useHarBeslutteroppgavetilgang';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { useReadonly } from '@state/toggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const useIsReadOnlyOppgave = (): boolean => {
-    const periode = useActivePeriod();
+    const periode = useActivePeriodOld();
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
     const harBeslutteroppgavetilgang = useHarBeslutteroppgavetilgang();
 

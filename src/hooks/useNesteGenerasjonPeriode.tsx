@@ -1,11 +1,11 @@
 import { useCurrentArbeidsgiver, usePeriodIsInGeneration } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const useNesteGenerasjonPeriode = () => {
     const currentArbeidsgiver = useCurrentArbeidsgiver();
     const currentGeneration = usePeriodIsInGeneration();
-    const aktivPeriod = useActivePeriod();
+    const aktivPeriod = useActivePeriodOld();
 
     if (
         !currentArbeidsgiver ||

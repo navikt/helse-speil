@@ -1,4 +1,3 @@
-import styles from './Vurderingsmomenter.module.scss';
 import React, { ReactElement, ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -9,8 +8,10 @@ import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
 import { Faresignal, Maybe, Risikovurdering } from '@io/graphql';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriodOld } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
+
+import styles from './Vurderingsmomenter.module.scss';
 
 const harFunn = (funn?: Maybe<Faresignal[]>): funn is Faresignal[] => {
     return typeof funn === 'object';
@@ -73,7 +74,7 @@ export const VurderingsmomenterWithContent = ({
 );
 
 const VurderingsmomenterContainer = (): Maybe<ReactElement> => {
-    const activePeriod = useActivePeriod();
+    const activePeriod = useActivePeriodOld();
 
     if (isBeregnetPeriode(activePeriod) && activePeriod.risikovurdering) {
         return <VurderingsmomenterWithContent risikovurdering={activePeriod.risikovurdering} />;
