@@ -55,9 +55,9 @@ export const useOpprettTildeling = (): [
     const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument, {
         refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
         onError: (error) => {
-            const errorCode = (error.graphQLErrors[0].extensions['code'] as { value: number }).value;
+            const errorCode = (error.graphQLErrors?.[0].extensions?.['code'] as { value: number }).value;
             if (errorCode === 409) {
-                const tildeling = error.graphQLErrors[0].extensions['tildeling'] as Tildeling;
+                const tildeling = error.graphQLErrors?.[0].extensions?.['tildeling'] as Tildeling;
                 leggTilTildelingsvarsel(`${tildeling.navn} har allerede tatt saken.`);
             } else {
                 leggTilTildelingsvarsel('Kunne ikke tildele sak.');

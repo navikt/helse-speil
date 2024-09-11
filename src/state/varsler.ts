@@ -1,8 +1,7 @@
-import { GraphQLError } from 'graphql/error';
+import { GraphQLFormattedError } from 'graphql/error';
 import { useSearchParams } from 'next/navigation';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { GraphQLErrors } from '@apollo/client/errors';
 import { FetchError, FlereFodselsnumreError, NotFoundError, NotReadyError, ProtectedError } from '@io/graphql/errors';
 import { useFetchPersonQuery } from '@state/person';
 import { SpeilError } from '@utils/error';
@@ -17,7 +16,7 @@ export const useVarsler = (): Array<SpeilError> => {
     const { error, variables } = useFetchPersonQuery();
 
     const errors: SpeilError[] =
-        error?.graphQLErrors.map((error: GraphQLError) => {
+        error?.graphQLErrors.map((error: GraphQLFormattedError) => {
             switch (error.extensions?.code) {
                 case 403: {
                     return new ProtectedError();
@@ -43,11 +42,14 @@ export const useVarsler = (): Array<SpeilError> => {
     return useRecoilValue(varslerState).concat(params.get('aktorId') !== undefined ? errors : []);
 };
 
-export const useRapporterGraphQLErrors = (): ((graphQLErrors: GraphQLErrors, søkeparameter: string) => void) => {
+export const useRapporterGraphQLErrors = (): ((
+    graphQLErrors: ReadonlyArray<GraphQLFormattedError>,
+    søkeparameter: string,
+) => void) => {
     const addVarsel = useAddVarsel();
 
     return (errors, søkeparameter) =>
-        errors.map((error: GraphQLError) => {
+        errors.map((error: GraphQLFormattedError) => {
             switch (error.extensions?.code) {
                 case 403: {
                     addVarsel(new ProtectedError());

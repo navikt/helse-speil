@@ -131,7 +131,7 @@ export const Notat = (): Maybe<ReactElement> => {
             )}
             {error && (
                 <ErrorMessage>
-                    {(error.graphQLErrors[0].extensions['code'] as { value: number }).value === 401
+                    {(error.graphQLErrors?.[0].extensions?.['code'] as { value: number }).value === 401
                         ? 'Du har blitt logget ut'
                         : 'Notatet kunne ikke lagres'}
                 </ErrorMessage>

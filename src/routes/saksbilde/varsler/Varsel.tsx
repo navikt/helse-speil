@@ -86,7 +86,7 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
                 )}
                 {error && (
                     <BodyShort className={styles.error} as="p">
-                        {getErrorMessage(error.graphQLErrors[0].extensions.code as number)}
+                        {getErrorMessage(error.graphQLErrors?.[0].extensions?.code as number)}
                     </BodyShort>
                 )}
             </div>
