@@ -12,15 +12,15 @@ import {
     Inntektoverstyring,
     Maybe,
     NyttInntektsforholdPeriodeFragment,
+    OverstyringFragment,
     PersonFragment,
-    TilleggsinfoForInntektskildeFragment,
     UberegnetPeriodeFragment,
     Utbetaling,
     Vurdering,
 } from '@io/graphql';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
+import { useFetchPersonQuery } from '@state/person';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { isGodkjent } from '@state/selectors/utbetaling';
 import { Refusjonsopplysning } from '@typer/overstyring';
@@ -76,7 +76,8 @@ export const findArbeidsgiverWithPeriode = (
 
 export const useCurrentArbeidsgiver = (): Maybe<ArbeidsgiverFragment> => {
     const activePeriod = useActivePeriod();
-    const currentPerson = useCurrentPerson();
+    const { data } = useFetchPersonQuery();
+    const currentPerson = data?.person;
 
     if (!currentPerson || !activePeriod) {
         return null;
@@ -91,14 +92,14 @@ export const useCurrentArbeidsgiver = (): Maybe<ArbeidsgiverFragment> => {
     return null;
 };
 
-export const useArbeidsgiver = (organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
-    useCurrentPerson()?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
+export const useArbeidsgiver = (person: PersonFragment, organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
+    person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
 
-export const useTilleggsinfo = (): Maybe<TilleggsinfoForInntektskildeFragment[]> =>
-    useFetchPersonQuery()?.data?.person?.tilleggsinfoForInntektskilder ?? [];
-
-export const useMaybeArbeidsgiver = (organisasjonsnummer?: Maybe<string>): Maybe<ArbeidsgiverFragment> =>
-    useCurrentPerson()?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
+export const useMaybeArbeidsgiver = (organisasjonsnummer?: Maybe<string>): Maybe<ArbeidsgiverFragment> => {
+    const { data } = useFetchPersonQuery();
+    const person = data?.person;
+    return person?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
+};
 
 export const useInntektsmeldinghendelser = (arbeidsgiver: Maybe<ArbeidsgiverFragment>): Hendelse[] => {
     if (!arbeidsgiver) return [];
@@ -154,7 +155,8 @@ export const usePeriodeErIGenerasjon = (arbeidsgiver: Maybe<ArbeidsgiverFragment
     ) ?? null;
 
 export const usePeriodeTilGodkjenning = (): Maybe<BeregnetPeriodeFragment> => {
-    const person = useCurrentPerson();
+    const { data } = useFetchPersonQuery();
+    const person = data?.person;
 
     if (!person) return null;
 
@@ -168,10 +170,11 @@ export const usePeriodeTilGodkjenning = (): Maybe<BeregnetPeriodeFragment> => {
 };
 
 export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
+    person: PersonFragment,
     skjæringstidspunkt: Maybe<DateString>,
     organisasjonsnummer: string,
 ): Maybe<ActivePeriod> => {
-    const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
+    const arbeidsgiver = useArbeidsgiver(person, organisasjonsnummer);
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration();
     const periodeTilGodkjenning = usePeriodeTilGodkjenning();
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
@@ -285,8 +288,9 @@ type UseEndringerForPeriodeResult = {
     dagendringer: Dagoverstyring[];
 };
 
-export const useEndringerForPeriode = (organisasjonsnummer: string): UseEndringerForPeriodeResult => {
-    const endringer = useArbeidsgiver(organisasjonsnummer)?.overstyringer;
+export const useEndringerForPeriode = (
+    endringer: Array<OverstyringFragment> | undefined,
+): UseEndringerForPeriodeResult => {
     const periode = useActivePeriod();
 
     if (!endringer || !periode || isTilkommenInntekt(periode)) {
@@ -378,7 +382,8 @@ export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringsti
 };
 
 export const useGjenståendeDager = (periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment): Maybe<number> => {
-    const person = useCurrentPerson();
+    const { data } = useFetchPersonQuery();
+    const person = data?.person;
     const arbeidsgiver = findArbeidsgiverWithPeriode(periode, person?.arbeidsgivere ?? []);
     const periodeErIGenerasjon = usePeriodeErIGenerasjon(arbeidsgiver, periode.id);
 
@@ -415,7 +420,6 @@ const navdager = (arbeidsgivere: Array<ArbeidsgiverFragment>, periodeErIGenerasj
         ),
     ].filter((dag) => dag.utbetalingsdagtype === 'NAVDAG');
 
-    const unikeNavdagerPåsykefraværstilfellet = [...new Set(alleNavdager.map((item) => item.dato))];
-
-    return unikeNavdagerPåsykefraværstilfellet;
+    // Unike navdager på sykefraværstilfellet
+    return [...new Set(alleNavdager.map((item) => item.dato))];
 };

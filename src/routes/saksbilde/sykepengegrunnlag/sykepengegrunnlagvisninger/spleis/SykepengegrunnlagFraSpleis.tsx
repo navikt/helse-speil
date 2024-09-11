@@ -22,10 +22,8 @@ export const SykepengegrunnlagFraSpleis = ({
     ...rest
 }: SykepengegrunnlagFraSpleisProps): ReactElement => {
     const inntekt = getRequiredInntekt(vilkårsgrunnlag, organisasjonsnummer);
-
     const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(inntekt);
-
-    const aktivArbeidsgiver = useArbeidsgiver(aktivInntektskilde.arbeidsgiver);
+    const aktivArbeidsgiver = useArbeidsgiver(person, aktivInntektskilde.arbeidsgiver);
 
     useEffect(() => {
         setAktivInntektskilde(inntekt);
@@ -55,7 +53,7 @@ export const SykepengegrunnlagFraSpleis = ({
             {aktivInntektskilde.omregnetArsinntekt !== null ? (
                 <Inntekt person={person} inntekt={aktivInntektskilde} />
             ) : (
-                <InntektUtenOmregnetÅrsinntekt inntekt={aktivInntektskilde} />
+                <InntektUtenOmregnetÅrsinntekt inntekt={aktivInntektskilde} arbeidsgiver={aktivArbeidsgiver} />
             )}
         </div>
     );

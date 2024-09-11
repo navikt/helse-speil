@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { BodyShort, Table } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { Arbeidsgiverinntekt, Maybe } from '@io/graphql';
+import { Arbeidsgiverinntekt, Maybe, PersonFragment } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
 import { Inntektssammenligning } from './Inntektssammenligning';
@@ -12,6 +12,7 @@ import { TableCell } from './TableCell';
 import styles from './SykepengegrunnlagPanel.module.css';
 
 interface InntektsgrunnlagTableProps {
+    person: PersonFragment;
     inntekter: Arbeidsgiverinntekt[];
     aktivInntektskilde?: Arbeidsgiverinntekt;
     setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
@@ -21,6 +22,7 @@ interface InntektsgrunnlagTableProps {
 }
 
 export const InntektsgrunnlagTable = ({
+    person,
     inntekter,
     aktivInntektskilde,
     setAktivInntektskilde,
@@ -47,6 +49,7 @@ export const InntektsgrunnlagTable = ({
             {inntekter.map((inntekt, index) => (
                 <Inntektssammenligning
                     key={index}
+                    person={person}
                     organisasjonsnummer={inntekt.arbeidsgiver}
                     omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
                     skjønnsmessigFastsatt={inntekt.skjonnsmessigFastsatt}

@@ -193,6 +193,7 @@ export const OverstyrbarUtbetaling = ({
                     fom={fom}
                     tom={tom}
                     dager={alleDager}
+                    personFødselsdato={person.personinfo.fodselsdato}
                     lokaleOverstyringer={alleOverstyrteDager}
                     markerteDager={markerteDager}
                     overstyrer={overstyrer}

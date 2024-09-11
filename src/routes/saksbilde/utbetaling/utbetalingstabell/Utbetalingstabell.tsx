@@ -5,6 +5,7 @@ import { Table } from '@navikt/ds-react';
 
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
+import { Maybe } from '@io/graphql';
 import { Row } from '@saksbilde/table/Row';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -28,6 +29,7 @@ interface UtbetalingstabellProps {
     fom: DateString;
     tom: DateString;
     dager: Map<string, Utbetalingstabelldag>;
+    personFødselsdato: Maybe<string>;
     lokaleOverstyringer?: Map<string, Utbetalingstabelldag>;
     markerteDager?: Map<string, Utbetalingstabelldag>;
     overstyrer?: boolean;
@@ -38,6 +40,7 @@ export const Utbetalingstabell = ({
     fom,
     tom,
     dager,
+    personFødselsdato,
     lokaleOverstyringer,
     markerteDager,
     overstyrer = false,
@@ -48,7 +51,7 @@ export const Utbetalingstabell = ({
 
     const dagerList: Array<Utbetalingstabelldag> = useMemo(() => Array.from(dager.values()), [dager]);
 
-    const alderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt();
+    const alderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt(personFødselsdato);
 
     return (
         <section className={classNames(styles.container, overstyrer && styles.overstyrer)}>

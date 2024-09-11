@@ -39,10 +39,11 @@ interface InntektContainerProps {
 const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<ReactElement> => {
     const period = useActivePeriod();
     const periodeForSkjæringstidspunktForArbeidsgiver = usePeriodForSkjæringstidspunktForArbeidsgiver(
+        person,
         period?.skjaeringstidspunkt ?? null,
         inntekt.arbeidsgiver,
     );
-    const arbeidsgiver = useArbeidsgiver(inntekt.arbeidsgiver);
+    const arbeidsgiver = useArbeidsgiver(person, inntekt.arbeidsgiver);
     const inntektsmeldinghendelser = useInntektsmeldinghendelser(arbeidsgiver);
 
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeForSkjæringstidspunktForArbeidsgiver);

@@ -2,6 +2,7 @@ import React from 'react';
 import { RecoilRoot } from 'recoil';
 
 import { Maybe, VarselDto } from '@io/graphql';
+import { useFetchPersonQuery } from '@state/person';
 import { ApolloWrapper } from '@test-wrappers';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
@@ -12,6 +13,8 @@ import { Saksbildevarsler } from './Saksbildevarsler';
 jest.mock('@state/person');
 
 describe('Saksbildevarsler', () => {
+    (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: null });
+
     const SaksbildevarslerWrapper = ({
         periodState,
         varsler,

@@ -7,7 +7,6 @@ import {
     useArbeidsgiver,
     useEndringerForPeriode,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
-    useTilleggsinfo,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useReadonly } from '@state/toggles';
@@ -41,7 +40,6 @@ describe('SykepengegrunnlagFraSpleis', () => {
         // TODO: Få med inntekt fra IM/spleis for å få riktig data for test av periode med sykefravær
         const arbeidsgiver = enArbeidsgiver();
         const { organisasjonsnummer } = arbeidsgiver;
-        const tilleggsinfo = tilleggsinfoFraEnInntektskilde({ orgnummer: organisasjonsnummer });
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
         const skjaeringstidspunkt = '2020-01-01';
         const inntektFraIM = enArbeidsgiverinntekt({ arbeidsgiver: organisasjonsnummer }).medInntektFraAOrdningen();
@@ -51,7 +49,6 @@ describe('SykepengegrunnlagFraSpleis', () => {
         (useActivePeriod as jest.Mock).mockReturnValue(enBeregnetPeriode());
         (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enBeregnetPeriode());
         (useArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useTilleggsinfo as jest.Mock).mockReturnValue([tilleggsinfo]);
         (useEndringerForPeriode as jest.Mock).mockReturnValue({
             inntektsendringer: [],
             arbeidsforholdendringer: [],
@@ -79,8 +76,15 @@ describe('SykepengegrunnlagFraSpleis', () => {
 
     it('render navn på arbeidsgiver uten inntektsgrunnlag under sykepengegrunnlag-fanen', () => {
         const arbeidsgiver = enArbeidsgiver();
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
         const { organisasjonsnummer } = arbeidsgiver;
+        const annenInntekskildeNavn = 'Pengeløs Sparebank';
+        const tilleggsinfoForInntektskilder = [
+            tilleggsinfoFraEnInntektskilde({ orgnummer: organisasjonsnummer }),
+            tilleggsinfoFraEnInntektskilde({ navn: annenInntekskildeNavn, orgnummer: '999999999' }),
+        ];
+        const person = enPerson()
+            .medArbeidsgivere([arbeidsgiver])
+            .medTilleggsinfoForInntektskilder(tilleggsinfoForInntektskilder);
         const skjaeringstidspunkt = '2020-01-01';
         const inntekter = [
             enArbeidsgiverinntekt({ arbeidsgiver: organisasjonsnummer }).medInntektFraAOrdningen(),
@@ -92,11 +96,6 @@ describe('SykepengegrunnlagFraSpleis', () => {
         ];
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
 
-        const annenInntekskildeNavn = 'Pengeløs Sparebank';
-        (useTilleggsinfo as jest.Mock).mockReturnValue([
-            tilleggsinfoFraEnInntektskilde({ orgnummer: organisasjonsnummer }),
-            tilleggsinfoFraEnInntektskilde({ navn: annenInntekskildeNavn, orgnummer: '999999999' }),
-        ]);
         (useEndringerForPeriode as jest.Mock).mockReturnValue({
             inntektsendringer: [],
             arbeidsforholdendringer: [],
@@ -115,8 +114,14 @@ describe('SykepengegrunnlagFraSpleis', () => {
 
     it('rendrer beregnet månedsinntekt for ghostperioder', () => {
         const arbeidsgiver = enArbeidsgiver();
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
         const { organisasjonsnummer } = arbeidsgiver;
+        const tilleggsinfoForInntektskilder = [
+            tilleggsinfoFraEnInntektskilde({ orgnummer: organisasjonsnummer }),
+            tilleggsinfoFraEnInntektskilde({ orgnummer: '900800700' }),
+        ];
+        const person = enPerson()
+            .medArbeidsgivere([arbeidsgiver])
+            .medTilleggsinfoForInntektskilder(tilleggsinfoForInntektskilder);
         const skjaeringstidspunkt = '2020-01-01';
         const inntektFraAO = enArbeidsgiverinntekt({ arbeidsgiver: '900800700' });
         const inntektFraIM = enArbeidsgiverinntekt({ arbeidsgiver: organisasjonsnummer }).medInntektFraAOrdningen();
@@ -126,10 +131,6 @@ describe('SykepengegrunnlagFraSpleis', () => {
         (useActivePeriod as jest.Mock).mockReturnValue(enGhostPeriode());
         (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enGhostPeriode());
         (useArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useTilleggsinfo as jest.Mock).mockReturnValue([
-            tilleggsinfoFraEnInntektskilde({ orgnummer: organisasjonsnummer }),
-            tilleggsinfoFraEnInntektskilde({ orgnummer: '900800700' }),
-        ]);
         (useEndringerForPeriode as jest.Mock).mockReturnValue({
             inntektsendringer: [],
             arbeidsforholdendringer: [],

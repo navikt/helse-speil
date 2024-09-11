@@ -20,6 +20,7 @@ import {
 import { RedigerInntektOgRefusjon } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/redigerInntektOgRefusjon/RedigerInntektOgRefusjon';
 import { InntektOgRefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
 import {
+    useArbeidsgiver,
     useEndringerForPeriode,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     useLokaleRefusjonsopplysninger,
@@ -88,7 +89,8 @@ export const InntektOgRefusjon = ({
 
     const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer);
     const ghostInntektKanOverstyres = useGhostInntektKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer);
-    const { inntektsendringer } = useEndringerForPeriode(organisasjonsnummer);
+    const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
+    const { inntektsendringer } = useEndringerForPeriode(endringer);
     const kanRevurderes = useInntektKanRevurderes(person, skjæringstidspunkt);
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
@@ -128,6 +130,7 @@ export const InntektOgRefusjon = ({
                 {harSykefravær && vilkårsgrunnlagId && inntektstype ? (
                     kanRevurderes ? (
                         <RedigerInntektOgRefusjon
+                            person={person}
                             setEditing={setEditingInntekt}
                             editing={editingInntekt}
                             erRevurdering={erRevurdering}

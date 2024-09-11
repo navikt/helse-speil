@@ -5,8 +5,15 @@ import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { Inntektskilde, Maybe, OmregnetArsinntekt, OverstyringFragment, Sammenligningsgrunnlag } from '@io/graphql';
-import { useEndringerForPeriode, useTilleggsinfo } from '@state/arbeidsgiver';
+import {
+    Inntektskilde,
+    Maybe,
+    OmregnetArsinntekt,
+    OverstyringFragment,
+    PersonFragment,
+    Sammenligningsgrunnlag,
+} from '@io/graphql';
+import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
@@ -17,6 +24,7 @@ import { TableCell } from './TableCell';
 import styles from './Inntektssammenligning.module.css';
 
 interface InntektssammenligningProps {
+    person: PersonFragment;
     organisasjonsnummer: string;
     omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
     skjønnsmessigFastsatt?: Maybe<OmregnetArsinntekt>;
@@ -27,6 +35,7 @@ interface InntektssammenligningProps {
 }
 
 export const Inntektssammenligning = ({
+    person,
     organisasjonsnummer,
     omregnetÅrsinntekt,
     skjønnsmessigFastsatt,
@@ -35,8 +44,11 @@ export const Inntektssammenligning = ({
     erGjeldende,
     onSetAktivInntektskilde,
 }: InntektssammenligningProps) => {
-    const arbeidsgivernavn = useTilleggsinfo()?.find((it) => it.orgnummer === organisasjonsnummer)?.navn;
-    const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
+    const arbeidsgivernavn = person.tilleggsinfoForInntektskilder.find(
+        (it) => it.orgnummer === organisasjonsnummer,
+    )?.navn;
+    const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
+    const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(endringer);
 
     return (
         <tr

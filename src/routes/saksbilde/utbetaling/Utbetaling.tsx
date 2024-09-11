@@ -51,9 +51,10 @@ interface ReadonlyUtbetalingProps {
     fom: DateString;
     tom: DateString;
     dager: Map<string, Utbetalingstabelldag>;
+    person: PersonFragment;
 }
 
-const ReadonlyUtbetaling = ({ fom, tom, dager }: ReadonlyUtbetalingProps): ReactElement => {
+const ReadonlyUtbetaling = ({ fom, tom, dager, person }: ReadonlyUtbetalingProps): ReactElement => {
     const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const periodeErISisteGenerasjon = useIsInCurrentGeneration();
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
@@ -75,7 +76,12 @@ const ReadonlyUtbetaling = ({ fom, tom, dager }: ReadonlyUtbetalingProps): React
                     </div>
                 )}
             <div className={styles.Container} data-testid="utbetaling">
-                <Utbetalingstabell fom={fom} tom={tom} dager={dager} />
+                <Utbetalingstabell
+                    fom={fom}
+                    tom={tom}
+                    dager={dager}
+                    personFødselsdato={person.personinfo.fodselsdato}
+                />
             </div>
         </div>
     );
@@ -119,7 +125,7 @@ const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingB
             periode={period}
         />
     ) : (
-        <ReadonlyUtbetaling fom={period.fom} tom={period.tom} dager={dager} />
+        <ReadonlyUtbetaling fom={period.fom} tom={period.tom} dager={dager} person={person} />
     );
 };
 
@@ -172,7 +178,7 @@ const UtbetalingUberegnetPeriode = ({
             periode={periode}
         />
     ) : (
-        <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
+        <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} person={person} />
     );
 };
 

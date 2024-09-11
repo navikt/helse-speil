@@ -7,8 +7,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Clipboard } from '@components/clipboard';
-import { Arbeidsgiverinntekt, Inntektskilde } from '@io/graphql';
-import { useArbeidsgiver } from '@state/arbeidsgiver';
+import { ArbeidsgiverFragment, Arbeidsgiverinntekt, Inntektskilde, Maybe } from '@io/graphql';
 
 import { Arbeidsgivernavn } from '../../Arbeidsgivernavn';
 
@@ -23,44 +22,41 @@ const InntektError = (): ReactElement => {
 };
 
 interface InntektProps {
+    arbeidsgiver: Maybe<ArbeidsgiverFragment>;
     inntekt: Arbeidsgiverinntekt;
 }
 
-export const InntektUtenOmregnetÅrsinntekt = ({ inntekt }: InntektProps): ReactElement => {
-    const arbeidsgiver = useArbeidsgiver(inntekt.arbeidsgiver);
-
-    return (
-        <ErrorBoundary fallback={<InntektError />}>
-            <div className={classNames(styles.Inntektskilderinnhold, inntekt.deaktivert && styles.deaktivert)}>
-                <div className={styles.Inntekt}>
-                    <div className={styles.Header}>
-                        <div className={styles.ArbeidsgiverHeader}>
-                            <Arbeidsgivernavn
-                                className={styles.Arbeidsgivernavn}
-                                arbeidsgivernavn={arbeidsgiver?.navn ?? 'Ukjent'}
-                            />
-                            <div className={styles.Organisasjonsnummer}>
-                                (
-                                <Clipboard
-                                    copyMessage="Organisasjonsnummer er kopiert"
-                                    tooltip={{ content: 'Kopier organisasjonsnummer' }}
-                                >
-                                    <AnonymizableContainer>
-                                        {arbeidsgiver?.organisasjonsnummer ?? inntekt.arbeidsgiver}
-                                    </AnonymizableContainer>
-                                </Clipboard>
-                                )
-                            </div>
-                            <Kilde type={Inntektskilde.Aordningen}>AO</Kilde>
+export const InntektUtenOmregnetÅrsinntekt = ({ arbeidsgiver, inntekt }: InntektProps): ReactElement => (
+    <ErrorBoundary fallback={<InntektError />}>
+        <div className={classNames(styles.Inntektskilderinnhold, inntekt.deaktivert && styles.deaktivert)}>
+            <div className={styles.Inntekt}>
+                <div className={styles.Header}>
+                    <div className={styles.ArbeidsgiverHeader}>
+                        <Arbeidsgivernavn
+                            className={styles.Arbeidsgivernavn}
+                            arbeidsgivernavn={arbeidsgiver?.navn ?? 'Ukjent'}
+                        />
+                        <div className={styles.Organisasjonsnummer}>
+                            (
+                            <Clipboard
+                                copyMessage="Organisasjonsnummer er kopiert"
+                                tooltip={{ content: 'Kopier organisasjonsnummer' }}
+                            >
+                                <AnonymizableContainer>
+                                    {arbeidsgiver?.organisasjonsnummer ?? inntekt.arbeidsgiver}
+                                </AnonymizableContainer>
+                            </Clipboard>
+                            )
                         </div>
+                        <Kilde type={Inntektskilde.Aordningen}>AO</Kilde>
                     </div>
-                    {!arbeidsgiver && (
-                        <div className={styles.aligncenter}>
-                            <BodyShort>Vi har ikke data for denne inntektskilden</BodyShort>
-                        </div>
-                    )}
                 </div>
+                {!arbeidsgiver && (
+                    <div className={styles.aligncenter}>
+                        <BodyShort>Vi har ikke data for denne inntektskilden</BodyShort>
+                    </div>
+                )}
             </div>
-        </ErrorBoundary>
-    );
-};
+        </div>
+    </ErrorBoundary>
+);

@@ -171,9 +171,9 @@ export const useOverstyrtInntektMetadata = (
     skjæringstidspunkt: DateString,
     organisasjonsnummer: string,
 ): OverstyrtInntektMetadata => {
-    const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
+    const period = usePeriodForSkjæringstidspunktForArbeidsgiver(person, skjæringstidspunkt, organisasjonsnummer);
     const activePeriod = useActivePeriod();
-    const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
+    const arbeidsgiver = useArbeidsgiver(person, organisasjonsnummer);
     const inntektsmeldinghendelser = useInntektsmeldinghendelser(arbeidsgiver);
     const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, activePeriod);
     const uberegnetAGfinnesIVilkårsgrunnlaget = vilkårsgrunnlagAktivPeriode?.arbeidsgiverrefusjoner.find(

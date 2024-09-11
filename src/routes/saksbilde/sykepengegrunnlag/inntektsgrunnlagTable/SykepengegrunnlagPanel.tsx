@@ -58,6 +58,7 @@ export const SykepengegrunnlagPanel = ({
     return (
         <div className={styles.wrapper}>
             <InntektsgrunnlagTable
+                person={person}
                 inntekter={getSorterteInntekter(inntekter, person.arbeidsgivere)}
                 setAktivInntektskilde={setAktivInntektskilde}
                 aktivInntektskilde={aktivInntektskilde}

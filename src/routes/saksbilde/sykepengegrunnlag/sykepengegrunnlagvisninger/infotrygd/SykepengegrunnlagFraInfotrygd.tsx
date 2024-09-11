@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
 import { PersonFragment, VilkarsgrunnlagInfotrygd } from '@io/graphql';
 import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
+import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { getRequiredInntekt } from '@state/utils';
 
 import { SykepengegrunnlagInfotrygd } from './SykepengegrunnlagInfotrygd';
@@ -21,6 +22,7 @@ export const SykepengegrunnlagFraInfogtrygd = ({
     organisasjonsnummer,
 }: SykepengegrunnlagFraInfogtrygdProps): ReactElement => {
     const inntekt = getRequiredInntekt(vilkårsgrunnlag, organisasjonsnummer);
+    const arbeidsgivernavn = useArbeidsgiver(person, inntekt.arbeidsgiver)?.navn;
 
     return (
         <Infotrygdvurdering title="Sykepengegrunnlag satt i Infotrygd">
@@ -28,6 +30,7 @@ export const SykepengegrunnlagFraInfogtrygd = ({
                 <SykepengegrunnlagInfotrygd
                     vilkårsgrunnlag={vilkårsgrunnlag}
                     organisasjonsnummer={organisasjonsnummer}
+                    arbeidsgivernavn={arbeidsgivernavn}
                 />
                 <span className={styles.strek} />
                 <Inntekt person={person} inntekt={inntekt} />

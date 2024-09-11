@@ -7,7 +7,6 @@ import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygd } from '@io/graphql';
-import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
@@ -16,11 +15,13 @@ import styles from './SykepengegrunnlagFraInfotrygd.module.css';
 interface SykepengegrunnlagInfotrygdProps {
     vilkårsgrunnlag: VilkarsgrunnlagInfotrygd;
     organisasjonsnummer: string;
+    arbeidsgivernavn?: string;
 }
 
 export const SykepengegrunnlagInfotrygd = ({
     vilkårsgrunnlag,
     organisasjonsnummer,
+    arbeidsgivernavn,
 }: SykepengegrunnlagInfotrygdProps): ReactElement => {
     return (
         <div className={styles.sykepengegrunnlag}>
@@ -47,7 +48,12 @@ export const SykepengegrunnlagInfotrygd = ({
                 </Table.Header>
                 <Table.Body>
                     {vilkårsgrunnlag.inntekter.map((inntekt, index) => (
-                        <InfotrygdInntekt key={index} aktivtOrgnummer={organisasjonsnummer} inntekt={inntekt} />
+                        <InfotrygdInntekt
+                            key={index}
+                            arbeidsgivernavn={arbeidsgivernavn}
+                            aktivtOrgnummer={organisasjonsnummer}
+                            inntekt={inntekt}
+                        />
                     ))}
                 </Table.Body>
                 <tfoot>
@@ -75,37 +81,32 @@ export const SykepengegrunnlagInfotrygd = ({
 
 interface InfotrygdInntektProps {
     aktivtOrgnummer: string;
+    arbeidsgivernavn?: string;
     inntekt: Arbeidsgiverinntekt;
 }
 
-const InfotrygdInntekt = ({ aktivtOrgnummer, inntekt }: InfotrygdInntektProps): ReactElement => {
-    const arbeidsgivernavn = useArbeidsgiver(inntekt.arbeidsgiver)?.navn;
-    return (
-        <Table.Row
-            className={classNames(
-                styles.arbeidsgiverrad,
-                aktivtOrgnummer === inntekt.arbeidsgiver && styles.ergjeldende,
-            )}
-        >
-            <Table.DataCell>
-                <AnonymizableText>
-                    {arbeidsgivernavn?.toLowerCase() === 'ikke tilgjengelig'
-                        ? inntekt.arbeidsgiver
-                        : `${arbeidsgivernavn} (${inntekt.arbeidsgiver})`}
-                </AnonymizableText>
-            </Table.DataCell>
-            <Table.DataCell>
-                <div className={styles.inntekt}>
-                    <BodyShort>
-                        {inntekt.omregnetArsinntekt ? somPenger(inntekt.omregnetArsinntekt.belop) : 'Ukjent'}
-                    </BodyShort>
-                    {inntekt.omregnetArsinntekt && (
-                        <Kilde type={inntekt.omregnetArsinntekt.kilde}>
-                            {kildeForkortelse(inntekt.omregnetArsinntekt.kilde)}
-                        </Kilde>
-                    )}
-                </div>
-            </Table.DataCell>
-        </Table.Row>
-    );
-};
+const InfotrygdInntekt = ({ aktivtOrgnummer, arbeidsgivernavn, inntekt }: InfotrygdInntektProps): ReactElement => (
+    <Table.Row
+        className={classNames(styles.arbeidsgiverrad, aktivtOrgnummer === inntekt.arbeidsgiver && styles.ergjeldende)}
+    >
+        <Table.DataCell>
+            <AnonymizableText>
+                {arbeidsgivernavn?.toLowerCase() === 'ikke tilgjengelig'
+                    ? inntekt.arbeidsgiver
+                    : `${arbeidsgivernavn} (${inntekt.arbeidsgiver})`}
+            </AnonymizableText>
+        </Table.DataCell>
+        <Table.DataCell>
+            <div className={styles.inntekt}>
+                <BodyShort>
+                    {inntekt.omregnetArsinntekt ? somPenger(inntekt.omregnetArsinntekt.belop) : 'Ukjent'}
+                </BodyShort>
+                {inntekt.omregnetArsinntekt && (
+                    <Kilde type={inntekt.omregnetArsinntekt.kilde}>
+                        {kildeForkortelse(inntekt.omregnetArsinntekt.kilde)}
+                    </Kilde>
+                )}
+            </div>
+        </Table.DataCell>
+    </Table.Row>
+);
