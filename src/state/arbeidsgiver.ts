@@ -19,7 +19,7 @@ import {
     Vurdering,
 } from '@io/graphql';
 import { inntektOgRefusjonState } from '@state/overstyring';
-import { useActivePeriodOld } from '@state/periode';
+import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { isGodkjent } from '@state/selectors/utbetaling';
@@ -75,9 +75,9 @@ export const findArbeidsgiverWithPeriode = (
 };
 
 export const useCurrentArbeidsgiver = (): Maybe<ArbeidsgiverFragment> => {
-    const activePeriod = useActivePeriodOld();
     const { data } = useFetchPersonQuery();
-    const currentPerson = data?.person;
+    const currentPerson = data?.person ?? null;
+    const activePeriod = useActivePeriod(currentPerson);
 
     if (!currentPerson || !activePeriod) {
         return null;
@@ -135,7 +135,9 @@ export const usePeriodForSkjæringstidspunkt = (skjæringstidspunkt: DateString)
 };
 
 export const usePeriodIsInGeneration = (): Maybe<number> => {
-    const period = useActivePeriodOld();
+    const { data } = useFetchPersonQuery();
+    const currentPerson = data?.person ?? null;
+    const period = useActivePeriod(currentPerson);
     const arbeidsgiver = useCurrentArbeidsgiver();
 
     if (!period || !arbeidsgiver) {
@@ -177,7 +179,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     const arbeidsgiver = useArbeidsgiver(person, organisasjonsnummer);
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration();
     const periodeTilGodkjenning = usePeriodeTilGodkjenning();
-    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
+    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
     const aktivPeriodeGhostGenerasjon = -1;
     const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
 
@@ -227,8 +229,8 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     return nyesteBeregnetPeriodePåSkjæringstidspunkt ?? nyestePeriodePåSkjæringstidspunkt;
 };
 
-export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (): boolean => {
-    const aktivPeriode = useActivePeriodOld();
+export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
+    const aktivPeriode = useActivePeriod(person);
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration();
     const periodeTilGodkjenning = usePeriodeTilGodkjenning();
     const aktivPeriodeGhostGenerasjon = -1;
@@ -239,8 +241,8 @@ export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (): boolean =>
     return periodeTilGodkjenning ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.tom) : true;
 };
 
-export const useErGhostLikEllerFørPeriodeTilGodkjenning = (): boolean => {
-    const aktivPeriode = useActivePeriodOld();
+export const useErGhostLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
+    const aktivPeriode = useActivePeriod(person);
     const periodeTilGodkjenning = usePeriodeTilGodkjenning();
 
     if (!aktivPeriode) return false;
@@ -290,8 +292,9 @@ type UseEndringerForPeriodeResult = {
 
 export const useEndringerForPeriode = (
     endringer: Array<OverstyringFragment> | undefined,
+    person: PersonFragment,
 ): UseEndringerForPeriodeResult => {
-    const periode = useActivePeriodOld();
+    const periode = useActivePeriod(person);
 
     if (!endringer || !periode || isTilkommenInntekt(periode)) {
         return { inntektsendringer: [], arbeidsforholdendringer: [], dagendringer: [] };

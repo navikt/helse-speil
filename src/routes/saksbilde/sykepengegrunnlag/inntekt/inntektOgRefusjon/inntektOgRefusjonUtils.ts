@@ -55,7 +55,7 @@ export const useGhostInntektKanOverstyres = (
     organisasjonsnummer: string,
 ): boolean => {
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(person, skjæringstidspunkt, organisasjonsnummer);
-    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
+    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
 
     if (!isGhostPeriode(period) || !person) {
         return false;
@@ -96,7 +96,7 @@ export const useArbeidsforholdKanOverstyres = (
     organisasjonsnummer: string,
 ): boolean => {
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(person, skjæringstidspunkt, organisasjonsnummer);
-    const erGhostLikEllerEtterPeriodeTilGodkjenning = useErGhostLikEllerFørPeriodeTilGodkjenning();
+    const erGhostLikEllerEtterPeriodeTilGodkjenning = useErGhostLikEllerFørPeriodeTilGodkjenning(person);
     const arbeidsgiver = useArbeidsgiver(person, organisasjonsnummer);
 
     if (!isGhostPeriode(period) || !person || !arbeidsgiver) {
@@ -145,7 +145,7 @@ const harIngenEtterfølgendePerioder = (
 export const useInntektKanRevurderes = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {
     const periodeVedSkjæringstidspunkt = usePeriodForSkjæringstidspunkt(skjæringstidspunkt);
     const isReadOnlyOppgave = useIsReadOnlyOppgave();
-    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
+    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
 
     if (!person) return false;
 

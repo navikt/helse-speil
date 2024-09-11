@@ -48,7 +48,7 @@ export const Inntektssammenligning = ({
         (it) => it.orgnummer === organisasjonsnummer,
     )?.navn;
     const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
-    const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(endringer);
+    const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(endringer, person);
 
     return (
         <tr
