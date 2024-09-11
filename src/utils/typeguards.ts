@@ -52,7 +52,7 @@ export const isDagoverstyring = (overstyring?: Maybe<Overstyring>): overstyring 
     (overstyring as Dagoverstyring)?.__typename === 'Dagoverstyring';
 
 const isOverstyringPrDag = (overstyring?: Maybe<Overstyring>): overstyring is OverstyringerPrDag =>
-    typeof (overstyring as Dagoverstyring)?.__typename !== 'string' ?? false;
+    typeof (overstyring as Dagoverstyring)?.__typename !== 'string';
 
 export const isOverstyringerPrDag = (
     overstyringer?: Maybe<Array<Overstyring>>,

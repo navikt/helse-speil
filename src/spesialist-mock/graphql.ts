@@ -248,7 +248,7 @@ const getResolvers = (): IResolvers => ({
         },
         sendTilInfotrygd: async () => {
             return (
-                Math.random() < 0.95 ??
+                Math.random() < 0.95 ||
                 new GraphQLError(`Allerede sendt til Infotrygd`, {
                     extensions: { code: { value: 409 } },
                 })

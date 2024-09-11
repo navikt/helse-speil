@@ -52,7 +52,7 @@ export const AnnulleringsModal = ({
     const begrunnelser: string[] = arsaker?.map((årsak) => årsak.arsak);
     const annenBegrunnelse = arsaker ? arsaker.some((it) => it.arsak === 'Annet') : false;
 
-    const harMinstÉnBegrunnelse = () => arsaker?.length > 0 ?? true;
+    const harMinstÉnBegrunnelse = () => arsaker?.length > 0;
     const harFeil = () => Object.keys(form.formState.errors).length > 0;
 
     const annullering = (): AnnulleringDataInput => ({

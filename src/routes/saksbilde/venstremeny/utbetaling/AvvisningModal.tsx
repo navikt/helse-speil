@@ -52,7 +52,7 @@ export const AvvisningModal = ({ onClose, showModal, activePeriod }: AvvisningMo
     const begrunnelser = form.watch(`begrunnelser`);
     const annenBegrunnelse = begrunnelser ? begrunnelser.includes(Begrunnelse.Annet) : false;
 
-    const harMinstÉnBegrunnelse = () => begrunnelser?.length > 0 ?? false;
+    const harMinstÉnBegrunnelse = () => begrunnelser?.length > 0;
 
     const submit = async () => {
         if (annenBegrunnelse && !kommentar) {
