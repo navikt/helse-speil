@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Kildetype } from '@io/graphql';
+import { enPerson } from '@test-data/person';
 import { RecoilWrapper } from '@test-wrappers';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
@@ -41,9 +42,18 @@ const dager = new Map<string, Utbetalingstabelldag>([
 
 describe('Utbetalingstabell', () => {
     it('rendrer headere, totalrad og dagrader', () => {
-        render(<Utbetalingstabell fom="2021-01-01" tom="2021-01-10" dager={dager} personFødselsdato={'01-01-2000'} />, {
-            wrapper: RecoilWrapper,
-        });
+        render(
+            <Utbetalingstabell
+                fom="2021-01-01"
+                tom="2021-01-10"
+                dager={dager}
+                personFødselsdato={'01-01-2000'}
+                person={enPerson()}
+            />,
+            {
+                wrapper: RecoilWrapper,
+            },
+        );
 
         expect(screen.getAllByRole('row')).toHaveLength(7);
     });

@@ -198,6 +198,7 @@ export const OverstyrbarUtbetaling = ({
                     markerteDager={markerteDager}
                     overstyrer={overstyrer}
                     slettSisteNyeDag={slettSisteNyeDag}
+                    person={person}
                 />
                 {overstyrer && (
                     <>

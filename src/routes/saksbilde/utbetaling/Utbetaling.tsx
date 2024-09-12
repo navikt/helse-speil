@@ -81,6 +81,7 @@ const ReadonlyUtbetaling = ({ fom, tom, dager, person }: ReadonlyUtbetalingProps
                     tom={tom}
                     dager={dager}
                     personFødselsdato={person.personinfo.fodselsdato}
+                    person={person}
                 />
             </div>
         </div>
