@@ -74,27 +74,6 @@ export const findArbeidsgiverWithPeriode = (
     );
 };
 
-/**
- * @deprecated Use useCurrentArbeidsgiver in stead
- */
-export const useCurrentArbeidsgiverOld = (): Maybe<ArbeidsgiverFragment> => {
-    const { data } = useFetchPersonQuery();
-    const currentPerson = data?.person ?? null;
-    const activePeriod = useActivePeriod(currentPerson);
-
-    if (!currentPerson || !activePeriod) {
-        return null;
-    } else if (isBeregnetPeriode(activePeriod) || isUberegnetPeriode(activePeriod)) {
-        return findArbeidsgiverWithPeriode(activePeriod, currentPerson.arbeidsgivere);
-    } else if (isGhostPeriode(activePeriod)) {
-        return findArbeidsgiverWithGhostPeriode(activePeriod, currentPerson.arbeidsgivere);
-    } else if (isTilkommenInntekt(activePeriod)) {
-        return findArbeidsgiverWithNyttInntektsforholdPeriode(activePeriod, currentPerson.arbeidsgivere);
-    }
-
-    return null;
-};
-
 export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<ArbeidsgiverFragment> => {
     const activePeriod = useActivePeriod(person);
 
