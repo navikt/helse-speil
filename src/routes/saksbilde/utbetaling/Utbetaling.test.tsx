@@ -4,6 +4,7 @@ import React from 'react';
 import { Inntektstype, Utbetalingsdagtype } from '@io/graphql';
 import { useCurrentArbeidsgiver, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
+import { useFetchPersonQuery } from '@state/person';
 import { useReadonly } from '@state/toggles';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enOppgave } from '@test-data/oppgave';
@@ -36,6 +37,7 @@ describe('Utbetaling', () => {
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         (useActivePeriod as jest.Mock).mockReturnValue(periode);
+        (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: { person: person } });
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
         (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });

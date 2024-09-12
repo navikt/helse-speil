@@ -1,10 +1,13 @@
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useActivePeriodOld } from '@state/periode';
+import { useActivePeriod } from '@state/periode';
+import { useFetchPersonQuery } from '@state/person';
 import { useKanBeslutteEgneOppgaver } from '@state/toggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const useErTidligereSaksbehandler = (): boolean => {
-    const activePeriod = useActivePeriodOld();
+    const { data } = useFetchPersonQuery();
+    const person = data?.person ?? null;
+    const activePeriod = useActivePeriod(person);
     const currentSaksbehandler = useInnloggetSaksbehandler();
     const kanBeslutteEgenBeslutteroppgave = useKanBeslutteEgneOppgaver();
 

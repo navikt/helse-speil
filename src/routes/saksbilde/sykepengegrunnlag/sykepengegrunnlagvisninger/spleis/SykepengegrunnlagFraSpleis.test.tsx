@@ -9,6 +9,7 @@ import {
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
+import { useFetchPersonQuery } from '@state/person';
 import { useReadonly } from '@state/toggles';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
@@ -46,6 +47,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         const inntekter = [inntektFraIM];
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
 
+        (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: { person: person } });
         (useActivePeriod as jest.Mock).mockReturnValue(enBeregnetPeriode());
         (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enBeregnetPeriode());
         (useArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
