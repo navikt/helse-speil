@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { Dag, Maybe, Periode } from '@io/graphql';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useCurrentArbeidsgiverOld } from '@state/arbeidsgiver';
 import { useActivePeriodOld } from '@state/periode';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { somDato } from '@utils/date';
@@ -30,7 +30,7 @@ export const useTotaltUtbetaltForSykefraværstilfellet = () => {
 };
 
 const useUtbetaltTidslinjeForSykefraværstilfellet = (): Maybe<Dag[]> => {
-    const arbeidsgiver = useCurrentArbeidsgiver();
+    const arbeidsgiver = useCurrentArbeidsgiverOld();
     const skjæringstidspunkt = useActivePeriodOld()?.skjaeringstidspunkt;
 
     if (!arbeidsgiver || !skjæringstidspunkt) return null;

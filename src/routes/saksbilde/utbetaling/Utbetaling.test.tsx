@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import React from 'react';
 
 import { Inntektstype, Utbetalingsdagtype } from '@io/graphql';
-import { useCurrentArbeidsgiver, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import { useCurrentArbeidsgiverOld, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useReadonly } from '@state/toggles';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -36,7 +36,7 @@ describe('Utbetaling', () => {
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         (useActivePeriod as jest.Mock).mockReturnValue(periode);
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useCurrentArbeidsgiverOld as jest.Mock).mockReturnValue(arbeidsgiver);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
         (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
@@ -58,7 +58,7 @@ describe('Utbetaling', () => {
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         (useActivePeriod as jest.Mock).mockReturnValue(periode);
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useCurrentArbeidsgiverOld as jest.Mock).mockReturnValue(arbeidsgiver);
         (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
         render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
@@ -75,7 +75,7 @@ describe('Utbetaling', () => {
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         (useActivePeriod as jest.Mock).mockReturnValue(periode);
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useCurrentArbeidsgiverOld as jest.Mock).mockReturnValue(arbeidsgiver);
         (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
         render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
@@ -90,7 +90,7 @@ describe('Utbetaling', () => {
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useCurrentArbeidsgiverOld as jest.Mock).mockReturnValue(arbeidsgiver);
 
         render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
@@ -104,7 +104,7 @@ describe('Utbetaling', () => {
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useCurrentArbeidsgiverOld as jest.Mock).mockReturnValue(arbeidsgiver);
         (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
         render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
@@ -119,7 +119,7 @@ describe('Utbetaling', () => {
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useCurrentArbeidsgiverOld as jest.Mock).mockReturnValue(arbeidsgiver);
         (useReadonly as jest.Mock).mockReturnValue({ value: true, override: true });
 
         render(<Utbetaling person={person} />, { wrapper: RecoilWrapper });
@@ -137,7 +137,7 @@ describe('Utbetaling', () => {
         const person = enPerson().medArbeidsgivere([arbeidsgiverA, arbeidsgiverB]);
 
         (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiverA);
+        (useCurrentArbeidsgiverOld as jest.Mock).mockReturnValue(arbeidsgiverA);
 
         render(<Utbetaling person={person} />, { wrapper: RecoilWrapper });
 

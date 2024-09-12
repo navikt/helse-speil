@@ -74,7 +74,10 @@ export const findArbeidsgiverWithPeriode = (
     );
 };
 
-export const useCurrentArbeidsgiver = (): Maybe<ArbeidsgiverFragment> => {
+/**
+ * @deprecated Use useCurrentArbeidsgiver in stead
+ */
+export const useCurrentArbeidsgiverOld = (): Maybe<ArbeidsgiverFragment> => {
     const { data } = useFetchPersonQuery();
     const currentPerson = data?.person ?? null;
     const activePeriod = useActivePeriod(currentPerson);
@@ -87,6 +90,22 @@ export const useCurrentArbeidsgiver = (): Maybe<ArbeidsgiverFragment> => {
         return findArbeidsgiverWithGhostPeriode(activePeriod, currentPerson.arbeidsgivere);
     } else if (isTilkommenInntekt(activePeriod)) {
         return findArbeidsgiverWithNyttInntektsforholdPeriode(activePeriod, currentPerson.arbeidsgivere);
+    }
+
+    return null;
+};
+
+export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<ArbeidsgiverFragment> => {
+    const activePeriod = useActivePeriod(person);
+
+    if (!person || !activePeriod) {
+        return null;
+    } else if (isBeregnetPeriode(activePeriod) || isUberegnetPeriode(activePeriod)) {
+        return findArbeidsgiverWithPeriode(activePeriod, person.arbeidsgivere);
+    } else if (isGhostPeriode(activePeriod)) {
+        return findArbeidsgiverWithGhostPeriode(activePeriod, person.arbeidsgivere);
+    } else if (isTilkommenInntekt(activePeriod)) {
+        return findArbeidsgiverWithNyttInntektsforholdPeriode(activePeriod, person.arbeidsgivere);
     }
 
     return null;
@@ -122,7 +141,7 @@ export const useInntektsmeldinghendelser = (arbeidsgiver: Maybe<ArbeidsgiverFrag
 };
 
 export const usePeriodForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Maybe<ActivePeriod> => {
-    const currentArbeidsgiver = useCurrentArbeidsgiver();
+    const currentArbeidsgiver = useCurrentArbeidsgiverOld();
 
     if (!currentArbeidsgiver?.generasjoner[0]?.perioder) {
         return null;
@@ -138,7 +157,7 @@ export const usePeriodIsInGeneration = (): Maybe<number> => {
     const { data } = useFetchPersonQuery();
     const currentPerson = data?.person ?? null;
     const period = useActivePeriod(currentPerson);
-    const arbeidsgiver = useCurrentArbeidsgiver();
+    const arbeidsgiver = useCurrentArbeidsgiverOld();
 
     if (!period || !arbeidsgiver) {
         return null;
@@ -254,7 +273,7 @@ export const useErGhostLikEllerFørPeriodeTilGodkjenning = (person: PersonFragme
 };
 
 export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Maybe<Utbetaling> => {
-    const currentArbeidsgiver = useCurrentArbeidsgiver();
+    const currentArbeidsgiver = useCurrentArbeidsgiverOld();
 
     if (!currentArbeidsgiver?.generasjoner[0]?.perioder) {
         return null;
@@ -346,7 +365,7 @@ export const useDagoverstyringer = (
     }, [arbeidsgiver, fom, tom]);
 };
 export const useHarDagOverstyringer = (periode: BeregnetPeriodeFragment): boolean => {
-    const arbeidsgiver = useCurrentArbeidsgiver();
+    const arbeidsgiver = useCurrentArbeidsgiverOld();
     const dagendringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
 
     if (!arbeidsgiver) {

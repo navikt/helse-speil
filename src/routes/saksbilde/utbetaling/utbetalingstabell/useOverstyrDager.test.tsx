@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MockedProvider } from '@apollo/client/testing';
 import { Kildetype, OpprettAbonnementDocument, OverstyrDagerMutationDocument } from '@io/graphql';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useCurrentArbeidsgiverOld } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -25,7 +25,7 @@ const ORGNUMMER = '987654321';
 const VEDTAKSPERIODE_ID = 'vedtaksperiode';
 const BEGRUNNELSE = 'begrunnelse';
 
-(useCurrentArbeidsgiver as jest.Mock).mockReturnValue({
+(useCurrentArbeidsgiverOld as jest.Mock).mockReturnValue({
     organisasjonsnummer: ORGNUMMER,
 });
 

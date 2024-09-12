@@ -67,9 +67,7 @@ describe('useCurrentArbeidsgiver', () => {
             // do nothing
         };
 
-        (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: null });
-
-        const { result } = renderHook(() => useCurrentArbeidsgiver(), {
+        const { result } = renderHook(() => useCurrentArbeidsgiver(enPerson()), {
             wrapper: wrapperWithRecoilInitializer(initializer),
         });
 
@@ -81,10 +79,9 @@ describe('useCurrentArbeidsgiver', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useFetchPersonQuery as jest.Mock).mockReturnValueOnce({ data: { person: person } });
         (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
 
-        const { result } = renderHook(() => useCurrentArbeidsgiver());
+        const { result } = renderHook(() => useCurrentArbeidsgiver(person));
 
         expect(result.current).toEqual(arbeidsgiver);
     });
@@ -138,6 +135,7 @@ describe('usePeriodForSkjæringstidspunkt', () => {
     it('returnerer null hvis ingen av den aktive arbeidsgiverens perioder har gitt skjæringstidspunkt', () => {
         const periode = enBeregnetPeriode();
 
+        (useFetchPersonQuery as jest.Mock).mockReturnValueOnce({ data: {} });
         (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
 
         const { result } = renderHook(() => usePeriodForSkjæringstidspunkt('1970-01-01'));
@@ -169,6 +167,7 @@ describe('useUtbetalingForSkjæringstidspunkt', () => {
     it('returnerer null hvis det ikke finnes en utbetaling for en periode med gitt skjæringstidspunkt', () => {
         (useActivePeriod as jest.Mock).mockReturnValueOnce(enBeregnetPeriode());
 
+        (useFetchPersonQuery as jest.Mock).mockReturnValueOnce({ data: {} });
         const { result } = renderHook(() => useUtbetalingForSkjæringstidspunkt('2021-02-04'));
 
         expect(result.current).toBeNull();

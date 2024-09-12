@@ -17,7 +17,7 @@ import {
     Utbetalingstatus,
 } from '@io/graphql';
 import {
-    useCurrentArbeidsgiver,
+    useCurrentArbeidsgiverOld,
     useDagoverstyringer,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     useGjenståendeDager,
@@ -38,7 +38,7 @@ import styles from './Utbetaling.module.css';
 
 const useIsInCurrentGeneration = (person: PersonFragment): boolean => {
     const period = useActivePeriod(person);
-    const arbeidsgiver = useCurrentArbeidsgiver();
+    const arbeidsgiver = useCurrentArbeidsgiverOld();
 
     if (!period || !arbeidsgiver) {
         return false;
@@ -188,7 +188,7 @@ type UtbetalingContainerProps = {
 
 const UtbetalingContainer = ({ person }: UtbetalingContainerProps): Maybe<ReactElement> => {
     const period = useActivePeriod(person);
-    const arbeidsgiver = useCurrentArbeidsgiver();
+    const arbeidsgiver = useCurrentArbeidsgiverOld();
 
     if (!period || !isPerson(person) || !arbeidsgiver) {
         return null;
