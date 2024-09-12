@@ -6,7 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Maybe } from '@io/graphql';
 import { VenstremenyNyttInntektsforholdPeriode } from '@saksbilde/venstremeny/VenstremenyNyttInntektsforholdPeriode';
-import { useCurrentArbeidsgiverOld } from '@state/arbeidsgiver';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
@@ -23,7 +23,7 @@ const VenstremenyContainer = (): Maybe<ReactElement> => {
     const { loading, data } = useFetchPersonQuery();
     const currentPerson = data?.person ?? null;
     const activePeriod = useActivePeriod(currentPerson);
-    const currentArbeidsgiver = useCurrentArbeidsgiverOld();
+    const currentArbeidsgiver = useCurrentArbeidsgiver(currentPerson);
 
     if (loading) {
         return <VenstremenySkeleton />;

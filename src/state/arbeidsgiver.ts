@@ -157,7 +157,7 @@ export const usePeriodIsInGeneration = (): Maybe<number> => {
     const { data } = useFetchPersonQuery();
     const currentPerson = data?.person ?? null;
     const period = useActivePeriod(currentPerson);
-    const arbeidsgiver = useCurrentArbeidsgiverOld();
+    const arbeidsgiver = useCurrentArbeidsgiver(currentPerson);
 
     if (!period || !arbeidsgiver) {
         return null;

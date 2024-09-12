@@ -6,7 +6,7 @@ import { Dropdown } from '@navikt/ds-react';
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Maybe, PersonFragment } from '@io/graphql';
-import { useCurrentArbeidsgiverOld } from '@state/arbeidsgiver';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { ActivePeriod } from '@typer/shared';
 import { isArbeidsgiver, isBeregnetPeriode, isPerson } from '@utils/typeguards';
@@ -26,7 +26,7 @@ type DropdownMenuProps = {
 const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps): Maybe<ReactElement> => {
     const user = useInnloggetSaksbehandler();
     const readOnly = useIsReadOnlyOppgave();
-    const arbeidsgiver = useCurrentArbeidsgiverOld();
+    const arbeidsgiver = useCurrentArbeidsgiver(person);
 
     if (!isPerson(person)) {
         return null;
