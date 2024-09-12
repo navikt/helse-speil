@@ -1,6 +1,6 @@
 import { Inntektskilde, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { useCurrentArbeidsgiver, usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
-import { useActivePeriodOld } from '@state/periode';
+import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { getPeriodState } from '@utils/mapping';
 
@@ -9,9 +9,9 @@ import { useVilkårsgrunnlag } from '../sykepengegrunnlag/useVilkårsgrunnlag';
 // Forhåpentligvis midlertidig; tar utgangspunkt i periode til godkjenning da varselet kan havne på AUU (som ikke har avviksprosent)
 export const useSkalViseAvviksvarselSomFeil = () => {
     const { data } = useFetchPersonQuery();
-    const person = data?.person;
+    const person = data?.person ?? null;
     const arbeidsgiver = useCurrentArbeidsgiver();
-    const aktivPeriode = useActivePeriodOld();
+    const aktivPeriode = useActivePeriod(person);
     const periodeTilGodkjenning = usePeriodeTilGodkjenning();
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeTilGodkjenning);
     const harBlittSkjønnsmessigFastsatt =

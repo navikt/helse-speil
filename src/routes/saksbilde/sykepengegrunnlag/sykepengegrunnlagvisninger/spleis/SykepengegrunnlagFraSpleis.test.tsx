@@ -8,7 +8,7 @@ import {
     useEndringerForPeriode,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
-import { useActivePeriodOld } from '@state/periode';
+import { useActivePeriod } from '@state/periode';
 import { useReadonly } from '@state/toggles';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
@@ -46,7 +46,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         const inntekter = [inntektFraIM];
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
 
-        (useActivePeriodOld as jest.Mock).mockReturnValue(enBeregnetPeriode());
+        (useActivePeriod as jest.Mock).mockReturnValue(enBeregnetPeriode());
         (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enBeregnetPeriode());
         (useArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useEndringerForPeriode as jest.Mock).mockReturnValue({
@@ -128,7 +128,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         const inntekter = [inntektFraIM, inntektFraAO];
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
 
-        (useActivePeriodOld as jest.Mock).mockReturnValue(enGhostPeriode());
+        (useActivePeriod as jest.Mock).mockReturnValue(enGhostPeriode());
         (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enGhostPeriode());
         (useArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useEndringerForPeriode as jest.Mock).mockReturnValue({
