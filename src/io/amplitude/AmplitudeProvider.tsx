@@ -6,9 +6,10 @@ import * as amplitude from '@amplitude/analytics-browser';
 import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
 import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
-import { Kategori, Maybe, Oppgaveegenskap } from '@io/graphql';
+import { Kategori, Maybe, Oppgaveegenskap, PersonFragment } from '@io/graphql';
 import { getDefaultFilters } from '@oversikt/table/state/filter';
-import { useActivePeriodOld } from '@state/periode';
+import { useActivePeriod } from '@state/periode';
+import { useFetchPersonQuery } from '@state/person';
 import { getOppgavereferanse } from '@state/selectors/period';
 import { Amplitude } from '@typer/amplitude';
 import { ActivePeriod } from '@typer/shared';
@@ -60,8 +61,8 @@ const getEventProperties = (
     }
 };
 
-const useStoreÅpnetTidspunkt = () => {
-    const activePeriod = useActivePeriodOld();
+const useStoreÅpnetTidspunkt = (person: Maybe<PersonFragment>) => {
+    const activePeriod = useActivePeriod(person);
     const oppgavereferanse = getOppgavereferanse(activePeriod);
 
     useEffect(() => {
@@ -80,8 +81,10 @@ const finnAlleIKategori = (egenskaper: Oppgaveegenskap[], kategori: Kategori[]):
 const finnLabel = (egenskap: string, grupper: string[], ident: string): string =>
     getDefaultFilters(grupper, ident).find((it) => it.key === egenskap)?.label ?? egenskap.toString();
 
-const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string>) => void) => {
-    const activePeriod = useActivePeriodOld();
+const useLogEvent = (
+    person: Maybe<PersonFragment>,
+): ((event: Amplitude.LogEvent, begrunnelser?: Array<string>) => void) => {
+    const activePeriod = useActivePeriod(person);
     const oppgavereferanse = getOppgavereferanse(activePeriod);
     const grupper = useBrukerGrupper();
     const ident = useBrukerIdent();
@@ -102,9 +105,12 @@ const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string
 };
 
 const _AmplitudeProvider = ({ children }: PropsWithChildren): ReactElement => {
-    useStoreÅpnetTidspunkt();
+    const { data } = useFetchPersonQuery();
+    const person = data?.person ?? null;
 
-    const logEvent = useLogEvent();
+    useStoreÅpnetTidspunkt(person);
+
+    const logEvent = useLogEvent(person);
 
     const logOppgaveGodkjent = (erBeslutteroppgave: boolean) =>
         logEvent(erBeslutteroppgave ? 'totrinnsoppgave attestert' : 'oppgave godkjent');
