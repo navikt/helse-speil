@@ -7,7 +7,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Maybe } from '@io/graphql';
 import { VenstremenyNyttInntektsforholdPeriode } from '@saksbilde/venstremeny/VenstremenyNyttInntektsforholdPeriode';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { useActivePeriodOld } from '@state/periode';
+import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -20,10 +20,10 @@ import { VenstremenyUberegnetPeriode } from './VenstremenyUberegnetPeriode';
 import styles from './Venstremeny.module.css';
 
 const VenstremenyContainer = (): Maybe<ReactElement> => {
-    const activePeriod = useActivePeriodOld();
     const { loading, data } = useFetchPersonQuery();
+    const currentPerson = data?.person ?? null;
+    const activePeriod = useActivePeriod(currentPerson);
     const currentArbeidsgiver = useCurrentArbeidsgiver();
-    const currentPerson = data?.person;
 
     if (loading) {
         return <VenstremenySkeleton />;
