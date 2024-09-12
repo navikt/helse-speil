@@ -7,6 +7,7 @@ import {
     NyttInntektsforholdPeriodeFragment,
     PeriodeFragment,
     Periodetilstand,
+    PersonFragment,
 } from '@io/graphql';
 import { isNotReady } from '@state/selectors/period';
 import { DatePeriod, InfotrygdPeriod } from '@typer/shared';
@@ -74,6 +75,7 @@ interface PeriodsProps {
     ghostPeriods?: Array<GhostPeriodeFragment>;
     nyeInntektsforholdPeriods?: Array<NyttInntektsforholdPeriodeFragment>;
     notCurrent?: boolean;
+    person: PersonFragment;
 }
 
 export const Periods = ({
@@ -85,6 +87,7 @@ export const Periods = ({
     nyeInntektsforholdPeriods = [],
     notCurrent,
     activePeriod,
+    person,
 }: PeriodsProps): ReactElement => {
     const allPeriods = mergePeriods(periods, infotrygdPeriods, ghostPeriods, nyeInntektsforholdPeriods);
     const validPeriods = filterValidPeriods(allPeriods);
@@ -101,6 +104,7 @@ export const Periods = ({
                     style={positions.get(i) ?? {}}
                     notCurrent={notCurrent}
                     isActive={isActive(activePeriod, period)}
+                    person={person}
                 />
             ))}
         </div>

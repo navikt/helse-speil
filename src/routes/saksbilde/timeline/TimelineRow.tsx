@@ -5,7 +5,13 @@ import React, { ReactElement } from 'react';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
-import { GhostPeriodeFragment, Maybe, NyttInntektsforholdPeriodeFragment, PeriodeFragment } from '@io/graphql';
+import {
+    GhostPeriodeFragment,
+    Maybe,
+    NyttInntektsforholdPeriodeFragment,
+    PeriodeFragment,
+    PersonFragment,
+} from '@io/graphql';
 import { TimelinePeriod } from '@typer/timeline';
 
 import { Periods } from './Periods';
@@ -21,6 +27,7 @@ export interface TimelineRowProps {
     ghostPeriods?: Array<GhostPeriodeFragment>;
     nyeInntektsforholdPeriods?: Array<NyttInntektsforholdPeriodeFragment>;
     alignWithExpandable?: boolean;
+    person: PersonFragment;
 }
 
 export const TimelineRow = ({
@@ -32,6 +39,7 @@ export const TimelineRow = ({
     nyeInntektsforholdPeriods,
     activePeriod,
     alignWithExpandable = false,
+    person,
 }: TimelineRowProps): ReactElement => {
     return (
         <div className={styles.TimelineRow}>
@@ -49,6 +57,7 @@ export const TimelineRow = ({
                     ghostPeriods={ghostPeriods}
                     nyeInntektsforholdPeriods={nyeInntektsforholdPeriods}
                     activePeriod={activePeriod}
+                    person={person}
                 />
             </div>
         </div>

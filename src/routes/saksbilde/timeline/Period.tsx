@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { ReactElement, ReactNode, useRef } from 'react';
 
 import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
-import { Maybe } from '@io/graphql';
+import { Maybe, PersonFragment } from '@io/graphql';
 import { useSetActivePeriodId } from '@state/periode';
 import { PeriodState } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
@@ -119,13 +119,21 @@ interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     period: TimelinePeriod;
     notCurrent?: boolean;
     isActive?: boolean;
+    person: PersonFragment;
 }
 
-export const Period = ({ period, notCurrent, isActive, className, ...buttonProps }: PeriodProps): ReactElement => {
+export const Period = ({
+    period,
+    notCurrent,
+    isActive,
+    className,
+    person,
+    ...buttonProps
+}: PeriodProps): ReactElement => {
     const setActivePeriodId = useSetActivePeriodId();
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
-    const harUvurderteVarsler = useUvurderteVarslerPåPeriode(period);
+    const harUvurderteVarsler = useUvurderteVarslerPåPeriode(period, person);
 
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
 

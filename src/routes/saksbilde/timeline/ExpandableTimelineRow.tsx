@@ -3,6 +3,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
+import { PersonFragment } from '@io/graphql';
 import { ArbeidsgiverGenerasjon } from '@typer/shared';
 
 import { Periods } from './Periods';
@@ -12,6 +13,7 @@ import styles from './TimelineRow.module.css';
 
 interface ExpandableTimelineRowProp extends Omit<TimelineRowProps, 'periods'> {
     generations: Array<ArbeidsgiverGenerasjon>;
+    person: PersonFragment;
 }
 
 export const ExpandableTimelineRow = ({
@@ -22,6 +24,7 @@ export const ExpandableTimelineRow = ({
     ghostPeriods,
     nyeInntektsforholdPeriods,
     activePeriod,
+    person,
 }: ExpandableTimelineRowProp): ReactElement => {
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -43,6 +46,7 @@ export const ExpandableTimelineRow = ({
                         ghostPeriods={ghostPeriods}
                         nyeInntektsforholdPeriods={nyeInntektsforholdPeriods}
                         activePeriod={activePeriod}
+                        person={person}
                     />
                 )}
                 {isExpanded &&
@@ -56,6 +60,7 @@ export const ExpandableTimelineRow = ({
                                 periods={generation.perioder}
                                 notCurrent
                                 activePeriod={activePeriod}
+                                person={person}
                             />
                         ))}
             </div>

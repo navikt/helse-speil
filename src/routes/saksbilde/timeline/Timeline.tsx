@@ -7,7 +7,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { ArbeidsgiverFragment, Infotrygdutbetaling, Maybe } from '@io/graphql';
+import { ArbeidsgiverFragment, Infotrygdutbetaling, Maybe, PersonFragment } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
@@ -30,12 +30,14 @@ interface TimelineWithContentProps {
     arbeidsgivere: Array<ArbeidsgiverFragment>;
     infotrygdutbetalinger: Array<Infotrygdutbetaling>;
     activePeriod: Maybe<TimelinePeriod>;
+    person: PersonFragment;
 }
 
 const TimelineWithContent = ({
     arbeidsgivere,
     infotrygdutbetalinger,
     activePeriod,
+    person,
 }: TimelineWithContentProps): ReactElement => {
     useEffect(() => {
         const defaultZoomLevel = () => {
@@ -119,6 +121,7 @@ const TimelineWithContent = ({
                                 ghostPeriods={arbeidsgiver.ghostPerioder}
                                 nyeInntektsforholdPeriods={arbeidsgiver.nyeInntektsforholdPerioder}
                                 activePeriod={activePeriod}
+                                person={person}
                             />
                         ) : (
                             <TimelineRow
@@ -131,6 +134,7 @@ const TimelineWithContent = ({
                                 nyeInntektsforholdPeriods={arbeidsgiver.nyeInntektsforholdPerioder}
                                 activePeriod={activePeriod}
                                 alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
+                                person={person}
                             />
                         );
                     })}
@@ -140,6 +144,7 @@ const TimelineWithContent = ({
                         end={end}
                         periods={infotrygdPeriods}
                         alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
+                        person={person}
                     />
                 )}
             </div>
@@ -180,6 +185,7 @@ const TimelineContainer = (): Maybe<ReactElement> => {
             arbeidsgivere={arbeidsgivere}
             infotrygdutbetalinger={infotrygdutbetalinger ?? []}
             activePeriod={activePeriod}
+            person={person}
         />
     );
 };

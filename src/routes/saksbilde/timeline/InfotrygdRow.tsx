@@ -5,6 +5,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Infotrygdikon } from '@components/ikoner/Infotrygdikon';
+import { PersonFragment } from '@io/graphql';
 import { InfotrygdPeriod } from '@typer/shared';
 
 import { Periods } from './Periods';
@@ -16,9 +17,16 @@ interface InfotrygdRowProps {
     end: Dayjs;
     periods: Array<InfotrygdPeriod>;
     alignWithExpandable?: boolean;
+    person: PersonFragment;
 }
 
-export const InfotrygdRow = ({ start, end, periods, alignWithExpandable = false }: InfotrygdRowProps): ReactElement => {
+export const InfotrygdRow = ({
+    start,
+    end,
+    periods,
+    alignWithExpandable = false,
+    person,
+}: InfotrygdRowProps): ReactElement => {
     return (
         <div className={styles.TimelineRow}>
             <div className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
@@ -26,7 +34,14 @@ export const InfotrygdRow = ({ start, end, periods, alignWithExpandable = false 
                 <BodyShort size="small">Infotrygd</BodyShort>
             </div>
             <div className={styles.Periods}>
-                <Periods periods={[]} start={start} end={end} infotrygdPeriods={periods} activePeriod={null} />
+                <Periods
+                    periods={[]}
+                    start={start}
+                    end={end}
+                    infotrygdPeriods={periods}
+                    activePeriod={null}
+                    person={person}
+                />
             </div>
         </div>
     );

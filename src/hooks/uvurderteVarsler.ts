@@ -1,12 +1,15 @@
 import dayjs from 'dayjs';
 
-import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Varselstatus } from '@io/graphql';
-import { useCurrentArbeidsgiverOld } from '@state/arbeidsgiver';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, Varselstatus } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { DatePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-export const useUvurderteVarslerPåPeriode = (periode: BeregnetPeriodeFragment | DatePeriod): boolean => {
-    const arbeidsgiver = useCurrentArbeidsgiverOld();
+export const useUvurderteVarslerPåPeriode = (
+    periode: BeregnetPeriodeFragment | DatePeriod,
+    person: PersonFragment,
+): boolean => {
+    const arbeidsgiver = useCurrentArbeidsgiver(person);
 
     if ((!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode)) || !arbeidsgiver) {
         return false;
