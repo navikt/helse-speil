@@ -124,7 +124,7 @@ export const AnnulleringsModal = ({
                         onSubmit={form.handleSubmit(() => sendAnnullering(annullering()))}
                         id="annullerings-modal-form"
                     >
-                        <Annulleringsinformasjon />
+                        <Annulleringsinformasjon person={person} />
                         <Annulleringsbegrunnelse />
                         {!erINyesteSkjæringstidspunkt && (
                             <BodyShort as="p" className={styles.varseltekst}>

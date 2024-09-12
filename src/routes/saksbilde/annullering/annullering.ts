@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import { Dag, Maybe, Periode } from '@io/graphql';
-import { useCurrentArbeidsgiverOld } from '@state/arbeidsgiver';
-import { useActivePeriodOld } from '@state/periode';
+import { Dag, Maybe, Periode, PersonFragment } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useActivePeriod } from '@state/periode';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { somDato } from '@utils/date';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -14,8 +14,8 @@ import {
 } from '../utbetaling/utbetalingstabell/dagerUtils';
 import { useTabelldagerMap } from '../utbetaling/utbetalingstabell/useTabelldagerMap';
 
-export const useTotaltUtbetaltForSykefraværstilfellet = () => {
-    const tidslinjeForSykefraværstilfellet = useUtbetaltTidslinjeForSykefraværstilfellet();
+export const useTotaltUtbetaltForSykefraværstilfellet = (person: PersonFragment) => {
+    const tidslinjeForSykefraværstilfellet = useUtbetaltTidslinjeForSykefraværstilfellet(person);
 
     const dager = useTabelldagerMap({ tidslinje: tidslinjeForSykefraværstilfellet ?? [] });
     const utbetalingsdager = getDagerMedUtbetaling(useMemo(() => Array.from(dager.values()), [dager]));
@@ -29,9 +29,9 @@ export const useTotaltUtbetaltForSykefraværstilfellet = () => {
     };
 };
 
-const useUtbetaltTidslinjeForSykefraværstilfellet = (): Maybe<Dag[]> => {
-    const arbeidsgiver = useCurrentArbeidsgiverOld();
-    const skjæringstidspunkt = useActivePeriodOld()?.skjaeringstidspunkt;
+const useUtbetaltTidslinjeForSykefraværstilfellet = (person: PersonFragment): Maybe<Dag[]> => {
+    const arbeidsgiver = useCurrentArbeidsgiver(person);
+    const skjæringstidspunkt = useActivePeriod(person)?.skjaeringstidspunkt;
 
     if (!arbeidsgiver || !skjæringstidspunkt) return null;
 
