@@ -1,7 +1,7 @@
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
-import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
+import { useFetchPersonQuery } from '@state/person';
 import { ActivePeriod } from '@typer/shared';
 import { raise } from '@utils/ts';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
@@ -21,19 +21,6 @@ export const useSetActivePeriodId = () => {
         if (!periode) return;
         setActivePeriodId(periode.id);
     };
-};
-
-/**
- * @deprecated Use useActivePeriods instead
- */
-export const useActivePeriodOld = (): Maybe<ActivePeriod> => {
-    const person = useCurrentPerson();
-    const activePeriodId = useRecoilValue(activePeriodIdState);
-    const periodToSelect = person ? findPeriodToSelect(person) : null;
-
-    if (!person) return null;
-
-    return findPeriod(activePeriodId, person) ?? periodToSelect;
 };
 
 export const useActivePeriod = (person: Maybe<PersonFragment>): Maybe<ActivePeriod> => {
