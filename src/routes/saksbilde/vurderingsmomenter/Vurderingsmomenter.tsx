@@ -7,8 +7,8 @@ import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
-import { Faresignal, Maybe, Risikovurdering } from '@io/graphql';
-import { useActivePeriodOld } from '@state/periode';
+import { Faresignal, Maybe, PersonFragment, Risikovurdering } from '@io/graphql';
+import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import styles from './Vurderingsmomenter.module.scss';
@@ -73,8 +73,12 @@ export const VurderingsmomenterWithContent = ({
     </AgurkErrorBoundary>
 );
 
-const VurderingsmomenterContainer = (): Maybe<ReactElement> => {
-    const activePeriod = useActivePeriodOld();
+interface VurderingsmomenterContainerProps {
+    person: PersonFragment;
+}
+
+const VurderingsmomenterContainer = ({ person }: VurderingsmomenterContainerProps): Maybe<ReactElement> => {
+    const activePeriod = useActivePeriod(person);
 
     if (isBeregnetPeriode(activePeriod) && activePeriod.risikovurdering) {
         return <VurderingsmomenterWithContent risikovurdering={activePeriod.risikovurdering} />;
@@ -83,6 +87,10 @@ const VurderingsmomenterContainer = (): Maybe<ReactElement> => {
     return null;
 };
 
-export const Vurderingsmomenter = (): ReactElement => {
-    return <VurderingsmomenterContainer />;
+interface VurderingsmomenterProps {
+    person: PersonFragment;
+}
+
+export const Vurderingsmomenter = ({ person }: VurderingsmomenterProps): ReactElement => {
+    return <VurderingsmomenterContainer person={person} />;
 };

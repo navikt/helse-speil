@@ -71,7 +71,7 @@ export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps
                 {tab === 'dagoversikt' && <Utbetaling person={person} />}
                 {decodeURI(tab ?? '') === 'inngangsvilkår' && <Inngangsvilkår />}
                 {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag person={person} />}
-                {tab === 'vurderingsmomenter' && <Vurderingsmomenter />}
+                {tab === 'vurderingsmomenter' && <Vurderingsmomenter person={person} />}
                 {tab === 'tilkommen-inntekt' && <TilkommenInntekt person={person} aktivPeriode={period} />}
             </div>
         </div>
