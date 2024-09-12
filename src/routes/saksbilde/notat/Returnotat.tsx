@@ -5,9 +5,9 @@ import { useSetRecoilState } from 'recoil';
 
 import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
-import { Maybe, NotatType } from '@io/graphql';
+import { Maybe, NotatType, PersonFragment } from '@io/graphql';
 import { lokaleNotaterState } from '@state/notater';
-import { useActivePeriodOld } from '@state/periode';
+import { useActivePeriod } from '@state/periode';
 import { isGhostPeriode, isTilkommenInntekt } from '@utils/typeguards';
 
 import { ControlledTextarea } from './ControlledTextarea';
@@ -18,11 +18,12 @@ interface ReturnotatProps {
     onSubmit: (returtekst: string) => Promise<unknown>;
     setShowNotat: Dispatch<SetStateAction<boolean>>;
     error?: string | undefined;
+    person: PersonFragment;
 }
 
-export const Returnotat = ({ onSubmit, setShowNotat, error }: ReturnotatProps): Maybe<ReactElement> => {
+export const Returnotat = ({ onSubmit, setShowNotat, error, person }: ReturnotatProps): Maybe<ReactElement> => {
     const oppdaterNotat = useSetRecoilState(lokaleNotaterState);
-    const aktivPeriode = useActivePeriodOld();
+    const aktivPeriode = useActivePeriod(person);
     const form = useForm();
 
     const erGhostTilkommenEllerHarIkkeAktivPeriode =

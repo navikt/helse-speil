@@ -2,11 +2,14 @@ import React, { ReactElement } from 'react';
 
 import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
-import { useActivePeriodOld } from '@state/periode';
+import { useActivePeriod } from '@state/periode';
+import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const EmojiTilbakemeldingMedPeriode = (): ReactElement => {
-    const aktivPeriode = useActivePeriodOld();
+    const { data } = useFetchPersonQuery();
+    const person = data?.person ?? null;
+    const aktivPeriode = useActivePeriod(person);
 
     return (
         <Widget>

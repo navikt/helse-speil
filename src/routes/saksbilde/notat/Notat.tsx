@@ -8,20 +8,24 @@ import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { LeggTilNotatDocument, Maybe, NotatType } from '@io/graphql';
+import { LeggTilNotatDocument, Maybe, NotatType, PersonFragment } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { lokaleNotaterState } from '@state/notater';
-import { useActivePeriodOld } from '@state/periode';
+import { useActivePeriod } from '@state/periode';
 import { isGhostPeriode, isTilkommenInntekt } from '@utils/typeguards';
 
 import { ControlledTextarea } from './ControlledTextarea';
 
 import styles from './Notat.module.css';
 
-export const Notat = (): Maybe<ReactElement> => {
+interface NotatProps {
+    person: PersonFragment;
+}
+
+export const Notat = ({ person }: NotatProps): Maybe<ReactElement> => {
     const notater = useRecoilValue(lokaleNotaterState);
     const oppdaterNotat = useSetRecoilState(lokaleNotaterState);
-    const aktivPeriode = useActivePeriodOld();
+    const aktivPeriode = useActivePeriod(person);
     const [open, setOpen] = useState(false);
     const form = useForm();
     const [nyttNotat, { loading, error }] = useMutation(LeggTilNotatDocument);

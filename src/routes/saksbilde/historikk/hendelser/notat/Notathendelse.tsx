@@ -14,9 +14,9 @@ import {
 import { BodyShort, ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { FeilregistrerNotatMutationDocument } from '@io/graphql';
+import { FeilregistrerNotatMutationDocument, PersonFragment } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useActivePeriodOld } from '@state/periode';
+import { useActivePeriod } from '@state/periode';
 import { NotathendelseObject } from '@typer/historikk';
 import { NotatType } from '@typer/notat';
 import { NORSK_DATOFORMAT } from '@utils/date';
@@ -31,7 +31,9 @@ import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './constants';
 
 import styles from './Notathendelse.module.css';
 
-type NotathendelseProps = Omit<NotathendelseObject, 'type'>;
+type NotathendelseProps = Omit<NotathendelseObject, 'type'> & {
+    person: PersonFragment;
+};
 
 export const Notathendelse = ({
     id,
@@ -43,12 +45,13 @@ export const Notathendelse = ({
     feilregistrert,
     kommentarer,
     erNyesteNotatMedType = false,
+    person,
 }: NotathendelseProps): ReactElement => {
     const [showAddDialog, setShowAddDialog] = useState(false);
     const [expanded, setExpanded] = useState(false);
 
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const activePeriod = useActivePeriodOld();
+    const activePeriod = useActivePeriod(person);
 
     const [feilregistrerNotat, { loading, error }] = useMutation(FeilregistrerNotatMutationDocument, {
         variables: { id: parseInt(id) },

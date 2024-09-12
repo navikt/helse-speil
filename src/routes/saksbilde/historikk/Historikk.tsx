@@ -83,7 +83,7 @@ const HistorikkWithContent = (): ReactElement => {
                         <div className={styles.historikk}>
                             <ul>
                                 <div>{getHistorikkTitle(filter)}</div>
-                                {filter !== 'Dokument' && filter !== 'Overstyring' && <Notat />}
+                                {filter !== 'Dokument' && filter !== 'Overstyring' && <Notat person={person} />}
                                 {historikk.map((it: HendelseObject, index) => {
                                     switch (it.type) {
                                         case 'Arbeidsforholdoverstyring': {
@@ -119,7 +119,7 @@ const HistorikkWithContent = (): ReactElement => {
                                             );
                                         }
                                         case 'Notat': {
-                                            return <Notathendelse key={it.id} {...it} />;
+                                            return <Notathendelse key={it.id} person={person} {...it} />;
                                         }
                                         case 'Utbetaling': {
                                             return <Utbetalinghendelse key={it.id} {...it} />;

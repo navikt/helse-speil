@@ -85,7 +85,9 @@ export const ReturButton = ({
             >
                 Returner
             </Button>
-            {showNotat && <Returnotat onSubmit={returnerUtbetaling} setShowNotat={setShowNotat} error={error} />}
+            {showNotat && (
+                <Returnotat onSubmit={returnerUtbetaling} setShowNotat={setShowNotat} error={error} person={person} />
+            )}
         </>
     );
 };
