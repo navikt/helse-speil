@@ -92,7 +92,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const ventEllerHopp = useOnGodkjenn(period, person);
     const router = useRouter();
     const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();
-    const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
+    const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang(person);
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
     const finnesNyereUtbetaltPeriodePåPerson = useFinnesNyereUtbetaltPeriodePåPerson(period, person);
 
