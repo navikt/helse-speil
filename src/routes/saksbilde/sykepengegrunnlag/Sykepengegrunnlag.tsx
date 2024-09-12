@@ -25,7 +25,10 @@ type SykepengegrunnlagProps = {
 const SykepengegrunnlagContainer = ({ person }: SykepengegrunnlagProps): Maybe<ReactElement> => {
     const activePeriod = useActivePeriod(person);
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
-    const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriodeFragment).skjaeringstidspunkt);
+    const vurdering = useVurderingForSkjæringstidspunkt(
+        (activePeriod as BeregnetPeriodeFragment).skjaeringstidspunkt,
+        person,
+    );
     const arbeidsgiver = useCurrentArbeidsgiver(person);
 
     if (!(isBeregnetPeriode(activePeriod) || isGhostPeriode(activePeriod))) return null;

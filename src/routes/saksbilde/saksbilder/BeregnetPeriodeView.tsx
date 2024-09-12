@@ -36,7 +36,7 @@ export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps
 
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
     const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
-    const harDagOverstyringer = useHarDagOverstyringer(period);
+    const harDagOverstyringer = useHarDagOverstyringer(period, person);
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, period);
     const tab = last(usePathname().split('/'));
     const navnPåDeaktiverteGhostArbeidsgivere = isSpleisVilkarsgrunnlag(vilkårsgrunnlag)

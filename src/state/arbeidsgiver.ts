@@ -140,8 +140,11 @@ export const useInntektsmeldinghendelser = (arbeidsgiver: Maybe<ArbeidsgiverFrag
     return hendelserDeduplisert.filter((h) => h.type === 'INNTEKTSMELDING');
 };
 
-export const usePeriodForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Maybe<ActivePeriod> => {
-    const currentArbeidsgiver = useCurrentArbeidsgiverOld();
+export const usePeriodForSkjæringstidspunkt = (
+    skjæringstidspunkt: DateString,
+    person: PersonFragment,
+): Maybe<ActivePeriod> => {
+    const currentArbeidsgiver = useCurrentArbeidsgiver(person);
 
     if (!currentArbeidsgiver?.generasjoner[0]?.perioder) {
         return null;
@@ -272,8 +275,11 @@ export const useErGhostLikEllerFørPeriodeTilGodkjenning = (person: PersonFragme
         : true;
 };
 
-export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Maybe<Utbetaling> => {
-    const currentArbeidsgiver = useCurrentArbeidsgiverOld();
+export const useUtbetalingForSkjæringstidspunkt = (
+    skjæringstidspunkt: DateString,
+    person: PersonFragment,
+): Maybe<Utbetaling> => {
+    const currentArbeidsgiver = useCurrentArbeidsgiver(person);
 
     if (!currentArbeidsgiver?.generasjoner[0]?.perioder) {
         return null;
@@ -299,8 +305,11 @@ export const useFinnesNyereUtbetaltPeriodePåPerson = (
     return dayjs(nyesteUtbetaltPeriodePåPerson?.fom, ISO_DATOFORMAT).isAfter(dayjs(period.tom, ISO_DATOFORMAT));
 };
 
-export const useVurderingForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Maybe<Vurdering> => {
-    return useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt)?.vurdering ?? null;
+export const useVurderingForSkjæringstidspunkt = (
+    skjæringstidspunkt: DateString,
+    person: PersonFragment,
+): Maybe<Vurdering> => {
+    return useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt, person)?.vurdering ?? null;
 };
 
 type UseEndringerForPeriodeResult = {
@@ -364,8 +373,8 @@ export const useDagoverstyringer = (
         );
     }, [arbeidsgiver, fom, tom]);
 };
-export const useHarDagOverstyringer = (periode: BeregnetPeriodeFragment): boolean => {
-    const arbeidsgiver = useCurrentArbeidsgiverOld();
+export const useHarDagOverstyringer = (periode: BeregnetPeriodeFragment, person: PersonFragment): boolean => {
+    const arbeidsgiver = useCurrentArbeidsgiver(person);
     const dagendringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
 
     if (!arbeidsgiver) {
