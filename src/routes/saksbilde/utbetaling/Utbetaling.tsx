@@ -55,7 +55,7 @@ interface ReadonlyUtbetalingProps {
 }
 
 const ReadonlyUtbetaling = ({ fom, tom, dager, person }: ReadonlyUtbetalingProps): ReactElement => {
-    const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
+    const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const periodeErISisteGenerasjon = useIsInCurrentGeneration(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
 

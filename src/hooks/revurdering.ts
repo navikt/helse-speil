@@ -1,10 +1,11 @@
-import { useCurrentArbeidsgiverOld } from '@state/arbeidsgiver';
-import { useActivePeriodOld } from '@state/periode';
+import { Maybe, PersonFragment } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const useActivePeriodHasLatestSkjæringstidspunkt = (): boolean => {
-    const period = useActivePeriodOld();
-    const arbeidsgiver = useCurrentArbeidsgiverOld();
+export const useActivePeriodHasLatestSkjæringstidspunkt = (person: Maybe<PersonFragment>): boolean => {
+    const period = useActivePeriod(person);
+    const arbeidsgiver = useCurrentArbeidsgiver(person);
 
     if (!period || !arbeidsgiver || !isBeregnetPeriode(period)) {
         return false;

@@ -12,9 +12,8 @@ interface AnnullerButtonWithContentProps {
     utbetalingId: string;
     arbeidsgiverFagsystemId: string;
     personFagsystemId: string;
-    aktørId: string;
-    fødselsnummer: string;
     organisasjonsnummer: string;
+    person: PersonFragment;
 }
 
 const AnnullerButtonWithContent = ({
@@ -22,9 +21,8 @@ const AnnullerButtonWithContent = ({
     arbeidsgiverFagsystemId,
     personFagsystemId,
     vedtaksperiodeId,
-    aktørId,
-    fødselsnummer,
     organisasjonsnummer,
+    person,
 }: AnnullerButtonWithContentProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
 
@@ -35,13 +33,12 @@ const AnnullerButtonWithContent = ({
                 <AnnulleringsModal
                     onClose={() => setShowModal(false)}
                     showModal={showModal}
-                    fødselsnummer={fødselsnummer}
-                    aktørId={aktørId}
                     organisasjonsnummer={organisasjonsnummer}
                     vedtaksperiodeId={vedtaksperiodeId}
                     utbetalingId={utbetalingId}
                     arbeidsgiverFagsystemId={arbeidsgiverFagsystemId}
                     personFagsystemId={personFagsystemId}
+                    person={person}
                 />
             )}
         </>
@@ -81,9 +78,8 @@ export const AnnullerButton = ({ person, periode, arbeidsgiver }: AnnullerButton
             utbetalingId={periode.utbetaling.id}
             arbeidsgiverFagsystemId={periode.utbetaling.arbeidsgiverFagsystemId}
             personFagsystemId={periode.utbetaling.personFagsystemId}
-            aktørId={person.aktorId}
-            fødselsnummer={person.fodselsnummer}
             organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+            person={person}
         />
     );
 };

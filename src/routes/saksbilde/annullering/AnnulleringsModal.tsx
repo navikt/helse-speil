@@ -7,7 +7,7 @@ import { useMutation } from '@apollo/client';
 import { Arsak } from '@external/sanity';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { AmplitudeContext } from '@io/amplitude';
-import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument } from '@io/graphql';
+import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument, PersonFragment } from '@io/graphql';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
@@ -18,31 +18,29 @@ import styles from './Annulleringsmodal.module.scss';
 type AnnulleringsModalProps = {
     onClose: () => void;
     showModal: boolean;
-    fødselsnummer: string;
-    aktørId: string;
     organisasjonsnummer: string;
     vedtaksperiodeId: string;
     utbetalingId: string;
     arbeidsgiverFagsystemId: string;
     personFagsystemId: string;
+    person: PersonFragment;
 };
 
 export const AnnulleringsModal = ({
     onClose,
     showModal,
-    fødselsnummer,
-    aktørId,
     organisasjonsnummer,
     vedtaksperiodeId,
     utbetalingId,
     arbeidsgiverFagsystemId,
     personFagsystemId,
+    person,
 }: AnnulleringsModalProps): ReactElement => {
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
     const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
     const amplitude = useContext(AmplitudeContext);
-    const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
+    const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
 
     const form = useForm({ mode: 'onBlur' });
     const kommentar = form.watch('kommentar');
@@ -56,8 +54,8 @@ export const AnnulleringsModal = ({
     const harFeil = () => Object.keys(form.formState.errors).length > 0;
 
     const annullering = (): AnnulleringDataInput => ({
-        aktorId: aktørId,
-        fodselsnummer: fødselsnummer,
+        aktorId: person?.aktorId,
+        fodselsnummer: person?.aktorId,
         organisasjonsnummer,
         vedtaksperiodeId,
         utbetalingId,

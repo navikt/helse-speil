@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useArsaker } from '@external/sanity';
 import { AnnullerDocument, OpprettAbonnementDocument } from '@io/graphql';
+import { enPerson } from '@test-data/person';
 import { createMock, render, screen, waitFor, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
@@ -12,8 +13,10 @@ jest.mock('@external/sanity');
 const defaultProps = {
     onClose: () => null,
     showModal: true,
-    fødselsnummer: '12345678910',
-    aktørId: '12345678910',
+    person: enPerson({
+        fodselsnummer: '12345678910',
+        aktorId: '12345678910',
+    }),
     organisasjonsnummer: '987654321',
     vedtaksperiodeId: 'EN-VEDTAKSPERIODEID',
     utbetalingId: 'EN-UTBETALINGID',
