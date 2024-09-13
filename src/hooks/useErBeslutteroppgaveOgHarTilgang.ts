@@ -7,7 +7,7 @@ import { isBeregnetPeriode } from '@utils/typeguards';
 export const useErBeslutteroppgaveOgHarTilgang = (person: PersonFragment): boolean => {
     const periode = useActivePeriod(person);
     const totrinnvurderingAktiv = useTotrinnsvurderingErAktiv();
-    const harBeslutteroppgaveTilgang = useHarBeslutteroppgavetilgang();
+    const harBeslutteroppgaveTilgang = useHarBeslutteroppgavetilgang(person);
 
     if (!isBeregnetPeriode(periode)) {
         return false;

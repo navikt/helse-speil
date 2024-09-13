@@ -1,12 +1,10 @@
+import { PersonFragment } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
-import { useFetchPersonQuery } from '@state/person';
 import { useKanBeslutteEgneOppgaver } from '@state/toggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const useErTidligereSaksbehandler = (): boolean => {
-    const { data } = useFetchPersonQuery();
-    const person = data?.person ?? null;
+export const useErTidligereSaksbehandler = (person: PersonFragment): boolean => {
     const activePeriod = useActivePeriod(person);
     const currentSaksbehandler = useInnloggetSaksbehandler();
     const kanBeslutteEgenBeslutteroppgave = useKanBeslutteEgneOppgaver();

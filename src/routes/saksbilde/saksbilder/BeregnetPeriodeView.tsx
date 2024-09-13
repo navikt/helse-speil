@@ -34,7 +34,7 @@ export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
 
-    const erTidligereSaksbehandler = useErTidligereSaksbehandler();
+    const erTidligereSaksbehandler = useErTidligereSaksbehandler(person);
     const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period, person);
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, period);
