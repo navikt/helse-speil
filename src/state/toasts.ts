@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { AtomEffect, atom, useSetRecoilState } from 'recoil';
+import { AtomEffect, atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export interface ToastObject {
     key: string;
@@ -8,6 +8,8 @@ export interface ToastObject {
     variant?: 'success' | 'error';
     callback?: () => void;
 }
+
+export const useToasts = () => useRecoilValue(toastsState);
 
 export const useAddToast = () => {
     const setToasts = useSetRecoilState(toastsState);
@@ -46,7 +48,7 @@ const removeToastAfterTimeout: AtomEffect<ToastObject[]> = ({ onSet, setSelf }) 
     });
 };
 
-export const toastsState = atom<ToastObject[]>({
+const toastsState = atom<ToastObject[]>({
     key: 'toastsState',
     default: [],
     effects: [removeToastAfterTimeout],

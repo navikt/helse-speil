@@ -2,15 +2,14 @@
 
 import { AnimatePresence } from 'framer-motion';
 import React from 'react';
-import { useRecoilValue } from 'recoil';
 
 import { Toast } from '@components/Toast';
-import { toastsState } from '@state/toasts';
+import { useToasts } from '@state/toasts';
 
 import styles from './Toasts.module.css';
 
 export const Toasts = () => {
-    const toasts = useRecoilValue(toastsState);
+    const toasts = useToasts();
 
     return (
         <div className={styles.Toasts}>
