@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import { useRouter } from 'next/navigation';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
 
@@ -19,7 +18,7 @@ import {
 } from '@io/graphql';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
-import { inntektOgRefusjonState } from '@state/overstyring';
+import { useInntektOgRefusjon } from '@state/overstyring';
 import { isRevurdering } from '@state/selectors/utbetaling';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { getPeriodState } from '@utils/mapping';
@@ -88,7 +87,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const [visBegrunnelseVedtak, setVisBegrunnelseVedtak] = useState(false);
     const [åpenIModal, setÅpenIModal] = useState(false);
     const [avslag, setAvslag] = useState<Maybe<AvslagInput>>(null);
-    const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
+    const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const ventEllerHopp = useOnGodkjenn(period, person);
     const router = useRouter();
     const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();

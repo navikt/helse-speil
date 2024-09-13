@@ -1,5 +1,4 @@
 import React, { ReactElement, useState } from 'react';
-import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { Alert, BodyShort, Button } from '@navikt/ds-react';
 
@@ -7,7 +6,7 @@ import { ErrorMessage } from '@components/ErrorMessage';
 import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Maybe } from '@io/graphql';
-import { inntektOgRefusjonState } from '@state/overstyring';
+import { useInntektOgRefusjon, useSlettLokaleOverstyringer } from '@state/overstyring';
 import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
@@ -19,8 +18,8 @@ interface KalkulerEndringerVarselProps {
 }
 
 export const KalkulerEndringerVarsel = ({ skjæringstidspunkt }: KalkulerEndringerVarselProps): Maybe<ReactElement> => {
-    const [lokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
-    const slettLokaleOverstyringer = useResetRecoilState(inntektOgRefusjonState);
+    const lokaleInntektoverstyringer = useInntektOgRefusjon();
+    const slettLokaleOverstyringer = useSlettLokaleOverstyringer();
     const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntektOgRefusjon();
     const [showModal, setShowModal] = useState(false);
     const antallRedigerteArbeidsgivere = lokaleInntektoverstyringer?.arbeidsgivere.length ?? 0;

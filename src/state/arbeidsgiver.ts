@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
 
 import {
     Arbeidsforholdoverstyring,
@@ -18,7 +17,7 @@ import {
     Utbetaling,
     Vurdering,
 } from '@io/graphql';
-import { inntektOgRefusjonState } from '@state/overstyring';
+import { useInntektOgRefusjon } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
@@ -367,7 +366,7 @@ export const useLokaleRefusjonsopplysninger = (
     organisasjonsnummer: string,
     skjæringstidspunkt: string,
 ): Refusjonsopplysning[] => {
-    const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
+    const lokaleInntektoverstyringer = useInntektOgRefusjon();
 
     if (lokaleInntektoverstyringer.skjæringstidspunkt !== skjæringstidspunkt) return [];
 
@@ -381,7 +380,7 @@ export const useLokaleRefusjonsopplysninger = (
 };
 
 export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringstidspunkt: string): Maybe<number> => {
-    const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
+    const lokaleInntektoverstyringer = useInntektOgRefusjon();
 
     if (lokaleInntektoverstyringer.skjæringstidspunkt !== skjæringstidspunkt) return null;
 

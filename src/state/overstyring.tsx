@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { atom, useRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
 import { Arbeidsgiverrefusjon, Hendelse, Kildetype, Maybe, PersonFragment, Refusjonselement } from '@io/graphql';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
@@ -20,22 +20,9 @@ import {
 import { DateString } from '@typer/shared';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
-export type OverstyrtInntektOgRefusjon = {
-    aktørId: Maybe<string>;
-    fødselsnummer: Maybe<string>;
-    skjæringstidspunkt: Maybe<string>;
-    arbeidsgivere: OverstyrtInntektOgRefusjonArbeidsgiver[] | [];
-};
+export const useInntektOgRefusjon = () => useRecoilValue(inntektOgRefusjonState);
 
-export const inntektOgRefusjonState = atom<OverstyrtInntektOgRefusjon>({
-    key: 'inntektOgRefusjonState',
-    default: {
-        aktørId: null,
-        fødselsnummer: null,
-        skjæringstidspunkt: null,
-        arbeidsgivere: [],
-    },
-});
+export const useSlettLokaleOverstyringer = () => useResetRecoilState(inntektOgRefusjonState);
 
 export const usePostOverstyrtInntekt = (
     person: PersonFragment,
@@ -215,3 +202,20 @@ export const useOverstyrtInntektMetadata = (
         fraRefusjonsopplysninger: refusjonsopplysninger,
     };
 };
+
+type OverstyrtInntektOgRefusjon = {
+    aktørId: Maybe<string>;
+    fødselsnummer: Maybe<string>;
+    skjæringstidspunkt: Maybe<string>;
+    arbeidsgivere: OverstyrtInntektOgRefusjonArbeidsgiver[] | [];
+};
+
+const inntektOgRefusjonState = atom<OverstyrtInntektOgRefusjon>({
+    key: 'inntektOgRefusjonState',
+    default: {
+        aktørId: null,
+        fødselsnummer: null,
+        skjæringstidspunkt: null,
+        arbeidsgivere: [],
+    },
+});

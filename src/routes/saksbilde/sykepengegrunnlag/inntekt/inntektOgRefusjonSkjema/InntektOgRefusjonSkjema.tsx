@@ -9,7 +9,6 @@ import {
     UseFormSetError,
     useForm,
 } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
 
 import { Alert, BodyShort, Button } from '@navikt/ds-react';
 
@@ -26,7 +25,7 @@ import {
     useLokaltMånedsbeløp,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
-import { inntektOgRefusjonState, useOverstyrtInntektMetadata, usePostOverstyrtInntekt } from '@state/overstyring';
+import { useInntektOgRefusjon, useOverstyrtInntektMetadata, usePostOverstyrtInntekt } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@typer/overstyring';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
@@ -78,7 +77,7 @@ export const InntektOgRefusjonSkjema = ({
     const valgtVedtaksperiode = useActivePeriod(person);
     const [harIkkeSkjemaEndringer, setHarIkkeSkjemaEndringer] = useState(false);
     const [showSlettLokaleOverstyringerModal, setShowSlettLokaleOverstyringerModal] = useState(false);
-    const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
+    const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
     const førstePeriodeForSkjæringstidspunkt = getFørstePeriodeForSkjæringstidspunkt(skjæringstidspunkt, arbeidsgiver);

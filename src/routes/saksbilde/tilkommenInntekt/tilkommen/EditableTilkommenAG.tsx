@@ -1,6 +1,5 @@
 import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
 
 import { Alert, Button } from '@navikt/ds-react';
 
@@ -22,7 +21,7 @@ import styles from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema
 import { SlettLokaleOverstyringerModal } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/SlettLokaleOverstyringerModal';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
 import { useLokaltMånedsbeløp } from '@state/arbeidsgiver';
-import { inntektOgRefusjonState, usePostOverstyrtInntekt } from '@state/overstyring';
+import { useInntektOgRefusjon, usePostOverstyrtInntekt } from '@state/overstyring';
 import type { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 import { avrundetToDesimaler } from '@utils/tall';
@@ -52,7 +51,7 @@ export const EditableTilkommenAG = ({
     const form = useForm<TilkommenInntektFormFields>({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(arbeidsgiver.organisasjonsnummer, aktivPeriode.skjaeringstidspunkt);
-    const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
+    const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const [harIkkeSkjemaEndringer] = useState(false);
     const [showSlettLokaleOverstyringerModal, setShowSlettLokaleOverstyringerModal] = useState(false);
 
