@@ -89,7 +89,7 @@ export const BeregnetPopover = ({ period, state, fom, tom, person }: SpleisPopov
     const harGenereltNotat = period.notater.filter((notat) => notat.type === NotatType.Generelt).length > 0;
 
     const { personTotalbeløp, arbeidsgiverTotalbeløp, totalbeløp } = useTotalbeløp(period.tidslinje);
-    const forrigePeriode = useForrigeGenerasjonPeriodeMedPeriode(period);
+    const forrigePeriode = useForrigeGenerasjonPeriodeMedPeriode(period, person);
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigePeriode?.tidslinje);
     const gjenståendeDager = useGjenståendeDager(period, person);
 

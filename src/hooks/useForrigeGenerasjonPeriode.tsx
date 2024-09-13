@@ -1,6 +1,5 @@
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { findArbeidsgiverWithPeriode, usePeriodIsInGeneration } from '@state/arbeidsgiver';
-import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const useForrigeGenerasjonPeriode = (
@@ -19,10 +18,8 @@ export const useForrigeGenerasjonPeriode = (
     );
 };
 
-export const useForrigeGenerasjonPeriodeMedPeriode = (periode: BeregnetPeriodeFragment) => {
-    const { data } = useFetchPersonQuery();
-
-    const currentArbeidsgiver = findArbeidsgiverWithPeriode(periode, data?.person?.arbeidsgivere ?? []);
+export const useForrigeGenerasjonPeriodeMedPeriode = (periode: BeregnetPeriodeFragment, person: PersonFragment) => {
+    const currentArbeidsgiver = findArbeidsgiverWithPeriode(periode, person?.arbeidsgivere ?? []);
 
     const currentGeneration = currentArbeidsgiver?.generasjoner.findIndex((generasjon) =>
         generasjon.perioder.some((_periode) => isBeregnetPeriode(_periode) && _periode.id === periode.id),
