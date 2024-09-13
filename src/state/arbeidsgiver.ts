@@ -128,11 +128,9 @@ export const usePeriodForSkjæringstidspunkt = (
         .shift() ?? null) as Maybe<ActivePeriod>;
 };
 
-export const usePeriodIsInGeneration = (): Maybe<number> => {
-    const { data } = useFetchPersonQuery();
-    const currentPerson = data?.person ?? null;
-    const period = useActivePeriod(currentPerson);
-    const arbeidsgiver = useCurrentArbeidsgiver(currentPerson);
+export const usePeriodIsInGeneration = (person: PersonFragment): Maybe<number> => {
+    const period = useActivePeriod(person);
+    const arbeidsgiver = useCurrentArbeidsgiver(person);
 
     if (!period || !arbeidsgiver) {
         return null;
@@ -171,7 +169,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     organisasjonsnummer: string,
 ): Maybe<ActivePeriod> => {
     const arbeidsgiver = useArbeidsgiver(person, organisasjonsnummer);
-    const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration();
+    const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration(person);
     const periodeTilGodkjenning = usePeriodeTilGodkjenning();
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
     const aktivPeriodeGhostGenerasjon = -1;
@@ -225,7 +223,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
 
 export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
     const aktivPeriode = useActivePeriod(person);
-    const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration();
+    const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration(person);
     const periodeTilGodkjenning = usePeriodeTilGodkjenning();
     const aktivPeriodeGhostGenerasjon = -1;
     const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;

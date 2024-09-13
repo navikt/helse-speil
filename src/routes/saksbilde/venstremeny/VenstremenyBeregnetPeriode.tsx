@@ -54,6 +54,7 @@ export const VenstremenyBeregnetPeriode = ({
     const forrigeGenerasjonPeriode: Maybe<Periode> | undefined = useForrigeGenerasjonPeriode(
         currentArbeidsgiver,
         activePeriod,
+        currentPerson,
     );
 
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigeGenerasjonPeriode?.tidslinje);

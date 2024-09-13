@@ -1,4 +1,4 @@
-import { ArbeidsgiverFragment, BeregnetPeriodeFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { findArbeidsgiverWithPeriode, usePeriodIsInGeneration } from '@state/arbeidsgiver';
 import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -6,8 +6,9 @@ import { isBeregnetPeriode } from '@utils/typeguards';
 export const useForrigeGenerasjonPeriode = (
     currentArbeidsgiver: ArbeidsgiverFragment,
     activePeriod: BeregnetPeriodeFragment,
+    person: PersonFragment,
 ) => {
-    const currentGeneration = usePeriodIsInGeneration();
+    const currentGeneration = usePeriodIsInGeneration(person);
 
     if (currentGeneration === null) {
         return null;
