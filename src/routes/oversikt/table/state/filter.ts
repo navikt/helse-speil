@@ -261,7 +261,13 @@ const filtersState = selector<Filter[]>({
     },
 });
 
-export const filterEndret = atom<boolean>({
+export const useFilterEndret = () => useRecoilValue(filterEndretState);
+export const useSetFilterIkkeEndret = () => {
+    const setFilterEndret = useSetRecoilState(filterEndretState);
+    return () => setFilterEndret(false);
+};
+
+const filterEndretState = atom<boolean>({
     key: 'filterEndret',
     default: false,
 });
@@ -273,7 +279,7 @@ export const useFilters = () => ({
 
 export const useSetMultipleFilters = () => {
     const setFilters = useSetRecoilState(filtersState);
-    const setFilterEndret = useSetRecoilState(filterEndret);
+    const setFilterEndret = useSetRecoilState(filterEndretState);
     return (filterStatus: FilterStatus, ...keys: string[]) => {
         setFilters((filters) => filters.map((it) => (keys.includes(it.key) ? { ...it, status: filterStatus } : it)));
         setFilterEndret(true);
@@ -282,7 +288,7 @@ export const useSetMultipleFilters = () => {
 
 export const useToggleFilter = () => {
     const setFilters = useSetRecoilState(filtersState);
-    const setFilterEndret = useSetRecoilState(filterEndret);
+    const setFilterEndret = useSetRecoilState(filterEndretState);
     return (key: string, status: FilterStatus) => {
         setFilters((filters) => filters.map((it) => (it.key === key ? { ...it, status } : it)));
         setFilterEndret(true);

@@ -15,7 +15,14 @@ import {
     Sorteringsnokkel,
 } from '@io/graphql';
 import { TabType, tabEndret, useAktivTab } from '@oversikt/tabState';
-import { Filter, FilterStatus, Oppgaveoversiktkolonne, filterEndret, useFilters } from '@oversikt/table/state/filter';
+import {
+    Filter,
+    FilterStatus,
+    Oppgaveoversiktkolonne,
+    useFilterEndret,
+    useFilters,
+    useSetFilterIkkeEndret,
+} from '@oversikt/table/state/filter';
 import { SortKey, sorteringEndret, sortering as sorteringSelector } from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
 
@@ -52,7 +59,8 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
     const aktivTab = useAktivTab();
     const { activeFilters } = useFilters();
     const sort = useRecoilValue(sorteringSelector);
-    const [filterErEndret, setFilterEndret] = useRecoilState(filterEndret);
+    const filterErEndret = useFilterEndret();
+    const setFilterIkkeEndret = useSetFilterIkkeEndret();
     const [sorteringErEndret, setSorteringEndret] = useRecoilState(sorteringEndret);
     const [tabErEndret, setTabEndret] = useRecoilState(tabEndret);
     const limit = 14;
@@ -92,7 +100,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
                 filtrering: filtrering(activeFilters, aktivTab),
                 sortering: sortering(sort),
             });
-            setFilterEndret(false);
+            setFilterIkkeEndret();
             setSorteringEndret(false);
             setTabEndret(false);
         }
@@ -103,7 +111,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
         activeFilters,
         sort,
         aktivTab,
-        setFilterEndret,
+        setFilterIkkeEndret,
         setSorteringEndret,
         setTabEndret,
         setOffset,
