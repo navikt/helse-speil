@@ -1,12 +1,16 @@
 import React, { ReactElement } from 'react';
 
-import { Maybe } from '@io/graphql';
+import { Maybe, PersonFragment } from '@io/graphql';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 
 import { TagMedTooltip } from './TagMedTooltip';
 
-export const UtlandTag = (): Maybe<ReactElement> => {
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning();
+interface UtlandTagProps {
+    person: PersonFragment;
+}
+
+export const UtlandTag = ({ person }: UtlandTagProps): Maybe<ReactElement> => {
+    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     if (!periodeTilGodkjenning) return null;
 
     const utlandVarsel = periodeTilGodkjenning.varsler.find((varsel) => varsel.kode === 'SB_EX_5');

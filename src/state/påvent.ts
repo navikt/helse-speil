@@ -14,7 +14,6 @@ import {
     PaVent,
     PaventFragment,
 } from '@io/graphql';
-import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 const useOptimistiskPaVent = (): PaventFragment => {
@@ -74,14 +73,12 @@ export const useLeggPåVent = (
 
     return [leggPåVent, data];
 };
-export const useFjernPåVent = (): [
-    (oppgavereferanse: string) => Promise<FetchResult<FjernPaVentMutation>>,
-    MutationResult<FjernPaVentMutation>,
-] => {
+export const useFjernPåVent = (
+    behandlingId?: string,
+): [(oppgavereferanse: string) => Promise<FetchResult<FjernPaVentMutation>>, MutationResult<FjernPaVentMutation>] => {
     const [fjernPåVentMutation, data] = useMutation(FjernPaVentDocument, {
         refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
     });
-    const behandlingId = usePeriodeTilGodkjenning()?.behandlingId ?? null;
 
     const fjernPåVent = (oppgavereferanse: string) =>
         fjernPåVentMutation({
@@ -90,7 +87,7 @@ export const useFjernPåVent = (): [
                 __typename: 'Mutation',
                 fjernPaVent: true,
             },
-            update: (cache) => oppdaterPåVentICache(cache, oppgavereferanse, behandlingId, () => null),
+            update: (cache) => oppdaterPåVentICache(cache, oppgavereferanse, behandlingId ?? null, () => null),
         });
 
     return [fjernPåVent, data];

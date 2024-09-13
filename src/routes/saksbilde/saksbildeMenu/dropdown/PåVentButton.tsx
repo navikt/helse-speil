@@ -14,10 +14,9 @@ interface PåVentButtonProps {
 
 export const PåVentButton = ({ person }: PåVentButtonProps): Maybe<ReactElement> => {
     const [showModal, setShowModal] = useState(false);
-
-    const [fjernPåVent, { loading, error: fjernPåVentError }] = useFjernPåVent();
+    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
+    const [fjernPåVent, { loading, error: fjernPåVentError }] = useFjernPåVent(periodeTilGodkjenning?.behandlingId);
     const errorHandler = useOperationErrorHandler('Legg på vent');
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning();
     const oppgaveId = periodeTilGodkjenning?.oppgave?.id;
     const erPåVent = periodeTilGodkjenning?.paVent;
     const tildeling = person.tildeling;

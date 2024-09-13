@@ -17,25 +17,17 @@ import styles from './PersonHeader.module.css';
 const PersonHeaderContainer = (): Maybe<ReactElement> => {
     const isAnonymous = useIsAnonymous();
     const { loading, data } = useFetchPersonQuery();
+    const person = data?.person;
 
     if (loading) {
         return <PersonHeaderSkeleton />;
     }
 
-    if (!data?.person) {
+    if (!person) {
         return null;
     }
 
-    return (
-        <PersonHeaderWithContent
-            fødselsnummer={data.person.fodselsnummer}
-            aktørId={data.person.aktorId}
-            enhet={data.person.enhet}
-            personinfo={data.person.personinfo}
-            isAnonymous={isAnonymous}
-            dødsdato={data.person.dodsdato}
-        />
-    );
+    return <PersonHeaderWithContent isAnonymous={isAnonymous} person={person} />;
 };
 
 const PersonHeaderSkeleton = (): ReactElement => {

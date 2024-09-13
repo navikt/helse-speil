@@ -4,9 +4,8 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Clipboard } from '@components/clipboard';
-import { Enhet, Kjonn, Maybe, Personinfo } from '@io/graphql';
+import { Kjonn, PersonFragment } from '@io/graphql';
 import { FullmaktTag } from '@saksbilde/personHeader/FullmaktTag';
-import { DateString } from '@typer/shared';
 
 import { AdressebeskyttelseTag } from './AdressebeskyttelseTag';
 import { DødsdatoTag } from './DødsdatoTag';
@@ -20,28 +19,18 @@ import { VergemålTag } from './VergemålTag';
 import styles from './PersonHeader.module.css';
 
 interface PersonHeaderWithContentProps {
-    fødselsnummer: string;
-    aktørId: string;
-    enhet: Enhet;
-    personinfo: Personinfo;
     isAnonymous: boolean;
-    dødsdato: Maybe<DateString>;
+    person: PersonFragment;
 }
 
-export const PersonHeaderWithContent = ({
-    fødselsnummer,
-    aktørId,
-    enhet,
-    personinfo,
-    isAnonymous,
-    dødsdato,
-}: PersonHeaderWithContentProps): ReactElement => {
+export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWithContentProps): ReactElement => {
+    const personinfo = person.personinfo;
     return (
         <div className={styles.PersonHeader}>
             <GenderIcon gender={isAnonymous ? Kjonn.Ukjent : personinfo.kjonn} />
-            <NavnOgAlder personinfo={personinfo} dodsdato={dødsdato} />
+            <NavnOgAlder personinfo={personinfo} dodsdato={person.dodsdato} />
             <BodyShort className={styles.Separator}>/</BodyShort>
-            <Fødselsnummer fødselsnummer={fødselsnummer} />
+            <Fødselsnummer fødselsnummer={person.fodselsnummer} />
             <BodyShort className={styles.Separator}>/</BodyShort>
             <AnonymizableText>Aktør-ID:&nbsp;</AnonymizableText>
             <Clipboard
@@ -49,19 +38,19 @@ export const PersonHeaderWithContent = ({
                 copyMessage="Aktør-ID er kopiert"
                 tooltip={{ content: 'Kopier aktør-ID' }}
             >
-                <AnonymizableText>{aktørId}</AnonymizableText>
+                <AnonymizableText>{person.aktorId}</AnonymizableText>
             </Clipboard>
             <BodyShort className={styles.Separator}>/</BodyShort>
             <AnonymizableText>
-                Boenhet: {enhet.id} ({enhet.navn})
+                Boenhet: {person.enhet.id} ({person.enhet.navn})
             </AnonymizableText>
             <div className={styles.Tags}>
                 <AdressebeskyttelseTag adressebeskyttelse={personinfo.adressebeskyttelse} />
                 <ReservasjonTag reservasjon={personinfo.reservasjon} />
-                <VergemålTag />
+                <VergemålTag person={person} />
                 <FullmaktTag />
-                <UtlandTag />
-                <DødsdatoTag dødsdato={dødsdato} />
+                <UtlandTag person={person} />
+                <DødsdatoTag dødsdato={person.dodsdato} />
             </div>
         </div>
     );

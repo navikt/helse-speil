@@ -148,10 +148,7 @@ export const usePeriodeErIGenerasjon = (arbeidsgiver: Maybe<ArbeidsgiverFragment
         ),
     ) ?? null;
 
-export const usePeriodeTilGodkjenning = (): Maybe<BeregnetPeriodeFragment> => {
-    const { data } = useFetchPersonQuery();
-    const person = data?.person;
-
+export const usePeriodeTilGodkjenning = (person: Maybe<PersonFragment>): Maybe<BeregnetPeriodeFragment> => {
     if (!person) return null;
 
     return (
@@ -170,7 +167,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
 ): Maybe<ActivePeriod> => {
     const arbeidsgiver = useArbeidsgiver(person, organisasjonsnummer);
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration(person);
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning();
+    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
     const aktivPeriodeGhostGenerasjon = -1;
     const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
@@ -224,7 +221,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
 export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
     const aktivPeriode = useActivePeriod(person);
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration(person);
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning();
+    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     const aktivPeriodeGhostGenerasjon = -1;
     const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
 
@@ -235,7 +232,7 @@ export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: Perso
 
 export const useErGhostLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
     const aktivPeriode = useActivePeriod(person);
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning();
+    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
 
     if (!aktivPeriode) return false;
 

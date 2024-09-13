@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import { enPerson } from '@test-data/person';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
@@ -9,6 +10,7 @@ import { UtlandTag } from './UtlandTag';
 jest.mock('@state/arbeidsgiver');
 
 describe('UtlandTag', () => {
+    const person = enPerson();
     afterEach(() => {
         jest.clearAllMocks();
     });
@@ -21,12 +23,12 @@ describe('UtlandTag', () => {
                 },
             ],
         });
-        render(<UtlandTag />);
+        render(<UtlandTag person={person} />);
         expect(screen.queryByText('Utland')).toBeVisible();
     });
     it('rendrer ikke tag når det ikke finnes varsel for utlandsenhet på periode til godkjenning', () => {
         (usePeriodeTilGodkjenning as jest.Mock).mockReturnValue(null);
-        render(<UtlandTag />);
+        render(<UtlandTag person={person} />);
         expect(screen.queryByText('Utland')).not.toBeInTheDocument();
     });
 });

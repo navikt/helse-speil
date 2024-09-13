@@ -1,12 +1,16 @@
 import React, { ReactElement } from 'react';
 
-import { Maybe } from '@io/graphql';
+import { Maybe, PersonFragment } from '@io/graphql';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 
 import { TagMedTooltip } from './TagMedTooltip';
 
-export const VergemålTag = (): Maybe<ReactElement> => {
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning();
+interface VergemålTagProps {
+    person: PersonFragment;
+}
+
+export const VergemålTag = ({ person }: VergemålTagProps): Maybe<ReactElement> => {
+    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     if (!periodeTilGodkjenning) return null;
 
     const harVergemål = periodeTilGodkjenning.varsler.find((varsel) => varsel.kode === 'SB_EX_4');

@@ -12,7 +12,7 @@ export const useSkalViseAvviksvarselSomFeil = () => {
     const person = data?.person ?? null;
     const arbeidsgiver = useCurrentArbeidsgiver(person);
     const aktivPeriode = useActivePeriod(person);
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning();
+    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeTilGodkjenning);
     const harBlittSkjønnsmessigFastsatt =
         vilkårsgrunnlag?.inntekter.find((aginntekt) => aginntekt.arbeidsgiver === arbeidsgiver?.organisasjonsnummer)
