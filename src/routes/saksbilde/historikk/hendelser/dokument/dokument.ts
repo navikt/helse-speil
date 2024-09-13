@@ -37,37 +37,37 @@ export const getKildetekst = (dokumenttype: DokumenthendelseObject['dokumenttype
     }
 };
 
-export const useOpenedDocuments = () => useRecoilValue(openedDocument);
+export const useOpenedDocuments = () => useRecoilValue(openedDocumentState);
 
 export const useAddOpenedDocument = () => {
-    const setOpenedDocuments = useSetRecoilState(openedDocument);
-    return (dokument: ÅpnedeDokumenter) => {
+    const setOpenedDocuments = useSetRecoilState(openedDocumentState);
+    return (dokument: Dokument) => {
         setOpenedDocuments((åpnedeDokumenter) => [...åpnedeDokumenter, dokument]);
     };
 };
 
 export const useRemoveOpenedDocument = () => {
-    const setOpenedDocuments = useSetRecoilState(openedDocument);
+    const setOpenedDocuments = useSetRecoilState(openedDocumentState);
     return (dokumentId: string) => {
         setOpenedDocuments((prevState) => prevState.filter((item) => item.dokumentId !== dokumentId));
     };
 };
 
 export const useResetOpenedDocuments = () => {
-    const resetOpenedDocuments = useResetRecoilState(openedDocument);
+    const resetOpenedDocuments = useResetRecoilState(openedDocumentState);
     useEffect(() => {
         resetOpenedDocuments();
     }, [resetOpenedDocuments]);
 };
 
-interface ÅpnedeDokumenter {
+interface Dokument {
     dokumentId: string;
     fødselsnummer: string;
     dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad' | 'Vedtak';
     timestamp: string;
 }
 
-const openedDocument = atom<ÅpnedeDokumenter[]>({
+const openedDocumentState = atom<Dokument[]>({
     key: 'openedDocuments',
     default: [],
 });
