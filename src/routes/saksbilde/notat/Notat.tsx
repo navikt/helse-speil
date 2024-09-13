@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
@@ -10,7 +9,7 @@ import { useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { LeggTilNotatDocument, Maybe, NotatType, PersonFragment } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { lokaleNotaterState } from '@state/notater';
+import { useFjernNotat, useNotater } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { isGhostPeriode, isTilkommenInntekt } from '@utils/typeguards';
 
@@ -23,8 +22,8 @@ interface NotatProps {
 }
 
 export const Notat = ({ person }: NotatProps): Maybe<ReactElement> => {
-    const notater = useRecoilValue(lokaleNotaterState);
-    const oppdaterNotat = useSetRecoilState(lokaleNotaterState);
+    const notater = useNotater();
+    const fjernNotat = useFjernNotat();
     const aktivPeriode = useActivePeriod(person);
     const [open, setOpen] = useState(false);
     const form = useForm();
@@ -98,12 +97,7 @@ export const Notat = ({ person }: NotatProps): Maybe<ReactElement> => {
 
     const lukkNotatfelt = () => {
         setOpen(false);
-        oppdaterNotat((currentValue) => [
-            ...currentValue.filter(
-                (notat) =>
-                    notat.type !== NotatType.Generelt || notat.vedtaksperiodeId !== aktivPeriode.vedtaksperiodeId,
-            ),
-        ]);
+        fjernNotat(aktivPeriode.vedtaksperiodeId, NotatType.Generelt);
     };
 
     return (

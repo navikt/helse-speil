@@ -1,12 +1,11 @@
 import classNames from 'classnames';
 import React, { Dispatch, ReactElement, SetStateAction } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
 
 import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { Maybe, NotatType, PersonFragment } from '@io/graphql';
-import { lokaleNotaterState } from '@state/notater';
+import { useFjernNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { isGhostPeriode, isTilkommenInntekt } from '@utils/typeguards';
 
@@ -22,7 +21,7 @@ interface ReturnotatProps {
 }
 
 export const Returnotat = ({ onSubmit, setShowNotat, error, person }: ReturnotatProps): Maybe<ReactElement> => {
-    const oppdaterNotat = useSetRecoilState(lokaleNotaterState);
+    const fjernNotat = useFjernNotat();
     const aktivPeriode = useActivePeriod(person);
     const form = useForm();
 
@@ -36,11 +35,7 @@ export const Returnotat = ({ onSubmit, setShowNotat, error, person }: Returnotat
     };
 
     const lukkNotatfelt = () => {
-        oppdaterNotat((currentValue) => [
-            ...currentValue.filter(
-                (notat) => notat.type !== NotatType.Retur || notat.vedtaksperiodeId !== aktivPeriode.vedtaksperiodeId,
-            ),
-        ]);
+        fjernNotat(aktivPeriode.vedtaksperiodeId, NotatType.Generelt);
         setShowNotat(false);
     };
 

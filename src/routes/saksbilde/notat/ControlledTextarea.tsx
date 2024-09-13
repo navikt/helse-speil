@@ -1,11 +1,10 @@
 import React, { ReactElement } from 'react';
 import { Control, useController } from 'react-hook-form';
-import { useRecoilState } from 'recoil';
 
 import { Textarea } from '@navikt/ds-react';
 
 import { NotatType } from '@io/graphql';
-import { LagretNotat, lokaleNotaterState } from '@state/notater';
+import { useGetNotatTekst, useReplaceNotat } from '@state/notater';
 
 interface ControlledTextareaProps {
     vedtaksperiodeId: string;
@@ -18,9 +17,8 @@ export const ControlledTextarea = ({
     vedtaksperiodeId,
     notattype = NotatType.Generelt,
 }: ControlledTextareaProps): ReactElement => {
-    const [notater, setNotat] = useRecoilState(lokaleNotaterState);
-    const lagretNotat =
-        notater.find((notat) => notat.type === notattype && notat.vedtaksperiodeId === vedtaksperiodeId)?.tekst || '';
+    const replaceNotat = useReplaceNotat();
+    const lagretNotat = useGetNotatTekst(notattype, vedtaksperiodeId) ?? '';
     const { field, fieldState } = useController({
         control: control,
         name: `tekst`,
@@ -44,16 +42,11 @@ export const ControlledTextarea = ({
             // value={notater[vedtaksperiodeId]}
             onChange={(e) => {
                 field.onChange(e);
-                setNotat((currentState: LagretNotat[]) => [
-                    ...currentState.filter(
-                        (notat) => notat.type !== notattype || notat.vedtaksperiodeId !== vedtaksperiodeId,
-                    ),
-                    {
-                        vedtaksperiodeId: vedtaksperiodeId,
-                        tekst: e.target.value,
-                        type: notattype,
-                    },
-                ]);
+                replaceNotat({
+                    vedtaksperiodeId: vedtaksperiodeId,
+                    tekst: e.target.value,
+                    type: notattype,
+                });
             }}
             label={`${notattype}-notat`}
             hideLabel
