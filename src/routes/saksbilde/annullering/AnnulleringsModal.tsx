@@ -55,7 +55,7 @@ export const AnnulleringsModal = ({
 
     const annullering = (): AnnulleringDataInput => ({
         aktorId: person?.aktorId,
-        fodselsnummer: person?.aktorId,
+        fodselsnummer: person?.fodselsnummer,
         organisasjonsnummer,
         vedtaksperiodeId,
         utbetalingId,
