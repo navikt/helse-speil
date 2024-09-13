@@ -48,7 +48,7 @@ export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWit
                 <AdressebeskyttelseTag adressebeskyttelse={personinfo.adressebeskyttelse} />
                 <ReservasjonTag reservasjon={personinfo.reservasjon} />
                 <VergemålTag person={person} />
-                <FullmaktTag />
+                <FullmaktTag person={person} />
                 <UtlandTag person={person} />
                 <DødsdatoTag dødsdato={person.dodsdato} />
             </div>
