@@ -50,7 +50,8 @@ const getHistorikkTitle = (type: Filtertype): string => {
 
 const HistorikkWithContent = (): ReactElement => {
     const { loading, data } = useFetchPersonQuery();
-    const historikk = useFilteredHistorikk();
+    const person = data?.person ?? null;
+    const historikk = useFilteredHistorikk(person);
     const [filter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
 
@@ -62,8 +63,6 @@ const HistorikkWithContent = (): ReactElement => {
             modifier: Key.Alt,
         },
     ]);
-
-    const person = data?.person ?? null;
 
     if (loading) return <HistorikkSkeleton />;
 

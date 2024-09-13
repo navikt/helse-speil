@@ -4,6 +4,7 @@ import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
+    Maybe,
     NyttInntektsforholdPeriodeFragment,
     PersonFragment,
     UberegnetPeriodeFragment,
@@ -16,7 +17,6 @@ import {
 import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { toNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
-import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject, Hendelsetype } from '@typer/historikk';
 import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -147,9 +147,7 @@ const getHendelserForUberegnetPeriode = (
     ].sort(byTimestamp);
 };
 
-const useHistorikk = (): HendelseObject[] => {
-    const { data } = useFetchPersonQuery();
-    const person = data?.person ?? null;
+const useHistorikk = (person: Maybe<PersonFragment>): HendelseObject[] => {
     const activePeriod = useActivePeriod(person);
 
     if (!person) {
@@ -215,9 +213,9 @@ const showHistorikkState = atom<boolean>({
 
 export const useShowHistorikkState = () => useRecoilState(showHistorikkState);
 
-export const useFilteredHistorikk = (): Array<HendelseObject> => {
+export const useFilteredHistorikk = (person: Maybe<PersonFragment>): Array<HendelseObject> => {
     const filter = useRecoilValue(filterState);
-    const historikk = useHistorikk();
+    const historikk = useHistorikk(person);
 
     return historikk.filter((hendelse) => filterMap[filter].includes(hendelse.type));
 };

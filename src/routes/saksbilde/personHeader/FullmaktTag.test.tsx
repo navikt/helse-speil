@@ -15,19 +15,19 @@ describe('FullmaktTag', () => {
     it('rendrer tag når personinfo har fullmakt lik true', () => {
         const person = enPerson({ personinfo: { ...enPerson().personinfo, fullmakt: true } });
         (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: { person: person } });
-        render(<FullmaktTag />);
+        render(<FullmaktTag person={person} />);
         expect(screen.queryByText('Fullmakt')).toBeVisible();
     });
     it('rendrer tag når personinfo har fullmakt lik false', () => {
         const person = enPerson({ personinfo: { ...enPerson().personinfo, fullmakt: false } });
         (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: { person: person } });
-        render(<FullmaktTag />);
+        render(<FullmaktTag person={person} />);
         expect(screen.queryByText('Fullmakt')).not.toBeInTheDocument();
     });
     it('rendrer tag når personinfo har fullmakt lik null', () => {
         const person = enPerson({ personinfo: { ...enPerson().personinfo, fullmakt: null } });
         (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: { person: person } });
-        render(<FullmaktTag />);
+        render(<FullmaktTag person={person} />);
         expect(screen.queryByText('Fullmakt')).not.toBeInTheDocument();
     });
 });
