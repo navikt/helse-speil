@@ -19,7 +19,6 @@ import {
 } from '@io/graphql';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
-import { useFetchPersonQuery } from '@state/person';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { isGodkjent } from '@state/selectors/utbetaling';
 import { Refusjonsopplysning } from '@typer/overstyring';
@@ -379,9 +378,10 @@ export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringsti
     );
 };
 
-export const useGjenståendeDager = (periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment): Maybe<number> => {
-    const { data } = useFetchPersonQuery();
-    const person = data?.person;
+export const useGjenståendeDager = (
+    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+    person: PersonFragment,
+): Maybe<number> => {
     const arbeidsgiver = findArbeidsgiverWithPeriode(periode, person?.arbeidsgivere ?? []);
     const periodeErIGenerasjon = usePeriodeErIGenerasjon(arbeidsgiver, periode.id);
 

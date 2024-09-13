@@ -58,7 +58,7 @@ export const VenstremenyBeregnetPeriode = ({
     );
 
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigeGenerasjonPeriode?.tidslinje);
-    const gjenståendeSykedager = useGjenståendeDager(activePeriod);
+    const gjenståendeSykedager = useGjenståendeDager(activePeriod, currentPerson);
     const utbetaleTilgang = finnUtbetaleTilgang(activePeriod);
     const periodState = getPeriodState(activePeriod);
     const utbetalingsvarsler: VarselObject[] = [utbetaling(periodState), tilstandinfo(periodState)].filter(

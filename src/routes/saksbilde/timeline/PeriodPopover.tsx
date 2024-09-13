@@ -8,7 +8,7 @@ import { BodyShort, Popover } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useForrigeGenerasjonPeriodeMedPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
-import { BeregnetPeriodeFragment, NotatType, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
+import { BeregnetPeriodeFragment, NotatType, PersonFragment, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
 import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { DatePeriod, DateString, PeriodState } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
@@ -77,9 +77,10 @@ const InfotrygdPopover = ({ fom, tom }: DatePeriod): ReactElement => {
 interface SpleisPopoverProps extends DatePeriod {
     period: BeregnetPeriodeFragment;
     state: PeriodState;
+    person: PersonFragment;
 }
 
-export const BeregnetPopover = ({ period, state, fom, tom }: SpleisPopoverProps): ReactElement => {
+export const BeregnetPopover = ({ period, state, fom, tom, person }: SpleisPopoverProps): ReactElement => {
     const dayTypes = groupDayTypes(period);
 
     const arbeidsgiverperiode = getDayTypesRender(Utbetalingsdagtype.Arbeidsgiverperiodedag, dayTypes);
@@ -90,7 +91,7 @@ export const BeregnetPopover = ({ period, state, fom, tom }: SpleisPopoverProps)
     const { personTotalbeløp, arbeidsgiverTotalbeløp, totalbeløp } = useTotalbeløp(period.tidslinje);
     const forrigePeriode = useForrigeGenerasjonPeriodeMedPeriode(period);
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigePeriode?.tidslinje);
-    const gjenståendeDager = useGjenståendeDager(period);
+    const gjenståendeDager = useGjenståendeDager(period, person);
 
     return (
         <>
@@ -218,9 +219,10 @@ const UberegnetPopover = ({ fom, tom, state }: UberegnetPopoverProps): ReactElem
 interface PeriodPopoverProps extends Omit<PopoverProps, 'children'> {
     period: TimelinePeriod;
     state: PeriodState;
+    person: PersonFragment;
 }
 
-export const PeriodPopover = ({ period, state, ...popoverProps }: PeriodPopoverProps): ReactElement => {
+export const PeriodPopover = ({ period, state, person, ...popoverProps }: PeriodPopoverProps): ReactElement => {
     const fom = dayjs(period.fom).format(NORSK_DATOFORMAT);
     const tom = dayjs(period.tom).format(NORSK_DATOFORMAT);
 
@@ -231,7 +233,7 @@ export const PeriodPopover = ({ period, state, ...popoverProps }: PeriodPopoverP
                     {isInfotrygdPeriod(period) ? (
                         <InfotrygdPopover fom={fom} tom={tom} />
                     ) : isBeregnetPeriode(period) ? (
-                        <BeregnetPopover period={period} state={state} fom={fom} tom={tom} />
+                        <BeregnetPopover period={period} state={state} fom={fom} tom={tom} person={person} />
                     ) : isGhostPeriode(period) ? (
                         <GhostPopover fom={fom} tom={tom} />
                     ) : isTilkommenInntekt(period) ? (

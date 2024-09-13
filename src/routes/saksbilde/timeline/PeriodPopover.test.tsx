@@ -14,6 +14,7 @@ import {
     Utbetalingtype,
 } from '@io/graphql';
 import { useGjenståendeDager } from '@state/arbeidsgiver';
+import { enPerson } from '@test-data/person';
 import { ApolloWrapper } from '@test-wrappers';
 import { render, screen } from '@testing-library/react';
 
@@ -127,6 +128,7 @@ describe('PeriodPopover', () => {
             },
         },
     ];
+    const person = enPerson();
 
     test('viser ingenting når det ikke er utbetaling', () => {
         render(
@@ -135,6 +137,7 @@ describe('PeriodPopover', () => {
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
+                person={person}
             />,
             { wrapper: ApolloWrapper },
         );
@@ -148,6 +151,7 @@ describe('PeriodPopover', () => {
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
+                person={person}
             />,
             { wrapper: ApolloWrapper },
         );
@@ -160,6 +164,7 @@ describe('PeriodPopover', () => {
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
+                person={person}
             />,
             { wrapper: ApolloWrapper },
         );
@@ -172,6 +177,7 @@ describe('PeriodPopover', () => {
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
+                person={person}
             />,
             { wrapper: ApolloWrapper },
         );
@@ -186,6 +192,7 @@ describe('PeriodPopover', () => {
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
+                person={person}
             />,
             { wrapper: ApolloWrapper },
         );

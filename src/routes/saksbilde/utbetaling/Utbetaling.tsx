@@ -101,7 +101,7 @@ const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingB
     const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, arbeidsgiver);
     const readOnly = useIsReadOnlyOppgave(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
-    const gjenståendeDager = useGjenståendeDager(period);
+    const gjenståendeDager = useGjenståendeDager(period, person);
 
     const dager: Map<string, Utbetalingstabelldag> = useTabelldagerMap({
         tidslinje: period.tidslinje,

@@ -167,7 +167,7 @@ export const Period = ({
                 {!notCurrent && <InfoPin period={period} />}
                 {harUvurderteVarsler && <UvurderteVarslerIcon className={styles.uvurderteVarslerIcon} />}
             </button>
-            <PeriodPopover period={period} state={periodState} {...popoverProps} />
+            <PeriodPopover period={period} state={periodState} person={person} {...popoverProps} />
         </>
     );
 };
