@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { XMarkIcon } from '@navikt/aksel-icons';
 
 import { Kilde } from '@components/Kilde';
-import { Maybe } from '@io/graphql';
+import { Maybe, PersonFragment } from '@io/graphql';
 import { HendelseDate } from '@saksbilde/historikk/hendelser/HendelseDate';
 import { Inntektsmeldingsinnhold } from '@saksbilde/historikk/hendelser/dokument/Inntektsmeldingsinnhold';
 import { Søknadsinnhold } from '@saksbilde/historikk/hendelser/dokument/Søknadsinnhold';
@@ -17,7 +17,10 @@ import {
 
 import styles from './ÅpnetDokument.module.scss';
 
-export const ÅpnetDokument = (): Maybe<ReactElement> => {
+interface ÅpnetDokumentProps {
+    person: PersonFragment;
+}
+export const ÅpnetDokument = ({ person }: ÅpnetDokumentProps): Maybe<ReactElement> => {
     const fjernÅpnetDokument = useRemoveOpenedDocument();
     const åpnedeDokumenter = useOpenedDocuments();
 
@@ -42,6 +45,7 @@ export const ÅpnetDokument = (): Maybe<ReactElement> => {
                         <Inntektsmeldingsinnhold
                             dokumentId={dokument.dokumentId}
                             fødselsnummer={dokument.fødselsnummer}
+                            person={person}
                         />
                     )}
                 </div>

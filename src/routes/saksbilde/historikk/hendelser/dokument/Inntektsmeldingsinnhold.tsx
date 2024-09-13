@@ -7,7 +7,8 @@ import { Bold } from '@components/Bold';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
-import { useMaybeArbeidsgiver } from '@state/arbeidsgiver';
+import { PersonFragment } from '@io/graphql';
+import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { DokumenthendelseObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
@@ -22,12 +23,17 @@ import styles from './Inntektsmeldingsinnhold.module.css';
 type InntektsmeldinginnholdProps = {
     dokumentId: DokumenthendelseObject['dokumentId'];
     fødselsnummer: string;
+    person: PersonFragment;
 };
 
-export const Inntektsmeldingsinnhold = ({ dokumentId, fødselsnummer }: InntektsmeldinginnholdProps): ReactElement => {
+export const Inntektsmeldingsinnhold = ({
+    dokumentId,
+    fødselsnummer,
+    person,
+}: InntektsmeldinginnholdProps): ReactElement => {
     const inntektsmeldingssrespons = useQueryInntektsmelding(fødselsnummer, dokumentId ?? '');
     const inntektsmelding = inntektsmeldingssrespons.data;
-    const arbeidsgiverNavn = useMaybeArbeidsgiver(inntektsmelding?.virksomhetsnummer)?.navn;
+    const arbeidsgiverNavn = useArbeidsgiver(person, inntektsmelding?.virksomhetsnummer ?? '')?.navn;
 
     return (
         <div>

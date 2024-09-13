@@ -6,6 +6,7 @@ import { Link } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { hoppTilModia } from '@components/SystemMenu';
+import { PersonFragment } from '@io/graphql';
 import { DokumenthendelseObject } from '@typer/historikk';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
@@ -18,19 +19,20 @@ import { getKildetekst, getKildetype, useAddOpenedDocument, useOpenedDocuments }
 import styles from './Dokumenthendelse.module.scss';
 
 type DokumenthendelseProps = Omit<DokumenthendelseObject, 'type' | 'id'> & {
-    fødselsnummer: string;
+    person: PersonFragment;
 };
 
 export const Dokumenthendelse = ({
     dokumenttype,
     timestamp,
     dokumentId,
-    fødselsnummer,
+    person,
 }: DokumenthendelseProps): ReactElement => {
     const [showDokumenter, setShowDokumenter] = useState(false);
     const [dokument, setDokument] = useState<ReactNode>(null);
     const leggTilÅpnetDokument = useAddOpenedDocument();
     const åpnedeDokumenter = useOpenedDocuments();
+    const fødselsnummer = person.fodselsnummer;
 
     useEffect(() => {
         if (!showDokumenter || !fødselsnummer) return;
@@ -40,7 +42,9 @@ export const Dokumenthendelse = ({
         }
 
         if (dokumenttype === 'Inntektsmelding') {
-            setDokument(<Inntektsmeldingsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} />);
+            setDokument(
+                <Inntektsmeldingsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} person={person} />,
+            );
         }
     }, [showDokumenter]);
 

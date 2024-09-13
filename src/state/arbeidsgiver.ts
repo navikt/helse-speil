@@ -92,12 +92,6 @@ export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<Arb
 export const useArbeidsgiver = (person: PersonFragment, organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
     person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
 
-export const useMaybeArbeidsgiver = (organisasjonsnummer?: Maybe<string>): Maybe<ArbeidsgiverFragment> => {
-    const { data } = useFetchPersonQuery();
-    const person = data?.person;
-    return person?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
-};
-
 export const useInntektsmeldinghendelser = (arbeidsgiver: Maybe<ArbeidsgiverFragment>): Hendelse[] => {
     if (!arbeidsgiver) return [];
 

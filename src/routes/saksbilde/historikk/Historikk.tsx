@@ -110,13 +110,7 @@ const HistorikkWithContent = (): ReactElement => {
                                             return <MinimumSykdomsgradhendelse key={`${it.id}-${index}`} {...it} />;
                                         }
                                         case 'Dokument': {
-                                            return (
-                                                <Dokumenthendelse
-                                                    key={it.id}
-                                                    {...it}
-                                                    fødselsnummer={person.fodselsnummer}
-                                                />
-                                            );
+                                            return <Dokumenthendelse key={it.id} {...it} person={person} />;
                                         }
                                         case 'Notat': {
                                             return <Notathendelse key={it.id} person={person} {...it} />;
@@ -142,7 +136,7 @@ const HistorikkWithContent = (): ReactElement => {
                     )}
                 </motion.div>
             </JusterbarSidemeny>
-            <ÅpnetDokument />
+            {person && <ÅpnetDokument person={person} />}
             <Historikkmeny />
         </div>
     );
