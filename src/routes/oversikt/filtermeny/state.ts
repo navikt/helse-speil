@@ -13,12 +13,6 @@ const syncWithLocalStorageEffect: AtomEffect<boolean> = ({ onSet, setSelf }) => 
     });
 };
 
-const showFiltermeny = atom<boolean>({
-    key: 'showFiltermeny',
-    default: true,
-    effects: [syncWithLocalStorageEffect],
-});
-
 export const useToggleFiltermeny = () => {
     const setShow = useSetRecoilState(showFiltermeny);
     return () => setShow((show) => !show);
@@ -26,7 +20,19 @@ export const useToggleFiltermeny = () => {
 
 export const useShowFiltermeny = (): boolean => useRecoilValue(showFiltermeny);
 
-export const filtermenyWidth = atom<number>({
+const showFiltermeny = atom<boolean>({
+    key: 'showFiltermeny',
+    default: true,
+    effects: [syncWithLocalStorageEffect],
+});
+
+export const useFiltermenyWidth = () => useRecoilValue(filtermenyWidthState);
+export const useSetFiltermenyWidth = () => {
+    const setFiltermenyWidth = useSetRecoilState(filtermenyWidthState);
+    return (width: number) => setFiltermenyWidth(width);
+};
+
+const filtermenyWidthState = atom<number>({
     key: 'filtermenyWidth',
     default: 320,
 });

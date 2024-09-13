@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
-import { useSetRecoilState } from 'recoil';
 import { range } from 'remeda';
 
 import { HStack, Skeleton } from '@navikt/ds-react';
@@ -10,7 +9,7 @@ import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSideme
 import { TabType, useAktivTab } from '../tabState';
 import { Filter, Oppgaveoversiktkolonne } from '../table/state/filter';
 import { FilterList } from './FilterList';
-import { filtermenyWidth, useShowFiltermeny } from './state';
+import { useSetFiltermenyWidth, useShowFiltermeny } from './state';
 
 import styles from './Filtermeny.module.css';
 
@@ -20,7 +19,7 @@ interface FilterMenyProps {
 
 export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
     const showFiltermeny = useShowFiltermeny();
-    const settBredde = useSetRecoilState(filtermenyWidth);
+    const settBredde = useSetFiltermenyWidth();
     const aktivTab = useAktivTab();
 
     return (

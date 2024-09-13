@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React, { ReactElement, useEffect, useRef } from 'react';
-import { useRecoilValue } from 'recoil';
 
 import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 import { HStack, Skeleton } from '@navikt/ds-react';
@@ -8,7 +7,7 @@ import { HStack, Skeleton } from '@navikt/ds-react';
 import { useAntallOppgaver } from '@state/oppgaver';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
-import { filtermenyWidth, useShowFiltermeny, useToggleFiltermeny } from './filtermeny/state';
+import { useFiltermenyWidth, useShowFiltermeny, useToggleFiltermeny } from './filtermeny/state';
 import { TabType, useSwitchTab } from './tabState';
 
 import styles from './Tabs.module.scss';
@@ -52,7 +51,7 @@ const BehandletIdagTab = (): ReactElement => <OppgaveTab tag={TabType.BehandletI
 const FilterButton = (): ReactElement => {
     const toggleFiltermeny = useToggleFiltermeny();
     const showFiltermeny = useShowFiltermeny();
-    const filtermenyBredde = useRecoilValue(filtermenyWidth);
+    const filtermenyBredde = useFiltermenyWidth();
     const prevShowFiltermeny = useRef<boolean>(showFiltermeny);
 
     useEffect(() => {
