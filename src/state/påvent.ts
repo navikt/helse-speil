@@ -27,7 +27,9 @@ const useOptimistiskPaVent = (): PaventFragment => {
     };
 };
 
-export const useLeggPåVent = (): [
+export const useLeggPåVent = (
+    periodeId?: string,
+): [
     (
         oppgavereferanse: string,
         frist: string,
@@ -40,7 +42,6 @@ export const useLeggPåVent = (): [
 ] => {
     const optimistiskPaVent = useOptimistiskPaVent();
     const [leggPåVentMutation, data] = useMutation(LeggPaVentDocument);
-    const periodeId = usePeriodeTilGodkjenning()?.id ?? null;
 
     const leggPåVent = async (
         oppgavereferanse: string,
@@ -68,7 +69,7 @@ export const useLeggPåVent = (): [
                 notatTekst: notattekst,
             },
             update: (cache, result) =>
-                oppdaterPåVentICache(cache, oppgavereferanse, periodeId, () => result.data?.leggPaVent ?? null),
+                oppdaterPåVentICache(cache, oppgavereferanse, periodeId ?? null, () => result.data?.leggPaVent ?? null),
         });
 
     return [leggPåVent, data];

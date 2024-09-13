@@ -36,6 +36,7 @@ interface PåVentNotatModalProps {
     vedtaksperiodeId: string;
     oppgaveId: string;
     tildeling: Maybe<Tildeling>;
+    periodeId?: string;
 }
 
 export const PåVentNotatModal = ({
@@ -45,10 +46,11 @@ export const PåVentNotatModal = ({
     vedtaksperiodeId,
     oppgaveId,
     tildeling,
+    periodeId,
 }: PåVentNotatModalProps): ReactElement => {
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
-    const [leggPåVentMedNotat, { loading, error: leggPåVentError }] = useLeggPåVent();
+    const [leggPåVentMedNotat, { loading, error: leggPåVentError }] = useLeggPåVent(periodeId);
     const errorHandler = useOperationErrorHandler('Legg på vent');
     const router = useRouter();
     const saksbehandler = useInnloggetSaksbehandler();

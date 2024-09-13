@@ -56,6 +56,7 @@ export const PåVentButton = ({ person }: PåVentButtonProps): Maybe<ReactElemen
                     vedtaksperiodeId={periodeTilGodkjenning.vedtaksperiodeId}
                     oppgaveId={oppgaveId}
                     tildeling={tildeling}
+                    periodeId={periodeTilGodkjenning.id}
                 />
             )}
         </>
