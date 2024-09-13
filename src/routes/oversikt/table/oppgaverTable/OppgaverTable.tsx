@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { OppgaveTilBehandling } from '@io/graphql';
 import { TabType, useAktivTab } from '@oversikt/tabState';
 
@@ -31,7 +30,6 @@ export const OppgaverTable = React.memo(
         const [sort, setSort] = useRecoilState(sortering);
         const toggleFilter = useToggleFilter();
         const setMultipleFilters = useSetMultipleFilters();
-        const readOnly = useIsReadOnlyOppgave();
 
         return (
             <div className={styles.TableContainer}>
@@ -43,12 +41,7 @@ export const OppgaverTable = React.memo(
                 <div className={styles.Content}>
                     <div className={styles.Scrollable}>
                         {tab === TabType.TilGodkjenning && (
-                            <TilGodkjenningTable
-                                oppgaver={oppgaver}
-                                readOnly={readOnly}
-                                sort={sort}
-                                setSort={setSort}
-                            />
+                            <TilGodkjenningTable oppgaver={oppgaver} sort={sort} setSort={setSort} />
                         )}
                         {tab === TabType.Mine && <MineSakerTable oppgaver={oppgaver} sort={sort} setSort={setSort} />}
                         {tab === TabType.Ventende && <PåVentTable oppgaver={oppgaver} sort={sort} setSort={setSort} />}

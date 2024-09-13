@@ -14,10 +14,9 @@ import { ISO_DATOFORMAT } from '@utils/date';
 
 interface TilGodkjenningOppgaveRowProps {
     oppgave: OppgaveTilBehandling;
-    readOnly: boolean;
 }
 
-export const TilGodkjenningOppgaveRow = ({ oppgave, readOnly }: TilGodkjenningOppgaveRowProps): ReactElement => {
+export const TilGodkjenningOppgaveRow = ({ oppgave }: TilGodkjenningOppgaveRowProps): ReactElement => {
     const sorteringsnøkkel = useRecoilValue(dateSortKey);
 
     const erPåVent = oppgave.egenskaper.filter((it) => it.egenskap === 'PA_VENT').length === 1;
@@ -27,7 +26,7 @@ export const TilGodkjenningOppgaveRow = ({ oppgave, readOnly }: TilGodkjenningOp
 
     return (
         <LinkRow aktørId={oppgave.aktorId}>
-            <TildelingCell oppgave={oppgave} kanTildeles={!readOnly} />
+            <TildelingCell oppgave={oppgave} />
             <EgenskaperTagsCell egenskaper={oppgave.egenskaper} />
             <DatoCell
                 date={getVisningsDato(oppgave, sorteringsnøkkel)}

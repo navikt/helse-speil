@@ -14,12 +14,11 @@ import styles from '../../table.module.css';
 
 interface TilGodkjenningTableProps {
     oppgaver: OppgaveTilBehandling[];
-    readOnly: boolean;
     sort: SortState;
     setSort: (state: SortState) => void;
 }
 
-export const TilGodkjenningTable = ({ oppgaver, readOnly, sort, setSort }: TilGodkjenningTableProps): ReactElement => {
+export const TilGodkjenningTable = ({ oppgaver, sort, setSort }: TilGodkjenningTableProps): ReactElement => {
     const updateSort = useUpdateSort();
     return (
         <Table
@@ -35,9 +34,7 @@ export const TilGodkjenningTable = ({ oppgaver, readOnly, sort, setSort }: TilGo
             </Table.Header>
             <Table.Body>
                 {oppgaver.length > 0 ? (
-                    oppgaver.map((oppgave) => (
-                        <TilGodkjenningOppgaveRow key={oppgave.id} oppgave={oppgave} readOnly={readOnly} />
-                    ))
+                    oppgaver.map((oppgave) => <TilGodkjenningOppgaveRow key={oppgave.id} oppgave={oppgave} />)
                 ) : (
                     <IngenMatchendeFiltre />
                 )}

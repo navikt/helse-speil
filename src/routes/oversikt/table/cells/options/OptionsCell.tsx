@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown, Table } from '@navikt/ds-react';
 
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Egenskap, Maybe, OppgaveTilBehandling, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useKanFrigiOppgaver } from '@state/toggles';
@@ -25,7 +24,6 @@ interface OptionsButtonProps {
 
 export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const readOnly = useIsReadOnlyOppgave();
     const erTildeltInnloggetBruker = erLike(oppgave.tildeling?.oid, innloggetSaksbehandler.oid);
     const kanFrigiAndresOppgaver = useKanFrigiOppgaver();
     const skalViseAvmeldingsknapp = erTildeltInnloggetBruker || (oppgave.tildeling && kanFrigiAndresOppgaver);
@@ -46,7 +44,7 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
                     </Button>
                     <Dropdown.Menu>
                         <Dropdown.Menu.List>
-                            {!erTildeltInnloggetBruker && !readOnly && (
+                            {!erTildeltInnloggetBruker && (
                                 <TildelMenuButton oppgavereferanse={oppgave.id} tildeling={oppgave.tildeling} />
                             )}
                             <PåVentMenuButton
