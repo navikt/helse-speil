@@ -130,7 +130,7 @@ export const Period = ({
     person,
     ...buttonProps
 }: PeriodProps): ReactElement => {
-    const setActivePeriodId = useSetActivePeriodId();
+    const setActivePeriodId = useSetActivePeriodId(person);
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
     const harUvurderteVarsler = useUvurderteVarslerPåPeriode(period, person);

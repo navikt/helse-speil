@@ -16,7 +16,7 @@ interface HarVurderbareVarslerProps {
 }
 
 export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): Maybe<ReactElement> => {
-    const setActivePeriodId = useSetActivePeriodId();
+    const setActivePeriodId = useSetActivePeriodId(person);
     const harPeriodeTilGodkjenning = usePeriodeTilGodkjenning(person);
 
     if (!harPeriodeTilGodkjenning) return null;
