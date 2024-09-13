@@ -12,12 +12,6 @@ export const useIsReadOnlyOppgave = (): boolean => {
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
     const harBeslutteroppgavetilgang = useHarBeslutteroppgavetilgang();
 
-    const readOnly = useReadonly();
-
-    if (readOnly.override) {
-        return readOnly.value;
-    }
-
     if (!isBeregnetPeriode(periode) || !periode.totrinnsvurdering) {
         return false;
     }

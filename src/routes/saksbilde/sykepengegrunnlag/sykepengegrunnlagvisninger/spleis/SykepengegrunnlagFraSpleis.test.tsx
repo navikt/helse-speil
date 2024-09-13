@@ -10,7 +10,6 @@ import {
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { useReadonly } from '@state/toggles';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
@@ -58,7 +57,6 @@ describe('SykepengegrunnlagFraSpleis', () => {
         });
         (useVilkårsgrunnlag as jest.Mock).mockReturnValue(vilkårsgrunnlag);
         (useIsAnonymous as jest.Mock).mockReturnValue(false);
-        (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
         render(
             <SykepengegrunnlagFraSpleis
@@ -138,7 +136,6 @@ describe('SykepengegrunnlagFraSpleis', () => {
             arbeidsforholdendringer: [],
             dagendringer: [],
         });
-        (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
         render(
             <SykepengegrunnlagFraSpleis

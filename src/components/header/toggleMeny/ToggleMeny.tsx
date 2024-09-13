@@ -2,13 +2,7 @@ import React from 'react';
 
 import { Checkbox, CheckboxGroup, Heading, Modal } from '@navikt/ds-react';
 
-import {
-    ReadonlyState,
-    TotrinnsvurderingState,
-    useToggleKanFrigiOppgaver,
-    useToggleReadonly,
-    useTotrinnsvurdering,
-} from '@state/toggles';
+import { TotrinnsvurderingState, useToggleKanFrigiOppgaver, useTotrinnsvurdering } from '@state/toggles';
 
 import styles from './ToggleMeny.module.css';
 
@@ -19,7 +13,6 @@ type ToggleMenyProps = {
 
 export const ToggleMeny = ({ onClose, showModal }: ToggleMenyProps) => {
     const [totrinn, toggleTotrinn] = useTotrinnsvurdering();
-    const [readOnly, toggleReadonly, toggleOverride] = useToggleReadonly();
     const [kanFrigiOppgaver, toggleKanFrigiOppgaver] = useToggleKanFrigiOppgaver();
 
     return (
@@ -48,15 +41,6 @@ export const ToggleMeny = ({ onClose, showModal }: ToggleMenyProps) => {
                             Kan frigi andres oppgaver
                         </Checkbox>
                     </CheckboxGroup>
-
-                    <CheckboxGroup legend="Read only" value={readOnlyStateToCheckboxValue(readOnly)}>
-                        <Checkbox value="override" onChange={toggleOverride}>
-                            Override readonly
-                        </Checkbox>
-                        <Checkbox value="readonly" onChange={toggleReadonly} disabled={!readOnly.override}>
-                            Oppgave er readonly
-                        </Checkbox>
-                    </CheckboxGroup>
                 </form>
             </Modal.Body>
         </Modal>
@@ -73,10 +57,3 @@ const totrinnsvurderingStateToCheckboxValue = (totrinn: TotrinnsvurderingState):
 
 const kanFrigiOppgaverStateToCheckboxValue = (kanFrigiOppgaver: boolean): string[] =>
     kanFrigiOppgaver ? ['kanFrigiOppgaver'] : [];
-
-const readOnlyStateToCheckboxValue = (readonly: ReadonlyState): string[] => {
-    let array: string[] = [];
-    if (readonly.override) array.push('override');
-    if (readonly.value) array.push('readonly');
-    return array;
-};

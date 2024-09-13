@@ -75,38 +75,3 @@ export const useToggleKanFrigiOppgaver = (): [value: boolean, toggle: () => void
 
     return [kanFrigiOppgaver, () => setKanFrigiOppgaver((prevState) => !prevState)];
 };
-
-// Read only
-export type ReadonlyState = {
-    value: boolean;
-    override: boolean;
-};
-
-const readonlyState = atom<ReadonlyState>({
-    key: 'readonlyState',
-    default: {
-        value: false,
-        override: false,
-    },
-    effects: [sessionStorageEffect()],
-});
-
-export const useReadonly = (): ReadonlyState => {
-    return useRecoilValue(readonlyState);
-};
-
-export const useToggleReadonly = (): [value: ReadonlyState, toggleValue: () => void, toggleOverride: () => void] => {
-    const [readonly, setReadonly] = useRecoilState(readonlyState);
-
-    const toggleValue = (): void => {
-        if (readonly.override) {
-            setReadonly((prevState) => ({ ...prevState, value: !prevState.value }));
-        }
-    };
-
-    const toggleOverride = (): void => {
-        setReadonly((prevState) => ({ ...prevState, override: !prevState.override }));
-    };
-
-    return [readonly, toggleValue, toggleOverride];
-};
