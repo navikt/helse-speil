@@ -144,7 +144,7 @@ const harIngenEtterfølgendePerioder = (
 
 export const useInntektKanRevurderes = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {
     const periodeVedSkjæringstidspunkt = usePeriodForSkjæringstidspunkt(skjæringstidspunkt, person);
-    const isReadOnlyOppgave = useIsReadOnlyOppgave();
+    const isReadOnlyOppgave = useIsReadOnlyOppgave(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
 
     if (!person) return false;

@@ -99,7 +99,7 @@ const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingB
     const revurderingIsEnabled = kanRevurderes(person, period);
     const overstyrRevurderingIsEnabled = kanOverstyreRevurdering(person, period);
     const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, arbeidsgiver);
-    const readOnly = useIsReadOnlyOppgave();
+    const readOnly = useIsReadOnlyOppgave(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
     const gjenståendeDager = useGjenståendeDager(period);
 

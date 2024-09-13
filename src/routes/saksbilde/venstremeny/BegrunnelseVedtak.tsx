@@ -12,6 +12,7 @@ import {
     Avslagstype,
     BeregnetPeriodeFragment,
     Maybe,
+    PersonFragment,
     Utbetalingsdagtype,
 } from '@io/graphql';
 
@@ -27,6 +28,7 @@ interface BegrunnelseVedtakProps {
     avslag: Maybe<AvslagInput>;
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
     periode: BeregnetPeriodeFragment;
+    person: PersonFragment;
 }
 
 export const BegrunnelseVedtak = ({
@@ -37,9 +39,10 @@ export const BegrunnelseVedtak = ({
     avslag,
     setAvslag,
     periode,
+    person,
 }: BegrunnelseVedtakProps): Maybe<ReactElement> => {
     const [showForkastEndringerModal, setShowForkastEndringerModal] = useState(false);
-    const erReadOnly = useIsReadOnlyOppgave();
+    const erReadOnly = useIsReadOnlyOppgave(person);
     const erBeslutteroppgave = periode.totrinnsvurdering?.erBeslutteroppgave ?? false;
     const tidslinjeUtenAGPogHelg = periode.tidslinje.filter(
         (dag) =>

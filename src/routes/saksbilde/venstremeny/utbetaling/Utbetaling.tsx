@@ -104,7 +104,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         router.push('/');
     };
     const onAvvisUtbetaling = useOnAvvis();
-    const erReadOnly = useIsReadOnlyOppgave();
+    const erReadOnly = useIsReadOnlyOppgave(person);
 
     useEffect(() => {
         if (godkjentPeriode !== period.vedtaksperiodeId && period.periodetilstand === Periodetilstand.TilGodkjenning) {
@@ -141,6 +141,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                     avslag={avslag}
                     setAvslag={setAvslag}
                     periode={period}
+                    person={person}
                 />
                 {!erReadOnly && (
                     <div className={styles.buttons}>

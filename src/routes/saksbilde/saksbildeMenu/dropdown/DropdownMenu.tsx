@@ -25,7 +25,7 @@ type DropdownMenuProps = {
 
 const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps): Maybe<ReactElement> => {
     const user = useInnloggetSaksbehandler();
-    const readOnly = useIsReadOnlyOppgave();
+    const readOnly = useIsReadOnlyOppgave(person);
     const arbeidsgiver = useCurrentArbeidsgiver(person);
 
     if (!isPerson(person)) {

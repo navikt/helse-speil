@@ -59,7 +59,7 @@ export const SkjønnsfastsettingForm = ({
         person,
         inntekter,
     );
-    const erReadonly = useIsReadOnlyOppgave();
+    const erReadonly = useIsReadOnlyOppgave(person);
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const avrundetSammenligningsgrunnlag = avrundetToDesimaler(sammenligningsgrunnlag);
     const cancelEditing = () => {
