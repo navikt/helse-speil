@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
 
 import { ArrowForwardIcon, ExternalLinkIcon } from '@navikt/aksel-icons';
 import { Link } from '@navikt/ds-react';
@@ -14,20 +13,13 @@ import { Hendelse } from '../Hendelse';
 import { HendelseDate } from '../HendelseDate';
 import { Inntektsmeldingsinnhold } from './Inntektsmeldingsinnhold';
 import { Søknadsinnhold } from './Søknadsinnhold';
-import { getKildetekst, getKildetype, openedDocument } from './dokument';
+import { getKildetekst, getKildetype, useAddOpenedDocument, useOpenedDocuments } from './dokument';
 
 import styles from './Dokumenthendelse.module.scss';
 
 type DokumenthendelseProps = Omit<DokumenthendelseObject, 'type' | 'id'> & {
     fødselsnummer: string;
 };
-
-export interface ÅpnedeDokumenter {
-    dokumentId: string;
-    fødselsnummer: string;
-    dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad' | 'Vedtak';
-    timestamp: string;
-}
 
 export const Dokumenthendelse = ({
     dokumenttype,
@@ -37,7 +29,8 @@ export const Dokumenthendelse = ({
 }: DokumenthendelseProps): ReactElement => {
     const [showDokumenter, setShowDokumenter] = useState(false);
     const [dokument, setDokument] = useState<ReactNode>(null);
-    const [åpnedeDokumenter, setÅpnedeDokumenter] = useRecoilState<ÅpnedeDokumenter[]>(openedDocument);
+    const leggTilÅpnetDokument = useAddOpenedDocument();
+    const åpnedeDokumenter = useOpenedDocuments();
 
     useEffect(() => {
         if (!showDokumenter || !fødselsnummer) return;
@@ -52,15 +45,12 @@ export const Dokumenthendelse = ({
     }, [showDokumenter]);
 
     const åpneINyKolonne = () => {
-        setÅpnedeDokumenter([
-            ...åpnedeDokumenter,
-            {
-                dokumentId: dokumentId ?? '',
-                fødselsnummer: fødselsnummer,
-                dokumenttype: dokumenttype,
-                timestamp: timestamp,
-            },
-        ]);
+        leggTilÅpnetDokument({
+            dokumentId: dokumentId ?? '',
+            fødselsnummer: fødselsnummer,
+            dokumenttype: dokumenttype,
+            timestamp: timestamp,
+        });
     };
 
     return dokumenttype !== 'Vedtak' ? (

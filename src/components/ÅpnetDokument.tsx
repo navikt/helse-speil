@@ -1,7 +1,5 @@
-import styles from './ÅpnetDokument.module.scss';
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
-import { useRecoilState } from 'recoil';
 
 import { XMarkIcon } from '@navikt/aksel-icons';
 
@@ -10,12 +8,20 @@ import { Maybe } from '@io/graphql';
 import { HendelseDate } from '@saksbilde/historikk/hendelser/HendelseDate';
 import { Inntektsmeldingsinnhold } from '@saksbilde/historikk/hendelser/dokument/Inntektsmeldingsinnhold';
 import { Søknadsinnhold } from '@saksbilde/historikk/hendelser/dokument/Søknadsinnhold';
-import { getKildetekst, getKildetype, openedDocument } from '@saksbilde/historikk/hendelser/dokument/dokument';
+import {
+    getKildetekst,
+    getKildetype,
+    useOpenedDocuments,
+    useRemoveOpenedDocument,
+} from '@saksbilde/historikk/hendelser/dokument/dokument';
+
+import styles from './ÅpnetDokument.module.scss';
 
 export const ÅpnetDokument = (): Maybe<ReactElement> => {
-    const [åpnedeDokumenter, setÅpnedeDokumenter] = useRecoilState(openedDocument);
+    const fjernÅpnetDokument = useRemoveOpenedDocument();
+    const åpnedeDokumenter = useOpenedDocuments();
 
-    if ((åpnedeDokumenter?.length ?? 0) === 0) return null;
+    if (åpnedeDokumenter.length === 0) return null;
 
     return (
         <div className={classNames(styles.dokumenter)}>
@@ -26,14 +32,7 @@ export const ÅpnetDokument = (): Maybe<ReactElement> => {
                             {getKildetekst(dokument.dokumenttype)}
                         </Kilde>
                         <HendelseDate timestamp={dokument.timestamp} />
-                        <button
-                            className={styles.button}
-                            onClick={() =>
-                                setÅpnedeDokumenter((prevState) =>
-                                    prevState.filter((item) => item.dokumentId !== dokument.dokumentId),
-                                )
-                            }
-                        >
+                        <button className={styles.button} onClick={() => fjernÅpnetDokument(dokument.dokumentId)}>
                             <XMarkIcon title="lukk åpnet dokument" />
                         </button>
                     </div>
