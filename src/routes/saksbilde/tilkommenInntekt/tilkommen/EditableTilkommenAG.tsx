@@ -34,7 +34,7 @@ interface TilkommenInntektFormFields {
 interface EditableTilkommenAGProps {
     person: PersonFragment;
     arbeidsgiver: ArbeidsgiverFragment;
-    aktivPeriode: NyttInntektsforholdPeriodeFragment;
+    periode: NyttInntektsforholdPeriodeFragment;
     omregnetÅrsinntekt: OmregnetArsinntekt;
     close: () => void;
     onEndre: (erEndret: boolean) => void;
@@ -43,14 +43,14 @@ interface EditableTilkommenAGProps {
 export const EditableTilkommenAG = ({
     person,
     arbeidsgiver,
-    aktivPeriode,
+    periode,
     omregnetÅrsinntekt,
     close,
     onEndre,
 }: EditableTilkommenAGProps): ReactElement => {
     const form = useForm<TilkommenInntektFormFields>({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
-    const lokaltMånedsbeløp = useLokaltMånedsbeløp(arbeidsgiver.organisasjonsnummer, aktivPeriode.skjaeringstidspunkt);
+    const lokaltMånedsbeløp = useLokaltMånedsbeløp(arbeidsgiver.organisasjonsnummer, periode.skjaeringstidspunkt);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const [harIkkeSkjemaEndringer] = useState(false);
     const [showSlettLokaleOverstyringerModal, setShowSlettLokaleOverstyringerModal] = useState(false);
@@ -96,7 +96,7 @@ export const EditableTilkommenAG = ({
         const overstyrtInntektOgRefusjon: OverstyrtInntektOgRefusjonDTO = {
             fødselsnummer: person.fodselsnummer,
             aktørId: person.aktorId,
-            skjæringstidspunkt: aktivPeriode.skjaeringstidspunkt,
+            skjæringstidspunkt: periode.skjaeringstidspunkt,
             arbeidsgivere: [
                 {
                     organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
@@ -108,9 +108,11 @@ export const EditableTilkommenAG = ({
                     fraMånedligInntekt: omregnetÅrsinntekt.manedsbelop,
                     refusjonsopplysninger: [],
                     fraRefusjonsopplysninger: [],
+                    fom: periode.fom,
+                    tom: periode.tom,
                 },
             ],
-            vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(person.arbeidsgivere, aktivPeriode),
+            vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(person.arbeidsgivere, periode),
         };
         postOverstyring(overstyrtInntektOgRefusjon, arbeidsgiver.organisasjonsnummer);
     };
@@ -161,7 +163,7 @@ export const EditableTilkommenAG = ({
                             }}
                             onClose={() => setShowSlettLokaleOverstyringerModal(false)}
                             overstyrtSkjæringstidspunkt={lokaleInntektoverstyringer.skjæringstidspunkt}
-                            skjæringstidspunkt={aktivPeriode.skjaeringstidspunkt}
+                            skjæringstidspunkt={periode.skjaeringstidspunkt}
                         />
                     )}
                 </div>

@@ -54,7 +54,7 @@ export const TilkommenAG = ({ person, inntekt, periode, arbeidsgiver }: Tilkomme
                     <EditableTilkommenAG
                         person={person}
                         arbeidsgiver={arbeidsgiver}
-                        aktivPeriode={periode}
+                        periode={periode}
                         omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
                         close={() => setEditing(false)}
                         onEndre={setEndret}
