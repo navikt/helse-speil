@@ -108,6 +108,8 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
                                           lovverksversjon: arbeidsgiver.lovhjemmel.lovverksversjon,
                                       }
                                     : undefined,
+                            fom: arbeidsgiver.fom ?? null,
+                            tom: arbeidsgiver.tom ?? null,
                         }),
                     ),
                     fodselsnummer: overstyrtInntekt.fødselsnummer,

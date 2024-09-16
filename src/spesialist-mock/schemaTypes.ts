@@ -886,6 +886,7 @@ export type OverstyringArbeidsforholdInput = {
 
 export type OverstyringArbeidsgiverInput = {
     begrunnelse: Scalars['String']['input'];
+    fom?: InputMaybe<Scalars['LocalDate']['input']>;
     forklaring: Scalars['String']['input'];
     fraManedligInntekt: Scalars['Float']['input'];
     fraRefusjonsopplysninger?: InputMaybe<Array<OverstyringRefusjonselementInput>>;
@@ -893,6 +894,7 @@ export type OverstyringArbeidsgiverInput = {
     manedligInntekt: Scalars['Float']['input'];
     organisasjonsnummer: Scalars['String']['input'];
     refusjonsopplysninger?: InputMaybe<Array<OverstyringRefusjonselementInput>>;
+    tom?: InputMaybe<Scalars['LocalDate']['input']>;
 };
 
 export type OverstyringDagInput = {
