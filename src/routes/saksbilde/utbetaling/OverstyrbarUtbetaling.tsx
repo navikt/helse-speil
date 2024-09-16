@@ -8,7 +8,13 @@ import { BodyShort } from '@navikt/ds-react';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useMap } from '@hooks/useMap';
-import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
+import {
+    ArbeidsgiverFragment,
+    BeregnetPeriodeFragment,
+    Periodetype,
+    PersonFragment,
+    UberegnetPeriodeFragment,
+} from '@io/graphql';
 import { DagtypeModal } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeModal';
 import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
 import { MinimumSykdomsgradForm } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradForm';
@@ -181,7 +187,7 @@ export const OverstyrbarUtbetaling = ({
                     setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
                 />
             )}
-            {overstyrer && (
+            {overstyrer && periode.periodetype === Periodetype.Forstegangsbehandling && (
                 <LeggTilDager
                     openDagtypeModal={() => setVisDagtypeModal(true)}
                     periodeFom={Array.from(alleDager.values())[0].dato}

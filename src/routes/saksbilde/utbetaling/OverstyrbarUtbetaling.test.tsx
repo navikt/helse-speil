@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Periodetype } from '@io/graphql';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
@@ -67,6 +68,7 @@ describe('OverstyrbarUtbetaling', () => {
         );
 
         await userEvent.click(screen.getByText('Endre'));
+        expect(screen.getByText('+ Legg til dager')).toBeVisible();
 
         const checkboxes = screen.getAllByRole('checkbox');
         await userEvent.click(checkboxes[1]);
@@ -100,5 +102,29 @@ describe('OverstyrbarUtbetaling', () => {
                 expect(overstyrtDag.grad).toEqual(80);
             });
         });
+    });
+
+    test('Legg til dager vises ikke for forlengelser', async () => {
+        const person = enPerson();
+        const arbeidsgiver = enArbeidsgiver();
+        const periode = enBeregnetPeriode({ periodetype: Periodetype.Forlengelse });
+        render(
+            <OverstyrbarUtbetaling
+                arbeidsgiver={arbeidsgiver}
+                person={person}
+                fom="2022-01-01"
+                tom="2022-01-31"
+                dager={dager}
+                erForkastet={false}
+                revurderingIsEnabled={false}
+                overstyrRevurderingIsEnabled={false}
+                vedtaksperiodeId="d7d208c3-a9a1-4c03-885f-aeffa4475a49"
+                periode={periode}
+            />,
+            { wrapper: RecoilWrapper },
+        );
+
+        await userEvent.click(screen.getByText('Endre'));
+        expect(screen.queryByText('+ Legg til dager')).not.toBeInTheDocument();
     });
 });
