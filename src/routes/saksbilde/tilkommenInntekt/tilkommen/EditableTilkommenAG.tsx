@@ -58,9 +58,8 @@ export const EditableTilkommenAG = ({
         close();
     };
 
-    const { isLoading, setOverstyring } = useLokaletInntektOverstyringer(
+    const setOverstyring = useLokaletInntektOverstyringer(
         person,
-        cancelEditing,
         showSlettLokaleOverstyringerModal,
         setShowSlettLokaleOverstyringerModal,
     );
@@ -112,7 +111,9 @@ export const EditableTilkommenAG = ({
             ],
             vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(person.arbeidsgivere, periode),
         };
+
         setOverstyring(overstyrtInntektOgRefusjon, arbeidsgiver.organisasjonsnummer);
+        cancelEditing();
     };
 
     const visFeilOppsummering =
@@ -143,7 +144,7 @@ export const EditableTilkommenAG = ({
                         </Alert>
                     )}
                     <span className={styles.Buttons}>
-                        <Button size="small" variant="secondary" type="submit" loading={isLoading}>
+                        <Button size="small" variant="secondary" type="submit">
                             Lagre
                         </Button>
                         <Button size="small" variant="tertiary" type="button" onClick={cancelEditing}>

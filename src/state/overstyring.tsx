@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { atom, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
 import { Arbeidsgiverrefusjon, Hendelse, Kildetype, Maybe, PersonFragment, Refusjonselement } from '@io/graphql';
@@ -23,7 +22,6 @@ export const useSlettLokaleOverstyringer = () => useResetRecoilState(inntektOgRe
 
 export const useLokaletInntektOverstyringer = (
     person: PersonFragment,
-    onFerdigKalkulert: () => void,
     showSlettLokaleOverstyringerModal: boolean,
     setShowSlettLokaleOverstyringerModal: (data: boolean) => void,
 ) => {
@@ -32,62 +30,54 @@ export const useLokaletInntektOverstyringer = (
     }
 
     const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
-    const [isLoading, setIsLoading] = useState(false);
 
-    return {
-        isLoading,
-        setOverstyring: (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO, organisasjonsnummer?: string) => {
-            setIsLoading(true);
+    return (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO, organisasjonsnummer?: string) => {
+        if (
+            lokaleInntektoverstyringer.skjæringstidspunkt &&
+            overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt &&
+            !showSlettLokaleOverstyringerModal &&
+            lokaleInntektoverstyringer.aktørId === person.aktorId
+        ) {
+            setShowSlettLokaleOverstyringerModal(true);
+            return;
+        }
 
-            if (
-                lokaleInntektoverstyringer.skjæringstidspunkt &&
-                overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt &&
-                !showSlettLokaleOverstyringerModal &&
-                lokaleInntektoverstyringer.aktørId === person.aktorId
-            ) {
-                setShowSlettLokaleOverstyringerModal(true);
-                setIsLoading(false);
-                return;
-            }
+        const overstyrtArbeidsgiver = (overstyrtInntekt as OverstyrtInntektOgRefusjonDTO).arbeidsgivere[0];
+        const overstyrtArbeidsgiverRetyped = {
+            ...overstyrtArbeidsgiver,
+            refusjonsopplysninger: [
+                ...overstyrtArbeidsgiver.refusjonsopplysninger.map((refusjonsopplysning) => {
+                    return { ...refusjonsopplysning } as Refusjonsopplysning;
+                }),
+            ],
+            fraRefusjonsopplysninger: [
+                ...overstyrtArbeidsgiver.fraRefusjonsopplysninger.map((fraRefusjonsopplysning) => {
+                    return { ...fraRefusjonsopplysning } as Refusjonsopplysning;
+                }),
+            ],
+        };
 
-            const overstyrtArbeidsgiver = (overstyrtInntekt as OverstyrtInntektOgRefusjonDTO).arbeidsgivere[0];
-            const overstyrtArbeidsgiverRetyped = {
-                ...overstyrtArbeidsgiver,
-                refusjonsopplysninger: [
-                    ...overstyrtArbeidsgiver.refusjonsopplysninger.map((refusjonsopplysning) => {
-                        return { ...refusjonsopplysning } as Refusjonsopplysning;
-                    }),
-                ],
-                fraRefusjonsopplysninger: [
-                    ...overstyrtArbeidsgiver.fraRefusjonsopplysninger.map((fraRefusjonsopplysning) => {
-                        return { ...fraRefusjonsopplysning } as Refusjonsopplysning;
-                    }),
-                ],
-            };
+        const arbeidsgivereLagretPåSkjæringstidspunkt =
+            overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt
+                ? []
+                : [...lokaleInntektoverstyringer.arbeidsgivere];
 
-            const arbeidsgivereLagretPåSkjæringstidspunkt =
-                overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt
-                    ? []
-                    : [...lokaleInntektoverstyringer.arbeidsgivere];
-
-            setLokaleInntektoverstyringer({
-                ...overstyrtInntekt,
-                arbeidsgivere:
-                    arbeidsgivereLagretPåSkjæringstidspunkt.length === 0
-                        ? [overstyrtArbeidsgiverRetyped]
-                        : arbeidsgivereLagretPåSkjæringstidspunkt.filter(
-                                (it) => it.organisasjonsnummer === organisasjonsnummer,
-                            ).length === 0
-                          ? [...arbeidsgivereLagretPåSkjæringstidspunkt, overstyrtArbeidsgiverRetyped]
-                          : [
-                                ...arbeidsgivereLagretPåSkjæringstidspunkt.filter(
-                                    (it) => it.organisasjonsnummer !== organisasjonsnummer,
-                                ),
-                                overstyrtArbeidsgiverRetyped,
-                            ],
-            });
-            onFerdigKalkulert();
-        },
+        setLokaleInntektoverstyringer({
+            ...overstyrtInntekt,
+            arbeidsgivere:
+                arbeidsgivereLagretPåSkjæringstidspunkt.length === 0
+                    ? [overstyrtArbeidsgiverRetyped]
+                    : arbeidsgivereLagretPåSkjæringstidspunkt.filter(
+                            (it) => it.organisasjonsnummer === organisasjonsnummer,
+                        ).length === 0
+                      ? [...arbeidsgivereLagretPåSkjæringstidspunkt, overstyrtArbeidsgiverRetyped]
+                      : [
+                            ...arbeidsgivereLagretPåSkjæringstidspunkt.filter(
+                                (it) => it.organisasjonsnummer !== organisasjonsnummer,
+                            ),
+                            overstyrtArbeidsgiverRetyped,
+                        ],
+        });
     };
 };
 

@@ -85,9 +85,8 @@ export const InntektOgRefusjonSkjema = ({
         close();
     };
 
-    const { isLoading, setOverstyring } = useLokaletInntektOverstyringer(
+    const setOverstyring = useLokaletInntektOverstyringer(
         person,
-        cancelEditing,
         showSlettLokaleOverstyringerModal,
         setShowSlettLokaleOverstyringerModal,
     );
@@ -155,6 +154,7 @@ export const InntektOgRefusjonSkjema = ({
             ),
         };
         setOverstyring(overstyrtInntektOgRefusjon, metadata.organisasjonsnummer);
+        cancelEditing();
     };
 
     const validateRefusjon = refusjonsvalidator(
@@ -211,13 +211,7 @@ export const InntektOgRefusjonSkjema = ({
                         </Alert>
                     )}
                     <span className={styles.Buttons}>
-                        <Button
-                            size="small"
-                            variant="secondary"
-                            type="submit"
-                            loading={isLoading}
-                            onClick={validateRefusjon}
-                        >
+                        <Button size="small" variant="secondary" type="submit" onClick={validateRefusjon}>
                             Lagre
                         </Button>
                         <Button size="small" variant="tertiary" type="button" onClick={cancelEditing}>
