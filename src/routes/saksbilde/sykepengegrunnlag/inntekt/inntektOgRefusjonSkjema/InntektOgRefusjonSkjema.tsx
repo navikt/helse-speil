@@ -14,11 +14,10 @@ import { Alert, BodyShort, Button } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
-import { Maybe, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, Maybe, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
 import {
-    useArbeidsgiver,
     useLokaleRefusjonsopplysninger,
     useLokaltMånedsbeløp,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
@@ -50,9 +49,9 @@ export interface InntektFormFields {
 
 interface EditableInntektProps {
     person: PersonFragment;
+    arbeidsgiver: ArbeidsgiverFragment;
     omregnetÅrsinntekt: OmregnetArsinntekt;
     begrunnelser: BegrunnelseForOverstyring[];
-    organisasjonsnummer: string;
     skjæringstidspunkt: DateString;
     close: () => void;
     onEndre: (erEndret: boolean) => void;
@@ -60,24 +59,30 @@ interface EditableInntektProps {
 
 export const InntektOgRefusjonSkjema = ({
     person,
+    arbeidsgiver,
     omregnetÅrsinntekt,
     begrunnelser,
-    organisasjonsnummer,
     skjæringstidspunkt,
     close,
     onEndre,
 }: EditableInntektProps): ReactElement => {
     const form = useForm<InntektFormFields>({ shouldFocusError: false, mode: 'onSubmit', reValidateMode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
-    const metadata = useOverstyrtInntektMetadata(person, skjæringstidspunkt, organisasjonsnummer);
-    const arbeidsgiver = useArbeidsgiver(person, organisasjonsnummer);
-    const period = usePeriodForSkjæringstidspunktForArbeidsgiver(person, skjæringstidspunkt, organisasjonsnummer);
+    const metadata = useOverstyrtInntektMetadata(person, skjæringstidspunkt, arbeidsgiver.organisasjonsnummer);
+    const period = usePeriodForSkjæringstidspunktForArbeidsgiver(
+        person,
+        skjæringstidspunkt,
+        arbeidsgiver.organisasjonsnummer,
+    );
     const valgtVedtaksperiode = useActivePeriod(person);
     const [harIkkeSkjemaEndringer, setHarIkkeSkjemaEndringer] = useState(false);
     const [showSlettLokaleOverstyringerModal, setShowSlettLokaleOverstyringerModal] = useState(false);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
-    const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
-    const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
+    const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(
+        arbeidsgiver.organisasjonsnummer,
+        skjæringstidspunkt,
+    );
+    const lokaltMånedsbeløp = useLokaltMånedsbeløp(arbeidsgiver.organisasjonsnummer, skjæringstidspunkt);
     const førstePeriodeForSkjæringstidspunkt = getFørstePeriodeForSkjæringstidspunkt(skjæringstidspunkt, arbeidsgiver);
 
     const cancelEditing = () => {

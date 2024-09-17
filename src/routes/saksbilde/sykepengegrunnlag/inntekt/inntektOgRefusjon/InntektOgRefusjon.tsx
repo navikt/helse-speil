@@ -160,9 +160,9 @@ export const InntektOgRefusjon = ({
                     begrunnelser={
                         harSykefravær ? endreInntektMedSykefraværBegrunnelser : endreInntektUtenSykefraværBegrunnelser
                     }
-                    organisasjonsnummer={organisasjonsnummer}
                     skjæringstidspunkt={skjæringstidspunkt}
                     person={person}
+                    arbeidsgiver={arbeidsgiver}
                 />
             ) : (
                 <ReadOnlyInntekt
