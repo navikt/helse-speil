@@ -67,7 +67,7 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
         return () => {
             calculating && removeToast(kalkulererToastKey);
         };
-    }, [calculating, removeToast]);
+    }, [calculating]);
 
     return {
         isLoading: loading || calculating,

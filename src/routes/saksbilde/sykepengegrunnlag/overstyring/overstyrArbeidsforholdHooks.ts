@@ -86,7 +86,7 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkule
         return () => {
             calculating && removeToast(kalkulererToastKey);
         };
-    }, [calculating, removeToast]);
+    }, [calculating]);
 
     return {
         isLoading: loading || calculating,

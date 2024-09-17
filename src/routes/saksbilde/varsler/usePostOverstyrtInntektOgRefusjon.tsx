@@ -72,7 +72,7 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
         return () => {
             calculating && removeToast(kalkulererToastKey);
         };
-    }, [calculating, removeToast]);
+    }, [calculating]);
 
     const overstyrInntektOgRefusjon = async (
         overstyrtInntekt: OverstyrtInntektOgRefusjonDTO,

@@ -59,7 +59,7 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
         return () => {
             calculating && removeToast(kalkulererToastKey);
         };
-    }, [calculating, removeToast]);
+    }, [calculating]);
 
     return {
         isLoading: loading || calculating,
