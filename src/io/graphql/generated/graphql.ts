@@ -136,9 +136,11 @@ export type Arbeidsgiverinntekt = {
     __typename: 'Arbeidsgiverinntekt';
     arbeidsgiver: Scalars['String']['output'];
     deaktivert: Maybe<Scalars['Boolean']['output']>;
+    fom: Maybe<Scalars['LocalDate']['output']>;
     omregnetArsinntekt: Maybe<OmregnetArsinntekt>;
     sammenligningsgrunnlag: Maybe<Sammenligningsgrunnlag>;
     skjonnsmessigFastsatt: Maybe<OmregnetArsinntekt>;
+    tom: Maybe<Scalars['LocalDate']['output']>;
 };
 
 export type Arbeidsgiverrefusjon = {
@@ -2795,6 +2797,8 @@ export type Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment = {
         __typename: 'Arbeidsgiverinntekt';
         arbeidsgiver: string;
         deaktivert: boolean | null;
+        fom: string | null;
+        tom: string | null;
         sammenligningsgrunnlag: {
             __typename: 'Sammenligningsgrunnlag';
             belop: number;
@@ -2854,6 +2858,8 @@ export type Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment = {
         __typename: 'Arbeidsgiverinntekt';
         arbeidsgiver: string;
         deaktivert: boolean | null;
+        fom: string | null;
+        tom: string | null;
         sammenligningsgrunnlag: {
             __typename: 'Sammenligningsgrunnlag';
             belop: number;
@@ -3582,6 +3588,8 @@ export type PersonFragment = {
                   __typename: 'Arbeidsgiverinntekt';
                   arbeidsgiver: string;
                   deaktivert: boolean | null;
+                  fom: string | null;
+                  tom: string | null;
                   sammenligningsgrunnlag: {
                       __typename: 'Sammenligningsgrunnlag';
                       belop: number;
@@ -3648,6 +3656,8 @@ export type PersonFragment = {
                   __typename: 'Arbeidsgiverinntekt';
                   arbeidsgiver: string;
                   deaktivert: boolean | null;
+                  fom: string | null;
+                  tom: string | null;
                   sammenligningsgrunnlag: {
                       __typename: 'Sammenligningsgrunnlag';
                       belop: number;
@@ -4312,6 +4322,8 @@ export type FetchPersonQuery = {
                       __typename: 'Arbeidsgiverinntekt';
                       arbeidsgiver: string;
                       deaktivert: boolean | null;
+                      fom: string | null;
+                      tom: string | null;
                       sammenligningsgrunnlag: {
                           __typename: 'Sammenligningsgrunnlag';
                           belop: number;
@@ -4382,6 +4394,8 @@ export type FetchPersonQuery = {
                       __typename: 'Arbeidsgiverinntekt';
                       arbeidsgiver: string;
                       deaktivert: boolean | null;
+                      fom: string | null;
+                      tom: string | null;
                       sammenligningsgrunnlag: {
                           __typename: 'Sammenligningsgrunnlag';
                           belop: number;
@@ -5237,6 +5251,8 @@ export const VilkarsgrunnlagFragmentDoc = {
                                 },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                             ],
                         },
                     },
@@ -8541,6 +8557,8 @@ export const PersonFragmentDoc = {
                                 },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                             ],
                         },
                     },
@@ -10431,6 +10449,8 @@ export const FetchPersonDocument = {
                                 },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                             ],
                         },
                     },

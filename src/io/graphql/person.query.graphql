@@ -180,6 +180,8 @@ fragment vilkarsgrunnlag on Vilkarsgrunnlag {
         }
         arbeidsgiver
         deaktivert
+        fom
+        tom
     }
     arbeidsgiverrefusjoner {
         arbeidsgiver

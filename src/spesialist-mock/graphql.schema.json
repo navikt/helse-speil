@@ -1211,6 +1211,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "fom",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "LocalDate",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "omregnetArsinntekt",
                         "description": null,
                         "args": [],
@@ -1241,6 +1253,18 @@
                         "type": {
                             "kind": "OBJECT",
                             "name": "OmregnetArsinntekt",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "tom",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "LocalDate",
                             "ofType": null
                         },
                         "isDeprecated": false,
