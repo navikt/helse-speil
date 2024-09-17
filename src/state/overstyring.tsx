@@ -20,7 +20,7 @@ export const useInntektOgRefusjon = () => useRecoilValue(inntektOgRefusjonState)
 
 export const useSlettLokaleOverstyringer = () => useResetRecoilState(inntektOgRefusjonState);
 
-export const useLokaletInntektOverstyringer = (
+export const useLokaleInntektOverstyringer = (
     person: PersonFragment,
     showSlettLokaleOverstyringerModal: boolean,
     setShowSlettLokaleOverstyringerModal: (data: boolean) => void,

@@ -23,7 +23,7 @@ import {
     useLokaltMånedsbeløp,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
-import { useInntektOgRefusjon, useLokaletInntektOverstyringer, useOverstyrtInntektMetadata } from '@state/overstyring';
+import { useInntektOgRefusjon, useLokaleInntektOverstyringer, useOverstyrtInntektMetadata } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@typer/overstyring';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
@@ -85,7 +85,7 @@ export const InntektOgRefusjonSkjema = ({
         close();
     };
 
-    const setOverstyring = useLokaletInntektOverstyringer(
+    const setLokalInntektOverstyring = useLokaleInntektOverstyringer(
         person,
         showSlettLokaleOverstyringerModal,
         setShowSlettLokaleOverstyringerModal,
@@ -153,7 +153,7 @@ export const InntektOgRefusjonSkjema = ({
                 valgtVedtaksperiode!,
             ),
         };
-        setOverstyring(overstyrtInntektOgRefusjon, metadata.organisasjonsnummer);
+        setLokalInntektOverstyring(overstyrtInntektOgRefusjon, metadata.organisasjonsnummer);
         cancelEditing();
     };
 

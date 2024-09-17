@@ -19,7 +19,7 @@ import styles from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema
 import { SlettLokaleOverstyringerModal } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/SlettLokaleOverstyringerModal';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
 import { useLokaltMånedsbeløp } from '@state/arbeidsgiver';
-import { useInntektOgRefusjon, useLokaletInntektOverstyringer } from '@state/overstyring';
+import { useInntektOgRefusjon, useLokaleInntektOverstyringer } from '@state/overstyring';
 import type { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 import { avrundetToDesimaler } from '@utils/tall';
@@ -58,7 +58,7 @@ export const EditableTilkommenAG = ({
         close();
     };
 
-    const setOverstyring = useLokaletInntektOverstyringer(
+    const setOverstyring = useLokaleInntektOverstyringer(
         person,
         showSlettLokaleOverstyringerModal,
         setShowSlettLokaleOverstyringerModal,
