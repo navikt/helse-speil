@@ -6,6 +6,8 @@ import { Arbeidsgiverinntekt, Maybe, PersonFragment, Sykepengegrunnlagsgrense } 
 import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import { SkjønnsfastsettingForm } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { useSkjønnsfastsettingDefaults } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/useSkjønnsfastsettingDefaults';
+import { useActivePeriod } from '@state/periode';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
 import { SkjønnsfastsettingSammendrag } from './SkjønnsfastsettingSammendrag';
@@ -20,7 +22,6 @@ interface SkjønnsfastsettingSykepengegrunnlagProps {
     sammenligningsgrunnlag?: Maybe<number>;
     skjønnsmessigFastsattÅrlig?: Maybe<number>;
     inntekter: Arbeidsgiverinntekt[];
-    avviksprosent: number;
 }
 
 export const SkjønnsfastsettingSykepengegrunnlag = ({
@@ -31,15 +32,17 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     sammenligningsgrunnlag,
     skjønnsmessigFastsattÅrlig,
     inntekter,
-    avviksprosent,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editing, setEditing] = useState(false);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
     const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(person, inntekter);
+    const activePeriod = useActivePeriod(person);
+    const harVarselForMerEnn25ProsentAvvik =
+        isBeregnetPeriode(activePeriod) && activePeriod.varsler.some((it) => it.kode === 'RV_IV_2');
 
     // TODO: legg inn loading og error
     const { maler, loading, error } = useSkjønnsfastsettelsesMaler(
-        avviksprosent,
+        harVarselForMerEnn25ProsentAvvik,
         (aktiveArbeidsgivere?.length ?? 0) > 1,
     );
 
