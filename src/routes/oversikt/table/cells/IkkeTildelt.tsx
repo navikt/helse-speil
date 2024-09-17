@@ -22,7 +22,7 @@ export const IkkeTildelt = ({ oppgavereferanse, width }: IkkeTildeltProps): Reac
     };
 
     return (
-        <div style={{ width: width }}>
+        <div style={{ width: width }} className={styles.IkkeTildelt}>
             <Button
                 className={styles.Tildelingsknapp}
                 variant="secondary"

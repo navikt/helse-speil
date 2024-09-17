@@ -13,3 +13,7 @@
     align-items: center;
     gap: 12px;
 }
+
+td:has(.IkkeTildelt) {
+    cursor: default;
+}
