@@ -19,9 +19,10 @@ export const useLoadingToast = ({ isLoading, message }: UseIsLoadingToastOptions
     const toastKey = useRef(nanoid());
 
     useEffect(() => {
+        const current = toastKey.current;
         if (showToast) {
             addToast({
-                key: toastKey.current,
+                key: current,
                 message: (
                     <>
                         {message} <Loader size="xsmall" variant="inverted" />
@@ -29,8 +30,8 @@ export const useLoadingToast = ({ isLoading, message }: UseIsLoadingToastOptions
                 ),
             });
         } else {
-            removeToast(toastKey.current);
+            removeToast(current);
         }
-        return () => removeToast(toastKey.current);
+        return () => removeToast(current);
     }, [addToast, message, removeToast, showToast]);
 };
