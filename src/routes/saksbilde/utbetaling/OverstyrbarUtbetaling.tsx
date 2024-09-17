@@ -8,13 +8,8 @@ import { BodyShort } from '@navikt/ds-react';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useMap } from '@hooks/useMap';
-import {
-    ArbeidsgiverFragment,
-    BeregnetPeriodeFragment,
-    Periodetype,
-    PersonFragment,
-    UberegnetPeriodeFragment,
-} from '@io/graphql';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
+import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
 import { DagtypeModal } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeModal';
 import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
 import { MinimumSykdomsgradForm } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradForm';
@@ -164,6 +159,9 @@ export const OverstyrbarUtbetaling = ({
         },
     ]);
 
+    const erFørstePeriodePåSkjæringstidspunkt =
+        getFørstePeriodeForSkjæringstidspunkt(periode.skjaeringstidspunkt, arbeidsgiver)?.id === periode.id;
+
     return (
         <div
             className={classNames(styles.OverstyrbarUtbetaling, overstyrer && styles.overstyrer)}
@@ -187,7 +185,7 @@ export const OverstyrbarUtbetaling = ({
                     setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
                 />
             )}
-            {overstyrer && periode.periodetype === Periodetype.Forstegangsbehandling && (
+            {overstyrer && erFørstePeriodePåSkjæringstidspunkt && (
                 <LeggTilDager
                     openDagtypeModal={() => setVisDagtypeModal(true)}
                     periodeFom={Array.from(alleDager.values())[0].dato}

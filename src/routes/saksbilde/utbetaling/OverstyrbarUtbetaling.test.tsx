@@ -49,8 +49,8 @@ const dager = new Map<string, Utbetalingstabelldag>([
 describe('OverstyrbarUtbetaling', () => {
     test('overstyrer utbetalingstabell', async () => {
         const person = enPerson();
-        const arbeidsgiver = enArbeidsgiver();
-        const periode = enBeregnetPeriode();
+        const periode = enBeregnetPeriode().medSkjæringstidspunkt('2022-01-01');
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         render(
             <OverstyrbarUtbetaling
                 arbeidsgiver={arbeidsgiver}
