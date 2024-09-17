@@ -25,7 +25,7 @@ import {
     useLokaltMånedsbeløp,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
-import { useInntektOgRefusjon, useOverstyrtInntektMetadata, usePostOverstyrtInntekt } from '@state/overstyring';
+import { useInntektOgRefusjon, useLokaletInntektOverstyringer, useOverstyrtInntektMetadata } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@typer/overstyring';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
@@ -87,7 +87,7 @@ export const InntektOgRefusjonSkjema = ({
         close();
     };
 
-    const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntekt(
+    const { isLoading, error, postOverstyring, timedOut, setTimedOut } = useLokaletInntektOverstyringer(
         person,
         cancelEditing,
         showSlettLokaleOverstyringerModal,

@@ -21,7 +21,7 @@ export const useInntektOgRefusjon = () => useRecoilValue(inntektOgRefusjonState)
 
 export const useSlettLokaleOverstyringer = () => useResetRecoilState(inntektOgRefusjonState);
 
-export const usePostOverstyrtInntekt = (
+export const useLokaletInntektOverstyringer = (
     person: PersonFragment,
     onFerdigKalkulert: () => void,
     showSlettLokaleOverstyringerModal: boolean,
