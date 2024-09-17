@@ -29,5 +29,5 @@ export const usePollEtterOpptegnelser = () => {
                 payload: opptegnelse.payload,
             })),
         );
-    }, [data]);
+    }, [data, mottaOpptegnelser]);
 };

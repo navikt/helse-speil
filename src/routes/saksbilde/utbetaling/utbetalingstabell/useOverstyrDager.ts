@@ -76,7 +76,7 @@ export const useOverstyrDager = (
         return () => {
             calculating && removeToast(kalkulererToastKey);
         };
-    }, [calculating]);
+    }, [calculating, removeToast]);
 
     const overstyrDager = async (
         dager: Array<Utbetalingstabelldag>,

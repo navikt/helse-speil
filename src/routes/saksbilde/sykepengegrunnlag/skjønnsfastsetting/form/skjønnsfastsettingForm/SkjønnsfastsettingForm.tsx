@@ -99,7 +99,7 @@ export const SkjønnsfastsettingForm = ({
 
     useEffect(() => {
         onEndretSykepengegrunnlag(sykepengegrunnlagEndring);
-    }, [sykepengegrunnlagEndring]);
+    }, [onEndretSykepengegrunnlag, sykepengegrunnlagEndring]);
 
     useEffect(() => {
         form.setValue(

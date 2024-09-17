@@ -49,7 +49,7 @@ export const useOppdaterPersondata = (person: PersonFragment): [forespørPersono
         return () => {
             removeToast(oppdatererPersondataToastKey);
         };
-    }, []);
+    }, [removeToast]);
 
     const forespørPersonoppdatering = async (): Promise<void> => {
         addToast({ key: oppdatererPersondataToastKey, message: oppdatererPersondataMessage() });

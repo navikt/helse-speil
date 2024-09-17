@@ -28,5 +28,5 @@ export const useVarselOmSakErTildeltAnnenSaksbehandler = () => {
                 new TildelingAlert(`Saken er tildelt ${capitalizeName(personTilBehandling.tildeling?.navn ?? '')}`),
             );
         }
-    }, [saksbehandler.oid, personTilBehandling]);
+    }, [saksbehandler.oid, personTilBehandling, removeVarsel, addVarsel]);
 };
