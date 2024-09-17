@@ -65,6 +65,8 @@ export const enArbeidsgiverinntekt: OverridableConstructor<
         belop: 600000,
         inntektFraAOrdningen: [enInntektFraAOrdningen()],
     },
+    fom: null,
+    tom: null,
     ...overrides,
     medInntektFraAOrdningen(inntekt) {
         this.omregnetArsinntekt = enOmregnetÅrsinntekt().medInntektFraAordningen(inntekt);
