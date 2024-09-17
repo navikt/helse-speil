@@ -3,10 +3,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { Alert, Button } from '@navikt/ds-react';
 
-import { ErrorMessage } from '@components/ErrorMessage';
 import { Feiloppsummering } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
-import { TimeoutModal } from '@components/TimeoutModal';
 import {
     ArbeidsgiverFragment,
     NyttInntektsforholdPeriodeFragment,
@@ -60,7 +58,7 @@ export const EditableTilkommenAG = ({
         close();
     };
 
-    const { isLoading, error, postOverstyring, timedOut, setTimedOut } = useLokaletInntektOverstyringer(
+    const { isLoading, setOverstyring } = useLokaletInntektOverstyringer(
         person,
         cancelEditing,
         showSlettLokaleOverstyringerModal,
@@ -114,7 +112,7 @@ export const EditableTilkommenAG = ({
             ],
             vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(person.arbeidsgivere, periode),
         };
-        postOverstyring(overstyrtInntektOgRefusjon, arbeidsgiver.organisasjonsnummer);
+        setOverstyring(overstyrtInntektOgRefusjon, arbeidsgiver.organisasjonsnummer);
     };
 
     const visFeilOppsummering =
@@ -152,8 +150,6 @@ export const EditableTilkommenAG = ({
                             Avbryt
                         </Button>
                     </span>
-                    {error && <ErrorMessage>{error}</ErrorMessage>}
-                    {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
                     {showSlettLokaleOverstyringerModal && (
                         <SlettLokaleOverstyringerModal
                             showModal={showSlettLokaleOverstyringerModal}

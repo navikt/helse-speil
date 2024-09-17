@@ -12,10 +12,8 @@ import {
 
 import { Alert, BodyShort, Button } from '@navikt/ds-react';
 
-import { ErrorMessage } from '@components/ErrorMessage';
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
-import { TimeoutModal } from '@components/TimeoutModal';
 import { Maybe, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
@@ -87,7 +85,7 @@ export const InntektOgRefusjonSkjema = ({
         close();
     };
 
-    const { isLoading, error, postOverstyring, timedOut, setTimedOut } = useLokaletInntektOverstyringer(
+    const { isLoading, setOverstyring } = useLokaletInntektOverstyringer(
         person,
         cancelEditing,
         showSlettLokaleOverstyringerModal,
@@ -156,7 +154,7 @@ export const InntektOgRefusjonSkjema = ({
                 valgtVedtaksperiode!,
             ),
         };
-        postOverstyring(overstyrtInntektOgRefusjon, metadata.organisasjonsnummer);
+        setOverstyring(overstyrtInntektOgRefusjon, metadata.organisasjonsnummer);
     };
 
     const validateRefusjon = refusjonsvalidator(
@@ -226,8 +224,6 @@ export const InntektOgRefusjonSkjema = ({
                             Avbryt
                         </Button>
                     </span>
-                    {error && <ErrorMessage>{error}</ErrorMessage>}
-                    {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
                     {showSlettLokaleOverstyringerModal && (
                         <SlettLokaleOverstyringerModal
                             showModal={showSlettLokaleOverstyringerModal}

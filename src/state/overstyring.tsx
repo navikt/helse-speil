@@ -33,14 +33,10 @@ export const useLokaletInntektOverstyringer = (
 
     const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
     const [isLoading, setIsLoading] = useState(false);
-    const [timedOut, setTimedOut] = useState(false);
 
     return {
         isLoading,
-        error: null,
-        timedOut,
-        setTimedOut,
-        postOverstyring: (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO, organisasjonsnummer?: string) => {
+        setOverstyring: (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO, organisasjonsnummer?: string) => {
             setIsLoading(true);
 
             if (
