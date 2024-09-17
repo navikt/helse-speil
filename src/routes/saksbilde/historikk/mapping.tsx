@@ -306,18 +306,11 @@ const getFørsteVurdertePeriodeForSkjæringstidspunktet = (
 
 export const getFørstePeriodeForSkjæringstidspunkt = (
     skjæringstidspunkt: DateString,
-    arbeidsgiver: Maybe<ArbeidsgiverFragment>,
-): BeregnetPeriodeFragment | UberegnetPeriodeFragment | undefined => {
-    if (!arbeidsgiver) return undefined;
-
-    return [...arbeidsgiver.generasjoner]
-        .flatMap<Periode | undefined>((generasjon) =>
-            generasjon.perioder.flatMap((p) => (p.skjaeringstidspunkt === skjæringstidspunkt ? p : undefined)),
-        )
-        .filter((periode) => periode !== undefined)
-        .filter(isBeregnetPeriode || isUberegnetPeriode)
+    arbeidsgiver: ArbeidsgiverFragment,
+): BeregnetPeriodeFragment | UberegnetPeriodeFragment | undefined =>
+    [...arbeidsgiver.generasjoner][0].perioder
+        .filter((periode) => periode.skjaeringstidspunkt === skjæringstidspunkt)
         .pop();
-};
 
 const getSisteVurdertePeriodeForSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
