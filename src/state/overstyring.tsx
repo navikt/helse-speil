@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { atom, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
 import { Arbeidsgiverrefusjon, Hendelse, Kildetype, Maybe, PersonFragment, Refusjonselement } from '@io/graphql';
@@ -8,10 +8,7 @@ import {
     useInntektsmeldinghendelser,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
-import { kalkulererFerdigToastKey, kalkulererToastKey, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
-import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useActivePeriod } from '@state/periode';
-import { useAddToast, useRemoveToast } from '@state/toasts';
 import {
     OverstyrtInntektOgRefusjonArbeidsgiver,
     OverstyrtInntektOgRefusjonDTO,
@@ -35,37 +32,8 @@ export const usePostOverstyrtInntekt = (
     }
 
     const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
-    const addToast = useAddToast();
-    const removeToast = useRemoveToast();
     const [isLoading, setIsLoading] = useState(false);
-    const [calculating, setCalculating] = useState(false);
     const [timedOut, setTimedOut] = useState(false);
-
-    useHåndterOpptegnelser((opptegnelse) => {
-        if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
-            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setIsLoading(false);
-            setCalculating(false);
-            onFerdigKalkulert();
-        }
-    });
-
-    useEffect(() => {
-        const timeout: Maybe<NodeJS.Timeout | number> = calculating
-            ? setTimeout(() => {
-                  setTimedOut(true);
-              }, 15000)
-            : null;
-        return () => {
-            !!timeout && clearTimeout(timeout);
-        };
-    }, [calculating]);
-
-    useEffect(() => {
-        return () => {
-            calculating && removeToast(kalkulererToastKey);
-        };
-    }, [calculating]);
 
     return {
         isLoading,
