@@ -86,6 +86,7 @@ export const SisteTolvMånedersInntekt = ({
                     siste3mndInntekter830={inntekterForSammenligningsgrunnlag?.filter((it) =>
                         sisteXmåneder.slice(0, 3).some((siste3mnd) => siste3mnd.maned === it.maned),
                     )}
+                    harInntekterForSammenligningsgrunnlag={harInntekterForSammenligningsgrunnlag}
                 />
                 {sisteXmåneder.map((inntekt, i) => (
                     <React.Fragment key={i}>
@@ -129,9 +130,11 @@ const ParagrafOverskrift = ({
 const Gjennomsnitt3Mnd = ({
     siste3mndInntekter828,
     siste3mndInntekter830,
+    harInntekterForSammenligningsgrunnlag,
 }: {
     siste3mndInntekter828: (InntektFraAOrdningen | { maned: string; sum: null })[];
     siste3mndInntekter830: (InntektFraAOrdningen | { maned: string; sum: null })[];
+    harInntekterForSammenligningsgrunnlag: boolean;
 }) => {
     const gjennomsnittSiste3Mnd828 =
         siste3mndInntekter828.filter((it) => it.sum !== null).reduce((acc, obj) => acc + (obj?.sum ?? 0), 0) / 3;
@@ -145,8 +148,10 @@ const Gjennomsnitt3Mnd = ({
         <>
             <BodyShort className={classNames(styles.bold, styles.gjennomsnitt)}>Gjennomsnitt siste 3 mnd</BodyShort>
             <BodyShort className={styles.gjennomsnitt}>{somPenger(gjennomsnittSiste3Mnd828)}</BodyShort>
-            {harSiste3Mnd830 && (
-                <BodyShort className={styles.gjennomsnitt}>{somPenger(gjennomsnittSiste3Mnd830)}</BodyShort>
+            {harInntekterForSammenligningsgrunnlag && (
+                <BodyShort className={styles.gjennomsnitt}>
+                    {somPenger(harSiste3Mnd830 ? gjennomsnittSiste3Mnd830 : 0)}
+                </BodyShort>
             )}
         </>
     );
