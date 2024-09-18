@@ -55,7 +55,7 @@ const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
         case Svartype.Radio:
             return <CheckmarkIcon fill="#000" style={{ border: '1px solid #000' }} />;
         case Svartype.Belop:
-            return toKronerOgØre(svar[0].verdi);
+            return toKronerOgØre(Number(svar[0].verdi) / 100);
         case Svartype.Dato:
         case Svartype.RadioGruppeUkekalender:
             return dayjs(svar[0].verdi).format(NORSK_DATOFORMAT);
