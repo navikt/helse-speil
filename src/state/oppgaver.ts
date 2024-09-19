@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -42,19 +42,8 @@ export interface OppgaveFeedResponse {
     setPage: (newPage: number) => void;
 }
 
-const defaultFiltrering: FiltreringInput = {
-    egenskaper: [],
-    ekskluderteEgenskaper: [],
-    ingenUkategoriserteEgenskaper: false,
-    tildelt: null,
-    egneSaker: false,
-    egneSakerPaVent: false,
-};
-
 export const useOppgaveFeed = (): OppgaveFeedResponse => {
     const [offset, setOffset] = useState(0);
-    const [originalFiltrering, setOriginalFiltrering] = useState<FiltreringInput>(defaultFiltrering);
-    const [originalSortering, setOriginalSortering] = useState<OppgavesorteringInput[]>([]);
     const aktivTab = useAktivTab();
     const { activeFilters } = useFilters();
     const sort = useSortering();
@@ -66,17 +55,15 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
     const setTabIkkeEndret = useSetTabIkkeEndret();
     const limit = 14;
 
-    useEffect(() => {
-        setOriginalFiltrering(filtrering(activeFilters, aktivTab));
-        setOriginalSortering(sortering(sort));
-    }, []);
+    const originalFiltreringRef = useRef(filtrering(activeFilters, aktivTab));
+    const originalSorteringRef = useRef(sortering(sort));
 
     const { data, error, loading, fetchMore, refetch } = useQuery(OppgaveFeedDocument, {
         variables: {
             offset: 0,
             limit: limit,
-            filtrering: originalFiltrering,
-            sortering: originalSortering,
+            filtrering: originalFiltreringRef.current,
+            sortering: originalSorteringRef.current,
         },
         initialFetchPolicy: 'network-only',
         nextFetchPolicy: 'cache-first',
@@ -116,8 +103,8 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
         setSorteringIkkeEndret,
         setTabIkkeEndret,
         setOffset,
-        tildeltFiltrering,
         refetch,
+        offset,
     ]);
 
     const antallOppgaver = data?.oppgaveFeed.totaltAntallOppgaver ?? 0;
