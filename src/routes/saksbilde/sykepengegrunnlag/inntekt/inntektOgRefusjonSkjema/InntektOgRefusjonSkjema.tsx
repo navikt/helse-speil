@@ -72,12 +72,12 @@ export const InntektOgRefusjonSkjema = ({
 }: EditableInntektProps): ReactElement => {
     const form = useForm<InntektFormFields>({ shouldFocusError: false, mode: 'onSubmit', reValidateMode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
-    const metadata = useOverstyrtInntektMetadata(person, skjæringstidspunkt, arbeidsgiver.organisasjonsnummer);
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(
         person,
         skjæringstidspunkt,
         arbeidsgiver.organisasjonsnummer,
     );
+    const metadata = useOverstyrtInntektMetadata(person, arbeidsgiver, period);
     const valgtVedtaksperiode = useActivePeriod(person);
     const [harIkkeSkjemaEndringer, setHarIkkeSkjemaEndringer] = useState(false);
     const [showSlettLokaleOverstyringerModal, setShowSlettLokaleOverstyringerModal] = useState(false);

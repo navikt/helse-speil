@@ -1,20 +1,24 @@
 import { atom, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
-import { Arbeidsgiverrefusjon, Hendelse, Kildetype, Maybe, PersonFragment, Refusjonselement } from '@io/graphql';
-import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import {
-    useArbeidsgiver,
-    useInntektsmeldinghendelser,
-    usePeriodForSkjæringstidspunktForArbeidsgiver,
-} from '@state/arbeidsgiver';
+    ArbeidsgiverFragment,
+    Arbeidsgiverrefusjon,
+    Hendelse,
+    Kildetype,
+    Maybe,
+    PersonFragment,
+    Refusjonselement,
+} from '@io/graphql';
+import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
+import { useInntektsmeldinghendelser } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import {
     OverstyrtInntektOgRefusjonArbeidsgiver,
     OverstyrtInntektOgRefusjonDTO,
     Refusjonsopplysning,
 } from '@typer/overstyring';
-import { DateString } from '@typer/shared';
-import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
+import { ActivePeriod, DateString } from '@typer/shared';
+import { isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
 export const useInntektOgRefusjon = () => useRecoilValue(inntektOgRefusjonState);
 
@@ -109,26 +113,20 @@ export const mapOgSorterRefusjoner = (
 };
 export const useOverstyrtInntektMetadata = (
     person: PersonFragment,
-    skjæringstidspunkt: DateString,
-    organisasjonsnummer: string,
+    arbeidsgiver: ArbeidsgiverFragment,
+    period: Maybe<ActivePeriod>,
 ): OverstyrtInntektMetadata => {
-    const period = usePeriodForSkjæringstidspunktForArbeidsgiver(person, skjæringstidspunkt, organisasjonsnummer);
     const activePeriod = useActivePeriod(person);
-    const arbeidsgiver = useArbeidsgiver(person, organisasjonsnummer);
     const inntektsmeldinghendelser = useInntektsmeldinghendelser(arbeidsgiver);
     const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, activePeriod);
     const uberegnetAGfinnesIVilkårsgrunnlaget = vilkårsgrunnlagAktivPeriode?.arbeidsgiverrefusjoner.find(
-        (it) => it.arbeidsgiver === arbeidsgiver?.organisasjonsnummer,
+        (it) => it.arbeidsgiver === arbeidsgiver.organisasjonsnummer,
     );
 
     if (
-        !isPerson(person) ||
-        !isArbeidsgiver(arbeidsgiver) ||
-        !(
-            isBeregnetPeriode(period) ||
-            isGhostPeriode(period) ||
-            (isUberegnetPeriode(period) && uberegnetAGfinnesIVilkårsgrunnlaget)
-        )
+        !isBeregnetPeriode(period) &&
+        !isGhostPeriode(period) &&
+        !(isUberegnetPeriode(period) && uberegnetAGfinnesIVilkårsgrunnlaget)
     ) {
         throw Error('Mangler data for å kunne overstyre inntekt.');
     }
