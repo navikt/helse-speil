@@ -1,12 +1,11 @@
 import React, { ReactElement } from 'react';
-import { useRecoilState } from 'recoil';
 
 import { OppgaveTilBehandling } from '@io/graphql';
 import { TabType, useAktivTab } from '@oversikt/tabState';
 
 import { Pagination } from '../Pagination';
 import { useFilters, useSetMultipleFilters, useToggleFilter } from '../state/filter';
-import { sortering } from '../state/sortation';
+import { useSetSortering, useSortering } from '../state/sortation';
 import { FilterChips } from './FilterChips';
 import { MineSakerTable } from './mineSaker/MineSakerTable';
 import { PåVentTable } from './påVent/PåVentTable';
@@ -27,7 +26,8 @@ export const OppgaverTable = React.memo(
     ({ oppgaver, antallOppgaver, numberOfPages, currentPage, limit, setPage }: OppgaverTableProps): ReactElement => {
         const tab = useAktivTab();
         const { activeFilters } = useFilters();
-        const [sort, setSort] = useRecoilState(sortering);
+        const sort = useSortering();
+        const setSort = useSetSortering();
         const toggleFilter = useToggleFilter();
         const setMultipleFilters = useSetMultipleFilters();
 

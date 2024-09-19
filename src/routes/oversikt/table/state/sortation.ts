@@ -1,4 +1,4 @@
-import { AtomEffect, SetRecoilState, atom, selector, useSetRecoilState } from 'recoil';
+import { AtomEffect, SetRecoilState, atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -50,12 +50,20 @@ export const hydrateSorteringForTab = (set: SetRecoilState) => {
     });
 };
 
-export const sorteringEndret = atom<boolean>({
+const sorteringEndret = atom<boolean>({
     key: 'sorteringEndret',
     default: false,
 });
 
-export const sortering = selector<SortState>({
+export const useSorteringEndret = () => useRecoilValue(sorteringEndret);
+export const useSetSorteringIkkeEndret = () => {
+    const setEndret = useSetRecoilState(sorteringEndret);
+    return () => {
+        setEndret(false);
+    };
+};
+
+const sortering = selector<SortState>({
     key: 'sortering',
     get: ({ get }) => {
         return get(sorteringPerTab)[get(tabState)];
@@ -65,6 +73,14 @@ export const sortering = selector<SortState>({
         set(sorteringPerTab, (sortering) => ({ ...sortering, [get(tabState)]: newValue }));
     },
 });
+
+export const useSortering = () => useRecoilValue(sortering);
+export const useSetSortering = () => {
+    const setSortering = useSetRecoilState(sortering);
+    return (sortering: SortState) => {
+        setSortering(sortering);
+    };
+};
 
 export const useUpdateSort = () => {
     const setSorteringEndret = useSetRecoilState(sorteringEndret);

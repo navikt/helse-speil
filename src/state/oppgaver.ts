@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -14,7 +13,7 @@ import {
     OppgavesorteringInput,
     Sorteringsnokkel,
 } from '@io/graphql';
-import { TabType, tabEndret, useAktivTab } from '@oversikt/tabState';
+import { TabType, useAktivTab, useSetTabIkkeEndret, useTabEndret } from '@oversikt/tabState';
 import {
     Filter,
     FilterStatus,
@@ -23,7 +22,7 @@ import {
     useFilters,
     useSetFilterIkkeEndret,
 } from '@oversikt/table/state/filter';
-import { SortKey, sorteringEndret, sortering as sorteringSelector } from '@oversikt/table/state/sortation';
+import { SortKey, useSetSorteringIkkeEndret, useSortering, useSorteringEndret } from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
 
 export interface ApolloResponse<T> {
@@ -58,11 +57,13 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
     const [originalSortering, setOriginalSortering] = useState<OppgavesorteringInput[]>([]);
     const aktivTab = useAktivTab();
     const { activeFilters } = useFilters();
-    const sort = useRecoilValue(sorteringSelector);
+    const sort = useSortering();
     const filterErEndret = useFilterEndret();
     const setFilterIkkeEndret = useSetFilterIkkeEndret();
-    const [sorteringErEndret, setSorteringEndret] = useRecoilState(sorteringEndret);
-    const [tabErEndret, setTabEndret] = useRecoilState(tabEndret);
+    const sorteringErEndret = useSorteringEndret();
+    const setSorteringIkkeEndret = useSetSorteringIkkeEndret();
+    const tabErEndret = useTabEndret();
+    const setTabIkkeEndret = useSetTabIkkeEndret();
     const limit = 14;
 
     useEffect(() => {
@@ -101,8 +102,8 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
                 sortering: sortering(sort),
             });
             setFilterIkkeEndret();
-            setSorteringEndret(false);
-            setTabEndret(false);
+            setSorteringIkkeEndret();
+            setTabIkkeEndret();
         }
     }, [
         filterErEndret,
@@ -112,8 +113,8 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
         sort,
         aktivTab,
         setFilterIkkeEndret,
-        setSorteringEndret,
-        setTabEndret,
+        setSorteringIkkeEndret,
+        setTabIkkeEndret,
         setOffset,
         tildeltFiltrering,
         refetch,
