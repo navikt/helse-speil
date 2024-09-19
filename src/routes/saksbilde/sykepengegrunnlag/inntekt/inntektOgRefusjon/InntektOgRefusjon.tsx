@@ -52,6 +52,8 @@ interface InntektUtenSykefraværProps {
     organisasjonsnummer: string;
     skjæringstidspunkt: DateString;
     erDeaktivert?: Maybe<boolean>;
+    inntektFom: Maybe<string>;
+    inntektTom: Maybe<string>;
     omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
     vilkårsgrunnlagId?: Maybe<string>;
     periodeId?: Maybe<string>;
@@ -69,6 +71,8 @@ export const InntektOgRefusjon = ({
     organisasjonsnummer,
     skjæringstidspunkt,
     erDeaktivert,
+    inntektFom,
+    inntektTom,
     omregnetÅrsinntekt,
     vilkårsgrunnlagId,
     periodeId,
@@ -163,6 +167,8 @@ export const InntektOgRefusjon = ({
                     skjæringstidspunkt={skjæringstidspunkt}
                     person={person}
                     arbeidsgiver={arbeidsgiver}
+                    inntektFom={inntektFom}
+                    inntektTom={inntektTom}
                 />
             ) : (
                 <ReadOnlyInntekt

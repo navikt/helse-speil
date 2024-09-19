@@ -53,6 +53,8 @@ interface EditableInntektProps {
     omregnetÅrsinntekt: OmregnetArsinntekt;
     begrunnelser: BegrunnelseForOverstyring[];
     skjæringstidspunkt: DateString;
+    inntektFom: Maybe<string>;
+    inntektTom: Maybe<string>;
     close: () => void;
     onEndre: (erEndret: boolean) => void;
 }
@@ -63,6 +65,8 @@ export const InntektOgRefusjonSkjema = ({
     omregnetÅrsinntekt,
     begrunnelser,
     skjæringstidspunkt,
+    inntektFom,
+    inntektTom,
     close,
     onEndre,
 }: EditableInntektProps): ReactElement => {
@@ -151,6 +155,8 @@ export const InntektOgRefusjonSkjema = ({
                             lovverksversjon: begrunnelse.lovhjemmel?.lovverksversjon,
                         },
                     }),
+                    fom: inntektFom,
+                    tom: inntektTom,
                 },
             ],
             vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(
