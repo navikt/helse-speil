@@ -56,6 +56,8 @@ export const TilkommenAG = ({ person, inntekt, periode, arbeidsgiver }: Tilkomme
                         arbeidsgiver={arbeidsgiver}
                         periode={periode}
                         omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
+                        fom={inntekt.fom}
+                        tom={inntekt.tom}
                         close={() => setEditing(false)}
                         onEndre={setEndret}
                     />

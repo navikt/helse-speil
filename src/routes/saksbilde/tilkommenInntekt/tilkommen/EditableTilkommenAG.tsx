@@ -7,6 +7,7 @@ import { Feiloppsummering } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import {
     ArbeidsgiverFragment,
+    Maybe,
     NyttInntektsforholdPeriodeFragment,
     OmregnetArsinntekt,
     PersonFragment,
@@ -34,6 +35,8 @@ interface EditableTilkommenAGProps {
     arbeidsgiver: ArbeidsgiverFragment;
     periode: NyttInntektsforholdPeriodeFragment;
     omregnetÅrsinntekt: OmregnetArsinntekt;
+    fom: Maybe<string>;
+    tom: Maybe<string>;
     close: () => void;
     onEndre: (erEndret: boolean) => void;
 }
@@ -43,9 +46,11 @@ export const EditableTilkommenAG = ({
     arbeidsgiver,
     periode,
     omregnetÅrsinntekt,
+    fom,
+    tom,
     close,
     onEndre,
-}: EditableTilkommenAGProps): ReactElement => {
+}: EditableTilkommenAGProps): Maybe<ReactElement> => {
     const form = useForm<TilkommenInntektFormFields>({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(arbeidsgiver.organisasjonsnummer, periode.skjaeringstidspunkt);
@@ -67,10 +72,6 @@ export const EditableTilkommenAG = ({
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const values = form.getValues();
 
-    const månedsbeløp = Number.parseFloat(values.manedsbelop);
-    const omregnetÅrsinntektMånedsbeløpRounded = avrundetToDesimaler(omregnetÅrsinntekt.manedsbelop);
-    const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded;
-
     useEffect(() => {
         if (lokaltMånedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded) {
             onEndre(true);
@@ -87,8 +88,14 @@ export const EditableTilkommenAG = ({
         harFeil && feiloppsummeringRef.current?.focus();
     }, [harFeil]);
 
+    const månedsbeløp = Number.parseFloat(values.manedsbelop);
+    const omregnetÅrsinntektMånedsbeløpRounded = avrundetToDesimaler(omregnetÅrsinntekt.manedsbelop);
+    const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded;
+
     const confirmChanges = () => {
         const { manedsbelop, forklaring } = form.getValues();
+
+        if (stringIsNaN(manedsbelop)) return;
 
         const overstyrtInntektOgRefusjon: OverstyrtInntektOgRefusjonDTO = {
             fødselsnummer: person.fodselsnummer,
@@ -99,14 +106,12 @@ export const EditableTilkommenAG = ({
                     organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
                     begrunnelse: 'tilkommen',
                     forklaring: forklaring,
-                    månedligInntekt: stringIsNaN(manedsbelop)
-                        ? omregnetÅrsinntekt.manedsbelop
-                        : Number.parseFloat(manedsbelop),
-                    fraMånedligInntekt: omregnetÅrsinntekt.manedsbelop,
+                    månedligInntekt: Number.parseFloat(manedsbelop),
+                    fraMånedligInntekt: omregnetÅrsinntekt?.manedsbelop ?? 0,
                     refusjonsopplysninger: [],
                     fraRefusjonsopplysninger: [],
-                    fom: periode.fom,
-                    tom: periode.tom,
+                    fom: fom,
+                    tom: tom,
                 },
             ],
             vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(person.arbeidsgivere, periode),
