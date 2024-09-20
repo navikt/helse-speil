@@ -54,7 +54,7 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
                 clearTimeout(timeout);
             };
         }
-    }, [calculating, removeToast]);
+    }, [calculating]);
 
     return {
         isLoading: loading || calculating,

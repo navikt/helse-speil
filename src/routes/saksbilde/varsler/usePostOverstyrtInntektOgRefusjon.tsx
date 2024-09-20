@@ -67,7 +67,7 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
                 clearTimeout(timeout);
             };
         }
-    }, [calculating, removeToast]);
+    }, [calculating]);
 
     const overstyrInntektOgRefusjon = async (
         overstyrtInntekt: OverstyrtInntektOgRefusjonDTO,

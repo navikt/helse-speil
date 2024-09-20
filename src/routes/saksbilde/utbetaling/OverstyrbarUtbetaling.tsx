@@ -148,7 +148,7 @@ export const OverstyrbarUtbetaling = ({
             setOverstyrteDager(new Map());
             setNyeDager(new Map());
         }
-    }, [done, setNyeDager, setOverstyrteDager]);
+    }, [done]);
 
     useKeyboard([
         {

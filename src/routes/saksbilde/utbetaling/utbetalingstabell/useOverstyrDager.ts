@@ -72,7 +72,7 @@ export const useOverstyrDager = (
                 clearTimeout(timeout);
             };
         }
-    }, [calculating, removeToast]);
+    }, [calculating]);
 
     const overstyrDager = async (
         dager: Array<Utbetalingstabelldag>,

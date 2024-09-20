@@ -81,7 +81,7 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkule
                 clearTimeout(timeout);
             };
         }
-    }, [calculating, removeToast]);
+    }, [calculating]);
 
     return {
         isLoading: loading || calculating,
