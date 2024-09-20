@@ -62,21 +62,16 @@ export const useOverstyrDager = (
     }, [person]);
 
     useEffect(() => {
-        const timeout: Maybe<NodeJS.Timeout | number> = calculating
-            ? setTimeout(() => {
-                  setState('timedOut');
-              }, 15000)
-            : null;
-        return () => {
-            !!timeout && clearTimeout(timeout);
-        };
-    }, [calculating]);
-
-    useEffect(() => {
-        return () => {
-            calculating && removeToast(kalkulererToastKey);
-        };
-    }, [calculating]);
+        if (calculating) {
+            const timeout: Maybe<NodeJS.Timeout | number> = setTimeout(() => {
+                setState('timedOut');
+            }, 15000);
+            return () => {
+                removeToast(kalkulererToastKey);
+                clearTimeout(timeout);
+            };
+        }
+    }, [calculating, removeToast]);
 
     const overstyrDager = async (
         dager: Array<Utbetalingstabelldag>,

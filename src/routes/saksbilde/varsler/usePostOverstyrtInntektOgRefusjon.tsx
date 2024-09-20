@@ -58,21 +58,16 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
     }, [resetLokaleOverstyringer, slettLokaleOverstyringer]);
 
     useEffect(() => {
-        const timeout: Maybe<NodeJS.Timeout | number> = calculating
-            ? setTimeout(() => {
-                  setTimedOut(true);
-              }, 15000)
-            : null;
-        return () => {
-            !!timeout && clearTimeout(timeout);
-        };
-    }, [calculating]);
-
-    useEffect(() => {
-        return () => {
-            calculating && removeToast(kalkulererToastKey);
-        };
-    }, [calculating]);
+        if (calculating) {
+            const timeout: Maybe<NodeJS.Timeout | number> = setTimeout(() => {
+                setTimedOut(true);
+            }, 15000);
+            return () => {
+                removeToast(kalkulererToastKey);
+                clearTimeout(timeout);
+            };
+        }
+    }, [calculating, removeToast]);
 
     const overstyrInntektOgRefusjon = async (
         overstyrtInntekt: OverstyrtInntektOgRefusjonDTO,
