@@ -74,7 +74,7 @@ const sortering = selector<SortState>({
     },
 });
 
-export const useSortering = () => useRecoilValue(sortering);
+export const useSorteringState = () => useRecoilValue(sortering);
 export const useSetSortering = () => {
     const setSortering = useSetRecoilState(sortering);
     return (sortering: SortState) => {
