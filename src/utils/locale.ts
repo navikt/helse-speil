@@ -50,3 +50,6 @@ export const getMonthName = (yearMonth: string) => {
     };
     return monthNumberToMonthName[yearMonth.split('-')[1]] ?? 'Fant ikke måned';
 };
+
+export const tilTelefonNummer = (value: string): string =>
+    value.replace(/\D+/g, '').replace(/(\d{3})(\d{2})(\d{3})/, '$1 $2 $3');

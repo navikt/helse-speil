@@ -11,7 +11,7 @@ import { PersonFragment } from '@io/graphql';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { DokumenthendelseObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT } from '@utils/date';
-import { toKronerOgØre } from '@utils/locale';
+import { tilTelefonNummer, toKronerOgØre } from '@utils/locale';
 
 import { BestemmendeFraværsdag } from './BestemmendeFraværsdag';
 import { DokumentFragment } from './DokumentFragment';
@@ -231,7 +231,9 @@ export const Inntektsmeldingsinnhold = ({
                     )}
                     {inntektsmelding.innsenderTelefon && (
                         <DokumentFragment overskrift="Innsender telefon">
-                            <AnonymizableContainer as="span">{inntektsmelding.innsenderTelefon}</AnonymizableContainer>
+                            <AnonymizableContainer as="span">
+                                {tilTelefonNummer(inntektsmelding.innsenderTelefon)}
+                            </AnonymizableContainer>
                         </DokumentFragment>
                     )}
                     {inntektsmelding.avsenderSystem && (
