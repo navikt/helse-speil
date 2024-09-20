@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -22,7 +22,12 @@ import {
     useFilters,
     useSetFilterIkkeEndret,
 } from '@oversikt/table/state/filter';
-import { SortKey, useSetSorteringIkkeEndret, useSortering, useSorteringEndret } from '@oversikt/table/state/sortation';
+import {
+    SortKey,
+    useSetSorteringIkkeEndret,
+    useSorteringEndret,
+    useSorteringState,
+} from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
 
 export interface ApolloResponse<T> {
@@ -43,20 +48,18 @@ export interface OppgaveFeedResponse {
 }
 
 export const useOppgaveFeed = (): OppgaveFeedResponse => {
-    const [offset, setOffset] = useState(0);
-    const aktivTab = useAktivTab();
-    const { activeFilters } = useFilters();
-    const sort = useSortering();
-    const filterErEndret = useFilterEndret();
-    const setFilterIkkeEndret = useSetFilterIkkeEndret();
-    const sorteringErEndret = useSorteringEndret();
-    const setSorteringIkkeEndret = useSetSorteringIkkeEndret();
-    const tabErEndret = useTabEndret();
-    const setTabIkkeEndret = useSetTabIkkeEndret();
     const limit = 14;
 
-    const originalFiltreringRef = useRef(filtrering(activeFilters, aktivTab));
-    const originalSorteringRef = useRef(sortering(sort));
+    const [offset, setOffset] = useState(0);
+
+    const sortering = useSortering();
+    const filtrering = useFiltrering();
+
+    const harTabFilterEllerSorteringsendringer = useHarTabFilterEllerSorteringsendringer();
+    const setHarIkkeTabFilterEllerSorteringsendringer = useSetHarIkkeTabFilterEllerSorteringsendringer();
+
+    const originalFiltreringRef = useRef(filtrering);
+    const originalSorteringRef = useRef(sortering);
 
     const { data, error, loading, fetchMore, refetch } = useQuery(OppgaveFeedDocument, {
         variables: {
@@ -78,34 +81,23 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
                 offset,
             },
         });
-    }, [offset, fetchMore]);
+    }, [fetchMore, offset]);
+
+    const doRefetch = useCallback(() => {
+        void refetch({
+            offset,
+            filtrering: filtrering,
+            sortering: sortering,
+        });
+    }, [filtrering, offset, refetch, sortering]);
 
     useEffect(() => {
-        if (filterErEndret || sorteringErEndret || tabErEndret) {
+        if (harTabFilterEllerSorteringsendringer) {
             setOffset(0);
-            void refetch({
-                offset,
-                filtrering: filtrering(activeFilters, aktivTab),
-                sortering: sortering(sort),
-            });
-            setFilterIkkeEndret();
-            setSorteringIkkeEndret();
-            setTabIkkeEndret();
+            doRefetch();
+            setHarIkkeTabFilterEllerSorteringsendringer();
         }
-    }, [
-        filterErEndret,
-        sorteringErEndret,
-        tabErEndret,
-        activeFilters,
-        sort,
-        aktivTab,
-        setFilterIkkeEndret,
-        setSorteringIkkeEndret,
-        setTabIkkeEndret,
-        setOffset,
-        refetch,
-        offset,
-    ]);
+    }, [setOffset, harTabFilterEllerSorteringsendringer, setHarIkkeTabFilterEllerSorteringsendringer, doRefetch]);
 
     const antallOppgaver = data?.oppgaveFeed.totaltAntallOppgaver ?? 0;
     const numberOfPages = Math.max(Math.ceil(antallOppgaver / limit), 1);
@@ -123,6 +115,36 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
             setOffset(limit * (newPage - 1));
         },
     };
+};
+
+const useHarTabFilterEllerSorteringsendringer = () => {
+    const filterErEndret = useFilterEndret();
+    const sorteringErEndret = useSorteringEndret();
+    const tabErEndret = useTabEndret();
+
+    return filterErEndret || sorteringErEndret || tabErEndret;
+};
+
+const useSetHarIkkeTabFilterEllerSorteringsendringer = () => {
+    const setFilterIkkeEndret = useSetFilterIkkeEndret();
+    const setSorteringIkkeEndret = useSetSorteringIkkeEndret();
+    const setTabIkkeEndret = useSetTabIkkeEndret();
+    return () => {
+        setFilterIkkeEndret();
+        setSorteringIkkeEndret();
+        setTabIkkeEndret();
+    };
+};
+
+const useFiltrering = () => {
+    const aktivTab = useAktivTab();
+    const { activeFilters } = useFilters();
+    return filtrering(activeFilters, aktivTab);
+};
+
+const useSortering = () => {
+    const sort = useSorteringState();
+    return sortering(sort);
 };
 
 export const useAntallOppgaver = () => {
