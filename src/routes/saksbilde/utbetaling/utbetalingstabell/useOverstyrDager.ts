@@ -21,8 +21,6 @@ import { useAddToast, useRemoveToast } from '@state/toasts';
 import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
-type UsePostOverstyringState = 'loading' | 'hasValue' | 'hasError' | 'initial' | 'timedOut' | 'done';
-
 type UsePostOverstyringResult = {
     postOverstyring: (
         dager: Array<Utbetalingstabelldag>,
@@ -31,8 +29,9 @@ type UsePostOverstyringResult = {
         vedtaksperiodeId: string,
         callback?: () => void,
     ) => Promise<void | FetchResult<OverstyrDagerMutationMutation>>;
-    state: UsePostOverstyringState;
     error?: string;
+    timedOut: boolean;
+    done: boolean;
 };
 
 export const useOverstyrDager = (
@@ -43,10 +42,11 @@ export const useOverstyrDager = (
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const setPollingRate = useSetOpptegnelserPollingRate();
-    const [overstyrMutation, { error }] = useMutation(OverstyrDagerMutationDocument);
+    const [overstyrMutation, { error: overstyringError }] = useMutation(OverstyrDagerMutationDocument);
+    const [opprettAbonnement, { error: abonnementError }] = useMutation(OpprettAbonnementDocument);
     const [calculating, setCalculating] = useState(false);
-    const [state, setState] = useState<UsePostOverstyringState>('initial');
-    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
+    const [timedOut, setTimedOut] = useState(false);
+    const [done, setDone] = useState(false);
 
     useHåndterOpptegnelser((opptegnelse) => {
         if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
@@ -57,14 +57,15 @@ export const useOverstyrDager = (
 
     useEffect(() => {
         if (person !== personFørRefetchRef.current) {
-            setState('done');
+            setTimedOut(false);
+            setDone(true);
         }
     }, [person]);
 
     useEffect(() => {
         if (calculating) {
             const timeout: Maybe<NodeJS.Timeout | number> = setTimeout(() => {
-                setState('timedOut');
+                setTimedOut(true);
             }, 15000);
             return () => {
                 removeToast(kalkulererToastKey);
@@ -92,7 +93,6 @@ export const useOverstyrDager = (
                 },
             },
             onCompleted: () => {
-                setState('hasValue');
                 personFørRefetchRef.current = person;
                 addToast(kalkulererToast({}));
                 setCalculating(true);
@@ -104,12 +104,12 @@ export const useOverstyrDager = (
                     },
                 });
             },
-            onError: () => setState('hasError'),
-        });
+        }).catch(() => Promise.resolve());
     return {
         postOverstyring: overstyrDager,
-        state: state,
-        error: error && 'Feil under sending av overstyring. Prøv igjen senere.',
+        error: (overstyringError || abonnementError) && 'Feil under sending av overstyring. Prøv igjen senere.',
+        timedOut: timedOut,
+        done: done,
     };
 };
 

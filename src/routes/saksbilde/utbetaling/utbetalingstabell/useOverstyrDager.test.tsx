@@ -34,7 +34,7 @@ const BEGRUNNELSE = 'begrunnelse';
 (useSetOpptegnelserPollingRate as jest.Mock).mockReturnValue(() => {});
 
 describe('useOverstyrDager', () => {
-    test('skal ha state initial ved oppstart', async () => {
+    test('skal ha default verdier ved oppstart', async () => {
         const person = enPerson();
         const { result } = renderHook((initialPerson) => useOverstyrDager(initialPerson, enArbeidsgiver()), {
             wrapper: ({ children }) => (
@@ -44,9 +44,11 @@ describe('useOverstyrDager', () => {
             ),
             initialProps: person,
         });
-        expect(result.current.state).toBe('initial');
+        expect(result.current.error).toBe(undefined);
+        expect(result.current.timedOut).toBe(false);
+        expect(result.current.done).toBe(false);
     });
-    test('skal ha state hasValue etter posting av korrekt overstyring', async () => {
+    test('skal ha kalle callback etter posting av korrekt overstyring', async () => {
         const person = enPerson({
             aktorId: AKTØR_ID,
             fodselsnummer: FØDSELSNUMMER,
@@ -64,14 +66,17 @@ describe('useOverstyrDager', () => {
             },
         );
 
-        await act(() => result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID));
+        const callback = jest.fn();
+
+        await act(() =>
+            result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID, callback),
+        );
 
         rerender({ person, arbeidsgiver });
-        const { state } = result.current;
 
-        await waitFor(() => expect(state).toBe('hasValue'));
+        await waitFor(() => expect(callback).toHaveBeenCalledTimes(1));
     });
-    test('skal ha state done etter person er oppdatert', async () => {
+    test('skal ha done lik true etter person er oppdatert', async () => {
         const person = enPerson({
             aktorId: AKTØR_ID,
             fodselsnummer: FØDSELSNUMMER,
@@ -88,10 +93,9 @@ describe('useOverstyrDager', () => {
         await act(() => result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID));
 
         rerender(enPerson());
-        const { state } = result.current;
-        await waitFor(() => expect(state).toBe('done'));
+        await waitFor(() => expect(result.current.done).toBeTruthy());
     });
-    test('skal ha state hasError hvis ovberstyring ikke virker', async () => {
+    test('skal ha error hvis ovberstyring ikke virker', async () => {
         const person = enPerson({
             aktorId: AKTØR_ID,
             fodselsnummer: FØDSELSNUMMER,
@@ -108,9 +112,7 @@ describe('useOverstyrDager', () => {
         await act(() => result.current.postOverstyring([], [], BEGRUNNELSE, 'en feil'));
 
         rerender(person);
-        const { state, error } = result.current;
-        await waitFor(() => expect(state).toBe('hasError'));
-        await waitFor(() => expect(error).not.toBeNull());
+        await waitFor(() => expect(result.current.error).not.toBeNull());
     });
 });
 

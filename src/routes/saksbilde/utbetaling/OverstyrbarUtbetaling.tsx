@@ -63,7 +63,7 @@ export const OverstyrbarUtbetaling = ({
     const [visDagtypeModal, setVisDagtypeModal] = useState(false);
     const [overstyrer, setOverstyrer] = useState(false);
     const [overstyrerMinimumSykdomsgrad, setOverstyrerMinimumSykdomsgrad] = useState(false);
-    const { postOverstyring, error, state } = useOverstyrDager(person, arbeidsgiver);
+    const { postOverstyring, error, timedOut, done } = useOverstyrDager(person, arbeidsgiver);
 
     const [markerteDager, setMarkerteDager] = useMap<string, Utbetalingstabelldag>();
     const [overstyrteDager, setOverstyrteDager] = useMap<string, Utbetalingstabelldag>();
@@ -144,11 +144,11 @@ export const OverstyrbarUtbetaling = ({
     };
 
     useEffect(() => {
-        if (state === 'done') {
+        if (done) {
             setOverstyrteDager(new Map());
             setNyeDager(new Map());
         }
-    }, [state]);
+    }, [done, setNyeDager, setOverstyrteDager]);
 
     useKeyboard([
         {
@@ -239,8 +239,8 @@ export const OverstyrbarUtbetaling = ({
                     </>
                 )}
             </div>
-            {state === 'timedOut' && <TimeoutModal showModal={state === 'timedOut'} onClose={() => null} />}
-            {state === 'hasError' && error && (
+            {timedOut && <TimeoutModal showModal={timedOut} onClose={() => null} />}
+            {error && (
                 <BodyShort className={styles.ErrorMessage} role="alert">
                     {error}
                 </BodyShort>
