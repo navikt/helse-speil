@@ -43,7 +43,7 @@ export const useOverstyrDager = (
     const removeToast = useRemoveToast();
     const setPollingRate = useSetOpptegnelserPollingRate();
     const [overstyrMutation, { error: overstyringError }] = useMutation(OverstyrDagerMutationDocument);
-    const [opprettAbonnement, { error: abonnementError }] = useMutation(OpprettAbonnementDocument);
+    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
     const [calculating, setCalculating] = useState(false);
     const [timedOut, setTimedOut] = useState(false);
     const [done, setDone] = useState(false);
@@ -107,7 +107,7 @@ export const useOverstyrDager = (
         }).catch(() => Promise.resolve());
     return {
         postOverstyring: overstyrDager,
-        error: (overstyringError || abonnementError) && 'Feil under sending av overstyring. Prøv igjen senere.',
+        error: overstyringError && 'Feil under sending av overstyring. Prøv igjen senere.',
         timedOut: timedOut,
         done: done,
     };
