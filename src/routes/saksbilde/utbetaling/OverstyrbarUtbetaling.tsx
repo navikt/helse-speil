@@ -1,13 +1,12 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, Reducer, useEffect, useReducer, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { useMap } from '@hooks/useMap';
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
 import { DagtypeModal } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeModal';
@@ -46,6 +45,141 @@ interface OverstyrbarUtbetalingProps {
     periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment;
 }
 
+enum DagerActionType {
+    FJERN_ALLE_DAGER,
+    LEGG_TIL_NYE_DAGER,
+    OVERSTYR_DAG,
+    SET_MARKERTE_DAGER,
+    SLETT_SISTE_NYE_DAG,
+    FJERN_NYE_OG_OVERSTYRTE_DAGER,
+    SHIFT_TOGGLE_MARKERTE_DAGER,
+    TOGGLE_MARKERTE_DAGER,
+}
+
+type FjernDagerAction = {
+    type:
+        | DagerActionType.FJERN_ALLE_DAGER
+        | DagerActionType.SLETT_SISTE_NYE_DAG
+        | DagerActionType.FJERN_NYE_OG_OVERSTYRTE_DAGER;
+};
+
+type ModifyDagAction = {
+    type: DagerActionType.OVERSTYR_DAG;
+    payload: {
+        dag: Partial<Utbetalingstabelldag>;
+    };
+};
+
+type ModifyDagerAction = {
+    type: DagerActionType.LEGG_TIL_NYE_DAGER | DagerActionType.SET_MARKERTE_DAGER;
+    payload: {
+        dager: Map<string, Utbetalingstabelldag>;
+    };
+};
+
+type ToggleMarkerteDagerAction = {
+    type: DagerActionType.SHIFT_TOGGLE_MARKERTE_DAGER | DagerActionType.TOGGLE_MARKERTE_DAGER;
+    payload: {
+        dag: Utbetalingstabelldag;
+        alleDager: Map<string, Utbetalingstabelldag>;
+        toggle: boolean;
+    };
+};
+
+type DagerAction = FjernDagerAction | ModifyDagAction | ModifyDagerAction | ToggleMarkerteDagerAction;
+
+interface DagerState {
+    markerteDager: Map<string, Utbetalingstabelldag>;
+    overstyrteDager: Map<string, Utbetalingstabelldag>;
+    nyeDager: Map<string, Utbetalingstabelldag>;
+}
+
+const defaultDagerState: DagerState = {
+    markerteDager: new Map(),
+    overstyrteDager: new Map(),
+    nyeDager: new Map(),
+};
+
+const reducer: Reducer<DagerState, DagerAction> = (prevState, action) => {
+    const overstyrDag = (tilDag: Partial<Utbetalingstabelldag>) => {
+        const nyeOverstyrteDager = Array.from(prevState.markerteDager.values()).reduce(
+            (map: Map<string, Utbetalingstabelldag>, fraDag: Utbetalingstabelldag) => {
+                if (erReellEndring(tilDag, fraDag)) {
+                    map.set(getKey(fraDag), { ...fraDag, ...tilDag, fraType: fraDag.dag.speilDagtype });
+                } else {
+                    map.delete(getKey(fraDag));
+                }
+                return map;
+            },
+            new Map(prevState.overstyrteDager),
+        );
+        return {
+            ...prevState,
+            markerteDager: new Map(),
+            overstyrteDager: nyeOverstyrteDager,
+        };
+    };
+
+    const toggleMarkerteDager = (dag: Utbetalingstabelldag, toggle: boolean) => {
+        const nyeMarkerteDager = new Map(prevState.markerteDager);
+        toggle ? nyeMarkerteDager.set(getKey(dag), dag) : nyeMarkerteDager.delete(getKey(dag));
+        return {
+            ...prevState,
+            markerteDager: nyeMarkerteDager,
+        };
+    };
+
+    const shiftToggleMarkerteDager = (
+        dag: Utbetalingstabelldag,
+        alleDager: Map<string, Utbetalingstabelldag>,
+        toggle: boolean,
+    ) => {
+        const forrigeValgteDag = Array.from(prevState.markerteDager.values())?.pop() ?? dag;
+        const nyeMarkerteDager = new Map(prevState.markerteDager);
+        Array.from(alleDager.values())
+            .filter((it) => dayjs(it.dato).isBetween(forrigeValgteDag.dato, dag.dato, 'day', '[]'))
+            .forEach((it) => {
+                toggle ? nyeMarkerteDager.set(getKey(it), it) : nyeMarkerteDager.delete(getKey(it));
+            });
+        return {
+            ...prevState,
+            markerteDager: nyeMarkerteDager,
+        };
+    };
+
+    switch (action.type) {
+        case DagerActionType.OVERSTYR_DAG:
+            return overstyrDag(action.payload.dag);
+        case DagerActionType.TOGGLE_MARKERTE_DAGER:
+            return toggleMarkerteDager(action.payload.dag, action.payload.toggle);
+        case DagerActionType.SHIFT_TOGGLE_MARKERTE_DAGER:
+            return shiftToggleMarkerteDager(action.payload.dag, action.payload.alleDager, action.payload.toggle);
+        case DagerActionType.SET_MARKERTE_DAGER:
+            return {
+                ...prevState,
+                markerteDager: action.payload.dager,
+            };
+        case DagerActionType.FJERN_NYE_OG_OVERSTYRTE_DAGER:
+            return {
+                ...prevState,
+                overstyrteDager: new Map(),
+                nyeDager: new Map(),
+            };
+        case DagerActionType.SLETT_SISTE_NYE_DAG:
+            return {
+                ...prevState,
+                nyeDager: new Map(Array.from(prevState.nyeDager).slice(1)),
+            };
+        case DagerActionType.FJERN_ALLE_DAGER:
+            return defaultDagerState;
+        case DagerActionType.LEGG_TIL_NYE_DAGER:
+            return {
+                ...prevState,
+                nyeDager: new Map([...action.payload.dager, ...prevState.nyeDager]),
+            };
+    }
+};
+
 export const OverstyrbarUtbetaling = ({
     person,
     arbeidsgiver,
@@ -65,19 +199,12 @@ export const OverstyrbarUtbetaling = ({
     const [overstyrerMinimumSykdomsgrad, setOverstyrerMinimumSykdomsgrad] = useState(false);
     const { postOverstyring, error, timedOut, done } = useOverstyrDager(person, arbeidsgiver);
 
-    const [markerteDager, setMarkerteDager] = useMap<string, Utbetalingstabelldag>();
-    const [overstyrteDager, setOverstyrteDager] = useMap<string, Utbetalingstabelldag>();
-    const [nyeDager, setNyeDager] = useMap<string, Utbetalingstabelldag>();
+    const [state, dispatch] = useReducer(reducer, defaultDagerState);
+
+    const { markerteDager, overstyrteDager, nyeDager } = state;
 
     const alleDager = new Map<string, Utbetalingstabelldag>([...nyeDager, ...dager]);
     const alleOverstyrteDager = new Map<string, Utbetalingstabelldag>([...nyeDager, ...overstyrteDager]);
-
-    const toggleOverstyring = () => {
-        setMarkerteDager(new Map());
-        setOverstyrteDager(new Map());
-        setNyeDager(new Map());
-        setOverstyrer(!overstyrer);
-    };
 
     const onSubmitOverstyring = () => {
         void postOverstyring(
@@ -89,66 +216,46 @@ export const OverstyrbarUtbetaling = ({
         );
     };
 
-    const toggleChecked = (dag: Utbetalingstabelldag) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        if ((event.nativeEvent as KeyboardEvent)?.shiftKey) {
-            toggleCheckedShift(dag)(event);
-            return;
-        }
-
-        if (event.target.checked) {
-            setMarkerteDager(markerteDager.set(getKey(dag), dag));
-        } else {
-            markerteDager.delete(getKey(dag));
-            setMarkerteDager(markerteDager);
-        }
+    const toggleOverstyring = () => {
+        dispatch({ type: DagerActionType.FJERN_ALLE_DAGER });
+        setOverstyrer(!overstyrer);
     };
 
-    const toggleCheckedShift = (dag: Utbetalingstabelldag) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        const forrigeValgteDag = Array.from(markerteDager.values())?.pop() ?? dag;
-        Array.from(alleDager.values())
-            .filter((it) => dayjs(it.dato).isBetween(forrigeValgteDag.dato, dag.dato, 'day', '[]'))
-            .forEach((it) => {
-                if (event.target.checked) {
-                    setMarkerteDager(markerteDager.set(getKey(it), it));
-                } else {
-                    markerteDager.delete(getKey(it));
-                    setMarkerteDager(markerteDager);
-                }
+    const toggleChecked = (dag: Utbetalingstabelldag) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        if ((event.nativeEvent as KeyboardEvent)?.shiftKey) {
+            dispatch({
+                type: DagerActionType.SHIFT_TOGGLE_MARKERTE_DAGER,
+                payload: { alleDager: alleDager, dag: dag, toggle: event.target.checked },
             });
+        } else {
+            dispatch({
+                type: DagerActionType.TOGGLE_MARKERTE_DAGER,
+                payload: { dag: dag, toggle: event.target.checked, alleDager: alleDager },
+            });
+        }
     };
 
     const onSubmitEndring = (tilDag: Partial<Utbetalingstabelldag>) => {
-        const newOverstyrteDager = Array.from(markerteDager.values()).reduce(
-            (map: Map<string, Utbetalingstabelldag>, fraDag: Utbetalingstabelldag) => {
-                if (erReellEndring(tilDag, fraDag)) {
-                    map.set(getKey(fraDag), { ...fraDag, ...tilDag, fraType: fraDag.dag.speilDagtype });
-                } else {
-                    map.delete(getKey(fraDag));
-                }
-                return map;
-            },
-            new Map(overstyrteDager),
-        );
-        setOverstyrteDager(newOverstyrteDager);
-        setMarkerteDager(new Map());
+        dispatch({ type: DagerActionType.OVERSTYR_DAG, payload: { dag: tilDag } });
     };
 
     const onSubmitPølsestrekk = (dagerLagtTil: Map<string, Utbetalingstabelldag>) => {
-        const alleNyeDager = new Map<string, Utbetalingstabelldag>([...dagerLagtTil, ...nyeDager]);
-        setNyeDager(alleNyeDager);
+        dispatch({ type: DagerActionType.LEGG_TIL_NYE_DAGER, payload: { dager: dagerLagtTil } });
     };
 
     const slettSisteNyeDag = () => {
-        const tempNyeDager = Array.from(nyeDager).slice(1);
-        setNyeDager(new Map(tempNyeDager));
+        dispatch({ type: DagerActionType.SLETT_SISTE_NYE_DAG });
+    };
+
+    const setMarkerteDager = (dager: Map<string, Utbetalingstabelldag>) => {
+        dispatch({ type: DagerActionType.SET_MARKERTE_DAGER, payload: { dager: dager } });
     };
 
     useEffect(() => {
         if (done) {
-            setOverstyrteDager(new Map());
-            setNyeDager(new Map());
+            dispatch({ type: DagerActionType.FJERN_NYE_OG_OVERSTYRTE_DAGER });
         }
-    }, [done]);
+    }, [done, dispatch]);
 
     useKeyboard([
         {
