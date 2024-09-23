@@ -308,9 +308,11 @@ export const getFørstePeriodeForSkjæringstidspunkt = (
     skjæringstidspunkt: DateString,
     arbeidsgiver: ArbeidsgiverFragment,
 ): BeregnetPeriodeFragment | UberegnetPeriodeFragment | undefined =>
-    [...arbeidsgiver.generasjoner][0].perioder
-        .filter((periode) => periode.skjaeringstidspunkt === skjæringstidspunkt)
-        .pop();
+    arbeidsgiver.generasjoner.length
+        ? [...arbeidsgiver.generasjoner][0].perioder
+              .filter((periode) => periode.skjaeringstidspunkt === skjæringstidspunkt)
+              .pop()
+        : undefined;
 
 const getSisteVurdertePeriodeForSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
