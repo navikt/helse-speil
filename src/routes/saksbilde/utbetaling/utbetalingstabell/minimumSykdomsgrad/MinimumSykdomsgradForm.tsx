@@ -5,7 +5,6 @@ import { Box, Button, ErrorSummary, Heading, Radio, RadioGroup, Textarea } from 
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { TimeoutModal } from '@components/TimeoutModal';
-import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { overlapper } from '@state/selectors/period';
 import { DateString } from '@typer/shared';
@@ -38,7 +37,6 @@ export const MinimumSykdomsgradForm = ({
     const { isLoading, error, postMinimumSykdomsgrad, timedOut, setTimedOut } = usePostOverstyringMinimumSykdomsgrad(
         () => setOverstyrerMinimumSykdomsgrad(false),
     );
-    const ref = useRef<HTMLDialogElement>(null);
     const form = useForm();
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const { ...merEnn20Validation } = form.register('MerEnn20', { required: 'Må velge et alternativ' });
@@ -95,18 +93,7 @@ export const MinimumSykdomsgradForm = ({
                 <Textarea
                     {...form.register('Begrunnelse', { required: 'Begrunnelse kan ikke være tom' })}
                     className={styles.fritekst}
-                    label={
-                        <span className={styles.fritekstlabel}>
-                            Begrunnelse{' '}
-                            <Button
-                                className={styles.button}
-                                variant="tertiary"
-                                onClick={() => ref.current?.showModal()}
-                            >
-                                <SortInfoikon />
-                            </Button>
-                        </span>
-                    }
+                    label={<span className={styles.fritekstlabel}>Begrunnelse</span>}
                     description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
                     error={form.formState.errors.Begrunnelse?.message as string}
                     resize
