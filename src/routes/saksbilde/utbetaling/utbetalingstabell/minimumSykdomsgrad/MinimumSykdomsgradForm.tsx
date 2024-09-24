@@ -48,15 +48,6 @@ export const MinimumSykdomsgradForm = ({
     const gjeldendeFom = getGjeldendeFom(overlappendeOverstyringFraAnnenPeriode, fom);
     const gjeldendeTom = getGjeldendeTom(overlappendeOverstyringFraAnnenPeriode, tom);
 
-    console.log(
-        overlappendeArbeidsgivere,
-        overlappendeOverstyringFraAnnenPeriode,
-        fom,
-        gjeldendeFom,
-        tom,
-        gjeldendeTom,
-    );
-
     const submitForm = () => {
         const skjemaverdier = form.getValues();
         postMinimumSykdomsgrad({
