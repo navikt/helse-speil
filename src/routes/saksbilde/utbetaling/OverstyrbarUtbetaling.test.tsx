@@ -31,10 +31,6 @@ jest.mock('./utbetalingstabell/useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,
 }));
 
-jest.mock('@utils/featureToggles', () => ({
-    kanOverstyreMinimumSykdomsgrad: false,
-}));
-
 //TODO this is bad, need to make it go faster
 jest.setTimeout(15000);
 
@@ -59,15 +55,13 @@ describe('OverstyrbarUtbetaling', () => {
                 tom="2022-01-31"
                 dager={dager}
                 erForkastet={false}
-                revurderingIsEnabled={false}
-                overstyrRevurderingIsEnabled={false}
                 vedtaksperiodeId="d7d208c3-a9a1-4c03-885f-aeffa4475a49"
                 periode={periode}
             />,
             { wrapper: RecoilWrapper },
         );
 
-        await userEvent.click(screen.getByText('Endre'));
+        await userEvent.click(screen.getByText('Overstyr dager'));
         expect(screen.getByText('+ Legg til dager')).toBeVisible();
 
         const checkboxes = screen.getAllByRole('checkbox');
@@ -116,15 +110,13 @@ describe('OverstyrbarUtbetaling', () => {
                 tom="2022-01-31"
                 dager={dager}
                 erForkastet={false}
-                revurderingIsEnabled={false}
-                overstyrRevurderingIsEnabled={false}
                 vedtaksperiodeId="d7d208c3-a9a1-4c03-885f-aeffa4475a49"
                 periode={periode}
             />,
             { wrapper: RecoilWrapper },
         );
 
-        await userEvent.click(screen.getByText('Endre'));
+        await userEvent.click(screen.getByText('Overstyr dager'));
         expect(screen.queryByText('+ Legg til dager')).not.toBeInTheDocument();
     });
 });

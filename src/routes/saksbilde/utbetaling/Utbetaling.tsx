@@ -120,8 +120,6 @@ const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingB
             tom={period.tom}
             dager={dager}
             erForkastet={period.utbetaling.status === Utbetalingstatus.Forkastet}
-            revurderingIsEnabled={revurderingIsEnabled.value}
-            overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled.value}
             vedtaksperiodeId={period.vedtaksperiodeId}
             periode={period}
         />
@@ -173,8 +171,6 @@ const UtbetalingUberegnetPeriode = ({
             tom={periode.tom}
             dager={dager}
             erForkastet={false}
-            revurderingIsEnabled={false}
-            overstyrRevurderingIsEnabled={false}
             vedtaksperiodeId={periode.vedtaksperiodeId}
             periode={periode}
         />

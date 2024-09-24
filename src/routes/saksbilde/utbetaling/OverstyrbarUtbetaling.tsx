@@ -5,6 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { useBrukerIdent } from '@auth/brukerContext';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
@@ -14,6 +15,7 @@ import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm
 import { MinimumSykdomsgradForm } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradForm';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { kanOverstyreMinimumSykdomsgradToggle } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { LeggTilDager } from './utbetalingstabell/LeggTilDager';
@@ -39,8 +41,6 @@ interface OverstyrbarUtbetalingProps {
     tom: DateString;
     dager: Map<string, Utbetalingstabelldag>;
     erForkastet: boolean;
-    revurderingIsEnabled: boolean;
-    overstyrRevurderingIsEnabled: boolean;
     vedtaksperiodeId: string;
     periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment;
 }
@@ -187,8 +187,6 @@ export const OverstyrbarUtbetaling = ({
     tom,
     dager,
     erForkastet,
-    revurderingIsEnabled,
-    overstyrRevurderingIsEnabled,
     vedtaksperiodeId,
     periode,
 }: OverstyrbarUtbetalingProps): ReactElement => {
@@ -198,6 +196,7 @@ export const OverstyrbarUtbetaling = ({
     const [overstyrer, setOverstyrer] = useState(false);
     const [overstyrerMinimumSykdomsgrad, setOverstyrerMinimumSykdomsgrad] = useState(false);
     const { postOverstyring, error, timedOut, done } = useOverstyrDager(person, arbeidsgiver);
+    const saksbehandlerident = useBrukerIdent();
 
     const [state, dispatch] = useReducer(reducer, defaultDagerState);
 
@@ -278,8 +277,7 @@ export const OverstyrbarUtbetaling = ({
                 periodeErForkastet={erForkastet}
                 toggleOverstyring={toggleOverstyring}
                 overstyrer={overstyrer}
-                revurderingIsEnabled={revurderingIsEnabled}
-                overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled}
+                kanOverstyreMinimumSykdomsgrad={kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident)}
                 overstyrerMinimumSykdomsgrad={overstyrerMinimumSykdomsgrad}
                 setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
             />

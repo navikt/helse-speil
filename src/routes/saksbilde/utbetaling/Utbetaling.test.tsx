@@ -20,7 +20,7 @@ jest.mock('@state/periode');
 jest.mock('@state/arbeidsgiver');
 jest.mock('@state/toggles');
 jest.mock('@utils/featureToggles', () => ({
-    kanOverstyreMinimumSykdomsgrad: false,
+    kanOverstyreMinimumSykdomsgradToggle: (ident: string) => false,
 }));
 
 describe('Utbetaling', () => {
@@ -42,7 +42,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
-        expect(screen.getByText('Revurder')).toBeVisible();
+        expect(screen.getByText('Overstyr dager')).toBeVisible();
         expect(screen.getByText('3 dager')).toBeVisible();
         expect(screen.getByText('01.01.2020')).toBeVisible();
         expect(screen.getByText('02.01.2020')).toBeVisible();
@@ -80,7 +80,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
-        expect(screen.getByText('Endre')).toBeVisible();
+        expect(screen.getByText('Overstyr dager')).toBeVisible();
     });
 
     it('rendrer utbetaling for periode som har vært delvis behandlet i Infotrygd', () => {
@@ -95,7 +95,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
-        expect(screen.getByText('Endre')).toBeVisible();
+        expect(screen.getByText('Overstyr dager')).toBeVisible();
     });
 
     it('rendrer utbetaling for periode som har et tidligere skjæringstidspunkt', () => {
@@ -110,7 +110,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
-        expect(screen.getByText('Endre')).toBeVisible();
+        expect(screen.getByText('Overstyr dager')).toBeVisible();
     });
 
     it('rendrer utbetaling for periode som ikke kan overstyres eller revurderes', () => {
@@ -133,7 +133,6 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
-        expect(screen.queryByText('Endre')).not.toBeInTheDocument();
-        expect(screen.queryByText('Revurder')).not.toBeInTheDocument();
+        expect(screen.queryByText('Overstyr dager')).not.toBeInTheDocument();
     });
 });
