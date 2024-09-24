@@ -1,7 +1,7 @@
 import React, { ReactElement, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Button, ErrorSummary, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import { Box, Button, ErrorSummary, Heading, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { TimeoutModal } from '@components/TimeoutModal';
@@ -68,62 +68,76 @@ export const MinimumSykdomsgradForm = ({
     };
 
     return (
-        <form className={styles.form} onSubmit={form.handleSubmit(submitForm)}>
-            <RadioGroup
-                className={styles.radiogroup}
-                legend="Er arbeidsevnen nedsatt med minst 20 % basert på arbeidstid?"
-                error={form.formState.errors.MerEnn20?.message as string}
-                name="MerEnn20"
-                size="small"
-            >
-                <Radio value="Ja" {...merEnn20Validation}>
-                    Ja, tap av arbeidstid er mer enn 20%
-                </Radio>
-                <Radio value="Nei" {...merEnn20Validation}>
-                    Nei, tap av arbeidstid er under 20 %
-                </Radio>
-            </RadioGroup>
-            <Textarea
-                {...form.register('Begrunnelse', { required: 'Begrunnelse kan ikke være tom' })}
-                className={styles.fritekst}
-                label={
-                    <span className={styles.fritekstlabel}>
-                        Begrunnelse{' '}
-                        <Button className={styles.button} variant="tertiary" onClick={() => ref.current?.showModal()}>
-                            <SortInfoikon />
-                        </Button>
-                    </span>
-                }
-                description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
-                error={form.formState.errors.Begrunnelse?.message as string}
-                resize
-            />
-            {!form.formState.isValid && form.formState.isSubmitted && (
-                <div className={styles.feiloppsummering}>
-                    <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
-                        {Object.entries(form.formState.errors).map(([id, error]) => (
-                            <ErrorSummary.Item key={id}>
-                                <>{error ? error.message : undefined}</>
-                            </ErrorSummary.Item>
-                        ))}
-                    </ErrorSummary>
-                </div>
-            )}
-            <span className={styles.buttons}>
-                <Button size="small" variant="secondary" type="submit" loading={isLoading}>
-                    Lagre
-                </Button>
-                <Button
+        <Box
+            background="surface-subtle"
+            as="article"
+            padding="8"
+            style={{ margin: '-1.5rem', marginTop: '-5.5rem', marginBottom: '1rem' }}
+        >
+            <Heading size="xsmall" spacing>
+                Vurder arbeidstid
+            </Heading>
+            <form className={styles.form} onSubmit={form.handleSubmit(submitForm)}>
+                <RadioGroup
+                    className={styles.radiogroup}
+                    legend="Er arbeidsevnen nedsatt med minst 20 % basert på arbeidstid?"
+                    error={form.formState.errors.MerEnn20?.message as string}
+                    name="MerEnn20"
                     size="small"
-                    variant="tertiary"
-                    type="button"
-                    onClick={() => setOverstyrerMinimumSykdomsgrad(false)}
                 >
-                    Avbryt
-                </Button>
-            </span>
-            {error && <ErrorMessage className={styles.error}>{error}</ErrorMessage>}
-            {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
-        </form>
+                    <Radio value="Ja" {...merEnn20Validation}>
+                        Ja, tap av arbeidstid er mer enn 20 % (innvilgelse)
+                    </Radio>
+                    <Radio value="Nei" {...merEnn20Validation}>
+                        Nei, tap av arbeidstid er under 20 % (avslag)
+                    </Radio>
+                </RadioGroup>
+                <Textarea
+                    {...form.register('Begrunnelse', { required: 'Begrunnelse kan ikke være tom' })}
+                    className={styles.fritekst}
+                    label={
+                        <span className={styles.fritekstlabel}>
+                            Begrunnelse{' '}
+                            <Button
+                                className={styles.button}
+                                variant="tertiary"
+                                onClick={() => ref.current?.showModal()}
+                            >
+                                <SortInfoikon />
+                            </Button>
+                        </span>
+                    }
+                    description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
+                    error={form.formState.errors.Begrunnelse?.message as string}
+                    resize
+                />
+                {!form.formState.isValid && form.formState.isSubmitted && (
+                    <div className={styles.feiloppsummering}>
+                        <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
+                            {Object.entries(form.formState.errors).map(([id, error]) => (
+                                <ErrorSummary.Item key={id}>
+                                    <>{error ? error.message : undefined}</>
+                                </ErrorSummary.Item>
+                            ))}
+                        </ErrorSummary>
+                    </div>
+                )}
+                <span className={styles.buttons}>
+                    <Button size="small" variant="secondary" type="submit" loading={isLoading}>
+                        Lagre
+                    </Button>
+                    <Button
+                        size="small"
+                        variant="tertiary"
+                        type="button"
+                        onClick={() => setOverstyrerMinimumSykdomsgrad(false)}
+                    >
+                        Avbryt
+                    </Button>
+                </span>
+                {error && <ErrorMessage className={styles.error}>{error}</ErrorMessage>}
+                {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
+            </form>
+        </Box>
     );
 };

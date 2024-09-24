@@ -6,6 +6,7 @@
     padding: 0 0 0 2rem;
     width: 100%;
     gap: 1rem;
+    z-index: 1;
 }
 
 .infoboble {
