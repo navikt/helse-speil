@@ -7,6 +7,10 @@ import { BodyShort } from '@navikt/ds-react';
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde } from '@io/graphql';
+import {
+    MINIMUM_SYKDOMSGRAD_AVSLAG_TEKST,
+    MINIMUM_SYKDOMSGRAD_INNVILGELSE_TEKST,
+} from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradForm';
 import { MinimumSykdomsgradhendelseObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT } from '@utils/date';
 
@@ -35,7 +39,11 @@ export const MinimumSykdomsgradhendelse = ({
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
                     <Bold>Vurdering </Bold>
-                    <BodyShort>{minimumSykdomsgrad.vurdering ? 'Ja' : 'Nei'}</BodyShort>
+                    <BodyShort>
+                        {minimumSykdomsgrad.vurdering
+                            ? MINIMUM_SYKDOMSGRAD_INNVILGELSE_TEKST
+                            : MINIMUM_SYKDOMSGRAD_AVSLAG_TEKST}
+                    </BodyShort>
                     <Bold>Periode </Bold>
                     <BodyShort>
                         {dayjs(minimumSykdomsgrad.fom).format(NORSK_DATOFORMAT)} –{' '}

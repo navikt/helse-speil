@@ -27,6 +27,9 @@ interface MinimumSykdomsgradFormProps {
     setOverstyrerMinimumSykdomsgrad: (overstyrer: boolean) => void;
 }
 
+export const MINIMUM_SYKDOMSGRAD_INNVILGELSE_TEKST = 'Ja, tap av arbeidstid er mer enn 20 % (innvilgelse)';
+export const MINIMUM_SYKDOMSGRAD_AVSLAG_TEKST = 'Nei, tap av arbeidstid er under 20 % (avslag)';
+
 export const MinimumSykdomsgradForm = ({
     person,
     fom,
@@ -84,10 +87,10 @@ export const MinimumSykdomsgradForm = ({
                     size="small"
                 >
                     <Radio value="Ja" {...merEnn20Validation}>
-                        Ja, tap av arbeidstid er mer enn 20 % (innvilgelse)
+                        {MINIMUM_SYKDOMSGRAD_INNVILGELSE_TEKST}
                     </Radio>
                     <Radio value="Nei" {...merEnn20Validation}>
-                        Nei, tap av arbeidstid er under 20 % (avslag)
+                        {MINIMUM_SYKDOMSGRAD_AVSLAG_TEKST}
                     </Radio>
                 </RadioGroup>
                 <Textarea
