@@ -10,7 +10,7 @@ import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode, enDag } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
-import { ApolloWrapper, RecoilWrapper } from '@test-wrappers';
+import { ApolloWrapper } from '@test-wrappers';
 import { render, screen } from '@testing-library/react';
 
 import { Utbetaling } from './Utbetaling';
@@ -25,7 +25,7 @@ jest.mock('@utils/featureToggles', () => ({
 
 describe('Utbetaling', () => {
     afterEach(() => {
-        jest.clearAllMocks();
+        jest.resetAllMocks();
     });
 
     it('rendrer revurderbar utbetaling', () => {
@@ -59,6 +59,7 @@ describe('Utbetaling', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValue(periode);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
         render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
@@ -75,6 +76,7 @@ describe('Utbetaling', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValue(periode);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
         render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
@@ -89,6 +91,7 @@ describe('Utbetaling', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
         render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
@@ -103,39 +106,32 @@ describe('Utbetaling', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
         render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
         expect(screen.getByText('Endre')).toBeVisible();
     });
 
-    it('rendrer utbetaling for periode som har et tidligere skjæringstidspunkt - readonly override satt', () => {
-        const periodeA = enBeregnetPeriode({ skjaeringstidspunkt: '2020-01-01' }).medOppgave().somErTilGodkjenning();
-        const periodeB = enBeregnetPeriode({ skjaeringstidspunkt: '2020-02-01' });
-        const arbeidsgiver = enArbeidsgiver().medPerioder([periodeB, periodeA]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
-
-        (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
-
-        render(<Utbetaling person={person} />, { wrapper: RecoilWrapper });
-
-        expect(screen.queryByText('Endre')).not.toBeInTheDocument();
-    });
-
     it('rendrer utbetaling for periode som ikke kan overstyres eller revurderes', () => {
         const periodeA = enBeregnetPeriode({ inntektstype: Inntektstype.Flerearbeidsgivere })
             .medOppgave()
             .somErTilGodkjenning();
-        const periodeB = enBeregnetPeriode({ inntektstype: Inntektstype.Flerearbeidsgivere });
+        const periodeB = enBeregnetPeriode({
+            inntektstype: Inntektstype.Flerearbeidsgivere,
+            fom: '2024-01-01',
+            tom: '2024-01-31',
+            skjaeringstidspunkt: '2024-01-01',
+        });
         const arbeidsgiverA = enArbeidsgiver().medPerioder([periodeA]);
         const arbeidsgiverB = enArbeidsgiver().medPerioder([periodeB]);
         const person = enPerson().medArbeidsgivere([arbeidsgiverA, arbeidsgiverB]);
 
-        (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiverA);
+        (useActivePeriod as jest.Mock).mockReturnValue(periodeB);
+        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiverB);
+        (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(false);
 
-        render(<Utbetaling person={person} />, { wrapper: RecoilWrapper });
+        render(<Utbetaling person={person} />, { wrapper: ApolloWrapper });
 
         expect(screen.queryByText('Endre')).not.toBeInTheDocument();
         expect(screen.queryByText('Revurder')).not.toBeInTheDocument();
