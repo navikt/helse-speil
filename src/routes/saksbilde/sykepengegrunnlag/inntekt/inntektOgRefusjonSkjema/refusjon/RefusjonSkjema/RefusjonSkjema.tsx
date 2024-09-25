@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, HStack } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Button } from '@components/Button';
@@ -36,11 +36,11 @@ export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplys
         <div className={styles.RefusjonWrapper} id="refusjonsopplysninger">
             <Bold>Refusjon</Bold>
 
-            <div className={styles.RefusjonsHeading}>
+            <HStack gap="6">
                 <div>Fra og med dato</div>
                 <div>Til og med dato</div>
                 <div>Månedlig refusjon</div>
-            </div>
+            </HStack>
             {fields.map((refusjonsopplysning, index) => (
                 <div key={refusjonsopplysning.id}>
                     <div className={styles.RefusjonsRad} data-testid="refusjonsopplysningrad">

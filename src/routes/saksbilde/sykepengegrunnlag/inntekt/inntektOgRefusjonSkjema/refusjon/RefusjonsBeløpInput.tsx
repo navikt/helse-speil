@@ -45,7 +45,7 @@ export const RefusjonsBeløpInput = ({ index, refusjonsopplysning }: RefusjonsBe
                 hideLabel
                 size="small"
                 ref={ref}
-                htmlSize={12}
+                htmlSize={15}
                 value={visningsverdi}
                 onChange={(event) => {
                     setVisningsverdi(event.target.value);
