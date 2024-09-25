@@ -1,7 +1,8 @@
 import React, { ReactElement, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Box, Button, ErrorSummary, Heading, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import { PadlockUnlockedIcon } from '@navikt/aksel-icons';
+import { Box, Button, ErrorSummary, HStack, Heading, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { TimeoutModal } from '@components/TimeoutModal';
@@ -73,11 +74,19 @@ export const MinimumSykdomsgradForm = ({
             background="surface-subtle"
             as="article"
             padding="8"
-            style={{ margin: '-1.5rem', marginTop: '-5.5rem', marginBottom: '1rem' }}
+            style={{ margin: '-1.5rem', marginTop: '-2rem', marginBottom: '1rem' }}
         >
-            <Heading size="xsmall" spacing>
-                Vurder arbeidstid
-            </Heading>
+            <HStack paddingBlock="0 3" gap="2">
+                <Heading size="small">Vurder arbeidstid</Heading>
+                <Button
+                    size="xsmall"
+                    variant="tertiary"
+                    icon={<PadlockUnlockedIcon fontSize="1.5rem" />}
+                    onClick={() => setOverstyrerMinimumSykdomsgrad(false)}
+                >
+                    Avbryt
+                </Button>
+            </HStack>
             <form className={styles.form} onSubmit={form.handleSubmit(submitForm)}>
                 <RadioGroup
                     className={styles.radiogroup}

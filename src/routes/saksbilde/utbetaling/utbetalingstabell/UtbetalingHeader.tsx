@@ -1,11 +1,11 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
-import { CheckmarkIcon } from '@navikt/aksel-icons';
+import { CheckmarkIcon, PadlockLockedIcon } from '@navikt/aksel-icons';
+import { Button, HStack } from '@navikt/ds-react';
 
-import { EditButton } from '@components/EditButton';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
+import { Maybe } from '@io/graphql';
 
 import styles from './UtbetalingHeader.module.css';
 
@@ -25,9 +25,10 @@ export const UtbetalingHeader = ({
     kanOverstyreMinimumSykdomsgrad,
     overstyrerMinimumSykdomsgrad,
     setOverstyrerMinimumSykdomsgrad,
-}: UtbetalingHeaderProps): ReactElement => {
+}: UtbetalingHeaderProps): Maybe<ReactElement> => {
+    if (overstyrer || overstyrerMinimumSykdomsgrad) return null;
     return (
-        <div className={styles.container}>
+        <HStack gap="2">
             {periodeErForkastet ? (
                 <div className={styles.infoboble}>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
@@ -36,29 +37,26 @@ export const UtbetalingHeader = ({
                 </div>
             ) : (
                 <>
-                    {!overstyrer && kanOverstyreMinimumSykdomsgrad && (
-                        <EditButton
-                            isOpen={overstyrerMinimumSykdomsgrad}
-                            onOpen={() => setOverstyrerMinimumSykdomsgrad(true)}
-                            onClose={() => setOverstyrerMinimumSykdomsgrad(false)}
-                            openText="Avbryt"
-                            closedText="Vurder arbeidstid"
-                            className={classNames({ [styles.button]: !overstyrerMinimumSykdomsgrad })}
-                            closedIcon={<CheckmarkIcon fontSize="1.5rem" />}
-                        />
+                    {kanOverstyreMinimumSykdomsgrad && (
+                        <Button
+                            size="xsmall"
+                            variant="secondary"
+                            onClick={() => setOverstyrerMinimumSykdomsgrad(true)}
+                            icon={<CheckmarkIcon fontSize="1.5rem" />}
+                        >
+                            Vurder arbeidstid
+                        </Button>
                     )}
-                    {!overstyrerMinimumSykdomsgrad && (
-                        <EditButton
-                            isOpen={overstyrer}
-                            onOpen={toggleOverstyring}
-                            onClose={toggleOverstyring}
-                            openText="Avbryt"
-                            closedText="Overstyr dager"
-                            className={classNames({ [styles.button]: !overstyrer })}
-                        />
-                    )}
+                    <Button
+                        size="xsmall"
+                        variant="secondary"
+                        onClick={toggleOverstyring}
+                        icon={<PadlockLockedIcon fontSize="1.5rem" />}
+                    >
+                        Overstyr dager
+                    </Button>
                 </>
             )}
-        </div>
+        </HStack>
     );
 };

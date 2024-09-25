@@ -29,6 +29,8 @@
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
+    margin-left: 0.75rem;
+    margin-top: 0.5rem;
 }
 
 .dateinput {

@@ -3,7 +3,8 @@ import dayjs from 'dayjs';
 import React, { ReactElement, Reducer, useEffect, useReducer, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { BodyShort } from '@navikt/ds-react';
+import { PadlockUnlockedIcon } from '@navikt/aksel-icons';
+import { BodyShort, Box, Button, HStack } from '@navikt/ds-react';
 
 import { useBrukerIdent } from '@auth/brukerContext';
 import { TimeoutModal } from '@components/TimeoutModal';
@@ -18,7 +19,7 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { kanOverstyreMinimumSykdomsgradToggle } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-import { LeggTilDager } from './utbetalingstabell/LeggTilDager';
+import { LeggTilDagerForm } from './utbetalingstabell/LeggTilDager';
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
@@ -195,6 +196,8 @@ export const OverstyrbarUtbetaling = ({
     const [visDagtypeModal, setVisDagtypeModal] = useState(false);
     const [overstyrer, setOverstyrer] = useState(false);
     const [overstyrerMinimumSykdomsgrad, setOverstyrerMinimumSykdomsgrad] = useState(false);
+    const [visLeggTilDagerForm, setVisLeggTilDagerForm] = useState(false);
+
     const { postOverstyring, error, timedOut, done } = useOverstyrDager(person, arbeidsgiver);
     const saksbehandlerident = useBrukerIdent();
 
@@ -290,12 +293,38 @@ export const OverstyrbarUtbetaling = ({
                     setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
                 />
             )}
-            {overstyrer && erFørstePeriodePåSkjæringstidspunkt && (
-                <LeggTilDager
-                    openDagtypeModal={() => setVisDagtypeModal(true)}
-                    periodeFom={Array.from(alleDager.values())[0].dato}
-                    onSubmitPølsestrekk={onSubmitPølsestrekk}
-                />
+            {overstyrer && (
+                <Box marginInline="8">
+                    <HStack>
+                        {erFørstePeriodePåSkjæringstidspunkt && (
+                            <Button
+                                size="xsmall"
+                                variant="tertiary"
+                                onClick={() => setVisLeggTilDagerForm(!visLeggTilDagerForm)}
+                            >
+                                {visLeggTilDagerForm ? 'Lukk legg til dager' : '+ Legg til dager'}
+                            </Button>
+                        )}
+                        <Button
+                            size="xsmall"
+                            variant="tertiary"
+                            icon={<PadlockUnlockedIcon fontSize="1.5rem" />}
+                            onClick={() => {
+                                toggleOverstyring();
+                                setVisLeggTilDagerForm(false);
+                            }}
+                        >
+                            Avbryt
+                        </Button>
+                    </HStack>
+                    {visLeggTilDagerForm && (
+                        <LeggTilDagerForm
+                            onSubmitPølsestrekk={onSubmitPølsestrekk}
+                            openDagtypeModal={() => setVisDagtypeModal(true)}
+                            periodeFom={Array.from(alleDager.values())[0].dato}
+                        />
+                    )}
+                </Box>
             )}
             <div className={classNames(styles.TableContainer)}>
                 <Utbetalingstabell

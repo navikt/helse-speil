@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -32,35 +31,8 @@ interface LeggTilDagerProps {
     openDagtypeModal: () => void;
 }
 
-export const LeggTilDager = React.memo(
+export const LeggTilDagerForm = React.memo(
     ({ periodeFom, onSubmitPølsestrekk, openDagtypeModal }: LeggTilDagerProps): ReactElement => {
-        const [visPølsestrekk, setVisPølsestrekk] = useState(false);
-
-        return (
-            <div className={classNames(styles.LeggTilDager, visPølsestrekk && styles.Viserpølsestrekk)}>
-                {visPølsestrekk && (
-                    <StrekkePølse
-                        periodeFom={periodeFom}
-                        onSubmitPølsestrekk={onSubmitPølsestrekk}
-                        openDagtypeModal={openDagtypeModal}
-                    />
-                )}
-                <Button size="small" variant="tertiary" onClick={() => setVisPølsestrekk(!visPølsestrekk)}>
-                    {visPølsestrekk ? 'Lukk legg til dager' : '+ Legg til dager'}
-                </Button>
-            </div>
-        );
-    },
-);
-
-interface StrekkePølseProps {
-    periodeFom: DateString;
-    onSubmitPølsestrekk: (nyeDager: Map<string, Utbetalingstabelldag>) => void;
-    openDagtypeModal: () => void;
-}
-
-const StrekkePølse = React.memo(
-    ({ periodeFom, onSubmitPølsestrekk, openDagtypeModal }: StrekkePølseProps): ReactElement => {
         const periodeFomMinusEnDag = dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'day');
 
         const defaultEndring = { dag: Sykedag, fom: periodeFomMinusEnDag.format(ISO_DATOFORMAT), grad: undefined };
