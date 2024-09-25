@@ -21,7 +21,7 @@ export const OmregnetÅrsinntekt = ({ beløp, kilde, harEndringer }: OmregnetÅr
         <BodyShort>
             {kilde === Inntektskilde.Infotrygd ? 'Sykepengegrunnlag før 6G' : 'Omregnet til årsinntekt'}
         </BodyShort>
-        <div>
+        <div className={styles.beløp}>
             {harEndringer && <Endringstrekant />}
             <Bold>{somPenger(beløp)}</Bold>
         </div>

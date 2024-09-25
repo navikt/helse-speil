@@ -1,7 +1,6 @@
-import classNames from 'classnames';
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
 import { toKronerOgØre } from '@utils/locale';
@@ -15,20 +14,24 @@ interface MånedsbeløpProps {
     kilde: string;
     lokaltMånedsbeløp: Maybe<number>;
     harEndringer: boolean;
+    feilmelding?: string;
 }
 
-export const Månedsbeløp = ({ månedsbeløp, kilde, lokaltMånedsbeløp, harEndringer }: MånedsbeløpProps) => (
+export const Månedsbeløp = ({ månedsbeløp, kilde, lokaltMånedsbeløp, harEndringer, feilmelding }: MånedsbeløpProps) => (
     <div className={styles.Grid}>
         <BodyShort>Månedsbeløp</BodyShort>
-        <div className={styles.månedsbeløp}>
-            <MånedsbeløpInput
-                initialMånedsbeløp={månedsbeløp}
-                skalDeaktiveres={kilde === 'INFOTRYGD'}
-                lokaltMånedsbeløp={lokaltMånedsbeløp}
-            />
-            <p className={classNames(styles.OpprinneligMånedsbeløp, harEndringer && styles.harEndringer)}>
-                {toKronerOgØre(månedsbeløp)}
-            </p>
-        </div>
+        <VStack>
+            <HStack gap="6" justify="end">
+                <MånedsbeløpInput
+                    initialMånedsbeløp={månedsbeløp}
+                    skalDeaktiveres={kilde === 'INFOTRYGD'}
+                    lokaltMånedsbeløp={lokaltMånedsbeløp}
+                />
+                {harEndringer && (
+                    <BodyShort className={styles.OpprinneligMånedsbeløp}>{toKronerOgØre(månedsbeløp)}</BodyShort>
+                )}
+            </HStack>
+            {feilmelding && <ErrorMessage size="small">{feilmelding}</ErrorMessage>}
+        </VStack>
     </div>
 );

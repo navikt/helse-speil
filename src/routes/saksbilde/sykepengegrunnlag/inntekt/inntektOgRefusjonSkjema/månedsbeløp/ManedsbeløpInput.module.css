@@ -1,8 +1,5 @@
-.Input {
-    height: 2rem;
-    border-radius: 3px;
-    border: 1px solid var(--a-border-strong);
-    outline: none;
+.Input input {
+    text-align: right;
 }
 
 .Input:focus-visible {

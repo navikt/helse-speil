@@ -1,11 +1,7 @@
 .BeregnetGrid {
     display: grid;
-    grid-template-columns: 228px 130px;
+    grid-template-columns: 200px 130px 50px;
     grid-row-gap: 0.25rem;
-}
-
-.BeregnetGrid {
-    grid-template-columns: 228px 130px 50px;
 }
 
 .BeregnetGrid > p:nth-child(2),

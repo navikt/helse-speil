@@ -10,24 +10,21 @@
 
 .Grid {
     display: grid;
-    grid-template-columns: 200px auto;
-    grid-column-gap: 1rem;
+    grid-template-columns: 200px 130px;
     grid-row-gap: 0.25rem;
 }
 
 .Grid p {
     line-height: 36px;
-    vertical-align: center;
 }
 
 .OpprinneligMånedsbeløp {
-    visibility: hidden;
     text-decoration: line-through;
+    margin: 0;
 }
 
-.OpprinneligMånedsbeløp.harEndringer {
-    visibility: visible;
-    margin: 0;
+.beløp {
+    justify-content: end;
 }
 
 .OmregnetTilÅrsinntekt.harEndringer > p {

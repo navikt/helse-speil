@@ -193,6 +193,7 @@ export const InntektOgRefusjonSkjema = ({
                         kilde={omregnetÅrsinntekt.kilde}
                         lokaltMånedsbeløp={lokaltMånedsbeløp}
                         harEndringer={harEndringer}
+                        feilmelding={form.formState.errors.manedsbelop?.message}
                     />
                     <BodyShort className={styles.Warning}>Endringen vil gjelde fra skjæringstidspunktet</BodyShort>
                     <OmregnetÅrsinntekt

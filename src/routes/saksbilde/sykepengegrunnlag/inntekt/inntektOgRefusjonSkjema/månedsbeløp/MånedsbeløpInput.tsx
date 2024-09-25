@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { TextField } from '@navikt/ds-react';
+
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Maybe } from '@io/graphql';
@@ -28,6 +30,7 @@ export const MånedsbeløpInput = ({
             errors: { manedsbelop },
         },
         trigger,
+        setValue,
     } = useFormContext<InntektFormFields>();
 
     const defaultValue = lokaltMånedsbeløp || (initialMånedsbeløp && avrundetToDesimaler(initialMånedsbeløp));
@@ -49,17 +52,18 @@ export const MånedsbeløpInput = ({
     return (
         <>
             <div className={styles.column}>
-                <input
+                <TextField
                     {...inputValidation}
-                    className={classNames([styles.Input], {
-                        [styles.InputError]: !!manedsbelop?.message,
-                    })}
+                    className={styles.Input}
+                    htmlSize={12}
+                    label="Månedsbeløp"
+                    hideLabel
                     id="manedsbelop"
+                    size="small"
                     value={visningsverdi}
                     onChange={(event) => {
                         setVisningsverdi(event.target.value);
                     }}
-                    ref={ref}
                     onBlur={(event) => {
                         const nyttBeløp = Number(
                             event.target.value
@@ -69,17 +73,16 @@ export const MånedsbeløpInput = ({
                                 .replaceAll(String.fromCharCode(160), ''),
                         );
 
-                        setVisningsverdi(Number.isNaN(nyttBeløp) ? event.target.value : toKronerOgØre(nyttBeløp));
+                        const value = Number.isNaN(nyttBeløp) ? event.target.value : toKronerOgØre(nyttBeløp);
+                        setVisningsverdi(value);
+                        setValue('manedsbelop', value);
 
                         void onBlur(event);
                         void trigger('manedsbelop');
                     }}
+                    ref={ref}
+                    error={!!manedsbelop?.message}
                 />
-                {manedsbelop && (
-                    <label className={styles.Feilmelding} htmlFor="manedsbelop">
-                        <>{manedsbelop.message}</>
-                    </label>
-                )}
             </div>
             {skalDeaktiveres && (
                 <div className={classNames(styles.column, styles['column__deaktiveres'])}>
