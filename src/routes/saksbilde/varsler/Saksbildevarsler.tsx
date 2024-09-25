@@ -10,6 +10,7 @@ import {
     isArbeidsforholdoverstyring,
     isDagoverstyring,
     isInntektoverstyring,
+    isMinimumSykdomsgradsoverstyring,
     isSykepengegrunnlagskjønnsfastsetting,
 } from '@utils/typeguards';
 
@@ -115,6 +116,10 @@ const beslutteroppgave = (
 
         if (endringerEtterNyesteUtbetalingPåPerson?.some(isSykepengegrunnlagskjønnsfastsetting) ?? false) {
             årsaker.push('Skjønnsfastsettelse');
+        }
+
+        if (endringerEtterNyesteUtbetalingPåPerson?.some(isMinimumSykdomsgradsoverstyring) ?? false) {
+            årsaker.push('Overstyring av minimum sykdomsgrad');
         }
 
         if (årsaker.length > 0) {
