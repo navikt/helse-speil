@@ -1,107 +1,76 @@
 .RefusjonWrapper {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .RefusjonsRad {
-    display: flex;
-    max-width: 100%;
-    border-bottom: 1px solid #c6c2bf;
-    padding-bottom: 0.5rem;
-    gap: var(--a-spacing-2);
+  display: flex;
+  max-width: 100%;
+  border-bottom: 1px solid #c6c2bf;
+  padding-bottom: 0.5rem;
+  gap: var(--a-spacing-2);
 }
 
 .RefusjonsHeading {
-    display: flex;
-    gap: var(--a-spacing-2);
-    max-width: 100%;
-    border-bottom: 1px solid #3e3832;
-    padding-bottom: var(--a-spacing-2);
-    margin-top: var(--a-spacing-2);
+  display: flex;
+  gap: var(--a-spacing-2);
+  max-width: 100%;
+  border-bottom: 1px solid #3e3832;
+  padding-bottom: var(--a-spacing-2);
+  margin-top: var(--a-spacing-2);
 }
 
 .RefusjonsHeading > div {
-    width: 144px;
+  width: 144px;
 }
 
 .DateInput {
-    min-width: 144px;
-    box-sizing: border-box;
-    margin-top: var(--a-spacing-2);
+  min-width: 144px;
+  box-sizing: border-box;
+  margin-top: var(--a-spacing-2);
 
-    > div {
-        width: 100%;
-    }
+  > div {
+    width: 100%;
+  }
 }
 
 /* Overskriver designbibliotekstyling som setter width til auto og ødelegger refusjonslinjene */
 .DateInput input[size] {
-    width: 100%;
+  width: 100%;
 }
 
-.BeløpInput {
-    border-radius: 3px;
-    border: 1px solid var(--a-border-strong);
-    outline: none;
-    max-width: 114px;
-    box-sizing: border-box;
-    max-height: 2rem;
-    margin-top: var(--a-spacing-2);
-    text-align: right;
-    padding: 0 var(--a-spacing-1);
-}
-
-.BeløpInput:focus-visible {
-    box-shadow: var(--a-shadow-focus);
-}
-
-.BeløpInput::-webkit-outer-spin-button,
-.BeløpInput::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-}
-
-.BeløpInput[type='number'] {
-    -moz-appearance: textfield; /* Firefox */
-}
-
-.InputError {
-    border-color: var(--a-border-danger);
-    box-shadow: inset 0 0 0 1px var(--a-border-danger);
+.BeløpInput input {
+  text-align: right;
+  margin-top: 0.5rem
 }
 
 .Button {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    color: var(--a-surface-action);
-    padding: 8px 4px;
-    margin-left: -4px;
-    margin-top: var(--a-spacing-2);
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  color: var(--a-surface-action);
+  padding: 8px 4px;
+  margin-left: -4px;
+  margin-top: var(--a-spacing-2);
 }
 
 .Button > p {
-    line-height: 16px;
-    text-decoration: underline;
+  line-height: 16px;
+  text-decoration: underline;
 }
 
 .Button:hover > p {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .Button:focus-visible {
-    box-shadow: inset 0 0 0 3px var(--a-border-focus);
+  box-shadow: inset 0 0 0 3px var(--a-border-focus);
 }
 
 .Ikon {
-    margin-top: var(--a-spacing-2);
-}
-
-.Inputfelt input {
-    width: 100%;
+  margin-top: var(--a-spacing-2);
 }
 
 .refusjonsopplysninger {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }

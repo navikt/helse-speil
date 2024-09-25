@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { TextField } from '@navikt/ds-react';
+
 import styles from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonSkjema/RefusjonSkjema.module.scss';
 import { RefusjonFormValues } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/hooks/useRefusjonFormField';
 import { Refusjonsopplysning } from '@typer/overstyring';
@@ -36,16 +38,14 @@ export const RefusjonsBeløpInput = ({ index, refusjonsopplysning }: RefusjonsBe
 
     return (
         <>
-            <label id={`refusjonsopplysninger.${index}.beløp`} className="navds-sr-only">
-                Månedlig refusjon
-            </label>
-            <input
+            <TextField
                 {...inputValidation}
-                className={`${styles.BeløpInput} ${
-                    refusjonsopplysninger?.[index]?.beløp?.message ? styles.InputError : ''
-                }`}
+                className={styles.BeløpInput}
+                label="Månedlig refusjon"
+                hideLabel
+                size="small"
                 ref={ref}
-                aria-labelledby={`refusjonsopplysninger.${index}.beløp`}
+                htmlSize={12}
                 value={visningsverdi}
                 onChange={(event) => {
                     setVisningsverdi(event.target.value);
@@ -67,6 +67,7 @@ export const RefusjonsBeløpInput = ({ index, refusjonsopplysning }: RefusjonsBe
                     setValue(`refusjonsopplysninger.${index}.beløp`, nyttBeløp);
                     void onBlur(event);
                 }}
+                error={!!refusjonsopplysninger?.[index]?.beløp?.message}
             />
         </>
     );
