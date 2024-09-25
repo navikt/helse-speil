@@ -126,8 +126,11 @@ export const getOverlappendeOverstyringFraAnnenPeriode = (
     );
 
 export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: BeregnetPeriodeFragment) =>
-    person.arbeidsgivere.filter((arbeidsgiver) =>
-        arbeidsgiver.generasjoner[0]?.perioder.filter(isBeregnetPeriode).filter((it) => overlapper(periode)(it) ?? []),
+    person.arbeidsgivere.filter(
+        (arbeidsgiver) =>
+            arbeidsgiver.generasjoner[0]?.perioder
+                .filter(isBeregnetPeriode)
+                .filter((it) => overlapper(periode)(it) ?? []).length > 0,
     ) as Array<ArbeidsgiverFragment>;
 
 export const getGjeldendeFom = (overstyringer: MinimumSykdomsgradOverstyring[], fom: string) => {
