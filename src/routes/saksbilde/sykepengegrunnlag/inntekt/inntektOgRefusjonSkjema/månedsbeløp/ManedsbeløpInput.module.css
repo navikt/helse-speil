@@ -1,5 +1,6 @@
 .Input input {
     text-align: right;
+    justify-self: end;
 }
 
 .Input:focus-visible {
