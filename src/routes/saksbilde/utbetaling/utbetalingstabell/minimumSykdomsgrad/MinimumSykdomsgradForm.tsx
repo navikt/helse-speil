@@ -27,7 +27,7 @@ interface MinimumSykdomsgradFormProps {
     setOverstyrerMinimumSykdomsgrad: (overstyrer: boolean) => void;
 }
 
-export const MINIMUM_SYKDOMSGRAD_INNVILGELSE_TEKST = 'Ja, tap av arbeidstid er mer enn 20 % (innvilgelse)';
+export const MINIMUM_SYKDOMSGRAD_INNVILGELSE_TEKST = 'Ja, tap av arbeidstid er på 20 % eller mer (innvilgelse)';
 export const MINIMUM_SYKDOMSGRAD_AVSLAG_TEKST = 'Nei, tap av arbeidstid er under 20 % (avslag)';
 
 export const MinimumSykdomsgradForm = ({
