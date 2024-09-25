@@ -119,7 +119,7 @@ const beslutteroppgave = (
         }
 
         if (endringerEtterNyesteUtbetalingPåPerson?.some(isMinimumSykdomsgradsoverstyring) ?? false) {
-            årsaker.push('Overstyring av minimum sykdomsgrad');
+            årsaker.push('Vurdering av minimum sykdomsgrad');
         }
 
         if (årsaker.length > 0) {

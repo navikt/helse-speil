@@ -29,7 +29,7 @@ export const MinimumSykdomsgradhendelse = ({
 }: MinimumSykdomsgradhendelseProps): ReactElement => (
     <>
         <Hendelse
-            title="Minimum sykdomsgrad overstyrt"
+            title="Minimum sykdomsgrad vurdert"
             icon={
                 <Kilde type={Inntektskilde.Saksbehandler}>
                     <PersonPencilFillIcon title="Saksbehandler ikon" height={20} width={20} />
@@ -38,7 +38,7 @@ export const MinimumSykdomsgradhendelse = ({
         >
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
-                    <Bold>Vurdering </Bold>
+                    <Bold>Konklusjon</Bold>
                     <BodyShort>
                         {minimumSykdomsgrad.vurdering
                             ? MINIMUM_SYKDOMSGRAD_INNVILGELSE_TEKST
