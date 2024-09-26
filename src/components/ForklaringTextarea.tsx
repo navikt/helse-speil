@@ -32,6 +32,7 @@ export const ForklaringTextarea = ({ description }: ForklaringTextareaProps): Re
             aria-labelledby="forklaring-label forklaring-feil"
             error={form.formState.errors.forklaring ? (form.formState.errors.forklaring.message as string) : null}
             style={{ whiteSpace: 'pre-line' }}
+            size="small"
             {...textareaValidation}
         />
     );

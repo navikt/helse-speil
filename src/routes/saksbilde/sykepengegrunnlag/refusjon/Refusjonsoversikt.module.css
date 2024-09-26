@@ -5,18 +5,6 @@
     margin: 1.5rem 0;
 }
 
-.Header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.Tittel {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
 .Table {
     margin-left: -0.5rem;
     margin-right: 0;

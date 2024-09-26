@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
-import { Bold } from '@components/Bold';
+import { Label } from '@navikt/ds-react';
+
 import { Kilde } from '@components/Kilde';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
@@ -153,9 +154,7 @@ export const InntektOgRefusjon = ({
                     )
                 ) : null}
             </div>
-            <div className={styles.aligncenter}>
-                <Bold>Beregnet månedsinntekt</Bold>
-            </div>
+            <Label size="small">Beregnet månedsinntekt</Label>
             {editingInntekt && omregnetÅrsinntekt ? (
                 <InntektOgRefusjonSkjema
                     omregnetÅrsinntekt={omregnetÅrsinntekt}

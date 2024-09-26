@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { BodyShort, HStack } from '@navikt/ds-react';
+import { BodyShort, HStack, Label } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Button } from '@components/Button';
 import { Kildetype } from '@io/graphql';
 import { RefusjonFeiloppsummering } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonFeiloppsumering';
@@ -33,8 +32,8 @@ export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplys
     }, []);
 
     return (
-        <div className={styles.RefusjonWrapper} id="refusjonsopplysninger">
-            <Bold>Refusjon</Bold>
+        <div id="refusjonsopplysninger">
+            <Label size="small">Refusjon</Label>
 
             <HStack gap="6">
                 <div>Fra og med dato</div>

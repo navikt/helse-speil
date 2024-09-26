@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BodyShort, ErrorMessage } from '@navikt/ds-react';
+import { BodyShort, ErrorMessage, HStack } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
 import { toKronerOgØre } from '@utils/locale';
@@ -18,7 +18,7 @@ interface MånedsbeløpProps {
 }
 
 export const Månedsbeløp = ({ månedsbeløp, kilde, lokaltMånedsbeløp, harEndringer, feilmelding }: MånedsbeløpProps) => (
-    <>
+    <HStack>
         <div className={styles.Grid}>
             <BodyShort>Månedsbeløp</BodyShort>
             <MånedsbeløpInput
@@ -35,5 +35,6 @@ export const Månedsbeløp = ({ månedsbeløp, kilde, lokaltMånedsbeløp, harEn
                 </ErrorMessage>
             )}
         </div>
-    </>
+        <BodyShort className={styles.Warning}>Endringen vil gjelde fra skjæringstidspunktet</BodyShort>
+    </HStack>
 );

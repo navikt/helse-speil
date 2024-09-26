@@ -1,8 +1,7 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Table } from '@navikt/ds-react';
+import { BodyShort, Label, Table } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Refusjonsopplysning } from '@typer/overstyring';
 
 import { Refusjonslinje } from './Refusjonslinje';
@@ -18,11 +17,7 @@ export const Refusjonsoversikt = ({ refusjon, lokaleRefusjonsopplysninger }: Ref
     const refusjonIVisning = lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : refusjon;
     return (
         <div className={styles.Refusjonsoversikt}>
-            <div className={styles.Header}>
-                <div className={styles.Tittel}>
-                    <Bold>Refusjon</Bold>
-                </div>
-            </div>
+            <Label size="small">Refusjon</Label>
             <Table className={styles.Table}>
                 <Table.Header>
                     <Table.Row>

@@ -10,7 +10,7 @@ import {
     useForm,
 } from 'react-hook-form';
 
-import { Alert, BodyShort, Button } from '@navikt/ds-react';
+import { Alert, Button } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
@@ -195,7 +195,6 @@ export const InntektOgRefusjonSkjema = ({
                         harEndringer={harEndringer}
                         feilmelding={form.formState.errors.manedsbelop?.message}
                     />
-                    <BodyShort className={styles.Warning}>Endringen vil gjelde fra skjæringstidspunktet</BodyShort>
                     <OmregnetÅrsinntekt
                         beløp={omregnetÅrsinntekt.belop}
                         kilde={omregnetÅrsinntekt.kilde}

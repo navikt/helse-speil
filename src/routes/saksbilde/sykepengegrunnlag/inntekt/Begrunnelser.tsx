@@ -5,8 +5,6 @@ import { Radio, RadioGroup } from '@navikt/ds-react';
 
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 
-import styles from './Begrunnelser.module.css';
-
 const formatterBegrunnelse = (begrunnelse: BegrunnelseForOverstyring): string =>
     `
     ${begrunnelse?.lovhjemmel?.paragraf ? `§ ${begrunnelse?.lovhjemmel.paragraf}` : ''} 
@@ -28,7 +26,7 @@ export const Begrunnelser = ({ begrunnelser }: BegrunnelserProps) => {
             legend="Begrunnelse"
             id="begrunnelseId"
             name="begrunnelseId"
-            className={styles.begrunnelser}
+            size="small"
             error={formState.errors.begrunnelseId ? (formState.errors.begrunnelseId.message as string) : null}
         >
             {begrunnelser.map((begrunnelse, index) => (
