@@ -62,7 +62,7 @@ describe('OverstyrbarUtbetaling', () => {
         );
 
         await userEvent.click(screen.getByText('Overstyr dager'));
-        expect(screen.getByText('+ Legg til dager')).toBeVisible();
+        expect(screen.getByText('+ Legg til dager i tabellen')).toBeVisible();
 
         const checkboxes = screen.getAllByRole('checkbox');
         await userEvent.click(checkboxes[1]);

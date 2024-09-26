@@ -3,14 +3,14 @@ import dayjs from 'dayjs';
 import React, { ReactElement, Reducer, useEffect, useReducer, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { PadlockUnlockedIcon } from '@navikt/aksel-icons';
-import { BodyShort, Box, Button, HStack, Heading, VStack } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
 import { useBrukerIdent } from '@auth/brukerContext';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
+import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
 import { DagtypeModal } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeModal';
 import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
 import { MinimumSykdomsgradForm } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradForm';
@@ -19,7 +19,6 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { kanOverstyreMinimumSykdomsgradToggle } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-import { LeggTilDagerForm } from './utbetalingstabell/LeggTilDager';
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
@@ -196,7 +195,6 @@ export const OverstyrbarUtbetaling = ({
     const [visDagtypeModal, setVisDagtypeModal] = useState(false);
     const [overstyrer, setOverstyrer] = useState(false);
     const [overstyrerMinimumSykdomsgrad, setOverstyrerMinimumSykdomsgrad] = useState(false);
-    const [visLeggTilDagerForm, setVisLeggTilDagerForm] = useState(false);
 
     const { postOverstyring, error, timedOut, done } = useOverstyrDager(person, arbeidsgiver);
     const saksbehandlerident = useBrukerIdent();
@@ -294,39 +292,13 @@ export const OverstyrbarUtbetaling = ({
                 />
             )}
             {overstyrer && (
-                <Box marginInline="8">
-                    <HStack paddingBlock="0 4" gap="2">
-                        <Heading size="small">Overstyr dager</Heading>
-                        <Button
-                            size="xsmall"
-                            variant="tertiary"
-                            icon={<PadlockUnlockedIcon fontSize="1.5rem" />}
-                            onClick={() => {
-                                toggleOverstyring();
-                                setVisLeggTilDagerForm(false);
-                            }}
-                        >
-                            Avbryt
-                        </Button>
-                    </HStack>
-                    {erFørstePeriodePåSkjæringstidspunkt && !visLeggTilDagerForm && (
-                        <Button size="xsmall" variant="tertiary" onClick={() => setVisLeggTilDagerForm(true)}>
-                            + Legg til dager i tabellen
-                        </Button>
-                    )}
-                    {visLeggTilDagerForm && (
-                        <VStack gap="4" align="start">
-                            <LeggTilDagerForm
-                                onSubmitPølsestrekk={onSubmitPølsestrekk}
-                                openDagtypeModal={() => setVisDagtypeModal(true)}
-                                periodeFom={Array.from(alleDager.values())[0].dato}
-                            />
-                            <Button size="xsmall" variant="tertiary" onClick={() => setVisLeggTilDagerForm(false)}>
-                                Lukk legg til dager
-                            </Button>
-                        </VStack>
-                    )}
-                </Box>
+                <OverstyringToolBar
+                    toggleOverstyring={toggleOverstyring}
+                    onSubmitPølsestrekk={onSubmitPølsestrekk}
+                    setVisDagtypeModal={() => setVisDagtypeModal(true)}
+                    erFørstePeriodePåSkjæringstidspunkt={erFørstePeriodePåSkjæringstidspunkt}
+                    periodeFom={Array.from(alleDager.values())[0].dato}
+                />
             )}
             <div className={classNames(styles.TableContainer)}>
                 <Utbetalingstabell

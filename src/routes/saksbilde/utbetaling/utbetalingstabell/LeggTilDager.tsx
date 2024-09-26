@@ -27,16 +27,17 @@ type EndringType = {
 
 interface LeggTilDagerProps {
     periodeFom: DateString;
+    setVisDagtypeModal: () => void;
     onSubmitPølsestrekk: (nyeDager: Map<string, Utbetalingstabelldag>) => void;
-    openDagtypeModal: () => void;
 }
 
 export const LeggTilDagerForm = React.memo(
-    ({ periodeFom, onSubmitPølsestrekk, openDagtypeModal }: LeggTilDagerProps): ReactElement => {
+    ({ periodeFom, setVisDagtypeModal, onSubmitPølsestrekk }: LeggTilDagerProps): ReactElement => {
         const periodeFomMinusEnDag = dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'day');
 
         const defaultEndring = { dag: Sykedag, fom: periodeFomMinusEnDag.format(ISO_DATOFORMAT), grad: undefined };
         const [endring, setEndring] = useState<EndringType>(defaultEndring);
+
         const form = useForm();
 
         const handleSubmit = () => {
@@ -80,7 +81,7 @@ export const LeggTilDagerForm = React.memo(
         const oppdaterGrad = (event: React.ChangeEvent<HTMLInputElement>) => {
             const grad = Number.parseInt(event.target.value);
             setEndring({ ...endring, grad });
-            onChangeGrad(event);
+            void onChangeGrad(event);
         };
 
         const {
@@ -125,7 +126,7 @@ export const LeggTilDagerForm = React.memo(
                         />
                     </DatePicker>
                     <DagtypeSelect
-                        openDagtypeModal={openDagtypeModal}
+                        openDagtypeModal={() => setVisDagtypeModal()}
                         clearErrors={() => form.clearErrors('dagtype')}
                         errorMessage={form.formState.errors?.dagtype?.message?.toString()}
                         setType={(type: OverstyrbarDagtype) =>
