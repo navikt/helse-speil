@@ -4,7 +4,7 @@ import React, { ReactElement, Reducer, useEffect, useReducer, useState } from 'r
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { PadlockUnlockedIcon } from '@navikt/aksel-icons';
-import { BodyShort, Box, Button, HStack } from '@navikt/ds-react';
+import { BodyShort, Box, Button, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { useBrukerIdent } from '@auth/brukerContext';
 import { TimeoutModal } from '@components/TimeoutModal';
@@ -295,16 +295,8 @@ export const OverstyrbarUtbetaling = ({
             )}
             {overstyrer && (
                 <Box marginInline="8">
-                    <HStack>
-                        {erFørstePeriodePåSkjæringstidspunkt && (
-                            <Button
-                                size="xsmall"
-                                variant="tertiary"
-                                onClick={() => setVisLeggTilDagerForm(!visLeggTilDagerForm)}
-                            >
-                                {visLeggTilDagerForm ? 'Lukk legg til dager' : '+ Legg til dager'}
-                            </Button>
-                        )}
+                    <HStack paddingBlock="0 4" gap="2">
+                        <Heading size="small">Overstyr dager</Heading>
                         <Button
                             size="xsmall"
                             variant="tertiary"
@@ -317,12 +309,22 @@ export const OverstyrbarUtbetaling = ({
                             Avbryt
                         </Button>
                     </HStack>
+                    {erFørstePeriodePåSkjæringstidspunkt && !visLeggTilDagerForm && (
+                        <Button size="xsmall" variant="tertiary" onClick={() => setVisLeggTilDagerForm(true)}>
+                            + Legg til dager i tabellen
+                        </Button>
+                    )}
                     {visLeggTilDagerForm && (
-                        <LeggTilDagerForm
-                            onSubmitPølsestrekk={onSubmitPølsestrekk}
-                            openDagtypeModal={() => setVisDagtypeModal(true)}
-                            periodeFom={Array.from(alleDager.values())[0].dato}
-                        />
+                        <VStack gap="4" align="start">
+                            <LeggTilDagerForm
+                                onSubmitPølsestrekk={onSubmitPølsestrekk}
+                                openDagtypeModal={() => setVisDagtypeModal(true)}
+                                periodeFom={Array.from(alleDager.values())[0].dato}
+                            />
+                            <Button size="xsmall" variant="tertiary" onClick={() => setVisLeggTilDagerForm(false)}>
+                                Lukk legg til dager
+                            </Button>
+                        </VStack>
                     )}
                 </Box>
             )}

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { CheckmarkIcon, PadlockLockedIcon } from '@navikt/aksel-icons';
+import { BriefcaseClockIcon, PersonPencilIcon } from '@navikt/aksel-icons';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
@@ -42,7 +42,7 @@ export const UtbetalingHeader = ({
                             size="xsmall"
                             variant="secondary"
                             onClick={() => setOverstyrerMinimumSykdomsgrad(true)}
-                            icon={<CheckmarkIcon fontSize="1.5rem" />}
+                            icon={<BriefcaseClockIcon fontSize="1.5rem" />}
                         >
                             Vurder arbeidstid
                         </Button>
@@ -51,7 +51,7 @@ export const UtbetalingHeader = ({
                         size="xsmall"
                         variant="secondary"
                         onClick={toggleOverstyring}
-                        icon={<PadlockLockedIcon fontSize="1.5rem" />}
+                        icon={<PersonPencilIcon fontSize="1.5rem" />}
                     >
                         Overstyr dager
                     </Button>
