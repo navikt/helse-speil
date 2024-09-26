@@ -149,7 +149,6 @@ describe('SykepengegrunnlagFraSpleis', () => {
         expect(screen.getByText('Sammenligningsgrunnlag')).toBeVisible();
         expect(screen.getByText('Beregnet månedsinntekt')).toBeVisible();
         expect(screen.getByText('RAPPORTERT SISTE 3 MÅNEDER')).toBeVisible();
-        expect(screen.getByText('Omregnet rapportert årsinntekt')).toBeVisible();
         expect(screen.getAllByText(arbeidsgiver.navn)).toHaveLength(3);
     });
 });

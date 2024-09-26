@@ -2,16 +2,13 @@
     display: grid;
     grid-template-columns: 200px 130px 50px;
     grid-row-gap: 0.25rem;
+    height: 36px;
+    align-items: center;
 }
 
 .BeregnetGrid > p:nth-child(2),
 .BeregnetGrid > p:nth-child(5) {
     text-align: right;
-}
-
-.BeregnetGrid > :nth-child(3n) {
-    white-space: nowrap;
-    margin-top: var(--a-spacing-1);
 }
 
 .månedsbeløp {

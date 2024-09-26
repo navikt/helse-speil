@@ -33,7 +33,6 @@ import { avrundetToDesimaler } from '@utils/tall';
 import { isGhostPeriode } from '@utils/typeguards';
 
 import { Begrunnelser } from '../Begrunnelser';
-import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
 import { SlettLokaleOverstyringerModal } from './SlettLokaleOverstyringerModal';
 import { RefusjonSkjema } from './refusjon/RefusjonSkjema/RefusjonSkjema';
 import { RefusjonFormFields } from './refusjon/hooks/useRefusjonFormField';
@@ -194,11 +193,6 @@ export const InntektOgRefusjonSkjema = ({
                         lokaltMånedsbeløp={lokaltMånedsbeløp}
                         harEndringer={harEndringer}
                         feilmelding={form.formState.errors.manedsbelop?.message}
-                    />
-                    <OmregnetÅrsinntekt
-                        beløp={omregnetÅrsinntekt.belop}
-                        kilde={omregnetÅrsinntekt.kilde}
-                        harEndringer={harEndringer}
                     />
                     {metadata.fraRefusjonsopplysninger.length > 0 && (
                         <RefusjonSkjema

@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
 import { Inntektoverstyring, Inntektskilde, Maybe, OmregnetArsinntekt } from '@io/graphql';
@@ -47,14 +46,6 @@ export const ReadOnlyInntekt = ({
                         <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </div>
-                <BodyShort>
-                    {omregnetÅrsinntekt?.kilde === Inntektskilde.Infotrygd
-                        ? 'Sykepengegrunnlag før 6G'
-                        : harInntektskildeAOrdningen
-                          ? 'Omregnet rapportert årsinntekt'
-                          : 'Omregnet til årsinntekt'}
-                </BodyShort>
-                <Bold>{somPenger(omregnetÅrsinntekt?.belop)}</Bold>
             </div>
         </>
     );
