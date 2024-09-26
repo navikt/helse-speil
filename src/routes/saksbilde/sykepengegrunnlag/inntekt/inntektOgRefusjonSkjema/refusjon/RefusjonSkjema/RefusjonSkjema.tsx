@@ -36,38 +36,40 @@ export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplys
             <Label size="small">Refusjon</Label>
 
             <HStack gap="6">
-                <div>Fra og med dato</div>
-                <div>Til og med dato</div>
-                <div>Månedlig refusjon</div>
+                <BodyShort>Fra og med dato</BodyShort>
+                <BodyShort>Til og med dato</BodyShort>
+                <BodyShort>Månedlig refusjon</BodyShort>
             </HStack>
-            {fields.map((refusjonsopplysning, index) => (
-                <div key={refusjonsopplysning.id}>
-                    <div className={styles.RefusjonsRad} data-testid="refusjonsopplysningrad">
-                        <RefusjonsperiodeInput index={index} refusjonsopplysning={refusjonsopplysning} />
-                        <RefusjonsBeløpInput index={index} refusjonsopplysning={refusjonsopplysning} />
+            <div>
+                {fields.map((refusjonsopplysning, index) => (
+                    <React.Fragment key={refusjonsopplysning.id}>
+                        <div className={styles.RefusjonsRad} data-testid="refusjonsopplysningrad">
+                            <RefusjonsperiodeInput index={index} refusjonsopplysning={refusjonsopplysning} />
+                            <RefusjonsBeløpInput index={index} refusjonsopplysning={refusjonsopplysning} />
 
-                        <RefusjonKilde
-                            kilde={refusjonsopplysning.kilde as Kildetype}
-                            harLokaleOpplysninger={lokaleRefusjonsopplysninger.length > 0}
-                            harEndringer={
-                                JSON.stringify(lokaleRefusjonsopplysninger?.[index]) !==
-                                JSON.stringify(fraRefusjonsopplysninger?.[index])
-                            }
-                        />
+                            <RefusjonKilde
+                                kilde={refusjonsopplysning.kilde as Kildetype}
+                                harLokaleOpplysninger={lokaleRefusjonsopplysninger.length > 0}
+                                harEndringer={
+                                    JSON.stringify(lokaleRefusjonsopplysninger?.[index]) !==
+                                    JSON.stringify(fraRefusjonsopplysninger?.[index])
+                                }
+                            />
 
-                        <Button
-                            type="button"
-                            onClick={removeRefusjonsopplysning(index)}
-                            className={styles.Button}
-                            style={{ justifySelf: 'flex-end' }}
-                        >
-                            <BodyShort>Slett</BodyShort>
-                        </Button>
-                    </div>
+                            <Button
+                                type="button"
+                                onClick={removeRefusjonsopplysning(index)}
+                                className={styles.Button}
+                                style={{ justifySelf: 'flex-end' }}
+                            >
+                                <BodyShort>Slett</BodyShort>
+                            </Button>
+                        </div>
 
-                    <RefusjonFeiloppsummering error={formState.errors.refusjonsopplysninger?.[`${index}`]} />
-                </div>
-            ))}
+                        <RefusjonFeiloppsummering error={formState.errors.refusjonsopplysninger?.[`${index}`]} />
+                    </React.Fragment>
+                ))}
+            </div>
             <div className={styles.labelContainer}>
                 <Button
                     type="button"

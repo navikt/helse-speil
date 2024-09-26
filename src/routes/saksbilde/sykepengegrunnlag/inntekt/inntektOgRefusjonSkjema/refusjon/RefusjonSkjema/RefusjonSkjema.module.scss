@@ -1,9 +1,12 @@
 .RefusjonsRad {
   display: flex;
   max-width: 100%;
-  border-bottom: 1px solid #c6c2bf;
   padding-bottom: 0.5rem;
   gap: var(--a-spacing-2);
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid #c6c2bf;
+  }
 }
 
 .RefusjonsHeading {
