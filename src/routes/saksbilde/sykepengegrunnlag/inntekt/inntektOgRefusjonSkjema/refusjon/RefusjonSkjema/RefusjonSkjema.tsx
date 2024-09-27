@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { BodyShort, HStack, Label } from '@navikt/ds-react';
+import { PlusIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, HStack, Label } from '@navikt/ds-react';
 
-import { Button } from '@components/Button';
 import { Kildetype } from '@io/graphql';
 import { RefusjonFeiloppsummering } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonFeiloppsumering';
 import { RefusjonKilde } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonKilde';
@@ -43,10 +43,15 @@ export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplys
             <div>
                 {fields.map((refusjonsopplysning, index) => (
                     <React.Fragment key={refusjonsopplysning.id}>
-                        <div className={styles.RefusjonsRad} data-testid="refusjonsopplysningrad">
+                        <HStack
+                            className={styles.RefusjonsRad}
+                            data-testid="refusjonsopplysningrad"
+                            gap="2"
+                            align="center"
+                            paddingBlock="2"
+                        >
                             <RefusjonsperiodeInput index={index} refusjonsopplysning={refusjonsopplysning} />
                             <RefusjonsBeløpInput index={index} refusjonsopplysning={refusjonsopplysning} />
-
                             <RefusjonKilde
                                 kilde={refusjonsopplysning.kilde as Kildetype}
                                 harLokaleOpplysninger={lokaleRefusjonsopplysninger.length > 0}
@@ -55,31 +60,23 @@ export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplys
                                     JSON.stringify(fraRefusjonsopplysninger?.[index])
                                 }
                             />
-
                             <Button
                                 type="button"
                                 onClick={removeRefusjonsopplysning(index)}
-                                className={styles.Button}
-                                style={{ justifySelf: 'flex-end' }}
+                                variant="tertiary"
+                                size="xsmall"
                             >
-                                <BodyShort>Slett</BodyShort>
+                                Slett
                             </Button>
-                        </div>
+                        </HStack>
 
                         <RefusjonFeiloppsummering error={formState.errors.refusjonsopplysninger?.[`${index}`]} />
                     </React.Fragment>
                 ))}
             </div>
-            <div className={styles.labelContainer}>
-                <Button
-                    type="button"
-                    onClick={addRefusjonsopplysning}
-                    className={styles.Button}
-                    style={{ marginTop: 0 }}
-                >
-                    <BodyShort>+ Legg til</BodyShort>
-                </Button>
-            </div>
+            <Button type="button" onClick={addRefusjonsopplysning} icon={<PlusIcon />} variant="tertiary" size="xsmall">
+                Legg til
+            </Button>
         </div>
     );
 };

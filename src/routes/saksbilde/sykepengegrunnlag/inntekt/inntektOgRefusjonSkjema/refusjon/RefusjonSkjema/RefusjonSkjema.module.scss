@@ -1,12 +1,5 @@
-.RefusjonsRad {
-  display: flex;
-  max-width: 100%;
-  padding-bottom: 0.5rem;
-  gap: var(--a-spacing-2);
-
-  &:not(:last-of-type) {
-    border-bottom: 1px solid #c6c2bf;
-  }
+.RefusjonsRad:not(:last-of-type) {
+  border-bottom: 1px solid #c6c2bf;
 }
 
 .RefusjonsHeading {
@@ -39,7 +32,6 @@
 
 .BeløpInput input {
   text-align: right;
-  margin-top: 0.5rem
 }
 
 .Button {
