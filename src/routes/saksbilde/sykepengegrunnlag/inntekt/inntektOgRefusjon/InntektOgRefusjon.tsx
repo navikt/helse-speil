@@ -1,15 +1,15 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
-import { Label } from '@navikt/ds-react';
+import { PadlockUnlockedIcon, PersonPencilIcon } from '@navikt/aksel-icons';
+import { Button, HStack, HelpText, Label } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Clipboard } from '@components/clipboard';
-import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import {
     ArbeidsgiverFragment,
+    BeregnetPeriodeFragment,
     InntektFraAOrdningen,
     Inntektskilde,
     Inntektstype,
@@ -18,7 +18,6 @@ import {
     PersonFragment,
     VilkarsgrunnlagSpleis,
 } from '@io/graphql';
-import { RedigerInntektOgRefusjon } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/redigerInntektOgRefusjon/RedigerInntektOgRefusjon';
 import { InntektOgRefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
 import {
     useArbeidsgiver,
@@ -26,7 +25,9 @@ import {
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     useLokaleRefusjonsopplysninger,
     useLokaltMånedsbeløp,
+    usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
+import { isInCurrentGeneration } from '@state/selectors/period';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
@@ -35,18 +36,65 @@ import { Arbeidsgivernavn } from '../../Arbeidsgivernavn';
 import { OverstyrArbeidsforholdUtenSykdom } from '../../overstyring/OverstyrArbeidsforholdUtenSykdom';
 import { Refusjonsoversikt } from '../../refusjon/Refusjonsoversikt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
-import { RedigerGhostInntekt } from './RedigerGhostInntekt';
 import { SisteTolvMånedersInntekt } from './SisteTolvMånedersInntekt';
 import {
     endreInntektMedSykefraværBegrunnelser,
     endreInntektUtenSykefraværBegrunnelser,
-    maybePeriodeTilGodkjenning,
     useArbeidsforholdKanOverstyres,
     useGhostInntektKanOverstyres,
     useInntektKanRevurderes,
 } from './inntektOgRefusjonUtils';
 
 import styles from '../Inntekt.module.css';
+
+interface OverstyrKnappProps {
+    editingInntekt: boolean;
+    setEditingInntekt: (isEditing: boolean) => void;
+    kanOverstyres: boolean;
+    periodeErIGernerasjon: boolean;
+    erAktivPeriodeLikEllerFørPeriodeTilGodkjenning: boolean;
+}
+
+const OverstyrKnapp = ({
+    editingInntekt,
+    setEditingInntekt,
+    kanOverstyres,
+    periodeErIGernerasjon,
+    erAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
+}: OverstyrKnappProps) => {
+    return editingInntekt ? (
+        <Button
+            onClick={() => setEditingInntekt(false)}
+            variant="tertiary"
+            size="xsmall"
+            icon={<PadlockUnlockedIcon />}
+        >
+            Avbryt
+        </Button>
+    ) : (
+        <HStack gap="2">
+            {kanOverstyres && (
+                <Button
+                    onClick={() => setEditingInntekt(true)}
+                    variant="secondary"
+                    size="xsmall"
+                    icon={<PersonPencilIcon />}
+                >
+                    Overstyr
+                </Button>
+            )}
+            {!kanOverstyres && (
+                <HelpText title="Denne perioden kan ikke overstyres">
+                    {!erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
+                        ? 'Perioden kan ikke overstyres fordi det finnes en oppgave på en tidligere periode'
+                        : !periodeErIGernerasjon
+                          ? 'Perioden kan ikke overstyres fordi den ikke finnes i generasjonen'
+                          : 'Det er ikke mulig å endre inntekt i denne perioden'}
+                </HelpText>
+            )}
+        </HStack>
+    );
+};
 
 interface InntektUtenSykefraværProps {
     person: PersonFragment;
@@ -101,60 +149,51 @@ export const InntektOgRefusjon = ({
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
 
-    const erRevurdering = maybePeriodeTilGodkjenning(person, skjæringstidspunkt) === null;
     const erInntektskildeAordningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
     const skalVise12mnd828 =
         ((getVilkårsgrunnlag(person, vilkårsgrunnlagId) as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) > 25;
+
+    const periode = usePeriodForSkjæringstidspunktForArbeidsgiver(
+        person,
+        skjæringstidspunkt,
+        organisasjonsnummer,
+    ) as BeregnetPeriodeFragment;
+
+    const periodeErIGernerasjon = isInCurrentGeneration(periode, arbeidsgiver);
+
+    const kanOverstyres =
+        (vilkårsgrunnlagId != null &&
+            ((!erDeaktivert && ghostInntektKanOverstyres) ||
+                (inntektstype && kanRevurderes && periodeErIGernerasjon))) ??
+        false;
 
     return (
         <div
             className={classNames(styles.Inntekt, editingInntekt && styles.editing, erDeaktivert && styles.deaktivert)}
         >
-            <div className={classNames(styles.Header, editingInntekt && styles.editing)}>
-                <div className={styles.ArbeidsgiverHeader}>
-                    <Arbeidsgivernavn className={styles.Arbeidsgivernavn} arbeidsgivernavn={arbeidsgiver.navn} />
-                    <div className={styles.Organisasjonsnummer}>
-                        (
-                        <Clipboard
-                            copyMessage="Organisasjonsnummer er kopiert"
-                            tooltip={{ content: 'Kopier organisasjonsnummer' }}
-                        >
-                            <AnonymizableContainer>{arbeidsgiver.organisasjonsnummer}</AnonymizableContainer>
-                        </Clipboard>
-                        )
-                    </div>
-                    <Kilde type="AINNTEKT">AA</Kilde>
-                </div>
-                {!harSykefravær && vilkårsgrunnlagId && !erDeaktivert && ghostInntektKanOverstyres && (
-                    <RedigerGhostInntekt
-                        erRevurdering={erRevurdering}
-                        setEditing={setEditingInntekt}
-                        editing={editingInntekt}
-                    />
-                )}
-                {harSykefravær && vilkårsgrunnlagId && inntektstype ? (
-                    kanRevurderes ? (
-                        <RedigerInntektOgRefusjon
-                            person={person}
-                            setEditing={setEditingInntekt}
-                            editing={editingInntekt}
-                            erRevurdering={erRevurdering}
-                            skjæringstidspunkt={skjæringstidspunkt}
-                            organisasjonsnummer={organisasjonsnummer}
-                            arbeidsgiver={arbeidsgiver}
-                        />
-                    ) : (
-                        <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                            <p>
-                                {!erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
-                                    ? 'Perioden kan ikke overstyres fordi det finnes en oppgave på en tidligere periode'
-                                    : 'Det er ikke mulig å endre inntekt i denne perioden'}
-                            </p>
-                        </PopoverHjelpetekst>
+            <HStack gap="3" align="center" paddingBlock="0 6">
+                <OverstyrKnapp
+                    editingInntekt={editingInntekt}
+                    setEditingInntekt={setEditingInntekt}
+                    kanOverstyres={kanOverstyres}
+                    periodeErIGernerasjon={periodeErIGernerasjon}
+                    erAktivPeriodeLikEllerFørPeriodeTilGodkjenning={erAktivPeriodeLikEllerFørPeriodeTilGodkjenning}
+                />
+
+                <Arbeidsgivernavn className={styles.Arbeidsgivernavn} arbeidsgivernavn={arbeidsgiver.navn} />
+                <div className={styles.Organisasjonsnummer}>
+                    (
+                    <Clipboard
+                        copyMessage="Organisasjonsnummer er kopiert"
+                        tooltip={{ content: 'Kopier organisasjonsnummer' }}
+                    >
+                        <AnonymizableContainer>{arbeidsgiver.organisasjonsnummer}</AnonymizableContainer>
+                    </Clipboard>
                     )
-                ) : null}
-            </div>
-            <Label size="small">Beregnet månedsinntekt</Label>
+                </div>
+                <Kilde type="AINNTEKT">AA</Kilde>
+            </HStack>
+            <Label size="small">Beregnet månedsinntekt</Label>;
             {editingInntekt && omregnetÅrsinntekt ? (
                 <InntektOgRefusjonSkjema
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
@@ -180,7 +219,6 @@ export const InntektOgRefusjon = ({
             {refusjon && refusjon.length !== 0 && !editingInntekt && (
                 <Refusjonsoversikt refusjon={refusjon} lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger} />
             )}
-
             {!editingInntekt && (
                 <SisteTolvMånedersInntekt
                     skjæringstidspunkt={skjæringstidspunkt}
