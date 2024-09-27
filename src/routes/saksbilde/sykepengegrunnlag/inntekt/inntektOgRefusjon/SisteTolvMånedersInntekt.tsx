@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Detail, HStack } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { InntektFraAOrdningen, Inntektskilde, Maybe } from '@io/graphql';
@@ -71,12 +71,12 @@ export const SisteTolvMånedersInntekt = ({
 
     return (
         <>
-            <div className={styles.sisteTolvMndInntekt}>
-                <h3 className={styles.title}>RAPPORTERT SISTE {antallMåneder} MÅNEDER</h3>
-                <Kilde type={Inntektskilde.Aordningen} className={styles.kildeikon}>
-                    {kildeForkortelse(Inntektskilde.Aordningen)}
-                </Kilde>
-            </div>
+            <HStack gap="2" align="center">
+                <Detail as="h2" className={styles.title} uppercase weight="semibold" textColor="subtle">
+                    RAPPORTERT SISTE {antallMåneder} MÅNEDER
+                </Detail>
+                <Kilde type={Inntektskilde.Aordningen}>{kildeForkortelse(Inntektskilde.Aordningen)}</Kilde>
+            </HStack>
             <div
                 className={classNames(styles.grid, harInntekterForSammenligningsgrunnlag && styles.sammenligningsgrid)}
             >

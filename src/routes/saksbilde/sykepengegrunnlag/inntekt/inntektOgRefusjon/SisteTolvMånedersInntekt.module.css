@@ -34,27 +34,12 @@
     background-color: #f2f7ff;
 }
 
-.title {
-    font-size: 14px;
-    color: var(--a-text-subtle);
-}
-
-.kildeikon {
-    margin-left: 0.5rem;
-}
-
 .arbeidsforholdInfoText {
     display: flex;
     margin-top: 32px;
     font-size: 14px;
     line-height: 20px;
     gap: 1rem;
-}
-
-.sisteTolvMndInntekt {
-    display: flex;
-    align-items: center;
-    margin-top: 1.5rem;
 }
 
 .bold {
