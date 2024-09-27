@@ -278,7 +278,10 @@ export const OverstyrbarUtbetaling = ({
                 periodeErForkastet={erForkastet}
                 toggleOverstyring={toggleOverstyring}
                 overstyrer={overstyrer}
-                kanOverstyreMinimumSykdomsgrad={kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident)}
+                kanOverstyreMinimumSykdomsgrad={
+                    kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident) &&
+                    periode.tidslinje.some((it) => (it?.utbetalingsinfo?.totalGrad ?? 100) < 20)
+                }
                 overstyrerMinimumSykdomsgrad={overstyrerMinimumSykdomsgrad}
                 setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
             />
