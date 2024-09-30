@@ -6,17 +6,23 @@ import { ClockIcon, FolderIcon, PencilWritingIcon, PersonPencilIcon } from '@nav
 import { TabButton } from '@components/TabButton';
 import { Filtertype } from '@typer/historikk';
 
-import { useFilterState, useShowHistorikkState } from './state';
+import { useFilterState, useShowHistorikkState, useShowHøyremenyState } from './state';
 
 import styles from './Historikkmeny.module.css';
 
 export const Historikkmeny = (): ReactElement => {
     const [filter, setFilter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
+    const [showHøyremeny, setShowHøyremeny] = useShowHøyremenyState();
 
     const activateFilter = (nyttFilter: Filtertype) => () => {
-        if (showHistorikk && filter === nyttFilter) return setShowHistorikk(false);
+        if (showHistorikk && showHøyremeny && filter === nyttFilter) {
+            setShowHistorikk(false);
+            setShowHøyremeny(false);
+            return;
+        }
         setShowHistorikk(true);
+        setShowHøyremeny(true);
         setFilter(nyttFilter);
     };
 

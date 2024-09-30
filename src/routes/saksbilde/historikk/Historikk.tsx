@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { motion } from 'framer-motion';
 import React, { ReactElement } from 'react';
 
+import { XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
@@ -27,7 +28,7 @@ import { Sykepengegrunnlagskjønnsfastsettinghendelse } from './hendelser/Sykepe
 import { Utbetalinghendelse } from './hendelser/Utbetalinghendelse';
 import { Dokumenthendelse } from './hendelser/dokument/Dokumenthendelse';
 import { Notathendelse } from './hendelser/notat/Notathendelse';
-import { useFilterState, useFilteredHistorikk, useShowHistorikkState } from './state';
+import { useFilterState, useFilteredHistorikk, useShowHistorikkState, useShowHøyremenyState } from './state';
 
 import styles from './Historikk.module.css';
 
@@ -54,6 +55,7 @@ const HistorikkWithContent = (): ReactElement => {
     const historikk = useFilteredHistorikk(person);
     const [filter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
+    const [showHøyremeny, _] = useShowHøyremenyState();
 
     useKeyboard([
         {
@@ -68,7 +70,11 @@ const HistorikkWithContent = (): ReactElement => {
 
     return (
         <div className={styles['historikk-container']}>
-            <JusterbarSidemeny defaultBredde={320} visSidemeny={showHistorikk} localStorageNavn="historikkBredde">
+            <JusterbarSidemeny
+                defaultBredde={320}
+                visSidemeny={showHøyremeny && showHistorikk}
+                localStorageNavn="historikkBredde"
+            >
                 <motion.div
                     key="historikk"
                     transition={{
@@ -80,8 +86,13 @@ const HistorikkWithContent = (): ReactElement => {
                 >
                     {person && (
                         <div className={styles.historikk}>
-                            <ul>
+                            <HStack className={styles.header}>
                                 <div>{getHistorikkTitle(filter)}</div>
+                                <button className={styles.xbutton} onClick={() => setShowHistorikk(false)}>
+                                    <XMarkIcon title="lukk åpnet dokument" />
+                                </button>
+                            </HStack>
+                            <ul>
                                 {filter !== 'Dokument' && filter !== 'Overstyring' && <Notat person={person} />}
                                 {historikk.map((it: HendelseObject, index) => {
                                     switch (it.type) {
@@ -135,7 +146,7 @@ const HistorikkWithContent = (): ReactElement => {
                     )}
                 </motion.div>
             </JusterbarSidemeny>
-            {person && <ÅpnetDokument person={person} />}
+            {person && showHøyremeny && <ÅpnetDokument person={person} />}
             <Historikkmeny />
         </div>
     );

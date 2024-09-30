@@ -20,6 +20,7 @@ import styles from './ÅpnetDokument.module.scss';
 interface ÅpnetDokumentProps {
     person: PersonFragment;
 }
+
 export const ÅpnetDokument = ({ person }: ÅpnetDokumentProps): Maybe<ReactElement> => {
     const fjernÅpnetDokument = useRemoveOpenedDocument();
     const åpnedeDokumenter = useOpenedDocuments();

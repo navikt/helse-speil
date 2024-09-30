@@ -8,7 +8,7 @@ import {
 import { ApolloResponse } from '@state/oppgaver';
 
 export const useQuerySoknad = (fnr: string, dokumentId: string): ApolloResponse<FetchSoknadQuery['hentSoknad']> => {
-    const fetchSoknad = useQuery(FetchSoknadDocument, {
+    const fetchedSoknad = useQuery(FetchSoknadDocument, {
         variables: {
             fnr: fnr,
             dokumentId: dokumentId,
@@ -16,9 +16,9 @@ export const useQuerySoknad = (fnr: string, dokumentId: string): ApolloResponse<
     });
 
     return {
-        data: fetchSoknad.data?.hentSoknad,
-        error: fetchSoknad.error,
-        loading: fetchSoknad.loading,
+        data: fetchedSoknad.data?.hentSoknad,
+        error: fetchedSoknad.error,
+        loading: fetchedSoknad.loading,
     };
 };
 
@@ -26,7 +26,7 @@ export const useQueryInntektsmelding = (
     fnr: string,
     dokumentId: string,
 ): ApolloResponse<FetchInntektsmeldingQuery['hentInntektsmelding']> => {
-    const fetchSoknad = useQuery(FetchInntektsmeldingDocument, {
+    const fetchedInntektsmelding = useQuery(FetchInntektsmeldingDocument, {
         variables: {
             fnr: fnr,
             dokumentId: dokumentId,
@@ -34,8 +34,8 @@ export const useQueryInntektsmelding = (
     });
 
     return {
-        data: fetchSoknad.data?.hentInntektsmelding ?? undefined,
-        error: fetchSoknad.error,
-        loading: fetchSoknad.loading,
+        data: fetchedInntektsmelding.data?.hentInntektsmelding ?? undefined,
+        error: fetchedInntektsmelding.error,
+        loading: fetchedInntektsmelding.loading,
     };
 };

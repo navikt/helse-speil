@@ -7,7 +7,7 @@
 .historikk {
     grid-area: høyremeny;
     overflow: hidden;
-    transition: width 0.2s ease;
+    /*transition: width 0.2s ease;*/
     height: 100%;
 }
 
@@ -18,12 +18,28 @@
     margin: 0;
 }
 
-.historikk > ul > div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 16px;
+.header {
     font-size: 14px;
+    padding: 1rem 1rem 1rem 1rem;
+}
+
+.xbutton {
+    border: 0;
+    width: 1rem;
+    height: 1rem;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 0.25rem;
+    margin-left: auto;
+}
+
+.xbutton svg {
+    font-size: 1rem;
+}
+
+.xbutton:hover {
+    background: var(--a-surface-hover);
 }
 
 .error {

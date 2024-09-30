@@ -221,3 +221,11 @@ export const useFilteredHistorikk = (person: Maybe<PersonFragment>): Array<Hende
 };
 
 export const useFilterState = () => useRecoilState(filterState);
+
+const showHøyremenyState = atom<boolean>({
+    key: 'showHøyremenyState',
+    default: true,
+    effects: [sessionStorageEffect()],
+});
+
+export const useShowHøyremenyState = () => useRecoilState(showHøyremenyState);
