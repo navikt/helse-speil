@@ -5,7 +5,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, ErrorSummary } from '@navikt/ds-react';
 
-import { EditButton } from '@components/EditButton';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
@@ -61,17 +60,21 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                         onClick={() => oppdaterVenterPåEndringState({ visAngreknapp: false, visOverstyrKnapp: true })}
                     />
                 )}
-                {skalViseOverstyr && (
-                    <EditButton
-                        isOpen={editingArbeidsforhold}
-                        openText="Avbryt"
-                        closedText="Ikke bruk arbeidsforholdet i beregningen"
-                        onOpen={() => setEditingArbeidsforhold(true)}
-                        onClose={() => setEditingArbeidsforhold(false)}
-                        openIcon={<></>}
-                        closedIcon={<XMarkOctagonIcon />}
-                    />
-                )}
+                {skalViseOverstyr &&
+                    (editingArbeidsforhold ? (
+                        <Button size="xsmall" variant="tertiary" onClick={() => setEditingArbeidsforhold(false)}>
+                            Avbryt
+                        </Button>
+                    ) : (
+                        <Button
+                            size="xsmall"
+                            variant="tertiary"
+                            icon={<XMarkOctagonIcon />}
+                            onClick={() => setEditingArbeidsforhold(true)}
+                        >
+                            Ikke bruk arbeidsforholdet i beregningen
+                        </Button>
+                    ))}
             </div>
             {editingArbeidsforhold && (
                 <OverstyrArbeidsforholdSkjema
