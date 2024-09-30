@@ -1,10 +1,9 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';
-import { BodyShort, Radio, RadioGroup } from '@navikt/ds-react';
+import { CheckmarkCircleFillIcon, PadlockLockedIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, HStack, Radio, RadioGroup } from '@navikt/ds-react';
 
-import { EditButton } from '@components/EditButton';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 
 import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
@@ -35,21 +34,19 @@ export const SkjønnsfastsettingÅrsak = ({ maler }: Props) => {
                 name="årsak"
                 error={formState.errors.årsak ? (formState.errors.årsak.message as string) : null}
                 legend={
-                    <>
-                        Årsak til skjønnsfastsettelse{' '}
+                    <HStack gap="2">
+                        Årsak til skjønnsfastsettelse
                         {valgtÅrsak && (
-                            <EditButton
-                                className={styles.endringsknapp}
-                                isOpen={false}
-                                openText=""
-                                closedText="Endre"
-                                onOpen={onEndre}
-                                onClose={() => false}
-                                closedIcon={<></>}
-                                openIcon={<></>}
-                            />
+                            <Button
+                                size="xsmall"
+                                variant="tertiary"
+                                onClick={onEndre}
+                                icon={<PadlockLockedIcon title="Hengelås lukket" />}
+                            >
+                                Endre
+                            </Button>
                         )}
-                    </>
+                    </HStack>
                 }
                 onChange={resetType}
             >
