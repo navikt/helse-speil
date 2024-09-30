@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
 import { PadlockUnlockedIcon, PersonPencilIcon } from '@navikt/aksel-icons';
-import { Button, HStack, HelpText, Label } from '@navikt/ds-react';
+import { BodyShort, Button, HStack, Label, VStack } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
@@ -84,13 +84,13 @@ const OverstyrKnapp = ({
                 </Button>
             )}
             {!kanOverstyres && (
-                <HelpText title="Denne perioden kan ikke overstyres">
+                <BodyShort>
                     {!erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
                         ? 'Perioden kan ikke overstyres fordi det finnes en oppgave på en tidligere periode'
                         : !periodeErIGernerasjon
                           ? 'Perioden kan ikke overstyres fordi den ikke finnes i generasjonen'
                           : 'Det er ikke mulig å endre inntekt i denne perioden'}
-                </HelpText>
+                </BodyShort>
             )}
         </HStack>
     );
@@ -171,7 +171,7 @@ export const InntektOgRefusjon = ({
         <div
             className={classNames(styles.Inntekt, editingInntekt && styles.editing, erDeaktivert && styles.deaktivert)}
         >
-            <HStack gap="3" align="center" paddingBlock="0 6">
+            <VStack gap="4">
                 <OverstyrKnapp
                     editingInntekt={editingInntekt}
                     setEditingInntekt={setEditingInntekt}
@@ -179,20 +179,21 @@ export const InntektOgRefusjon = ({
                     periodeErIGernerasjon={periodeErIGernerasjon}
                     erAktivPeriodeLikEllerFørPeriodeTilGodkjenning={erAktivPeriodeLikEllerFørPeriodeTilGodkjenning}
                 />
-
-                <Arbeidsgivernavn className={styles.Arbeidsgivernavn} arbeidsgivernavn={arbeidsgiver.navn} />
-                <div className={styles.Organisasjonsnummer}>
-                    (
-                    <Clipboard
-                        copyMessage="Organisasjonsnummer er kopiert"
-                        tooltip={{ content: 'Kopier organisasjonsnummer' }}
-                    >
-                        <AnonymizableContainer>{arbeidsgiver.organisasjonsnummer}</AnonymizableContainer>
-                    </Clipboard>
-                    )
-                </div>
-                <Kilde type="AINNTEKT">AA</Kilde>
-            </HStack>
+                <HStack gap="3" align="center" paddingBlock="0 6">
+                    <Arbeidsgivernavn className={styles.Arbeidsgivernavn} arbeidsgivernavn={arbeidsgiver.navn} />
+                    <div className={styles.Organisasjonsnummer}>
+                        (
+                        <Clipboard
+                            copyMessage="Organisasjonsnummer er kopiert"
+                            tooltip={{ content: 'Kopier organisasjonsnummer' }}
+                        >
+                            <AnonymizableContainer>{arbeidsgiver.organisasjonsnummer}</AnonymizableContainer>
+                        </Clipboard>
+                        )
+                    </div>
+                    <Kilde type="AINNTEKT">AA</Kilde>
+                </HStack>
+            </VStack>
             <Label size="small">Beregnet månedsinntekt</Label>;
             {editingInntekt && omregnetÅrsinntekt ? (
                 <InntektOgRefusjonSkjema
