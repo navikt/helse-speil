@@ -2,8 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { Select } from '@navikt/ds-react';
 
-import { Button } from '@components/Button';
-import { SortInfoikon } from '@components/ikoner/SortInfoikon';
+import { TilleggsinfoKnapp } from '@components/TilleggsinfoKnapp';
 import styles from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm.module.css';
 import {
     OverstyrbarDagtype,
@@ -40,10 +39,7 @@ export const DagtypeSelect = ({
                 size="small"
                 label={
                     <span className={styles.dagtypelabel}>
-                        Dagtype{' '}
-                        <Button className={styles.button} type="button" onClick={openDagtypeModal}>
-                            <SortInfoikon />
-                        </Button>
+                        Dagtype <TilleggsinfoKnapp onClick={openDagtypeModal} />
                     </span>
                 }
                 onChange={oppdaterDagtype}

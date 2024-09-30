@@ -3,8 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { BodyLong, BodyShort, Modal, Textarea } from '@navikt/ds-react';
 
-import { Button } from '@components/Button';
-import { SortInfoikon } from '@components/ikoner/SortInfoikon';
+import { TilleggsinfoKnapp } from '@components/TilleggsinfoKnapp';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { toKronerOgØre } from '@utils/locale';
 
@@ -60,9 +59,7 @@ export const SkjønnsfastsettingBegrunnelse = ({
                     label={
                         <span className={styles.fritekstlabel}>
                             Nærmere begrunnelse for skjønnsvurderingen{' '}
-                            <Button className={styles.button} type="button" onClick={() => ref.current?.showModal()}>
-                                <SortInfoikon />
-                            </Button>
+                            <TilleggsinfoKnapp onClick={() => ref.current?.showModal()} />
                         </span>
                     }
                     {...register('begrunnelseFritekst', {

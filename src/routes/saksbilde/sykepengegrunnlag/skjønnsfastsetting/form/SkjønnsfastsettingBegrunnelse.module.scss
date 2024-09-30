@@ -19,19 +19,6 @@
   align-items: center;
 }
 
-.fritekstlabel .button {
-  margin-left: 0.25rem;
-  display: flex;
-  align-items: center;
-  padding: 0;
-}
-
-.fritekstlabel .button:hover svg,
-.fritekstlabel .button:focus svg {
-  background: black;
-  color: white;
-}
-
 .fritekstlabel label {
   line-height: var(--a-font-line-height-large);
 }
