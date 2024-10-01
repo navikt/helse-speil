@@ -329,7 +329,6 @@ fragment beregnetPeriode on BeregnetPeriode {
     }
     paVent {
         frist
-        begrunnelse
         oid
     }
     totrinnsvurdering {

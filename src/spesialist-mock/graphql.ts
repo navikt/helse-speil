@@ -229,7 +229,6 @@ const getResolvers = (): IResolvers => ({
             NotatMock.addNotat(oppgaveId, { tekst: notatTekst, type: NotatType.PaaVent });
             PaVentMock.setPåVent(oppgaveId, {
                 frist: '2024-01-01',
-                begrunnelse: 'En begrunnelse',
                 oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
             });
             return PaVentMock.getPåVent(oppgaveId);

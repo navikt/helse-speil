@@ -641,7 +641,6 @@ export type MutationInnvilgVedtakArgs = {
 };
 
 export type MutationLeggPaVentArgs = {
-    begrunnelse?: InputMaybe<Scalars['String']['input']>;
     frist: Scalars['LocalDate']['input'];
     notatTekst: Scalars['String']['input'];
     oppgaveId: Scalars['String']['input'];
@@ -947,7 +946,6 @@ export type OverstyrtMinimumSykdomsgrad = {
 
 export type PaVent = {
     __typename: 'PaVent';
-    begrunnelse: Maybe<Scalars['String']['output']>;
     frist: Maybe<Scalars['LocalDate']['output']>;
     oid: Scalars['UUID']['output'];
 };
@@ -2435,12 +2433,7 @@ export type ArbeidsgiverFragment = {
                       } | null;
                   };
                   oppgave: { __typename: 'OppgaveForPeriodevisning'; id: string } | null;
-                  paVent: {
-                      __typename: 'PaVent';
-                      frist: string | null;
-                      begrunnelse: string | null;
-                      oid: string;
-                  } | null;
+                  paVent: { __typename: 'PaVent'; frist: string | null; oid: string } | null;
                   totrinnsvurdering: {
                       __typename: 'Totrinnsvurdering';
                       erBeslutteroppgave: boolean;
@@ -3227,7 +3220,7 @@ export type BeregnetPeriodeFragment = {
         } | null;
     };
     oppgave: { __typename: 'OppgaveForPeriodevisning'; id: string } | null;
-    paVent: { __typename: 'PaVent'; frist: string | null; begrunnelse: string | null; oid: string } | null;
+    paVent: { __typename: 'PaVent'; frist: string | null; oid: string } | null;
     totrinnsvurdering: {
         __typename: 'Totrinnsvurdering';
         erBeslutteroppgave: boolean;
@@ -3912,12 +3905,7 @@ export type PersonFragment = {
                           } | null;
                       };
                       oppgave: { __typename: 'OppgaveForPeriodevisning'; id: string } | null;
-                      paVent: {
-                          __typename: 'PaVent';
-                          frist: string | null;
-                          begrunnelse: string | null;
-                          oid: string;
-                      } | null;
+                      paVent: { __typename: 'PaVent'; frist: string | null; oid: string } | null;
                       totrinnsvurdering: {
                           __typename: 'Totrinnsvurdering';
                           erBeslutteroppgave: boolean;
@@ -4654,12 +4642,7 @@ export type FetchPersonQuery = {
                               } | null;
                           };
                           oppgave: { __typename: 'OppgaveForPeriodevisning'; id: string } | null;
-                          paVent: {
-                              __typename: 'PaVent';
-                              frist: string | null;
-                              begrunnelse: string | null;
-                              oid: string;
-                          } | null;
+                          paVent: { __typename: 'PaVent'; frist: string | null; oid: string } | null;
                           totrinnsvurdering: {
                               __typename: 'Totrinnsvurdering';
                               erBeslutteroppgave: boolean;
@@ -6111,7 +6094,6 @@ export const BeregnetPeriodeFragmentDoc = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                             ],
                         },
@@ -7325,7 +7307,6 @@ export const ArbeidsgiverFragmentDoc = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                             ],
                         },
@@ -8238,7 +8219,6 @@ export const PersonFragmentDoc = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                             ],
                         },
@@ -11048,7 +11028,6 @@ export const FetchPersonDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                             ],
                         },

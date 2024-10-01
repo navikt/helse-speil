@@ -639,7 +639,6 @@ export type MutationInnvilgVedtakArgs = {
 };
 
 export type MutationLeggPaVentArgs = {
-    begrunnelse?: InputMaybe<Scalars['String']['input']>;
     frist: Scalars['LocalDate']['input'];
     notatTekst: Scalars['String']['input'];
     oppgaveId: Scalars['String']['input'];
@@ -945,7 +944,6 @@ export type OverstyrtMinimumSykdomsgrad = {
 
 export type PaVent = {
     __typename?: 'PaVent';
-    begrunnelse?: Maybe<Scalars['String']['output']>;
     frist?: Maybe<Scalars['LocalDate']['output']>;
     oid: Scalars['UUID']['output'];
 };
