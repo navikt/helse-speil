@@ -119,6 +119,8 @@ export const SkjønnsfastsettingForm = ({
     if (!period || !person || !aktiveArbeidsgivere || !aktiveArbeidsgivereInntekter) return null;
 
     const confirmChanges = () => {
+        if (isLoading) return;
+
         postSkjønnsfastsetting(
             skjønnsfastsettingFormToDto(
                 form.getValues(),
