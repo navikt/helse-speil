@@ -7,6 +7,7 @@ import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOppteg
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { AmplitudeProvider } from '@io/amplitude';
 import { usePollEtterOpptegnelser } from '@io/graphql/polling';
+import { Saksbilde } from '@saksbilde/Saksbilde';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { EmojiTilbakemeldingMedPeriode } from '@saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
 import { HistorikkSkeleton } from '@saksbilde/historikk';
@@ -39,7 +40,7 @@ export default function Layout({ children }: PropsWithChildren): ReactElement {
             <AmplitudeProvider>
                 <VenterPåEndringProvider>
                     <Venstremeny />
-                    {children}
+                    <Saksbilde>{children}</Saksbilde>
                     <Historikk />
                     <EmojiTilbakemeldingMedPeriode />
                 </VenterPåEndringProvider>

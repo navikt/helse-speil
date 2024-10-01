@@ -16,10 +16,10 @@ type Props = {
 export const AnnullertPeriodeView = ({ person, activePeriod }: Props) => {
     return (
         <div className={styles.Content}>
-            <SaksbildeMenu person={person} activePeriod={activePeriod} />
             <Alert variant="info" className={styles.Varsel}>
                 Utbetalingen er annullert
             </Alert>
+            <SaksbildeMenu person={person} activePeriod={activePeriod} />
         </div>
     );
 };
