@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { AnnulleringhendelseObject } from '@typer/historikk';
 
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
@@ -27,11 +26,11 @@ export const Annulleringhendelse = ({
         >
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
-                    <Bold>Årsaker: </Bold>
+                    <BodyShort weight="semibold">Årsaker: </BodyShort>
                     {årsaker.map((årsak, index) => (
                         <BodyShort key={index + årsak}>{årsak}</BodyShort>
                     ))}
-                    <Bold>Begrunnelse: </Bold>
+                    <BodyShort weight="semibold">Begrunnelse: </BodyShort>
                     <BodyShort>{begrunnelse}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>

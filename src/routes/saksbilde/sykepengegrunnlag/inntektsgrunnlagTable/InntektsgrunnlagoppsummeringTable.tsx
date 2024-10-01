@@ -3,7 +3,6 @@ import React from 'react';
 
 import { BodyShort, Table } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Maybe } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
@@ -37,7 +36,13 @@ export const InntektsgrunnlagoppsummeringTable = ({
             <tfoot>
                 <Table.Row className={styles.PaddedRow}>
                     <TableCellBold text="Utregnet avvik" />
-                    <TableCell content={<Bold>{avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}</Bold>} />
+                    <TableCell
+                        content={
+                            <BodyShort weight="semibold">
+                                {avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}
+                            </BodyShort>
+                        }
+                    />
                 </Table.Row>
             </tfoot>
         </Table>
@@ -60,6 +65,6 @@ interface TableCellBoldProps {
 
 const TableCellBold = ({ text }: TableCellBoldProps) => (
     <Table.DataCell>
-        <Bold>{text}</Bold>
+        <BodyShort weight="semibold">{text}</BodyShort>
     </Table.DataCell>
 );

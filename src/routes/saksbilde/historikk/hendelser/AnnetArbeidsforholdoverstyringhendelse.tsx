@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Inntektskilde } from '@io/graphql';
@@ -45,11 +44,11 @@ export const AnnetArbeidsforholdoverstyringhendelse = ({
         >
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
-                    <Bold>Begrunnelse: </Bold>
+                    <BodyShort weight="semibold">Begrunnelse: </BodyShort>
                     <BodyShort>{begrunnelse}</BodyShort>
-                    <Bold>Forklaring: </Bold>
+                    <BodyShort weight="semibold">Forklaring: </BodyShort>
                     <BodyShort>{forklaring}</BodyShort>
-                    <Bold>Skj. tidspunkt:</Bold>
+                    <BodyShort weight="semibold">Skj. tidspunkt:</BodyShort>
                     <BodyShort>{getFormattedDateString(skjæringstidspunkt)}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>

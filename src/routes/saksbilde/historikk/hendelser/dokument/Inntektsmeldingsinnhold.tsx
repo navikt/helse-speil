@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, HStack } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
@@ -59,9 +58,9 @@ export const Inntektsmeldingsinnhold = ({
                     )}
                     {inntektsmelding.inntektEndringAarsak && (
                         <div className={styles.inntektEndringAarsak}>
-                            <Bold size="small" className={styles.fullBredde}>
+                            <BodyShort weight="semibold" size="small" className={styles.fullBredde}>
                                 Endringsårsak
-                            </Bold>
+                            </BodyShort>
                             <BodyShort size="small">Årsak:</BodyShort>
                             <BodyShort size="small">{inntektsmelding.inntektEndringAarsak.aarsak}</BodyShort>
                             {inntektsmelding.inntektEndringAarsak.perioder && (
@@ -103,7 +102,9 @@ export const Inntektsmeldingsinnhold = ({
                     <BestemmendeFraværsdag førsteFraværsdag={inntektsmelding?.foersteFravaersdag ?? null} />
                     {(inntektsmelding.arbeidsgiverperioder?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
-                            <Bold size="small">Arbeidsgiverperioder</Bold>
+                            <BodyShort weight="semibold" size="small">
+                                Arbeidsgiverperioder
+                            </BodyShort>
                             {inntektsmelding.arbeidsgiverperioder?.map((it) => (
                                 <BodyShort size="small" key={`agperioder${it.fom}-${it.tom}`}>
                                     {it.fom && dayjs(it.fom).format(NORSK_DATOFORMAT)} –{' '}
@@ -143,7 +144,9 @@ export const Inntektsmeldingsinnhold = ({
                     )}
                     {(inntektsmelding.endringIRefusjoner?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
-                            <Bold size="small">Endring i refusjoner</Bold>
+                            <BodyShort weight="semibold" size="small">
+                                Endring i refusjoner
+                            </BodyShort>
                             {inntektsmelding.endringIRefusjoner?.map((it) => (
                                 <>
                                     {it.endringsdato && (
@@ -160,7 +163,9 @@ export const Inntektsmeldingsinnhold = ({
                     )}
                     {(inntektsmelding.ferieperioder?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
-                            <Bold size="small">Ferieperioder</Bold>
+                            <BodyShort weight="semibold" size="small">
+                                Ferieperioder
+                            </BodyShort>
                             {inntektsmelding.ferieperioder?.map((it) => (
                                 <BodyShort size="small" key={`ferieperioder${it.fom}`}>
                                     {it.fom && dayjs(it.fom).format(NORSK_DATOFORMAT)} –{' '}
@@ -171,7 +176,9 @@ export const Inntektsmeldingsinnhold = ({
                     )}
                     {(inntektsmelding.opphoerAvNaturalytelser?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
-                            <Bold size="small">Opphør av naturalytelser</Bold>
+                            <BodyShort weight="semibold" size="small">
+                                Opphør av naturalytelser
+                            </BodyShort>
                             {inntektsmelding.opphoerAvNaturalytelser?.map((it) => (
                                 <>
                                     {it.naturalytelse && (
@@ -195,7 +202,9 @@ export const Inntektsmeldingsinnhold = ({
                     )}
                     {(inntektsmelding.gjenopptakelseNaturalytelser?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
-                            <Bold size="small">Gjenopptakelse naturalytelser</Bold>
+                            <BodyShort weight="semibold" size="small">
+                                Gjenopptakelse naturalytelser
+                            </BodyShort>
                             {inntektsmelding.gjenopptakelseNaturalytelser?.map((it) => (
                                 <>
                                     {it.naturalytelse && (

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
@@ -34,10 +33,12 @@ export const BeløpTilUtbetaling = ({
 }: BeløpTilUtbetalingProps) => (
     <div className={styles.TilUtbetaling}>
         <div className={styles.Row}>
-            <Bold>
+            <BodyShort weight="semibold">
                 {utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt for perioden' : 'Beløp for perioden'}
-            </Bold>
-            <Bold className={styles.Total}>{somPenger(periodePersonNettoBeløp + periodeArbeidsgiverNettoBeløp)}</Bold>
+            </BodyShort>
+            <BodyShort weight="semibold">
+                {somPenger(periodePersonNettoBeløp + periodeArbeidsgiverNettoBeløp)}
+            </BodyShort>
         </div>
         <div className={styles.Row}>
             <ArbeidsgiverikonMedTooltip />

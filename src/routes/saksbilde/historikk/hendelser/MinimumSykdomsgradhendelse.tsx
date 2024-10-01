@@ -4,7 +4,6 @@ import React, { ReactElement } from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde } from '@io/graphql';
 import {
@@ -38,18 +37,18 @@ export const MinimumSykdomsgradhendelse = ({
         >
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
-                    <Bold>Konklusjon</Bold>
+                    <BodyShort weight="semibold">Konklusjon</BodyShort>
                     <BodyShort>
                         {minimumSykdomsgrad.vurdering
                             ? MINIMUM_SYKDOMSGRAD_INNVILGELSE_TEKST
                             : MINIMUM_SYKDOMSGRAD_AVSLAG_TEKST}
                     </BodyShort>
-                    <Bold>Periode </Bold>
+                    <BodyShort weight="semibold">Periode </BodyShort>
                     <BodyShort>
                         {dayjs(minimumSykdomsgrad.fom).format(NORSK_DATOFORMAT)} –{' '}
                         {dayjs(minimumSykdomsgrad.tom).format(NORSK_DATOFORMAT)}
                     </BodyShort>
-                    <Bold>Begrunnelse </Bold>
+                    <BodyShort weight="semibold">Begrunnelse </BodyShort>
                     <BodyShort className={styles.begrunnelse}>{minimumSykdomsgrad.begrunnelse}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>

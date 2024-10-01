@@ -1,8 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Alert } from '@navikt/ds-react';
-
-import { Bold } from '@components/Bold';
+import { Alert, BodyShort } from '@navikt/ds-react';
 
 import styles from './GlobalFeilside.module.css';
 
@@ -23,7 +21,7 @@ export const GlobalFeilside = ({ error }: GlobalFeilsideProps): ReactElement => 
                     Ta kontakt med en utvikler hvis feilen fortsetter.
                 </p>
                 <pre className={styles.TechnicalErrorMessage}>
-                    <Bold>Teknisk feilmelding for utviklere:</Bold>
+                    <BodyShort weight="semibold">Teknisk feilmelding for utviklere:</BodyShort>
                     {error.stack}
                 </pre>
             </main>

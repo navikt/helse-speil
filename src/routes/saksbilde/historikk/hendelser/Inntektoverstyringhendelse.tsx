@@ -4,7 +4,6 @@ import React, { ReactElement } from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, Refusjonsopplysning } from '@io/graphql';
 import { InntektoverstyringhendelseObject } from '@typer/historikk';
@@ -38,18 +37,18 @@ export const Inntektoverstyringhendelse = ({
                 >
                     <ExpandableHistorikkContent>
                         <div className={styles.Grid}>
-                            <Bold>Begrunnelse </Bold>
+                            <BodyShort weight="semibold">Begrunnelse </BodyShort>
                             <BodyShort>{inntekt.begrunnelse}</BodyShort>
-                            <Bold>Forklaring </Bold>
+                            <BodyShort weight="semibold">Forklaring </BodyShort>
                             <BodyShort>{inntekt.forklaring}</BodyShort>
-                            <Bold>Mnd. inntekt </Bold>
+                            <BodyShort weight="semibold">Mnd. inntekt </BodyShort>
                             <BodyShort>
                                 {inntekt.fraManedligInntekt !== undefined && (
                                     <span className={styles.FromValue}>{somPenger(inntekt.fraManedligInntekt)}</span>
                                 )}
                                 {somPenger(inntekt.manedligInntekt)}
                             </BodyShort>
-                            <Bold>Skj. tidspunkt</Bold>
+                            <BodyShort weight="semibold">Skj. tidspunkt</BodyShort>
                             <BodyShort>{getFormattedDateString(inntekt.skjaeringstidspunkt)}</BodyShort>
                         </div>
                     </ExpandableHistorikkContent>
@@ -74,11 +73,11 @@ export const Inntektoverstyringhendelse = ({
                 >
                     <ExpandableHistorikkContent>
                         <div className={styles.Grid}>
-                            <Bold>Begrunnelse </Bold>
+                            <BodyShort weight="semibold">Begrunnelse </BodyShort>
                             <BodyShort>{inntekt.begrunnelse}</BodyShort>
-                            <Bold>Forklaring</Bold>
+                            <BodyShort weight="semibold">Forklaring</BodyShort>
                             <BodyShort>{inntekt.forklaring}</BodyShort>
-                            <Bold>Refusjon </Bold>
+                            <BodyShort weight="semibold">Refusjon </BodyShort>
                             <div className={`${styles.GridFullWidth} ${styles.Refusjonselementer}`}>
                                 {inntekt.fraRefusjonsopplysninger &&
                                     [...inntekt.fraRefusjonsopplysninger]
@@ -133,7 +132,7 @@ export const Inntektoverstyringhendelse = ({
                                         );
                                     })}
                             </div>
-                            <Bold>Skj. tidspunkt</Bold>
+                            <BodyShort weight="semibold">Skj. tidspunkt</BodyShort>
                             <BodyShort>{getFormattedDateString(inntekt.skjaeringstidspunkt)}</BodyShort>
                         </div>
                     </ExpandableHistorikkContent>

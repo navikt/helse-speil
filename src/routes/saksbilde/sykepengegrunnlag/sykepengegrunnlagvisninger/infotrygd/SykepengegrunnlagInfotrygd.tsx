@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Table } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygd } from '@io/graphql';
@@ -30,7 +29,7 @@ export const SykepengegrunnlagInfotrygd = ({
                     <Table.Row>
                         <Table.HeaderCell />
                         <Table.ColumnHeader>
-                            <Bold>Inntektsgrunnlag</Bold>
+                            <BodyShort weight="semibold">Inntektsgrunnlag</BodyShort>
                         </Table.ColumnHeader>
                     </Table.Row>
                     <Table.Row>
@@ -59,18 +58,18 @@ export const SykepengegrunnlagInfotrygd = ({
                 <tfoot>
                     <Table.Row>
                         <Table.DataCell>
-                            <Bold>Total</Bold>
+                            <BodyShort weight="semibold">Total</BodyShort>
                         </Table.DataCell>
                         <Table.DataCell>
-                            <Bold>{somPenger(vilkårsgrunnlag.omregnetArsinntekt)}</Bold>
+                            <BodyShort weight="semibold">{somPenger(vilkårsgrunnlag.omregnetArsinntekt)}</BodyShort>
                         </Table.DataCell>
                     </Table.Row>
                     <Table.Row>
                         <Table.DataCell>
-                            <Bold>Sykepengegrunnlag</Bold>
+                            <BodyShort weight="semibold">Sykepengegrunnlag</BodyShort>
                         </Table.DataCell>
                         <Table.DataCell>
-                            <Bold>{somPenger(vilkårsgrunnlag.sykepengegrunnlag)}</Bold>
+                            <BodyShort weight="semibold">{somPenger(vilkårsgrunnlag.sykepengegrunnlag)}</BodyShort>
                         </Table.DataCell>
                     </Table.Row>
                 </tfoot>

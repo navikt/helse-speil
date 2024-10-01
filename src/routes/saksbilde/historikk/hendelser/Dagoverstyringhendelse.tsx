@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, OverstyrtDag } from '@io/graphql';
 import { DagoverstyringhendelseObject } from '@typer/historikk';
@@ -70,7 +69,7 @@ export const Dagoverstyringhendelse = ({
         }
     >
         <ExpandableHistorikkContent>
-            <Bold>Begrunnelse</Bold>
+            <BodyShort weight="semibold">Begrunnelse</BodyShort>
             <BodyShort>{begrunnelse}</BodyShort>
             <div className={styles.Content}>
                 {groupSimilarDays(dager).map((group, i) => (

@@ -2,7 +2,6 @@ import React, { FormEvent, useRef, useState } from 'react';
 
 import { Alert, BodyShort, Button, Textarea } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { useOpphevStans } from '@state/opphevStans';
 import { useAddToast } from '@state/toasts';
 import { getFormattedDatetimeString } from '@utils/date';
@@ -32,7 +31,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
 
     return (
         <Alert variant="info" className={styles.unntatt}>
-            <Bold>Automatisk behandling stanset av veileder</Bold>
+            <BodyShort weight="semibold">Automatisk behandling stanset av veileder</BodyShort>
             <div className={styles.luft}>
                 <BodyShort>
                     <span style={{ fontWeight: 600 }}>Årsak til stans: </span>

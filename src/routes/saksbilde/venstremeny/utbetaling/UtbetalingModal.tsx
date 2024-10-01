@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Button, Heading, Modal } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
@@ -77,10 +76,12 @@ type TilUtbetalingProps = {
 const TilUtbetaling = ({ utbetaling, arbeidsgiver, personinfo }: TilUtbetalingProps): ReactElement => (
     <div className={styles.TilUtbetaling}>
         <div className={styles.Row}>
-            <Bold>{utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}</Bold>
-            <Bold className={styles.Total}>
+            <BodyShort weight="semibold">
+                {utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}
+            </BodyShort>
+            <BodyShort weight="semibold">
                 {somPenger(utbetaling.arbeidsgiverNettoBelop + utbetaling.personNettoBelop)}
-            </Bold>
+            </BodyShort>
         </div>
         <div className={styles.Row}>
             <ArbeidsgiverikonMedTooltip />

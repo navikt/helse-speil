@@ -2,8 +2,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Heading, Modal } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
-
 import styles from './DagtypeModal.module.css';
 
 type TastaturModalProps = {
@@ -19,11 +17,11 @@ export const DagtypeModal = ({ onClose, showModal }: TastaturModalProps): ReactE
             </Heading>
         </Modal.Header>
         <Modal.Body className={styles.dagtypeliste}>
-            <Bold>Syk (NAV)</Bold>
+            <BodyShort weight="semibold">Syk (NAV)</BodyShort>
             <BodyShort>NAV skal betale alle eller noen av de første 16 dagene</BodyShort>
-            <Bold>Ferie</Bold>
+            <BodyShort weight="semibold">Ferie</BodyShort>
             <BodyShort>Bruker tok ferie i sykmeldingsperioden</BodyShort>
-            <Bold>Arbeid ikke gjenopptatt</Bold>
+            <BodyShort weight="semibold">Arbeid ikke gjenopptatt</BodyShort>
             <BodyShort>
                 Bruker tok ferie uten sykmelding
                 <br />
@@ -31,11 +29,11 @@ export const DagtypeModal = ({ onClose, showModal }: TastaturModalProps): ReactE
                 <br />
                 Brukers stillingsandel ikke fullt gjenopptatt
             </BodyShort>
-            <Bold>Egenmelding</Bold>
+            <BodyShort weight="semibold">Egenmelding</BodyShort>
             <BodyShort>Bruker hadde egenmeldt sykefravær</BodyShort>
-            <Bold>Permisjon</Bold>
+            <BodyShort weight="semibold">Permisjon</BodyShort>
             <BodyShort>Bruker hadde permisjon</BodyShort>
-            <Bold>Arbeid</Bold>
+            <BodyShort weight="semibold">Arbeid</BodyShort>
             <BodyShort>Bruker var i arbeid</BodyShort>
         </Modal.Body>
     </Modal>

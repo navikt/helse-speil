@@ -1,10 +1,10 @@
-import styles from './BegrunnelseVedtakReadonly.module.scss';
 import React from 'react';
 
-import { BodyLong } from '@navikt/ds-react';
+import { BodyLong, BodyShort } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { AvslagsdataInput } from '@io/graphql';
+
+import styles from './BegrunnelseVedtakReadonly.module.scss';
 
 interface BegrunnelseVedtakReadonlyProps {
     avslag: AvslagsdataInput;
@@ -13,7 +13,9 @@ interface BegrunnelseVedtakReadonlyProps {
 export const BegrunnelseVedtakReadonly = ({ avslag }: BegrunnelseVedtakReadonlyProps) => {
     return (
         <>
-            <Bold className={styles.tittel}>Individuell begrunnelse for avslag</Bold>
+            <BodyShort weight="semibold" className={styles.tittel}>
+                Individuell begrunnelse for avslag
+            </BodyShort>
             <BodyLong className={styles.begrunnelse} spacing>
                 {avslag?.begrunnelse}
             </BodyLong>

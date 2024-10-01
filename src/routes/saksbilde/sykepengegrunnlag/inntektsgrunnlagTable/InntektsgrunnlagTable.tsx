@@ -2,7 +2,6 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import { BodyShort, Table } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Arbeidsgiverinntekt, Maybe, PersonFragment } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
@@ -63,11 +62,11 @@ export const InntektsgrunnlagTable = ({
         <tfoot>
             <Table.Row>
                 <Table.DataCell>
-                    <Bold>Total</Bold>
+                    <BodyShort weight="semibold">Total</BodyShort>
                 </Table.DataCell>
-                <TableCell content={<Bold>{somPenger(omregnetÅrsinntekt)}</Bold>} />
-                <TableCell content={<Bold>{somPenger(sammenligningsgrunnlag)}</Bold>} />
-                <TableCell content={<Bold>{somPenger(skjønnsmessigFastsattÅrlig)}</Bold>} />
+                <TableCell content={<BodyShort weight="semibold">{somPenger(omregnetÅrsinntekt)}</BodyShort>} />
+                <TableCell content={<BodyShort weight="semibold">{somPenger(sammenligningsgrunnlag)}</BodyShort>} />
+                <TableCell content={<BodyShort weight="semibold">{somPenger(skjønnsmessigFastsattÅrlig)}</BodyShort>} />
             </Table.Row>
         </tfoot>
     </Table>
@@ -82,7 +81,7 @@ const HeaderCellBold = ({ text = undefined }: HeaderCellBoldProps) =>
         <Table.HeaderCell />
     ) : (
         <Table.HeaderCell>
-            <Bold>{text}</Bold>
+            <BodyShort weight="semibold">{text}</BodyShort>
         </Table.HeaderCell>
     );
 

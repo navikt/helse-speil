@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { BodyShort, Button, Textarea } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { useOppdaterFlexjarFeedback } from '@external/flexjar/useOppdaterFlexjarFeedback';
 import { useOpprettFlexjarFeedback } from '@external/flexjar/useOpprettFlexjarFeedback';
 import { Maybe } from '@io/graphql';
@@ -117,11 +116,17 @@ export function FlexjarFelles({
             <div className={styles.container}>
                 <div className={styles.content}>
                     <div className={styles.header}>
-                        <Bold className={styles.tittel}>{flexjartittel}</Bold>
+                        <BodyShort weight="semibold" className={styles.tittel}>
+                            {flexjartittel}
+                        </BodyShort>
                         <BodyShort className={styles.info}>Tilbakemeldingen din er anonym</BodyShort>
                     </div>
                     <div className={styles.body}>
-                        {flexjarsporsmal && <Bold className={styles.spørsmål}>{flexjarsporsmal}</Bold>}
+                        {flexjarsporsmal && (
+                            <BodyShort weight="semibold" className={styles.spørsmål}>
+                                {flexjarsporsmal}
+                            </BodyShort>
+                        )}
                         {children}
                         <form className={styles.form}>
                             <Textarea

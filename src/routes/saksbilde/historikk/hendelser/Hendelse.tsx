@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import React, { ReactElement, ReactNode } from 'react';
 
-import { Bold } from '@components/Bold';
+import { BodyShort } from '@navikt/ds-react';
+
 import { LoadingShimmer } from '@components/LoadingShimmer';
 
 import styles from './Hendelse.module.scss';
@@ -16,7 +17,7 @@ export const Hendelse = ({ icon, title, className, children, ...liProps }: Hende
         <li className={classNames(styles.hendelse, className)} {...liProps}>
             <div className={styles.iconContainer}>{icon}</div>
             <div className={styles.content}>
-                <Bold>{title}</Bold>
+                <BodyShort weight="semibold">{title}</BodyShort>
                 {children}
             </div>
         </li>

@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { Avslagstype, Inntektskilde } from '@io/graphql';
 import { AvslaghendelseObject } from '@typer/historikk';
@@ -33,9 +32,9 @@ export const Avslaghendelse = ({
         >
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
-                    <Bold>Type: </Bold>
+                    <BodyShort weight="semibold">Type: </BodyShort>
                     <BodyShort>{avslagstype === Avslagstype.DelvisAvslag ? 'Delvis innvilgelse' : 'Avslag'}</BodyShort>
-                    <Bold>Begrunnelse: </Bold>
+                    <BodyShort weight="semibold">Begrunnelse: </BodyShort>
                     <BodyShort>{begrunnelse}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>

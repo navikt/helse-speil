@@ -1,9 +1,8 @@
 import React, { ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Button, TextField } from '@navikt/ds-react';
+import { BodyShort, Button, TextField } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { DagtypeSelect } from '../DagtypeSelect';
@@ -57,11 +56,11 @@ export const EndringForm = ({ markerteDager, onSubmitEndring, openDagtypeModal }
     return (
         <>
             <div className={styles.EndringForm}>
-                <Bold>
+                <BodyShort weight="semibold">
                     Fyll inn hva{' '}
                     {markerteDager.size === 1 ? `den valgte dagen` : `de ${markerteDager.size} valgte dagene`} skal
                     endres til
-                </Bold>
+                </BodyShort>
                 <form onSubmit={form.handleSubmit(handleSubmit)}>
                     <div className={styles.Inputs}>
                         <DagtypeSelect

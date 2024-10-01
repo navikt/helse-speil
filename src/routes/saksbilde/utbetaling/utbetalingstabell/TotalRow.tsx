@@ -1,9 +1,8 @@
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
-import { Table } from '@navikt/ds-react';
+import { BodyShort, Table } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Row } from '@saksbilde/table/Row';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
@@ -26,7 +25,7 @@ export const TotalRow = React.memo(({ dager, overstyrer }: TotalRowProps): React
         <Row className={classNames(styles.TotalRow, overstyrer && styles.overstyrer)}>
             <Table.DataCell style={{ fontWeight: 'bold' }}>TOTAL</Table.DataCell>
             <Table.DataCell>
-                <Bold>{utbetalingsdager.length} dager</Bold>
+                <BodyShort weight="semibold">{utbetalingsdager.length} dager</BodyShort>
             </Table.DataCell>
             <Table.DataCell />
             <Table.DataCell />

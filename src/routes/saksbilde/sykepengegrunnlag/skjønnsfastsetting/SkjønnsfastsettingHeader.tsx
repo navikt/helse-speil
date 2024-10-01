@@ -3,7 +3,6 @@ import React from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { EditButton } from '@components/EditButton';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
@@ -52,7 +51,9 @@ export const SkjønnsfastsettingHeader = ({
         <div className={styles.header}>
             {!editing && (
                 <>
-                    <Bold className={styles.label}>Sykepengegrunnlag</Bold>
+                    <BodyShort weight="semibold" className={styles.label}>
+                        Sykepengegrunnlag
+                    </BodyShort>
                     <div className={styles.beløp}>
                         {visningharEndring && <Endringstrekant />}
                         <BodyShort>{somPenger(visningEndretSykepengegrunnlag ?? sykepengegrunnlag)}</BodyShort>

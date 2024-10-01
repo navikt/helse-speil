@@ -3,7 +3,6 @@ import React, { Fragment, ReactElement } from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Inntektskilde, Maybe, Skjonnsfastsettingstype } from '@io/graphql';
@@ -52,19 +51,19 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
         >
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
-                    <Bold>Årsak </Bold>
+                    <BodyShort weight="semibold">Årsak </BodyShort>
                     <BodyShort>{skjønnsfastsatt.arsak}</BodyShort>
-                    <Bold>Type skjønnsfastsettelse </Bold>
+                    <BodyShort weight="semibold">Type skjønnsfastsettelse </BodyShort>
                     <BodyShort>{getSkjønnsfastsettelseTypeTekst(skjønnsfastsatt.type)}</BodyShort>
-                    <Bold>Begrunnelse </Bold>
+                    <BodyShort weight="semibold">Begrunnelse </BodyShort>
                     <ExpandableHistorikkContent className={styles.begrunnelse}>
                         <BodyShort>{skjønnsfastsatt.begrunnelseMal}</BodyShort>
                     </ExpandableHistorikkContent>
-                    <Bold>Nærmere begrunnelse for skjønnsvurderingen </Bold>
+                    <BodyShort weight="semibold">Nærmere begrunnelse for skjønnsvurderingen </BodyShort>
                     <BodyShort>{skjønnsfastsatt.begrunnelseFritekst}</BodyShort>
-                    <Bold>Konklusjon </Bold>
+                    <BodyShort weight="semibold">Konklusjon </BodyShort>
                     <BodyShort>{skjønnsfastsatt.begrunnelseKonklusjon}</BodyShort>
-                    <Bold>Årsinntekt </Bold>
+                    <BodyShort weight="semibold">Årsinntekt </BodyShort>
                     <div className={styles.arbeidsgivere}>
                         {arbeidsgivere.map((ag, index) => (
                             <Fragment key={`ag-${index}`}>
@@ -78,7 +77,7 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
                             </Fragment>
                         ))}
                     </div>
-                    <Bold>Skj. tidspunkt</Bold>
+                    <BodyShort weight="semibold">Skj. tidspunkt</BodyShort>
                     <BodyShort>{getFormattedDateString(skjønnsfastsatt.skjaeringstidspunkt)}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>

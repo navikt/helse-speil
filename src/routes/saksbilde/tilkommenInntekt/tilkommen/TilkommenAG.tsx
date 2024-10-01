@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import {
     ArbeidsgiverFragment,
     Arbeidsgiverinntekt,
@@ -63,7 +62,7 @@ export const TilkommenAG = ({ person, inntekt, periode, arbeidsgiver }: Tilkomme
                     />
                 ) : (
                     <div className={styles.innhold}>
-                        <Bold>Tilkommen inntekt</Bold>
+                        <BodyShort weight="semibold">Tilkommen inntekt</BodyShort>
                         <BodyShort>{toKronerOgØre(inntekt.omregnetArsinntekt?.manedsbelop ?? 0)} kr</BodyShort>
                         {/*<OverstyrArbeidsforholdUtenSykdom*/}
                         {/*    organisasjonsnummerAktivPeriode={arbeidsgiver.organisasjonsnummer}*/}
