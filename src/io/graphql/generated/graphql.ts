@@ -984,6 +984,7 @@ export enum Periodehandling {
 
 export enum PeriodehistorikkType {
     FjernFraPaVent = 'FJERN_FRA_PA_VENT',
+    LeggPaVent = 'LEGG_PA_VENT',
     StansAutomatiskBehandling = 'STANS_AUTOMATISK_BEHANDLING',
     TotrinnsvurderingAttestert = 'TOTRINNSVURDERING_ATTESTERT',
     TotrinnsvurderingRetur = 'TOTRINNSVURDERING_RETUR',
@@ -5028,7 +5029,6 @@ export type LeggPaVentMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input'];
     frist: Scalars['LocalDate']['input'];
     tildeling: Scalars['Boolean']['input'];
-    begrunnelse?: InputMaybe<Scalars['String']['input']>;
     notatTekst: Scalars['String']['input'];
 }>;
 
@@ -11637,11 +11637,6 @@ export const LeggPaVentDocument = {
                 },
                 {
                     kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
-                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                },
-                {
-                    kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
@@ -11667,11 +11662,6 @@ export const LeggPaVentDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'tildeling' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'tildeling' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'begrunnelse' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
                             },
                             {
                                 kind: 'Argument',

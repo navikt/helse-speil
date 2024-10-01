@@ -70,15 +70,14 @@ export const PåVentNotatModal = ({
         .shift();
 
     const submit: SubmitHandler<FieldValues> = async (fieldValues) => {
-        await settPåVent(fieldValues.tekst, fieldValues.frist, fieldValues.tildeling, fieldValues.begrunnelse);
+        await settPåVent(fieldValues.tekst, fieldValues.frist, fieldValues.tildeling);
         onClose();
     };
 
-    const settPåVent = async (notattekst: string, frist: string, tildeling: boolean, begrunnelse?: Maybe<string>) => {
+    const settPåVent = async (notattekst: string, frist: string, tildeling: boolean) => {
         const fristVerdi = dayjs(frist, NORSK_DATOFORMAT).format(ISO_DATOFORMAT);
-        const begrunnelseVerdi = begrunnelse ?? null;
 
-        await leggPåVentMedNotat(oppgaveId, fristVerdi, tildeling, begrunnelseVerdi, notattekst, vedtaksperiodeId);
+        await leggPåVentMedNotat(oppgaveId, fristVerdi, tildeling, notattekst, vedtaksperiodeId);
         if (leggPåVentError) {
             errorHandler(leggPåVentError);
         } else {

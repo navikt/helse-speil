@@ -982,6 +982,7 @@ export enum Periodehandling {
 
 export enum PeriodehistorikkType {
     FjernFraPaVent = 'FJERN_FRA_PA_VENT',
+    LeggPaVent = 'LEGG_PA_VENT',
     StansAutomatiskBehandling = 'STANS_AUTOMATISK_BEHANDLING',
     TotrinnsvurderingAttestert = 'TOTRINNSVURDERING_ATTESTERT',
     TotrinnsvurderingRetur = 'TOTRINNSVURDERING_RETUR',

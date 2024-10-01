@@ -33,7 +33,6 @@ export const useLeggPåVent = (
         oppgavereferanse: string,
         frist: string,
         tildeling: boolean,
-        begrunnelse: Maybe<string>,
         notattekst: string,
         vedtaksperiodeId: string,
     ) => Promise<FetchResult<LeggPaVentMutation>>,
@@ -46,7 +45,6 @@ export const useLeggPåVent = (
         oppgavereferanse: string,
         frist: string,
         tildeling: boolean,
-        begrunnelse: Maybe<string>,
         notattekst: string,
         vedtaksperiodeId: string,
     ) =>
@@ -58,13 +56,12 @@ export const useLeggPåVent = (
             ],
             optimisticResponse: {
                 __typename: 'Mutation',
-                leggPaVent: { ...optimistiskPaVent, frist, begrunnelse },
+                leggPaVent: { ...optimistiskPaVent, frist },
             },
             variables: {
                 oppgaveId: oppgavereferanse,
                 frist: frist,
                 tildeling: tildeling,
-                begrunnelse: begrunnelse,
                 notatTekst: notattekst,
             },
             update: (cache, result) =>
