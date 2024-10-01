@@ -1,8 +1,9 @@
-import React, { ReactElement, useEffect, useRef } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { Button } from '@navikt/ds-react';
 
+import { EasterGurk } from '@/components/eastergurk/EasterGurk';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
@@ -54,6 +55,7 @@ export const SkjønnsfastsettingForm = ({
     setEditing,
     maler,
 }: SkjønnsfastsettingFormProps): Maybe<ReactElement> => {
+    const [antallKlikk, setAntallKlikk] = useState(0);
     const period = useActivePeriod(person);
     const { aktiveArbeidsgivere, aktiveArbeidsgivereInntekter, defaults } = useSkjønnsfastsettingDefaults(
         person,
@@ -119,7 +121,10 @@ export const SkjønnsfastsettingForm = ({
     if (!period || !person || !aktiveArbeidsgivere || !aktiveArbeidsgivereInntekter) return null;
 
     const confirmChanges = () => {
-        if (isLoading) return;
+        if (isLoading) {
+            setAntallKlikk((prevState) => prevState + 1);
+            return;
+        }
 
         postSkjønnsfastsetting(
             skjønnsfastsettingFormToDto(
@@ -170,6 +175,7 @@ export const SkjønnsfastsettingForm = ({
                                 >
                                     Lagre
                                 </Button>
+                                {antallKlikk > 3 && <EasterGurk antallKlikk={antallKlikk} />}
                                 <Button size="small" variant="tertiary" type="button" onClick={cancelEditing}>
                                     Avbryt
                                 </Button>
