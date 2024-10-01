@@ -5034,10 +5034,10 @@ export type LeggPaVentMutationVariables = Exact<{
 
 export type LeggPaVentMutation = {
     __typename: 'Mutation';
-    leggPaVent: { __typename: 'PaVent'; frist: string | null; begrunnelse: string | null; oid: string } | null;
+    leggPaVent: { __typename: 'PaVent'; frist: string | null; oid: string } | null;
 };
 
-export type PaventFragment = { __typename: 'PaVent'; frist: string | null; begrunnelse: string | null; oid: string };
+export type PaventFragment = { __typename: 'PaVent'; frist: string | null; oid: string };
 
 export type SkjonnsfastsettelseMutationMutationVariables = Exact<{
     skjonnsfastsettelse: SkjonnsfastsettelseInput;
@@ -8768,7 +8768,6 @@ export const PaventFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                 ],
             },
@@ -11685,7 +11684,6 @@ export const LeggPaVentDocument = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                 ],
             },

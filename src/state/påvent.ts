@@ -22,7 +22,6 @@ const useOptimistiskPaVent = (): PaventFragment => {
         __typename: 'PaVent',
         oid: saksbehandler.oid,
         frist: null,
-        begrunnelse: null,
     };
 };
 
@@ -65,7 +64,12 @@ export const useLeggPåVent = (
                 notatTekst: notattekst,
             },
             update: (cache, result) =>
-                oppdaterPåVentICache(cache, oppgavereferanse, periodeId ?? null, () => result.data?.leggPaVent ?? null),
+                oppdaterPåVentICache(
+                    cache,
+                    oppgavereferanse,
+                    periodeId ?? null,
+                    () => (result.data?.leggPaVent && { ...result.data.leggPaVent, begrunnelse: null }) ?? null,
+                ),
         });
 
     return [leggPåVent, data];
