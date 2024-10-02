@@ -79,54 +79,55 @@ const beslutteroppgave = (
     activePeriodTom?: string,
     navnPåDeaktiverteGhostArbeidsgivere?: string,
 ): Maybe<{ grad: string; melding: string }> => {
-    if (erBeslutteroppgave && ['tilGodkjenning', 'revurderes'].includes(periodState)) {
-        const årsaker = [];
+    if (!erBeslutteroppgave || !['tilGodkjenning', 'revurderes'].includes(periodState)) return null;
 
-        if (
-            harDagOverstyringer ||
-            harRelevanteDagoverstyringer(endringerEtterNyesteUtbetalingPåPerson ?? [], activePeriodTom)
-        ) {
-            årsaker.push('Overstyring av dager');
-        }
+    const årsaker = [];
 
-        if (
-            endringerEtterNyesteUtbetalingPåPerson?.some(
-                (it) => isInntektoverstyring(it) && it.inntekt.fraManedligInntekt !== it.inntekt.manedligInntekt,
-            ) ??
-            false
-        ) {
-            årsaker.push('Overstyring av månedsinntekt');
-        }
-
-        if (
-            endringerEtterNyesteUtbetalingPåPerson?.some(
-                (it) =>
-                    isInntektoverstyring(it) &&
-                    JSON.stringify(it.inntekt.fraRefusjonsopplysninger) !==
-                        JSON.stringify(it.inntekt.refusjonsopplysninger),
-            ) ??
-            false
-        ) {
-            årsaker.push('Overstyring av Refusjon');
-        }
-
-        if (endringerEtterNyesteUtbetalingPåPerson?.some(isArbeidsforholdoverstyring) ?? false) {
-            årsaker.push(`Overstyring av annet arbeidsforhold (${navnPåDeaktiverteGhostArbeidsgivere})`);
-        }
-
-        if (endringerEtterNyesteUtbetalingPåPerson?.some(isSykepengegrunnlagskjønnsfastsetting) ?? false) {
-            årsaker.push('Skjønnsfastsettelse');
-        }
-
-        if (endringerEtterNyesteUtbetalingPåPerson?.some(isMinimumSykdomsgradsoverstyring) ?? false) {
-            årsaker.push('Vurdering av minimum sykdomsgrad');
-        }
-
-        if (årsaker.length > 0) {
-            const overstyringÅrsaker = årsaker.join(', ').replace(/,(?=[^,]*$)/, ' og');
-            return { grad: 'info', melding: `Beslutteroppgave: ${overstyringÅrsaker}` };
-        }
+    if (
+        harDagOverstyringer ||
+        harRelevanteDagoverstyringer(endringerEtterNyesteUtbetalingPåPerson ?? [], activePeriodTom)
+    ) {
+        årsaker.push('Overstyring av dager');
     }
+
+    if (
+        endringerEtterNyesteUtbetalingPåPerson?.some(
+            (it) => isInntektoverstyring(it) && it.inntekt.fraManedligInntekt !== it.inntekt.manedligInntekt,
+        ) ??
+        false
+    ) {
+        årsaker.push('Overstyring av månedsinntekt');
+    }
+
+    if (
+        endringerEtterNyesteUtbetalingPåPerson?.some(
+            (it) =>
+                isInntektoverstyring(it) &&
+                JSON.stringify(it.inntekt.fraRefusjonsopplysninger) !==
+                    JSON.stringify(it.inntekt.refusjonsopplysninger),
+        ) ??
+        false
+    ) {
+        årsaker.push('Overstyring av Refusjon');
+    }
+
+    if (endringerEtterNyesteUtbetalingPåPerson?.some(isArbeidsforholdoverstyring) ?? false) {
+        årsaker.push(`Overstyring av annet arbeidsforhold (${navnPåDeaktiverteGhostArbeidsgivere})`);
+    }
+
+    if (endringerEtterNyesteUtbetalingPåPerson?.some(isSykepengegrunnlagskjønnsfastsetting) ?? false) {
+        årsaker.push('Skjønnsfastsettelse');
+    }
+
+    if (endringerEtterNyesteUtbetalingPåPerson?.some(isMinimumSykdomsgradsoverstyring) ?? false) {
+        årsaker.push('Vurdering av minimum sykdomsgrad');
+    }
+
+    if (årsaker.length > 0) {
+        const overstyringÅrsaker = årsaker.join(', ').replace(/,(?=[^,]*$)/, ' og');
+        return { grad: 'info', melding: `Beslutteroppgave: ${overstyringÅrsaker}` };
+    }
+
     return null;
 };
 
