@@ -13,7 +13,7 @@ import styles from './Driftsmeldinger.module.scss';
 export const Driftsmeldinger = () => {
     const { driftsmeldinger, loading, error } = useDriftsmelding();
 
-    const nivåTilVariant = (level: 'info' | 'warning' | 'error') => {
+    const nivåTilVariant = (level: 'info' | 'warning' | 'error' | 'success') => {
         switch (level) {
             case 'info':
                 return 'info';
@@ -21,6 +21,8 @@ export const Driftsmeldinger = () => {
                 return 'warning';
             case 'error':
                 return 'error';
+            case 'success':
+                return 'success';
         }
     };
 

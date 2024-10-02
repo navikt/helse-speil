@@ -17,7 +17,7 @@ export interface SkjønnsfastsettingMal {
 
 export interface Driftsmelding {
     iProd: boolean;
-    level: 'info' | 'warning' | 'error';
+    level: 'info' | 'warning' | 'error' | 'success';
     tittel: string;
     melding: string;
     opprettet: DateString;
