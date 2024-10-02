@@ -1,5 +1,6 @@
 'use client';
 
+import dayjs from 'dayjs';
 import React from 'react';
 import * as R from 'remeda';
 
@@ -26,13 +27,18 @@ export const Driftsmeldinger = () => {
         }
     };
 
-    return R.sortBy(driftsmeldinger, [R.prop('opprettet'), 'desc']).map((it, index) => (
-        <Alert key={index} variant={nivåTilVariant(it.level)} className={styles.driftsmelding}>
-            <BodyShort className={styles.tittel} weight="semibold">
-                {it.tittel}
-            </BodyShort>
-            <BodyShort>{it.melding}</BodyShort>
-            <BodyShort className={styles.dato}>{getFormattedDatetimeString(it.opprettet.toString())}</BodyShort>
-        </Alert>
-    ));
+    return R.sortBy(driftsmeldinger, [R.prop('opprettet'), 'desc']).map((it, index) => {
+        const harGått30min = dayjs(it.opprettet).add(30, 'minutes').isBefore(dayjs());
+
+        if (harGått30min && it.level === 'success') return null;
+        return (
+            <Alert key={index} variant={nivåTilVariant(it.level)} className={styles.driftsmelding}>
+                <BodyShort className={styles.tittel} weight="semibold">
+                    {it.level === 'success' ? `[Løst] ${it.tittel}` : it.tittel}
+                </BodyShort>
+                <BodyShort>{it.melding}</BodyShort>
+                <BodyShort className={styles.dato}>{getFormattedDatetimeString(it.opprettet.toString())}</BodyShort>
+            </Alert>
+        );
+    });
 };
