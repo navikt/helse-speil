@@ -17,9 +17,6 @@ interface GhostPeriodeViewProps {
 }
 
 export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps): ReactElement => {
-    if (!activePeriod.skjaeringstidspunkt || !activePeriod.vilkarsgrunnlagId) {
-        throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
-    }
     const tab = last(usePathname().split('/'));
     useNavigateOnMount(isTilkommenInntekt(activePeriod) ? Fane.TilkommenInntekt : Fane.Sykepengegrunnlag);
 

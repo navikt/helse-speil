@@ -12,17 +12,12 @@ import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
 
 export function PeriodeView(): Maybe<ReactElement> {
-    // TODO: legg til rette for error
-    const { loading, data } = useFetchPersonQuery();
+    const { data } = useFetchPersonQuery();
 
     const person = data?.person ?? null;
     const activePeriod = useActivePeriod(person);
 
-    if (loading) {
-        return null;
-    }
-
-    if (!activePeriod || !data?.person) {
+    if (!activePeriod || !person) {
         return null;
     }
 
@@ -31,13 +26,13 @@ export function PeriodeView(): Maybe<ReactElement> {
         activePeriod.periodetilstand !== Periodetilstand.Annullert &&
         activePeriod.periodetilstand !== Periodetilstand.TilAnnullering
     ) {
-        return <BeregnetPeriodeView period={activePeriod} person={data.person} />;
+        return <BeregnetPeriodeView period={activePeriod} person={person} />;
     } else if (isGhostPeriode(activePeriod)) {
-        return <GhostPeriodeView activePeriod={activePeriod} person={data.person} />;
+        return <GhostPeriodeView activePeriod={activePeriod} person={person} />;
     } else if (isTilkommenInntekt(activePeriod)) {
-        return <NyttInntektsforholdPeriodeView activePeriod={activePeriod} person={data.person} />;
+        return <NyttInntektsforholdPeriodeView activePeriod={activePeriod} person={person} />;
     } else if (isUberegnetPeriode(activePeriod)) {
-        return <UberegnetPeriodeView activePeriod={activePeriod} person={data.person} />;
+        return <UberegnetPeriodeView activePeriod={activePeriod} person={person} />;
     } else {
         return null;
     }

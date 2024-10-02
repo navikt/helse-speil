@@ -19,9 +19,6 @@ export const NyttInntektsforholdPeriodeView = ({
     activePeriod,
     person,
 }: NyttInntektsforholdPeriodeViewProps): ReactElement => {
-    if (!activePeriod.skjaeringstidspunkt || !activePeriod.vilkarsgrunnlagId) {
-        throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
-    }
     const tab = last(usePathname().split('/'));
     useNavigateOnMount(isTilkommenInntekt(activePeriod) ? Fane.TilkommenInntekt : Fane.Sykepengegrunnlag);
 

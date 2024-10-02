@@ -17,10 +17,6 @@ interface BeregnetPeriodeViewProps {
 }
 
 export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps): ReactElement => {
-    if (!period.skjaeringstidspunkt || !period.vilkarsgrunnlagId) {
-        throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
-    }
-
     const tab = last(usePathname().split('/'));
 
     return (
