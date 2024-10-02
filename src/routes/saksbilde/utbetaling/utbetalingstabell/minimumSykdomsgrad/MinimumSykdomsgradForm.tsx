@@ -2,9 +2,18 @@ import React, { ReactElement, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { PadlockUnlockedIcon } from '@navikt/aksel-icons';
-import { Box, Button, ErrorSummary, HStack, Heading, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import {
+    Box,
+    Button,
+    ErrorMessage,
+    ErrorSummary,
+    HStack,
+    Heading,
+    Radio,
+    RadioGroup,
+    Textarea,
+} from '@navikt/ds-react';
 
-import { ErrorMessage } from '@components/ErrorMessage';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { overlapper } from '@state/selectors/period';

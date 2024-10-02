@@ -1,10 +1,9 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { Control, FieldValues, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
-import { Button, Heading, Modal, Textarea } from '@navikt/ds-react';
+import { Button, ErrorMessage, Heading, Modal, Textarea } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { ErrorMessage } from '@components/ErrorMessage';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { LeggTilNotatDocument, NotatType, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -119,7 +118,7 @@ export const NyttNotatModal = ({
 
     const tillattTekstlengde = 1_000;
     const errorMessage: string | undefined =
-        errorOverride ?? error
+        (errorOverride ?? error)
             ? apolloErrorCode(error) === 401
                 ? 'Du har blitt logget ut'
                 : 'Notatet kunne ikke lagres'

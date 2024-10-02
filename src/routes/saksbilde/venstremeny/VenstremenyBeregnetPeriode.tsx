@@ -1,8 +1,7 @@
 import React, { ReactElement } from 'react';
 
-import { Alert, BodyShort } from '@navikt/ds-react';
+import { Alert, BodyShort, ErrorMessage } from '@navikt/ds-react';
 
-import { ErrorMessage } from '@components/ErrorMessage';
 import { useForrigeGenerasjonPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import {

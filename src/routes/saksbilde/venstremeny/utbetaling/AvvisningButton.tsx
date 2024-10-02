@@ -1,8 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 
-import { Button } from '@navikt/ds-react';
+import { Button, ErrorMessage } from '@navikt/ds-react';
 
-import { ErrorMessage } from '@components/ErrorMessage';
 import { BeregnetPeriodeFragment, Handling, Maybe, Periodehandling } from '@io/graphql';
 
 import { AvvisningModal } from './AvvisningModal';

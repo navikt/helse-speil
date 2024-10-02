@@ -1,8 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 
-import { Alert, BodyShort, Button } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
-import { ErrorMessage } from '@components/ErrorMessage';
 import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Maybe } from '@io/graphql';

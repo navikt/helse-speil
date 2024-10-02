@@ -3,9 +3,8 @@ import React, { ReactElement, useContext, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { XMarkOctagonIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, ErrorSummary } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, ErrorSummary } from '@navikt/ds-react';
 
-import { ErrorMessage } from '@components/ErrorMessage';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Maybe, PersonFragment } from '@io/graphql';

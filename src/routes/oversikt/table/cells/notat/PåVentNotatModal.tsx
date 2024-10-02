@@ -11,9 +11,8 @@ import {
     useFormContext,
 } from 'react-hook-form';
 
-import { BodyShort, Button, Checkbox, Heading, Modal, Textarea } from '@navikt/ds-react';
+import { BodyShort, Button, Checkbox, ErrorMessage, Heading, Modal, Textarea } from '@navikt/ds-react';
 
-import { ErrorMessage } from '@components/ErrorMessage';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Maybe, NotatType, Personnavn, Tildeling } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';

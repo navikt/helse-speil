@@ -3,10 +3,9 @@ import { useRouter } from 'next/navigation';
 import React, { ReactElement, useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Button, Heading, Modal } from '@navikt/ds-react';
+import { Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { ErrorMessage } from '@components/ErrorMessage';
 import { AmplitudeContext } from '@io/amplitude';
 import { BeregnetPeriodeFragment, TilInfoTrygdDocument } from '@io/graphql';
 import { useAddToast } from '@state/toasts';

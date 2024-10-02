@@ -1,10 +1,9 @@
 import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import { Button } from '@navikt/ds-react';
+import { Button, ErrorMessage } from '@navikt/ds-react';
 
 import { EasterGurk } from '@/components/eastergurk/EasterGurk';
-import { ErrorMessage } from '@components/ErrorMessage';
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { SkjønnsfastsettingMal } from '@external/sanity';

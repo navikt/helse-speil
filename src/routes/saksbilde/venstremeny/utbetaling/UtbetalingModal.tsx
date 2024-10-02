@@ -1,8 +1,7 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Button, Heading, Modal } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 
-import { ErrorMessage } from '@components/ErrorMessage';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
