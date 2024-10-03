@@ -17,7 +17,6 @@ import {
     Utbetalingsdagtype,
 } from '@io/graphql';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
-import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { PeriodState } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
@@ -57,7 +56,6 @@ export const VenstremenyBeregnetPeriode = ({
     );
 
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigeGenerasjonPeriode?.tidslinje);
-    const gjenståendeSykedager = useGjenståendeDager(activePeriod, currentPerson);
     const utbetaleTilgang = finnUtbetaleTilgang(activePeriod);
     const periodState = getPeriodState(activePeriod);
     const utbetalingsvarsler: VarselObject[] = [utbetaling(periodState), tilstandinfo(periodState)].filter(
@@ -66,12 +64,7 @@ export const VenstremenyBeregnetPeriode = ({
 
     return (
         <section className={styles.Venstremeny}>
-            <PeriodeCard.Beregnet
-                periode={activePeriod}
-                arbeidsgiver={currentArbeidsgiver}
-                månedsbeløp={månedsbeløp}
-                gjenståendeSykedager={gjenståendeSykedager}
-            />
+            <PeriodeCard.Beregnet periode={activePeriod} arbeidsgiver={currentArbeidsgiver} månedsbeløp={månedsbeløp} />
             <UtbetalingCard.Beregnet
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 antallUtbetalingsdager={getNumberOfDaysWithType(activePeriod.tidslinje, Utbetalingsdagtype.Navdag)}

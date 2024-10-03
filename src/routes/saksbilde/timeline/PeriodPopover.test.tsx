@@ -13,7 +13,6 @@ import {
     Utbetalingstatus,
     Utbetalingtype,
 } from '@io/graphql';
-import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { enPerson } from '@test-data/person';
 import { ApolloWrapper } from '@test-wrappers';
 import { render, screen } from '@testing-library/react';
@@ -185,7 +184,6 @@ describe('PeriodPopover', () => {
     });
 
     test('viser dager igjen', () => {
-        (useGjenståendeDager as jest.Mock).mockReturnValue(100);
         render(
             <BeregnetPopover
                 period={getFetchedBeregnetPeriode(arbeidsgiverUtbetalingsdager, personUtbetalingsdager)}

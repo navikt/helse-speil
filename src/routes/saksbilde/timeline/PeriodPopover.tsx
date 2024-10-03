@@ -9,7 +9,6 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useForrigeGenerasjonPeriodeMedPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import { BeregnetPeriodeFragment, NotatType, PersonFragment, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
-import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { DatePeriod, DateString, PeriodState } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
 import { NORSK_DATOFORMAT } from '@utils/date';
@@ -91,7 +90,6 @@ export const BeregnetPopover = ({ period, state, fom, tom, person }: SpleisPopov
     const { personTotalbeløp, arbeidsgiverTotalbeløp, totalbeløp } = useTotalbeløp(period.tidslinje);
     const forrigePeriode = useForrigeGenerasjonPeriodeMedPeriode(period, person);
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigePeriode?.tidslinje);
-    const gjenståendeDager = useGjenståendeDager(period, person);
 
     return (
         <>
@@ -161,7 +159,7 @@ export const BeregnetPopover = ({ period, state, fom, tom, person }: SpleisPopov
                         Dager igjen:
                     </BodyShort>
                     <BodyShort className={classNames(period.gjenstaendeSykedager <= 0 && styles.Error)} size="small">
-                        {gjenståendeDager}
+                        {period.gjenstaendeSykedager}
                     </BodyShort>
                 </>
             )}
