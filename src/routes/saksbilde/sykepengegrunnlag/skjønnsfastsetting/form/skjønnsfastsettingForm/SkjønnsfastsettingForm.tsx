@@ -1,13 +1,11 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useRef } from 'react';
 import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import { Button, ErrorMessage } from '@navikt/ds-react';
+import { Button, ErrorMessage, HelpText } from '@navikt/ds-react';
 
-import { EasterGurk } from '@/components/eastergurk/EasterGurk';
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiverinntekt, Maybe, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingType';
@@ -20,6 +18,7 @@ import {
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { useActivePeriod } from '@state/periode';
 import { avrundetToDesimaler } from '@utils/tall';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
 import { useSkjønnsfastsettingDefaults } from './useSkjønnsfastsettingDefaults';
@@ -54,13 +53,12 @@ export const SkjønnsfastsettingForm = ({
     setEditing,
     maler,
 }: SkjønnsfastsettingFormProps): Maybe<ReactElement> => {
-    const [antallKlikk, setAntallKlikk] = useState(0);
     const period = useActivePeriod(person);
     const { aktiveArbeidsgivere, aktiveArbeidsgivereInntekter, defaults } = useSkjønnsfastsettingDefaults(
         person,
         inntekter,
     );
-    const erReadonly = useIsReadOnlyOppgave(person);
+    const erBeslutteroppgave = isBeregnetPeriode(period) && (period.totrinnsvurdering?.erBeslutteroppgave ?? false);
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const avrundetSammenligningsgrunnlag = avrundetToDesimaler(sammenligningsgrunnlag);
     const cancelEditing = () => {
@@ -120,11 +118,6 @@ export const SkjønnsfastsettingForm = ({
     if (!period || !person || !aktiveArbeidsgivere || !aktiveArbeidsgivereInntekter) return null;
 
     const confirmChanges = () => {
-        if (isLoading) {
-            setAntallKlikk((prevState) => prevState + 1);
-            return;
-        }
-
         postSkjønnsfastsetting(
             skjønnsfastsettingFormToDto(
                 form.getValues(),
@@ -165,16 +158,13 @@ export const SkjønnsfastsettingForm = ({
                                 />
                             )}
                             <div className={styles.buttons}>
-                                <Button
-                                    size="small"
-                                    variant="secondary"
-                                    type="submit"
-                                    disabled={erReadonly}
-                                    loading={isLoading}
-                                >
-                                    Lagre
-                                </Button>
-                                {antallKlikk > 3 && <EasterGurk antallKlikk={antallKlikk} />}
+                                {!erBeslutteroppgave ? (
+                                    <Button size="small" variant="secondary" type="submit" loading={isLoading}>
+                                        Lagre
+                                    </Button>
+                                ) : (
+                                    <HelpText>Kan ikke overstyre en beslutteroppgave</HelpText>
+                                )}
                                 <Button size="small" variant="tertiary" type="button" onClick={cancelEditing}>
                                     Avbryt
                                 </Button>
