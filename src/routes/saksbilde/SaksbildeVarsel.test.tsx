@@ -16,7 +16,7 @@ jest.mock('@state/overstyring');
 
 describe('SaksbildeVarsel', () => {
     it('skal kaste feil om periode mangler skjæringstidspunkt', () => {
-        const periode = enUberegnetPeriode({ skjaeringstidspunkt: undefined });
+        const periode = enBeregnetPeriode({ skjaeringstidspunkt: undefined });
 
         expect(() => render(<SaksbildeVarsel person={enPerson()} periode={periode} />)).toThrow();
     });

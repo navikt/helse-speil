@@ -32,18 +32,6 @@ interface SaksbildeVarselProps {
 }
 
 export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
-    if (!periode.skjaeringstidspunkt) {
-        throw Error(`Mangler skjæringstidspunkt for periode med id: ${periode.id}. Ta kontakt med en utvikler.`);
-    }
-
-    if (isUberegnetPeriode(periode)) {
-        return <Saksbildevarsler periodState={getPeriodState(periode)} varsler={periode.varsler} />;
-    }
-
-    if (!periode.vilkarsgrunnlagId) {
-        throw Error(`Mangler vilkårsgrunnlag for periode med id: ${periode.id}. Ta kontakt med en utvikler.`);
-    }
-
     if (isAnnullertBeregnetPeriode(periode)) {
         return (
             <Alert variant="info" className={styles.Varsel}>
@@ -56,7 +44,19 @@ export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
                 Utbetalingen er sendt til annullering
             </Alert>
         );
-    } else if (isBeregnetPeriode(periode)) {
+    } else if (isUberegnetPeriode(periode)) {
+        return <Saksbildevarsler periodState={getPeriodState(periode)} varsler={periode.varsler} />;
+    }
+
+    if (!periode.skjaeringstidspunkt) {
+        throw Error(`Mangler skjæringstidspunkt for periode med id: ${periode.id}. Ta kontakt med en utvikler.`);
+    }
+
+    if (!periode.vilkarsgrunnlagId) {
+        throw Error(`Mangler vilkårsgrunnlag for periode med id: ${periode.id}. Ta kontakt med en utvikler.`);
+    }
+
+    if (isBeregnetPeriode(periode)) {
         return <BeregnetSaksbildevarsler periode={periode as BeregnetPeriodeFragment} person={person} />;
     } else if (isGhostPeriode(periode) || isTilkommenInntekt(periode)) {
         return (
