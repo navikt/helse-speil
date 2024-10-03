@@ -85,7 +85,7 @@ export const OverstyringForm = ({
                 maxLength={1000}
                 {...begrunnelseValidation}
                 onChange={(event) => {
-                    begrunnelseValidation.onChange(event);
+                    void begrunnelseValidation.onChange(event);
                     setOppsummering(event.target.value);
                 }}
                 className={styles.begrunnelse}

@@ -58,7 +58,7 @@ export const PåVentNotatModal = ({
     const { onChange, ...tildelingValidation } = form.register('tildeling');
 
     const onCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onChange(event);
+        void onChange(event);
     };
 
     const erTildeltSaksbehandler = tildeling && tildeling.oid === saksbehandler.oid;

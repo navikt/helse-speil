@@ -24,7 +24,7 @@ export const ForklaringTextarea = ({ description }: ForklaringTextareaProps): Re
             value={forklaring}
             ref={ref}
             onChange={(event) => {
-                onChange(event);
+                void onChange(event);
                 setForklaring(event.target.value);
             }}
             description={description}

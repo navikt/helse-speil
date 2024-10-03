@@ -41,7 +41,7 @@ export const EndringForm = ({ markerteDager, onSubmitEndring, openDagtypeModal }
     const oppdaterGrad = (event: React.ChangeEvent<HTMLInputElement>) => {
         const grad = Number.parseInt(event.target.value);
         setEndring({ ...endring, grad });
-        onChangeGrad(event);
+        void onChangeGrad(event);
     };
 
     const handleSubmit = () => {

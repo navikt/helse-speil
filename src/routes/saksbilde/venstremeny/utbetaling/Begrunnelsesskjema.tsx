@@ -20,7 +20,7 @@ const BegrunnelseCheckbox = ({ begrunnelse, label }: BegrunnelseCheckboxProps): 
     const { onChange, ...begrunnelserValidation } = register('begrunnelser');
 
     const onCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onChange(event);
+        void onChange(event);
         clearErrors('begrunnelser');
     };
 

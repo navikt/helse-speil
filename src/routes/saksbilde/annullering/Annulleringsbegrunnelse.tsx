@@ -40,7 +40,7 @@ export const Annulleringsbegrunnelse = (): ReactElement => {
                                 key={årsak._key}
                                 value={JSON.stringify(årsak)}
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                    onChangeBegrunnelser(event);
+                                    void onChangeBegrunnelser(event);
                                     clearErrors('begrunnelser');
                                 }}
                                 {...begrunnelserValidation}
