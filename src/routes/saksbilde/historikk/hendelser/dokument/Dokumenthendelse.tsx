@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
+import React, { ReactElement, ReactNode, useCallback, useEffect, useState } from 'react';
 
 import { ArrowForwardIcon, ExternalLinkIcon } from '@navikt/aksel-icons';
 import { Link } from '@navikt/ds-react';
@@ -34,9 +34,7 @@ export const Dokumenthendelse = ({
     const åpnedeDokumenter = useOpenedDocuments();
     const fødselsnummer = person.fodselsnummer;
 
-    useEffect(() => {
-        if (!showDokumenter || !fødselsnummer) return;
-
+    const setDokumenter = useCallback(() => {
         if (dokumenttype === 'Søknad') {
             setDokument(<Søknadsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} />);
         }
@@ -46,7 +44,12 @@ export const Dokumenthendelse = ({
                 <Inntektsmeldingsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} person={person} />,
             );
         }
-    }, [showDokumenter]);
+    }, [dokumentId, dokumenttype, fødselsnummer, person]);
+
+    useEffect(() => {
+        if (!showDokumenter || !fødselsnummer) return;
+        setDokumenter();
+    }, [fødselsnummer, setDokumenter, showDokumenter]);
 
     const åpneINyKolonne = () => {
         leggTilÅpnetDokument({
