@@ -159,7 +159,7 @@ export const InntektOgRefusjon = ({
                 <InntektOgRefusjonSkjema
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
                     close={() => setEditingInntekt(false)}
-                    onEndre={setEndret}
+                    harEndring={setEndret}
                     begrunnelser={
                         harSykefravær ? endreInntektMedSykefraværBegrunnelser : endreInntektUtenSykefraværBegrunnelser
                     }

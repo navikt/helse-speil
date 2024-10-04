@@ -55,7 +55,7 @@ interface EditableInntektProps {
     inntektFom: Maybe<string>;
     inntektTom: Maybe<string>;
     close: () => void;
-    onEndre: (erEndret: boolean) => void;
+    harEndring: (erEndret: boolean) => void;
 }
 
 export const InntektOgRefusjonSkjema = ({
@@ -67,7 +67,7 @@ export const InntektOgRefusjonSkjema = ({
     inntektFom,
     inntektTom,
     close,
-    onEndre,
+    harEndring,
 }: EditableInntektProps): ReactElement => {
     const form = useForm<InntektFormFields>({ shouldFocusError: false, mode: 'onSubmit', reValidateMode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
@@ -89,7 +89,7 @@ export const InntektOgRefusjonSkjema = ({
     const førstePeriodeForSkjæringstidspunkt = getFørstePeriodeForSkjæringstidspunkt(skjæringstidspunkt, arbeidsgiver);
 
     const cancelEditing = () => {
-        onEndre(false);
+        harEndring(false);
         close();
     };
 
@@ -104,19 +104,13 @@ export const InntektOgRefusjonSkjema = ({
 
     const månedsbeløp = Number.parseFloat(values.manedsbelop);
     const omregnetÅrsinntektMånedsbeløpRounded = avrundetToDesimaler(omregnetÅrsinntekt.manedsbelop);
-    const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded;
+    const harEndringer =
+        (!!lokaltMånedsbeløp && lokaltMånedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded) ||
+        (!isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded);
 
     useEffect(() => {
-        if (lokaltMånedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded) {
-            onEndre(true);
-        }
-    }, [omregnetÅrsinntekt]);
-
-    useEffect(() => {
-        if (!stringIsNaN(values.manedsbelop)) {
-            onEndre(Number.parseFloat(values.manedsbelop) !== omregnetÅrsinntektMånedsbeløpRounded);
-        }
-    }, [values, omregnetÅrsinntekt]);
+        harEndring(harEndringer);
+    }, [harEndringer, harEndring]);
 
     useEffect(() => {
         harFeil && feiloppsummeringRef.current?.focus();
