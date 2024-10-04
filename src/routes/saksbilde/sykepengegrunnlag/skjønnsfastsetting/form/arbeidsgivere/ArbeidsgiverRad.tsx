@@ -10,7 +10,7 @@ import { toKronerOgØre } from '@utils/locale';
 
 interface ArbeidsgiverRadProps {
     arbeidsgiverNavn?: string;
-    type: Skjønnsfastsettingstype;
+    type?: Skjønnsfastsettingstype;
     årligField: UseFormRegisterReturn;
     orgnummerField: UseFormRegisterReturn;
     antallArbeidsgivere: number;

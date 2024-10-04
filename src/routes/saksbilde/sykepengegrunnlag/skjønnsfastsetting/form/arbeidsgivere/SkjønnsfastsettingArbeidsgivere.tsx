@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
 import { Detail, Fieldset, Label, Table } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
 import { ArbeidsgiverFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
-import {
-    ArbeidsgiverForm,
-    Skjønnsfastsettingstype,
-} from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
 import { avrundetToDesimaler, isNumeric } from '@utils/tall';
 
@@ -26,14 +24,17 @@ export const SkjønnsfastsettingArbeidsgivere = ({
     sammenligningsgrunnlag,
     sykepengegrunnlagsgrense,
 }: SkjønnsfastsettingArbeidsgivereProps) => {
-    const [tilFordeling, setTilFordeling] = useState(sammenligningsgrunnlag);
-    const [inntektSum, setInntektSum] = useState(0);
+    const { control, register, formState, clearErrors } = useFormContext<SkjønnsfastsettingFormFields>();
 
-    const { control, register, formState, clearErrors } = useFormContext<{
-        arbeidsgivere: ArbeidsgiverForm[];
-    }>();
+    const type = useWatch({ name: 'type', defaultValue: undefined, control });
+    const arbeidsgivereField = useWatch({ name: 'arbeidsgivere', control });
 
-    const type = useWatch({ name: 'type', defaultValue: '0' });
+    const inntektSum = arbeidsgivereField.reduce((sum, { årlig }) => sum + årlig, 0);
+    const tilFordeling =
+        type !== Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT
+            ? sammenligningsgrunnlag
+            : sammenligningsgrunnlag - (isNaN(inntektSum) ? 0 : inntektSum);
+    const erBegrensetTil6G = inntektSum > sykepengegrunnlagsgrense.grense;
 
     const { fields } = useFieldArray({
         control,
@@ -52,23 +53,10 @@ export const SkjønnsfastsettingArbeidsgivere = ({
         },
     });
 
-    const getArbeidsgiverNavn = (organisasjonsnummer: string) =>
-        arbeidsgivere.find((ag) => ag.organisasjonsnummer === organisasjonsnummer)?.navn;
-
-    const arbeidsgivereField = useWatch({ name: 'arbeidsgivere', control });
-
     const antallArbeidsgivere = fields.length;
 
-    useEffect(() => {
-        setInntektSum(arbeidsgivereField.reduce((sum, { årlig }) => sum + årlig, 0));
-    }, [arbeidsgivereField]);
-    useEffect(() => {
-        if (type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT) {
-            setTilFordeling(sammenligningsgrunnlag - (isNaN(inntektSum) ? 0 : inntektSum));
-        }
-    }, [type, inntektSum]);
-
-    const erBegrensetTil6G = inntektSum > sykepengegrunnlagsgrense.grense;
+    const getArbeidsgiverNavn = (organisasjonsnummer: string) =>
+        arbeidsgivere.find((ag) => ag.organisasjonsnummer === organisasjonsnummer)?.navn;
 
     return (
         <Fieldset
