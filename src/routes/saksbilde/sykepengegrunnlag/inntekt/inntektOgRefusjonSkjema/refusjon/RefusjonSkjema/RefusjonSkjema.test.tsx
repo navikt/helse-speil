@@ -6,6 +6,7 @@ import '@testing-library/jest-dom';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { NORSK_DATOFORMAT } from '@utils/date';
+import { toKronerOgØre } from '@utils/locale';
 
 describe('Refusjonskjema', () => {
     const en_refusjonsopplysning: Refusjonsopplysning[] = [
@@ -61,7 +62,9 @@ describe('Refusjonskjema', () => {
             dayjs(en_refusjonsopplysning[0].fom).format(NORSK_DATOFORMAT),
         );
         expect(screen.queryByLabelText('Til og med dato')).toHaveValue('');
-        expect(screen.queryByLabelText('Månedlig refusjon')).toHaveValue(en_refusjonsopplysning[0].beløp.toString());
+        expect(screen.queryByLabelText('Månedlig refusjon')).toHaveValue(
+            toKronerOgØre(en_refusjonsopplysning[0].beløp),
+        );
         expect(screen.queryByText('IM')).toBeInTheDocument();
     });
 

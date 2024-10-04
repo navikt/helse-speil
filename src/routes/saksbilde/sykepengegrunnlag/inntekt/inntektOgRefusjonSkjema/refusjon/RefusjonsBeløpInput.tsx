@@ -7,7 +7,7 @@ import styles from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema
 import { RefusjonFormValues } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/hooks/useRefusjonFormField';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { toKronerOgØre } from '@utils/locale';
-import { avrundetToDesimaler, isNumeric } from '@utils/tall';
+import { isNumeric } from '@utils/tall';
 
 interface RefusjonsBeløpInputProps {
     index: number;
@@ -32,9 +32,7 @@ export const RefusjonsBeløpInput = ({ index, refusjonsopplysning }: RefusjonsBe
         setValueAs: (value) => Number(value.toString().replaceAll(' ', '').replaceAll(',', '.')),
     });
 
-    const defaultValue = refusjonsopplysning.beløp && avrundetToDesimaler(refusjonsopplysning.beløp);
-
-    const [visningsverdi, setVisningsverdi] = useState<string>(toKronerOgØre(defaultValue ?? 0));
+    const [visningsverdi, setVisningsverdi] = useState<string>(toKronerOgØre(refusjonsopplysning.beløp));
 
     return (
         <>
@@ -44,7 +42,6 @@ export const RefusjonsBeløpInput = ({ index, refusjonsopplysning }: RefusjonsBe
                 label="Månedlig refusjon"
                 hideLabel
                 size="small"
-                ref={ref}
                 htmlSize={15}
                 value={visningsverdi}
                 onChange={(event) => {
