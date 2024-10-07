@@ -1,13 +1,12 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
-import { Label } from '@navikt/ds-react';
+import { PadlockUnlockedIcon, PersonPencilIcon } from '@navikt/aksel-icons';
+import { Button, Label } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Clipboard } from '@components/clipboard';
-import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import {
     ArbeidsgiverFragment,
     InntektFraAOrdningen,
@@ -23,7 +22,6 @@ import { InntektOgRefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/in
 import {
     useArbeidsgiver,
     useEndringerForPeriode,
-    useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     useLokaleRefusjonsopplysninger,
     useLokaltMånedsbeløp,
 } from '@state/arbeidsgiver';
@@ -35,15 +33,12 @@ import { Arbeidsgivernavn } from '../../Arbeidsgivernavn';
 import { OverstyrArbeidsforholdUtenSykdom } from '../../overstyring/OverstyrArbeidsforholdUtenSykdom';
 import { Refusjonsoversikt } from '../../refusjon/Refusjonsoversikt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
-import { RedigerGhostInntekt } from './RedigerGhostInntekt';
 import { SisteTolvMånedersInntekt } from './SisteTolvMånedersInntekt';
 import {
     endreInntektMedSykefraværBegrunnelser,
     endreInntektUtenSykefraværBegrunnelser,
-    maybePeriodeTilGodkjenning,
     useArbeidsforholdKanOverstyres,
     useGhostInntektKanOverstyres,
-    useInntektKanRevurderes,
 } from './inntektOgRefusjonUtils';
 
 import styles from '../Inntekt.module.css';
@@ -93,15 +88,13 @@ export const InntektOgRefusjon = ({
     }, [periodeId]);
 
     const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer);
-    const ghostInntektKanOverstyres = useGhostInntektKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer);
+    const ghostInntektKanOverstyres =
+        useGhostInntektKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer) && !erDeaktivert;
     const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
     const { inntektsendringer } = useEndringerForPeriode(endringer, person);
-    const kanRevurderes = useInntektKanRevurderes(person, skjæringstidspunkt);
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
-    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
 
-    const erRevurdering = maybePeriodeTilGodkjenning(person, skjæringstidspunkt) === null;
     const erInntektskildeAordningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
     const skalVise12mnd828 =
         ((getVilkårsgrunnlag(person, vilkårsgrunnlagId) as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) > 25;
@@ -110,6 +103,35 @@ export const InntektOgRefusjon = ({
         <div
             className={classNames(styles.Inntekt, editingInntekt && styles.editing, erDeaktivert && styles.deaktivert)}
         >
+            {!harSykefravær && vilkårsgrunnlagId && !editingInntekt && ghostInntektKanOverstyres && (
+                <Button
+                    onClick={() => setEditingInntekt(true)}
+                    icon={<PersonPencilIcon />}
+                    size="xsmall"
+                    variant="secondary"
+                >
+                    Overstyr
+                </Button>
+            )}
+            {harSykefravær && vilkårsgrunnlagId && !editingInntekt && inntektstype && (
+                <RedigerInntektOgRefusjon
+                    person={person}
+                    setEditing={setEditingInntekt}
+                    skjæringstidspunkt={skjæringstidspunkt}
+                    organisasjonsnummer={organisasjonsnummer}
+                    arbeidsgiver={arbeidsgiver}
+                />
+            )}
+            {editingInntekt && (
+                <Button
+                    onClick={() => setEditingInntekt(false)}
+                    size="xsmall"
+                    variant="tertiary"
+                    icon={<PadlockUnlockedIcon />}
+                >
+                    Avbryt
+                </Button>
+            )}
             <div className={classNames(styles.Header, editingInntekt && styles.editing)}>
                 <div className={styles.ArbeidsgiverHeader}>
                     <Arbeidsgivernavn className={styles.Arbeidsgivernavn} arbeidsgivernavn={arbeidsgiver.navn} />
@@ -125,34 +147,6 @@ export const InntektOgRefusjon = ({
                     </div>
                     <Kilde type="AINNTEKT">AA</Kilde>
                 </div>
-                {!harSykefravær && vilkårsgrunnlagId && !erDeaktivert && ghostInntektKanOverstyres && (
-                    <RedigerGhostInntekt
-                        erRevurdering={erRevurdering}
-                        setEditing={setEditingInntekt}
-                        editing={editingInntekt}
-                    />
-                )}
-                {harSykefravær && vilkårsgrunnlagId && inntektstype ? (
-                    kanRevurderes ? (
-                        <RedigerInntektOgRefusjon
-                            person={person}
-                            setEditing={setEditingInntekt}
-                            editing={editingInntekt}
-                            erRevurdering={erRevurdering}
-                            skjæringstidspunkt={skjæringstidspunkt}
-                            organisasjonsnummer={organisasjonsnummer}
-                            arbeidsgiver={arbeidsgiver}
-                        />
-                    ) : (
-                        <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                            <p>
-                                {!erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
-                                    ? 'Perioden kan ikke overstyres fordi det finnes en oppgave på en tidligere periode'
-                                    : 'Det er ikke mulig å endre inntekt i denne perioden'}
-                            </p>
-                        </PopoverHjelpetekst>
-                    )
-                ) : null}
             </div>
             <Label size="small">Beregnet månedsinntekt</Label>
             {editingInntekt && omregnetÅrsinntekt ? (

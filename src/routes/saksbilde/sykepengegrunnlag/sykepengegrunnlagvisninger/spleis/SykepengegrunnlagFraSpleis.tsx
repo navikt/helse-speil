@@ -1,5 +1,7 @@
 import React, { HTMLAttributes, ReactElement, useEffect, useState } from 'react';
 
+import { HStack } from '@navikt/ds-react';
+
 import { Arbeidsgiverinntekt, PersonFragment, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
 import { SykepengegrunnlagPanel } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/SykepengegrunnlagPanel';
@@ -36,7 +38,7 @@ export const SykepengegrunnlagFraSpleis = ({
     }, [vilkårsgrunnlag, aktivArbeidsgiver]);
 
     return (
-        <div className={styles.container} {...rest}>
+        <HStack justify="start" wrap={false} {...rest}>
             <SykepengegrunnlagPanel
                 inntekter={vilkårsgrunnlag.inntekter}
                 omregnetÅrsinntekt={vilkårsgrunnlag.omregnetArsinntekt}
@@ -55,6 +57,6 @@ export const SykepengegrunnlagFraSpleis = ({
             ) : (
                 <InntektUtenOmregnetÅrsinntekt inntekt={aktivInntektskilde} arbeidsgiver={aktivArbeidsgiver} />
             )}
-        </div>
+        </HStack>
     );
 };

@@ -1,18 +1,22 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
-import { EditButton } from '@components/EditButton';
+import { PersonPencilIcon } from '@navikt/aksel-icons';
+import { Button } from '@navikt/ds-react';
+
+import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
+import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
-import { usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
+import { useInntektKanRevurderes } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
+import {
+    useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
+    usePeriodForSkjæringstidspunktForArbeidsgiver,
+} from '@state/arbeidsgiver';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { DateString } from '@typer/shared';
-
-import styles from './RedigerInntektOgRefusjon.module.scss';
 
 interface RedigerInntektProps {
     person: PersonFragment;
     setEditing: Dispatch<SetStateAction<boolean>>;
-    editing: boolean;
-    erRevurdering: boolean;
     skjæringstidspunkt: DateString;
     organisasjonsnummer: string;
     arbeidsgiver: ArbeidsgiverFragment;
@@ -21,8 +25,6 @@ interface RedigerInntektProps {
 export const RedigerInntektOgRefusjon = ({
     person,
     setEditing,
-    editing,
-    erRevurdering,
     skjæringstidspunkt,
     organisasjonsnummer,
     arbeidsgiver,
@@ -32,17 +34,22 @@ export const RedigerInntektOgRefusjon = ({
         skjæringstidspunkt,
         organisasjonsnummer,
     ) as BeregnetPeriodeFragment;
+    const kanRevurderes = useInntektKanRevurderes(person, skjæringstidspunkt);
+    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
 
     if (!isInCurrentGeneration(periode, arbeidsgiver)) return null;
 
-    return (
-        <EditButton
-            isOpen={editing}
-            openText="Avbryt"
-            closedText={erRevurdering ? 'Revurder' : 'Endre'}
-            onOpen={() => setEditing(true)}
-            onClose={() => setEditing(false)}
-            className={styles.sticky}
-        />
+    return kanRevurderes ? (
+        <Button onClick={() => setEditing(true)} size="xsmall" variant="secondary" icon={<PersonPencilIcon />}>
+            Overstyr
+        </Button>
+    ) : (
+        <PopoverHjelpetekst ikon={<SortInfoikon />}>
+            <p>
+                {!erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
+                    ? 'Perioden kan ikke overstyres fordi det finnes en oppgave på en tidligere periode'
+                    : 'Det er ikke mulig å endre inntekt i denne perioden'}
+            </p>
+        </PopoverHjelpetekst>
     );
 };

@@ -3,7 +3,7 @@
     flex-direction: column;
     --fixed-column-width: 12rem;
     gap: var(--a-spacing-7);
-    padding: var(--a-spacing-16) 0 var(--a-spacing-16) var(--a-spacing-6);
+    padding: var(--a-spacing-4) 0 var(--a-spacing-16) var(--a-spacing-6);
 }
 
 .Table {
