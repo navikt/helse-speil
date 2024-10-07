@@ -17,7 +17,7 @@ import {
     PersonFragment,
     VilkarsgrunnlagSpleis,
 } from '@io/graphql';
-import { RedigerInntektOgRefusjon } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/redigerInntektOgRefusjon/RedigerInntektOgRefusjon';
+import { RedigerInntektOgRefusjon } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/RedigerInntektOgRefusjon';
 import { InntektOgRefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
 import {
     useArbeidsgiver,
