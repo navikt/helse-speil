@@ -92,11 +92,7 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<Rea
                 )?.inntekter
             }
             skjæringstidspunkt={periodeForSkjæringstidspunktForArbeidsgiver.skjaeringstidspunkt}
-            omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
-            organisasjonsnummer={inntekt.arbeidsgiver}
-            erDeaktivert={inntekt.deaktivert}
-            inntektFom={inntekt.fom}
-            inntektTom={inntekt.tom}
+            inntekt={inntekt}
             vilkårsgrunnlagId={vilkårsgrunnlagId}
             periodeId={periodeForSkjæringstidspunktForArbeidsgiver.id}
             inntektstype={(periodeForSkjæringstidspunktForArbeidsgiver as BeregnetPeriodeFragment).inntektstype}

@@ -9,11 +9,11 @@ import { AnonymizableContainer } from '@components/anonymizable/AnonymizableCont
 import { Clipboard } from '@components/clipboard';
 import {
     ArbeidsgiverFragment,
+    Arbeidsgiverinntekt,
     InntektFraAOrdningen,
     Inntektskilde,
     Inntektstype,
     Maybe,
-    OmregnetArsinntekt,
     PersonFragment,
     VilkarsgrunnlagSpleis,
 } from '@io/graphql';
@@ -45,12 +45,8 @@ import styles from '../Inntekt.module.css';
 
 interface InntektUtenSykefraværProps {
     person: PersonFragment;
-    organisasjonsnummer: string;
+    inntekt: Arbeidsgiverinntekt;
     skjæringstidspunkt: DateString;
-    erDeaktivert?: Maybe<boolean>;
-    inntektFom: Maybe<string>;
-    inntektTom: Maybe<string>;
-    omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
     vilkårsgrunnlagId?: Maybe<string>;
     periodeId?: Maybe<string>;
     inntektstype?: Maybe<Inntektstype>;
@@ -64,12 +60,8 @@ interface InntektUtenSykefraværProps {
 
 export const InntektOgRefusjon = ({
     person,
-    organisasjonsnummer,
+    inntekt,
     skjæringstidspunkt,
-    erDeaktivert,
-    inntektFom,
-    inntektTom,
-    omregnetÅrsinntekt,
     vilkårsgrunnlagId,
     periodeId,
     inntektstype,
@@ -82,6 +74,14 @@ export const InntektOgRefusjon = ({
 }: InntektUtenSykefraværProps) => {
     const [editingInntekt, setEditingInntekt] = useState(false);
     const [endret, setEndret] = useState(false);
+
+    const {
+        omregnetArsinntekt: omregnetÅrsinntekt,
+        arbeidsgiver: organisasjonsnummer,
+        deaktivert: erDeaktivert,
+        fom: inntektFom,
+        tom: inntektTom,
+    } = inntekt;
 
     useEffect(() => {
         setEditingInntekt(false);
