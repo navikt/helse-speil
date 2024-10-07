@@ -4,14 +4,7 @@ import React, { ReactElement } from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import {
-    ArbeidsgiverFragment,
-    Arbeidsgiverinntekt,
-    BeregnetPeriodeFragment,
-    Maybe,
-    PersonFragment,
-    VilkarsgrunnlagSpleis,
-} from '@io/graphql';
+import { ArbeidsgiverFragment, Arbeidsgiverinntekt, Maybe, PersonFragment, VilkarsgrunnlagSpleis } from '@io/graphql';
 import {
     useArbeidsgiver,
     useInntektsmeldinghendelser,
@@ -20,7 +13,7 @@ import {
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { DateString } from '@typer/shared';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { useVilkårsgrunnlag } from '../useVilkårsgrunnlag';
 import { InntektOgRefusjon } from './inntektOgRefusjon/InntektOgRefusjon';
@@ -37,17 +30,17 @@ interface InntektContainerProps {
 }
 
 const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<ReactElement> => {
-    const period = useActivePeriod(person);
+    const aktivPeriode = useActivePeriod(person);
     const periodeForSkjæringstidspunktForArbeidsgiver = usePeriodForSkjæringstidspunktForArbeidsgiver(
         person,
-        period?.skjaeringstidspunkt ?? null,
+        aktivPeriode?.skjaeringstidspunkt ?? null,
         inntekt.arbeidsgiver,
     );
     const arbeidsgiver = useArbeidsgiver(person, inntekt.arbeidsgiver);
     const inntektsmeldinghendelser = useInntektsmeldinghendelser(arbeidsgiver);
 
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeForSkjæringstidspunktForArbeidsgiver);
-    const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, period);
+    const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, aktivPeriode);
     const uberegnetAGfinnesIVilkårsgrunnlaget = vilkårsgrunnlagAktivPeriode?.arbeidsgiverrefusjoner.find(
         (it) => it.arbeidsgiver === arbeidsgiver?.organisasjonsnummer,
     );
@@ -65,11 +58,11 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<Rea
 
     const vilkårsgrunnlagId = !isUberegnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
         ? periodeForSkjæringstidspunktForArbeidsgiver?.vilkarsgrunnlagId
-        : period !== null && !isUberegnetPeriode(period)
-          ? period.vilkarsgrunnlagId
+        : aktivPeriode !== null && !isUberegnetPeriode(aktivPeriode)
+          ? aktivPeriode.vilkarsgrunnlagId
           : null;
 
-    if (!period || !periodeForSkjæringstidspunktForArbeidsgiver || !arbeidsgiver || !vilkårsgrunnlagId) {
+    if (!aktivPeriode || !periodeForSkjæringstidspunktForArbeidsgiver || !arbeidsgiver || !vilkårsgrunnlagId) {
         return null;
     }
 
@@ -86,20 +79,17 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<Rea
     return (
         <InntektOgRefusjon
             person={person}
+            periode={periodeForSkjæringstidspunktForArbeidsgiver}
             inntektFraAOrdningen={
                 arbeidsgiver.inntekterFraAordningen.find(
                     (it) => it.skjaeringstidspunkt === periodeForSkjæringstidspunktForArbeidsgiver.skjaeringstidspunkt,
                 )?.inntekter
             }
-            skjæringstidspunkt={periodeForSkjæringstidspunktForArbeidsgiver.skjaeringstidspunkt}
             inntekt={inntekt}
             vilkårsgrunnlagId={vilkårsgrunnlagId}
-            periodeId={periodeForSkjæringstidspunktForArbeidsgiver.id}
-            inntektstype={(periodeForSkjæringstidspunktForArbeidsgiver as BeregnetPeriodeFragment).inntektstype}
             arbeidsgiver={arbeidsgiver}
             refusjon={refusjonsopplysninger}
             harSykefravær={arbeidsgiverHarSykefraværForPerioden}
-            erGhostperiode={isGhostPeriode(periodeForSkjæringstidspunktForArbeidsgiver)}
             inntekterForSammenligningsgrunnlag={
                 ((vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) > 25
                     ? inntekt.sammenligningsgrunnlag?.inntektFraAOrdningen
