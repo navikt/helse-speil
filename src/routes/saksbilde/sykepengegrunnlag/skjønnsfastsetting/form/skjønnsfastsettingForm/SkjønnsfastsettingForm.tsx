@@ -64,7 +64,6 @@ export const SkjønnsfastsettingForm = ({
     const cancelEditing = () => {
         setEditing(false);
     };
-
     const { isLoading, error, postSkjønnsfastsetting, timedOut, setTimedOut } =
         usePostSkjønnsfastsattSykepengegrunnlag(cancelEditing);
 
@@ -74,34 +73,36 @@ export const SkjønnsfastsettingForm = ({
         values: defaults,
     });
 
+    const { control, formState, setValue, getValues, handleSubmit, watch } = form;
+
     const valgtType = useWatch({
         name: 'type',
-        control: form.control,
+        control: control,
     });
 
     const valgtÅrsak = useWatch({
         name: 'årsak',
-        control: form.control,
+        control: control,
     });
 
     const valgtMal = maler.find((it) => it.arsak === valgtÅrsak);
 
-    const harFeil = !form.formState.isValid && form.formState.isSubmitted;
-    const visFeilOppsummering = harFeil && Object.entries(form.formState.errors).length > 0;
-    const sykepengegrunnlagEndring = form
-        .watch('arbeidsgivere')
-        ?.reduce((a: number, b: ArbeidsgiverForm) => +a + +b.årlig, 0.0);
+    const harFeil = !formState.isValid && formState.isSubmitted;
 
-    useEffect(() => {
-        harFeil && feiloppsummeringRef.current?.focus();
-    }, [harFeil]);
+    const visFeilOppsummering = harFeil && Object.entries(formState.errors).length > 0;
+    const sykepengegrunnlagEndring = watch('arbeidsgivere')?.reduce(
+        (a: number, b: ArbeidsgiverForm) => +a + +b.årlig,
+        0.0,
+    );
+
+    harFeil && feiloppsummeringRef.current?.focus();
 
     useEffect(() => {
         onEndretSykepengegrunnlag(sykepengegrunnlagEndring);
-    }, [sykepengegrunnlagEndring]);
+    }, [onEndretSykepengegrunnlag, sykepengegrunnlagEndring]);
 
     useEffect(() => {
-        form.setValue(
+        setValue(
             'arbeidsgivere',
             aktiveArbeidsgivereInntekter?.map((inntekt) => ({
                 organisasjonsnummer: inntekt.arbeidsgiver,
@@ -113,14 +114,14 @@ export const SkjønnsfastsettingForm = ({
                 ),
             })) ?? [],
         );
-    }, [valgtType]);
+    }, [valgtType, avrundetSammenligningsgrunnlag, setValue]);
 
     if (!period || !person || !aktiveArbeidsgivere || !aktiveArbeidsgivereInntekter) return null;
 
     const confirmChanges = () => {
         postSkjønnsfastsetting(
             skjønnsfastsettingFormToDto(
-                form.getValues(),
+                getValues(),
                 inntekter,
                 person,
                 period,
@@ -135,7 +136,7 @@ export const SkjønnsfastsettingForm = ({
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(confirmChanges)}>
+            <form onSubmit={handleSubmit(confirmChanges)}>
                 <div className={styles.skjønnsfastsetting}>
                     <SkjønnsfastsettingÅrsak maler={maler} />
                     {harValgt25Avvik && <SkjønnsfastsettingType />}
@@ -154,7 +155,7 @@ export const SkjønnsfastsettingForm = ({
                             {visFeilOppsummering && (
                                 <Feiloppsummering
                                     feiloppsummeringRef={feiloppsummeringRef}
-                                    feilliste={formErrorsTilFeilliste(form.formState.errors)}
+                                    feilliste={formErrorsTilFeilliste(formState.errors)}
                                 />
                             )}
                             <div className={styles.buttons}>

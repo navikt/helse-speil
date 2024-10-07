@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Alert } from '@navikt/ds-react';
+import { Alert, Box } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import {
@@ -31,7 +31,7 @@ const TilkommenInntektContainer = ({ person, aktivPeriode }: TilkommenInntektPro
     if (!tilkomnePerioder || !vilkårsgrunnlag) return null;
 
     return (
-        <>
+        <Box paddingBlock="8 6" paddingInline="16">
             {tilkomnePerioder
                 // ?.sort((a, b) => (a.deaktivert && !b.deaktivert ? 1 : !a.deaktivert && b.deaktivert ? -1 : 0))
                 .map((ag) => {
@@ -50,7 +50,7 @@ const TilkommenInntektContainer = ({ person, aktivPeriode }: TilkommenInntektPro
                         />
                     );
                 }) ?? null}
-        </>
+        </Box>
     );
 };
 

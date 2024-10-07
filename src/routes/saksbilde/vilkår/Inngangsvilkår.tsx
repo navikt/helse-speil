@@ -81,7 +81,9 @@ const InngangsvilkårContainer = (): Maybe<ReactElement> => {
 
     if (loading || !activePeriod || !person?.personinfo.fodselsdato) {
         return null;
-    } else if (isBeregnetPeriode(activePeriod)) {
+    }
+
+    if (isBeregnetPeriode(activePeriod)) {
         const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId);
         return (
             <InngangsvilkårWithContent

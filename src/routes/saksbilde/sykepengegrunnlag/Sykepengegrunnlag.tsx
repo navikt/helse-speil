@@ -3,8 +3,8 @@ import React, { ReactElement } from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
-import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
+import { Maybe, PersonFragment } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import {
     isBeregnetPeriode,
@@ -13,7 +13,6 @@ import {
     isSpleisVilkarsgrunnlag,
 } from '@utils/typeguards';
 
-import { BehandletSykepengegrunnlag } from './sykepengegrunnlagvisninger/BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './sykepengegrunnlagvisninger/infotrygd/SykepengegrunnlagFraInfotrygd';
 import { SykepengegrunnlagFraSpleis } from './sykepengegrunnlagvisninger/spleis/SykepengegrunnlagFraSpleis';
 import { useVilkårsgrunnlag } from './useVilkårsgrunnlag';
@@ -25,25 +24,12 @@ type SykepengegrunnlagProps = {
 const SykepengegrunnlagContainer = ({ person }: SykepengegrunnlagProps): Maybe<ReactElement> => {
     const activePeriod = useActivePeriod(person);
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
-    const vurdering = useVurderingForSkjæringstidspunkt(
-        (activePeriod as BeregnetPeriodeFragment).skjaeringstidspunkt,
-        person,
-    );
     const arbeidsgiver = useCurrentArbeidsgiver(person);
 
-    if (!(isBeregnetPeriode(activePeriod) || isGhostPeriode(activePeriod))) return null;
-    if (!arbeidsgiver) return null;
+    if (!(isBeregnetPeriode(activePeriod) || isGhostPeriode(activePeriod)) || !arbeidsgiver) return null;
 
     if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag)) {
-        return vurdering ? (
-            <BehandletSykepengegrunnlag
-                vurdering={vurdering}
-                vilkårsgrunnlag={vilkårsgrunnlag}
-                skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
-                arbeidsgiver={arbeidsgiver}
-                person={person}
-            />
-        ) : (
+        return (
             <SykepengegrunnlagFraSpleis
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}

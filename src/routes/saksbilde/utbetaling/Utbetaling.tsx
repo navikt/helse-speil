@@ -187,7 +187,9 @@ const UtbetalingContainer = ({ person }: UtbetalingContainerProps): Maybe<ReactE
 
     if (!period || !isPerson(person) || !arbeidsgiver) {
         return null;
-    } else if (isBeregnetPeriode(period)) {
+    }
+
+    if (isBeregnetPeriode(period)) {
         return <UtbetalingBeregnetPeriodeMemoized period={period} person={person} arbeidsgiver={arbeidsgiver} />;
     } else if (isUberegnetPeriode(period)) {
         return <UtbetalingUberegnetPeriode person={person} periode={period} arbeidsgiver={arbeidsgiver} />;
