@@ -1,19 +1,18 @@
 .Inntekt {
     --border-size: 3px;
-    --horizontal-padding: 12px;
-    --vertical-padding: 8px;
+    --horizontal-padding: var(--a-spacing-3);
+    --vertical-padding: var(--a-spacing-2);
     --width: 504px;
     position: relative;
     box-sizing: border-box;
-    padding-bottom: 24px;
     width: var(--width);
-    padding-top: 0.75rem;
+    padding: var(--a-spacing-16) var(--a-spacing-6) var(--a-spacing-16) 0;
 }
 
 .Inntekt.editing {
     background-color: #e6f0ff;
     border-left: var(--border-size) solid var(--a-surface-action);
-    padding: 0.75rem var(--horizontal-padding) 24px;
+    padding-left: var(--horizontal-padding);
     width: 522px;
     margin: 0 calc(var(--horizontal-padding) * -1) 0 calc((var(--horizontal-padding) + var(--border-size)) * -1);
 }
