@@ -56,7 +56,6 @@ describe('Refusjonskjema', () => {
 
     it('skal rendre skjema hvis det finnes refusjoner', () => {
         render(<TestRefusjonSkjema fraRefusjonsopplysninger={en_refusjonsopplysning} />);
-        screen.debug();
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
         expect(screen.queryByLabelText('Fra og med dato')).toHaveValue(
             dayjs(en_refusjonsopplysning[0].fom).format(NORSK_DATOFORMAT),
