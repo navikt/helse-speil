@@ -6,8 +6,6 @@ import { BodyShort, Table } from '@navikt/ds-react';
 import { Maybe } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
-import { TableCell } from './TableCell';
-
 import styles from './SykepengegrunnlagPanel.module.css';
 
 interface InntektsgrunnlagoppsummeringTableProps {
@@ -23,26 +21,28 @@ export const InntektsgrunnlagoppsummeringTable = ({
 }: InntektsgrunnlagoppsummeringTableProps) => {
     return (
         <Table className={classNames(styles.Table, styles.inntektsgrunnlagoppsummeringTable)}>
-            <Table.Body>
+            <Table.Body className={styles.InntektsgrunnlagTableBody}>
                 <Table.Row className={styles.oppsummeringRow}>
                     <TableCellText text="Total omregnet årsinntekt" />
-                    <TableCell content={<BodyShort>{somPenger(omregnetÅrsinntekt)}</BodyShort>} />
+                    <Table.DataCell align="right" className={styles.pengeCell}>
+                        <BodyShort>{somPenger(omregnetÅrsinntekt)}</BodyShort>
+                    </Table.DataCell>
                 </Table.Row>
-                <Table.Row>
+                <Table.Row className={styles.oppsummeringRow}>
                     <TableCellText text="Total rapportert årsinntekt" />
-                    <TableCell content={<BodyShort>{somPenger(sammenligningsgrunnlag)}</BodyShort>} />
+                    <Table.DataCell align="right" className={styles.pengeCell}>
+                        <BodyShort>{somPenger(sammenligningsgrunnlag)}</BodyShort>
+                    </Table.DataCell>
                 </Table.Row>
             </Table.Body>
             <tfoot>
-                <Table.Row className={styles.PaddedRow}>
+                <Table.Row>
                     <TableCellBold text="Utregnet avvik" />
-                    <TableCell
-                        content={
-                            <BodyShort weight="semibold">
-                                {avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}
-                            </BodyShort>
-                        }
-                    />
+                    <Table.DataCell align="right" className={styles.pengeCell}>
+                        <BodyShort weight="semibold">
+                            {avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}
+                        </BodyShort>
+                    </Table.DataCell>
                 </Table.Row>
             </tfoot>
         </Table>

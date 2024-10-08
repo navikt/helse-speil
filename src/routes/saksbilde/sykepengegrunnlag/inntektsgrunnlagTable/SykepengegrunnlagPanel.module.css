@@ -44,25 +44,12 @@
     padding-bottom: 0;
 }
 
-.oppsummeringRow > td:first-of-type {
-    width: 16.5rem !important;
-    max-width: 16.5rem !important;
+.pengeCell {
+    width: 7.75rem;
 }
 
 .inntektsgrunnlagoppsummeringTable {
     margin-top: var(--a-spacing-6);
-}
-
-.sykepengegrunnlagRow td {
-    padding-bottom: 0;
-}
-
-.PaddedRow > td {
-    padding-bottom: var(--a-spacing-8) !important;
-}
-
-.rightAligned {
-    text-align: right;
 }
 
 .InntektsgrunnlagTableBody {
