@@ -56,7 +56,8 @@ export const PåVentListeModal = ({
                         <Table.Row>
                             <Table.HeaderCell>Dato</Table.HeaderCell>
                             <Table.HeaderCell>Saksbehandler</Table.HeaderCell>
-                            <Table.HeaderCell>Kommentar</Table.HeaderCell>
+                            <Table.HeaderCell>Notat</Table.HeaderCell>
+                            <Table.HeaderCell>Årsak</Table.HeaderCell>
                             <Table.DataCell />
                         </Table.Row>
                     </Table.Header>

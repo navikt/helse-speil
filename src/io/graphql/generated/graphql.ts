@@ -52,7 +52,7 @@ export type AnnulleringArsakInput = {
 export type AnnulleringDataInput = {
     aktorId: Scalars['String']['input'];
     arbeidsgiverFagsystemId: Scalars['String']['input'];
-    arsaker?: InputMaybe<Array<AnnulleringArsakInput>>;
+    arsaker: Array<AnnulleringArsakInput>;
     begrunnelser: Array<Scalars['String']['input']>;
     fodselsnummer: Scalars['String']['input'];
     kommentar?: InputMaybe<Scalars['String']['input']>;
@@ -250,6 +250,7 @@ export type BeregnetPeriode = Periode & {
     gjenstaendeSykedager: Maybe<Scalars['Int']['output']>;
     handlinger: Array<Handling>;
     hendelser: Array<Hendelse>;
+    historikkinnslag: Array<Historikkinnslag>;
     id: Scalars['UUID']['output'];
     inntektstype: Inntektstype;
     maksdato: Scalars['LocalDate']['output'];
@@ -393,6 +394,14 @@ export type FiltreringInput = {
     tildelt?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type FjernetFraPaVent = Historikkinnslag & {
+    __typename: 'FjernetFraPaVent';
+    notatId: Maybe<Scalars['Int']['output']>;
+    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['LocalDateTime']['output'];
+    type: PeriodehistorikkType;
+};
+
 export type Generasjon = {
     __typename: 'Generasjon';
     id: Scalars['UUID']['output'];
@@ -439,6 +448,13 @@ export enum Hendelsetype {
     SendtSoknadSelvstendig = 'SENDT_SOKNAD_SELVSTENDIG',
     Ukjent = 'UKJENT',
 }
+
+export type Historikkinnslag = {
+    notatId: Maybe<Scalars['Int']['output']>;
+    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['LocalDateTime']['output'];
+    type: PeriodehistorikkType;
+};
 
 export type ImPeriode = {
     __typename: 'IMPeriode';
@@ -549,6 +565,16 @@ export type Kommentar = {
     tekst: Scalars['String']['output'];
 };
 
+export type LagtPaVent = Historikkinnslag & {
+    __typename: 'LagtPaVent';
+    arsaker: Array<Scalars['String']['output']>;
+    frist: Scalars['LocalDate']['output'];
+    notatId: Maybe<Scalars['Int']['output']>;
+    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['LocalDateTime']['output'];
+    type: PeriodehistorikkType;
+};
+
 export type LovhjemmelInput = {
     bokstav?: InputMaybe<Scalars['String']['input']>;
     ledd?: InputMaybe<Scalars['String']['input']>;
@@ -641,8 +667,9 @@ export type MutationInnvilgVedtakArgs = {
 };
 
 export type MutationLeggPaVentArgs = {
+    arsaker?: InputMaybe<Array<PaVentArsakInput>>;
     frist: Scalars['LocalDate']['input'];
-    notatTekst: Scalars['String']['input'];
+    notatTekst?: InputMaybe<Scalars['String']['input']>;
     oppgaveId: Scalars['String']['input'];
     tildeling: Scalars['Boolean']['input'];
 };
@@ -950,6 +977,11 @@ export type PaVent = {
     oid: Scalars['UUID']['output'];
 };
 
+export type PaVentArsakInput = {
+    _key: Scalars['String']['input'];
+    arsak: Scalars['String']['input'];
+};
+
 export type Periode = {
     behandlingId: Scalars['UUID']['output'];
     erForkastet: Scalars['Boolean']['output'];
@@ -971,6 +1003,14 @@ export type PeriodeHistorikkElement = {
     __typename: 'PeriodeHistorikkElement';
     notat_id: Maybe<Scalars['Int']['output']>;
     saksbehandler_ident: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['LocalDateTime']['output'];
+    type: PeriodehistorikkType;
+};
+
+export type PeriodeHistorikkElementNy = Historikkinnslag & {
+    __typename: 'PeriodeHistorikkElementNy';
+    notatId: Maybe<Scalars['Int']['output']>;
+    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
 };
@@ -5012,7 +5052,8 @@ export type LeggPaVentMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input'];
     frist: Scalars['LocalDate']['input'];
     tildeling: Scalars['Boolean']['input'];
-    notatTekst: Scalars['String']['input'];
+    notatTekst?: InputMaybe<Scalars['String']['input']>;
+    arsaker?: InputMaybe<Array<PaVentArsakInput> | PaVentArsakInput>;
 }>;
 
 export type LeggPaVentMutation = {
@@ -11616,7 +11657,18 @@ export const LeggPaVentDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'arsaker' } },
+                    type: {
+                        kind: 'ListType',
+                        type: {
+                            kind: 'NonNullType',
+                            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaVentArsakInput' } },
+                        },
+                    },
                 },
             ],
             selectionSet: {
@@ -11645,6 +11697,11 @@ export const LeggPaVentDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'notatTekst' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'arsaker' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'arsaker' } },
                             },
                         ],
                         selectionSet: {
