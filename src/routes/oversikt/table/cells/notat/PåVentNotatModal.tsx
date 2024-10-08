@@ -1,20 +1,13 @@
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-import React, { ReactElement, useEffect } from 'react';
-import {
-    Control,
-    FieldValues,
-    FormProvider,
-    SubmitHandler,
-    useController,
-    useForm,
-    useFormContext,
-} from 'react-hook-form';
+import React, { ReactElement } from 'react';
+import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
-import { BodyShort, Button, Checkbox, ErrorMessage, Heading, Modal, Textarea } from '@navikt/ds-react';
+import { Button, Checkbox, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Maybe, NotatType, Personnavn, Tildeling } from '@io/graphql';
+import { Maybe, NotatType, PaVentArsakInput, Personnavn, Tildeling } from '@io/graphql';
+import { PåVentÅrsakerOgBegrunnelse } from '@oversikt/table/cells/notat/PåVentÅrsakerOgBegrunnelse';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 import { useLeggPåVent } from '@state/påvent';
@@ -69,14 +62,19 @@ export const PåVentNotatModal = ({
         .shift();
 
     const submit: SubmitHandler<FieldValues> = async (fieldValues) => {
-        await settPåVent(fieldValues.tekst, fieldValues.frist, fieldValues.tildeling);
+        await settPåVent(
+            fieldValues.tekst,
+            fieldValues.frist,
+            fieldValues.tildeling,
+            fieldValues.arsaker.map((a: string) => JSON.parse(a)),
+        );
         onClose();
     };
 
-    const settPåVent = async (notattekst: string, frist: string, tildeling: boolean) => {
+    const settPåVent = async (notattekst: string, frist: string, tildeling: boolean, arsaker: PaVentArsakInput[]) => {
         const fristVerdi = dayjs(frist, NORSK_DATOFORMAT).format(ISO_DATOFORMAT);
 
-        await leggPåVentMedNotat(oppgaveId, fristVerdi, tildeling, notattekst, vedtaksperiodeId);
+        await leggPåVentMedNotat(oppgaveId, fristVerdi, tildeling, notattekst, vedtaksperiodeId, arsaker);
         if (leggPåVentError) {
             errorHandler(leggPåVentError);
         } else {
@@ -84,7 +82,6 @@ export const PåVentNotatModal = ({
         }
     };
 
-    const tillattTekstlengde = 1_000;
     const errorMessage: string | undefined =
         leggPåVentError !== undefined
             ? apolloErrorCode(leggPåVentError) === 401
@@ -102,16 +99,9 @@ export const PåVentNotatModal = ({
             </Modal.Header>
             <Modal.Body>
                 {sisteNotat && <SisteNotat notat={sisteNotat} />}
-                <BodyShort className={styles.description}>
-                    Skriv hvorfor saken er lagt på vent. Det gjør det lettere å starte igjen senere.
-                    <br />
-                    Eks: Kontaktet arbeidsgiver, fikk ikke svar. Prøv igjen senere.
-                    <br />
-                    Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.
-                </BodyShort>
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(submit)} id="på-vent-notat-form">
-                        <ControlledTextarea control={form.control} tillattTekstlengde={tillattTekstlengde} />
+                        <PåVentÅrsakerOgBegrunnelse />
                         <Frist />
                         <Checkbox
                             defaultChecked
@@ -134,39 +124,5 @@ export const PåVentNotatModal = ({
                 {errorMessage && <ErrorMessage className={styles.errormessage}>{errorMessage}</ErrorMessage>}
             </Modal.Footer>
         </Modal>
-    );
-};
-
-interface ControlledTextareaProps {
-    control: Control;
-    tillattTekstlengde: number;
-}
-
-const ControlledTextarea = ({ control, tillattTekstlengde }: ControlledTextareaProps): ReactElement => {
-    const { setFocus } = useFormContext();
-    const { field, fieldState } = useController({
-        control: control,
-        name: 'tekst',
-        rules: {
-            required: 'Notat må fylles ut',
-            maxLength: {
-                value: tillattTekstlengde,
-                message: `Det er kun tillatt med ${tillattTekstlengde} tegn`,
-            },
-        },
-    });
-    useEffect(() => {
-        setFocus('tekst', { shouldSelect: true });
-    }, [setFocus]);
-
-    return (
-        <Textarea
-            {...field}
-            className={styles.textarea}
-            error={fieldState.error?.message}
-            label="Legg på vent"
-            hideLabel
-            maxLength={tillattTekstlengde}
-        />
     );
 };

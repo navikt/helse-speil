@@ -12,6 +12,7 @@ import {
     OppgaveFeedDocument,
     Oppgaveegenskap,
     PaVent,
+    PaVentArsakInput,
     PaventFragment,
 } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -34,6 +35,7 @@ export const useLeggPåVent = (
         tildeling: boolean,
         notattekst: string,
         vedtaksperiodeId: string,
+        arsaker: PaVentArsakInput[],
     ) => Promise<FetchResult<LeggPaVentMutation>>,
     MutationResult<LeggPaVentMutation>,
 ] => {
@@ -46,6 +48,7 @@ export const useLeggPåVent = (
         tildeling: boolean,
         notattekst: string,
         vedtaksperiodeId: string,
+        arsaker: PaVentArsakInput[],
     ) =>
         leggPåVentMutation({
             refetchQueries: [
@@ -62,6 +65,7 @@ export const useLeggPåVent = (
                 frist: frist,
                 tildeling: tildeling,
                 notatTekst: notattekst,
+                arsaker: arsaker,
             },
             update: (cache, result) =>
                 oppdaterPåVentICache(
