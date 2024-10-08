@@ -18,6 +18,11 @@
     padding: var(--a-spacing-2) var(--a-spacing-6) var(--a-spacing-2) var(--a-spacing-2);
     white-space: nowrap;
     border: none;
+    font-weight: var(--a-font-weight-regular);
+}
+
+.Table th {
+    padding-top: 0;
 }
 
 .Table tr > th:first-of-type,
@@ -54,11 +59,6 @@
 
 .PaddedRow > td {
     padding-bottom: var(--a-spacing-8) !important;
-}
-
-.ColumnTitle {
-    color: var(--a-gray-600);
-    font-size: 14px;
 }
 
 .rightAligned {

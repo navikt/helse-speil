@@ -67,7 +67,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         );
 
         expect(screen.getByText('Inntektsgrunnlag')).toBeVisible();
-        expect(screen.getByText('Sammenligningsgrunnlag')).toBeVisible();
+        expect(screen.getByText('Sammenligningsgr.')).toBeVisible();
         expect(screen.getByText('Beregnet månedsinntekt')).toBeVisible();
         //expect(screen.getByText('Omregnet til årsinntekt')).toBeVisible();
         //expect(screen.getByText('RAPPORTERT SISTE 3 MÅNEDER')).toBeVisible();
@@ -146,7 +146,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         );
 
         expect(screen.getByText('Inntektsgrunnlag')).toBeVisible();
-        expect(screen.getByText('Sammenligningsgrunnlag')).toBeVisible();
+        expect(screen.getByText('Sammenligningsgr.')).toBeVisible();
         expect(screen.getByText('Beregnet månedsinntekt')).toBeVisible();
         expect(screen.getByText('RAPPORTERT SISTE 3 MÅNEDER')).toBeVisible();
         expect(screen.getAllByText(arbeidsgiver.navn)).toHaveLength(3);

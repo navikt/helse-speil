@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
-import { BodyShort, Table } from '@navikt/ds-react';
+import { BodyShort, Detail, Table } from '@navikt/ds-react';
 
 import { Arbeidsgiverinntekt, Maybe, PersonFragment } from '@io/graphql';
 import { somPenger } from '@utils/locale';
@@ -34,14 +34,14 @@ export const InntektsgrunnlagTable = ({
             <Table.Row>
                 <HeaderCellBold />
                 <HeaderCellBold text="Inntektsgrunnlag" />
-                <HeaderCellBold text="Sammenligningsgrunnlag" />
+                <HeaderCellBold text="Sammenligningsgr." />
                 <HeaderCellBold text="Skjønnsfastsatt" />
             </Table.Row>
             <Table.Row>
                 <HeaderCellText text="Inntektskilde" />
                 <HeaderCellText text="Omregnet årsinntekt" />
                 <HeaderCellText text="Rapportert årsinntekt" />
-                <HeaderCellText text="Skjønnsfastsatt årsinntekt" />
+                <HeaderCellText text="Sykepengegrunnlag" />
             </Table.Row>
         </Table.Header>
         <Table.Body className={styles.InntektsgrunnlagTableBody}>
@@ -91,6 +91,6 @@ interface HeaderCellTextProps {
 
 const HeaderCellText = ({ text }: HeaderCellTextProps) => (
     <Table.HeaderCell>
-        <BodyShort className={styles.ColumnTitle}>{text}</BodyShort>
+        <Detail textColor="subtle">{text}</Detail>
     </Table.HeaderCell>
 );
