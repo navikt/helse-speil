@@ -21,6 +21,7 @@ export interface Driftsmelding {
     tittel: string;
     melding: string;
     opprettet: DateString;
+    _updatedAt: DateString;
 }
 
 export interface Arsaker {

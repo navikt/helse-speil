@@ -18,7 +18,7 @@ export const Driftsmeldinger = () => {
     const { driftsmeldinger, loading, error } = useDriftsmelding();
 
     return R.sortBy(driftsmeldinger, [R.prop('opprettet'), 'desc']).map((driftsmelding, index) => {
-        const harGått30min = dayjs(driftsmelding.opprettet).add(30, 'minutes').isBefore(dayjs());
+        const harGått30min = dayjs(driftsmelding._updatedAt).add(30, 'minutes').isBefore(dayjs());
         if (harGått30min && driftsmelding.level === 'success') return null;
 
         return <Driftsmelding key={index} driftsmelding={driftsmelding} />;
