@@ -57,7 +57,7 @@ export const ToggleOverstyring = ({
             </Button>
         )
     ) : (
-        <HelpText>
+        <HelpText title="Perioden kan ikke overstyres">
             {!erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
                 ? 'Perioden kan ikke overstyres fordi det finnes en oppgave på en tidligere periode'
                 : !vilkårsgrunnlagId
