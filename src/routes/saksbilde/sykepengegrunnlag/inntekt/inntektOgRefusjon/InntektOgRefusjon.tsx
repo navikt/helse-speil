@@ -19,12 +19,7 @@ import {
 } from '@io/graphql';
 import { ToggleOverstyring } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/ToggleOverstyring';
 import { InntektOgRefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
-import {
-    useArbeidsgiver,
-    useEndringerForPeriode,
-    useLokaleRefusjonsopplysninger,
-    useLokaltMånedsbeløp,
-} from '@state/arbeidsgiver';
+import { useEndringerForPeriode, useLokaleRefusjonsopplysninger, useLokaltMånedsbeløp } from '@state/arbeidsgiver';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';
@@ -79,7 +74,7 @@ export const InntektOgRefusjon = ({
         tom: inntektTom,
     } = inntekt;
 
-    const { skjaeringstidspunkt: skjæringstidspunkt, id: periodeId, inntektstype } = periode as BeregnetPeriodeFragment;
+    const { skjaeringstidspunkt: skjæringstidspunkt, id: periodeId } = periode as BeregnetPeriodeFragment;
     const erGhostperiode = isGhostPeriode(periode);
 
     useEffect(() => {
@@ -87,8 +82,7 @@ export const InntektOgRefusjon = ({
     }, [periodeId]);
 
     const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer);
-    const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
-    const { inntektsendringer } = useEndringerForPeriode(endringer, person);
+    const { inntektsendringer } = useEndringerForPeriode(arbeidsgiver?.overstyringer, person);
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
 
@@ -111,24 +105,13 @@ export const InntektOgRefusjon = ({
                 editing={editingInntekt}
                 setEditing={setEditingInntekt}
             />
-            <div className={classNames(styles.Header, editingInntekt && styles.editing)}>
-                <div className={styles.ArbeidsgiverHeader}>
-                    <Arbeidsgivernavn className={styles.Arbeidsgivernavn} arbeidsgivernavn={arbeidsgiver.navn} />
-                    <div className={styles.Organisasjonsnummer}>
-                        (
-                        <Clipboard
-                            copyMessage="Organisasjonsnummer er kopiert"
-                            tooltip={{ content: 'Kopier organisasjonsnummer' }}
-                        >
-                            <AnonymizableContainer>{arbeidsgiver.organisasjonsnummer}</AnonymizableContainer>
-                        </Clipboard>
-                        )
-                    </div>
-                    <Kilde type="AINNTEKT">AA</Kilde>
-                </div>
-            </div>
+            <InntektOgRefusjonHeader
+                editing={editingInntekt}
+                arbeidsgivernavn={arbeidsgiver.navn}
+                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+            />
             <Label size="small">Beregnet månedsinntekt</Label>
-            {editingInntekt && omregnetÅrsinntekt ? (
+            {editingInntekt && omregnetÅrsinntekt && (
                 <InntektOgRefusjonSkjema
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
                     close={() => setEditingInntekt(false)}
@@ -142,38 +125,71 @@ export const InntektOgRefusjon = ({
                     inntektFom={inntektFom}
                     inntektTom={inntektTom}
                 />
-            ) : (
-                <ReadOnlyInntekt
-                    omregnetÅrsinntekt={omregnetÅrsinntekt}
-                    lokaltMånedsbeløp={lokaltMånedsbeløp}
-                    endret={endret}
-                    inntektsendringer={inntektsendringer}
-                />
-            )}
-            {refusjon && refusjon.length !== 0 && !editingInntekt && (
-                <Refusjonsoversikt refusjon={refusjon} lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger} />
             )}
 
             {!editingInntekt && (
-                <SisteTolvMånedersInntekt
-                    skjæringstidspunkt={skjæringstidspunkt}
-                    inntektFraAOrdningen={
-                        erInntektskildeAordningen && !skalVise12mnd828
-                            ? (omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen)
-                            : inntektFraAOrdningen
-                    }
-                    erAktivGhost={erGhostperiode && !erDeaktivert}
-                    inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
-                />
-            )}
-            {!editingInntekt && arbeidsforholdKanOverstyres && !harSykefravær && (
-                <OverstyrArbeidsforholdUtenSykdom
-                    organisasjonsnummerAktivPeriode={organisasjonsnummer}
-                    skjæringstidspunkt={skjæringstidspunkt}
-                    arbeidsforholdErDeaktivert={erDeaktivert}
-                    person={person}
-                />
+                <>
+                    <ReadOnlyInntekt
+                        omregnetÅrsinntekt={omregnetÅrsinntekt}
+                        lokaltMånedsbeløp={lokaltMånedsbeløp}
+                        endret={endret}
+                        inntektsendringer={inntektsendringer}
+                    />
+                    {refusjon && refusjon.length !== 0 && (
+                        <Refusjonsoversikt
+                            refusjon={refusjon}
+                            lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger}
+                        />
+                    )}
+                    <SisteTolvMånedersInntekt
+                        skjæringstidspunkt={skjæringstidspunkt}
+                        inntektFraAOrdningen={
+                            erInntektskildeAordningen && !skalVise12mnd828
+                                ? (omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen)
+                                : inntektFraAOrdningen
+                        }
+                        erAktivGhost={erGhostperiode && !erDeaktivert}
+                        inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
+                    />
+                    {arbeidsforholdKanOverstyres && !harSykefravær && (
+                        <OverstyrArbeidsforholdUtenSykdom
+                            organisasjonsnummerAktivPeriode={organisasjonsnummer}
+                            skjæringstidspunkt={skjæringstidspunkt}
+                            arbeidsforholdErDeaktivert={erDeaktivert}
+                            person={person}
+                        />
+                    )}
+                </>
             )}
         </div>
     );
 };
+
+interface InntektOgRefusjonHeaderProps {
+    editing: boolean;
+    arbeidsgivernavn: string;
+    organisasjonsnummer: string;
+}
+
+export const InntektOgRefusjonHeader = ({
+    editing,
+    arbeidsgivernavn,
+    organisasjonsnummer,
+}: InntektOgRefusjonHeaderProps) => (
+    <div className={classNames(styles.Header, editing && styles.editing)}>
+        <div className={styles.ArbeidsgiverHeader}>
+            <Arbeidsgivernavn className={styles.Arbeidsgivernavn} arbeidsgivernavn={arbeidsgivernavn} />
+            <div className={styles.Organisasjonsnummer}>
+                (
+                <Clipboard
+                    copyMessage="Organisasjonsnummer er kopiert"
+                    tooltip={{ content: 'Kopier organisasjonsnummer' }}
+                >
+                    <AnonymizableContainer>{organisasjonsnummer}</AnonymizableContainer>
+                </Clipboard>
+                )
+            </div>
+            <Kilde type="AINNTEKT">AA</Kilde>
+        </div>
+    </div>
+);
