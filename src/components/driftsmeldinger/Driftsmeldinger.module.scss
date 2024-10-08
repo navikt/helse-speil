@@ -1,11 +1,20 @@
 .driftsmelding {
-  border-bottom: none;
-  border-radius: 0;
-  padding: 0.5rem;
+  cursor: pointer;
 
-  > :global(.navds-alert__wrapper--maxwidth){
-    max-width: 100%;
+  &:hover {
+    .tittel {
+    text-decoration: underline;
+    }
+
+    .button{
+      background-color: var(--a-grayalpha-200);
+      border-radius: var(--a-border-radius-medium);
+    }
   }
+}
+
+.button {
+  display: flex;
 }
 
 .dato {
@@ -15,4 +24,19 @@
 
 .tittel {
   font-size: 18px;
+  text-decoration: none;
+
+}
+
+.chevron {
+  transition: transform 0.3s ease;
+}
+
+.chevronrotated {
+  transform: rotate(180deg);
+}
+
+.melding {
+  white-space: break-spaces;
+  margin-top: 0.25rem;
 }
