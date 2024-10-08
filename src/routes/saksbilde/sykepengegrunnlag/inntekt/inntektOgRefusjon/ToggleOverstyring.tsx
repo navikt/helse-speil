@@ -18,7 +18,6 @@ interface ToggleOverstyringProps {
     arbeidsgiver: ArbeidsgiverFragment;
     periode: ActivePeriod;
     vilkårsgrunnlagId?: Maybe<string>;
-    skjæringstidspunkt: string;
     organisasjonsnummer: string;
     erDeaktivert: boolean;
     editing: boolean;
@@ -30,15 +29,14 @@ export const ToggleOverstyring = ({
     arbeidsgiver,
     periode,
     vilkårsgrunnlagId,
-    skjæringstidspunkt,
     organisasjonsnummer,
     erDeaktivert,
     editing,
     setEditing,
 }: ToggleOverstyringProps) => {
-    const kanRevurderes = useInntektKanRevurderes(person, skjæringstidspunkt);
+    const kanRevurderes = useInntektKanRevurderes(person, periode.skjaeringstidspunkt);
     const ghostInntektKanOverstyres =
-        useGhostInntektKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer) && !erDeaktivert;
+        useGhostInntektKanOverstyres(person, periode.skjaeringstidspunkt, organisasjonsnummer) && !erDeaktivert;
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
 
     const kanOverstyres =

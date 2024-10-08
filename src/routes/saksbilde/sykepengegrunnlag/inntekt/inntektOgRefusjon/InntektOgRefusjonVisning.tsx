@@ -1,0 +1,96 @@
+import React from 'react';
+
+import {
+    BeregnetPeriodeFragment,
+    InntektFraAOrdningen,
+    Inntektskilde,
+    Maybe,
+    OmregnetArsinntekt,
+    OverstyringFragment,
+    PersonFragment,
+    VilkarsgrunnlagSpleis,
+} from '@io/graphql';
+import { useEndringerForPeriode, useLokaleRefusjonsopplysninger, useLokaltMånedsbeløp } from '@state/arbeidsgiver';
+import { getVilkårsgrunnlag } from '@state/utils';
+import { Refusjonsopplysning } from '@typer/overstyring';
+import { ActivePeriod } from '@typer/shared';
+import { isGhostPeriode } from '@utils/typeguards';
+
+import { OverstyrArbeidsforholdUtenSykdom } from '../../overstyring/OverstyrArbeidsforholdUtenSykdom';
+import { Refusjonsoversikt } from '../../refusjon/Refusjonsoversikt';
+import { ReadOnlyInntekt } from './ReadOnlyInntekt';
+import { SisteTolvMånedersInntekt } from './SisteTolvMånedersInntekt';
+import { useArbeidsforholdKanOverstyres } from './inntektOgRefusjonUtils';
+
+interface InntektOgRefusjonVisningProps {
+    person: PersonFragment;
+    periode: ActivePeriod;
+    omregnetÅrsinntekt: Maybe<OmregnetArsinntekt>;
+    endret: boolean;
+    refusjon?: Maybe<Refusjonsopplysning[]>;
+    vilkårsgrunnlagId?: Maybe<string>;
+    inntektFraAOrdningen?: InntektFraAOrdningen[];
+    erDeaktivert: boolean;
+    inntekterForSammenligningsgrunnlag?: Array<InntektFraAOrdningen>;
+    harSykefravær: boolean;
+    organisasjonsnummer: string;
+    overstyringer: OverstyringFragment[];
+}
+
+export const InntektOgRefusjonVisning = ({
+    person,
+    periode,
+    omregnetÅrsinntekt,
+    endret,
+    refusjon,
+    vilkårsgrunnlagId,
+    inntektFraAOrdningen,
+    erDeaktivert,
+    inntekterForSammenligningsgrunnlag,
+    harSykefravær,
+    organisasjonsnummer,
+    overstyringer,
+}: InntektOgRefusjonVisningProps) => {
+    const { skjaeringstidspunkt: skjæringstidspunkt } = periode as BeregnetPeriodeFragment;
+
+    const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer);
+    const { inntektsendringer } = useEndringerForPeriode(overstyringer, person);
+    const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
+    const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
+    const erGhostperiode = isGhostPeriode(periode);
+    const erInntektskildeAordningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
+    const skalVise12mnd828 =
+        ((getVilkårsgrunnlag(person, vilkårsgrunnlagId) as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) > 25;
+
+    return (
+        <>
+            <ReadOnlyInntekt
+                omregnetÅrsinntekt={omregnetÅrsinntekt}
+                lokaltMånedsbeløp={lokaltMånedsbeløp}
+                endret={endret}
+                inntektsendringer={inntektsendringer}
+            />
+            {refusjon && refusjon.length !== 0 && (
+                <Refusjonsoversikt refusjon={refusjon} lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger} />
+            )}
+            <SisteTolvMånedersInntekt
+                skjæringstidspunkt={skjæringstidspunkt}
+                inntektFraAOrdningen={
+                    erInntektskildeAordningen && !skalVise12mnd828
+                        ? (omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen)
+                        : inntektFraAOrdningen
+                }
+                erAktivGhost={erGhostperiode && !erDeaktivert}
+                inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
+            />
+            {arbeidsforholdKanOverstyres && !harSykefravær && (
+                <OverstyrArbeidsforholdUtenSykdom
+                    organisasjonsnummerAktivPeriode={organisasjonsnummer}
+                    skjæringstidspunkt={skjæringstidspunkt}
+                    arbeidsforholdErDeaktivert={erDeaktivert}
+                    person={person}
+                />
+            )}
+        </>
+    );
+};

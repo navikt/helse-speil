@@ -3,37 +3,24 @@ import React, { useEffect, useState } from 'react';
 
 import { Label } from '@navikt/ds-react';
 
-import { Kilde } from '@components/Kilde';
-import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import { Clipboard } from '@components/clipboard';
 import {
     ArbeidsgiverFragment,
     Arbeidsgiverinntekt,
-    BeregnetPeriodeFragment,
     InntektFraAOrdningen,
-    Inntektskilde,
     Inntektstype,
     Maybe,
     PersonFragment,
-    VilkarsgrunnlagSpleis,
 } from '@io/graphql';
+import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
+import { InntektOgRefusjonVisning } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonVisning';
 import { ToggleOverstyring } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/ToggleOverstyring';
 import { InntektOgRefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
-import { useEndringerForPeriode, useLokaleRefusjonsopplysninger, useLokaltMånedsbeløp } from '@state/arbeidsgiver';
-import { getVilkårsgrunnlag } from '@state/utils';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';
-import { isGhostPeriode } from '@utils/typeguards';
 
-import { Arbeidsgivernavn } from '../../Arbeidsgivernavn';
-import { OverstyrArbeidsforholdUtenSykdom } from '../../overstyring/OverstyrArbeidsforholdUtenSykdom';
-import { Refusjonsoversikt } from '../../refusjon/Refusjonsoversikt';
-import { ReadOnlyInntekt } from './ReadOnlyInntekt';
-import { SisteTolvMånedersInntekt } from './SisteTolvMånedersInntekt';
 import {
     endreInntektMedSykefraværBegrunnelser,
     endreInntektUtenSykefraværBegrunnelser,
-    useArbeidsforholdKanOverstyres,
 } from './inntektOgRefusjonUtils';
 
 import styles from '../Inntekt.module.css';
@@ -43,7 +30,6 @@ interface InntektUtenSykefraværProps {
     periode: ActivePeriod;
     inntekt: Arbeidsgiverinntekt;
     vilkårsgrunnlagId?: Maybe<string>;
-    periodeId?: Maybe<string>;
     inntektstype?: Maybe<Inntektstype>;
     arbeidsgiver: ArbeidsgiverFragment;
     refusjon?: Maybe<Refusjonsopplysning[]>;
@@ -70,25 +56,11 @@ export const InntektOgRefusjon = ({
         omregnetArsinntekt: omregnetÅrsinntekt,
         arbeidsgiver: organisasjonsnummer,
         deaktivert: erDeaktivert,
-        fom: inntektFom,
-        tom: inntektTom,
     } = inntekt;
-
-    const { skjaeringstidspunkt: skjæringstidspunkt, id: periodeId } = periode as BeregnetPeriodeFragment;
-    const erGhostperiode = isGhostPeriode(periode);
 
     useEffect(() => {
         setEditingInntekt(false);
-    }, [periodeId]);
-
-    const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer);
-    const { inntektsendringer } = useEndringerForPeriode(arbeidsgiver?.overstyringer, person);
-    const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
-    const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
-
-    const erInntektskildeAordningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
-    const skalVise12mnd828 =
-        ((getVilkårsgrunnlag(person, vilkårsgrunnlagId) as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) > 25;
+    }, [periode.id]);
 
     return (
         <div
@@ -99,7 +71,6 @@ export const InntektOgRefusjon = ({
                 arbeidsgiver={arbeidsgiver}
                 periode={periode}
                 vilkårsgrunnlagId={vilkårsgrunnlagId}
-                skjæringstidspunkt={skjæringstidspunkt}
                 organisasjonsnummer={organisasjonsnummer}
                 erDeaktivert={erDeaktivert ?? false}
                 editing={editingInntekt}
@@ -119,77 +90,30 @@ export const InntektOgRefusjon = ({
                     begrunnelser={
                         harSykefravær ? endreInntektMedSykefraværBegrunnelser : endreInntektUtenSykefraværBegrunnelser
                     }
-                    skjæringstidspunkt={skjæringstidspunkt}
+                    skjæringstidspunkt={periode.skjaeringstidspunkt}
                     person={person}
                     arbeidsgiver={arbeidsgiver}
-                    inntektFom={inntektFom}
-                    inntektTom={inntektTom}
+                    inntektFom={inntekt.fom}
+                    inntektTom={inntekt.tom}
                 />
             )}
 
             {!editingInntekt && (
-                <>
-                    <ReadOnlyInntekt
-                        omregnetÅrsinntekt={omregnetÅrsinntekt}
-                        lokaltMånedsbeløp={lokaltMånedsbeløp}
-                        endret={endret}
-                        inntektsendringer={inntektsendringer}
-                    />
-                    {refusjon && refusjon.length !== 0 && (
-                        <Refusjonsoversikt
-                            refusjon={refusjon}
-                            lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger}
-                        />
-                    )}
-                    <SisteTolvMånedersInntekt
-                        skjæringstidspunkt={skjæringstidspunkt}
-                        inntektFraAOrdningen={
-                            erInntektskildeAordningen && !skalVise12mnd828
-                                ? (omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen)
-                                : inntektFraAOrdningen
-                        }
-                        erAktivGhost={erGhostperiode && !erDeaktivert}
-                        inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
-                    />
-                    {arbeidsforholdKanOverstyres && !harSykefravær && (
-                        <OverstyrArbeidsforholdUtenSykdom
-                            organisasjonsnummerAktivPeriode={organisasjonsnummer}
-                            skjæringstidspunkt={skjæringstidspunkt}
-                            arbeidsforholdErDeaktivert={erDeaktivert}
-                            person={person}
-                        />
-                    )}
-                </>
+                <InntektOgRefusjonVisning
+                    person={person}
+                    periode={periode}
+                    omregnetÅrsinntekt={omregnetÅrsinntekt}
+                    endret={endret}
+                    refusjon={refusjon}
+                    vilkårsgrunnlagId={vilkårsgrunnlagId}
+                    inntektFraAOrdningen={inntektFraAOrdningen}
+                    erDeaktivert={erDeaktivert ?? false}
+                    inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
+                    harSykefravær={harSykefravær}
+                    organisasjonsnummer={organisasjonsnummer}
+                    overstyringer={arbeidsgiver.overstyringer}
+                />
             )}
         </div>
     );
 };
-
-interface InntektOgRefusjonHeaderProps {
-    editing: boolean;
-    arbeidsgivernavn: string;
-    organisasjonsnummer: string;
-}
-
-export const InntektOgRefusjonHeader = ({
-    editing,
-    arbeidsgivernavn,
-    organisasjonsnummer,
-}: InntektOgRefusjonHeaderProps) => (
-    <div className={classNames(styles.Header, editing && styles.editing)}>
-        <div className={styles.ArbeidsgiverHeader}>
-            <Arbeidsgivernavn className={styles.Arbeidsgivernavn} arbeidsgivernavn={arbeidsgivernavn} />
-            <div className={styles.Organisasjonsnummer}>
-                (
-                <Clipboard
-                    copyMessage="Organisasjonsnummer er kopiert"
-                    tooltip={{ content: 'Kopier organisasjonsnummer' }}
-                >
-                    <AnonymizableContainer>{organisasjonsnummer}</AnonymizableContainer>
-                </Clipboard>
-                )
-            </div>
-            <Kilde type="AINNTEKT">AA</Kilde>
-        </div>
-    </div>
-);
