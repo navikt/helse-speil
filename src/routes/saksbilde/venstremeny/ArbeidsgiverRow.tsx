@@ -10,6 +10,7 @@ import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anon
 import { Clipboard } from '@components/clipboard';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { Arbeidsforhold } from '@io/graphql';
+import { useIsAnonymous } from '@state/anonymization';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { capitalize, somPenger } from '@utils/locale';
 
@@ -33,9 +34,10 @@ const OrganisasjonsnummerRow = ({ organisasjonsnummer }: OrganisasjonsnummerRowP
 
 interface ArbeidsforholdRowProps {
     arbeidsforhold: Array<Arbeidsforhold>;
+    erAnonymisert: boolean;
 }
 
-const ArbeidsforholdRow = ({ arbeidsforhold }: ArbeidsforholdRowProps): ReactElement => {
+const ArbeidsforholdRow = ({ arbeidsforhold, erAnonymisert }: ArbeidsforholdRowProps): ReactElement => {
     return (
         <>
             {arbeidsforhold.map((arbeidsforhold, i) => {
@@ -45,7 +47,13 @@ const ArbeidsforholdRow = ({ arbeidsforhold }: ArbeidsforholdRowProps): ReactEle
 
                 return (
                     <React.Fragment key={i}>
-                        <Tooltip content={`${stillingstittel}, ${arbeidsforhold.stillingsprosent} %`}>
+                        <Tooltip
+                            content={
+                                !erAnonymisert
+                                    ? `${stillingstittel}, ${arbeidsforhold.stillingsprosent} %`
+                                    : 'Stillingstittel, stillingsprosent'
+                            }
+                        >
                             <div className={styles.arbeidsforhold}>
                                 <AnonymizableTextWithEllipsis>
                                     {`${capitalize(stillingstittel)}`}
@@ -91,19 +99,24 @@ const ArbeidsgiverRowView = ({
     månedsbeløp,
 }: ArbeidsgiverCardProps): ReactElement => {
     const [open, setOpen] = useState(false);
+    const erAnonymisert = useIsAnonymous();
+
     return (
         <>
             <ArbeidsgiverikonMedTooltip className={styles.iconContainer} />
             <Accordion>
                 <Accordion.Item open={open} className={styles.arbeidsgiverRow}>
-                    <Accordion.Header className={styles.header} onClick={() => setOpen((prevState) => !prevState)}>
+                    <Accordion.Header
+                        className={classNames(styles.header, { [styles.anonymisert]: erAnonymisert })}
+                        onClick={() => setOpen((prevState) => !prevState)}
+                    >
                         <AnonymizableContainer>
                             <BodyShort>{navn.charAt(0).toUpperCase() + navn.slice(1).toLowerCase()}</BodyShort>
                         </AnonymizableContainer>
                     </Accordion.Header>
                     <Accordion.Content className={styles.content}>
                         <OrganisasjonsnummerRow organisasjonsnummer={organisasjonsnummer} />
-                        <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} />
+                        <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} erAnonymisert={erAnonymisert} />
                     </Accordion.Content>
                     {månedsbeløp !== undefined && <MånedsbeløpRow månedsbeløp={månedsbeløp} />}
                 </Accordion.Item>
