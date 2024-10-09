@@ -24,6 +24,7 @@ export class NotReadyError extends GraphQLError {
         super(`Person med fødselsnummer ... er ikke klar for visning ennå`, {
             extensions: {
                 code: 409,
+                persondata_hentes_for: 'en-aktør-id',
             },
         });
     }

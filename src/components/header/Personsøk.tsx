@@ -9,7 +9,7 @@ import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FetchPersonDocument } from '@io/graphql';
 import { validFødselsnummer } from '@io/graphql/common';
 import { useAddVarsel, useRapporterGraphQLErrors } from '@state/varsler';
-import { SpeilError, apolloErrorCode, apolloExtensionValue } from '@utils/error';
+import { SpeilError, apolloExtensionValue } from '@utils/error';
 
 import styles from './Personsøk.module.css';
 
@@ -71,7 +71,6 @@ export const Personsøk = (): ReactElement => {
 };
 
 const personKlargjøres = (error: ApolloError) => {
-    const errorCode = apolloErrorCode(error);
     const aktørId = apolloExtensionValue(error, 'persondata_hentes_for');
-    return errorCode === 409 && aktørId !== null;
+    return aktørId !== null && aktørId !== undefined;
 };
