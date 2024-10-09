@@ -1,14 +1,13 @@
 import React from 'react';
 
+import { Button, HStack } from '@navikt/ds-react';
+
 import { useMutation } from '@apollo/client';
-import { LinkButton } from '@components/LinkButton';
 import { Kommentar, LeggTilKommentarDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import { Kommentarer } from './Kommentarer';
 import { NotatForm } from './NotatForm';
-
-import styles from './Notathendelse.module.css';
 
 type NotatHendelseContentProps = {
     kommentarer: Array<Kommentar>;
@@ -25,6 +24,28 @@ export const NotatHendelseContent = ({
     setShowAddDialog,
     id,
 }: NotatHendelseContentProps) => {
+    const { onLeggTilKommentar, loading, error } = useLeggTilKommentar(id, () => setShowAddDialog(false));
+    return (
+        <HStack gap="4">
+            <Kommentarer kommentarer={kommentarer} saksbehandlerOid={saksbehandlerOid} />
+            {showAddDialog ? (
+                <NotatForm
+                    label="Kommentar"
+                    onSubmitForm={onLeggTilKommentar}
+                    closeForm={() => setShowAddDialog(false)}
+                    isFetching={loading}
+                    hasError={error !== undefined}
+                />
+            ) : (
+                <Button variant="tertiary" size="xsmall" onClick={() => setShowAddDialog(true)}>
+                    Legg til ny kommentar
+                </Button>
+            )}
+        </HStack>
+    );
+};
+
+const useLeggTilKommentar = (id: string, hideDialog: () => void) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const [leggTilKommentar, { error, loading }] = useMutation(LeggTilKommentarDocument);
 
@@ -66,27 +87,13 @@ export const NotatHendelseContent = ({
                     });
                 },
             });
-            setShowAddDialog(false);
+            hideDialog();
         }
     };
 
-    return (
-        <div className={styles.NotatContent}>
-            <Kommentarer kommentarer={kommentarer} saksbehandlerOid={saksbehandlerOid} />
-            {innloggetSaksbehandler.ident &&
-                (showAddDialog ? (
-                    <NotatForm
-                        label="Kommentar"
-                        onSubmitForm={onLeggTilKommentar}
-                        closeForm={() => setShowAddDialog(false)}
-                        isFetching={loading}
-                        hasError={error !== undefined}
-                    />
-                ) : (
-                    <LinkButton className={styles.LeggTilKommentarButton} onClick={() => setShowAddDialog(true)}>
-                        Legg til ny kommentar
-                    </LinkButton>
-                ))}
-        </div>
-    );
+    return {
+        onLeggTilKommentar,
+        loading,
+        error,
+    };
 };
