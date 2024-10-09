@@ -36,3 +36,10 @@ export const apolloErrorCode = (error: ApolloError | undefined): number =>
             value: number;
         }
     ).value;
+
+export const apolloExtensionValue = (error: ApolloError | undefined, field: string): string | null =>
+    (
+        error?.graphQLErrors?.[0].extensions?.[field] as {
+            value: string;
+        }
+    )?.value;

@@ -3,12 +3,13 @@ import React, { FormEvent, ReactElement, useRef } from 'react';
 
 import { Search } from '@navikt/ds-react';
 
-import { useLazyQuery } from '@apollo/client';
+import { erUtvikling } from '@/env';
+import { ApolloError, useLazyQuery } from '@apollo/client';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FetchPersonDocument } from '@io/graphql';
 import { validFødselsnummer } from '@io/graphql/common';
 import { useAddVarsel, useRapporterGraphQLErrors } from '@state/varsler';
-import { SpeilError } from '@utils/error';
+import { SpeilError, apolloErrorCode, apolloExtensionValue } from '@utils/error';
 
 import styles from './Personsøk.module.css';
 
@@ -46,7 +47,12 @@ export const Personsøk = (): ReactElement => {
                 if ((data?.person?.arbeidsgivere.length ?? 0) === 0) {
                     router.push('/');
                     if (error?.graphQLErrors) {
-                        rapporterError(error?.graphQLErrors, personId);
+                        if (erUtvikling && personKlargjøres(error)) {
+                            const aktørId = apolloExtensionValue(error, 'persondata_hentes_for');
+                            router.push(`/person/${aktørId}/dagoversikt`);
+                        } else {
+                            rapporterError(error?.graphQLErrors, personId);
+                        }
                     }
                     return;
                 }
@@ -62,4 +68,10 @@ export const Personsøk = (): ReactElement => {
             <Search label="Søk" size="small" variant="secondary" placeholder="Søk" ref={searchRef} />
         </form>
     );
+};
+
+const personKlargjøres = (error: ApolloError) => {
+    const errorCode = apolloErrorCode(error);
+    const aktørId = apolloExtensionValue(error, 'persondata_hentes_for');
+    return errorCode === 409 && aktørId !== null;
 };
