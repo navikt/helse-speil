@@ -22,6 +22,7 @@ interface SkjønnsfastsettingSykepengegrunnlagProps {
     sammenligningsgrunnlag?: Maybe<number>;
     skjønnsmessigFastsattÅrlig?: Maybe<number>;
     inntekter: Arbeidsgiverinntekt[];
+    avviksprosent: number;
 }
 
 export const SkjønnsfastsettingSykepengegrunnlag = ({
@@ -32,6 +33,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     sammenligningsgrunnlag,
     skjønnsmessigFastsattÅrlig,
     inntekter,
+    avviksprosent,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editing, setEditing] = useState(false);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
@@ -39,10 +41,11 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     const activePeriod = useActivePeriod(person);
     const harVarselForMerEnn25ProsentAvvik =
         isBeregnetPeriode(activePeriod) && activePeriod.varsler.some((it) => it.kode === 'RV_IV_2');
+    const skalVise828andreLedd = harVarselForMerEnn25ProsentAvvik || avviksprosent > 25;
 
     // TODO: legg inn loading og error
     const { maler, loading, error } = useSkjønnsfastsettelsesMaler(
-        harVarselForMerEnn25ProsentAvvik,
+        skalVise828andreLedd,
         (aktiveArbeidsgivere?.length ?? 0) > 1,
     );
 

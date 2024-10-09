@@ -58,10 +58,7 @@ type SanityQueryVariables = {
     };
 };
 
-export function useSkjønnsfastsettelsesMaler(
-    harVarselForMerEnn25ProsentAvvik: boolean,
-    harFlereArbeidsgivere: boolean,
-) {
+export function useSkjønnsfastsettelsesMaler(skalVise828AndreLedd: boolean, harFlereArbeidsgivere: boolean) {
     const { data, error, loading } = useQuery<SkjønnsfastsettelseMalerQueryResult, SanityQueryVariables>(
         gql`
             query SkjonnsfastsettelsesMaler($input: QueryPayload!) {
@@ -87,7 +84,7 @@ export function useSkjønnsfastsettelsesMaler(
     return {
         maler: data
             ? filterRelevantMaler(data.sanity.result, {
-                  harVarselForMerEnn25ProsentAvvik,
+                  skalVise828AndreLedd,
                   arbeidsforholdMal: harFlereArbeidsgivere ? 'FLERE_ARBEIDSGIVERE' : 'EN_ARBEIDSGIVER',
               })
             : undefined,
@@ -147,14 +144,12 @@ export function useArsaker(id: string) {
 function filterRelevantMaler(
     sanityResult: SkjønnsfastsettingMal[],
     opts: {
-        harVarselForMerEnn25ProsentAvvik: boolean;
+        skalVise828AndreLedd: boolean;
         arbeidsforholdMal: ArbeidsforholdMal;
     },
 ): SkjønnsfastsettingMal[] {
     return sanityResult
-        .filter((it: SkjønnsfastsettingMal) =>
-            !opts.harVarselForMerEnn25ProsentAvvik ? it.lovhjemmel.ledd !== '2' : true,
-        )
+        .filter((it: SkjønnsfastsettingMal) => (!opts.skalVise828AndreLedd ? it.lovhjemmel.ledd !== '2' : true))
         .filter((it: SkjønnsfastsettingMal) => it.arbeidsforholdMal.includes(opts.arbeidsforholdMal))
         .filter((it: SkjønnsfastsettingMal) => (erProd ? it.iProd : true));
 }
