@@ -22,7 +22,7 @@ interface RefusjonslinjeProps {
 
 export const Refusjonslinje = ({ fom, tom, beløp, kilde, lokalEndring }: RefusjonslinjeProps): ReactElement => {
     return (
-        <Table.Row>
+        <Table.Row className={styles.Refusjonslinje}>
             <Table.DataCell>
                 <BodyShort>{dayjs(fom).format(NORSK_DATOFORMAT)}</BodyShort>
                 {lokalEndring && (
@@ -38,7 +38,7 @@ export const Refusjonslinje = ({ fom, tom, beløp, kilde, lokalEndring }: Refusj
             <Table.DataCell>
                 {kilde === Kildetype.Inntektsmelding && <Kilde type={kilde}>IM</Kilde>}
                 {kilde === Kildetype.Saksbehandler && (
-                    <Kilde type={kilde} className={styles.Ikon}>
+                    <Kilde type={kilde}>
                         <PersonPencilFillIcon title="Saksbehandler ikon" />
                     </Kilde>
                 )}
