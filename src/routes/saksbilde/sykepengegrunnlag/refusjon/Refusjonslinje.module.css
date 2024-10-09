@@ -9,3 +9,11 @@
 .Refusjonslinje > td > .Infotrekant > svg > path {
     fill: var(--a-surface-action);
 }
+
+.Refusjonslinje > td:nth-last-of-type(2) {
+    padding-right: 0;
+}
+
+.Refusjonslinje > td:last-of-type {
+    padding-left: 0;
+}

@@ -14,11 +14,6 @@
     background-color: var(--a-white);
 }
 
-.Table tr th:nth-of-type(2),
-.Table tr td:nth-of-type(2) {
-    text-align: right;
-}
-
 .Table td,
 .Table th {
     padding: 0 2.5rem;
