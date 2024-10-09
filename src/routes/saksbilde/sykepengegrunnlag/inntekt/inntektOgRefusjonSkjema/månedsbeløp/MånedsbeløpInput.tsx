@@ -1,11 +1,8 @@
-import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { TextField } from '@navikt/ds-react';
+import { HStack, HelpText, TextField } from '@navikt/ds-react';
 
-import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
-import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Maybe } from '@io/graphql';
 import { InntektFormFields } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
 import { toKronerOgØre } from '@utils/locale';
@@ -50,50 +47,43 @@ export const MånedsbeløpInput = ({
     });
 
     return (
-        <>
-            <div className={styles.column}>
-                <TextField
-                    {...inputValidation}
-                    className={styles.Input}
-                    htmlSize={12}
-                    label="Månedsbeløp"
-                    hideLabel
-                    id="manedsbelop"
-                    size="small"
-                    value={visningsverdi}
-                    onChange={(event) => {
-                        setVisningsverdi(event.target.value);
-                    }}
-                    onBlur={(event) => {
-                        const nyttBeløp = Number(
-                            event.target.value
-                                .replaceAll(' ', '')
-                                .replaceAll(',', '.')
-                                // Når tallet blir formattert av toKronerOgØre får det non braking space i stedet for ' '
-                                .replaceAll(String.fromCharCode(160), ''),
-                        );
+        <HStack align="center" gap="2" wrap={false}>
+            <TextField
+                {...inputValidation}
+                className={styles.Input}
+                htmlSize={12}
+                label="Månedsbeløp"
+                hideLabel
+                id="manedsbelop"
+                size="small"
+                value={visningsverdi}
+                onChange={(event) => {
+                    setVisningsverdi(event.target.value);
+                }}
+                onBlur={(event) => {
+                    const nyttBeløp = Number(
+                        event.target.value
+                            .replaceAll(' ', '')
+                            .replaceAll(',', '.')
+                            // Når tallet blir formattert av toKronerOgØre får det non braking space i stedet for ' '
+                            .replaceAll(String.fromCharCode(160), ''),
+                    );
 
-                        const value = Number.isNaN(nyttBeløp) ? event.target.value : toKronerOgØre(nyttBeløp);
-                        setVisningsverdi(value);
-                        setValue('manedsbelop', value);
+                    const value = Number.isNaN(nyttBeløp) ? event.target.value : toKronerOgØre(nyttBeløp);
+                    setVisningsverdi(value);
+                    setValue('manedsbelop', value);
 
-                        void onBlur(event);
-                        void trigger('manedsbelop');
-                    }}
-                    ref={ref}
-                    error={!!manedsbelop?.message}
-                />
-            </div>
+                    void onBlur(event);
+                    void trigger('manedsbelop');
+                }}
+                ref={ref}
+                error={!!manedsbelop?.message}
+            />
             {skalDeaktiveres && (
-                <div className={classNames(styles.column, styles['column__deaktiveres'])}>
-                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                        <p>
-                            Det er ikke støtte for endring på månedsbeløp i saker som har vært delvis behandlet i
-                            infotrygd
-                        </p>
-                    </PopoverHjelpetekst>
-                </div>
+                <HelpText>
+                    Det er ikke støtte for endring på månedsbeløp i saker som har vært delvis behandlet i infotrygd
+                </HelpText>
             )}
-        </>
+        </HStack>
     );
 };

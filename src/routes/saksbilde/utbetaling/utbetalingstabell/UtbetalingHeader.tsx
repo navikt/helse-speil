@@ -1,13 +1,9 @@
 import React, { ReactElement } from 'react';
 
 import { BriefcaseClockIcon, PersonPencilIcon } from '@navikt/aksel-icons';
-import { Button, HStack } from '@navikt/ds-react';
+import { Button, HStack, HelpText } from '@navikt/ds-react';
 
-import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
-import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Maybe } from '@io/graphql';
-
-import styles from './UtbetalingHeader.module.css';
 
 interface UtbetalingHeaderProps {
     periodeErForkastet: boolean;
@@ -30,11 +26,7 @@ export const UtbetalingHeader = ({
     return (
         <HStack gap="2">
             {periodeErForkastet ? (
-                <div className={styles.infoboble}>
-                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                        <p>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</p>
-                    </PopoverHjelpetekst>
-                </div>
+                <HelpText>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</HelpText>
             ) : (
                 <>
                     {kanOverstyreMinimumSykdomsgrad && (

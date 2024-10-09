@@ -1,10 +1,8 @@
 import React, { ReactElement } from 'react';
 
-import { Alert } from '@navikt/ds-react';
+import { Alert, Box, HelpText } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
-import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
@@ -64,17 +62,13 @@ const ReadonlyUtbetaling = ({ fom, tom, dager, person }: ReadonlyUtbetalingProps
         <div className={styles.Utbetaling}>
             {!(hasLatestSkjæringstidspunkt || erAktivPeriodeLikEllerFørPeriodeTilGodkjenning) &&
                 periodeErISisteGenerasjon && (
-                    <div className={styles.Infopin}>
-                        <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                            <p>
-                                {harTidligereSkjæringstidspunktOgISisteGenerasjon
-                                    ? 'Det er ikke mulig å gjøre endringer i denne perioden'
-                                    : 'Perioden kan ikke overstyres fordi det finnes en oppgave på en tidligere periode'}
-                            </p>
-                        </PopoverHjelpetekst>
-                    </div>
+                    <HelpText>
+                        {harTidligereSkjæringstidspunktOgISisteGenerasjon
+                            ? 'Det er ikke mulig å gjøre endringer i denne perioden'
+                            : 'Perioden kan ikke overstyres fordi det finnes en oppgave på en tidligere periode'}
+                    </HelpText>
                 )}
-            <div className={styles.Container} data-testid="utbetaling">
+            <Box paddingBlock="8 0" data-testid="utbetaling">
                 <Utbetalingstabell
                     fom={fom}
                     tom={tom}
@@ -82,7 +76,7 @@ const ReadonlyUtbetaling = ({ fom, tom, dager, person }: ReadonlyUtbetalingProps
                     personFødselsdato={person.personinfo.fodselsdato}
                     person={person}
                 />
-            </div>
+            </Box>
         </div>
     );
 };
