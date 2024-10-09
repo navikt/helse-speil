@@ -1,10 +1,9 @@
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
-import { Loader, Table } from '@navikt/ds-react';
+import { Button, Table } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { LinkButton } from '@components/LinkButton';
 import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import { Saksbehandler } from '@state/authentication';
 import { useOperationErrorHandler } from '@state/varsler';
@@ -34,9 +33,14 @@ export const NotatListeRad = ({ notat, innloggetSaksbehandler }: NotatListeRadPr
                 {notat.feilregistrert
                     ? 'Feilregistrert'
                     : notat.saksbehandler.oid === innloggetSaksbehandler.oid && (
-                          <LinkButton className={styles.FeilregistrerButton} onClick={() => feilregistrerNotat()}>
-                              Feilregistrer {loading && <Loader size="xsmall" />}
-                          </LinkButton>
+                          <Button
+                              variant="tertiary-neutral"
+                              loading={loading}
+                              size="xsmall"
+                              onClick={() => feilregistrerNotat()}
+                          >
+                              Feilregistrer
+                          </Button>
                       )}
             </Table.DataCell>
         </Table.Row>

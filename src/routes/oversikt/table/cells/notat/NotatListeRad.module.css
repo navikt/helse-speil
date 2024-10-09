@@ -14,10 +14,6 @@
     font-style: italic;
 }
 
-.FeilregistrerButton {
-    color: var(--a-text-default);
-}
-
 .Kommentar {
     white-space: pre-wrap;
 }
