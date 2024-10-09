@@ -2,7 +2,8 @@ import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { LinkButton } from '@components/LinkButton';
+import { Link } from '@navikt/ds-react';
+
 import { Simulering, Utbetaling } from '@io/graphql';
 
 import { SimuleringView } from './SimuleringView';
@@ -83,7 +84,8 @@ export const OpenSimuleringButton = ({
     ...anchorProps
 }: OpenSimuleringButtonProps): ReactElement => {
     return (
-        <LinkButton
+        <Link
+            href="#"
             onClick={() =>
                 openSimulering({
                     simulering: simulering,
@@ -94,6 +96,6 @@ export const OpenSimuleringButton = ({
             {...anchorProps}
         >
             Simulering
-        </LinkButton>
+        </Link>
     );
 };
