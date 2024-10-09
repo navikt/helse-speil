@@ -2,8 +2,6 @@ import React from 'react';
 
 import { ErrorSummary } from '@navikt/ds-react';
 
-import styles from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema.module.css';
-
 export interface Skjemafeil {
     id: string;
     melding: string;
@@ -15,17 +13,11 @@ interface FeiloppsummeringProps {
 }
 
 export const Feiloppsummering = ({ feiloppsummeringRef, feilliste }: FeiloppsummeringProps) => (
-    <div className={styles.Feiloppsummering}>
-        <ErrorSummary
-            ref={feiloppsummeringRef}
-            heading="Skjemaet inneholder følgende feil:"
-            className={styles.Feiloppsummering}
-        >
-            {feilliste.map((feil, index) => (
-                <ErrorSummary.Item href={`#${feil.id}`} key={index}>
-                    {feil.melding}
-                </ErrorSummary.Item>
-            ))}
-        </ErrorSummary>
-    </div>
+    <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:" size="small">
+        {feilliste.map((feil, index) => (
+            <ErrorSummary.Item href={`#${feil.id}`} key={index}>
+                {feil.melding}
+            </ErrorSummary.Item>
+        ))}
+    </ErrorSummary>
 );

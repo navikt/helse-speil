@@ -54,10 +54,6 @@
     gap: var(--a-spacing-2);
 }
 
-.Feiloppsummering {
-    margin: 1.5rem 0 0.5rem;
-}
-
 .WarningIngenSkjemaEndringer {
     margin: 0.5rem 0;
 }
