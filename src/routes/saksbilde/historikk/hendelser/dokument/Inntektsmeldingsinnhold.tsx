@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort, HStack } from '@navikt/ds-react';
 
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
+import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { PersonFragment } from '@io/graphql';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
@@ -48,12 +48,12 @@ export const Inntektsmeldingsinnhold = ({
                     )}
                     {inntektsmelding.virksomhetsnummer && (
                         <DokumentFragment overskrift="Virksomhetsnummer">
-                            <AnonymizableText>{inntektsmelding.virksomhetsnummer}</AnonymizableText>
+                            <AnonymizableContainer as="span">{inntektsmelding.virksomhetsnummer}</AnonymizableContainer>
                         </DokumentFragment>
                     )}
                     {inntektsmelding.arbeidsforholdId && (
                         <DokumentFragment overskrift="ArbeidsforholdId">
-                            <AnonymizableText>{inntektsmelding.arbeidsforholdId}</AnonymizableText>
+                            <AnonymizableContainer as="span">{inntektsmelding.arbeidsforholdId}</AnonymizableContainer>
                         </DokumentFragment>
                     )}
                     {inntektsmelding.inntektEndringAarsak && (
