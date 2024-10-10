@@ -3,6 +3,7 @@
     align-items: center;
     gap: 12px;
     overflow: hidden;
+    max-width: 228px;
 }
 
 .wrapper > svg {

@@ -11,31 +11,3 @@
     width: var(--width);
     margin-left: calc(-1 * var(--border-size));
 }
-
-.ArbeidsgiverHeader {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding-top: var(--a-spacing-5);
-}
-
-.Arbeidsgivernavn {
-    max-width: 228px;
-    font-weight: 600;
-}
-
-.Organisasjonsnummer {
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.Kildeikon {
-    margin-left: 0.5rem;
-}
-
-.aligncenter {
-    display: flex;
-    align-items: center;
-}
