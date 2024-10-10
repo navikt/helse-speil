@@ -1,22 +1,25 @@
-import { Opptegnelse } from '../opptegnelser';
+import { Opptegnelse, Opptegnelsetype } from '@io/graphql';
 
 export const opptegnelser: Opptegnelse[] = [
     {
-        aktorId: 1234567891011,
+        aktorId: '1234567891011',
         sekvensnummer: 12121212,
-        type: 'UTBETALING_ANNULLERING_OK',
+        type: Opptegnelsetype.UtbetalingAnnulleringOk,
         payload: 'payload',
+        __typename: 'Opptegnelse',
     },
     {
-        aktorId: 2568043185108,
+        aktorId: '2568043185108',
         sekvensnummer: 12121213,
-        type: 'PERSONDATA_OPPDATERT',
+        type: Opptegnelsetype.PersondataOppdatert,
         payload: 'payload2',
+        __typename: 'Opptegnelse',
     },
     {
-        aktorId: 2568043185108,
+        aktorId: '2568043185108',
         sekvensnummer: 12121214,
-        type: 'NY_SAKSBEHANDLEROPPGAVE',
+        type: Opptegnelsetype.NySaksbehandleroppgave,
         payload: 'payload3',
+        __typename: 'Opptegnelse',
     },
 ];

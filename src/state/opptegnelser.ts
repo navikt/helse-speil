@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { Opptegnelse } from '@typer/opptegnelser';
+import { Opptegnelse } from '@io/graphql';
 
 const opptegnelsePollingTimeState = atom<number>({
     key: 'opptegnelsePollingTimeState',

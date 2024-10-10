@@ -24,13 +24,6 @@ export const usePollEtterOpptegnelser = () => {
     useEffect(() => {
         const opptegnelser = data?.opptegnelser ?? [];
         if (opptegnelser.length === 0) return;
-        mottaOpptegnelser(
-            opptegnelser.map((opptegnelse) => ({
-                sekvensnummer: opptegnelse.sekvensnummer,
-                type: opptegnelse.type,
-                aktørId: Number.parseInt(opptegnelse.aktorId),
-                payload: opptegnelse.payload,
-            })),
-        );
+        mottaOpptegnelser(opptegnelser);
     }, [data]);
 };

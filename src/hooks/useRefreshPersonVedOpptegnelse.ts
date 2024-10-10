@@ -11,7 +11,7 @@ export const useRefreshPersonVedOpptegnelse = () => {
         if (
             data !== undefined &&
             data.person?.aktorId &&
-            opptegnelse.aktørId.toString() === data.person.aktorId &&
+            opptegnelse.aktorId.toString() === data.person.aktorId &&
             !(networkStatus in [NetworkStatus.loading, NetworkStatus.refetch])
         ) {
             const result = await refetch();

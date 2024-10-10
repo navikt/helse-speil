@@ -1,5 +1,7 @@
+import { Opptegnelse } from '@io/graphql';
+import { opptegnelser } from '@spesialist-mock/data/opptegnelser';
+
 import { sleep } from './constants';
-import { opptegnelser } from './data/opptegnelser';
 
 let svarPåOpptegnelser = false;
 
@@ -27,20 +29,4 @@ const blokkerSvarPåOpptegnelser = () => {
     setTimeout(() => {
         svarPåOpptegnelser = true;
     }, 3000);
-};
-
-type OpptegnelseType =
-    | 'UTBETALING_ANNULLERING_FEILET'
-    | 'FERDIGBEHANDLET_GODKJENNINGSBEHOV'
-    | 'UTBETALING_ANNULLERING_OK'
-    | 'NY_SAKSBEHANDLEROPPGAVE'
-    | 'REVURDERING_FERDIGBEHANDLET'
-    | 'REVURDERING_AVVIST'
-    | 'PERSONDATA_OPPDATERT';
-
-export type Opptegnelse = {
-    aktorId: number;
-    sekvensnummer: number;
-    type: OpptegnelseType;
-    payload: string;
 };

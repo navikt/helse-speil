@@ -1,8 +1,12 @@
 import React from 'react';
 
 import { MockedProvider } from '@apollo/client/testing';
-import { OpprettAbonnementDocument, OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
-import { Opptegnelse } from '@spesialist-mock/opptegnelser';
+import {
+    OpprettAbonnementDocument,
+    Opptegnelse,
+    Opptegnelsetype,
+    OverstyrInntektOgRefusjonMutationDocument,
+} from '@io/graphql';
 import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
@@ -119,10 +123,11 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
 
         (useHåndterOpptegnelser as jest.Mock).mockImplementation((callBack: (o: Opptegnelse) => void) => {
             callBack({
-                aktorId: 1,
+                aktorId: '1',
                 sekvensnummer: 1,
-                type: 'REVURDERING_FERDIGBEHANDLET',
+                type: Opptegnelsetype.RevurderingFerdigbehandlet,
                 payload: '{}',
+                __typename: 'Opptegnelse',
             });
         });
 
