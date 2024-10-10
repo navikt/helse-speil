@@ -2,7 +2,7 @@ import { GraphQLError } from 'graphql';
 import mockRouter from 'next-router-mock';
 
 import { Varsler } from '@components/Varsler';
-import { FetchPersonDocument } from '@io/graphql';
+import { FetchPersonDocument, OpptegnelserDocument } from '@io/graphql';
 import { enPerson } from '@test-data/person';
 import { createInitialQuery, createMock, render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
@@ -28,6 +28,15 @@ describe('Personsøk', () => {
                                 }),
                             },
                         };
+                    },
+                }),
+                createMock({
+                    request: { query: OpptegnelserDocument, variables: { sekvensId: undefined } },
+                    result: {
+                        data: {
+                            __typename: 'Query' as const,
+                            opptegnelser: [],
+                        },
                     },
                 }),
             ],
@@ -71,6 +80,15 @@ describe('Personsøk', () => {
                                     extensions: { code: 404 },
                                 }),
                             ],
+                        },
+                    }),
+                    createMock({
+                        request: { query: OpptegnelserDocument, variables: { sekvensId: undefined } },
+                        result: {
+                            data: {
+                                __typename: 'Query' as const,
+                                opptegnelser: [],
+                            },
                         },
                     }),
                 ],
