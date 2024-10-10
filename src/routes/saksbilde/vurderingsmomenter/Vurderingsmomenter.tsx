@@ -1,15 +1,13 @@
 import React, { ReactElement, ReactNode } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { Alert, BodyShort } from '@navikt/ds-react';
 
-import { AgurkErrorBoundary } from '@components/AgurkErrorBoundary';
+import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
-import { Faresignal, Maybe, PersonFragment, Risikovurdering } from '@io/graphql';
-import { useActivePeriod } from '@state/periode';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { BeregnetPeriodeFragment, Faresignal, Maybe, Risikovurdering } from '@io/graphql';
 
 import styles from './Vurderingsmomenter.module.scss';
 
@@ -51,46 +49,45 @@ interface VurderingsmomenterWithContentProps {
 export const VurderingsmomenterWithContent = ({
     risikovurdering,
 }: VurderingsmomenterWithContentProps): ReactElement => (
-    <AgurkErrorBoundary sidenavn="Vurderingsmomenter">
-        <div className={styles.container}>
-            {risikovurdering && harFunn(risikovurdering.funn) && risikovurdering.funn.length > 0 && (
-                <VurderingsmomentKategori
-                    ikon={<Advarselikon />}
-                    overskrift="Vurderingsmomenter oppdaget"
-                    vurderingsmomenter={risikovurdering.funn}
-                    vurderingIkon={<Utropstegnikon alt="Oppdaget" />}
-                />
-            )}
-            {risikovurdering && (risikovurdering.kontrollertOk?.length ?? 0) > 0 && (
-                <VurderingsmomentKategori
-                    ikon={<GrøntSjekkikon />}
-                    overskrift="Vurderingsmomenter kontrollert"
-                    vurderingsmomenter={risikovurdering.kontrollertOk}
-                    vurderingIkon={<Sjekkikon alt="Kontrollert" />}
-                />
-            )}
-        </div>
-    </AgurkErrorBoundary>
+    <div className={styles.container}>
+        {risikovurdering && harFunn(risikovurdering.funn) && risikovurdering.funn.length > 0 && (
+            <VurderingsmomentKategori
+                ikon={<Advarselikon />}
+                overskrift="Vurderingsmomenter oppdaget"
+                vurderingsmomenter={risikovurdering.funn}
+                vurderingIkon={<Utropstegnikon alt="Oppdaget" />}
+            />
+        )}
+        {risikovurdering && (risikovurdering.kontrollertOk?.length ?? 0) > 0 && (
+            <VurderingsmomentKategori
+                ikon={<GrøntSjekkikon />}
+                overskrift="Vurderingsmomenter kontrollert"
+                vurderingsmomenter={risikovurdering.kontrollertOk}
+                vurderingIkon={<Sjekkikon alt="Kontrollert" />}
+            />
+        )}
+    </div>
 );
 
 interface VurderingsmomenterContainerProps {
-    person: PersonFragment;
+    periode: BeregnetPeriodeFragment;
 }
 
-const VurderingsmomenterContainer = ({ person }: VurderingsmomenterContainerProps): Maybe<ReactElement> => {
-    const activePeriod = useActivePeriod(person);
+const VurderingsmomenterContainer = ({ periode }: VurderingsmomenterContainerProps): Maybe<ReactElement> =>
+    periode.risikovurdering ? <VurderingsmomenterWithContent risikovurdering={periode.risikovurdering} /> : null;
 
-    if (isBeregnetPeriode(activePeriod) && activePeriod.risikovurdering) {
-        return <VurderingsmomenterWithContent risikovurdering={activePeriod.risikovurdering} />;
-    }
-
-    return null;
-};
+const VilkårsmomenterError = (): ReactElement => (
+    <Alert variant="error" size="small">
+        Noe gikk galt. Kan ikke vise inngangsvilkår for denne perioden.
+    </Alert>
+);
 
 interface VurderingsmomenterProps {
-    person: PersonFragment;
+    periode: BeregnetPeriodeFragment;
 }
 
-export const Vurderingsmomenter = ({ person }: VurderingsmomenterProps): ReactElement => {
-    return <VurderingsmomenterContainer person={person} />;
-};
+export const Vurderingsmomenter = ({ periode }: VurderingsmomenterProps): ReactElement => (
+    <ErrorBoundary fallback={<VilkårsmomenterError />}>
+        <VurderingsmomenterContainer periode={periode} />
+    </ErrorBoundary>
+);
