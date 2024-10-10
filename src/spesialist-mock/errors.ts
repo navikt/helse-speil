@@ -19,12 +19,22 @@ export class FlereFodselsnumreError extends GraphQLError {
     }
 }
 
+export class BeingPreparedError extends GraphQLError {
+    constructor() {
+        super(`Personen gjøres klar til visning`, {
+            extensions: {
+                code: 409,
+                persondata_hentes_for: '1000000000004',
+            },
+        });
+    }
+}
+
 export class NotReadyError extends GraphQLError {
     constructor() {
         super(`Person med fødselsnummer ... er ikke klar for visning ennå`, {
             extensions: {
                 code: 409,
-                persondata_hentes_for: 'en-aktør-id',
             },
         });
     }

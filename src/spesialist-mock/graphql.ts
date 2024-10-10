@@ -11,7 +11,13 @@ import { Oppgave } from '@typer/spesialist-mock';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { behandledeOppgaverliste, oppgaveliste } from './data/oppgaveoversikt';
-import { FlereFodselsnumreError, ManglendeAvviksvurderingError, NotFoundError, NotReadyError } from './errors';
+import {
+    BeingPreparedError,
+    FlereFodselsnumreError,
+    ManglendeAvviksvurderingError,
+    NotFoundError,
+    NotReadyError,
+} from './errors';
 import { hentOpptegnelser, opprettAbonnement } from './opptegnelser';
 import {
     Arbeidsgiver,
@@ -106,6 +112,7 @@ const getResolvers = (): IResolvers => ({
             if (aktorId == '1000000000001') return new FlereFodselsnumreError();
             if (aktorId == '1000000000002') return new NotReadyError();
             if (aktorId == '1000000000003') return new ManglendeAvviksvurderingError();
+            if (aktorId == '1000000000004') return new BeingPreparedError();
             const person = fetchPersondata()[fnr ?? aktorId ?? ''];
             if (!person) return new NotFoundError(fnr ?? aktorId ?? '');
             valgtPerson = person;

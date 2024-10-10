@@ -4,11 +4,12 @@ import React, { FormEvent, ReactElement, useRef } from 'react';
 import { Search } from '@navikt/ds-react';
 
 import { erUtvikling } from '@/env';
-import { ApolloError, useLazyQuery, useMutation } from '@apollo/client';
+import { ApolloError, useLazyQuery } from '@apollo/client';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { FetchPersonDocument, OpprettAbonnementDocument } from '@io/graphql';
+import { FetchPersonDocument } from '@io/graphql';
 import { validFødselsnummer } from '@io/graphql/common';
 import { BadRequestError } from '@io/graphql/errors';
+import { usePersonKlargjøres } from '@state/personSomKlargjøres';
 import { useAddVarsel, useRapporterGraphQLErrors } from '@state/varsler';
 import { apolloExtensionValue } from '@utils/error';
 
@@ -21,7 +22,7 @@ export const Personsøk = (): ReactElement => {
     const router = useRouter();
     const rapporterError = useRapporterGraphQLErrors();
     const [hentPerson, { loading }] = useLazyQuery(FetchPersonDocument);
-    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
+    const { venterPåKlargjøring } = usePersonKlargjøres();
 
     useLoadingToast({ isLoading: loading, message: 'Henter person' });
 
@@ -49,12 +50,9 @@ export const Personsøk = (): ReactElement => {
                 if ((data?.person?.arbeidsgivere.length ?? 0) === 0) {
                     router.push('/');
                     if (error?.graphQLErrors) {
-                        if (erUtvikling && personKlargjøres(error)) {
+                        if (erUtvikling && personenKlargjøres(error)) {
                             const aktørId = apolloExtensionValue(error, 'persondata_hentes_for');
-                            if (aktørId) {
-                                opprettAbonnement({ variables: { personidentifikator: aktørId } });
-                                router.push(`/person/${aktørId}/dagoversikt`);
-                            }
+                            if (aktørId) venterPåKlargjøring(aktørId);
                         } else {
                             rapporterError(error?.graphQLErrors, personId);
                         }
@@ -75,7 +73,7 @@ export const Personsøk = (): ReactElement => {
     );
 };
 
-const personKlargjøres = (error: ApolloError) => {
+const personenKlargjøres = (error: ApolloError) => {
     const aktørId = apolloExtensionValue(error, 'persondata_hentes_for');
     return aktørId !== null && aktørId !== undefined;
 };

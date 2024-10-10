@@ -22,4 +22,11 @@ export const opptegnelser: Opptegnelse[] = [
         payload: 'payload3',
         __typename: 'Opptegnelse',
     },
+    {
+        aktorId: '1000000000004',
+        sekvensnummer: 12121215,
+        type: Opptegnelsetype.PersonKlarTilBehandling,
+        payload: 'payload4',
+        __typename: 'Opptegnelse',
+    },
 ];

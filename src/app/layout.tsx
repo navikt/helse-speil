@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import { browserEnv, erLokal } from '@/env';
 import { Providers } from '@app/providers';
 import { getTokenPayload } from '@auth/token';
+import { PersonSomKlargjøres } from '@components/PersonSomKlargjøres';
 import { Toasts } from '@components/Toasts';
 import { Varsler } from '@components/Varsler';
 import { Driftsmeldinger } from '@components/driftsmeldinger/Driftsmeldinger';
@@ -48,6 +49,7 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
                 <Driftsmeldinger />
                 <Header />
                 <Varsler />
+                <PersonSomKlargjøres />
                 {children}
                 <Toasts />
             </Providers>
