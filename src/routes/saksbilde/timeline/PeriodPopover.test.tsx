@@ -39,7 +39,7 @@ const getFetchedBeregnetPeriode = (
         maksdato: '2023-01-01',
         notater: [],
         opprettet: '2020-01-01',
-        periodehistorikk: [],
+        historikkinnslag: [],
         gjenstaendeSykedager: 100,
         periodetilstand: Periodetilstand.TilGodkjenning,
         periodetype: Periodetype.Forstegangsbehandling,

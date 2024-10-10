@@ -77,7 +77,7 @@ export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, 
     inntektstype: Inntektstype.Enarbeidsgiver,
     maksdato: '2020-12-30',
     notater: [],
-    periodehistorikk: [],
+    historikkinnslag: [],
     periodetilstand: Periodetilstand.Utbetalt,
     periodetype: Periodetype.Forstegangsbehandling,
     periodevilkar: {

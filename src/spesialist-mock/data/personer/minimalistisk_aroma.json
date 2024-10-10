@@ -747,7 +747,7 @@
                                     "gjenstaendeSykedager": 217,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [
+                                    "historikkinnslag": [
                                         {
                                             "type": "VEDTAKSPERIODE_REBEREGNET",
                                             "timestamp": "2023-03-07T17:47:20.864999",
@@ -1143,7 +1143,7 @@
                                             "kommentarer": []
                                         }
                                     ],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -1504,7 +1504,7 @@
                                             "kommentarer": []
                                         }
                                     ],
-                                    "periodehistorikk": [
+                                    "historikkinnslag": [
                                         {
                                             "type": "TOTRINNSVURDERING_ATTESTERT",
                                             "timestamp": "2023-03-07T15:14:48.370477",
@@ -2377,7 +2377,7 @@
                                     "gjenstaendeSykedager": 227,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",

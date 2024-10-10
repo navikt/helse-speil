@@ -28,12 +28,12 @@ import {
     getDagoverstyringer,
     getDagoverstyringerForAUU,
     getDokumenter,
+    getHistorikkinnslag,
     getInntektoverstyringer,
     getInntektoverstyringerForGhost,
     getMeldingOmVedtak,
     getMinimumSykdomsgradoverstyring,
     getNotathendelser,
-    getPeriodehistorikk,
     getSykepengegrunnlagskjønnsfastsetting,
     getUtbetalingshendelse,
 } from './mapping';
@@ -65,7 +65,7 @@ const getHendelserForBeregnetPeriode = (
     const meldingOmVedtak = getMeldingOmVedtak(period);
     const notater = getNotathendelser(period.notater.map(toNotat));
     const utbetaling = getUtbetalingshendelse(period);
-    const periodehistorikk = getPeriodehistorikk(period);
+    const historikkinnslag = getHistorikkinnslag(period);
     const avslag = getAvslag(period);
     const annullering = getAnnullering(period);
 
@@ -89,7 +89,7 @@ const getHendelserForBeregnetPeriode = (
             .concat(utbetaling ? [utbetaling] : [])
             .concat(annullering ? [annullering] : [])
             .concat(notater)
-            .concat(periodehistorikk)
+            .concat(historikkinnslag)
             .sort(byTimestamp),
     );
 };

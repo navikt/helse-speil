@@ -12,6 +12,7 @@ import { ÅpnetDokument } from '@components/ÅpnetDokument';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
+import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/MinimumSykdomsgradhendelse';
 import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject } from '@typer/historikk';
@@ -22,7 +23,6 @@ import { Arbeidsforholdoverstyringhendelse } from './hendelser/Arbeidsforholdove
 import { Avslaghendelse } from './hendelser/Avslaghendelse';
 import { Dagoverstyringhendelse } from './hendelser/Dagoverstyringhendelse';
 import { HendelseSkeleton } from './hendelser/Hendelse';
-import { Historikkhendelse } from './hendelser/Historikkhendelse';
 import { Inntektoverstyringhendelse } from './hendelser/Inntektoverstyringhendelse';
 import { Sykepengegrunnlagskjønnsfastsettinghendelse } from './hendelser/Sykepengegrunnlagskjønnsfastsettinghendelse';
 import { Utbetalinghendelse } from './hendelser/Utbetalinghendelse';
@@ -131,6 +131,9 @@ const HistorikkWithContent = (): ReactElement => {
                                         case 'Historikk': {
                                             return <Historikkhendelse key={it.id} {...it} />;
                                         }
+                                        /*case 'Historikkinnslag': {
+                                            return <Historikkinnslaghendelse key={it.id} {...it} />;
+                                        }*/
                                         case 'Avslag': {
                                             return <Avslaghendelse key={it.id} {...it} />;
                                         }

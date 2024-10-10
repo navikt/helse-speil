@@ -601,7 +601,7 @@
                                     "gjenstaendeSykedager": null,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -1048,7 +1048,7 @@
                                     "gjenstaendeSykedager": null,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -1439,7 +1439,7 @@
                                     "gjenstaendeSykedager": 10,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -2087,7 +2087,7 @@
                                     "gjenstaendeSykedager": 15,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -2638,7 +2638,7 @@
                                     "gjenstaendeSykedager": 35,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -3295,7 +3295,7 @@
                                     "gjenstaendeSykedager": 36,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -3738,7 +3738,7 @@
                                     "gjenstaendeSykedager": 58,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -4272,7 +4272,7 @@
                                     "gjenstaendeSykedager": 70,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -4920,7 +4920,7 @@
                                     "gjenstaendeSykedager": 85,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -5456,7 +5456,7 @@
                                     "gjenstaendeSykedager": 105,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -6002,7 +6002,7 @@
                                     "gjenstaendeSykedager": 120,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -6434,7 +6434,7 @@
                                     "gjenstaendeSykedager": 132,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -6999,7 +6999,7 @@
                                     "gjenstaendeSykedager": 145,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -7581,7 +7581,7 @@
                                     "gjenstaendeSykedager": 185,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -8038,7 +8038,7 @@
                                     "gjenstaendeSykedager": 205,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -8419,7 +8419,7 @@
                                     "gjenstaendeSykedager": 220,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -8840,7 +8840,7 @@
                                     "gjenstaendeSykedager": 231,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -9317,7 +9317,7 @@
                                     "gjenstaendeSykedager": 220,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [
+                                    "historikkinnslag": [
                                         {
                                             "type": "TOTRINNSVURDERING_TIL_GODKJENNING",
                                             "timestamp": "2022-11-22T10:43:30.562826",
@@ -9866,7 +9866,7 @@
                                     "gjenstaendeSykedager": 220,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [
+                                    "historikkinnslag": [
                                         {
                                             "type": "TOTRINNSVURDERING_TIL_GODKJENNING",
                                             "timestamp": "2022-11-22T10:43:30.562826",
@@ -10359,7 +10359,7 @@
                                     "gjenstaendeSykedager": 10,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -11007,7 +11007,7 @@
                                     "gjenstaendeSykedager": 15,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -11558,7 +11558,7 @@
                                     "gjenstaendeSykedager": 35,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -12215,7 +12215,7 @@
                                     "gjenstaendeSykedager": 36,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -12658,7 +12658,7 @@
                                     "gjenstaendeSykedager": 58,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -13192,7 +13192,7 @@
                                     "gjenstaendeSykedager": 70,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -13840,7 +13840,7 @@
                                     "gjenstaendeSykedager": 85,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -14376,7 +14376,7 @@
                                     "gjenstaendeSykedager": 105,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -14922,7 +14922,7 @@
                                     "gjenstaendeSykedager": 120,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -15354,7 +15354,7 @@
                                     "gjenstaendeSykedager": 132,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -15919,7 +15919,7 @@
                                     "gjenstaendeSykedager": 145,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -16501,7 +16501,7 @@
                                     "gjenstaendeSykedager": 185,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -16958,7 +16958,7 @@
                                     "gjenstaendeSykedager": 205,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -17354,7 +17354,7 @@
                                     "gjenstaendeSykedager": 220,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -17775,7 +17775,7 @@
                                     "gjenstaendeSykedager": 231,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -18252,7 +18252,7 @@
                                     "gjenstaendeSykedager": 220,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -18758,7 +18758,7 @@
                                     "gjenstaendeSykedager": 235,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -19207,7 +19207,7 @@
                                     "gjenstaendeSykedager": 10,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -19855,7 +19855,7 @@
                                     "gjenstaendeSykedager": 15,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -20406,7 +20406,7 @@
                                     "gjenstaendeSykedager": 35,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -21063,7 +21063,7 @@
                                     "gjenstaendeSykedager": 36,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -21506,7 +21506,7 @@
                                     "gjenstaendeSykedager": 58,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -22040,7 +22040,7 @@
                                     "gjenstaendeSykedager": 70,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -22688,7 +22688,7 @@
                                     "gjenstaendeSykedager": 85,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -23224,7 +23224,7 @@
                                     "gjenstaendeSykedager": 105,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -23770,7 +23770,7 @@
                                     "gjenstaendeSykedager": 120,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -24202,7 +24202,7 @@
                                     "gjenstaendeSykedager": 132,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -24767,7 +24767,7 @@
                                     "gjenstaendeSykedager": 145,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -25349,7 +25349,7 @@
                                     "gjenstaendeSykedager": 185,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -25806,7 +25806,7 @@
                                     "gjenstaendeSykedager": 205,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -26202,7 +26202,7 @@
                                     "gjenstaendeSykedager": 220,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -26623,7 +26623,7 @@
                                     "gjenstaendeSykedager": 231,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",

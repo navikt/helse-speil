@@ -533,7 +533,7 @@
                                     "gjenstaendeSykedager": 238,
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
-                                    "periodehistorikk": [],
+                                    "historikkinnslag": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",

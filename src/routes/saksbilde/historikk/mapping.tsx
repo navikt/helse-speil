@@ -169,18 +169,34 @@ export const getAnnullering = (period: Periode): Maybe<AnnulleringhendelseObject
     };
 };
 
-export const getPeriodehistorikk = (periode: BeregnetPeriodeFragment): Array<HistorikkhendelseObject> => {
-    return periode.periodehistorikk
+export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<HistorikkhendelseObject> => {
+    return periode.historikkinnslag
         .filter((historikkelement) =>
-            historikkelement.type === PeriodehistorikkType.TotrinnsvurderingRetur ? !historikkelement.notat_id : true,
+            historikkelement.type === PeriodehistorikkType.TotrinnsvurderingRetur ? !historikkelement.notatId : true,
         )
-        .map((historikkelement, index) => ({
-            id: `periodehistorikk-${index}`,
-            type: 'Historikk',
-            historikktype: historikkelement.type,
-            saksbehandler: historikkelement.saksbehandler_ident,
-            timestamp: historikkelement.timestamp as DateString,
-        }));
+        .map((historikkelement, index) => {
+            switch (historikkelement.__typename) {
+                case 'LagtPaVent':
+                    return {
+                        id: `historikkinnslag-${index}`,
+                        type: 'Historikk',
+                        historikktype: historikkelement.type,
+                        saksbehandler: historikkelement.saksbehandlerIdent,
+                        timestamp: historikkelement.timestamp as DateString,
+                        årsaker: historikkelement.arsaker,
+                        frist: historikkelement.frist,
+                    };
+                case 'FjernetFraPaVent':
+                case 'PeriodeHistorikkElementNy':
+                    return {
+                        id: `historikkinnslag-${index}`,
+                        type: 'Historikk',
+                        historikktype: historikkelement.type,
+                        saksbehandler: historikkelement.saksbehandlerIdent,
+                        timestamp: historikkelement.timestamp as DateString,
+                    };
+            }
+        });
 };
 
 const getTidligsteVurderingstidsstempelForPeriode = (
@@ -268,7 +284,7 @@ export const getDagoverstyringerForAUU = (
 };
 
 const periodeErAttestert = (periode: BeregnetPeriodeFragment): boolean => {
-    return periode.periodehistorikk.some(
+    return periode.historikkinnslag.some(
         (historikkelement) => historikkelement.type === PeriodehistorikkType.TotrinnsvurderingAttestert,
     );
 };

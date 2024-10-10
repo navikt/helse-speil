@@ -632,30 +632,30 @@
                                             "kommentarer": []
                                         }
                                     ],
-                                    "periodehistorikk": [
+                                    "historikkinnslag": [
                                         {
                                             "type": "VEDTAKSPERIODE_REBEREGNET",
                                             "timestamp": "2023-01-24T15:06:30.090206",
-                                            "saksbehandler_ident": null,
-                                            "notat_id": null
+                                            "saksbehandlerIdent": null,
+                                            "notatId": null
                                         },
                                         {
                                             "type": "TOTRINNSVURDERING_TIL_GODKJENNING",
                                             "timestamp": "2023-01-24T15:06:30.090206",
-                                            "saksbehandler_ident": null,
-                                            "notat_id": null
+                                            "saksbehandlerIdent": null,
+                                            "notatId": null
                                         },
                                         {
                                             "type": "TOTRINNSVURDERING_RETUR",
                                             "timestamp": "2023-01-24T15:07:30.090206",
-                                            "saksbehandler_ident": "11",
-                                            "notat_id": 431
+                                            "saksbehandlerIdent": "11",
+                                            "notatId": 431
                                         },
                                         {
                                             "type": "TOTRINNSVURDERING_ATTESTERT",
                                             "timestamp": "2023-01-24T15:09:30.090206",
-                                            "saksbehandler_ident": null,
-                                            "notat_id": null
+                                            "saksbehandlerIdent": null,
+                                            "notatId": null
                                         }
                                     ],
                                     "handlinger": [

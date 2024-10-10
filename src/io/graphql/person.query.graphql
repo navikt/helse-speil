@@ -272,11 +272,15 @@ fragment beregnetPeriode on BeregnetPeriode {
     notater {
         ...notat
     }
-    periodehistorikk {
+    historikkinnslag {
         type
         timestamp
-        saksbehandler_ident
-        notat_id
+        saksbehandlerIdent
+        notatId
+        ... on LagtPaVent {
+            frist
+            arsaker
+        }
     }
     maksdato
     periodevilkar {

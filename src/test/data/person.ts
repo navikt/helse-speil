@@ -39,7 +39,7 @@ export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (ove
                 arsaker: [],
                 tidspunkt: null,
             },
-            fodselsdato: null,
+            fodselsdato: '1986-02-06',
             reservasjon: null,
         },
         enhet: {

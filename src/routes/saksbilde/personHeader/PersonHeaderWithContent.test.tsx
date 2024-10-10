@@ -28,7 +28,7 @@ describe('Personlinje', () => {
                             arsaker: [],
                             tidspunkt: null,
                         },
-                        fodselsdato: null,
+                        fodselsdato: '1986-02-06',
                         reservasjon: null,
                     },
                     dodsdato: null,

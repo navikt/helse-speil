@@ -32,7 +32,7 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
         maksdato: '2023-01-01',
         notater: [],
         opprettet: '2020-01-01',
-        periodehistorikk: [],
+        historikkinnslag: [],
         periodetilstand: Periodetilstand.TilGodkjenning,
         periodetype: Periodetype.Forstegangsbehandling,
         periodevilkar: {} as Periodevilkar,

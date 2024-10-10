@@ -52,7 +52,7 @@ export type AnnulleringArsakInput = {
 export type AnnulleringDataInput = {
     aktorId: Scalars['String']['input'];
     arbeidsgiverFagsystemId: Scalars['String']['input'];
-    arsaker?: InputMaybe<Array<AnnulleringArsakInput>>;
+    arsaker: Array<AnnulleringArsakInput>;
     begrunnelser: Array<Scalars['String']['input']>;
     fodselsnummer: Scalars['String']['input'];
     kommentar?: InputMaybe<Scalars['String']['input']>;
@@ -250,6 +250,7 @@ export type BeregnetPeriode = Periode & {
     gjenstaendeSykedager: Maybe<Scalars['Int']['output']>;
     handlinger: Array<Handling>;
     hendelser: Array<Hendelse>;
+    historikkinnslag: Array<Historikkinnslag>;
     id: Scalars['UUID']['output'];
     inntektstype: Inntektstype;
     maksdato: Scalars['LocalDate']['output'];
@@ -393,6 +394,14 @@ export type FiltreringInput = {
     tildelt?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type FjernetFraPaVent = Historikkinnslag & {
+    __typename: 'FjernetFraPaVent';
+    notatId: Maybe<Scalars['Int']['output']>;
+    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['LocalDateTime']['output'];
+    type: PeriodehistorikkType;
+};
+
 export type Generasjon = {
     __typename: 'Generasjon';
     id: Scalars['UUID']['output'];
@@ -439,6 +448,13 @@ export enum Hendelsetype {
     SendtSoknadSelvstendig = 'SENDT_SOKNAD_SELVSTENDIG',
     Ukjent = 'UKJENT',
 }
+
+export type Historikkinnslag = {
+    notatId: Maybe<Scalars['Int']['output']>;
+    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['LocalDateTime']['output'];
+    type: PeriodehistorikkType;
+};
 
 export type ImPeriode = {
     __typename: 'IMPeriode';
@@ -549,6 +565,16 @@ export type Kommentar = {
     tekst: Scalars['String']['output'];
 };
 
+export type LagtPaVent = Historikkinnslag & {
+    __typename: 'LagtPaVent';
+    arsaker: Array<Scalars['String']['output']>;
+    frist: Scalars['LocalDate']['output'];
+    notatId: Maybe<Scalars['Int']['output']>;
+    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['LocalDateTime']['output'];
+    type: PeriodehistorikkType;
+};
+
 export type LovhjemmelInput = {
     bokstav?: InputMaybe<Scalars['String']['input']>;
     ledd?: InputMaybe<Scalars['String']['input']>;
@@ -641,8 +667,9 @@ export type MutationInnvilgVedtakArgs = {
 };
 
 export type MutationLeggPaVentArgs = {
+    arsaker?: InputMaybe<Array<PaVentArsakInput>>;
     frist: Scalars['LocalDate']['input'];
-    notatTekst: Scalars['String']['input'];
+    notatTekst?: InputMaybe<Scalars['String']['input']>;
     oppgaveId: Scalars['String']['input'];
     tildeling: Scalars['Boolean']['input'];
 };
@@ -866,6 +893,7 @@ export enum Opptegnelsetype {
     FerdigbehandletGodkjenningsbehov = 'FERDIGBEHANDLET_GODKJENNINGSBEHOV',
     NySaksbehandleroppgave = 'NY_SAKSBEHANDLEROPPGAVE',
     PersondataOppdatert = 'PERSONDATA_OPPDATERT',
+    PersonKlarTilBehandling = 'PERSON_KLAR_TIL_BEHANDLING',
     RevurderingAvvist = 'REVURDERING_AVVIST',
     RevurderingFerdigbehandlet = 'REVURDERING_FERDIGBEHANDLET',
     UtbetalingAnnulleringFeilet = 'UTBETALING_ANNULLERING_FEILET',
@@ -950,6 +978,11 @@ export type PaVent = {
     oid: Scalars['UUID']['output'];
 };
 
+export type PaVentArsakInput = {
+    _key: Scalars['String']['input'];
+    arsak: Scalars['String']['input'];
+};
+
 export type Periode = {
     behandlingId: Scalars['UUID']['output'];
     erForkastet: Scalars['Boolean']['output'];
@@ -971,6 +1004,14 @@ export type PeriodeHistorikkElement = {
     __typename: 'PeriodeHistorikkElement';
     notat_id: Maybe<Scalars['Int']['output']>;
     saksbehandler_ident: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['LocalDateTime']['output'];
+    type: PeriodehistorikkType;
+};
+
+export type PeriodeHistorikkElementNy = Historikkinnslag & {
+    __typename: 'PeriodeHistorikkElementNy';
+    notatId: Maybe<Scalars['Int']['output']>;
+    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
 };
@@ -1041,7 +1082,7 @@ export type Personinfo = {
     __typename: 'Personinfo';
     adressebeskyttelse: Adressebeskyttelse;
     etternavn: Scalars['String']['output'];
-    fodselsdato: Maybe<Scalars['LocalDate']['output']>;
+    fodselsdato: Scalars['LocalDate']['output'];
     fornavn: Scalars['String']['output'];
     fullmakt: Maybe<Scalars['Boolean']['output']>;
     kjonn: Kjonn;
@@ -2309,13 +2350,31 @@ export type ArbeidsgiverFragment = {
                           feilregistrert_tidspunkt: string | null;
                       }>;
                   }>;
-                  periodehistorikk: Array<{
-                      __typename: 'PeriodeHistorikkElement';
-                      type: PeriodehistorikkType;
-                      timestamp: string;
-                      saksbehandler_ident: string | null;
-                      notat_id: number | null;
-                  }>;
+                  historikkinnslag: Array<
+                      | {
+                            __typename: 'FjernetFraPaVent';
+                            type: PeriodehistorikkType;
+                            timestamp: string;
+                            saksbehandlerIdent: string | null;
+                            notatId: number | null;
+                        }
+                      | {
+                            __typename: 'LagtPaVent';
+                            frist: string;
+                            arsaker: Array<string>;
+                            type: PeriodehistorikkType;
+                            timestamp: string;
+                            saksbehandlerIdent: string | null;
+                            notatId: number | null;
+                        }
+                      | {
+                            __typename: 'PeriodeHistorikkElementNy';
+                            type: PeriodehistorikkType;
+                            timestamp: string;
+                            saksbehandlerIdent: string | null;
+                            notatId: number | null;
+                        }
+                  >;
                   periodevilkar: {
                       __typename: 'Periodevilkar';
                       alder: { __typename: 'Alder'; alderSisteSykedag: number; oppfylt: boolean };
@@ -3096,13 +3155,31 @@ export type BeregnetPeriodeFragment = {
             feilregistrert_tidspunkt: string | null;
         }>;
     }>;
-    periodehistorikk: Array<{
-        __typename: 'PeriodeHistorikkElement';
-        type: PeriodehistorikkType;
-        timestamp: string;
-        saksbehandler_ident: string | null;
-        notat_id: number | null;
-    }>;
+    historikkinnslag: Array<
+        | {
+              __typename: 'FjernetFraPaVent';
+              type: PeriodehistorikkType;
+              timestamp: string;
+              saksbehandlerIdent: string | null;
+              notatId: number | null;
+          }
+        | {
+              __typename: 'LagtPaVent';
+              frist: string;
+              arsaker: Array<string>;
+              type: PeriodehistorikkType;
+              timestamp: string;
+              saksbehandlerIdent: string | null;
+              notatId: number | null;
+          }
+        | {
+              __typename: 'PeriodeHistorikkElementNy';
+              type: PeriodehistorikkType;
+              timestamp: string;
+              saksbehandlerIdent: string | null;
+              notatId: number | null;
+          }
+    >;
     periodevilkar: {
         __typename: 'Periodevilkar';
         alder: { __typename: 'Alder'; alderSisteSykedag: number; oppfylt: boolean };
@@ -3558,7 +3635,7 @@ export type PersonFragment = {
         mellomnavn: string | null;
         etternavn: string;
         adressebeskyttelse: Adressebeskyttelse;
-        fodselsdato: string | null;
+        fodselsdato: string;
         kjonn: Kjonn;
         fullmakt: boolean | null;
         reservasjon: { __typename: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
@@ -3773,13 +3850,31 @@ export type PersonFragment = {
                               feilregistrert_tidspunkt: string | null;
                           }>;
                       }>;
-                      periodehistorikk: Array<{
-                          __typename: 'PeriodeHistorikkElement';
-                          type: PeriodehistorikkType;
-                          timestamp: string;
-                          saksbehandler_ident: string | null;
-                          notat_id: number | null;
-                      }>;
+                      historikkinnslag: Array<
+                          | {
+                                __typename: 'FjernetFraPaVent';
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                notatId: number | null;
+                            }
+                          | {
+                                __typename: 'LagtPaVent';
+                                frist: string;
+                                arsaker: Array<string>;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                notatId: number | null;
+                            }
+                          | {
+                                __typename: 'PeriodeHistorikkElementNy';
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                notatId: number | null;
+                            }
+                      >;
                       periodevilkar: {
                           __typename: 'Periodevilkar';
                           alder: { __typename: 'Alder'; alderSisteSykedag: number; oppfylt: boolean };
@@ -4287,7 +4382,7 @@ export type FetchPersonQuery = {
             mellomnavn: string | null;
             etternavn: string;
             adressebeskyttelse: Adressebeskyttelse;
-            fodselsdato: string | null;
+            fodselsdato: string;
             kjonn: Kjonn;
             fullmakt: boolean | null;
             reservasjon: { __typename: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
@@ -4510,13 +4605,31 @@ export type FetchPersonQuery = {
                                   feilregistrert_tidspunkt: string | null;
                               }>;
                           }>;
-                          periodehistorikk: Array<{
-                              __typename: 'PeriodeHistorikkElement';
-                              type: PeriodehistorikkType;
-                              timestamp: string;
-                              saksbehandler_ident: string | null;
-                              notat_id: number | null;
-                          }>;
+                          historikkinnslag: Array<
+                              | {
+                                    __typename: 'FjernetFraPaVent';
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    notatId: number | null;
+                                }
+                              | {
+                                    __typename: 'LagtPaVent';
+                                    frist: string;
+                                    arsaker: Array<string>;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    notatId: number | null;
+                                }
+                              | {
+                                    __typename: 'PeriodeHistorikkElementNy';
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    notatId: number | null;
+                                }
+                          >;
                           periodevilkar: {
                               __typename: 'Periodevilkar';
                               alder: { __typename: 'Alder'; alderSisteSykedag: number; oppfylt: boolean };
@@ -5952,14 +6065,25 @@ export const BeregnetPeriodeFragmentDoc = {
                     },
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'periodehistorikk' },
+                        name: { kind: 'Name', value: 'historikkinnslag' },
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler_ident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'notat_id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'notatId' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagtPaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -7165,14 +7289,25 @@ export const ArbeidsgiverFragmentDoc = {
                     },
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'periodehistorikk' },
+                        name: { kind: 'Name', value: 'historikkinnslag' },
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler_ident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'notat_id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'notatId' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagtPaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -8077,14 +8212,25 @@ export const PersonFragmentDoc = {
                     },
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'periodehistorikk' },
+                        name: { kind: 'Name', value: 'historikkinnslag' },
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler_ident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'notat_id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'notatId' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagtPaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -10886,14 +11032,25 @@ export const FetchPersonDocument = {
                     },
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'periodehistorikk' },
+                        name: { kind: 'Name', value: 'historikkinnslag' },
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler_ident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'notat_id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'notatId' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagtPaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },

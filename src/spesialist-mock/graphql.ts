@@ -226,7 +226,7 @@ const getResolvers = (): IResolvers => ({
             }
         },
         leggPaVent: async (_, { oppgaveId, notatTekst }: MutationLeggPaVentArgs) => {
-            NotatMock.addNotat(oppgaveId, { tekst: notatTekst, type: NotatType.PaaVent });
+            NotatMock.addNotat(oppgaveId, { tekst: notatTekst ?? '', type: NotatType.PaaVent });
             PaVentMock.setPåVent(oppgaveId, {
                 frist: '2024-01-01',
                 oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
@@ -370,6 +370,19 @@ const getResolvers = (): IResolvers => ({
                     : overstyring.minimumSykdomsgrad
                       ? 'MinimumSykdomsgradOverstyring'
                       : 'Arbeidsforholdoverstyring',
+    },
+    Historikkinnslag: {
+        __resolveType: (historikkinnslag: { type: string }) => {
+            console.log(historikkinnslag);
+            switch (historikkinnslag.type) {
+                case 'LEGG_PA_VENT':
+                    return 'LagtPaVent';
+                case 'FJERN_FRA_PA_VENT':
+                    return 'FjernetFraPaVent';
+                default:
+                    return 'PeriodeHistorikkElementNy';
+            }
+        },
     },
 });
 
