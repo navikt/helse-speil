@@ -258,7 +258,6 @@ export type BeregnetPeriode = Periode & {
     oppgavereferanse?: Maybe<Scalars['String']['output']>;
     opprettet: Scalars['LocalDateTime']['output'];
     paVent?: Maybe<PaVent>;
-    periodehistorikk: Array<PeriodeHistorikkElement>;
     periodetilstand: Periodetilstand;
     periodetype: Periodetype;
     periodevilkar: Periodevilkar;
@@ -996,14 +995,6 @@ export type Periode = {
     tom: Scalars['LocalDate']['output'];
     varsler: Array<VarselDto>;
     vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type PeriodeHistorikkElement = {
-    __typename?: 'PeriodeHistorikkElement';
-    notat_id?: Maybe<Scalars['Int']['output']>;
-    saksbehandler_ident?: Maybe<Scalars['String']['output']>;
-    timestamp: Scalars['LocalDateTime']['output'];
-    type: PeriodehistorikkType;
 };
 
 export type PeriodeHistorikkElementNy = Historikkinnslag & {
