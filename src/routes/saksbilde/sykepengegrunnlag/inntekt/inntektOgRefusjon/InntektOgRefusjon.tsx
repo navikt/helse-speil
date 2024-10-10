@@ -1,5 +1,4 @@
-import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Label } from '@navikt/ds-react';
 
@@ -23,8 +22,6 @@ import {
     endreInntektUtenSykefraværBegrunnelser,
 } from './inntektOgRefusjonUtils';
 
-import styles from '../Inntekt.module.css';
-
 interface InntektUtenSykefraværProps {
     person: PersonFragment;
     periode: ActivePeriod;
@@ -33,9 +30,9 @@ interface InntektUtenSykefraværProps {
     inntektstype?: Maybe<Inntektstype>;
     arbeidsgiver: ArbeidsgiverFragment;
     refusjon?: Maybe<Refusjonsopplysning[]>;
-    harSykefravær: boolean;
-    inntektFraAOrdningen?: Array<InntektFraAOrdningen>;
     inntekterForSammenligningsgrunnlag?: Array<InntektFraAOrdningen>;
+    editing: boolean;
+    setEditing: (isEditing: boolean) => void;
 }
 
 export const InntektOgRefusjon = ({
@@ -45,11 +42,10 @@ export const InntektOgRefusjon = ({
     vilkårsgrunnlagId,
     arbeidsgiver,
     refusjon,
-    harSykefravær,
-    inntektFraAOrdningen,
     inntekterForSammenligningsgrunnlag,
+    editing,
+    setEditing,
 }: InntektUtenSykefraværProps) => {
-    const [editingInntekt, setEditingInntekt] = useState(false);
     const [endret, setEndret] = useState(false);
 
     const {
@@ -58,14 +54,14 @@ export const InntektOgRefusjon = ({
         deaktivert: erDeaktivert,
     } = inntekt;
 
-    useEffect(() => {
-        setEditingInntekt(false);
-    }, [periode.id]);
+    const inntektFraAOrdningen = arbeidsgiver.inntekterFraAordningen.find(
+        (it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt,
+    )?.inntekter;
+
+    const harSykefravær = !!arbeidsgiver?.generasjoner[0]?.perioder.find((it) => it.fom === periode.fom);
 
     return (
-        <div
-            className={classNames(styles.Inntekt, editingInntekt && styles.editing, erDeaktivert && styles.deaktivert)}
-        >
+        <>
             <ToggleOverstyring
                 person={person}
                 arbeidsgiver={arbeidsgiver}
@@ -73,8 +69,8 @@ export const InntektOgRefusjon = ({
                 vilkårsgrunnlagId={vilkårsgrunnlagId}
                 organisasjonsnummer={organisasjonsnummer}
                 erDeaktivert={erDeaktivert ?? false}
-                editing={editingInntekt}
-                setEditing={setEditingInntekt}
+                editing={editing}
+                setEditing={setEditing}
             />
             <InntektOgRefusjonHeader
                 arbeidsgivernavn={arbeidsgiver.navn}
@@ -82,10 +78,10 @@ export const InntektOgRefusjon = ({
                 kilde="AINNTEKT"
             />
             <Label size="small">Beregnet månedsinntekt</Label>
-            {editingInntekt && omregnetÅrsinntekt && (
+            {editing && omregnetÅrsinntekt && (
                 <InntektOgRefusjonSkjema
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
-                    close={() => setEditingInntekt(false)}
+                    close={() => setEditing(false)}
                     harEndring={setEndret}
                     begrunnelser={
                         harSykefravær ? endreInntektMedSykefraværBegrunnelser : endreInntektUtenSykefraværBegrunnelser
@@ -97,8 +93,7 @@ export const InntektOgRefusjon = ({
                     inntektTom={inntekt.tom}
                 />
             )}
-
-            {!editingInntekt && (
+            {!editing && (
                 <InntektOgRefusjonVisning
                     person={person}
                     periode={periode}
@@ -114,6 +109,6 @@ export const InntektOgRefusjon = ({
                     overstyringer={arbeidsgiver.overstyringer}
                 />
             )}
-        </div>
+        </>
     );
 };

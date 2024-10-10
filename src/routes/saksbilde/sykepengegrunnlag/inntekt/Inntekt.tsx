@@ -1,17 +1,10 @@
 import classNames from 'classnames';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import {
-    ArbeidsgiverFragment,
-    Arbeidsgiverinntekt,
-    Inntektskilde,
-    Maybe,
-    PersonFragment,
-    VilkarsgrunnlagSpleis,
-} from '@io/graphql';
+import { Arbeidsgiverinntekt, Inntektskilde, Maybe, PersonFragment, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import {
     useArbeidsgiver,
@@ -20,7 +13,6 @@ import {
 } from '@state/arbeidsgiver';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
-import { DateString } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { useVilkårsgrunnlag } from '../useVilkårsgrunnlag';
@@ -28,16 +20,14 @@ import { InntektOgRefusjon } from './inntektOgRefusjon/InntektOgRefusjon';
 
 import styles from './Inntekt.module.css';
 
-const hasSykefravær = (arbeidsgiver: ArbeidsgiverFragment, fom: DateString): boolean => {
-    return !!arbeidsgiver?.generasjoner[0]?.perioder.find((it) => it.fom === fom);
-};
-
 interface InntektContainerProps {
     person: PersonFragment;
     inntekt: Arbeidsgiverinntekt;
 }
 
 const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<ReactElement> => {
+    const [editing, setEditing] = useState(false);
+
     const aktivPeriode = useActivePeriod(person);
     const periodeForSkjæringstidspunktForArbeidsgiver = usePeriodForSkjæringstidspunktForArbeidsgiver(
         person,
@@ -70,46 +60,50 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<Rea
           ? aktivPeriode.vilkarsgrunnlagId
           : null;
 
+    useEffect(() => {
+        setEditing(false);
+    }, [periodeForSkjæringstidspunktForArbeidsgiver?.id]);
+
     if (!aktivPeriode || !periodeForSkjæringstidspunktForArbeidsgiver || !vilkårsgrunnlagId) {
         return null;
     }
 
+    const refusjon = mapOgSorterRefusjoner(inntektsmeldinghendelser, arbeidsgiverrefusjon?.refusjonsopplysninger);
+
+    const inntekterForSammenligningsgrunnlag =
+        ((vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) > 25
+            ? inntekt.sammenligningsgrunnlag?.inntektFraAOrdningen
+            : [];
+
     return (
         <div className={classNames(styles.Inntektskilderinnhold, inntekt.deaktivert && styles.deaktivert)}>
-            {inntekt.omregnetArsinntekt != null && arbeidsgiver != null ? (
-                <InntektOgRefusjon
-                    person={person}
-                    periode={periodeForSkjæringstidspunktForArbeidsgiver}
-                    inntektFraAOrdningen={
-                        arbeidsgiver.inntekterFraAordningen.find(
-                            (it) =>
-                                it.skjaeringstidspunkt ===
-                                periodeForSkjæringstidspunktForArbeidsgiver.skjaeringstidspunkt,
-                        )?.inntekter
-                    }
-                    inntekt={inntekt}
-                    vilkårsgrunnlagId={vilkårsgrunnlagId}
-                    arbeidsgiver={arbeidsgiver}
-                    refusjon={mapOgSorterRefusjoner(
-                        inntektsmeldinghendelser,
-                        arbeidsgiverrefusjon?.refusjonsopplysninger,
-                    )}
-                    harSykefravær={hasSykefravær(arbeidsgiver, periodeForSkjæringstidspunktForArbeidsgiver.fom)}
-                    inntekterForSammenligningsgrunnlag={
-                        ((vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) > 25
-                            ? inntekt.sammenligningsgrunnlag?.inntektFraAOrdningen
-                            : []
-                    }
-                />
-            ) : (
-                <div className={classNames(styles.Inntekt, inntekt.deaktivert && styles.deaktivert)}>
+            <div
+                className={classNames(
+                    styles.Inntekt,
+                    editing && styles.editing,
+                    inntekt.deaktivert && styles.deaktivert,
+                )}
+            >
+                {inntekt.omregnetArsinntekt != null && arbeidsgiver != null ? (
+                    <InntektOgRefusjon
+                        person={person}
+                        periode={periodeForSkjæringstidspunktForArbeidsgiver}
+                        inntekt={inntekt}
+                        vilkårsgrunnlagId={vilkårsgrunnlagId}
+                        arbeidsgiver={arbeidsgiver}
+                        refusjon={refusjon}
+                        inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
+                        editing={editing}
+                        setEditing={setEditing}
+                    />
+                ) : (
                     <InntektOgRefusjonHeader
                         organisasjonsnummer={arbeidsgiver?.organisasjonsnummer ?? inntekt.arbeidsgiver}
                         arbeidsgivernavn={arbeidsgiver?.navn ?? 'Ukjent'}
                         kilde={Inntektskilde.Aordningen}
                     />
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };
