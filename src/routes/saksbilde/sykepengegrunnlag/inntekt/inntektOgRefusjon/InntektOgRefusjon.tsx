@@ -79,6 +79,7 @@ export const InntektOgRefusjon = ({
             <InntektOgRefusjonHeader
                 arbeidsgivernavn={arbeidsgiver.navn}
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                kilde="AINNTEKT"
             />
             <Label size="small">Beregnet månedsinntekt</Label>
             {editingInntekt && omregnetÅrsinntekt && (

@@ -5,7 +5,6 @@ import { HStack } from '@navikt/ds-react';
 import { Arbeidsgiverinntekt, PersonFragment, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
 import { SykepengegrunnlagPanel } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/SykepengegrunnlagPanel';
-import { InntektUtenOmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/InntektUtenOmregnetÅrsinntekt';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { getRequiredInntekt } from '@state/utils';
 
@@ -52,11 +51,7 @@ export const SykepengegrunnlagFraSpleis = ({
                 person={person}
             />
             <span className={styles.strek} />
-            {aktivInntektskilde.omregnetArsinntekt !== null ? (
-                <Inntekt person={person} inntekt={aktivInntektskilde} />
-            ) : (
-                <InntektUtenOmregnetÅrsinntekt inntekt={aktivInntektskilde} arbeidsgiver={aktivArbeidsgiver} />
-            )}
+            <Inntekt person={person} inntekt={aktivInntektskilde} />
         </HStack>
     );
 };
