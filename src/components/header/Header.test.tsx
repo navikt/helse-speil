@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { fetchPersonMock, opptegnelseMock } from '@apollo-mocks';
 import { MockedProvider } from '@apollo/client/testing';
-import { FetchPersonDocument, Maybe } from '@io/graphql';
+import { Maybe } from '@io/graphql';
 import { useKeyboardActions } from '@saksbilde/useKeyboardShortcuts';
-import { createMock } from '@test-utils';
 import { RecoilWrapper } from '@test-wrappers';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -28,21 +28,6 @@ jest.mock('@state/varsler', () => ({
     useRapporterGraphQLErrors: () => () => {},
 }));
 
-const fetchPersonMock = createMock({
-    request: {
-        query: FetchPersonDocument,
-        variables: {
-            aktorId: '12345678910',
-        },
-    },
-    result: {
-        data: {
-            __typename: 'Query',
-            person: null,
-        },
-    },
-});
-
 describe('Header', () => {
     beforeEach(() => {
         (useKeyboardActions as jest.Mock).mockReturnValue(() => Promise.resolve(null));
@@ -54,7 +39,7 @@ describe('Header', () => {
 
     it('legger til varsel ved ugyldig søk', async () => {
         render(
-            <MockedProvider mocks={[fetchPersonMock]} addTypename={false}>
+            <MockedProvider mocks={[fetchPersonMock, opptegnelseMock]} addTypename={false}>
                 <RecoilWrapper>
                     <Header />
                 </RecoilWrapper>
@@ -67,7 +52,7 @@ describe('Header', () => {
 
     it('legger ikke til varsel ved gyldig søk', async () => {
         render(
-            <MockedProvider mocks={[fetchPersonMock]} addTypename={false}>
+            <MockedProvider mocks={[fetchPersonMock, opptegnelseMock]} addTypename={false}>
                 <RecoilWrapper>
                     <Header />
                 </RecoilWrapper>

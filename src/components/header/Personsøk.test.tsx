@@ -1,8 +1,9 @@
 import { GraphQLError } from 'graphql';
 import mockRouter from 'next-router-mock';
 
+import { opptegnelseMock } from '@apollo-mocks';
 import { Varsler } from '@components/Varsler';
-import { FetchPersonDocument, OpptegnelserDocument } from '@io/graphql';
+import { FetchPersonDocument } from '@io/graphql';
 import { enPerson } from '@test-data/person';
 import { createInitialQuery, createMock, render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
@@ -30,15 +31,7 @@ describe('Personsøk', () => {
                         };
                     },
                 }),
-                createMock({
-                    request: { query: OpptegnelserDocument, variables: { sekvensId: undefined } },
-                    result: {
-                        data: {
-                            __typename: 'Query' as const,
-                            opptegnelser: [],
-                        },
-                    },
-                }),
+                opptegnelseMock,
             ],
         });
 
@@ -82,15 +75,7 @@ describe('Personsøk', () => {
                             ],
                         },
                     }),
-                    createMock({
-                        request: { query: OpptegnelserDocument, variables: { sekvensId: undefined } },
-                        result: {
-                            data: {
-                                __typename: 'Query' as const,
-                                opptegnelser: [],
-                            },
-                        },
-                    }),
+                    opptegnelseMock,
                 ],
             },
         );
