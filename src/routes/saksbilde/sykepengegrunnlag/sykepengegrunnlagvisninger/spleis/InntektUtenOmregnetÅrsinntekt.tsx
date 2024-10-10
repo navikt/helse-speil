@@ -1,12 +1,11 @@
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
-import { Alert, BodyShort } from '@navikt/ds-react';
+import { Alert, BodyShort, CopyButton, Tooltip } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import { Clipboard } from '@components/clipboard';
 import { ArbeidsgiverFragment, Arbeidsgiverinntekt, Inntektskilde, Maybe } from '@io/graphql';
 
 import { Arbeidsgivernavn } from '../../Arbeidsgivernavn';
@@ -37,16 +36,12 @@ export const InntektUtenOmregnetÅrsinntekt = ({ arbeidsgiver, inntekt }: Inntek
                             arbeidsgivernavn={arbeidsgiver?.navn ?? 'Ukjent'}
                         />
                         <div className={styles.Organisasjonsnummer}>
-                            (
-                            <Clipboard
-                                copyMessage="Organisasjonsnummer er kopiert"
-                                tooltip={{ content: 'Kopier organisasjonsnummer' }}
-                            >
-                                <AnonymizableContainer>
-                                    {arbeidsgiver?.organisasjonsnummer ?? inntekt.arbeidsgiver}
-                                </AnonymizableContainer>
-                            </Clipboard>
-                            )
+                            <Tooltip content={'Kopier organisasjonsnummer'}>
+                                <CopyButton copyText={arbeidsgiver?.organisasjonsnummer ?? inntekt.arbeidsgiver} />
+                            </Tooltip>
+                            <AnonymizableContainer>
+                                {arbeidsgiver?.organisasjonsnummer ?? inntekt.arbeidsgiver}
+                            </AnonymizableContainer>
                         </div>
                         <Kilde type={Inntektskilde.Aordningen}>AO</Kilde>
                     </div>

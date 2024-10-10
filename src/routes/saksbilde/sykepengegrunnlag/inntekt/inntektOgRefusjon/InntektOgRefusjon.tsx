@@ -77,7 +77,6 @@ export const InntektOgRefusjon = ({
                 setEditing={setEditingInntekt}
             />
             <InntektOgRefusjonHeader
-                editing={editingInntekt}
                 arbeidsgivernavn={arbeidsgiver.navn}
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
             />

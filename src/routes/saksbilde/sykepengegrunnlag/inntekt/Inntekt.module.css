@@ -35,17 +35,6 @@
     transform: translateY(-50%);
 }
 
-.Header {
-    display: flex;
-    margin-bottom: 1.5rem;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.Header.editing {
-    justify-content: space-between;
-}
-
 .ArbeidsgiverHeader {
     display: flex;
     align-items: center;
