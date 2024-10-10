@@ -1,38 +1,15 @@
-.Inntekt {
+.inntekt {
+    --width: 522px;
     --border-size: 3px;
-    --horizontal-padding: var(--a-spacing-3);
-    --vertical-padding: var(--a-spacing-2);
-    --width: 504px;
-    position: relative;
-    box-sizing: border-box;
-    width: var(--width);
-    padding: var(--a-spacing-4) var(--a-spacing-4) var(--a-spacing-16) 0;
+    width: calc(var(--width) - var(--border-size));
+    padding: var(--a-spacing-4) var(--a-spacing-3) var(--a-spacing-16) var(--a-spacing-3);
 }
 
-.Inntekt.editing {
-    background-color: #e6f0ff;
+.inntekt.editing {
+    padding-left: var(--a-spacing-3);
     border-left: var(--border-size) solid var(--a-surface-action);
-    padding-left: var(--horizontal-padding);
-    width: 522px;
-    margin: 0 calc(var(--horizontal-padding) * -1) 0 calc((var(--horizontal-padding) + var(--border-size)) * -1);
-}
-
-.Inntekt.deaktivert {
-    margin-right: 1rem;
-    margin-top: 2rem;
-    margin-bottom: 48px;
-}
-
-.Inntekt.deaktivert:after {
-    --margin: 0;
-    content: 'Brukes ikke i beregningen';
-    position: absolute;
-    background-color: var(--nav-ghost-deaktivert-pille-bakgrunn);
-    border: 1px solid var(--nav-ghost-deaktivert-pille-border);
-    padding: 5px 10px;
-    border-radius: 4px;
-    top: var(--margin);
-    transform: translateY(-50%);
+    width: var(--width);
+    margin-left: calc(-1 * var(--border-size));
 }
 
 .ArbeidsgiverHeader {
@@ -52,18 +29,6 @@
     align-items: center;
     font-size: 18px;
     font-weight: 600;
-}
-
-.Inntektskilderinnhold {
-    display: flex;
-    flex-direction: column;
-    background-color: #e6f0ff;
-    padding: 0 4px 0 0.75rem;
-}
-
-.Inntektskilderinnhold.deaktivert {
-    background-color: var(--nav-ghost-deaktivert-bakgrunn);
-    border: 1px solid var(--nav-ghost-deaktivert-border);
 }
 
 .Kildeikon {

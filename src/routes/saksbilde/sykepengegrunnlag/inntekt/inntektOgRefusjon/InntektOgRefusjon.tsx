@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Label } from '@navikt/ds-react';
+import { HStack, Label, Tag } from '@navikt/ds-react';
 
 import {
     ArbeidsgiverFragment,
@@ -62,16 +62,19 @@ export const InntektOgRefusjon = ({
 
     return (
         <>
-            <ToggleOverstyring
-                person={person}
-                arbeidsgiver={arbeidsgiver}
-                periode={periode}
-                vilkårsgrunnlagId={vilkårsgrunnlagId}
-                organisasjonsnummer={organisasjonsnummer}
-                erDeaktivert={erDeaktivert ?? false}
-                editing={editing}
-                setEditing={setEditing}
-            />
+            <HStack gap="2" align="center">
+                <ToggleOverstyring
+                    person={person}
+                    arbeidsgiver={arbeidsgiver}
+                    periode={periode}
+                    vilkårsgrunnlagId={vilkårsgrunnlagId}
+                    organisasjonsnummer={organisasjonsnummer}
+                    erDeaktivert={erDeaktivert ?? false}
+                    editing={editing}
+                    setEditing={setEditing}
+                />
+                {inntekt.deaktivert && <Tag variant="neutral">Brukes ikke i beregningen</Tag>}
+            </HStack>
             <InntektOgRefusjonHeader
                 arbeidsgivernavn={arbeidsgiver.navn}
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}

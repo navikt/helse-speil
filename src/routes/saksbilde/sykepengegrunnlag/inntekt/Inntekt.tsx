@@ -1,7 +1,7 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import React, { ReactElement, useEffect, useState } from 'react';
 
-import { Alert } from '@navikt/ds-react';
+import { Alert, Box } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Arbeidsgiverinntekt, Inntektskilde, Maybe, PersonFragment, VilkarsgrunnlagSpleis } from '@io/graphql';
@@ -76,35 +76,30 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<Rea
             : [];
 
     return (
-        <div className={classNames(styles.Inntektskilderinnhold, inntekt.deaktivert && styles.deaktivert)}>
-            <div
-                className={classNames(
-                    styles.Inntekt,
-                    editing && styles.editing,
-                    inntekt.deaktivert && styles.deaktivert,
-                )}
-            >
-                {inntekt.omregnetArsinntekt != null && arbeidsgiver != null ? (
-                    <InntektOgRefusjon
-                        person={person}
-                        periode={periodeForSkjæringstidspunktForArbeidsgiver}
-                        inntekt={inntekt}
-                        vilkårsgrunnlagId={vilkårsgrunnlagId}
-                        arbeidsgiver={arbeidsgiver}
-                        refusjon={refusjon}
-                        inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
-                        editing={editing}
-                        setEditing={setEditing}
-                    />
-                ) : (
-                    <InntektOgRefusjonHeader
-                        organisasjonsnummer={arbeidsgiver?.organisasjonsnummer ?? inntekt.arbeidsgiver}
-                        arbeidsgivernavn={arbeidsgiver?.navn ?? 'Ukjent'}
-                        kilde={Inntektskilde.Aordningen}
-                    />
-                )}
-            </div>
-        </div>
+        <Box
+            background={inntekt.deaktivert ? 'bg-subtle' : 'surface-action-subtle'}
+            className={cn(styles.inntekt, { [styles.editing]: editing })}
+        >
+            {inntekt.omregnetArsinntekt != null && arbeidsgiver != null ? (
+                <InntektOgRefusjon
+                    person={person}
+                    periode={periodeForSkjæringstidspunktForArbeidsgiver}
+                    inntekt={inntekt}
+                    vilkårsgrunnlagId={vilkårsgrunnlagId}
+                    arbeidsgiver={arbeidsgiver}
+                    refusjon={refusjon}
+                    inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
+                    editing={editing}
+                    setEditing={setEditing}
+                />
+            ) : (
+                <InntektOgRefusjonHeader
+                    organisasjonsnummer={arbeidsgiver?.organisasjonsnummer ?? inntekt.arbeidsgiver}
+                    arbeidsgivernavn={arbeidsgiver?.navn ?? 'Ukjent'}
+                    kilde={Inntektskilde.Aordningen}
+                />
+            )}
+        </Box>
     );
 };
 
