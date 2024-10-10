@@ -8,12 +8,13 @@ import { ApolloError, useLazyQuery, useMutation } from '@apollo/client';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FetchPersonDocument, OpprettAbonnementDocument } from '@io/graphql';
 import { validFødselsnummer } from '@io/graphql/common';
+import { BadRequestError } from '@io/graphql/errors';
 import { useAddVarsel, useRapporterGraphQLErrors } from '@state/varsler';
-import { SpeilError, apolloExtensionValue } from '@utils/error';
+import { apolloExtensionValue } from '@utils/error';
 
 import styles from './Personsøk.module.css';
 
-const erGyldigPersonId = (value: string) => value.match(/^\d{1,13}$/) !== null;
+const erGyldigPersonId = (value: string) => value.match(/^\d{13}$/) || value.match(/^\d{11}$/);
 
 export const Personsøk = (): ReactElement => {
     const addVarsel = useAddVarsel();
@@ -37,7 +38,7 @@ export const Personsøk = (): ReactElement => {
 
         if (!erGyldigPersonId(personId)) {
             router.push('/');
-            addVarsel(new SpeilError(`"${personId}" er ikke en gyldig aktør-ID/fødselsnummer.`));
+            addVarsel(new BadRequestError(personId));
         } else {
             const variables: { aktorId?: string; fnr?: string } = validFødselsnummer(personId)
                 ? { fnr: personId }

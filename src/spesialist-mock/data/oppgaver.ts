@@ -65,7 +65,7 @@ export const oppgaver: OppgaveTilBehandling[] = [
         // En ganske urealistisk oppgave, for å kunne fremprovosere en graphql-error fra oppgavelista
         id: '44201',
         vedtaksperiodeId: '5a494c03-a9a1-08c3-885f-aeffa447d7d2',
-        aktorId: '9001',
+        aktorId: '1000000000003',
         opprettet: '2024-04-10T11:09:57',
         opprinneligSoknadsdato: '2024-01-21 09:48:33.10625',
         navn: {

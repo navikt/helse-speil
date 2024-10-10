@@ -7,6 +7,14 @@ export class FetchError extends SpeilError {
     }
 }
 
+export class BadRequestError extends FetchError {
+    constructor(søketekst: string) {
+        super(`"${søketekst}" er ikke en gyldig aktør-ID/fødselsnummer.`);
+        this.severity = 'info';
+        this.scope = '/';
+    }
+}
+
 export class NotFoundError extends FetchError {
     constructor() {
         super('Personen er ikke i Speil');

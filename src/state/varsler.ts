@@ -2,7 +2,14 @@ import { GraphQLFormattedError } from 'graphql/error';
 import { useSearchParams } from 'next/navigation';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { FetchError, FlereFodselsnumreError, NotFoundError, NotReadyError, ProtectedError } from '@io/graphql/errors';
+import {
+    BadRequestError,
+    FetchError,
+    FlereFodselsnumreError,
+    NotFoundError,
+    NotReadyError,
+    ProtectedError,
+} from '@io/graphql/errors';
 import { useFetchPersonQuery } from '@state/person';
 import { SpeilError } from '@utils/error';
 
@@ -51,6 +58,10 @@ export const useRapporterGraphQLErrors = (): ((
     return (errors, søkeparameter) =>
         errors.map((error: GraphQLFormattedError) => {
             switch (error.extensions?.code) {
+                case 400: {
+                    addVarsel(new BadRequestError(søkeparameter));
+                    break;
+                }
                 case 403: {
                     addVarsel(new ProtectedError());
                     break;

@@ -2,7 +2,7 @@ import { Opptegnelse } from '../opptegnelser';
 
 export const opptegnelser: Opptegnelse[] = [
     {
-        aktorId: 12341234,
+        aktorId: 1234567891011,
         sekvensnummer: 12121212,
         type: 'UTBETALING_ANNULLERING_OK',
         payload: 'payload',
