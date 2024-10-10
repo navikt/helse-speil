@@ -24,7 +24,7 @@ export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps
         <>
             {tab === 'sykepengegrunnlag' && (
                 <div className={styles.RouteContainer}>
-                    <Sykepengegrunnlag person={person} />
+                    <Sykepengegrunnlag person={person} periode={activePeriod} />
                 </div>
             )}
             {tab === 'tilkommen-inntekt' && (

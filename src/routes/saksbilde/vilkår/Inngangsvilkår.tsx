@@ -4,13 +4,10 @@ import React, { ReactElement } from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Maybe, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
-import { useActivePeriod } from '@state/periode';
-import { useFetchPersonQuery } from '@state/person';
+import { BeregnetPeriodeFragment, Maybe, PersonFragment, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { Vilkårdata } from '@typer/vilkår';
-import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
@@ -74,42 +71,33 @@ export const InngangsvilkårWithContent = ({
     );
 };
 
-const InngangsvilkårContainer = (): Maybe<ReactElement> => {
-    const { loading, data } = useFetchPersonQuery();
-    const person = data?.person ?? null;
-    const activePeriod = useActivePeriod(person);
+interface InngangsvilkårContainerProps {
+    person: PersonFragment;
+    periode: BeregnetPeriodeFragment;
+}
 
-    if (loading || !activePeriod || !person?.personinfo.fodselsdato) {
-        return null;
-    }
+const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerProps): Maybe<ReactElement> => (
+    <InngangsvilkårWithContent
+        vurdering={periode.utbetaling.vurdering}
+        periodeFom={periode.fom}
+        vilkårsgrunnlag={getRequiredVilkårsgrunnlag(person, periode.vilkarsgrunnlagId)}
+        fødselsdato={person.personinfo.fodselsdato!}
+    />
+);
 
-    if (isBeregnetPeriode(activePeriod)) {
-        const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId);
-        return (
-            <InngangsvilkårWithContent
-                vurdering={activePeriod.utbetaling?.vurdering}
-                periodeFom={activePeriod.fom}
-                vilkårsgrunnlag={vilkårsgrunnlag}
-                fødselsdato={person.personinfo.fodselsdato}
-            />
-        );
-    } else {
-        return null;
-    }
-};
+const InngangsvilkårError = (): ReactElement => (
+    <Alert variant="error" size="small">
+        Noe gikk galt. Kan ikke vise inngangsvilkår for denne perioden.
+    </Alert>
+);
 
-const InngangsvilkårError = (): ReactElement => {
-    return (
-        <Alert variant="error" size="small">
-            Noe gikk galt. Kan ikke vise inngangsvilkår for denne perioden.
-        </Alert>
-    );
-};
+interface InngangsvilkårProps {
+    person: PersonFragment;
+    periode: BeregnetPeriodeFragment;
+}
 
-export const Inngangsvilkår = (): ReactElement => {
-    return (
-        <ErrorBoundary fallback={<InngangsvilkårError />}>
-            <InngangsvilkårContainer />
-        </ErrorBoundary>
-    );
-};
+export const Inngangsvilkår = ({ person, periode }: InngangsvilkårProps): ReactElement => (
+    <ErrorBoundary fallback={<InngangsvilkårError />}>
+        <InngangsvilkårContainer person={person} periode={periode} />
+    </ErrorBoundary>
+);

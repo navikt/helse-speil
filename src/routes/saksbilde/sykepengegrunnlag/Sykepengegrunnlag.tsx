@@ -3,15 +3,9 @@ import React, { ReactElement } from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Maybe, PersonFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, GhostPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
-import {
-    isBeregnetPeriode,
-    isGhostPeriode,
-    isInfotrygdVilkarsgrunnlag,
-    isSpleisVilkarsgrunnlag,
-} from '@utils/typeguards';
+import { isInfotrygdVilkarsgrunnlag, isSpleisVilkarsgrunnlag } from '@utils/typeguards';
 
 import { SykepengegrunnlagFraInfogtrygd } from './sykepengegrunnlagvisninger/infotrygd/SykepengegrunnlagFraInfotrygd';
 import { SykepengegrunnlagFraSpleis } from './sykepengegrunnlagvisninger/spleis/SykepengegrunnlagFraSpleis';
@@ -19,14 +13,14 @@ import { useVilkårsgrunnlag } from './useVilkårsgrunnlag';
 
 type SykepengegrunnlagProps = {
     person: PersonFragment;
+    periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
 };
 
-const SykepengegrunnlagContainer = ({ person }: SykepengegrunnlagProps): Maybe<ReactElement> => {
-    const activePeriod = useActivePeriod(person);
-    const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
+const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps): Maybe<ReactElement> => {
+    const vilkårsgrunnlag = useVilkårsgrunnlag(person, periode);
     const arbeidsgiver = useCurrentArbeidsgiver(person);
 
-    if (!(isBeregnetPeriode(activePeriod) || isGhostPeriode(activePeriod)) || !arbeidsgiver) return null;
+    if (!arbeidsgiver) return null;
 
     if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag)) {
         return (
@@ -50,18 +44,14 @@ const SykepengegrunnlagContainer = ({ person }: SykepengegrunnlagProps): Maybe<R
     return null;
 };
 
-const SykepengegrunnlagError = (): ReactElement => {
-    return (
-        <Alert variant="error" size="small">
-            Noe gikk galt. Kan ikke vise sykepengegrunnlag for denne perioden.
-        </Alert>
-    );
-};
+const SykepengegrunnlagError = (): ReactElement => (
+    <Alert variant="error" size="small">
+        Noe gikk galt. Kan ikke vise sykepengegrunnlag for denne perioden.
+    </Alert>
+);
 
-export const Sykepengegrunnlag = ({ person }: SykepengegrunnlagProps): ReactElement => {
-    return (
-        <ErrorBoundary fallback={<SykepengegrunnlagError />}>
-            <SykepengegrunnlagContainer person={person} />
-        </ErrorBoundary>
-    );
-};
+export const Sykepengegrunnlag = ({ person, periode }: SykepengegrunnlagProps): ReactElement => (
+    <ErrorBoundary fallback={<SykepengegrunnlagError />}>
+        <SykepengegrunnlagContainer person={person} periode={periode} />
+    </ErrorBoundary>
+);

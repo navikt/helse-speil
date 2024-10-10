@@ -171,22 +171,22 @@ const UtbetalingUberegnetPeriode = ({
     );
 };
 
-type UtbetalingContainerProps = {
+type UtbetalingProps = {
     person: PersonFragment;
+    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment;
 };
 
-const UtbetalingContainer = ({ person }: UtbetalingContainerProps): Maybe<ReactElement> => {
-    const period = useActivePeriod(person);
+const UtbetalingContainer = ({ person, periode }: UtbetalingProps): Maybe<ReactElement> => {
     const arbeidsgiver = useCurrentArbeidsgiver(person);
 
-    if (!period || !isPerson(person) || !arbeidsgiver) {
+    if (!isPerson(person) || !arbeidsgiver) {
         return null;
     }
 
-    if (isBeregnetPeriode(period)) {
-        return <UtbetalingBeregnetPeriodeMemoized period={period} person={person} arbeidsgiver={arbeidsgiver} />;
-    } else if (isUberegnetPeriode(period)) {
-        return <UtbetalingUberegnetPeriode person={person} periode={period} arbeidsgiver={arbeidsgiver} />;
+    if (isBeregnetPeriode(periode)) {
+        return <UtbetalingBeregnetPeriodeMemoized period={periode} person={person} arbeidsgiver={arbeidsgiver} />;
+    } else if (isUberegnetPeriode(periode)) {
+        return <UtbetalingUberegnetPeriode person={person} periode={periode} arbeidsgiver={arbeidsgiver} />;
     } else {
         return null;
     }
@@ -200,14 +200,10 @@ const UtbetalingError = (): ReactElement => {
     );
 };
 
-type UtbetalingProps = {
-    person: PersonFragment;
-};
-
-export const Utbetaling = ({ person }: UtbetalingProps): ReactElement => {
+export const Utbetaling = ({ person, periode }: UtbetalingProps): ReactElement => {
     return (
         <ErrorBoundary fallback={<UtbetalingError />}>
-            <UtbetalingContainer person={person} />
+            <UtbetalingContainer person={person} periode={periode} />
         </ErrorBoundary>
     );
 };

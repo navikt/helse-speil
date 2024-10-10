@@ -18,5 +18,9 @@ export const UberegnetPeriodeView = ({ person, activePeriod }: UberegnetPeriodeV
     const tab = last(usePathname().split('/'));
     useNavigateOnMount(Fane.Utbetaling);
 
-    return <div className={styles.RouteContainer}>{tab === 'dagoversikt' && <Utbetaling person={person} />}</div>;
+    return (
+        <div className={styles.RouteContainer}>
+            {tab === 'dagoversikt' && <Utbetaling person={person} periode={activePeriod} />}
+        </div>
+    );
 };

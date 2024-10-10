@@ -21,10 +21,9 @@ export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps
 
     return (
         <div className={styles.RouteContainer}>
-            {tab === 'dagoversikt' && <Utbetaling person={person} />}
-            {decodeURI(tab ?? '') === 'inngangsvilkår' && <Inngangsvilkår />}
-            {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag person={person} />}
-            {tab === 'vurderingsmomenter' && <Vurderingsmomenter person={person} />}
+            {tab === 'dagoversikt' && <Utbetaling person={person} periode={period} />}
+            {decodeURI(tab ?? '') === 'inngangsvilkår' && <Inngangsvilkår person={person} periode={period} />}
+            {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag person={person} periode={period} />}
             {tab === 'vurderingsmomenter' && <Vurderingsmomenter periode={period} />}
             {tab === 'tilkommen-inntekt' && <TilkommenInntekt person={person} aktivPeriode={period} />}
         </div>
