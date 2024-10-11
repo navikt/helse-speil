@@ -8,6 +8,7 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
 import { AvslagInput, Maybe, Personinfo, SendTilGodkjenningDocument, Utbetaling } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
+import { apolloErrorCode } from '@utils/error';
 
 import { BackendFeil } from './Utbetaling';
 import { UtbetalingModal } from './UtbetalingModal';
@@ -104,7 +105,7 @@ export const SendTilGodkjenningButton = ({
 };
 
 const somBackendfeil = (error: ApolloError): BackendFeil => {
-    const errorCode = (error.graphQLErrors?.[0].extensions?.['code'] as { value: number }).value;
+    const errorCode = apolloErrorCode(error);
 
     return {
         message:

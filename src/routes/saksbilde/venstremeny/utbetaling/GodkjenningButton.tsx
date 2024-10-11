@@ -8,6 +8,7 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
 import { AvslagInput, InnvilgVedtakDocument, Maybe, Personinfo, Utbetaling } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
+import { apolloErrorCode } from '@utils/error';
 
 import { BackendFeil } from './Utbetaling';
 import { UtbetalingModal } from './UtbetalingModal';
@@ -99,13 +100,10 @@ export const GodkjenningButton = ({
     );
 };
 
-const somBackendfeil = (error: ApolloError): BackendFeil => {
-    const errorCode = (error.graphQLErrors[0].extensions?.['code'] as { value: number })?.value;
-    return {
-        message: errorMessages.get(error.message) || 'Feil under fatting av vedtak',
-        statusCode: errorCode,
-    };
-};
+const somBackendfeil = (error: ApolloError): BackendFeil => ({
+    message: errorMessages.get(error.message) || 'Feil under fatting av vedtak',
+    statusCode: apolloErrorCode(error),
+});
 
 const errorMessages = new Map<string, string>([
     ['mangler_vurdering_av_varsler', 'Det mangler vurdering av varsler i en eller flere perioder'],

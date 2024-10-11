@@ -13,7 +13,7 @@ import {
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
-import { InfoAlert } from '@utils/error';
+import { InfoAlert, apolloErrorCode, apolloExtensionValue } from '@utils/error';
 
 class TildelingAlert extends InfoAlert {
     name = 'tildeling';
@@ -55,10 +55,9 @@ export const useOpprettTildeling = (): [
     const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument, {
         refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
         onError: (error) => {
-            const errorCode = (error.graphQLErrors?.[0].extensions?.['code'] as { value: number }).value;
-            if (errorCode === 409) {
-                const tildeling = error.graphQLErrors?.[0].extensions?.['tildeling'] as Tildeling;
-                leggTilTildelingsvarsel(`${tildeling.navn} har allerede tatt saken.`);
+            if (apolloErrorCode(error) === 409) {
+                const tildeling: Maybe<Tildeling> = apolloExtensionValue(error, 'tildeling');
+                leggTilTildelingsvarsel(`${tildeling?.navn} har allerede tatt saken.`);
             } else {
                 leggTilTildelingsvarsel('Kunne ikke tildele sak.');
             }

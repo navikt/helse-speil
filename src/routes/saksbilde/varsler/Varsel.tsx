@@ -7,6 +7,7 @@ import { useMutation } from '@apollo/client';
 import { SettVarselStatusDocument, VarselDto, Varselstatus } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { getFormattedDatetimeString } from '@utils/date';
+import { apolloErrorCode } from '@utils/error';
 
 import { Avhuking } from './Avhuking';
 import { VarselstatusType } from './Varsler';
@@ -84,11 +85,7 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
                         {getFormattedDatetimeString(varselVurdering?.tidsstempel)} av {varselVurdering?.ident}
                     </BodyShort>
                 )}
-                {error && (
-                    <BodyShort className={styles.error}>
-                        {getErrorMessage(error.graphQLErrors?.[0].extensions?.code as number)}
-                    </BodyShort>
-                )}
+                {error && <BodyShort className={styles.error}>{getErrorMessage(apolloErrorCode(error))}</BodyShort>}
             </div>
         </div>
     );

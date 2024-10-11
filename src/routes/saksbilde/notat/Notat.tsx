@@ -11,6 +11,7 @@ import { LeggTilNotatDocument, Maybe, NotatType, PersonFragment } from '@io/grap
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useFjernNotat, useNotater } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
+import { apolloErrorCode } from '@utils/error';
 import { isGhostPeriode, isTilkommenInntekt } from '@utils/typeguards';
 
 import { ControlledTextarea } from './ControlledTextarea';
@@ -129,9 +130,7 @@ export const Notat = ({ person }: NotatProps): Maybe<ReactElement> => {
             )}
             {error && (
                 <ErrorMessage>
-                    {(error.graphQLErrors?.[0].extensions?.['code'] as { value: number }).value === 401
-                        ? 'Du har blitt logget ut'
-                        : 'Notatet kunne ikke lagres'}
+                    {apolloErrorCode(error) === 401 ? 'Du har blitt logget ut' : 'Notatet kunne ikke lagres'}
                 </ErrorMessage>
             )}
         </li>

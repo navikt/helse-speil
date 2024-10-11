@@ -1,4 +1,5 @@
 import { ApolloError } from '@apollo/client';
+import { Maybe } from '@io/graphql';
 
 type Severity = 'warning' | 'error' | 'info' | 'success';
 
@@ -37,5 +38,6 @@ export const apolloErrorCode = (error: ApolloError | undefined): number =>
         }
     ).value;
 
-export const apolloExtensionValue = (error: ApolloError | undefined, field: string): string | null =>
-    error?.graphQLErrors?.[0].extensions?.[field] as string;
+export function apolloExtensionValue<T>(error: ApolloError | undefined, field: string): Maybe<T> {
+    return error?.graphQLErrors?.[0].extensions?.[field] as T;
+}

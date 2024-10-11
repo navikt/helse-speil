@@ -5,7 +5,7 @@ import { Search } from '@navikt/ds-react';
 
 import { ApolloError, useLazyQuery } from '@apollo/client';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { FetchPersonDocument } from '@io/graphql';
+import { FetchPersonDocument, Maybe } from '@io/graphql';
 import { validFødselsnummer } from '@io/graphql/common';
 import { BadRequestError } from '@io/graphql/errors';
 import { usePersonKlargjøres } from '@state/personSomKlargjøres';
@@ -50,7 +50,7 @@ export const Personsøk = (): ReactElement => {
                     router.push('/');
                     if (error?.graphQLErrors) {
                         if (personenKlargjøres(error)) {
-                            const aktørId = apolloExtensionValue(error, 'persondata_hentes_for');
+                            const aktørId: Maybe<string> = apolloExtensionValue(error, 'persondata_hentes_for');
                             if (aktørId) venterPåKlargjøring(aktørId);
                         } else {
                             rapporterError(error?.graphQLErrors, personId);
@@ -73,6 +73,6 @@ export const Personsøk = (): ReactElement => {
 };
 
 const personenKlargjøres = (error: ApolloError) => {
-    const aktørId = apolloExtensionValue(error, 'persondata_hentes_for');
+    const aktørId: Maybe<string> = apolloExtensionValue(error, 'persondata_hentes_for');
     return aktørId != null;
 };
