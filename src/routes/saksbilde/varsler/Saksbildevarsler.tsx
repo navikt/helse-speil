@@ -178,14 +178,16 @@ export const Saksbildevarsler = ({
         manglendeOppgavereferanse(periodState, oppgavereferanse),
     ].filter((it) => it) as VarselObject[];
 
-    const varselheadertekst = varsler
-        ? `Vis varsler (${
-              varsler.filter(
-                  (it) =>
-                      it.vurdering?.status === Varselstatus.Vurdert || it.vurdering?.status === Varselstatus.Godkjent,
-              ).length
-          } av ${varsler.length} varsler er sjekket)`
-        : 'Vis varsler';
+    const varselheadertekst =
+        varsler && varsler.length > 0
+            ? `Vis varsler (${
+                  varsler.filter(
+                      (it) =>
+                          it.vurdering?.status === Varselstatus.Vurdert ||
+                          it.vurdering?.status === Varselstatus.Godkjent,
+                  ).length
+              } av ${varsler.length} varsler er sjekket)`
+            : 'Vis varsler';
 
     return (
         <div className="Saksbildevarsler">
