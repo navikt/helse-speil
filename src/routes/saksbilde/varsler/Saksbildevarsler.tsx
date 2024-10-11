@@ -44,13 +44,15 @@ const tilstandfeil = (state: PeriodState): Maybe<VarselObject> => {
 const vedtaksperiodeVenter = (state: PeriodState): Maybe<VarselObject> =>
     state === 'venter'
         ? { grad: 'info', melding: 'Ikke klar til behandling - avventer system' }
-        : state === 'venterPåKiling'
-          ? {
-                grad: 'info',
-                melding:
-                    'Avventer behandling av en annen periode. Dette kan skyldes at søknad eller inntektsmelding for denne eller en annen arbeidsgiver mangler.',
-            }
-          : null;
+        : state === 'venterPåInntektsopplysninger'
+          ? { grad: 'info', melding: 'Ikke klar til behandling - venter på inntektsmelding' }
+          : state === 'venterPåKiling'
+            ? {
+                  grad: 'info',
+                  melding:
+                      'Avventer behandling av en annen periode. Dette kan skyldes at søknad eller inntektsmelding for denne eller en annen arbeidsgiver mangler.',
+              }
+            : null;
 
 const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: Maybe<string>): Maybe<VarselObject> =>
     state === 'tilGodkjenning' && (typeof oppgavereferanse !== 'string' || oppgavereferanse.length === 0)

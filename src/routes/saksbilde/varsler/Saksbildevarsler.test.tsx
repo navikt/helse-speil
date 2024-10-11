@@ -33,6 +33,10 @@ describe('Saksbildevarsler', () => {
         render(<SaksbildevarslerWrapper periodState="utbetalingFeilet" />);
         expect(screen.getByText('Utbetalingen feilet.')).toBeVisible();
     });
+    test('viser varsel om at perioden venter på inntektsmelding', () => {
+        render(<SaksbildevarslerWrapper periodState="venterPåInntektsopplysninger" />);
+        expect(screen.getByText('Ikke klar til behandling - venter på inntektsmelding')).toBeVisible();
+    });
     test('viser feilvarsel om annullering feilet', () => {
         render(<SaksbildevarslerWrapper periodState="annulleringFeilet" />);
         expect(screen.getByText('Annulleringen feilet. Kontakt utviklerteamet.')).toBeVisible();

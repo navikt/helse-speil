@@ -65,19 +65,9 @@ export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: Arbeid
 
     return arbeidsgiver.generasjoner[0]?.perioder.some((periode) => periode.id === period.id);
 };
-
-export const isWaiting = (period: ActivePeriod): boolean => {
-    return ['venter', 'venterPåKiling'].includes(getPeriodState(period));
-};
-
 export const isGodkjent = (period: ActivePeriod): boolean => {
     return ['utbetalt', 'utbetaltAutomatisk', 'revurdert', 'revurdertIngenUtbetaling'].includes(getPeriodState(period));
 };
-
-export const isTilGodkjenning = (period: ActivePeriod): boolean => {
-    return getPeriodState(period) === 'tilGodkjenning';
-};
-
 export const overlapper =
     (other: Periode) =>
     (periode: Periode): boolean =>

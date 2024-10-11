@@ -42,6 +42,7 @@ export const getUberegnetPeriodState = (period: UberegnetPeriodeFragment): Perio
         case Periodetilstand.IngenUtbetaling:
             return 'ingenUtbetaling';
         case Periodetilstand.AvventerInntektsopplysninger:
+            return 'venterPåInntektsopplysninger';
         case Periodetilstand.ManglerInformasjon:
             return 'venter';
         case Periodetilstand.ForberederGodkjenning:
@@ -65,6 +66,7 @@ export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodStat
 
     switch (period.periodetilstand) {
         case Periodetilstand.AvventerInntektsopplysninger:
+            return 'venterPåInntektsopplysninger';
         case Periodetilstand.ManglerInformasjon:
             return 'venter';
         case Periodetilstand.ForberederGodkjenning:
@@ -148,6 +150,8 @@ export const getPeriodStateText = (state: PeriodState): string => {
             return 'Ferie';
         case 'kunPermisjon':
             return 'Permisjon';
+        case 'venterPåInntektsopplysninger':
+            return 'Venter på inntektsopplysninger';
         case 'venter':
         case 'venterPåKiling':
             return 'Venter';

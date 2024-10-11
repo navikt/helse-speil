@@ -23,6 +23,7 @@ export type PeriodState =
     | 'tilUtbetaling'
     | 'utbetalt'
     | 'tilGodkjenning'
+    | 'venterPåInntektsopplysninger'
     | 'venter'
     | 'venterPåKiling'
     | 'avslag'

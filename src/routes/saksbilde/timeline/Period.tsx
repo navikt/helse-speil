@@ -48,6 +48,7 @@ const getPeriodCategory = (periodState: PeriodState): Maybe<PeriodCategory> => {
             return 'attention';
         }
         case 'venter':
+        case 'venterPåInntektsopplysninger':
         case 'venterPåKiling':
         case 'tilAnnullering':
         case 'tilUtbetalingAutomatisk':
