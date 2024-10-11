@@ -2,12 +2,11 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement, useState } from 'react';
 
-import { Accordion, BodyShort, Tooltip } from '@navikt/ds-react';
+import { Accordion, BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
-import { Clipboard } from '@components/clipboard';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { Arbeidsforhold } from '@io/graphql';
 import { useIsAnonymous } from '@state/anonymization';
@@ -20,17 +19,14 @@ interface OrganisasjonsnummerRowProps {
     organisasjonsnummer: string;
 }
 
-const OrganisasjonsnummerRow = ({ organisasjonsnummer }: OrganisasjonsnummerRowProps): ReactElement => {
-    return (
-        <Clipboard
-            preserveWhitespace={false}
-            copyMessage="Organisasjonsnummer er kopiert"
-            tooltip={{ content: 'Kopier organisasjonsnummer' }}
-        >
-            <AnonymizableText>{organisasjonsnummer}</AnonymizableText>
-        </Clipboard>
-    );
-};
+const OrganisasjonsnummerRow = ({ organisasjonsnummer }: OrganisasjonsnummerRowProps): ReactElement => (
+    <HStack>
+        <AnonymizableText>{organisasjonsnummer}</AnonymizableText>
+        <Tooltip content="Kopier organisasjonsnummer">
+            <CopyButton copyText={organisasjonsnummer} size="xsmall" />
+        </Tooltip>
+    </HStack>
+);
 
 interface ArbeidsforholdRowProps {
     arbeidsforhold: Array<Arbeidsforhold>;
