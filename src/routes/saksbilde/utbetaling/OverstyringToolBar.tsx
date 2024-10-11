@@ -25,7 +25,7 @@ export const OverstyringToolBar = ({
     const [visLeggTilDagerForm, setVisLeggTilDagerForm] = useState(false);
 
     return (
-        <Box marginInline="8">
+        <Box marginInline="6">
             <HStack paddingBlock="0 4" gap="2">
                 <Heading size="small">Overstyr dager</Heading>
                 <Button

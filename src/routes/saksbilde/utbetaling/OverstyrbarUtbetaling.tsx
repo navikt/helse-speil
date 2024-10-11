@@ -274,17 +274,17 @@ export const OverstyrbarUtbetaling = ({
             className={classNames(styles.OverstyrbarUtbetaling, overstyrer && styles.overstyrer)}
             data-testid="utbetaling"
         >
-            <UtbetalingHeader
-                periodeErForkastet={erForkastet}
-                toggleOverstyring={toggleOverstyring}
-                overstyrer={overstyrer}
-                kanOverstyreMinimumSykdomsgrad={
-                    kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident) &&
-                    periode.tidslinje.some((it) => (it?.utbetalingsinfo?.totalGrad ?? 100) < 20)
-                }
-                overstyrerMinimumSykdomsgrad={overstyrerMinimumSykdomsgrad}
-                setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
-            />
+            {!overstyrer && !overstyrerMinimumSykdomsgrad && (
+                <UtbetalingHeader
+                    periodeErForkastet={erForkastet}
+                    toggleOverstyring={toggleOverstyring}
+                    kanOverstyreMinimumSykdomsgrad={
+                        kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident) &&
+                        periode.tidslinje.some((it) => (it?.utbetalingsinfo?.totalGrad ?? 100) < 20)
+                    }
+                    setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
+                />
+            )}
             {overstyrerMinimumSykdomsgrad && isBeregnetPeriode(periode) && (
                 <MinimumSykdomsgradForm
                     person={person}

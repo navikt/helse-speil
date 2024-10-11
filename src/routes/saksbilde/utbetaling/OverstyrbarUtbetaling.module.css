@@ -10,12 +10,8 @@
 .OverstyrbarUtbetaling.overstyrer {
     --padding: 2rem;
     overflow-y: hidden;
-    margin: calc(var(--padding) * -1);
-    margin-bottom: calc(var(--padding) * -2);
     height: max-content;
-    padding-right: var(--padding);
-    padding-top: var(--padding);
-    padding-bottom: calc(var(--padding) * 2);
+    padding: var(--padding) var(--padding) calc(var(--padding) * 2) 0;
     border-left: 6px solid var(--a-surface-action);
     background-color: #f7f7f7;
 }
@@ -33,7 +29,7 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    left: 32px;
+    left: 16px;
     top: 68px;
 }
 
