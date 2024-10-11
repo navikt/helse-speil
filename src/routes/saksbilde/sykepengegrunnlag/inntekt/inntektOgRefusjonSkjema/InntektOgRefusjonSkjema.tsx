@@ -8,6 +8,7 @@ import {
     UseFormClearErrors,
     UseFormSetError,
     useForm,
+    useWatch,
 } from 'react-hook-form';
 
 import { Alert, Button } from '@navikt/ds-react';
@@ -85,6 +86,7 @@ export const InntektOgRefusjonSkjema = ({
         arbeidsgiver.organisasjonsnummer,
         skjæringstidspunkt,
     );
+    const månedsbeløp = Number.parseFloat(useWatch({ name: 'manedsbelop', control: form.control }));
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(arbeidsgiver.organisasjonsnummer, skjæringstidspunkt);
     const førstePeriodeForSkjæringstidspunkt = getFørstePeriodeForSkjæringstidspunkt(skjæringstidspunkt, arbeidsgiver);
 
@@ -102,7 +104,6 @@ export const InntektOgRefusjonSkjema = ({
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const values = form.getValues();
 
-    const månedsbeløp = Number.parseFloat(values.manedsbelop);
     const omregnetÅrsinntektMånedsbeløpRounded = avrundetToDesimaler(omregnetÅrsinntekt.manedsbelop);
     const harEndringer =
         (!!lokaltMånedsbeløp && lokaltMånedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded) ||
