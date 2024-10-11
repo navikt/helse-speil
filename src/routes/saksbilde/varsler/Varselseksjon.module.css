@@ -6,10 +6,6 @@
     white-space: pre-wrap;
 }
 
-.container:not(:last-of-type) {
-    margin-bottom: 1rem;
-}
-
 .tittel {
     font-weight: 600;
 }
