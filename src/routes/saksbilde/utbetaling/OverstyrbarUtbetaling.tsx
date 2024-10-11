@@ -196,7 +196,7 @@ export const OverstyrbarUtbetaling = ({
     const [overstyrer, setOverstyrer] = useState(false);
     const [overstyrerMinimumSykdomsgrad, setOverstyrerMinimumSykdomsgrad] = useState(false);
 
-    const { postOverstyring, error, timedOut, done } = useOverstyrDager(person, arbeidsgiver);
+    const { postOverstyring, error, timedOut, setTimedOut, done } = useOverstyrDager(person, arbeidsgiver);
     const saksbehandlerident = useBrukerIdent();
 
     const [state, dispatch] = useReducer(reducer, defaultDagerState);
@@ -350,7 +350,7 @@ export const OverstyrbarUtbetaling = ({
                     </>
                 )}
             </div>
-            {timedOut && <TimeoutModal showModal={timedOut} onClose={() => null} />}
+            {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
             {error && (
                 <BodyShort className={styles.ErrorMessage} role="alert">
                     {error}

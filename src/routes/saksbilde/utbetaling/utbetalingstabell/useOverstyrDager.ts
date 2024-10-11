@@ -30,6 +30,7 @@ type UsePostOverstyringResult = {
         callback?: () => void,
     ) => Promise<void | FetchResult<OverstyrDagerMutationMutation>>;
     error?: string;
+    setTimedOut: (value: boolean) => void;
     timedOut: boolean;
     done: boolean;
 };
@@ -108,8 +109,9 @@ export const useOverstyrDager = (
     return {
         postOverstyring: overstyrDager,
         error: overstyringError && 'Feil under sending av overstyring. Prøv igjen senere.',
-        timedOut: timedOut,
-        done: done,
+        setTimedOut,
+        timedOut,
+        done,
     };
 };
 
