@@ -12,6 +12,7 @@
                 "kind": "ENUM",
                 "name": "Adressebeskyttelse",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -53,6 +54,7 @@
                 "kind": "OBJECT",
                 "name": "Alder",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "alderSisteSykedag",
@@ -96,6 +98,7 @@
                 "kind": "OBJECT",
                 "name": "Annullering",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "arbeidsgiverFagsystemId",
@@ -199,6 +202,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "AnnulleringArsakInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -242,6 +246,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "AnnulleringDataInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -425,6 +430,7 @@
                 "kind": "OBJECT",
                 "name": "Antall",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "automatisk",
@@ -484,6 +490,7 @@
                 "kind": "ENUM",
                 "name": "AntallArbeidsforhold",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -507,6 +514,7 @@
                 "kind": "OBJECT",
                 "name": "AntallOppgaver",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "antallMineSaker",
@@ -550,6 +558,7 @@
                 "kind": "OBJECT",
                 "name": "Arbeidsforhold",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "sluttdato",
@@ -621,6 +630,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "ArbeidsforholdOverstyringHandlingInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -720,6 +730,7 @@
                 "kind": "OBJECT",
                 "name": "Arbeidsforholdoverstyring",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "begrunnelse",
@@ -865,6 +876,7 @@
                 "kind": "OBJECT",
                 "name": "Arbeidsgiver",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "arbeidsforhold",
@@ -1076,6 +1088,7 @@
                 "kind": "OBJECT",
                 "name": "ArbeidsgiverInntekterFraAOrdningen",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "inntekter",
@@ -1127,6 +1140,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "ArbeidsgiverInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -1170,6 +1184,7 @@
                 "kind": "OBJECT",
                 "name": "Arbeidsgiverinntekt",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "arbeidsgiver",
@@ -1269,6 +1284,7 @@
                 "kind": "OBJECT",
                 "name": "Arbeidsgiverrefusjon",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "arbeidsgiver",
@@ -1320,6 +1336,7 @@
                 "kind": "OBJECT",
                 "name": "AvsenderSystem",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "navn",
@@ -1355,6 +1372,7 @@
                 "kind": "OBJECT",
                 "name": "Avslag",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "begrunnelse",
@@ -1446,6 +1464,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "AvslagInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -1485,6 +1504,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "AvslagsdataInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -1528,6 +1548,7 @@
                 "kind": "ENUM",
                 "name": "Avslagshandling",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -1551,6 +1572,7 @@
                 "kind": "ENUM",
                 "name": "Avslagstype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -1574,6 +1596,7 @@
                 "kind": "ENUM",
                 "name": "Begrunnelse",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -1657,6 +1680,7 @@
                 "kind": "OBJECT",
                 "name": "BehandledeOppgaver",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "oppgaver",
@@ -1708,6 +1732,7 @@
                 "kind": "OBJECT",
                 "name": "BehandletOppgave",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "aktorId",
@@ -1843,6 +1868,7 @@
                 "kind": "OBJECT",
                 "name": "Behandlingsstatistikk",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "antallAnnulleringer",
@@ -2110,6 +2136,7 @@
                 "kind": "OBJECT",
                 "name": "BeregnetPeriode",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "annullering",
@@ -2667,6 +2694,7 @@
                 "kind": "SCALAR",
                 "name": "Boolean",
                 "description": "The `Boolean` scalar type represents `true` or `false`.",
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -2677,6 +2705,7 @@
                 "kind": "OBJECT",
                 "name": "Dag",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "begrunnelser",
@@ -2796,6 +2825,7 @@
                 "kind": "OBJECT",
                 "name": "Dagoverstyring",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "begrunnelse",
@@ -2917,6 +2947,7 @@
                 "kind": "ENUM",
                 "name": "Dagtype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -3024,6 +3055,7 @@
                 "kind": "OBJECT",
                 "name": "DokumentInntektsmelding",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "arbeidsforholdId",
@@ -3279,6 +3311,7 @@
                 "kind": "ENUM",
                 "name": "Egenskap",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -3458,6 +3491,7 @@
                 "kind": "OBJECT",
                 "name": "EndringIRefusjon",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "beloep",
@@ -3493,6 +3527,7 @@
                 "kind": "OBJECT",
                 "name": "Enhet",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "id",
@@ -3536,6 +3571,7 @@
                 "kind": "OBJECT",
                 "name": "Faresignal",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "beskrivelse",
@@ -3587,6 +3623,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "FiltreringInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -3702,6 +3739,7 @@
                 "kind": "OBJECT",
                 "name": "FjernetFraPaVent",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "notatId",
@@ -3775,6 +3813,7 @@
                 "kind": "SCALAR",
                 "name": "Float",
                 "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).",
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -3785,6 +3824,7 @@
                 "kind": "OBJECT",
                 "name": "Generasjon",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "id",
@@ -3836,6 +3876,7 @@
                 "kind": "OBJECT",
                 "name": "GhostPeriode",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "deaktivert",
@@ -3955,6 +3996,7 @@
                 "kind": "OBJECT",
                 "name": "GjenopptakelseNaturalytelse",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "beloepPrMnd",
@@ -4002,6 +4044,7 @@
                 "kind": "OBJECT",
                 "name": "Handling",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "begrunnelse",
@@ -4057,6 +4100,7 @@
                 "kind": "INTERFACE",
                 "name": "Hendelse",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "id",
@@ -4136,6 +4180,7 @@
                 "kind": "ENUM",
                 "name": "Hendelsetype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -4195,6 +4240,7 @@
                 "kind": "INTERFACE",
                 "name": "Historikkinnslag",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "notatId",
@@ -4278,6 +4324,7 @@
                 "kind": "OBJECT",
                 "name": "IMPeriode",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "fom",
@@ -4313,6 +4360,7 @@
                 "kind": "OBJECT",
                 "name": "Infotrygdutbetaling",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "dagsats",
@@ -4420,6 +4468,7 @@
                 "kind": "OBJECT",
                 "name": "InntektEndringAarsak",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "aarsak",
@@ -4491,6 +4540,7 @@
                 "kind": "OBJECT",
                 "name": "InntektFraAOrdningen",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "maned",
@@ -4534,6 +4584,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "InntektOgRefusjonOverstyringInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -4633,6 +4684,7 @@
                 "kind": "OBJECT",
                 "name": "Inntektoverstyring",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "ferdigstilt",
@@ -4730,6 +4782,7 @@
                 "kind": "ENUM",
                 "name": "Inntektskilde",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -4783,6 +4836,7 @@
                 "kind": "OBJECT",
                 "name": "Inntektsmelding",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "beregnetInntekt",
@@ -4876,6 +4930,7 @@
                 "kind": "ENUM",
                 "name": "Inntektstype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -4899,6 +4954,7 @@
                 "kind": "SCALAR",
                 "name": "Int",
                 "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -4909,6 +4965,7 @@
                 "kind": "ENUM",
                 "name": "Kategori",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -4956,6 +5013,7 @@
                 "kind": "OBJECT",
                 "name": "Kilde",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "id",
@@ -4999,6 +5057,7 @@
                 "kind": "ENUM",
                 "name": "Kildetype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -5040,6 +5099,7 @@
                 "kind": "ENUM",
                 "name": "Kjonn",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -5069,6 +5129,7 @@
                 "kind": "OBJECT",
                 "name": "Kommentar",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "feilregistrert_tidspunkt",
@@ -5156,6 +5217,7 @@
                 "kind": "OBJECT",
                 "name": "LagtPaVent",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "arsaker",
@@ -5269,6 +5331,7 @@
                 "kind": "SCALAR",
                 "name": "LocalDate",
                 "description": "class java.time.LocalDate",
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -5279,6 +5342,7 @@
                 "kind": "SCALAR",
                 "name": "LocalDateTime",
                 "description": "class java.time.LocalDateTime",
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -5289,6 +5353,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "LovhjemmelInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -5372,6 +5437,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "MinimumSykdomsgradInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -5519,6 +5585,7 @@
                 "kind": "OBJECT",
                 "name": "MinimumSykdomsgradOverstyring",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "ferdigstilt",
@@ -5616,6 +5683,7 @@
                 "kind": "ENUM",
                 "name": "Mottaker",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -5651,6 +5719,7 @@
                 "kind": "OBJECT",
                 "name": "Mutation",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "annuller",
@@ -6685,6 +6754,7 @@
                 "kind": "ENUM",
                 "name": "Naturalytelse",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -6816,6 +6886,7 @@
                 "kind": "OBJECT",
                 "name": "Notat",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "feilregistrert",
@@ -7023,6 +7094,7 @@
                 "kind": "ENUM",
                 "name": "NotatType",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -7058,6 +7130,7 @@
                 "kind": "OBJECT",
                 "name": "Notater",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "id",
@@ -7109,6 +7182,7 @@
                 "kind": "OBJECT",
                 "name": "NyttInntektsforholdPeriode",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "fom",
@@ -7212,6 +7286,7 @@
                 "kind": "OBJECT",
                 "name": "OmregnetArsinntekt",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "belop",
@@ -7291,6 +7366,7 @@
                 "kind": "OBJECT",
                 "name": "OppgaveForPeriodevisning",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "id",
@@ -7318,6 +7394,7 @@
                 "kind": "OBJECT",
                 "name": "OppgaveTilBehandling",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "aktorId",
@@ -7537,6 +7614,7 @@
                 "kind": "OBJECT",
                 "name": "Oppgaveegenskap",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "egenskap",
@@ -7580,6 +7658,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "OppgaveegenskapInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -7623,6 +7702,7 @@
                 "kind": "OBJECT",
                 "name": "OppgaverTilBehandling",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "oppgaver",
@@ -7674,6 +7754,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "OppgavesorteringInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -7717,6 +7798,7 @@
                 "kind": "ENUM",
                 "name": "Oppgavetype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -7782,6 +7864,7 @@
                 "kind": "OBJECT",
                 "name": "OpphoerAvNaturalytelse",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "beloepPrMnd",
@@ -7829,6 +7912,7 @@
                 "kind": "OBJECT",
                 "name": "Opptegnelse",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "aktorId",
@@ -7904,6 +7988,7 @@
                 "kind": "ENUM",
                 "name": "Opptegnelsetype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -7963,6 +8048,7 @@
                 "kind": "INTERFACE",
                 "name": "Overstyring",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "ferdigstilt",
@@ -8064,6 +8150,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "OverstyringArbeidsforholdInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -8151,6 +8238,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "OverstyringArbeidsgiverInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -8318,6 +8406,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "OverstyringDagInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -8413,6 +8502,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "OverstyringRefusjonselementInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -8468,6 +8558,7 @@
                 "kind": "OBJECT",
                 "name": "OverstyrtDag",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "dato",
@@ -8547,6 +8638,7 @@
                 "kind": "OBJECT",
                 "name": "OverstyrtInntekt",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "begrunnelse",
@@ -8674,6 +8766,7 @@
                 "kind": "OBJECT",
                 "name": "OverstyrtMinimumSykdomsgrad",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "begrunnelse",
@@ -8765,6 +8858,7 @@
                 "kind": "OBJECT",
                 "name": "PaVent",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "frist",
@@ -8804,6 +8898,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "PaVentArsakInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -8847,6 +8942,7 @@
                 "kind": "INTERFACE",
                 "name": "Periode",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "behandlingId",
@@ -9117,6 +9213,7 @@
                 "kind": "OBJECT",
                 "name": "PeriodeHistorikkElementNy",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "notatId",
@@ -9190,6 +9287,7 @@
                 "kind": "ENUM",
                 "name": "Periodehandling",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -9213,6 +9311,7 @@
                 "kind": "ENUM",
                 "name": "PeriodehistorikkType",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -9266,6 +9365,7 @@
                 "kind": "ENUM",
                 "name": "Periodetilstand",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -9278,6 +9378,12 @@
                     },
                     {
                         "name": "Annullert",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "AvventerInntektsopplysninger",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -9373,6 +9479,7 @@
                 "kind": "ENUM",
                 "name": "Periodetype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -9408,6 +9515,7 @@
                 "kind": "OBJECT",
                 "name": "Periodevilkar",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "alder",
@@ -9451,6 +9559,7 @@
                 "kind": "OBJECT",
                 "name": "Person",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "aktorId",
@@ -9658,6 +9767,7 @@
                 "kind": "OBJECT",
                 "name": "Personinfo",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "adressebeskyttelse",
@@ -9797,6 +9907,7 @@
                 "kind": "OBJECT",
                 "name": "Personnavn",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "etternavn",
@@ -9852,6 +9963,7 @@
                 "kind": "OBJECT",
                 "name": "Query",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "antallOppgaver",
@@ -10250,6 +10362,7 @@
                 "kind": "OBJECT",
                 "name": "Refusjon",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "beloepPrMnd",
@@ -10285,6 +10398,7 @@
                 "kind": "OBJECT",
                 "name": "Refusjonselement",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "belop",
@@ -10356,6 +10470,7 @@
                 "kind": "OBJECT",
                 "name": "Refusjonsopplysning",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "belop",
@@ -10411,6 +10526,7 @@
                 "kind": "OBJECT",
                 "name": "Reservasjon",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "kanVarsles",
@@ -10454,6 +10570,7 @@
                 "kind": "OBJECT",
                 "name": "Risikovurdering",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "funn",
@@ -10509,6 +10626,7 @@
                 "kind": "OBJECT",
                 "name": "Saksbehandler",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "ident",
@@ -10548,6 +10666,7 @@
                 "kind": "OBJECT",
                 "name": "Sammenligningsgrunnlag",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "belop",
@@ -10599,6 +10718,7 @@
                 "kind": "OBJECT",
                 "name": "Simulering",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "fagsystemId",
@@ -10698,6 +10818,7 @@
                 "kind": "OBJECT",
                 "name": "Simuleringsdetaljer",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "antallSats",
@@ -10917,6 +11038,7 @@
                 "kind": "OBJECT",
                 "name": "Simuleringslinje",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "dagsats",
@@ -10992,6 +11114,7 @@
                 "kind": "OBJECT",
                 "name": "Simuleringsperiode",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "fom",
@@ -11059,6 +11182,7 @@
                 "kind": "OBJECT",
                 "name": "Simuleringsutbetaling",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "detaljer",
@@ -11158,6 +11282,7 @@
                 "kind": "OBJECT",
                 "name": "SkjonnsfastsattSykepengegrunnlag",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "arlig",
@@ -11289,6 +11414,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "SkjonnsfastsettelseArbeidsgiverInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -11440,6 +11566,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "SkjonnsfastsettelseInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -11539,6 +11666,7 @@
                 "kind": "ENUM",
                 "name": "SkjonnsfastsettelseType",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -11568,6 +11696,7 @@
                 "kind": "ENUM",
                 "name": "Skjonnsfastsettingstype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -11597,6 +11726,7 @@
                 "kind": "OBJECT",
                 "name": "Soknad",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "arbeidGjenopptatt",
@@ -11704,6 +11834,7 @@
                 "kind": "OBJECT",
                 "name": "SoknadArbeidsgiver",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "eksternDokumentId",
@@ -11829,6 +11960,7 @@
                 "kind": "OBJECT",
                 "name": "SoknadArbeidsledig",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "eksternDokumentId",
@@ -11954,6 +12086,7 @@
                 "kind": "OBJECT",
                 "name": "SoknadFrilans",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "eksternDokumentId",
@@ -12079,6 +12212,7 @@
                 "kind": "OBJECT",
                 "name": "SoknadNav",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "eksternDokumentId",
@@ -12204,6 +12338,7 @@
                 "kind": "OBJECT",
                 "name": "SoknadSelvstendig",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "eksternDokumentId",
@@ -12329,6 +12464,7 @@
                 "kind": "OBJECT",
                 "name": "Soknadsperioder",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "faktiskGrad",
@@ -12408,6 +12544,7 @@
                 "kind": "ENUM",
                 "name": "Soknadstype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -12473,6 +12610,7 @@
                 "kind": "ENUM",
                 "name": "Sorteringsnokkel",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -12508,6 +12646,7 @@
                 "kind": "OBJECT",
                 "name": "Sporsmal",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "kriterieForVisningAvUndersporsmal",
@@ -12619,6 +12758,7 @@
                 "kind": "SCALAR",
                 "name": "String",
                 "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -12629,6 +12769,7 @@
                 "kind": "OBJECT",
                 "name": "Svar",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "verdi",
@@ -12652,6 +12793,7 @@
                 "kind": "ENUM",
                 "name": "Svartype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -12831,6 +12973,7 @@
                 "kind": "ENUM",
                 "name": "Sykdomsdagtype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -12956,6 +13099,7 @@
                 "kind": "OBJECT",
                 "name": "Sykepengedager",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "forbrukteSykedager",
@@ -13039,6 +13183,7 @@
                 "kind": "OBJECT",
                 "name": "Sykepengegrunnlagsgrense",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "grense",
@@ -13098,6 +13243,7 @@
                 "kind": "OBJECT",
                 "name": "Sykepengegrunnlagskjonnsfastsetting",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "ferdigstilt",
@@ -13195,6 +13341,7 @@
                 "kind": "OBJECT",
                 "name": "Sykmelding",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "fom",
@@ -13292,6 +13439,7 @@
                 "kind": "INPUT_OBJECT",
                 "name": "TidslinjeOverstyringInput",
                 "description": null,
+                "isOneOf": false,
                 "fields": null,
                 "inputFields": [
                     {
@@ -13407,6 +13555,7 @@
                 "kind": "OBJECT",
                 "name": "Tildeling",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "epost",
@@ -13466,6 +13615,7 @@
                 "kind": "OBJECT",
                 "name": "TilleggsinfoForInntektskilde",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "navn",
@@ -13509,6 +13659,7 @@
                 "kind": "OBJECT",
                 "name": "Totrinnsvurdering",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "beslutter",
@@ -13576,6 +13727,7 @@
                 "kind": "SCALAR",
                 "name": "UUID",
                 "description": "class java.util.UUID",
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -13586,6 +13738,7 @@
                 "kind": "OBJECT",
                 "name": "UberegnetPeriode",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "behandlingId",
@@ -13875,6 +14028,7 @@
                 "kind": "OBJECT",
                 "name": "UnntattFraAutomatiskGodkjenning",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "arsaker",
@@ -13938,6 +14092,7 @@
                 "kind": "OBJECT",
                 "name": "Utbetaling",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "arbeidsgiverFagsystemId",
@@ -14097,6 +14252,7 @@
                 "kind": "ENUM",
                 "name": "Utbetalingsdagtype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -14162,6 +14318,7 @@
                 "kind": "OBJECT",
                 "name": "Utbetalingsinfo",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "arbeidsgiverbelop",
@@ -14245,6 +14402,7 @@
                 "kind": "ENUM",
                 "name": "Utbetalingstatus",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -14322,6 +14480,7 @@
                 "kind": "ENUM",
                 "name": "Utbetalingtype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -14369,6 +14528,7 @@
                 "kind": "OBJECT",
                 "name": "VarselDTO",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "definisjonId",
@@ -14496,6 +14656,7 @@
                 "kind": "ENUM",
                 "name": "Varselstatus",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -14531,6 +14692,7 @@
                 "kind": "OBJECT",
                 "name": "VarselvurderingDTO",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "ident",
@@ -14590,6 +14752,7 @@
                 "kind": "INTERFACE",
                 "name": "Vilkarsgrunnlag",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "arbeidsgiverrefusjoner",
@@ -14740,6 +14903,7 @@
                 "kind": "OBJECT",
                 "name": "VilkarsgrunnlagInfotrygd",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "arbeidsgiverrefusjoner",
@@ -14885,6 +15049,7 @@
                 "kind": "OBJECT",
                 "name": "VilkarsgrunnlagSpleis",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "antallOpptjeningsdagerErMinst",
@@ -15174,6 +15339,7 @@
                 "kind": "ENUM",
                 "name": "Vilkarsgrunnlagtype",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -15203,6 +15369,7 @@
                 "kind": "ENUM",
                 "name": "Visningskriterium",
                 "description": null,
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -15238,6 +15405,7 @@
                 "kind": "OBJECT",
                 "name": "Vurdering",
                 "description": null,
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "automatisk",
@@ -15313,6 +15481,7 @@
                 "kind": "SCALAR",
                 "name": "YearMonth",
                 "description": "class java.time.YearMonth",
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -15323,6 +15492,7 @@
                 "kind": "OBJECT",
                 "name": "__Directive",
                 "description": "A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.\n\nIn some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.",
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "name",
@@ -15439,6 +15609,7 @@
                 "kind": "ENUM",
                 "name": "__DirectiveLocation",
                 "description": "A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.",
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,
@@ -15564,6 +15735,7 @@
                 "kind": "OBJECT",
                 "name": "__EnumValue",
                 "description": "One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.",
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "name",
@@ -15631,6 +15803,7 @@
                 "kind": "OBJECT",
                 "name": "__Field",
                 "description": "Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.",
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "name",
@@ -15751,6 +15924,7 @@
                 "kind": "OBJECT",
                 "name": "__InputValue",
                 "description": "Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.",
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "name",
@@ -15846,6 +16020,7 @@
                 "kind": "OBJECT",
                 "name": "__Schema",
                 "description": "A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.",
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "description",
@@ -15957,6 +16132,7 @@
                 "kind": "OBJECT",
                 "name": "__Type",
                 "description": "The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.\n\nDepending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.",
+                "isOneOf": null,
                 "fields": [
                     {
                         "name": "kind",
@@ -16160,6 +16336,18 @@
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
+                    },
+                    {
+                        "name": "isOneOf",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     }
                 ],
                 "inputFields": null,
@@ -16171,6 +16359,7 @@
                 "kind": "ENUM",
                 "name": "__TypeKind",
                 "description": "An enum describing what kind of type a given `__Type` is.",
+                "isOneOf": null,
                 "fields": null,
                 "inputFields": null,
                 "interfaces": null,

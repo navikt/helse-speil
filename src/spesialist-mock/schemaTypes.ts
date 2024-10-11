@@ -1023,6 +1023,7 @@ export enum PeriodehistorikkType {
 export enum Periodetilstand {
     AnnulleringFeilet = 'AnnulleringFeilet',
     Annullert = 'Annullert',
+    AvventerInntektsopplysninger = 'AvventerInntektsopplysninger',
     ForberederGodkjenning = 'ForberederGodkjenning',
     IngenUtbetaling = 'IngenUtbetaling',
     ManglerInformasjon = 'ManglerInformasjon',

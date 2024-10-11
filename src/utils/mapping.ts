@@ -41,6 +41,7 @@ export const getUberegnetPeriodState = (period: UberegnetPeriodeFragment): Perio
     switch (period.periodetilstand) {
         case Periodetilstand.IngenUtbetaling:
             return 'ingenUtbetaling';
+        case Periodetilstand.AvventerInntektsopplysninger:
         case Periodetilstand.ManglerInformasjon:
             return 'venter';
         case Periodetilstand.ForberederGodkjenning:
@@ -63,6 +64,7 @@ export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodStat
     if (!isBeregnetPeriode(period)) return 'ukjent';
 
     switch (period.periodetilstand) {
+        case Periodetilstand.AvventerInntektsopplysninger:
         case Periodetilstand.ManglerInformasjon:
             return 'venter';
         case Periodetilstand.ForberederGodkjenning:

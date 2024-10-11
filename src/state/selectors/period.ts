@@ -55,6 +55,7 @@ export const isNotReady = (period: PeriodeFragment) =>
         Periodetilstand.VenterPaEnAnnenPeriode,
         Periodetilstand.ForberederGodkjenning,
         Periodetilstand.ManglerInformasjon,
+        Periodetilstand.AvventerInntektsopplysninger,
     ].includes(period.periodetilstand);
 
 export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: ArbeidsgiverFragment): boolean => {

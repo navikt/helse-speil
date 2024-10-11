@@ -33,6 +33,7 @@ export const harIngenUtbetaltePerioderFor = (person: PersonFragment, skjæringst
                     Periodetilstand.VenterPaEnAnnenPeriode,
                     Periodetilstand.ForberederGodkjenning,
                     Periodetilstand.ManglerInformasjon,
+                    Periodetilstand.AvventerInntektsopplysninger,
                 ].includes(it.periodetilstand),
             ) ?? false
     );
