@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
+
 import { EditButton } from '@components/EditButton';
 import { Kilde } from '@components/Kilde';
-import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import { Clipboard } from '@components/clipboard';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import {
     ArbeidsgiverFragment,
     Kildetype,
@@ -28,20 +29,24 @@ interface TilkommenAGHeaderProps {
 export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setEditing }: TilkommenAGHeaderProps) => {
     const harBeslutteroppgave = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
 
+    if (arbeidsgiver == null) return null;
+
     return (
         <div className={classNames(styles.header, { [styles.editing]: editing })}>
             <div className={styles.arbeidsgiverHeader}>
                 <Arbeidsgivernavn className={styles.arbeidsgivernavn} arbeidsgivernavn={arbeidsgiver?.navn} />
-                <div className={styles.organisasjonsnummer}>
-                    (
-                    <Clipboard
-                        copyMessage="Organisasjonsnummer er kopiert"
-                        tooltip={{ content: 'Kopier organisasjonsnummer' }}
-                    >
-                        <AnonymizableContainer>{arbeidsgiver?.organisasjonsnummer}</AnonymizableContainer>
-                    </Clipboard>
-                    )
-                </div>
+                <HStack align="center">
+                    <BodyShort weight="semibold" size="large">
+                        (
+                    </BodyShort>
+                    <AnonymizableText weight="semibold">{arbeidsgiver?.organisasjonsnummer}</AnonymizableText>
+                    <Tooltip content="Kopier organiasasjonsnummer">
+                        <CopyButton copyText={arbeidsgiver?.organisasjonsnummer} size="small" />
+                    </Tooltip>
+                    <BodyShort weight="semibold" size="large">
+                        )
+                    </BodyShort>
+                </HStack>
                 <Kilde type={Kildetype.Soknad}>SØ</Kilde>
             </div>
             {!harBeslutteroppgave && (
