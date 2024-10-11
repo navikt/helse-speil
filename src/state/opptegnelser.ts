@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useDebouncedCallback } from 'use-debounce';
 
 import { Opptegnelse } from '@io/graphql';
 
@@ -32,11 +33,12 @@ export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: Opptegnelse) 
 export const useMottaOpptegnelser = () => {
     const setOpptegnelser = useSetOpptegnelser();
     const setOpptegnelserSekvensId = useSetNyesteOpptegnelseSekvens();
-    const resetPollefrekvens = useResetOpptegnelsePollingRate();
+    const resetPollefrekvens = useResetRecoilState(opptegnelsePollingTimeState);
+    const tilbakestillFrekvensOmLitt = useDebouncedCallback(resetPollefrekvens, 8000);
     return (opptegnelser: Opptegnelse[]) => {
         setOpptegnelser(opptegnelser);
         setOpptegnelserSekvensId(opptegnelser);
-        resetPollefrekvens();
+        tilbakestillFrekvensOmLitt();
     };
 };
 
@@ -66,13 +68,6 @@ export const useSetOpptegnelserPollingRate = () => {
     const setOpptegnelsePollingRate = useSetRecoilState(opptegnelsePollingTimeState);
     return (rate: number) => {
         setOpptegnelsePollingRate(rate);
-    };
-};
-
-const useResetOpptegnelsePollingRate = () => {
-    const resetOpptegnelsePollingRate = useResetRecoilState(opptegnelsePollingTimeState);
-    return () => {
-        resetOpptegnelsePollingRate();
     };
 };
 

@@ -56,6 +56,7 @@
         "react-hook-form": "^7.53.0",
         "recoil": "^0.7.7",
         "remeda": "^2.15.0",
+        "use-debounce": "^10.0.3",
         "uuid": "^10.0.0",
         "winston": "^3.15.0",
         "zod": "^3.23.8"

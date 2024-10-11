@@ -35,7 +35,6 @@ export const useOppdaterPersondata = (person: PersonFragment): [forespørPersono
     useHåndterOpptegnelser((opptegnelse) => {
         if (polling) {
             if (opptegnelse.type !== 'PERSONDATA_OPPDATERT') {
-                setPollingRate(1000);
                 return;
             }
 
@@ -56,7 +55,7 @@ export const useOppdaterPersondata = (person: PersonFragment): [forespørPersono
         removeVarsel(PersonoppdateringAlert.key);
         await opprettAbonnement({
             variables: { personidentifikator: person.aktorId },
-            onCompleted: () => setPollingRate(1000),
+            onCompleted: () => setPollingRate(500),
         });
         void oppdaterPerson({
             variables: { fodselsnummer: person.fodselsnummer },
