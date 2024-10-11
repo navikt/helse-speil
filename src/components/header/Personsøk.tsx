@@ -3,7 +3,6 @@ import React, { FormEvent, ReactElement, useRef } from 'react';
 
 import { Search } from '@navikt/ds-react';
 
-import { erUtvikling } from '@/env';
 import { ApolloError, useLazyQuery } from '@apollo/client';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FetchPersonDocument } from '@io/graphql';
@@ -50,7 +49,7 @@ export const Personsøk = (): ReactElement => {
                 if ((data?.person?.arbeidsgivere.length ?? 0) === 0) {
                     router.push('/');
                     if (error?.graphQLErrors) {
-                        if (erUtvikling && personenKlargjøres(error)) {
+                        if (personenKlargjøres(error)) {
                             const aktørId = apolloExtensionValue(error, 'persondata_hentes_for');
                             if (aktørId) venterPåKlargjøring(aktørId);
                         } else {
@@ -75,5 +74,5 @@ export const Personsøk = (): ReactElement => {
 
 const personenKlargjøres = (error: ApolloError) => {
     const aktørId = apolloExtensionValue(error, 'persondata_hentes_for');
-    return aktørId !== null && aktørId !== undefined;
+    return aktørId != null;
 };
