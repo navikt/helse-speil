@@ -11,9 +11,7 @@ interface Props {
 
 export const Vilkårsgrupperad = ({ label, children }: Props) => (
     <>
-        <BodyShort className={styles.Navn} as="p">
-            {label}
-        </BodyShort>
+        <BodyShort className={styles.Navn}>{label}</BodyShort>
         <div className={styles.Verdi}>{children}</div>
     </>
 );

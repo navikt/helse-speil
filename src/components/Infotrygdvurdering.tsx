@@ -14,7 +14,7 @@ export const Infotrygdvurdering = ({ children, title, ...divProps }: Infotrygdvu
         <div className={styles.iconcontainer}>
             <PackageFillIcon color="white" />
         </div>
-        <Heading as="h2" size="xsmall">
+        <Heading level="2" size="xsmall">
             {title}
         </Heading>
         {children}

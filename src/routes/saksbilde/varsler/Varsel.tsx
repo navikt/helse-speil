@@ -78,14 +78,14 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
                 />
             )}
             <div className={styles.wrapper}>
-                <BodyShort as="p">{varsel.tittel}</BodyShort>
+                <BodyShort>{varsel.tittel}</BodyShort>
                 {(varselStatus === Varselstatus.Vurdert || varselStatus === Varselstatus.Godkjent) && (
-                    <BodyShort className={styles.vurdering} as="p">
+                    <BodyShort className={styles.vurdering}>
                         {getFormattedDatetimeString(varselVurdering?.tidsstempel)} av {varselVurdering?.ident}
                     </BodyShort>
                 )}
                 {error && (
-                    <BodyShort className={styles.error} as="p">
+                    <BodyShort className={styles.error}>
                         {getErrorMessage(error.graphQLErrors?.[0].extensions?.code as number)}
                     </BodyShort>
                 )}

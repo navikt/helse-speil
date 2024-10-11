@@ -23,10 +23,10 @@ export const Saksbehandlervurdering = ({
             <PersonPencilFillIcon color="white" />
         </div>
         <div className={styles.column}>
-            <Heading as="h2" size="xsmall">
+            <Heading level="2" size="xsmall">
                 {title}
             </Heading>
-            <BodyShort className={styles.details} as="p" size="small">
+            <BodyShort className={styles.details} size="small">
                 Behandlet av {ident}
             </BodyShort>
         </div>

@@ -19,7 +19,7 @@ export const PageNotFound = (): ReactElement => {
         <main className={styles.PageNotFound}>
             <section>
                 <BodyShort className={styles.ErrorText}>Feilkode: 404</BodyShort>
-                <Heading className={styles.Heading} as="h2" size="medium">
+                <Heading className={styles.Heading} level="2" size="medium">
                     Oooops!
                     <br />
                     Nå havna vi langt ut i nissemyra

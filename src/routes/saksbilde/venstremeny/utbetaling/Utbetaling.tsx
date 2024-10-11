@@ -206,7 +206,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                     </div>
                 )}
                 {periodenErSendt && (
-                    <BodyShort as="p" className={styles.infotekst}>
+                    <BodyShort className={styles.infotekst}>
                         <Loader className={styles.spinner} />
                         <span>
                             {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering

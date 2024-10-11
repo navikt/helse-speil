@@ -22,10 +22,10 @@ export const AutomatiskVurdering = ({
             <CogFillIcon color="white" />
         </div>
         <div className={styles.column}>
-            <Heading as="h2" size="xsmall">
+            <Heading level="2" size="xsmall">
                 {title}
             </Heading>
-            <BodyShort as="p" size="small" className={styles.details}>
+            <BodyShort size="small" className={styles.details}>
                 Behandlet av {ident}
             </BodyShort>
         </div>

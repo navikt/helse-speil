@@ -12,7 +12,7 @@ interface SisteNotatProps {
 }
 
 export const SisteNotat = ({ notat }: SisteNotatProps): ReactElement => (
-    <BodyShort as="p" className={styles.siste}>
+    <BodyShort className={styles.siste}>
         {notat.opprettet.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)} : {notat.tekst}
     </BodyShort>
 );

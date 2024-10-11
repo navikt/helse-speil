@@ -68,7 +68,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                 </form>
             )}
             {error && (
-                <BodyShort as="p" className={styles.feilmelding}>
+                <BodyShort className={styles.feilmelding}>
                     Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.
                 </BodyShort>
             )}

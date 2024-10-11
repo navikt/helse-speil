@@ -42,10 +42,8 @@ export const SimuleringView = ({ simulering, utbetalingId }: SimuleringViewProps
     })();
 
     return (
-        <div className={styles.SimuleringView}>
-            <Heading as="h1" size="large">
-                Simulering
-            </Heading>
+        <article className={styles.SimuleringView}>
+            <Heading size="large">Simulering</Heading>
             <div className={styles.SimuleringValueContainer}>
                 {simulering.totalbelop && <SimuleringValue label="Totalbeløp" value={simulering.totalbelop} />}
                 {utbetalesTil && (
@@ -56,6 +54,6 @@ export const SimuleringView = ({ simulering, utbetalingId }: SimuleringViewProps
                 <SimuleringValue label="Utbetaling-ID" value={utbetalingId} />
             </div>
             {simulering.perioder?.map((periode, i) => <SimuleringsperiodeView periode={periode} key={i} />)}
-        </div>
+        </article>
     );
 };

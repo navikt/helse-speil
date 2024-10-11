@@ -127,7 +127,7 @@ export const AnnulleringsModal = ({
                         <Annulleringsinformasjon person={person} />
                         <Annulleringsbegrunnelse />
                         {!erINyesteSkjæringstidspunkt && (
-                            <BodyShort as="p" className={styles.varseltekst}>
+                            <BodyShort className={styles.varseltekst}>
                                 Utbetalinger må annulleres kronologisk, nyeste først. Du kan forsøke å annullere denne,
                                 men om den ikke er den nyeste vil den ikke bli annullert.
                             </BodyShort>

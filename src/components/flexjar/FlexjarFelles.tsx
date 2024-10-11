@@ -173,7 +173,7 @@ export function FlexjarFelles({
                 <div aria-live="polite">
                     {thanksFeedback && (
                         <div className={styles.thanks}>
-                            <BodyShort size="medium" as="p" className={styles.header}>
+                            <BodyShort size="medium" className={styles.header}>
                                 Takk for tilbakemeldingen din!
                             </BodyShort>
                         </div>

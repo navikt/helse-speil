@@ -34,14 +34,10 @@ export const SykepengegrunnlagInfotrygd = ({
                     </Table.Row>
                     <Table.Row>
                         <Table.HeaderCell>
-                            <BodyShort as="p" className={styles.kolonnetittel}>
-                                Inntektskilde
-                            </BodyShort>
+                            <BodyShort className={styles.kolonnetittel}>Inntektskilde</BodyShort>
                         </Table.HeaderCell>
                         <Table.HeaderCell>
-                            <BodyShort as="p" className={styles.kolonnetittel}>
-                                Sykepengegrunnlag før 6G
-                            </BodyShort>
+                            <BodyShort className={styles.kolonnetittel}>Sykepengegrunnlag før 6G</BodyShort>
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>

@@ -10,9 +10,7 @@ type VarselseksjonProps = {
 
 export const Varselseksjon = ({ tittel, children }: PropsWithChildren<VarselseksjonProps>): ReactElement => (
     <div className={styles.container}>
-        <BodyLong as="p" className={styles.tittel}>
-            {tittel}
-        </BodyLong>
+        <BodyLong className={styles.tittel}>{tittel}</BodyLong>
         <BodyLong>{children}</BodyLong>
     </div>
 );
