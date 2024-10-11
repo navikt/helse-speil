@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
 
+import { CopyButton, HStack, Tooltip } from '@navikt/ds-react';
+
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Clipboard } from '@components/clipboard';
 
 const getFormattedFødselsnummer = (fødselsnummer: string) => {
     return fødselsnummer.slice(0, 6) + ' ' + fødselsnummer.slice(6);
@@ -11,14 +12,11 @@ interface FødselsnummerProps {
     fødselsnummer: string;
 }
 
-export const Fødselsnummer = ({ fødselsnummer }: FødselsnummerProps): ReactElement => {
-    return (
-        <Clipboard
-            preserveWhitespace={false}
-            copyMessage="Fødselsnummer er kopiert"
-            tooltip={{ content: 'Kopier fødselsnummer', keys: ['alt', 'c'] }}
-        >
-            <AnonymizableText>{getFormattedFødselsnummer(fødselsnummer)}</AnonymizableText>
-        </Clipboard>
-    );
-};
+export const Fødselsnummer = ({ fødselsnummer }: FødselsnummerProps): ReactElement => (
+    <HStack gap="1">
+        <AnonymizableText>{getFormattedFødselsnummer(fødselsnummer)}</AnonymizableText>
+        <Tooltip content="Kopier fødselsnummer" keys={['alt', 'c']}>
+            <CopyButton copyText={fødselsnummer} size="xsmall" />
+        </Tooltip>
+    </HStack>
+);

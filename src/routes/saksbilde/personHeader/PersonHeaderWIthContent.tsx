@@ -3,8 +3,8 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Clipboard } from '@components/clipboard';
 import { Kjonn, PersonFragment } from '@io/graphql';
+import { AktørId } from '@saksbilde/personHeader/AktørId';
 import { FullmaktTag } from '@saksbilde/personHeader/FullmaktTag';
 
 import { AdressebeskyttelseTag } from './AdressebeskyttelseTag';
@@ -32,14 +32,7 @@ export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWit
             <BodyShort className={styles.Separator}>/</BodyShort>
             <Fødselsnummer fødselsnummer={person.fodselsnummer} />
             <BodyShort className={styles.Separator}>/</BodyShort>
-            <AnonymizableText>Aktør-ID:&nbsp;</AnonymizableText>
-            <Clipboard
-                preserveWhitespace={false}
-                copyMessage="Aktør-ID er kopiert"
-                tooltip={{ content: 'Kopier aktør-ID' }}
-            >
-                <AnonymizableText>{person.aktorId}</AnonymizableText>
-            </Clipboard>
+            <AktørId aktørId={person.aktorId} />
             <BodyShort className={styles.Separator}>/</BodyShort>
             <AnonymizableText>
                 Boenhet: {person.enhet.id} ({person.enhet.navn})
