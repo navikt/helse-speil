@@ -86,7 +86,7 @@ export const VenstremenyBeregnetPeriode = ({
                 </>
             )}
             {utbetalingsvarsler.map(({ grad, melding }, index) => (
-                <Alert className={styles.Varsel} variant={grad} key={index}>
+                <Alert variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>
                 </Alert>
             ))}

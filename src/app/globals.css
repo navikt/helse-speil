@@ -20,11 +20,6 @@
         #e3e0df 7.5px
     );
 
-    --nav-ghost-deaktivert-bakgrunn: #f1f1f1;
-    --nav-ghost-deaktivert-border: #c6c2bf;
-    --nav-ghost-deaktivert-pille-bakgrunn: #c9c9c9;
-    --nav-ghost-deaktivert-pille-border: #6a6a6a;
-
     --speil-total-min-width: 1400px;
 
     /* overstyrer plassering av knapper i aksel-modal */
