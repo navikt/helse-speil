@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { BodyShort, HStack } from '@navikt/ds-react';
+import { BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Clipboard } from '@components/clipboard';
 import { Inntektskilde } from '@io/graphql';
 import { Arbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/Arbeidsgivernavn';
 
@@ -21,13 +20,14 @@ export const InntektOgRefusjonHeader = ({
 }: InntektOgRefusjonHeaderProps) => (
     <HStack marginBlock="5 6" gap="3" align="center">
         <Arbeidsgivernavn arbeidsgivernavn={arbeidsgivernavn} />
-        <HStack>
+        <HStack align="center">
             <BodyShort weight="semibold" size="large">
                 (
             </BodyShort>
-            <Clipboard copyMessage="Organisasjonsnummer er kopiert" tooltip={{ content: 'Kopier organisasjonsnummer' }}>
-                <AnonymizableText weight="semibold">{organisasjonsnummer}</AnonymizableText>
-            </Clipboard>
+            <AnonymizableText weight="semibold">{organisasjonsnummer}</AnonymizableText>
+            <Tooltip content="Kopier organiasasjonsnummer">
+                <CopyButton copyText={organisasjonsnummer} size="small" />
+            </Tooltip>
             <BodyShort weight="semibold" size="large">
                 )
             </BodyShort>
