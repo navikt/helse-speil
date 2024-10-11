@@ -2,6 +2,7 @@ import { GraphQLFormattedError } from 'graphql/error';
 import { useSearchParams } from 'next/navigation';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
+import { Maybe } from '@io/graphql';
 import {
     BadRequestError,
     FetchError,
@@ -22,29 +23,7 @@ export const useVarsler = (): Array<SpeilError> => {
     const params = useSearchParams();
     const { error, variables } = useFetchPersonQuery();
 
-    const errors: SpeilError[] =
-        error?.graphQLErrors.map((error: GraphQLFormattedError) => {
-            switch (error.extensions?.code) {
-                case 403: {
-                    return new ProtectedError();
-                }
-                case 404: {
-                    return new NotFoundError();
-                }
-                case 409: {
-                    return new NotReadyError(variables?.fnr ?? variables?.aktorId ?? 'personen');
-                }
-                case 500: {
-                    if (error.extensions.feilkode === 'HarFlereFodselsnumre') {
-                        const fodselsnumre = error.extensions.fodselsnumre;
-                        return new FlereFodselsnumreError(fodselsnumre as string[]);
-                    } else return new FetchError();
-                }
-                default: {
-                    return new FetchError();
-                }
-            }
-        }) ?? [];
+    const errors: SpeilError[] = error?.graphQLErrors.map(mapError(variables?.fnr ?? variables?.aktorId)) ?? [];
 
     return useRecoilValue(varslerState).concat(params.get('aktorId') !== undefined ? errors : []);
 };
@@ -55,37 +34,7 @@ export const useRapporterGraphQLErrors = (): ((
 ) => void) => {
     const addVarsel = useAddVarsel();
 
-    return (errors, søkeparameter) =>
-        errors.map((error: GraphQLFormattedError) => {
-            switch (error.extensions?.code) {
-                case 400: {
-                    addVarsel(new BadRequestError(søkeparameter));
-                    break;
-                }
-                case 403: {
-                    addVarsel(new ProtectedError());
-                    break;
-                }
-                case 404: {
-                    addVarsel(new NotFoundError());
-                    break;
-                }
-                case 409: {
-                    addVarsel(new NotReadyError(søkeparameter));
-                    break;
-                }
-                case 500: {
-                    if (error.extensions.feilkode === 'HarFlereFodselsnumre') {
-                        const fodselsnumre = error.extensions.fodselsnumre;
-                        addVarsel(new FlereFodselsnumreError(fodselsnumre as string[]));
-                    } else addVarsel(new FetchError());
-                    break;
-                }
-                default: {
-                    addVarsel(new FetchError());
-                }
-            }
-        });
+    return (errors, søkeparameter) => errors.forEach((error) => addVarsel(mapError(søkeparameter)(error)));
 };
 
 export const useAddVarsel = (): ((varsel: SpeilError) => void) => {
@@ -118,3 +67,31 @@ export const useRemoveVarsel = () => {
 export const useSetVarsler = () => {
     return useSetRecoilState(varslerState);
 };
+
+const mapError =
+    (oppslagsparameter?: Maybe<string>) =>
+    (error: GraphQLFormattedError): FetchError => {
+        switch (error.extensions?.code) {
+            case 400: {
+                return new BadRequestError(oppslagsparameter ?? 'personen');
+            }
+            case 403: {
+                return new ProtectedError();
+            }
+            case 404: {
+                return new NotFoundError();
+            }
+            case 409: {
+                return new NotReadyError(oppslagsparameter ?? 'personen');
+            }
+            case 500: {
+                if (error.extensions.feilkode === 'HarFlereFodselsnumre') {
+                    const fodselsnumre = error.extensions.fodselsnumre;
+                    return new FlereFodselsnumreError(fodselsnumre as string[]);
+                } else return new FetchError();
+            }
+            default: {
+                return new FetchError();
+            }
+        }
+    };
