@@ -1,5 +1,4 @@
 import { hoppTilModia, redirigerTilArbeidOgInntektUrl } from '@components/SystemMenu';
-import { copyString } from '@components/clipboard/util';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
 import { Maybe } from '@io/graphql';
@@ -326,3 +325,12 @@ export const useKeyboardShortcuts = () => {
     const actions = useKeyboardActions();
     useKeyboard(actions);
 };
+
+const removeSpaces = (s: string) => s.replace(/\s/g, '');
+
+const writeToClipboard = (data: string) => navigator?.clipboard?.writeText(data);
+
+const copyString = (data: string, preserveWhitespace: boolean) =>
+    writeToClipboard(preserveWhitespace ? data : removeSpaces(data))
+        .then(() => true)
+        .catch(() => false);

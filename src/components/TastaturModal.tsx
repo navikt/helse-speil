@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort, Heading, Modal } from '@navikt/ds-react';
 
 import { Action } from '@hooks/useKeyboard';
-import { useKeyboardActions } from '@saksbilde/useKeyboardShortcuts';
+import { useKeyboardActions } from '@hooks/useKeyboardShortcuts';
 
 import styles from './TastaturModal.module.css';
 

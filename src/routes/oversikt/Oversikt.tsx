@@ -10,12 +10,12 @@ import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
 import { useDriftsmelding } from '@external/sanity';
 import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
+import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { BehandlingsstatistikkView } from '@oversikt/behandlingsstatistikk/BehandlingsstatistikkView';
 import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@oversikt/table/BehandletIdagTable';
 import { OppgaverTable } from '@oversikt/table/oppgaverTable/OppgaverTable';
-import { useKeyboardShortcuts } from '@saksbilde/useKeyboardShortcuts';
 import { useOppgaveFeed } from '@state/oppgaver';
 
 import { IngenOppgaver } from './IngenOppgaver';

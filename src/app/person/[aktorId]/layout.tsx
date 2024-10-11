@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
+import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { AmplitudeProvider } from '@io/amplitude';
@@ -15,7 +16,6 @@ import { useResetOpenedDocuments } from '@saksbilde/historikk/hendelser/dokument
 import { InfovarselOmStans } from '@saksbilde/infovarselOmStans/InfovarselOmStans';
 import { PersonHeader } from '@saksbilde/personHeader';
 import { Timeline } from '@saksbilde/timeline';
-import { useKeyboardShortcuts } from '@saksbilde/useKeyboardShortcuts';
 import { Venstremeny } from '@saksbilde/venstremeny/Venstremeny';
 
 import styles from './layout.module.css';

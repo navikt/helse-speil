@@ -2,8 +2,8 @@ import React from 'react';
 
 import { fetchPersonMock, opptegnelseMock } from '@apollo-mocks';
 import { MockedProvider } from '@apollo/client/testing';
+import { useKeyboardActions } from '@hooks/useKeyboardShortcuts';
 import { Maybe } from '@io/graphql';
-import { useKeyboardActions } from '@saksbilde/useKeyboardShortcuts';
 import { RecoilWrapper } from '@test-wrappers';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -12,7 +12,7 @@ import { SpeilError } from '@utils/error';
 
 import { Header } from './Header';
 
-jest.mock('@saksbilde/useKeyboardShortcuts');
+jest.mock('@hooks/useKeyboardShortcuts');
 
 let cachedVarsel: Maybe<SpeilError> = null;
 
