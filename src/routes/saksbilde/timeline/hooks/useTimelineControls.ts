@@ -41,7 +41,7 @@ const getEarliestDate = (perioder: Array<Periode>): Dayjs => {
     }, dayjs());
 };
 
-const getMergedPeriods = (
+export const getMergedPeriods = (
     arbeidsgivere: Array<ArbeidsgiverFragment>,
     infotrygdutbetalinger: Array<Infotrygdutbetaling>,
 ): Array<Periode> => {
@@ -52,7 +52,7 @@ const getMergedPeriods = (
     ];
 };
 
-const useLatestPossibleDate = (periods: Array<Periode>): Dayjs => {
+export const useLatestPossibleDate = (periods: Array<Periode>): Dayjs => {
     return useMemo(() => {
         return getLatestDate(periods);
     }, [periods]);
