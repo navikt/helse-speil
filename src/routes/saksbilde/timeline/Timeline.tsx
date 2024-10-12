@@ -22,7 +22,7 @@ import { ScrollButtons } from './ScrollButtons';
 import { TimelineRow, TimelineRowSkeleton } from './TimelineRow';
 import { ZoomLevelPicker } from './ZoomLevelPicker';
 import { useInfotrygdPeriods } from './hooks/useInfotrygdPeriods';
-import { ZoomLevel, useTimelineControls } from './hooks/useTimelineControls';
+import { ZoomLevel, getMergedPeriods, useLatestPossibleDate, useTimelineControls } from './hooks/useTimelineControls';
 
 import styles from './Timeline.module.css';
 
@@ -33,20 +33,27 @@ interface TimelineWithContentProps {
     person: PersonFragment;
 }
 
+function useLatestDate(
+    arbeidsgivere: Array<ArbeidsgiverFragment>,
+    infotrygdutbetalinger: Array<Infotrygdutbetaling>,
+): dayjs.Dayjs {
+    let perioder = getMergedPeriods(arbeidsgivere, infotrygdutbetalinger);
+    return useLatestPossibleDate(perioder);
+}
+
 const TimelineWithContent = ({
     arbeidsgivere,
     infotrygdutbetalinger,
     activePeriod,
     person,
 }: TimelineWithContentProps): ReactElement => {
+    const nyesteDag = useLatestDate(arbeidsgivere, infotrygdutbetalinger);
     useEffect(() => {
         const defaultZoomLevel = () => {
             if (isBeregnetPeriode(activePeriod)) {
-                if (dayjs(activePeriod.fom).isSameOrBefore(dayjs(Date.now()).subtract(1, 'year')))
-                    return ZoomLevel.FIRE_ÅR;
-                else if (dayjs(activePeriod.fom).isSameOrBefore(dayjs(Date.now()).subtract(6, 'month')))
+                if (dayjs(activePeriod.fom).isSameOrBefore(nyesteDag.subtract(1, 'year'))) return ZoomLevel.FIRE_ÅR;
+                else if (dayjs(activePeriod.fom).isSameOrBefore(nyesteDag.subtract(6, 'month')))
                     return ZoomLevel.ETT_ÅR;
-                else return ZoomLevel.SEKS_MÅNEDER;
             }
             return ZoomLevel.SEKS_MÅNEDER;
         };
