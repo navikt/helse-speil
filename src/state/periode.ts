@@ -50,6 +50,7 @@ const findPeriodToSelect = (person: PersonFragment): Maybe<ActivePeriod> => {
     const perioderINyesteGenerasjoner = person.arbeidsgivere.flatMap(
         (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
     );
+
     const aktuellePerioder = perioderINyesteGenerasjoner
         .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
         .filter(
@@ -58,13 +59,15 @@ const findPeriodToSelect = (person: PersonFragment): Maybe<ActivePeriod> => {
                 period.periodetilstand !== Periodetilstand.TilInfotrygd,
         );
 
-    const periodeTilBehandling = aktuellePerioder.find(
-        (periode) =>
-            isBeregnetPeriode(periode) &&
-            periode.periodetilstand === Periodetilstand.TilGodkjenning &&
-            typeof periode.oppgave?.id === 'string',
+    const venteperioder = perioderINyesteGenerasjoner
+        .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
+        .filter((period) => venterTilstander.includes(period.periodetilstand));
+
+    const periodeTilBehandling = aktuellePerioder.find((periode) =>
+        tilBehandlingTilstander.includes(periode.periodetilstand),
     );
-    return periodeTilBehandling ?? aktuellePerioder[0] ?? null;
+
+    return periodeTilBehandling ?? venteperioder[0] ?? aktuellePerioder[0] ?? null;
 };
 
 const findPeriod = (periodeId: Maybe<string>, person: PersonFragment) => {
@@ -80,3 +83,11 @@ const findPeriod = (periodeId: Maybe<string>, person: PersonFragment) => {
             .find((periode) => periode.id === periodeId) ?? null
     );
 };
+
+const tilBehandlingTilstander = [Periodetilstand.TilGodkjenning, Periodetilstand.TilUtbetaling];
+const venterTilstander = [
+    Periodetilstand.VenterPaEnAnnenPeriode,
+    Periodetilstand.UtbetaltVenterPaEnAnnenPeriode,
+    Periodetilstand.AvventerInntektsopplysninger,
+    Periodetilstand.ForberederGodkjenning,
+];
