@@ -11,7 +11,7 @@ import {
 import { useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { ActivePeriod } from '@typer/shared';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 interface ToggleOverstyringProps {
     person: PersonFragment;
@@ -42,7 +42,7 @@ export const ToggleOverstyring = ({
     const kanOverstyres =
         vilkårsgrunnlagId != null && ((isBeregnetPeriode(periode) && kanRevurderes) || ghostInntektKanOverstyres);
 
-    if (!isInCurrentGeneration(periode, arbeidsgiver)) return null;
+    if (!isGhostPeriode(periode) && !isInCurrentGeneration(periode, arbeidsgiver)) return null;
 
     return kanOverstyres ? (
         !editing ? (
