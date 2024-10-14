@@ -1,10 +1,13 @@
 import { Periodetilstand } from '@io/graphql';
 import { ToggleOverstyring } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/ToggleOverstyring';
+import { useActivePeriod } from '@state/periode';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enGenerasjon } from '@test-data/generasjon';
 import { enBeregnetPeriode, enUberegnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { render, screen } from '@test-utils';
+
+jest.mock('@state/periode');
 
 describe('ToggleOverstyring', () => {
     it('skal vise overstyringsknapp for beregnet periode', () => {
@@ -12,6 +15,7 @@ describe('ToggleOverstyring', () => {
         const generasjon = enGenerasjon({ perioder: [periode] });
         const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon] });
         const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
+        (useActivePeriod as jest.Mock).mockReturnValue(periode);
         render(
             <ToggleOverstyring
                 person={person}
@@ -31,6 +35,7 @@ describe('ToggleOverstyring', () => {
         const generasjon = enGenerasjon({ perioder: [periode] });
         const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon] });
         const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
+        (useActivePeriod as jest.Mock).mockReturnValue(periode);
         render(
             <ToggleOverstyring
                 person={person}
@@ -47,16 +52,17 @@ describe('ToggleOverstyring', () => {
     });
     it('skal ikke vise noe om perioden ikke er i siste generasjon', () => {
         const periode = enBeregnetPeriode();
-        const periode2 = enBeregnetPeriode();
+        const valgtPeriode = enBeregnetPeriode();
         const generasjon = enGenerasjon({ perioder: [periode] });
-        const generasjon2 = enGenerasjon({ perioder: [periode2] });
+        const generasjon2 = enGenerasjon({ perioder: [valgtPeriode] });
         const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon, generasjon2] });
         const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
+        (useActivePeriod as jest.Mock).mockReturnValue(valgtPeriode);
         const { baseElement } = render(
             <ToggleOverstyring
                 person={person}
                 arbeidsgiver={arbeidsgiver}
-                periode={periode2}
+                periode={valgtPeriode}
                 vilkårsgrunnlagId="vilkårsgrunnlagId"
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                 erDeaktivert={false}
@@ -71,17 +77,18 @@ describe('ToggleOverstyring', () => {
             const beregnetPeriode = enBeregnetPeriode({
                 periodetilstand: Periodetilstand.TilGodkjenning,
                 fom: '2020-01-01',
-                tom: '2020-01-30',
-            });
-            const uberegnetPeriode = enUberegnetPeriode({ fom: '2020-02-01', tom: '2020-02-28' });
-            const generasjon = enGenerasjon({ perioder: [uberegnetPeriode, beregnetPeriode] });
+                tom: '2020-01-31',
+            }).medOppgave();
+            const valgtPeriode = enUberegnetPeriode({ fom: '2020-02-01', tom: '2020-02-28' });
+            const generasjon = enGenerasjon({ perioder: [valgtPeriode, beregnetPeriode] });
             const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon] });
             const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
+            (useActivePeriod as jest.Mock).mockReturnValue(valgtPeriode);
             render(
                 <ToggleOverstyring
                     person={person}
                     arbeidsgiver={arbeidsgiver}
-                    periode={uberegnetPeriode}
+                    periode={valgtPeriode}
                     vilkårsgrunnlagId="vilkårsgrunnlagId"
                     organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                     erDeaktivert={false}
@@ -98,6 +105,7 @@ describe('ToggleOverstyring', () => {
             const generasjon = enGenerasjon({ perioder: [uberegnetPeriode] });
             const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon] });
             const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
+            (useActivePeriod as jest.Mock).mockReturnValue(uberegnetPeriode);
             render(
                 <ToggleOverstyring
                     person={person}
@@ -119,6 +127,7 @@ describe('ToggleOverstyring', () => {
             const generasjon = enGenerasjon({ perioder: [uberegnetPeriode] });
             const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon] });
             const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
+            (useActivePeriod as jest.Mock).mockReturnValue(uberegnetPeriode);
             render(
                 <ToggleOverstyring
                     person={person}
