@@ -656,14 +656,6 @@
                                             "timestamp": "2023-01-24T15:09:30.090206",
                                             "saksbehandlerIdent": null,
                                             "notatId": null
-                                        },
-                                        {
-                                            "type": "LEGG_PA_VENT",
-                                            "timestamp": "2023-01-24T15:09:30.090206",
-                                            "saksbehandlerIdent": "T166629",
-                                            "notatId": 428,
-                                            "frist": "2023-01-24T15:09:30.090206",
-                                            "arsaker": ["§ 8-4 Avklare aktivitetskrav/medisinske vilkår"]
                                         }
                                     ],
                                     "handlinger": [

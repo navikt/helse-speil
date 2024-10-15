@@ -5,7 +5,6 @@ import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
     Hendelse,
-    Historikkinnslag,
     Inntektoverstyring,
     Inntektsmelding,
     Maybe,
@@ -186,12 +185,6 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
                         timestamp: historikkelement.timestamp as DateString,
                         årsaker: historikkelement.arsaker,
                         frist: historikkelement.frist,
-                        notatId: historikkelement.notatId,
-                        notat: periode.notater.find((notat) => notat.id === historikkelement.notatId),
-                        erNyesteHistorikkhendelseMedType:
-                            [...periode.historikkinnslag]
-                                .sort(byTimestampHistorikkinnslag)
-                                .find((it) => it.type === historikkelement.type)?.notatId === historikkelement.notatId,
                     };
                 case 'FjernetFraPaVent':
                 case 'PeriodeHistorikkElementNy':
@@ -201,8 +194,6 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
                         historikktype: historikkelement.type,
                         saksbehandler: historikkelement.saksbehandlerIdent,
                         timestamp: historikkelement.timestamp as DateString,
-                        notatId: historikkelement.notatId,
-                        notat: periode.notater.find((notat) => notat.id === historikkelement.notatId),
                     };
             }
         });
@@ -509,32 +500,26 @@ export const getMinimumSykdomsgradoverstyring = (
 };
 
 export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObject> =>
-    notater
-        .filter((notat) => notat.type !== 'PaaVent')
-        .map(
-            (notat: Notat) =>
-                ({
-                    id: notat.id,
-                    type: 'Notat',
-                    tekst: notat.tekst,
-                    notattype: notat.type as NotatType,
-                    saksbehandler: notat.saksbehandler.ident ?? notat.saksbehandler.navn,
-                    saksbehandlerOid: notat.saksbehandler.oid,
-                    timestamp: notat.opprettet.format(ISO_TIDSPUNKTFORMAT),
-                    feilregistrert: notat.feilregistrert,
-                    vedtaksperiodeId: notat.vedtaksperiodeId,
-                    kommentarer: notat.kommentarer,
-                    erNyesteNotatMedType:
-                        [...notater].sort(byTimestamp).find((it) => it.type === notat.type)?.id === notat.id,
-                }) satisfies NotathendelseObject,
-        );
+    notater.map(
+        (notat: Notat) =>
+            ({
+                id: notat.id,
+                type: 'Notat',
+                tekst: notat.tekst,
+                notattype: notat.type as NotatType,
+                saksbehandler: notat.saksbehandler.ident ?? notat.saksbehandler.navn,
+                saksbehandlerOid: notat.saksbehandler.oid,
+                timestamp: notat.opprettet.format(ISO_TIDSPUNKTFORMAT),
+                feilregistrert: notat.feilregistrert,
+                vedtaksperiodeId: notat.vedtaksperiodeId,
+                kommentarer: notat.kommentarer,
+                erNyesteNotatMedType:
+                    [...notater].sort(byTimestamp).find((it) => it.type === notat.type)?.id === notat.id,
+            }) satisfies NotathendelseObject,
+    );
 
 const byTimestamp = (a: Notat, b: Notat): number => {
     return dayjs(b.opprettet).diff(dayjs(a.opprettet));
-};
-
-const byTimestampHistorikkinnslag = (a: Historikkinnslag, b: Historikkinnslag): number => {
-    return dayjs(b.timestamp).diff(dayjs(a.timestamp));
 };
 
 const getArbeidsgivereÅrsinntekt = (

@@ -380,6 +380,7 @@ const getResolvers = (): IResolvers => ({
     },
     Historikkinnslag: {
         __resolveType: (historikkinnslag: { type: string }) => {
+            console.log(historikkinnslag);
             switch (historikkinnslag.type) {
                 case 'LEGG_PA_VENT':
                     return 'LagtPaVent';

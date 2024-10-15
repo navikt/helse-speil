@@ -15,7 +15,6 @@ import { BodyShort, ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { FeilregistrerNotatMutationDocument, PersonFragment } from '@io/graphql';
-import notatStyles from '@saksbilde/historikk/hendelser/notat/Notathendelse.module.css';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
 import { NotathendelseObject } from '@typer/historikk';
@@ -97,7 +96,7 @@ export const Notathendelse = ({
                     // ikke minimer når man markerer tekst
                     if (window.getSelection()?.type !== 'Range') setExpanded(isExpandable() && !expanded);
                 }}
-                className={classNames(notatStyles.NotatTextWrapper, isExpandable() && notatStyles.cursorpointer)}
+                className={styles.NotatTextWrapper}
             >
                 <AnimatePresence mode="wait">
                     {expanded ? (
@@ -126,7 +125,7 @@ export const Notathendelse = ({
                         activePeriod.paVent?.frist && (
                             <BodyShort className={styles.tidsfrist} size="medium">
                                 Tidsfrist:{' '}
-                                <span className={styles.bold}>
+                                <span className={styles.frist}>
                                     {dayjs(activePeriod.paVent.frist).format(NORSK_DATOFORMAT)}
                                 </span>
                             </BodyShort>

@@ -38,11 +38,8 @@
 }
 
 .NotatTextWrapper {
-    outline: none;
-}
-
-.cursorpointer {
     cursor: pointer;
+    outline: none;
 }
 
 .NotatTextWrapper:focus-visible {
@@ -60,7 +57,7 @@
     width: max-content;
 }
 
-.bold {
+.frist {
     font-weight: 600;
 }
 
