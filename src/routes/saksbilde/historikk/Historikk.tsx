@@ -131,9 +131,6 @@ const HistorikkWithContent = (): ReactElement => {
                                         case 'Historikk': {
                                             return <Historikkhendelse key={it.id} {...it} />;
                                         }
-                                        /*case 'Historikkinnslag': {
-                                            return <Historikkinnslaghendelse key={it.id} {...it} />;
-                                        }*/
                                         case 'Avslag': {
                                             return <Avslaghendelse key={it.id} {...it} />;
                                         }

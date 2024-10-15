@@ -2,6 +2,7 @@ import {
     Avslagstype,
     Kommentar,
     Maybe,
+    NotatFragment,
     NotatType,
     OverstyrtDag,
     OverstyrtInntekt,
@@ -128,6 +129,11 @@ export type HistorikkhendelseObject = BaseHendelseObject & {
     type: 'Historikk';
     historikktype: PeriodehistorikkType;
     timestamp: DateString;
+    notatId: number | null;
+    årsaker?: string[];
+    frist?: DateString;
+    notat?: NotatFragment;
+    erNyesteHistorikkhendelseMedType?: boolean;
 };
 
 export type AvslaghendelseObject = BaseHendelseObject & {
