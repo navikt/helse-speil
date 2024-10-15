@@ -9,7 +9,7 @@ import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skj�
 import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
-import { avrundetToDesimaler, isNumeric } from '@utils/tall';
+import { avrundetToDesimaler } from '@utils/tall';
 
 import { ArbeidsgiverRad } from './ArbeidsgiverRad';
 
@@ -24,7 +24,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
     sammenligningsgrunnlag,
     sykepengegrunnlagsgrense,
 }: SkjønnsfastsettingArbeidsgivereProps) => {
-    const { control, register, formState, clearErrors } = useFormContext<SkjønnsfastsettingFormFields>();
+    const { control, register, formState, clearErrors, setValue } = useFormContext<SkjønnsfastsettingFormFields>();
 
     const type = useWatch({ name: 'type', defaultValue: undefined, control });
     const arbeidsgivereField = useWatch({ name: 'arbeidsgivere', control });
@@ -83,6 +83,8 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                             value: field.organisasjonsnummer,
                         });
 
+                        const setÅrligFieldValue = (value: number) => setValue(`arbeidsgivere.${index}.årlig`, value);
+
                         return (
                             <ArbeidsgiverRad
                                 key={field.id}
@@ -91,6 +93,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                                 årligField={årligField}
                                 orgnummerField={orgnummerField}
                                 antallArbeidsgivere={antallArbeidsgivere}
+                                setÅrligFieldValue={setÅrligFieldValue}
                                 clearArbeidsgiverErrors={() => clearErrors('arbeidsgivere')}
                             />
                         );
