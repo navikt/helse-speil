@@ -95,7 +95,9 @@ export const SkjønnsfastsettingForm = ({
         0.0,
     );
 
-    harFeil && feiloppsummeringRef.current?.focus();
+    useEffect(() => {
+        harFeil && feiloppsummeringRef.current?.focus();
+    }, [harFeil]);
 
     useEffect(() => {
         onEndretSykepengegrunnlag(sykepengegrunnlagEndring);
