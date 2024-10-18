@@ -2,29 +2,29 @@ import {
     ArbeidsgiverFragment,
     Arbeidsgiverinntekt,
     BeregnetPeriodeFragment,
+    GhostPeriodeFragment,
     Maybe,
     PersonFragment,
     Skjonnsfastsettingstype,
 } from '@io/graphql';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
 
 export const useSkjønnsfastsettingDefaults = (
     person: PersonFragment,
+    period: BeregnetPeriodeFragment | GhostPeriodeFragment,
     inntekter: Arbeidsgiverinntekt[],
 ): {
     aktiveArbeidsgivere?: ArbeidsgiverFragment[];
     aktiveArbeidsgivereInntekter?: Arbeidsgiverinntekt[];
     defaults: SkjønnsfastsettingFormFields;
 } => {
-    const period = useActivePeriod(person);
     const arbeidsgiver = useCurrentArbeidsgiver(person);
 
-    if (!period || !person || !arbeidsgiver)
+    if (!arbeidsgiver)
         return {
             aktiveArbeidsgivere: undefined,
             aktiveArbeidsgivereInntekter: undefined,

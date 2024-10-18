@@ -6,7 +6,14 @@ import { Button, ErrorMessage, HelpText } from '@navikt/ds-react';
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import { Arbeidsgiverinntekt, Maybe, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
+import {
+    Arbeidsgiverinntekt,
+    BeregnetPeriodeFragment,
+    GhostPeriodeFragment,
+    Maybe,
+    PersonFragment,
+    Sykepengegrunnlagsgrense,
+} from '@io/graphql';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingÅrsak';
@@ -16,7 +23,6 @@ import {
     Skjønnsfastsettingstype,
     usePostSkjønnsfastsattSykepengegrunnlag,
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
-import { useActivePeriod } from '@state/periode';
 import { avrundetToDesimaler } from '@utils/tall';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -34,6 +40,7 @@ export interface SkjønnsfastsettingFormFields {
 
 interface SkjønnsfastsettingFormProps {
     person: PersonFragment;
+    periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
     inntekter: Arbeidsgiverinntekt[];
     omregnetÅrsinntekt: number;
     sammenligningsgrunnlag: number;
@@ -45,6 +52,7 @@ interface SkjønnsfastsettingFormProps {
 
 export const SkjønnsfastsettingForm = ({
     person,
+    periode,
     inntekter,
     omregnetÅrsinntekt,
     sammenligningsgrunnlag,
@@ -53,12 +61,12 @@ export const SkjønnsfastsettingForm = ({
     setEditing,
     maler,
 }: SkjønnsfastsettingFormProps): Maybe<ReactElement> => {
-    const period = useActivePeriod(person);
     const { aktiveArbeidsgivere, aktiveArbeidsgivereInntekter, defaults } = useSkjønnsfastsettingDefaults(
         person,
+        periode,
         inntekter,
     );
-    const erBeslutteroppgave = isBeregnetPeriode(period) && (period.totrinnsvurdering?.erBeslutteroppgave ?? false);
+    const erBeslutteroppgave = isBeregnetPeriode(periode) && (periode.totrinnsvurdering?.erBeslutteroppgave ?? false);
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const avrundetSammenligningsgrunnlag = avrundetToDesimaler(sammenligningsgrunnlag);
     const cancelEditing = () => {
@@ -118,7 +126,7 @@ export const SkjønnsfastsettingForm = ({
         );
     }, [valgtType, avrundetSammenligningsgrunnlag, setValue]);
 
-    if (!period || !person || !aktiveArbeidsgivere || !aktiveArbeidsgivereInntekter) return null;
+    if (!aktiveArbeidsgivere || !aktiveArbeidsgivereInntekter) return null;
 
     const confirmChanges = () => {
         postSkjønnsfastsetting(
@@ -126,7 +134,7 @@ export const SkjønnsfastsettingForm = ({
                 getValues(),
                 inntekter,
                 person,
-                period,
+                periode,
                 omregnetÅrsinntekt,
                 sammenligningsgrunnlag,
                 maler.find((it) => it.arsak === valgtÅrsak),

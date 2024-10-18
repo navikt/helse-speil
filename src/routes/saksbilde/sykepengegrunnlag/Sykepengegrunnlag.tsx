@@ -29,6 +29,7 @@ const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps)
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                 data-testid="ubehandlet-sykepengegrunnlag"
                 person={person}
+                periode={periode}
             />
         );
     } else if (isInfotrygdVilkarsgrunnlag(vilkårsgrunnlag)) {

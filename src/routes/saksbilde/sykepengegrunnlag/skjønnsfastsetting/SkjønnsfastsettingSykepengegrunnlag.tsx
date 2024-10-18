@@ -2,11 +2,17 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
-import { Arbeidsgiverinntekt, Maybe, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
+import {
+    Arbeidsgiverinntekt,
+    BeregnetPeriodeFragment,
+    GhostPeriodeFragment,
+    Maybe,
+    PersonFragment,
+    Sykepengegrunnlagsgrense,
+} from '@io/graphql';
 import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import { SkjønnsfastsettingForm } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { useSkjønnsfastsettingDefaults } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/useSkjønnsfastsettingDefaults';
-import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
@@ -16,6 +22,7 @@ import styles from './SkjønnsfastsettingSykepengegrunnlag.module.css';
 
 interface SkjønnsfastsettingSykepengegrunnlagProps {
     person: PersonFragment;
+    periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
     sykepengegrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     omregnetÅrsinntekt?: Maybe<number>;
@@ -27,6 +34,7 @@ interface SkjønnsfastsettingSykepengegrunnlagProps {
 
 export const SkjønnsfastsettingSykepengegrunnlag = ({
     person,
+    periode,
     sykepengegrunnlag,
     sykepengegrunnlagsgrense,
     omregnetÅrsinntekt,
@@ -37,10 +45,9 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editing, setEditing] = useState(false);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
-    const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(person, inntekter);
-    const activePeriod = useActivePeriod(person);
+    const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(person, periode, inntekter);
     const harVarselForMerEnn25ProsentAvvik =
-        isBeregnetPeriode(activePeriod) && activePeriod.varsler.some((it) => it.kode === 'RV_IV_2');
+        isBeregnetPeriode(periode) && periode.varsler.some((it) => it.kode === 'RV_IV_2');
     const skalVise828andreLedd = harVarselForMerEnn25ProsentAvvik || avviksprosent > 25;
 
     // TODO: legg inn loading og error
@@ -72,6 +79,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                 {editing && maler && omregnetÅrsinntekt != null && sammenligningsgrunnlag != null && (
                     <SkjønnsfastsettingForm
                         person={person}
+                        periode={periode}
                         inntekter={inntekter}
                         omregnetÅrsinntekt={omregnetÅrsinntekt}
                         sammenligningsgrunnlag={sammenligningsgrunnlag}

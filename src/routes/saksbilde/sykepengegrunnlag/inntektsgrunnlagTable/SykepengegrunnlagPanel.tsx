@@ -3,6 +3,8 @@ import React, { Dispatch, SetStateAction } from 'react';
 import {
     ArbeidsgiverFragment,
     Arbeidsgiverinntekt,
+    BeregnetPeriodeFragment,
+    GhostPeriodeFragment,
     Maybe,
     PersonFragment,
     Sykepengegrunnlagsgrense,
@@ -25,6 +27,7 @@ interface SykepengegrunnlagPanelProps {
     aktivInntektskilde?: Arbeidsgiverinntekt;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     person: PersonFragment;
+    periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
 }
 
 // Inntekter fra vilkårsgrunnlaget er ikke nødvendigvis i samme rekkefølge som arbeidsgiverne på personen. Det er viktig
@@ -54,6 +57,7 @@ export const SykepengegrunnlagPanel = ({
     sykepengegrunnlagsgrense,
     skjønnsmessigFastsattÅrlig,
     person,
+    periode,
 }: SykepengegrunnlagPanelProps) => {
     return (
         <div className={styles.wrapper}>
@@ -73,6 +77,7 @@ export const SykepengegrunnlagPanel = ({
             />
             <SkjønnsfastsettingSykepengegrunnlag
                 person={person}
+                periode={periode}
                 sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                 sykepengegrunnlag={sykepengegrunnlag}
                 omregnetÅrsinntekt={omregnetÅrsinntekt}
