@@ -63,6 +63,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 organisasjonsnummer={organisasjonsnummer}
                 person={person}
+                periode={enBeregnetPeriode()}
             />,
         );
 
@@ -107,6 +108,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 organisasjonsnummer={organisasjonsnummer}
                 person={person}
+                periode={enBeregnetPeriode()}
             />,
         );
         expect(screen.getByText(annenInntekskildeNavn)).toBeVisible();
@@ -142,6 +144,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 organisasjonsnummer={organisasjonsnummer}
                 person={person}
+                periode={enBeregnetPeriode()}
             />,
         );
 
