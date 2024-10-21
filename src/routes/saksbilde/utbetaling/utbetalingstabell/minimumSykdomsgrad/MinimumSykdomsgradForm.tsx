@@ -19,13 +19,7 @@ import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { overlapper } from '@state/selectors/period';
 import { DateString } from '@typer/shared';
 
-import {
-    getGjeldendeFom,
-    getGjeldendeTom,
-    getOverlappendeArbeidsgivere,
-    getOverlappendeOverstyringFraAnnenPeriode,
-    usePostOverstyringMinimumSykdomsgrad,
-} from './minimumSykdomsgrad';
+import { getOverlappendeArbeidsgivere, usePostOverstyringMinimumSykdomsgrad } from './minimumSykdomsgrad';
 
 import styles from './MinimumSykdomsgrad.module.scss';
 
@@ -55,17 +49,14 @@ export const MinimumSykdomsgradForm = ({
     const { ...merEnn20Validation } = form.register('MerEnn20', { required: 'Må velge et alternativ' });
 
     const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, periode);
-    const overlappendeOverstyringFraAnnenPeriode = getOverlappendeOverstyringFraAnnenPeriode(person, periode);
-    const gjeldendeFom = getGjeldendeFom(overlappendeOverstyringFraAnnenPeriode, fom);
-    const gjeldendeTom = getGjeldendeTom(overlappendeOverstyringFraAnnenPeriode, tom);
 
     const submitForm = () => {
         const skjemaverdier = form.getValues();
         postMinimumSykdomsgrad({
             aktørId: person.aktorId,
             fødselsnummer: person.fodselsnummer,
-            fom: gjeldendeFom,
-            tom: gjeldendeTom,
+            fom: fom,
+            tom: tom,
             vurdering: skjemaverdier.MerEnn20 === 'Ja',
             begrunnelse: skjemaverdier.Begrunnelse,
             arbeidsgivere: overlappendeArbeidsgivere.map((it) => {

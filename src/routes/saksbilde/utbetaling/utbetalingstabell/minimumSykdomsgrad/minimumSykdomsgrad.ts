@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { useMutation } from '@apollo/client';
@@ -9,7 +8,6 @@ import {
     Maybe,
     MinimumSykdomsgradInput,
     MinimumSykdomsgradMutationDocument,
-    MinimumSykdomsgradOverstyring,
     OpprettAbonnementDocument,
     PersonFragment,
 } from '@io/graphql';
@@ -23,8 +21,7 @@ import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserP
 import { overlapper } from '@state/selectors/period';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { MinimumSykdomsgradArbeidsgiver, OverstyrtMinimumSykdomsgradDTO } from '@typer/overstyring';
-import { ISO_DATOFORMAT } from '@utils/date';
-import { isBeregnetPeriode, isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
@@ -96,35 +93,6 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
     };
 };
 
-export const getOverlappendeOverstyringFraAnnenPeriode = (
-    person: PersonFragment,
-    aktivPeriode: BeregnetPeriodeFragment,
-) =>
-    person.arbeidsgivere.flatMap((arbeidsgiver) =>
-        arbeidsgiver.overstyringer
-            .filter(isMinimumSykdomsgradsoverstyring)
-            .filter(
-                (it) =>
-                    dayjs(it.minimumSykdomsgrad.fom, ISO_DATOFORMAT).isBetween(
-                        aktivPeriode?.fom,
-                        aktivPeriode?.tom,
-                        'day',
-                        '[]',
-                    ) ||
-                    dayjs(it.minimumSykdomsgrad.tom, ISO_DATOFORMAT).isBetween(
-                        aktivPeriode?.fom,
-                        aktivPeriode?.tom,
-                        'day',
-                        '[]',
-                    ),
-            )
-            .filter(
-                (it) =>
-                    it.minimumSykdomsgrad.initierendeVedtaksperiodeId !==
-                    (aktivPeriode as BeregnetPeriodeFragment).vedtaksperiodeId,
-            ),
-    );
-
 export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: BeregnetPeriodeFragment) =>
     person.arbeidsgivere.filter(
         (arbeidsgiver) =>
@@ -132,19 +100,3 @@ export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: Be
                 .filter(isBeregnetPeriode)
                 .filter((it) => overlapper(periode)(it) ?? []).length > 0,
     ) as Array<ArbeidsgiverFragment>;
-
-export const getGjeldendeFom = (overstyringer: MinimumSykdomsgradOverstyring[], fom: string) => {
-    const overlappendeFom = overstyringer.find((it) =>
-        dayjs(fom, ISO_DATOFORMAT).isBetween(it.minimumSykdomsgrad.fom, it.minimumSykdomsgrad.tom, 'day', '(]'),
-    );
-
-    return overlappendeFom ? dayjs(overlappendeFom?.minimumSykdomsgrad.tom).add(1, 'day').format(ISO_DATOFORMAT) : fom;
-};
-export const getGjeldendeTom = (overstyringer: MinimumSykdomsgradOverstyring[], tom: string) => {
-    const overlappendeTom = overstyringer.find((it) =>
-        dayjs(tom, ISO_DATOFORMAT).isBetween(it.minimumSykdomsgrad.fom, it.minimumSykdomsgrad.tom, 'day', '[)'),
-    );
-    return overlappendeTom
-        ? dayjs(overlappendeTom?.minimumSykdomsgrad.fom).subtract(1, 'day').format(ISO_DATOFORMAT)
-        : tom;
-};
