@@ -5,6 +5,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { BodyShort, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
+import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
@@ -23,7 +24,7 @@ import { useInntektOgRefusjon } from '@state/overstyring';
 import { isRevurdering } from '@state/selectors/utbetaling';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { getPeriodState } from '@utils/mapping';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
 
 import { BegrunnelseVedtak } from '../BegrunnelseVedtak';
 import { AvvisningButton } from './AvvisningButton';
@@ -143,6 +144,10 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                     setAvslag={setAvslag}
                     periode={period}
                     person={person}
+                    overstyrtMinimumSykdomsgradBegrunnelse={arbeidsgiver.overstyringer
+                        .filter(isMinimumSykdomsgradsoverstyring)
+                        .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
+                        .shift()}
                 />
                 {!erReadOnly && (
                     <div className={styles.buttons}>

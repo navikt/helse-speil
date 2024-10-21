@@ -12,6 +12,7 @@ import {
     Avslagstype,
     BeregnetPeriodeFragment,
     Maybe,
+    MinimumSykdomsgradOverstyring,
     PersonFragment,
     Utbetalingsdagtype,
 } from '@io/graphql';
@@ -29,6 +30,7 @@ interface BegrunnelseVedtakProps {
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
     periode: BeregnetPeriodeFragment;
     person: PersonFragment;
+    overstyrtMinimumSykdomsgradBegrunnelse?: MinimumSykdomsgradOverstyring;
 }
 
 export const BegrunnelseVedtak = ({
@@ -40,6 +42,7 @@ export const BegrunnelseVedtak = ({
     setAvslag,
     periode,
     person,
+    overstyrtMinimumSykdomsgradBegrunnelse,
 }: BegrunnelseVedtakProps): Maybe<ReactElement> => {
     const [showForkastEndringerModal, setShowForkastEndringerModal] = useState(false);
     const erReadOnly = useIsReadOnlyOppgave(person);
@@ -109,7 +112,12 @@ export const BegrunnelseVedtak = ({
                             <Textarea
                                 label=""
                                 id="begrunnelse"
-                                value={lokalAvslagstekst ?? innsendtAvslagstekst ?? ''}
+                                value={
+                                    lokalAvslagstekst ??
+                                    innsendtAvslagstekst ??
+                                    overstyrtMinimumSykdomsgradBegrunnelse ??
+                                    ''
+                                }
                                 onChange={(event) => {
                                     if (event.target.value === '') return setAvslag(null);
 
