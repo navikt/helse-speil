@@ -20,7 +20,7 @@ type UtbetalingModalProps = {
     error: BackendFeil | undefined;
     totrinnsvurdering: boolean;
     utbetaling?: Utbetaling;
-    arbeidsgiver?: string;
+    arbeidsgiverNavn?: string;
     personinfo?: Personinfo;
 };
 
@@ -32,7 +32,7 @@ export const UtbetalingModal = ({
     error,
     totrinnsvurdering,
     utbetaling,
-    arbeidsgiver,
+    arbeidsgiverNavn,
     personinfo,
 }: UtbetalingModalProps): ReactElement => (
     <Modal aria-label="Legg på vent modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
@@ -42,8 +42,8 @@ export const UtbetalingModal = ({
             </Heading>
         </Modal.Header>
         <Modal.Body className={styles.modal}>
-            {utbetaling && arbeidsgiver && personinfo && (
-                <TilUtbetaling utbetaling={utbetaling} arbeidsgiver={arbeidsgiver} personinfo={personinfo} />
+            {utbetaling && arbeidsgiverNavn && personinfo && (
+                <TilUtbetaling utbetaling={utbetaling} arbeidsgiver={arbeidsgiverNavn} personinfo={personinfo} />
             )}
             <BodyShort>
                 Når du trykker ja{' '}

@@ -9,6 +9,7 @@ import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveO
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import {
+    ArbeidsgiverFragment,
     AvslagInput,
     BeregnetPeriodeFragment,
     Maybe,
@@ -79,7 +80,7 @@ export type BackendFeil = {
 interface UtbetalingProps {
     period: BeregnetPeriodeFragment;
     person: PersonFragment;
-    arbeidsgiver: string;
+    arbeidsgiver: ArbeidsgiverFragment;
 }
 
 export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): Maybe<ReactElement> => {
@@ -149,7 +150,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                             <SendTilGodkjenningButton
                                 size={åpenIModal ? 'medium' : 'small'}
                                 utbetaling={period.utbetaling}
-                                arbeidsgiver={arbeidsgiver}
+                                arbeidsgiverNavn={arbeidsgiver.navn}
                                 personinfo={person.personinfo}
                                 oppgavereferanse={period.oppgave?.id ?? ''}
                                 disabled={
@@ -166,7 +167,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                             <GodkjenningButton
                                 size={åpenIModal ? 'medium' : 'small'}
                                 utbetaling={period.utbetaling}
-                                arbeidsgiver={arbeidsgiver}
+                                arbeidsgiverNavn={arbeidsgiver.navn}
                                 personinfo={person.personinfo}
                                 oppgavereferanse={period.oppgave?.id ?? ''}
                                 erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}

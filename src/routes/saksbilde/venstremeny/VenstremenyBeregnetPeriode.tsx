@@ -82,7 +82,7 @@ export const VenstremenyBeregnetPeriode = ({
             ) : (
                 <>
                     <HarVurderbareVarsler person={currentPerson} />
-                    <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver.navn} />
+                    <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver} />
                 </>
             )}
             {utbetalingsvarsler.map(({ grad, melding }, index) => (

@@ -32,7 +32,7 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
     disabled: boolean;
     onSuccess?: () => void;
     utbetaling: Utbetaling;
-    arbeidsgiver: string;
+    arbeidsgiverNavn: string;
     personinfo: Personinfo;
     avslag: Maybe<AvslagInput>;
     size: 'small' | 'medium';
@@ -44,7 +44,7 @@ export const SendTilGodkjenningButton = ({
     disabled = false,
     onSuccess,
     utbetaling,
-    arbeidsgiver,
+    arbeidsgiverNavn,
     personinfo,
     avslag = null,
     size,
@@ -91,7 +91,7 @@ export const SendTilGodkjenningButton = ({
                 <UtbetalingModal
                     showModal={showModal}
                     utbetaling={utbetaling}
-                    arbeidsgiver={arbeidsgiver}
+                    arbeidsgiverNavn={arbeidsgiverNavn}
                     personinfo={personinfo}
                     onClose={() => setShowModal(false)}
                     onApprove={sendTilGodkjenning}

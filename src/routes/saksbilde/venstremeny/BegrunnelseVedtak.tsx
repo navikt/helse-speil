@@ -75,6 +75,9 @@ export const BegrunnelseVedtak = ({
         periode.avslag?.[0]?.begrunnelse &&
         avslag?.handling !== Avslagshandling.Invalider;
 
+    const lokalAvslagstekst = avslag?.data?.begrunnelse;
+    const innsendtAvslagstekst = periode.avslag?.[0]?.begrunnelse;
+
     return (
         <>
             <div className={classNames(styles.container, visBegrunnelseVedtak && styles.open)}>
@@ -106,7 +109,7 @@ export const BegrunnelseVedtak = ({
                             <Textarea
                                 label=""
                                 id="begrunnelse"
-                                value={avslag?.data?.begrunnelse ?? periode.avslag?.[0]?.begrunnelse ?? ''}
+                                value={lokalAvslagstekst ?? innsendtAvslagstekst ?? ''}
                                 onChange={(event) => {
                                     if (event.target.value === '') return setAvslag(null);
 
