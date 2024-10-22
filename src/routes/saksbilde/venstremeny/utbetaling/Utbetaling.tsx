@@ -1,8 +1,7 @@
-import classNames from 'classnames';
 import { useRouter } from 'next/navigation';
 import React, { ReactElement, useEffect, useState } from 'react';
 
-import { BodyShort, Loader } from '@navikt/ds-react';
+import { BodyShort, Box, HStack, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
@@ -86,7 +85,6 @@ interface UtbetalingProps {
 export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): Maybe<ReactElement> => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const [visIndividuellBegrunnelse, setVisIndividuellBegrunnelse] = useState(false);
-    const [åpenIModal, setÅpenIModal] = useState(false);
     const [avslag, setAvslag] = useState<Maybe<AvslagInput>>(null);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const ventEllerHopp = useOnGodkjenn(period, person);
@@ -123,15 +121,16 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         totrinnsvurderingAktiv && isBeregnetPeriode(period) && period.totrinnsvurdering?.erBeslutteroppgave === false;
     const trengerTotrinnsvurdering =
         period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave;
+    const periodeHarAvslagsbegrunnelseLagret = period.avslag?.filter((it) => !it.invalidert).length > 0;
 
     return (
-        <div
-            className={classNames(
-                styles.container,
-                (visIndividuellBegrunnelse || period.avslag?.filter((it) => !it.invalidert).length > 0) &&
-                    !åpenIModal &&
-                    styles.aktiv,
-            )}
+        <Box
+            background={
+                visIndividuellBegrunnelse || periodeHarAvslagsbegrunnelseLagret ? 'bg-subtle' : 'surface-transparent'
+            }
+            paddingBlock="0 4"
+            paddingInline="4 4"
+            style={{ margin: '0 -1rem' }}
         >
             <IndividuellBegrunnelse
                 visIndividuellBegrunnelse={visIndividuellBegrunnelse}
@@ -146,10 +145,10 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                     .shift()}
             />
             {!erReadOnly && (
-                <div className={styles.buttons}>
+                <HStack gap="4">
                     {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering ? (
                         <SendTilGodkjenningButton
-                            size={åpenIModal ? 'medium' : 'small'}
+                            size="small"
                             utbetaling={period.utbetaling}
                             arbeidsgiverNavn={arbeidsgiver.navn}
                             personinfo={person.personinfo}
@@ -166,7 +165,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                         </SendTilGodkjenningButton>
                     ) : (
                         <GodkjenningButton
-                            size={åpenIModal ? 'medium' : 'small'}
+                            size="small"
                             utbetaling={period.utbetaling}
                             arbeidsgiverNavn={arbeidsgiver.navn}
                             personinfo={person.personinfo}
@@ -190,22 +189,18 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                     {!isRevurdering &&
                         !period.totrinnsvurdering?.erBeslutteroppgave &&
                         !finnesNyereUtbetaltPeriodePåPerson && (
-                            <AvvisningButton
-                                size={åpenIModal ? 'medium' : 'small'}
-                                disabled={periodenErSendt}
-                                activePeriod={period}
-                            />
+                            <AvvisningButton size="small" disabled={periodenErSendt} activePeriod={period} />
                         )}
                     {erBeslutteroppgaveOgHarTilgang && (
                         <ReturButton
-                            size={åpenIModal ? 'medium' : 'small'}
+                            size="small"
                             disabled={periodenErSendt}
                             activePeriod={period}
                             onSuccess={onAvvisUtbetaling}
                             person={person}
                         />
                     )}
-                </div>
+                </HStack>
             )}
             {periodenErSendt && (
                 <BodyShort className={styles.infotekst}>
@@ -217,6 +212,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                     </span>
                 </BodyShort>
             )}
-        </div>
+        </Box>
     );
 };
