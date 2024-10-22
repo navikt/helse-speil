@@ -16,9 +16,9 @@ import {
     Utbetalingsdagtype,
 } from '@io/graphql';
 
-import { BegrunnelseVedtakReadonly } from './BegrunnelseVedtakReadonly';
+import { BegrunnelseVedtakReadonly } from '../BegrunnelseVedtakReadonly';
 
-import styles from './BegrunnelseVedtak.module.scss';
+import styles from './IndividuellBegrunnelse.module.scss';
 
 interface BegrunnelseVedtakProps {
     visBegrunnelseVedtak: boolean;
@@ -30,7 +30,7 @@ interface BegrunnelseVedtakProps {
     overstyrtMinimumSykdomsgradBegrunnelse?: MinimumSykdomsgradOverstyring;
 }
 
-export const BegrunnelseVedtak = ({
+export const IndividuellBegrunnelse = ({
     visBegrunnelseVedtak,
     setVisBegrunnelseVedtak,
     avslag,

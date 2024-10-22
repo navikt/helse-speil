@@ -26,7 +26,7 @@ import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode, isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
 
-import { BegrunnelseVedtak } from '../BegrunnelseVedtak';
+import { IndividuellBegrunnelse } from '../individuellBegrunnelse/IndividuellBegrunnelse';
 import { AvvisningButton } from './AvvisningButton';
 import { GodkjenningButton } from './GodkjenningButton';
 import { ReturButton } from './ReturButton';
@@ -133,7 +133,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                     styles.aktiv,
             )}
         >
-            <BegrunnelseVedtak
+            <IndividuellBegrunnelse
                 visBegrunnelseVedtak={visBegrunnelseVedtak}
                 setVisBegrunnelseVedtak={setVisBegrunnelseVedtak}
                 avslag={avslag}
