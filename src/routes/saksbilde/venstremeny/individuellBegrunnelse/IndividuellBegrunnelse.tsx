@@ -1,9 +1,8 @@
 import React, { Dispatch, ReactElement, SetStateAction, useEffect, useRef, useState } from 'react';
 
 import { ExpandIcon, ShrinkIcon } from '@navikt/aksel-icons';
-import { BodyShort, Box, Button, HStack, Heading, Modal, ReadMore, Textarea, VStack } from '@navikt/ds-react';
+import { Box, Button, HStack, Heading, Modal, ReadMore, Textarea, VStack } from '@navikt/ds-react';
 
-import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
     AvslagInput,
@@ -15,6 +14,7 @@ import {
     PersonFragment,
     Utbetalingsdagtype,
 } from '@io/graphql';
+import { ForkastModal } from '@saksbilde/venstremeny/individuellBegrunnelse/ForkastModal';
 
 import { BegrunnelseVedtakReadonly } from '../BegrunnelseVedtakReadonly';
 
@@ -127,26 +127,13 @@ export const IndividuellBegrunnelse = ({
                 )}
             </Box>
             {showForkastEndringerModal && (
-                <SlettLokaleEndringerModal
-                    heading="Er du sikker på at du vil forkaste endringene?"
-                    showModal={showForkastEndringerModal}
-                    onApprove={() => {
-                        if (periode.avslag.length > 0) {
-                            setAvslag({ handling: Avslagshandling.Invalider });
-                        } else {
-                            setAvslag(null);
-                            lukkModal();
-                        }
-                        setShowForkastEndringerModal(false);
-                        setVisBegrunnelseVedtak(false);
-                    }}
-                    onClose={() => setShowForkastEndringerModal(false)}
-                >
-                    <BodyShort>
-                        Ved å trykke <span style={{ fontWeight: 'bold' }}>Ja</span> vil den individuelle begrunnelsen
-                        ikke bli lagret.
-                    </BodyShort>
-                </SlettLokaleEndringerModal>
+                <ForkastModal
+                    harLagretAvslag={innsendtAvslagstekst != undefined}
+                    setAvslag={setAvslag}
+                    lukkBegrunnelseModal={lukkModal}
+                    lukkForkastModal={() => setShowForkastEndringerModal(false)}
+                    lukkIndividuellBegrunnelse={() => setVisBegrunnelseVedtak(false)}
+                />
             )}
 
             {modalÅpen && (
