@@ -23,8 +23,6 @@ import styles from './BegrunnelseVedtak.module.scss';
 interface BegrunnelseVedtakProps {
     visBegrunnelseVedtak: boolean;
     setVisBegrunnelseVedtak: Dispatch<SetStateAction<boolean>>;
-    åpenIModal: boolean;
-    setÅpenIModal: Dispatch<SetStateAction<boolean>>;
     avslag: Maybe<AvslagInput>;
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
     periode: BeregnetPeriodeFragment;
@@ -35,8 +33,6 @@ interface BegrunnelseVedtakProps {
 export const BegrunnelseVedtak = ({
     visBegrunnelseVedtak,
     setVisBegrunnelseVedtak,
-    åpenIModal,
-    setÅpenIModal,
     avslag,
     setAvslag,
     periode,
