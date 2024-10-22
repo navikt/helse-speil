@@ -70,12 +70,7 @@ export const MinimumSykdomsgradForm = ({
     };
 
     return (
-        <Box
-            background="surface-subtle"
-            as="article"
-            padding="8"
-            style={{ margin: '-1.5rem', marginTop: '-2rem', marginBottom: '1rem' }}
-        >
+        <Box background="surface-subtle" as="article" padding="8">
             <HStack paddingBlock="0 3" gap="2">
                 <Heading size="small">Vurder arbeidstid</Heading>
                 <Button
