@@ -85,7 +85,7 @@ interface UtbetalingProps {
 
 export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): Maybe<ReactElement> => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
-    const [visBegrunnelseVedtak, setVisBegrunnelseVedtak] = useState(false);
+    const [visIndividuellBegrunnelse, setVisIndividuellBegrunnelse] = useState(false);
     const [åpenIModal, setÅpenIModal] = useState(false);
     const [avslag, setAvslag] = useState<Maybe<AvslagInput>>(null);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
@@ -128,14 +128,14 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         <div
             className={classNames(
                 styles.container,
-                (visBegrunnelseVedtak || period.avslag?.filter((it) => !it.invalidert).length > 0) &&
+                (visIndividuellBegrunnelse || period.avslag?.filter((it) => !it.invalidert).length > 0) &&
                     !åpenIModal &&
                     styles.aktiv,
             )}
         >
             <IndividuellBegrunnelse
-                visBegrunnelseVedtak={visBegrunnelseVedtak}
-                setVisBegrunnelseVedtak={setVisBegrunnelseVedtak}
+                visIndividuellBegrunnelse={visIndividuellBegrunnelse}
+                setVisIndividuellBegrunnelse={setVisIndividuellBegrunnelse}
                 avslag={avslag}
                 setAvslag={setAvslag}
                 periode={period}

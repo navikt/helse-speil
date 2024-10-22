@@ -21,8 +21,8 @@ import { BegrunnelseVedtakReadonly } from '../BegrunnelseVedtakReadonly';
 import styles from './IndividuellBegrunnelse.module.scss';
 
 interface BegrunnelseVedtakProps {
-    visBegrunnelseVedtak: boolean;
-    setVisBegrunnelseVedtak: Dispatch<SetStateAction<boolean>>;
+    visIndividuellBegrunnelse: boolean;
+    setVisIndividuellBegrunnelse: Dispatch<SetStateAction<boolean>>;
     avslag: Maybe<AvslagInput>;
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
     periode: BeregnetPeriodeFragment;
@@ -31,8 +31,8 @@ interface BegrunnelseVedtakProps {
 }
 
 export const IndividuellBegrunnelse = ({
-    visBegrunnelseVedtak,
-    setVisBegrunnelseVedtak,
+    visIndividuellBegrunnelse,
+    setVisIndividuellBegrunnelse,
     avslag,
     setAvslag,
     periode,
@@ -70,7 +70,7 @@ export const IndividuellBegrunnelse = ({
         if (lokalAvslagstekst || innsendtAvslagstekst) {
             setShowForkastEndringerModal(true);
         } else {
-            setVisBegrunnelseVedtak(false);
+            setVisIndividuellBegrunnelse(false);
         }
     };
 
@@ -91,14 +91,14 @@ export const IndividuellBegrunnelse = ({
                         <ReadMore
                             size="small"
                             className={styles.readmore}
-                            open={visBegrunnelseVedtak}
+                            open={visIndividuellBegrunnelse}
                             defaultOpen={skalÅpnesMedUtfylteVerdier}
                             header={knappetekst(avslagstype)}
                             onClick={() => {
-                                if (visBegrunnelseVedtak) {
+                                if (visIndividuellBegrunnelse) {
                                     onClose();
                                 } else {
-                                    setVisBegrunnelseVedtak(true);
+                                    setVisIndividuellBegrunnelse(true);
                                 }
                             }}
                         >
@@ -115,7 +115,7 @@ export const IndividuellBegrunnelse = ({
                                     preutfyltVerdi={preutfyltVerdi}
                                     minRows={4}
                                     setAvslag={(verdi) => setAvslag(verdi)}
-                                    focus={visBegrunnelseVedtak || skalÅpnesMedUtfylteVerdier}
+                                    focus={visIndividuellBegrunnelse || skalÅpnesMedUtfylteVerdier}
                                 />
                             </Box>
                         </ReadMore>
@@ -132,7 +132,7 @@ export const IndividuellBegrunnelse = ({
                     setAvslag={setAvslag}
                     lukkBegrunnelseModal={lukkModal}
                     lukkForkastModal={() => setShowForkastEndringerModal(false)}
-                    lukkIndividuellBegrunnelse={() => setVisBegrunnelseVedtak(false)}
+                    lukkIndividuellBegrunnelse={() => setVisIndividuellBegrunnelse(false)}
                 />
             )}
 
