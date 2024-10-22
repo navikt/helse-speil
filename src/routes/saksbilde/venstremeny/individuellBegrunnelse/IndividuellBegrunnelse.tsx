@@ -1,7 +1,7 @@
-import React, { Dispatch, ReactElement, SetStateAction, useEffect, useRef, useState } from 'react';
+import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
-import { ExpandIcon, ShrinkIcon } from '@navikt/aksel-icons';
-import { Box, Button, HStack, Heading, Modal, ReadMore, Textarea, VStack } from '@navikt/ds-react';
+import { ExpandIcon } from '@navikt/aksel-icons';
+import { Box, Button, ReadMore } from '@navikt/ds-react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
@@ -14,6 +14,8 @@ import {
     PersonFragment,
     Utbetalingsdagtype,
 } from '@io/graphql';
+import { BegrunnelseInput } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseInput';
+import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseModal';
 import { ForkastModal } from '@saksbilde/venstremeny/individuellBegrunnelse/ForkastModal';
 
 import { BegrunnelseVedtakReadonly } from '../BegrunnelseVedtakReadonly';
@@ -110,7 +112,7 @@ export const IndividuellBegrunnelse = ({
                                     variant="tertiary-neutral"
                                     style={{ position: 'absolute', top: 0, right: 0 }}
                                 />
-                                <InputBegrunnelseVedtak
+                                <BegrunnelseInput
                                     begrunnelsestype={avslagstype}
                                     preutfyltVerdi={preutfyltVerdi}
                                     minRows={4}
@@ -137,90 +139,16 @@ export const IndividuellBegrunnelse = ({
             )}
 
             {modalÅpen && (
-                <Modal
-                    aria-label="Modal"
-                    portal
-                    closeOnBackdropClick
-                    open={modalÅpen}
-                    onClose={lukkModal}
-                    width="800px"
-                >
-                    <Modal.Header closeButton={false}>
-                        <HStack justify="space-between" align="center">
-                            <Heading level="1" size="medium">
-                                {knappetekst(avslagstype)}
-                            </Heading>
-                            <Button size="small" variant="tertiary-neutral" onClick={lukkModal} icon={<ShrinkIcon />} />
-                        </HStack>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <VStack gap="4">
-                            <InputBegrunnelseVedtak
-                                begrunnelsestype={avslagstype}
-                                preutfyltVerdi={preutfyltVerdi}
-                                minRows={8}
-                                setAvslag={(verdi) => setAvslag(verdi)}
-                                focus={true}
-                            />
-                            <HStack gap="2">
-                                <Button size="xsmall" variant="secondary" onClick={lukkModal}>
-                                    Lagre
-                                </Button>
-                                <Button size="xsmall" variant="tertiary" onClick={onClose}>
-                                    Forkast
-                                </Button>
-                            </HStack>
-                        </VStack>
-                    </Modal.Body>
-                </Modal>
+                <BegrunnelseModal
+                    modalÅpen={modalÅpen}
+                    lukkModal={lukkModal}
+                    avslagstype={avslagstype}
+                    preutfyltVerdi={preutfyltVerdi}
+                    setAvslag={setAvslag}
+                    onClose={onClose}
+                />
             )}
         </>
-    );
-};
-
-interface InputBegrunnelseVedtakProps {
-    begrunnelsestype: Avslagstype.Avslag | Avslagstype.DelvisAvslag;
-    preutfyltVerdi: string;
-    minRows: number;
-    setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
-    focus: boolean;
-}
-
-const InputBegrunnelseVedtak = ({
-    begrunnelsestype,
-    preutfyltVerdi,
-    minRows,
-    setAvslag,
-    focus,
-}: InputBegrunnelseVedtakProps) => {
-    const ref = useRef<HTMLTextAreaElement>(null);
-
-    useEffect(() => {
-        ref.current?.focus();
-    }, [focus]);
-    return (
-        <Textarea
-            label=""
-            id="begrunnelse"
-            value={preutfyltVerdi}
-            onChange={(event) => {
-                if (event.target.value === '') return setAvslag(null);
-
-                setAvslag({
-                    handling: Avslagshandling.Opprett,
-                    data: {
-                        type: begrunnelsestype,
-                        begrunnelse: event.target.value,
-                    },
-                });
-            }}
-            description="Teksten vises til den sykmeldte i «Svar på søknad om sykepenger»."
-            aria-labelledby="begrunnelse-label begrunnelse-feil"
-            style={{ whiteSpace: 'pre-line' }}
-            minRows={minRows}
-            ref={ref}
-            autoFocus
-        />
     );
 };
 
