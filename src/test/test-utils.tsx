@@ -7,7 +7,7 @@ import { onError } from '@apollo/client/link/error';
 import { MockLink, MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { apolloCacheConfig, restLink } from '@app/apollo/apolloClient';
 import { RecoilWrapper } from '@test-wrappers';
-import { RenderOptions, Screen, render, screen } from '@testing-library/react';
+import { RenderHookResult, RenderOptions, Screen, render, renderHook, screen } from '@testing-library/react';
 
 type ProviderProps = {
     readonly initialQueries?: Cache.WriteQueryOptions<unknown, unknown>[];
@@ -60,6 +60,18 @@ function customRender(
     });
 }
 
+function customRenderHook<Result, Props>(
+    render: (initialProps: Props) => Result,
+    options: Omit<RenderOptions, 'wrapper'> & ProviderProps = {},
+): RenderHookResult<Result, Props> {
+    const { initialQueries, mocks, state, ...renderOptions } = options;
+
+    return renderHook(render, {
+        wrapper: (props) => <AllTheProviders {...props} initialQueries={initialQueries} mocks={mocks} state={state} />,
+        ...renderOptions,
+    });
+}
+
 async function openPlayground(screen: Screen): Promise<void> {
     screen.logTestingPlaygroundURL();
 }
@@ -71,4 +83,4 @@ const customScreen = {
 
 export * from './apollo-utils';
 export * from '@testing-library/react';
-export { customRender as render, customScreen as screen };
+export { customRender as render, customRenderHook as renderHook, customScreen as screen };

@@ -1,4 +1,4 @@
-import { FetchPersonDocument, OpptegnelserDocument } from '@io/graphql';
+import { FetchPersonDocument, OpprettAbonnementDocument, OpptegnelserDocument } from '@io/graphql';
 import { createMock } from '@test-utils';
 
 /*
@@ -17,6 +17,17 @@ export const opptegnelseMock = createMock({
         },
     },
 });
+
+export const opprettAbonnementMock = (identifikator: string) =>
+    createMock({
+        request: { query: OpprettAbonnementDocument, variables: { personidentifikator: identifikator } },
+        result: {
+            data: {
+                __typename: 'Mutation',
+                opprettAbonnement: true,
+            },
+        },
+    });
 
 export const fetchPersonMock = createMock({
     request: {
