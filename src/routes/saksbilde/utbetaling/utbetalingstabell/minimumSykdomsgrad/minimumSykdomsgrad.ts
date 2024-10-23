@@ -4,7 +4,6 @@ import { useMutation } from '@apollo/client';
 import {
     ArbeidsgiverFragment,
     ArbeidsgiverInput,
-    BeregnetPeriodeFragment,
     Maybe,
     MinimumSykdomsgradInput,
     MinimumSykdomsgradMutationDocument,
@@ -21,7 +20,8 @@ import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserP
 import { overlapper } from '@state/selectors/period';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { MinimumSykdomsgradArbeidsgiver, OverstyrtMinimumSykdomsgradDTO } from '@typer/overstyring';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { ActivePeriod } from '@typer/shared';
+import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
@@ -93,10 +93,10 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
     };
 };
 
-export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: BeregnetPeriodeFragment) =>
+export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: ActivePeriod) =>
     person.arbeidsgivere.filter(
         (arbeidsgiver) =>
             arbeidsgiver.generasjoner[0]?.perioder
-                .filter(isBeregnetPeriode)
+                .filter(isBeregnetPeriode || isUberegnetPeriode)
                 .filter((it) => overlapper(periode)(it) ?? []).length > 0,
     ) as Array<ArbeidsgiverFragment>;

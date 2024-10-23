@@ -5,24 +5,26 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { useBrukerIdent } from '@auth/brukerContext';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
+import {
+    ArbeidsgiverFragment,
+    BeregnetPeriodeFragment,
+    PersonFragment,
+    UberegnetPeriodeFragment,
+    Utbetalingstatus,
+} from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
 import { DagtypeModal } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeModal';
+import { UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
 import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
-import { MinimumSykdomsgradForm } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradForm';
-import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { kanOverstyreMinimumSykdomsgradToggle } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
-import { UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { useOverstyrDager } from './utbetalingstabell/useOverstyrDager';
 
@@ -33,17 +35,6 @@ const getKey = (dag: Utbetalingstabelldag) => dag.dato;
 const erReellEndring = (tilDag: Partial<Utbetalingstabelldag>, fraDag: Utbetalingstabelldag): boolean =>
     (typeof tilDag.grad === 'number' && tilDag.grad !== fraDag.grad) ||
     tilDag.dag?.speilDagtype !== fraDag.dag.speilDagtype;
-
-interface OverstyrbarUtbetalingProps {
-    person: PersonFragment;
-    arbeidsgiver: ArbeidsgiverFragment;
-    fom: DateString;
-    tom: DateString;
-    dager: Map<string, Utbetalingstabelldag>;
-    erForkastet: boolean;
-    vedtaksperiodeId: string;
-    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment;
-}
 
 enum DagerActionType {
     FJERN_ALLE_DAGER,
@@ -180,24 +171,25 @@ const reducer: Reducer<DagerState, DagerAction> = (prevState, action) => {
     }
 };
 
+interface OverstyrbarUtbetalingProps {
+    person: PersonFragment;
+    arbeidsgiver: ArbeidsgiverFragment;
+    dager: Map<string, Utbetalingstabelldag>;
+    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment;
+}
+
 export const OverstyrbarUtbetaling = ({
     person,
     arbeidsgiver,
-    fom,
-    tom,
     dager,
-    erForkastet,
-    vedtaksperiodeId,
     periode,
 }: OverstyrbarUtbetalingProps): ReactElement => {
     const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
     const [visDagtypeModal, setVisDagtypeModal] = useState(false);
     const [overstyrer, setOverstyrer] = useState(false);
-    const [overstyrerMinimumSykdomsgrad, setOverstyrerMinimumSykdomsgrad] = useState(false);
 
     const { postOverstyring, error, timedOut, setTimedOut, done } = useOverstyrDager(person, arbeidsgiver);
-    const saksbehandlerident = useBrukerIdent();
 
     const [state, dispatch] = useReducer(reducer, defaultDagerState);
 
@@ -211,7 +203,7 @@ export const OverstyrbarUtbetaling = ({
             Array.from(alleDager.values()),
             Array.from(alleOverstyrteDager.values()),
             form.getValues('begrunnelse'),
-            vedtaksperiodeId,
+            periode.vedtaksperiodeId,
             () => setOverstyrer(!overstyrer),
         );
     };
@@ -274,24 +266,12 @@ export const OverstyrbarUtbetaling = ({
             className={classNames(styles.OverstyrbarUtbetaling, overstyrer && styles.overstyrer)}
             data-testid="utbetaling"
         >
-            {!overstyrer && !overstyrerMinimumSykdomsgrad && (
+            {!overstyrer && (
                 <UtbetalingHeader
-                    periodeErForkastet={erForkastet}
-                    toggleOverstyring={toggleOverstyring}
-                    kanOverstyreMinimumSykdomsgrad={
-                        kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident) &&
-                        periode.tidslinje.some((it) => (it?.utbetalingsinfo?.totalGrad ?? 100) < 20)
+                    periodeErForkastet={
+                        isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Forkastet
                     }
-                    setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
-                />
-            )}
-            {overstyrerMinimumSykdomsgrad && isBeregnetPeriode(periode) && (
-                <MinimumSykdomsgradForm
-                    person={person}
-                    fom={fom}
-                    tom={tom}
-                    periode={periode}
-                    setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
+                    toggleOverstyring={toggleOverstyring}
                 />
             )}
             {overstyrer && (
@@ -305,8 +285,8 @@ export const OverstyrbarUtbetaling = ({
             )}
             <div className={classNames(styles.TableContainer)}>
                 <Utbetalingstabell
-                    fom={fom}
-                    tom={tom}
+                    fom={periode.fom}
+                    tom={periode.tom}
                     dager={alleDager}
                     personFødselsdato={person.personinfo.fodselsdato}
                     lokaleOverstyringer={alleOverstyrteDager}

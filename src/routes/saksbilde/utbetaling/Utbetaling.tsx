@@ -12,7 +12,6 @@ import {
     PersonFragment,
     UberegnetPeriodeFragment,
     Utbetalingsdagtype,
-    Utbetalingstatus,
 } from '@io/graphql';
 import {
     useCurrentArbeidsgiver,
@@ -105,16 +104,7 @@ const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingB
     const kanEndres = overstyringIsEnabled.value || revurderingIsEnabled.value || overstyrRevurderingIsEnabled.value;
 
     return kanEndres && !readOnly && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning ? (
-        <OverstyrbarUtbetaling
-            person={person}
-            arbeidsgiver={arbeidsgiver}
-            fom={period.fom}
-            tom={period.tom}
-            dager={dager}
-            erForkastet={period.utbetaling.status === Utbetalingstatus.Forkastet}
-            vedtaksperiodeId={period.vedtaksperiodeId}
-            periode={period}
-        />
+        <OverstyrbarUtbetaling person={person} arbeidsgiver={arbeidsgiver} dager={dager} periode={period} />
     ) : (
         <ReadonlyUtbetaling fom={period.fom} tom={period.tom} dager={dager} person={person} />
     );
@@ -156,16 +146,7 @@ const UtbetalingUberegnetPeriode = ({
     const skjæringstidspunktHarPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
 
     return !skjæringstidspunktHarPeriodeTilBeslutter && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning ? (
-        <OverstyrbarUtbetaling
-            person={person}
-            arbeidsgiver={arbeidsgiver}
-            fom={periode.fom}
-            tom={periode.tom}
-            dager={dager}
-            erForkastet={false}
-            vedtaksperiodeId={periode.vedtaksperiodeId}
-            periode={periode}
-        />
+        <OverstyrbarUtbetaling person={person} arbeidsgiver={arbeidsgiver} dager={dager} periode={periode} />
     ) : (
         <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} person={person} />
     );

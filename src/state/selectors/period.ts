@@ -6,7 +6,6 @@ import {
     GhostPeriodeFragment,
     Maybe,
     NyttInntektsforholdPeriodeFragment,
-    Periode,
     PeriodeFragment,
     Periodetilstand,
     PersonFragment,
@@ -69,8 +68,8 @@ export const isGodkjent = (period: ActivePeriod): boolean => {
     return ['utbetalt', 'utbetaltAutomatisk', 'revurdert', 'revurdertIngenUtbetaling'].includes(getPeriodState(period));
 };
 export const overlapper =
-    (other: Periode) =>
-    (periode: Periode): boolean =>
+    (other: ActivePeriod) =>
+    (periode: ActivePeriod): boolean =>
         (dayjs(periode.fom).isSameOrAfter(other.fom) && dayjs(periode.fom).isSameOrBefore(other.tom)) ||
         (dayjs(periode.tom).isSameOrAfter(other.fom) && dayjs(periode.tom).isSameOrBefore(other.tom));
 

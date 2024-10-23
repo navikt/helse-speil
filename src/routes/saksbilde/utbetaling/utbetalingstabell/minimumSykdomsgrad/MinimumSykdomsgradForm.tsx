@@ -18,9 +18,9 @@ import {
 } from '@navikt/ds-react';
 
 import { TimeoutModal } from '@components/TimeoutModal';
-import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { PersonFragment } from '@io/graphql';
 import { overlapper } from '@state/selectors/period';
-import { DateString } from '@typer/shared';
+import { ActivePeriod } from '@typer/shared';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT_LANG } from '@utils/date';
 
 import { getOverlappendeArbeidsgivere, usePostOverstyringMinimumSykdomsgrad } from './minimumSykdomsgrad';
@@ -29,9 +29,8 @@ import styles from './MinimumSykdomsgrad.module.scss';
 
 interface MinimumSykdomsgradFormProps {
     person: PersonFragment;
-    fom: DateString;
-    tom: DateString;
-    periode: BeregnetPeriodeFragment;
+    periode: ActivePeriod;
+    initierendeVedtaksperiodeId: string;
     setOverstyrerMinimumSykdomsgrad: (overstyrer: boolean) => void;
 }
 
@@ -40,9 +39,8 @@ export const MINIMUM_SYKDOMSGRAD_AVSLAG_TEKST = 'Nei, tap av arbeidstid er under
 
 export const MinimumSykdomsgradForm = ({
     person,
-    fom,
-    tom,
     periode,
+    initierendeVedtaksperiodeId,
     setOverstyrerMinimumSykdomsgrad,
 }: MinimumSykdomsgradFormProps): ReactElement => {
     const { isLoading, error, postMinimumSykdomsgrad, timedOut, setTimedOut } = usePostOverstyringMinimumSykdomsgrad(
@@ -60,8 +58,8 @@ export const MinimumSykdomsgradForm = ({
         postMinimumSykdomsgrad({
             aktørId: person.aktorId,
             fødselsnummer: person.fodselsnummer,
-            fom: fom,
-            tom: tom,
+            fom: periode.fom,
+            tom: periode.tom,
             vurdering: skjemaverdier.MerEnn20 === 'Ja',
             begrunnelse: skjemaverdier.Begrunnelse,
             arbeidsgivere: overlappendeArbeidsgivere.map((it) => {
@@ -70,7 +68,7 @@ export const MinimumSykdomsgradForm = ({
                     berørtVedtaksperiodeId: it.generasjoner[0].perioder.find(overlapper(periode))?.vedtaksperiodeId!!,
                 };
             }),
-            initierendeVedtaksperiodeId: periode.vedtaksperiodeId,
+            initierendeVedtaksperiodeId: initierendeVedtaksperiodeId,
         });
     };
 
