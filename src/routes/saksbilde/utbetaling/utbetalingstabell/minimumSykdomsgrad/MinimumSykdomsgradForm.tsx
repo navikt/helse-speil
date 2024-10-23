@@ -1,8 +1,10 @@
+import dayjs from 'dayjs';
 import React, { ReactElement, useRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 
 import { PadlockUnlockedIcon } from '@navikt/aksel-icons';
 import {
+    BodyShort,
     Box,
     Button,
     ErrorMessage,
@@ -12,12 +14,14 @@ import {
     Radio,
     RadioGroup,
     Textarea,
+    VStack,
 } from '@navikt/ds-react';
 
 import { TimeoutModal } from '@components/TimeoutModal';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { overlapper } from '@state/selectors/period';
 import { DateString } from '@typer/shared';
+import { ISO_DATOFORMAT, NORSK_DATOFORMAT_LANG } from '@utils/date';
 
 import { getOverlappendeArbeidsgivere, usePostOverstyringMinimumSykdomsgrad } from './minimumSykdomsgrad';
 
@@ -45,6 +49,7 @@ export const MinimumSykdomsgradForm = ({
         () => setOverstyrerMinimumSykdomsgrad(false),
     );
     const form = useForm();
+    const merEnn20 = useWatch({ name: 'MerEnn20', control: form.control });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const { ...merEnn20Validation } = form.register('MerEnn20', { required: 'Må velge et alternativ' });
 
@@ -69,10 +74,18 @@ export const MinimumSykdomsgradForm = ({
         });
     };
 
+    const begrunnelseInnledning =
+        merEnn20 === 'Ja'
+            ? 'Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn.'
+            : 'Teksten vises til den sykmeldte i «Svar på søknad om sykepenger»';
+
     return (
-        <Box background="surface-subtle" as="article" padding="8">
+        <Box background="surface-subtle" as="article" padding="4">
             <HStack paddingBlock="0 3" gap="2">
-                <Heading size="small">Vurder arbeidstid</Heading>
+                <Heading size="small">
+                    Vurder arbeidstid for perioden {dayjs(periode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT_LANG)} –{' '}
+                    {dayjs(periode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT_LANG)}
+                </Heading>
                 <Button
                     size="xsmall"
                     variant="tertiary"
@@ -85,7 +98,14 @@ export const MinimumSykdomsgradForm = ({
             <form className={styles.form} onSubmit={form.handleSubmit(submitForm)}>
                 <RadioGroup
                     className={styles.radiogroup}
-                    legend="Er arbeidsevnen nedsatt med minst 20 % basert på arbeidstid?"
+                    legend={
+                        <VStack>
+                            <BodyShort weight="semibold">
+                                Er arbeidsevnen nedsatt med minst 20 % basert på arbeidstid?
+                            </BodyShort>
+                            <BodyShort>Husk at arbeidstid må vurderes på tvers av alle arbeidsforhold</BodyShort>
+                        </VStack>
+                    }
                     error={form.formState.errors.MerEnn20?.message as string}
                     name="MerEnn20"
                     size="small"
@@ -97,14 +117,16 @@ export const MinimumSykdomsgradForm = ({
                         {MINIMUM_SYKDOMSGRAD_AVSLAG_TEKST}
                     </Radio>
                 </RadioGroup>
-                <Textarea
-                    {...form.register('Begrunnelse', { required: 'Begrunnelse kan ikke være tom' })}
-                    className={styles.fritekst}
-                    label={<span className={styles.fritekstlabel}>Begrunnelse</span>}
-                    description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
-                    error={form.formState.errors.Begrunnelse?.message as string}
-                    resize
-                />
+                {merEnn20 && (
+                    <Textarea
+                        {...form.register('Begrunnelse', { required: 'Begrunnelse kan ikke være tom' })}
+                        className={styles.fritekst}
+                        label={<span className={styles.fritekstlabel}>Begrunnelse</span>}
+                        description={begrunnelseInnledning}
+                        error={form.formState.errors.Begrunnelse?.message as string}
+                        resize
+                    />
+                )}
                 {!form.formState.isValid && form.formState.isSubmitted && (
                     <div className={styles.feiloppsummering}>
                         <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
