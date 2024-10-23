@@ -73,6 +73,7 @@ export const IndividuellBegrunnelse = ({
             setShowForkastEndringerModal(true);
         } else {
             setVisIndividuellBegrunnelse(false);
+            lukkModal();
         }
     };
 
