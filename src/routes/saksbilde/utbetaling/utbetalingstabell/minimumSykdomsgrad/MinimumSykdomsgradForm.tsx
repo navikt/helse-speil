@@ -81,20 +81,23 @@ export const MinimumSykdomsgradForm = ({
 
     return (
         <Box background="surface-subtle" as="article" padding="4">
-            <HStack paddingBlock="0 3" gap="2">
-                <Heading size="small">
-                    Vurder arbeidstid for perioden {dayjs(periode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT_LANG)} –{' '}
+            <VStack paddingBlock="0 3">
+                <HStack gap="2">
+                    <Heading size="small">Vurder arbeidstid for perioden</Heading>
+                    <Button
+                        size="xsmall"
+                        variant="tertiary"
+                        icon={<PadlockUnlockedIcon />}
+                        onClick={() => setOverstyrerMinimumSykdomsgrad(false)}
+                    >
+                        Avbryt
+                    </Button>
+                </HStack>
+                <Heading level="2" size="xsmall">
+                    {dayjs(periode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT_LANG)} –{' '}
                     {dayjs(periode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT_LANG)}
                 </Heading>
-                <Button
-                    size="xsmall"
-                    variant="tertiary"
-                    icon={<PadlockUnlockedIcon fontSize="1.5rem" />}
-                    onClick={() => setOverstyrerMinimumSykdomsgrad(false)}
-                >
-                    Avbryt
-                </Button>
-            </HStack>
+            </VStack>
             <form className={styles.form} onSubmit={form.handleSubmit(submitForm)}>
                 <RadioGroup
                     className={styles.radiogroup}
