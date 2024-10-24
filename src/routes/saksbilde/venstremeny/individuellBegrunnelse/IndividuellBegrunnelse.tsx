@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
+import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from 'react';
 
 import { ExpandIcon } from '@navikt/aksel-icons';
 import { Box, Button, ReadMore } from '@navikt/ds-react';
@@ -10,7 +10,6 @@ import {
     Avslagstype,
     BeregnetPeriodeFragment,
     Maybe,
-    MinimumSykdomsgradOverstyring,
     PersonFragment,
     Utbetalingsdagtype,
 } from '@io/graphql';
@@ -29,7 +28,7 @@ interface BegrunnelseVedtakProps {
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
     periode: BeregnetPeriodeFragment;
     person: PersonFragment;
-    overstyrtMinimumSykdomsgradBegrunnelse?: MinimumSykdomsgradOverstyring;
+    overstyrtMinimumSykdomsgradBegrunnelse?: string;
 }
 
 export const IndividuellBegrunnelse = ({
@@ -60,6 +59,15 @@ export const IndividuellBegrunnelse = ({
     const avslagstype =
         tidslinjeUtenAGPogHelg.length === avvisteDager.length ? Avslagstype.Avslag : Avslagstype.DelvisAvslag;
 
+    useEffect(() => {
+        if (overstyrtMinimumSykdomsgradBegrunnelse) {
+            setAvslag({
+                data: { begrunnelse: overstyrtMinimumSykdomsgradBegrunnelse, type: avslagstype },
+                handling: Avslagshandling.Opprett,
+            });
+        }
+    }, [overstyrtMinimumSykdomsgradBegrunnelse]);
+
     if (avvisteDager.length === 0) return null;
 
     const åpneModal = () => setModalÅpen(true);
@@ -77,11 +85,7 @@ export const IndividuellBegrunnelse = ({
         }
     };
 
-    const preutfyltVerdi =
-        lokalAvslagstekst ??
-        innsendtAvslagstekst ??
-        overstyrtMinimumSykdomsgradBegrunnelse?.minimumSykdomsgrad.begrunnelse ??
-        '';
+    const preutfyltVerdi = lokalAvslagstekst ?? innsendtAvslagstekst ?? overstyrtMinimumSykdomsgradBegrunnelse ?? '';
 
     const skalÅpnesMedUtfylteVerdier =
         !erReadOnly && !erBeslutteroppgave && preutfyltVerdi !== '' && avslag?.handling !== Avslagshandling.Invalider;
@@ -95,7 +99,6 @@ export const IndividuellBegrunnelse = ({
                             size="small"
                             className={styles.readmore}
                             open={visIndividuellBegrunnelse}
-                            defaultOpen={skalÅpnesMedUtfylteVerdier}
                             header={knappetekst(avslagstype)}
                             onClick={() => {
                                 if (visIndividuellBegrunnelse) {

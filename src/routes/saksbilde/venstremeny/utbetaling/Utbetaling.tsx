@@ -84,7 +84,14 @@ interface UtbetalingProps {
 
 export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): Maybe<ReactElement> => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
-    const [visIndividuellBegrunnelse, setVisIndividuellBegrunnelse] = useState(false);
+    const overstyrtMinimumSykdomsgradBegrunnelse = arbeidsgiver.overstyringer
+        .filter(isMinimumSykdomsgradsoverstyring)
+        .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
+        .shift()?.minimumSykdomsgrad.begrunnelse;
+    const periodeHarAvslagsbegrunnelseLagret = period.avslag?.filter((it) => !it.invalidert).length > 0;
+    const [visIndividuellBegrunnelse, setVisIndividuellBegrunnelse] = useState(
+        periodeHarAvslagsbegrunnelseLagret || overstyrtMinimumSykdomsgradBegrunnelse != undefined,
+    );
     const [avslag, setAvslag] = useState<Maybe<AvslagInput>>(null);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const ventEllerHopp = useOnGodkjenn(period, person);
@@ -121,7 +128,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         totrinnsvurderingAktiv && isBeregnetPeriode(period) && period.totrinnsvurdering?.erBeslutteroppgave === false;
     const trengerTotrinnsvurdering =
         period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave;
-    const periodeHarAvslagsbegrunnelseLagret = period.avslag?.filter((it) => !it.invalidert).length > 0;
 
     return (
         <Box
@@ -139,10 +145,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                 setAvslag={setAvslag}
                 periode={period}
                 person={person}
-                overstyrtMinimumSykdomsgradBegrunnelse={arbeidsgiver.overstyringer
-                    .filter(isMinimumSykdomsgradsoverstyring)
-                    .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
-                    .shift()}
+                overstyrtMinimumSykdomsgradBegrunnelse={overstyrtMinimumSykdomsgradBegrunnelse}
             />
             {!erReadOnly && (
                 <HStack gap="4">
