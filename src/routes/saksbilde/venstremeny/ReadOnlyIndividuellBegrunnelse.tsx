@@ -10,7 +10,7 @@ interface BegrunnelseVedtakReadonlyProps {
     avslag: AvslagsdataInput;
 }
 
-export const BegrunnelseVedtakReadonly = ({ avslag }: BegrunnelseVedtakReadonlyProps) => {
+export const ReadOnlyIndividuellBegrunnelse = ({ avslag }: BegrunnelseVedtakReadonlyProps) => {
     return (
         <>
             <BodyShort weight="semibold" className={styles.tittel}>

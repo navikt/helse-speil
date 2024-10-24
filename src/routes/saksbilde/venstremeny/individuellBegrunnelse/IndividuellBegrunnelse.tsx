@@ -1,25 +1,19 @@
 import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from 'react';
 
-import { ExpandIcon } from '@navikt/aksel-icons';
-import { Box, Button, ReadMore } from '@navikt/ds-react';
-
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
     AvslagInput,
     Avslagshandling,
     Avslagstype,
     BeregnetPeriodeFragment,
+    Dag,
     Maybe,
     PersonFragment,
     Utbetalingsdagtype,
 } from '@io/graphql';
-import { BegrunnelseInput } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseInput';
 import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseModal';
 import { ForkastModal } from '@saksbilde/venstremeny/individuellBegrunnelse/ForkastModal';
-
-import { BegrunnelseVedtakReadonly } from '../BegrunnelseVedtakReadonly';
-
-import styles from './IndividuellBegrunnelse.module.scss';
+import { IndividuellBegrunnelseContent } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelseContent';
 
 interface BegrunnelseVedtakProps {
     visIndividuellBegrunnelse: boolean;
@@ -42,19 +36,12 @@ export const IndividuellBegrunnelse = ({
 }: BegrunnelseVedtakProps): Maybe<ReactElement> => {
     const [showForkastEndringerModal, setShowForkastEndringerModal] = useState(false);
     const [modalÅpen, setModalÅpen] = useState(false);
+
     const erReadOnly = useIsReadOnlyOppgave(person);
+
     const erBeslutteroppgave = periode.totrinnsvurdering?.erBeslutteroppgave ?? false;
-    const tidslinjeUtenAGPogHelg = periode.tidslinje.filter(
-        (dag) =>
-            ![Utbetalingsdagtype.Navhelgdag, Utbetalingsdagtype.Arbeidsgiverperiodedag].includes(
-                dag.utbetalingsdagtype,
-            ),
-    );
-    const avvisteDager = tidslinjeUtenAGPogHelg.filter((dag) =>
-        [Utbetalingsdagtype.AvvistDag, Utbetalingsdagtype.ForeldetDag, Utbetalingsdagtype.Feriedag].includes(
-            dag.utbetalingsdagtype,
-        ),
-    );
+    const tidslinjeUtenAGPogHelg = getTidslinjeUtenAGPogHelg(periode);
+    const avvisteDager = getAvvisteDager(tidslinjeUtenAGPogHelg);
 
     const avslagstype =
         tidslinjeUtenAGPogHelg.length === avvisteDager.length ? Avslagstype.Avslag : Avslagstype.DelvisAvslag;
@@ -66,7 +53,7 @@ export const IndividuellBegrunnelse = ({
                 handling: Avslagshandling.Opprett,
             });
         }
-    }, [overstyrtMinimumSykdomsgradBegrunnelse]);
+    }, [avslagstype, overstyrtMinimumSykdomsgradBegrunnelse, setAvslag]);
 
     if (avvisteDager.length === 0) return null;
 
@@ -74,7 +61,12 @@ export const IndividuellBegrunnelse = ({
     const lukkModal = () => setModalÅpen(false);
 
     const lokalAvslagstekst = avslag?.data?.begrunnelse;
-    const innsendtAvslagstekst = periode.avslag?.[0]?.begrunnelse as string | undefined;
+    const innsendtAvslagstekst = periode.avslag?.shift()?.begrunnelse;
+
+    const preutfyltVerdi = lokalAvslagstekst ?? innsendtAvslagstekst ?? overstyrtMinimumSykdomsgradBegrunnelse ?? '';
+
+    const skalÅpnesMedUtfylteVerdier =
+        !erReadOnly && !erBeslutteroppgave && preutfyltVerdi !== '' && avslag?.handling !== Avslagshandling.Invalider;
 
     const onClose = () => {
         if (lokalAvslagstekst || innsendtAvslagstekst) {
@@ -85,53 +77,29 @@ export const IndividuellBegrunnelse = ({
         }
     };
 
-    const preutfyltVerdi = lokalAvslagstekst ?? innsendtAvslagstekst ?? overstyrtMinimumSykdomsgradBegrunnelse ?? '';
-
-    const skalÅpnesMedUtfylteVerdier =
-        !erReadOnly && !erBeslutteroppgave && preutfyltVerdi !== '' && avslag?.handling !== Avslagshandling.Invalider;
+    const åpneIndividuellBegrunnelse = () => {
+        if (visIndividuellBegrunnelse) {
+            onClose();
+        } else {
+            setVisIndividuellBegrunnelse(true);
+        }
+    };
 
     return (
         <>
-            <Box marginBlock="0 4" paddingBlock="4 0" className={styles['begrunnelse-vedtak']}>
-                {!erReadOnly && !erBeslutteroppgave && (
-                    <Box position="relative">
-                        <ReadMore
-                            size="small"
-                            className={styles.readmore}
-                            open={visIndividuellBegrunnelse}
-                            header={knappetekst(avslagstype)}
-                            onClick={() => {
-                                if (visIndividuellBegrunnelse) {
-                                    onClose();
-                                } else {
-                                    setVisIndividuellBegrunnelse(true);
-                                }
-                            }}
-                        >
-                            <Box background="bg-subtle">
-                                <Button
-                                    onClick={åpneModal}
-                                    icon={<ExpandIcon title="åpne i modal" />}
-                                    size="xsmall"
-                                    variant="tertiary-neutral"
-                                    style={{ position: 'absolute', top: 0, right: 0 }}
-                                />
-                                <BegrunnelseInput
-                                    begrunnelsestype={avslagstype}
-                                    preutfyltVerdi={preutfyltVerdi}
-                                    minRows={4}
-                                    setAvslag={(verdi) => setAvslag(verdi)}
-                                    focus={visIndividuellBegrunnelse || skalÅpnesMedUtfylteVerdier}
-                                />
-                            </Box>
-                        </ReadMore>
-                    </Box>
-                )}
+            <IndividuellBegrunnelseContent
+                erReadOnly={erReadOnly}
+                erBeslutteroppgave={erBeslutteroppgave}
+                avslagstype={avslagstype}
+                preutfyltVerdi={preutfyltVerdi}
+                skalÅpnesMedUtfylteVerdier={skalÅpnesMedUtfylteVerdier}
+                visIndividuellBegrunnelse={visIndividuellBegrunnelse}
+                åpneIndividuellBegrunnelse={åpneIndividuellBegrunnelse}
+                åpneModal={åpneModal}
+                setAvslag={setAvslag}
+                periodeAvslag={periode.avslag}
+            />
 
-                {periode.avslag.filter((it) => !it.invalidert).length > 0 && (erBeslutteroppgave || erReadOnly) && (
-                    <BegrunnelseVedtakReadonly avslag={periode.avslag?.[0]} />
-                )}
-            </Box>
             {showForkastEndringerModal && (
                 <ForkastModal
                     harLagretAvslag={innsendtAvslagstekst != undefined}
@@ -155,6 +123,21 @@ export const IndividuellBegrunnelse = ({
         </>
     );
 };
+
+const getTidslinjeUtenAGPogHelg = (periode: BeregnetPeriodeFragment) =>
+    periode.tidslinje.filter(
+        (dag) =>
+            ![Utbetalingsdagtype.Navhelgdag, Utbetalingsdagtype.Arbeidsgiverperiodedag].includes(
+                dag.utbetalingsdagtype,
+            ),
+    );
+
+const getAvvisteDager = (tidslinjeUtenAGPogHelg: Dag[]) =>
+    tidslinjeUtenAGPogHelg.filter((dag) =>
+        [Utbetalingsdagtype.AvvistDag, Utbetalingsdagtype.ForeldetDag, Utbetalingsdagtype.Feriedag].includes(
+            dag.utbetalingsdagtype,
+        ),
+    );
 
 export const knappetekst = (avslagstype: Avslagstype) => {
     switch (avslagstype) {
