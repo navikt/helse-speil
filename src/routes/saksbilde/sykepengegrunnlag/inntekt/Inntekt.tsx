@@ -13,7 +13,7 @@ import {
 } from '@state/arbeidsgiver';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
-import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
 
 import { useVilkårsgrunnlag } from '../useVilkårsgrunnlag';
 import { InntektOgRefusjon } from './inntektOgRefusjon/InntektOgRefusjon';
@@ -54,11 +54,13 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<Rea
                 )
               : null;
 
-    const vilkårsgrunnlagId = !isUberegnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
-        ? periodeForSkjæringstidspunktForArbeidsgiver?.vilkarsgrunnlagId
-        : aktivPeriode !== null && !isUberegnetPeriode(aktivPeriode)
-          ? aktivPeriode.vilkarsgrunnlagId
-          : null;
+    const vilkårsgrunnlagId =
+        !isUberegnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver) &&
+        !isTilkommenInntekt(periodeForSkjæringstidspunktForArbeidsgiver)
+            ? periodeForSkjæringstidspunktForArbeidsgiver?.vilkarsgrunnlagId
+            : aktivPeriode !== null && !isUberegnetPeriode(aktivPeriode) && !isTilkommenInntekt(aktivPeriode)
+              ? aktivPeriode.vilkarsgrunnlagId
+              : null;
 
     useEffect(() => {
         setEditing(false);

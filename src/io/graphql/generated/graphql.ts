@@ -2289,7 +2289,6 @@ export type ArbeidsgiverFragment = {
     nyeInntektsforholdPerioder: Array<{
         __typename: 'NyttInntektsforholdPeriode';
         id: string;
-        vilkarsgrunnlagId: string | null;
         fom: string;
         tom: string;
         organisasjonsnummer: string;
@@ -2982,7 +2981,6 @@ export type GhostPeriodeFragment = {
 export type NyttInntektsforholdPeriodeFragment = {
     __typename: 'NyttInntektsforholdPeriode';
     id: string;
-    vilkarsgrunnlagId: string | null;
     fom: string;
     tom: string;
     organisasjonsnummer: string;
@@ -3793,7 +3791,6 @@ export type PersonFragment = {
         nyeInntektsforholdPerioder: Array<{
             __typename: 'NyttInntektsforholdPeriode';
             id: string;
-            vilkarsgrunnlagId: string | null;
             fom: string;
             tom: string;
             organisasjonsnummer: string;
@@ -4550,7 +4547,6 @@ export type FetchPersonQuery = {
             nyeInntektsforholdPerioder: Array<{
                 __typename: 'NyttInntektsforholdPeriode';
                 id: string;
-                vilkarsgrunnlagId: string | null;
                 fom: string;
                 tom: string;
                 organisasjonsnummer: string;
@@ -5446,7 +5442,6 @@ export const NyttInntektsforholdPeriodeFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
@@ -7231,7 +7226,6 @@ export const ArbeidsgiverFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
@@ -7847,7 +7841,6 @@ export const PersonFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
@@ -10669,7 +10662,6 @@ export const FetchPersonDocument = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'vilkarsgrunnlagId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },

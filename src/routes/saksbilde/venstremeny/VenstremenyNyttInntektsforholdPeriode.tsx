@@ -15,8 +15,8 @@ export const VenstremenyNyttInntektsforholdPeriode = ({
     activePeriod,
     currentArbeidsgiver,
 }: VenstremenyNyttInntektsforholdPeriodeProps): ReactElement => {
-    if (!activePeriod.vilkarsgrunnlagId || !activePeriod.skjaeringstidspunkt) {
-        throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
+    if (!activePeriod.skjaeringstidspunkt) {
+        throw Error('Mangler skjæringstidspunkt. Ta kontakt med en utvikler.');
     }
 
     return (

@@ -52,7 +52,7 @@ export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
         throw Error(`Mangler skjæringstidspunkt for periode med id: ${periode.id}. Ta kontakt med en utvikler.`);
     }
 
-    if (!periode.vilkarsgrunnlagId) {
+    if (!isTilkommenInntekt(periode) && !periode.vilkarsgrunnlagId) {
         throw Error(`Mangler vilkårsgrunnlag for periode med id: ${periode.id}. Ta kontakt med en utvikler.`);
     }
 

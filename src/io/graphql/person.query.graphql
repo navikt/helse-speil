@@ -243,7 +243,6 @@ fragment ghostPeriode on GhostPeriode {
 
 fragment nyttInntektsforholdPeriode on NyttInntektsforholdPeriode {
     id
-    vilkarsgrunnlagId
     fom
     tom
     organisasjonsnummer
