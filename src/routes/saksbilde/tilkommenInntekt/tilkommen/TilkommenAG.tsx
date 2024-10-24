@@ -4,12 +4,7 @@ import React, { useState } from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
 
-import {
-    ArbeidsgiverFragment,
-    Arbeidsgiverinntekt,
-    NyttInntektsforholdPeriodeFragment,
-    PersonFragment,
-} from '@io/graphql';
+import { ArbeidsgiverFragment, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
 import { EditableTilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/EditableTilkommenAG';
 import { TilkommenAGHeader } from '@saksbilde/tilkommenInntekt/tilkommen/TilkommenAGHeader';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
@@ -19,12 +14,11 @@ import styles from './TilkommenAG.module.scss';
 
 interface TilkommenAGProps {
     person: PersonFragment;
-    inntekt: Arbeidsgiverinntekt;
     periode: NyttInntektsforholdPeriodeFragment;
     arbeidsgiver: ArbeidsgiverFragment;
 }
 
-export const TilkommenAG = ({ person, inntekt, periode, arbeidsgiver }: TilkommenAGProps) => {
+export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
 
@@ -49,21 +43,18 @@ export const TilkommenAG = ({ person, inntekt, periode, arbeidsgiver }: Tilkomme
                     setEditing={setEditing}
                 />
 
-                {editing && inntekt.omregnetArsinntekt ? (
+                {editing ? (
                     <EditableTilkommenAG
                         person={person}
                         arbeidsgiver={arbeidsgiver}
                         periode={periode}
-                        omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
-                        fom={inntekt.fom}
-                        tom={inntekt.tom}
                         close={() => setEditing(false)}
                         onEndre={setEndret}
                     />
                 ) : (
                     <div className={styles.innhold}>
                         <BodyShort weight="semibold">Tilkommen inntekt</BodyShort>
-                        <BodyShort>{toKronerOgØre(inntekt.omregnetArsinntekt?.manedsbelop ?? 0)} kr</BodyShort>
+                        <BodyShort>{toKronerOgØre(periode.manedligBelop ?? 0)} kr</BodyShort>
                         {/*<OverstyrArbeidsforholdUtenSykdom*/}
                         {/*    organisasjonsnummerAktivPeriode={arbeidsgiver.organisasjonsnummer}*/}
                         {/*    skjæringstidspunkt={skjæringstidspunkt}*/}

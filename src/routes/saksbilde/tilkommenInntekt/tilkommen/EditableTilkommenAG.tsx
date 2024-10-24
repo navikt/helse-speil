@@ -7,9 +7,9 @@ import { Feiloppsummering } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import {
     ArbeidsgiverFragment,
+    Inntektskilde,
     Maybe,
     NyttInntektsforholdPeriodeFragment,
-    OmregnetArsinntekt,
     PersonFragment,
 } from '@io/graphql';
 import {
@@ -24,6 +24,7 @@ import { useInntektOgRefusjon, useLokaleInntektOverstyringer } from '@state/over
 import type { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 import { avrundetToDesimaler } from '@utils/tall';
+import { isInntektoverstyring } from '@utils/typeguards';
 
 interface TilkommenInntektFormFields {
     manedsbelop: string;
@@ -34,9 +35,6 @@ interface EditableTilkommenAGProps {
     person: PersonFragment;
     arbeidsgiver: ArbeidsgiverFragment;
     periode: NyttInntektsforholdPeriodeFragment;
-    omregnetÅrsinntekt: OmregnetArsinntekt;
-    fom: Maybe<string>;
-    tom: Maybe<string>;
     close: () => void;
     onEndre: (erEndret: boolean) => void;
 }
@@ -45,9 +43,6 @@ export const EditableTilkommenAG = ({
     person,
     arbeidsgiver,
     periode,
-    omregnetÅrsinntekt,
-    fom,
-    tom,
     close,
     onEndre,
 }: EditableTilkommenAGProps): Maybe<ReactElement> => {
@@ -71,26 +66,25 @@ export const EditableTilkommenAG = ({
 
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const values = form.getValues();
+    const månedsbeløp = Number.parseFloat(values.manedsbelop);
+    const omregnetÅrsinntektMånedsbeløpRounded = avrundetToDesimaler(periode.manedligBelop);
+    const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded;
 
     useEffect(() => {
         if (lokaltMånedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded) {
             onEndre(true);
         }
-    }, [omregnetÅrsinntekt]);
+    }, [omregnetÅrsinntektMånedsbeløpRounded]);
 
     useEffect(() => {
         if (!stringIsNaN(values.manedsbelop)) {
             onEndre(Number.parseFloat(values.manedsbelop) !== omregnetÅrsinntektMånedsbeløpRounded);
         }
-    }, [values, omregnetÅrsinntekt]);
+    }, [values, omregnetÅrsinntektMånedsbeløpRounded]);
 
     useEffect(() => {
         harFeil && feiloppsummeringRef.current?.focus();
     }, [harFeil]);
-
-    const månedsbeløp = Number.parseFloat(values.manedsbelop);
-    const omregnetÅrsinntektMånedsbeløpRounded = avrundetToDesimaler(omregnetÅrsinntekt.manedsbelop);
-    const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded;
 
     const confirmChanges = () => {
         const { manedsbelop, forklaring } = form.getValues();
@@ -107,11 +101,11 @@ export const EditableTilkommenAG = ({
                     begrunnelse: 'tilkommen',
                     forklaring: forklaring,
                     månedligInntekt: Number.parseFloat(manedsbelop),
-                    fraMånedligInntekt: omregnetÅrsinntekt?.manedsbelop ?? 0,
+                    fraMånedligInntekt: periode.manedligBelop ?? 0,
                     refusjonsopplysninger: [],
                     fraRefusjonsopplysninger: [],
-                    fom: fom,
-                    tom: tom,
+                    fom: periode.fom,
+                    tom: periode.tom,
                 },
             ],
             vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(person.arbeidsgivere, periode),
@@ -124,13 +118,21 @@ export const EditableTilkommenAG = ({
     const visFeilOppsummering =
         !form.formState.isValid && form.formState.isSubmitted && Object.entries(form.formState.errors).length > 0;
 
+    const inntektskilde = arbeidsgiver.overstyringer.some(
+        (overstyring) =>
+            isInntektoverstyring(overstyring) &&
+            overstyring.inntekt.skjaeringstidspunkt === periode.skjaeringstidspunkt,
+    )
+        ? Inntektskilde.Saksbehandler
+        : Inntektskilde.Soknad;
+
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <div className={styles.EditableInntekt}>
                     <Månedsbeløp
-                        månedsbeløp={omregnetÅrsinntekt.manedsbelop}
-                        kilde={omregnetÅrsinntekt.kilde}
+                        månedsbeløp={periode.manedligBelop}
+                        kilde={inntektskilde}
                         lokaltMånedsbeløp={lokaltMånedsbeløp}
                         harEndringer={harEndringer}
                     />

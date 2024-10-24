@@ -248,6 +248,8 @@ fragment nyttInntektsforholdPeriode on NyttInntektsforholdPeriode {
     tom
     organisasjonsnummer
     skjaeringstidspunkt
+    dagligBelop
+    manedligBelop
 }
 
 fragment uberegnetPeriode on UberegnetPeriode {
