@@ -5,13 +5,7 @@ import { Alert, Button } from '@navikt/ds-react';
 
 import { Feiloppsummering } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
-import {
-    ArbeidsgiverFragment,
-    Inntektskilde,
-    Maybe,
-    NyttInntektsforholdPeriodeFragment,
-    PersonFragment,
-} from '@io/graphql';
+import { ArbeidsgiverFragment, Maybe, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
 import {
     formErrorsTilFeilliste,
     stringIsNaN,
@@ -24,7 +18,6 @@ import { useInntektOgRefusjon, useLokaleInntektOverstyringer } from '@state/over
 import type { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 import { avrundetToDesimaler } from '@utils/tall';
-import { isInntektoverstyring } from '@utils/typeguards';
 
 interface TilkommenInntektFormFields {
     manedsbelop: string;
@@ -118,21 +111,13 @@ export const EditableTilkommenAG = ({
     const visFeilOppsummering =
         !form.formState.isValid && form.formState.isSubmitted && Object.entries(form.formState.errors).length > 0;
 
-    const inntektskilde = arbeidsgiver.overstyringer.some(
-        (overstyring) =>
-            isInntektoverstyring(overstyring) &&
-            overstyring.inntekt.skjaeringstidspunkt === periode.skjaeringstidspunkt,
-    )
-        ? Inntektskilde.Saksbehandler
-        : Inntektskilde.Soknad;
-
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <div className={styles.EditableInntekt}>
                     <Månedsbeløp
                         månedsbeløp={periode.manedligBelop}
-                        kilde={inntektskilde}
+                        kilde={''}
                         lokaltMånedsbeløp={lokaltMånedsbeløp}
                         harEndringer={harEndringer}
                     />
