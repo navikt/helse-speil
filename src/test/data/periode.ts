@@ -175,5 +175,7 @@ export const enNyttInntektsforholdPeriode: OverridableConstructor<NyttInntektsfo
     organisasjonsnummer: '987654321',
     skjaeringstidspunkt: '2020-01-01',
     vilkarsgrunnlagId: nanoid(),
+    dagligBelop: 100.0,
+    manedligBelop: 3000.0,
     ...overrides,
 });
