@@ -799,8 +799,10 @@ export type Notater = {
 
 export type NyttInntektsforholdPeriode = {
     __typename?: 'NyttInntektsforholdPeriode';
+    dagligBelop: Scalars['Float']['output'];
     fom: Scalars['LocalDate']['output'];
     id: Scalars['UUID']['output'];
+    manedligBelop: Scalars['Float']['output'];
     organisasjonsnummer: Scalars['String']['output'];
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     tom: Scalars['LocalDate']['output'];
