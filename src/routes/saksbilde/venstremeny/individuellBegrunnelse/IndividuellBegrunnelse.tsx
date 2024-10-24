@@ -61,7 +61,7 @@ export const IndividuellBegrunnelse = ({
     const lukkModal = () => setModalÅpen(false);
 
     const lokalAvslagstekst = avslag?.data?.begrunnelse;
-    const innsendtAvslagstekst = periode.avslag?.shift()?.begrunnelse;
+    const innsendtAvslagstekst = periode.avslag?.[0]?.begrunnelse as string | undefined;
 
     const preutfyltVerdi = lokalAvslagstekst ?? innsendtAvslagstekst ?? overstyrtMinimumSykdomsgradBegrunnelse ?? '';
 
