@@ -18,8 +18,8 @@
 }
 
 .AlignWithExpandable {
-    margin-left: calc(var(--carret-width) + var(--carret-padding) + var(--expandable-button-gap) + 1px);
-    margin-right: calc(0px - (var(--carret-width) + var(--carret-padding) + var(--expandable-button-gap) + 1px));
+    padding-left: calc(var(--carret-width) + var(--carret-padding) + var(--expandable-button-gap) + 1px);
+    padding-right: calc(0px - (var(--carret-width) + var(--carret-padding) + var(--expandable-button-gap) + 1px));
 }
 
 .Name {
