@@ -30,6 +30,9 @@ export const capitalizeName = (value: string) =>
         })
         .join(' ');
 
+export const capitalizeArbeidsgiver = (value: string) =>
+    capitalizeName(value).replace(/\b(?:As|Asa|Sa|Da|Ba|Se|Fkf|Iks|Kf|Sf|Nuf)\b/, (t) => t.toUpperCase());
+
 export const capitalize = (value: string): string =>
     value.replace(/\w\S*/g, (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase());
 
