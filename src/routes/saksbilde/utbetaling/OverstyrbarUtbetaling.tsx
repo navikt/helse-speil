@@ -262,7 +262,7 @@ export const OverstyrbarUtbetaling = ({
         getFørstePeriodeForSkjæringstidspunkt(periode.skjaeringstidspunkt, arbeidsgiver)?.id === periode.id;
 
     return (
-        <div
+        <article
             className={classNames(styles.OverstyrbarUtbetaling, overstyrer && styles.overstyrer)}
             data-testid="utbetaling"
         >
@@ -272,6 +272,7 @@ export const OverstyrbarUtbetaling = ({
                         isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Forkastet
                     }
                     toggleOverstyring={toggleOverstyring}
+                    arbeidsgiverNavn={arbeidsgiver.navn}
                 />
             )}
             {overstyrer && (
@@ -337,6 +338,6 @@ export const OverstyrbarUtbetaling = ({
                 </BodyShort>
             )}
             {visDagtypeModal && <DagtypeModal onClose={() => setVisDagtypeModal(false)} showModal={visDagtypeModal} />}
-        </div>
+        </article>
     );
 };
