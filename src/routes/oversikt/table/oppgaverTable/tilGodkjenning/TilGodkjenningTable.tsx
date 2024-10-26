@@ -5,10 +5,9 @@ import { SortState, Table } from '@navikt/ds-react';
 import { OppgaveTilBehandling } from '@io/graphql';
 import { SortKey, useUpdateSort } from '@oversikt/table/state/sortation';
 
-import { DateSelectHeader } from '../DateSelectHeader';
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
+import { TilGodkjenningHeaderRows } from './TilGodkjenningHeaderRows';
 import { TilGodkjenningOppgaveRow } from './TilGodkjenningOppgaveRow';
-import { TilGodkjenningSortHeaderRow } from './TilGodkjenningSortHeaderRow';
 
 import styles from '../../table.module.css';
 
@@ -29,8 +28,7 @@ export const TilGodkjenningTable = ({ oppgaver, sort, setSort }: TilGodkjenningT
             zebraStripes
         >
             <Table.Header>
-                <DateSelectHeader />
-                <TilGodkjenningSortHeaderRow />
+                <TilGodkjenningHeaderRows />
             </Table.Header>
             <Table.Body>
                 {oppgaver.length > 0 ? (
