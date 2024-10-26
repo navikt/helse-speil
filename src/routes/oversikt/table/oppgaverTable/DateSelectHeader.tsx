@@ -12,23 +12,19 @@ export const DateSelectHeader = (): ReactElement => {
     const lagreValgtDatoSortering = (key: string) => setDatoKey(key as unknown as SortKey);
 
     return (
-        <Table.Row className={styles.datoselect}>
-            <Table.DataCell />
-            <Table.DataCell />
-            <Table.DataCell aria-label="Sorteringsdato" className={styles.selecttd}>
-                <Select
-                    defaultValue={datoKey}
-                    aria-label="Sorteringsdatovelger"
-                    label=""
-                    onChange={(e) => lagreValgtDatoSortering(e.target.value)}
-                    className={styles.select}
-                >
-                    <option value={SortKey.Opprettet}>{tilDatoKeyTekst(SortKey.Opprettet)}</option>
-                    <option value={SortKey.SøknadMottatt}>{tilDatoKeyTekst(SortKey.SøknadMottatt)}</option>
-                    <option value={SortKey.Tidsfrist}>{tilDatoKeyTekst(SortKey.Tidsfrist)}</option>
-                </Select>
-            </Table.DataCell>
-        </Table.Row>
+        <Table.DataCell aria-label="Sorteringsdato">
+            <Select
+                defaultValue={datoKey}
+                aria-label="Sorteringsdatovelger"
+                label=""
+                onChange={(e) => lagreValgtDatoSortering(e.target.value)}
+                className={styles.DatoSelect}
+            >
+                <option value={SortKey.Opprettet}>{tilDatoKeyTekst(SortKey.Opprettet)}</option>
+                <option value={SortKey.SøknadMottatt}>{tilDatoKeyTekst(SortKey.SøknadMottatt)}</option>
+                <option value={SortKey.Tidsfrist}>{tilDatoKeyTekst(SortKey.Tidsfrist)}</option>
+            </Select>
+        </Table.DataCell>
     );
 };
 

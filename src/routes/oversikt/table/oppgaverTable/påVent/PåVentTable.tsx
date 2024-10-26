@@ -5,7 +5,6 @@ import { SortState, Table } from '@navikt/ds-react';
 import { OppgaveTilBehandling } from '@io/graphql';
 import { SortKey, useUpdateSort } from '@oversikt/table/state/sortation';
 
-import { DateSelectHeader } from '../DateSelectHeader';
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { PåVentOppgaveRow } from './PåVentOppgaveRow';
 import { PåVentSortHeaderRow } from './PåVentSortHeaderRow';
@@ -28,10 +27,7 @@ export const PåVentTable = ({ oppgaver, sort, setSort }: PåVentTableProps): Re
             aria-label="Saker som er tildelt meg og satt på vent"
             zebraStripes
         >
-            <Table.Header>
-                <DateSelectHeader />
-                <PåVentSortHeaderRow />
-            </Table.Header>
+            <PåVentSortHeaderRow />
             <Table.Body>
                 {oppgaver.length > 0 ? (
                     oppgaver.map((oppgave) => <PåVentOppgaveRow key={oppgave.id} oppgave={oppgave} />)

@@ -5,7 +5,6 @@ import { SortState, Table } from '@navikt/ds-react';
 import { OppgaveTilBehandling } from '@io/graphql';
 import { SortKey, useUpdateSort } from '@oversikt/table/state/sortation';
 
-import { DateSelectHeader } from '../DateSelectHeader';
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { TilGodkjenningOppgaveRow } from './TilGodkjenningOppgaveRow';
 import { TilGodkjenningSortHeaderRow } from './TilGodkjenningSortHeaderRow';
@@ -28,10 +27,7 @@ export const TilGodkjenningTable = ({ oppgaver, sort, setSort }: TilGodkjenningT
             aria-label="Saker som er klare for behandling"
             zebraStripes
         >
-            <Table.Header>
-                <DateSelectHeader />
-                <TilGodkjenningSortHeaderRow />
-            </Table.Header>
+            <TilGodkjenningSortHeaderRow />
             <Table.Body>
                 {oppgaver.length > 0 ? (
                     oppgaver.map((oppgave) => <TilGodkjenningOppgaveRow key={oppgave.id} oppgave={oppgave} />)
