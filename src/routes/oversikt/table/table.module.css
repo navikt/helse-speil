@@ -5,19 +5,21 @@
     padding-top: 1rem;
 }
 
-.Table tr {
-    height: 51px;
+.Table thead td:has(select) {
+    padding: 0;
+    border: none;
+    width: 140px;
+}
+
+.Table th {
+    white-space: nowrap;
+    vertical-align: bottom;
 }
 
 .Table td {
     vertical-align: middle;
     padding: var(--a-spacing-3) var(--a-spacing-6) var(--a-spacing-3) var(--a-spacing-4);
     white-space: nowrap;
-}
-
-.Table th {
-    white-space: nowrap;
-    vertical-align: bottom;
 }
 
 .TableContainer tbody {

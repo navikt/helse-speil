@@ -1,31 +1,10 @@
-table tr.datoselect {
-    height: 2rem;
-}
-
-table .datoselect td {
-    border: 0;
-    padding: 0;
-}
-
-.datoheader .selecttd {
-    padding: 0;
-}
-
-.select {
-    width: 100%;
-}
-
-.select {
+.DatoSelect {
     gap: unset;
+    padding: 0;
     width: 140px;
 }
 
-.select select {
+.DatoSelect select {
     min-height: 2rem;
     padding: 0 1.5rem 0 0.5rem;
-}
-
-table td.innledning {
-    text-align: right;
-    padding-right: 0.5rem;
 }

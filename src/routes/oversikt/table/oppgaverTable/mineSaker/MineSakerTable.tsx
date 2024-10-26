@@ -5,7 +5,6 @@ import { SortState, Table } from '@navikt/ds-react';
 import { OppgaveTilBehandling } from '@io/graphql';
 import { SortKey, useUpdateSort } from '@oversikt/table/state/sortation';
 
-import { DateSelectHeader } from '../DateSelectHeader';
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { MineSakerOppgaveRow } from './MineSakerOppgaveRow';
 import { MineSakerSortHeaderRow } from './MineSakerSortHeaderRow';
@@ -28,10 +27,7 @@ export const MineSakerTable = ({ oppgaver, sort, setSort }: MineSakerTableProps)
             aria-label="Saker som er tildelt meg"
             zebraStripes
         >
-            <Table.Header>
-                <DateSelectHeader />
-                <MineSakerSortHeaderRow />
-            </Table.Header>
+            <MineSakerSortHeaderRow />
             <Table.Body>
                 {oppgaver.length > 0 ? (
                     oppgaver.map((oppgave) => <MineSakerOppgaveRow key={oppgave.id} oppgave={oppgave} />)
