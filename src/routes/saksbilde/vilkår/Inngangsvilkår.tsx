@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { BeregnetPeriodeFragment, Maybe, PersonFragment, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
+import { BeregnetPeriodeFragment, Maybe, Person, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { Vilkårdata } from '@typer/vilkår';
@@ -72,7 +72,7 @@ export const InngangsvilkårWithContent = ({
 };
 
 interface InngangsvilkårContainerProps {
-    person: PersonFragment;
+    person: Person;
     periode: BeregnetPeriodeFragment;
 }
 
@@ -92,7 +92,7 @@ const InngangsvilkårError = (): ReactElement => (
 );
 
 interface InngangsvilkårProps {
-    person: PersonFragment;
+    person: Person;
     periode: BeregnetPeriodeFragment;
 }
 

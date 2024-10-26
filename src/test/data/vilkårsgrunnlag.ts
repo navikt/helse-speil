@@ -2,8 +2,8 @@ import { nanoid } from 'nanoid';
 
 import {
     Arbeidsgiverinntekt,
-    Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment,
-    Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment,
+    VilkarsgrunnlagVilkarsgrunnlagInfotrygdFragment,
+    VilkarsgrunnlagVilkarsgrunnlagSpleisFragment,
     Vilkarsgrunnlagtype,
 } from '@io/graphql';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
@@ -12,11 +12,11 @@ import { OverridableConstructor } from '@typer/shared';
 type VilkarsgrunnlagSpleisExtensions = {
     medInntekter: (
         inntekter: Array<Arbeidsgiverinntekt>,
-    ) => Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment & VilkarsgrunnlagSpleisExtensions;
+    ) => VilkarsgrunnlagVilkarsgrunnlagSpleisFragment & VilkarsgrunnlagSpleisExtensions;
 };
 
 export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
-    Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment,
+    VilkarsgrunnlagVilkarsgrunnlagSpleisFragment,
     VilkarsgrunnlagSpleisExtensions
 > = (overrides) => ({
     __typename: 'VilkarsgrunnlagSpleis',
@@ -49,9 +49,9 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
     },
 });
 
-export const etVilkårsgrunnlagFraInfotrygd: OverridableConstructor<
-    Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment
-> = (overrides) => ({
+export const etVilkårsgrunnlagFraInfotrygd: OverridableConstructor<VilkarsgrunnlagVilkarsgrunnlagInfotrygdFragment> = (
+    overrides,
+) => ({
     __typename: 'VilkarsgrunnlagInfotrygd',
     id: nanoid(),
     inntekter: [enArbeidsgiverinntekt()],

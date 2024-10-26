@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { BeregnetPeriodeFragment, GhostPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, GhostPeriodeFragment, Maybe, Person } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isInfotrygdVilkarsgrunnlag, isSpleisVilkarsgrunnlag } from '@utils/typeguards';
 
@@ -12,7 +12,7 @@ import { SykepengegrunnlagFraSpleis } from './sykepengegrunnlagvisninger/spleis/
 import { useVilkårsgrunnlag } from './useVilkårsgrunnlag';
 
 type SykepengegrunnlagProps = {
-    person: PersonFragment;
+    person: Person;
     periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
 };
 

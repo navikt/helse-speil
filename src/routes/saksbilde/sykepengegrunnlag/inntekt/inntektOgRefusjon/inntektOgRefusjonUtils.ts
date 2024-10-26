@@ -1,14 +1,7 @@
 import dayjs from 'dayjs';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import {
-    ArbeidsgiverFragment,
-    BeregnetPeriodeFragment,
-    Maybe,
-    Periode,
-    Periodetilstand,
-    PersonFragment,
-} from '@io/graphql';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Maybe, Periode, Periodetilstand, Person } from '@io/graphql';
 import {
     useArbeidsgiver,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
@@ -21,7 +14,7 @@ import { BegrunnelseForOverstyring } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
-export const harIngenUtbetaltePerioderFor = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {
+export const harIngenUtbetaltePerioderFor = (person: Person, skjæringstidspunkt: DateString): boolean => {
     return (
         person?.arbeidsgivere
             .flatMap((it) => it.generasjoner[0]?.perioder)
@@ -38,7 +31,7 @@ export const harIngenUtbetaltePerioderFor = (person: PersonFragment, skjæringst
             ) ?? false
     );
 };
-export const harPeriodeTilBeslutterFor = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {
+export const harPeriodeTilBeslutterFor = (person: Person, skjæringstidspunkt: DateString): boolean => {
     return (
         (
             person?.arbeidsgivere
@@ -51,7 +44,7 @@ export const harPeriodeTilBeslutterFor = (person: PersonFragment, skjæringstids
 };
 
 export const useGhostInntektKanOverstyres = (
-    person: PersonFragment,
+    person: Person,
     skjæringstidspunkt: DateString,
     organisasjonsnummer: string,
 ): boolean => {
@@ -76,7 +69,7 @@ export const useGhostInntektKanOverstyres = (
 };
 
 export const maybePeriodeTilGodkjenning = (
-    person: PersonFragment,
+    person: Person,
     skjæringstidspunkt: DateString,
 ): Maybe<BeregnetPeriodeFragment> => {
     return (
@@ -92,7 +85,7 @@ export const maybePeriodeTilGodkjenning = (
 };
 
 export const useArbeidsforholdKanOverstyres = (
-    person: PersonFragment,
+    person: Person,
     skjæringstidspunkt: DateString,
     organisasjonsnummer: string,
 ): boolean => {
@@ -143,7 +136,7 @@ const harIngenEtterfølgendePerioder = (
         ) ?? []
     ).length === 0;
 
-export const useInntektKanRevurderes = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {
+export const useInntektKanRevurderes = (person: Person, skjæringstidspunkt: DateString): boolean => {
     const periodeVedSkjæringstidspunkt = usePeriodForSkjæringstidspunkt(skjæringstidspunkt, person);
     const isReadOnlyOppgave = useIsReadOnlyOppgave(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);

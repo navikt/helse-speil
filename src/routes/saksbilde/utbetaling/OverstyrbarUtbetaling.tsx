@@ -10,7 +10,7 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
-    PersonFragment,
+    Person,
     UberegnetPeriodeFragment,
     Utbetalingstatus,
 } from '@io/graphql';
@@ -172,7 +172,7 @@ const reducer: Reducer<DagerState, DagerAction> = (prevState, action) => {
 };
 
 interface OverstyrbarUtbetalingProps {
-    person: PersonFragment;
+    person: Person;
     arbeidsgiver: ArbeidsgiverFragment;
     dager: Map<string, Utbetalingstabelldag>;
     periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment;

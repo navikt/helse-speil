@@ -1,5 +1,5 @@
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import { Arbeidsgiverinntekt, Maybe, PersonFragment } from '@io/graphql';
+import { Arbeidsgiverinntekt, Maybe, Person } from '@io/graphql';
 import {
     ArbeidsgiverForm,
     Skjønnsfastsettingstype,
@@ -18,7 +18,7 @@ interface InitierendeVedtaksperiodeForArbeidsgiver {
 }
 
 const finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt = (
-    person: PersonFragment,
+    person: Person,
     period: ActivePeriod,
 ): InitierendeVedtaksperiodeForArbeidsgiver[] =>
     person?.arbeidsgivere.flatMap((arbeidsgiver) => ({
@@ -35,7 +35,7 @@ const finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt = (
 export const skjønnsfastsettingFormToDto = (
     form: SkjønnsfastsettingFormFields,
     inntekter: Arbeidsgiverinntekt[],
-    person: PersonFragment,
+    person: Person,
     period: ActivePeriod,
     omregnetÅrsinntekt: number,
     sammenligningsgrunnlag: number,

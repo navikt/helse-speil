@@ -3,13 +3,7 @@ import React from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
-import {
-    Arbeidsforholdoverstyring,
-    BeregnetPeriodeFragment,
-    Overstyring,
-    Periodetilstand,
-    PersonFragment,
-} from '@io/graphql';
+import { Arbeidsforholdoverstyring, BeregnetPeriodeFragment, Overstyring, Periodetilstand, Person } from '@io/graphql';
 import styles from '@saksbilde/saksbilder/SharedViews.module.css';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
@@ -27,7 +21,7 @@ import {
 } from '@utils/typeguards';
 
 interface SaksbildeVarselProps {
-    person: PersonFragment;
+    person: Person;
     periode: ActivePeriod;
 }
 
@@ -67,12 +61,12 @@ export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
     }
 };
 
-const useOverstyringerEtterSisteGodkjenteUtbetaling = (person: PersonFragment): Array<Overstyring> => {
+const useOverstyringerEtterSisteGodkjenteUtbetaling = (person: Person): Array<Overstyring> => {
     const timestamp = getLatestUtbetalingTimestamp(person);
     return getOverstyringerForEksisterendePerioder(person, timestamp);
 };
 
-const useNavnPåDeaktiverteGhostArbeidsgivere = (person: PersonFragment, periode: BeregnetPeriodeFragment) => {
+const useNavnPåDeaktiverteGhostArbeidsgivere = (person: Person, periode: BeregnetPeriodeFragment) => {
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periode);
     return isSpleisVilkarsgrunnlag(vilkårsgrunnlag)
         ? person.arbeidsgivere
@@ -89,7 +83,7 @@ const useNavnPåDeaktiverteGhostArbeidsgivere = (person: PersonFragment, periode
 };
 
 interface BeregnetSaksbildevarslerProps {
-    person: PersonFragment;
+    person: Person;
     periode: BeregnetPeriodeFragment;
 }
 

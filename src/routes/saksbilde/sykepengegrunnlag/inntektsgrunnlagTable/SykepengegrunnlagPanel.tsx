@@ -6,7 +6,7 @@ import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
     Maybe,
-    PersonFragment,
+    Person,
     Sykepengegrunnlagsgrense,
 } from '@io/graphql';
 
@@ -26,7 +26,7 @@ interface SykepengegrunnlagPanelProps {
     setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
     aktivInntektskilde?: Arbeidsgiverinntekt;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
-    person: PersonFragment;
+    person: Person;
     periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
 }
 

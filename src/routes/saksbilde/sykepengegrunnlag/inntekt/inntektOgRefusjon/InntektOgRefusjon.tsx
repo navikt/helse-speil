@@ -8,7 +8,7 @@ import {
     InntektFraAOrdningen,
     Inntektstype,
     Maybe,
-    PersonFragment,
+    Person,
 } from '@io/graphql';
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import { InntektOgRefusjonVisning } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonVisning';
@@ -23,7 +23,7 @@ import {
 } from './inntektOgRefusjonUtils';
 
 interface InntektUtenSykefraværProps {
-    person: PersonFragment;
+    person: Person;
     periode: ActivePeriod;
     inntekt: Arbeidsgiverinntekt;
     vilkårsgrunnlagId?: Maybe<string>;

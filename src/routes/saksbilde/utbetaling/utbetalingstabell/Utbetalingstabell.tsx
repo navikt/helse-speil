@@ -5,7 +5,7 @@ import { Table } from '@navikt/ds-react';
 
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
-import { Maybe, PersonFragment } from '@io/graphql';
+import { Maybe, Person } from '@io/graphql';
 import { Row } from '@saksbilde/table/Row';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -34,7 +34,7 @@ interface UtbetalingstabellProps {
     markerteDager?: Map<string, Utbetalingstabelldag>;
     overstyrer?: boolean;
     slettSisteNyeDag?: () => void;
-    person: PersonFragment;
+    person: Person;
 }
 
 export const Utbetalingstabell = ({

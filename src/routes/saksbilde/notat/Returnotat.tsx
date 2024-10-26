@@ -4,7 +4,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
-import { Maybe, NotatType, PersonFragment } from '@io/graphql';
+import { Maybe, NotatType, Person } from '@io/graphql';
 import { useFjernNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { isGhostPeriode, isTilkommenInntekt } from '@utils/typeguards';
@@ -17,7 +17,7 @@ interface ReturnotatProps {
     onSubmit: (returtekst: string) => Promise<unknown>;
     setShowNotat: Dispatch<SetStateAction<boolean>>;
     error?: string | undefined;
-    person: PersonFragment;
+    person: Person;
 }
 
 export const Returnotat = ({ onSubmit, setShowNotat, error, person }: ReturnotatProps): Maybe<ReactElement> => {

@@ -1,10 +1,10 @@
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { useHarBeslutteroppgavetilgang } from '@hooks/useHarBeslutteroppgavetilgang';
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const useIsReadOnlyOppgave = (person: PersonFragment): boolean => {
+export const useIsReadOnlyOppgave = (person: Person): boolean => {
     const periode = useActivePeriod(person);
     const erTidligereSaksbehandler = useErTidligereSaksbehandler(person);
     const harBeslutteroppgavetilgang = useHarBeslutteroppgavetilgang(person);

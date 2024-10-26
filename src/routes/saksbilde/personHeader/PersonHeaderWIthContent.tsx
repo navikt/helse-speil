@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Kjonn, PersonFragment } from '@io/graphql';
+import { Kjonn, Person } from '@io/graphql';
 import { AktørId } from '@saksbilde/personHeader/AktørId';
 import { FullmaktTag } from '@saksbilde/personHeader/FullmaktTag';
 
@@ -20,7 +20,7 @@ import styles from './PersonHeader.module.css';
 
 interface PersonHeaderWithContentProps {
     isAnonymous: boolean;
-    person: PersonFragment;
+    person: Person;
 }
 
 export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWithContentProps): ReactElement => {

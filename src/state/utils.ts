@@ -1,6 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 
-import { Arbeidsgiverinntekt, Maybe, PersonFragment, Vilkarsgrunnlag } from '@io/graphql';
+import { Arbeidsgiverinntekt, Maybe, Person, Vilkarsgrunnlag } from '@io/graphql';
 import { getRequiredTimestamp, isGodkjent } from '@state/selectors/utbetaling';
 import { DateString } from '@typer/shared';
 import { isBeregnetPeriode, isDagoverstyring } from '@utils/typeguards';
@@ -14,11 +14,11 @@ export const getRequiredInntekt = (
         throw Error('Fant ikke inntekt');
     })();
 
-export const getVilkårsgrunnlag = (person: PersonFragment, grunnlagId?: Maybe<string>): Maybe<Vilkarsgrunnlag> => {
+export const getVilkårsgrunnlag = (person: Person, grunnlagId?: Maybe<string>): Maybe<Vilkarsgrunnlag> => {
     return person.vilkarsgrunnlag.find(({ id }) => id === grunnlagId) ?? null;
 };
 
-export const getRequiredVilkårsgrunnlag = (person: PersonFragment, grunnlagId?: Maybe<string>): Vilkarsgrunnlag => {
+export const getRequiredVilkårsgrunnlag = (person: Person, grunnlagId?: Maybe<string>): Vilkarsgrunnlag => {
     return (
         getVilkårsgrunnlag(person, grunnlagId) ??
         (() => {
@@ -27,7 +27,7 @@ export const getRequiredVilkårsgrunnlag = (person: PersonFragment, grunnlagId?:
     );
 };
 
-export const getLatestUtbetalingTimestamp = (person: PersonFragment, after: DateString = '1970-01-01'): Dayjs => {
+export const getLatestUtbetalingTimestamp = (person: Person, after: DateString = '1970-01-01'): Dayjs => {
     let latest: Dayjs = dayjs(after);
 
     for (const arbeidsgiver of person.arbeidsgivere) {
@@ -41,7 +41,7 @@ export const getLatestUtbetalingTimestamp = (person: PersonFragment, after: Date
     return latest;
 };
 
-export const getOverstyringerForEksisterendePerioder = (person: PersonFragment, after: Dayjs) => {
+export const getOverstyringerForEksisterendePerioder = (person: Person, after: Dayjs) => {
     const perioder = person.arbeidsgivere.flatMap((it) => it.generasjoner.flatMap((generasjon) => generasjon.perioder));
 
     return person.arbeidsgivere

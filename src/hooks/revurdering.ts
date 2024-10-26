@@ -1,9 +1,9 @@
-import { Maybe, PersonFragment } from '@io/graphql';
+import { Maybe, Person } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const useActivePeriodHasLatestSkjæringstidspunkt = (person: Maybe<PersonFragment>): boolean => {
+export const useActivePeriodHasLatestSkjæringstidspunkt = (person: Maybe<Person>): boolean => {
     const period = useActivePeriod(person);
     const arbeidsgiver = useCurrentArbeidsgiver(person);
 

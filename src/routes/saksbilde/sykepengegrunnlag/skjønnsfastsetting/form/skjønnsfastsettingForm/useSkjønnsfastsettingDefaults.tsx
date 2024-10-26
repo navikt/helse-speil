@@ -4,7 +4,7 @@ import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
     Maybe,
-    PersonFragment,
+    Person,
     Skjonnsfastsettingstype,
 } from '@io/graphql';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
@@ -14,7 +14,7 @@ import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
 
 export const useSkjønnsfastsettingDefaults = (
-    person: PersonFragment,
+    person: Person,
     period: BeregnetPeriodeFragment | GhostPeriodeFragment,
     inntekter: Arbeidsgiverinntekt[],
 ): {

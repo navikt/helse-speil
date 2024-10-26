@@ -1,6 +1,6 @@
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
+import { Maybe, Periodetilstand, Person } from '@io/graphql';
 import { ActivePeriod } from '@typer/shared';
 import { raise } from '@utils/ts';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
@@ -10,7 +10,7 @@ const activePeriodIdState = atom<Maybe<string>>({
     default: null,
 });
 
-export const useSetActivePeriodId = (person: PersonFragment) => {
+export const useSetActivePeriodId = (person: Person) => {
     const [activePeriodId, setActivePeriodId] = useRecoilState(activePeriodIdState);
 
     return (periodeId: string) => {
@@ -21,7 +21,7 @@ export const useSetActivePeriodId = (person: PersonFragment) => {
     };
 };
 
-export const useActivePeriod = (person: Maybe<PersonFragment>): Maybe<ActivePeriod> => {
+export const useActivePeriod = (person: Maybe<Person>): Maybe<ActivePeriod> => {
     const activePeriodId = useRecoilValue(activePeriodIdState);
 
     if (!person) return null;
@@ -29,7 +29,7 @@ export const useActivePeriod = (person: Maybe<PersonFragment>): Maybe<ActivePeri
     return findPeriod(activePeriodId, person) ?? findPeriodToSelect(person);
 };
 
-export const useActivePeriodWithPerson = (person: PersonFragment): Maybe<ActivePeriod> => {
+export const useActivePeriodWithPerson = (person: Person): Maybe<ActivePeriod> => {
     const activePeriodId = useRecoilValue(activePeriodIdState);
     const periodToSelect = person ? findPeriodToSelect(person) : null;
 
@@ -38,7 +38,7 @@ export const useActivePeriodWithPerson = (person: PersonFragment): Maybe<ActiveP
 
 export const useSelectPeriod = () => {
     const setActivePeriodId = useSetRecoilState(activePeriodIdState);
-    return (person: PersonFragment) => {
+    return (person: Person) => {
         const periodToSelect = findPeriodToSelect(person);
         if (periodToSelect) {
             setActivePeriodId(periodToSelect.id);
@@ -46,7 +46,7 @@ export const useSelectPeriod = () => {
     };
 };
 
-const findPeriodToSelect = (person: PersonFragment): Maybe<ActivePeriod> => {
+const findPeriodToSelect = (person: Person): Maybe<ActivePeriod> => {
     const perioderINyesteGenerasjoner = person.arbeidsgivere.flatMap(
         (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
     );
@@ -70,7 +70,7 @@ const findPeriodToSelect = (person: PersonFragment): Maybe<ActivePeriod> => {
     return periodeTilBehandling ?? venteperioder[0] ?? aktuellePerioder[0] ?? null;
 };
 
-const findPeriod = (periodeId: Maybe<string>, person: PersonFragment) => {
+const findPeriod = (periodeId: Maybe<string>, person: Person) => {
     if (periodeId == null) return null;
 
     return (

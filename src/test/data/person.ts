@@ -1,22 +1,16 @@
-import {
-    Adressebeskyttelse,
-    ArbeidsgiverFragment,
-    Kjonn,
-    PersonFragment,
-    TilleggsinfoForInntektskilde,
-} from '@io/graphql';
+import { Adressebeskyttelse, ArbeidsgiverFragment, Kjonn, Person, TilleggsinfoForInntektskilde } from '@io/graphql';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { tilleggsinfoFraEnInntektskilde } from '@test-data/tilleggsinfoFraInntektskilde';
 import { OverridableConstructor } from '@typer/shared';
 
 type Extensions = {
-    medArbeidsgivere(arbeidsgivere: Array<ArbeidsgiverFragment>): PersonFragment & Extensions;
+    medArbeidsgivere(arbeidsgivere: Array<ArbeidsgiverFragment>): Person & Extensions;
     medTilleggsinfoForInntektskilder(
         tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>,
-    ): PersonFragment & Extensions;
+    ): Person & Extensions;
 };
 
-export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (overrides) => {
+export const enPerson: OverridableConstructor<Person, Extensions> = (overrides) => {
     return {
         __typename: 'Person',
         aktorId: '1234567890',
@@ -51,13 +45,13 @@ export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (ove
         vilkarsgrunnlag: [],
         tilleggsinfoForInntektskilder: [tilleggsinfoFraEnInntektskilde()],
         ...overrides,
-        medArbeidsgivere(arbeidsgivere: Array<ArbeidsgiverFragment>): PersonFragment & Extensions {
+        medArbeidsgivere(arbeidsgivere: Array<ArbeidsgiverFragment>): Person & Extensions {
             this.arbeidsgivere = arbeidsgivere;
             return this;
         },
         medTilleggsinfoForInntektskilder(
             tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>,
-        ): PersonFragment & Extensions {
+        ): Person & Extensions {
             this.tilleggsinfoForInntektskilder = tilleggsinfoForInntektskilder;
             return this;
         },

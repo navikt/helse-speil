@@ -8,7 +8,7 @@ import {
     BeregnetPeriodeFragment,
     Dag,
     Maybe,
-    PersonFragment,
+    Person,
     Utbetalingsdagtype,
 } from '@io/graphql';
 import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseModal';
@@ -21,7 +21,7 @@ interface BegrunnelseVedtakProps {
     avslag: Maybe<AvslagInput>;
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
     periode: BeregnetPeriodeFragment;
-    person: PersonFragment;
+    person: Person;
     overstyrtMinimumSykdomsgradBegrunnelse?: string;
 }
 

@@ -8,7 +8,7 @@ import {
     NyttInntektsforholdPeriodeFragment,
     PeriodeFragment,
     Periodetilstand,
-    PersonFragment,
+    Person,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
 import { isGodkjent as utbetalingIsGodkjent } from '@state/selectors/utbetaling';
@@ -74,7 +74,7 @@ export const overlapper =
         (dayjs(periode.tom).isSameOrAfter(other.fom) && dayjs(periode.tom).isSameOrBefore(other.tom));
 
 export const getOverlappendePerioder = (
-    person: PersonFragment,
+    person: Person,
     period: BeregnetPeriodeFragment,
 ): Array<BeregnetPeriodeFragment> => {
     return person.arbeidsgivere

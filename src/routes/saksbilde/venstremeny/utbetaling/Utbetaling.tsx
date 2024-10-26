@@ -15,7 +15,7 @@ import {
     Maybe,
     OpprettAbonnementDocument,
     Periodetilstand,
-    PersonFragment,
+    Person,
 } from '@io/graphql';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
@@ -33,7 +33,7 @@ import { SendTilGodkjenningButton } from './SendTilGodkjenningButton';
 
 import styles from './Utbetaling.module.css';
 
-const skalPolleEtterNestePeriode = (person: PersonFragment) =>
+const skalPolleEtterNestePeriode = (person: Person) =>
     person.arbeidsgivere
         .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
         .some((periode) =>
@@ -47,7 +47,7 @@ const skalPolleEtterNestePeriode = (person: PersonFragment) =>
 const hasOppgave = (period: BeregnetPeriodeFragment): boolean =>
     typeof period.oppgave?.id === 'string' && ['tilGodkjenning', 'revurderes'].includes(getPeriodState(period));
 
-const useOnGodkjenn = (period: BeregnetPeriodeFragment, person: PersonFragment): (() => void) => {
+const useOnGodkjenn = (period: BeregnetPeriodeFragment, person: Person): (() => void) => {
     const router = useRouter();
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
@@ -78,7 +78,7 @@ export type BackendFeil = {
 
 interface UtbetalingProps {
     period: BeregnetPeriodeFragment;
-    person: PersonFragment;
+    person: Person;
     arbeidsgiver: ArbeidsgiverFragment;
 }
 

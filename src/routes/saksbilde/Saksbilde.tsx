@@ -3,7 +3,7 @@ import React from 'react';
 import * as R from 'remeda';
 
 import { useBrukerIdent } from '@auth/brukerContext';
-import { Maybe, PeriodeFragment, PersonFragment } from '@io/graphql';
+import { Maybe, PeriodeFragment, Person } from '@io/graphql';
 import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
 import { Verktøylinje } from '@saksbilde/Verktøylinje';
 import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
@@ -23,7 +23,7 @@ interface SaksbildeProps {
 export const Saksbilde = ({ children }: SaksbildeProps) => {
     const { loading, data, error } = useFetchPersonQuery();
 
-    const person: Maybe<PersonFragment> = data?.person ?? null;
+    const person: Maybe<Person> = data?.person ?? null;
     const activePeriod = useActivePeriod(person);
     const saksbehandlerident = useBrukerIdent();
 

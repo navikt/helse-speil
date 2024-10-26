@@ -13,7 +13,7 @@ import {
     Periode,
     Periodehandling,
     Periodetilstand,
-    PersonFragment,
+    Person,
     Utbetalingsdagtype,
 } from '@io/graphql';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
@@ -30,7 +30,7 @@ import styles from './Venstremeny.module.css';
 
 interface VenstremenyBeregnetPeriodeProps {
     activePeriod: BeregnetPeriodeFragment;
-    currentPerson: PersonFragment;
+    currentPerson: Person;
     currentArbeidsgiver: ArbeidsgiverFragment;
 }
 

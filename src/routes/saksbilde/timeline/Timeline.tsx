@@ -7,7 +7,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { ArbeidsgiverFragment, Infotrygdutbetaling, Maybe, PersonFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, Infotrygdutbetaling, Maybe, Person } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
@@ -30,7 +30,7 @@ interface TimelineWithContentProps {
     arbeidsgivere: Array<ArbeidsgiverFragment>;
     infotrygdutbetalinger: Array<Infotrygdutbetaling>;
     activePeriod: Maybe<TimelinePeriod>;
-    person: PersonFragment;
+    person: Person;
 }
 
 const TimelineWithContent = ({

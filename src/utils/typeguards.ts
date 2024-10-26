@@ -5,12 +5,12 @@ import {
     Dagoverstyring,
     GhostPeriodeFragment,
     Inntektoverstyring,
+    MainQueryPerson,
     Maybe,
     MinimumSykdomsgradOverstyring,
     NyttInntektsforholdPeriodeFragment,
     Overstyring,
     Person,
-    PersonFragment,
     Sykepengegrunnlagskjonnsfastsetting,
     UberegnetPeriodeFragment,
     Vilkarsgrunnlag,
@@ -84,7 +84,7 @@ export const isMinimumSykdomsgradsoverstyring = (
 ): overstyring is MinimumSykdomsgradOverstyring =>
     (overstyring as MinimumSykdomsgradOverstyring)?.__typename === 'MinimumSykdomsgradOverstyring';
 
-export const isPerson = (person?: Maybe<PersonFragment | Person>): person is PersonFragment => {
+export const isPerson = (person?: Maybe<Person | MainQueryPerson>): person is Person => {
     return person !== undefined && person !== null && typeof person['fodselsnummer'] === 'string';
 };
 

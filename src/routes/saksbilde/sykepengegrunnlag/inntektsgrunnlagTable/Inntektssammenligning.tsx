@@ -10,7 +10,7 @@ import {
     Maybe,
     OmregnetArsinntekt,
     OverstyringFragment,
-    PersonFragment,
+    Person,
     Sammenligningsgrunnlag,
 } from '@io/graphql';
 import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
@@ -24,7 +24,7 @@ import { TableCell } from './TableCell';
 import styles from './Inntektssammenligning.module.css';
 
 interface InntektssammenligningProps {
-    person: PersonFragment;
+    person: Person;
     organisasjonsnummer: string;
     omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
     skjønnsmessigFastsatt?: Maybe<OmregnetArsinntekt>;

@@ -3,7 +3,7 @@ import React from 'react';
 import { PadlockUnlockedIcon, PersonPencilIcon } from '@navikt/aksel-icons';
 import { Button, HelpText } from '@navikt/ds-react';
 
-import { ArbeidsgiverFragment, Maybe, PersonFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, Maybe, Person } from '@io/graphql';
 import {
     useGhostInntektKanOverstyres,
     useInntektKanRevurderes,
@@ -14,7 +14,7 @@ import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 interface ToggleOverstyringProps {
-    person: PersonFragment;
+    person: Person;
     arbeidsgiver: ArbeidsgiverFragment;
     periode: ActivePeriod;
     vilkårsgrunnlagId?: Maybe<string>;

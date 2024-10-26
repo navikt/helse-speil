@@ -9,13 +9,13 @@ import {
     GhostPeriodeFragment,
     Maybe,
     NyttInntektsforholdPeriodeFragment,
-    PersonFragment,
+    Person,
 } from '@io/graphql';
 import { TilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/TilkommenAG';
 import { findArbeidsgiverWithNyttInntektsforholdPeriode } from '@state/arbeidsgiver';
 
 type TilkommenInntektProps = {
-    person: PersonFragment;
+    person: Person;
     aktivPeriode: BeregnetPeriodeFragment | GhostPeriodeFragment | NyttInntektsforholdPeriodeFragment;
 };
 

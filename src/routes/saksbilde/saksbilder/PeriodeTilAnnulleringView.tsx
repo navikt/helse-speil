@@ -2,13 +2,13 @@ import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
-import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, Person } from '@io/graphql';
 import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
 
 import styles from './SharedViews.module.css';
 
 type Props = {
-    person: PersonFragment;
+    person: Person;
     activePeriod: BeregnetPeriodeFragment;
 };
 

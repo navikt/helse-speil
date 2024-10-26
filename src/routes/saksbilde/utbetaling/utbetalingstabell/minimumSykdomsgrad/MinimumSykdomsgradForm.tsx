@@ -18,7 +18,7 @@ import {
 } from '@navikt/ds-react';
 
 import { TimeoutModal } from '@components/TimeoutModal';
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 import { overlapper } from '@state/selectors/period';
 import { ActivePeriod } from '@typer/shared';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT_LANG } from '@utils/date';
@@ -28,7 +28,7 @@ import { getOverlappendeArbeidsgivere, usePostOverstyringMinimumSykdomsgrad } fr
 import styles from './MinimumSykdomsgrad.module.scss';
 
 interface MinimumSykdomsgradFormProps {
-    person: PersonFragment;
+    person: Person;
     periode: ActivePeriod;
     initierendeVedtaksperiodeId: string;
     setOverstyrerMinimumSykdomsgrad: (overstyrer: boolean) => void;

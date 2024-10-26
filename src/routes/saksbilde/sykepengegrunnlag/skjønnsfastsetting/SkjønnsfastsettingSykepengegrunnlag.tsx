@@ -7,7 +7,7 @@ import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
     Maybe,
-    PersonFragment,
+    Person,
     Sykepengegrunnlagsgrense,
 } from '@io/graphql';
 import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
@@ -21,7 +21,7 @@ import { SkjønnsfastsettingSammendrag } from './SkjønnsfastsettingSammendrag';
 import styles from './SkjønnsfastsettingSykepengegrunnlag.module.css';
 
 interface SkjønnsfastsettingSykepengegrunnlagProps {
-    person: PersonFragment;
+    person: Person;
     periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
     sykepengegrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;

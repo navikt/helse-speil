@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { ReactElement, ReactNode, useRef } from 'react';
 
 import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
-import { Maybe, PersonFragment } from '@io/graphql';
+import { Maybe, Person } from '@io/graphql';
 import { useSetActivePeriodId } from '@state/periode';
 import { PeriodState } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
@@ -120,7 +120,7 @@ interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     period: TimelinePeriod;
     notCurrent?: boolean;
     isActive?: boolean;
-    person: PersonFragment;
+    person: Person;
 }
 
 export const Period = ({

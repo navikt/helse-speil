@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
 
-import { ArbeidsgiverFragment, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, NyttInntektsforholdPeriodeFragment, Person } from '@io/graphql';
 import { EditableTilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/EditableTilkommenAG';
 import { TilkommenAGHeader } from '@saksbilde/tilkommenInntekt/tilkommen/TilkommenAGHeader';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
@@ -13,7 +13,7 @@ import { toKronerOgØre } from '@utils/locale';
 import styles from './TilkommenAG.module.scss';
 
 interface TilkommenAGProps {
-    person: PersonFragment;
+    person: Person;
     periode: NyttInntektsforholdPeriodeFragment;
     arbeidsgiver: ArbeidsgiverFragment;
 }

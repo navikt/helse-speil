@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react';
 
-import { Maybe, PersonFragment } from '@io/graphql';
+import { Maybe, Person } from '@io/graphql';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 
 import { TagMedTooltip } from './TagMedTooltip';
 
 interface UtlandTagProps {
-    person: PersonFragment;
+    person: Person;
 }
 
 export const UtlandTag = ({ person }: UtlandTagProps): Maybe<ReactElement> => {

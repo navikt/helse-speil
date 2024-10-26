@@ -7,7 +7,7 @@ import {
     Maybe,
     OmregnetArsinntekt,
     OverstyringFragment,
-    PersonFragment,
+    Person,
     VilkarsgrunnlagSpleis,
 } from '@io/graphql';
 import { useEndringerForPeriode, useLokaleRefusjonsopplysninger, useLokaltMånedsbeløp } from '@state/arbeidsgiver';
@@ -23,7 +23,7 @@ import { SisteTolvMånedersInntekt } from './SisteTolvMånedersInntekt';
 import { useArbeidsforholdKanOverstyres } from './inntektOgRefusjonUtils';
 
 interface InntektOgRefusjonVisningProps {
-    person: PersonFragment;
+    person: Person;
     periode: ActivePeriod;
     omregnetÅrsinntekt: Maybe<OmregnetArsinntekt>;
     endret: boolean;

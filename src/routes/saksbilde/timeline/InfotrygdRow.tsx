@@ -5,7 +5,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Infotrygdikon } from '@components/ikoner/Infotrygdikon';
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 import { InfotrygdPeriod } from '@typer/shared';
 
 import { Periods } from './Periods';
@@ -17,7 +17,7 @@ interface InfotrygdRowProps {
     end: Dayjs;
     periods: Array<InfotrygdPeriod>;
     alignWithExpandable?: boolean;
-    person: PersonFragment;
+    person: Person;
 }
 
 export const InfotrygdRow = ({

@@ -8,7 +8,7 @@ import {
     OpprettAbonnementDocument,
     OverstyrDagerMutationDocument,
     OverstyrDagerMutationMutation,
-    PersonFragment,
+    Person,
 } from '@io/graphql';
 import {
     kalkulererFerdigToastKey,
@@ -35,10 +35,7 @@ type UsePostOverstyringResult = {
     done: boolean;
 };
 
-export const useOverstyrDager = (
-    person: PersonFragment,
-    arbeidsgiver: ArbeidsgiverFragment,
-): UsePostOverstyringResult => {
+export const useOverstyrDager = (person: Person, arbeidsgiver: ArbeidsgiverFragment): UsePostOverstyringResult => {
     const personFørRefetchRef = useRef(person);
     const addToast = useAddToast();
     const removeToast = useRemoveToast();

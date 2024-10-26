@@ -2,14 +2,14 @@ import React, { ReactElement, useState } from 'react';
 
 import { Dropdown, Loader } from '@navikt/ds-react';
 
-import { Maybe, PersonFragment, Personnavn } from '@io/graphql';
+import { Maybe, Person, Personnavn } from '@io/graphql';
 import { PåVentNotatModal } from '@oversikt/table/cells/notat/PåVentNotatModal';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useFjernPåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 
 interface PåVentButtonProps {
-    person: PersonFragment;
+    person: Person;
 }
 
 export const PåVentButton = ({ person }: PåVentButtonProps): Maybe<ReactElement> => {

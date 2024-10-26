@@ -2,12 +2,12 @@ import React, { ReactElement } from 'react';
 
 import { Dropdown } from '@navikt/ds-react';
 
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 
 import { useOppdaterPersondata } from './useOppdaterPersondata';
 
 type Props = {
-    person: PersonFragment;
+    person: Person;
 };
 
 export const OppdaterPersondataButton = ({ person }: Props): ReactElement => {

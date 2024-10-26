@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import { BodyShort, Detail, Table } from '@navikt/ds-react';
 
-import { Arbeidsgiverinntekt, Maybe, PersonFragment } from '@io/graphql';
+import { Arbeidsgiverinntekt, Maybe, Person } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
 import { Inntektssammenligning } from './Inntektssammenligning';
@@ -11,7 +11,7 @@ import { TableCell } from './TableCell';
 import styles from './SykepengegrunnlagPanel.module.css';
 
 interface InntektsgrunnlagTableProps {
-    person: PersonFragment;
+    person: Person;
     inntekter: Arbeidsgiverinntekt[];
     aktivInntektskilde?: Arbeidsgiverinntekt;
     setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;

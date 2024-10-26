@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Maybe, PersonFragment } from '@io/graphql';
+import { Maybe, Person } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
@@ -11,7 +11,7 @@ import { useTotaltUtbetaltForSykefraværstilfellet } from './annullering';
 
 import styles from './Annulleringsmodal.module.scss';
 
-export const Annulleringsinformasjon = ({ person }: { person: PersonFragment }): Maybe<ReactElement> => {
+export const Annulleringsinformasjon = ({ person }: { person: Person }): Maybe<ReactElement> => {
     const { totalbeløp, førsteUtbetalingsdag, sisteUtbetalingsdag } = useTotaltUtbetaltForSykefraværstilfellet(person);
 
     if (!førsteUtbetalingsdag && !sisteUtbetalingsdag && !totalbeløp) return null;

@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { Alert, Button, Heading, List } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Maybe, PersonFragment } from '@io/graphql';
+import { Maybe, Person } from '@io/graphql';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useSetActivePeriodId } from '@state/periode';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
@@ -12,7 +12,7 @@ import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import styles from './HarVurderbareVarsler.module.scss';
 
 interface HarVurderbareVarslerProps {
-    person: PersonFragment;
+    person: Person;
 }
 
 export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): Maybe<ReactElement> => {

@@ -7,7 +7,7 @@ import {
     NyttInntektsforholdPeriodeFragment,
     PeriodeFragment,
     Periodetilstand,
-    PersonFragment,
+    Person,
 } from '@io/graphql';
 import { isNotReady } from '@state/selectors/period';
 import { DatePeriod, InfotrygdPeriod } from '@typer/shared';
@@ -75,7 +75,7 @@ interface PeriodsProps {
     ghostPeriods?: Array<GhostPeriodeFragment>;
     nyeInntektsforholdPeriods?: Array<NyttInntektsforholdPeriodeFragment>;
     notCurrent?: boolean;
-    person: PersonFragment;
+    person: Person;
 }
 
 export const Periods = ({

@@ -1,8 +1,8 @@
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 import { useHarBeslutterrolle, useTotrinnsvurderingErAktiv } from '@state/toggles';
 
-export const useHarBeslutteroppgavetilgang = (person: PersonFragment): boolean => {
+export const useHarBeslutteroppgavetilgang = (person: Person): boolean => {
     const harBeslutterRolle = useHarBeslutterrolle();
     const totrinnvurderingAktiv = useTotrinnsvurderingErAktiv();
     const erTidligereSaksbehandler = useErTidligereSaksbehandler(person);

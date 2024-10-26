@@ -15,7 +15,7 @@ import { Alert, Button } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
-import { ArbeidsgiverFragment, Maybe, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, Maybe, OmregnetArsinntekt, Person } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
 import {
@@ -48,7 +48,7 @@ export interface InntektFormFields {
 }
 
 interface EditableInntektProps {
-    person: PersonFragment;
+    person: Person;
     arbeidsgiver: ArbeidsgiverFragment;
     omregnetÅrsinntekt: OmregnetArsinntekt;
     begrunnelser: BegrunnelseForOverstyring[];

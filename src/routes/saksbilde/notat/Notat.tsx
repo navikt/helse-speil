@@ -7,7 +7,7 @@ import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { LeggTilNotatDocument, Maybe, NotatType, PersonFragment } from '@io/graphql';
+import { LeggTilNotatDocument, Maybe, NotatType, Person } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useFjernNotat, useNotater } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
@@ -19,7 +19,7 @@ import { ControlledTextarea } from './ControlledTextarea';
 import styles from './Notat.module.css';
 
 interface NotatProps {
-    person: PersonFragment;
+    person: Person;
 }
 
 export const Notat = ({ person }: NotatProps): Maybe<ReactElement> => {

@@ -7,7 +7,7 @@ import {
     OpprettAbonnementDocument,
     OverstyrArbeidsforholdMutationDocument,
     OverstyringArbeidsforholdInput,
-    PersonFragment,
+    Person,
 } from '@io/graphql';
 import {
     kalkulererFerdigToastKey,
@@ -32,7 +32,7 @@ type OverstyrtArbeidsforholdGetter = (
     bokstav?: string,
 ) => OverstyrtArbeidsforholdDTO;
 
-export const useGetOverstyrtArbeidsforhold = (person: PersonFragment): OverstyrtArbeidsforholdGetter => {
+export const useGetOverstyrtArbeidsforhold = (person: Person): OverstyrtArbeidsforholdGetter => {
     const valgtVedtaksperiode = useActivePeriodWithPerson(person);
 
     return (organisasjonsnummerGhost, skjæringstidspunkt, arbeidsforholdSkalDeaktiveres, forklaring, begrunnelse) => ({

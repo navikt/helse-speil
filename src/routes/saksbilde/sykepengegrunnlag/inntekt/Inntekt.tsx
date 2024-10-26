@@ -4,7 +4,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { Alert, Box } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Arbeidsgiverinntekt, Inntektskilde, Maybe, PersonFragment, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { Arbeidsgiverinntekt, Inntektskilde, Maybe, Person, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import {
     useArbeidsgiver,
@@ -21,7 +21,7 @@ import { InntektOgRefusjon } from './inntektOgRefusjon/InntektOgRefusjon';
 import styles from './Inntekt.module.css';
 
 interface InntektContainerProps {
-    person: PersonFragment;
+    person: Person;
     inntekt: Arbeidsgiverinntekt;
 }
 
@@ -114,7 +114,7 @@ const InntektError = (): ReactElement => {
 };
 
 interface InntektProps {
-    person: PersonFragment;
+    person: Person;
     inntekt: Arbeidsgiverinntekt;
 }
 

@@ -12,7 +12,7 @@ import {
     Maybe,
     NyttInntektsforholdPeriodeFragment,
     OverstyringFragment,
-    PersonFragment,
+    Person,
     UberegnetPeriodeFragment,
     Utbetaling,
     Vurdering,
@@ -72,7 +72,7 @@ export const findArbeidsgiverWithPeriode = (
     );
 };
 
-export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<ArbeidsgiverFragment> => {
+export const useCurrentArbeidsgiver = (person: Maybe<Person>): Maybe<ArbeidsgiverFragment> => {
     const activePeriod = useActivePeriod(person);
 
     if (!person || !activePeriod) {
@@ -88,7 +88,7 @@ export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<Arb
     return null;
 };
 
-export const useArbeidsgiver = (person: PersonFragment, organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
+export const useArbeidsgiver = (person: Person, organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
     person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
 
 export const useInntektsmeldinghendelser = (arbeidsgiver: Maybe<ArbeidsgiverFragment>): Hendelse[] => {
@@ -111,10 +111,7 @@ export const useInntektsmeldinghendelser = (arbeidsgiver: Maybe<ArbeidsgiverFrag
     return hendelserDeduplisert.filter((h) => h.type === 'INNTEKTSMELDING');
 };
 
-export const usePeriodForSkjæringstidspunkt = (
-    skjæringstidspunkt: DateString,
-    person: PersonFragment,
-): Maybe<ActivePeriod> => {
+export const usePeriodForSkjæringstidspunkt = (skjæringstidspunkt: DateString, person: Person): Maybe<ActivePeriod> => {
     const currentArbeidsgiver = useCurrentArbeidsgiver(person);
 
     if (!currentArbeidsgiver?.generasjoner[0]?.perioder) {
@@ -127,7 +124,7 @@ export const usePeriodForSkjæringstidspunkt = (
         .shift() ?? null) as Maybe<ActivePeriod>;
 };
 
-export const usePeriodIsInGeneration = (person: PersonFragment): Maybe<number> => {
+export const usePeriodIsInGeneration = (person: Person): Maybe<number> => {
     const period = useActivePeriod(person);
     const arbeidsgiver = useCurrentArbeidsgiver(person);
 
@@ -147,7 +144,7 @@ export const usePeriodeErIGenerasjon = (arbeidsgiver: Maybe<ArbeidsgiverFragment
         ),
     ) ?? null;
 
-export const usePeriodeTilGodkjenning = (person: Maybe<PersonFragment>): Maybe<BeregnetPeriodeFragment> => {
+export const usePeriodeTilGodkjenning = (person: Maybe<Person>): Maybe<BeregnetPeriodeFragment> => {
     if (!person) return null;
 
     return (
@@ -160,7 +157,7 @@ export const usePeriodeTilGodkjenning = (person: Maybe<PersonFragment>): Maybe<B
 };
 
 export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
-    person: PersonFragment,
+    person: Person,
     skjæringstidspunkt: Maybe<DateString>,
     organisasjonsnummer: string,
 ): Maybe<ActivePeriod> => {
@@ -217,7 +214,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     return nyesteBeregnetPeriodePåSkjæringstidspunkt ?? nyestePeriodePåSkjæringstidspunkt;
 };
 
-export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
+export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: Person): boolean => {
     const aktivPeriode = useActivePeriod(person);
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration(person);
     const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
@@ -229,7 +226,7 @@ export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: Perso
     return periodeTilGodkjenning ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.tom) : true;
 };
 
-export const useErGhostLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
+export const useErGhostLikEllerFørPeriodeTilGodkjenning = (person: Person): boolean => {
     const aktivPeriode = useActivePeriod(person);
     const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
 
@@ -243,7 +240,7 @@ export const useErGhostLikEllerFørPeriodeTilGodkjenning = (person: PersonFragme
 
 export const useUtbetalingForSkjæringstidspunkt = (
     skjæringstidspunkt: DateString,
-    person: PersonFragment,
+    person: Person,
 ): Maybe<Utbetaling> => {
     const currentArbeidsgiver = useCurrentArbeidsgiver(person);
 
@@ -259,10 +256,7 @@ export const useUtbetalingForSkjæringstidspunkt = (
     );
 };
 
-export const useFinnesNyereUtbetaltPeriodePåPerson = (
-    period: BeregnetPeriodeFragment,
-    person: PersonFragment,
-): boolean => {
+export const useFinnesNyereUtbetaltPeriodePåPerson = (period: BeregnetPeriodeFragment, person: Person): boolean => {
     const nyesteUtbetaltPeriodePåPerson = person.arbeidsgivere
         .flatMap((it) => it.generasjoner[0]?.perioder)
         .filter((periode) => isBeregnetPeriode(periode) && isGodkjent(periode.utbetaling))
@@ -271,10 +265,7 @@ export const useFinnesNyereUtbetaltPeriodePåPerson = (
     return dayjs(nyesteUtbetaltPeriodePåPerson?.fom, ISO_DATOFORMAT).isAfter(dayjs(period.tom, ISO_DATOFORMAT));
 };
 
-export const useVurderingForSkjæringstidspunkt = (
-    skjæringstidspunkt: DateString,
-    person: PersonFragment,
-): Maybe<Vurdering> => {
+export const useVurderingForSkjæringstidspunkt = (skjæringstidspunkt: DateString, person: Person): Maybe<Vurdering> => {
     return useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt, person)?.vurdering ?? null;
 };
 
@@ -286,7 +277,7 @@ type UseEndringerForPeriodeResult = {
 
 export const useEndringerForPeriode = (
     endringer: Array<OverstyringFragment> | undefined,
-    person: PersonFragment,
+    person: Person,
 ): UseEndringerForPeriodeResult => {
     const periode = useActivePeriod(person);
 
@@ -339,7 +330,7 @@ export const useDagoverstyringer = (
         );
     }, [arbeidsgiver, fom, tom]);
 };
-export const useHarDagOverstyringer = (periode: BeregnetPeriodeFragment, person: PersonFragment): boolean => {
+export const useHarDagOverstyringer = (periode: BeregnetPeriodeFragment, person: Person): boolean => {
     const arbeidsgiver = useCurrentArbeidsgiver(person);
     const dagendringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
 

@@ -2,7 +2,7 @@ import { usePathname } from 'next/navigation';
 import React, { ReactElement } from 'react';
 import { last } from 'remeda';
 
-import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, Person } from '@io/graphql';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
 import { TilkommenInntekt } from '@saksbilde/tilkommenInntekt/TilkommenInntekt';
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
@@ -13,7 +13,7 @@ import styles from './SharedViews.module.css';
 
 interface BeregnetPeriodeViewProps {
     period: BeregnetPeriodeFragment;
-    person: PersonFragment;
+    person: Person;
 }
 
 export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps): ReactElement => {

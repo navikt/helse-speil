@@ -14,7 +14,7 @@ import {
 import { BodyShort, ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { FeilregistrerNotatMutationDocument, PersonFragment } from '@io/graphql';
+import { FeilregistrerNotatMutationDocument, Person } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
 import { NotathendelseObject } from '@typer/historikk';
@@ -32,7 +32,7 @@ import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './constants';
 import styles from './Notathendelse.module.css';
 
 type NotathendelseProps = Omit<NotathendelseObject, 'type'> & {
-    person: PersonFragment;
+    person: Person;
 };
 
 export const Notathendelse = ({

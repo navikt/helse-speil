@@ -12,7 +12,7 @@ import {
     NyttInntektsforholdPeriodeFragment,
     Periode,
     PeriodehistorikkType,
-    PersonFragment,
+    Person,
     SoknadArbeidsgiver,
     SoknadArbeidsledig,
     SoknadFrilans,
@@ -386,7 +386,7 @@ export const getInntektoverstyringer = (
 export const getInntektoverstyringerForGhost = (
     skjaeringstidspunkt: string,
     arbeidsgiver: ArbeidsgiverFragment,
-    person: PersonFragment,
+    person: Person,
 ): Array<InntektoverstyringhendelseObject> => {
     return arbeidsgiver.overstyringer
         .filter(isInntektoverstyring)

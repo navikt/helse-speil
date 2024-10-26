@@ -509,7 +509,6 @@ export enum Inntektskilde {
     Inntektsmelding = 'INNTEKTSMELDING',
     Saksbehandler = 'SAKSBEHANDLER',
     SkjonnsmessigFastsatt = 'SKJONNSMESSIG_FASTSATT',
-    Soknad = 'SOKNAD',
 }
 
 export type Inntektsmelding = Hendelse & {
@@ -808,7 +807,6 @@ export type NyttInntektsforholdPeriode = {
     organisasjonsnummer: Scalars['String']['output'];
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     tom: Scalars['LocalDate']['output'];
-    vilkarsgrunnlagId: Maybe<Scalars['UUID']['output']>;
 };
 
 export type OmregnetArsinntekt = {
@@ -1057,7 +1055,7 @@ export type Periodevilkar = {
     sykepengedager: Sykepengedager;
 };
 
-export type Person = {
+export type MainQueryPerson = {
     __typename: 'Person';
     aktorId: Scalars['String']['output'];
     arbeidsgivere: Array<Arbeidsgiver>;
@@ -1102,7 +1100,7 @@ export type Query = {
     notater: Array<Notater>;
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
-    person: Maybe<Person>;
+    person: Maybe<MainQueryPerson>;
 };
 
 export type QueryBehandledeOppgaverFeedArgs = {
@@ -2158,7 +2156,7 @@ export type SimuleringFragment = {
     }> | null;
 };
 
-export type Overstyring_Arbeidsforholdoverstyring_Fragment = {
+export type OverstyringArbeidsforholdoverstyringFragment = {
     __typename: 'Arbeidsforholdoverstyring';
     begrunnelse: string;
     deaktivert: boolean;
@@ -2170,7 +2168,7 @@ export type Overstyring_Arbeidsforholdoverstyring_Fragment = {
     saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
 };
 
-export type Overstyring_Dagoverstyring_Fragment = {
+export type OverstyringDagoverstyringFragment = {
     __typename: 'Dagoverstyring';
     begrunnelse: string;
     hendelseId: string;
@@ -2187,7 +2185,7 @@ export type Overstyring_Dagoverstyring_Fragment = {
     saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
 };
 
-export type Overstyring_Inntektoverstyring_Fragment = {
+export type OverstyringInntektoverstyringFragment = {
     __typename: 'Inntektoverstyring';
     hendelseId: string;
     timestamp: string;
@@ -2215,7 +2213,7 @@ export type Overstyring_Inntektoverstyring_Fragment = {
     saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
 };
 
-export type Overstyring_MinimumSykdomsgradOverstyring_Fragment = {
+export type OverstyringMinimumSykdomsgradOverstyringFragment = {
     __typename: 'MinimumSykdomsgradOverstyring';
     hendelseId: string;
     timestamp: string;
@@ -2231,7 +2229,7 @@ export type Overstyring_MinimumSykdomsgradOverstyring_Fragment = {
     saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
 };
 
-export type Overstyring_Sykepengegrunnlagskjonnsfastsetting_Fragment = {
+export type OverstyringSykepengegrunnlagskjonnsfastsettingFragment = {
     __typename: 'Sykepengegrunnlagskjonnsfastsetting';
     hendelseId: string;
     timestamp: string;
@@ -2252,11 +2250,11 @@ export type Overstyring_Sykepengegrunnlagskjonnsfastsetting_Fragment = {
 };
 
 export type OverstyringFragment =
-    | Overstyring_Arbeidsforholdoverstyring_Fragment
-    | Overstyring_Dagoverstyring_Fragment
-    | Overstyring_Inntektoverstyring_Fragment
-    | Overstyring_MinimumSykdomsgradOverstyring_Fragment
-    | Overstyring_Sykepengegrunnlagskjonnsfastsetting_Fragment;
+    | OverstyringArbeidsforholdoverstyringFragment
+    | OverstyringDagoverstyringFragment
+    | OverstyringInntektoverstyringFragment
+    | OverstyringMinimumSykdomsgradOverstyringFragment
+    | OverstyringSykepengegrunnlagskjonnsfastsettingFragment;
 
 export type TilleggsinfoForInntektskildeFragment = {
     __typename: 'TilleggsinfoForInntektskilde';
@@ -2834,7 +2832,7 @@ export type ArbeidsgiverFragment = {
     }>;
 };
 
-export type Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment = {
+export type VilkarsgrunnlagVilkarsgrunnlagInfotrygdFragment = {
     __typename: 'VilkarsgrunnlagInfotrygd';
     id: string;
     sykepengegrunnlag: number;
@@ -2880,7 +2878,7 @@ export type Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment = {
     }>;
 };
 
-export type Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment = {
+export type VilkarsgrunnlagVilkarsgrunnlagSpleisFragment = {
     __typename: 'VilkarsgrunnlagSpleis';
     sammenligningsgrunnlag: number | null;
     skjonnsmessigFastsattAarlig: number | null;
@@ -2942,8 +2940,8 @@ export type Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment = {
 };
 
 export type VilkarsgrunnlagFragment =
-    | Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment
-    | Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment;
+    | VilkarsgrunnlagVilkarsgrunnlagInfotrygdFragment
+    | VilkarsgrunnlagVilkarsgrunnlagSpleisFragment;
 
 export type NotatFragment = {
     __typename: 'Notat';
@@ -3407,7 +3405,7 @@ export type BeregnetPeriodeFragment = {
     >;
 };
 
-export type Periode_BeregnetPeriode_Fragment = {
+export type PeriodeBeregnetPeriodeFragment = {
     __typename: 'BeregnetPeriode';
     behandlingId: string;
     fom: string;
@@ -3507,7 +3505,7 @@ export type Periode_BeregnetPeriode_Fragment = {
     >;
 };
 
-export type Periode_UberegnetPeriode_Fragment = {
+export type PeriodeUberegnetPeriodeFragment = {
     __typename: 'UberegnetPeriode';
     behandlingId: string;
     fom: string;
@@ -3607,9 +3605,9 @@ export type Periode_UberegnetPeriode_Fragment = {
     >;
 };
 
-export type PeriodeFragment = Periode_BeregnetPeriode_Fragment | Periode_UberegnetPeriode_Fragment;
+export type PeriodeFragment = PeriodeBeregnetPeriodeFragment | PeriodeUberegnetPeriodeFragment;
 
-export type PersonFragment = {
+export type Person = {
     __typename: 'Person';
     fodselsnummer: string;
     dodsdato: string | null;
@@ -8883,7 +8881,7 @@ export const PersonFragmentDoc = {
             },
         },
     ],
-} as unknown as DocumentNode<PersonFragment, unknown>;
+} as unknown as DocumentNode<Person, unknown>;
 export const PaventFragmentDoc = {
     kind: 'Document',
     definitions: [

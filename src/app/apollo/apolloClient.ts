@@ -12,7 +12,7 @@ import {
 } from '@apollo/client';
 import { RetryLink } from '@apollo/client/link/retry';
 import { possibleTypes } from '@app/apollo/possibletypes';
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 
 const getTypePolicies = (): TypePolicies => {
     return {
@@ -41,7 +41,7 @@ const getTypePolicies = (): TypePolicies => {
                                 const values = Object.values(cache.extract());
                                 const relevantPerson = values.find(
                                     (it) => it?.__typename === 'Person' && it.aktorId === args.aktorId,
-                                ) as PersonFragment | undefined;
+                                ) as Person | undefined;
 
                                 if (relevantPerson == null) {
                                     return;

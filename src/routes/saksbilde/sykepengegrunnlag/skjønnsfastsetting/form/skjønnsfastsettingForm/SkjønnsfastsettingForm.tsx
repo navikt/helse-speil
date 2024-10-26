@@ -11,7 +11,7 @@ import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
     Maybe,
-    PersonFragment,
+    Person,
     Sykepengegrunnlagsgrense,
 } from '@io/graphql';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
@@ -39,7 +39,7 @@ export interface SkjønnsfastsettingFormFields {
 }
 
 interface SkjønnsfastsettingFormProps {
-    person: PersonFragment;
+    person: Person;
     periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
     inntekter: Arbeidsgiverinntekt[];
     omregnetÅrsinntekt: number;

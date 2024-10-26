@@ -5,7 +5,7 @@ import { Dropdown } from '@navikt/ds-react';
 
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Maybe, PersonFragment } from '@io/graphql';
+import { Maybe, Person } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { ActivePeriod } from '@typer/shared';
@@ -19,7 +19,7 @@ import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 import styles from './DropdownMenu.module.scss';
 
 type DropdownMenuProps = {
-    person: PersonFragment;
+    person: Person;
     activePeriod: ActivePeriod;
 };
 

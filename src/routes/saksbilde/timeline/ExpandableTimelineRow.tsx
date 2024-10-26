@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 import { ArbeidsgiverGenerasjon } from '@typer/shared';
 
 import { Periods } from './Periods';
@@ -13,7 +13,7 @@ import styles from './TimelineRow.module.css';
 
 interface ExpandableTimelineRowProp extends Omit<TimelineRowProps, 'periods'> {
     generations: Array<ArbeidsgiverGenerasjon>;
-    person: PersonFragment;
+    person: Person;
 }
 
 export const ExpandableTimelineRow = ({

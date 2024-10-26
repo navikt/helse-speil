@@ -6,7 +6,7 @@ import { BodyShort, HStack } from '@navikt/ds-react';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { DokumenthendelseObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT } from '@utils/date';
@@ -22,7 +22,7 @@ import styles from './Inntektsmeldingsinnhold.module.css';
 type InntektsmeldinginnholdProps = {
     dokumentId: DokumenthendelseObject['dokumentId'];
     fødselsnummer: string;
-    person: PersonFragment;
+    person: Person;
 };
 
 export const Inntektsmeldingsinnhold = ({

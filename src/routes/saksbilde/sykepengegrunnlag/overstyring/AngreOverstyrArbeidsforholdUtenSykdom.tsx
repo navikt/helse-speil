@@ -4,13 +4,13 @@ import { ArrowUndoIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
 import { TimeoutModal } from '@components/TimeoutModal';
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 
 interface AngreOverstyrArbeidsforholdUtenSykdomProps {
-    person: PersonFragment;
+    person: Person;
     organisasjonsnummerAktivPeriode: string;
     skjæringstidspunkt: string;
     onClick: () => void;

@@ -6,7 +6,7 @@ import { Link } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { hoppTilModia } from '@components/SystemMenu';
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 import { DokumenthendelseObject } from '@typer/historikk';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
@@ -19,7 +19,7 @@ import { getKildetekst, getKildetype, useAddOpenedDocument, useOpenedDocuments }
 import styles from './Dokumenthendelse.module.scss';
 
 type DokumenthendelseProps = Omit<DokumenthendelseObject, 'type' | 'id'> & {
-    person: PersonFragment;
+    person: Person;
 };
 
 export const Dokumenthendelse = ({

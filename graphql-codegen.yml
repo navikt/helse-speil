@@ -17,6 +17,9 @@ generates:
       nonOptionalTypename: true
       exportFragmentSpreadSubTypes: true
       dedupeFragments: true
+      namingConvention: {
+        typeNames: './codegen/naming-function',
+      }
       avoidOptionals:
         field: true
   ./graphql.schema.json:

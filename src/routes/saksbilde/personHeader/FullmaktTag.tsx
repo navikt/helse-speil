@@ -1,11 +1,11 @@
 import React, { ReactElement } from 'react';
 
-import { Maybe, PersonFragment } from '@io/graphql';
+import { Maybe, Person } from '@io/graphql';
 
 import { TagMedTooltip } from './TagMedTooltip';
 
 interface FullmaktTagProps {
-    person: PersonFragment;
+    person: Person;
 }
 
 export const FullmaktTag = ({ person }: FullmaktTagProps): Maybe<ReactElement> => {

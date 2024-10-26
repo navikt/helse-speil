@@ -8,7 +8,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt } from '@utils/typeguards';
 
@@ -17,7 +17,7 @@ import { DropdownMenu } from './dropdown/DropdownMenu';
 import styles from './SaksbildeMenu.module.css';
 
 type SaksbildeMenuProps = {
-    person: PersonFragment;
+    person: Person;
     activePeriod: ActivePeriod;
 };
 
@@ -140,7 +140,7 @@ export const SaksbildeMenu = (props: SaksbildeMenuProps): ReactElement => {
     );
 };
 
-const harTilkommenInntektPåSkjæringstidspunkt = (person: PersonFragment, skjæringstidspunkt: string) =>
+const harTilkommenInntektPåSkjæringstidspunkt = (person: Person, skjæringstidspunkt: string) =>
     person.arbeidsgivere.flatMap((ag) =>
         ag.nyeInntektsforholdPerioder.filter(
             (it) => isTilkommenInntekt(it) && it.skjaeringstidspunkt === skjæringstidspunkt,

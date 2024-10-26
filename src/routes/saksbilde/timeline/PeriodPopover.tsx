@@ -8,7 +8,7 @@ import { BodyShort, Popover } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useForrigeGenerasjonPeriodeMedPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
-import { BeregnetPeriodeFragment, NotatType, PersonFragment, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
+import { BeregnetPeriodeFragment, NotatType, Person, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
 import { DatePeriod, DateString, PeriodState } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
 import { NORSK_DATOFORMAT } from '@utils/date';
@@ -76,7 +76,7 @@ const InfotrygdPopover = ({ fom, tom }: DatePeriod): ReactElement => {
 interface SpleisPopoverProps extends DatePeriod {
     period: BeregnetPeriodeFragment;
     state: PeriodState;
-    person: PersonFragment;
+    person: Person;
 }
 
 export const BeregnetPopover = ({ period, state, fom, tom, person }: SpleisPopoverProps): ReactElement => {
@@ -217,7 +217,7 @@ const UberegnetPopover = ({ fom, tom, state }: UberegnetPopoverProps): ReactElem
 interface PeriodPopoverProps extends Omit<PopoverProps, 'children'> {
     period: TimelinePeriod;
     state: PeriodState;
-    person: PersonFragment;
+    person: Person;
 }
 
 export const PeriodPopover = ({ period, state, person, ...popoverProps }: PeriodPopoverProps): ReactElement => {

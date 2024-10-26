@@ -5,7 +5,7 @@ import { Alert, Button } from '@navikt/ds-react';
 
 import { Feiloppsummering } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
-import { ArbeidsgiverFragment, Maybe, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, Maybe, NyttInntektsforholdPeriodeFragment, Person } from '@io/graphql';
 import {
     formErrorsTilFeilliste,
     stringIsNaN,
@@ -25,7 +25,7 @@ interface TilkommenInntektFormFields {
 }
 
 interface EditableTilkommenAGProps {
-    person: PersonFragment;
+    person: Person;
     arbeidsgiver: ArbeidsgiverFragment;
     periode: NyttInntektsforholdPeriodeFragment;
     close: () => void;

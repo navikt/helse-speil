@@ -4,13 +4,13 @@ import { last } from 'remeda';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
-import { PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
+import { Person, UberegnetPeriodeFragment } from '@io/graphql';
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 
 import styles from './SharedViews.module.css';
 
 type UberegnetPeriodeViewProps = {
-    person: PersonFragment;
+    person: Person;
     activePeriod: UberegnetPeriodeFragment;
 };
 

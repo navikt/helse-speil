@@ -7,7 +7,7 @@ import { useMutation } from '@apollo/client';
 import { Arsak } from '@external/sanity';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { AmplitudeContext } from '@io/amplitude';
-import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument, PersonFragment } from '@io/graphql';
+import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument, Person } from '@io/graphql';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
@@ -23,7 +23,7 @@ type AnnulleringsModalProps = {
     utbetalingId: string;
     arbeidsgiverFagsystemId: string;
     personFagsystemId: string;
-    person: PersonFragment;
+    person: Person;
 };
 
 export const AnnulleringsModal = ({

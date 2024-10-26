@@ -1,4 +1,4 @@
-import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, Person } from '@io/graphql';
 import { getArbeidsgiverWithPeriod } from '@state/selectors/arbeidsgiver';
 import { getOverlappendePerioder, isForkastet, isGodkjent } from '@state/selectors/period';
 import { getPeriodState } from '@utils/mapping';
@@ -67,7 +67,7 @@ const validateGodkjent = (periode: BeregnetPeriodeFragment): void => {
     }
 };
 
-const validatePeriodeTilhørerNyesteGenerasjon = (person: PersonFragment, periode: BeregnetPeriodeFragment): void => {
+const validatePeriodeTilhørerNyesteGenerasjon = (person: Person, periode: BeregnetPeriodeFragment): void => {
     const arbeidsgiver = getArbeidsgiverWithPeriod(person, periode);
 
     if (!arbeidsgiver) {
@@ -78,7 +78,7 @@ const validatePeriodeTilhørerNyesteGenerasjon = (person: PersonFragment, period
     }
 };
 
-export const kanRevurderes = (person: PersonFragment, periode: BeregnetPeriodeFragment): OverstyringValidation => {
+export const kanRevurderes = (person: Person, periode: BeregnetPeriodeFragment): OverstyringValidation => {
     try {
         validatePeriodeTilhørerNyesteGenerasjon(person, periode);
         validateBeslutter(periode);
@@ -100,10 +100,7 @@ const validateRevurderes = (periode: BeregnetPeriodeFragment): void => {
     }
 };
 
-const validateOverlappendePerioderErTilRevurdering = (
-    person: PersonFragment,
-    periode: BeregnetPeriodeFragment,
-): void => {
+const validateOverlappendePerioderErTilRevurdering = (person: Person, periode: BeregnetPeriodeFragment): void => {
     const tilstander = getOverlappendePerioder(person, periode).map((it) => getPeriodState(it));
 
     const noenPerioderErTilRevurdering = tilstander.some((tilstand) => tilstand === 'revurderes');
@@ -116,10 +113,7 @@ const validateOverlappendePerioderErTilRevurdering = (
     }
 };
 
-export const kanOverstyreRevurdering = (
-    person: PersonFragment,
-    periode: BeregnetPeriodeFragment,
-): OverstyringValidation => {
+export const kanOverstyreRevurdering = (person: Person, periode: BeregnetPeriodeFragment): OverstyringValidation => {
     try {
         validateBeslutter(periode);
         validateRevurderes(periode);

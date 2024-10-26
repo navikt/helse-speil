@@ -7,14 +7,14 @@ import { EditButton } from '@components/EditButton';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import { BeregnetPeriodeFragment, Kildetype, Maybe, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { BeregnetPeriodeFragment, Kildetype, Maybe, Person, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 
 import styles from './SkjønnsfastsettingHeader.module.css';
 
 interface SkjønnsfastsettingHeaderProps {
-    person: PersonFragment;
+    person: Person;
     sykepengegrunnlag: number;
     endretSykepengegrunnlag: Maybe<number>;
     skjønnsmessigFastsattÅrlig?: Maybe<number>;

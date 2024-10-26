@@ -6,7 +6,7 @@ import {
     Hendelse,
     Kildetype,
     Maybe,
-    PersonFragment,
+    Person,
     Refusjonselement,
 } from '@io/graphql';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
@@ -25,7 +25,7 @@ export const useInntektOgRefusjon = () => useRecoilValue(inntektOgRefusjonState)
 export const useSlettLokaleOverstyringer = () => useResetRecoilState(inntektOgRefusjonState);
 
 export const useLokaleInntektOverstyringer = (
-    person: PersonFragment,
+    person: Person,
     showSlettLokaleOverstyringerModal: boolean,
     setShowSlettLokaleOverstyringerModal: (data: boolean) => void,
 ) => {
@@ -112,7 +112,7 @@ export const mapOgSorterRefusjoner = (
         }));
 };
 export const useOverstyrtInntektMetadata = (
-    person: PersonFragment,
+    person: Person,
     arbeidsgiver: ArbeidsgiverFragment,
     period: Maybe<ActivePeriod>,
 ): OverstyrtInntektMetadata => {

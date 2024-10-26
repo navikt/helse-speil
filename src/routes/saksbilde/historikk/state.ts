@@ -6,7 +6,7 @@ import {
     GhostPeriodeFragment,
     Maybe,
     NyttInntektsforholdPeriodeFragment,
-    PersonFragment,
+    Person,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
 import {
@@ -42,10 +42,7 @@ const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
     return dayjs(b.timestamp).diff(dayjs(a.timestamp));
 };
 
-const getHendelserForBeregnetPeriode = (
-    period: BeregnetPeriodeFragment,
-    person: PersonFragment,
-): Array<HendelseObject> => {
+const getHendelserForBeregnetPeriode = (period: BeregnetPeriodeFragment, person: Person): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
     const dagoverstyringer = arbeidsgiver ? getDagoverstyringer(period, arbeidsgiver) : [];
     const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period.skjaeringstidspunkt, arbeidsgiver) : [];
@@ -94,7 +91,7 @@ const getHendelserForBeregnetPeriode = (
     );
 };
 
-const getHendelserForGhostPeriode = (period: GhostPeriodeFragment, person: PersonFragment): Array<HendelseObject> => {
+const getHendelserForGhostPeriode = (period: GhostPeriodeFragment, person: Person): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithGhostPeriode(period, person.arbeidsgivere);
     const arbeidsforholdoverstyringer = arbeidsgiver ? getArbeidsforholdoverstyringhendelser(period, arbeidsgiver) : [];
     const annetarbeidsforholdoverstyringer = getAnnetArbeidsforholdoverstyringhendelser(
@@ -113,7 +110,7 @@ const getHendelserForGhostPeriode = (period: GhostPeriodeFragment, person: Perso
 
 const getHendelserForNyttInntektsforholdPeriode = (
     period: NyttInntektsforholdPeriodeFragment,
-    person: PersonFragment,
+    person: Person,
 ): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithNyttInntektsforholdPeriode(period, person.arbeidsgivere);
     const arbeidsforholdoverstyringer = arbeidsgiver ? getArbeidsforholdoverstyringhendelser(period, arbeidsgiver) : [];
@@ -124,10 +121,7 @@ const getHendelserForNyttInntektsforholdPeriode = (
     return [...arbeidsforholdoverstyringer, ...inntektoverstyringer].sort(byTimestamp);
 };
 
-const getHendelserForUberegnetPeriode = (
-    period: UberegnetPeriodeFragment,
-    person: PersonFragment,
-): Array<HendelseObject> => {
+const getHendelserForUberegnetPeriode = (period: UberegnetPeriodeFragment, person: Person): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
     const dagoverstyringer = arbeidsgiver ? getDagoverstyringerForAUU(period, arbeidsgiver) : [];
     const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period.skjaeringstidspunkt, arbeidsgiver) : [];
@@ -147,7 +141,7 @@ const getHendelserForUberegnetPeriode = (
     ].sort(byTimestamp);
 };
 
-const useHistorikk = (person: Maybe<PersonFragment>): HendelseObject[] => {
+const useHistorikk = (person: Maybe<Person>): HendelseObject[] => {
     const activePeriod = useActivePeriod(person);
 
     if (!person) {
@@ -213,7 +207,7 @@ const showHistorikkState = atom<boolean>({
 
 export const useShowHistorikkState = () => useRecoilState(showHistorikkState);
 
-export const useFilteredHistorikk = (person: Maybe<PersonFragment>): Array<HendelseObject> => {
+export const useFilteredHistorikk = (person: Maybe<Person>): Array<HendelseObject> => {
     const filter = useRecoilValue(filterState);
     const historikk = useHistorikk(person);
 

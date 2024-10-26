@@ -4,7 +4,7 @@ import { last } from 'remeda';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
-import type { NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
+import type { NyttInntektsforholdPeriodeFragment, Person } from '@io/graphql';
 import { TilkommenInntekt } from '@saksbilde/tilkommenInntekt/TilkommenInntekt';
 import { isTilkommenInntekt } from '@utils/typeguards';
 
@@ -12,7 +12,7 @@ import styles from './SharedViews.module.css';
 
 interface NyttInntektsforholdPeriodeViewProps {
     activePeriod: NyttInntektsforholdPeriodeFragment;
-    person: PersonFragment;
+    person: Person;
 }
 
 export const NyttInntektsforholdPeriodeView = ({

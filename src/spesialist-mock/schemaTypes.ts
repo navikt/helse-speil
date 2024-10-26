@@ -507,7 +507,6 @@ export enum Inntektskilde {
     Inntektsmelding = 'INNTEKTSMELDING',
     Saksbehandler = 'SAKSBEHANDLER',
     SkjonnsmessigFastsatt = 'SKJONNSMESSIG_FASTSATT',
-    Soknad = 'SOKNAD',
 }
 
 export type Inntektsmelding = Hendelse & {
@@ -806,7 +805,6 @@ export type NyttInntektsforholdPeriode = {
     organisasjonsnummer: Scalars['String']['output'];
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     tom: Scalars['LocalDate']['output'];
-    vilkarsgrunnlagId?: Maybe<Scalars['UUID']['output']>;
 };
 
 export type OmregnetArsinntekt = {

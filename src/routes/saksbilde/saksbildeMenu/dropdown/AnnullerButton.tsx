@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react';
 
-import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Maybe, PersonFragment, Utbetalingstatus } from '@io/graphql';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Maybe, Person, Utbetalingstatus } from '@io/graphql';
 import { AnnulleringsModal } from '@saksbilde/annullering/AnnulleringsModal';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -13,7 +13,7 @@ interface AnnullerButtonWithContentProps {
     arbeidsgiverFagsystemId: string;
     personFagsystemId: string;
     organisasjonsnummer: string;
-    person: PersonFragment;
+    person: Person;
 }
 
 const AnnullerButtonWithContent = ({
@@ -50,7 +50,7 @@ const kanAnnullere = (harBeslutteroppgavePåSykefraværet: boolean, harMinstEnUt
 };
 
 interface AnnullerButtonProps {
-    person: PersonFragment;
+    person: Person;
     periode: BeregnetPeriodeFragment;
     arbeidsgiver: ArbeidsgiverFragment;
 }

@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { BriefcaseClockIcon } from '@navikt/aksel-icons';
 import { Box, Button, HStack } from '@navikt/ds-react';
 
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 import { MinimumSykdomsgradForm } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradForm';
 import { ActivePeriod } from '@typer/shared';
 
 interface VerktøylinjeProps {
-    person: PersonFragment;
+    person: Person;
     periode: ActivePeriod;
     initierendeVedtaksperiodeId: string;
 }

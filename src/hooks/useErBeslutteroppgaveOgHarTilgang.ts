@@ -1,10 +1,10 @@
 import { useHarBeslutteroppgavetilgang } from '@hooks/useHarBeslutteroppgavetilgang';
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const useErBeslutteroppgaveOgHarTilgang = (person: PersonFragment): boolean => {
+export const useErBeslutteroppgaveOgHarTilgang = (person: Person): boolean => {
     const periode = useActivePeriod(person);
     const totrinnvurderingAktiv = useTotrinnsvurderingErAktiv();
     const harBeslutteroppgaveTilgang = useHarBeslutteroppgavetilgang(person);

@@ -7,7 +7,7 @@ import { BodyShort, Button, ErrorMessage, ErrorSummary } from '@navikt/ds-react'
 
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
-import { PersonFragment } from '@io/graphql';
+import { Person } from '@io/graphql';
 import { VenterPåEndringContext } from '@saksbilde/VenterPåEndringContext';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 
@@ -21,7 +21,7 @@ interface OverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;
     skjæringstidspunkt: string;
     arbeidsforholdErDeaktivert: boolean;
-    person: PersonFragment;
+    person: Person;
 }
 
 export const OverstyrArbeidsforholdUtenSykdom = ({
@@ -89,7 +89,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
 };
 
 interface OverstyrArbeidsforholdSkjemaProps {
-    person: PersonFragment;
+    person: Person;
     onClose: () => void;
     organisasjonsnummerAktivPeriode: string;
     skjæringstidspunkt: string;

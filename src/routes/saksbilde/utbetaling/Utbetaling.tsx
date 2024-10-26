@@ -9,7 +9,7 @@ import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
     Maybe,
-    PersonFragment,
+    Person,
     UberegnetPeriodeFragment,
     Utbetalingsdagtype,
 } from '@io/graphql';
@@ -32,7 +32,7 @@ import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 
 import styles from './Utbetaling.module.css';
 
-const useIsInCurrentGeneration = (person: PersonFragment): boolean => {
+const useIsInCurrentGeneration = (person: Person): boolean => {
     const period = useActivePeriod(person);
     const arbeidsgiver = useCurrentArbeidsgiver(person);
 
@@ -47,7 +47,7 @@ interface ReadonlyUtbetalingProps {
     fom: DateString;
     tom: DateString;
     dager: Map<string, Utbetalingstabelldag>;
-    person: PersonFragment;
+    person: Person;
 }
 
 const ReadonlyUtbetaling = ({ fom, tom, dager, person }: ReadonlyUtbetalingProps): ReactElement => {
@@ -82,7 +82,7 @@ const ReadonlyUtbetaling = ({ fom, tom, dager, person }: ReadonlyUtbetalingProps
 
 interface UtbetalingBeregnetPeriodeProps {
     period: BeregnetPeriodeFragment;
-    person: PersonFragment;
+    person: Person;
     arbeidsgiver: ArbeidsgiverFragment;
 }
 
@@ -113,7 +113,7 @@ const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingB
 const UtbetalingBeregnetPeriodeMemoized = React.memo(UtbetalingBeregnetPeriode);
 
 interface UtbetalingUberegnetPeriodeProps {
-    person: PersonFragment;
+    person: Person;
     periode: UberegnetPeriodeFragment;
     arbeidsgiver: ArbeidsgiverFragment;
 }
@@ -153,7 +153,7 @@ const UtbetalingUberegnetPeriode = ({
 };
 
 type UtbetalingProps = {
-    person: PersonFragment;
+    person: Person;
     periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment;
 };
 

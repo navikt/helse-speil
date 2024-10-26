@@ -6,7 +6,7 @@ import * as amplitude from '@amplitude/analytics-browser';
 import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
 import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
-import { Kategori, Maybe, Oppgaveegenskap, PersonFragment } from '@io/graphql';
+import { Kategori, Maybe, Oppgaveegenskap, Person } from '@io/graphql';
 import { getDefaultFilters } from '@oversikt/table/state/filter';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
@@ -61,7 +61,7 @@ const getEventProperties = (
     }
 };
 
-const useStoreÅpnetTidspunkt = (person: Maybe<PersonFragment>) => {
+const useStoreÅpnetTidspunkt = (person: Maybe<Person>) => {
     const activePeriod = useActivePeriod(person);
     const oppgavereferanse = getOppgavereferanse(activePeriod);
 
@@ -81,9 +81,7 @@ const finnAlleIKategori = (egenskaper: Oppgaveegenskap[], kategori: Kategori[]):
 const finnLabel = (egenskap: string, grupper: string[], ident: string): string =>
     getDefaultFilters(grupper, ident).find((it) => it.key === egenskap)?.label ?? egenskap.toString();
 
-const useLogEvent = (
-    person: Maybe<PersonFragment>,
-): ((event: Amplitude.LogEvent, begrunnelser?: Array<string>) => void) => {
+const useLogEvent = (person: Maybe<Person>): ((event: Amplitude.LogEvent, begrunnelser?: Array<string>) => void) => {
     const activePeriod = useActivePeriod(person);
     const oppgavereferanse = getOppgavereferanse(activePeriod);
     const grupper = useBrukerGrupper();

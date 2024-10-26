@@ -4,7 +4,7 @@ import { last } from 'remeda';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
-import type { GhostPeriodeFragment, PersonFragment } from '@io/graphql';
+import type { GhostPeriodeFragment, Person } from '@io/graphql';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
 import { TilkommenInntekt } from '@saksbilde/tilkommenInntekt/TilkommenInntekt';
 import { isTilkommenInntekt } from '@utils/typeguards';
@@ -13,7 +13,7 @@ import styles from './SharedViews.module.css';
 
 interface GhostPeriodeViewProps {
     activePeriod: GhostPeriodeFragment;
-    person: PersonFragment;
+    person: Person;
 }
 
 export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps): ReactElement => {

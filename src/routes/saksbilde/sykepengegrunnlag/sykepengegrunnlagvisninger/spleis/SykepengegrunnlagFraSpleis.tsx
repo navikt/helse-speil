@@ -6,7 +6,7 @@ import {
     Arbeidsgiverinntekt,
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
-    PersonFragment,
+    Person,
     VilkarsgrunnlagSpleis,
 } from '@io/graphql';
 import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
@@ -19,7 +19,7 @@ import styles from './SykepengegrunnlagFraSpleis.module.css';
 interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement> {
     vilkårsgrunnlag: VilkarsgrunnlagSpleis;
     organisasjonsnummer: string;
-    person: PersonFragment;
+    person: Person;
     periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
 }
 

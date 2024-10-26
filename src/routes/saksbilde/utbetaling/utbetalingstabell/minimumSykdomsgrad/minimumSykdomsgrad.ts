@@ -8,7 +8,7 @@ import {
     MinimumSykdomsgradInput,
     MinimumSykdomsgradMutationDocument,
     OpprettAbonnementDocument,
-    PersonFragment,
+    Person,
 } from '@io/graphql';
 import {
     kalkulererFerdigToastKey,
@@ -93,7 +93,7 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
     };
 };
 
-export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: ActivePeriod) =>
+export const getOverlappendeArbeidsgivere = (person: Person, periode: ActivePeriod) =>
     person.arbeidsgivere.filter(
         (arbeidsgiver) =>
             arbeidsgiver.generasjoner[0]?.perioder
