@@ -11,7 +11,7 @@ import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonM
 import { Arbeidsforhold } from '@io/graphql';
 import { useIsAnonymous } from '@state/anonymization';
 import { NORSK_DATOFORMAT } from '@utils/date';
-import { capitalize, somPenger } from '@utils/locale';
+import { capitalize, capitalizeArbeidsgiver, somPenger } from '@utils/locale';
 
 import styles from './ArbeidsgiverRow.module.scss';
 
@@ -107,7 +107,7 @@ const ArbeidsgiverRowView = ({
                         onClick={() => setOpen((prevState) => !prevState)}
                     >
                         <AnonymizableContainer>
-                            <BodyShort>{navn.charAt(0).toUpperCase() + navn.slice(1).toLowerCase()}</BodyShort>
+                            <BodyShort>{capitalizeArbeidsgiver(navn)}</BodyShort>
                         </AnonymizableContainer>
                     </Accordion.Header>
                     <Accordion.Content className={styles.content}>
