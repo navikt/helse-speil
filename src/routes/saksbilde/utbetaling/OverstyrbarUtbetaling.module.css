@@ -32,9 +32,3 @@
     left: 16px;
     top: 68px;
 }
-
-.ErrorMessage {
-    margin-left: 2rem;
-    color: var(--a-text-danger);
-    font-weight: 600;
-}

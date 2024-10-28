@@ -3,8 +3,6 @@ import dayjs from 'dayjs';
 import React, { ReactElement, Reducer, useEffect, useReducer, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { BodyShort } from '@navikt/ds-react';
-
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import {
@@ -323,6 +321,7 @@ export const OverstyrbarUtbetaling = ({
                                 <OverstyringForm
                                     overstyrteDager={alleOverstyrteDager}
                                     alleDager={alleDager}
+                                    error={error}
                                     toggleOverstyring={toggleOverstyring}
                                     onSubmit={onSubmitOverstyring}
                                 />
@@ -332,11 +331,6 @@ export const OverstyrbarUtbetaling = ({
                 )}
             </div>
             {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
-            {error && (
-                <BodyShort className={styles.ErrorMessage} role="alert">
-                    {error}
-                </BodyShort>
-            )}
             {visDagtypeModal && <DagtypeModal onClose={() => setVisDagtypeModal(false)} showModal={visDagtypeModal} />}
         </article>
     );

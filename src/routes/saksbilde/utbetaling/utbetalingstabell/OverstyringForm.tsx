@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { Button, ErrorSummary, Textarea } from '@navikt/ds-react';
+import { Button, ErrorMessage, ErrorSummary, HStack, Textarea, VStack } from '@navikt/ds-react';
 
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
@@ -13,11 +13,10 @@ import {
     sykNavValidering,
 } from './validering';
 
-import styles from './OverstyringForm.module.css';
-
 interface OverstyringFormProps {
     overstyrteDager: Map<string, Utbetalingstabelldag>;
     alleDager: Map<string, Utbetalingstabelldag>;
+    error?: string;
     toggleOverstyring: () => void;
     onSubmit: () => void;
 }
@@ -25,6 +24,7 @@ interface OverstyringFormProps {
 export const OverstyringForm = ({
     overstyrteDager,
     alleDager,
+    error,
     toggleOverstyring,
     onSubmit,
 }: OverstyringFormProps): ReactElement => {
@@ -69,7 +69,7 @@ export const OverstyringForm = ({
     const visFeilOppsummering = !formState.isValid && Object.entries(formState.errors).length > 0;
 
     return (
-        <div className={styles.container}>
+        <VStack marginInline="8" width="640px" gap="8">
             <Textarea
                 id="begrunnelse"
                 label="Begrunnelse for endringer"
@@ -88,20 +88,16 @@ export const OverstyringForm = ({
                     void begrunnelseValidation.onChange(event);
                     setOppsummering(event.target.value);
                 }}
-                className={styles.begrunnelse}
+                rows={6}
             />
             {visFeilOppsummering && (
-                <ErrorSummary
-                    className={styles.feiloppsummering}
-                    ref={oppsummeringRef}
-                    heading="Skjemaet inneholder følgende feil:"
-                >
+                <ErrorSummary ref={oppsummeringRef} heading="Skjemaet inneholder følgende feil:">
                     {Object.entries(formState.errors).map(([id, error], index) => {
                         return <ErrorSummary.Item key={`${id}${index}`}>{error?.message as string}</ErrorSummary.Item>;
                     })}
                 </ErrorSummary>
             )}
-            <span className={styles.buttons}>
+            <HStack gap="2" marginBlock="0 2">
                 <Button
                     size="small"
                     variant="secondary"
@@ -115,7 +111,8 @@ export const OverstyringForm = ({
                 <Button size="small" variant="tertiary" type="button" onClick={toggleOverstyring}>
                     Avbryt
                 </Button>
-            </span>
-        </div>
+            </HStack>
+            {error && <ErrorMessage size="small">{error}</ErrorMessage>}
+        </VStack>
     );
 };
