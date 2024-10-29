@@ -77,27 +77,23 @@ export const SaksbildemenySkeleton = () => (
     </SaksbildeMenuWrapper>
 );
 
-const SaksbildeMenuError = (): ReactElement => {
-    return (
-        <SaksbildeMenuWrapper background="surface-danger-subtle">
-            <HStack height="100%" align="center">
-                <BodyShort>Det oppstod en feil. Kan ikke vise saksbildemeny.</BodyShort>
-            </HStack>
-        </SaksbildeMenuWrapper>
-    );
-};
+const SaksbildeMenuError = (): ReactElement => (
+    <SaksbildeMenuWrapper background="surface-danger-subtle">
+        <HStack height="100%" align="center">
+            <BodyShort>Det oppstod en feil. Kan ikke vise saksbildemeny.</BodyShort>
+        </HStack>
+    </SaksbildeMenuWrapper>
+);
 
 const SaksbildeMenuWrapper = (props: BoxProps) => (
     <Box paddingInline="4" borderWidth="0 0 1 0" borderColor="border-subtle" height="3rem" {...props} />
 );
 
-export const SaksbildeMenu = (props: SaksbildeMenuProps): ReactElement => {
-    return (
-        <ErrorBoundary fallback={<SaksbildeMenuError />}>
-            <SaksbildeMenuContainer {...props} />
-        </ErrorBoundary>
-    );
-};
+export const SaksbildeMenu = (props: SaksbildeMenuProps): ReactElement => (
+    <ErrorBoundary fallback={<SaksbildeMenuError />}>
+        <SaksbildeMenuContainer {...props} />
+    </ErrorBoundary>
+);
 
 const harTilkommenInntektPåSkjæringstidspunkt = (person: PersonFragment, skjæringstidspunkt: string) =>
     person.arbeidsgivere.flatMap((ag) =>
