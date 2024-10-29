@@ -4,13 +4,12 @@ import { usePathname } from 'next/navigation';
 import React, { ReactElement } from 'react';
 import { last } from 'remeda';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Box, BoxProps, HStack, Skeleton } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { LoadingShimmer } from '@components/LoadingShimmer';
 import { PersonFragment } from '@io/graphql';
 import { ActivePeriod } from '@typer/shared';
-import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
 
 import { DropdownMenu } from './dropdown/DropdownMenu';
 
@@ -20,67 +19,6 @@ type SaksbildeMenuProps = {
     person: PersonFragment;
     activePeriod: ActivePeriod;
 };
-
-const SaksbildeMenuGhostPeriode = ({ person, activePeriod }: SaksbildeMenuProps): ReactElement => (
-    <div className={styles.SaksbildeMenu}>
-        <div>
-            <nav className={styles.TabList} role="tablist">
-                <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
-                {harTilkommenInntektPåSkjæringstidspunkt(person, activePeriod.skjaeringstidspunkt) && (
-                    <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />
-                )}
-            </nav>
-            <DropdownMenu person={person} activePeriod={activePeriod} />
-        </div>
-    </div>
-);
-
-const SaksbildeMenuNyeInntektsforholdPeriode = ({ person, activePeriod }: SaksbildeMenuProps): ReactElement => (
-    <div className={styles.SaksbildeMenu}>
-        <div>
-            <nav className={styles.TabList} role="tablist">
-                <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />
-            </nav>
-            <DropdownMenu person={person} activePeriod={activePeriod} />
-        </div>
-    </div>
-);
-
-const SaksbildeMenuBeregnetPeriode = ({ person, activePeriod }: SaksbildeMenuProps): ReactElement => (
-    <div className={styles.SaksbildeMenu}>
-        <div>
-            <nav className={styles.TabList} role="tablist">
-                <NavLenke to="dagoversikt" tittel="Dagoversikt" />
-                <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />
-                <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
-                {isBeregnetPeriode(activePeriod) &&
-                    activePeriod.risikovurdering?.funn &&
-                    activePeriod.risikovurdering?.funn?.length > 0 && (
-                        <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />
-                    )}
-
-                {harTilkommenInntektPåSkjæringstidspunkt(person, activePeriod.skjaeringstidspunkt) && (
-                    <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />
-                )}
-            </nav>
-            <DropdownMenu person={person} activePeriod={activePeriod} />
-        </div>
-    </div>
-);
-
-const SaksbildeMenuUberegnetPeriode = ({ person, activePeriod }: SaksbildeMenuProps): ReactElement => (
-    <div className={styles.SaksbildeMenu}>
-        <div>
-            <nav className={styles.TabList} role="tablist">
-                <NavLenke to="dagoversikt" tittel="Dagoversikt" />
-                {harTilkommenInntektPåSkjæringstidspunkt(person, activePeriod.skjaeringstidspunkt) && (
-                    <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />
-                )}
-            </nav>
-            <DropdownMenu person={person} activePeriod={activePeriod} />
-        </div>
-    </div>
-);
 
 const NavLenke = ({ tittel, to }: { tittel: string; to: string }): ReactElement => {
     const tab = last(usePathname().split('/'));
@@ -96,41 +34,62 @@ const NavLenke = ({ tittel, to }: { tittel: string; to: string }): ReactElement 
 };
 
 const SaksbildeMenuContainer = ({ person, activePeriod }: SaksbildeMenuProps): ReactElement => {
-    if (isBeregnetPeriode(activePeriod)) {
-        return <SaksbildeMenuBeregnetPeriode person={person} activePeriod={activePeriod} />;
-    }
-
-    if (isGhostPeriode(activePeriod)) {
-        return <SaksbildeMenuGhostPeriode person={person} activePeriod={activePeriod} />;
-    }
-
-    if (isTilkommenInntekt(activePeriod)) {
-        return <SaksbildeMenuNyeInntektsforholdPeriode person={person} activePeriod={activePeriod} />;
-    }
-
-    return <SaksbildeMenuUberegnetPeriode person={person} activePeriod={activePeriod} />;
-};
-
-export const SaksbildeMenuSkeleton = (): ReactElement => {
+    const erBeregnetPeriode = isBeregnetPeriode(activePeriod);
+    const erPeriode = erBeregnetPeriode || isUberegnetPeriode(activePeriod);
+    const erVilkårsvurdert = erBeregnetPeriode || isGhostPeriode(activePeriod);
+    const harRisikofunn =
+        erBeregnetPeriode && activePeriod.risikovurdering?.funn && activePeriod.risikovurdering?.funn?.length > 0;
+    const harTilkommenInntekt = harTilkommenInntektPåSkjæringstidspunkt(person, activePeriod.skjaeringstidspunkt);
     return (
-        <div className={classNames(styles.SaksbildeMenu, styles.Skeleton)}>
-            <span className={styles.TabList}>
-                <LoadingShimmer />
-                <LoadingShimmer />
-                <LoadingShimmer />
-                <LoadingShimmer />
-            </span>
-        </div>
+        <SaksbildeMenuWrapper>
+            <HStack>
+                <HStack as="nav" role="tablist">
+                    {erPeriode && <NavLenke to="dagoversikt" tittel="Dagoversikt" />}
+                    {erBeregnetPeriode && <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />}
+                    {erVilkårsvurdert && <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />}
+                    {harRisikofunn && <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />}
+                    {harTilkommenInntekt && <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />}
+                </HStack>
+                <DropdownMenu person={person} activePeriod={activePeriod} />
+            </HStack>
+        </SaksbildeMenuWrapper>
     );
 };
+
+export const SaksbildemenySkeleton = () => (
+    <SaksbildeMenuWrapper>
+        <HStack gap="4">
+            <Skeleton>
+                <NavLenke to="dagoversikt" tittel="Dagoversikt" />
+            </Skeleton>
+
+            <Skeleton>
+                <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />
+            </Skeleton>
+            <Skeleton>
+                <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
+            </Skeleton>
+            <Skeleton>
+                <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />
+            </Skeleton>
+            <Skeleton width="90px" />
+        </HStack>
+    </SaksbildeMenuWrapper>
+);
 
 const SaksbildeMenuError = (): ReactElement => {
     return (
-        <div className={classNames(styles.SaksbildeMenu, styles.Error)}>
-            <BodyShort>Det oppstod en feil. Kan ikke vise saksbildemeny.</BodyShort>
-        </div>
+        <SaksbildeMenuWrapper background="surface-danger-subtle">
+            <HStack height="100%" align="center">
+                <BodyShort>Det oppstod en feil. Kan ikke vise saksbildemeny.</BodyShort>
+            </HStack>
+        </SaksbildeMenuWrapper>
     );
 };
+
+const SaksbildeMenuWrapper = (props: BoxProps) => (
+    <Box paddingInline="4" borderWidth="0 0 1 0" borderColor="border-subtle" height="3rem" {...props} />
+);
 
 export const SaksbildeMenu = (props: SaksbildeMenuProps): ReactElement => {
     return (
