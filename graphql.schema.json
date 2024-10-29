@@ -4822,12 +4822,6 @@
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
-                    },
-                    {
-                        "name": "SOKNAD",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
                     }
                 ],
                 "possibleTypes": null
@@ -5248,13 +5242,9 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "LocalDate",
-                                "ofType": null
-                            }
+                            "kind": "SCALAR",
+                            "name": "LocalDate",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -7292,18 +7282,6 @@
                                 "name": "LocalDate",
                                 "ofType": null
                             }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "vilkarsgrunnlagId",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "UUID",
-                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null

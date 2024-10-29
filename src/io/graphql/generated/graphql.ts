@@ -509,7 +509,6 @@ export enum Inntektskilde {
     Inntektsmelding = 'INNTEKTSMELDING',
     Saksbehandler = 'SAKSBEHANDLER',
     SkjonnsmessigFastsatt = 'SKJONNSMESSIG_FASTSATT',
-    Soknad = 'SOKNAD',
 }
 
 export type Inntektsmelding = Hendelse & {
@@ -567,7 +566,7 @@ export type Kommentar = {
 export type LagtPaVent = Historikkinnslag & {
     __typename: 'LagtPaVent';
     arsaker: Array<Scalars['String']['output']>;
-    frist: Scalars['LocalDate']['output'];
+    frist: Maybe<Scalars['LocalDate']['output']>;
     notatId: Maybe<Scalars['Int']['output']>;
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
@@ -808,7 +807,6 @@ export type NyttInntektsforholdPeriode = {
     organisasjonsnummer: Scalars['String']['output'];
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     tom: Scalars['LocalDate']['output'];
-    vilkarsgrunnlagId: Maybe<Scalars['UUID']['output']>;
 };
 
 export type OmregnetArsinntekt = {
@@ -2355,7 +2353,7 @@ export type ArbeidsgiverFragment = {
                         }
                       | {
                             __typename: 'LagtPaVent';
-                            frist: string;
+                            frist: string | null;
                             arsaker: Array<string>;
                             type: PeriodehistorikkType;
                             timestamp: string;
@@ -3161,7 +3159,7 @@ export type BeregnetPeriodeFragment = {
           }
         | {
               __typename: 'LagtPaVent';
-              frist: string;
+              frist: string | null;
               arsaker: Array<string>;
               type: PeriodehistorikkType;
               timestamp: string;
@@ -3857,7 +3855,7 @@ export type PersonFragment = {
                             }
                           | {
                                 __typename: 'LagtPaVent';
-                                frist: string;
+                                frist: string | null;
                                 arsaker: Array<string>;
                                 type: PeriodehistorikkType;
                                 timestamp: string;
@@ -4613,7 +4611,7 @@ export type FetchPersonQuery = {
                                 }
                               | {
                                     __typename: 'LagtPaVent';
-                                    frist: string;
+                                    frist: string | null;
                                     arsaker: Array<string>;
                                     type: PeriodehistorikkType;
                                     timestamp: string;
