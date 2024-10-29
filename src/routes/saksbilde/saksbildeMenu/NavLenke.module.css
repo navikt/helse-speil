@@ -12,7 +12,6 @@
     border: none;
     cursor: pointer;
     padding: 0 13px;
-    /*border-bottom: 1px solid var(--a-border-strong);*/
     transition: background-color 0.1s ease;
 }
 

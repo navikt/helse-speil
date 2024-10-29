@@ -1,8 +1,4 @@
-import classNames from 'classnames';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import React, { ReactElement } from 'react';
-import { last } from 'remeda';
 
 import { BodyShort, Box, BoxProps, HStack, Skeleton } from '@navikt/ds-react';
 
@@ -11,26 +7,12 @@ import { PersonFragment } from '@io/graphql';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
 
+import { NavLenke, NavLenkeSkeleton } from './NavLenke';
 import { DropdownMenu } from './dropdown/DropdownMenu';
-
-import styles from './SaksbildeMenu.module.css';
 
 type SaksbildeMenuProps = {
     person: PersonFragment;
     activePeriod: ActivePeriod;
-};
-
-const NavLenke = ({ tittel, to }: { tittel: string; to: string }): ReactElement => {
-    const tab = last(usePathname().split('/'));
-    return (
-        <Link
-            className={classNames(styles.NavLink, { [styles.ActiveLink]: decodeURI(tab ?? '') === to })}
-            href={to}
-            title={tittel}
-        >
-            {tittel}
-        </Link>
-    );
 };
 
 const SaksbildeMenuContainer = ({ person, activePeriod }: SaksbildeMenuProps): ReactElement => {
@@ -56,22 +38,17 @@ const SaksbildeMenuContainer = ({ person, activePeriod }: SaksbildeMenuProps): R
     );
 };
 
+const SaksbildeMenuWrapper = (props: BoxProps) => (
+    <Box paddingInline="4" borderWidth="0 0 1 0" borderColor="border-subtle" height="3rem" {...props} />
+);
+
 export const SaksbildemenySkeleton = () => (
     <SaksbildeMenuWrapper>
         <HStack gap="4">
-            <Skeleton>
-                <NavLenke to="dagoversikt" tittel="Dagoversikt" />
-            </Skeleton>
-
-            <Skeleton>
-                <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />
-            </Skeleton>
-            <Skeleton>
-                <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
-            </Skeleton>
-            <Skeleton>
-                <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />
-            </Skeleton>
+            <NavLenkeSkeleton tittel="Dagoversikt" />
+            <NavLenkeSkeleton tittel="Inngangsvilkår" />
+            <NavLenkeSkeleton tittel="Sykepengegrunnlag" />
+            <NavLenkeSkeleton tittel="Tilkommen inntekt" />
             <Skeleton width="90px" />
         </HStack>
     </SaksbildeMenuWrapper>
@@ -83,10 +60,6 @@ const SaksbildeMenuError = (): ReactElement => (
             <BodyShort>Det oppstod en feil. Kan ikke vise saksbildemeny.</BodyShort>
         </HStack>
     </SaksbildeMenuWrapper>
-);
-
-const SaksbildeMenuWrapper = (props: BoxProps) => (
-    <Box paddingInline="4" borderWidth="0 0 1 0" borderColor="border-subtle" height="3rem" {...props} />
 );
 
 export const SaksbildeMenu = (props: SaksbildeMenuProps): ReactElement => (
