@@ -131,7 +131,7 @@ export type HistorikkhendelseObject = BaseHendelseObject & {
     timestamp: DateString;
     notatId: number | null;
     årsaker?: string[];
-    frist?: DateString;
+    frist?: DateString | null;
     notat?: NotatFragment;
     erNyesteHistorikkhendelseMedType?: boolean;
 };

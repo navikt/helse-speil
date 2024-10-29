@@ -166,7 +166,7 @@ interface LeggPåVentProps {
     expanded: boolean;
     tekst?: string;
     årsaker?: string[];
-    frist?: string;
+    frist?: string | null;
     erNyesteHistorikkhendelseMedType?: boolean;
 }
 
