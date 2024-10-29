@@ -39,7 +39,14 @@ const SaksbildeMenuContainer = ({ person, activePeriod }: SaksbildeMenuProps): R
 };
 
 const SaksbildeMenuWrapper = (props: BoxProps) => (
-    <Box paddingInline="4" borderWidth="0 0 1 0" borderColor="border-subtle" height="3rem" {...props} />
+    <Box
+        paddingInline="4"
+        borderWidth="0 0 1 0"
+        borderColor="border-subtle"
+        height="3rem"
+        minWidth="780px"
+        {...props}
+    />
 );
 
 export const SaksbildemenySkeleton = () => (
