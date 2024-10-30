@@ -4,8 +4,9 @@ import { BodyShort, Box, BoxProps, HStack, Skeleton } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { PersonFragment } from '@io/graphql';
+import { harOverlappendeTilkommenInntekt } from '@saksbilde/utils';
 import { ActivePeriod } from '@typer/shared';
-import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { NavLenke, NavLenkeSkeleton } from './NavLenke';
 import { DropdownMenu } from './dropdown/DropdownMenu';
@@ -21,7 +22,7 @@ const SaksbildeMenuContainer = ({ person, activePeriod }: SaksbildeMenuProps): R
     const erVilkårsvurdert = erBeregnetPeriode || isGhostPeriode(activePeriod);
     const harRisikofunn =
         erBeregnetPeriode && activePeriod.risikovurdering?.funn && activePeriod.risikovurdering?.funn?.length > 0;
-    const harTilkommenInntekt = harTilkommenInntektPåSkjæringstidspunkt(person, activePeriod.skjaeringstidspunkt);
+    const harTilkommenInntekt = harOverlappendeTilkommenInntekt(person, activePeriod.fom);
     return (
         <SaksbildeMenuWrapper>
             <HStack>
@@ -74,10 +75,3 @@ export const SaksbildeMenu = (props: SaksbildeMenuProps): ReactElement => (
         <SaksbildeMenuContainer {...props} />
     </ErrorBoundary>
 );
-
-const harTilkommenInntektPåSkjæringstidspunkt = (person: PersonFragment, skjæringstidspunkt: string) =>
-    person.arbeidsgivere.flatMap((ag) =>
-        ag.nyeInntektsforholdPerioder.filter(
-            (it) => isTilkommenInntekt(it) && it.skjaeringstidspunkt === skjæringstidspunkt,
-        ),
-    ).length > 0;

@@ -2,10 +2,12 @@ import { useEffect } from 'react';
 
 import { Fane, useNavigation } from '@hooks/useNavigation';
 
-export const useNavigateOnMount = (fane: Fane) => {
+export const useNavigateOnMount = (fane: Fane | undefined) => {
     const { navigateTo } = useNavigation();
 
     useEffect(() => {
-        navigateTo(fane);
-    }, []);
+        if (fane != undefined) {
+            navigateTo(fane);
+        }
+    }, [fane]);
 };
