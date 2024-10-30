@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Alert, Button } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, HStack, VStack } from '@navikt/ds-react';
 
 import { Feiloppsummering } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
@@ -12,7 +12,7 @@ import {
 } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
 import styles from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema.module.css';
 import { SlettLokaleOverstyringerModal } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/SlettLokaleOverstyringerModal';
-import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
+import { MånedsbeløpInput } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/MånedsbeløpInput';
 import { useLokaltMånedsbeløp } from '@state/arbeidsgiver';
 import { useInntektOgRefusjon, useLokaleInntektOverstyringer } from '@state/overstyring';
 import type { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
@@ -114,15 +114,17 @@ export const EditableTilkommenAG = ({
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(confirmChanges)}>
-                <div className={styles.EditableInntekt}>
-                    <Månedsbeløp
-                        månedsbeløp={periode.manedligBelop}
-                        kilde={''}
-                        lokaltMånedsbeløp={lokaltMånedsbeløp}
-                        harEndringer={harEndringer}
-                    />
+                <VStack gap="4">
+                    <HStack align="center" gap="6">
+                        <BodyShort>Inntekt per måned</BodyShort>
+                        <MånedsbeløpInput
+                            initialMånedsbeløp={periode.manedligBelop}
+                            skalDeaktiveres={false}
+                            lokaltMånedsbeløp={lokaltMånedsbeløp}
+                        />
+                    </HStack>
                     <ForklaringTextarea
-                        description={`Begrunn hvorfor det er gjort endringer i tilkommen inntekt.\nTeksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.`}
+                        description={`Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn.`}
                     />
                     {visFeilOppsummering && (
                         <Feiloppsummering
@@ -155,7 +157,7 @@ export const EditableTilkommenAG = ({
                             skjæringstidspunkt={periode.skjaeringstidspunkt}
                         />
                     )}
-                </div>
+                </VStack>
             </form>
         </FormProvider>
     );

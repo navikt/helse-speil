@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { BodyShort, Box, HGrid, Heading, VStack } from '@navikt/ds-react';
 
 import { ArbeidsgiverFragment, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
 import { EditableTilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/EditableTilkommenAG';
@@ -23,17 +23,24 @@ export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps)
     const [endret, setEndret] = useState(false);
 
     return (
-        <div className={styles.tilkommenAG}>
-            <Heading size="small">
-                Tilkommen inntekt {dayjs(periode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)} –
-                {dayjs(periode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
-            </Heading>
-            <div
-                className={classNames(
-                    styles.formWrapper,
-                    // { [styles.deaktivert]: periode.deaktivert },
-                    { [styles.redigerer]: editing },
-                )}
+        <VStack>
+            <Box paddingInline="4">
+                <Heading size="small" spacing>
+                    Tilkommen inntekt {dayjs(periode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)} –
+                    {dayjs(periode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
+                </Heading>
+            </Box>
+            <Box
+                background="surface-subtle"
+                borderWidth="0 0 0 3"
+                borderColor="border-action"
+                className={classNames(styles.ag, editing && styles.redigerer)}
+                paddingBlock="4"
+                paddingInline={editing ? '10' : '6'}
+                marginInline={editing ? '0' : '4'}
+                borderRadius={editing ? undefined : 'medium'}
+                minWidth="390px"
+                maxWidth={editing ? undefined : '730px'}
             >
                 <TilkommenAGHeader
                     person={person}
@@ -43,27 +50,25 @@ export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps)
                     setEditing={setEditing}
                 />
 
-                {editing ? (
-                    <EditableTilkommenAG
-                        person={person}
-                        arbeidsgiver={arbeidsgiver}
-                        periode={periode}
-                        close={() => setEditing(false)}
-                        onEndre={setEndret}
-                    />
-                ) : (
-                    <div className={styles.innhold}>
-                        <BodyShort weight="semibold">Tilkommen inntekt</BodyShort>
-                        <BodyShort>{toKronerOgØre(periode.manedligBelop ?? 0)} kr</BodyShort>
-                        {/*<OverstyrArbeidsforholdUtenSykdom*/}
-                        {/*    organisasjonsnummerAktivPeriode={arbeidsgiver.organisasjonsnummer}*/}
-                        {/*    skjæringstidspunkt={skjæringstidspunkt}*/}
-                        {/*    arbeidsforholdErDeaktivert={periode.deaktivert}*/}
-                        {/*    person={person}*/}
-                        {/*/>*/}
-                    </div>
-                )}
-            </div>
-        </div>
+                <Box marginInline="7 0" minWidth="390px" maxWidth="730px">
+                    {editing ? (
+                        <EditableTilkommenAG
+                            person={person}
+                            arbeidsgiver={arbeidsgiver}
+                            periode={periode}
+                            close={() => setEditing(false)}
+                            onEndre={setEndret}
+                        />
+                    ) : (
+                        <HGrid columns="150px auto" paddingBlock="1 0">
+                            <BodyShort weight="semibold">Inntekt per måned</BodyShort>
+                            <BodyShort>{toKronerOgØre(periode.manedligBelop ?? 0)} kr</BodyShort>
+                            <BodyShort weight="semibold">Inntekt per dag</BodyShort>
+                            <BodyShort>{toKronerOgØre(periode.dagligBelop ?? 0)} kr</BodyShort>
+                        </HGrid>
+                    )}
+                </Box>
+            </Box>
+        </VStack>
     );
 };

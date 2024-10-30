@@ -28,7 +28,7 @@ const TilkommenInntektContainer = ({ person, aktivPeriode }: TilkommenInntektPro
     if (!tilkomnePerioder) return null;
 
     return (
-        <Box paddingBlock="8 6" paddingInline="16">
+        <Box paddingBlock="8 6">
             {tilkomnePerioder.map((ag) => {
                 const arbeidsgiver = findArbeidsgiverWithNyttInntektsforholdPeriode(ag, person.arbeidsgivere);
 

@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React from 'react';
 
 import { BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
@@ -32,8 +31,8 @@ export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setE
     if (arbeidsgiver == null) return null;
 
     return (
-        <div className={classNames(styles.header, { [styles.editing]: editing })}>
-            <div className={styles.arbeidsgiverHeader}>
+        <HStack justify="space-between" marginBlock="0 4">
+            <HStack gap="2" align="center">
                 <Arbeidsgivernavn className={styles.arbeidsgivernavn} arbeidsgivernavn={arbeidsgiver?.navn} />
                 <HStack align="center">
                     <BodyShort weight="semibold" size="large">
@@ -48,17 +47,17 @@ export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setE
                     </BodyShort>
                 </HStack>
                 <Kilde type={Kildetype.Soknad}>SØ</Kilde>
-            </div>
-            {!harBeslutteroppgave && (
-                <EditButton
-                    isOpen={editing}
-                    openText="Avbryt"
-                    closedText="Endre"
-                    onOpen={() => setEditing(true)}
-                    onClose={() => setEditing(false)}
-                    className={styles.redigeringsknapp}
-                />
-            )}
-        </div>
+                {!harBeslutteroppgave && (
+                    <EditButton
+                        isOpen={editing}
+                        openText="Avbryt"
+                        closedText="Endre"
+                        onOpen={() => setEditing(true)}
+                        onClose={() => setEditing(false)}
+                        className={styles.redigeringsknapp}
+                    />
+                )}
+            </HStack>
+        </HStack>
     );
 };
