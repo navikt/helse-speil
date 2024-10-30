@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Alert, BodyShort, Button, HStack, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Box, Button, HStack, VStack } from '@navikt/ds-react';
 
 import { Feiloppsummering } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
@@ -123,9 +123,11 @@ export const EditableTilkommenAG = ({
                             lokaltMånedsbeløp={lokaltMånedsbeløp}
                         />
                     </HStack>
-                    <ForklaringTextarea
-                        description={`Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn.`}
-                    />
+                    <Box maxWidth="480px">
+                        <ForklaringTextarea
+                            description={`Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn.`}
+                        />
+                    </Box>
                     {visFeilOppsummering && (
                         <Feiloppsummering
                             feiloppsummeringRef={feiloppsummeringRef}
