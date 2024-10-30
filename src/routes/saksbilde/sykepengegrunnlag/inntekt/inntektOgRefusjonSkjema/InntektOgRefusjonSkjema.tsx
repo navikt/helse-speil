@@ -11,7 +11,7 @@ import {
     useWatch,
 } from 'react-hook-form';
 
-import { Alert, Button } from '@navikt/ds-react';
+import { Alert, Button, HStack } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
@@ -210,14 +210,14 @@ export const InntektOgRefusjonSkjema = ({
                             Du har ikke endret månedsinntekt eller refusjonsopplysninger
                         </Alert>
                     )}
-                    <span className={styles.Buttons}>
+                    <HStack gap="2">
                         <Button size="small" variant="secondary" type="submit" onClick={validateRefusjon}>
                             Lagre
                         </Button>
                         <Button size="small" variant="tertiary" type="button" onClick={cancelEditing}>
                             Avbryt
                         </Button>
-                    </span>
+                    </HStack>
                     {showSlettLokaleOverstyringerModal && (
                         <SlettLokaleOverstyringerModal
                             showModal={showSlettLokaleOverstyringerModal}

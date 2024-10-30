@@ -48,21 +48,10 @@
     font-style: italic;
 }
 
-.Buttons {
-    display: flex;
-    margin-top: var(--a-spacing-4);
-    gap: var(--a-spacing-2);
-}
-
 .WarningIngenSkjemaEndringer {
     margin: 0.5rem 0;
 }
 
 .Skjæringstidspunkt {
     font-weight: 600;
-}
-
-.månedsbeløp {
-    display: flex;
-    gap: 1rem;
 }

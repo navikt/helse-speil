@@ -137,14 +137,14 @@ export const EditableTilkommenAG = ({
                             Du har ikke endret månedsinntekt eller refusjonsopplysninger
                         </Alert>
                     )}
-                    <span className={styles.Buttons}>
+                    <HStack gap="2">
                         <Button size="small" variant="secondary" type="submit">
                             Lagre
                         </Button>
                         <Button size="small" variant="tertiary" type="button" onClick={cancelEditing}>
                             Avbryt
                         </Button>
-                    </span>
+                    </HStack>
                     {showSlettLokaleOverstyringerModal && (
                         <SlettLokaleOverstyringerModal
                             showModal={showSlettLokaleOverstyringerModal}
