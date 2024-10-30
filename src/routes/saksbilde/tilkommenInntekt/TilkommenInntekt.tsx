@@ -1,6 +1,7 @@
+import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { Alert, Box } from '@navikt/ds-react';
+import { Alert, Box, Heading, VStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import {
@@ -13,6 +14,7 @@ import {
 } from '@io/graphql';
 import { TilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/TilkommenAG';
 import { findArbeidsgiverWithNyttInntektsforholdPeriode } from '@state/arbeidsgiver';
+import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
 type TilkommenInntektProps = {
     person: PersonFragment;
@@ -21,21 +23,28 @@ type TilkommenInntektProps = {
 
 const TilkommenInntektContainer = ({ person, aktivPeriode }: TilkommenInntektProps): Maybe<ReactElement> => {
     const tilkomnePerioder: NyttInntektsforholdPeriodeFragment[] = person.arbeidsgivere.flatMap(
-        (it: ArbeidsgiverFragment) =>
-            it.nyeInntektsforholdPerioder.filter((it) => it.skjaeringstidspunkt === aktivPeriode.skjaeringstidspunkt),
+        (it: ArbeidsgiverFragment) => it.nyeInntektsforholdPerioder.filter((it) => it.fom === aktivPeriode.fom),
     );
 
     if (!tilkomnePerioder) return null;
 
     return (
         <Box paddingBlock="8 6">
-            {tilkomnePerioder.map((ag) => {
-                const arbeidsgiver = findArbeidsgiverWithNyttInntektsforholdPeriode(ag, person.arbeidsgivere);
+            <Box paddingInline="4">
+                <Heading size="small" spacing>
+                    Tilkommen inntekt {dayjs(tilkomnePerioder[0]?.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)} –
+                    {dayjs(tilkomnePerioder[0]?.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
+                </Heading>
+            </Box>
+            <VStack gap="8">
+                {tilkomnePerioder.map((ag) => {
+                    const arbeidsgiver = findArbeidsgiverWithNyttInntektsforholdPeriode(ag, person.arbeidsgivere);
 
-                if (!arbeidsgiver) return null;
+                    if (!arbeidsgiver) return null;
 
-                return <TilkommenAG key={ag.id} person={person} periode={ag} arbeidsgiver={arbeidsgiver} />;
-            }) ?? null}
+                    return <TilkommenAG key={ag.id} person={person} periode={ag} arbeidsgiver={arbeidsgiver} />;
+                }) ?? null}
+            </VStack>
         </Box>
     );
 };

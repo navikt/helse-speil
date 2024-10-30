@@ -1,13 +1,11 @@
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import React, { useState } from 'react';
 
-import { BodyShort, Box, HGrid, Heading, VStack } from '@navikt/ds-react';
+import { BodyShort, Box, HGrid, VStack } from '@navikt/ds-react';
 
 import { ArbeidsgiverFragment, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
 import { EditableTilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/EditableTilkommenAG';
 import { TilkommenAGHeader } from '@saksbilde/tilkommenInntekt/tilkommen/TilkommenAGHeader';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
 import styles from './TilkommenAG.module.scss';
@@ -24,12 +22,6 @@ export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps)
 
     return (
         <VStack>
-            <Box paddingInline="4">
-                <Heading size="small" spacing>
-                    Tilkommen inntekt {dayjs(periode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)} –
-                    {dayjs(periode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
-                </Heading>
-            </Box>
             <Box
                 background="surface-subtle"
                 borderWidth="0 0 0 3"
