@@ -74,10 +74,10 @@ interface MånedsbeløpRowProps {
 
 const MånedsbeløpRow = ({ månedsbeløp }: MånedsbeløpRowProps): ReactElement => {
     return (
-        <div className={styles.månedsbeløp}>
+        <HStack justify="space-between" align="center">
             <BodyShort>Månedsbeløp:</BodyShort>
             {somPenger(månedsbeløp)}
-        </div>
+        </HStack>
     );
 };
 
