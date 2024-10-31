@@ -2,6 +2,8 @@ import { usePathname } from 'next/navigation';
 import React, { ReactElement } from 'react';
 import { last } from 'remeda';
 
+import { Box } from '@navikt/ds-react/Box';
+
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
@@ -11,8 +13,6 @@ import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 import { harOverlappendeTilkommenInntekt } from '@saksbilde/utils';
 import { Inngangsvilkår } from '@saksbilde/vilkår/Inngangsvilkår';
 import { Vurderingsmomenter } from '@saksbilde/vurderingsmomenter/Vurderingsmomenter';
-
-import styles from './SharedViews.module.css';
 
 interface BeregnetPeriodeViewProps {
     period: BeregnetPeriodeFragment;
@@ -25,12 +25,12 @@ export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps
     useNavigateOnMount(tab === 'tilkommen-inntekt' && !harTilkommenInntekt ? Fane.Utbetaling : undefined);
 
     return (
-        <div className={styles.RouteContainer}>
+        <Box overflowX="scroll">
             {tab === 'dagoversikt' && <Utbetaling person={person} periode={period} />}
             {decodeURI(tab ?? '') === 'inngangsvilkår' && <Inngangsvilkår person={person} periode={period} />}
             {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag person={person} periode={period} />}
             {tab === 'vurderingsmomenter' && <Vurderingsmomenter periode={period} />}
             {tab === 'tilkommen-inntekt' && <TilkommenInntekt person={person} aktivPeriode={period} />}
-        </div>
+        </Box>
     );
 };

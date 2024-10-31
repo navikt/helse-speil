@@ -2,12 +2,12 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import { last } from 'remeda';
 
+import { Box } from '@navikt/ds-react/Box';
+
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
 import { PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
-
-import styles from './SharedViews.module.css';
 
 type UberegnetPeriodeViewProps = {
     person: PersonFragment;
@@ -19,8 +19,6 @@ export const UberegnetPeriodeView = ({ person, activePeriod }: UberegnetPeriodeV
     useNavigateOnMount(Fane.Utbetaling);
 
     return (
-        <div className={styles.RouteContainer}>
-            {tab === 'dagoversikt' && <Utbetaling person={person} periode={activePeriod} />}
-        </div>
+        <Box overflowX="scroll">{tab === 'dagoversikt' && <Utbetaling person={person} periode={activePeriod} />}</Box>
     );
 };

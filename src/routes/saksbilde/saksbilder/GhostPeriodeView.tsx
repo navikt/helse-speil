@@ -2,14 +2,14 @@ import { usePathname } from 'next/navigation';
 import React, { ReactElement } from 'react';
 import { last } from 'remeda';
 
+import { Box } from '@navikt/ds-react/Box';
+
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
 import type { GhostPeriodeFragment, PersonFragment } from '@io/graphql';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
 import { TilkommenInntekt } from '@saksbilde/tilkommenInntekt/TilkommenInntekt';
 import { isTilkommenInntekt } from '@utils/typeguards';
-
-import styles from './SharedViews.module.css';
 
 interface GhostPeriodeViewProps {
     activePeriod: GhostPeriodeFragment;
@@ -23,14 +23,14 @@ export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps
     return (
         <>
             {tab === 'sykepengegrunnlag' && (
-                <div className={styles.RouteContainer}>
+                <Box overflowX="scroll">
                     <Sykepengegrunnlag person={person} periode={activePeriod} />
-                </div>
+                </Box>
             )}
             {tab === 'tilkommen-inntekt' && (
-                <div className={styles.RouteContainer}>
+                <Box overflowX="scroll">
                     <TilkommenInntekt person={person} aktivPeriode={activePeriod} />
-                </div>
+                </Box>
             )}
         </>
     );
