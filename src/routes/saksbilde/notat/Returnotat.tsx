@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { Dispatch, ReactElement, SetStateAction } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
-import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
 
 import { Maybe, NotatType, PersonFragment } from '@io/graphql';
 import { useFjernNotat } from '@state/notater';
@@ -54,14 +54,14 @@ export const Returnotat = ({ onSubmit, setShowNotat, error, person }: Returnotat
                     vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
                     notattype={NotatType.Retur}
                 />
-                <span className={styles.buttons}>
+                <HStack gap="2" align="center" marginBlock="4 0">
                     <Button size="small" variant="secondary" type="submit">
                         Lagre notat og returner
                     </Button>
                     <Button size="small" variant="tertiary" onClick={lukkNotatfelt} type="button">
                         Avbryt
                     </Button>
-                </span>
+                </HStack>
             </form>
             {error && <ErrorMessage>{error}</ErrorMessage>}
         </li>

@@ -3,7 +3,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
@@ -117,14 +117,14 @@ export const Notat = ({ person }: NotatProps): Maybe<ReactElement> => {
                     <BodyShort>Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.</BodyShort>
                     <form onSubmit={form.handleSubmit(submit)} className={styles.form}>
                         <ControlledTextarea control={form.control} vedtaksperiodeId={aktivPeriode.vedtaksperiodeId} />
-                        <span className={styles.buttons}>
+                        <HStack gap="2" align="center" marginBlock="4 0">
                             <Button size="small" variant="secondary" type="submit" loading={loading}>
                                 Lagre notat
                             </Button>
                             <Button size="small" variant="tertiary" type="button" onClick={lukkNotatfelt}>
                                 Avbryt
                             </Button>
-                        </span>
+                        </HStack>
                     </form>
                 </>
             )}

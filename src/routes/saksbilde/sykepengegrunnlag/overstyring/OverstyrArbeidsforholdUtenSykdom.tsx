@@ -3,7 +3,7 @@ import React, { ReactElement, useContext, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { XMarkOctagonIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, ErrorMessage, ErrorSummary } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, ErrorSummary, HStack } from '@navikt/ds-react';
 
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
@@ -172,14 +172,14 @@ const OverstyrArbeidsforholdSkjema = ({
                             </ErrorSummary>
                         </div>
                     )}
-                    <span className={styles.buttons}>
+                    <HStack gap="2" align="center" marginBlock="4 0">
                         <Button size="small" variant="secondary" type="submit" loading={isLoading}>
                             Ferdig
                         </Button>
                         <Button size="small" variant="tertiary" type="button" onClick={onClose}>
                             Avbryt
                         </Button>
-                    </span>
+                    </HStack>
                     {error && <ErrorMessage>{error}</ErrorMessage>}
                     {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
                 </div>

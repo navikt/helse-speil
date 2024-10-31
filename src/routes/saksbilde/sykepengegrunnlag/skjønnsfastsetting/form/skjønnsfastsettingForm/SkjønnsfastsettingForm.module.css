@@ -3,12 +3,6 @@
     padding-right: var(--a-spacing-12);
 }
 
-.buttons {
-    margin-top: var(--a-spacing-4);
-    display: flex;
-    gap: var(--a-spacing-2);
-}
-
 .arbeidsgivere {
     margin-bottom: var(--a-spacing-4);
 }

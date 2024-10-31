@@ -6,9 +6,3 @@
 .notatform textarea {
     font-size: var(--a-font-size-medium);
 }
-
-.buttons {
-    display: flex;
-    gap: var(--a-spacing-2);
-    margin-top: var(--a-spacing-4);
-}

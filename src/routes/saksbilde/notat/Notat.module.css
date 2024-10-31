@@ -51,14 +51,3 @@
 .form {
     padding-top: 0.5rem;
 }
-
-.buttons {
-    display: flex;
-    gap: var(--a-spacing-2);
-    margin-top: var(--a-spacing-4);
-}
-
-.buttons span {
-    display: flex;
-    column-gap: var(--a-spacing-2);
-}

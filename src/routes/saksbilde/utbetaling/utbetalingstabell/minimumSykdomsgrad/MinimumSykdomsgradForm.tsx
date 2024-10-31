@@ -139,7 +139,7 @@ export const MinimumSykdomsgradForm = ({
                         </ErrorSummary>
                     </div>
                 )}
-                <span className={styles.buttons}>
+                <HStack gap="2" align="center" marginBlock="6 0">
                     <Button size="small" variant="secondary" type="submit" loading={isLoading}>
                         Lagre
                     </Button>
@@ -151,7 +151,7 @@ export const MinimumSykdomsgradForm = ({
                     >
                         Avbryt
                     </Button>
-                </span>
+                </HStack>
                 {error && <ErrorMessage className={styles.error}>{error}</ErrorMessage>}
                 {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
             </form>

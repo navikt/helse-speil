@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 
-import { Alert, BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
 
 import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
 import { TimeoutModal } from '@components/TimeoutModal';
@@ -30,7 +30,7 @@ export const KalkulerEndringerVarsel = ({
                 <BodyShort>
                     Endringene for sykepengegrunnlag må kalkuleres før du sender saken til godkjenning.
                 </BodyShort>
-                <div className={styles.buttons}>
+                <HStack gap="4" align="center" marginBlock="3 0">
                     <Button
                         size="small"
                         variant="primary"
@@ -50,7 +50,7 @@ export const KalkulerEndringerVarsel = ({
                     >
                         Forkast endringer ({antallRedigerteArbeidsgivere})
                     </Button>
-                </div>
+                </HStack>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
             </Alert>
             {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}

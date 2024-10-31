@@ -45,10 +45,6 @@
     margin-left: 0.5em;
 }
 
-.buttons > button:not(:last-of-type) {
-    margin-right: 1rem;
-}
-
 .spinnerknapp {
     display: flex;
 }

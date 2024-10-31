@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useRef } from 'react';
 import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import { Button, ErrorMessage, HelpText } from '@navikt/ds-react';
+import { Button, ErrorMessage, HStack, HelpText } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
@@ -168,7 +168,7 @@ export const SkjønnsfastsettingForm = ({
                                     feilliste={formErrorsTilFeilliste(formState.errors)}
                                 />
                             )}
-                            <div className={styles.buttons}>
+                            <HStack gap="2" align="center" marginBlock="4 0">
                                 {!erBeslutteroppgave ? (
                                     <Button size="small" variant="secondary" type="submit" loading={isLoading}>
                                         Lagre
@@ -179,7 +179,7 @@ export const SkjønnsfastsettingForm = ({
                                 <Button size="small" variant="tertiary" type="button" onClick={cancelEditing}>
                                     Avbryt
                                 </Button>
-                            </div>
+                            </HStack>
                         </>
                     )}
                     {error && <ErrorMessage className={styles.error}>{error}</ErrorMessage>}

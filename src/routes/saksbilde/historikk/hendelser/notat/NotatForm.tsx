@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Button, Textarea } from '@navikt/ds-react';
+import { Button, HStack, Textarea } from '@navikt/ds-react';
 
 import styles from './NotatForm.module.css';
 
@@ -40,14 +40,14 @@ export const NotatForm = ({
                 }
                 {...form.register('Notattekst', { required: 'Tekstfeltet kan ikke være tomt' })}
             />
-            <span className={styles.buttons}>
+            <HStack gap="2" align="center" marginBlock="4 0">
                 <Button size="small" variant="secondary" type="submit" loading={isFetching}>
                     Legg til
                 </Button>
                 <Button size="small" variant="tertiary" type="button" onClick={closeForm}>
                     Avbryt
                 </Button>
-            </span>
+            </HStack>
         </form>
     );
 };

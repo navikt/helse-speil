@@ -1,6 +1,6 @@
 import React, { FormEvent, useRef, useState } from 'react';
 
-import { Alert, BodyShort, Button, Textarea } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, HStack, Textarea } from '@navikt/ds-react';
 
 import { useOpphevStans } from '@state/opphevStans';
 import { useAddToast } from '@state/toasts';
@@ -57,14 +57,14 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                         description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn"
                         ref={textArea}
                     />
-                    <div className={styles.buttons}>
+                    <HStack gap="2" align="center" marginBlock="4 0">
                         <Button size="small" variant="primary" type="submit" loading={loading || submitting}>
                             Opphev stans
                         </Button>
                         <Button size="small" variant="tertiary" type="button" onClick={() => setÅpen(false)}>
                             Avbryt
                         </Button>
-                    </div>
+                    </HStack>
                 </form>
             )}
             {error && (
