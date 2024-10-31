@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
+import { BodyShort, Box, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
 import { EditButton } from '@components/EditButton';
 import { Kilde } from '@components/Kilde';
@@ -14,8 +14,6 @@ import {
 } from '@io/graphql';
 import { Arbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/Arbeidsgivernavn';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
-
-import styles from './TilkommenAG.module.scss';
 
 interface TilkommenAGHeaderProps {
     person: PersonFragment;
@@ -33,7 +31,9 @@ export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setE
     return (
         <HStack justify="space-between" marginBlock="0 4">
             <HStack gap="2" align="center">
-                <Arbeidsgivernavn className={styles.arbeidsgivernavn} arbeidsgivernavn={arbeidsgiver?.navn} />
+                <Box maxWidth="230px">
+                    <Arbeidsgivernavn arbeidsgivernavn={arbeidsgiver?.navn} />
+                </Box>
                 <HStack align="center">
                     <BodyShort weight="semibold" size="large">
                         (
@@ -54,7 +54,6 @@ export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setE
                         closedText="Endre"
                         onOpen={() => setEditing(true)}
                         onClose={() => setEditing(false)}
-                        className={styles.redigeringsknapp}
                     />
                 )}
             </HStack>

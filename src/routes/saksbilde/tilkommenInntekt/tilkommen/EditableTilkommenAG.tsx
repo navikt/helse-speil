@@ -13,7 +13,6 @@ import {
 import styles from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema.module.css';
 import { SlettLokaleOverstyringerModal } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/SlettLokaleOverstyringerModal';
 import { MånedsbeløpInput } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/MånedsbeløpInput';
-import { useLokaltMånedsbeløp } from '@state/arbeidsgiver';
 import { useInntektOgRefusjon, useLokaleInntektOverstyringer } from '@state/overstyring';
 import type { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
@@ -28,6 +27,7 @@ interface EditableTilkommenAGProps {
     person: PersonFragment;
     arbeidsgiver: ArbeidsgiverFragment;
     periode: NyttInntektsforholdPeriodeFragment;
+    lokaltMånedsbeløp: Maybe<number>;
     close: () => void;
     onEndre: (erEndret: boolean) => void;
 }
@@ -36,12 +36,12 @@ export const EditableTilkommenAG = ({
     person,
     arbeidsgiver,
     periode,
+    lokaltMånedsbeløp,
     close,
     onEndre,
 }: EditableTilkommenAGProps): Maybe<ReactElement> => {
     const form = useForm<TilkommenInntektFormFields>({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
-    const lokaltMånedsbeløp = useLokaltMånedsbeløp(arbeidsgiver.organisasjonsnummer, periode.skjaeringstidspunkt);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const [harIkkeSkjemaEndringer] = useState(false);
     const [showSlettLokaleOverstyringerModal, setShowSlettLokaleOverstyringerModal] = useState(false);
@@ -59,9 +59,7 @@ export const EditableTilkommenAG = ({
 
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const values = form.getValues();
-    const månedsbeløp = Number.parseFloat(values.manedsbelop);
     const omregnetÅrsinntektMånedsbeløpRounded = avrundetToDesimaler(periode.manedligBelop);
-    const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded;
 
     useEffect(() => {
         if (lokaltMånedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded) {

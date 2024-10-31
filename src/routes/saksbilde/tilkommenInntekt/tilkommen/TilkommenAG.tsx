@@ -1,14 +1,13 @@
-import classNames from 'classnames';
 import React, { useState } from 'react';
 
 import { BodyShort, Box, HGrid, VStack } from '@navikt/ds-react';
 
+import { Endringstrekant } from '@components/Endringstrekant';
 import { ArbeidsgiverFragment, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
 import { EditableTilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/EditableTilkommenAG';
 import { TilkommenAGHeader } from '@saksbilde/tilkommenInntekt/tilkommen/TilkommenAGHeader';
-import { toKronerOgØre } from '@utils/locale';
-
-import styles from './TilkommenAG.module.scss';
+import { useLokaltMånedsbeløp } from '@state/arbeidsgiver';
+import { somPenger } from '@utils/locale';
 
 interface TilkommenAGProps {
     person: PersonFragment;
@@ -19,14 +18,14 @@ interface TilkommenAGProps {
 export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
+    const lokaltMånedsbeløp = useLokaltMånedsbeløp(arbeidsgiver.organisasjonsnummer, periode.skjaeringstidspunkt);
 
     return (
         <VStack>
             <Box
                 background="surface-subtle"
                 borderWidth="0 0 0 3"
-                borderColor="border-action"
-                className={classNames(styles.ag, editing && styles.redigerer)}
+                style={{ borderColor: editing ? 'var(--a-border-action)' : 'transparent' }}
                 paddingBlock="4"
                 paddingInline={editing ? '10' : '6'}
                 marginInline={editing ? '0' : '4'}
@@ -48,15 +47,21 @@ export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps)
                             person={person}
                             arbeidsgiver={arbeidsgiver}
                             periode={periode}
+                            lokaltMånedsbeløp={lokaltMånedsbeløp}
                             close={() => setEditing(false)}
                             onEndre={setEndret}
                         />
                     ) : (
                         <HGrid columns="150px auto" paddingBlock="1 0">
                             <BodyShort weight="semibold">Inntekt per måned</BodyShort>
-                            <BodyShort>{toKronerOgØre(periode.manedligBelop ?? 0)} kr</BodyShort>
+                            <Box paddingInline="4 0">
+                                {(endret || lokaltMånedsbeløp) && (
+                                    <Endringstrekant text="Endringene vil oppdateres og kalkuleres etter du har trykket på kalkuler" />
+                                )}
+                                <BodyShort>{somPenger(periode.manedligBelop)}</BodyShort>
+                            </Box>
                             <BodyShort weight="semibold">Inntekt per dag</BodyShort>
-                            <BodyShort>{toKronerOgØre(periode.dagligBelop ?? 0)} kr</BodyShort>
+                            <BodyShort>{somPenger(periode.dagligBelop)}</BodyShort>
                         </HGrid>
                     )}
                 </Box>

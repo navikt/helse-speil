@@ -49,18 +49,14 @@ const TilkommenInntektContainer = ({ person, aktivPeriode }: TilkommenInntektPro
     );
 };
 
-const TilkommenInntektError = (): ReactElement => {
-    return (
-        <Alert variant="error" size="small">
-            Noe gikk galt. Kan ikke vise arbeidsforholdet for denne perioden.
-        </Alert>
-    );
-};
+const TilkommenInntektError = (): ReactElement => (
+    <Alert variant="error" size="small">
+        Noe gikk galt. Kan ikke vise arbeidsforholdet for denne perioden.
+    </Alert>
+);
 
-export const TilkommenInntekt = ({ person, aktivPeriode }: TilkommenInntektProps): ReactElement => {
-    return (
-        <ErrorBoundary fallback={<TilkommenInntektError />}>
-            <TilkommenInntektContainer person={person} aktivPeriode={aktivPeriode} />
-        </ErrorBoundary>
-    );
-};
+export const TilkommenInntekt = ({ person, aktivPeriode }: TilkommenInntektProps): ReactElement => (
+    <ErrorBoundary fallback={<TilkommenInntektError />}>
+        <TilkommenInntektContainer person={person} aktivPeriode={aktivPeriode} />
+    </ErrorBoundary>
+);
