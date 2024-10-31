@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Accordion, Alert, BodyShort } from '@navikt/ds-react';
 
 import { Maybe, Overstyring, VarselDto, Varselstatus } from '@io/graphql';
+import { useInntektOgRefusjon } from '@state/overstyring';
 import { DateString, PeriodState } from '@typer/shared';
 import {
     isArbeidsforholdoverstyring,
@@ -159,6 +160,8 @@ export const Saksbildevarsler = ({
     navnPåDeaktiverteGhostArbeidsgivere,
 }: SaksbildevarslerProps) => {
     const [open, setOpen] = useState(true);
+    const lokaleInntektoverstyringer = useInntektOgRefusjon();
+
     const infoVarsler: VarselObject[] = [
         sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
         vedtaksperiodeVenter(periodState),
@@ -178,6 +181,14 @@ export const Saksbildevarsler = ({
         manglendeOppgavereferanse(periodState, oppgavereferanse),
     ].filter((it) => it) as VarselObject[];
 
+    const skalViseVarsler = (varsler?.length ?? 0) > 0 || infoVarsler.length > 0 || feilVarsler.length > 0;
+    const skalViseKalkulerEndringerVarsel =
+        lokaleInntektoverstyringer &&
+        lokaleInntektoverstyringer?.skjæringstidspunkt === skjæringstidspunkt &&
+        lokaleInntektoverstyringer.arbeidsgivere.length > 0;
+
+    if (!skalViseVarsler && !skalViseKalkulerEndringerVarsel) return null;
+
     const varselheadertekst =
         varsler && varsler.length > 0
             ? `Vis varsler (${
@@ -191,38 +202,42 @@ export const Saksbildevarsler = ({
 
     return (
         <div className="Saksbildevarsler">
-            <Accordion>
-                <Accordion.Item open={open}>
-                    <Accordion.Header
-                        className={classNames(
-                            styles.varslerheader,
-                            infoVarsler.length === 0 &&
-                                varsler?.length === 0 &&
-                                feilVarsler.length === 0 &&
-                                styles.skjult,
-                        )}
-                        onClick={() => {
-                            setOpen((prevState) => !prevState);
-                        }}
-                    >
-                        {!open ? varselheadertekst : 'Skjul varsler'}
-                    </Accordion.Header>
-                    <Accordion.Content className={styles.varsler}>
-                        {infoVarsler.map(({ grad, melding }, index) => (
-                            <Alert className={styles.Varsel} variant={grad} key={index}>
-                                <BodyShort>{melding}</BodyShort>
-                            </Alert>
-                        ))}
-                        {varsler && <Varsler varsler={varsler} />}
-                        {feilVarsler.map(({ grad, melding }, index) => (
-                            <Alert className={styles.Varsel} variant={grad} key={index}>
-                                <BodyShort>{melding}</BodyShort>
-                            </Alert>
-                        ))}
-                    </Accordion.Content>
-                </Accordion.Item>
-            </Accordion>
-            <KalkulerEndringerVarsel skjæringstidspunkt={skjæringstidspunkt} />
+            {skalViseVarsler && (
+                <Accordion>
+                    <Accordion.Item open={open}>
+                        <Accordion.Header
+                            className={classNames(
+                                styles.varslerheader,
+                                infoVarsler.length === 0 &&
+                                    varsler?.length === 0 &&
+                                    feilVarsler.length === 0 &&
+                                    styles.skjult,
+                            )}
+                            onClick={() => {
+                                setOpen((prevState) => !prevState);
+                            }}
+                        >
+                            {!open ? varselheadertekst : 'Skjul varsler'}
+                        </Accordion.Header>
+                        <Accordion.Content className={styles.varsler}>
+                            {infoVarsler.map(({ grad, melding }, index) => (
+                                <Alert className={styles.Varsel} variant={grad} key={index}>
+                                    <BodyShort>{melding}</BodyShort>
+                                </Alert>
+                            ))}
+                            {varsler && <Varsler varsler={varsler} />}
+                            {feilVarsler.map(({ grad, melding }, index) => (
+                                <Alert className={styles.Varsel} variant={grad} key={index}>
+                                    <BodyShort>{melding}</BodyShort>
+                                </Alert>
+                            ))}
+                        </Accordion.Content>
+                    </Accordion.Item>
+                </Accordion>
+            )}
+            {skalViseKalkulerEndringerVarsel && (
+                <KalkulerEndringerVarsel lokaleInntektoverstyringer={lokaleInntektoverstyringer} />
+            )}
         </div>
     );
 };

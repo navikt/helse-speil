@@ -155,7 +155,7 @@ export const useOverstyrtInntektMetadata = (
     };
 };
 
-type OverstyrtInntektOgRefusjon = {
+export type OverstyrtInntektOgRefusjon = {
     aktørId: Maybe<string>;
     fødselsnummer: Maybe<string>;
     skjæringstidspunkt: Maybe<string>;

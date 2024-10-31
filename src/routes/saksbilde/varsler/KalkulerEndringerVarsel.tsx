@@ -5,7 +5,7 @@ import { Alert, BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Maybe } from '@io/graphql';
-import { useInntektOgRefusjon, useSlettLokaleOverstyringer } from '@state/overstyring';
+import { OverstyrtInntektOgRefusjon, useSlettLokaleOverstyringer } from '@state/overstyring';
 import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
@@ -13,17 +13,18 @@ import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRe
 import styles from './Saksbildevarsler.module.css';
 
 interface KalkulerEndringerVarselProps {
-    skjæringstidspunkt?: string;
+    lokaleInntektoverstyringer: OverstyrtInntektOgRefusjon;
 }
 
-export const KalkulerEndringerVarsel = ({ skjæringstidspunkt }: KalkulerEndringerVarselProps): Maybe<ReactElement> => {
-    const lokaleInntektoverstyringer = useInntektOgRefusjon();
+export const KalkulerEndringerVarsel = ({
+    lokaleInntektoverstyringer,
+}: KalkulerEndringerVarselProps): Maybe<ReactElement> => {
     const slettLokaleOverstyringer = useSlettLokaleOverstyringer();
     const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntektOgRefusjon();
     const [showModal, setShowModal] = useState(false);
     const antallRedigerteArbeidsgivere = lokaleInntektoverstyringer?.arbeidsgivere.length ?? 0;
 
-    return antallRedigerteArbeidsgivere > 0 && lokaleInntektoverstyringer?.skjæringstidspunkt === skjæringstidspunkt ? (
+    return (
         <>
             <Alert className={styles.Varsel} variant="info">
                 <BodyShort>
@@ -69,5 +70,5 @@ export const KalkulerEndringerVarsel = ({ skjæringstidspunkt }: KalkulerEndring
                 </SlettLokaleEndringerModal>
             )}
         </>
-    ) : null;
+    );
 };
