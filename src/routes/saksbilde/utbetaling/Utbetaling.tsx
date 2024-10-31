@@ -1,8 +1,9 @@
 import React, { ReactElement } from 'react';
 
-import { Alert, Box, HelpText } from '@navikt/ds-react';
+import { Alert, Box, HStack, Heading, HelpText } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
@@ -22,6 +23,7 @@ import { useActivePeriod } from '@state/periode';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { capitalizeArbeidsgiver } from '@utils/locale';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 import { isBeregnetPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -46,9 +48,10 @@ interface ReadonlyUtbetalingProps {
     tom: DateString;
     dager: Map<string, Utbetalingstabelldag>;
     person: PersonFragment;
+    arbeidsgiverNavn: string;
 }
 
-const ReadonlyUtbetaling = ({ fom, tom, dager, person }: ReadonlyUtbetalingProps): ReactElement => {
+const ReadonlyUtbetaling = ({ fom, tom, dager, person, arbeidsgiverNavn }: ReadonlyUtbetalingProps): ReactElement => {
     const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const periodeErISisteGenerasjon = useIsInCurrentGeneration(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
@@ -57,14 +60,19 @@ const ReadonlyUtbetaling = ({ fom, tom, dager, person }: ReadonlyUtbetalingProps
 
     return (
         <Box paddingBlock="8 16" paddingInline="6" position="relative">
-            {!(hasLatestSkjæringstidspunkt || erAktivPeriodeLikEllerFørPeriodeTilGodkjenning) &&
-                periodeErISisteGenerasjon && (
+            <HStack align="center" gap="1">
+                <Heading size="xsmall" level="1">
+                    Dagoversikt{' '}
+                    <AnonymizableContainer as="span">{capitalizeArbeidsgiver(arbeidsgiverNavn)}</AnonymizableContainer>
+                </Heading>
+                {!(hasLatestSkjæringstidspunkt || erAktivPeriodeLikEllerFørPeriodeTilGodkjenning) && (
                     <HelpText>
                         {harTidligereSkjæringstidspunktOgISisteGenerasjon
                             ? 'Det er ikke mulig å gjøre endringer i denne perioden'
                             : 'Perioden kan ikke overstyres fordi det finnes en oppgave på en tidligere periode'}
                     </HelpText>
                 )}
+            </HStack>
             <Box paddingBlock="8 0" data-testid="utbetaling">
                 <Utbetalingstabell
                     fom={fom}
@@ -104,7 +112,13 @@ const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingB
     return kanEndres && !readOnly && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning ? (
         <OverstyrbarUtbetaling person={person} arbeidsgiver={arbeidsgiver} dager={dager} periode={period} />
     ) : (
-        <ReadonlyUtbetaling fom={period.fom} tom={period.tom} dager={dager} person={person} />
+        <ReadonlyUtbetaling
+            fom={period.fom}
+            tom={period.tom}
+            dager={dager}
+            person={person}
+            arbeidsgiverNavn={arbeidsgiver.navn}
+        />
     );
 };
 
@@ -146,7 +160,13 @@ const UtbetalingUberegnetPeriode = ({
     return !skjæringstidspunktHarPeriodeTilBeslutter && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning ? (
         <OverstyrbarUtbetaling person={person} arbeidsgiver={arbeidsgiver} dager={dager} periode={periode} />
     ) : (
-        <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} person={person} />
+        <ReadonlyUtbetaling
+            fom={periode.fom}
+            tom={periode.tom}
+            dager={dager}
+            person={person}
+            arbeidsgiverNavn={arbeidsgiver.navn}
+        />
     );
 };
 
