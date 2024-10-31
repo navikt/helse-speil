@@ -30,8 +30,6 @@ import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 
-import styles from './Utbetaling.module.css';
-
 const useIsInCurrentGeneration = (person: PersonFragment): boolean => {
     const period = useActivePeriod(person);
     const arbeidsgiver = useCurrentArbeidsgiver(person);
@@ -58,7 +56,7 @@ const ReadonlyUtbetaling = ({ fom, tom, dager, person }: ReadonlyUtbetalingProps
     const harTidligereSkjæringstidspunktOgISisteGenerasjon = !hasLatestSkjæringstidspunkt && periodeErISisteGenerasjon;
 
     return (
-        <div className={styles.Utbetaling}>
+        <Box paddingBlock="8 16" paddingInline="6" position="relative">
             {!(hasLatestSkjæringstidspunkt || erAktivPeriodeLikEllerFørPeriodeTilGodkjenning) &&
                 periodeErISisteGenerasjon && (
                     <HelpText>
@@ -76,7 +74,7 @@ const ReadonlyUtbetaling = ({ fom, tom, dager, person }: ReadonlyUtbetalingProps
                     person={person}
                 />
             </Box>
-        </div>
+        </Box>
     );
 };
 
@@ -173,18 +171,14 @@ const UtbetalingContainer = ({ person, periode }: UtbetalingProps): Maybe<ReactE
     }
 };
 
-const UtbetalingError = (): ReactElement => {
-    return (
-        <Alert variant="error" size="small">
-            Noe gikk galt. Kan ikke vise utbetaling for denne perioden.
-        </Alert>
-    );
-};
+const UtbetalingError = (): ReactElement => (
+    <Alert variant="error" size="small">
+        Noe gikk galt. Kan ikke vise utbetaling for denne perioden.
+    </Alert>
+);
 
-export const Utbetaling = ({ person, periode }: UtbetalingProps): ReactElement => {
-    return (
-        <ErrorBoundary fallback={<UtbetalingError />}>
-            <UtbetalingContainer person={person} periode={periode} />
-        </ErrorBoundary>
-    );
-};
+export const Utbetaling = ({ person, periode }: UtbetalingProps): ReactElement => (
+    <ErrorBoundary fallback={<UtbetalingError />}>
+        <UtbetalingContainer person={person} periode={periode} />
+    </ErrorBoundary>
+);
