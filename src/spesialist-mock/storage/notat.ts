@@ -104,7 +104,7 @@ export class NotatMock {
 
     static getNotaterForPeriode = (periode: BeregnetPeriode): Array<Notat> => [
         ...NotatMock.getNotater(periode.vedtaksperiodeId),
-        ...NotatMock.getNotater(periode.oppgavereferanse ?? '-1'),
+        ...NotatMock.getNotater(periode.oppgave?.id ?? '-1'),
     ];
 
     private static getMockedNotat = (vedtaksperiodeId: string, overrides?: Partial<Notat>): Notat => {

@@ -256,8 +256,6 @@ export type BeregnetPeriode = Periode & {
     maksdato: Scalars['LocalDate']['output'];
     notater: Array<Notat>;
     oppgave: Maybe<OppgaveForPeriodevisning>;
-    /** @deprecated Oppgavereferanse bør hentes fra periodens oppgave */
-    oppgavereferanse: Maybe<Scalars['String']['output']>;
     opprettet: Scalars['LocalDateTime']['output'];
     paVent: Maybe<PaVent>;
     periodetilstand: Periodetilstand;

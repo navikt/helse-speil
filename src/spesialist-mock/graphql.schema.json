@@ -2443,18 +2443,6 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "oppgavereferanse",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "isDeprecated": true,
-                        "deprecationReason": "Oppgavereferanse bør hentes fra periodens oppgave"
-                    },
-                    {
                         "name": "opprettet",
                         "description": null,
                         "args": [],
