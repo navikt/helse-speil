@@ -11,6 +11,7 @@ import {
     Maybe,
     NyttInntektsforholdPeriodeFragment,
     PersonFragment,
+    UberegnetPeriodeFragment,
 } from '@io/graphql';
 import { TilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/TilkommenAG';
 import { findArbeidsgiverWithNyttInntektsforholdPeriode } from '@state/arbeidsgiver';
@@ -18,7 +19,11 @@ import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
 type TilkommenInntektProps = {
     person: PersonFragment;
-    aktivPeriode: BeregnetPeriodeFragment | GhostPeriodeFragment | NyttInntektsforholdPeriodeFragment;
+    aktivPeriode:
+        | BeregnetPeriodeFragment
+        | UberegnetPeriodeFragment
+        | GhostPeriodeFragment
+        | NyttInntektsforholdPeriodeFragment;
 };
 
 const TilkommenInntektContainer = ({ person, aktivPeriode }: TilkommenInntektProps): Maybe<ReactElement> => {
