@@ -88,6 +88,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                         return (
                             <ArbeidsgiverRad
                                 key={field.id}
+                                årsinntekt={field.årlig}
                                 arbeidsgiverNavn={getArbeidsgiverNavn(field.organisasjonsnummer)}
                                 type={type}
                                 årligField={årligField}
