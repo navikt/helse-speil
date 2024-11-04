@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { BodyShort, Box, HGrid, HStack, VStack } from '@navikt/ds-react';
+import { BodyShort, Box, HGrid, HStack, HelpText, VStack } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { ArbeidsgiverFragment, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
@@ -61,8 +61,11 @@ export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps)
                                 <BodyShort>{somPenger(periode.manedligBelop)}</BodyShort>
                             </HStack>
                             <BodyShort weight="semibold">Inntekt per dag</BodyShort>
-                            <HStack justify="end" width="7rem">
-                                <BodyShort>{somPenger(periode.dagligBelop)}</BodyShort>
+                            <HStack gap="2">
+                                <HStack justify="end" width="7rem">
+                                    <BodyShort>{somPenger(periode.dagligBelop)}</BodyShort>
+                                </HStack>
+                                <HelpText>Ikke ferie, permisjon og andre ytelser</HelpText>
                             </HStack>
                         </HGrid>
                     )}
