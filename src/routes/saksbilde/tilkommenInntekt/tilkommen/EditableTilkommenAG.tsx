@@ -65,13 +65,13 @@ export const EditableTilkommenAG = ({
         if (lokaltMånedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded) {
             onEndre(true);
         }
-    }, [omregnetÅrsinntektMånedsbeløpRounded]);
+    }, [lokaltMånedsbeløp, omregnetÅrsinntektMånedsbeløpRounded, onEndre]);
 
     useEffect(() => {
         if (!stringIsNaN(values.manedsbelop)) {
             onEndre(Number.parseFloat(values.manedsbelop) !== omregnetÅrsinntektMånedsbeløpRounded);
         }
-    }, [values, omregnetÅrsinntektMånedsbeløpRounded]);
+    }, [values, omregnetÅrsinntektMånedsbeløpRounded, onEndre]);
 
     useEffect(() => {
         harFeil && feiloppsummeringRef.current?.focus();
