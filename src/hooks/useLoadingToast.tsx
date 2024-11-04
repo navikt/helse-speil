@@ -1,11 +1,10 @@
 import { nanoid } from 'nanoid';
 import React, { ReactNode, useEffect, useRef } from 'react';
+import { useDebounce } from 'use-debounce';
 
 import { Loader } from '@navikt/ds-react';
 
 import { useAddToast, useRemoveToast } from '@state/toasts';
-
-import { useDebounce } from './useDebounce';
 
 interface UseIsLoadingToastOptions {
     isLoading: boolean;
@@ -13,7 +12,8 @@ interface UseIsLoadingToastOptions {
 }
 
 export const useLoadingToast = ({ isLoading, message }: UseIsLoadingToastOptions) => {
-    const showToast = useDebounce(isLoading);
+    const [showToast] = useDebounce(isLoading, 250);
+
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const toastKey = useRef(nanoid());
