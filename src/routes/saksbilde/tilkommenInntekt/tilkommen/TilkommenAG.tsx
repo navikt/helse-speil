@@ -55,10 +55,12 @@ export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps)
                         <HGrid columns="150px auto" paddingBlock="1 0">
                             <BodyShort weight="semibold">Inntekt per måned</BodyShort>
                             <HStack justify="end" width="7rem">
-                                {(endret || lokaltMånedsbeløp) && (
-                                    <Endringstrekant text="Endringene vil oppdateres og kalkuleres etter du har trykket på kalkuler" />
-                                )}
-                                <BodyShort>{somPenger(periode.manedligBelop)}</BodyShort>
+                                <Box position="relative" paddingInline="2 0">
+                                    {(endret || lokaltMånedsbeløp) && (
+                                        <Endringstrekant text="Endringene vil oppdateres og kalkuleres etter du har trykket på kalkuler" />
+                                    )}
+                                    <BodyShort>{somPenger(lokaltMånedsbeløp || periode.manedligBelop)}</BodyShort>
+                                </Box>
                             </HStack>
                             <BodyShort weight="semibold">Inntekt per dag</BodyShort>
                             <HStack gap="2">
