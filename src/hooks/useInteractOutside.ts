@@ -12,6 +12,8 @@ export const useInteractOutside = ({ ref, onInteractOutside, active = true }: Us
     const [focused, setFocused] = useState(false);
     const [modalRef, setModalRef] = useState<Maybe<HTMLElement>>(null);
 
+    const current = ref.current;
+
     useEffect(() => {
         const onInteract = (event: FocusEvent | MouseEvent) => {
             setTimeout(() => {
@@ -21,11 +23,10 @@ export const useInteractOutside = ({ ref, onInteractOutside, active = true }: Us
                 if (targetIsModal) {
                     setModalRef(targetElement);
                 } else {
-                    const shouldHaveFocus =
-                        !!ref.current?.contains(targetElement) || !!modalRef?.contains(targetElement);
+                    const shouldHaveFocus = current?.contains(targetElement) || modalRef?.contains(targetElement);
                     if (active) {
                         !shouldHaveFocus && onInteractOutside();
-                        setFocused(shouldHaveFocus);
+                        setFocused(shouldHaveFocus ?? false);
                     }
                 }
             }, 0);
@@ -36,5 +37,5 @@ export const useInteractOutside = ({ ref, onInteractOutside, active = true }: Us
             document.removeEventListener('focusin', onInteract);
             document.removeEventListener('click', onInteract);
         };
-    }, [ref.current, active, focused, modalRef]);
+    }, [current, active, focused, modalRef, onInteractOutside]);
 };
