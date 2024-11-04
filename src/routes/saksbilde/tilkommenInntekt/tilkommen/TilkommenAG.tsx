@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { BodyShort, Box, HGrid, VStack } from '@navikt/ds-react';
+import { BodyShort, Box, HGrid, HStack, VStack } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { ArbeidsgiverFragment, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
@@ -54,14 +54,16 @@ export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps)
                     ) : (
                         <HGrid columns="150px auto" paddingBlock="1 0">
                             <BodyShort weight="semibold">Inntekt per måned</BodyShort>
-                            <Box paddingInline="4 0">
+                            <HStack justify="end" width="7rem">
                                 {(endret || lokaltMånedsbeløp) && (
                                     <Endringstrekant text="Endringene vil oppdateres og kalkuleres etter du har trykket på kalkuler" />
                                 )}
                                 <BodyShort>{somPenger(periode.manedligBelop)}</BodyShort>
-                            </Box>
+                            </HStack>
                             <BodyShort weight="semibold">Inntekt per dag</BodyShort>
-                            <BodyShort>{somPenger(periode.dagligBelop)}</BodyShort>
+                            <HStack justify="end" width="7rem">
+                                <BodyShort>{somPenger(periode.dagligBelop)}</BodyShort>
+                            </HStack>
                         </HGrid>
                     )}
                 </Box>
