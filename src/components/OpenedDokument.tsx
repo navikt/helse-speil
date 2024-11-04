@@ -17,11 +17,11 @@ import {
 
 import styles from './ÅpnetDokument.module.scss';
 
-interface ÅpnetDokumentProps {
+interface OpenedDokumentProps {
     person: PersonFragment;
 }
 
-export const ÅpnetDokument = ({ person }: ÅpnetDokumentProps): Maybe<ReactElement> => {
+export const OpenedDokument = ({ person }: OpenedDokumentProps): Maybe<ReactElement> => {
     const fjernÅpnetDokument = useRemoveOpenedDocument();
     const åpnedeDokumenter = useOpenedDocuments();
 

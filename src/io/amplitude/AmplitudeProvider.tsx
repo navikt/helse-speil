@@ -104,7 +104,7 @@ const useLogEvent = (
     };
 };
 
-const _AmplitudeProvider = ({ children }: PropsWithChildren): ReactElement => {
+const AmplitudeProviderComponent = ({ children }: PropsWithChildren): ReactElement => {
     const { data } = useFetchPersonQuery();
     const person = data?.person ?? null;
 
@@ -148,7 +148,7 @@ const _AmplitudeProvider = ({ children }: PropsWithChildren): ReactElement => {
 export const AmplitudeProvider = ({ children }: PropsWithChildren): ReactElement => {
     return (
         <React.Suspense fallback={<>{children}</>}>
-            <_AmplitudeProvider>{children}</_AmplitudeProvider>
+            <AmplitudeProviderComponent>{children}</AmplitudeProviderComponent>
         </React.Suspense>
     );
 };

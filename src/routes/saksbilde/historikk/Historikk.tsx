@@ -7,8 +7,8 @@ import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
+import { OpenedDokument } from '@components/OpenedDokument';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
-import { ÅpnetDokument } from '@components/ÅpnetDokument';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
@@ -146,7 +146,7 @@ const HistorikkWithContent = (): ReactElement => {
                     )}
                 </motion.div>
             </JusterbarSidemeny>
-            {person && showHøyremeny && <ÅpnetDokument person={person} />}
+            {person && showHøyremeny && <OpenedDokument person={person} />}
             <Historikkmeny />
         </div>
     );
