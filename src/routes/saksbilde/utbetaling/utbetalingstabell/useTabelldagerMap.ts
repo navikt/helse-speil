@@ -185,4 +185,4 @@ export const useTabelldagerMap = ({
         }
 
         return dager;
-    }, [tidslinje, overstyringer, gjenståendeDager, maksdato]);
+    }, [gjenståendeDager, tidslinje, maksdato, antallAGPDagerBruktFørPerioden, overstyringer]);
