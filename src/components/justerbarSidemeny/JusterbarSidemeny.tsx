@@ -48,20 +48,20 @@ export const JusterbarSidemeny = ({
         window.addEventListener('mouseup', () => {
             isResized.current = false;
         });
-    }, []);
+    }, [åpnesTilVenstre]);
 
     useEffect(() => {
         if (!localStorageNavn) return;
         localStorage.setItem(localStorageNavn, `${width}`);
         if (onChangeBredde) onChangeBredde(width);
-    }, [width]);
+    }, [localStorageNavn, onChangeBredde, width]);
 
     useEffect(() => {
         if (!visSidemeny) {
             localStorageNavn && localStorage.removeItem(localStorageNavn);
             setWidth(defaultBredde);
         }
-    }, [visSidemeny]);
+    }, [defaultBredde, localStorageNavn, visSidemeny]);
 
     return (
         <div className={classNames(styles.justerbarSidemeny, className, åpnesTilVenstre && styles.venstre)}>
