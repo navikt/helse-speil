@@ -1,21 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
+import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
 import {
     ArbeidsgiverFragment,
     ArbeidsgiverInput,
-    Maybe,
     MinimumSykdomsgradInput,
     MinimumSykdomsgradMutationDocument,
     OpprettAbonnementDocument,
     PersonFragment,
 } from '@io/graphql';
-import {
-    kalkulererFerdigToastKey,
-    kalkulererToast,
-    kalkulererToastKey,
-    kalkuleringFerdigToast,
-} from '@state/kalkuleringstoasts';
+import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { overlapper } from '@state/selectors/period';
 import { useAddToast, useRemoveToast } from '@state/toasts';
@@ -41,17 +36,7 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
         }
     });
 
-    useEffect(() => {
-        if (calculating) {
-            const timeout: Maybe<NodeJS.Timeout | number> = setTimeout(() => {
-                setTimedOut(true);
-            }, 15000);
-            return () => {
-                removeToast(kalkulererToastKey);
-                clearTimeout(timeout);
-            };
-        }
-    }, [calculating]);
+    useFjernKalkulerToast(calculating, () => setTimedOut(true));
 
     return {
         isLoading: loading || calculating,

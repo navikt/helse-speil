@@ -2,20 +2,15 @@ import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 
 import { FetchResult, useMutation } from '@apollo/client';
+import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
 import {
     ArbeidsgiverFragment,
-    Maybe,
     OpprettAbonnementDocument,
     OverstyrDagerMutationDocument,
     OverstyrDagerMutationMutation,
     PersonFragment,
 } from '@io/graphql';
-import {
-    kalkulererFerdigToastKey,
-    kalkulererToast,
-    kalkulererToastKey,
-    kalkuleringFerdigToast,
-} from '@state/kalkuleringstoasts';
+import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
@@ -63,17 +58,7 @@ export const useOverstyrDager = (
         }
     }, [person]);
 
-    useEffect(() => {
-        if (calculating) {
-            const timeout: Maybe<NodeJS.Timeout | number> = setTimeout(() => {
-                setTimedOut(true);
-            }, 15000);
-            return () => {
-                removeToast(kalkulererToastKey);
-                clearTimeout(timeout);
-            };
-        }
-    }, [calculating]);
+    useFjernKalkulerToast(calculating, () => setTimedOut(true));
 
     const overstyrDager = async (
         dager: Array<Utbetalingstabelldag>,

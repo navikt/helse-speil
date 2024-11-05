@@ -1,19 +1,14 @@
 import { useEffect, useState } from 'react';
 
 import { FetchResult, useMutation } from '@apollo/client';
+import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
 import {
-    Maybe,
     OpprettAbonnementDocument,
     OverstyrInntektOgRefusjonMutationDocument,
     OverstyrInntektOgRefusjonMutationMutation,
     OverstyringArbeidsgiverInput,
 } from '@io/graphql';
-import {
-    kalkulererFerdigToastKey,
-    kalkulererToast,
-    kalkulererToastKey,
-    kalkuleringFerdigToast,
-} from '@state/kalkuleringstoasts';
+import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useSlettLokaleOverstyringer } from '@state/overstyring';
 import { useAddToast, useRemoveToast } from '@state/toasts';
@@ -57,17 +52,7 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
         }
     }, [resetLokaleOverstyringer, slettLokaleOverstyringer]);
 
-    useEffect(() => {
-        if (calculating) {
-            const timeout: Maybe<NodeJS.Timeout | number> = setTimeout(() => {
-                setTimedOut(true);
-            }, 15000);
-            return () => {
-                removeToast(kalkulererToastKey);
-                clearTimeout(timeout);
-            };
-        }
-    }, [calculating]);
+    useFjernKalkulerToast(calculating, () => setTimedOut(true));
 
     const overstyrInntektOgRefusjon = async (
         overstyrtInntekt: OverstyrtInntektOgRefusjonDTO,

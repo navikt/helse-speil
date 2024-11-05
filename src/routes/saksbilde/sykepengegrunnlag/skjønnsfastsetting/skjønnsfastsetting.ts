@@ -1,20 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
+import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
 import {
-    Maybe,
     OpprettAbonnementDocument,
     SkjonnsfastsettelseArbeidsgiverInput,
     SkjonnsfastsettelseInput,
     SkjonnsfastsettelseMutationDocument,
     SkjonnsfastsettelseType,
 } from '@io/graphql';
-import {
-    kalkulererFerdigToastKey,
-    kalkulererToast,
-    kalkulererToastKey,
-    kalkuleringFerdigToast,
-} from '@state/kalkuleringstoasts';
+import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import {
@@ -52,17 +47,7 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
         }
     });
 
-    useEffect(() => {
-        if (calculating) {
-            const timeout: Maybe<NodeJS.Timeout | number> = setTimeout(() => {
-                setTimedOut(true);
-            }, 15000);
-            return () => {
-                removeToast(kalkulererToastKey);
-                clearTimeout(timeout);
-            };
-        }
-    }, [calculating]);
+    useFjernKalkulerToast(calculating, () => setTimedOut(true));
 
     return {
         isLoading: loading || calculating,

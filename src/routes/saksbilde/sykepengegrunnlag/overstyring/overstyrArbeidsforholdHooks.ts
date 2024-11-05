@@ -1,20 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
+import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
 import {
     ArbeidsforholdOverstyringHandlingInput,
-    Maybe,
     OpprettAbonnementDocument,
     OverstyrArbeidsforholdMutationDocument,
     OverstyringArbeidsforholdInput,
     PersonFragment,
 } from '@io/graphql';
-import {
-    kalkulererFerdigToastKey,
-    kalkulererToast,
-    kalkulererToastKey,
-    kalkuleringFerdigToast,
-} from '@state/kalkuleringstoasts';
+import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useActivePeriodWithPerson } from '@state/periode';
 import { useAddToast, useRemoveToast } from '@state/toasts';
@@ -71,17 +66,7 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkule
         }
     });
 
-    useEffect(() => {
-        if (calculating) {
-            const timeout: Maybe<NodeJS.Timeout | number> = setTimeout(() => {
-                setTimedOut(true);
-            }, 15000);
-            return () => {
-                removeToast(kalkulererToastKey);
-                clearTimeout(timeout);
-            };
-        }
-    }, [calculating]);
+    useFjernKalkulerToast(calculating, () => setTimedOut(true));
 
     return {
         isLoading: loading || calculating,
