@@ -31,10 +31,12 @@ export const capitalizeName = (value: string) =>
         .join(' ');
 
 export const capitalizeArbeidsgiver = (value: string) =>
-    capitalizeName(value).replace(/\b(?:As|Asa|Sa|Da|Ba|Se|Fkf|Iks|Kf|Sf|Nuf)\b/, (t) => t.toUpperCase());
+    capitalizeName(value)
+        .replace(/\b(?:As|Asa|Sa|Da|Ba|Se|Fkf|Iks|Kf|Sf|Nuf)\b/, (t) => t.toUpperCase())
+        .replaceAll(/\b(?:Og|I)\b/g, (t) => t.toLowerCase());
 
 export const capitalize = (value: string): string =>
-    value.replace(/\w\S*/g, (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase());
+    value.replace(/\w\S*/g, (t) => t.charAt(0).toUpperCase() + t.substring(1).toLowerCase());
 
 export const getMonthName = (yearMonth: string) => {
     const monthNumberToMonthName: Record<string, string> = {
