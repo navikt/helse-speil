@@ -9,14 +9,14 @@ export const opptegnelser: Opptegnelse[] = [
         __typename: 'Opptegnelse',
     },
     {
-        aktorId: '2568043185108',
+        aktorId: '2564094783926',
         sekvensnummer: 12121213,
         type: Opptegnelsetype.PersondataOppdatert,
         payload: 'payload2',
         __typename: 'Opptegnelse',
     },
     {
-        aktorId: '2568043185108',
+        aktorId: '2564094783926',
         sekvensnummer: 12121214,
         type: Opptegnelsetype.NySaksbehandleroppgave,
         payload: 'payload3',
