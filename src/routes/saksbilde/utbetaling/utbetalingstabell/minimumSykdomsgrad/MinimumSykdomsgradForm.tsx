@@ -72,6 +72,7 @@ export const MinimumSykdomsgradForm = ({
         });
     };
 
+    const begrunnelseTittel = merEnn20 === 'Ja' ? 'Begrunnelse' : 'Begrunnelse til den sykmeldte';
     const begrunnelseInnledning =
         merEnn20 === 'Ja'
             ? 'Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn.'
@@ -122,7 +123,7 @@ export const MinimumSykdomsgradForm = ({
                     <Textarea
                         {...form.register('Begrunnelse', { required: 'Begrunnelse kan ikke være tom' })}
                         className={styles.fritekst}
-                        label={<span className={styles.fritekstlabel}>Begrunnelse</span>}
+                        label={<span className={styles.fritekstlabel}>{begrunnelseTittel}</span>}
                         description={begrunnelseInnledning}
                         error={form.formState.errors.Begrunnelse?.message as string}
                         resize
