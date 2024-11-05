@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { CheckmarkCircleFillIcon, PadlockLockedIcon } from '@navikt/aksel-icons';
+import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Radio, RadioGroup } from '@navikt/ds-react';
 
 import { Skjønnsfastsettingstype } from '../skjønnsfastsetting';
@@ -29,12 +29,7 @@ export const SkjønnsfastsettingType = (): ReactElement => {
                     <HStack gap="2">
                         Velg type skjønnsfastsettelse
                         {valgtType && (
-                            <Button
-                                size="xsmall"
-                                variant="tertiary"
-                                onClick={onEndre}
-                                icon={<PadlockLockedIcon title="Hengelås lukket" />}
-                            >
+                            <Button size="xsmall" variant="tertiary" onClick={onEndre}>
                                 Endre
                             </Button>
                         )}

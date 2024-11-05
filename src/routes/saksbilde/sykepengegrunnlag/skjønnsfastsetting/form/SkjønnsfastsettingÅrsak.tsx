@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { CheckmarkCircleFillIcon, PadlockLockedIcon } from '@navikt/aksel-icons';
+import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Radio, RadioGroup } from '@navikt/ds-react';
 
 import { SkjønnsfastsettingMal } from '@external/sanity';
@@ -37,12 +37,7 @@ export const SkjønnsfastsettingÅrsak = ({ maler }: Props) => {
                     <HStack gap="2">
                         Årsak til skjønnsfastsettelse
                         {valgtÅrsak && (
-                            <Button
-                                size="xsmall"
-                                variant="tertiary"
-                                onClick={onEndre}
-                                icon={<PadlockLockedIcon title="Hengelås lukket" />}
-                            >
+                            <Button size="xsmall" variant="tertiary" onClick={onEndre}>
                                 Endre
                             </Button>
                         )}
