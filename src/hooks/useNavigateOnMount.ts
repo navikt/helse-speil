@@ -9,5 +9,5 @@ export const useNavigateOnMount = (fane: Fane | undefined) => {
         if (fane != undefined) {
             navigateTo(fane);
         }
-    }, [fane]);
+    }, [fane, navigateTo]);
 };
