@@ -25,5 +25,5 @@ export const usePollEtterOpptegnelser = () => {
         const opptegnelser = data?.opptegnelser ?? [];
         if (opptegnelser.length === 0) return;
         mottaOpptegnelser(opptegnelser);
-    }, [data]);
+    }, [data, mottaOpptegnelser]);
 };
