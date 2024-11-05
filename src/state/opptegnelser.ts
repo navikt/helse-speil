@@ -27,7 +27,7 @@ export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: Opptegnelse) 
             opptegnelser.forEach((o) => onOpptegnelseCallback(o));
             resetOpptegnelser();
         }
-    }, [opptegnelser]);
+    }, [onOpptegnelseCallback, opptegnelser, resetOpptegnelser]);
 };
 
 export const useMottaOpptegnelser = () => {
