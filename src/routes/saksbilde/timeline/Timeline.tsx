@@ -39,20 +39,6 @@ const TimelineWithContent = ({
     activePeriod,
     person,
 }: TimelineWithContentProps): ReactElement => {
-    useEffect(() => {
-        const defaultZoomLevel = () => {
-            if (isBeregnetPeriode(activePeriod)) {
-                if (dayjs(activePeriod.fom).isSameOrBefore(dayjs(Date.now()).subtract(1, 'year')))
-                    return ZoomLevel.FIRE_ÅR;
-                else if (dayjs(activePeriod.fom).isSameOrBefore(dayjs(Date.now()).subtract(6, 'month')))
-                    return ZoomLevel.ETT_ÅR;
-                else return ZoomLevel.SEKS_MÅNEDER;
-            }
-            return ZoomLevel.SEKS_MÅNEDER;
-        };
-        setCurrentZoomLevel(defaultZoomLevel());
-    }, []);
-
     const {
         zoomLevels,
         currentZoomLevel,
@@ -62,6 +48,19 @@ const TimelineWithContent = ({
         canNavigateForwards,
         canNavigateBackwards,
     } = useTimelineControls(arbeidsgivere, infotrygdutbetalinger);
+
+    useEffect(() => {
+        const defaultZoomLevel = () => {
+            if (isBeregnetPeriode(activePeriod)) {
+                if (dayjs(activePeriod.fom).isSameOrBefore(dayjs(Date.now()).subtract(1, 'year')))
+                    return ZoomLevel.FIRE_ÅR;
+                else if (dayjs(activePeriod.fom).isSameOrBefore(dayjs(Date.now()).subtract(6, 'month')))
+                    return ZoomLevel.ETT_ÅR;
+            }
+            return ZoomLevel.SEKS_MÅNEDER;
+        };
+        setCurrentZoomLevel(defaultZoomLevel());
+    }, [activePeriod, setCurrentZoomLevel]);
 
     useKeyboard([
         {
