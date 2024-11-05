@@ -278,9 +278,18 @@ fragment beregnetPeriode on BeregnetPeriode {
         timestamp
         saksbehandlerIdent
         notatId
+        dialogRef
         ... on LagtPaVent {
             frist
             arsaker
+            notatTekst
+            kommentarer {
+                id
+                tekst
+                opprettet
+                saksbehandlerident
+                feilregistrert_tidspunkt
+            }
         }
     }
     maksdato
