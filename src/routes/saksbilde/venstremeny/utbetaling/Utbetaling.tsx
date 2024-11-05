@@ -118,7 +118,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         if (godkjentPeriode !== period.vedtaksperiodeId && period.periodetilstand === Periodetilstand.TilGodkjenning) {
             setGodkjentPeriode(undefined);
         }
-    }, [period.vedtaksperiodeId, period.periodetilstand]);
+    }, [period.vedtaksperiodeId, period.periodetilstand, godkjentPeriode]);
 
     if (!hasOppgave(period)) return null;
 
