@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Loader } from '@navikt/ds-react';
 
@@ -43,12 +43,6 @@ export const useOppdaterPersondata = (person: PersonFragment): [forespørPersono
             setPolling(false);
         }
     });
-
-    useEffect(() => {
-        return () => {
-            removeToast(oppdatererPersondataToastKey);
-        };
-    }, []);
 
     const forespørPersonoppdatering = async (): Promise<void> => {
         addToast({ key: oppdatererPersondataToastKey, message: oppdatererPersondataMessage() });
