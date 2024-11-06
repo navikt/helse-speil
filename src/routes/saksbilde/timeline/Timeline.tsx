@@ -12,6 +12,7 @@ import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
 import { skalViseTilkommenInntekt } from '@utils/featureToggles';
+import { capitalizeArbeidsgiver } from '@utils/locale';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
@@ -115,7 +116,7 @@ const TimelineWithContent = ({
                                 key={i}
                                 start={start}
                                 end={end}
-                                name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
+                                name={capitalizeArbeidsgiver(arbeidsgiver.navn)}
                                 generations={arbeidsgiver.generasjoner}
                                 ghostPeriods={arbeidsgiver.ghostPerioder}
                                 nyeInntektsforholdPeriods={arbeidsgiver.nyeInntektsforholdPerioder}
@@ -127,7 +128,7 @@ const TimelineWithContent = ({
                                 key={i}
                                 start={start}
                                 end={end}
-                                name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
+                                name={capitalizeArbeidsgiver(arbeidsgiver.navn)}
                                 periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
                                 ghostPeriods={arbeidsgiver.ghostPerioder}
                                 nyeInntektsforholdPeriods={arbeidsgiver.nyeInntektsforholdPerioder}
