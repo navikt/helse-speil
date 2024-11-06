@@ -14,6 +14,7 @@ import {
 } from '@io/graphql';
 import { Arbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/Arbeidsgivernavn';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
+import { kanOverstyreTilkommenInntekt } from '@utils/featureToggles';
 
 interface TilkommenAGHeaderProps {
     person: PersonFragment;
@@ -47,7 +48,7 @@ export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setE
                     </BodyShort>
                 </HStack>
                 <Kilde type={Kildetype.Soknad}>SØ</Kilde>
-                {!harBeslutteroppgave && (
+                {!harBeslutteroppgave && kanOverstyreTilkommenInntekt && (
                     <EditButton
                         isOpen={editing}
                         openText="Avbryt"
