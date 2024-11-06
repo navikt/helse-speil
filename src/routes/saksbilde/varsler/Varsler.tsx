@@ -37,7 +37,7 @@ export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
     const skalViseAvviksvarselSomFeil = useSkalViseAvviksvarselSomFeil();
 
     const varslerSomIkkeSkalVises = ['SB_EX_2'];
-    const varslerSomSkalVisesSomFeil = ['RV_IV_2'];
+    const avviksvarsel = 'RV_IV_2';
 
     return (
         <>
@@ -47,8 +47,7 @@ export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
                 .map((varsel, index) => {
                     const type = finnType(varsel.vurdering);
                     if (varsel.forklaring != null && varsel.handling != null) {
-                        const visSomFeil =
-                            varslerSomSkalVisesSomFeil.includes(varsel.kode) && skalViseAvviksvarselSomFeil;
+                        const visSomFeil = varsel.kode === avviksvarsel && skalViseAvviksvarselSomFeil;
                         return <EkspanderbartVarsel key={index} varsel={varsel} type={visSomFeil ? 'feil' : type} />;
                     } else {
                         return (
