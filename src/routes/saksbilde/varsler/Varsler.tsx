@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { Maybe, VarselDto, Varselstatus, VarselvurderingDto } from '@io/graphql';
+import { useSkalViseUnder20SykdomsgradsvarselSomFeil } from '@saksbilde/varsler/useSkalViseUnder20Sykdomsgradsvarsel';
 
 import { EkspanderbartVarsel } from './EkspanderbartVarsel';
 import { Varsel } from './Varsel';
@@ -35,9 +36,11 @@ interface VarslerProps {
 
 export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
     const skalViseAvviksvarselSomFeil = useSkalViseAvviksvarselSomFeil();
+    const skalViseUnder20SykdomsgradsvarselSomFeil = useSkalViseUnder20SykdomsgradsvarselSomFeil();
 
     const varslerSomIkkeSkalVises = ['SB_EX_2'];
     const avviksvarsel = 'RV_IV_2';
+    const under20Sykdomsgradsvarsel = 'RV_VV_4';
 
     return (
         <>
@@ -47,7 +50,9 @@ export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
                 .map((varsel, index) => {
                     const type = finnType(varsel.vurdering);
                     if (varsel.forklaring != null && varsel.handling != null) {
-                        const visSomFeil = varsel.kode === avviksvarsel && skalViseAvviksvarselSomFeil;
+                        const visSomFeil =
+                            (varsel.kode === avviksvarsel && skalViseAvviksvarselSomFeil) ||
+                            (varsel.kode === under20Sykdomsgradsvarsel && skalViseUnder20SykdomsgradsvarselSomFeil);
                         return <EkspanderbartVarsel key={index} varsel={varsel} type={visSomFeil ? 'feil' : type} />;
                     } else {
                         return (
