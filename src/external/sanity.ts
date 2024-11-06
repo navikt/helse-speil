@@ -16,6 +16,8 @@ export interface SkjønnsfastsettingMal {
 }
 
 export interface Driftsmelding {
+    _id: string;
+    _rev: string;
     iProd: boolean;
     level: 'info' | 'warning' | 'error' | 'success';
     tittel: string;

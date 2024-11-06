@@ -1,7 +1,7 @@
 'use client';
 
 import classNames from 'classnames';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import React, { ReactElement, useState } from 'react';
 import * as R from 'remeda';
 
@@ -14,8 +14,12 @@ import { getFormattedDatetimeString } from '@utils/date';
 
 import styles from './Driftsmeldinger.module.scss';
 
-export const Driftsmeldinger = () => {
-    const { driftsmeldinger, loading, error } = useDriftsmelding();
+interface DriftsmeldingProps {
+    driftsmelding: DriftsmeldingType;
+}
+
+export const Driftsmeldinger = (): (ReactElement | null)[] => {
+    const { driftsmeldinger } = useDriftsmelding();
 
     return R.sortBy(driftsmeldinger, [R.prop('opprettet'), 'desc']).map((driftsmelding, index) => {
         const harGått30min = dayjs(driftsmelding._updatedAt).add(30, 'minutes').isBefore(dayjs());
@@ -25,19 +29,15 @@ export const Driftsmeldinger = () => {
     });
 };
 
-interface DriftsmeldingProps {
-    driftsmelding: DriftsmeldingType;
-}
-
 const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): Maybe<ReactElement> => {
-    const [show, setShow] = useState(true);
+    const [vis, kvitterUt] = useVisDriftsmelding(driftsmelding);
     const [åpneDriftsmelding, setÅpneDriftsmelding] = useState(false);
 
-    return show ? (
+    return vis ? (
         <Alert
             variant={driftsmelding.level}
             closeButton={driftsmelding.level === 'info' || driftsmelding.level === 'success'}
-            onClose={() => setShow(false)}
+            onClose={() => kvitterUt()}
             onClick={() => setÅpneDriftsmelding(!åpneDriftsmelding)}
             className={styles.driftsmelding}
         >
@@ -59,4 +59,46 @@ const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): Maybe<ReactElemen
             {åpneDriftsmelding && <BodyLong className={styles.melding}>{driftsmelding.melding}</BodyLong>}
         </Alert>
     ) : null;
+};
+
+type Detaljer = { klikketVekk: Dayjs | string };
+
+type UtkvitterteDriftsmeldinger = { [key: string]: Detaljer };
+
+function deserialize(value: string | null): UtkvitterteDriftsmeldinger {
+    if (!value) return {};
+    const parsed = JSON.parse(value) as UtkvitterteDriftsmeldinger;
+    return Object.keys(parsed).reduce(
+        (acc, key) => ({
+            ...acc,
+            [key]: { klikketVekk: dayjs(parsed[key].klikketVekk) },
+        }),
+        {},
+    );
+}
+
+const useVisDriftsmelding = (driftsmelding: DriftsmeldingType): [boolean, () => void] => {
+    const globalKey = 'driftsmeldinger';
+
+    function get<T>(key?: T): T extends string ? Detaljer : UtkvitterteDriftsmeldinger {
+        const value = localStorage.getItem(globalKey);
+        const deserialized = deserialize(value);
+        return (key ? deserialized[key as string] : deserialized) as any;
+    }
+
+    function set(utkvitterteDriftsmeldinger: UtkvitterteDriftsmeldinger) {
+        localStorage.setItem(globalKey, JSON.stringify(utkvitterteDriftsmeldinger));
+    }
+
+    const keyForEnDriftsmelding = driftsmelding._id + ':' + driftsmelding._rev;
+
+    const visDriftsmelding = get(keyForEnDriftsmelding) == null;
+
+    const oppdaterLocalStorage = () => {
+        const lagrede = get();
+        lagrede[keyForEnDriftsmelding] = { klikketVekk: dayjs() };
+        set(lagrede);
+    };
+
+    return [visDriftsmelding, oppdaterLocalStorage];
 };
