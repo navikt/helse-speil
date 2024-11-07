@@ -71,7 +71,7 @@ function deserialize(value: string | null): UtkvitterteDriftsmeldinger {
     return Object.keys(parsed).reduce(
         (acc, key) => ({
             ...acc,
-            [key]: { klikketVekk: dayjs(parsed[key].klikketVekk) },
+            [key]: { klikketVekk: dayjs(parsed[key]?.klikketVekk) },
         }),
         {},
     );

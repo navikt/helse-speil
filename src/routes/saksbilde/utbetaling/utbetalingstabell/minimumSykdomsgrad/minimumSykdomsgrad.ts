@@ -81,7 +81,9 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
 export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: ActivePeriod) =>
     person.arbeidsgivere.filter(
         (arbeidsgiver) =>
-            arbeidsgiver.generasjoner[0]?.perioder
-                .filter(isBeregnetPeriode || isUberegnetPeriode)
-                .filter((it) => overlapper(periode)(it) ?? []).length > 0,
+            (
+                arbeidsgiver.generasjoner[0]?.perioder
+                    ?.filter(isBeregnetPeriode || isUberegnetPeriode)
+                    ?.filter((it) => overlapper(periode)(it)) ?? []
+            ).length > 0,
     ) as Array<ArbeidsgiverFragment>;

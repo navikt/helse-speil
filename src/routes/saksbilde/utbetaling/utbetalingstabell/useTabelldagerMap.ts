@@ -93,6 +93,7 @@ export const createDagerMap = (
 
     for (let i = 0; i < dager.length; i++) {
         const currentDag = dager[i];
+        if (!currentDag) break;
 
         if (typeof dagerIgjen === 'number') {
             dagerIgjen = currentDag.utbetalingsdagtype === 'NAVDAG' ? dagerIgjen - 1 : dagerIgjen;

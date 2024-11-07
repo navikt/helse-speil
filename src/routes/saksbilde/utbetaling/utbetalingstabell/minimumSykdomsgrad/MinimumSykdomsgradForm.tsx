@@ -65,7 +65,7 @@ export const MinimumSykdomsgradForm = ({
             arbeidsgivere: overlappendeArbeidsgivere.map((it) => {
                 return {
                     organisasjonsnummer: it.organisasjonsnummer,
-                    berørtVedtaksperiodeId: it.generasjoner[0].perioder.find(overlapper(periode))?.vedtaksperiodeId!!,
+                    berørtVedtaksperiodeId: it.generasjoner[0]?.perioder.find(overlapper(periode))?.vedtaksperiodeId!!,
                 };
             }),
             initierendeVedtaksperiodeId: initierendeVedtaksperiodeId,

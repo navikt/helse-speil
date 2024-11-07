@@ -42,7 +42,7 @@ export const ExpandableTimelineRow = ({
                     <Periods
                         start={start}
                         end={end}
-                        periods={generations[0].perioder}
+                        periods={generations[0]?.perioder}
                         ghostPeriods={ghostPeriods}
                         nyeInntektsforholdPeriods={nyeInntektsforholdPeriods}
                         activePeriod={activePeriod}

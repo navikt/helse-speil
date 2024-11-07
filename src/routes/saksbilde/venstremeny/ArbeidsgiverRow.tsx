@@ -103,7 +103,7 @@ const ArbeidsgiverRowView = ({
             <Accordion>
                 <Accordion.Item open={open} className={styles.arbeidsgiverRow}>
                     <Accordion.Header
-                        className={classNames(styles.header, { [styles.anonymisert]: erAnonymisert })}
+                        className={classNames(styles.header, erAnonymisert && styles.anonymisert)}
                         onClick={() => setOpen((prevState) => !prevState)}
                     >
                         <AnonymizableContainer>

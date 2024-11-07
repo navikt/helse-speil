@@ -54,11 +54,7 @@ export const Oversikt = (): ReactElement => {
                 </Alert>
             )}
             <Tabs />
-            <div
-                className={classNames(styles.fullHeight, {
-                    [styles.driftsmelding]: (driftsmeldinger?.length ?? 0) > 0,
-                })}
-            >
+            <div className={classNames(styles.fullHeight, (driftsmeldinger?.length ?? 0) > 0 && styles.driftsmelding)}>
                 <Filtermeny filters={allFilters} />
                 <section className={styles.Content}>
                     {aktivTab === TabType.BehandletIdag ? (

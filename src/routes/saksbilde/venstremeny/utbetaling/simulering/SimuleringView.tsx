@@ -37,7 +37,7 @@ interface SimuleringViewProps {
 
 export const SimuleringView = ({ simulering, utbetalingId }: SimuleringViewProps): ReactElement => {
     const utbetalesTil = (() => {
-        const utbetaling = simulering.perioder?.[0].utbetalinger[0] ?? null;
+        const utbetaling = simulering.perioder?.[0]?.utbetalinger[0] ?? null;
         return utbetaling ? `${utbetaling.mottakerId} ${utbetaling.mottakerNavn}` : null;
     })();
 

@@ -58,7 +58,7 @@ describe('EndringForm', () => {
             <EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} openDagtypeModal={() => null} />,
         );
 
-        await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]);
+        await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]!);
 
         await waitFor(() => {
             expect(screen.getByTestId('gradvelger')).toBeDisabled();
@@ -71,7 +71,7 @@ describe('EndringForm', () => {
             <EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} openDagtypeModal={() => null} />,
         );
 
-        await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]);
+        await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]!);
 
         await waitFor(() => {
             expect(screen.getByTestId('gradvelger')).toBeDisabled();
@@ -84,7 +84,7 @@ describe('EndringForm', () => {
             <EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} openDagtypeModal={() => null} />,
         );
 
-        await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]);
+        await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]!);
 
         await waitFor(() => {
             expect(screen.getByTestId('gradvelger')).toBeDisabled();
@@ -97,7 +97,7 @@ describe('EndringForm', () => {
             <EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} openDagtypeModal={() => null} />,
         );
 
-        await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]);
+        await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]!);
 
         await waitFor(() => {
             expect(screen.getByTestId('gradvelger')).toBeDisabled();

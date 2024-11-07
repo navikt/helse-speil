@@ -23,7 +23,7 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps): ReactElemen
 
     return (
         <button
-            className={classNames(styles.tab, { [styles.active]: aktivTab === tag })}
+            className={classNames(styles.tab, aktivTab === tag && styles.active)}
             role="tab"
             aria-selected={aktivTab === tag}
             onClick={() => setAktivTab(tag)}

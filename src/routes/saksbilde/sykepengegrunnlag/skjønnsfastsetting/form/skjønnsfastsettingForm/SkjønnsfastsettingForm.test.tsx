@@ -84,8 +84,8 @@ describe('SkjønnsfastsettingForm', () => {
                 maler={maler}
             />,
         );
-        expect(await screen.findByText(maler[0].arsak)).toBeInTheDocument();
-        expect(await screen.findByText(maler[1].arsak)).toBeInTheDocument();
+        expect(await screen.findByText(maler[0]?.arsak!)).toBeInTheDocument();
+        expect(await screen.findByText(maler[1]?.arsak!)).toBeInTheDocument();
     });
     it('viser skjønnsfastsettingstyper ved valg av 25 % avvik som årsak', async () => {
         render(
@@ -126,7 +126,7 @@ describe('SkjønnsfastsettingForm', () => {
         );
 
         await user.click(screen.getByText(enMal.arsak));
-        await user.type(screen.getAllByLabelText('Skjønnsfastsatt årlig inntekt')[0], 'ikke et tall');
+        await user.type(screen.getAllByLabelText('Skjønnsfastsatt årlig inntekt')[0]!, 'ikke et tall');
         await user.click(screen.getByText('Lagre'));
 
         const feiloppsummeringMedToFeil = await screen.findByLabelText('Skjemaet inneholder følgende feil:');
@@ -134,7 +134,7 @@ describe('SkjønnsfastsettingForm', () => {
         expect(getByText(feiloppsummeringMedToFeil, 'Årsinntekt må være et tall'));
         expect(getByText(feiloppsummeringMedToFeil, 'Du må skrive en nærmere begrunnelse'));
 
-        await user.type(screen.getAllByLabelText('Skjønnsfastsatt årlig inntekt')[0], `${1000}`);
+        await user.type(screen.getAllByLabelText('Skjønnsfastsatt årlig inntekt')[0]!, `${1000}`);
         await user.click(screen.getByText('Lagre'));
 
         const feiloppsummeringManglerBegrunnelse = await screen.findByLabelText('Skjemaet inneholder følgende feil:');
@@ -188,8 +188,8 @@ describe('SkjønnsfastsettingForm', () => {
         await user.type(begrunnelseinput!, 'En beskrivelse');
         const inputs = screen.getAllByLabelText('Skjønnsfastsatt årlig inntekt');
 
-        await user.type(inputs[0], '50000');
-        await user.type(inputs[1], '50000');
+        await user.type(inputs[0]!, '50000');
+        await user.type(inputs[1]!, '50000');
 
         await user.click(screen.getByText('Lagre'));
         const actual = screen.queryByLabelText('Skjemaet inneholder følgende feil:');

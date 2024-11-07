@@ -37,7 +37,7 @@ const useUtbetaltTidslinjeForSykefraværstilfellet = (person: PersonFragment): M
 
     const utbetaltePerioderINyesteGen = finnUtbetaltePerioderPåSkjæringstidspunkt(
         skjæringstidspunkt,
-        arbeidsgiver.generasjoner[0].perioder,
+        arbeidsgiver.generasjoner[0]?.perioder,
     );
     const utbetalteVedtaksperioderINyesteGen = utbetaltePerioderINyesteGen?.map(
         ({ vedtaksperiodeId }) => vedtaksperiodeId,

@@ -46,7 +46,7 @@ const groupSimilarDays = (days: Array<OverstyrtDag>): Array<GroupedDays> => {
                 },
             ];
         }
-        groups[groups.length - 1].end = day.dato;
+        group.end = day.dato;
         return groups;
     }, []);
 };

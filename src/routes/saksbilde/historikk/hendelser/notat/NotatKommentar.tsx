@@ -43,7 +43,7 @@ export const NotatKommentar = ({ kommentar, forfatterSaksbehandlerIdent }: Notat
 
     return (
         <div key={kommentar.id} className={styles.Kommentar}>
-            <div className={classNames({ [styles.Feilregistrert]: erFeilregistrert })}>
+            <div className={classNames(erFeilregistrert && styles.Feilregistrert)}>
                 {kommentar.tekst} {erFeilregistrert && '(feilregistert)'}
             </div>
             {!kommentar.feilregistrert_tidspunkt && innloggetSaksbehandler.ident === forfatterSaksbehandlerIdent && (

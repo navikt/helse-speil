@@ -70,7 +70,7 @@ const ukjentTilstand = (state: PeriodState): Maybe<VarselObject> =>
 const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: DateString): boolean => {
     return (
         typeof tom === 'string' &&
-        overstyringer.some((it) => isDagoverstyring(it) && dayjs(it.dager[0].dato).isSameOrBefore(tom))
+        overstyringer.some((it) => isDagoverstyring(it) && dayjs(it.dager[0]?.dato).isSameOrBefore(tom))
     );
 };
 

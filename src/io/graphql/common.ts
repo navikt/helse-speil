@@ -2,8 +2,8 @@ export const validFødselsnummer = (id: string): boolean => {
     const weights1 = [3, 7, 6, 1, 8, 9, 4, 5, 2];
     const weights2 = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
 
-    const sum = (id: number[], factors: number[]) =>
-        factors.map((f, i) => f * id[i]).reduce((acc, curr) => acc + curr, 0);
+    const sum = (id: number[], factors: number[]): number =>
+        factors.map((f, i) => f * id[i]!).reduce((acc, curr) => acc + curr, 0);
 
     const checksum = (id: number[], weigths: number[]) => (11 - (sum(id, weigths) % 11)) % 11;
 

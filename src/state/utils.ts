@@ -53,8 +53,8 @@ export const getOverstyringerForEksisterendePerioder = (person: PersonFragment, 
                 return (
                     perioder.filter(
                         (periode) =>
-                            dayjs(overstyring.dager[0].dato).isSameOrAfter(periode.fom) &&
-                            dayjs(overstyring.dager[0].dato).isSameOrBefore(periode.tom),
+                            dayjs(overstyring.dager[0]?.dato).isSameOrAfter(periode.fom) &&
+                            dayjs(overstyring.dager[0]?.dato).isSameOrBefore(periode.tom),
                     ).length !== 0
                 );
             }

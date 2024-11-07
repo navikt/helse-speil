@@ -1,4 +1,3 @@
-import styles from './EmojiButton.module.scss';
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 
@@ -6,11 +5,13 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
 
+import styles from './EmojiButton.module.scss';
+
 export interface EmojiButtonProps {
     feedback: number;
     children: ReactNode;
     text: string;
-    className: string;
+    className?: string;
     activeState: Maybe<number | string>;
     setThanksFeedback: (b: boolean) => void;
     setActiveState: (s: Maybe<number | string>) => void;

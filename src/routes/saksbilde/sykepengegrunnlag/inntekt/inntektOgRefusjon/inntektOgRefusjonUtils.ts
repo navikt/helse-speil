@@ -8,6 +8,7 @@ import {
     Periode,
     Periodetilstand,
     PersonFragment,
+    UberegnetPeriodeFragment,
 } from '@io/graphql';
 import {
     useArbeidsgiver,
@@ -104,7 +105,9 @@ export const useArbeidsforholdKanOverstyres = (
         return false;
     }
 
-    const perioderISisteGen = person?.arbeidsgivere.flatMap((it) => it.generasjoner[0]?.perioder);
+    const perioderISisteGen: (BeregnetPeriodeFragment | UberegnetPeriodeFragment)[] =
+        person?.arbeidsgivere.flatMap((it) => it.generasjoner[0]?.perioder).filter((periode) => periode != undefined) ??
+        [];
     const harBeregnetPeriode = harBeregnetPeriodePåSkjæringstidspunkt(perioderISisteGen, period.skjaeringstidspunkt);
     const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, period.skjaeringstidspunkt);
     const arbeidsgiverHarIngenBeregnedePerioder = harIngenBeregnedePerioder(arbeidsgiver, skjæringstidspunkt);

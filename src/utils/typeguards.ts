@@ -91,3 +91,7 @@ export const isPerson = (person?: Maybe<PersonFragment | Person>): person is Per
 export const isArbeidsgiver = (arbeidsgiver?: Maybe<ArbeidsgiverFragment>): arbeidsgiver is ArbeidsgiverFragment => {
     return arbeidsgiver !== undefined && arbeidsgiver !== null;
 };
+
+export function isNotUndefined<T>(type?: Maybe<T>): type is T {
+    return type !== undefined && type !== null;
+}

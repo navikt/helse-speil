@@ -7,7 +7,7 @@ import { AvslagsdataInput } from '@io/graphql';
 import styles from './BegrunnelseVedtakReadonly.module.scss';
 
 interface BegrunnelseVedtakReadonlyProps {
-    avslag: AvslagsdataInput;
+    avslag?: AvslagsdataInput;
 }
 
 export const ReadOnlyIndividuellBegrunnelse = ({ avslag }: BegrunnelseVedtakReadonlyProps) => {

@@ -36,17 +36,18 @@ export const useLokaleInntektOverstyringer = (
     const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
 
     return (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO, organisasjonsnummer?: string) => {
+        const overstyrtArbeidsgiver = (overstyrtInntekt as OverstyrtInntektOgRefusjonDTO).arbeidsgivere[0];
         if (
-            lokaleInntektoverstyringer.skjæringstidspunkt &&
-            overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt &&
-            !showSlettLokaleOverstyringerModal &&
-            lokaleInntektoverstyringer.aktørId === person.aktorId
+            (lokaleInntektoverstyringer.skjæringstidspunkt &&
+                overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt &&
+                !showSlettLokaleOverstyringerModal &&
+                lokaleInntektoverstyringer.aktørId === person.aktorId) ||
+            overstyrtArbeidsgiver == undefined
         ) {
             setShowSlettLokaleOverstyringerModal(true);
             return;
         }
 
-        const overstyrtArbeidsgiver = (overstyrtInntekt as OverstyrtInntektOgRefusjonDTO).arbeidsgivere[0];
         const overstyrtArbeidsgiverRetyped = {
             ...overstyrtArbeidsgiver,
             refusjonsopplysninger: [
@@ -60,7 +61,6 @@ export const useLokaleInntektOverstyringer = (
                 }),
             ],
         };
-
         const arbeidsgivereLagretPåSkjæringstidspunkt =
             overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt
                 ? []
@@ -95,9 +95,9 @@ type OverstyrtInntektMetadata = {
 
 export const mapOgSorterRefusjoner = (
     inntektsmeldinger: Hendelse[],
-    refusjonselementer?: Refusjonselement[],
+    refusjonselementer: Refusjonselement[],
 ): Refusjonsopplysning[] => {
-    if (!refusjonselementer) return [];
+    if (refusjonselementer.length === 0) return [];
 
     const hendelseIderForInntektsmelding: string[] = inntektsmeldinger.map((im) => im.id);
     return [...refusjonselementer]
@@ -131,19 +131,19 @@ export const useOverstyrtInntektMetadata = (
         throw Error('Mangler data for å kunne overstyre inntekt.');
     }
 
-    const vilkårsgrunnlagRefusjonsopplysninger: Arbeidsgiverrefusjon = person.vilkarsgrunnlag
+    const vilkårsgrunnlagRefusjonsopplysninger: Arbeidsgiverrefusjon | undefined = person.vilkarsgrunnlag
         .filter((it) =>
             !isUberegnetPeriode(period)
                 ? it.id === period?.vilkarsgrunnlagId
                 : it.id === vilkårsgrunnlagAktivPeriode?.id,
         )[0]
-        .arbeidsgiverrefusjoner.filter(
+        ?.arbeidsgiverrefusjoner.filter(
             (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver.organisasjonsnummer,
         )[0];
 
     const refusjonsopplysninger = mapOgSorterRefusjoner(
         inntektsmeldinghendelser,
-        vilkårsgrunnlagRefusjonsopplysninger?.refusjonsopplysninger,
+        vilkårsgrunnlagRefusjonsopplysninger?.refusjonsopplysninger ?? [],
     );
 
     return {

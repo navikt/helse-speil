@@ -136,7 +136,7 @@ const UtbetalingUberegnetPeriode = ({
     arbeidsgiver,
 }: UtbetalingUberegnetPeriodeProps): Maybe<ReactElement> => {
     const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
-    const antallAGPDagerBruktFørPerioden = arbeidsgiver.generasjoner[0].perioder
+    const antallAGPDagerBruktFørPerioden = arbeidsgiver.generasjoner[0]?.perioder
         .filter((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt)
         .filter((it) => it.fom < periode.fom)
         .reverse()

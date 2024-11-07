@@ -53,7 +53,8 @@ export const getMonthName = (yearMonth: string) => {
         '11': 'November',
         '12': 'Desember',
     };
-    return monthNumberToMonthName[yearMonth.split('-')[1]] ?? 'Fant ikke måned';
+    const måned = yearMonth.split('-')?.[1];
+    return (måned && monthNumberToMonthName[måned]) ?? 'Fant ikke måned';
 };
 
 export const tilTelefonNummer = (value: string): string =>

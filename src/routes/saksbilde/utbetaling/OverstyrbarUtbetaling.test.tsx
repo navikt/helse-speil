@@ -58,14 +58,14 @@ describe('OverstyrbarUtbetaling', () => {
         expect(screen.getByText('+ Legg til dager i tabellen')).toBeVisible();
 
         const checkboxes = screen.getAllByRole('checkbox');
-        await userEvent.click(checkboxes[1]);
-        await userEvent.click(checkboxes[2]);
-        await userEvent.click(checkboxes[3]);
+        await userEvent.click(checkboxes[1]!);
+        await userEvent.click(checkboxes[2]!);
+        await userEvent.click(checkboxes[3]!);
 
         expect(screen.getAllByRole('option')).toHaveLength(13);
         expect(screen.getByTestId('dagtypevelger')).toBeEnabled();
 
-        await userEvent.selectOptions(screen.getByTestId('dagtypevelger'), screen.getAllByRole('option')[0]);
+        await userEvent.selectOptions(screen.getByTestId('dagtypevelger'), screen.getAllByRole('option')[0]!);
         expect((screen.getByRole('option', { selected: true }) as HTMLOptionElement).selected).toBe(true);
 
         expect(screen.getByTestId('gradvelger')).toBeEnabled();

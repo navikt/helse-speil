@@ -58,11 +58,11 @@ describe('Refusjonskjema', () => {
         render(<TestRefusjonSkjema fraRefusjonsopplysninger={en_refusjonsopplysning} />);
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
         expect(screen.queryByLabelText('Fra og med dato')).toHaveValue(
-            dayjs(en_refusjonsopplysning[0].fom).format(NORSK_DATOFORMAT),
+            dayjs(en_refusjonsopplysning[0]?.fom).format(NORSK_DATOFORMAT),
         );
         expect(screen.queryByLabelText('Til og med dato')).toHaveValue('');
         expect(screen.queryByLabelText('Månedlig refusjon')).toHaveValue(
-            toKronerOgØre(en_refusjonsopplysning[0].beløp),
+            toKronerOgØre(en_refusjonsopplysning[0]?.beløp!),
         );
         expect(screen.queryByText('IM')).toBeInTheDocument();
     });
@@ -71,7 +71,7 @@ describe('Refusjonskjema', () => {
         render(<TestRefusjonSkjema fraRefusjonsopplysninger={to_refusjonsopplysninger} />);
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(2);
         const knapper = await waitFor(() => screen.findAllByRole('button', { name: 'Slett' }));
-        await act(() => fireEvent.click(knapper[0]));
+        await act(() => fireEvent.click(knapper[0]!));
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
     });
 
@@ -79,7 +79,7 @@ describe('Refusjonskjema', () => {
         render(<TestRefusjonSkjema fraRefusjonsopplysninger={en_refusjonsopplysning} />);
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
         const knapper = await waitFor(() => screen.findAllByRole('button', { name: 'Legg til' }));
-        await act(() => fireEvent.click(knapper[0]));
+        await act(() => fireEvent.click(knapper[0]!));
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(2);
     });
 });

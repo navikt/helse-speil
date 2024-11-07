@@ -121,7 +121,7 @@ export const usePeriodForSkjæringstidspunkt = (
         return null;
     }
 
-    return (currentArbeidsgiver.generasjoner[0].perioder
+    return (currentArbeidsgiver.generasjoner[0]?.perioder
         .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
         .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
         .shift() ?? null) as Maybe<ActivePeriod>;

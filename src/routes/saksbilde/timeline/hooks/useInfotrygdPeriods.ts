@@ -23,7 +23,10 @@ export const useInfotrygdPeriods = (infotrygdutbetalinger: Array<Infotrygdutbeta
                     .map((it) => it.tom)
                     .sort(dateDecending)[0];
 
-                if (somDato(senesteTomForBerørteUtbetalinger).isAfter(somDato(tom))) {
+                if (
+                    senesteTomForBerørteUtbetalinger &&
+                    somDato(senesteTomForBerørteUtbetalinger).isAfter(somDato(tom))
+                ) {
                     tom = senesteTomForBerørteUtbetalinger;
                 } else {
                     søkEtterSenereTomForBerørteUtbetalinger = false;

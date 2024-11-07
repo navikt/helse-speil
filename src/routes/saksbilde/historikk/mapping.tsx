@@ -251,8 +251,8 @@ export const getDagoverstyringer = (
         .filter(isDagoverstyring)
         .filter(
             (it) =>
-                dayjs(it.dager[0].dato, ISO_DATOFORMAT).isSameOrAfter(førsteVurdertePeriodeForArbeidsgiver?.fom) &&
-                dayjs(it.dager[0].dato, ISO_DATOFORMAT).isSameOrBefore(
+                dayjs(it.dager[0]?.dato, ISO_DATOFORMAT).isSameOrAfter(førsteVurdertePeriodeForArbeidsgiver?.fom) &&
+                dayjs(it.dager[0]?.dato, ISO_DATOFORMAT).isSameOrBefore(
                     sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet?.tom,
                 ),
         )
@@ -280,8 +280,8 @@ export const getDagoverstyringerForAUU = (
         .filter(isDagoverstyring)
         .filter(
             (it) =>
-                dayjs(it.dager[0].dato, ISO_DATOFORMAT).isSameOrAfter(period?.fom) &&
-                dayjs(it.dager[0].dato, ISO_DATOFORMAT).isSameOrBefore(
+                dayjs(it.dager[0]?.dato, ISO_DATOFORMAT).isSameOrAfter(period?.fom) &&
+                dayjs(it.dager[0]?.dato, ISO_DATOFORMAT).isSameOrBefore(
                     sisteTomForIkkeGhostsPåSkjæringstidspunktet?.tom,
                 ),
         )
@@ -338,7 +338,7 @@ export const getFørstePeriodeForSkjæringstidspunkt = (
     arbeidsgiver: ArbeidsgiverFragment,
 ): BeregnetPeriodeFragment | UberegnetPeriodeFragment | undefined =>
     arbeidsgiver.generasjoner.length
-        ? [...arbeidsgiver.generasjoner][0].perioder
+        ? [...arbeidsgiver.generasjoner][0]?.perioder
               .filter((periode) => periode.skjaeringstidspunkt === skjæringstidspunkt)
               .pop()
         : undefined;
@@ -346,24 +346,20 @@ export const getFørstePeriodeForSkjæringstidspunkt = (
 const getSisteVurdertePeriodeForSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
     arbeidsgiver: ArbeidsgiverFragment,
-): BeregnetPeriodeFragment | undefined => {
-    const sisteGenerasjon = arbeidsgiver.generasjoner[0];
-    return sisteGenerasjon.perioder
+): BeregnetPeriodeFragment | undefined =>
+    arbeidsgiver.generasjoner[0]?.perioder
         .filter(isBeregnetPeriode)
         .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
         .shift();
-};
 
 const getSisteTomForIkkeGhostsPåSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
     arbeidsgiver: ArbeidsgiverFragment,
-): Periode | undefined => {
-    const sisteGenerasjon = arbeidsgiver.generasjoner[0];
-    return sisteGenerasjon.perioder
+): Periode | undefined =>
+    arbeidsgiver.generasjoner[0]?.perioder
         .filter((it) => !isGhostPeriode(it))
         .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
         .shift();
-};
 
 const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
     skjæringstidspunkt: DateString,

@@ -103,6 +103,8 @@ export const useTimelineControls = (
 
     const currentZoomLevel = availableZoomLevels[currentZoomIndex];
 
+    if (currentZoomLevel == undefined) throw new Error('Klarer ikke finne zoom level for periodevisning');
+
     const updateDelta = (updater: (delta: number) => number): void => {
         setCurrentDateDelta((delta) => {
             const newDelta = updater(delta);

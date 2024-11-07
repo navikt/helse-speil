@@ -52,7 +52,7 @@ export const Inntektssammenligning = ({
 
     return (
         <tr
-            className={classNames(styles.arbeidsgiverRow, { [styles.erGjeldende]: erGjeldende })}
+            className={classNames(styles.arbeidsgiverRow, erGjeldende && styles.erGjeldende)}
             onClick={onSetAktivInntektskilde}
         >
             <td>

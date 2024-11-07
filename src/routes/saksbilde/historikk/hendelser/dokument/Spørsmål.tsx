@@ -48,17 +48,17 @@ function getUndersporsmal(it: SporsmalFragment): Maybe<SporsmalFragment[]> {
 }
 
 const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
-    if (svar.length === 0 || !svar[0].verdi) return;
+    if (svar.length === 0 || !svar[0]?.verdi) return;
 
     switch (svartype) {
         case Svartype.Checkbox:
         case Svartype.Radio:
             return <CheckmarkIcon fill="#000" style={{ border: '1px solid #000' }} />;
         case Svartype.Belop:
-            return toKronerOgØre(Number(svar[0].verdi) / 100);
+            return toKronerOgØre(Number(svar[0]?.verdi) / 100);
         case Svartype.Dato:
         case Svartype.RadioGruppeUkekalender:
-            return dayjs(svar[0].verdi).format(NORSK_DATOFORMAT);
+            return dayjs(svar[0]?.verdi).format(NORSK_DATOFORMAT);
         case Svartype.Datoer:
         case Svartype.InfoBehandlingsdager:
             return svar
@@ -66,8 +66,8 @@ const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
                 .join(', ')
                 .replace(/,(?=[^,]*$)/, ' og');
         case Svartype.Periode:
-            return `${dayjs(JSON.parse(svar[0].verdi).fom).format(NORSK_DATOFORMAT)} – ${dayjs(
-                JSON.parse(svar[0].verdi).tom,
+            return `${dayjs(JSON.parse(svar[0]?.verdi).fom).format(NORSK_DATOFORMAT)} – ${dayjs(
+                JSON.parse(svar[0]?.verdi).tom,
             ).format(NORSK_DATOFORMAT)}`;
         case Svartype.Perioder:
             return svar
@@ -87,16 +87,16 @@ const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
                 .join(', ')
                 .replace(/,(?=[^,]*$)/, ' og');
         case Svartype.Prosent:
-            return `${svar[0].verdi} prosent`;
+            return `${svar[0]?.verdi} prosent`;
         case Svartype.Timer:
-            return `${svar[0].verdi} timer`;
+            return `${svar[0]?.verdi} timer`;
         case Svartype.Kilometer:
-            return `${svar[0].verdi} km`;
+            return `${svar[0]?.verdi} km`;
         case Svartype.JaNei:
-            return svar[0].verdi === 'JA' ? 'Ja' : 'Nei';
+            return svar[0]?.verdi === 'JA' ? 'Ja' : 'Nei';
         case Svartype.RadioGruppeTimerProsent:
             return;
         default:
-            return svar[0].verdi;
+            return svar[0]?.verdi;
     }
 };

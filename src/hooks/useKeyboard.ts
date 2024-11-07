@@ -68,7 +68,7 @@ export const useKeyboard = (actions: Action[]) => {
                 return;
             }
 
-            action[0].action();
+            action[0]?.action();
         },
         [actions],
     );

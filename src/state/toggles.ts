@@ -44,15 +44,15 @@ export const useTotrinnsvurdering = (): [
 };
 
 export const useHarBeslutterrolle = (): boolean => {
-    return useTotrinnsvurdering()[0].harBeslutterrolle;
+    return useTotrinnsvurdering()[0]?.harBeslutterrolle;
 };
 
 export const useTotrinnsvurderingErAktiv = (): boolean => {
-    return useTotrinnsvurdering()[0].erAktiv;
+    return useTotrinnsvurdering()[0]?.erAktiv;
 };
 
 export const useKanBeslutteEgneOppgaver = (): boolean => {
-    return useTotrinnsvurdering()[0].kanBeslutteEgne;
+    return useTotrinnsvurdering()[0]?.kanBeslutteEgne;
 };
 
 // Tildeling

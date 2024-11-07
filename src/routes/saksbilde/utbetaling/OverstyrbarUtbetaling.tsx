@@ -256,6 +256,9 @@ export const OverstyrbarUtbetaling = ({
         },
     ]);
 
+    const periodeFom = Array.from(alleDager.values())[0];
+    if (periodeFom == undefined) return <></>;
+
     const erFørstePeriodePåSkjæringstidspunkt =
         getFørstePeriodeForSkjæringstidspunkt(periode.skjaeringstidspunkt, arbeidsgiver)?.id === periode.id;
 
@@ -279,7 +282,7 @@ export const OverstyrbarUtbetaling = ({
                     onSubmitPølsestrekk={onSubmitPølsestrekk}
                     setVisDagtypeModal={() => setVisDagtypeModal(true)}
                     erFørstePeriodePåSkjæringstidspunkt={erFørstePeriodePåSkjæringstidspunkt}
-                    periodeFom={Array.from(alleDager.values())[0].dato}
+                    periodeFom={periodeFom.dato}
                 />
             )}
             <div className={classNames(styles.TableContainer)}>

@@ -62,7 +62,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
 
     return (
         <div>
-            <div className={classNames(styles.formWrapper, { [styles.redigerer]: editing })}>
+            <div className={classNames(styles.formWrapper, editing && styles.redigerer)}>
                 <SkjønnsfastsettingHeader
                     person={person}
                     sykepengegrunnlag={sykepengegrunnlag}

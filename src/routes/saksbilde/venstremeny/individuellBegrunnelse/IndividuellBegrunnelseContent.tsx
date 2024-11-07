@@ -66,7 +66,7 @@ export const IndividuellBegrunnelseContent = ({
         )}
 
         {periodeAvslag.filter((it) => !it.invalidert).length > 0 && (erBeslutteroppgave || erReadOnly) && (
-            <ReadOnlyIndividuellBegrunnelse avslag={periodeAvslag?.[0]} />
+            <ReadOnlyIndividuellBegrunnelse avslag={periodeAvslag[0]} />
         )}
     </Box>
 );

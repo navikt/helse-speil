@@ -17,7 +17,7 @@ export const NavLenke = ({ tittel, to }: NavLenkeProps): ReactElement => {
     const tab = last(usePathname().split('/'));
     return (
         <Link
-            className={classNames(styles.NavLink, { [styles.ActiveLink]: decodeURI(tab ?? '') === to })}
+            className={classNames(styles.NavLink, decodeURI(tab ?? '') === to && styles.ActiveLink)}
             href={to}
             title={tittel}
         >

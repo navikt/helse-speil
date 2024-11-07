@@ -98,8 +98,8 @@ describe('useTabelldagerMap', () => {
         );
 
         expect(result.current.get('2021-01-01')?.overstyringer).toBeUndefined();
-        expect(result.current.get('2021-01-02')?.overstyringer?.[0].begrunnelse).toEqual('Fordi');
-        expect(result.current.get('2021-01-02')?.overstyringer?.[0].saksbehandler.ident).toEqual('en-ident');
-        expect(result.current.get('2021-01-02')?.overstyringer?.[0].saksbehandler.navn).toEqual('et-navn');
+        expect(result.current.get('2021-01-02')?.overstyringer?.[0]?.begrunnelse).toEqual('Fordi');
+        expect(result.current.get('2021-01-02')?.overstyringer?.[0]?.saksbehandler.ident).toEqual('en-ident');
+        expect(result.current.get('2021-01-02')?.overstyringer?.[0]?.saksbehandler.navn).toEqual('et-navn');
     });
 });

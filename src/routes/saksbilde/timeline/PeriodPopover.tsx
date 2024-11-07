@@ -21,19 +21,21 @@ import styles from './PeriodPopover.module.css';
 const groupDayTypes = (period: BeregnetPeriodeFragment): Map<Utbetalingsdagtype, Array<DatePeriod>> => {
     const map = new Map<Utbetalingsdagtype, Array<DatePeriod>>();
 
-    let currentDayType: Utbetalingsdagtype = period.tidslinje[0]?.utbetalingsdagtype;
-    let currentFom: DateString = period.tidslinje[0]?.dato;
+    let currentDayType: Utbetalingsdagtype | undefined = period.tidslinje[0]?.utbetalingsdagtype;
+    let currentFom: DateString | undefined = period.tidslinje[0]?.dato;
 
     const updateDayTypesMap = (i: number, map: Map<Utbetalingsdagtype, Array<DatePeriod>>): void => {
+        if (!currentDayType || !currentFom) return;
         if (!map.has(currentDayType)) {
             map.set(currentDayType, []);
         }
-        map.get(currentDayType)?.push({ fom: currentFom, tom: period.tidslinje[i - 1]?.dato });
+        const tom = period.tidslinje[i - 1]?.dato;
+        tom && map.get(currentDayType)?.push({ fom: currentFom, tom: tom });
     };
 
     for (let i = 1; i < period.tidslinje.length; i++) {
         const currentDay = period.tidslinje[i];
-        if (currentDay.utbetalingsdagtype !== currentDayType) {
+        if (currentDay && currentDay.utbetalingsdagtype !== currentDayType) {
             updateDayTypesMap(i, map);
             currentDayType = currentDay.utbetalingsdagtype;
             currentFom = currentDay.dato;
@@ -50,9 +52,9 @@ const getDayTypesRender = (dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagt
     if (!periods || periods.length === 0) return undefined;
     if (periods.length === 1) {
         const period = periods[0];
-        return period.fom === period.tom
-            ? dayjs(period.fom).format(NORSK_DATOFORMAT)
-            : `${dayjs(period.fom).format(NORSK_DATOFORMAT)} - ${dayjs(period.tom).format(NORSK_DATOFORMAT)}`;
+        return period?.fom === period?.tom
+            ? dayjs(period?.fom).format(NORSK_DATOFORMAT)
+            : `${dayjs(period?.fom).format(NORSK_DATOFORMAT)} - ${dayjs(period?.tom).format(NORSK_DATOFORMAT)}`;
     }
     const antallDager = periods.reduce(
         (count, period) => count + dayjs(period.tom).diff(dayjs(period.fom), 'day') + 1,
@@ -129,7 +131,7 @@ export const BeregnetPopover = ({ period, state, fom, tom, person }: SpleisPopov
                     <BodyShort size="small">Differanse</BodyShort>
                     <BodyShort
                         size="small"
-                        className={classNames({ [styles.NegativePenger]: totalbeløp - gammeltTotalbeløp < 0 })}
+                        className={classNames(totalbeløp - gammeltTotalbeløp < 0 && styles.NegativePenger)}
                     >
                         {somPenger(totalbeløp - gammeltTotalbeløp)}
                     </BodyShort>

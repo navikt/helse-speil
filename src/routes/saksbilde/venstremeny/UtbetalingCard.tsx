@@ -76,9 +76,7 @@ const Differansevisning = ({ gammeltTotalbeløp, differanse }: Differansevisning
         <BodyShort>Forrige beløp for perioden</BodyShort>
         <BodyShort>{somPenger(gammeltTotalbeløp)}</BodyShort>
         <BodyShort>Differanse</BodyShort>
-        <BodyShort className={classNames({ [styles.NegativePenger]: differanse < 0 })}>
-            {somPenger(differanse)}
-        </BodyShort>
+        <BodyShort className={classNames(differanse < 0 && styles.NegativePenger)}>{somPenger(differanse)}</BodyShort>
     </div>
 );
 

@@ -84,7 +84,7 @@ export const skjønnsfastsettingFormToDto = (
             initierendeVedtaksperiodeId:
                 førsteVilkårsprøvdePeriodePåSkjæringstidspunkt.filter(
                     (it) => it.arbeidsgiver === organisasjonsnummer,
-                )[0].initierendeVedtaksperiodeId ?? null,
+                )[0]?.initierendeVedtaksperiodeId ?? null,
         })),
         vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(person.arbeidsgivere, period),
     };

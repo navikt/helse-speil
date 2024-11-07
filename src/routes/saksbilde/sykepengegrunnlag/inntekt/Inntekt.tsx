@@ -70,7 +70,7 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<Rea
         return null;
     }
 
-    const refusjon = mapOgSorterRefusjoner(inntektsmeldinghendelser, arbeidsgiverrefusjon?.refusjonsopplysninger);
+    const refusjon = mapOgSorterRefusjoner(inntektsmeldinghendelser, arbeidsgiverrefusjon?.refusjonsopplysninger ?? []);
 
     const inntekterForSammenligningsgrunnlag =
         ((vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) > 25
@@ -80,7 +80,7 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<Rea
     return (
         <Box
             background={inntekt.deaktivert ? 'bg-subtle' : 'surface-action-subtle'}
-            className={cn(styles.inntekt, { [styles.editing]: editing })}
+            className={cn(styles.inntekt, editing && styles.editing)}
         >
             {inntekt.omregnetArsinntekt != null && arbeidsgiver != null ? (
                 <InntektOgRefusjon

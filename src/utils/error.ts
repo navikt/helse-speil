@@ -33,11 +33,11 @@ export class InfoAlert extends SpeilError {
 
 export const apolloErrorCode = (error: ApolloError | undefined): number =>
     (
-        error?.graphQLErrors?.[0].extensions?.['code'] as {
+        error?.graphQLErrors?.[0]?.extensions?.['code'] as {
             value: number;
         }
     ).value;
 
 export function apolloExtensionValue<T>(error: ApolloError | undefined, field: string): Maybe<T> {
-    return error?.graphQLErrors?.[0].extensions?.[field] as T;
+    return error?.graphQLErrors?.[0]?.extensions?.[field] as T;
 }

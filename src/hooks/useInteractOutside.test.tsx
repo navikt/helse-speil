@@ -34,10 +34,10 @@ describe('useInteractOutside', () => {
 
         const [button1, button2] = screen.getAllByTestId('button');
         expect(button1).toHaveTextContent('unfocused');
-        await userEvent.click(button1);
+        await userEvent.click(button1!);
         expect(button1).toHaveFocus();
         expect(button1).toHaveTextContent('focused');
-        await userEvent.click(button2);
+        await userEvent.click(button2!);
         expect(button2).toHaveFocus();
         await waitFor(() => expect(button1).toHaveTextContent('unfocused'));
     });

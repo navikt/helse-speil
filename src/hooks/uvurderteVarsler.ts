@@ -29,8 +29,8 @@ export const useHarUvurderteVarslerPåEllerFør = (
 ): boolean => {
     return arbeidsgivere
         .filter((arbeidsgivere) => arbeidsgivere.generasjoner.length > 0)
-        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0].perioder)
-        .filter((periode) => dayjs(periode.tom).isSameOrBefore(dayjs(activePeriod.tom)))
+        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder)
+        .filter((periode) => dayjs(periode?.tom).isSameOrBefore(dayjs(activePeriod.tom)))
         .some((periode) => {
             if (!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode)) return false;
             return periode.varsler

@@ -29,20 +29,26 @@ const isOvergangFraInfotrygd = (period: TimelinePeriod): boolean => {
     return periodetype(period as unknown as Periode) === Periodetype.OvergangFraIt;
 };
 const hasLeftNeighbour = (i: number, periods: Array<TimelinePeriod>): boolean => {
+    const periode = periods[i - 1];
+    if (!periode) return false;
     return (
-        i > 0 &&
-        withinADay(dayjs(periods[i - 1].fom).startOf('day'), dayjs(periods[i].tom).endOf('day')) &&
-        !isFørstegangsbehandling(periods[i - 1]) &&
-        !isOvergangFraInfotrygd(periods[i - 1])
+        (i > 0 &&
+            withinADay(dayjs(periode?.fom).startOf('day'), dayjs(periods[i]?.tom).endOf('day')) &&
+            periode &&
+            !isFørstegangsbehandling(periode) &&
+            !isOvergangFraInfotrygd(periode)) ??
+        false
     );
 };
 
 const hasRightNeighbour = (i: number, periods: Array<TimelinePeriod>): boolean => {
+    const periode = periods[i];
+    if (!periode) return false;
     return (
         i < periods.length - 1 &&
-        withinADay(dayjs(periods[i].fom).startOf('day'), dayjs(periods[i + 1].tom).endOf('day')) &&
-        !isFørstegangsbehandling(periods[i]) &&
-        !isOvergangFraInfotrygd(periods[i])
+        withinADay(dayjs(periode.fom).startOf('day'), dayjs(periods[i + 1]?.tom).endOf('day')) &&
+        !isFørstegangsbehandling(periode) &&
+        !isOvergangFraInfotrygd(periode)
     );
 };
 
