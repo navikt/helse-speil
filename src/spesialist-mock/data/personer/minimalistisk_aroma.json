@@ -749,6 +749,7 @@
                                     "notater": [],
                                     "historikkinnslag": [
                                         {
+                                            "id": 123,
                                             "type": "VEDTAKSPERIODE_REBEREGNET",
                                             "timestamp": "2023-03-07T17:47:20.864999",
                                             "saksbehandler_ident": null,
@@ -1506,12 +1507,14 @@
                                     ],
                                     "historikkinnslag": [
                                         {
+                                            "id": 1234,
                                             "type": "TOTRINNSVURDERING_ATTESTERT",
                                             "timestamp": "2023-03-07T15:14:48.370477",
                                             "saksbehandler_ident": "S150563",
                                             "notat_id": null
                                         },
                                         {
+                                            "id": 1235,
                                             "type": "TOTRINNSVURDERING_TIL_GODKJENNING",
                                             "timestamp": "2023-03-07T15:14:37.893158",
                                             "saksbehandler_ident": "S150563",

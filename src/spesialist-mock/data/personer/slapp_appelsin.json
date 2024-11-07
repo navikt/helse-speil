@@ -634,30 +634,35 @@
                                     ],
                                     "historikkinnslag": [
                                         {
+                                            "id": 123534,
                                             "type": "VEDTAKSPERIODE_REBEREGNET",
                                             "timestamp": "2023-01-24T15:06:30.090206",
                                             "saksbehandlerIdent": null,
                                             "notatId": null
                                         },
                                         {
+                                            "id": 9863,
                                             "type": "TOTRINNSVURDERING_TIL_GODKJENNING",
                                             "timestamp": "2023-01-24T15:06:30.090206",
                                             "saksbehandlerIdent": null,
                                             "notatId": null
                                         },
                                         {
+                                            "id": 1232345,
                                             "type": "TOTRINNSVURDERING_RETUR",
                                             "timestamp": "2023-01-24T15:07:30.090206",
                                             "saksbehandlerIdent": "11",
                                             "notatId": 431
                                         },
                                         {
+                                            "id": 98765,
                                             "type": "TOTRINNSVURDERING_ATTESTERT",
                                             "timestamp": "2023-01-24T15:09:30.090206",
                                             "saksbehandlerIdent": null,
                                             "notatId": null
                                         },
                                         {
+                                            "id": 193665,
                                             "type": "LEGG_PA_VENT",
                                             "timestamp": "2023-01-24T15:09:30.090206",
                                             "saksbehandlerIdent": "T166629",

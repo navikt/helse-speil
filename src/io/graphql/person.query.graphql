@@ -274,6 +274,7 @@ fragment beregnetPeriode on BeregnetPeriode {
         ...notat
     }
     historikkinnslag {
+        id
         type
         timestamp
         saksbehandlerIdent

@@ -9319,12 +9319,14 @@
                                     "notater": [],
                                     "historikkinnslag": [
                                         {
+                                            "id": 1236,
                                             "type": "TOTRINNSVURDERING_TIL_GODKJENNING",
                                             "timestamp": "2022-11-22T10:43:30.562826",
                                             "saksbehandler_ident": "A123456",
                                             "notat_id": null
                                         },
                                         {
+                                            "id": 1237,
                                             "type": "TOTRINNSVURDERING_ATTESTERT",
                                             "timestamp": "2022-11-22T11:10:07.459599",
                                             "saksbehandler_ident": "B123456",
@@ -9868,12 +9870,14 @@
                                     "notater": [],
                                     "historikkinnslag": [
                                         {
+                                            "id": 1238,
                                             "type": "TOTRINNSVURDERING_TIL_GODKJENNING",
                                             "timestamp": "2022-11-22T10:43:30.562826",
                                             "saksbehandler_ident": "A123456",
                                             "notat_id": null
                                         },
                                         {
+                                            "id": 12563,
                                             "type": "TOTRINNSVURDERING_ATTESTERT",
                                             "timestamp": "2022-11-22T11:10:07.459599",
                                             "saksbehandler_ident": "B123456",

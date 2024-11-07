@@ -394,6 +394,7 @@ export type FiltreringInput = {
 export type FjernetFraPaVent = Historikkinnslag & {
     __typename: 'FjernetFraPaVent';
     dialogRef: Maybe<Scalars['Int']['output']>;
+    id: Scalars['Int']['output'];
     notatId: Maybe<Scalars['Int']['output']>;
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
@@ -438,6 +439,7 @@ export type Hendelse = {
 
 export enum Hendelsetype {
     Inntektsmelding = 'INNTEKTSMELDING',
+    InntektHentetFraAordningen = 'INNTEKT_HENTET_FRA_AORDNINGEN',
     NySoknad = 'NY_SOKNAD',
     SendtSoknadArbeidsgiver = 'SENDT_SOKNAD_ARBEIDSGIVER',
     SendtSoknadArbeidsledig = 'SENDT_SOKNAD_ARBEIDSLEDIG',
@@ -449,6 +451,7 @@ export enum Hendelsetype {
 
 export type Historikkinnslag = {
     dialogRef: Maybe<Scalars['Int']['output']>;
+    id: Scalars['Int']['output'];
     notatId: Maybe<Scalars['Int']['output']>;
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
@@ -483,6 +486,14 @@ export type InntektFraAOrdningen = {
     __typename: 'InntektFraAOrdningen';
     maned: Scalars['YearMonth']['output'];
     sum: Scalars['Float']['output'];
+};
+
+export type InntektHentetFraAOrdningen = Hendelse & {
+    __typename: 'InntektHentetFraAOrdningen';
+    eksternDokumentId: Scalars['UUID']['output'];
+    id: Scalars['UUID']['output'];
+    mottattDato: Scalars['LocalDateTime']['output'];
+    type: Hendelsetype;
 };
 
 export type InntektOgRefusjonOverstyringInput = {
@@ -568,6 +579,7 @@ export type LagtPaVent = Historikkinnslag & {
     arsaker: Array<Scalars['String']['output']>;
     dialogRef: Maybe<Scalars['Int']['output']>;
     frist: Maybe<Scalars['LocalDate']['output']>;
+    id: Scalars['Int']['output'];
     kommentarer: Array<Kommentar>;
     notatId: Maybe<Scalars['Int']['output']>;
     notatTekst: Maybe<Scalars['String']['output']>;
@@ -1012,6 +1024,7 @@ export type Periode = {
 export type PeriodeHistorikkElementNy = Historikkinnslag & {
     __typename: 'PeriodeHistorikkElementNy';
     dialogRef: Maybe<Scalars['Int']['output']>;
+    id: Scalars['Int']['output'];
     notatId: Maybe<Scalars['Int']['output']>;
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
@@ -2375,6 +2388,7 @@ export type ArbeidsgiverFragment = {
                   historikkinnslag: Array<
                       | {
                             __typename: 'FjernetFraPaVent';
+                            id: number;
                             type: PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
@@ -2386,6 +2400,7 @@ export type ArbeidsgiverFragment = {
                             frist: string | null;
                             arsaker: Array<string>;
                             notatTekst: string | null;
+                            id: number;
                             type: PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
@@ -2402,6 +2417,7 @@ export type ArbeidsgiverFragment = {
                         }
                       | {
                             __typename: 'PeriodeHistorikkElementNy';
+                            id: number;
                             type: PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
@@ -2587,6 +2603,7 @@ export type ArbeidsgiverFragment = {
                       } | null;
                   }>;
                   hendelser: Array<
+                      | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
                       | {
                             __typename: 'Inntektsmelding';
                             beregnetInntekt: number;
@@ -2715,6 +2732,7 @@ export type ArbeidsgiverFragment = {
                       } | null;
                   }>;
                   hendelser: Array<
+                      | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
                       | {
                             __typename: 'Inntektsmelding';
                             beregnetInntekt: number;
@@ -3097,6 +3115,7 @@ export type UberegnetPeriodeFragment = {
         } | null;
     }>;
     hendelser: Array<
+        | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
         | {
               __typename: 'Inntektsmelding';
               beregnetInntekt: number;
@@ -3193,6 +3212,7 @@ export type BeregnetPeriodeFragment = {
     historikkinnslag: Array<
         | {
               __typename: 'FjernetFraPaVent';
+              id: number;
               type: PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
@@ -3204,6 +3224,7 @@ export type BeregnetPeriodeFragment = {
               frist: string | null;
               arsaker: Array<string>;
               notatTekst: string | null;
+              id: number;
               type: PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
@@ -3220,6 +3241,7 @@ export type BeregnetPeriodeFragment = {
           }
         | {
               __typename: 'PeriodeHistorikkElementNy';
+              id: number;
               type: PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
@@ -3405,6 +3427,7 @@ export type BeregnetPeriodeFragment = {
         } | null;
     }>;
     hendelser: Array<
+        | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
         | {
               __typename: 'Inntektsmelding';
               beregnetInntekt: number;
@@ -3505,6 +3528,7 @@ export type Periode_BeregnetPeriode_Fragment = {
         } | null;
     }>;
     hendelser: Array<
+        | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
         | {
               __typename: 'Inntektsmelding';
               beregnetInntekt: number;
@@ -3605,6 +3629,7 @@ export type Periode_UberegnetPeriode_Fragment = {
         } | null;
     }>;
     hendelser: Array<
+        | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
         | {
               __typename: 'Inntektsmelding';
               beregnetInntekt: number;
@@ -3901,6 +3926,7 @@ export type PersonFragment = {
                       historikkinnslag: Array<
                           | {
                                 __typename: 'FjernetFraPaVent';
+                                id: number;
                                 type: PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
@@ -3912,6 +3938,7 @@ export type PersonFragment = {
                                 frist: string | null;
                                 arsaker: Array<string>;
                                 notatTekst: string | null;
+                                id: number;
                                 type: PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
@@ -3928,6 +3955,7 @@ export type PersonFragment = {
                             }
                           | {
                                 __typename: 'PeriodeHistorikkElementNy';
+                                id: number;
                                 type: PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
@@ -4121,6 +4149,7 @@ export type PersonFragment = {
                           } | null;
                       }>;
                       hendelser: Array<
+                          | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
                           | {
                                 __typename: 'Inntektsmelding';
                                 beregnetInntekt: number;
@@ -4249,6 +4278,7 @@ export type PersonFragment = {
                           } | null;
                       }>;
                       hendelser: Array<
+                          | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
                           | {
                                 __typename: 'Inntektsmelding';
                                 beregnetInntekt: number;
@@ -4669,6 +4699,7 @@ export type FetchPersonQuery = {
                           historikkinnslag: Array<
                               | {
                                     __typename: 'FjernetFraPaVent';
+                                    id: number;
                                     type: PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
@@ -4680,6 +4711,7 @@ export type FetchPersonQuery = {
                                     frist: string | null;
                                     arsaker: Array<string>;
                                     notatTekst: string | null;
+                                    id: number;
                                     type: PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
@@ -4696,6 +4728,7 @@ export type FetchPersonQuery = {
                                 }
                               | {
                                     __typename: 'PeriodeHistorikkElementNy';
+                                    id: number;
                                     type: PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
@@ -4889,6 +4922,7 @@ export type FetchPersonQuery = {
                               } | null;
                           }>;
                           hendelser: Array<
+                              | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
                               | {
                                     __typename: 'Inntektsmelding';
                                     beregnetInntekt: number;
@@ -5017,6 +5051,7 @@ export type FetchPersonQuery = {
                               } | null;
                           }>;
                           hendelser: Array<
+                              | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
                               | {
                                     __typename: 'Inntektsmelding';
                                     beregnetInntekt: number;
@@ -6143,6 +6178,7 @@ export const BeregnetPeriodeFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
@@ -7390,6 +7426,7 @@ export const ArbeidsgiverFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
@@ -8336,6 +8373,7 @@ export const PersonFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
@@ -11242,6 +11280,7 @@ export const FetchPersonDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
