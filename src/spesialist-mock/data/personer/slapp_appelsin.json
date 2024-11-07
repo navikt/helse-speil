@@ -663,7 +663,18 @@
                                             "saksbehandlerIdent": "T166629",
                                             "notatId": 428,
                                             "frist": "2023-01-24T15:09:30.090206",
-                                            "arsaker": ["§ 8-4 Avklare aktivitetskrav/medisinske vilkår"]
+                                            "arsaker": ["§ 8-4 Avklare aktivitetskrav/medisinske vilkår"],
+                                            "dialogRef": 1,
+                                            "notatTekst": "Notat tekst",
+                                            "kommentarer": [
+                                                {
+                                                    "id": 1,
+                                                    "tekst": "Kommentar 1",
+                                                    "opprettet": "2023-01-24T15:09:30.090206",
+                                                    "saksbehandlerident": "T166629",
+                                                    "feilregistrert_tidspunkt": null
+                                                }
+                                            ]
                                         }
                                     ],
                                     "handlinger": [

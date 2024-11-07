@@ -30,8 +30,10 @@ import {
     ArbeidsgiverSkjønnHendelse,
     AvslaghendelseObject,
     HendelseObject,
+    HistorikkhendelseMedNotatObject,
     HistorikkhendelseObject,
     InntektoverstyringhendelseObject,
+    LagtPaVentHistorikkhendelseObject,
     MinimumSykdomsgradhendelseObject,
     NotathendelseObject,
     SykepengegrunnlagskjonnsfastsettinghendelseObject,
@@ -187,12 +189,14 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
                         årsaker: historikkelement.arsaker,
                         frist: historikkelement.frist,
                         notatId: historikkelement.notatId,
-                        notat: periode.notater.find((notat) => notat.id === historikkelement.notatId),
+                        dialogRef: historikkelement.dialogRef,
+                        notatTekst: historikkelement.notatTekst,
+                        kommentarer: historikkelement.kommentarer,
                         erNyesteHistorikkhendelseMedType:
                             [...periode.historikkinnslag]
                                 .sort(byTimestampHistorikkinnslag)
                                 .find((it) => it.type === historikkelement.type)?.notatId === historikkelement.notatId,
-                    };
+                    } as LagtPaVentHistorikkhendelseObject;
                 case 'FjernetFraPaVent':
                 case 'PeriodeHistorikkElementNy':
                     return {
@@ -203,7 +207,7 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
                         timestamp: historikkelement.timestamp as DateString,
                         notatId: historikkelement.notatId,
                         notat: periode.notater.find((notat) => notat.id === historikkelement.notatId),
-                    };
+                    } as HistorikkhendelseMedNotatObject;
             }
         });
 };
@@ -518,8 +522,7 @@ export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObj
                     type: 'Notat',
                     tekst: notat.tekst,
                     notattype: notat.type as NotatType,
-                    saksbehandler: notat.saksbehandler.ident ?? notat.saksbehandler.navn,
-                    saksbehandlerOid: notat.saksbehandler.oid,
+                    saksbehandler: notat.saksbehandler.ident,
                     timestamp: notat.opprettet.format(ISO_TIDSPUNKTFORMAT),
                     feilregistrert: notat.feilregistrert,
                     vedtaksperiodeId: notat.vedtaksperiodeId,

@@ -6,7 +6,7 @@ export type NotatSaksbehandler = {
     oid: string;
     epost: string;
     navn: string;
-    ident?: string;
+    ident: string;
 };
 
 export type NotatType = 'PaaVent' | 'Retur' | 'Generelt' | 'OpphevStans';

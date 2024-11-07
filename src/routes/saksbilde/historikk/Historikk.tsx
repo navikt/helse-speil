@@ -13,9 +13,15 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
+import { LagtPaVentHistorikkhendelse } from '@saksbilde/historikk/hendelser/LagtPaVentHistorikkhendelse';
 import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/MinimumSykdomsgradhendelse';
 import { useFetchPersonQuery } from '@state/person';
-import { Filtertype, HendelseObject } from '@typer/historikk';
+import {
+    Filtertype,
+    HendelseObject,
+    HistorikkhendelseObject,
+    LagtPaVentHistorikkhendelseObject,
+} from '@typer/historikk';
 
 import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
@@ -129,7 +135,11 @@ const HistorikkWithContent = (): ReactElement => {
                                             return <Utbetalinghendelse key={it.id} {...it} />;
                                         }
                                         case 'Historikk': {
-                                            return <Historikkhendelse key={it.id} {...it} />;
+                                            if (isLagtPaVent(it)) {
+                                                return <LagtPaVentHistorikkhendelse key={it.id} {...it} />;
+                                            } else {
+                                                return <Historikkhendelse key={it.id} {...it} />;
+                                            }
                                         }
                                         case 'Avslag': {
                                             return <Avslaghendelse key={it.id} {...it} />;
@@ -151,6 +161,10 @@ const HistorikkWithContent = (): ReactElement => {
         </div>
     );
 };
+
+function isLagtPaVent(obj: HistorikkhendelseObject): obj is LagtPaVentHistorikkhendelseObject {
+    return (obj as LagtPaVentHistorikkhendelseObject).årsaker !== undefined;
+}
 
 export const HistorikkSkeleton = (): ReactElement => {
     return (

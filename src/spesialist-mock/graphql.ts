@@ -182,6 +182,7 @@ const getResolvers = (): IResolvers => ({
             return NotatMock.getKommentar(id);
         },
         leggTilKommentar: (_, { tekst, notatId, saksbehandlerident }: MutationLeggTilKommentarArgs) => {
+            // TODO: Fiks mocking av kommentarer fra legg på vent. Ikke lenger knyttet til notat
             return NotatMock.addKommentar({ tekst, notatId, saksbehandlerident });
         },
         settVarselstatus: async (

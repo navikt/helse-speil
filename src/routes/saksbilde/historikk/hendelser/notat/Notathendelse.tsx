@@ -41,7 +41,6 @@ export const Notathendelse = ({
     tekst,
     notattype,
     saksbehandler,
-    saksbehandlerOid,
     timestamp,
     feilregistrert,
     kommentarer,
@@ -86,7 +85,7 @@ export const Notathendelse = ({
             title={<NotatTittel feilregistrert={feilregistrert} notattype={notattype} />}
             icon={<NotatIkon notattype={notattype} />}
         >
-            {!feilregistrert && innloggetSaksbehandler.oid === saksbehandlerOid && (
+            {!feilregistrert && innloggetSaksbehandler.ident === saksbehandler && (
                 <HendelseDropdownMenu feilregistrerAction={feilregistrerNotat} isFetching={loading} />
             )}
             <div
@@ -152,7 +151,7 @@ export const Notathendelse = ({
             <ExpandableHistorikkContent openText={`Kommentarer (${kommentarer.length})`} closeText="Lukk kommentarer">
                 <NotatHendelseContent
                     kommentarer={kommentarer}
-                    saksbehandlerOid={saksbehandlerOid}
+                    saksbehandlerIdent={saksbehandler}
                     id={id}
                     showAddDialog={showAddDialog}
                     setShowAddDialog={setShowAddDialog}

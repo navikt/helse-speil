@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactElement, ReactNode, useState } from 'react';
 
@@ -13,13 +12,11 @@ import {
     TimerPauseIcon,
     XMarkOctagonIcon,
 } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
 
 import { PeriodehistorikkType } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
 import { NotatHendelseContent } from '@saksbilde/historikk/hendelser/notat/NotathendelseContent';
-import { HistorikkhendelseObject } from '@typer/historikk';
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { HistorikkhendelseMedNotatObject } from '@typer/historikk';
 
 import { Hendelse } from './Hendelse';
 import { HendelseDate } from './HendelseDate';
@@ -28,7 +25,7 @@ import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './notat/constants';
 import styles from './Historikkhendelse.module.css';
 import notatStyles from './notat/Notathendelse.module.css';
 
-const getTitle = (type: PeriodehistorikkType): string => {
+export const getTitle = (type: PeriodehistorikkType): string => {
     switch (type) {
         case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning:
             return 'Sendt til godkjenning';
@@ -49,7 +46,7 @@ const getTitle = (type: PeriodehistorikkType): string => {
     }
 };
 
-const getIcon = (type: PeriodehistorikkType): ReactNode => {
+export const getIcon = (type: PeriodehistorikkType): ReactNode => {
     switch (type) {
         case PeriodehistorikkType.TotrinnsvurderingAttestert: {
             return <CheckmarkCircleIcon title="Sjekkmerke ikon" className={styles.Innrammet} />;
@@ -73,16 +70,13 @@ const getIcon = (type: PeriodehistorikkType): ReactNode => {
     }
 };
 
-type HistorikkhendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
+type HistorikkhendelseProps = Omit<HistorikkhendelseMedNotatObject, 'type' | 'id'>;
 
 export const Historikkhendelse = ({
     historikktype,
     saksbehandler,
     timestamp,
-    årsaker,
-    frist,
     notat,
-    erNyesteHistorikkhendelseMedType = false,
 }: HistorikkhendelseProps): ReactElement => {
     const [showAddDialog, setShowAddDialog] = useState(false);
     const [expanded, setExpanded] = useState(false);
@@ -93,11 +87,7 @@ export const Historikkhendelse = ({
         historikktype === PeriodehistorikkType.TotrinnsvurderingRetur ? totrinnsvurderingReturTekst : notat?.tekst;
 
     const isExpandable = () =>
-        (tekst && tekst.length > MAX_TEXT_LENGTH_BEFORE_TRUNCATION) ||
-        (tekst && tekst.split('\n').length > 2) ||
-        (årsaker && årsaker.length >= 2) ||
-        (årsaker && årsaker.length > 0 && !!tekst) ||
-        false;
+        (tekst && tekst.length > MAX_TEXT_LENGTH_BEFORE_TRUNCATION) || (tekst && tekst.split('\n').length > 2) || false;
 
     const toggleNotat = (event: React.KeyboardEvent) => {
         if (event.code === 'Enter' || event.code === 'Space') {
@@ -117,17 +107,7 @@ export const Historikkhendelse = ({
                 }}
                 className={classNames(notatStyles.NotatTextWrapper, isExpandable() && notatStyles.cursorpointer)}
             >
-                {historikktype === PeriodehistorikkType.LeggPaVent ? (
-                    <LeggPåVentHistorikkinnhold
-                        expanded={expanded}
-                        tekst={tekst}
-                        årsaker={årsaker}
-                        frist={frist}
-                        erNyesteHistorikkhendelseMedType={erNyesteHistorikkhendelseMedType}
-                    />
-                ) : (
-                    <Historikkinnhold expanded={expanded} tekst={tekst} />
-                )}
+                <Historikkinnhold expanded={expanded} tekst={tekst} />
                 {isExpandable() && (
                     <span className={notatStyles.lesmer}>
                         {expanded ? (
@@ -151,7 +131,7 @@ export const Historikkhendelse = ({
                 >
                     <NotatHendelseContent
                         kommentarer={notat.kommentarer}
-                        saksbehandlerOid={notat.saksbehandlerOid}
+                        saksbehandlerIdent={notat.saksbehandlerOid}
                         id={notat.id.toString()}
                         showAddDialog={showAddDialog}
                         setShowAddDialog={setShowAddDialog}
@@ -161,56 +141,6 @@ export const Historikkhendelse = ({
         </Hendelse>
     );
 };
-
-interface LeggPåVentProps {
-    expanded: boolean;
-    tekst?: string;
-    årsaker?: string[];
-    frist?: string | null;
-    erNyesteHistorikkhendelseMedType?: boolean;
-}
-
-const LeggPåVentHistorikkinnhold = ({
-    expanded,
-    tekst,
-    årsaker,
-    frist,
-    erNyesteHistorikkhendelseMedType,
-}: LeggPåVentProps): ReactElement => (
-    <AnimatePresence mode="wait">
-        {expanded ? (
-            <motion.div
-                key="div"
-                className={notatStyles.Notat}
-                initial={{ height: 40 }}
-                exit={{ height: 40 }}
-                animate={{ height: 'auto' }}
-                transition={{
-                    type: 'tween',
-                    duration: 0.2,
-                    ease: 'easeInOut',
-                }}
-            >
-                <pre className={notatStyles.Notat}>{årsaker?.map((årsak) => årsak + '\n')}</pre>
-                {tekst && årsaker && årsaker.length > 0 && (
-                    <>
-                        <span className={notatStyles.bold}>Notat</span>
-                    </>
-                )}
-                <pre className={notatStyles.Notat}>{tekst}</pre>
-            </motion.div>
-        ) : (
-            <motion.p key="p" className={notatStyles.NotatTruncated}>
-                {årsaker && årsaker.length > 0 ? årsaker.map((årsak) => årsak + '\n') : tekst}
-            </motion.p>
-        )}
-        {erNyesteHistorikkhendelseMedType && frist && (
-            <BodyShort className={notatStyles.tidsfrist} size="medium">
-                Frist: <span className={notatStyles.bold}>{dayjs(frist).format(NORSK_DATOFORMAT)}</span>
-            </BodyShort>
-        )}
-    </AnimatePresence>
-);
 
 interface HistorikkinnholdProps {
     expanded: boolean;

@@ -108,7 +108,6 @@ export type NotathendelseObject = BaseHendelseObject & {
     tekst: string;
     notattype: NotatType;
     saksbehandler: string;
-    saksbehandlerOid: string;
     timestamp: DateString;
     feilregistrert: boolean;
     vedtaksperiodeId: string;
@@ -125,16 +124,28 @@ export type UtbetalinghendelseObject = BaseHendelseObject & {
     timestamp: DateString;
 };
 
-export type HistorikkhendelseObject = BaseHendelseObject & {
+export type HistorikkhendelseBase = BaseHendelseObject & {
     type: 'Historikk';
     historikktype: PeriodehistorikkType;
     timestamp: DateString;
-    notatId: number | null;
-    årsaker?: string[];
-    frist?: DateString | null;
-    notat?: NotatFragment;
+};
+
+export type LagtPaVentHistorikkhendelseObject = HistorikkhendelseBase & {
+    saksbehandler: string;
+    dialogRef: Maybe<number>;
+    notatId: Maybe<number>;
+    frist: Maybe<DateString>;
+    årsaker: string[];
+    notatTekst: Maybe<string>;
+    kommentarer: Array<Kommentar>;
     erNyesteHistorikkhendelseMedType?: boolean;
 };
+
+export type HistorikkhendelseMedNotatObject = HistorikkhendelseBase & {
+    notat: NotatFragment;
+};
+
+export type HistorikkhendelseObject = LagtPaVentHistorikkhendelseObject | HistorikkhendelseMedNotatObject;
 
 export type AvslaghendelseObject = BaseHendelseObject & {
     type: 'Avslag';
