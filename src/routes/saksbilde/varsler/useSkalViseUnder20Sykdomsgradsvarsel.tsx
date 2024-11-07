@@ -20,7 +20,7 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     const harFlereArbeidsgiverePåSkjæringstidspunkt =
         person.arbeidsgivere.filter(
             (it) =>
-                it.generasjoner[0]?.perioder.filter(sammenlignSkjæringstidspunkt).length > 0 ||
+                (it.generasjoner[0]?.perioder.filter(sammenlignSkjæringstidspunkt).length ?? 0) > 0 ||
                 it.ghostPerioder.filter(sammenlignSkjæringstidspunkt).filter((it) => !it.deaktivert).length > 0,
         )?.length > 1;
 
