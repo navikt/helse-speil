@@ -6,7 +6,7 @@ import { Kilde } from '@components/Kilde';
 import { EndringsloggArbeidsforhold } from '@components/endringslogg/EndringsloggArbeidsforhold';
 import { EndringsloggDager } from '@components/endringslogg/EndringsloggDager';
 import { EndringsloggInntekt } from '@components/endringslogg/EndringsloggInntekt';
-import { Kildetype, Maybe, OverstyringFragment } from '@io/graphql';
+import { Maybe, OverstyringFragment } from '@io/graphql';
 import { isArbeidsforholdoverstyringer, isInntektoverstyringer, isOverstyringerPrDag } from '@utils/typeguards';
 
 import styles from './EndringsloggButton.module.css';
@@ -36,7 +36,7 @@ export const EndringsloggButton = <T extends OverstyringFragment>({
                 {...buttonProps}
                 onClick={() => setVisEndringslogg(true)}
             >
-                <Kilde type={Kildetype.Saksbehandler}>
+                <Kilde type={'Saksbehandler'}>
                     <PersonPencilFillIcon title="Saksbehandler ikon" height={20} width={20} />
                 </Kilde>
             </button>

@@ -22,6 +22,20 @@ type DokumenthendelseProps = Omit<DokumenthendelseObject, 'type' | 'id'> & {
     person: PersonFragment;
 };
 
+const dokumenttypetittel = (
+    type: 'Inntektsmelding' | 'Sykmelding' | 'Søknad' | 'Vedtak' | 'InntektHentetFraAordningen',
+) => {
+    switch (type) {
+        case 'Inntektsmelding':
+        case 'Sykmelding':
+        case 'Søknad':
+        case 'Vedtak':
+            return type + ' mottatt';
+        case 'InntektHentetFraAordningen':
+            return 'Inntekt hentet fra A-ordningen';
+    }
+};
+
 export const Dokumenthendelse = ({
     dokumenttype,
     timestamp,
@@ -64,7 +78,7 @@ export const Dokumenthendelse = ({
         <Hendelse
             title={
                 <span className={styles.header}>
-                    <span>{dokumenttype} mottatt</span>
+                    <span>{dokumenttypetittel(dokumenttype)}</span>
                     <button
                         className={classNames(
                             styles.åpne,
@@ -74,7 +88,9 @@ export const Dokumenthendelse = ({
                         )}
                         onClick={åpneINyKolonne}
                     >
-                        <ArrowForwardIcon title="Åpne dokument til høyre" fontSize="1.5rem" />
+                        {dokumenttype !== 'InntektHentetFraAordningen' && (
+                            <ArrowForwardIcon title="Åpne dokument til høyre" fontSize="1.5rem" />
+                        )}
                     </button>
                 </span>
             }

@@ -5,13 +5,7 @@ import { BodyShort, Box, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 import { EditButton } from '@components/EditButton';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import {
-    ArbeidsgiverFragment,
-    Kildetype,
-    Maybe,
-    NyttInntektsforholdPeriodeFragment,
-    PersonFragment,
-} from '@io/graphql';
+import { ArbeidsgiverFragment, Maybe, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
 import { Arbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/Arbeidsgivernavn';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { kanOverstyreTilkommenInntekt } from '@utils/featureToggles';
@@ -47,7 +41,7 @@ export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setE
                         )
                     </BodyShort>
                 </HStack>
-                <Kilde type={Kildetype.Soknad}>SØ</Kilde>
+                <Kilde type={'Soknad'}>SØ</Kilde>
                 {!harBeslutteroppgave && kanOverstyreTilkommenInntekt && (
                     <EditButton
                         isOpen={editing}

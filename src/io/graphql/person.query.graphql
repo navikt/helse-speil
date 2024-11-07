@@ -459,6 +459,9 @@ fragment periode on Periode {
             sendtNav
             eksternDokumentId
         }
+        ... on InntektHentetFraAOrdningen {
+            mottattDato
+        }
     }
 }
 
