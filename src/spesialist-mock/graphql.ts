@@ -1,4 +1,5 @@
 import spesialistSchema from './graphql.schema.json';
+import dayjs from 'dayjs';
 import fs from 'fs';
 import { GraphQLError, GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
 import path from 'path';
@@ -8,6 +9,7 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 import { Maybe } from '@io/graphql';
 import { Oppgave } from '@typer/spesialist-mock';
+import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { behandledeOppgaverliste, oppgaveliste } from './data/oppgaveoversikt';
@@ -23,12 +25,14 @@ import {
     Arbeidsgiver,
     BeregnetPeriode,
     FiltreringInput,
+    Kommentar,
     MutationFeilregistrerKommentarArgs,
     MutationFeilregistrerNotatArgs,
     MutationFjernPaVentArgs,
     MutationFjernTildelingArgs,
     MutationLeggPaVentArgs,
     MutationLeggTilKommentarArgs,
+    MutationLeggTilKommentarMedDialogRefArgs,
     MutationLeggTilNotatArgs,
     MutationOpphevStansArgs,
     MutationOpprettTildelingArgs,
@@ -182,8 +186,20 @@ const getResolvers = (): IResolvers => ({
             return NotatMock.getKommentar(id);
         },
         leggTilKommentar: (_, { tekst, notatId, saksbehandlerident }: MutationLeggTilKommentarArgs) => {
-            // TODO: Fiks mocking av kommentarer fra legg på vent. Ikke lenger knyttet til notat
             return NotatMock.addKommentar({ tekst, notatId, saksbehandlerident });
+        },
+        leggTilKommentarMedDialogRef: (
+            _,
+            { tekst, dialogRef, saksbehandlerident }: MutationLeggTilKommentarMedDialogRefArgs,
+        ) => {
+            // TODO: Fiks mocking av kommentarer fra legg på vent. Ikke lenger knyttet til notat
+            const nyKommentar: Kommentar = {
+                id: Math.floor(Math.random() * 1000),
+                opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
+                tekst,
+                saksbehandlerident,
+            };
+            return nyKommentar;
         },
         settVarselstatus: async (
             _,

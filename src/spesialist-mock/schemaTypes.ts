@@ -620,6 +620,7 @@ export type Mutation = {
     innvilgVedtak: Scalars['Boolean']['output'];
     leggPaVent?: Maybe<PaVent>;
     leggTilKommentar?: Maybe<Kommentar>;
+    leggTilKommentarMedDialogRef?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
     minimumSykdomsgrad: Scalars['Boolean']['output'];
     oppdaterPerson: Scalars['Boolean']['output'];
@@ -675,6 +676,12 @@ export type MutationLeggPaVentArgs = {
 
 export type MutationLeggTilKommentarArgs = {
     notatId: Scalars['Int']['input'];
+    saksbehandlerident: Scalars['String']['input'];
+    tekst: Scalars['String']['input'];
+};
+
+export type MutationLeggTilKommentarMedDialogRefArgs = {
+    dialogRef: Scalars['Int']['input'];
     saksbehandlerident: Scalars['String']['input'];
     tekst: Scalars['String']['input'];
 };

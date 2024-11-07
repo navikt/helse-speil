@@ -1,0 +1,9 @@
+mutation LeggTilKommentarMedDialogRef($tekst: String!, $dialogRef: Int!, $saksbehandlerident: String!) {
+    leggTilKommentarMedDialogRef(tekst: $tekst, dialogRef: $dialogRef, saksbehandlerident: $saksbehandlerident) {
+        id
+        tekst
+        opprettet
+        saksbehandlerident
+        feilregistrert_tidspunkt
+    }
+}

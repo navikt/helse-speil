@@ -9,7 +9,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { Maybe } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
 import styles from '@saksbilde/historikk/hendelser/Historikkhendelse.module.css';
-import { NotatHendelseContent } from '@saksbilde/historikk/hendelser/notat/NotathendelseContent';
+import { DialogContent } from '@saksbilde/historikk/hendelser/notat/DialogContent';
 import { LagtPaVentHistorikkhendelseObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT } from '@utils/date';
 
@@ -87,15 +87,15 @@ export const LagtPaVentHistorikkhendelse = ({
                 )}
             </div>
             <HendelseDate timestamp={timestamp} ident={saksbehandler} />
-            {notatId && (
+            {dialogRef && (
                 <ExpandableHistorikkContent
                     openText={`Kommentarer (${kommentarer?.length})`}
                     closeText="Lukk kommentarer"
                 >
-                    <NotatHendelseContent
+                    <DialogContent
                         kommentarer={kommentarer}
                         saksbehandlerIdent={saksbehandler}
-                        id={notatId.toString()}
+                        dialogRef={dialogRef}
                         showAddDialog={showAddDialog}
                         setShowAddDialog={setShowAddDialog}
                     />
