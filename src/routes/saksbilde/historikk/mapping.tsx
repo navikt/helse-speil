@@ -6,6 +6,7 @@ import {
     GhostPeriodeFragment,
     Hendelse,
     Historikkinnslag,
+    InntektHentetFraAOrdningen,
     Inntektoverstyring,
     Inntektsmelding,
     Maybe,
@@ -63,6 +64,10 @@ const isSykmelding = (hendelse: Hendelse): hendelse is Sykmelding => {
     return hendelse.type === 'NY_SOKNAD';
 };
 
+const isInntektHentetFraAordningen = (hendelse: Hendelse): hendelse is InntektHentetFraAOrdningen => {
+    return hendelse.type === 'INNTEKT_HENTET_FRA_AORDNINGEN';
+};
+
 const isSøknadNav = (hendelse: Hendelse): hendelse is SoknadNav => {
     return hendelse.type === 'SENDT_SOKNAD_NAV';
 };
@@ -81,11 +86,19 @@ const isSøknadFrilans = (hendelse: Hendelse): hendelse is SoknadFrilans => {
 
 const isDokument = (
     hendelse: Hendelse,
-): hendelse is Inntektsmelding | Sykmelding | SoknadNav | SoknadArbeidsgiver | SoknadArbeidsledig | SoknadFrilans => {
+): hendelse is
+    | Inntektsmelding
+    | Sykmelding
+    | SoknadNav
+    | SoknadArbeidsgiver
+    | SoknadArbeidsledig
+    | SoknadFrilans
+    | InntektHentetFraAOrdningen => {
     return (
         isInntektsmelding(hendelse) ||
         isSykmelding(hendelse) ||
         isSøknadNav(hendelse) ||
+        isInntektHentetFraAordningen(hendelse) ||
         isSøknadArbeidsgiver(hendelse) ||
         isSøknadArbeidsledig(hendelse) ||
         isSøknadFrilans(hendelse)
@@ -112,6 +125,13 @@ export const getDokumenter = (period: Periode | GhostPeriodeFragment): Array<Hen
                 type: 'Dokument',
                 dokumenttype: 'Sykmelding',
                 timestamp: hendelse.rapportertDato,
+            };
+        } else if (isInntektHentetFraAordningen(hendelse)) {
+            return {
+                id: hendelse.id,
+                type: 'Dokument',
+                dokumenttype: 'InntektHentetFraAordningen',
+                timestamp: hendelse.mottattDato,
             };
         } else {
             return {

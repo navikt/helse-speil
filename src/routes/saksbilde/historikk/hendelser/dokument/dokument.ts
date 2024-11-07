@@ -1,27 +1,38 @@
 import { useEffect } from 'react';
 import { atom, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { Kildetype } from '@io/graphql';
 import { DokumenthendelseObject } from '@typer/historikk';
+
+export type Kildetype =
+    | 'InntektHentetFraAordningen'
+    | 'Inntektsmelding'
+    | 'Sykmelding'
+    | 'Soknad'
+    | 'Saksbehandler'
+    | 'Ukjent';
 
 export const getKildetype = (dokumenttype: DokumenthendelseObject['dokumenttype']): Kildetype => {
     switch (dokumenttype) {
+        case 'InntektHentetFraAordningen':
+            return 'InntektHentetFraAordningen';
         case 'Inntektsmelding': {
-            return Kildetype.Inntektsmelding;
+            return 'Inntektsmelding';
         }
         case 'Sykmelding': {
-            return Kildetype.Sykmelding;
+            return 'Sykmelding';
         }
         case 'Søknad': {
-            return Kildetype.Soknad;
+            return 'Soknad';
         }
         default:
-            return Kildetype.Ukjent;
+            return 'Ukjent';
     }
 };
 
 export const getKildetekst = (dokumenttype: DokumenthendelseObject['dokumenttype']): string => {
     switch (dokumenttype) {
+        case 'InntektHentetFraAordningen':
+            return 'AO';
         case 'Inntektsmelding': {
             return 'IM';
         }
@@ -63,7 +74,7 @@ export const useResetOpenedDocuments = () => {
 interface Dokument {
     dokumentId: string;
     fødselsnummer: string;
-    dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad' | 'Vedtak';
+    dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad' | 'Vedtak' | 'InntektHentetFraAordningen';
     timestamp: string;
 }
 

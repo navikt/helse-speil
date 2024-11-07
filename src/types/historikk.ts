@@ -98,7 +98,7 @@ export type MinimumSykdomsgradhendelseObject = BaseHendelseObject & {
 
 export type DokumenthendelseObject = BaseHendelseObject & {
     type: 'Dokument';
-    dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad' | 'Vedtak';
+    dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad' | 'Vedtak' | 'InntektHentetFraAordningen';
     timestamp: DateString;
     dokumentId?: Maybe<string>;
 };

@@ -7,7 +7,7 @@ import { EditButton } from '@components/EditButton';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import { BeregnetPeriodeFragment, Kildetype, Maybe, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { BeregnetPeriodeFragment, Maybe, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 
@@ -62,7 +62,7 @@ export const SkjønnsfastsettingHeader = ({
                         <p className={styles.opprinneligSykepengegrunnlag}>{toKronerOgØre(sykepengegrunnlag)}</p>
                     )}
                     {skjønnsmessigFastsattÅrlig != null && (
-                        <Kilde type={Kildetype.Saksbehandler} className={styles.kildeIkon}>
+                        <Kilde type={'Saksbehandler'} className={styles.kildeIkon}>
                             <PersonPencilFillIcon title="Saksbehandler ikon" height={20} width={20} />
                         </Kilde>
                     )}

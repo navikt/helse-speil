@@ -2603,7 +2603,12 @@ export type ArbeidsgiverFragment = {
                       } | null;
                   }>;
                   hendelser: Array<
-                      | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
+                      | {
+                            __typename: 'InntektHentetFraAOrdningen';
+                            mottattDato: string;
+                            id: string;
+                            type: Hendelsetype;
+                        }
                       | {
                             __typename: 'Inntektsmelding';
                             beregnetInntekt: number;
@@ -2732,7 +2737,12 @@ export type ArbeidsgiverFragment = {
                       } | null;
                   }>;
                   hendelser: Array<
-                      | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
+                      | {
+                            __typename: 'InntektHentetFraAOrdningen';
+                            mottattDato: string;
+                            id: string;
+                            type: Hendelsetype;
+                        }
                       | {
                             __typename: 'Inntektsmelding';
                             beregnetInntekt: number;
@@ -3115,7 +3125,7 @@ export type UberegnetPeriodeFragment = {
         } | null;
     }>;
     hendelser: Array<
-        | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
+        | { __typename: 'InntektHentetFraAOrdningen'; mottattDato: string; id: string; type: Hendelsetype }
         | {
               __typename: 'Inntektsmelding';
               beregnetInntekt: number;
@@ -3427,7 +3437,7 @@ export type BeregnetPeriodeFragment = {
         } | null;
     }>;
     hendelser: Array<
-        | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
+        | { __typename: 'InntektHentetFraAOrdningen'; mottattDato: string; id: string; type: Hendelsetype }
         | {
               __typename: 'Inntektsmelding';
               beregnetInntekt: number;
@@ -3528,7 +3538,7 @@ export type Periode_BeregnetPeriode_Fragment = {
         } | null;
     }>;
     hendelser: Array<
-        | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
+        | { __typename: 'InntektHentetFraAOrdningen'; mottattDato: string; id: string; type: Hendelsetype }
         | {
               __typename: 'Inntektsmelding';
               beregnetInntekt: number;
@@ -3629,7 +3639,7 @@ export type Periode_UberegnetPeriode_Fragment = {
         } | null;
     }>;
     hendelser: Array<
-        | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
+        | { __typename: 'InntektHentetFraAOrdningen'; mottattDato: string; id: string; type: Hendelsetype }
         | {
               __typename: 'Inntektsmelding';
               beregnetInntekt: number;
@@ -4149,7 +4159,12 @@ export type PersonFragment = {
                           } | null;
                       }>;
                       hendelser: Array<
-                          | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
+                          | {
+                                __typename: 'InntektHentetFraAOrdningen';
+                                mottattDato: string;
+                                id: string;
+                                type: Hendelsetype;
+                            }
                           | {
                                 __typename: 'Inntektsmelding';
                                 beregnetInntekt: number;
@@ -4278,7 +4293,12 @@ export type PersonFragment = {
                           } | null;
                       }>;
                       hendelser: Array<
-                          | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
+                          | {
+                                __typename: 'InntektHentetFraAOrdningen';
+                                mottattDato: string;
+                                id: string;
+                                type: Hendelsetype;
+                            }
                           | {
                                 __typename: 'Inntektsmelding';
                                 beregnetInntekt: number;
@@ -4922,7 +4942,12 @@ export type FetchPersonQuery = {
                               } | null;
                           }>;
                           hendelser: Array<
-                              | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
+                              | {
+                                    __typename: 'InntektHentetFraAOrdningen';
+                                    mottattDato: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
                               | {
                                     __typename: 'Inntektsmelding';
                                     beregnetInntekt: number;
@@ -5051,7 +5076,12 @@ export type FetchPersonQuery = {
                               } | null;
                           }>;
                           hendelser: Array<
-                              | { __typename: 'InntektHentetFraAOrdningen'; id: string; type: Hendelsetype }
+                              | {
+                                    __typename: 'InntektHentetFraAOrdningen';
+                                    mottattDato: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
                               | {
                                     __typename: 'Inntektsmelding';
                                     beregnetInntekt: number;
@@ -5790,6 +5820,17 @@ export const PeriodeFragmentDoc = {
                                         ],
                                     },
                                 },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'InntektHentetFraAOrdningen' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } }],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -6038,6 +6079,17 @@ export const UberegnetPeriodeFragmentDoc = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
                                         ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'InntektHentetFraAOrdningen' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } }],
                                     },
                                 },
                             ],
@@ -6714,6 +6766,17 @@ export const BeregnetPeriodeFragmentDoc = {
                                         ],
                                     },
                                 },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'InntektHentetFraAOrdningen' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } }],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -7242,6 +7305,17 @@ export const ArbeidsgiverFragmentDoc = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
                                         ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'InntektHentetFraAOrdningen' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } }],
                                     },
                                 },
                             ],
@@ -8223,6 +8297,17 @@ export const PersonFragmentDoc = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
                                         ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'InntektHentetFraAOrdningen' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } }],
                                     },
                                 },
                             ],
@@ -11130,6 +11215,17 @@ export const FetchPersonDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
                                         ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'InntektHentetFraAOrdningen' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } }],
                                     },
                                 },
                             ],

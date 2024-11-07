@@ -695,6 +695,12 @@
                                     ],
                                     "hendelser": [
                                         {
+                                            "id": "73c45eac-61dc-4d8a-bd79-4b2c1135c0ef",
+                                            "type": "INNTEKT_HENTET_FRA_AORDNINGEN",
+                                            "mottattDato": "2023-02-01T00:00:00",
+                                            "eksternDokumentId": "f69c8038-e4b2-44de-b9d4-b0c389e43165"
+                                        },
+                                        {
                                             "id": "aa6a5042-4e77-4b5f-b023-38b97df83a3e",
                                             "type": "SENDT_SOKNAD_NAV",
                                             "fom": "2022-08-01",

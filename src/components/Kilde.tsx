@@ -3,7 +3,8 @@ import React, { PropsWithChildren } from 'react';
 
 import { Tooltip } from '@navikt/ds-react';
 
-import { Inntektskilde, Kildetype } from '@io/graphql';
+import { Inntektskilde } from '@io/graphql';
+import { Kildetype } from '@saksbilde/historikk/hendelser/dokument/dokument';
 
 import styles from './Kilde.module.scss';
 
@@ -20,15 +21,16 @@ const finnCSSklasse = (type: KildeikonType) => {
             return 'ainntekt';
         case 'VEDTAK':
             return 'melding om vedtak';
+        case 'InntektHentetFraAordningen':
         case Inntektskilde.Aordningen:
             return 'aordningen';
-        case Kildetype.Sykmelding:
+        case 'Sykmelding':
             return 'sykmelding';
-        case Kildetype.Soknad:
+        case 'Soknad':
             return 'søknad';
-        case Kildetype.Inntektsmelding:
+        case 'Inntektsmelding':
             return 'inntektsmelding';
-        case Kildetype.Saksbehandler:
+        case 'Saksbehandler':
         case Inntektskilde.SkjonnsmessigFastsatt:
             return 'saksbehandler';
         default:
@@ -39,13 +41,13 @@ const finnCSSklasse = (type: KildeikonType) => {
 const getKildeTypeTooltip = (kilde: KildeikonType): string => {
     switch (kilde) {
         case Inntektskilde.Inntektsmelding:
-        case Kildetype.Inntektsmelding:
+        case 'Inntektsmelding':
             return 'Inntektsmelding';
-        case Kildetype.Soknad:
+        case 'Soknad':
             return 'Søknad';
-        case Kildetype.Sykmelding:
+        case 'Sykmelding':
             return 'Sykmelding';
-        case Kildetype.Saksbehandler:
+        case 'Saksbehandler':
             return 'Saksbehandler';
         case Inntektskilde.Aordningen:
             return 'A-ordningen';
@@ -63,9 +65,7 @@ const getKildeTypeTooltip = (kilde: KildeikonType): string => {
 };
 
 const erTekst = (kilde: KildeikonType): boolean =>
-    kilde !== Kildetype.Saksbehandler &&
-    kilde !== Inntektskilde.Saksbehandler &&
-    kilde !== Inntektskilde.SkjonnsmessigFastsatt;
+    kilde !== 'Saksbehandler' && kilde !== Inntektskilde.Saksbehandler && kilde !== Inntektskilde.SkjonnsmessigFastsatt;
 
 export const Kilde = ({ type, children, className }: PropsWithChildren<KildeProps>) => {
     return (
