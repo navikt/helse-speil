@@ -29,7 +29,7 @@ export const LagtPaVentHistorikkhendelse = ({
     frist,
     notatTekst,
     dialogRef,
-    notatId,
+    historikkinnslagId,
     kommentarer,
     erNyesteHistorikkhendelseMedType = false,
 }: LagtPaVentHistorikkhendelseProps): ReactElement => {
@@ -96,6 +96,7 @@ export const LagtPaVentHistorikkhendelse = ({
                         kommentarer={kommentarer}
                         saksbehandlerIdent={saksbehandler}
                         dialogRef={dialogRef}
+                        historikkinnslagId={historikkinnslagId}
                         showAddDialog={showAddDialog}
                         setShowAddDialog={setShowAddDialog}
                     />

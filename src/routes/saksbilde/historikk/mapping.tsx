@@ -202,13 +202,13 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
                 case 'LagtPaVent':
                     return {
                         id: `historikkinnslag-${index}`,
+                        historikkinnslagId: historikkelement.id,
                         type: 'Historikk',
                         historikktype: historikkelement.type,
                         saksbehandler: historikkelement.saksbehandlerIdent,
                         timestamp: historikkelement.timestamp as DateString,
                         årsaker: historikkelement.arsaker,
                         frist: historikkelement.frist,
-                        notatId: historikkelement.notatId,
                         dialogRef: historikkelement.dialogRef,
                         notatTekst: historikkelement.notatTekst,
                         kommentarer: historikkelement.kommentarer,
@@ -221,6 +221,7 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
                 case 'PeriodeHistorikkElementNy':
                     return {
                         id: `historikkinnslag-${index}`,
+                        historikkinnslagId: historikkelement.id,
                         type: 'Historikk',
                         historikktype: historikkelement.type,
                         saksbehandler: historikkelement.saksbehandlerIdent,

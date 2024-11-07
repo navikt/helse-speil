@@ -15,6 +15,7 @@ type DialogContentProps = {
     showAddDialog: boolean;
     setShowAddDialog: (show: boolean) => void;
     dialogRef: number;
+    historikkinnslagId: number;
 };
 
 export const DialogContent = ({
@@ -23,9 +24,12 @@ export const DialogContent = ({
     showAddDialog,
     setShowAddDialog,
     dialogRef,
+    historikkinnslagId,
 }: DialogContentProps) => {
-    const { onLeggTilKommentarMedDialogRef, loading, error } = useLeggTilKommentarMedDialogRef(dialogRef, () =>
-        setShowAddDialog(false),
+    const { onLeggTilKommentarMedDialogRef, loading, error } = useLeggTilKommentarMedDialogRef(
+        dialogRef,
+        historikkinnslagId,
+        () => setShowAddDialog(false),
     );
     return (
         <HStack gap="4">
@@ -47,19 +51,45 @@ export const DialogContent = ({
     );
 };
 
-const useLeggTilKommentarMedDialogRef = (id: number, hideDialog: () => void) => {
+const useLeggTilKommentarMedDialogRef = (dialogRef: number, historikkinnslagId: number, hideDialog: () => void) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const [leggTilKommentarMedDialogRef, { error, loading }] = useMutation(LeggTilKommentarMedDialogRefDocument);
 
     const onLeggTilKommentarMedDialogRef = async (tekst: string) => {
         const saksbehandlerident = innloggetSaksbehandler.ident;
         if (saksbehandlerident) {
-            const dialogRef = id;
             await leggTilKommentarMedDialogRef({
                 variables: {
                     tekst,
                     dialogRef,
                     saksbehandlerident,
+                },
+                update: (cache, { data }) => {
+                    cache.writeQuery({
+                        query: LeggTilKommentarMedDialogRefDocument,
+                        variables: {
+                            tekst,
+                            dialogRef,
+                            saksbehandlerident,
+                        },
+                        data,
+                    });
+                    cache.modify({
+                        id: cache.identify({ __typename: 'LagtPaVent', id: historikkinnslagId }),
+                        fields: {
+                            kommentarer(eksisterendeKommentarer) {
+                                return [
+                                    ...eksisterendeKommentarer,
+                                    {
+                                        __ref: cache.identify({
+                                            __typename: 'Kommentar',
+                                            id: data?.leggTilKommentarMedDialogRef?.id,
+                                        }),
+                                    },
+                                ];
+                            },
+                        },
+                    });
                 },
             });
             hideDialog();

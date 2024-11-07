@@ -125,6 +125,7 @@ export type UtbetalinghendelseObject = BaseHendelseObject & {
 };
 
 export type HistorikkhendelseBase = BaseHendelseObject & {
+    historikkinnslagId: number;
     type: 'Historikk';
     historikktype: PeriodehistorikkType;
     timestamp: DateString;
@@ -133,7 +134,6 @@ export type HistorikkhendelseBase = BaseHendelseObject & {
 export type LagtPaVentHistorikkhendelseObject = HistorikkhendelseBase & {
     saksbehandler: string;
     dialogRef: Maybe<number>;
-    notatId: Maybe<number>;
     frist: Maybe<DateString>;
     årsaker: string[];
     notatTekst: Maybe<string>;
