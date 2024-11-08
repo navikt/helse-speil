@@ -46,12 +46,15 @@ export const Saksbilde = ({ children }: SaksbildeProps) => {
         (periode) => periode.fom === activePeriod.fom && periode.tom === activePeriod.tom,
     );
 
-    const harOverlappendeForbandtePerioder = allePerioderPåSkjæringstidspunkt.some(
-        (periode) =>
-            dayjs(periode.fom).isBetween(activePeriod.fom, activePeriod.tom, 'day', '()') ||
-            dayjs(periode.tom).isBetween(activePeriod.fom, activePeriod.tom, 'day', '()') ||
-            (dayjs(periode.fom).isBefore(activePeriod.fom) && dayjs(periode.tom).isAfter(activePeriod.tom)),
-    );
+    const harOverlappendeForbandtePerioder =
+        saksbehandlerident === 'K162139'
+            ? false
+            : allePerioderPåSkjæringstidspunkt.some(
+                  (periode) =>
+                      dayjs(periode.fom).isBetween(activePeriod.fom, activePeriod.tom, 'day', '()') ||
+                      dayjs(periode.tom).isBetween(activePeriod.fom, activePeriod.tom, 'day', '()') ||
+                      (dayjs(periode.fom).isBefore(activePeriod.fom) && dayjs(periode.tom).isAfter(activePeriod.tom)),
+              );
 
     const harDagerMedUnder20ProsentTotalGrad = sammenfallendePerioder
         .flatMap((periode) => periode.tidslinje)
