@@ -55,13 +55,13 @@ export const IndividuellBegrunnelse = ({
         }
     }, [avslagstype, erBeslutteroppgave, overstyrtMinimumSykdomsgradBegrunnelse, setAvslag]);
 
-    if (avvisteDager.length === 0) return null;
+    const lokalAvslagstekst = avslag?.data?.begrunnelse;
+    const innsendtAvslagstekst = periode.avslag?.[0]?.begrunnelse as string | undefined;
+
+    if (avvisteDager.length === 0 && !innsendtAvslagstekst) return null;
 
     const åpneModal = () => setModalÅpen(true);
     const lukkModal = () => setModalÅpen(false);
-
-    const lokalAvslagstekst = avslag?.data?.begrunnelse;
-    const innsendtAvslagstekst = periode.avslag?.[0]?.begrunnelse as string | undefined;
 
     const preutfyltVerdi = lokalAvslagstekst ?? innsendtAvslagstekst ?? overstyrtMinimumSykdomsgradBegrunnelse ?? '';
 
