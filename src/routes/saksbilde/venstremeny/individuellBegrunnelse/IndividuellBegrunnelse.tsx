@@ -47,7 +47,7 @@ export const IndividuellBegrunnelse = ({
         tidslinjeUtenAGPogHelg.length === avvisteDager.length ? Avslagstype.Avslag : Avslagstype.DelvisAvslag;
 
     useEffect(() => {
-        if (overstyrtMinimumSykdomsgradBegrunnelse && !erBeslutteroppgave && !erReadOnly) {
+        if (overstyrtMinimumSykdomsgradBegrunnelse && !erBeslutteroppgave && !erReadOnly && avvisteDager.length > 0) {
             setAvslag({
                 data: { begrunnelse: overstyrtMinimumSykdomsgradBegrunnelse, type: avslagstype },
                 handling: Avslagshandling.Opprett,
