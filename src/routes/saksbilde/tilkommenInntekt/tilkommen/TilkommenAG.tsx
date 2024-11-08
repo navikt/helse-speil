@@ -67,7 +67,7 @@ export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps)
                                 <HStack justify="end" width="7rem">
                                     <BodyShort>{somPenger(periode.dagligBelop)}</BodyShort>
                                 </HStack>
-                                <HelpText>Ikke ferie, permisjon og andre ytelser</HelpText>
+                                <HelpText>Ikke ferie og permisjon</HelpText>
                             </HStack>
                         </HGrid>
                     )}
