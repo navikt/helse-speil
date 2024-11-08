@@ -29,7 +29,23 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
             (it) => isMinimumSykdomsgradsoverstyring(it) && it.minimumSykdomsgrad.fom === aktivPeriode.fom,
         ) ?? false;
 
+    const alleSammenfallendeDager = person.arbeidsgivere
+        .flatMap((ag) => ag.generasjoner[0]?.perioder)
+        .filter(
+            (periode) =>
+                periode?.skjaeringstidspunkt === aktivPeriode.skjaeringstidspunkt && periode.fom === aktivPeriode.fom,
+        )
+        .flatMap((periode) => periode?.tidslinje);
+
+    const harDagerMedMerEnn0ProsentTotalGrad =
+        alleSammenfallendeDager.filter((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 0) > 0).length > 0;
+
+    const harDagerMedUnder20ProsentTotalGrad =
+        alleSammenfallendeDager.filter((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 100) < 20).length > 0;
+
     return (
+        harDagerMedUnder20ProsentTotalGrad &&
+        harDagerMedMerEnn0ProsentTotalGrad &&
         !harBlittVurdert &&
         harFlereArbeidsgiverePåSkjæringstidspunkt &&
         kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident)
