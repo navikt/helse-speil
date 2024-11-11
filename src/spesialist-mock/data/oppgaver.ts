@@ -35,6 +35,29 @@ export const oppgaver: OppgaveTilBehandling[] = [
             { kategori: Kategori.Status, egenskap: Egenskap.Beslutter },
             { kategori: Kategori.Status, egenskap: Egenskap.PaVent },
         ],
+        tidsfrist: '2023-02-21',
+        paVentInfo: {
+            arsaker: ['§ 8-4 Avklare aktivitetskrav/medisinske vilkår', 'Annen årsak'],
+            dialogRef: 1,
+            opprettet: '2023-04-02T11:09:57',
+            saksbehandler: 'T166629',
+            tekst: 'En notattekst',
+            tidsfrist: '2024-12-12',
+            kommentarer: [
+                {
+                    id: 1,
+                    opprettet: '2023-04-02T11:09:57',
+                    saksbehandlerident: 'T166629',
+                    tekst: 'En kommentar',
+                },
+                {
+                    id: 2,
+                    opprettet: '2023-04-03T11:12:57',
+                    saksbehandlerident: 'T166629',
+                    tekst: 'En annen kommentar',
+                },
+            ],
+        },
     },
     {
         id: '4420',
@@ -60,6 +83,15 @@ export const oppgaver: OppgaveTilBehandling[] = [
             { kategori: Kategori.Inntektskilde, egenskap: Egenskap.EnArbeidsgiver },
             { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Vergemal },
         ],
+        paVentInfo: {
+            arsaker: ['§ 8-4 Avklare aktivitetskrav/medisinske vilkår'],
+            dialogRef: 1,
+            opprettet: '2023-04-02T11:09:57',
+            saksbehandler: 'T166629',
+            tekst: 'annet på vent notat',
+            tidsfrist: '2023-02-21',
+            kommentarer: [],
+        },
     },
     {
         // En ganske urealistisk oppgave, for å kunne fremprovosere en graphql-error fra oppgavelista

@@ -1,14 +1,11 @@
-import React, { ReactElement, useState } from 'react';
+import React, { PropsWithChildren, ReactElement, useState } from 'react';
 
-import { Button, Heading, Modal, Table } from '@navikt/ds-react';
+import { BodyShort, HStack, Heading, Modal, VStack } from '@navikt/ds-react';
 
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { NotatType, Personnavn } from '@io/graphql';
-import { useInnloggetSaksbehandler } from '@state/authentication';
-import { Notat } from '@typer/notat';
+import { NotatType, PaVentInfo, Personnavn } from '@io/graphql';
+import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { getFormatertNavn } from '@utils/string';
 
-import { NotatListeRad } from './NotatListeRad';
 import { NyttNotatModal } from './NyttNotatModal';
 
 import styles from './PåVentModal.module.scss';
@@ -16,21 +13,18 @@ import styles from './PåVentModal.module.scss';
 type PåVentListeModalProps = {
     onClose: () => void;
     showModal: boolean;
-    notater: Notat[];
     vedtaksperiodeId: string;
     navn: Personnavn;
-    erPåVent?: boolean;
+    påVentInfo: PaVentInfo;
 };
 
 export const PåVentListeModal = ({
     onClose,
     showModal,
-    notater,
     vedtaksperiodeId,
     navn,
-    erPåVent,
+    påVentInfo,
 }: PåVentListeModalProps): ReactElement => {
-    const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const søkernavn = getFormatertNavn(navn);
     const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
 
@@ -46,38 +40,59 @@ export const PåVentListeModal = ({
         <Modal aria-label="Legg på vent notater modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
             <Modal.Header>
                 <Heading level="1" size="medium" className={styles.tittel}>
-                    Lagt på vent - notater
+                    Lagt på vent
                 </Heading>
-                <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>
             </Modal.Header>
             <Modal.Body>
-                <Table zebraStripes>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>Dato</Table.HeaderCell>
-                            <Table.HeaderCell>Saksbehandler</Table.HeaderCell>
-                            <Table.HeaderCell>Kommentar</Table.HeaderCell>
-                            <Table.DataCell />
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {notater.map((notat) => (
-                            <NotatListeRad
-                                key={notat.id}
-                                notat={notat}
-                                innloggetSaksbehandler={innloggetSaksbehandler}
-                            />
-                        ))}
-                    </Table.Body>
-                </Table>
+                <VStack gap="6">
+                    <HStack gap="12">
+                        <Ting tittel="Søker">{søkernavn}</Ting>
+                        <Ting tittel="Dato">{getFormattedDatetimeString(påVentInfo.opprettet)}</Ting>
+                        <Ting tittel="Frist">{somNorskDato(påVentInfo.tidsfrist)}</Ting>
+                        <Ting tittel="Saksbehandler">{påVentInfo.saksbehandler}</Ting>
+                    </HStack>
+                    {påVentInfo.arsaker.length > 0 && (
+                        <Ting tittel="Årsak">
+                            <ul>
+                                {påVentInfo.arsaker.map((årsak) => (
+                                    <li key={årsak}>{årsak}</li>
+                                ))}
+                            </ul>
+                        </Ting>
+                    )}
+                    {!!påVentInfo.tekst && <Ting tittel="Notat">{påVentInfo.tekst}</Ting>}
+                    {påVentInfo.kommentarer.length > 0 && (
+                        <Ting tittel="Kommentarer">
+                            {påVentInfo.kommentarer.map((kommentar) => (
+                                <HStack gap="6" wrap={false} key={kommentar.id}>
+                                    <BodyShort className={styles.kommentardato}>
+                                        {getFormattedDatetimeString(kommentar.opprettet)}
+                                    </BodyShort>
+                                    <BodyShort>{kommentar.tekst}</BodyShort>
+                                </HStack>
+                            ))}
+                        </Ting>
+                    )}
+                </VStack>
             </Modal.Body>
-            <Modal.Footer>
-                {erPåVent && (
-                    <Button variant="primary" onClick={() => setShowNyttNotatModal((prevState) => !prevState)}>
-                        Legg til nytt notat
-                    </Button>
-                )}
-            </Modal.Footer>
+            {/*<Modal.Footer>*/}
+            {/*    <Button variant="primary" onClick={() => setShowNyttNotatModal((prevState) => !prevState)}>*/}
+            {/*        Legg til nytt notat*/}
+            {/*    </Button>*/}
+            {/*</Modal.Footer>*/}
         </Modal>
     );
 };
+
+interface TingProps {
+    tittel: string;
+}
+
+const Ting = ({ tittel, children }: PropsWithChildren<TingProps>) => (
+    <VStack>
+        <Heading level="2" size="xsmall">
+            {tittel}
+        </Heading>
+        <BodyShort>{children}</BodyShort>
+    </VStack>
+);

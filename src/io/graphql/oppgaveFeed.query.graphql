@@ -15,6 +15,21 @@ query OppgaveFeed($offset: Int!, $limit: Int!, $sortering: [OppgavesorteringInpu
             opprettet
             opprinneligSoknadsdato
             tidsfrist
+            paVentInfo {
+                tidsfrist
+                opprettet
+                saksbehandler
+                dialogRef
+                arsaker
+                tekst
+                kommentarer {
+                    id
+                    opprettet
+                    saksbehandlerident
+                    tekst
+                    feilregistrert_tidspunkt
+                }
+            }
             tildeling {
                 epost
                 navn

@@ -1,44 +1,56 @@
 import React, { ReactElement } from 'react';
 
-import { Popover, PopoverProps } from '@navikt/ds-react';
+import { BodyShort, Popover, PopoverProps } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Maybe } from '@io/graphql';
+import { Maybe, PaVentInfo } from '@io/graphql';
 import { usePopoverAnchor } from '@saksbilde/timeline/hooks/usePopoverAnchor';
-import { useNotaterForVedtaksperiode } from '@state/notater';
 
 import styles from './SisteNotattekst.module.css';
 
 interface SisteNotattekstProps {
-    vedtaksperiodeId: string;
+    påVentInfo: PaVentInfo;
 }
 
-interface NotattekstPopoverProps extends Omit<PopoverProps, 'children'> {
-    tekst: string;
-}
-
-const NotattekstPopover = ({ tekst, ...popoverProps }: NotattekstPopoverProps): ReactElement => {
-    return (
-        <Popover placement="left" {...popoverProps}>
-            <Popover.Content className={styles.NotattekstPopover}>
-                <AnonymizableText>{tekst}</AnonymizableText>
-            </Popover.Content>
-        </Popover>
-    );
-};
-
-export const SisteNotattekst = ({ vedtaksperiodeId }: SisteNotattekstProps): Maybe<ReactElement> => {
+export const SisteNotattekst = ({ påVentInfo }: SisteNotattekstProps): Maybe<ReactElement> => {
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
-    const sisteNotat = useNotaterForVedtaksperiode(vedtaksperiodeId).shift();
 
-    if (sisteNotat === undefined) return null;
+    const preview = påVentInfo.arsaker.length > 0 ? påVentInfo.arsaker[0] : påVentInfo.tekst;
 
     return (
         <>
             <AnonymizableText onMouseOver={onMouseOver} onMouseOut={onMouseOut} className={styles.SisteNotat}>
-                {sisteNotat.tekst}
+                {preview}
             </AnonymizableText>
-            <NotattekstPopover tekst={sisteNotat.tekst} {...popoverProps} />
+            <NotattekstPopover tekst={påVentInfo.tekst} årsaker={påVentInfo.arsaker} {...popoverProps} />
         </>
+    );
+};
+
+interface NotattekstPopoverProps extends Omit<PopoverProps, 'children'> {
+    tekst: Maybe<string>;
+    årsaker: string[];
+}
+
+const NotattekstPopover = ({ tekst, årsaker, ...popoverProps }: NotattekstPopoverProps): ReactElement => {
+    return (
+        <Popover placement="left" {...popoverProps}>
+            <Popover.Content className={styles.NotattekstPopover}>
+                {årsaker.length > 0 && (
+                    <>
+                        <BodyShort weight="semibold">Årsaker</BodyShort>
+                        {årsaker.map((årsak) => (
+                            <AnonymizableText key={årsak}>{årsak}</AnonymizableText>
+                        ))}
+                    </>
+                )}
+                {!!tekst && (
+                    <>
+                        <BodyShort weight="semibold">Notat</BodyShort>
+                        <AnonymizableText>{tekst}</AnonymizableText>
+                    </>
+                )}
+            </Popover.Content>
+        </Popover>
     );
 };

@@ -37,6 +37,7 @@ export const enOppgaveForOversikten: OverridableConstructor<OppgaveTilBehandling
         { __typename: 'Oppgaveegenskap', kategori: Kategori.Mottaker, egenskap: Egenskap.UtbetalingTilSykmeldt },
         { __typename: 'Oppgaveegenskap', kategori: Kategori.Inntektskilde, egenskap: Egenskap.EnArbeidsgiver },
     ],
+    paVentInfo: null,
     ...overrides,
 });
 

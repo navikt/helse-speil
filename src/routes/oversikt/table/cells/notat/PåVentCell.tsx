@@ -4,42 +4,47 @@ import React, { ReactElement, useState } from 'react';
 import { TimerPauseIcon } from '@navikt/aksel-icons';
 import { Button, Table, Tooltip } from '@navikt/ds-react';
 
-import { Maybe, NotatType, Personnavn } from '@io/graphql';
+import { Maybe, PaVentInfo, Personnavn } from '@io/graphql';
 import { SisteNotattekst } from '@oversikt/table/oppgaverTable/SisteNotattekst';
-import { useNotaterForVedtaksperiode } from '@state/notater';
 
 import { PåVentListeModal } from './PåVentListeModal';
 
 import styles from './PåVentCell.module.css';
 
-interface NotatCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
+interface PåVentCellProps {
     vedtaksperiodeId: string;
     navn: Personnavn;
-    erPåVent?: boolean;
     utgåttFrist: boolean;
+    påVentInfo: Maybe<PaVentInfo>;
 }
 
-export const PåVentCell = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: NotatCellProps): ReactElement => {
+export const PåVentCell = ({ vedtaksperiodeId, navn, utgåttFrist, påVentInfo }: PåVentCellProps): ReactElement => {
     return (
         <Table.DataCell onClick={(event) => event.stopPropagation()} className={classNames(styles.PåVentCell)}>
-            {erPåVent && (
+            {!!påVentInfo && (
                 <div className={styles.KnappOgTekst}>
                     <PåVentKnapp
                         vedtaksperiodeId={vedtaksperiodeId}
                         navn={navn}
-                        erPåVent={erPåVent}
                         utgåttFrist={utgåttFrist}
+                        påVentInfo={påVentInfo}
                     />
-                    <SisteNotattekst vedtaksperiodeId={vedtaksperiodeId} />
+                    <SisteNotattekst påVentInfo={påVentInfo} />
                 </div>
             )}
         </Table.DataCell>
     );
 };
 
-const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: NotatCellProps): Maybe<ReactElement> => {
+interface PåVentKnappProps {
+    vedtaksperiodeId: string;
+    navn: Personnavn;
+    utgåttFrist: boolean;
+    påVentInfo: PaVentInfo;
+}
+
+const PåVentKnapp = ({ vedtaksperiodeId, navn, utgåttFrist, påVentInfo }: PåVentKnappProps): Maybe<ReactElement> => {
     const [showModal, setShowModal] = useState(false);
-    const notater = useNotaterForVedtaksperiode(vedtaksperiodeId).filter((it) => it.type === NotatType.PaaVent);
 
     const toggleModal = (event: React.SyntheticEvent) => {
         event.stopPropagation();
@@ -47,7 +52,7 @@ const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: Notat
         setShowModal((prevState) => !prevState);
     };
 
-    return notater.length > 0 ? (
+    return (
         <>
             <Tooltip content="Lagt på vent">
                 <Button
@@ -63,12 +68,11 @@ const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: Notat
                 <PåVentListeModal
                     onClose={() => setShowModal(false)}
                     showModal={showModal}
-                    notater={notater}
+                    påVentInfo={påVentInfo}
                     vedtaksperiodeId={vedtaksperiodeId}
                     navn={navn}
-                    erPåVent={erPåVent}
                 />
             )}
         </>
-    ) : null;
+    );
 };

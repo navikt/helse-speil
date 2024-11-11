@@ -488,7 +488,6 @@ export type InntektFraAOrdningen = {
 
 export type InntektHentetFraAOrdningen = Hendelse & {
     __typename?: 'InntektHentetFraAOrdningen';
-    eksternDokumentId: Scalars['UUID']['output'];
     id: Scalars['UUID']['output'];
     mottattDato: Scalars['LocalDateTime']['output'];
     type: Hendelsetype;
@@ -853,6 +852,7 @@ export type OppgaveTilBehandling = {
     oppgavetype: Oppgavetype;
     opprettet: Scalars['LocalDateTime']['output'];
     opprinneligSoknadsdato: Scalars['LocalDateTime']['output'];
+    paVentInfo?: Maybe<PaVentInfo>;
     periodetype: Periodetype;
     tidsfrist?: Maybe<Scalars['LocalDate']['output']>;
     tildeling?: Maybe<Tildeling>;
@@ -1000,6 +1000,17 @@ export type PaVent = {
 export type PaVentArsakInput = {
     _key: Scalars['String']['input'];
     arsak: Scalars['String']['input'];
+};
+
+export type PaVentInfo = {
+    __typename?: 'PaVentInfo';
+    arsaker: Array<Scalars['String']['output']>;
+    dialogRef: Scalars['Int']['output'];
+    kommentarer: Array<Kommentar>;
+    opprettet: Scalars['LocalDateTime']['output'];
+    saksbehandler: Scalars['String']['output'];
+    tekst?: Maybe<Scalars['String']['output']>;
+    tidsfrist: Scalars['LocalDate']['output'];
 };
 
 export type Periode = {

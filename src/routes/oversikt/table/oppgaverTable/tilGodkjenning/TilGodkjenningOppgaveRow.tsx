@@ -19,10 +19,9 @@ interface TilGodkjenningOppgaveRowProps {
 export const TilGodkjenningOppgaveRow = ({ oppgave }: TilGodkjenningOppgaveRowProps): ReactElement => {
     const sorteringsnøkkel = useRecoilValue(dateSortKey);
 
-    const erPåVent = oppgave.egenskaper.filter((it) => it.egenskap === 'PA_VENT').length === 1;
-
     const utgåttFrist: boolean =
-        oppgave.tidsfrist != null && dayjs(oppgave.tidsfrist, ISO_DATOFORMAT).isSameOrBefore(dayjs());
+        oppgave.paVentInfo?.tidsfrist != null &&
+        dayjs(oppgave.paVentInfo.tidsfrist, ISO_DATOFORMAT).isSameOrBefore(dayjs());
 
     return (
         <LinkRow aktørId={oppgave.aktorId}>
@@ -36,7 +35,7 @@ export const TilGodkjenningOppgaveRow = ({ oppgave }: TilGodkjenningOppgaveRowPr
             <PåVentCell
                 vedtaksperiodeId={oppgave.vedtaksperiodeId}
                 navn={oppgave.navn}
-                erPåVent={erPåVent}
+                påVentInfo={oppgave.paVentInfo}
                 utgåttFrist={utgåttFrist}
             />
         </LinkRow>

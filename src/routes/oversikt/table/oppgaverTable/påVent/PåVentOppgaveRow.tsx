@@ -19,8 +19,6 @@ interface PåVentOppgaveRowProps {
 export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps): ReactElement => {
     const sorteringsnøkkel = useRecoilValue(dateSortKey);
 
-    const erPåVent = oppgave.egenskaper.filter((it) => it.egenskap === 'PA_VENT').length === 1;
-
     const utgåttFrist: boolean =
         oppgave.tidsfrist != null && dayjs(oppgave.tidsfrist, ISO_DATOFORMAT).isSameOrBefore(dayjs());
 
@@ -36,7 +34,7 @@ export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps): ReactEle
             <PåVentCell
                 vedtaksperiodeId={oppgave.vedtaksperiodeId}
                 navn={oppgave.navn}
-                erPåVent={erPåVent}
+                påVentInfo={oppgave.paVentInfo}
                 utgåttFrist={utgåttFrist}
             />
         </LinkRow>
