@@ -5291,7 +5291,8 @@ export type LeggPaVentMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input'];
     frist: Scalars['LocalDate']['input'];
     tildeling: Scalars['Boolean']['input'];
-    notatTekst: Scalars['String']['input'];
+    notatTekst?: InputMaybe<Scalars['String']['input']>;
+    arsaker?: InputMaybe<Array<PaVentArsakInput> | PaVentArsakInput>;
 }>;
 
 export type LeggPaVentMutation = {
@@ -12217,7 +12218,18 @@ export const LeggPaVentDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'arsaker' } },
+                    type: {
+                        kind: 'ListType',
+                        type: {
+                            kind: 'NonNullType',
+                            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaVentArsakInput' } },
+                        },
+                    },
                 },
             ],
             selectionSet: {
@@ -12246,6 +12258,11 @@ export const LeggPaVentDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'notatTekst' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'arsaker' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'arsaker' } },
                             },
                         ],
                         selectionSet: {
