@@ -6,6 +6,7 @@ import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-fo
 import { Button, Checkbox, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { Arsak } from '@external/sanity';
 import { Maybe, NotatType, PaVentArsakInput, Personnavn, Tildeling } from '@io/graphql';
 import { PåVentÅrsakerOgBegrunnelse } from '@oversikt/table/cells/notat/PåVentÅrsakerOgBegrunnelse';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -54,6 +55,9 @@ export const PåVentNotatModal = ({
         void onChange(event);
     };
 
+    const arsaker: Arsak[] = ((form.watch('arsaker') as string[]) || [])?.map((arsak: string) => JSON.parse(arsak));
+    const harMinstÉnÅrsak = () => arsaker?.length > 0;
+
     const erTildeltSaksbehandler = tildeling && tildeling.oid === saksbehandler.oid;
 
     const sisteNotat = [...notaterForOppgave]
@@ -62,11 +66,18 @@ export const PåVentNotatModal = ({
         .shift();
 
     const submit: SubmitHandler<FieldValues> = async (fieldValues) => {
+        if (!harMinstÉnÅrsak()) {
+            form.setError('arsaker', {
+                type: 'manual',
+                message: 'Velg minst én årsak',
+            });
+            return;
+        }
         await settPåVent(
             fieldValues.tekst ?? null,
             fieldValues.frist,
             fieldValues.tildeling,
-            fieldValues.arsaker.map((a: string) => JSON.parse(a)),
+            fieldValues.arsaker ? fieldValues.arsaker.map((a: string) => JSON.parse(a)) : [],
         );
         onClose();
     };
