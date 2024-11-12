@@ -356,6 +356,7 @@ export enum Egenskap {
     Stikkprove = 'STIKKPROVE',
     StrengtFortroligAdresse = 'STRENGT_FORTROLIG_ADRESSE',
     Tilbakedatert = 'TILBAKEDATERT',
+    Tilkommen = 'TILKOMMEN',
     UtbetalingTilArbeidsgiver = 'UTBETALING_TIL_ARBEIDSGIVER',
     UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
     Utland = 'UTLAND',
