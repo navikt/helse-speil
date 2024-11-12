@@ -116,12 +116,16 @@ export enum SkjønnsfastsettingstypeDTO {
 export interface OverstyrtMinimumSykdomsgradDTO {
     aktørId: string;
     fødselsnummer: string;
-    fom: string;
-    tom: string;
-    vurdering: boolean;
+    perioderVurdertOk: MinimumSykdomsgradPeriode[];
+    perioderVurdertIkkeOk: MinimumSykdomsgradPeriode[];
     begrunnelse: string;
     arbeidsgivere: MinimumSykdomsgradArbeidsgiver[];
     initierendeVedtaksperiodeId: string;
+}
+
+export interface MinimumSykdomsgradPeriode {
+    fom: string;
+    tom: string;
 }
 
 export interface MinimumSykdomsgradArbeidsgiver {

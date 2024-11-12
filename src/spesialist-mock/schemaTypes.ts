@@ -599,10 +599,9 @@ export type MinimumSykdomsgradInput = {
     arbeidsgivere: Array<ArbeidsgiverInput>;
     begrunnelse: Scalars['String']['input'];
     fodselsnummer: Scalars['String']['input'];
-    fom: Scalars['LocalDate']['input'];
     initierendeVedtaksperiodeId: Scalars['UUID']['input'];
-    tom: Scalars['LocalDate']['input'];
-    vurdering: Scalars['Boolean']['input'];
+    perioderVurdertIkkeOk: Array<PeriodeInput>;
+    perioderVurdertOk: Array<PeriodeInput>;
 };
 
 export type MinimumSykdomsgradOverstyring = Overstyring & {
@@ -986,10 +985,15 @@ export type OverstyrtInntekt = {
 export type OverstyrtMinimumSykdomsgrad = {
     __typename?: 'OverstyrtMinimumSykdomsgrad';
     begrunnelse: Scalars['String']['output'];
-    fom: Scalars['LocalDate']['output'];
     initierendeVedtaksperiodeId: Scalars['UUID']['output'];
+    perioderVurdertIkkeOk: Array<OverstyrtMinimumSykdomsgradPeriode>;
+    perioderVurdertOk: Array<OverstyrtMinimumSykdomsgradPeriode>;
+};
+
+export type OverstyrtMinimumSykdomsgradPeriode = {
+    __typename?: 'OverstyrtMinimumSykdomsgradPeriode';
+    fom: Scalars['LocalDate']['output'];
     tom: Scalars['LocalDate']['output'];
-    vurdering: Scalars['Boolean']['output'];
 };
 
 export type PaVent = {
@@ -1039,6 +1043,11 @@ export type PeriodeHistorikkElementNy = Historikkinnslag & {
     saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
+};
+
+export type PeriodeInput = {
+    fom: Scalars['LocalDate']['input'];
+    tom: Scalars['LocalDate']['input'];
 };
 
 export enum Periodehandling {

@@ -59,9 +59,8 @@ export const MinimumSykdomsgradForm = ({
         postMinimumSykdomsgrad({
             aktørId: person.aktorId,
             fødselsnummer: person.fodselsnummer,
-            fom: periode.fom,
-            tom: periode.tom,
-            vurdering: skjemaverdier.MerEnn20 === 'Ja',
+            perioderVurdertOk: skjemaverdier.MerEnn20 === 'Ja' ? [{ fom: periode.fom, tom: periode.tom }] : [],
+            perioderVurdertIkkeOk: skjemaverdier.MerEnn20 === 'Nei' ? [{ fom: periode.fom, tom: periode.tom }] : [],
             begrunnelse: skjemaverdier.Begrunnelse,
             arbeidsgivere: overlappendeArbeidsgivere.map((it) => {
                 return {

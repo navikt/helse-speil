@@ -601,10 +601,9 @@ export type MinimumSykdomsgradInput = {
     arbeidsgivere: Array<ArbeidsgiverInput>;
     begrunnelse: Scalars['String']['input'];
     fodselsnummer: Scalars['String']['input'];
-    fom: Scalars['LocalDate']['input'];
     initierendeVedtaksperiodeId: Scalars['UUID']['input'];
-    tom: Scalars['LocalDate']['input'];
-    vurdering: Scalars['Boolean']['input'];
+    perioderVurdertIkkeOk: Array<PeriodeInput>;
+    perioderVurdertOk: Array<PeriodeInput>;
 };
 
 export type MinimumSykdomsgradOverstyring = Overstyring & {
@@ -988,10 +987,15 @@ export type OverstyrtInntekt = {
 export type OverstyrtMinimumSykdomsgrad = {
     __typename: 'OverstyrtMinimumSykdomsgrad';
     begrunnelse: Scalars['String']['output'];
-    fom: Scalars['LocalDate']['output'];
     initierendeVedtaksperiodeId: Scalars['UUID']['output'];
+    perioderVurdertIkkeOk: Array<OverstyrtMinimumSykdomsgradPeriode>;
+    perioderVurdertOk: Array<OverstyrtMinimumSykdomsgradPeriode>;
+};
+
+export type OverstyrtMinimumSykdomsgradPeriode = {
+    __typename: 'OverstyrtMinimumSykdomsgradPeriode';
+    fom: Scalars['LocalDate']['output'];
     tom: Scalars['LocalDate']['output'];
-    vurdering: Scalars['Boolean']['output'];
 };
 
 export type PaVent = {
@@ -1041,6 +1045,11 @@ export type PeriodeHistorikkElementNy = Historikkinnslag & {
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
+};
+
+export type PeriodeInput = {
+    fom: Scalars['LocalDate']['input'];
+    tom: Scalars['LocalDate']['input'];
 };
 
 export enum Periodehandling {
@@ -2291,11 +2300,10 @@ export type Overstyring_MinimumSykdomsgradOverstyring_Fragment = {
     ferdigstilt: boolean;
     minimumSykdomsgrad: {
         __typename: 'OverstyrtMinimumSykdomsgrad';
-        fom: string;
-        tom: string;
-        vurdering: boolean;
         begrunnelse: string;
         initierendeVedtaksperiodeId: string;
+        perioderVurdertOk: Array<{ __typename: 'OverstyrtMinimumSykdomsgradPeriode'; fom: string; tom: string }>;
+        perioderVurdertIkkeOk: Array<{ __typename: 'OverstyrtMinimumSykdomsgradPeriode'; fom: string; tom: string }>;
     };
     saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
 };
@@ -2895,11 +2903,18 @@ export type ArbeidsgiverFragment = {
               ferdigstilt: boolean;
               minimumSykdomsgrad: {
                   __typename: 'OverstyrtMinimumSykdomsgrad';
-                  fom: string;
-                  tom: string;
-                  vurdering: boolean;
                   begrunnelse: string;
                   initierendeVedtaksperiodeId: string;
+                  perioderVurdertOk: Array<{
+                      __typename: 'OverstyrtMinimumSykdomsgradPeriode';
+                      fom: string;
+                      tom: string;
+                  }>;
+                  perioderVurdertIkkeOk: Array<{
+                      __typename: 'OverstyrtMinimumSykdomsgradPeriode';
+                      fom: string;
+                      tom: string;
+                  }>;
               };
               saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
           }
@@ -4451,11 +4466,18 @@ export type PersonFragment = {
                   ferdigstilt: boolean;
                   minimumSykdomsgrad: {
                       __typename: 'OverstyrtMinimumSykdomsgrad';
-                      fom: string;
-                      tom: string;
-                      vurdering: boolean;
                       begrunnelse: string;
                       initierendeVedtaksperiodeId: string;
+                      perioderVurdertOk: Array<{
+                          __typename: 'OverstyrtMinimumSykdomsgradPeriode';
+                          fom: string;
+                          tom: string;
+                      }>;
+                      perioderVurdertIkkeOk: Array<{
+                          __typename: 'OverstyrtMinimumSykdomsgradPeriode';
+                          fom: string;
+                          tom: string;
+                      }>;
                   };
                   saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
               }
@@ -5234,11 +5256,18 @@ export type FetchPersonQuery = {
                       ferdigstilt: boolean;
                       minimumSykdomsgrad: {
                           __typename: 'OverstyrtMinimumSykdomsgrad';
-                          fom: string;
-                          tom: string;
-                          vurdering: boolean;
                           begrunnelse: string;
                           initierendeVedtaksperiodeId: string;
+                          perioderVurdertOk: Array<{
+                              __typename: 'OverstyrtMinimumSykdomsgradPeriode';
+                              fom: string;
+                              tom: string;
+                          }>;
+                          perioderVurdertIkkeOk: Array<{
+                              __typename: 'OverstyrtMinimumSykdomsgradPeriode';
+                              fom: string;
+                              tom: string;
+                          }>;
                       };
                       saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
                   }
@@ -6972,9 +7001,28 @@ export const OverstyringFragmentDoc = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'vurdering' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'perioderVurdertOk' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'perioderVurdertIkkeOk' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                    ],
+                                                },
+                                            },
                                             { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
                                             {
                                                 kind: 'Field',
@@ -7917,9 +7965,28 @@ export const ArbeidsgiverFragmentDoc = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'vurdering' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'perioderVurdertOk' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'perioderVurdertIkkeOk' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                    ],
+                                                },
+                                            },
                                             { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
                                             {
                                                 kind: 'Field',
@@ -8875,9 +8942,28 @@ export const PersonFragmentDoc = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'vurdering' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'perioderVurdertOk' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'perioderVurdertIkkeOk' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                    ],
+                                                },
+                                            },
                                             { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
                                             {
                                                 kind: 'Field',
@@ -11846,9 +11932,28 @@ export const FetchPersonDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'vurdering' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'perioderVurdertOk' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'perioderVurdertIkkeOk' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                    ],
+                                                },
+                                            },
                                             { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
                                             {
                                                 kind: 'Field',

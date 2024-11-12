@@ -94,9 +94,12 @@ fragment overstyring on Overstyring {
     }
     ... on MinimumSykdomsgradOverstyring {
         minimumSykdomsgrad {
-            fom
-            tom
-            vurdering
+            perioderVurdertOk {
+                fom, tom
+            }
+            perioderVurdertIkkeOk {
+                fom, tom
+            }
             begrunnelse
             initierendeVedtaksperiodeId
         }

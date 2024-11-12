@@ -5694,22 +5694,6 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "fom",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "LocalDate",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "initierendeVedtaksperiodeId",
                         "description": null,
                         "type": {
@@ -5726,15 +5710,23 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "tom",
+                        "name": "perioderVurdertIkkeOk",
                         "description": null,
                         "type": {
                             "kind": "NON_NULL",
                             "name": null,
                             "ofType": {
-                                "kind": "SCALAR",
-                                "name": "LocalDate",
-                                "ofType": null
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "INPUT_OBJECT",
+                                        "name": "PeriodeInput",
+                                        "ofType": null
+                                    }
+                                }
                             }
                         },
                         "defaultValue": null,
@@ -5742,15 +5734,23 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "vurdering",
+                        "name": "perioderVurdertOk",
                         "description": null,
                         "type": {
                             "kind": "NON_NULL",
                             "name": null,
                             "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "INPUT_OBJECT",
+                                        "name": "PeriodeInput",
+                                        "ofType": null
+                                    }
+                                }
                             }
                         },
                         "defaultValue": null,
@@ -9059,22 +9059,6 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "fom",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "LocalDate",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "initierendeVedtaksperiodeId",
                         "description": null,
                         "args": [],
@@ -9091,7 +9075,67 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "tom",
+                        "name": "perioderVurdertIkkeOk",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "OverstyrtMinimumSykdomsgradPeriode",
+                                        "ofType": null
+                                    }
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "perioderVurdertOk",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "OverstyrtMinimumSykdomsgradPeriode",
+                                        "ofType": null
+                                    }
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "OverstyrtMinimumSykdomsgradPeriode",
+                "description": null,
+                "isOneOf": null,
+                "fields": [
+                    {
+                        "name": "fom",
                         "description": null,
                         "args": [],
                         "type": {
@@ -9107,7 +9151,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "vurdering",
+                        "name": "tom",
                         "description": null,
                         "args": [],
                         "type": {
@@ -9115,7 +9159,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "Boolean",
+                                "name": "LocalDate",
                                 "ofType": null
                             }
                         },
@@ -9718,6 +9762,50 @@
                         "ofType": null
                     }
                 ],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "INPUT_OBJECT",
+                "name": "PeriodeInput",
+                "description": null,
+                "isOneOf": false,
+                "fields": null,
+                "inputFields": [
+                    {
+                        "name": "fom",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "LocalDate",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "tom",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "LocalDate",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "interfaces": null,
                 "enumValues": null,
                 "possibleTypes": null
             },

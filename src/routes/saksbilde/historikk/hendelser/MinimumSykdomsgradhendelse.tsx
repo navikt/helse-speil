@@ -38,21 +38,36 @@ export const MinimumSykdomsgradhendelse = ({
         >
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
-                    <BodyShort weight="semibold">Konklusjon</BodyShort>
-                    <BodyShort>
-                        {minimumSykdomsgrad.vurdering
-                            ? MINIMUM_SYKDOMSGRAD_INNVILGELSE_TEKST
-                            : MINIMUM_SYKDOMSGRAD_AVSLAG_TEKST}
-                    </BodyShort>
-                    <BodyShort weight="semibold">Periode </BodyShort>
-                    <BodyShort>
-                        {dayjs(minimumSykdomsgrad.fom).format(NORSK_DATOFORMAT)} –{' '}
-                        {dayjs(minimumSykdomsgrad.tom).format(NORSK_DATOFORMAT)}
-                    </BodyShort>
+                    {minimumSykdomsgrad.perioderVurdertOk.length > 0 && (
+                        <>
+                            <BodyShort weight="semibold">Konklusjon</BodyShort>
+                            <BodyShort>{MINIMUM_SYKDOMSGRAD_INNVILGELSE_TEKST}</BodyShort>
+                            <BodyShort weight="semibold">Periode </BodyShort>
+                            <BodyShort>
+                                {minimumSykdomsgrad.perioderVurdertOk.map(
+                                    (periode) =>
+                                        `${dayjs(periode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(periode.tom).format(NORSK_DATOFORMAT)}`,
+                                )}
+                            </BodyShort>
+                        </>
+                    )}
+                    {minimumSykdomsgrad.perioderVurdertIkkeOk.length > 0 && (
+                        <>
+                            <BodyShort weight="semibold">Konklusjon</BodyShort>
+                            <BodyShort>{MINIMUM_SYKDOMSGRAD_AVSLAG_TEKST}</BodyShort>
+                            <BodyShort weight="semibold">Periode </BodyShort>
+                            <BodyShort>
+                                {minimumSykdomsgrad.perioderVurdertIkkeOk.map(
+                                    (periode) =>
+                                        `${dayjs(periode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(periode.tom).format(NORSK_DATOFORMAT)}`,
+                                )}
+                            </BodyShort>
+                        </>
+                    )}
                     <BodyShort weight="semibold">
-                        {minimumSykdomsgrad.vurdering
-                            ? 'Begrunnelse'
-                            : MINIMUM_SYKDOMSGRAD_BEGRUNNELSE_INNLEDNING_AVSLAG}
+                        {minimumSykdomsgrad.perioderVurdertIkkeOk.length <= 0
+                            ? MINIMUM_SYKDOMSGRAD_BEGRUNNELSE_INNLEDNING_AVSLAG
+                            : 'Begrunnelse'}
                     </BodyShort>
                     <BodyShort className={styles.begrunnelse}>{minimumSykdomsgrad.begrunnelse}</BodyShort>
                 </div>

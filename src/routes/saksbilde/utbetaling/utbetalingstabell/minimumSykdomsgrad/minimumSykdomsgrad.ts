@@ -53,10 +53,9 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
                         berortVedtaksperiodeId: arbeidsgiver.berørtVedtaksperiodeId,
                     }),
                 ),
+                perioderVurdertOk: minimumSykdomsgrad.perioderVurdertOk,
+                perioderVurdertIkkeOk: minimumSykdomsgrad.perioderVurdertIkkeOk,
                 fodselsnummer: minimumSykdomsgrad.fødselsnummer,
-                fom: minimumSykdomsgrad.fom,
-                tom: minimumSykdomsgrad.tom,
-                vurdering: minimumSykdomsgrad.vurdering,
                 begrunnelse: minimumSykdomsgrad.begrunnelse,
                 initierendeVedtaksperiodeId: minimumSykdomsgrad.initierendeVedtaksperiodeId,
             };
@@ -84,6 +83,6 @@ export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: Ac
             (
                 arbeidsgiver.generasjoner[0]?.perioder
                     ?.filter(isBeregnetPeriode || isUberegnetPeriode)
-                    ?.filter((it) => overlapper(periode)(it)) ?? []
+                    ?.filter((it) => overlapper(periode)) ?? []
             ).length > 0,
     ) as Array<ArbeidsgiverFragment>;

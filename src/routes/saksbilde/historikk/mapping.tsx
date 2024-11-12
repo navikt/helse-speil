@@ -511,15 +511,17 @@ export const getMinimumSykdomsgradoverstyring = (
 
     return arbeidsgiver.overstyringer
         .filter(isMinimumSykdomsgradsoverstyring)
-        .filter(
-            (it) =>
-                dayjs(it.minimumSykdomsgrad.fom, ISO_DATOFORMAT).isSameOrAfter(
-                    førsteVurdertePeriodeForArbeidsgiver?.fom,
-                ) &&
-                dayjs(it.minimumSykdomsgrad.fom, ISO_DATOFORMAT).isSameOrBefore(
+        .filter((it) => {
+            const førsteFom =
+                it.minimumSykdomsgrad.perioderVurdertOk?.[0]?.fom ??
+                it.minimumSykdomsgrad.perioderVurdertIkkeOk[0]!.fom;
+            return (
+                dayjs(førsteFom, ISO_DATOFORMAT).isSameOrAfter(førsteVurdertePeriodeForArbeidsgiver?.fom) &&
+                dayjs(førsteFom, ISO_DATOFORMAT).isSameOrBefore(
                     sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet?.tom,
-                ),
-        )
+                )
+            );
+        })
         .map((overstyring) => ({
             id: overstyring.hendelseId,
             type: 'MinimumSykdomsgradoverstyring',
