@@ -63,7 +63,7 @@ export const PåVentNotatModal = ({
 
     const submit: SubmitHandler<FieldValues> = async (fieldValues) => {
         await settPåVent(
-            fieldValues.tekst,
+            fieldValues.tekst ?? null,
             fieldValues.frist,
             fieldValues.tildeling,
             fieldValues.arsaker.map((a: string) => JSON.parse(a)),
@@ -71,7 +71,12 @@ export const PåVentNotatModal = ({
         onClose();
     };
 
-    const settPåVent = async (notattekst: string, frist: string, tildeling: boolean, arsaker: PaVentArsakInput[]) => {
+    const settPåVent = async (
+        notattekst: Maybe<string>,
+        frist: string,
+        tildeling: boolean,
+        arsaker: PaVentArsakInput[],
+    ) => {
         const fristVerdi = dayjs(frist, NORSK_DATOFORMAT).format(ISO_DATOFORMAT);
 
         await leggPåVentMedNotat(oppgaveId, fristVerdi, tildeling, notattekst, vedtaksperiodeId, arsaker);

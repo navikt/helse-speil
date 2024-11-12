@@ -33,7 +33,7 @@ export const useLeggPåVent = (
         oppgavereferanse: string,
         frist: string,
         tildeling: boolean,
-        notattekst: string,
+        notattekst: Maybe<string>,
         vedtaksperiodeId: string,
         arsaker: PaVentArsakInput[],
     ) => Promise<FetchResult<LeggPaVentMutation>>,
@@ -46,7 +46,7 @@ export const useLeggPåVent = (
         oppgavereferanse: string,
         frist: string,
         tildeling: boolean,
-        notattekst: string,
+        notattekst: Maybe<string>,
         vedtaksperiodeId: string,
         arsaker: PaVentArsakInput[],
     ) =>
