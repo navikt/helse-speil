@@ -26,7 +26,10 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
 
     const harBlittVurdert =
         arbeidsgiver?.overstyringer.some(
-            (it) => isMinimumSykdomsgradsoverstyring(it) && it.minimumSykdomsgrad.fom === aktivPeriode.fom,
+            (it) =>
+                isMinimumSykdomsgradsoverstyring(it) &&
+                (it.minimumSykdomsgrad.perioderVurdertOk.find((periode) => periode.fom === aktivPeriode.fom) ||
+                    it.minimumSykdomsgrad.perioderVurdertIkkeOk.find((periode) => periode.fom === aktivPeriode.fom)),
         ) ?? false;
 
     const alleSammenfallendeDager = person.arbeidsgivere

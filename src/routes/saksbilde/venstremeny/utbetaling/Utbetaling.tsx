@@ -86,8 +86,8 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const overstyrtMinimumSykdomsgradBegrunnelse = arbeidsgiver.overstyringer
         .filter(isMinimumSykdomsgradsoverstyring)
-        .filter((it) => !it.minimumSykdomsgrad.vurdering)
-        .filter((it) => it.minimumSykdomsgrad.fom === period.fom)
+        .filter((it) => it.minimumSykdomsgrad.perioderVurdertIkkeOk.length > 0)
+        .filter((it) => it.minimumSykdomsgrad.perioderVurdertIkkeOk.find((periode) => periode.fom === period.fom))
         .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
         .shift()?.minimumSykdomsgrad.begrunnelse;
     const periodeHarAvslagsbegrunnelseLagret = period.avslag?.filter((it) => !it.invalidert).length > 0;
