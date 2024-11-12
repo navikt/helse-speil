@@ -28,7 +28,7 @@ export const BegrunnelseInput = ({
         <Textarea
             label=""
             id="begrunnelse"
-            value={preutfyltVerdi}
+            defaultValue={preutfyltVerdi}
             onChange={(event) => {
                 if (event.target.value === '') return setAvslag(null);
 
