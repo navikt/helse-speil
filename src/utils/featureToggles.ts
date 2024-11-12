@@ -55,4 +55,4 @@ export const kanOverstyreMinimumSykdomsgradToggle = (ident: string): boolean =>
     erLokalEllerDev || erCoachEllerSuper(ident);
 
 export const skalViseTilkommenInntekt: boolean = erLokalEllerDev;
-export const kanOverstyreTilkommenInntekt: boolean = erLokal;
+export const kanOverstyreTilkommenInntekt: boolean = erLokalEllerDev;
