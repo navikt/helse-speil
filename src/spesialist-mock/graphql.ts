@@ -68,7 +68,7 @@ const leggTilLagretData = (person: Person): void => {
 
                 periode.notater = NotatMock.getNotaterForPeriode(periode);
                 periode.varsler = VarselMock.getVarslerForPeriode(periode.varsler);
-                const oppgavereferanse: Maybe<string> = periode.oppgave?.id ?? periode.oppgave?.id ?? null;
+                const oppgavereferanse: Maybe<string> = periode.oppgave?.id ?? null;
                 const oppgave: Maybe<Oppgave> = oppgavereferanse ? OppgaveMock.getOppgave(oppgavereferanse) : null;
 
                 if (oppgave !== null && periode.oppgave === null) {

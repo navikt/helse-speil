@@ -538,6 +538,7 @@ export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObj
             (notat: Notat) =>
                 ({
                     id: notat.id,
+                    dialogRef: notat.dialogRef,
                     type: 'Notat',
                     tekst: notat.tekst,
                     notattype: notat.type as NotatType,

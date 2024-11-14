@@ -104,6 +104,7 @@ export type DokumenthendelseObject = BaseHendelseObject & {
 };
 
 export type NotathendelseObject = BaseHendelseObject & {
+    dialogRef: number;
     type: 'Notat';
     tekst: string;
     notattype: NotatType;

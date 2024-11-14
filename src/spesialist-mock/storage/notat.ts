@@ -110,6 +110,7 @@ export class NotatMock {
     private static getMockedNotat = (vedtaksperiodeId: string, overrides?: Partial<Notat>): Notat => {
         return {
             id: NotatMock.notatCounter++,
+            dialogRef: NotatMock.notatCounter,
             tekst: 'Revidert utgave 2',
             opprettet: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
             saksbehandlerOid: '4577332e-801a-4c13-8a71-39f12b8abfa3',

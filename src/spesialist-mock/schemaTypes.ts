@@ -790,6 +790,7 @@ export enum Naturalytelse {
 
 export type Notat = {
     __typename?: 'Notat';
+    dialogRef: Scalars['Int']['output'];
     feilregistrert: Scalars['Boolean']['output'];
     feilregistrert_tidspunkt?: Maybe<Scalars['LocalDateTime']['output']>;
     id: Scalars['Int']['output'];

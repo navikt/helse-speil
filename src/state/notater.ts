@@ -57,6 +57,7 @@ export const useNotaterForVedtaksperiode = (vedtaksperiodeId: string) => {
 
 export const toNotat = (spesialistNotat: NotatFragment): Notat => ({
     id: `${spesialistNotat.id}`,
+    dialogRef: spesialistNotat.dialogRef,
     tekst: spesialistNotat.tekst,
     saksbehandler: {
         navn: spesialistNotat.saksbehandlerNavn,

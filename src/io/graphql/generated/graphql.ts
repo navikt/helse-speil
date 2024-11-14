@@ -792,6 +792,7 @@ export enum Naturalytelse {
 
 export type Notat = {
     __typename: 'Notat';
+    dialogRef: Scalars['Int']['output'];
     feilregistrert: Scalars['Boolean']['output'];
     feilregistrert_tidspunkt: Maybe<Scalars['LocalDateTime']['output']>;
     id: Scalars['Int']['output'];
@@ -2073,6 +2074,7 @@ export type FetchNotaterQuery = {
         notater: Array<{
             __typename: 'Notat';
             id: number;
+            dialogRef: number;
             tekst: string;
             opprettet: string;
             saksbehandlerOid: string;
@@ -2404,6 +2406,7 @@ export type ArbeidsgiverFragment = {
                   notater: Array<{
                       __typename: 'Notat';
                       id: number;
+                      dialogRef: number;
                       tekst: string;
                       opprettet: string;
                       saksbehandlerOid: string;
@@ -2721,6 +2724,7 @@ export type ArbeidsgiverFragment = {
                   notater: Array<{
                       __typename: 'Notat';
                       id: number;
+                      dialogRef: number;
                       tekst: string;
                       opprettet: string;
                       saksbehandlerOid: string;
@@ -3059,6 +3063,7 @@ export type VilkarsgrunnlagFragment =
 export type NotatFragment = {
     __typename: 'Notat';
     id: number;
+    dialogRef: number;
     tekst: string;
     opprettet: string;
     saksbehandlerOid: string;
@@ -3116,6 +3121,7 @@ export type UberegnetPeriodeFragment = {
     notater: Array<{
         __typename: 'Notat';
         id: number;
+        dialogRef: number;
         tekst: string;
         opprettet: string;
         saksbehandlerOid: string;
@@ -3245,6 +3251,7 @@ export type BeregnetPeriodeFragment = {
     notater: Array<{
         __typename: 'Notat';
         id: number;
+        dialogRef: number;
         tekst: string;
         opprettet: string;
         saksbehandlerOid: string;
@@ -3959,6 +3966,7 @@ export type PersonFragment = {
                       notater: Array<{
                           __typename: 'Notat';
                           id: number;
+                          dialogRef: number;
                           tekst: string;
                           opprettet: string;
                           saksbehandlerOid: string;
@@ -4284,6 +4292,7 @@ export type PersonFragment = {
                       notater: Array<{
                           __typename: 'Notat';
                           id: number;
+                          dialogRef: number;
                           tekst: string;
                           opprettet: string;
                           saksbehandlerOid: string;
@@ -4749,6 +4758,7 @@ export type FetchPersonQuery = {
                           notater: Array<{
                               __typename: 'Notat';
                               id: number;
+                              dialogRef: number;
                               tekst: string;
                               opprettet: string;
                               saksbehandlerOid: string;
@@ -5074,6 +5084,7 @@ export type FetchPersonQuery = {
                           notater: Array<{
                               __typename: 'Notat';
                               id: number;
+                              dialogRef: number;
                               tekst: string;
                               opprettet: string;
                               saksbehandlerOid: string;
@@ -5663,6 +5674,7 @@ export const NotatFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
@@ -5929,6 +5941,7 @@ export const UberegnetPeriodeFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
@@ -6530,6 +6543,7 @@ export const BeregnetPeriodeFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
@@ -7174,6 +7188,7 @@ export const ArbeidsgiverFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
@@ -8185,6 +8200,7 @@ export const PersonFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
@@ -10456,6 +10472,7 @@ export const FetchNotaterDocument = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
@@ -11175,6 +11192,7 @@ export const FetchPersonDocument = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },

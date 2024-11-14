@@ -13,6 +13,7 @@ export type NotatType = 'PaaVent' | 'Retur' | 'Generelt' | 'OpphevStans';
 
 export type Notat = {
     id: string;
+    dialogRef: number;
     tekst: string;
     saksbehandler: NotatSaksbehandler;
     opprettet: Dayjs;

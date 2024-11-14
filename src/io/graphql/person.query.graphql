@@ -216,6 +216,7 @@ fragment vilkarsgrunnlag on Vilkarsgrunnlag {
 
 fragment notat on Notat {
     id
+    dialogRef
     tekst
     opprettet
     saksbehandlerOid
