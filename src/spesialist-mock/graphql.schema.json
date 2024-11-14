@@ -6227,7 +6227,7 @@
                         "description": null,
                         "args": [
                             {
-                                "name": "notatId",
+                                "name": "dialogRef",
                                 "description": null,
                                 "type": {
                                     "kind": "NON_NULL",

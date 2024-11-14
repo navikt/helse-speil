@@ -1,5 +1,5 @@
-mutation LeggTilKommentar($tekst: String!, $notatId: Int!, $saksbehandlerident: String!) {
-    leggTilKommentar(tekst: $tekst, notatId: $notatId, saksbehandlerident: $saksbehandlerident) {
+mutation LeggTilKommentar($tekst: String!, $dialogRef: Int!, $saksbehandlerident: String!) {
+    leggTilKommentar(tekst: $tekst, dialogRef: $dialogRef, saksbehandlerident: $saksbehandlerident) {
         id
         tekst
         opprettet

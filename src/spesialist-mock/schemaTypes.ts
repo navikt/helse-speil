@@ -686,7 +686,7 @@ export type MutationLeggPaVentArgs = {
 };
 
 export type MutationLeggTilKommentarArgs = {
-    notatId: Scalars['Int']['input'];
+    dialogRef: Scalars['Int']['input'];
     saksbehandlerident: Scalars['String']['input'];
     tekst: Scalars['String']['input'];
 };

@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { Kommentar, LeggTilKommentarMedDialogRefDocument } from '@io/graphql';
+import { Kommentar, LeggTilKommentarDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import { Kommentarer } from './Kommentarer';
@@ -51,7 +51,7 @@ export const NotatHendelseContent = ({
 
 const useLeggTilKommentar = (dialogRef: number, notatId: number, hideDialog: () => void) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const [leggTilKommentar, { error, loading }] = useMutation(LeggTilKommentarMedDialogRefDocument);
+    const [leggTilKommentar, { error, loading }] = useMutation(LeggTilKommentarDocument);
 
     const onLeggTilKommentar = async (tekst: string) => {
         const saksbehandlerident = innloggetSaksbehandler.ident;
@@ -64,7 +64,7 @@ const useLeggTilKommentar = (dialogRef: number, notatId: number, hideDialog: () 
                 },
                 update: (cache, { data }) => {
                     cache.writeQuery({
-                        query: LeggTilKommentarMedDialogRefDocument,
+                        query: LeggTilKommentarDocument,
                         variables: {
                             tekst,
                             dialogRef,
@@ -81,7 +81,7 @@ const useLeggTilKommentar = (dialogRef: number, notatId: number, hideDialog: () 
                                     {
                                         __ref: cache.identify({
                                             __typename: 'Kommentar',
-                                            id: data?.leggTilKommentarMedDialogRef?.id,
+                                            id: data?.leggTilKommentar?.id,
                                         }),
                                     },
                                 ];

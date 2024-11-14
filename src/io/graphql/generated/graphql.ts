@@ -688,7 +688,7 @@ export type MutationLeggPaVentArgs = {
 };
 
 export type MutationLeggTilKommentarArgs = {
-    notatId: Scalars['Int']['input'];
+    dialogRef: Scalars['Int']['input'];
     saksbehandlerident: Scalars['String']['input'];
     tekst: Scalars['String']['input'];
 };
@@ -1963,27 +1963,9 @@ export type FeilregistrerKommentarMutationMutation = {
     } | null;
 };
 
-export type LeggTilKommentarMedDialogRefMutationVariables = Exact<{
-    tekst: Scalars['String']['input'];
-    dialogRef: Scalars['Int']['input'];
-    saksbehandlerident: Scalars['String']['input'];
-}>;
-
-export type LeggTilKommentarMedDialogRefMutation = {
-    __typename: 'Mutation';
-    leggTilKommentarMedDialogRef: {
-        __typename: 'Kommentar';
-        id: number;
-        tekst: string;
-        opprettet: string;
-        saksbehandlerident: string;
-        feilregistrert_tidspunkt: string | null;
-    } | null;
-};
-
 export type LeggTilKommentarMutationVariables = Exact<{
     tekst: Scalars['String']['input'];
-    notatId: Scalars['Int']['input'];
+    dialogRef: Scalars['Int']['input'];
     saksbehandlerident: Scalars['String']['input'];
 }>;
 
@@ -10117,13 +10099,13 @@ export const FeilregistrerKommentarMutationDocument = {
         },
     ],
 } as unknown as DocumentNode<FeilregistrerKommentarMutationMutation, FeilregistrerKommentarMutationMutationVariables>;
-export const LeggTilKommentarMedDialogRefDocument = {
+export const LeggTilKommentarDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'mutation',
-            name: { kind: 'Name', value: 'LeggTilKommentarMedDialogRef' },
+            name: { kind: 'Name', value: 'LeggTilKommentar' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
@@ -10146,7 +10128,7 @@ export const LeggTilKommentarMedDialogRefDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'leggTilKommentarMedDialogRef' },
+                        name: { kind: 'Name', value: 'leggTilKommentar' },
                         arguments: [
                             {
                                 kind: 'Argument',
@@ -10157,69 +10139,6 @@ export const LeggTilKommentarMedDialogRefDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'dialogRef' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'dialogRef' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'saksbehandlerident' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<LeggTilKommentarMedDialogRefMutation, LeggTilKommentarMedDialogRefMutationVariables>;
-export const LeggTilKommentarDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'LeggTilKommentar' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'tekst' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'leggTilKommentar' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'tekst' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'tekst' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'notatId' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'notatId' } },
                             },
                             {
                                 kind: 'Argument',

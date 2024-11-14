@@ -31,7 +31,7 @@ export class NotatMock {
         return notat;
     };
 
-    static addKommentar = ({ tekst, notatId, saksbehandlerident }: MutationLeggTilKommentarArgs): Kommentar => {
+    static addKommentar = ({ tekst, dialogRef, saksbehandlerident }: MutationLeggTilKommentarArgs): Kommentar => {
         const nyKommentar: Kommentar = {
             id: NotatMock.kommentarCounter++,
             opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
@@ -39,12 +39,12 @@ export class NotatMock {
             saksbehandlerident,
         };
 
-        NotatMock.notater.forEach((notater: Array<Notat>, vedtaksperiodeId: UUID) => {
-            const gamleKommentarer = notater.find((it) => it.id === notatId)?.kommentarer;
-            if (gamleKommentarer) {
-                NotatMock.updateNotat(vedtaksperiodeId, notatId, { kommentarer: [...gamleKommentarer, nyKommentar] });
-            }
-        });
+        // NotatMock.notater.forEach((notater: Array<Notat>, vedtaksperiodeId: UUID) => {
+        //     const gamleKommentarer = notater.find((it) => it.id === notatId)?.kommentarer;
+        //     if (gamleKommentarer) {
+        //         NotatMock.updateNotat(vedtaksperiodeId, notatId, { kommentarer: [...gamleKommentarer, nyKommentar] });
+        //     }
+        // });
 
         return nyKommentar;
     };
