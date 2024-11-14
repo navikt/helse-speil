@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactElement, useState } from 'react';
 
@@ -11,17 +10,14 @@ import {
     PaperplaneIcon,
     TimerPauseIcon,
 } from '@navikt/aksel-icons';
-import { BodyShort, ErrorMessage } from '@navikt/ds-react';
+import { ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { FeilregistrerNotatMutationDocument, PersonFragment } from '@io/graphql';
+import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import notatStyles from '@saksbilde/historikk/hendelser/notat/Notathendelse.module.css';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useActivePeriod } from '@state/periode';
 import { NotathendelseObject } from '@typer/historikk';
 import { NotatType } from '@typer/notat';
-import { NORSK_DATOFORMAT } from '@utils/date';
-import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
 import { Hendelse } from '../Hendelse';
@@ -32,26 +28,22 @@ import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './constants';
 
 import styles from './Notathendelse.module.css';
 
-type NotathendelseProps = Omit<NotathendelseObject, 'type'> & {
-    person: PersonFragment;
-};
+type NotathendelseProps = Omit<NotathendelseObject, 'type'>;
 
 export const Notathendelse = ({
     id,
+    dialogRef,
     tekst,
     notattype,
     saksbehandler,
     timestamp,
     feilregistrert,
     kommentarer,
-    erNyesteNotatMedType = false,
-    person,
 }: NotathendelseProps): ReactElement => {
     const [showAddDialog, setShowAddDialog] = useState(false);
     const [expanded, setExpanded] = useState(false);
 
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const activePeriod = useActivePeriod(person);
 
     const [feilregistrerNotat, { loading, error }] = useMutation(FeilregistrerNotatMutationDocument, {
         variables: { id: parseInt(id) },
@@ -119,17 +111,6 @@ export const Notathendelse = ({
                             {tekst}
                         </motion.p>
                     )}
-                    {notattype === 'PaaVent' &&
-                        erNyesteNotatMedType &&
-                        isBeregnetPeriode(activePeriod) &&
-                        activePeriod.paVent?.frist && (
-                            <BodyShort className={styles.tidsfrist} size="medium">
-                                Tidsfrist:{' '}
-                                <span className={styles.bold}>
-                                    {dayjs(activePeriod.paVent.frist).format(NORSK_DATOFORMAT)}
-                                </span>
-                            </BodyShort>
-                        )}
                 </AnimatePresence>
                 {isExpandable() && (
                     <span className={styles.lesmer}>
@@ -152,7 +133,8 @@ export const Notathendelse = ({
                 <NotatHendelseContent
                     kommentarer={kommentarer}
                     saksbehandlerIdent={saksbehandler}
-                    id={id}
+                    dialogRef={dialogRef}
+                    notatId={Number.parseInt(id)}
                     showAddDialog={showAddDialog}
                     setShowAddDialog={setShowAddDialog}
                 />

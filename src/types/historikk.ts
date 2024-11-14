@@ -130,11 +130,11 @@ export type HistorikkhendelseBase = BaseHendelseObject & {
     type: 'Historikk';
     historikktype: PeriodehistorikkType;
     timestamp: DateString;
+    dialogRef: Maybe<number>;
 };
 
 export type LagtPaVentHistorikkhendelseObject = HistorikkhendelseBase & {
     saksbehandler: string;
-    dialogRef: Maybe<number>;
     frist: Maybe<DateString>;
     årsaker: string[];
     notatTekst: Maybe<string>;

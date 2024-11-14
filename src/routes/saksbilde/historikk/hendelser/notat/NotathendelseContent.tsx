@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { Kommentar, LeggTilKommentarDocument } from '@io/graphql';
+import { Kommentar, LeggTilKommentarMedDialogRefDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import { Kommentarer } from './Kommentarer';
@@ -14,7 +14,8 @@ type NotatHendelseContentProps = {
     saksbehandlerIdent: string;
     showAddDialog: boolean;
     setShowAddDialog: (show: boolean) => void;
-    id: string;
+    dialogRef: number;
+    notatId: number;
 };
 
 export const NotatHendelseContent = ({
@@ -22,9 +23,12 @@ export const NotatHendelseContent = ({
     saksbehandlerIdent,
     showAddDialog,
     setShowAddDialog,
-    id,
+    dialogRef,
+    notatId,
 }: NotatHendelseContentProps) => {
-    const { onLeggTilKommentar, loading, error } = useLeggTilKommentar(id, () => setShowAddDialog(false));
+    const { onLeggTilKommentar, loading, error } = useLeggTilKommentar(dialogRef, notatId, () =>
+        setShowAddDialog(false),
+    );
     return (
         <HStack gap="4">
             <Kommentarer kommentarer={kommentarer} saksbehandlerIdent={saksbehandlerIdent} />
@@ -45,26 +49,25 @@ export const NotatHendelseContent = ({
     );
 };
 
-const useLeggTilKommentar = (id: string, hideDialog: () => void) => {
+const useLeggTilKommentar = (dialogRef: number, notatId: number, hideDialog: () => void) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const [leggTilKommentar, { error, loading }] = useMutation(LeggTilKommentarDocument);
+    const [leggTilKommentar, { error, loading }] = useMutation(LeggTilKommentarMedDialogRefDocument);
 
     const onLeggTilKommentar = async (tekst: string) => {
         const saksbehandlerident = innloggetSaksbehandler.ident;
         if (saksbehandlerident) {
-            const notatId = Number.parseInt(id);
             await leggTilKommentar({
                 variables: {
                     tekst,
-                    notatId,
+                    dialogRef,
                     saksbehandlerident,
                 },
                 update: (cache, { data }) => {
                     cache.writeQuery({
-                        query: LeggTilKommentarDocument,
+                        query: LeggTilKommentarMedDialogRefDocument,
                         variables: {
                             tekst,
-                            notatId,
+                            dialogRef,
                             saksbehandlerident,
                         },
                         data,
@@ -78,7 +81,7 @@ const useLeggTilKommentar = (id: string, hideDialog: () => void) => {
                                     {
                                         __ref: cache.identify({
                                             __typename: 'Kommentar',
-                                            id: data?.leggTilKommentar?.id,
+                                            id: data?.leggTilKommentarMedDialogRef?.id,
                                         }),
                                     },
                                 ];

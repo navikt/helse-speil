@@ -222,6 +222,7 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
                     return {
                         id: `historikkinnslag-${index}`,
                         historikkinnslagId: historikkelement.id,
+                        dialogRef: historikkelement.dialogRef,
                         type: 'Historikk',
                         historikktype: historikkelement.type,
                         saksbehandler: historikkelement.saksbehandlerIdent,

@@ -76,6 +76,7 @@ export const Historikkhendelse = ({
     historikktype,
     saksbehandler,
     timestamp,
+    dialogRef,
     notat,
 }: HistorikkhendelseProps): ReactElement => {
     const [showAddDialog, setShowAddDialog] = useState(false);
@@ -124,7 +125,7 @@ export const Historikkhendelse = ({
                 )}
             </div>
             <HendelseDate timestamp={timestamp} ident={saksbehandler} />
-            {notat && (
+            {notat && dialogRef && (
                 <ExpandableHistorikkContent
                     openText={`Kommentarer (${notat.kommentarer?.length})`}
                     closeText="Lukk kommentarer"
@@ -132,7 +133,8 @@ export const Historikkhendelse = ({
                     <NotatHendelseContent
                         kommentarer={notat.kommentarer}
                         saksbehandlerIdent={notat.saksbehandlerOid}
-                        id={notat.id.toString()}
+                        dialogRef={dialogRef}
+                        notatId={notat.id}
                         showAddDialog={showAddDialog}
                         setShowAddDialog={setShowAddDialog}
                     />
