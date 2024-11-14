@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
-import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, FormProvider, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 
-import { Button, Checkbox, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
+import { BodyShort, Button, Checkbox, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Arsak } from '@external/sanity';
@@ -48,14 +48,14 @@ export const PåVentNotatModal = ({
     const router = useRouter();
     const saksbehandler = useInnloggetSaksbehandler();
     const form = useForm();
+    const erTildelingAvhuket = useWatch({ name: 'tildeling', control: form.control });
 
     const { onChange, ...tildelingValidation } = form.register('tildeling');
-
     const onCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
         void onChange(event);
     };
-
     const arsaker: Arsak[] = ((form.watch('arsaker') as string[]) || [])?.map((arsak: string) => JSON.parse(arsak));
+
     const harMinstÉnÅrsak = () => arsaker?.length > 0;
 
     const erTildeltSaksbehandler = tildeling && tildeling.oid === saksbehandler.oid;
@@ -64,7 +64,6 @@ export const PåVentNotatModal = ({
         .filter((it) => !it.feilregistrert && it.type === NotatType.PaaVent)
         .sort((a, b) => b.opprettet.diff(a.opprettet, 'millisecond'))
         .shift();
-
     const submit: SubmitHandler<FieldValues> = async (fieldValues) => {
         if (!harMinstÉnÅrsak()) {
             form.setError('arsaker', {
@@ -81,7 +80,6 @@ export const PåVentNotatModal = ({
         );
         onClose();
     };
-
     const settPåVent = async (
         notattekst: Maybe<string>,
         frist: string,
@@ -89,7 +87,6 @@ export const PåVentNotatModal = ({
         arsaker: PaVentArsakInput[],
     ) => {
         const fristVerdi = dayjs(frist, NORSK_DATOFORMAT).format(ISO_DATOFORMAT);
-
         await leggPåVentMedNotat(oppgaveId, fristVerdi, tildeling, notattekst, vedtaksperiodeId, arsaker);
         if (leggPåVentError) {
             errorHandler(leggPåVentError);
@@ -128,6 +125,7 @@ export const PåVentNotatModal = ({
                             {erTildeltSaksbehandler ? 'Behold tildeling' : 'Tildel meg'}
                         </Checkbox>
                     </form>
+                    {!erTildelingAvhuket && <BodyShort>Uten tildeling vil saken kunne bli automatisert</BodyShort>}
                 </FormProvider>
             </Modal.Body>
             <Modal.Footer>
