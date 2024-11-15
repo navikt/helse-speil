@@ -124,6 +124,11 @@ export const SkjønnsfastsettingForm = ({
                 ),
             })) ?? [],
         );
+        /* eslint-disable-next-line react-hooks/exhaustive-deps --
+         * Siden vi har designet formset som vi har må vi hacke valuen her.
+         * Ideelt burde dette redesignes for å kunne sette value når formet
+         * blir satt opp.
+         **/
     }, [valgtType, avrundetSammenligningsgrunnlag, setValue]);
 
     if (!aktiveArbeidsgivere || !aktiveArbeidsgivereInntekter) return null;

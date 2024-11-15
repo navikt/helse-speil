@@ -53,7 +53,14 @@ export const IndividuellBegrunnelse = ({
                 handling: Avslagshandling.Opprett,
             });
         }
-    }, [avslagstype, erBeslutteroppgave, overstyrtMinimumSykdomsgradBegrunnelse, setAvslag]);
+    }, [
+        avslagstype,
+        avvisteDager.length,
+        erBeslutteroppgave,
+        erReadOnly,
+        overstyrtMinimumSykdomsgradBegrunnelse,
+        setAvslag,
+    ]);
 
     const lokalAvslagstekst = avslag?.data?.begrunnelse;
     const innsendtAvslagstekst = periode.avslag?.[0]?.begrunnelse as string | undefined;
