@@ -83,6 +83,6 @@ export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: Ac
             (
                 arbeidsgiver.generasjoner[0]?.perioder
                     ?.filter(isBeregnetPeriode || isUberegnetPeriode)
-                    ?.filter((it) => overlapper(periode)) ?? []
+                    ?.filter(overlapper(periode)) ?? []
             ).length > 0,
     ) as Array<ArbeidsgiverFragment>;
