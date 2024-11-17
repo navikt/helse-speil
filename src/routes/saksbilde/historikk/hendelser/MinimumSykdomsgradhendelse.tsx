@@ -6,10 +6,6 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde } from '@io/graphql';
-import {
-    MINIMUM_SYKDOMSGRAD_AVSLAG_TEKST,
-    MINIMUM_SYKDOMSGRAD_INNVILGELSE_TEKST,
-} from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradForm';
 import { MinimumSykdomsgradhendelseObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT } from '@utils/date';
 
@@ -39,9 +35,7 @@ export const MinimumSykdomsgradhendelse = ({
                 <div className={styles.Grid}>
                     {minimumSykdomsgrad.perioderVurdertOk.length > 0 && (
                         <>
-                            <BodyShort weight="semibold">Konklusjon</BodyShort>
-                            <BodyShort>{MINIMUM_SYKDOMSGRAD_INNVILGELSE_TEKST}</BodyShort>
-                            <BodyShort weight="semibold">Periode </BodyShort>
+                            <BodyShort weight="semibold">Innvilgede perioder</BodyShort>
                             <BodyShort>
                                 {minimumSykdomsgrad.perioderVurdertOk.map(
                                     (periode) =>
@@ -52,9 +46,7 @@ export const MinimumSykdomsgradhendelse = ({
                     )}
                     {minimumSykdomsgrad.perioderVurdertIkkeOk.length > 0 && (
                         <>
-                            <BodyShort weight="semibold">Konklusjon</BodyShort>
-                            <BodyShort>{MINIMUM_SYKDOMSGRAD_AVSLAG_TEKST}</BodyShort>
-                            <BodyShort weight="semibold">Periode </BodyShort>
+                            <BodyShort weight="semibold">Avlåtte perioder</BodyShort>
                             <BodyShort>
                                 {minimumSykdomsgrad.perioderVurdertIkkeOk.map(
                                     (periode) =>
