@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
@@ -5,6 +6,7 @@ import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
 import {
     ArbeidsgiverFragment,
     ArbeidsgiverInput,
+    Maybe,
     MinimumSykdomsgradInput,
     MinimumSykdomsgradMutationDocument,
     OpprettAbonnementDocument,
@@ -15,8 +17,9 @@ import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserP
 import { overlapper } from '@state/selectors/period';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { MinimumSykdomsgradArbeidsgiver, OverstyrtMinimumSykdomsgradDTO } from '@typer/overstyring';
-import { ActivePeriod } from '@typer/shared';
-import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { ActivePeriod, DatePeriod } from '@typer/shared';
+import { ISO_DATOFORMAT } from '@utils/date';
+import { isBeregnetPeriode, isNotUndefined, isUberegnetPeriode } from '@utils/typeguards';
 
 export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
@@ -86,3 +89,45 @@ export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: Ac
                     ?.filter(overlapper(periode)) ?? []
             ).length > 0,
     ) as Array<ArbeidsgiverFragment>;
+
+export const getOppkuttedePerioder = (
+    overlappendeArbeidsgivere: ArbeidsgiverFragment[],
+    aktivPeriode: ActivePeriod,
+): Maybe<DatePeriod[]> => {
+    const datoer: string[] = [];
+    overlappendeArbeidsgivere.map((ag) =>
+        ag.generasjoner[0]?.perioder.forEach((periode) => {
+            if (dayjs(periode.fom, ISO_DATOFORMAT).isBetween(aktivPeriode.fom, aktivPeriode.tom, 'day', '[]')) {
+                datoer.push(periode.fom);
+                if (dayjs(periode.fom, ISO_DATOFORMAT).isAfter(aktivPeriode.fom))
+                    datoer.push(dayjs(periode.fom, ISO_DATOFORMAT).subtract(1, 'day').format(ISO_DATOFORMAT));
+            }
+            if (dayjs(periode.tom, ISO_DATOFORMAT).isBetween(aktivPeriode.fom, aktivPeriode.tom, 'day', '[]')) {
+                datoer.push(periode.tom);
+                if (dayjs(periode.tom, ISO_DATOFORMAT).isBefore(aktivPeriode.tom))
+                    datoer.push(dayjs(periode.tom, ISO_DATOFORMAT).add(1, 'day').format(ISO_DATOFORMAT));
+            }
+        }),
+    );
+    const unikeDatoer = [...new Set(datoer)]
+        .sort(byDate)
+        .filter((it) => it !== undefined)
+        .filter(isNotUndefined);
+
+    if (unikeDatoer.length % 2 !== 0) return null;
+
+    const oppkuttedePerioder: DatePeriod[] = [];
+    for (let i = 0; i < unikeDatoer.length; i += 2) {
+        const fom = unikeDatoer[i];
+        const tom = unikeDatoer[i + 1];
+
+        if (!fom || !tom) return null;
+        oppkuttedePerioder.push({ fom, tom });
+    }
+
+    return oppkuttedePerioder;
+};
+
+const byDate = (a: string, b: string): number => {
+    return dayjs(a, ISO_DATOFORMAT).isBefore(b) ? -1 : 1;
+};
