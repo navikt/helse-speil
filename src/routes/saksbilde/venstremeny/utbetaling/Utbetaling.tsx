@@ -4,7 +4,6 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { BodyShort, Box, HStack, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
@@ -23,7 +22,7 @@ import { useInntektOgRefusjon } from '@state/overstyring';
 import { isRevurdering } from '@state/selectors/utbetaling';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { getPeriodState } from '@utils/mapping';
-import { isBeregnetPeriode, isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { IndividuellBegrunnelse } from '../individuellBegrunnelse/IndividuellBegrunnelse';
 import { AvvisningButton } from './AvvisningButton';
@@ -84,16 +83,8 @@ interface UtbetalingProps {
 
 export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): Maybe<ReactElement> => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
-    const overstyrtMinimumSykdomsgradBegrunnelse = arbeidsgiver.overstyringer
-        .filter(isMinimumSykdomsgradsoverstyring)
-        .filter((it) => it.minimumSykdomsgrad.perioderVurdertIkkeOk.length > 0)
-        .filter((it) => it.minimumSykdomsgrad.perioderVurdertIkkeOk.find((periode) => periode.fom === period.fom))
-        .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
-        .shift()?.minimumSykdomsgrad.begrunnelse;
     const periodeHarAvslagsbegrunnelseLagret = period.avslag?.filter((it) => !it.invalidert).length > 0;
-    const [visIndividuellBegrunnelse, setVisIndividuellBegrunnelse] = useState(
-        periodeHarAvslagsbegrunnelseLagret || overstyrtMinimumSykdomsgradBegrunnelse != undefined,
-    );
+    const [visIndividuellBegrunnelse, setVisIndividuellBegrunnelse] = useState(periodeHarAvslagsbegrunnelseLagret);
     const [avslag, setAvslag] = useState<Maybe<AvslagInput>>(null);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const ventEllerHopp = useOnGodkjenn(period, person);
@@ -147,7 +138,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                 setAvslag={setAvslag}
                 periode={period}
                 person={person}
-                overstyrtMinimumSykdomsgradBegrunnelse={overstyrtMinimumSykdomsgradBegrunnelse}
             />
             {!erReadOnly && (
                 <HStack gap="4">

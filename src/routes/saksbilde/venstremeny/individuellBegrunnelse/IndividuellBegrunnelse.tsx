@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
@@ -22,7 +22,6 @@ interface BegrunnelseVedtakProps {
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
     periode: BeregnetPeriodeFragment;
     person: PersonFragment;
-    overstyrtMinimumSykdomsgradBegrunnelse?: string;
 }
 
 export const IndividuellBegrunnelse = ({
@@ -32,7 +31,6 @@ export const IndividuellBegrunnelse = ({
     setAvslag,
     periode,
     person,
-    overstyrtMinimumSykdomsgradBegrunnelse,
 }: BegrunnelseVedtakProps): Maybe<ReactElement> => {
     const [showForkastEndringerModal, setShowForkastEndringerModal] = useState(false);
     const [modalÅpen, setModalÅpen] = useState(false);
@@ -46,31 +44,18 @@ export const IndividuellBegrunnelse = ({
     const avslagstype =
         tidslinjeUtenAGPogHelg.length === avvisteDager.length ? Avslagstype.Avslag : Avslagstype.DelvisAvslag;
 
-    useEffect(() => {
-        if (overstyrtMinimumSykdomsgradBegrunnelse && !erBeslutteroppgave && !erReadOnly && avvisteDager.length > 0) {
-            setAvslag({
-                data: { begrunnelse: overstyrtMinimumSykdomsgradBegrunnelse, type: avslagstype },
-                handling: Avslagshandling.Opprett,
-            });
-        }
-    }, [
-        avslagstype,
-        avvisteDager.length,
-        erBeslutteroppgave,
-        erReadOnly,
-        overstyrtMinimumSykdomsgradBegrunnelse,
-        setAvslag,
-    ]);
-
     const lokalAvslagstekst = avslag?.data?.begrunnelse;
-    const innsendtAvslagstekst = periode.avslag?.[0]?.begrunnelse as string | undefined;
+    const innsendtAvslagstekst =
+        periode.avslag[0] != undefined && !periode.avslag[0].invalidert
+            ? (periode.avslag[0].begrunnelse as string)
+            : undefined;
 
     if (avvisteDager.length === 0 && !innsendtAvslagstekst) return null;
 
     const åpneModal = () => setModalÅpen(true);
     const lukkModal = () => setModalÅpen(false);
 
-    const preutfyltVerdi = lokalAvslagstekst ?? innsendtAvslagstekst ?? overstyrtMinimumSykdomsgradBegrunnelse ?? '';
+    const preutfyltVerdi = lokalAvslagstekst ?? innsendtAvslagstekst ?? '';
 
     const skalÅpnesMedUtfylteVerdier =
         !erReadOnly && !erBeslutteroppgave && preutfyltVerdi !== '' && avslag?.handling !== Avslagshandling.Invalider;

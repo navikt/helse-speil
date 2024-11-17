@@ -100,6 +100,7 @@ export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, 
     varsler: [],
     vedtaksperiodeId: nanoid(),
     vilkarsgrunnlagId: nanoid(),
+    avslag: [],
     ...overrides,
     medUtbetaling(utbetaling: Utbetaling) {
         this.utbetaling = utbetaling;
@@ -130,7 +131,6 @@ export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, 
         return this;
     },
     egenskaper: [],
-    avslag: [],
     annullering: null,
 });
 
