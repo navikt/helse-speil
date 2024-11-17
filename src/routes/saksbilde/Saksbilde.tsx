@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import React from 'react';
 import * as R from 'remeda';
 
@@ -46,16 +45,6 @@ export const Saksbilde = ({ children }: SaksbildeProps) => {
         (periode) => periode.fom === activePeriod.fom && periode.tom === activePeriod.tom,
     );
 
-    const harOverlappendeForbandtePerioder =
-        saksbehandlerident === 'K162139'
-            ? false
-            : allePerioderPåSkjæringstidspunkt.some(
-                  (periode) =>
-                      dayjs(periode.fom).isBetween(activePeriod.fom, activePeriod.tom, 'day', '()') ||
-                      dayjs(periode.tom).isBetween(activePeriod.fom, activePeriod.tom, 'day', '()') ||
-                      (dayjs(periode.fom).isBefore(activePeriod.fom) && dayjs(periode.tom).isAfter(activePeriod.tom)),
-              );
-
     const harDagerMedUnder20ProsentTotalGrad = sammenfallendePerioder
         .flatMap((periode) => periode.tidslinje)
         .find((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 100) < 20);
@@ -68,7 +57,6 @@ export const Saksbilde = ({ children }: SaksbildeProps) => {
     return (
         <div className={styles.Content}>
             {kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident) &&
-                !harOverlappendeForbandtePerioder &&
                 harDagerMedUnder20ProsentTotalGrad &&
                 initierendeVedtaksperiodeId && (
                     <Verktøylinje

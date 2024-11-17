@@ -4,7 +4,7 @@
 
 .fritekst {
   margin: 1rem 0 0.5rem;
-  width: 475px;
+  width: 675px;
 }
 
 .fritekstlabel {
@@ -39,4 +39,8 @@
 
 .error {
   padding-top: var(--a-spacing-4);
+}
+
+.zebrarad:nth-child(even) {
+  background-color: white;
 }
