@@ -37,10 +37,13 @@ export const MinimumSykdomsgradhendelse = ({
                         <>
                             <BodyShort weight="semibold">Innvilgede perioder</BodyShort>
                             <BodyShort>
-                                {minimumSykdomsgrad.perioderVurdertOk.map(
-                                    (periode) =>
-                                        `${dayjs(periode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(periode.tom).format(NORSK_DATOFORMAT)}`,
-                                )}
+                                {minimumSykdomsgrad.perioderVurdertOk
+                                    .map(
+                                        (periode) =>
+                                            `${dayjs(periode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(periode.tom).format(NORSK_DATOFORMAT)}`,
+                                    )
+                                    .join(', ')
+                                    .replace(/,(?=[^,]*$)/, ' og')}
                             </BodyShort>
                         </>
                     )}
@@ -48,10 +51,13 @@ export const MinimumSykdomsgradhendelse = ({
                         <>
                             <BodyShort weight="semibold">Avlåtte perioder</BodyShort>
                             <BodyShort>
-                                {minimumSykdomsgrad.perioderVurdertIkkeOk.map(
-                                    (periode) =>
-                                        `${dayjs(periode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(periode.tom).format(NORSK_DATOFORMAT)}`,
-                                )}
+                                {minimumSykdomsgrad.perioderVurdertIkkeOk
+                                    .map(
+                                        (periode) =>
+                                            `${dayjs(periode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(periode.tom).format(NORSK_DATOFORMAT)}`,
+                                    )
+                                    .join(', ')
+                                    .replace(/,(?=[^,]*$)/, ' og')}
                             </BodyShort>
                         </>
                     )}
