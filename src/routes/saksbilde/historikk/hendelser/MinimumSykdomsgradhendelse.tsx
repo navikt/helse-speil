@@ -8,7 +8,6 @@ import { Kilde } from '@components/Kilde';
 import { Inntektskilde } from '@io/graphql';
 import {
     MINIMUM_SYKDOMSGRAD_AVSLAG_TEKST,
-    MINIMUM_SYKDOMSGRAD_BEGRUNNELSE_INNLEDNING_AVSLAG,
     MINIMUM_SYKDOMSGRAD_INNVILGELSE_TEKST,
 } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradForm';
 import { MinimumSykdomsgradhendelseObject } from '@typer/historikk';
@@ -64,11 +63,7 @@ export const MinimumSykdomsgradhendelse = ({
                             </BodyShort>
                         </>
                     )}
-                    <BodyShort weight="semibold">
-                        {minimumSykdomsgrad.perioderVurdertIkkeOk.length <= 0
-                            ? MINIMUM_SYKDOMSGRAD_BEGRUNNELSE_INNLEDNING_AVSLAG
-                            : 'Begrunnelse'}
-                    </BodyShort>
+                    <BodyShort weight="semibold">Notat til beslutter</BodyShort>
                     <BodyShort className={styles.begrunnelse}>{minimumSykdomsgrad.begrunnelse}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>
