@@ -28,7 +28,7 @@ export const MinimumSykdomsgradhendelse = ({
 }: MinimumSykdomsgradhendelseProps): ReactElement => (
     <>
         <Hendelse
-            title="Minimum sykdomsgrad vurdert"
+            title="Arbeidstid vurdert"
             icon={
                 <Kilde type={Inntektskilde.Saksbehandler}>
                     <PersonPencilFillIcon title="Saksbehandler ikon" height={20} width={20} />
