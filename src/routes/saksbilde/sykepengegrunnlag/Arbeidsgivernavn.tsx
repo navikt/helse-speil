@@ -12,12 +12,14 @@ import styles from './Arbeidsgivernavn.module.css';
 interface ArbeidsgivernavnProps {
     className?: string;
     arbeidsgivernavn?: string;
+    organisasjonsnummer: string;
     arbeidsforholdDeaktivert?: boolean;
 }
 
 export const Arbeidsgivernavn = ({
     className,
     arbeidsgivernavn,
+    organisasjonsnummer,
     arbeidsforholdDeaktivert = false,
 }: ArbeidsgivernavnProps) => (
     <>
@@ -33,7 +35,7 @@ export const Arbeidsgivernavn = ({
         ) : (
             <ArbeidsgiverikonMedTooltip
                 className={classNames(styles.wrapper, className)}
-                tooltipTekst={arbeidsgivernavn}
+                tooltipTekst={`${arbeidsgivernavn}  - ${organisasjonsnummer}`}
             >
                 <AnonymizableTextWithEllipsis className={styles.arbeidsgivernavn}>
                     {arbeidsgivernavn}

@@ -58,6 +58,7 @@ export const Inntektssammenligning = ({
             <td>
                 <Arbeidsgivernavn
                     arbeidsgivernavn={arbeidsgivernavn}
+                    organisasjonsnummer={organisasjonsnummer}
                     arbeidsforholdDeaktivert={!!arbeidsforholdErDeaktivert}
                 />
             </td>
