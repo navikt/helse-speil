@@ -27,7 +27,7 @@ export const LagtPaVentHistorikkhendelse = ({
     timestamp,
     årsaker,
     frist,
-    notatTekst,
+    notattekst,
     dialogRef,
     historikkinnslagId,
     kommentarer,
@@ -37,10 +37,10 @@ export const LagtPaVentHistorikkhendelse = ({
     const [expanded, setExpanded] = useState(false);
 
     const isExpandable = () =>
-        (notatTekst && notatTekst.length > MAX_TEXT_LENGTH_BEFORE_TRUNCATION) ||
-        (notatTekst && notatTekst.split('\n').length > 2) ||
+        (notattekst && notattekst.length > MAX_TEXT_LENGTH_BEFORE_TRUNCATION) ||
+        (notattekst && notattekst.split('\n').length > 2) ||
         (årsaker && årsaker.length >= 2) ||
-        (årsaker && årsaker.length > 0 && !!notatTekst) ||
+        (årsaker && årsaker.length > 0 && !!notattekst) ||
         false;
 
     const toggleNotat = (event: React.KeyboardEvent) => {
@@ -66,7 +66,7 @@ export const LagtPaVentHistorikkhendelse = ({
             >
                 <LeggPåVentHistorikkinnhold
                     expanded={expanded}
-                    tekst={notatTekst}
+                    tekst={notattekst}
                     årsaker={årsaker}
                     frist={frist}
                     erNyesteHistorikkhendelseMedType={erNyesteHistorikkhendelseMedType}

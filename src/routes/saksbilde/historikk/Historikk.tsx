@@ -21,6 +21,7 @@ import {
     HendelseObject,
     HistorikkhendelseObject,
     LagtPaVentHistorikkhendelseObject,
+    TotrinnsvurderingReturHistorikkhendelseObject,
 } from '@typer/historikk';
 
 import { Notat } from '../notat/Notat';
@@ -137,6 +138,8 @@ const HistorikkWithContent = (): ReactElement => {
                                         case 'Historikk': {
                                             if (isLagtPaVent(it)) {
                                                 return <LagtPaVentHistorikkhendelse key={it.id} {...it} />;
+                                            } else if (isToTrinnsvurderingRetur(it)) {
+                                                return null;
                                             } else {
                                                 return <Historikkhendelse key={it.id} {...it} />;
                                             }
@@ -163,7 +166,11 @@ const HistorikkWithContent = (): ReactElement => {
 };
 
 function isLagtPaVent(obj: HistorikkhendelseObject): obj is LagtPaVentHistorikkhendelseObject {
-    return (obj as LagtPaVentHistorikkhendelseObject).årsaker !== undefined;
+    return (obj as LagtPaVentHistorikkhendelseObject).historikktype === 'LEGG_PA_VENT';
+}
+
+function isToTrinnsvurderingRetur(obj: HistorikkhendelseObject): obj is TotrinnsvurderingReturHistorikkhendelseObject {
+    return (obj as TotrinnsvurderingReturHistorikkhendelseObject).historikktype === 'TOTRINNSVURDERING_RETUR';
 }
 
 export const HistorikkSkeleton = (): ReactElement => {

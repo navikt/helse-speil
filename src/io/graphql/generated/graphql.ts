@@ -633,7 +633,6 @@ export type Mutation = {
     innvilgVedtak: Scalars['Boolean']['output'];
     leggPaVent: Maybe<PaVent>;
     leggTilKommentar: Maybe<Kommentar>;
-    leggTilKommentarMedDialogRef: Maybe<Kommentar>;
     leggTilNotat: Maybe<Notat>;
     minimumSykdomsgrad: Scalars['Boolean']['output'];
     oppdaterPerson: Scalars['Boolean']['output'];
@@ -688,12 +687,6 @@ export type MutationLeggPaVentArgs = {
 };
 
 export type MutationLeggTilKommentarArgs = {
-    dialogRef: Scalars['Int']['input'];
-    saksbehandlerident: Scalars['String']['input'];
-    tekst: Scalars['String']['input'];
-};
-
-export type MutationLeggTilKommentarMedDialogRefArgs = {
     dialogRef: Scalars['Int']['input'];
     saksbehandlerident: Scalars['String']['input'];
     tekst: Scalars['String']['input'];
@@ -1549,6 +1542,18 @@ export type Totrinnsvurdering = {
     erBeslutteroppgave: Scalars['Boolean']['output'];
     erRetur: Scalars['Boolean']['output'];
     saksbehandler: Maybe<Scalars['UUID']['output']>;
+};
+
+export type TotrinnsvurderingRetur = Historikkinnslag & {
+    __typename: 'TotrinnsvurderingRetur';
+    dialogRef: Maybe<Scalars['Int']['output']>;
+    id: Scalars['Int']['output'];
+    kommentarer: Array<Kommentar>;
+    notatId: Maybe<Scalars['Int']['output']>;
+    notattekst: Scalars['String']['output'];
+    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['LocalDateTime']['output'];
+    type: PeriodehistorikkType;
 };
 
 export type UberegnetPeriode = Periode & {
@@ -2446,6 +2451,24 @@ export type ArbeidsgiverFragment = {
                             notatId: number | null;
                             dialogRef: number | null;
                         }
+                      | {
+                            __typename: 'TotrinnsvurderingRetur';
+                            notattekst: string;
+                            id: number;
+                            type: PeriodehistorikkType;
+                            timestamp: string;
+                            saksbehandlerIdent: string | null;
+                            notatId: number | null;
+                            dialogRef: number | null;
+                            kommentarer: Array<{
+                                __typename: 'Kommentar';
+                                id: number;
+                                tekst: string;
+                                opprettet: string;
+                                saksbehandlerident: string;
+                                feilregistrert_tidspunkt: string | null;
+                            }>;
+                        }
                   >;
                   periodevilkar: {
                       __typename: 'Periodevilkar';
@@ -3291,6 +3314,24 @@ export type BeregnetPeriodeFragment = {
               notatId: number | null;
               dialogRef: number | null;
           }
+        | {
+              __typename: 'TotrinnsvurderingRetur';
+              notattekst: string;
+              id: number;
+              type: PeriodehistorikkType;
+              timestamp: string;
+              saksbehandlerIdent: string | null;
+              notatId: number | null;
+              dialogRef: number | null;
+              kommentarer: Array<{
+                  __typename: 'Kommentar';
+                  id: number;
+                  tekst: string;
+                  opprettet: string;
+                  saksbehandlerident: string;
+                  feilregistrert_tidspunkt: string | null;
+              }>;
+          }
     >;
     periodevilkar: {
         __typename: 'Periodevilkar';
@@ -4005,6 +4046,24 @@ export type PersonFragment = {
                                 saksbehandlerIdent: string | null;
                                 notatId: number | null;
                                 dialogRef: number | null;
+                            }
+                          | {
+                                __typename: 'TotrinnsvurderingRetur';
+                                notattekst: string;
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                notatId: number | null;
+                                dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
                             }
                       >;
                       periodevilkar: {
@@ -4797,6 +4856,24 @@ export type FetchPersonQuery = {
                                     saksbehandlerIdent: string | null;
                                     notatId: number | null;
                                     dialogRef: number | null;
+                                }
+                              | {
+                                    __typename: 'TotrinnsvurderingRetur';
+                                    notattekst: string;
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    notatId: number | null;
+                                    dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
                                 }
                           >;
                           periodevilkar: {
@@ -6322,6 +6399,39 @@ export const BeregnetPeriodeFragmentDoc = {
                                         ],
                                     },
                                 },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'TotrinnsvurderingRetur' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -7613,6 +7723,39 @@ export const ArbeidsgiverFragmentDoc = {
                                         ],
                                     },
                                 },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'TotrinnsvurderingRetur' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -8568,6 +8711,39 @@ export const PersonFragmentDoc = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'notatTekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'TotrinnsvurderingRetur' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'kommentarer' },
@@ -11497,6 +11673,39 @@ export const FetchPersonDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'notatTekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'TotrinnsvurderingRetur' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'kommentarer' },

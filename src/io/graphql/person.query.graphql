@@ -296,6 +296,16 @@ fragment beregnetPeriode on BeregnetPeriode {
                 feilregistrert_tidspunkt
             }
         }
+        ... on TotrinnsvurderingRetur {
+            notattekst
+            kommentarer {
+                id
+                tekst
+                opprettet
+                saksbehandlerident
+                feilregistrert_tidspunkt
+            }
+        }
     }
     maksdato
     periodevilkar {

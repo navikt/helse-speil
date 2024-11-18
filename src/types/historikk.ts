@@ -137,16 +137,25 @@ export type LagtPaVentHistorikkhendelseObject = HistorikkhendelseBase & {
     saksbehandler: string;
     frist: Maybe<DateString>;
     årsaker: string[];
-    notatTekst: Maybe<string>;
+    notattekst: Maybe<string>;
     kommentarer: Array<Kommentar>;
     erNyesteHistorikkhendelseMedType?: boolean;
+};
+
+export type TotrinnsvurderingReturHistorikkhendelseObject = HistorikkhendelseBase & {
+    saksbehandler: string;
+    notattekst: Maybe<string>;
+    kommentarer: Array<Kommentar>;
 };
 
 export type HistorikkhendelseMedNotatObject = HistorikkhendelseBase & {
     notat: NotatFragment;
 };
 
-export type HistorikkhendelseObject = LagtPaVentHistorikkhendelseObject | HistorikkhendelseMedNotatObject;
+export type HistorikkhendelseObject =
+    | LagtPaVentHistorikkhendelseObject
+    | TotrinnsvurderingReturHistorikkhendelseObject
+    | HistorikkhendelseMedNotatObject;
 
 export type AvslaghendelseObject = BaseHendelseObject & {
     type: 'Avslag';

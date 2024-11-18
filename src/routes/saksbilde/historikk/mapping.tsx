@@ -38,6 +38,7 @@ import {
     MinimumSykdomsgradhendelseObject,
     NotathendelseObject,
     SykepengegrunnlagskjonnsfastsettinghendelseObject,
+    TotrinnsvurderingReturHistorikkhendelseObject,
     UtbetalinghendelseObject,
 } from '@typer/historikk';
 import { Notat } from '@typer/notat';
@@ -210,13 +211,25 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
                         årsaker: historikkelement.arsaker,
                         frist: historikkelement.frist,
                         dialogRef: historikkelement.dialogRef,
-                        notatTekst: historikkelement.notatTekst,
+                        notattekst: historikkelement.notatTekst,
                         kommentarer: historikkelement.kommentarer,
                         erNyesteHistorikkhendelseMedType:
                             [...periode.historikkinnslag]
                                 .sort(byTimestampHistorikkinnslag)
                                 .find((it) => it.type === historikkelement.type)?.notatId === historikkelement.notatId,
                     } as LagtPaVentHistorikkhendelseObject;
+                case 'TotrinnsvurderingRetur':
+                    return {
+                        id: `historikkinnslag-${index}`,
+                        historikkinnslagId: historikkelement.id,
+                        type: 'Historikk',
+                        historikktype: historikkelement.type,
+                        saksbehandler: historikkelement.saksbehandlerIdent,
+                        timestamp: historikkelement.timestamp as DateString,
+                        dialogRef: historikkelement.dialogRef,
+                        notattekst: historikkelement.notattekst,
+                        kommentarer: historikkelement.kommentarer,
+                    } as TotrinnsvurderingReturHistorikkhendelseObject;
                 case 'FjernetFraPaVent':
                 case 'PeriodeHistorikkElementNy':
                     return {
