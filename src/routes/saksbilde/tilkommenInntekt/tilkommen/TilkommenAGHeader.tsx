@@ -27,7 +27,10 @@ export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setE
         <HStack justify="space-between" marginBlock="0 4">
             <HStack gap="2" align="center">
                 <Box maxWidth="230px">
-                    <Arbeidsgivernavn arbeidsgivernavn={arbeidsgiver?.navn} />
+                    <Arbeidsgivernavn
+                        arbeidsgivernavn={arbeidsgiver.navn}
+                        organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                    />
                 </Box>
                 <HStack align="center">
                     <BodyShort weight="semibold" size="large">

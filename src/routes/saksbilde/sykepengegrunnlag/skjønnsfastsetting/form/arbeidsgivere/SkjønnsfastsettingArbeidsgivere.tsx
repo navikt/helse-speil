@@ -90,6 +90,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                                 key={field.id}
                                 årsinntekt={field.årlig}
                                 arbeidsgiverNavn={getArbeidsgiverNavn(field.organisasjonsnummer)}
+                                organisasjonsnummer={field.organisasjonsnummer}
                                 type={type}
                                 årligField={årligField}
                                 orgnummerField={orgnummerField}

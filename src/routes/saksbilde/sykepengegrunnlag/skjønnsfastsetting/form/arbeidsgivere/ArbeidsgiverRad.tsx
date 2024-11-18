@@ -10,6 +10,7 @@ import { toKronerOgØre } from '@utils/locale';
 
 interface ArbeidsgiverRadProps {
     arbeidsgiverNavn?: string;
+    organisasjonsnummer: string;
     årsinntekt: number;
     type?: Skjønnsfastsettingstype;
     årligField: UseFormRegisterReturn;
@@ -21,6 +22,7 @@ interface ArbeidsgiverRadProps {
 
 export const ArbeidsgiverRad = ({
     arbeidsgiverNavn,
+    organisasjonsnummer,
     årsinntekt,
     type,
     årligField,
@@ -33,7 +35,7 @@ export const ArbeidsgiverRad = ({
     return (
         <Table.Row className={styles.arbeidsgiver}>
             <Table.DataCell>
-                <Arbeidsgivernavn arbeidsgivernavn={arbeidsgiverNavn} className={styles.arbeidsgivernavn} />
+                <Arbeidsgivernavn arbeidsgivernavn={arbeidsgiverNavn} organisasjonsnummer={organisasjonsnummer} />
             </Table.DataCell>
             <Table.DataCell>
                 <TextField

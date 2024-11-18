@@ -19,7 +19,7 @@ export const InntektOgRefusjonHeader = ({
     kilde,
 }: InntektOgRefusjonHeaderProps) => (
     <HStack marginBlock="5 6" gap="3" align="center">
-        <Arbeidsgivernavn arbeidsgivernavn={arbeidsgivernavn} />
+        <Arbeidsgivernavn arbeidsgivernavn={arbeidsgivernavn} organisasjonsnummer={organisasjonsnummer} />
         <HStack align="center">
             <BodyShort weight="semibold" size="large">
                 (
