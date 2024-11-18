@@ -227,12 +227,16 @@ fragment notat on Notat {
     feilregistrert
     type
     kommentarer {
-        id
-        tekst
-        opprettet
-        saksbehandlerident
-        feilregistrert_tidspunkt
+        ...kommentar
     }
+}
+
+fragment kommentar on Kommentar {
+    id
+    tekst
+    opprettet
+    saksbehandlerident
+    feilregistrert_tidspunkt
 }
 
 fragment ghostPeriode on GhostPeriode {
@@ -289,21 +293,13 @@ fragment beregnetPeriode on BeregnetPeriode {
             arsaker
             notatTekst
             kommentarer {
-                id
-                tekst
-                opprettet
-                saksbehandlerident
-                feilregistrert_tidspunkt
+                ...kommentar
             }
         }
         ... on TotrinnsvurderingRetur {
             notattekst
             kommentarer {
-                id
-                tekst
-                opprettet
-                saksbehandlerident
-                feilregistrert_tidspunkt
+                ...kommentar
             }
         }
     }

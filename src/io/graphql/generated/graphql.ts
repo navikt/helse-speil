@@ -1550,7 +1550,7 @@ export type TotrinnsvurderingRetur = Historikkinnslag & {
     id: Scalars['Int']['output'];
     kommentarer: Array<Kommentar>;
     notatId: Maybe<Scalars['Int']['output']>;
-    notattekst: Scalars['String']['output'];
+    notattekst: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
@@ -2453,7 +2453,7 @@ export type ArbeidsgiverFragment = {
                         }
                       | {
                             __typename: 'TotrinnsvurderingRetur';
-                            notattekst: string;
+                            notattekst: string | null;
                             id: number;
                             type: PeriodehistorikkType;
                             timestamp: string;
@@ -3088,6 +3088,15 @@ export type NotatFragment = {
     }>;
 };
 
+export type KommentarFragment = {
+    __typename: 'Kommentar';
+    id: number;
+    tekst: string;
+    opprettet: string;
+    saksbehandlerident: string;
+    feilregistrert_tidspunkt: string | null;
+};
+
 export type GhostPeriodeFragment = {
     __typename: 'GhostPeriode';
     id: string;
@@ -3316,7 +3325,7 @@ export type BeregnetPeriodeFragment = {
           }
         | {
               __typename: 'TotrinnsvurderingRetur';
-              notattekst: string;
+              notattekst: string | null;
               id: number;
               type: PeriodehistorikkType;
               timestamp: string;
@@ -4049,7 +4058,7 @@ export type PersonFragment = {
                             }
                           | {
                                 __typename: 'TotrinnsvurderingRetur';
-                                notattekst: string;
+                                notattekst: string | null;
                                 id: number;
                                 type: PeriodehistorikkType;
                                 timestamp: string;
@@ -4859,7 +4868,7 @@ export type FetchPersonQuery = {
                                 }
                               | {
                                     __typename: 'TotrinnsvurderingRetur';
-                                    notattekst: string;
+                                    notattekst: string | null;
                                     id: number;
                                     type: PeriodehistorikkType;
                                     timestamp: string;
@@ -5722,6 +5731,26 @@ export const NyttInntektsforholdPeriodeFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<NyttInntektsforholdPeriodeFragment, unknown>;
+export const KommentarFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'kommentar' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<KommentarFragment, unknown>;
 export const NotatFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -5748,15 +5777,24 @@ export const NotatFragmentDoc = {
                         name: { kind: 'Name', value: 'kommentarer' },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'kommentar' } }],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'kommentar' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
                 ],
             },
         },
@@ -5994,6 +6032,21 @@ export const UberegnetPeriodeFragmentDoc = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'kommentar' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'notat' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
             selectionSet: {
@@ -6015,13 +6068,7 @@ export const UberegnetPeriodeFragmentDoc = {
                         name: { kind: 'Name', value: 'kommentarer' },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'kommentar' } }],
                         },
                     },
                 ],
@@ -6382,16 +6429,9 @@ export const BeregnetPeriodeFragmentDoc = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                                                         {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
                                                         },
                                                     ],
                                                 },
@@ -6415,16 +6455,9 @@ export const BeregnetPeriodeFragmentDoc = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                                                         {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
                                                         },
                                                     ],
                                                 },
@@ -6629,6 +6662,21 @@ export const BeregnetPeriodeFragmentDoc = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'kommentar' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'notat' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
             selectionSet: {
@@ -6650,13 +6698,7 @@ export const BeregnetPeriodeFragmentDoc = {
                         name: { kind: 'Name', value: 'kommentarer' },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'kommentar' } }],
                         },
                     },
                 ],
@@ -7274,6 +7316,21 @@ export const ArbeidsgiverFragmentDoc = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'kommentar' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'notat' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
             selectionSet: {
@@ -7295,13 +7352,7 @@ export const ArbeidsgiverFragmentDoc = {
                         name: { kind: 'Name', value: 'kommentarer' },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'kommentar' } }],
                         },
                     },
                 ],
@@ -7706,16 +7757,9 @@ export const ArbeidsgiverFragmentDoc = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                                                         {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
                                                         },
                                                     ],
                                                 },
@@ -7739,16 +7783,9 @@ export const ArbeidsgiverFragmentDoc = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                                                         {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
                                                         },
                                                     ],
                                                 },
@@ -8319,6 +8356,21 @@ export const PersonFragmentDoc = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'kommentar' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'notat' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
             selectionSet: {
@@ -8340,13 +8392,7 @@ export const PersonFragmentDoc = {
                         name: { kind: 'Name', value: 'kommentarer' },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'kommentar' } }],
                         },
                     },
                 ],
@@ -8717,16 +8763,9 @@ export const PersonFragmentDoc = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                                                         {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
                                                         },
                                                     ],
                                                 },
@@ -8750,16 +8789,9 @@ export const PersonFragmentDoc = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                                                         {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
                                                         },
                                                     ],
                                                 },
@@ -10561,6 +10593,21 @@ export const FetchNotaterDocument = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'kommentar' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'notat' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
             selectionSet: {
@@ -10582,13 +10629,7 @@ export const FetchNotaterDocument = {
                         name: { kind: 'Name', value: 'kommentarer' },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'kommentar' } }],
                         },
                     },
                 ],
@@ -11281,6 +11322,21 @@ export const FetchPersonDocument = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'kommentar' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'notat' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
             selectionSet: {
@@ -11302,13 +11358,7 @@ export const FetchPersonDocument = {
                         name: { kind: 'Name', value: 'kommentarer' },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'kommentar' } }],
                         },
                     },
                 ],
@@ -11679,16 +11729,9 @@ export const FetchPersonDocument = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                                                         {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
                                                         },
                                                     ],
                                                 },
@@ -11712,16 +11755,9 @@ export const FetchPersonDocument = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                                                         {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
                                                         },
                                                     ],
                                                 },

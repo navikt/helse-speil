@@ -1548,7 +1548,7 @@ export type TotrinnsvurderingRetur = Historikkinnslag & {
     id: Scalars['Int']['output'];
     kommentarer: Array<Kommentar>;
     notatId?: Maybe<Scalars['Int']['output']>;
-    notattekst: Scalars['String']['output'];
+    notattekst?: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
