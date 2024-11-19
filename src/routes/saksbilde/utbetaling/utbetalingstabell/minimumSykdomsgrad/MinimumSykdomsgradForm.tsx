@@ -205,8 +205,8 @@ export const MinimumSykdomsgradForm = ({
                                             </RadioGroup>
                                             {erReadOnly && (
                                                 <HelpText>
-                                                    Perioden er vurdert. Hvis du ønsker å endre vurderingen, må du endre
-                                                    i perioden
+                                                    Perioden er vurdert i overlappende periode. Hvis du ønsker å endre
+                                                    vurderingen, må du endre i denne.
                                                 </HelpText>
                                             )}
                                         </HStack>
