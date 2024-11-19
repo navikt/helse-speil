@@ -2,14 +2,15 @@ import React from 'react';
 
 import { Button, HStack } from '@navikt/ds-react';
 
-import { useMutation } from '@apollo/client';
-import { Kommentar, LeggTilKommentarDocument } from '@io/graphql';
+import { ApolloCache, useMutation } from '@apollo/client';
+import { Kommentar, LeggTilKommentarDocument, PeriodehistorikkType } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import { Kommentarer } from './Kommentarer';
 import { NotatForm } from './NotatForm';
 
 type DialogContentProps = {
+    historikktype: PeriodehistorikkType;
     kommentarer: Array<Kommentar>;
     showAddDialog: boolean;
     setShowAddDialog: (show: boolean) => void;
@@ -18,6 +19,7 @@ type DialogContentProps = {
 };
 
 export const DialogContent = ({
+    historikktype,
     kommentarer,
     showAddDialog,
     setShowAddDialog,
@@ -27,6 +29,7 @@ export const DialogContent = ({
     const { onLeggTilKommentarMedDialogRef, loading, error } = useLeggTilKommentarMedDialogRef(
         dialogRef,
         historikkinnslagId,
+        historikktype,
         () => setShowAddDialog(false),
     );
     return (
@@ -49,7 +52,12 @@ export const DialogContent = ({
     );
 };
 
-const useLeggTilKommentarMedDialogRef = (dialogRef: number, historikkinnslagId: number, hideDialog: () => void) => {
+const useLeggTilKommentarMedDialogRef = (
+    dialogRef: number,
+    historikkinnslagId: number,
+    historikktype: PeriodehistorikkType,
+    hideDialog: () => void,
+) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const [leggTilKommentarMedDialogRef, { error, loading }] = useMutation(LeggTilKommentarDocument);
 
@@ -73,9 +81,7 @@ const useLeggTilKommentarMedDialogRef = (dialogRef: number, historikkinnslagId: 
                         data,
                     });
                     cache.modify({
-                        id:
-                            cache.identify({ __typename: 'LagtPaVent', id: historikkinnslagId }) ??
-                            cache.identify({ __typename: 'TotrinnsvurderingRetur', id: historikkinnslagId }),
+                        id: finnCacheId(cache, historikkinnslagId, historikktype),
                         fields: {
                             kommentarer(eksisterendeKommentarer) {
                                 return [
@@ -101,4 +107,15 @@ const useLeggTilKommentarMedDialogRef = (dialogRef: number, historikkinnslagId: 
         loading,
         error,
     };
+};
+
+const finnCacheId = (cache: ApolloCache<any>, historikkinnslagId: number, historikktype: PeriodehistorikkType) => {
+    switch (historikktype) {
+        case PeriodehistorikkType.LeggPaVent:
+            return cache.identify({ __typename: 'LagtPaVent', id: historikkinnslagId });
+        case PeriodehistorikkType.TotrinnsvurderingRetur:
+            return cache.identify({ __typename: 'TotrinnsvurderingRetur', id: historikkinnslagId });
+        default:
+            return undefined;
+    }
 };

@@ -90,6 +90,7 @@ export const HistorikkhendelseMedInnhold = ({
                     closeText="Lukk kommentarer"
                 >
                     <DialogContent
+                        historikktype={historikktype}
                         kommentarer={kommentarer}
                         dialogRef={dialogRef}
                         historikkinnslagId={historikkinnslagId}
