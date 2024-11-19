@@ -217,7 +217,7 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
                 erNyesteHistorikkhendelseMedType:
                     [...periode.historikkinnslag]
                         .sort(byTimestampHistorikkinnslag)
-                        .find((it) => it.type === historikkelement.type)?.notatId === historikkelement.notatId,
+                        .find((it) => it.type === historikkelement.type)?.id === historikkelement.id,
             } as HistorikkhendelseMedInnholdObject;
         } else {
             return {
