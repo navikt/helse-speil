@@ -394,7 +394,6 @@ export type FjernetFraPaVent = Historikkinnslag & {
     __typename?: 'FjernetFraPaVent';
     dialogRef?: Maybe<Scalars['Int']['output']>;
     id: Scalars['Int']['output'];
-    notatId?: Maybe<Scalars['Int']['output']>;
     saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
@@ -451,7 +450,6 @@ export enum Hendelsetype {
 export type Historikkinnslag = {
     dialogRef?: Maybe<Scalars['Int']['output']>;
     id: Scalars['Int']['output'];
-    notatId?: Maybe<Scalars['Int']['output']>;
     saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
@@ -579,7 +577,6 @@ export type LagtPaVent = Historikkinnslag & {
     frist?: Maybe<Scalars['LocalDate']['output']>;
     id: Scalars['Int']['output'];
     kommentarer: Array<Kommentar>;
-    notatId?: Maybe<Scalars['Int']['output']>;
     notatTekst?: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
@@ -1033,7 +1030,6 @@ export type PeriodeHistorikkElementNy = Historikkinnslag & {
     __typename?: 'PeriodeHistorikkElementNy';
     dialogRef?: Maybe<Scalars['Int']['output']>;
     id: Scalars['Int']['output'];
-    notatId?: Maybe<Scalars['Int']['output']>;
     saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
@@ -1547,7 +1543,6 @@ export type TotrinnsvurderingRetur = Historikkinnslag & {
     dialogRef?: Maybe<Scalars['Int']['output']>;
     id: Scalars['Int']['output'];
     kommentarer: Array<Kommentar>;
-    notatId?: Maybe<Scalars['Int']['output']>;
     notattekst?: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];

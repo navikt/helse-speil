@@ -286,7 +286,6 @@ fragment beregnetPeriode on BeregnetPeriode {
         type
         timestamp
         saksbehandlerIdent
-        notatId
         dialogRef
         ... on LagtPaVent {
             frist

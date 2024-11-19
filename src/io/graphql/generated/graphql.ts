@@ -396,7 +396,6 @@ export type FjernetFraPaVent = Historikkinnslag & {
     __typename: 'FjernetFraPaVent';
     dialogRef: Maybe<Scalars['Int']['output']>;
     id: Scalars['Int']['output'];
-    notatId: Maybe<Scalars['Int']['output']>;
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
@@ -453,7 +452,6 @@ export enum Hendelsetype {
 export type Historikkinnslag = {
     dialogRef: Maybe<Scalars['Int']['output']>;
     id: Scalars['Int']['output'];
-    notatId: Maybe<Scalars['Int']['output']>;
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
@@ -581,7 +579,6 @@ export type LagtPaVent = Historikkinnslag & {
     frist: Maybe<Scalars['LocalDate']['output']>;
     id: Scalars['Int']['output'];
     kommentarer: Array<Kommentar>;
-    notatId: Maybe<Scalars['Int']['output']>;
     notatTekst: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
@@ -1035,7 +1032,6 @@ export type PeriodeHistorikkElementNy = Historikkinnslag & {
     __typename: 'PeriodeHistorikkElementNy';
     dialogRef: Maybe<Scalars['Int']['output']>;
     id: Scalars['Int']['output'];
-    notatId: Maybe<Scalars['Int']['output']>;
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
@@ -1549,7 +1545,6 @@ export type TotrinnsvurderingRetur = Historikkinnslag & {
     dialogRef: Maybe<Scalars['Int']['output']>;
     id: Scalars['Int']['output'];
     kommentarer: Array<Kommentar>;
-    notatId: Maybe<Scalars['Int']['output']>;
     notattekst: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
@@ -2419,7 +2414,6 @@ export type ArbeidsgiverFragment = {
                             type: PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
-                            notatId: number | null;
                             dialogRef: number | null;
                         }
                       | {
@@ -2431,7 +2425,6 @@ export type ArbeidsgiverFragment = {
                             type: PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
-                            notatId: number | null;
                             dialogRef: number | null;
                             kommentarer: Array<{
                                 __typename: 'Kommentar';
@@ -2448,7 +2441,6 @@ export type ArbeidsgiverFragment = {
                             type: PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
-                            notatId: number | null;
                             dialogRef: number | null;
                         }
                       | {
@@ -2458,7 +2450,6 @@ export type ArbeidsgiverFragment = {
                             type: PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
-                            notatId: number | null;
                             dialogRef: number | null;
                             kommentarer: Array<{
                                 __typename: 'Kommentar';
@@ -3291,7 +3282,6 @@ export type BeregnetPeriodeFragment = {
               type: PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
-              notatId: number | null;
               dialogRef: number | null;
           }
         | {
@@ -3303,7 +3293,6 @@ export type BeregnetPeriodeFragment = {
               type: PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
-              notatId: number | null;
               dialogRef: number | null;
               kommentarer: Array<{
                   __typename: 'Kommentar';
@@ -3320,7 +3309,6 @@ export type BeregnetPeriodeFragment = {
               type: PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
-              notatId: number | null;
               dialogRef: number | null;
           }
         | {
@@ -3330,7 +3318,6 @@ export type BeregnetPeriodeFragment = {
               type: PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
-              notatId: number | null;
               dialogRef: number | null;
               kommentarer: Array<{
                   __typename: 'Kommentar';
@@ -4024,7 +4011,6 @@ export type PersonFragment = {
                                 type: PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
-                                notatId: number | null;
                                 dialogRef: number | null;
                             }
                           | {
@@ -4036,7 +4022,6 @@ export type PersonFragment = {
                                 type: PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
-                                notatId: number | null;
                                 dialogRef: number | null;
                                 kommentarer: Array<{
                                     __typename: 'Kommentar';
@@ -4053,7 +4038,6 @@ export type PersonFragment = {
                                 type: PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
-                                notatId: number | null;
                                 dialogRef: number | null;
                             }
                           | {
@@ -4063,7 +4047,6 @@ export type PersonFragment = {
                                 type: PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
-                                notatId: number | null;
                                 dialogRef: number | null;
                                 kommentarer: Array<{
                                     __typename: 'Kommentar';
@@ -4834,7 +4817,6 @@ export type FetchPersonQuery = {
                                     type: PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
-                                    notatId: number | null;
                                     dialogRef: number | null;
                                 }
                               | {
@@ -4846,7 +4828,6 @@ export type FetchPersonQuery = {
                                     type: PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
-                                    notatId: number | null;
                                     dialogRef: number | null;
                                     kommentarer: Array<{
                                         __typename: 'Kommentar';
@@ -4863,7 +4844,6 @@ export type FetchPersonQuery = {
                                     type: PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
-                                    notatId: number | null;
                                     dialogRef: number | null;
                                 }
                               | {
@@ -4873,7 +4853,6 @@ export type FetchPersonQuery = {
                                     type: PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
-                                    notatId: number | null;
                                     dialogRef: number | null;
                                     kommentarer: Array<{
                                         __typename: 'Kommentar';
@@ -6412,7 +6391,6 @@ export const BeregnetPeriodeFragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'notatId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
                                 {
                                     kind: 'InlineFragment',
@@ -7740,7 +7718,6 @@ export const ArbeidsgiverFragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'notatId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
                                 {
                                     kind: 'InlineFragment',
@@ -8746,7 +8723,6 @@ export const PersonFragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'notatId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
                                 {
                                     kind: 'InlineFragment',
@@ -11712,7 +11688,6 @@ export const FetchPersonDocument = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'notatId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
                                 {
                                     kind: 'InlineFragment',
