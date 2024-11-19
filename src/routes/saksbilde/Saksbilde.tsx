@@ -8,6 +8,7 @@ import { Verktøylinje } from '@saksbilde/Verktøylinje';
 import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
 import { PeriodeViewError } from '@saksbilde/saksbilder/PeriodeViewError';
 import { PeriodeViewSkeleton } from '@saksbilde/saksbilder/PeriodeViewSkeleton';
+import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { kanOverstyreMinimumSykdomsgradToggle } from '@utils/featureToggles';
@@ -57,6 +58,7 @@ export const Saksbilde = ({ children }: SaksbildeProps) => {
     return (
         <div className={styles.Content}>
             {kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident) &&
+                !harPeriodeTilBeslutterFor(person, activePeriod?.skjaeringstidspunkt) &&
                 harDagerMedUnder20ProsentTotalGrad &&
                 initierendeVedtaksperiodeId && (
                     <Verktøylinje
