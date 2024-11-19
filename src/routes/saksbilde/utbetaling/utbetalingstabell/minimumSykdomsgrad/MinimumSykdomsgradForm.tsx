@@ -160,7 +160,7 @@ export const MinimumSykdomsgradForm = ({
                                         ? 'Ja'
                                         : 'Nei'
                                     : undefined;
-                            const erDisabled =
+                            const erReadOnly =
                                 defaultValue !== undefined &&
                                 isBeregnetPeriode(periode) &&
                                 sisteOverstyring?.minimumSykdomsgrad.initierendeVedtaksperiodeId !==
@@ -185,7 +185,7 @@ export const MinimumSykdomsgradForm = ({
                                                     form.clearErrors(`merEnn20periode.${it.fom}`);
                                                 }}
                                                 defaultValue={defaultValue}
-                                                disabled={erDisabled}
+                                                readOnly={erReadOnly}
                                             >
                                                 <HStack gap="8">
                                                     <Radio
@@ -206,7 +206,7 @@ export const MinimumSykdomsgradForm = ({
                                                     </Radio>
                                                 </HStack>
                                             </RadioGroup>
-                                            {erDisabled && (
+                                            {erReadOnly && (
                                                 <HelpText>
                                                     Perioden er vurdert. Hvis du ønsker å endre vurderingen, må du endre
                                                     i perioden
