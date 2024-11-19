@@ -3,14 +3,14 @@ import dayjs from 'dayjs';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactElement, useState } from 'react';
 
-import { ChevronDownIcon, ChevronUpIcon, TimerPauseIcon } from '@navikt/aksel-icons';
+import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
-import styles from '@saksbilde/historikk/hendelser/Historikkhendelse.module.css';
+import { getIcon, getTitle } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { DialogContent } from '@saksbilde/historikk/hendelser/notat/DialogContent';
-import { LagtPaVentHistorikkhendelseObject } from '@typer/historikk';
+import { HistorikkhendelseMedInnholdObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT } from '@utils/date';
 
 import { Hendelse } from './Hendelse';
@@ -19,9 +19,9 @@ import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './notat/constants';
 
 import notatStyles from './notat/Notathendelse.module.css';
 
-type LagtPaVentHistorikkhendelseProps = Omit<LagtPaVentHistorikkhendelseObject, 'type' | 'id'>;
+type HistorikkhendelseMedInnholdProps = Omit<HistorikkhendelseMedInnholdObject, 'type' | 'id'>;
 
-export const LagtPaVentHistorikkhendelse = ({
+export const HistorikkhendelseMedInnhold = ({
     historikktype,
     saksbehandler,
     timestamp,
@@ -32,7 +32,7 @@ export const LagtPaVentHistorikkhendelse = ({
     historikkinnslagId,
     kommentarer,
     erNyesteHistorikkhendelseMedType = false,
-}: LagtPaVentHistorikkhendelseProps): ReactElement => {
+}: HistorikkhendelseMedInnholdProps): ReactElement => {
     const [showAddDialog, setShowAddDialog] = useState(false);
     const [expanded, setExpanded] = useState(false);
 
@@ -50,10 +50,7 @@ export const LagtPaVentHistorikkhendelse = ({
     };
 
     return (
-        <Hendelse
-            title="Lagt på vent"
-            icon={<TimerPauseIcon title="Timer ikon" className={classNames(styles.Innrammet, styles.pavent)} />}
-        >
+        <Hendelse title={getTitle(historikktype)} icon={getIcon(historikktype)}>
             <div
                 role="button"
                 tabIndex={0}
@@ -64,7 +61,7 @@ export const LagtPaVentHistorikkhendelse = ({
                 }}
                 className={classNames(notatStyles.NotatTextWrapper, isExpandable() && notatStyles.cursorpointer)}
             >
-                <LeggPåVentHistorikkinnhold
+                <Historikkinnhold
                     expanded={expanded}
                     tekst={notattekst}
                     årsaker={årsaker}
@@ -94,7 +91,6 @@ export const LagtPaVentHistorikkhendelse = ({
                 >
                     <DialogContent
                         kommentarer={kommentarer}
-                        saksbehandlerIdent={saksbehandler}
                         dialogRef={dialogRef}
                         historikkinnslagId={historikkinnslagId}
                         showAddDialog={showAddDialog}
@@ -106,7 +102,7 @@ export const LagtPaVentHistorikkhendelse = ({
     );
 };
 
-interface LeggPåVentProps {
+interface HistorikkinnholdProps {
     expanded: boolean;
     tekst: Maybe<string>;
     årsaker?: string[];
@@ -114,13 +110,13 @@ interface LeggPåVentProps {
     erNyesteHistorikkhendelseMedType?: boolean;
 }
 
-const LeggPåVentHistorikkinnhold = ({
+const Historikkinnhold = ({
     expanded,
     tekst,
     årsaker,
     frist,
     erNyesteHistorikkhendelseMedType,
-}: LeggPåVentProps): ReactElement => (
+}: HistorikkinnholdProps): ReactElement => (
     <AnimatePresence mode="wait">
         {expanded ? (
             <motion.div

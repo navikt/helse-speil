@@ -13,15 +13,14 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
-import { LagtPaVentHistorikkhendelse } from '@saksbilde/historikk/hendelser/LagtPaVentHistorikkhendelse';
+import { HistorikkhendelseMedInnhold } from '@saksbilde/historikk/hendelser/HistorikkhendelseMedInnhold';
 import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/MinimumSykdomsgradhendelse';
 import { useFetchPersonQuery } from '@state/person';
 import {
     Filtertype,
     HendelseObject,
+    HistorikkhendelseMedInnholdObject,
     HistorikkhendelseObject,
-    LagtPaVentHistorikkhendelseObject,
-    TotrinnsvurderingReturHistorikkhendelseObject,
 } from '@typer/historikk';
 
 import { Notat } from '../notat/Notat';
@@ -136,10 +135,8 @@ const HistorikkWithContent = (): ReactElement => {
                                             return <Utbetalinghendelse key={it.id} {...it} />;
                                         }
                                         case 'Historikk': {
-                                            if (isLagtPaVent(it)) {
-                                                return <LagtPaVentHistorikkhendelse key={it.id} {...it} />;
-                                            } else if (isToTrinnsvurderingRetur(it)) {
-                                                return null;
+                                            if (isMedInnhold(it)) {
+                                                return <HistorikkhendelseMedInnhold key={it.id} {...it} />;
                                             } else {
                                                 return <Historikkhendelse key={it.id} {...it} />;
                                             }
@@ -165,12 +162,11 @@ const HistorikkWithContent = (): ReactElement => {
     );
 };
 
-function isLagtPaVent(obj: HistorikkhendelseObject): obj is LagtPaVentHistorikkhendelseObject {
-    return (obj as LagtPaVentHistorikkhendelseObject).historikktype === 'LEGG_PA_VENT';
-}
-
-function isToTrinnsvurderingRetur(obj: HistorikkhendelseObject): obj is TotrinnsvurderingReturHistorikkhendelseObject {
-    return (obj as TotrinnsvurderingReturHistorikkhendelseObject).historikktype === 'TOTRINNSVURDERING_RETUR';
+function isMedInnhold(obj: HistorikkhendelseObject): obj is HistorikkhendelseMedInnholdObject {
+    return (
+        (obj as HistorikkhendelseMedInnholdObject).notattekst !== null ||
+        (obj as HistorikkhendelseMedInnholdObject).årsaker.length > 0
+    );
 }
 
 export const HistorikkSkeleton = (): ReactElement => {

@@ -132,7 +132,6 @@ export const Notathendelse = ({
             <ExpandableHistorikkContent openText={`Kommentarer (${kommentarer.length})`} closeText="Lukk kommentarer">
                 <NotatHendelseContent
                     kommentarer={kommentarer}
-                    saksbehandlerIdent={saksbehandler}
                     dialogRef={dialogRef}
                     notatId={Number.parseInt(id)}
                     showAddDialog={showAddDialog}

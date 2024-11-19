@@ -11,7 +11,6 @@ import { NotatForm } from './NotatForm';
 
 type DialogContentProps = {
     kommentarer: Array<Kommentar>;
-    saksbehandlerIdent: string;
     showAddDialog: boolean;
     setShowAddDialog: (show: boolean) => void;
     dialogRef: number;
@@ -20,7 +19,6 @@ type DialogContentProps = {
 
 export const DialogContent = ({
     kommentarer,
-    saksbehandlerIdent,
     showAddDialog,
     setShowAddDialog,
     dialogRef,
@@ -33,7 +31,7 @@ export const DialogContent = ({
     );
     return (
         <HStack gap="4">
-            <Kommentarer kommentarer={kommentarer} saksbehandlerIdent={saksbehandlerIdent} />
+            <Kommentarer kommentarer={kommentarer} />
             {showAddDialog ? (
                 <NotatForm
                     label="Kommentar"
@@ -75,7 +73,9 @@ const useLeggTilKommentarMedDialogRef = (dialogRef: number, historikkinnslagId: 
                         data,
                     });
                     cache.modify({
-                        id: cache.identify({ __typename: 'LagtPaVent', id: historikkinnslagId }),
+                        id:
+                            cache.identify({ __typename: 'LagtPaVent', id: historikkinnslagId }) ??
+                            cache.identify({ __typename: 'TotrinnsvurderingRetur', id: historikkinnslagId }),
                         fields: {
                             kommentarer(eksisterendeKommentarer) {
                                 return [

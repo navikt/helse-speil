@@ -651,8 +651,12 @@
                                             "id": 1232345,
                                             "type": "TOTRINNSVURDERING_RETUR",
                                             "timestamp": "2023-01-24T15:07:30.090206",
-                                            "saksbehandlerIdent": "11",
-                                            "notatId": 431
+                                            "saksbehandlerIdent": null,
+                                            "notatId": null,
+                                            "dialogRef": null,
+                                            "notattekst": null,
+                                            "kommentarer": [],
+                                            "__typename": "TotrinnsvurderingRetur"
                                         },
                                         {
                                             "id": 98765,

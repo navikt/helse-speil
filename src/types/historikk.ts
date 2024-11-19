@@ -2,7 +2,6 @@ import {
     Avslagstype,
     Kommentar,
     Maybe,
-    NotatFragment,
     NotatType,
     OverstyrtDag,
     OverstyrtInntekt,
@@ -125,16 +124,16 @@ export type UtbetalinghendelseObject = BaseHendelseObject & {
     timestamp: DateString;
 };
 
-export type HistorikkhendelseBase = BaseHendelseObject & {
+export type HistorikkhendelseUtenInnholdObject = BaseHendelseObject & {
     historikkinnslagId: number;
     type: 'Historikk';
     historikktype: PeriodehistorikkType;
     timestamp: DateString;
-    dialogRef: Maybe<number>;
 };
 
-export type LagtPaVentHistorikkhendelseObject = HistorikkhendelseBase & {
-    saksbehandler: string;
+export type HistorikkhendelseMedInnholdObject = HistorikkhendelseUtenInnholdObject & {
+    dialogRef: Maybe<number>;
+    saksbehandler: Maybe<string>;
     frist: Maybe<DateString>;
     årsaker: string[];
     notattekst: Maybe<string>;
@@ -142,20 +141,7 @@ export type LagtPaVentHistorikkhendelseObject = HistorikkhendelseBase & {
     erNyesteHistorikkhendelseMedType?: boolean;
 };
 
-export type TotrinnsvurderingReturHistorikkhendelseObject = HistorikkhendelseBase & {
-    saksbehandler: string;
-    notattekst: Maybe<string>;
-    kommentarer: Array<Kommentar>;
-};
-
-export type HistorikkhendelseMedNotatObject = HistorikkhendelseBase & {
-    notat: NotatFragment;
-};
-
-export type HistorikkhendelseObject =
-    | LagtPaVentHistorikkhendelseObject
-    | TotrinnsvurderingReturHistorikkhendelseObject
-    | HistorikkhendelseMedNotatObject;
+export type HistorikkhendelseObject = HistorikkhendelseMedInnholdObject | HistorikkhendelseUtenInnholdObject;
 
 export type AvslaghendelseObject = BaseHendelseObject & {
     type: 'Avslag';

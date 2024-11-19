@@ -10,10 +10,9 @@ import styles from './Kommentarer.module.css';
 
 interface KommentarerProps {
     kommentarer: Array<Kommentar>;
-    saksbehandlerIdent: string;
 }
 
-export const Kommentarer = ({ kommentarer, saksbehandlerIdent }: KommentarerProps): Maybe<ReactElement> => {
+export const Kommentarer = ({ kommentarer }: KommentarerProps): Maybe<ReactElement> => {
     if (kommentarer.length === 0) return null;
 
     return (
@@ -22,11 +21,7 @@ export const Kommentarer = ({ kommentarer, saksbehandlerIdent }: KommentarerProp
             {[...kommentarer]
                 .sort((a, b) => new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime())
                 .map((kommentar, index) => (
-                    <NotatKommentar
-                        kommentar={kommentar}
-                        forfatterSaksbehandlerIdent={saksbehandlerIdent}
-                        key={index}
-                    />
+                    <NotatKommentar kommentar={kommentar} key={index} />
                 ))}
         </div>
     );

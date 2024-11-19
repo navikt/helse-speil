@@ -388,6 +388,8 @@ const getResolvers = (): IResolvers => ({
                     return 'LagtPaVent';
                 case 'FJERN_FRA_PA_VENT':
                     return 'FjernetFraPaVent';
+                case 'TOTRINNSVURDERING_RETUR':
+                    return 'TotrinnsvurderingRetur';
                 default:
                     return 'PeriodeHistorikkElementNy';
             }

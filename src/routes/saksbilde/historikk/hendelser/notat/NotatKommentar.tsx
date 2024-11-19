@@ -16,10 +16,9 @@ import styles from './Kommentarer.module.css';
 
 interface NotatKommentarProps {
     kommentar: Kommentar;
-    forfatterSaksbehandlerIdent: string;
 }
 
-export const NotatKommentar = ({ kommentar, forfatterSaksbehandlerIdent }: NotatKommentarProps) => {
+export const NotatKommentar = ({ kommentar }: NotatKommentarProps) => {
     const [feilregistrerKommentar, { loading, error }] = useMutation(FeilregistrerKommentarMutationDocument);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
 
@@ -46,7 +45,7 @@ export const NotatKommentar = ({ kommentar, forfatterSaksbehandlerIdent }: Notat
             <div className={classNames(erFeilregistrert && styles.Feilregistrert)}>
                 {kommentar.tekst} {erFeilregistrert && '(feilregistert)'}
             </div>
-            {!kommentar.feilregistrert_tidspunkt && innloggetSaksbehandler.ident === forfatterSaksbehandlerIdent && (
+            {!kommentar.feilregistrert_tidspunkt && innloggetSaksbehandler.ident === kommentar.saksbehandlerident && (
                 <HendelseDropdownMenu
                     feilregistrerAction={onFeilregistrerKommentar(kommentar.id)}
                     isFetching={loading}

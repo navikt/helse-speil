@@ -11,7 +11,6 @@ import { NotatForm } from './NotatForm';
 
 type NotatHendelseContentProps = {
     kommentarer: Array<Kommentar>;
-    saksbehandlerIdent: string;
     showAddDialog: boolean;
     setShowAddDialog: (show: boolean) => void;
     dialogRef: number;
@@ -20,7 +19,6 @@ type NotatHendelseContentProps = {
 
 export const NotatHendelseContent = ({
     kommentarer,
-    saksbehandlerIdent,
     showAddDialog,
     setShowAddDialog,
     dialogRef,
@@ -31,7 +29,7 @@ export const NotatHendelseContent = ({
     );
     return (
         <HStack gap="4">
-            <Kommentarer kommentarer={kommentarer} saksbehandlerIdent={saksbehandlerIdent} />
+            <Kommentarer kommentarer={kommentarer} />
             {showAddDialog ? (
                 <NotatForm
                     label="Kommentar"

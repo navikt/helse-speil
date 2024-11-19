@@ -31,14 +31,13 @@ import {
     ArbeidsgiverSkjønnHendelse,
     AvslaghendelseObject,
     HendelseObject,
-    HistorikkhendelseMedNotatObject,
+    HistorikkhendelseMedInnholdObject,
     HistorikkhendelseObject,
+    HistorikkhendelseUtenInnholdObject,
     InntektoverstyringhendelseObject,
-    LagtPaVentHistorikkhendelseObject,
     MinimumSykdomsgradhendelseObject,
     NotathendelseObject,
     SykepengegrunnlagskjonnsfastsettinghendelseObject,
-    TotrinnsvurderingReturHistorikkhendelseObject,
     UtbetalinghendelseObject,
 } from '@typer/historikk';
 import { Notat } from '@typer/notat';
@@ -194,57 +193,43 @@ export const getAnnullering = (period: Periode): Maybe<AnnulleringhendelseObject
 };
 
 export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<HistorikkhendelseObject> => {
-    return periode.historikkinnslag
-        .filter((historikkelement) =>
-            historikkelement.type === PeriodehistorikkType.TotrinnsvurderingRetur ? !historikkelement.notatId : true,
-        )
-        .map((historikkelement, index) => {
-            switch (historikkelement.__typename) {
-                case 'LagtPaVent':
-                    return {
-                        id: `historikkinnslag-${index}`,
-                        historikkinnslagId: historikkelement.id,
-                        type: 'Historikk',
-                        historikktype: historikkelement.type,
-                        saksbehandler: historikkelement.saksbehandlerIdent,
-                        timestamp: historikkelement.timestamp as DateString,
-                        årsaker: historikkelement.arsaker,
-                        frist: historikkelement.frist,
-                        dialogRef: historikkelement.dialogRef,
-                        notattekst: historikkelement.notatTekst,
-                        kommentarer: historikkelement.kommentarer,
-                        erNyesteHistorikkhendelseMedType:
-                            [...periode.historikkinnslag]
-                                .sort(byTimestampHistorikkinnslag)
-                                .find((it) => it.type === historikkelement.type)?.notatId === historikkelement.notatId,
-                    } as LagtPaVentHistorikkhendelseObject;
-                case 'TotrinnsvurderingRetur':
-                    return {
-                        id: `historikkinnslag-${index}`,
-                        historikkinnslagId: historikkelement.id,
-                        type: 'Historikk',
-                        historikktype: historikkelement.type,
-                        saksbehandler: historikkelement.saksbehandlerIdent,
-                        timestamp: historikkelement.timestamp as DateString,
-                        dialogRef: historikkelement.dialogRef,
-                        notattekst: historikkelement.notattekst,
-                        kommentarer: historikkelement.kommentarer,
-                    } as TotrinnsvurderingReturHistorikkhendelseObject;
-                case 'FjernetFraPaVent':
-                case 'PeriodeHistorikkElementNy':
-                    return {
-                        id: `historikkinnslag-${index}`,
-                        historikkinnslagId: historikkelement.id,
-                        dialogRef: historikkelement.dialogRef,
-                        type: 'Historikk',
-                        historikktype: historikkelement.type,
-                        saksbehandler: historikkelement.saksbehandlerIdent,
-                        timestamp: historikkelement.timestamp as DateString,
-                        notatId: historikkelement.notatId,
-                        notat: periode.notater.find((notat) => notat.id === historikkelement.notatId),
-                    } as HistorikkhendelseMedNotatObject;
-            }
-        });
+    return periode.historikkinnslag.map((historikkelement, index) => {
+        if (historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'TotrinnsvurderingRetur') {
+            const automatiskReturTekst =
+                'Perioden er automatisk reberegnet etter at den ble sendt til beslutter. Sjekk om evt. endringer har betydning for saken.';
+            const erLagtPåVent = historikkelement.__typename === 'LagtPaVent';
+            return {
+                id: `historikkinnslag-${index}`,
+                historikkinnslagId: historikkelement.id,
+                type: 'Historikk',
+                historikktype: historikkelement.type,
+                saksbehandler: historikkelement.saksbehandlerIdent,
+                timestamp: historikkelement.timestamp as DateString,
+                årsaker: erLagtPåVent ? historikkelement.arsaker : [],
+                frist: erLagtPåVent ? historikkelement.frist : null,
+                dialogRef: historikkelement.dialogRef,
+                notattekst: erLagtPåVent
+                    ? historikkelement.notatTekst
+                    : historikkelement.notattekst !== null
+                      ? historikkelement.notattekst
+                      : automatiskReturTekst,
+                kommentarer: historikkelement.kommentarer,
+                erNyesteHistorikkhendelseMedType:
+                    [...periode.historikkinnslag]
+                        .sort(byTimestampHistorikkinnslag)
+                        .find((it) => it.type === historikkelement.type)?.notatId === historikkelement.notatId,
+            } as HistorikkhendelseMedInnholdObject;
+        } else {
+            return {
+                id: `historikkinnslag-${index}`,
+                historikkinnslagId: historikkelement.id,
+                type: 'Historikk',
+                historikktype: historikkelement.type,
+                saksbehandler: historikkelement.saksbehandlerIdent,
+                timestamp: historikkelement.timestamp as DateString,
+            } as HistorikkhendelseUtenInnholdObject;
+        }
+    });
 };
 
 const getTidligsteVurderingstidsstempelForPeriode = (
@@ -547,7 +532,7 @@ export const getMinimumSykdomsgradoverstyring = (
 
 export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObject> =>
     notater
-        .filter((notat) => notat.type !== 'PaaVent')
+        .filter((notat) => notat.type !== 'PaaVent' && notat.type !== 'Retur')
         .map(
             (notat: Notat) =>
                 ({
