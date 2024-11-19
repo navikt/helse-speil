@@ -10,6 +10,7 @@ import {
     ErrorMessage,
     HStack,
     Heading,
+    HelpText,
     Radio,
     RadioGroup,
     Table,
@@ -19,12 +20,14 @@ import {
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
-import { PersonFragment } from '@io/graphql';
+import { MinimumSykdomsgradOverstyring, PersonFragment } from '@io/graphql';
 import { InntektFormFields } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { overlapper } from '@state/selectors/period';
 import { MinimumSykdomsgradPeriode } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
+import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '@utils/date';
+import { isBeregnetPeriode, isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
 
 import {
     getOppkuttedePerioder,
@@ -55,6 +58,7 @@ export const MinimumSykdomsgradForm = ({
     );
     const form = useForm();
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
+    const arbeidsgiver = useCurrentArbeidsgiver(person);
 
     const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, periode);
     const oppkuttedePerioder = getOppkuttedePerioder(overlappendeArbeidsgivere, periode);
@@ -91,6 +95,8 @@ export const MinimumSykdomsgradForm = ({
             initierendeVedtaksperiodeId: initierendeVedtaksperiodeId,
         });
     };
+
+    const minimumSykdomsgradoverstyringer = arbeidsgiver?.overstyringer.filter(isMinimumSykdomsgradsoverstyring);
 
     return (
         <Box background="surface-subtle" as="article" padding="4">
@@ -138,6 +144,28 @@ export const MinimumSykdomsgradForm = ({
                                     (errorPeriode) => errorPeriode[0] === it.fom,
                                 )?.[1]?.message as string);
 
+                            const sisteOverstyring = minimumSykdomsgradoverstyringer
+                                ?.filter((overstyring) =>
+                                    [
+                                        ...overstyring.minimumSykdomsgrad.perioderVurdertIkkeOk,
+                                        ...overstyring.minimumSykdomsgrad.perioderVurdertOk,
+                                    ].some((vurdering) => vurdering.fom === it.fom && vurdering.tom === it.tom),
+                                )
+                                .sort(byTimestamp)?.[0];
+                            const defaultValue =
+                                sisteOverstyring !== undefined
+                                    ? sisteOverstyring.minimumSykdomsgrad.perioderVurdertOk.some(
+                                          (vurdertOk) => vurdertOk.fom === it.fom,
+                                      )
+                                        ? 'Ja'
+                                        : 'Nei'
+                                    : undefined;
+                            const erDisabled =
+                                defaultValue !== undefined &&
+                                isBeregnetPeriode(periode) &&
+                                sisteOverstyring?.minimumSykdomsgrad.initierendeVedtaksperiodeId !==
+                                    periode.vedtaksperiodeId;
+
                             return (
                                 <Table.Row key={it.fom} className={styles.zebrarad}>
                                     <Table.DataCell scope="col">
@@ -145,31 +173,46 @@ export const MinimumSykdomsgradForm = ({
                                         {dayjs(it.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
                                     </Table.DataCell>
                                     <Table.DataCell>
-                                        <RadioGroup
-                                            legend="Perioder"
-                                            error={harError}
-                                            size="small"
-                                            hideLegend
-                                            {...merEnn20periodeValidation}
-                                            onChange={() => {
-                                                onChangeMerEnn20perioder;
-                                                form.clearErrors(`merEnn20periode.${it.fom}`);
-                                            }}
-                                        >
-                                            <HStack gap="8">
-                                                <Radio value="Ja" size="small" {...merEnn20periodeValidation} ref={ref}>
-                                                    Ja (innvilgelse)
-                                                </Radio>
-                                                <Radio
-                                                    value="Nei"
-                                                    size="small"
-                                                    {...merEnn20periodeValidation}
-                                                    ref={ref}
-                                                >
-                                                    Nei (avslag)
-                                                </Radio>
-                                            </HStack>
-                                        </RadioGroup>
+                                        <HStack align="center" gap="3">
+                                            <RadioGroup
+                                                legend="Perioder"
+                                                error={harError}
+                                                size="small"
+                                                hideLegend
+                                                {...merEnn20periodeValidation}
+                                                onChange={() => {
+                                                    onChangeMerEnn20perioder;
+                                                    form.clearErrors(`merEnn20periode.${it.fom}`);
+                                                }}
+                                                defaultValue={defaultValue}
+                                                disabled={erDisabled}
+                                            >
+                                                <HStack gap="8">
+                                                    <Radio
+                                                        value="Ja"
+                                                        size="small"
+                                                        {...merEnn20periodeValidation}
+                                                        ref={ref}
+                                                    >
+                                                        Ja (innvilgelse)
+                                                    </Radio>
+                                                    <Radio
+                                                        value="Nei"
+                                                        size="small"
+                                                        {...merEnn20periodeValidation}
+                                                        ref={ref}
+                                                    >
+                                                        Nei (avslag)
+                                                    </Radio>
+                                                </HStack>
+                                            </RadioGroup>
+                                            {erDisabled && (
+                                                <HelpText>
+                                                    Perioden er vurdert. Hvis du ønsker å endre vurderingen, må du endre
+                                                    i perioden
+                                                </HelpText>
+                                            )}
+                                        </HStack>
                                     </Table.DataCell>
                                 </Table.Row>
                             );
@@ -222,3 +265,7 @@ const formErrorsTilFeilliste = (errors: FieldErrors<InntektFormFields>): Skjemaf
                 error.message ?? (Object.entries(error).length > 0 ? 'Du må gi en vurdering i alle periodene' : id),
         }))
         .flat();
+
+const byTimestamp = (a: MinimumSykdomsgradOverstyring, b: MinimumSykdomsgradOverstyring): number => {
+    return dayjs(a.timestamp, ISO_TIDSPUNKTFORMAT).isAfter(dayjs(b.timestamp, ISO_TIDSPUNKTFORMAT)) ? -1 : 1;
+};
