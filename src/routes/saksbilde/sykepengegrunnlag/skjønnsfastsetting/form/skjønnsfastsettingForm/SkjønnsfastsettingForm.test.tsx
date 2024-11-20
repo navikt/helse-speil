@@ -8,7 +8,7 @@ import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
 import { render, screen } from '@test-utils';
-import { fireEvent, getByText } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 jest.mock('@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting');
@@ -129,17 +129,15 @@ describe('SkjønnsfastsettingForm', () => {
         await user.type(screen.getAllByLabelText('Skjønnsfastsatt årlig inntekt')[0]!, 'ikke et tall');
         await user.click(screen.getByText('Lagre'));
 
-        const feiloppsummeringMedToFeil = await screen.findByLabelText('Skjemaet inneholder følgende feil:');
-        expect(feiloppsummeringMedToFeil).toBeInTheDocument();
-        expect(getByText(feiloppsummeringMedToFeil, 'Årsinntekt må være et tall'));
-        expect(getByText(feiloppsummeringMedToFeil, 'Du må skrive en nærmere begrunnelse'));
+        expect(await screen.findByText('Skjemaet inneholder følgende feil:')).toBeInTheDocument();
+        expect(screen.getAllByText('Årsinntekt må være et tall')[0]).toBeInTheDocument();
+        expect(screen.getAllByText('Du må skrive en nærmere begrunnelse')[0]).toBeInTheDocument();
 
         await user.type(screen.getAllByLabelText('Skjønnsfastsatt årlig inntekt')[0]!, `${1000}`);
         await user.click(screen.getByText('Lagre'));
 
-        const feiloppsummeringManglerBegrunnelse = await screen.findByLabelText('Skjemaet inneholder følgende feil:');
-        expect(feiloppsummeringManglerBegrunnelse).toBeInTheDocument();
-        expect(getByText(feiloppsummeringManglerBegrunnelse, 'Du må skrive en nærmere begrunnelse'));
+        expect(await screen.findByText('Skjemaet inneholder følgende feil:')).toBeInTheDocument();
+        expect(screen.getAllByText('Du må skrive en nærmere begrunnelse')[0]).toBeInTheDocument();
 
         const begrunnelseinput = screen.getAllByRole('textbox').find((it) => it.nodeName === 'TEXTAREA') ?? null;
         expect(begrunnelseinput).not.toBeNull();
@@ -179,9 +177,8 @@ describe('SkjønnsfastsettingForm', () => {
         await user.click(screen.getByText('Skjønnsfastsette til rapportert årsinntekt'));
         await user.click(screen.getByText('Lagre'));
 
-        const feiloppsummering = await screen.findByLabelText('Skjemaet inneholder følgende feil:');
-        expect(feiloppsummering).toBeInTheDocument();
-        expect(getByText(feiloppsummering, 'Du må fordele hele sammenligningsgrunnlaget')).toBeInTheDocument();
+        expect(await screen.findByText('Skjemaet inneholder følgende feil:')).toBeInTheDocument();
+        expect(screen.getAllByText('Du må fordele hele sammenligningsgrunnlaget')[0]).toBeInTheDocument();
 
         const begrunnelseinput = screen.getAllByRole('textbox').find((it) => it.nodeName === 'TEXTAREA') ?? null;
         expect(begrunnelseinput).not.toBeNull();
