@@ -1,4 +1,8 @@
 import { useBrukerIdent } from '@auth/brukerContext';
+import {
+    getOppkuttedePerioder,
+    getOverlappendeArbeidsgivere,
+} from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
@@ -15,6 +19,20 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
 
     if (!person || !aktivPeriode?.skjaeringstidspunkt) return false;
 
+    const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, aktivPeriode);
+    const delperioder = getOppkuttedePerioder(overlappendeArbeidsgivere, aktivPeriode);
+
+    const harBlittVurdert: boolean =
+        delperioder?.every((dp) =>
+            arbeidsgiver?.overstyringer
+                .filter(isMinimumSykdomsgradsoverstyring)
+                .map((overstyring) => [
+                    ...overstyring.minimumSykdomsgrad.perioderVurdertIkkeOk,
+                    ...overstyring.minimumSykdomsgrad.perioderVurdertOk,
+                ])
+                .some((overstyringperiode) => overstyringperiode.some((op) => dp.fom === op.fom && dp.tom === op.tom)),
+        ) ?? false;
+
     const sammenlignSkjæringstidspunkt = erPeriodePåSkjæringstidspunkt(aktivPeriode.skjaeringstidspunkt);
 
     const harFlereArbeidsgiverePåSkjæringstidspunkt =
@@ -23,14 +41,6 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
                 (it.generasjoner[0]?.perioder.filter(sammenlignSkjæringstidspunkt).length ?? 0) > 0 ||
                 it.ghostPerioder.filter(sammenlignSkjæringstidspunkt).filter((it) => !it.deaktivert).length > 0,
         )?.length > 1;
-
-    const harBlittVurdert =
-        arbeidsgiver?.overstyringer.some(
-            (it) =>
-                isMinimumSykdomsgradsoverstyring(it) &&
-                (it.minimumSykdomsgrad.perioderVurdertOk.find((periode) => periode.fom === aktivPeriode.fom) ||
-                    it.minimumSykdomsgrad.perioderVurdertIkkeOk.find((periode) => periode.fom === aktivPeriode.fom)),
-        ) ?? false;
 
     const alleSammenfallendeDager = person.arbeidsgivere
         .flatMap((ag) => ag.generasjoner[0]?.perioder)
