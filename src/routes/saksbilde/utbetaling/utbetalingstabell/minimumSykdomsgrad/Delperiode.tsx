@@ -21,10 +21,10 @@ export const Delperiode = ({ person, aktivPeriode, delperiode }: Props) => {
     const { register, clearErrors, formState } = useFormContext();
     const arbeidsgiver = useCurrentArbeidsgiver(person);
     const minimumSykdomsgradoverstyringer = arbeidsgiver?.overstyringer.filter(isMinimumSykdomsgradsoverstyring);
-    const { onChange: onChangeMerEnn20perioder, ...merEnn20periodeValidation } = register(
-        `merEnn20periode.${delperiode.fom}`,
-        { required: 'Du må velge en vurdering' },
-    );
+    const field = register(`merEnn20periode.${delperiode.fom}`, {
+        required: 'Du må velge en vurdering',
+        onChange: () => clearErrors(`merEnn20periode.${delperiode.fom}`),
+    });
     const harError =
         formState.errors.merEnn20periode &&
         (Object.entries(formState.errors.merEnn20periode).find(
@@ -65,19 +65,15 @@ export const Delperiode = ({ person, aktivPeriode, delperiode }: Props) => {
                         error={harError}
                         size="small"
                         hideLegend
-                        {...merEnn20periodeValidation}
-                        onChange={() => {
-                            onChangeMerEnn20perioder;
-                            clearErrors(`merEnn20periode.${delperiode.fom}`);
-                        }}
+                        name={field.name}
                         defaultValue={defaultValue}
                         readOnly={erReadOnly}
                     >
                         <HStack gap="8">
-                            <Radio value="Ja" size="small" {...merEnn20periodeValidation}>
+                            <Radio value="Ja" size="small" {...field}>
                                 Ja (innvilgelse)
                             </Radio>
-                            <Radio value="Nei" size="small" {...merEnn20periodeValidation}>
+                            <Radio value="Nei" size="small" {...field}>
                                 Nei (avslag)
                             </Radio>
                         </HStack>
