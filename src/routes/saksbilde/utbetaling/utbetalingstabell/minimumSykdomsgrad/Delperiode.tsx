@@ -21,10 +21,6 @@ export const Delperiode = ({ person, aktivPeriode, delperiode }: Props) => {
     const { register, clearErrors, formState } = useFormContext();
     const arbeidsgiver = useCurrentArbeidsgiver(person);
     const minimumSykdomsgradoverstyringer = arbeidsgiver?.overstyringer.filter(isMinimumSykdomsgradsoverstyring);
-    const field = register(`merEnn20periode.${delperiode.fom}`, {
-        required: 'Du må velge en vurdering',
-        onChange: () => clearErrors(`merEnn20periode.${delperiode.fom}`),
-    });
     const harError =
         formState.errors.merEnn20periode &&
         (Object.entries(formState.errors.merEnn20periode).find(
@@ -52,6 +48,14 @@ export const Delperiode = ({ person, aktivPeriode, delperiode }: Props) => {
         isBeregnetPeriode(aktivPeriode) &&
         sisteOverstyring?.minimumSykdomsgrad.initierendeVedtaksperiodeId !== aktivPeriode.vedtaksperiodeId;
 
+    const fieldName = `merEnn20periode.${delperiode.fom}`;
+    const field = !erReadOnly
+        ? register(fieldName, {
+              required: 'Du må velge en vurdering',
+              onChange: () => clearErrors(fieldName),
+          })
+        : undefined;
+
     return (
         <Table.Row key={delperiode.fom} className={styles.zebrarad}>
             <Table.DataCell scope="col">
@@ -65,7 +69,7 @@ export const Delperiode = ({ person, aktivPeriode, delperiode }: Props) => {
                         error={harError}
                         size="small"
                         hideLegend
-                        name={field.name}
+                        name={fieldName}
                         defaultValue={defaultValue}
                         readOnly={erReadOnly}
                     >
