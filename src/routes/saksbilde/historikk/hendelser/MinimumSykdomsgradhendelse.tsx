@@ -49,7 +49,7 @@ export const MinimumSykdomsgradhendelse = ({
                     )}
                     {minimumSykdomsgrad.perioderVurdertIkkeOk.length > 0 && (
                         <>
-                            <BodyShort weight="semibold">Avlåtte perioder</BodyShort>
+                            <BodyShort weight="semibold">Avslåtte perioder</BodyShort>
                             <BodyShort>
                                 {minimumSykdomsgrad.perioderVurdertIkkeOk
                                     .map(
