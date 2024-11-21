@@ -577,7 +577,7 @@ export type LagtPaVent = Historikkinnslag & {
     frist?: Maybe<Scalars['LocalDate']['output']>;
     id: Scalars['Int']['output'];
     kommentarer: Array<Kommentar>;
-    notatTekst?: Maybe<Scalars['String']['output']>;
+    notattekst?: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;

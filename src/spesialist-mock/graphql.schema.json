@@ -5410,7 +5410,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "notatTekst",
+                        "name": "notattekst",
                         "description": null,
                         "args": [],
                         "type": {

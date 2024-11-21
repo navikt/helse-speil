@@ -290,7 +290,7 @@ fragment beregnetPeriode on BeregnetPeriode {
         ... on LagtPaVent {
             frist
             arsaker
-            notatTekst
+            notattekst
             kommentarer {
                 ...kommentar
             }

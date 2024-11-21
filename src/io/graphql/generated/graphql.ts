@@ -579,7 +579,7 @@ export type LagtPaVent = Historikkinnslag & {
     frist: Maybe<Scalars['LocalDate']['output']>;
     id: Scalars['Int']['output'];
     kommentarer: Array<Kommentar>;
-    notatTekst: Maybe<Scalars['String']['output']>;
+    notattekst: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
@@ -2420,7 +2420,7 @@ export type ArbeidsgiverFragment = {
                             __typename: 'LagtPaVent';
                             frist: string | null;
                             arsaker: Array<string>;
-                            notatTekst: string | null;
+                            notattekst: string | null;
                             id: number;
                             type: PeriodehistorikkType;
                             timestamp: string;
@@ -3288,7 +3288,7 @@ export type BeregnetPeriodeFragment = {
               __typename: 'LagtPaVent';
               frist: string | null;
               arsaker: Array<string>;
-              notatTekst: string | null;
+              notattekst: string | null;
               id: number;
               type: PeriodehistorikkType;
               timestamp: string;
@@ -4017,7 +4017,7 @@ export type PersonFragment = {
                                 __typename: 'LagtPaVent';
                                 frist: string | null;
                                 arsaker: Array<string>;
-                                notatTekst: string | null;
+                                notattekst: string | null;
                                 id: number;
                                 type: PeriodehistorikkType;
                                 timestamp: string;
@@ -4823,7 +4823,7 @@ export type FetchPersonQuery = {
                                     __typename: 'LagtPaVent';
                                     frist: string | null;
                                     arsaker: Array<string>;
-                                    notatTekst: string | null;
+                                    notattekst: string | null;
                                     id: number;
                                     type: PeriodehistorikkType;
                                     timestamp: string;
@@ -6400,7 +6400,7 @@ export const BeregnetPeriodeFragmentDoc = {
                                         selections: [
                                             { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'notatTekst' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'kommentarer' },
@@ -7727,7 +7727,7 @@ export const ArbeidsgiverFragmentDoc = {
                                         selections: [
                                             { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'notatTekst' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'kommentarer' },
@@ -8732,7 +8732,7 @@ export const PersonFragmentDoc = {
                                         selections: [
                                             { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'notatTekst' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'kommentarer' },
@@ -11697,7 +11697,7 @@ export const FetchPersonDocument = {
                                         selections: [
                                             { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'notatTekst' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'kommentarer' },
