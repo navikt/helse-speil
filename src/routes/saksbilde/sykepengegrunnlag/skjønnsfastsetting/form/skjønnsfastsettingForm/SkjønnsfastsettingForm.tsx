@@ -151,7 +151,7 @@ export const SkjønnsfastsettingForm = ({
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={handleSubmit(confirmChanges)}>
+            <form onSubmit={handleSubmit(confirmChanges)} autoComplete="off">
                 <div className={styles.skjønnsfastsetting}>
                     <SkjønnsfastsettingÅrsak maler={maler} />
                     {harValgt25Avvik && <SkjønnsfastsettingType />}

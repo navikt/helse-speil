@@ -61,7 +61,7 @@ export const EndringForm = ({ markerteDager, onSubmitEndring, openDagtypeModal }
                     {markerteDager.size === 1 ? `den valgte dagen` : `de ${markerteDager.size} valgte dagene`} skal
                     endres til
                 </BodyShort>
-                <form onSubmit={form.handleSubmit(handleSubmit)}>
+                <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
                     <div className={styles.Inputs}>
                         <DagtypeSelect
                             openDagtypeModal={openDagtypeModal}

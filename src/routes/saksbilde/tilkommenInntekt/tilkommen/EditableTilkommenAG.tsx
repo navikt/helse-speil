@@ -111,7 +111,7 @@ export const EditableTilkommenAG = ({
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(confirmChanges)}>
+            <form onSubmit={form.handleSubmit(confirmChanges)} autoComplete="off">
                 <VStack gap="4">
                     <HStack align="center" gap="6">
                         <BodyShort>Inntekt per måned</BodyShort>

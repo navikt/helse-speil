@@ -66,7 +66,7 @@ export const Personsøk = (): ReactElement => {
     };
 
     return (
-        <form className={styles.searchForm} onSubmit={søkOppPerson}>
+        <form className={styles.searchForm} onSubmit={søkOppPerson} autoComplete="off">
             <Search label="Søk" size="small" variant="secondary" placeholder="Søk" ref={searchRef} />
         </form>
     );

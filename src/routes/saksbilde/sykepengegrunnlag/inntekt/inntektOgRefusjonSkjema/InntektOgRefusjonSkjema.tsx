@@ -180,7 +180,7 @@ export const InntektOgRefusjonSkjema = ({
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(confirmChanges)}>
+            <form onSubmit={form.handleSubmit(confirmChanges)} autoComplete="off">
                 <div className={styles.EditableInntekt}>
                     <Månedsbeløp
                         månedsbeløp={omregnetÅrsinntekt.manedsbelop}

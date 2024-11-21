@@ -320,7 +320,7 @@ export const OverstyrbarUtbetaling = ({
                             openDagtypeModal={() => setVisDagtypeModal(true)}
                         />
                         <FormProvider {...form}>
-                            <form onSubmit={(event) => event.preventDefault()}>
+                            <form onSubmit={(event) => event.preventDefault()} autoComplete="off">
                                 <OverstyringForm
                                     overstyrteDager={alleOverstyrteDager}
                                     alleDager={alleDager}

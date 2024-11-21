@@ -106,7 +106,7 @@ export const LeggTilDagerForm = React.memo(
         });
 
         return (
-            <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
                 <div className={styles.StrekkePølse}>
                     <DatePicker {...fromDatepickerProps}>
                         <DatePicker.Input
