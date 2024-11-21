@@ -3,16 +3,20 @@ import dayjs from 'dayjs';
 import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
+    FjernetFraPaVent,
     GhostPeriodeFragment,
     Hendelse,
     Historikkinnslag,
     InntektHentetFraAOrdningen,
     Inntektoverstyring,
     Inntektsmelding,
+    Kommentar,
+    LagtPaVent,
     Maybe,
     NotatType,
     NyttInntektsforholdPeriodeFragment,
     Periode,
+    PeriodeHistorikkElementNy,
     PeriodehistorikkType,
     PersonFragment,
     SoknadArbeidsgiver,
@@ -21,6 +25,7 @@ import {
     SoknadNav,
     Sykepengegrunnlagskjonnsfastsetting,
     Sykmelding,
+    TotrinnsvurderingRetur,
     UberegnetPeriodeFragment,
     Vurdering,
 } from '@io/graphql';
@@ -31,9 +36,7 @@ import {
     ArbeidsgiverSkjønnHendelse,
     AvslaghendelseObject,
     HendelseObject,
-    HistorikkhendelseMedInnholdObject,
     HistorikkhendelseObject,
-    HistorikkhendelseUtenInnholdObject,
     InntektoverstyringhendelseObject,
     MinimumSykdomsgradhendelseObject,
     NotathendelseObject,
@@ -194,43 +197,52 @@ export const getAnnullering = (period: Periode): Maybe<AnnulleringhendelseObject
 
 export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<HistorikkhendelseObject> => {
     return periode.historikkinnslag.map((historikkelement, index) => {
-        if (historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'TotrinnsvurderingRetur') {
-            const automatiskReturTekst =
-                'Perioden er automatisk reberegnet etter at den ble sendt til beslutter. Sjekk om evt. endringer har betydning for saken.';
-            const erLagtPåVent = historikkelement.__typename === 'LagtPaVent';
-            return {
-                id: `historikkinnslag-${index}`,
-                historikkinnslagId: historikkelement.id,
-                type: 'Historikk',
-                historikktype: historikkelement.type,
-                saksbehandler: historikkelement.saksbehandlerIdent,
-                timestamp: historikkelement.timestamp as DateString,
-                årsaker: erLagtPåVent ? historikkelement.arsaker : [],
-                frist: erLagtPåVent ? historikkelement.frist : null,
-                dialogRef: historikkelement.dialogRef,
-                notattekst: erLagtPåVent
-                    ? historikkelement.notatTekst
-                    : historikkelement.notattekst !== null
-                      ? historikkelement.notattekst
-                      : automatiskReturTekst,
-                kommentarer: historikkelement.kommentarer,
-                erNyesteHistorikkhendelseMedType:
-                    [...periode.historikkinnslag]
-                        .sort(byTimestampHistorikkinnslag)
-                        .find((it) => it.type === historikkelement.type)?.id === historikkelement.id,
-            } as HistorikkhendelseMedInnholdObject;
-        } else {
-            return {
-                id: `historikkinnslag-${index}`,
-                historikkinnslagId: historikkelement.id,
-                type: 'Historikk',
-                historikktype: historikkelement.type,
-                saksbehandler: historikkelement.saksbehandlerIdent,
-                timestamp: historikkelement.timestamp as DateString,
-            } as HistorikkhendelseUtenInnholdObject;
-        }
+        return {
+            id: `historikkinnslag-${index}`,
+            historikkinnslagId: historikkelement.id,
+            type: 'Historikk',
+            historikktype: historikkelement.type,
+            saksbehandler: historikkelement.saksbehandlerIdent,
+            dialogRef: historikkelement.dialogRef,
+            timestamp: historikkelement.timestamp as DateString,
+            årsaker: årsaker(historikkelement),
+            frist: frist(historikkelement),
+            notattekst: notattekst(historikkelement),
+            kommentarer: kommentarer(historikkelement),
+            erNyesteHistorikkhendelseMedType:
+                [...periode.historikkinnslag]
+                    .sort(byTimestampHistorikkinnslag)
+                    .find((it) => it.type === historikkelement.type)?.id === historikkelement.id,
+        } as HistorikkhendelseObject;
     });
 };
+
+const årsaker = (
+    historikkelement: LagtPaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
+): string[] => (historikkelement.__typename === 'LagtPaVent' ? historikkelement.arsaker : []);
+
+const frist = (
+    historikkelement: LagtPaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
+): Maybe<string> => (historikkelement.__typename === 'LagtPaVent' ? historikkelement.frist : null);
+
+const notattekst = (
+    historikkelement: LagtPaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
+): Maybe<string> => {
+    const automatiskReturTekst =
+        'Perioden er automatisk reberegnet etter at den ble sendt til beslutter. Sjekk om evt. endringer har betydning for saken.';
+    if (historikkelement.__typename === 'LagtPaVent') return historikkelement.notatTekst;
+    if (historikkelement.__typename === 'TotrinnsvurderingRetur') {
+        return historikkelement.notattekst !== null ? historikkelement.notattekst : automatiskReturTekst;
+    }
+    return null;
+};
+
+const kommentarer = (
+    historikkelement: LagtPaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
+): Kommentar[] =>
+    historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'TotrinnsvurderingRetur'
+        ? historikkelement.kommentarer
+        : [];
 
 const getTidligsteVurderingstidsstempelForPeriode = (
     period: BeregnetPeriodeFragment,

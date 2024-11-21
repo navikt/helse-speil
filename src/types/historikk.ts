@@ -124,14 +124,11 @@ export type UtbetalinghendelseObject = BaseHendelseObject & {
     timestamp: DateString;
 };
 
-export type HistorikkhendelseUtenInnholdObject = BaseHendelseObject & {
+export type HistorikkhendelseObject = BaseHendelseObject & {
     historikkinnslagId: number;
     type: 'Historikk';
     historikktype: PeriodehistorikkType;
     timestamp: DateString;
-};
-
-export type HistorikkhendelseMedInnholdObject = HistorikkhendelseUtenInnholdObject & {
     dialogRef: Maybe<number>;
     saksbehandler: Maybe<string>;
     frist: Maybe<DateString>;
@@ -140,8 +137,6 @@ export type HistorikkhendelseMedInnholdObject = HistorikkhendelseUtenInnholdObje
     kommentarer: Array<Kommentar>;
     erNyesteHistorikkhendelseMedType?: boolean;
 };
-
-export type HistorikkhendelseObject = HistorikkhendelseMedInnholdObject | HistorikkhendelseUtenInnholdObject;
 
 export type AvslaghendelseObject = BaseHendelseObject & {
     type: 'Avslag';
