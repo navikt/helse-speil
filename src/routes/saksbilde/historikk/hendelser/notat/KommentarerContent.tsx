@@ -9,7 +9,7 @@ import { useInnloggetSaksbehandler } from '@state/authentication';
 import { Kommentarer } from './Kommentarer';
 import { NotatForm } from './NotatForm';
 
-type DialogContentProps = {
+type KommentarerContentProps = {
     historikktype: PeriodehistorikkType;
     kommentarer: Array<Kommentar>;
     showAddDialog: boolean;
@@ -18,15 +18,15 @@ type DialogContentProps = {
     historikkinnslagId: number;
 };
 
-export const DialogContent = ({
+export const KommentarerContent = ({
     historikktype,
     kommentarer,
     showAddDialog,
     setShowAddDialog,
     dialogRef,
     historikkinnslagId,
-}: DialogContentProps) => {
-    const { onLeggTilKommentarMedDialogRef, loading, error } = useLeggTilKommentarMedDialogRef(
+}: KommentarerContentProps) => {
+    const { onLeggTilKommentar, loading, error } = useLeggTilKommentarMedDialogRef(
         dialogRef,
         historikkinnslagId,
         historikktype,
@@ -38,7 +38,7 @@ export const DialogContent = ({
             {showAddDialog ? (
                 <NotatForm
                     label="Kommentar"
-                    onSubmitForm={onLeggTilKommentarMedDialogRef}
+                    onSubmitForm={onLeggTilKommentar}
                     closeForm={() => setShowAddDialog(false)}
                     isFetching={loading}
                     hasError={error !== undefined}
@@ -59,12 +59,12 @@ const useLeggTilKommentarMedDialogRef = (
     hideDialog: () => void,
 ) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const [leggTilKommentarMedDialogRef, { error, loading }] = useMutation(LeggTilKommentarDocument);
+    const [leggTilKommentar, { error, loading }] = useMutation(LeggTilKommentarDocument);
 
-    const onLeggTilKommentarMedDialogRef = async (tekst: string) => {
+    const onLeggTilKommentar = async (tekst: string) => {
         const saksbehandlerident = innloggetSaksbehandler.ident;
         if (saksbehandlerident) {
-            await leggTilKommentarMedDialogRef({
+            await leggTilKommentar({
                 variables: {
                     tekst,
                     dialogRef,
@@ -103,7 +103,7 @@ const useLeggTilKommentarMedDialogRef = (
     };
 
     return {
-        onLeggTilKommentarMedDialogRef,
+        onLeggTilKommentar,
         loading,
         error,
     };

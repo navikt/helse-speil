@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { ReactElement, ReactNode, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import {
     ArrowUndoIcon,
@@ -17,7 +17,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Maybe, PeriodehistorikkType } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
-import { DialogContent } from '@saksbilde/historikk/hendelser/notat/DialogContent';
+import { KommentarerContent } from '@saksbilde/historikk/hendelser/notat/KommentarerContent';
 import { HistorikkhendelseObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT } from '@utils/date';
 
@@ -77,20 +77,7 @@ export const Historikkhendelse = ({
                     frist={frist}
                     erNyesteHistorikkhendelseMedType={erNyesteHistorikkhendelseMedType}
                 />
-                {isExpandable() && (
-                    <span className={notatStyles.lesmer}>
-                        {expanded ? (
-                            <>
-                                Vis mindre <ChevronUpIcon title="Vis mer av notatet" fontSize="1.5rem" />
-                            </>
-                        ) : (
-                            <>
-                                Vis mer
-                                <ChevronDownIcon title="Vis mindre av notatet" fontSize="1.5rem" />
-                            </>
-                        )}
-                    </span>
-                )}
+                {isExpandable() && <ExpandButton expanded={expanded} />}
             </div>
             <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             {dialogRef && (
@@ -98,7 +85,7 @@ export const Historikkhendelse = ({
                     openText={`Kommentarer (${kommentarer?.length})`}
                     closeText="Lukk kommentarer"
                 >
-                    <DialogContent
+                    <KommentarerContent
                         historikktype={historikktype}
                         kommentarer={kommentarer}
                         dialogRef={dialogRef}
@@ -162,6 +149,25 @@ const Historikkinnhold = ({
     </AnimatePresence>
 );
 
+interface ExpandButtonProps {
+    expanded: boolean;
+}
+
+const ExpandButton = ({ expanded }: ExpandButtonProps): ReactElement => (
+    <span className={notatStyles.lesmer}>
+        {expanded ? (
+            <>
+                Vis mindre <ChevronUpIcon title="Vis mer av notatet" fontSize="1.5rem" />
+            </>
+        ) : (
+            <>
+                Vis mer
+                <ChevronDownIcon title="Vis mindre av notatet" fontSize="1.5rem" />
+            </>
+        )}
+    </span>
+);
+
 const getTitle = (type: PeriodehistorikkType): string => {
     switch (type) {
         case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning:
@@ -183,7 +189,7 @@ const getTitle = (type: PeriodehistorikkType): string => {
     }
 };
 
-const getIcon = (type: PeriodehistorikkType): ReactNode => {
+const getIcon = (type: PeriodehistorikkType): ReactElement => {
     switch (type) {
         case PeriodehistorikkType.TotrinnsvurderingAttestert: {
             return <CheckmarkCircleIcon title="Sjekkmerke ikon" className={styles.Innrammet} />;
