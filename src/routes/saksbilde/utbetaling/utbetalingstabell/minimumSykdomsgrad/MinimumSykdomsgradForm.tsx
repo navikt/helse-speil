@@ -8,7 +8,7 @@ import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { PersonFragment } from '@io/graphql';
 import { InntektFormFields } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
-import { Delperiode } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/Delperiode';
+import { DelperiodeWrapper } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/DelperiodeWrapper';
 import { overlapper } from '@state/selectors/period';
 import { MinimumSykdomsgradPeriode } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';
@@ -112,7 +112,7 @@ export const MinimumSykdomsgradForm = ({
                         </Table.Header>
                         <Table.Body>
                             {oppkuttedePerioder?.map((delperiode) => (
-                                <Delperiode
+                                <DelperiodeWrapper
                                     key={delperiode.fom}
                                     person={person}
                                     aktivPeriode={periode}
