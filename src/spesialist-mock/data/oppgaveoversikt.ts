@@ -1,4 +1,4 @@
-import { HistorikkinnslagMock } from '@spesialist-mock/storage/periodehistorikk';
+import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 
 import {
     BehandledeOppgaver,

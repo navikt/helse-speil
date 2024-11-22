@@ -8,7 +8,7 @@ import { cwd } from 'process';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 import { Maybe } from '@io/graphql';
-import { HistorikkinnslagMock } from '@spesialist-mock/storage/periodehistorikk';
+import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { Oppgave, UUID } from '@typer/spesialist-mock';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
