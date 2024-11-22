@@ -2,8 +2,9 @@ import dayjs from 'dayjs';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { RefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonSkjema/RefusjonSkjema';
+import { render, screen } from '@test-utils';
 import '@testing-library/jest-dom';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
@@ -54,9 +55,9 @@ describe('Refusjonskjema', () => {
         expect(screen.queryByTestId('refusjonsopplysningrad')).toBeNull();
     });
 
-    it('skal rendre skjema hvis det finnes refusjoner', () => {
+    it('skal rendre skjema hvis det finnes refusjoner', async () => {
         render(<TestRefusjonSkjema fraRefusjonsopplysninger={en_refusjonsopplysning} />);
-        expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
+        expect(await screen.findAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
         expect(screen.queryByLabelText('Fra og med dato')).toHaveValue(
             dayjs(en_refusjonsopplysning[0]?.fom).format(NORSK_DATOFORMAT),
         );
@@ -70,16 +71,16 @@ describe('Refusjonskjema', () => {
     it('skal kunne slette refusjonsopplysninger', async () => {
         render(<TestRefusjonSkjema fraRefusjonsopplysninger={to_refusjonsopplysninger} />);
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(2);
-        const knapper = await waitFor(() => screen.findAllByRole('button', { name: 'Slett' }));
-        await act(() => fireEvent.click(knapper[0]!));
+        const knapper = await screen.findAllByRole('button', { name: 'Slett' });
+        await userEvent.click(knapper[0]!);
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
     });
 
     it('skal kunne legge til refusjonsopplysninger', async () => {
         render(<TestRefusjonSkjema fraRefusjonsopplysninger={en_refusjonsopplysning} />);
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
-        const knapper = await waitFor(() => screen.findAllByRole('button', { name: 'Legg til' }));
-        await act(() => fireEvent.click(knapper[0]!));
+        const knapper = await screen.findAllByRole('button', { name: 'Legg til' });
+        await userEvent.click(knapper[0]!);
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(2);
     });
 });

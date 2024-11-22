@@ -5,9 +5,8 @@ import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
-import { RecoilWrapper } from '@test-wrappers';
+import { render, screen } from '@test-utils';
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
@@ -31,9 +30,6 @@ jest.mock('./utbetalingstabell/useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,
 }));
 
-//TODO this is bad, need to make it go faster
-jest.setTimeout(15000);
-
 const dager = new Map<string, Utbetalingstabelldag>([
     ['2022-01-01', getUtbetalingstabellDag({ dato: '2022-01-01' })],
     ['2022-01-02', getUtbetalingstabellDag({ dato: '2022-01-02' })],
@@ -50,9 +46,7 @@ describe('OverstyrbarUtbetaling', () => {
             tom: '2022-01-31',
         }).medSkjæringstidspunkt('2022-01-01');
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
-        render(<OverstyrbarUtbetaling arbeidsgiver={arbeidsgiver} person={person} dager={dager} periode={periode} />, {
-            wrapper: RecoilWrapper,
-        });
+        render(<OverstyrbarUtbetaling arbeidsgiver={arbeidsgiver} person={person} dager={dager} periode={periode} />);
 
         await userEvent.click(screen.getByText('Overstyr dager'));
         expect(screen.getByText('+ Legg til dager i tabellen')).toBeVisible();
@@ -75,19 +69,15 @@ describe('OverstyrbarUtbetaling', () => {
 
         await userEvent.click(screen.getByTestId('endre'));
 
-        await waitFor(() => {
-            expect(screen.getByTestId('oppdater')).toBeEnabled();
-        });
+        expect(await screen.findByTestId('oppdater')).toBeEnabled();
 
         await userEvent.type(screen.getByTestId('overstyring-begrunnelse'), 'En begrunnelse');
         await userEvent.click(screen.getByTestId('oppdater'));
 
-        await waitFor(() => {
-            expect(postOverstyringArguments).toHaveLength(2);
-            postOverstyringArguments[0]?.forEach((overstyrtDag) => {
-                expect(overstyrtDag.dag.speilDagtype).toEqual('Syk');
-                expect(overstyrtDag.grad).toEqual(80);
-            });
+        expect(postOverstyringArguments).toHaveLength(2);
+        postOverstyringArguments[0]?.forEach((overstyrtDag) => {
+            expect(overstyrtDag.dag.speilDagtype).toEqual('Syk');
+            expect(overstyrtDag.grad).toEqual(80);
         });
     });
 
@@ -95,9 +85,7 @@ describe('OverstyrbarUtbetaling', () => {
         const person = enPerson();
         const arbeidsgiver = enArbeidsgiver();
         const periode = enBeregnetPeriode({ periodetype: Periodetype.Forlengelse });
-        render(<OverstyrbarUtbetaling arbeidsgiver={arbeidsgiver} person={person} dager={dager} periode={periode} />, {
-            wrapper: RecoilWrapper,
-        });
+        render(<OverstyrbarUtbetaling arbeidsgiver={arbeidsgiver} person={person} dager={dager} periode={periode} />);
 
         await userEvent.click(screen.getByText('Overstyr dager'));
         expect(screen.queryByText('+ Legg til dager')).not.toBeInTheDocument();
