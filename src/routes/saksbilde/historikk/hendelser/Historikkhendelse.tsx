@@ -79,7 +79,7 @@ export const Historikkhendelse = ({
                 />
                 {isExpandable() && <ExpandButton expanded={expanded} />}
             </div>
-            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
+            <HendelseDate timestamp={timestamp} ident={getIdenttekst(saksbehandler, historikktype)} />
             {dialogRef && (
                 <ExpandableHistorikkContent
                     openText={`Kommentarer (${kommentarer?.length})`}
@@ -173,7 +173,7 @@ const getTitle = (type: PeriodehistorikkType): string => {
         case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning:
             return 'Sendt til godkjenning';
         case PeriodehistorikkType.TotrinnsvurderingRetur:
-            return 'Automatisk returnert';
+            return 'Returnert';
         case PeriodehistorikkType.TotrinnsvurderingAttestert:
             return 'Godkjent og utbetalt';
         case PeriodehistorikkType.VedtaksperiodeReberegnet:
@@ -211,4 +211,10 @@ const getIcon = (type: PeriodehistorikkType): ReactElement => {
             return <XMarkOctagonIcon title="Stopp ikon" className={classNames(styles.Innrammet, styles.opphevstans)} />;
         }
     }
+};
+
+const getIdenttekst = (ident: Maybe<string>, type: PeriodehistorikkType): Maybe<string> => {
+    // Kunne ha differensiert på om det er skrevet notat eller ikke, men ident føles mer nærliggende :thunkies:
+    if (type == PeriodehistorikkType.TotrinnsvurderingRetur && ident == null) return 'Automatisk';
+    return ident;
 };
