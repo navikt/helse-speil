@@ -173,7 +173,7 @@ const getTitle = (type: PeriodehistorikkType): string => {
         case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning:
             return 'Sendt til godkjenning';
         case PeriodehistorikkType.TotrinnsvurderingRetur:
-            return 'Returnert';
+            return 'Automatisk returnert';
         case PeriodehistorikkType.TotrinnsvurderingAttestert:
             return 'Godkjent og utbetalt';
         case PeriodehistorikkType.VedtaksperiodeReberegnet:
