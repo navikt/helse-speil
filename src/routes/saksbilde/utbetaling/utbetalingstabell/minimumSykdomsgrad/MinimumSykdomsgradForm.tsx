@@ -6,24 +6,22 @@ import { BodyShort, Box, Button, ErrorMessage, HStack, Heading, Table, Textarea,
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
-import { PersonFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, Maybe, PersonFragment } from '@io/graphql';
 import { InntektFormFields } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
 import { DelperiodeWrapper } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/DelperiodeWrapper';
 import { overlapper } from '@state/selectors/period';
 import { MinimumSykdomsgradPeriode } from '@typer/overstyring';
-import { ActivePeriod } from '@typer/shared';
+import { ActivePeriod, DatePeriod } from '@typer/shared';
 
-import {
-    getOppkuttedePerioder,
-    getOverlappendeArbeidsgivere,
-    usePostOverstyringMinimumSykdomsgrad,
-} from './minimumSykdomsgrad';
+import { usePostOverstyringMinimumSykdomsgrad } from './minimumSykdomsgrad';
 
 import styles from './MinimumSykdomsgrad.module.scss';
 
 interface MinimumSykdomsgradFormProps {
     person: PersonFragment;
     periode: ActivePeriod;
+    oppkuttedePerioder: Maybe<DatePeriod[]>;
+    overlappendeArbeidsgivere: ArbeidsgiverFragment[];
     initierendeVedtaksperiodeId: string;
     setOverstyrerMinimumSykdomsgrad: (overstyrer: boolean) => void;
 }
@@ -31,6 +29,8 @@ interface MinimumSykdomsgradFormProps {
 export const MinimumSykdomsgradForm = ({
     person,
     periode,
+    oppkuttedePerioder,
+    overlappendeArbeidsgivere,
     initierendeVedtaksperiodeId,
     setOverstyrerMinimumSykdomsgrad,
 }: MinimumSykdomsgradFormProps): ReactElement => {
@@ -39,9 +39,6 @@ export const MinimumSykdomsgradForm = ({
     );
     const form = useForm();
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
-
-    const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, periode);
-    const oppkuttedePerioder = getOppkuttedePerioder(overlappendeArbeidsgivere, periode);
 
     const submitForm = () => {
         const skjemaverdier = form.getValues();

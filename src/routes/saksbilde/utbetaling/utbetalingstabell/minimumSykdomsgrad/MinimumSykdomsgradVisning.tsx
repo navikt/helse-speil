@@ -4,28 +4,20 @@ import React from 'react';
 import { BriefcaseClockIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, HStack, List, ReadMore, Table } from '@navikt/ds-react';
 
-import { MinimumSykdomsgradOverstyring, PersonFragment } from '@io/graphql';
+import { Maybe, MinimumSykdomsgradOverstyring } from '@io/graphql';
 import { Delperiode } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/Delperiode';
 import { byTimestamp } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/DelperiodeWrapper';
-import {
-    getOppkuttedePerioder,
-    getOverlappendeArbeidsgivere,
-} from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
-import { ActivePeriod, DatePeriod } from '@typer/shared';
+import { DatePeriod } from '@typer/shared';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
 import styles from './MinimumSykdomsgradVisning.module.scss';
 
 interface Props {
-    person: PersonFragment;
-    periode: ActivePeriod;
+    oppkuttedePerioder: Maybe<DatePeriod[]>;
     minimumSykdomsgradsoverstyringer: MinimumSykdomsgradOverstyring[];
 }
 
-export const MinimumSykdomsgradVisning = ({ person, periode, minimumSykdomsgradsoverstyringer }: Props) => {
-    const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, periode);
-    const oppkuttedePerioder = getOppkuttedePerioder(overlappendeArbeidsgivere, periode);
-
+export const MinimumSykdomsgradVisning = ({ oppkuttedePerioder, minimumSykdomsgradsoverstyringer }: Props) => {
     const delperioder: {
         periode: DatePeriod;
         defaultValue?: 'Ja' | 'Nei';

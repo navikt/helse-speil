@@ -52,8 +52,7 @@ export const Verktøylinje = ({ person, periode, initierendeVedtaksperiodeId }: 
         <Box background="surface-subtle" padding="2" borderWidth="0 0 1 0" borderColor="border-divider">
             {harPeriodeTilBeslutter || harAlleDelperioderBlittVurdertSistIAndreVedtaksperioder ? (
                 <MinimumSykdomsgradVisning
-                    person={person}
-                    periode={periode}
+                    oppkuttedePerioder={oppkuttedePerioder}
                     minimumSykdomsgradsoverstyringer={minimumSykdomsgradsoverstyringer}
                 />
             ) : (
@@ -62,6 +61,8 @@ export const Verktøylinje = ({ person, periode, initierendeVedtaksperiodeId }: 
                         <MinimumSykdomsgradForm
                             person={person}
                             periode={periode}
+                            oppkuttedePerioder={oppkuttedePerioder}
+                            overlappendeArbeidsgivere={overlappendeArbeidsgivere}
                             initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
                             setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
                         />
