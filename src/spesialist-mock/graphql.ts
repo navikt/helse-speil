@@ -1,4 +1,5 @@
 import spesialistSchema from './graphql.schema.json';
+import dayjs from 'dayjs';
 import fs from 'fs';
 import { GraphQLError, GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
 import path from 'path';
@@ -7,7 +8,8 @@ import { cwd } from 'process';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 import { Maybe } from '@io/graphql';
-import { Oppgave } from '@typer/spesialist-mock';
+import { HistorikkinnslagMock } from '@spesialist-mock/storage/periodehistorikk';
+import { Oppgave, UUID } from '@typer/spesialist-mock';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { behandledeOppgaverliste, oppgaveliste } from './data/oppgaveoversikt';
@@ -22,7 +24,9 @@ import { hentOpptegnelser, opprettAbonnement } from './opptegnelser';
 import {
     Arbeidsgiver,
     BeregnetPeriode,
+    Egenskap,
     FiltreringInput,
+    Historikkinnslag,
     MutationFeilregistrerKommentarArgs,
     MutationFeilregistrerNotatArgs,
     MutationFjernPaVentArgs,
@@ -38,6 +42,7 @@ import {
     Notat,
     NotatType,
     OppgavesorteringInput,
+    PeriodehistorikkType,
     Person,
 } from './schemaTypes';
 import { DokumentMock } from './storage/dokument';
@@ -58,10 +63,14 @@ const leggTilLagretData = (person: Person): void => {
                     tildeling = TildelingMock.getTildeling(periode.oppgave.id);
                 }
 
-                if (periode.oppgave?.id && PaVentMock.erPåVent(periode.oppgave.id)) {
+                if (periode.oppgave?.id && PaVentMock.finnesIMock(periode.oppgave.id)) {
                     periode.paVent = PaVentMock.getPåVent(periode.oppgave.id);
+                    if (periode.paVent === null || periode.paVent === undefined) {
+                        periode.egenskaper = periode.egenskaper.filter((e) => e.egenskap !== Egenskap.PaVent);
+                    }
                 }
 
+                periode.historikkinnslag = HistorikkinnslagMock.getHistorikkinnslag(periode.vedtaksperiodeId);
                 periode.notater = NotatMock.getNotaterForPeriode(periode);
                 periode.varsler = VarselMock.getVarslerForPeriode(periode.varsler);
                 const oppgavereferanse: Maybe<string> = periode.oppgave?.id ?? null;
@@ -136,8 +145,8 @@ const getResolvers = (): IResolvers => ({
             return oppgaveliste(offset, limit, sortering, filtrering);
         },
         antallOppgaver: async () => {
-            const tildelinger = TildelingMock.getTildelingerFor('4577332e-801a-4c13-8a71-39f12b8abfa3');
-            const paVent = PaVentMock.getPåVentFor('4577332e-801a-4c13-8a71-39f12b8abfa3');
+            const tildelinger = TildelingMock.getTildelingerFor('11111111-2222-3333-4444-555555555555');
+            const paVent = PaVentMock.getPåVentFor('11111111-2222-3333-4444-555555555555');
             return {
                 antallMineSaker: tildelinger.length,
                 antallMineSakerPaVent: paVent.length,
@@ -220,7 +229,7 @@ const getResolvers = (): IResolvers => ({
             TildelingMock.setTildeling(oppgaveId, {
                 epost: 'epost@nav.no',
                 navn: 'Utvikler, Lokal',
-                oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
+                oid: '11111111-2222-3333-4444-555555555555',
             });
 
             return TildelingMock.getTildeling(oppgaveId);
@@ -233,15 +242,31 @@ const getResolvers = (): IResolvers => ({
                 return false;
             }
         },
-        leggPaVent: async (_, { oppgaveId, notatTekst }: MutationLeggPaVentArgs) => {
-            NotatMock.addNotat(oppgaveId, { tekst: notatTekst ?? '', type: NotatType.PaaVent });
+        leggPaVent: async (_, { oppgaveId, notatTekst, frist, tildeling, arsaker }: MutationLeggPaVentArgs) => {
+            if (tildeling) {
+                TildelingMock.setTildeling(oppgaveId, {
+                    epost: 'epost@nav.no',
+                    navn: 'Utvikler, Lokal',
+                    oid: '11111111-2222-3333-4444-555555555555',
+                });
+            }
+            HistorikkinnslagMock.addHistorikkinnslag(oppgaveId, {
+                notattekst: notatTekst,
+                frist: frist,
+                arsaker: arsaker ? arsaker.map((arsak) => arsak.arsak) : [],
+                type: PeriodehistorikkType.LeggPaVent,
+                dialogRef: 1029,
+            });
             PaVentMock.setPåVent(oppgaveId, {
-                frist: '2024-01-01',
-                oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
+                frist: dayjs().format('YYYY-MM-DD'),
+                oid: '11111111-2222-3333-4444-555555555555',
             });
             return PaVentMock.getPåVent(oppgaveId);
         },
         fjernPaVent: async (_, { oppgaveId }: MutationFjernPaVentArgs) => {
+            HistorikkinnslagMock.addHistorikkinnslag(oppgaveId, {
+                type: PeriodehistorikkType.FjernFraPaVent,
+            });
             PaVentMock.fjernPåVent(oppgaveId);
             return true;
         },
@@ -279,13 +304,13 @@ const getResolvers = (): IResolvers => ({
                 ...getDefaultOppgave(),
                 id: oppgavereferanse,
                 tildelt:
-                    tidligereSaksbehandler === '4577332e-801a-4c13-8a71-39f12b8abfa3'
+                    tidligereSaksbehandler === '11111111-2222-3333-4444-555555555555'
                         ? null
-                        : '4577332e-801a-4c13-8a71-39f12b8abfa3',
+                        : '11111111-2222-3333-4444-555555555555',
                 totrinnsvurdering: {
                     erRetur: false,
                     erBeslutteroppgave: true,
-                    saksbehandler: '4577332e-801a-4c13-8a71-39f12b8abfa3',
+                    saksbehandler: '11111111-2222-3333-4444-555555555555',
                 },
             };
 
@@ -299,7 +324,7 @@ const getResolvers = (): IResolvers => ({
                 id: oppgavereferanse,
                 tildelt: tidligereSaksbehandler,
                 totrinnsvurdering: {
-                    saksbehandler: '4577332e-801a-4c13-8a71-39f12b8abfa3',
+                    saksbehandler: '11111111-2222-3333-4444-555555555555',
                     erRetur: true,
                     erBeslutteroppgave: false,
                 },
@@ -307,10 +332,10 @@ const getResolvers = (): IResolvers => ({
 
             OppgaveMock.addOrUpdateOppgave(oppgavereferanse, oppgave);
 
-            NotatMock.addNotat(oppgavereferanse, {
-                vedtaksperiodeId: oppgavereferanse,
-                tekst: notatTekst,
-                type: NotatType.Retur,
+            HistorikkinnslagMock.addHistorikkinnslag(oppgavereferanse, {
+                type: PeriodehistorikkType.TotrinnsvurderingRetur,
+                notattekst: notatTekst,
+                dialogRef: 1122,
             });
             return true;
         },
@@ -399,14 +424,10 @@ const getResolvers = (): IResolvers => ({
 
 const finnOppgaveId = () => {
     if (!valgtPerson) return;
-    for (const arbeidsgiver of valgtPerson.arbeidsgivere) {
-        for (const generasjon of arbeidsgiver.generasjoner) {
-            for (const periode of generasjon.perioder as Array<BeregnetPeriode>) {
-                if (periode.oppgave) return periode.oppgave.id;
-            }
-        }
-    }
-    return undefined;
+
+    return valgtPerson.arbeidsgivere
+        .flatMap((a) => a.generasjoner.flatMap((g) => g.perioder))
+        .find((periode) => (periode as BeregnetPeriode).oppgave)?.id;
 };
 
 // Henter notater fra testpersonene og putter dem inn i NotatMock, slik at de er synlige på oversikten også
@@ -425,8 +446,33 @@ const puttNotaterFraTestpersonerIMock = (): void => {
     });
 };
 
+const puttHistorikkinnslagFraTestpersonerIMock = (): void => {
+    const personer = lesTestpersoner();
+
+    personer.forEach((person) => {
+        const vedtaksperiodeHistorikkinnslag = new Map<UUID, Historikkinnslag[]>();
+
+        person.arbeidsgivere.forEach((ag: Arbeidsgiver) => {
+            ag.generasjoner.forEach((g) => {
+                g.perioder.forEach((p) => {
+                    if (!!(p as BeregnetPeriode).historikkinnslag) {
+                        vedtaksperiodeHistorikkinnslag.set(p.vedtaksperiodeId, (p as BeregnetPeriode).historikkinnslag);
+                    }
+                });
+            });
+        });
+
+        vedtaksperiodeHistorikkinnslag.forEach((historikkinnslagArray, vedtaksperiodeId) => {
+            historikkinnslagArray.forEach((historikkinnslag) => {
+                HistorikkinnslagMock.addHistorikkinnslag(vedtaksperiodeId, historikkinnslag);
+            });
+        });
+    });
+};
+
 export const buildSchema = (): GraphQLSchema => {
     puttNotaterFraTestpersonerIMock();
+    puttHistorikkinnslagFraTestpersonerIMock();
     return makeExecutableSchema({
         typeDefs: buildClientSchema(spesialistSchema as unknown as IntrospectionQuery),
         resolvers: getResolvers(),

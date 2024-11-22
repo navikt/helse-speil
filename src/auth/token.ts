@@ -22,10 +22,10 @@ const tokenPayloadSchema = z.object({
 export async function getTokenPayload(): Promise<TokenPayload> {
     if (erLokal) {
         return {
-            oid: 'local-oid',
+            oid: '11111111-2222-3333-4444-555555555555',
             preferred_username: 'local-username',
-            name: 'Local User',
-            NAVident: 'local-ident',
+            name: 'Utvikler, Lokal',
+            NAVident: 'A123456',
             groups: ['local-group'],
         };
     }

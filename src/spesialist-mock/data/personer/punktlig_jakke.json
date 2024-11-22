@@ -639,7 +639,27 @@
                                             "kommentarer": []
                                         }
                                     ],
-                                    "historikkinnslag": [],
+                                    "historikkinnslag": [
+                                        {
+                                            "id": 193555,
+                                            "type": "LEGG_PA_VENT",
+                                            "timestamp": "2023-01-24T15:09:30.090206",
+                                            "saksbehandlerIdent": "A123456",
+                                            "frist": "2023-01-24T15:09:30.090206",
+                                            "arsaker": ["Inntektsmelding - etterspurt"],
+                                            "dialogRef": 222,
+                                            "notattekst": null,
+                                            "kommentarer": [
+                                                {
+                                                    "id": 222,
+                                                    "tekst": "En liten kommentar",
+                                                    "opprettet": "2023-01-24T15:09:30.090206",
+                                                    "saksbehandlerident": "A123456",
+                                                    "feilregistrert_tidspunkt": null
+                                                }
+                                            ]
+                                        }
+                                    ],
                                     "maksdato": "2024-02-27",
                                     "periodevilkar": {
                                         "alder": {
@@ -717,7 +737,16 @@
                                         "id": "5890"
                                     },
                                     "totrinnsvurdering": null,
-                                    "egenskaper": [],
+                                    "egenskaper": [
+                                        {
+                                            "kategori": "Status",
+                                            "egenskap": "PA_VENT"
+                                        }
+                                    ],
+                                    "paVent": {
+                                        "frist": "2023-02-21    T15:09:30.090206",
+                                        "oid": "11111111-2222-3333-4444-555555555555"
+                                    },
                                     "avslag": []
                                 }
                             ]
@@ -757,6 +786,7 @@
                         }
                     ],
                     "ghostPerioder": [],
+                    "nyeInntektsforholdPerioder": [],
                     "generasjoner": [],
                     "overstyringer": [],
                     "inntekterFraAordningen": []

@@ -101,7 +101,7 @@ export const AnnulleringsModal = ({
 
     return (
         <Modal
-            aria-label="Legg på vent modal"
+            aria-label="Annulleringsmodal"
             portal
             closeOnBackdropClick
             open={showModal}

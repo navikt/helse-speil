@@ -46,23 +46,23 @@ export const PåVentListeModal = ({
             <Modal.Body>
                 <VStack gap="6">
                     <HStack gap="12">
-                        <Ting tittel="Søker">{søkernavn}</Ting>
-                        <Ting tittel="Dato">{getFormattedDatetimeString(påVentInfo.opprettet)}</Ting>
-                        <Ting tittel="Frist">{somNorskDato(påVentInfo.tidsfrist)}</Ting>
-                        <Ting tittel="Saksbehandler">{påVentInfo.saksbehandler}</Ting>
+                        <Innhold tittel="Søker">{søkernavn}</Innhold>
+                        <Innhold tittel="Dato">{getFormattedDatetimeString(påVentInfo.opprettet)}</Innhold>
+                        <Innhold tittel="Frist">{somNorskDato(påVentInfo.tidsfrist)}</Innhold>
+                        <Innhold tittel="Saksbehandler">{påVentInfo.saksbehandler}</Innhold>
                     </HStack>
                     {påVentInfo.arsaker.length > 0 && (
-                        <Ting tittel="Årsak">
+                        <Innhold tittel="Årsak">
                             <ul>
                                 {påVentInfo.arsaker.map((årsak) => (
                                     <li key={årsak}>{årsak}</li>
                                 ))}
                             </ul>
-                        </Ting>
+                        </Innhold>
                     )}
-                    {!!påVentInfo.tekst && <Ting tittel="Notat">{påVentInfo.tekst}</Ting>}
+                    {!!påVentInfo.tekst && <Innhold tittel="Notat">{påVentInfo.tekst}</Innhold>}
                     {påVentInfo.kommentarer.length > 0 && (
-                        <Ting tittel="Kommentarer">
+                        <Innhold tittel="Kommentarer">
                             {påVentInfo.kommentarer.map((kommentar) => (
                                 <HStack gap="6" wrap={false} key={kommentar.id}>
                                     <BodyShort className={styles.kommentardato}>
@@ -71,7 +71,7 @@ export const PåVentListeModal = ({
                                     <BodyShort>{kommentar.tekst}</BodyShort>
                                 </HStack>
                             ))}
-                        </Ting>
+                        </Innhold>
                     )}
                 </VStack>
             </Modal.Body>
@@ -88,7 +88,7 @@ interface TingProps {
     tittel: string;
 }
 
-const Ting = ({ tittel, children }: PropsWithChildren<TingProps>) => (
+const Innhold = ({ tittel, children }: PropsWithChildren<TingProps>): ReactElement => (
     <VStack>
         <Heading level="2" size="xsmall">
             {tittel}

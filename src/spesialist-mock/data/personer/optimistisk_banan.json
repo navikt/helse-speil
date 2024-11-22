@@ -8092,7 +8092,7 @@
                                         "vurdering": {
                                             "automatisk": false,
                                             "godkjent": true,
-                                            "ident": "E123456",
+                                            "ident": "A123456",
                                             "tidsstempel": "2021-02-08T10:14:44"
                                         },
                                         "arbeidsgiversimulering": {
@@ -17016,7 +17016,7 @@
                                         "vurdering": {
                                             "automatisk": false,
                                             "godkjent": true,
-                                            "ident": "E123456",
+                                            "ident": "A123456",
                                             "tidsstempel": "2021-02-08T10:14:44"
                                         },
                                         "arbeidsgiversimulering": {
@@ -17044,7 +17044,7 @@
                                             "forklaring": "Det ligger aktive oppgaver med tema sykepenger i Gosys.",
                                             "handling": "Sjekk Gosys-oppgavene og vurder om de påvirker saksbehandlingen.",
                                             "vurdering": {
-                                                "ident": "E123456",
+                                                "ident": "A123456",
                                                 "status": "GODKJENT",
                                                 "tidsstempel": "2021-02-08T10:14:44.289505"
                                             }
@@ -25864,7 +25864,7 @@
                                         "vurdering": {
                                             "automatisk": false,
                                             "godkjent": true,
-                                            "ident": "E123456",
+                                            "ident": "A123456",
                                             "tidsstempel": "2021-02-08T10:14:44"
                                         },
                                         "arbeidsgiversimulering": {
@@ -25892,7 +25892,7 @@
                                             "forklaring": "Det ligger aktive oppgaver med tema sykepenger i Gosys.",
                                             "handling": "Sjekk Gosys-oppgavene og vurder om de påvirker saksbehandlingen.",
                                             "vurdering": {
-                                                "ident": "E123456",
+                                                "ident": "A123456",
                                                 "status": "GODKJENT",
                                                 "tidsstempel": "2021-02-08T10:14:44.289505"
                                             }

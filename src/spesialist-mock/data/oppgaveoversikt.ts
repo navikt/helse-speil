@@ -1,12 +1,17 @@
+import { HistorikkinnslagMock } from '@spesialist-mock/storage/periodehistorikk';
+
 import {
     BehandledeOppgaver,
     Egenskap,
     FiltreringInput,
     Kategori,
+    LagtPaVent,
+    Maybe,
     OppgaveTilBehandling,
     Oppgaveegenskap,
     OppgaverTilBehandling,
     OppgavesorteringInput,
+    PaVentInfo,
     Sorteringsnokkel,
 } from '../schemaTypes';
 import { PaVentMock } from '../storage/påvent';
@@ -33,7 +38,7 @@ export const oppgaveliste = (
     sortering: OppgavesorteringInput[],
     filtrering: FiltreringInput,
 ): OppgaverTilBehandling => {
-    const oppgaveliste = syncTildelingMock(oppgaver).concat(tilfeldigeOppgaver);
+    const oppgaveliste = syncMock(oppgaver).concat(tilfeldigeOppgaver);
     const filtrertListe = filtrer(oppgaveliste, filtrering);
     const sortertListe = sorter(filtrertListe, sortering);
 
@@ -46,11 +51,11 @@ export const oppgaveliste = (
 const filtrer = (oppgaver: OppgaveTilBehandling[], filtrering: FiltreringInput): OppgaveTilBehandling[] => {
     return oppgaver
         .filter((oppgave) =>
-            filtrering.egneSaker ? oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' : true,
+            filtrering.egneSaker ? oppgave.tildeling?.oid === '11111111-2222-3333-4444-555555555555' : true,
         )
         .filter((oppgave) =>
             filtrering.egneSakerPaVent
-                ? oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' &&
+                ? oppgave.tildeling?.oid === '11111111-2222-3333-4444-555555555555' &&
                   oppgave.egenskaper.find((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent) !== undefined
                 : true,
         )
@@ -122,18 +127,49 @@ const opprettetSortFunction = (a: OppgaveTilBehandling, b: OppgaveTilBehandling)
 const søknadMottattSortFunction = (a: OppgaveTilBehandling, b: OppgaveTilBehandling) =>
     new Date(a.opprinneligSoknadsdato).getTime() - new Date(b.opprinneligSoknadsdato).getTime();
 
-const syncTildelingMock = (oppgaver: OppgaveTilBehandling[]) => {
+const syncMock = (oppgaver: OppgaveTilBehandling[]) => {
     return oppgaver.map((oppgave) => {
         if (oppgave.tildeling !== undefined && oppgave.tildeling !== null && !TildelingMock.harTildeling(oppgave.id)) {
             TildelingMock.setTildeling(oppgave.id, oppgave.tildeling);
         }
-        const egenskaper = PaVentMock.erPåVent(oppgave.id)
-            ? [...oppgave.egenskaper, { egenskap: Egenskap.PaVent, kategori: Kategori.Status }]
-            : oppgave.egenskaper;
+
+        let paVentInfo: Maybe<PaVentInfo> = oppgave.paVentInfo ?? null;
+        let egenskaper = oppgave.egenskaper;
+
+        if (PaVentMock.finnesIMock(oppgave.id)) {
+            if (!PaVentMock.erPåVent(oppgave.id)) {
+                paVentInfo = null;
+                egenskaper = egenskaper.filter((e) => e.egenskap !== Egenskap.PaVent);
+            } else {
+                const historikkinnslag = HistorikkinnslagMock.getSisteLagtPåVentHistorikkinnslag(
+                    oppgave.vedtaksperiodeId,
+                ) as LagtPaVent;
+
+                paVentInfo = {
+                    arsaker: historikkinnslag.arsaker,
+                    tekst: historikkinnslag.notattekst,
+                    dialogRef: historikkinnslag.dialogRef!!,
+                    opprettet: historikkinnslag.timestamp,
+                    saksbehandler: historikkinnslag.saksbehandlerIdent!!,
+                    tidsfrist: historikkinnslag.frist!!,
+                    kommentarer: [],
+                };
+                egenskaper = !egenskaper.some((e) => e.egenskap === Egenskap.PaVent)
+                    ? [...egenskaper, { egenskap: Egenskap.PaVent, kategori: Kategori.Status }]
+                    : egenskaper;
+            }
+        } else if (oppgave.paVentInfo !== undefined && oppgave.paVentInfo !== null) {
+            PaVentMock.setPåVent(oppgave.id, {
+                frist: oppgave.paVentInfo?.tidsfrist,
+                oid: '11111111-2222-3333-4444-555555555555',
+            });
+        }
+
         return {
             ...oppgave,
             tildeling: TildelingMock.getTildeling(oppgave.id),
             egenskaper: egenskaper,
+            paVentInfo: paVentInfo,
         } as OppgaveTilBehandling;
     });
 };

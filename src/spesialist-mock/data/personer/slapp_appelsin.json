@@ -665,17 +665,17 @@
                                             "id": 193665,
                                             "type": "LEGG_PA_VENT",
                                             "timestamp": "2023-01-24T15:09:30.090206",
-                                            "saksbehandlerIdent": "T166629",
+                                            "saksbehandlerIdent": "A123456",
                                             "frist": "2023-01-24T15:09:30.090206",
                                             "arsaker": ["§ 8-4 Avklare aktivitetskrav/medisinske vilkår"],
                                             "dialogRef": 1,
-                                            "notattekst": "Notat tekst",
+                                            "notattekst": "En notattekst",
                                             "kommentarer": [
                                                 {
                                                     "id": 1,
                                                     "tekst": "Kommentar 1",
                                                     "opprettet": "2023-01-24T15:09:30.090206",
-                                                    "saksbehandlerident": "T166629",
+                                                    "saksbehandlerident": "A123456",
                                                     "feilregistrert_tidspunkt": null
                                                 }
                                             ]
@@ -842,6 +842,10 @@
                                             "egenskap": "PA_VENT"
                                         }
                                     ],
+                                    "paVent": {
+                                        "frist": "2023-01-24T15:09:30.090206",
+                                        "oid": "11111111-2222-3333-4444-555555555555"
+                                    },
                                     "avslag": [],
                                     "annullering": null
                                 }

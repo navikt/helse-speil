@@ -15,7 +15,7 @@ import {
 
 const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
-const findVedtaksperiodeId = (id: string): UUID | undefined => {
+export const findVedtaksperiodeId = (id: string): UUID | undefined => {
     return oppgaver.find((it) => it['id'] === id)?.['vedtaksperiodeId'];
 };
 
@@ -107,22 +107,20 @@ export class NotatMock {
         ...NotatMock.getNotater(periode.oppgave?.id ?? '-1'),
     ];
 
-    private static getMockedNotat = (vedtaksperiodeId: string, overrides?: Partial<Notat>): Notat => {
-        return {
-            id: NotatMock.notatCounter++,
-            dialogRef: NotatMock.notatCounter,
-            tekst: 'Revidert utgave 2',
-            opprettet: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-            saksbehandlerOid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
-            saksbehandlerNavn: 'Bernt Bjelle',
-            saksbehandlerEpost: 'bernt.bjelle@nav.no',
-            saksbehandlerIdent: 'E123456',
-            vedtaksperiodeId: vedtaksperiodeId,
-            feilregistrert: false,
-            feilregistrert_tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-            type: NotatType.PaaVent,
-            kommentarer: [],
-            ...overrides,
-        };
-    };
+    private static getMockedNotat = (vedtaksperiodeId: string, overrides?: Partial<Notat>): Notat => ({
+        id: NotatMock.notatCounter++,
+        dialogRef: NotatMock.notatCounter,
+        tekst: 'Revidert utgave 2',
+        opprettet: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+        saksbehandlerOid: '11111111-2222-3333-4444-555555555555',
+        saksbehandlerNavn: 'Utvikler, Lokal',
+        saksbehandlerEpost: 'epost@nav.no',
+        saksbehandlerIdent: 'A123456',
+        vedtaksperiodeId: vedtaksperiodeId,
+        feilregistrert: false,
+        feilregistrert_tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+        type: NotatType.PaaVent,
+        kommentarer: [],
+        ...overrides,
+    });
 }
