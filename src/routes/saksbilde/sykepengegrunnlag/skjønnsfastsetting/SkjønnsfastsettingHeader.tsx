@@ -63,7 +63,7 @@ export const SkjønnsfastsettingHeader = ({
                     )}
                     {skjønnsmessigFastsattÅrlig != null && (
                         <Kilde type={'Saksbehandler'} className={styles.kildeIkon}>
-                            <PersonPencilFillIcon title="Saksbehandler ikon" height={20} width={20} />
+                            <PersonPencilFillIcon title="Saksbehandler ikon" />
                         </Kilde>
                     )}
                 </>

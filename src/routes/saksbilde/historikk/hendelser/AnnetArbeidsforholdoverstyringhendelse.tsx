@@ -38,7 +38,7 @@ export const AnnetArbeidsforholdoverstyringhendelse = ({
             }
             icon={
                 <Kilde type={Inntektskilde.Saksbehandler}>
-                    <PersonPencilFillIcon title="Saksbehandler ikon" height={20} width={20} />
+                    <PersonPencilFillIcon title="Saksbehandler ikon" />
                 </Kilde>
             }
         >
