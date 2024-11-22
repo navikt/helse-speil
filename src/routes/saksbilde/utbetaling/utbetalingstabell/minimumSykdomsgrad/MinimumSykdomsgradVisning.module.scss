@@ -1,0 +1,17 @@
+.readmore {
+  button {
+    display: flex;
+    flex-direction: row-reverse;
+    color: var(--a-text-default);
+
+    &:hover {
+      color: var(--a-text-default);
+    }
+  }
+
+  > div {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    border: 0;
+  }
+}
