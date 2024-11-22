@@ -88,36 +88,8 @@ export const MinimumSykdomsgradForm = ({
             </HStack>
             <FormProvider {...form}>
                 <form className={styles.form} onSubmit={form.handleSubmit(submitForm)}>
-                    <VStack marginBlock="0 4" width="675px">
-                        <BodyShort weight="semibold">
-                            Vurder om arbeidsevnen er nedsatt med minst 20 % basert på arbeidstid i disse periodene
-                        </BodyShort>
-                        <BodyShort>
-                            Husk at arbeidstid må vurderes på tvers av alle arbeidsforhold. Ved{' '}
-                            <BodyShort as="span" weight="semibold">
-                                avslag
-                            </BodyShort>{' '}
-                            må det skrives en individuell begrunnelse i tillegg til notatet til beslutter.
-                        </BodyShort>
-                    </VStack>
-                    <Table size="small" zebraStripes>
-                        <Table.Header>
-                            <Table.Row>
-                                <Table.HeaderCell scope="col">Periode</Table.HeaderCell>
-                                <Table.HeaderCell scope="col">Vurdering</Table.HeaderCell>
-                            </Table.Row>
-                        </Table.Header>
-                        <Table.Body>
-                            {oppkuttedePerioder?.map((delperiode) => (
-                                <DelperiodeWrapper
-                                    key={delperiode.fom}
-                                    person={person}
-                                    aktivPeriode={periode}
-                                    delperiode={delperiode}
-                                />
-                            ))}
-                        </Table.Body>
-                    </Table>
+                    <Innledning />
+                    <DelperiodeTabell oppkuttedePerioder={oppkuttedePerioder} periode={periode} person={person} />
                     <Textarea
                         {...form.register('Begrunnelse', { required: 'Begrunnelse kan ikke være tom' })}
                         className={styles.fritekst}
@@ -165,3 +137,45 @@ const formErrorsTilFeilliste = (errors: FieldErrors<InntektFormFields>): Skjemaf
                 error.message ?? (Object.entries(error).length > 0 ? 'Du må gi en vurdering i alle periodene' : id),
         }))
         .flat();
+
+interface DelperiodeTabellProps {
+    oppkuttedePerioder: Maybe<DatePeriod[]>;
+    person: PersonFragment;
+    periode: ActivePeriod;
+}
+
+const DelperiodeTabell = ({ oppkuttedePerioder, person, periode }: DelperiodeTabellProps) => (
+    <Table size="small" zebraStripes>
+        <Table.Header>
+            <Table.Row>
+                <Table.HeaderCell scope="col">Periode</Table.HeaderCell>
+                <Table.HeaderCell scope="col">Vurdering</Table.HeaderCell>
+            </Table.Row>
+        </Table.Header>
+        <Table.Body>
+            {oppkuttedePerioder?.map((delperiode) => (
+                <DelperiodeWrapper
+                    key={delperiode.fom}
+                    person={person}
+                    aktivPeriode={periode}
+                    delperiode={delperiode}
+                />
+            ))}
+        </Table.Body>
+    </Table>
+);
+
+const Innledning = () => (
+    <VStack marginBlock="0 4" width="675px">
+        <BodyShort weight="semibold">
+            Vurder om arbeidsevnen er nedsatt med minst 20 % basert på arbeidstid i disse periodene
+        </BodyShort>
+        <BodyShort>
+            Husk at arbeidstid må vurderes på tvers av alle arbeidsforhold. Ved{' '}
+            <BodyShort as="span" weight="semibold">
+                avslag
+            </BodyShort>{' '}
+            må det skrives en individuell begrunnelse i tillegg til notatet til beslutter.
+        </BodyShort>
+    </VStack>
+);
