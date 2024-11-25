@@ -1,7 +1,7 @@
 import React from 'react';
 import * as R from 'remeda';
 
-import { useBrukerIdent } from '@auth/brukerContext';
+import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import { Maybe, PeriodeFragment, PersonFragment } from '@io/graphql';
 import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
 import { Verktøylinje } from '@saksbilde/Verktøylinje';
@@ -26,6 +26,7 @@ export const Saksbilde = ({ children }: SaksbildeProps) => {
     const person: Maybe<PersonFragment> = data?.person ?? null;
     const activePeriod = useActivePeriod(person);
     const saksbehandlerident = useBrukerIdent();
+    const grupper = useBrukerGrupper();
 
     if (loading) {
         return <PeriodeViewSkeleton />;
@@ -57,7 +58,7 @@ export const Saksbilde = ({ children }: SaksbildeProps) => {
 
     return (
         <div className={styles.Content}>
-            {kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident) &&
+            {kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident, grupper) &&
                 !harPeriodeTilBeslutterFor(person, activePeriod?.skjaeringstidspunkt) &&
                 harDagerMedUnder20ProsentTotalGrad &&
                 initierendeVedtaksperiodeId && (
