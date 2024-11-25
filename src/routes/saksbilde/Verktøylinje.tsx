@@ -30,22 +30,26 @@ export const Verktøylinje = ({ person, periode, initierendeVedtaksperiodeId }: 
     const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, periode);
     const oppkuttedePerioder = getOppkuttedePerioder(overlappendeArbeidsgivere, periode);
     const harAlleDelperioderBlittVurdertSistIAndreVedtaksperioder: boolean =
-        oppkuttedePerioder?.every(
-            (dp) =>
-                isBeregnetPeriode(periode) &&
-                minimumSykdomsgradsoverstyringer
-                    .sort(byTimestamp)
-                    .map((overstyring) => ({
-                        perioder: [
-                            ...overstyring.minimumSykdomsgrad.perioderVurdertIkkeOk,
-                            ...overstyring.minimumSykdomsgrad.perioderVurdertOk,
-                        ],
-                        initierendeVedtaksperiodeId: overstyring.minimumSykdomsgrad.initierendeVedtaksperiodeId,
-                    }))
-                    .find((overstyringperiode) =>
-                        overstyringperiode.perioder.some((op) => dp.fom === op.fom && dp.tom === op.tom),
-                    )?.initierendeVedtaksperiodeId !== periode.vedtaksperiodeId,
-        ) ?? false;
+        isBeregnetPeriode(periode) &&
+        (oppkuttedePerioder?.every((dp) => {
+            const matchendePerioder = minimumSykdomsgradsoverstyringer
+                .sort(byTimestamp)
+                .map((overstyring) => ({
+                    perioder: [
+                        ...overstyring.minimumSykdomsgrad.perioderVurdertIkkeOk,
+                        ...overstyring.minimumSykdomsgrad.perioderVurdertOk,
+                    ],
+                    initierendeVedtaksperiodeId: overstyring.minimumSykdomsgrad.initierendeVedtaksperiodeId,
+                }))
+                .find((overstyringperiode) =>
+                    overstyringperiode.perioder.some((op) => dp.fom === op.fom && dp.tom === op.tom),
+                )?.initierendeVedtaksperiodeId;
+            if (matchendePerioder === undefined) {
+                return false;
+            }
+            return matchendePerioder !== periode.vedtaksperiodeId;
+        }) ??
+            false);
     const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
 
     return (
