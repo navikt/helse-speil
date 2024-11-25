@@ -1,4 +1,4 @@
-import { erDev, erLokal, erUtvikling } from '@/env';
+import { erLokal, erUtvikling } from '@/env';
 
 const groupIdForTbd = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
@@ -36,10 +36,9 @@ const erFunksjoneltAnsvarligIPoHelse = (ident: string) => ['S114950'].includes(i
 
 const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdForTbd);
 
-export const kanFrigiAndresOppgaver = (ident: string) =>
-    kanFrigiSaker(ident) || harTilgangTilAlt(ident) || erLokal || erDev;
+export const kanFrigiAndresOppgaver = (ident: string) => kanFrigiSaker(ident) || harTilgangTilAlt(ident) || erUtvikling;
 
-export const graphqlplayground = (grupper: string[]) => erLokal || erDev || erPåTeamBømlo(grupper);
+export const graphqlplayground = (grupper: string[]) => erUtvikling || erPåTeamBømlo(grupper);
 
 export const harBeslutterrolle = (grupper: string[]): boolean => grupper.includes(groupIdForBesluttere);
 
@@ -49,10 +48,8 @@ export const harSpesialsaktilgang = (grupper: string[]): boolean =>
 export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
     erCoachEllerSuper(ident) || erFunksjoneltAnsvarligIPoHelse(ident) || erPåTeamBømlo(grupper) || erLokal;
 
-export const erLokalEllerDev: boolean = erLokal || erDev;
-
 export const kanOverstyreMinimumSykdomsgradToggle = (ident: string, grupper: string[]): boolean =>
-    erLokalEllerDev || erCoachEllerSuper(ident) || erPåTeamBømlo(grupper);
+    erUtvikling || erCoachEllerSuper(ident) || erPåTeamBømlo(grupper);
 
-export const skalViseTilkommenInntekt: boolean = erLokalEllerDev;
-export const kanOverstyreTilkommenInntekt: boolean = erLokalEllerDev;
+export const skalViseTilkommenInntekt: boolean = erUtvikling;
+export const kanOverstyreTilkommenInntekt: boolean = erUtvikling;
