@@ -2,11 +2,12 @@ import dayjs from 'dayjs';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { MinimumSykdomsgradOverstyring, PersonFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, MinimumSykdomsgradOverstyring, PersonFragment } from '@io/graphql';
 import { Delperiode } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/Delperiode';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { getOverlappendePerioder, overlapper } from '@state/selectors/period';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
-import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
+import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '@utils/date';
 import { isBeregnetPeriode, isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
 
 interface Props {
@@ -41,10 +42,20 @@ export const DelperiodeWrapper = ({ person, aktivPeriode, delperiode }: Props) =
                 ? 'Ja'
                 : 'Nei'
             : undefined;
+
+    const overlappendePerioder = getOverlappendePerioder(person, aktivPeriode as BeregnetPeriodeFragment);
+    const erAktivPeriodeIkkeBestemmendeForDelperioden =
+        isBeregnetPeriode(aktivPeriode) &&
+        overlappendePerioder
+            .filter((it) => overlapper(it)(delperiode))
+            .sort((a, b) => (dayjs(a.fom, ISO_DATOFORMAT).isSameOrAfter(b.fom) ? 0 : -1))
+            .shift()?.vedtaksperiodeId !== aktivPeriode.vedtaksperiodeId;
+
     const erReadOnly =
         defaultValue !== undefined &&
         isBeregnetPeriode(aktivPeriode) &&
-        sisteOverstyring?.minimumSykdomsgrad.initierendeVedtaksperiodeId !== aktivPeriode.vedtaksperiodeId;
+        sisteOverstyring?.minimumSykdomsgrad.initierendeVedtaksperiodeId !== aktivPeriode.vedtaksperiodeId &&
+        erAktivPeriodeIkkeBestemmendeForDelperioden;
 
     const fieldName = `merEnn20periode.${delperiode.fom}`;
     const field = !erReadOnly
@@ -58,10 +69,11 @@ export const DelperiodeWrapper = ({ person, aktivPeriode, delperiode }: Props) =
         <Delperiode
             delperiode={delperiode}
             field={field}
-            disabled={erReadOnly}
+            erReadOnly={erReadOnly}
+            erAktivPeriodeIkkeBestemmendeForDelperioden={erAktivPeriodeIkkeBestemmendeForDelperioden}
             defaultValue={defaultValue}
             error={harError}
-            visHjelpetekst={erReadOnly}
+            visHjelpetekst={erReadOnly || erAktivPeriodeIkkeBestemmendeForDelperioden}
         />
     );
 };

@@ -73,7 +73,7 @@ export const MinimumSykdomsgradVisning = ({ oppkuttedePerioder, minimumSykdomsgr
                                     key={delperiode.periode.fom}
                                     delperiode={delperiode.periode}
                                     defaultValue={delperiode.defaultValue}
-                                    disabled
+                                    erReadOnly
                                 />
                             );
                         })}

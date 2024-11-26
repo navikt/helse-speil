@@ -13,7 +13,7 @@ import {
     UberegnetPeriodeFragment,
 } from '@io/graphql';
 import { isGodkjent as utbetalingIsGodkjent } from '@state/selectors/utbetaling';
-import { ActivePeriod } from '@typer/shared';
+import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode, isNotUndefined, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -70,8 +70,8 @@ export const isGodkjent = (period: ActivePeriod): boolean => {
     return ['utbetalt', 'utbetaltAutomatisk', 'revurdert', 'revurdertIngenUtbetaling'].includes(getPeriodState(period));
 };
 export const overlapper =
-    (other: ActivePeriod) =>
-    (periode: ActivePeriod): boolean =>
+    (other: ActivePeriod | DatePeriod) =>
+    (periode: ActivePeriod | DatePeriod): boolean =>
         (dayjs(periode.fom).isSameOrAfter(other.fom) && dayjs(periode.fom).isSameOrBefore(other.tom)) ||
         (dayjs(periode.tom).isSameOrAfter(other.fom) && dayjs(periode.tom).isSameOrBefore(other.tom));
 

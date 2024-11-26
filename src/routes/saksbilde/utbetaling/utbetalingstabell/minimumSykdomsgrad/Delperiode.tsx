@@ -10,14 +10,23 @@ import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
 interface Props {
     delperiode: DatePeriod;
-    disabled: boolean;
+    erReadOnly: boolean;
     field?: UseFormRegisterReturn<string>;
     defaultValue?: 'Ja' | 'Nei';
     error?: string;
     visHjelpetekst?: boolean;
+    erAktivPeriodeIkkeBestemmendeForDelperioden?: boolean;
 }
 
-export const Delperiode = ({ delperiode, field, disabled, defaultValue, error, visHjelpetekst = false }: Props) => (
+export const Delperiode = ({
+    delperiode,
+    field,
+    erReadOnly,
+    defaultValue,
+    error,
+    visHjelpetekst = false,
+    erAktivPeriodeIkkeBestemmendeForDelperioden = false,
+}: Props) => (
     <Table.Row key={delperiode.fom} className={styles.zebrarad}>
         <Table.DataCell scope="col">
             {dayjs(delperiode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)} –{' '}
@@ -32,7 +41,7 @@ export const Delperiode = ({ delperiode, field, disabled, defaultValue, error, v
                     hideLegend
                     name={`merEnn20periode.${delperiode.fom}`}
                     defaultValue={defaultValue}
-                    readOnly={disabled}
+                    readOnly={erReadOnly || erAktivPeriodeIkkeBestemmendeForDelperioden}
                 >
                     <HStack gap="8">
                         <Radio value="Ja" size="small" {...field}>
@@ -44,9 +53,10 @@ export const Delperiode = ({ delperiode, field, disabled, defaultValue, error, v
                     </HStack>
                 </RadioGroup>
                 {visHjelpetekst && (
-                    <HelpText>
-                        Perioden er vurdert i overlappende periode. Hvis du ønsker å endre vurderingen, må du endre i
-                        denne.
+                    <HelpText className={styles.readonly}>
+                        {erReadOnly
+                            ? 'Perioden er vurdert i overlappende periode. Hvis du ønsker å endre vurderingen, må du endre i denne.'
+                            : 'Perioden må vurderes i overlappende periode.'}
                     </HelpText>
                 )}
             </HStack>
