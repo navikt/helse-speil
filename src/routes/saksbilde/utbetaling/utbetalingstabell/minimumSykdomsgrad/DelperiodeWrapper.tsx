@@ -58,12 +58,13 @@ export const DelperiodeWrapper = ({ person, aktivPeriode, delperiode }: Props) =
         erAktivPeriodeIkkeBestemmendeForDelperioden;
 
     const fieldName = `merEnn20periode.${delperiode.fom}`;
-    const field = !erReadOnly
-        ? register(fieldName, {
-              required: 'Du må velge en vurdering',
-              onChange: () => clearErrors(fieldName),
-          })
-        : undefined;
+    const field =
+        !erReadOnly && !erAktivPeriodeIkkeBestemmendeForDelperioden
+            ? register(fieldName, {
+                  required: 'Du må velge en vurdering',
+                  onChange: () => clearErrors(fieldName),
+              })
+            : undefined;
 
     return (
         <Delperiode
