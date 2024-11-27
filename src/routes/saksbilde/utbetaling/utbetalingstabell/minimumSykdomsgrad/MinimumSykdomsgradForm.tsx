@@ -1,5 +1,13 @@
-import React, { ReactElement, useRef } from 'react';
-import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm } from 'react-hook-form';
+import React, { ReactElement, useEffect, useRef } from 'react';
+import {
+    CustomElement,
+    FieldErrors,
+    FieldValues,
+    FormProvider,
+    useController,
+    useForm,
+    useFormContext,
+} from 'react-hook-form';
 
 import { PadlockUnlockedIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Button, ErrorMessage, HStack, Heading, Table, Textarea, VStack } from '@navikt/ds-react';
@@ -13,7 +21,7 @@ import { overlapper } from '@state/selectors/period';
 import { MinimumSykdomsgradPeriode } from '@typer/overstyring';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 
-import { usePostOverstyringMinimumSykdomsgrad } from './minimumSykdomsgrad';
+import { useGetNotatTekst, usePostOverstyringMinimumSykdomsgrad, useReplaceNotat } from './minimumSykdomsgrad';
 
 import styles from './MinimumSykdomsgrad.module.scss';
 
@@ -62,7 +70,7 @@ export const MinimumSykdomsgradForm = ({
             fødselsnummer: person.fodselsnummer,
             perioderVurdertOk: perioderVurdertOk,
             perioderVurdertIkkeOk: perioderVurdertIkkeOk,
-            begrunnelse: skjemaverdier.Begrunnelse,
+            begrunnelse: skjemaverdier.begrunnelse,
             arbeidsgivere: overlappendeArbeidsgivere.map((it) => {
                 return {
                     organisasjonsnummer: it.organisasjonsnummer,
@@ -95,14 +103,7 @@ export const MinimumSykdomsgradForm = ({
                         aktivPeriode={aktivPeriode}
                         person={person}
                     />
-                    <Textarea
-                        {...form.register('Begrunnelse', { required: 'Begrunnelse kan ikke være tom' })}
-                        className={styles.fritekst}
-                        label={<span className={styles.fritekstlabel}>Notat til beslutter</span>}
-                        description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
-                        error={form.formState.errors.Begrunnelse?.message as string}
-                        resize
-                    />
+                    <NotatTilBeslutter vedtaksperiodeId={initierendeVedtaksperiodeId} />
                     {!form.formState.isValid && form.formState.isSubmitted && (
                         <Feiloppsummering
                             feiloppsummeringRef={feiloppsummeringRef}
@@ -184,3 +185,52 @@ const Innledning = () => (
         </BodyShort>
     </VStack>
 );
+
+interface NotatTilBeslutterProps {
+    vedtaksperiodeId: string;
+}
+
+const NotatTilBeslutter = ({ vedtaksperiodeId }: NotatTilBeslutterProps) => {
+    const replaceNotat = useReplaceNotat();
+    const lagretNotat = useGetNotatTekst(vedtaksperiodeId) ?? '';
+    const { control, setValue } = useFormContext();
+    const { field, fieldState } = useController({
+        control: control,
+        name: 'begrunnelse',
+        rules: {
+            required: 'Begrunnelse kan ikke være tom',
+            maxLength: {
+                value: 1000,
+                message: `Det er kun tillatt med 1000 tegn`,
+            },
+            validate: {
+                måFyllesUt: () => lagretNotat.length !== 0 || 'Begrunnelse kan ikke være tom',
+            },
+        },
+        defaultValue: lagretNotat,
+        shouldUnregister: true,
+    });
+
+    useEffect(() => {
+        setValue('begrunnelse', lagretNotat);
+    }, [lagretNotat, setValue]);
+
+    return (
+        <Textarea
+            {...field}
+            className={styles.fritekst}
+            label={<span className={styles.fritekstlabel}>Notat til beslutter</span>}
+            description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
+            error={fieldState?.error?.message as string}
+            onChange={(e) => {
+                field.onChange(e);
+                replaceNotat({
+                    vedtaksperiodeId: vedtaksperiodeId,
+                    tekst: e.target.value,
+                });
+            }}
+            value={lagretNotat}
+            resize
+        />
+    );
+};

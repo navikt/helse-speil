@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import * as R from 'remeda';
 
 import { useMutation } from '@apollo/client';
@@ -32,6 +33,7 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
 
     const [overstyrMutation, { error, loading }] = useMutation(MinimumSykdomsgradMutationDocument);
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
+    const fjernNotat = useFjernNotat();
 
     useHåndterOpptegnelser((opptegnelse) => {
         if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
@@ -76,6 +78,7 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
                             setPollingRate(1000);
                         },
                     });
+                    fjernNotat(minimumSykdomsgrad.initierendeVedtaksperiodeId);
                 },
             });
         },
@@ -151,4 +154,38 @@ export const getOppkuttedePerioder = (
 
 const byDate = (a: string, b: string): number => {
     return dayjs(a, ISO_DATOFORMAT).isBefore(b) ? -1 : 1;
+};
+
+interface LagretNotat {
+    vedtaksperiodeId: string;
+    tekst: string;
+}
+
+const lokaleArbeidstidsvurderingNotaterState = atom({
+    key: 'lokaleArbeidstidsvurderingNotaterState',
+    default: [] as LagretNotat[],
+});
+
+export const useNotater = () => useRecoilValue(lokaleArbeidstidsvurderingNotaterState);
+
+export const useReplaceNotat = () => {
+    const setNotat = useSetRecoilState(lokaleArbeidstidsvurderingNotaterState);
+    return (nyttNotat: LagretNotat) => {
+        setNotat((currentState: LagretNotat[]) => [
+            ...currentState.filter((notat) => notat.vedtaksperiodeId !== nyttNotat.vedtaksperiodeId),
+            nyttNotat,
+        ]);
+    };
+};
+
+export const useFjernNotat = () => {
+    const setNotat = useSetRecoilState(lokaleArbeidstidsvurderingNotaterState);
+    return (vedtaksperiodeId: string) => {
+        setNotat((currentValue) => [...currentValue.filter((notat) => notat.vedtaksperiodeId !== vedtaksperiodeId)]);
+    };
+};
+
+export const useGetNotatTekst = (vedtaksperiodeId: string): string | undefined => {
+    const notater = useNotater();
+    return notater.find((notat) => notat.vedtaksperiodeId === vedtaksperiodeId)?.tekst;
 };
