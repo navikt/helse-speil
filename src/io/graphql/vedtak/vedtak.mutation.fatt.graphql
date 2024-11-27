@@ -1,0 +1,3 @@
+mutation FattVedtak($oppgavereferanse: String!, $vedtakBegrunnelse: VedtakBegrunnelseInput!) {
+    fattVedtak(oppgavereferanse: $oppgavereferanse, vedtakBegrunnelse: $vedtakBegrunnelse)
+}

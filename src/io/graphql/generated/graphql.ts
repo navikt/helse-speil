@@ -5405,6 +5405,13 @@ export type SendTilGodkjenningMutationVariables = Exact<{
 
 export type SendTilGodkjenningMutation = { __typename: 'Mutation'; sendTilGodkjenning: boolean };
 
+export type SendTilGodkjenningV2MutationVariables = Exact<{
+    oppgavereferanse: Scalars['String']['input'];
+    vedtakBegrunnelse: VedtakBegrunnelseInput;
+}>;
+
+export type SendTilGodkjenningV2Mutation = { __typename: 'Mutation'; sendTilGodkjenningV2: boolean };
+
 export type SettVarselStatusMutationVariables = Exact<{
     generasjonIdString: Scalars['String']['input'];
     ident: Scalars['String']['input'];
@@ -5430,6 +5437,13 @@ export type SettVarselStatusMutation = {
         } | null;
     };
 };
+
+export type FattVedtakMutationVariables = Exact<{
+    oppgavereferanse: Scalars['String']['input'];
+    vedtakBegrunnelse: VedtakBegrunnelseInput;
+}>;
+
+export type FattVedtakMutation = { __typename: 'Mutation'; fattVedtak: boolean };
 
 export type InnvilgVedtakMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
@@ -12631,6 +12645,52 @@ export const SendTilGodkjenningDocument = {
         },
     ],
 } as unknown as DocumentNode<SendTilGodkjenningMutation, SendTilGodkjenningMutationVariables>;
+export const SendTilGodkjenningV2Document = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'SendTilGodkjenningV2' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'vedtakBegrunnelse' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'VedtakBegrunnelseInput' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'sendTilGodkjenningV2' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgavereferanse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'vedtakBegrunnelse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'vedtakBegrunnelse' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<SendTilGodkjenningV2Mutation, SendTilGodkjenningV2MutationVariables>;
 export const SettVarselStatusDocument = {
     kind: 'Document',
     definitions: [
@@ -12719,6 +12779,52 @@ export const SettVarselStatusDocument = {
         },
     ],
 } as unknown as DocumentNode<SettVarselStatusMutation, SettVarselStatusMutationVariables>;
+export const FattVedtakDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'FattVedtak' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'vedtakBegrunnelse' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'VedtakBegrunnelseInput' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'fattVedtak' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgavereferanse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'vedtakBegrunnelse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'vedtakBegrunnelse' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FattVedtakMutation, FattVedtakMutationVariables>;
 export const InnvilgVedtakDocument = {
     kind: 'Document',
     definitions: [
