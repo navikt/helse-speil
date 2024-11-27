@@ -1,13 +1,14 @@
 import React from 'react';
-import * as R from 'remeda';
 
 import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
-import { Maybe, PeriodeFragment, PersonFragment } from '@io/graphql';
+import { Maybe, PersonFragment } from '@io/graphql';
 import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
 import { Verktøylinje } from '@saksbilde/Verktøylinje';
 import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
 import { PeriodeViewError } from '@saksbilde/saksbilder/PeriodeViewError';
 import { PeriodeViewSkeleton } from '@saksbilde/saksbilder/PeriodeViewSkeleton';
+import { harPeriodeDagerMedUnder20ProsentTotalGrad } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
+import { finnInitierendeVedtaksperiodeIdFraOverlappendePeriode } from '@saksbilde/utils';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { kanOverstyreMinimumSykdomsgradToggle } from '@utils/featureToggles';
@@ -35,30 +36,21 @@ export const Saksbilde = ({ children }: SaksbildeProps) => {
         return <PeriodeViewError />;
     }
 
-    const allePerioderPåSkjæringstidspunkt: PeriodeFragment[] = R.pipe(
-        person.arbeidsgivere,
-        R.flatMap((ag) => ag.generasjoner?.[0]?.perioder),
-        R.filter((periode) => isBeregnetPeriode(periode) || isUberegnetPeriode(periode)),
-        R.filter((periode) => periode.skjaeringstidspunkt === activePeriod.skjaeringstidspunkt),
-    );
-
-    const sammenfallendePerioder = allePerioderPåSkjæringstidspunkt.filter(
-        (periode) => periode.fom === activePeriod.fom && periode.tom === activePeriod.tom,
-    );
-
-    const harDagerMedUnder20ProsentTotalGrad = sammenfallendePerioder
-        .flatMap((periode) => periode.tidslinje)
-        .find((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 100) < 20);
-
     const initierendeVedtaksperiodeId =
         isBeregnetPeriode(activePeriod) || isUberegnetPeriode(activePeriod)
             ? activePeriod.vedtaksperiodeId
-            : sammenfallendePerioder?.shift()?.vedtaksperiodeId;
+            : finnInitierendeVedtaksperiodeIdFraOverlappendePeriode(person.arbeidsgivere, activePeriod);
+
+    const periodeHarDatoerMedUnder20ProsentTotalGrad = harPeriodeDagerMedUnder20ProsentTotalGrad(
+        activePeriod,
+        person.arbeidsgivere,
+        activePeriod.skjaeringstidspunkt,
+    );
 
     return (
         <div className={styles.Content}>
             {kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident, grupper) &&
-                harDagerMedUnder20ProsentTotalGrad &&
+                periodeHarDatoerMedUnder20ProsentTotalGrad &&
                 initierendeVedtaksperiodeId && (
                     <Verktøylinje
                         person={person}

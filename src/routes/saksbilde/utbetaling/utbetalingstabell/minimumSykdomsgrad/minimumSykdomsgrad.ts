@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import * as R from 'remeda';
 
 import { useMutation } from '@apollo/client';
 import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
@@ -10,6 +11,7 @@ import {
     MinimumSykdomsgradInput,
     MinimumSykdomsgradMutationDocument,
     OpprettAbonnementDocument,
+    PeriodeFragment,
     PersonFragment,
 } from '@io/graphql';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
@@ -89,6 +91,25 @@ export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: Ac
                     ?.filter(overlapper(periode)) ?? []
             ).length > 0,
     ) as Array<ArbeidsgiverFragment>;
+
+export const harPeriodeDagerMedUnder20ProsentTotalGrad = (
+    periode: DatePeriod,
+    arbeidsgivere: ArbeidsgiverFragment[],
+    skjæringstidspunkt: string,
+): boolean => {
+    const alleOverlappendePerioderPåSkjæringstidspunkt: PeriodeFragment[] = R.pipe(
+        arbeidsgivere,
+        R.flatMap((ag) => ag.generasjoner?.[0]?.perioder),
+        R.filter((it) => isBeregnetPeriode(it) || isUberegnetPeriode(it)),
+        R.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt),
+        R.filter((it) => overlapper(it)(periode)),
+    );
+
+    return alleOverlappendePerioderPåSkjæringstidspunkt
+        .flatMap((it) => it.tidslinje)
+        .filter((it) => dayjs(it.dato, ISO_DATOFORMAT).isBetween(periode.fom, periode.tom, 'day', '[]'))
+        .some((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 100) < 20);
+};
 
 export const getOppkuttedePerioder = (
     overlappendeArbeidsgivere: ArbeidsgiverFragment[],

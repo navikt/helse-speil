@@ -12,6 +12,7 @@ import { MinimumSykdomsgradVisning } from '@saksbilde/utbetaling/utbetalingstabe
 import {
     getOppkuttedePerioder,
     getOverlappendeArbeidsgivere,
+    harPeriodeDagerMedUnder20ProsentTotalGrad,
 } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { getOverlappendePerioder, overlapper } from '@state/selectors/period';
@@ -31,7 +32,10 @@ export const Verktøylinje = ({ person, periode, initierendeVedtaksperiodeId }: 
     const minimumSykdomsgradsoverstyringer =
         aktivArbeidsgiver?.overstyringer.filter(isMinimumSykdomsgradsoverstyring) ?? [];
     const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, periode);
-    const oppkuttedePerioder = getOppkuttedePerioder(overlappendeArbeidsgivere, periode);
+    const oppkuttedePerioder =
+        getOppkuttedePerioder(overlappendeArbeidsgivere, periode)?.filter((it) =>
+            harPeriodeDagerMedUnder20ProsentTotalGrad(it, person.arbeidsgivere, periode.skjaeringstidspunkt),
+        ) ?? [];
     const harAlleDelperioderBlittVurdertSistIAndreVedtaksperioder: boolean =
         isBeregnetPeriode(periode) &&
         (oppkuttedePerioder?.every((dp) => {
