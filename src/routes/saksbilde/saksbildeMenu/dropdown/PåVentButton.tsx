@@ -52,7 +52,6 @@ export const PåVentButton = ({ person }: PåVentButtonProps): Maybe<ReactElemen
                     onClose={() => setShowModal(false)}
                     showModal={showModal}
                     navn={navn}
-                    vedtaksperiodeId={periodeTilGodkjenning.vedtaksperiodeId}
                     oppgaveId={oppgaveId}
                     tildeling={tildeling}
                     periodeId={periodeTilGodkjenning.id}

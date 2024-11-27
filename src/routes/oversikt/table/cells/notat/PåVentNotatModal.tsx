@@ -24,7 +24,6 @@ interface PåVentNotatModalProps {
     onClose: () => void;
     showModal: boolean;
     navn: Personnavn;
-    vedtaksperiodeId: string;
     oppgaveId: string;
     tildeling: Maybe<Tildeling>;
     periodeId?: string;
@@ -34,13 +33,12 @@ export const PåVentNotatModal = ({
     onClose,
     showModal,
     navn,
-    vedtaksperiodeId,
     oppgaveId,
     tildeling,
     periodeId,
 }: PåVentNotatModalProps): ReactElement => {
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
-    const [leggPåVentMedNotat, { loading, error: leggPåVentError }] = useLeggPåVent(periodeId);
+    const [leggPåVent, { loading, error: leggPåVentError }] = useLeggPåVent(periodeId);
     const errorHandler = useOperationErrorHandler('Legg på vent');
     const router = useRouter();
     const saksbehandler = useInnloggetSaksbehandler();
@@ -80,7 +78,7 @@ export const PåVentNotatModal = ({
         arsaker: PaVentArsakInput[],
     ) => {
         const fristVerdi = dayjs(frist, NORSK_DATOFORMAT).format(ISO_DATOFORMAT);
-        await leggPåVentMedNotat(oppgaveId, fristVerdi, tildeling, notattekst, vedtaksperiodeId, arsaker);
+        await leggPåVent(oppgaveId, fristVerdi, tildeling, notattekst, arsaker);
         if (leggPåVentError) {
             errorHandler(leggPåVentError);
         } else {

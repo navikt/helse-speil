@@ -33,7 +33,6 @@ export const useLeggPåVent = (
         frist: string,
         tildeling: boolean,
         notattekst: Maybe<string>,
-        vedtaksperiodeId: string,
         arsaker: PaVentArsakInput[],
     ) => Promise<FetchResult<LeggPaVentMutation>>,
     MutationResult<LeggPaVentMutation>,
@@ -46,7 +45,6 @@ export const useLeggPåVent = (
         frist: string,
         tildeling: boolean,
         notattekst: Maybe<string>,
-        vedtaksperiodeId: string,
         arsaker: PaVentArsakInput[],
     ) =>
         leggPåVentMutation({
@@ -73,6 +71,7 @@ export const useLeggPåVent = (
 
     return [leggPåVent, data];
 };
+
 export const useFjernPåVent = (
     behandlingId?: string,
 ): [(oppgavereferanse: string) => Promise<FetchResult<FjernPaVentMutation>>, MutationResult<FjernPaVentMutation>] => {

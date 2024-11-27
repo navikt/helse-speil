@@ -10,7 +10,6 @@ import styles from './OptionsCell.module.css';
 
 interface PåVentMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     oppgavereferanse: string;
-    vedtaksperiodeId: string;
     tildeling: Maybe<Tildeling>;
     navn: Personnavn;
     erPåVent: boolean;
@@ -18,7 +17,6 @@ interface PåVentMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 
 export const PåVentMenuButton = ({
     oppgavereferanse,
-    vedtaksperiodeId,
     tildeling,
     navn,
     erPåVent,
@@ -46,7 +44,6 @@ export const PåVentMenuButton = ({
                     onClose={() => setShowModal(false)}
                     showModal={showModal}
                     navn={navn}
-                    vedtaksperiodeId={vedtaksperiodeId}
                     tildeling={tildeling}
                     oppgaveId={oppgavereferanse}
                 />
