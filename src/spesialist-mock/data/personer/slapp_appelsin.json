@@ -651,7 +651,7 @@
                                             "id": 1232345,
                                             "type": "TOTRINNSVURDERING_RETUR",
                                             "timestamp": "2023-01-24T15:07:30.090206",
-                                            "saksbehandlerIdent": null,
+                                            "saksbehandlerIdent": "B987654",
                                             "dialogRef": 10235,
                                             "notattekst": "Totrinnsvurdering notat bla bla",
                                             "kommentarer": [],
