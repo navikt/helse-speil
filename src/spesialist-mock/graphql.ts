@@ -155,12 +155,6 @@ const getResolvers = (): IResolvers => ({
                 antallMineSakerPaVent: paVent.length,
             };
         },
-        notater: async (_, { forPerioder }: { forPerioder: string[] }) => {
-            return forPerioder.map((it) => ({
-                id: it,
-                notater: NotatMock.getNotater(it),
-            }));
-        },
         hentSoknad: async () => {
             await new Promise((resolve) => {
                 setTimeout(() => {

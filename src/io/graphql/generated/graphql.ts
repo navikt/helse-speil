@@ -816,12 +816,6 @@ export enum NotatType {
     Retur = 'Retur',
 }
 
-export type Notater = {
-    __typename: 'Notater';
-    id: Scalars['UUID']['output'];
-    notater: Array<Notat>;
-};
-
 export type NyttInntektsforholdPeriode = {
     __typename: 'NyttInntektsforholdPeriode';
     dagligBelop: Scalars['Float']['output'];
@@ -1144,7 +1138,6 @@ export type Query = {
     behandlingsstatistikk: Behandlingsstatistikk;
     hentInntektsmelding: Maybe<DokumentInntektsmelding>;
     hentSoknad: Soknad;
-    notater: Array<Notater>;
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     person: Maybe<Person>;
@@ -1163,10 +1156,6 @@ export type QueryHentInntektsmeldingArgs = {
 export type QueryHentSoknadArgs = {
     dokumentId: Scalars['String']['input'];
     fnr: Scalars['String']['input'];
-};
-
-export type QueryNotaterArgs = {
-    forPerioder: Array<Scalars['String']['input']>;
 };
 
 export type QueryOppgaveFeedArgs = {
