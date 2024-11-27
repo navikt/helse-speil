@@ -8,7 +8,8 @@ import { cwd } from 'process';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 import { Maybe } from '@io/graphql';
-import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
+import { DialogMock } from '@spesialist-mock/storage/dialog';
+import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { Oppgave, UUID } from '@typer/spesialist-mock';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
@@ -70,7 +71,9 @@ const leggTilLagretData = (person: Person): void => {
                     }
                 }
 
-                periode.historikkinnslag = HistorikkinnslagMock.getHistorikkinnslag(periode.vedtaksperiodeId);
+                periode.historikkinnslag = HistorikkinnslagMock.getHistorikkinnslag(
+                    periode.vedtaksperiodeId,
+                ) as Historikkinnslag[];
                 periode.notater = NotatMock.getNotaterForPeriode(periode);
                 periode.varsler = VarselMock.getVarslerForPeriode(periode.varsler);
                 const oppgavereferanse: Maybe<string> = periode.oppgave?.id ?? null;
@@ -180,7 +183,11 @@ const getResolvers = (): IResolvers => ({
     },
     Mutation: {
         leggTilNotat: (_, { type, vedtaksperiodeId, tekst }: MutationLeggTilNotatArgs) => {
-            return NotatMock.addNotat(vedtaksperiodeId, { tekst: tekst, type: type });
+            return NotatMock.addNotat(vedtaksperiodeId, {
+                tekst: tekst,
+                type: type,
+                dialogRef: DialogMock.addDialog()!!,
+            });
         },
         feilregistrerNotat: (_, { id }: MutationFeilregistrerNotatArgs) => {
             NotatMock.feilregistrerNotat({ id });
@@ -191,8 +198,7 @@ const getResolvers = (): IResolvers => ({
             return NotatMock.getKommentar(id);
         },
         leggTilKommentar: (_, { tekst, dialogRef, saksbehandlerident }: MutationLeggTilKommentarArgs) => {
-            // TODO: Fiks mocking av kommentarer fra legg på vent. Ikke lenger knyttet til notat
-            return NotatMock.addKommentar({ tekst, dialogRef, saksbehandlerident });
+            return DialogMock.addKommentar(dialogRef, { tekst, saksbehandlerident });
         },
         settVarselstatus: async (
             _,
@@ -255,7 +261,7 @@ const getResolvers = (): IResolvers => ({
                 frist: frist,
                 arsaker: arsaker ? arsaker.map((arsak) => arsak.arsak) : [],
                 type: PeriodehistorikkType.LeggPaVent,
-                dialogRef: 1029,
+                dialogRef: DialogMock.addDialog(),
             });
             PaVentMock.setPåVent(oppgaveId, {
                 frist: dayjs().format('YYYY-MM-DD'),
@@ -335,7 +341,7 @@ const getResolvers = (): IResolvers => ({
             HistorikkinnslagMock.addHistorikkinnslag(oppgavereferanse, {
                 type: PeriodehistorikkType.TotrinnsvurderingRetur,
                 notattekst: notatTekst,
-                dialogRef: 1122,
+                dialogRef: DialogMock.addDialog(),
             });
             return true;
         },
@@ -441,7 +447,10 @@ const puttNotaterFraTestpersonerIMock = (): void => {
                 .filter((notat: Notat) => !!notat),
         );
         notater.forEach((notat) => {
+            const dialogId = notat.dialogRef;
+            DialogMock.addDialog(dialogId);
             NotatMock.addNotat(notat.vedtaksperiodeId, notat);
+            DialogMock.addKommentarer(dialogId, notat.kommentarer);
         });
     });
 };
@@ -464,7 +473,19 @@ const puttHistorikkinnslagFraTestpersonerIMock = (): void => {
 
         vedtaksperiodeHistorikkinnslag.forEach((historikkinnslagArray, vedtaksperiodeId) => {
             historikkinnslagArray.forEach((historikkinnslag) => {
-                HistorikkinnslagMock.addHistorikkinnslag(vedtaksperiodeId, historikkinnslag);
+                const dialogId = DialogMock.addDialog(
+                    historikkinnslag.dialogRef !== undefined ? historikkinnslag.dialogRef : null,
+                );
+                HistorikkinnslagMock.addHistorikkinnslag(vedtaksperiodeId, {
+                    ...historikkinnslag,
+                    dialogRef: dialogId,
+                });
+                if (dialogId !== null) {
+                    DialogMock.addKommentarer(
+                        dialogId,
+                        (historikkinnslag as HistorikkinnslagMedKommentarer).kommentarer,
+                    );
+                }
             });
         });
     });

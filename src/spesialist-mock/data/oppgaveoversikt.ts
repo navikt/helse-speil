@@ -152,7 +152,7 @@ const syncMock = (oppgaver: OppgaveTilBehandling[]) => {
                     opprettet: historikkinnslag.timestamp,
                     saksbehandler: historikkinnslag.saksbehandlerIdent!!,
                     tidsfrist: historikkinnslag.frist!!,
-                    kommentarer: [],
+                    kommentarer: historikkinnslag.kommentarer,
                 };
                 egenskaper = !egenskaper.some((e) => e.egenskap === Egenskap.PaVent)
                     ? [...egenskaper, { egenskap: Egenskap.PaVent, kategori: Kategori.Status }]

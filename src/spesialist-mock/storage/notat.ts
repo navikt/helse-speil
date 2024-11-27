@@ -8,7 +8,6 @@ import {
     Kommentar,
     MutationFeilregistrerKommentarArgs,
     MutationFeilregistrerNotatArgs,
-    MutationLeggTilKommentarArgs,
     Notat,
     NotatType,
 } from '../schemaTypes';
@@ -22,7 +21,6 @@ export const findVedtaksperiodeId = (id: string): UUID | undefined => {
 export class NotatMock {
     private static notater: Map<UUID, Array<Notat>> = new Map();
     private static notatCounter: number = 0;
-    private static kommentarCounter: number = 0;
 
     static addNotat = (id: string, notatProperties?: Partial<Notat>): Notat => {
         const vedtaksperiodeId = findVedtaksperiodeId(id) ?? id;
@@ -31,23 +29,10 @@ export class NotatMock {
         return notat;
     };
 
-    static addKommentar = ({ tekst, dialogRef, saksbehandlerident }: MutationLeggTilKommentarArgs): Kommentar => {
-        const nyKommentar: Kommentar = {
-            id: NotatMock.kommentarCounter++,
-            opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
-            tekst,
-            saksbehandlerident,
-        };
-
-        // NotatMock.notater.forEach((notater: Array<Notat>, vedtaksperiodeId: UUID) => {
-        //     const gamleKommentarer = notater.find((it) => it.id === notatId)?.kommentarer;
-        //     if (gamleKommentarer) {
-        //         NotatMock.updateNotat(vedtaksperiodeId, notatId, { kommentarer: [...gamleKommentarer, nyKommentar] });
-        //     }
-        // });
-
-        return nyKommentar;
-    };
+    static getNotatMedDialogId = (dialogId: number): Notat | undefined =>
+        Array.from(NotatMock.notater.values())
+            .flat()
+            .find((n) => n.dialogRef === dialogId);
 
     static getKommentar = (id: number): Kommentar | undefined => {
         let _kommentar: Kommentar | undefined;
@@ -109,7 +94,7 @@ export class NotatMock {
 
     private static getMockedNotat = (vedtaksperiodeId: string, overrides?: Partial<Notat>): Notat => ({
         id: NotatMock.notatCounter++,
-        dialogRef: NotatMock.notatCounter,
+        dialogRef: Math.floor(1000000 + Math.random() * 9000000),
         tekst: 'Revidert utgave 2',
         opprettet: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
         saksbehandlerOid: '11111111-2222-3333-4444-555555555555',

@@ -86,7 +86,7 @@ export const oppgaver: OppgaveTilBehandling[] = [
             tidsfrist: '2023-02-21',
             kommentarer: [
                 {
-                    id: 222,
+                    id: 223,
                     tekst: 'En liten kommentar',
                     opprettet: '2023-01-24T15:09:30.090206',
                     saksbehandlerident: 'A123456',
