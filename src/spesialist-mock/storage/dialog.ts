@@ -13,7 +13,7 @@ export class DialogMock {
         return dialogId;
     };
 
-    static addKommentar = (dialogId: number, kommentarProps?: Partial<Kommentar>) => {
+    static addKommentar = (dialogId: number, kommentarProps?: Partial<Kommentar>): Kommentar => {
         const mockedKommentar = DialogMock.getMockedKommentar(kommentarProps);
         DialogMock.dialog.set(dialogId, [...DialogMock.getKommentarer(dialogId), mockedKommentar]);
 
@@ -31,6 +31,7 @@ export class DialogMock {
                 });
             }
         }
+        return mockedKommentar;
     };
 
     static addKommentarer = (dialogId: number, kommentarer: Kommentar[]) =>
