@@ -622,6 +622,7 @@ export enum Mottaker {
 export type Mutation = {
     __typename: 'Mutation';
     annuller: Scalars['Boolean']['output'];
+    fattVedtak: Scalars['Boolean']['output'];
     feilregistrerKommentar: Maybe<Kommentar>;
     feilregistrerKommentarV2: Maybe<Kommentar>;
     feilregistrerNotat: Maybe<Notat>;
@@ -641,6 +642,7 @@ export type Mutation = {
     overstyrInntektOgRefusjon: Scalars['Boolean']['output'];
     sendIRetur: Scalars['Boolean']['output'];
     sendTilGodkjenning: Scalars['Boolean']['output'];
+    sendTilGodkjenningV2: Scalars['Boolean']['output'];
     sendTilInfotrygd: Scalars['Boolean']['output'];
     settVarselstatus: VarselDto;
     skjonnsfastsettSykepengegrunnlag: Scalars['Boolean']['output'];
@@ -648,6 +650,11 @@ export type Mutation = {
 
 export type MutationAnnullerArgs = {
     annullering: AnnulleringDataInput;
+};
+
+export type MutationFattVedtakArgs = {
+    oppgavereferanse: Scalars['String']['input'];
+    vedtakBegrunnelse: VedtakBegrunnelseInput;
 };
 
 export type MutationFeilregistrerKommentarArgs = {
@@ -737,6 +744,11 @@ export type MutationSendIReturArgs = {
 export type MutationSendTilGodkjenningArgs = {
     avslag?: InputMaybe<AvslagInput>;
     oppgavereferanse: Scalars['String']['input'];
+};
+
+export type MutationSendTilGodkjenningV2Args = {
+    oppgavereferanse: Scalars['String']['input'];
+    vedtakBegrunnelse: VedtakBegrunnelseInput;
 };
 
 export type MutationSendTilInfotrygdArgs = {
@@ -1662,6 +1674,17 @@ export type VarselvurderingDto = {
     tidsstempel: Scalars['LocalDateTime']['output'];
 };
 
+export type VedtakBegrunnelseInput = {
+    begrunnelse?: InputMaybe<Scalars['String']['input']>;
+    utfall: VedtakBegrunnelseUtfall;
+};
+
+export enum VedtakBegrunnelseUtfall {
+    Avslag = 'AVSLAG',
+    DelvisInnvilgelse = 'DELVIS_INNVILGELSE',
+    Innvilgelse = 'INNVILGELSE',
+}
+
 export type Vilkarsgrunnlag = {
     arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
     id: Scalars['UUID']['output'];
@@ -2042,40 +2065,6 @@ export type LeggTilNotatMutation = {
             feilregistrert_tidspunkt: string | null;
         }>;
     } | null;
-};
-
-export type FetchNotaterQueryVariables = Exact<{
-    forPerioder: Array<Scalars['String']['input']> | Scalars['String']['input'];
-}>;
-
-export type FetchNotaterQuery = {
-    __typename: 'Query';
-    notater: Array<{
-        __typename: 'Notater';
-        id: string;
-        notater: Array<{
-            __typename: 'Notat';
-            id: number;
-            dialogRef: number;
-            tekst: string;
-            opprettet: string;
-            saksbehandlerOid: string;
-            saksbehandlerNavn: string;
-            saksbehandlerEpost: string;
-            saksbehandlerIdent: string;
-            vedtaksperiodeId: string;
-            feilregistrert: boolean;
-            type: NotatType;
-            kommentarer: Array<{
-                __typename: 'Kommentar';
-                id: number;
-                tekst: string;
-                opprettet: string;
-                saksbehandlerident: string;
-                feilregistrert_tidspunkt: string | null;
-            }>;
-        }>;
-    }>;
 };
 
 export type OppgaveFeedQueryVariables = Exact<{
@@ -10511,108 +10500,6 @@ export const LeggTilNotatDocument = {
         },
     ],
 } as unknown as DocumentNode<LeggTilNotatMutation, LeggTilNotatMutationVariables>;
-export const FetchNotaterDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'FetchNotater' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'forPerioder' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: {
-                            kind: 'ListType',
-                            type: {
-                                kind: 'NonNullType',
-                                type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                            },
-                        },
-                    },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'notater' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'forPerioder' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'forPerioder' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'notater' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'notat' } },
-                                        ],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'kommentar' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'notat' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Notat' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'kommentarer' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'kommentar' } }],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FetchNotaterQuery, FetchNotaterQueryVariables>;
 export const OppgaveFeedDocument = {
     kind: 'Document',
     definitions: [

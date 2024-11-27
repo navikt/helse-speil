@@ -620,6 +620,7 @@ export enum Mottaker {
 export type Mutation = {
     __typename?: 'Mutation';
     annuller: Scalars['Boolean']['output'];
+    fattVedtak: Scalars['Boolean']['output'];
     feilregistrerKommentar?: Maybe<Kommentar>;
     feilregistrerKommentarV2?: Maybe<Kommentar>;
     feilregistrerNotat?: Maybe<Notat>;
@@ -639,6 +640,7 @@ export type Mutation = {
     overstyrInntektOgRefusjon: Scalars['Boolean']['output'];
     sendIRetur: Scalars['Boolean']['output'];
     sendTilGodkjenning: Scalars['Boolean']['output'];
+    sendTilGodkjenningV2: Scalars['Boolean']['output'];
     sendTilInfotrygd: Scalars['Boolean']['output'];
     settVarselstatus: VarselDto;
     skjonnsfastsettSykepengegrunnlag: Scalars['Boolean']['output'];
@@ -646,6 +648,11 @@ export type Mutation = {
 
 export type MutationAnnullerArgs = {
     annullering: AnnulleringDataInput;
+};
+
+export type MutationFattVedtakArgs = {
+    oppgavereferanse: Scalars['String']['input'];
+    vedtakBegrunnelse: VedtakBegrunnelseInput;
 };
 
 export type MutationFeilregistrerKommentarArgs = {
@@ -735,6 +742,11 @@ export type MutationSendIReturArgs = {
 export type MutationSendTilGodkjenningArgs = {
     avslag?: InputMaybe<AvslagInput>;
     oppgavereferanse: Scalars['String']['input'];
+};
+
+export type MutationSendTilGodkjenningV2Args = {
+    oppgavereferanse: Scalars['String']['input'];
+    vedtakBegrunnelse: VedtakBegrunnelseInput;
 };
 
 export type MutationSendTilInfotrygdArgs = {
@@ -1659,6 +1671,17 @@ export type VarselvurderingDto = {
     status: Varselstatus;
     tidsstempel: Scalars['LocalDateTime']['output'];
 };
+
+export type VedtakBegrunnelseInput = {
+    begrunnelse?: InputMaybe<Scalars['String']['input']>;
+    utfall: VedtakBegrunnelseUtfall;
+};
+
+export enum VedtakBegrunnelseUtfall {
+    Avslag = 'AVSLAG',
+    DelvisInnvilgelse = 'DELVIS_INNVILGELSE',
+    Innvilgelse = 'INNVILGELSE',
+}
 
 export type Vilkarsgrunnlag = {
     arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;

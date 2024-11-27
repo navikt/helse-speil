@@ -1,8 +1,0 @@
-query FetchNotater($forPerioder: [String!]!) {
-    notater(forPerioder: $forPerioder) {
-        id
-        notater {
-            ...notat
-        }
-    }
-}

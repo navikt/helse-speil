@@ -31,12 +31,7 @@ export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps): ReactEle
                 erUtgåttDato={sorteringsnøkkel === SortKey.Tidsfrist && utgåttFrist}
             />
             <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
-            <PåVentCell
-                vedtaksperiodeId={oppgave.vedtaksperiodeId}
-                navn={oppgave.navn}
-                påVentInfo={oppgave.paVentInfo}
-                utgåttFrist={utgåttFrist}
-            />
+            <PåVentCell navn={oppgave.navn} påVentInfo={oppgave.paVentInfo} utgåttFrist={utgåttFrist} />
         </LinkRow>
     );
 };

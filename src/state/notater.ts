@@ -1,9 +1,7 @@
 import dayjs from 'dayjs';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { useQuery } from '@apollo/client';
-import { FetchNotaterDocument, NotatFragment, NotatType } from '@io/graphql';
-import { ApolloResponse } from '@state/oppgaver';
+import { NotatFragment, NotatType } from '@io/graphql';
 import { Notat } from '@typer/notat';
 
 export const useNotater = () => useRecoilValue(lokaleNotaterState);
@@ -32,27 +30,6 @@ export const useFjernNotat = () => {
 export const useGetNotatTekst = (notattype: NotatType, vedtaksperiodeId: string): string | undefined => {
     const notater = useNotater();
     return notater.find((notat) => notat.type === notattype && notat.vedtaksperiodeId === vedtaksperiodeId)?.tekst;
-};
-
-export const useQueryNotater = (vedtaksperiodeIder: string[]): ApolloResponse<Notat[]> => {
-    const fetchNotater = useQuery(FetchNotaterDocument, {
-        variables: {
-            forPerioder: vedtaksperiodeIder,
-        },
-    });
-
-    return {
-        data: fetchNotater.data?.notater
-            ?.flatMap((it) => it.notater)
-            .map(toNotat)
-            .sort((a, b) => (a.opprettet < b.opprettet ? 1 : -1)),
-        error: fetchNotater.error,
-        loading: fetchNotater.loading,
-    };
-};
-export const useNotaterForVedtaksperiode = (vedtaksperiodeId: string) => {
-    const notater = useQueryNotater([vedtaksperiodeId]);
-    return notater.data?.filter((notat) => notat.vedtaksperiodeId == vedtaksperiodeId) ?? [];
 };
 
 export const toNotat = (spesialistNotat: NotatFragment): Notat => ({

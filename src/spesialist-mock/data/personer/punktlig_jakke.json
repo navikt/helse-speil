@@ -611,20 +611,6 @@
                                     ],
                                     "notater": [
                                         {
-                                            "id": 41,
-                                            "tekst": "Må sjekke noe på denne",
-                                            "opprettet": "2024-06-05T09:13:22.223561",
-                                            "saksbehandlerOid": "a3c4b753-3049-4d63-b66b-2b767c708992",
-                                            "saksbehandlerNavn": "Brumsen, Ole",
-                                            "saksbehandlerEpost": "Ole.Brumsen@nav.no",
-                                            "saksbehandlerIdent": "B150563",
-                                            "vedtaksperiodeId": "5decb2f6-163b-469f-b733-84d9b20eb9ce",
-                                            "feilregistrert": false,
-                                            "type": "PaaVent",
-                                            "kommentarer": [],
-                                            "__typename": "Notat"
-                                        },
-                                        {
                                             "id": 42,
                                             "tekst": "Vi har prøvd å kontake bruker, og arbeidsgiver. Både på telefon og telefaks.\n\nForrige gang vi fikk tak i noen, var det revisoren til arbeidsgiveren, og hen visste jo selvsagt ikke noe om status.\n\nLegen svarer heller ikke på telefon eller SMS - det virker som at de har forlatt landet, alle sammen!",
                                             "opprettet": "2024-08-27T15:14:37.508022",

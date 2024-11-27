@@ -1,42 +1,24 @@
-import React, { PropsWithChildren, ReactElement, useState } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { BodyShort, HStack, Heading, Modal, VStack } from '@navikt/ds-react';
 
-import { NotatType, PaVentInfo, Personnavn } from '@io/graphql';
+import { PaVentInfo, Personnavn } from '@io/graphql';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { getFormatertNavn } from '@utils/string';
-
-import { NyttNotatModal } from './NyttNotatModal';
 
 import styles from './PåVentModal.module.scss';
 
 type PåVentListeModalProps = {
     onClose: () => void;
     showModal: boolean;
-    vedtaksperiodeId: string;
     navn: Personnavn;
     påVentInfo: PaVentInfo;
 };
 
-export const PåVentListeModal = ({
-    onClose,
-    showModal,
-    vedtaksperiodeId,
-    navn,
-    påVentInfo,
-}: PåVentListeModalProps): ReactElement => {
+export const PåVentListeModal = ({ onClose, showModal, navn, påVentInfo }: PåVentListeModalProps): ReactElement => {
     const søkernavn = getFormatertNavn(navn);
-    const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
 
-    return showNyttNotatModal ? (
-        <NyttNotatModal
-            onClose={() => setShowNyttNotatModal(false)}
-            showModal={showNyttNotatModal}
-            navn={navn}
-            vedtaksperiodeId={vedtaksperiodeId}
-            notattype={NotatType.PaaVent}
-        />
-    ) : (
+    return (
         <Modal aria-label="Legg på vent notater modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
             <Modal.Header>
                 <Heading level="1" size="medium" className={styles.tittel}>
@@ -75,11 +57,6 @@ export const PåVentListeModal = ({
                     )}
                 </VStack>
             </Modal.Body>
-            {/*<Modal.Footer>*/}
-            {/*    <Button variant="primary" onClick={() => setShowNyttNotatModal((prevState) => !prevState)}>*/}
-            {/*        Legg til nytt notat*/}
-            {/*    </Button>*/}
-            {/*</Modal.Footer>*/}
         </Modal>
     );
 };

@@ -602,36 +602,7 @@
                                     "forbrukteSykedager": 11,
                                     "gjenstaendeSykedager": 237,
                                     "beslutterSaksbehandlerOid": null,
-                                    "notater": [
-                                        {
-                                            "id": 428,
-                                            "tekst": "🙂",
-                                            "opprettet": "2023-02-10T18:02:02.746996",
-                                            "saksbehandlerOid": "1111aaaa-c9b2-4132-bb7f-d33e9ff5671f",
-                                            "saksbehandlerNavn": "Jattemaker, Hørgen",
-                                            "saksbehandlerEpost": "Hørgen.Jattemaker@nav.no",
-                                            "saksbehandlerIdent": "J135246",
-                                            "vedtaksperiodeId": "d7d208c3-a9a1-4c03-885f-aeffa4475a49",
-                                            "feilregistrert": false,
-                                            "feilregistrert_tidspunkt": "null",
-                                            "type": "PaaVent",
-                                            "kommentarer": []
-                                        },
-                                        {
-                                            "id": 431,
-                                            "tekst": "Nei, går ikke.",
-                                            "opprettet": "2023-02-10T18:32:13.295666",
-                                            "saksbehandlerOid": "1111aaaa-c9b2-4132-bb7f-d33e9ff5671f",
-                                            "saksbehandlerNavn": "Jattemaker, Hørgen",
-                                            "saksbehandlerEpost": "Hørgen.Jattemaker@nav.no",
-                                            "saksbehandlerIdent": "J135246",
-                                            "vedtaksperiodeId": "d7d208c3-a9a1-4c03-885f-aeffa4475a49",
-                                            "feilregistrert": false,
-                                            "feilregistrert_tidspunkt": "null",
-                                            "type": "Retur",
-                                            "kommentarer": []
-                                        }
-                                    ],
+                                    "notater": [],
                                     "historikkinnslag": [
                                         {
                                             "id": 123534,

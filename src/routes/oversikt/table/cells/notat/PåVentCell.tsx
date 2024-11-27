@@ -12,23 +12,17 @@ import { PåVentListeModal } from './PåVentListeModal';
 import styles from './PåVentCell.module.css';
 
 interface PåVentCellProps {
-    vedtaksperiodeId: string;
     navn: Personnavn;
     utgåttFrist: boolean;
     påVentInfo: Maybe<PaVentInfo>;
 }
 
-export const PåVentCell = ({ vedtaksperiodeId, navn, utgåttFrist, påVentInfo }: PåVentCellProps): ReactElement => {
+export const PåVentCell = ({ navn, utgåttFrist, påVentInfo }: PåVentCellProps): ReactElement => {
     return (
         <Table.DataCell onClick={(event) => event.stopPropagation()} className={classNames(styles.PåVentCell)}>
             {!!påVentInfo && (
                 <div className={styles.KnappOgTekst}>
-                    <PåVentKnapp
-                        vedtaksperiodeId={vedtaksperiodeId}
-                        navn={navn}
-                        utgåttFrist={utgåttFrist}
-                        påVentInfo={påVentInfo}
-                    />
+                    <PåVentKnapp navn={navn} utgåttFrist={utgåttFrist} påVentInfo={påVentInfo} />
                     <SisteNotattekst påVentInfo={påVentInfo} />
                 </div>
             )}
@@ -37,13 +31,12 @@ export const PåVentCell = ({ vedtaksperiodeId, navn, utgåttFrist, påVentInfo 
 };
 
 interface PåVentKnappProps {
-    vedtaksperiodeId: string;
     navn: Personnavn;
     utgåttFrist: boolean;
     påVentInfo: PaVentInfo;
 }
 
-const PåVentKnapp = ({ vedtaksperiodeId, navn, utgåttFrist, påVentInfo }: PåVentKnappProps): Maybe<ReactElement> => {
+const PåVentKnapp = ({ navn, utgåttFrist, påVentInfo }: PåVentKnappProps): Maybe<ReactElement> => {
     const [showModal, setShowModal] = useState(false);
 
     const toggleModal = (event: React.SyntheticEvent) => {
@@ -69,7 +62,6 @@ const PåVentKnapp = ({ vedtaksperiodeId, navn, utgåttFrist, påVentInfo }: På
                     onClose={() => setShowModal(false)}
                     showModal={showModal}
                     påVentInfo={påVentInfo}
-                    vedtaksperiodeId={vedtaksperiodeId}
                     navn={navn}
                 />
             )}

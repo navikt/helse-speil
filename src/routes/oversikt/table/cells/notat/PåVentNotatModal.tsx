@@ -7,10 +7,9 @@ import { BodyShort, Button, Checkbox, ErrorMessage, Heading, Modal } from '@navi
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Arsak } from '@external/sanity';
-import { Maybe, NotatType, PaVentArsakInput, Personnavn, Tildeling } from '@io/graphql';
+import { Maybe, PaVentArsakInput, Personnavn, Tildeling } from '@io/graphql';
 import { PåVentÅrsakerOgBegrunnelse } from '@oversikt/table/cells/notat/PåVentÅrsakerOgBegrunnelse';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useNotaterForVedtaksperiode } from '@state/notater';
 import { useLeggPåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
@@ -18,7 +17,6 @@ import { apolloErrorCode } from '@utils/error';
 import { getFormatertNavn } from '@utils/string';
 
 import { Frist } from './Frist';
-import { SisteNotat } from './SisteNotat';
 
 import styles from './PåVentModal.module.scss';
 
@@ -41,7 +39,6 @@ export const PåVentNotatModal = ({
     tildeling,
     periodeId,
 }: PåVentNotatModalProps): ReactElement => {
-    const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
     const [leggPåVentMedNotat, { loading, error: leggPåVentError }] = useLeggPåVent(periodeId);
     const errorHandler = useOperationErrorHandler('Legg på vent');
@@ -60,10 +57,6 @@ export const PåVentNotatModal = ({
 
     const erTildeltSaksbehandler = tildeling && tildeling.oid === saksbehandler.oid;
 
-    const sisteNotat = [...notaterForOppgave]
-        .filter((it) => !it.feilregistrert && it.type === NotatType.PaaVent)
-        .sort((a, b) => b.opprettet.diff(a.opprettet, 'millisecond'))
-        .shift();
     const submit: SubmitHandler<FieldValues> = async (fieldValues) => {
         if (!harMinstÉnÅrsak()) {
             form.setError('arsaker', {
@@ -111,7 +104,6 @@ export const PåVentNotatModal = ({
                 {søkernavn && <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>}
             </Modal.Header>
             <Modal.Body>
-                {sisteNotat && <SisteNotat notat={sisteNotat} />}
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(submit)} id="på-vent-notat-form">
                         <PåVentÅrsakerOgBegrunnelse />

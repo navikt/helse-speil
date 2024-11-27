@@ -2,7 +2,6 @@ import { ApolloCache, FetchResult, MutationResult, useMutation } from '@apollo/c
 import {
     AntallOppgaverDocument,
     Egenskap,
-    FetchNotaterDocument,
     FjernPaVentDocument,
     FjernPaVentMutation,
     Kategori,
@@ -51,11 +50,7 @@ export const useLeggPåVent = (
         arsaker: PaVentArsakInput[],
     ) =>
         leggPåVentMutation({
-            refetchQueries: [
-                OppgaveFeedDocument,
-                AntallOppgaverDocument,
-                { query: FetchNotaterDocument, variables: { forPerioder: [vedtaksperiodeId] } },
-            ],
+            refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
             optimisticResponse: {
                 __typename: 'Mutation',
                 leggPaVent: { ...optimistiskPaVent, frist },

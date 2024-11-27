@@ -543,25 +543,23 @@ export const getMinimumSykdomsgradoverstyring = (
 };
 
 export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObject> =>
-    notater
-        .filter((notat) => notat.type !== 'PaaVent' && notat.type !== 'Retur')
-        .map(
-            (notat: Notat) =>
-                ({
-                    id: notat.id,
-                    dialogRef: notat.dialogRef,
-                    type: 'Notat',
-                    tekst: notat.tekst,
-                    notattype: notat.type as NotatType,
-                    saksbehandler: notat.saksbehandler.ident,
-                    timestamp: notat.opprettet.format(ISO_TIDSPUNKTFORMAT),
-                    feilregistrert: notat.feilregistrert,
-                    vedtaksperiodeId: notat.vedtaksperiodeId,
-                    kommentarer: notat.kommentarer,
-                    erNyesteNotatMedType:
-                        [...notater].sort(byTimestamp).find((it) => it.type === notat.type)?.id === notat.id,
-                }) satisfies NotathendelseObject,
-        );
+    notater.map(
+        (notat: Notat) =>
+            ({
+                id: notat.id,
+                dialogRef: notat.dialogRef,
+                type: 'Notat',
+                tekst: notat.tekst,
+                notattype: notat.type as NotatType,
+                saksbehandler: notat.saksbehandler.ident,
+                timestamp: notat.opprettet.format(ISO_TIDSPUNKTFORMAT),
+                feilregistrert: notat.feilregistrert,
+                vedtaksperiodeId: notat.vedtaksperiodeId,
+                kommentarer: notat.kommentarer,
+                erNyesteNotatMedType:
+                    [...notater].sort(byTimestamp).find((it) => it.type === notat.type)?.id === notat.id,
+            }) satisfies NotathendelseObject,
+    );
 
 const byTimestamp = (a: Notat, b: Notat): number => {
     return dayjs(b.opprettet).diff(dayjs(a.opprettet));
