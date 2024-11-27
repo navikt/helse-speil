@@ -19,7 +19,7 @@ import styles from './MinimumSykdomsgrad.module.scss';
 
 interface MinimumSykdomsgradFormProps {
     person: PersonFragment;
-    periode: ActivePeriod;
+    aktivPeriode: ActivePeriod;
     oppkuttedePerioder: Maybe<DatePeriod[]>;
     overlappendeArbeidsgivere: ArbeidsgiverFragment[];
     initierendeVedtaksperiodeId: string;
@@ -28,7 +28,7 @@ interface MinimumSykdomsgradFormProps {
 
 export const MinimumSykdomsgradForm = ({
     person,
-    periode,
+    aktivPeriode,
     oppkuttedePerioder,
     overlappendeArbeidsgivere,
     initierendeVedtaksperiodeId,
@@ -66,7 +66,8 @@ export const MinimumSykdomsgradForm = ({
             arbeidsgivere: overlappendeArbeidsgivere.map((it) => {
                 return {
                     organisasjonsnummer: it.organisasjonsnummer,
-                    berørtVedtaksperiodeId: it.generasjoner[0]?.perioder.find(overlapper(periode))?.vedtaksperiodeId!,
+                    berørtVedtaksperiodeId: it.generasjoner[0]?.perioder.find(overlapper(aktivPeriode))
+                        ?.vedtaksperiodeId!,
                 };
             }),
             initierendeVedtaksperiodeId: initierendeVedtaksperiodeId,
@@ -89,7 +90,11 @@ export const MinimumSykdomsgradForm = ({
             <FormProvider {...form}>
                 <form className={styles.form} onSubmit={form.handleSubmit(submitForm)}>
                     <Innledning />
-                    <DelperiodeTabell oppkuttedePerioder={oppkuttedePerioder} periode={periode} person={person} />
+                    <DelperiodeTabell
+                        oppkuttedePerioder={oppkuttedePerioder}
+                        aktivPeriode={aktivPeriode}
+                        person={person}
+                    />
                     <Textarea
                         {...form.register('Begrunnelse', { required: 'Begrunnelse kan ikke være tom' })}
                         className={styles.fritekst}
@@ -141,10 +146,10 @@ const formErrorsTilFeilliste = (errors: FieldErrors<InntektFormFields>): Skjemaf
 interface DelperiodeTabellProps {
     oppkuttedePerioder: Maybe<DatePeriod[]>;
     person: PersonFragment;
-    periode: ActivePeriod;
+    aktivPeriode: ActivePeriod;
 }
 
-const DelperiodeTabell = ({ oppkuttedePerioder, person, periode }: DelperiodeTabellProps) => (
+const DelperiodeTabell = ({ oppkuttedePerioder, person, aktivPeriode }: DelperiodeTabellProps) => (
     <Table size="small" zebraStripes>
         <Table.Header>
             <Table.Row>
@@ -157,7 +162,7 @@ const DelperiodeTabell = ({ oppkuttedePerioder, person, periode }: DelperiodeTab
                 <DelperiodeWrapper
                     key={delperiode.fom}
                     person={person}
-                    aktivPeriode={periode}
+                    aktivPeriode={aktivPeriode}
                     delperiode={delperiode}
                 />
             ))}

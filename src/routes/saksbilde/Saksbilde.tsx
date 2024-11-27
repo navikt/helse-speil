@@ -24,7 +24,7 @@ export const Saksbilde = ({ children }: SaksbildeProps) => {
     const { loading, data, error } = useFetchPersonQuery();
 
     const person: Maybe<PersonFragment> = data?.person ?? null;
-    const activePeriod = useActivePeriod(person);
+    const aktivPeriode = useActivePeriod(person);
     const saksbehandlerident = useBrukerIdent();
     const grupper = useBrukerGrupper();
 
@@ -32,19 +32,19 @@ export const Saksbilde = ({ children }: SaksbildeProps) => {
         return <PeriodeViewSkeleton />;
     }
 
-    if (error || !activePeriod || !person) {
+    if (error || !aktivPeriode || !person) {
         return <PeriodeViewError />;
     }
 
     const initierendeVedtaksperiodeId =
-        isBeregnetPeriode(activePeriod) || isUberegnetPeriode(activePeriod)
-            ? activePeriod.vedtaksperiodeId
-            : finnInitierendeVedtaksperiodeIdFraOverlappendePeriode(person.arbeidsgivere, activePeriod);
+        isBeregnetPeriode(aktivPeriode) || isUberegnetPeriode(aktivPeriode)
+            ? aktivPeriode.vedtaksperiodeId
+            : finnInitierendeVedtaksperiodeIdFraOverlappendePeriode(person.arbeidsgivere, aktivPeriode);
 
     const periodeHarDatoerMedUnder20ProsentTotalGrad = harPeriodeDagerMedUnder20ProsentTotalGrad(
-        activePeriod,
+        aktivPeriode,
         person.arbeidsgivere,
-        activePeriod.skjaeringstidspunkt,
+        aktivPeriode.skjaeringstidspunkt,
     );
 
     return (
@@ -54,12 +54,12 @@ export const Saksbilde = ({ children }: SaksbildeProps) => {
                 initierendeVedtaksperiodeId && (
                     <Verktøylinje
                         person={person}
-                        periode={activePeriod}
+                        aktivPeriode={aktivPeriode}
                         initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
                     />
                 )}
-            <SaksbildeVarsel person={person} periode={activePeriod} />
-            <SaksbildeMenu person={person} activePeriod={activePeriod} />
+            <SaksbildeVarsel person={person} periode={aktivPeriode} />
+            <SaksbildeMenu person={person} activePeriod={aktivPeriode} />
             {children}
         </div>
     );

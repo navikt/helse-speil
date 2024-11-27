@@ -22,22 +22,22 @@ import { isBeregnetPeriode, isMinimumSykdomsgradsoverstyring, isUberegnetPeriode
 
 interface VerktøylinjeProps {
     person: PersonFragment;
-    periode: ActivePeriod;
+    aktivPeriode: ActivePeriod;
     initierendeVedtaksperiodeId: string;
 }
 
-export const Verktøylinje = ({ person, periode, initierendeVedtaksperiodeId }: VerktøylinjeProps) => {
+export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeId }: VerktøylinjeProps) => {
     const [overstyrerMinimumSykdomsgrad, setOverstyrerMinimumSykdomsgrad] = useState(false);
     const aktivArbeidsgiver = useCurrentArbeidsgiver(person);
     const minimumSykdomsgradsoverstyringer =
         aktivArbeidsgiver?.overstyringer.filter(isMinimumSykdomsgradsoverstyring) ?? [];
-    const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, periode);
+    const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, aktivPeriode);
     const oppkuttedePerioder =
-        getOppkuttedePerioder(overlappendeArbeidsgivere, periode)?.filter((it) =>
-            harPeriodeDagerMedUnder20ProsentTotalGrad(it, person.arbeidsgivere, periode.skjaeringstidspunkt),
+        getOppkuttedePerioder(overlappendeArbeidsgivere, aktivPeriode)?.filter((it) =>
+            harPeriodeDagerMedUnder20ProsentTotalGrad(it, person.arbeidsgivere, aktivPeriode.skjaeringstidspunkt),
         ) ?? [];
     const harAlleDelperioderBlittVurdertSistIAndreVedtaksperioder: boolean =
-        isBeregnetPeriode(periode) &&
+        isBeregnetPeriode(aktivPeriode) &&
         (oppkuttedePerioder?.every((dp) => {
             const matchendePerioder = minimumSykdomsgradsoverstyringer
                 .sort(byTimestamp)
@@ -54,19 +54,19 @@ export const Verktøylinje = ({ person, periode, initierendeVedtaksperiodeId }: 
             if (matchendePerioder === undefined) {
                 return false;
             }
-            return matchendePerioder !== periode.vedtaksperiodeId;
+            return matchendePerioder !== aktivPeriode.vedtaksperiodeId;
         }) ??
             false);
-    const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
-    const overlappendePerioder = getOverlappendePerioder(person, periode as BeregnetPeriodeFragment);
+    const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, aktivPeriode.skjaeringstidspunkt);
+    const overlappendePerioder = getOverlappendePerioder(person, aktivPeriode as BeregnetPeriodeFragment);
     // bestemmende periode er den første/tidligste perioden som inneholder delperiode på person
     const erAktivperiodeBestemmendeForMinstEnDelperiode = oppkuttedePerioder?.some((dp) => {
-        if (!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode)) return;
+        if (!isBeregnetPeriode(aktivPeriode) && !isUberegnetPeriode(aktivPeriode)) return;
         return (
             overlappendePerioder
                 .filter((it) => overlapper(it)(dp))
                 .sort((a, b) => (dayjs(a.fom, ISO_DATOFORMAT).isSameOrAfter(b.fom) ? 0 : -1))
-                .shift()?.vedtaksperiodeId === periode.vedtaksperiodeId
+                .shift()?.vedtaksperiodeId === aktivPeriode.vedtaksperiodeId
         );
     });
 
@@ -84,7 +84,7 @@ export const Verktøylinje = ({ person, periode, initierendeVedtaksperiodeId }: 
                     {overstyrerMinimumSykdomsgrad ? (
                         <MinimumSykdomsgradForm
                             person={person}
-                            periode={periode}
+                            aktivPeriode={aktivPeriode}
                             oppkuttedePerioder={oppkuttedePerioder}
                             overlappendeArbeidsgivere={overlappendeArbeidsgivere}
                             initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
