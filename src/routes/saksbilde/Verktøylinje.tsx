@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import React, { useState } from 'react';
 
 import { BriefcaseClockIcon } from '@navikt/aksel-icons';
@@ -6,7 +5,10 @@ import { Box, Button, HStack } from '@navikt/ds-react';
 
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
-import { byTimestamp } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/DelperiodeWrapper';
+import {
+    byPeriodeEier,
+    byTimestamp,
+} from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/DelperiodeWrapper';
 import { MinimumSykdomsgradForm } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradForm';
 import { MinimumSykdomsgradVisning } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradVisning';
 import {
@@ -17,7 +19,6 @@ import {
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { getOverlappendePerioder, overlapper } from '@state/selectors/period';
 import { ActivePeriod } from '@typer/shared';
-import { ISO_DATOFORMAT } from '@utils/date';
 import { isBeregnetPeriode, isMinimumSykdomsgradsoverstyring, isUberegnetPeriode } from '@utils/typeguards';
 
 interface VerktøylinjeProps {
@@ -65,7 +66,7 @@ export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeI
         return (
             overlappendePerioder
                 .filter((it) => overlapper(it)(dp))
-                .sort((a, b) => (dayjs(a.fom, ISO_DATOFORMAT).isSameOrAfter(b.fom) ? 0 : -1))
+                .sort(byPeriodeEier)
                 .shift()?.vedtaksperiodeId === aktivPeriode.vedtaksperiodeId
         );
     });

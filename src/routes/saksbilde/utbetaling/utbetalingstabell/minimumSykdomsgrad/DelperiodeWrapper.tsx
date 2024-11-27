@@ -48,7 +48,7 @@ export const DelperiodeWrapper = ({ person, aktivPeriode, delperiode }: Props) =
         isBeregnetPeriode(aktivPeriode) &&
         overlappendePerioder
             .filter((it) => overlapper(it)(delperiode))
-            .sort((a, b) => (dayjs(a.fom, ISO_DATOFORMAT).isSameOrAfter(b.fom) ? 0 : -1))
+            .sort(byPeriodeEier)
             .shift()?.vedtaksperiodeId !== aktivPeriode.vedtaksperiodeId;
 
     const erReadOnly =
@@ -81,4 +81,12 @@ export const DelperiodeWrapper = ({ person, aktivPeriode, delperiode }: Props) =
 
 export const byTimestamp = (a: MinimumSykdomsgradOverstyring, b: MinimumSykdomsgradOverstyring): number => {
     return dayjs(a.timestamp, ISO_TIDSPUNKTFORMAT).isAfter(dayjs(b.timestamp, ISO_TIDSPUNKTFORMAT)) ? -1 : 1;
+};
+
+export const byPeriodeEier = (a: BeregnetPeriodeFragment, b: BeregnetPeriodeFragment): number => {
+    return dayjs(a.fom, ISO_DATOFORMAT).isSameOrAfter(b.fom)
+        ? a.fom === b.fom && dayjs(a.tom, ISO_DATOFORMAT).isBefore(b.tom)
+            ? -1
+            : 0
+        : -1;
 };
