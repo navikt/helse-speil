@@ -1,5 +1,7 @@
 import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
+import { Box } from '@navikt/ds-react';
+
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
 import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseModal';
@@ -51,7 +53,12 @@ export const IndividuellBegrunnelse = ({
     };
 
     return (
-        <>
+        <Box
+            background={visIndividuellBegrunnelse ? 'bg-subtle' : 'surface-transparent'}
+            paddingBlock="0 4"
+            paddingInline="4 4"
+            style={{ margin: '0 -1rem' }}
+        >
             <IndividuellBegrunnelseContent
                 erReadOnly={erReadOnly}
                 erBeslutteroppgave={erBeslutteroppgave}
@@ -71,6 +78,6 @@ export const IndividuellBegrunnelse = ({
                     setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 />
             )}
-        </>
+        </Box>
     );
 };

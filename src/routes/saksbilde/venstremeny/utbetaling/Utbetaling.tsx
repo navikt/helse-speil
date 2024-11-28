@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import React, { ReactElement, useEffect, useState } from 'react';
 
-import { BodyShort, Box, HStack, Loader } from '@navikt/ds-react';
+import { BodyShort, HStack, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
@@ -137,14 +137,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave;
 
     return (
-        <Box
-            background={
-                visIndividuellBegrunnelse || harLagretVedtakBegrunnelseTekst ? 'bg-subtle' : 'surface-transparent'
-            }
-            paddingBlock="0 4"
-            paddingInline="4 4"
-            style={{ margin: '0 -1rem' }}
-        >
+        <>
             <IndividuellBegrunnelse
                 visIndividuellBegrunnelse={visIndividuellBegrunnelse}
                 setVisIndividuellBegrunnelse={setVisIndividuellBegrunnelse}
@@ -224,7 +217,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                     </span>
                 </BodyShort>
             )}
-        </Box>
+        </>
     );
 };
 
