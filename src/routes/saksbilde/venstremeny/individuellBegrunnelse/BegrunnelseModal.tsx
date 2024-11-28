@@ -13,7 +13,6 @@ interface BegrunnelseModalProps {
     avslagstype: Avslagstype.Avslag | Avslagstype.DelvisAvslag;
     preutfyltVerdi: string;
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
-    onClose: () => void;
 }
 
 export const BegrunnelseModal = ({
@@ -22,7 +21,6 @@ export const BegrunnelseModal = ({
     avslagstype,
     preutfyltVerdi,
     setAvslag,
-    onClose,
 }: BegrunnelseModalProps) => (
     <Modal aria-label="Modal" portal closeOnBackdropClick open={modalÅpen} onClose={lukkModal} width="800px">
         <Modal.Header closeButton={false}>
@@ -45,9 +43,6 @@ export const BegrunnelseModal = ({
                 <HStack gap="2">
                     <Button size="xsmall" variant="secondary" onClick={lukkModal}>
                         Lagre
-                    </Button>
-                    <Button size="xsmall" variant="tertiary" onClick={onClose}>
-                        Forkast
                     </Button>
                 </HStack>
             </VStack>

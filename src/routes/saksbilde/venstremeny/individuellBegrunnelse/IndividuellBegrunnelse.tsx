@@ -12,7 +12,6 @@ import {
     Utbetalingsdagtype,
 } from '@io/graphql';
 import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseModal';
-import { ForkastModal } from '@saksbilde/venstremeny/individuellBegrunnelse/ForkastModal';
 import { IndividuellBegrunnelseContent } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelseContent';
 
 interface BegrunnelseVedtakProps {
@@ -32,7 +31,6 @@ export const IndividuellBegrunnelse = ({
     periode,
     person,
 }: BegrunnelseVedtakProps): Maybe<ReactElement> => {
-    const [showForkastEndringerModal, setShowForkastEndringerModal] = useState(false);
     const [modalÅpen, setModalÅpen] = useState(false);
 
     const erReadOnly = useIsReadOnlyOppgave(person);
@@ -61,9 +59,7 @@ export const IndividuellBegrunnelse = ({
         !erReadOnly && !erBeslutteroppgave && preutfyltVerdi !== '' && avslag?.handling !== Avslagshandling.Invalider;
 
     const onClose = () => {
-        if (lokalAvslagstekst || innsendtAvslagstekst) {
-            setShowForkastEndringerModal(true);
-        } else {
+        if (!lokalAvslagstekst && !innsendtAvslagstekst) {
             setVisIndividuellBegrunnelse(false);
             lukkModal();
         }
@@ -92,16 +88,6 @@ export const IndividuellBegrunnelse = ({
                 periodeAvslag={periode.avslag}
             />
 
-            {showForkastEndringerModal && (
-                <ForkastModal
-                    harLagretAvslag={innsendtAvslagstekst != undefined}
-                    setAvslag={setAvslag}
-                    lukkBegrunnelseModal={lukkModal}
-                    lukkForkastModal={() => setShowForkastEndringerModal(false)}
-                    lukkIndividuellBegrunnelse={() => setVisIndividuellBegrunnelse(false)}
-                />
-            )}
-
             {modalÅpen && (
                 <BegrunnelseModal
                     modalÅpen={modalÅpen}
@@ -109,7 +95,6 @@ export const IndividuellBegrunnelse = ({
                     avslagstype={avslagstype}
                     preutfyltVerdi={preutfyltVerdi}
                     setAvslag={setAvslag}
-                    onClose={onClose}
                 />
             )}
         </>
