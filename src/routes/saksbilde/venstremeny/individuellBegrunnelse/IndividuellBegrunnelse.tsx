@@ -52,7 +52,7 @@ export const IndividuellBegrunnelse = ({
 
     return (
         <Box
-            background={visIndividuellBegrunnelse ? 'bg-subtle' : 'surface-transparent'}
+            background={vedtakBegrunnelseTekst !== '' ? 'bg-subtle' : 'surface-transparent'}
             paddingBlock="0 4"
             paddingInline="4 4"
             style={{ margin: '0 -1rem' }}
