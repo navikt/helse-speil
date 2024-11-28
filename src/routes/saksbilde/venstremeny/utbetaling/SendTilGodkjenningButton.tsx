@@ -6,13 +6,7 @@ import { Button } from '@navikt/ds-react';
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import {
-    Avslagstype,
-    Personinfo,
-    SendTilGodkjenningV2Document,
-    Utbetaling,
-    VedtakBegrunnelseUtfall,
-} from '@io/graphql';
+import { Personinfo, SendTilGodkjenningV2Document, Utbetaling, VedtakBegrunnelseUtfall } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
 
@@ -40,7 +34,7 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
     utbetaling: Utbetaling;
     arbeidsgiverNavn: string;
     personinfo: Personinfo;
-    avslagstype: Avslagstype | undefined;
+    utfall: VedtakBegrunnelseUtfall;
     vedtakBegrunnelseTekst: string;
     size: 'small' | 'medium';
 }
@@ -53,7 +47,7 @@ export const SendTilGodkjenningButton = ({
     utbetaling,
     arbeidsgiverNavn,
     personinfo,
-    avslagstype,
+    utfall,
     vedtakBegrunnelseTekst,
     size,
     ...buttonProps
@@ -76,7 +70,7 @@ export const SendTilGodkjenningButton = ({
             variables: {
                 oppgavereferanse: oppgavereferanse,
                 vedtakBegrunnelse: {
-                    utfall: tilUtfall(avslagstype),
+                    utfall: utfall,
                     begrunnelse: vedtakBegrunnelseTekst,
                 },
             },
@@ -130,15 +124,4 @@ const somBackendfeil = (error: ApolloError): BackendFeil => {
                   : 'Kunne ikke sende saken til godkjenning',
         statusCode: errorCode,
     };
-};
-
-const tilUtfall = (type: Avslagstype | undefined) => {
-    switch (type) {
-        case Avslagstype.Avslag:
-            return VedtakBegrunnelseUtfall.Avslag;
-        case Avslagstype.DelvisAvslag:
-            return VedtakBegrunnelseUtfall.DelvisInnvilgelse;
-        case undefined:
-            return VedtakBegrunnelseUtfall.Innvilgelse;
-    }
 };

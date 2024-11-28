@@ -6,7 +6,7 @@ import { Button } from '@navikt/ds-react';
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import { Avslagstype, FattVedtakDocument, Personinfo, Utbetaling, VedtakBegrunnelseUtfall } from '@io/graphql';
+import { FattVedtakDocument, Personinfo, Utbetaling, VedtakBegrunnelseUtfall } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
 
@@ -35,7 +35,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     utbetaling: Utbetaling;
     arbeidsgiverNavn: string;
     personinfo: Personinfo;
-    avslagstype: Avslagstype | undefined;
+    utfall: VedtakBegrunnelseUtfall;
     vedtakBegrunnelseTekst: string;
     size: 'small' | 'medium';
 }
@@ -49,7 +49,7 @@ export const GodkjenningButton = ({
     utbetaling,
     arbeidsgiverNavn,
     personinfo,
-    avslagstype,
+    utfall,
     vedtakBegrunnelseTekst,
     size,
     ...buttonProps
@@ -66,7 +66,7 @@ export const GodkjenningButton = ({
             variables: {
                 oppgavereferanse: oppgavereferanse,
                 vedtakBegrunnelse: {
-                    utfall: tilUtfall(avslagstype),
+                    utfall: utfall,
                     begrunnelse: vedtakBegrunnelseTekst,
                 },
             },
@@ -118,14 +118,3 @@ const errorMessages = new Map<string, string>([
     ['ikke_aapen_saksbehandleroppgave', 'Saken er allerede utbetalt'],
     ['ikke_tilgang_til_risk_qa', 'Du har ikke tilgang til å behandle risk-saker'],
 ]);
-
-const tilUtfall = (type: Avslagstype | undefined) => {
-    switch (type) {
-        case Avslagstype.Avslag:
-            return VedtakBegrunnelseUtfall.Avslag;
-        case Avslagstype.DelvisAvslag:
-            return VedtakBegrunnelseUtfall.DelvisInnvilgelse;
-        case undefined:
-            return VedtakBegrunnelseUtfall.Innvilgelse;
-    }
-};

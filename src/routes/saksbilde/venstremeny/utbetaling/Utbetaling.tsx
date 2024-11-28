@@ -9,7 +9,6 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import {
     ArbeidsgiverFragment,
-    Avslagstype,
     BeregnetPeriodeFragment,
     Dag,
     Maybe,
@@ -17,6 +16,7 @@ import {
     Periodetilstand,
     PersonFragment,
     Utbetalingsdagtype,
+    VedtakBegrunnelseUtfall,
 } from '@io/graphql';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
@@ -102,12 +102,12 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const tidslinjeUtenAGPogHelg = getTidslinjeUtenAGPogHelg(period);
     const avvisteDager = getAvvisteDager(tidslinjeUtenAGPogHelg);
 
-    const avslagstype =
+    const utfall =
         avvisteDager.length === 0
-            ? undefined
+            ? VedtakBegrunnelseUtfall.Innvilgelse
             : tidslinjeUtenAGPogHelg.length === avvisteDager.length
-              ? Avslagstype.Avslag
-              : Avslagstype.DelvisAvslag;
+              ? VedtakBegrunnelseUtfall.Avslag
+              : VedtakBegrunnelseUtfall.DelvisInnvilgelse;
 
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
@@ -149,7 +149,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
             <IndividuellBegrunnelse
                 visIndividuellBegrunnelse={visIndividuellBegrunnelse}
                 setVisIndividuellBegrunnelse={setVisIndividuellBegrunnelse}
-                erInnvilgelse={avslagstype === undefined}
+                erInnvilgelse={utfall === VedtakBegrunnelseUtfall.Innvilgelse}
                 vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 periode={period}
@@ -170,7 +170,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                                 lokaleInntektoverstyringer.aktørId !== null
                             }
                             onSuccess={onSendTilGodkjenning}
-                            avslagstype={avslagstype}
+                            utfall={utfall}
                             vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                         >
                             Send til godkjenning
@@ -189,7 +189,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                                 lokaleInntektoverstyringer.aktørId !== null
                             }
                             onSuccess={onGodkjennUtbetaling}
-                            avslagstype={avslagstype}
+                            utfall={utfall}
                             vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                         >
                             {erBeslutteroppgaveOgHarTilgang
