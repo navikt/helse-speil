@@ -5,7 +5,6 @@ import { Button, HStack, Heading, Modal, VStack } from '@navikt/ds-react';
 
 import { Avslagstype } from '@io/graphql';
 import { BegrunnelseInput } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseInput';
-import { knappetekst } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelse';
 
 interface BegrunnelseModalProps {
     modalÅpen: boolean;
@@ -26,7 +25,7 @@ export const BegrunnelseModal = ({
         <Modal.Header closeButton={false}>
             <HStack justify="space-between" align="center">
                 <Heading level="1" size="medium">
-                    {knappetekst(avslagstype)}
+                    Skriv begrunnelse for vedtak
                 </Heading>
                 <Button size="small" variant="tertiary-neutral" onClick={lukkModal} icon={<ShrinkIcon />} />
             </HStack>

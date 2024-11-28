@@ -77,12 +77,3 @@ export const IndividuellBegrunnelse = ({
         </>
     );
 };
-
-export const knappetekst = (avslagstype: Avslagstype) => {
-    switch (avslagstype) {
-        case Avslagstype.DelvisAvslag:
-            return 'Skriv begrunnelse for delvis innvilgelse';
-        case Avslagstype.Avslag:
-            return 'Skriv begrunnelse for avslag';
-    }
-};

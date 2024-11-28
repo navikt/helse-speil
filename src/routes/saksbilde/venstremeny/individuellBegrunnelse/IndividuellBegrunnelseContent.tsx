@@ -6,7 +6,6 @@ import { Box, Button, ReadMore } from '@navikt/ds-react';
 import { Avslag, Avslagstype } from '@io/graphql';
 import { ReadOnlyIndividuellBegrunnelse } from '@saksbilde/venstremeny/ReadOnlyIndividuellBegrunnelse';
 import { BegrunnelseInput } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseInput';
-import { knappetekst } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelse';
 
 import styles from './IndividuellBegrunnelse.module.scss';
 
@@ -42,7 +41,7 @@ export const IndividuellBegrunnelseContent = ({
                     size="small"
                     className={styles.readmore}
                     open={visIndividuellBegrunnelse}
-                    header={knappetekst(avslagstype)}
+                    header="Skriv begrunnelse for vedtak"
                     onClick={åpneIndividuellBegrunnelse}
                 >
                     <Box background="bg-subtle">
