@@ -13,8 +13,7 @@ interface IndividuellBegrunnelseContentProps {
     erBeslutteroppgave: boolean;
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
-    visIndividuellBegrunnelse: boolean;
-    åpneIndividuellBegrunnelse: () => void;
+    defaultÅpen: boolean;
     åpneModal: () => void;
 }
 
@@ -23,8 +22,7 @@ export const IndividuellBegrunnelseContent = ({
     erBeslutteroppgave,
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
-    visIndividuellBegrunnelse,
-    åpneIndividuellBegrunnelse,
+    defaultÅpen,
     åpneModal,
 }: IndividuellBegrunnelseContentProps) => (
     <Box marginBlock="0 4" paddingBlock="4 0" className={styles['begrunnelse-vedtak']}>
@@ -33,9 +31,8 @@ export const IndividuellBegrunnelseContent = ({
                 <ReadMore
                     size="small"
                     className={styles.readmore}
-                    open={visIndividuellBegrunnelse}
+                    defaultOpen={defaultÅpen}
                     header="Skriv begrunnelse for vedtak"
-                    onClick={åpneIndividuellBegrunnelse}
                 >
                     <Button
                         onClick={åpneModal}

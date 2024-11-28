@@ -8,8 +8,7 @@ import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/
 import { IndividuellBegrunnelseContent } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelseContent';
 
 interface BegrunnelseVedtakProps {
-    visIndividuellBegrunnelse: boolean;
-    setVisIndividuellBegrunnelse: Dispatch<SetStateAction<boolean>>;
+    defaultÅpen: boolean;
     erInnvilgelse: boolean;
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
@@ -18,8 +17,7 @@ interface BegrunnelseVedtakProps {
 }
 
 export const IndividuellBegrunnelse = ({
-    visIndividuellBegrunnelse,
-    setVisIndividuellBegrunnelse,
+    defaultÅpen,
     erInnvilgelse,
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
@@ -37,19 +35,6 @@ export const IndividuellBegrunnelse = ({
     const åpneModal = () => setModalÅpen(true);
     const lukkModal = () => setModalÅpen(false);
 
-    const onClose = () => {
-        setVisIndividuellBegrunnelse(false);
-        lukkModal();
-    };
-
-    const åpneIndividuellBegrunnelse = () => {
-        if (visIndividuellBegrunnelse) {
-            onClose();
-        } else {
-            setVisIndividuellBegrunnelse(true);
-        }
-    };
-
     return (
         <Box
             background={vedtakBegrunnelseTekst !== '' ? 'bg-subtle' : 'surface-transparent'}
@@ -62,8 +47,7 @@ export const IndividuellBegrunnelse = ({
                 erBeslutteroppgave={erBeslutteroppgave}
                 vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
-                visIndividuellBegrunnelse={visIndividuellBegrunnelse}
-                åpneIndividuellBegrunnelse={åpneIndividuellBegrunnelse}
+                defaultÅpen={defaultÅpen}
                 åpneModal={åpneModal}
             />
 

@@ -87,9 +87,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const lagretVedtakBegrunnelseTekst =
         period.avslag[0] != undefined && !period.avslag[0].invalidert ? (period.avslag[0].begrunnelse as string) : '';
-    const harLagretVedtakBegrunnelseTekst = lagretVedtakBegrunnelseTekst !== '';
     const [vedtakBegrunnelseTekst, setVedtakBegrunnelseTekst] = useState(lagretVedtakBegrunnelseTekst);
-    const [visIndividuellBegrunnelse, setVisIndividuellBegrunnelse] = useState(harLagretVedtakBegrunnelseTekst);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const ventEllerHopp = useOnGodkjenn(period, person);
     const router = useRouter();
@@ -139,8 +137,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     return (
         <>
             <IndividuellBegrunnelse
-                visIndividuellBegrunnelse={visIndividuellBegrunnelse}
-                setVisIndividuellBegrunnelse={setVisIndividuellBegrunnelse}
+                defaultÅpen={lagretVedtakBegrunnelseTekst !== ''}
                 erInnvilgelse={utfall === VedtakBegrunnelseUtfall.Innvilgelse}
                 vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
