@@ -37,20 +37,18 @@ export const IndividuellBegrunnelseContent = ({
                     header="Skriv begrunnelse for vedtak"
                     onClick={åpneIndividuellBegrunnelse}
                 >
-                    <Box background="bg-subtle">
-                        <Button
-                            onClick={åpneModal}
-                            icon={<ExpandIcon title="åpne i modal" />}
-                            size="xsmall"
-                            variant="tertiary-neutral"
-                            style={{ position: 'absolute', top: 0, right: 0 }}
-                        />
-                        <BegrunnelseInput
-                            vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
-                            setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
-                            minRows={4}
-                        />
-                    </Box>
+                    <Button
+                        onClick={åpneModal}
+                        icon={<ExpandIcon title="åpne i modal" />}
+                        size="xsmall"
+                        variant="tertiary-neutral"
+                        style={{ position: 'absolute', top: 0, right: 0 }}
+                    />
+                    <BegrunnelseInput
+                        vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
+                        setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
+                        minRows={4}
+                    />
                 </ReadMore>
             </Box>
         )}
