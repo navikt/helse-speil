@@ -5,7 +5,7 @@ import { Dropdown, Loader } from '@navikt/ds-react';
 import { Maybe, PersonFragment, Personnavn } from '@io/graphql';
 import { PåVentNotatModal } from '@oversikt/table/cells/notat/PåVentNotatModal';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
-import { useFjernPåVent } from '@state/påvent';
+import { useFjernPåVentFraSaksbilde } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 
 interface PåVentButtonProps {
@@ -15,7 +15,9 @@ interface PåVentButtonProps {
 export const PåVentButton = ({ person }: PåVentButtonProps): Maybe<ReactElement> => {
     const [showModal, setShowModal] = useState(false);
     const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
-    const [fjernPåVent, { loading, error: fjernPåVentError }] = useFjernPåVent(periodeTilGodkjenning?.behandlingId);
+    const [fjernPåVent, { loading, error: fjernPåVentError }] = useFjernPåVentFraSaksbilde(
+        periodeTilGodkjenning?.behandlingId,
+    );
     const errorHandler = useOperationErrorHandler('Legg på vent');
     const oppgaveId = periodeTilGodkjenning?.oppgave?.id;
     const erPåVent = periodeTilGodkjenning?.paVent;

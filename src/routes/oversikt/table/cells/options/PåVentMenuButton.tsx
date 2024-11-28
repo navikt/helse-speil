@@ -4,7 +4,7 @@ import { Dropdown } from '@navikt/ds-react';
 
 import { Maybe, Personnavn, Tildeling } from '@io/graphql';
 import { PåVentNotatModal } from '@oversikt/table/cells/notat/PåVentNotatModal';
-import { useFjernPåVent } from '@state/påvent';
+import { useFjernPåVentFraOppgaveoversikt } from '@state/påvent';
 
 import styles from './OptionsCell.module.css';
 
@@ -21,7 +21,7 @@ export const PåVentMenuButton = ({
     navn,
     erPåVent,
 }: PåVentMenuButtonProps): ReactElement => {
-    const [fjernPåVent] = useFjernPåVent();
+    const [fjernPåVent] = useFjernPåVentFraOppgaveoversikt();
     const [showModal, setShowModal] = useState(false);
 
     const fjernFraPåVent = async () => {

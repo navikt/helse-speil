@@ -1,15 +1,13 @@
-import { ApolloCache, FetchResult, MutationResult, useMutation } from '@apollo/client';
+import { FetchResult, InternalRefetchQueriesInclude, MutationResult, useMutation } from '@apollo/client';
 import {
     AntallOppgaverDocument,
-    Egenskap,
+    FetchPersonDocument,
     FjernPaVentDocument,
     FjernPaVentMutation,
-    Kategori,
     LeggPaVentDocument,
     LeggPaVentMutation,
     Maybe,
     OppgaveFeedDocument,
-    Oppgaveegenskap,
     PaVent,
     PaVentArsakInput,
     PaventFragment,
@@ -60,23 +58,29 @@ export const useLeggPåVent = (
                 notatTekst: notattekst,
                 arsaker: arsaker,
             },
-            update: (cache, result) =>
-                oppdaterPåVentICache(
-                    cache,
-                    oppgavereferanse,
-                    periodeId ?? null,
-                    () => (result.data?.leggPaVent && { ...result.data.leggPaVent, begrunnelse: null }) ?? null,
-                ),
+            // update: (cache, result) =>
+            //     oppdaterPåVentICache(cache, oppgavereferanse, periodeId ?? null, result.data?.leggPaVent ?? null),
         });
 
     return [leggPåVent, data];
 };
 
-export const useFjernPåVent = (
+export const useFjernPåVentFraSaksbilde = (
+    behandlingId: string | undefined,
+): [(oppgavereferanse: string) => Promise<FetchResult<FjernPaVentMutation>>, MutationResult<FjernPaVentMutation>] =>
+    useFjernPåVent([FetchPersonDocument], behandlingId);
+
+export const useFjernPåVentFraOppgaveoversikt = (): [
+    (oppgavereferanse: string) => Promise<FetchResult<FjernPaVentMutation>>,
+    MutationResult<FjernPaVentMutation>,
+] => useFjernPåVent([OppgaveFeedDocument, AntallOppgaverDocument]);
+
+const useFjernPåVent = (
+    refetchQueries: InternalRefetchQueriesInclude,
     behandlingId?: string,
 ): [(oppgavereferanse: string) => Promise<FetchResult<FjernPaVentMutation>>, MutationResult<FjernPaVentMutation>] => {
     const [fjernPåVentMutation, data] = useMutation(FjernPaVentDocument, {
-        refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
+        refetchQueries: refetchQueries,
     });
 
     const fjernPåVent = (oppgavereferanse: string) =>
@@ -86,42 +90,40 @@ export const useFjernPåVent = (
                 __typename: 'Mutation',
                 fjernPaVent: true,
             },
-            update: (cache) => oppdaterPåVentICache(cache, oppgavereferanse, behandlingId ?? null, () => null),
+            // update: (cache) => oppdaterPåVentICache(cache, oppgavereferanse, behandlingId ?? null, null),
         });
 
     return [fjernPåVent, data];
 };
 
-const oppdaterPåVentICache = (
-    cache: ApolloCache<unknown>,
-    oppgavereferanse: string,
-    behandlingId: Maybe<string>,
-    påVent: (påVent: PaVent) => Maybe<PaVent>,
-) => {
-    cache.modify({
-        id: cache.identify({ __typename: 'OppgaveTilBehandling', id: oppgavereferanse }),
-        fields: {
-            egenskaper(existingEgenskaper) {
-                return !påVent
-                    ? existingEgenskaper.filter((it: Oppgaveegenskap) => it.egenskap !== Egenskap.PaVent)
-                    : existingEgenskaper.some((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent)
-                      ? existingEgenskaper
-                      : [...existingEgenskaper, { egenskap: Egenskap.PaVent, kategori: Kategori.Status }];
-            },
-        },
-    });
-
-    cache.modify({
-        id: cache.identify({ __typename: 'BeregnetPeriode', behandlingId: behandlingId }),
-        fields: {
-            paVent: (value) => påVent(value),
-            egenskaper(existingEgenskaper) {
-                return !påVent
-                    ? existingEgenskaper.filter((it: Oppgaveegenskap) => it.egenskap !== Egenskap.PaVent)
-                    : existingEgenskaper.some((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent)
-                      ? existingEgenskaper
-                      : [...existingEgenskaper, { egenskap: Egenskap.PaVent, kategori: Kategori.Status }];
-            },
-        },
-    });
-};
+// const oppdaterPåVentICache = (
+//     cache: ApolloCache<unknown>,
+//     oppgavereferanse: string,
+//     behandlingId: Maybe<string>,
+//     påVent: Maybe<PaVent>,
+// ) => {
+//     cache.modify({
+//         id: cache.identify({ __typename: 'OppgaveTilBehandling', id: oppgavereferanse }),
+//         fields: {
+//             egenskaper: (existingEgenskaper) =>
+//                 !påVent
+//                     ? existingEgenskaper.filter((it: Oppgaveegenskap) => it.egenskap !== Egenskap.PaVent)
+//                     : existingEgenskaper.some((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent)
+//                       ? existingEgenskaper
+//                       : [...existingEgenskaper, { egenskap: Egenskap.PaVent, kategori: Kategori.Status }],
+//         },
+//     });
+//
+//     cache.modify({
+//         id: cache.identify({ __typename: 'BeregnetPeriode', behandlingId: behandlingId }),
+//         fields: {
+//             paVent: (_) => påVent,
+//             egenskaper: (existingEgenskaper) =>
+//                 !påVent
+//                     ? existingEgenskaper.filter((it: Oppgaveegenskap) => it.egenskap !== Egenskap.PaVent)
+//                     : existingEgenskaper.some((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent)
+//                       ? existingEgenskaper
+//                       : [...existingEgenskaper, { egenskap: Egenskap.PaVent, kategori: Kategori.Status }],
+//         },
+//     });
+// };
