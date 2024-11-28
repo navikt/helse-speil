@@ -3,13 +3,11 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { ShrinkIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Heading, Modal, VStack } from '@navikt/ds-react';
 
-import { Avslagstype } from '@io/graphql';
 import { BegrunnelseInput } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseInput';
 
 interface BegrunnelseModalProps {
     modalÅpen: boolean;
     lukkModal: () => void;
-    avslagstype: Avslagstype.Avslag | Avslagstype.DelvisAvslag;
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
 }
@@ -17,7 +15,6 @@ interface BegrunnelseModalProps {
 export const BegrunnelseModal = ({
     modalÅpen,
     lukkModal,
-    avslagstype,
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
 }: BegrunnelseModalProps) => (
@@ -33,7 +30,6 @@ export const BegrunnelseModal = ({
         <Modal.Body>
             <VStack gap="4">
                 <BegrunnelseInput
-                    begrunnelsestype={avslagstype}
                     vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                     setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                     minRows={8}

@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { ExpandIcon } from '@navikt/aksel-icons';
 import { Box, Button, ReadMore } from '@navikt/ds-react';
 
-import { Avslag, Avslagstype } from '@io/graphql';
+import { Avslag } from '@io/graphql';
 import { ReadOnlyIndividuellBegrunnelse } from '@saksbilde/venstremeny/ReadOnlyIndividuellBegrunnelse';
 import { BegrunnelseInput } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseInput';
 
@@ -12,7 +12,6 @@ import styles from './IndividuellBegrunnelse.module.scss';
 interface IndividuellBegrunnelseContentProps {
     erReadOnly: boolean;
     erBeslutteroppgave: boolean;
-    avslagstype: Avslagstype;
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     skalÅpnesMedUtfylteVerdier: boolean;
@@ -25,7 +24,6 @@ interface IndividuellBegrunnelseContentProps {
 export const IndividuellBegrunnelseContent = ({
     erReadOnly,
     erBeslutteroppgave,
-    avslagstype,
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
     skalÅpnesMedUtfylteVerdier,
@@ -53,7 +51,6 @@ export const IndividuellBegrunnelseContent = ({
                             style={{ position: 'absolute', top: 0, right: 0 }}
                         />
                         <BegrunnelseInput
-                            begrunnelsestype={avslagstype}
                             vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                             setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                             minRows={4}

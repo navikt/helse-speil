@@ -55,7 +55,6 @@ export const IndividuellBegrunnelse = ({
             <IndividuellBegrunnelseContent
                 erReadOnly={erReadOnly}
                 erBeslutteroppgave={erBeslutteroppgave}
-                avslagstype={avslagstype}
                 vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 skalÅpnesMedUtfylteVerdier={skalÅpnesMedUtfylteVerdier}
@@ -69,7 +68,6 @@ export const IndividuellBegrunnelse = ({
                 <BegrunnelseModal
                     modalÅpen={modalÅpen}
                     lukkModal={lukkModal}
-                    avslagstype={avslagstype}
                     vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                     setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 />

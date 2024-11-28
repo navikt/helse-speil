@@ -2,10 +2,7 @@ import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 
 import { Textarea } from '@navikt/ds-react';
 
-import { Avslagstype } from '@io/graphql';
-
 interface BegrunnelseInputProps {
-    begrunnelsestype: Avslagstype.Avslag | Avslagstype.DelvisAvslag;
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     minRows: number;
@@ -13,7 +10,6 @@ interface BegrunnelseInputProps {
 }
 
 export const BegrunnelseInput = ({
-    begrunnelsestype,
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
     minRows,
