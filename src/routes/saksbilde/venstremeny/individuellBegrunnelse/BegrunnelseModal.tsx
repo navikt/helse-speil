@@ -33,7 +33,6 @@ export const BegrunnelseModal = ({
                     vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                     setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                     minRows={8}
-                    focus={true}
                 />
                 <HStack gap="2">
                     <Button size="xsmall" variant="secondary" onClick={lukkModal}>
