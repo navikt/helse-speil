@@ -1,15 +1,13 @@
 import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { AvslagInput, Avslagshandling, Avslagstype, BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
+import { Avslagstype, BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
 import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseModal';
 import { IndividuellBegrunnelseContent } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelseContent';
 
 interface BegrunnelseVedtakProps {
     visIndividuellBegrunnelse: boolean;
     setVisIndividuellBegrunnelse: Dispatch<SetStateAction<boolean>>;
-    avslag: Maybe<AvslagInput>;
-    setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
     avslagstype: Avslagstype | undefined;
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
@@ -20,8 +18,6 @@ interface BegrunnelseVedtakProps {
 export const IndividuellBegrunnelse = ({
     visIndividuellBegrunnelse,
     setVisIndividuellBegrunnelse,
-    avslag,
-    setAvslag,
     avslagstype,
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
@@ -39,8 +35,7 @@ export const IndividuellBegrunnelse = ({
     const åpneModal = () => setModalÅpen(true);
     const lukkModal = () => setModalÅpen(false);
 
-    const skalÅpnesMedUtfylteVerdier =
-        !erReadOnly && !erBeslutteroppgave && avslag?.handling !== Avslagshandling.Invalider;
+    const skalÅpnesMedUtfylteVerdier = !erReadOnly && !erBeslutteroppgave;
 
     const onClose = () => {
         setVisIndividuellBegrunnelse(false);
@@ -67,7 +62,6 @@ export const IndividuellBegrunnelse = ({
                 visIndividuellBegrunnelse={visIndividuellBegrunnelse}
                 åpneIndividuellBegrunnelse={åpneIndividuellBegrunnelse}
                 åpneModal={åpneModal}
-                setAvslag={setAvslag}
                 periodeAvslag={periode.avslag}
             />
 
@@ -78,7 +72,6 @@ export const IndividuellBegrunnelse = ({
                     avslagstype={avslagstype}
                     vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                     setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
-                    setAvslag={setAvslag}
                 />
             )}
         </>

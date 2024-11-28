@@ -9,7 +9,6 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import {
     ArbeidsgiverFragment,
-    AvslagInput,
     Avslagstype,
     BeregnetPeriodeFragment,
     Dag,
@@ -88,7 +87,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const periodeHarAvslagsbegrunnelseLagret = period.avslag?.filter((it) => !it.invalidert).length > 0;
     const [visIndividuellBegrunnelse, setVisIndividuellBegrunnelse] = useState(periodeHarAvslagsbegrunnelseLagret);
-    const [avslag, setAvslag] = useState<Maybe<AvslagInput>>(null);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const ventEllerHopp = useOnGodkjenn(period, person);
     const router = useRouter();
@@ -151,8 +149,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
             <IndividuellBegrunnelse
                 visIndividuellBegrunnelse={visIndividuellBegrunnelse}
                 setVisIndividuellBegrunnelse={setVisIndividuellBegrunnelse}
-                avslag={avslag}
-                setAvslag={setAvslag}
                 avslagstype={avslagstype}
                 vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
@@ -174,7 +170,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                                 lokaleInntektoverstyringer.aktørId !== null
                             }
                             onSuccess={onSendTilGodkjenning}
-                            avslag={avslag}
                             avslagstype={avslagstype}
                             vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                         >
@@ -194,7 +189,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                                 lokaleInntektoverstyringer.aktørId !== null
                             }
                             onSuccess={onGodkjennUtbetaling}
-                            avslag={avslag}
                             avslagstype={avslagstype}
                             vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                         >

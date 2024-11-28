@@ -6,15 +6,7 @@ import { Button } from '@navikt/ds-react';
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import {
-    AvslagInput,
-    Avslagstype,
-    FattVedtakDocument,
-    Maybe,
-    Personinfo,
-    Utbetaling,
-    VedtakBegrunnelseUtfall,
-} from '@io/graphql';
+import { Avslagstype, FattVedtakDocument, Personinfo, Utbetaling, VedtakBegrunnelseUtfall } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
 
@@ -43,7 +35,6 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     utbetaling: Utbetaling;
     arbeidsgiverNavn: string;
     personinfo: Personinfo;
-    avslag: Maybe<AvslagInput>;
     avslagstype: Avslagstype | undefined;
     vedtakBegrunnelseTekst: string;
     size: 'small' | 'medium';
@@ -58,7 +49,6 @@ export const GodkjenningButton = ({
     utbetaling,
     arbeidsgiverNavn,
     personinfo,
-    avslag = null,
     avslagstype,
     vedtakBegrunnelseTekst,
     size,

@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { ShrinkIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Heading, Modal, VStack } from '@navikt/ds-react';
 
-import { AvslagInput, Avslagstype, Maybe } from '@io/graphql';
+import { Avslagstype } from '@io/graphql';
 import { BegrunnelseInput } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseInput';
 import { knappetekst } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelse';
 
@@ -13,7 +13,6 @@ interface BegrunnelseModalProps {
     avslagstype: Avslagstype.Avslag | Avslagstype.DelvisAvslag;
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
-    setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
 }
 
 export const BegrunnelseModal = ({
@@ -22,7 +21,6 @@ export const BegrunnelseModal = ({
     avslagstype,
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
-    setAvslag,
 }: BegrunnelseModalProps) => (
     <Modal aria-label="Modal" portal closeOnBackdropClick open={modalÅpen} onClose={lukkModal} width="800px">
         <Modal.Header closeButton={false}>
@@ -40,7 +38,6 @@ export const BegrunnelseModal = ({
                     vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                     setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                     minRows={8}
-                    setAvslag={(verdi) => setAvslag(verdi)}
                     focus={true}
                 />
                 <HStack gap="2">

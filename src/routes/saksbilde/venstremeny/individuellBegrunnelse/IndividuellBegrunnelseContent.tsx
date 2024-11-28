@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { ExpandIcon } from '@navikt/aksel-icons';
 import { Box, Button, ReadMore } from '@navikt/ds-react';
 
-import { Avslag, AvslagInput, Avslagstype, Maybe } from '@io/graphql';
+import { Avslag, Avslagstype } from '@io/graphql';
 import { ReadOnlyIndividuellBegrunnelse } from '@saksbilde/venstremeny/ReadOnlyIndividuellBegrunnelse';
 import { BegrunnelseInput } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseInput';
 import { knappetekst } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelse';
@@ -20,7 +20,6 @@ interface IndividuellBegrunnelseContentProps {
     visIndividuellBegrunnelse: boolean;
     åpneIndividuellBegrunnelse: () => void;
     åpneModal: () => void;
-    setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
     periodeAvslag: Avslag[];
 }
 
@@ -34,7 +33,6 @@ export const IndividuellBegrunnelseContent = ({
     visIndividuellBegrunnelse,
     åpneIndividuellBegrunnelse,
     åpneModal,
-    setAvslag,
     periodeAvslag,
 }: IndividuellBegrunnelseContentProps) => (
     <Box marginBlock="0 4" paddingBlock="4 0" className={styles['begrunnelse-vedtak']}>
@@ -60,7 +58,6 @@ export const IndividuellBegrunnelseContent = ({
                             vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                             setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                             minRows={4}
-                            setAvslag={setAvslag}
                             focus={visIndividuellBegrunnelse || skalÅpnesMedUtfylteVerdier}
                         />
                     </Box>
