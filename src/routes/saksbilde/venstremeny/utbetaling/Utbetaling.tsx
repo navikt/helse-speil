@@ -85,8 +85,11 @@ interface UtbetalingProps {
 
 export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): Maybe<ReactElement> => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
-    const periodeHarAvslagsbegrunnelseLagret = period.avslag?.filter((it) => !it.invalidert).length > 0;
-    const [visIndividuellBegrunnelse, setVisIndividuellBegrunnelse] = useState(periodeHarAvslagsbegrunnelseLagret);
+    const lagretVedtakBegrunnelseTekst =
+        period.avslag[0] != undefined && !period.avslag[0].invalidert ? (period.avslag[0].begrunnelse as string) : '';
+    const harLagretVedtakBegrunnelseTekst = lagretVedtakBegrunnelseTekst !== '';
+    const [vedtakBegrunnelseTekst, setVedtakBegrunnelseTekst] = useState(lagretVedtakBegrunnelseTekst);
+    const [visIndividuellBegrunnelse, setVisIndividuellBegrunnelse] = useState(harLagretVedtakBegrunnelseTekst);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const ventEllerHopp = useOnGodkjenn(period, person);
     const router = useRouter();
@@ -94,10 +97,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang(person);
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
     const finnesNyereUtbetaltPeriodePåPerson = useFinnesNyereUtbetaltPeriodePåPerson(period, person);
-
-    const innsendtAvslagstekst =
-        period.avslag[0] != undefined && !period.avslag[0].invalidert ? (period.avslag[0].begrunnelse as string) : '';
-    const [vedtakBegrunnelseTekst, setVedtakBegrunnelseTekst] = useState(innsendtAvslagstekst);
 
     const tidslinjeUtenAGPogHelg = getTidslinjeUtenAGPogHelg(period);
     const avvisteDager = getAvvisteDager(tidslinjeUtenAGPogHelg);
@@ -140,7 +139,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     return (
         <Box
             background={
-                visIndividuellBegrunnelse || periodeHarAvslagsbegrunnelseLagret ? 'bg-subtle' : 'surface-transparent'
+                visIndividuellBegrunnelse || harLagretVedtakBegrunnelseTekst ? 'bg-subtle' : 'surface-transparent'
             }
             paddingBlock="0 4"
             paddingInline="4 4"
