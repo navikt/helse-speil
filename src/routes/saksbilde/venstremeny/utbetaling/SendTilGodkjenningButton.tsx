@@ -6,7 +6,16 @@ import { Button } from '@navikt/ds-react';
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import { AvslagInput, Maybe, Personinfo, SendTilGodkjenningDocument, Utbetaling } from '@io/graphql';
+import {
+    AvslagInput,
+    AvslagsdataInput,
+    Avslagstype,
+    Maybe,
+    Personinfo,
+    SendTilGodkjenningV2Document,
+    Utbetaling,
+    VedtakBegrunnelseUtfall,
+} from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
 
@@ -53,7 +62,7 @@ export const SendTilGodkjenningButton = ({
     const [showModal, setShowModal] = useState(false);
     const amplitude = useContext(AmplitudeContext);
     const addToast = useAddSendtTilGodkjenningtoast();
-    const [sendTilGodkjenningMutation, { loading, error }] = useMutation(SendTilGodkjenningDocument);
+    const [sendTilGodkjenningMutation, { loading, error }] = useMutation(SendTilGodkjenningV2Document);
 
     useKeyboard([
         {
@@ -65,7 +74,10 @@ export const SendTilGodkjenningButton = ({
 
     const sendTilGodkjenning = async () => {
         await sendTilGodkjenningMutation({
-            variables: { oppgavereferanse: oppgavereferanse, avslag: avslag },
+            variables: {
+                oppgavereferanse: oppgavereferanse,
+                vedtakBegrunnelse: tilVedtakBegrunnelse(avslag?.data),
+            },
             onCompleted: () => {
                 amplitude.logTotrinnsoppgaveTilGodkjenning();
                 addToast();
@@ -117,3 +129,20 @@ const somBackendfeil = (error: ApolloError): BackendFeil => {
         statusCode: errorCode,
     };
 };
+
+const tilUtfall = (type: Avslagstype) => {
+    switch (type) {
+        case Avslagstype.Avslag:
+            return VedtakBegrunnelseUtfall.Avslag;
+        case Avslagstype.DelvisAvslag:
+            return VedtakBegrunnelseUtfall.DelvisInnvilgelse;
+    }
+};
+
+const tilVedtakBegrunnelse = (avslagsdata: Maybe<AvslagsdataInput> | undefined) =>
+    avslagsdata
+        ? {
+              utfall: tilUtfall(avslagsdata.type),
+              begrunnelse: avslagsdata.begrunnelse,
+          }
+        : { utfall: VedtakBegrunnelseUtfall.Innvilgelse };

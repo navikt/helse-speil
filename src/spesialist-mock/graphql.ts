@@ -39,6 +39,7 @@ import {
     MutationOpprettTildelingArgs,
     MutationSendIReturArgs,
     MutationSendTilGodkjenningArgs,
+    MutationSendTilGodkjenningV2Args,
     MutationSettVarselstatusArgs,
     Notat,
     NotatType,
@@ -278,6 +279,14 @@ const getResolvers = (): IResolvers => ({
                 })
             );
         },
+        fattVedtak: async () => {
+            return (
+                Math.random() < 0.95 ||
+                new GraphQLError(`Oppgaven er ikke åpen.`, {
+                    extensions: { code: { value: 500 } },
+                })
+            );
+        },
         sendTilInfotrygd: async () => {
             return (
                 Math.random() < 0.95 ||
@@ -299,6 +308,25 @@ const getResolvers = (): IResolvers => ({
             return true;
         },
         sendTilGodkjenning: async (_, { oppgavereferanse }: MutationSendTilGodkjenningArgs) => {
+            const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.saksbehandler;
+            const oppgave: Oppgave = {
+                ...getDefaultOppgave(),
+                id: oppgavereferanse,
+                tildelt:
+                    tidligereSaksbehandler === '11111111-2222-3333-4444-555555555555'
+                        ? null
+                        : '11111111-2222-3333-4444-555555555555',
+                totrinnsvurdering: {
+                    erRetur: false,
+                    erBeslutteroppgave: true,
+                    saksbehandler: '11111111-2222-3333-4444-555555555555',
+                },
+            };
+
+            OppgaveMock.addOrUpdateOppgave(oppgavereferanse, oppgave);
+            return true;
+        },
+        sendTilGodkjenningV2: async (_, { oppgavereferanse }: MutationSendTilGodkjenningV2Args) => {
             const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.saksbehandler;
             const oppgave: Oppgave = {
                 ...getDefaultOppgave(),

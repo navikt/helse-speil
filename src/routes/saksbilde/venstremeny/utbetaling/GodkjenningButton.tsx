@@ -6,7 +6,16 @@ import { Button } from '@navikt/ds-react';
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import { AvslagInput, InnvilgVedtakDocument, Maybe, Personinfo, Utbetaling } from '@io/graphql';
+import {
+    AvslagInput,
+    AvslagsdataInput,
+    Avslagstype,
+    FattVedtakDocument,
+    Maybe,
+    Personinfo,
+    Utbetaling,
+    VedtakBegrunnelseUtfall,
+} from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
 
@@ -53,15 +62,18 @@ export const GodkjenningButton = ({
     ...buttonProps
 }: GodkjenningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
-    const [innvilgVedtakMutation, { error, loading }] = useMutation(InnvilgVedtakDocument);
+    const [fattVedtakMutation, { error, loading }] = useMutation(FattVedtakDocument);
     useKeyboard([{ key: Key.F6, action: () => !disabled && setShowModal(true), ignoreIfModifiers: false }]);
 
     const amplitude = useContext(AmplitudeContext);
     const addUtbetalingstoast = useAddUtbetalingstoast();
 
     const godkjennUtbetaling = () => {
-        void innvilgVedtakMutation({
-            variables: { oppgavereferanse: oppgavereferanse, avslag: avslag },
+        void fattVedtakMutation({
+            variables: {
+                oppgavereferanse: oppgavereferanse,
+                vedtakBegrunnelse: tilVedtakBegrunnelse(avslag?.data),
+            },
             onCompleted: () => {
                 amplitude.logOppgaveGodkjent(erBeslutteroppgave);
                 addUtbetalingstoast();
@@ -110,3 +122,20 @@ const errorMessages = new Map<string, string>([
     ['ikke_aapen_saksbehandleroppgave', 'Saken er allerede utbetalt'],
     ['ikke_tilgang_til_risk_qa', 'Du har ikke tilgang til å behandle risk-saker'],
 ]);
+
+const tilUtfall = (type: Avslagstype) => {
+    switch (type) {
+        case Avslagstype.Avslag:
+            return VedtakBegrunnelseUtfall.Avslag;
+        case Avslagstype.DelvisAvslag:
+            return VedtakBegrunnelseUtfall.DelvisInnvilgelse;
+    }
+};
+
+const tilVedtakBegrunnelse = (avslagsdata: Maybe<AvslagsdataInput> | undefined) =>
+    avslagsdata
+        ? {
+              utfall: tilUtfall(avslagsdata.type),
+              begrunnelse: avslagsdata.begrunnelse,
+          }
+        : { utfall: VedtakBegrunnelseUtfall.Innvilgelse };
