@@ -32,7 +32,13 @@ export const IndividuellBegrunnelseContent = ({
                     size="small"
                     className={styles.readmore}
                     defaultOpen={defaultÅpen}
-                    header="Skriv begrunnelse for vedtak"
+                    header={
+                        vedtakBegrunnelseTekst === '' ? (
+                            <span>Skriv begrunnelse for vedtak</span>
+                        ) : (
+                            <strong>Skriv begrunnelse for vedtak</strong>
+                        )
+                    }
                 >
                     <Button
                         onClick={åpneModal}
