@@ -94,6 +94,10 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
     const finnesNyereUtbetaltPeriodePåPerson = useFinnesNyereUtbetaltPeriodePåPerson(period, person);
 
+    const innsendtAvslagstekst =
+        period.avslag[0] != undefined && !period.avslag[0].invalidert ? (period.avslag[0].begrunnelse as string) : '';
+    const [vedtakBegrunnelseTekst, setVedtakBegrunnelseTekst] = useState(innsendtAvslagstekst);
+
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
         ventEllerHopp();
@@ -136,6 +140,8 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                 setVisIndividuellBegrunnelse={setVisIndividuellBegrunnelse}
                 avslag={avslag}
                 setAvslag={setAvslag}
+                vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
+                setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 periode={period}
                 person={person}
             />
@@ -155,6 +161,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                             }
                             onSuccess={onSendTilGodkjenning}
                             avslag={avslag}
+                            vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                         >
                             Send til godkjenning
                         </SendTilGodkjenningButton>
@@ -173,6 +180,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                             }
                             onSuccess={onGodkjennUtbetaling}
                             avslag={avslag}
+                            vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                         >
                             {erBeslutteroppgaveOgHarTilgang
                                 ? 'Godkjenn og fatt vedtak'

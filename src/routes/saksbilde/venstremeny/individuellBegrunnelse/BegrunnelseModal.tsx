@@ -11,7 +11,8 @@ interface BegrunnelseModalProps {
     modalÅpen: boolean;
     lukkModal: () => void;
     avslagstype: Avslagstype.Avslag | Avslagstype.DelvisAvslag;
-    preutfyltVerdi: string;
+    vedtakBegrunnelseTekst: string;
+    setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
 }
 
@@ -19,7 +20,8 @@ export const BegrunnelseModal = ({
     modalÅpen,
     lukkModal,
     avslagstype,
-    preutfyltVerdi,
+    vedtakBegrunnelseTekst,
+    setVedtakBegrunnelseTekst,
     setAvslag,
 }: BegrunnelseModalProps) => (
     <Modal aria-label="Modal" portal closeOnBackdropClick open={modalÅpen} onClose={lukkModal} width="800px">
@@ -35,7 +37,8 @@ export const BegrunnelseModal = ({
             <VStack gap="4">
                 <BegrunnelseInput
                     begrunnelsestype={avslagstype}
-                    preutfyltVerdi={preutfyltVerdi}
+                    vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
+                    setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                     minRows={8}
                     setAvslag={(verdi) => setAvslag(verdi)}
                     focus={true}

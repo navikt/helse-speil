@@ -14,7 +14,8 @@ interface IndividuellBegrunnelseContentProps {
     erReadOnly: boolean;
     erBeslutteroppgave: boolean;
     avslagstype: Avslagstype;
-    preutfyltVerdi: string;
+    vedtakBegrunnelseTekst: string;
+    setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     skalÅpnesMedUtfylteVerdier: boolean;
     visIndividuellBegrunnelse: boolean;
     åpneIndividuellBegrunnelse: () => void;
@@ -27,7 +28,8 @@ export const IndividuellBegrunnelseContent = ({
     erReadOnly,
     erBeslutteroppgave,
     avslagstype,
-    preutfyltVerdi,
+    vedtakBegrunnelseTekst,
+    setVedtakBegrunnelseTekst,
     skalÅpnesMedUtfylteVerdier,
     visIndividuellBegrunnelse,
     åpneIndividuellBegrunnelse,
@@ -55,7 +57,8 @@ export const IndividuellBegrunnelseContent = ({
                         />
                         <BegrunnelseInput
                             begrunnelsestype={avslagstype}
-                            preutfyltVerdi={preutfyltVerdi}
+                            vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
+                            setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                             minRows={4}
                             setAvslag={setAvslag}
                             focus={visIndividuellBegrunnelse || skalÅpnesMedUtfylteVerdier}

@@ -8,7 +8,6 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
 import {
     AvslagInput,
-    AvslagsdataInput,
     Avslagstype,
     Maybe,
     Personinfo,
@@ -44,6 +43,7 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
     arbeidsgiverNavn: string;
     personinfo: Personinfo;
     avslag: Maybe<AvslagInput>;
+    vedtakBegrunnelseTekst: string;
     size: 'small' | 'medium';
 }
 
@@ -56,6 +56,7 @@ export const SendTilGodkjenningButton = ({
     arbeidsgiverNavn,
     personinfo,
     avslag = null,
+    vedtakBegrunnelseTekst,
     size,
     ...buttonProps
 }: SendTilGodkjenningButtonProps): ReactElement => {
@@ -76,7 +77,10 @@ export const SendTilGodkjenningButton = ({
         await sendTilGodkjenningMutation({
             variables: {
                 oppgavereferanse: oppgavereferanse,
-                vedtakBegrunnelse: tilVedtakBegrunnelse(avslag?.data),
+                vedtakBegrunnelse: {
+                    utfall: tilUtfall(avslag?.data?.type),
+                    begrunnelse: vedtakBegrunnelseTekst,
+                },
             },
             onCompleted: () => {
                 amplitude.logTotrinnsoppgaveTilGodkjenning();
@@ -130,19 +134,13 @@ const somBackendfeil = (error: ApolloError): BackendFeil => {
     };
 };
 
-const tilUtfall = (type: Avslagstype) => {
+const tilUtfall = (type: Avslagstype | undefined) => {
     switch (type) {
         case Avslagstype.Avslag:
             return VedtakBegrunnelseUtfall.Avslag;
         case Avslagstype.DelvisAvslag:
             return VedtakBegrunnelseUtfall.DelvisInnvilgelse;
+        case undefined:
+            return VedtakBegrunnelseUtfall.Innvilgelse;
     }
 };
-
-const tilVedtakBegrunnelse = (avslagsdata: Maybe<AvslagsdataInput> | undefined) =>
-    avslagsdata
-        ? {
-              utfall: tilUtfall(avslagsdata.type),
-              begrunnelse: avslagsdata.begrunnelse,
-          }
-        : { utfall: VedtakBegrunnelseUtfall.Innvilgelse };

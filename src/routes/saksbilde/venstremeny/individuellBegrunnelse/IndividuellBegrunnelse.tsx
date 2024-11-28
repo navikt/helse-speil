@@ -19,6 +19,8 @@ interface BegrunnelseVedtakProps {
     setVisIndividuellBegrunnelse: Dispatch<SetStateAction<boolean>>;
     avslag: Maybe<AvslagInput>;
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
+    vedtakBegrunnelseTekst: string;
+    setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     periode: BeregnetPeriodeFragment;
     person: PersonFragment;
 }
@@ -28,6 +30,8 @@ export const IndividuellBegrunnelse = ({
     setVisIndividuellBegrunnelse,
     avslag,
     setAvslag,
+    vedtakBegrunnelseTekst,
+    setVedtakBegrunnelseTekst,
     periode,
     person,
 }: BegrunnelseVedtakProps): Maybe<ReactElement> => {
@@ -42,27 +46,17 @@ export const IndividuellBegrunnelse = ({
     const avslagstype =
         tidslinjeUtenAGPogHelg.length === avvisteDager.length ? Avslagstype.Avslag : Avslagstype.DelvisAvslag;
 
-    const lokalAvslagstekst = avslag?.data?.begrunnelse;
-    const innsendtAvslagstekst =
-        periode.avslag[0] != undefined && !periode.avslag[0].invalidert
-            ? (periode.avslag[0].begrunnelse as string)
-            : undefined;
-
-    if (avvisteDager.length === 0 && !innsendtAvslagstekst) return null;
+    if (avvisteDager.length === 0) return null;
 
     const åpneModal = () => setModalÅpen(true);
     const lukkModal = () => setModalÅpen(false);
 
-    const preutfyltVerdi = lokalAvslagstekst ?? innsendtAvslagstekst ?? '';
-
     const skalÅpnesMedUtfylteVerdier =
-        !erReadOnly && !erBeslutteroppgave && preutfyltVerdi !== '' && avslag?.handling !== Avslagshandling.Invalider;
+        !erReadOnly && !erBeslutteroppgave && avslag?.handling !== Avslagshandling.Invalider;
 
     const onClose = () => {
-        if (!lokalAvslagstekst && !innsendtAvslagstekst) {
-            setVisIndividuellBegrunnelse(false);
-            lukkModal();
-        }
+        setVisIndividuellBegrunnelse(false);
+        lukkModal();
     };
 
     const åpneIndividuellBegrunnelse = () => {
@@ -79,7 +73,8 @@ export const IndividuellBegrunnelse = ({
                 erReadOnly={erReadOnly}
                 erBeslutteroppgave={erBeslutteroppgave}
                 avslagstype={avslagstype}
-                preutfyltVerdi={preutfyltVerdi}
+                vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
+                setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 skalÅpnesMedUtfylteVerdier={skalÅpnesMedUtfylteVerdier}
                 visIndividuellBegrunnelse={visIndividuellBegrunnelse}
                 åpneIndividuellBegrunnelse={åpneIndividuellBegrunnelse}
@@ -93,7 +88,8 @@ export const IndividuellBegrunnelse = ({
                     modalÅpen={modalÅpen}
                     lukkModal={lukkModal}
                     avslagstype={avslagstype}
-                    preutfyltVerdi={preutfyltVerdi}
+                    vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
+                    setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                     setAvslag={setAvslag}
                 />
             )}

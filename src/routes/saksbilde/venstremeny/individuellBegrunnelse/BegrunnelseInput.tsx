@@ -6,7 +6,8 @@ import { AvslagInput, Avslagshandling, Avslagstype, Maybe } from '@io/graphql';
 
 interface BegrunnelseInputProps {
     begrunnelsestype: Avslagstype.Avslag | Avslagstype.DelvisAvslag;
-    preutfyltVerdi: string;
+    vedtakBegrunnelseTekst: string;
+    setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     minRows: number;
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
     focus: boolean;
@@ -14,7 +15,8 @@ interface BegrunnelseInputProps {
 
 export const BegrunnelseInput = ({
     begrunnelsestype,
-    preutfyltVerdi,
+    vedtakBegrunnelseTekst,
+    setVedtakBegrunnelseTekst,
     minRows,
     setAvslag,
     focus,
@@ -28,8 +30,9 @@ export const BegrunnelseInput = ({
         <Textarea
             label=""
             id="begrunnelse"
-            defaultValue={preutfyltVerdi}
+            value={vedtakBegrunnelseTekst}
             onChange={(event) => {
+                setVedtakBegrunnelseTekst(event.target.value);
                 if (event.target.value === '') return setAvslag(null);
 
                 setAvslag({

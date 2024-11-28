@@ -8,7 +8,6 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
 import {
     AvslagInput,
-    AvslagsdataInput,
     Avslagstype,
     FattVedtakDocument,
     Maybe,
@@ -45,6 +44,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     arbeidsgiverNavn: string;
     personinfo: Personinfo;
     avslag: Maybe<AvslagInput>;
+    vedtakBegrunnelseTekst: string;
     size: 'small' | 'medium';
 }
 
@@ -58,6 +58,7 @@ export const GodkjenningButton = ({
     arbeidsgiverNavn,
     personinfo,
     avslag = null,
+    vedtakBegrunnelseTekst,
     size,
     ...buttonProps
 }: GodkjenningButtonProps): ReactElement => {
@@ -72,7 +73,10 @@ export const GodkjenningButton = ({
         void fattVedtakMutation({
             variables: {
                 oppgavereferanse: oppgavereferanse,
-                vedtakBegrunnelse: tilVedtakBegrunnelse(avslag?.data),
+                vedtakBegrunnelse: {
+                    utfall: tilUtfall(avslag?.data?.type),
+                    begrunnelse: vedtakBegrunnelseTekst,
+                },
             },
             onCompleted: () => {
                 amplitude.logOppgaveGodkjent(erBeslutteroppgave);
@@ -123,19 +127,13 @@ const errorMessages = new Map<string, string>([
     ['ikke_tilgang_til_risk_qa', 'Du har ikke tilgang til å behandle risk-saker'],
 ]);
 
-const tilUtfall = (type: Avslagstype) => {
+const tilUtfall = (type: Avslagstype | undefined) => {
     switch (type) {
         case Avslagstype.Avslag:
             return VedtakBegrunnelseUtfall.Avslag;
         case Avslagstype.DelvisAvslag:
             return VedtakBegrunnelseUtfall.DelvisInnvilgelse;
+        case undefined:
+            return VedtakBegrunnelseUtfall.Innvilgelse;
     }
 };
-
-const tilVedtakBegrunnelse = (avslagsdata: Maybe<AvslagsdataInput> | undefined) =>
-    avslagsdata
-        ? {
-              utfall: tilUtfall(avslagsdata.type),
-              begrunnelse: avslagsdata.begrunnelse,
-          }
-        : { utfall: VedtakBegrunnelseUtfall.Innvilgelse };
