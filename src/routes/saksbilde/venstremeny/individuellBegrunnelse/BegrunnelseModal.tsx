@@ -37,7 +37,7 @@ export const BegrunnelseModal = ({
                 />
                 <HStack gap="2">
                     <Button size="xsmall" variant="secondary" onClick={lukkModal}>
-                        Lagre
+                        Lukk
                     </Button>
                 </HStack>
             </VStack>
