@@ -43,6 +43,7 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
     arbeidsgiverNavn: string;
     personinfo: Personinfo;
     avslag: Maybe<AvslagInput>;
+    avslagstype: Avslagstype | undefined;
     vedtakBegrunnelseTekst: string;
     size: 'small' | 'medium';
 }
@@ -56,6 +57,7 @@ export const SendTilGodkjenningButton = ({
     arbeidsgiverNavn,
     personinfo,
     avslag = null,
+    avslagstype,
     vedtakBegrunnelseTekst,
     size,
     ...buttonProps
@@ -78,7 +80,7 @@ export const SendTilGodkjenningButton = ({
             variables: {
                 oppgavereferanse: oppgavereferanse,
                 vedtakBegrunnelse: {
-                    utfall: tilUtfall(avslag?.data?.type),
+                    utfall: tilUtfall(avslagstype),
                     begrunnelse: vedtakBegrunnelseTekst,
                 },
             },

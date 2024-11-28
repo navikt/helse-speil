@@ -44,6 +44,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     arbeidsgiverNavn: string;
     personinfo: Personinfo;
     avslag: Maybe<AvslagInput>;
+    avslagstype: Avslagstype | undefined;
     vedtakBegrunnelseTekst: string;
     size: 'small' | 'medium';
 }
@@ -58,6 +59,7 @@ export const GodkjenningButton = ({
     arbeidsgiverNavn,
     personinfo,
     avslag = null,
+    avslagstype,
     vedtakBegrunnelseTekst,
     size,
     ...buttonProps
@@ -74,7 +76,7 @@ export const GodkjenningButton = ({
             variables: {
                 oppgavereferanse: oppgavereferanse,
                 vedtakBegrunnelse: {
-                    utfall: tilUtfall(avslag?.data?.type),
+                    utfall: tilUtfall(avslagstype),
                     begrunnelse: vedtakBegrunnelseTekst,
                 },
             },

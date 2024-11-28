@@ -1,16 +1,7 @@
 import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import {
-    AvslagInput,
-    Avslagshandling,
-    Avslagstype,
-    BeregnetPeriodeFragment,
-    Dag,
-    Maybe,
-    PersonFragment,
-    Utbetalingsdagtype,
-} from '@io/graphql';
+import { AvslagInput, Avslagshandling, Avslagstype, BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
 import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseModal';
 import { IndividuellBegrunnelseContent } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelseContent';
 
@@ -19,6 +10,7 @@ interface BegrunnelseVedtakProps {
     setVisIndividuellBegrunnelse: Dispatch<SetStateAction<boolean>>;
     avslag: Maybe<AvslagInput>;
     setAvslag: Dispatch<SetStateAction<Maybe<AvslagInput>>>;
+    avslagstype: Avslagstype | undefined;
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     periode: BeregnetPeriodeFragment;
@@ -30,6 +22,7 @@ export const IndividuellBegrunnelse = ({
     setVisIndividuellBegrunnelse,
     avslag,
     setAvslag,
+    avslagstype,
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
     periode,
@@ -40,13 +33,8 @@ export const IndividuellBegrunnelse = ({
     const erReadOnly = useIsReadOnlyOppgave(person);
 
     const erBeslutteroppgave = periode.totrinnsvurdering?.erBeslutteroppgave ?? false;
-    const tidslinjeUtenAGPogHelg = getTidslinjeUtenAGPogHelg(periode);
-    const avvisteDager = getAvvisteDager(tidslinjeUtenAGPogHelg);
 
-    const avslagstype =
-        tidslinjeUtenAGPogHelg.length === avvisteDager.length ? Avslagstype.Avslag : Avslagstype.DelvisAvslag;
-
-    if (avvisteDager.length === 0) return null;
+    if (avslagstype === undefined) return null;
 
     const åpneModal = () => setModalÅpen(true);
     const lukkModal = () => setModalÅpen(false);
@@ -96,21 +84,6 @@ export const IndividuellBegrunnelse = ({
         </>
     );
 };
-
-const getTidslinjeUtenAGPogHelg = (periode: BeregnetPeriodeFragment) =>
-    periode.tidslinje.filter(
-        (dag) =>
-            ![Utbetalingsdagtype.Navhelgdag, Utbetalingsdagtype.Arbeidsgiverperiodedag].includes(
-                dag.utbetalingsdagtype,
-            ),
-    );
-
-const getAvvisteDager = (tidslinjeUtenAGPogHelg: Dag[]) =>
-    tidslinjeUtenAGPogHelg.filter((dag) =>
-        [Utbetalingsdagtype.AvvistDag, Utbetalingsdagtype.ForeldetDag, Utbetalingsdagtype.Feriedag].includes(
-            dag.utbetalingsdagtype,
-        ),
-    );
 
 export const knappetekst = (avslagstype: Avslagstype) => {
     switch (avslagstype) {

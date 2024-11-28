@@ -10,11 +10,14 @@ import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import {
     ArbeidsgiverFragment,
     AvslagInput,
+    Avslagstype,
     BeregnetPeriodeFragment,
+    Dag,
     Maybe,
     OpprettAbonnementDocument,
     Periodetilstand,
     PersonFragment,
+    Utbetalingsdagtype,
 } from '@io/graphql';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
@@ -98,6 +101,16 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         period.avslag[0] != undefined && !period.avslag[0].invalidert ? (period.avslag[0].begrunnelse as string) : '';
     const [vedtakBegrunnelseTekst, setVedtakBegrunnelseTekst] = useState(innsendtAvslagstekst);
 
+    const tidslinjeUtenAGPogHelg = getTidslinjeUtenAGPogHelg(period);
+    const avvisteDager = getAvvisteDager(tidslinjeUtenAGPogHelg);
+
+    const avslagstype =
+        avvisteDager.length === 0
+            ? undefined
+            : tidslinjeUtenAGPogHelg.length === avvisteDager.length
+              ? Avslagstype.Avslag
+              : Avslagstype.DelvisAvslag;
+
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
         ventEllerHopp();
@@ -140,6 +153,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                 setVisIndividuellBegrunnelse={setVisIndividuellBegrunnelse}
                 avslag={avslag}
                 setAvslag={setAvslag}
+                avslagstype={avslagstype}
                 vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 periode={period}
@@ -161,6 +175,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                             }
                             onSuccess={onSendTilGodkjenning}
                             avslag={avslag}
+                            avslagstype={avslagstype}
                             vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                         >
                             Send til godkjenning
@@ -180,6 +195,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                             }
                             onSuccess={onGodkjennUtbetaling}
                             avslag={avslag}
+                            avslagstype={avslagstype}
                             vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                         >
                             {erBeslutteroppgaveOgHarTilgang
@@ -218,3 +234,18 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         </Box>
     );
 };
+
+const getTidslinjeUtenAGPogHelg = (periode: BeregnetPeriodeFragment) =>
+    periode.tidslinje.filter(
+        (dag) =>
+            ![Utbetalingsdagtype.Navhelgdag, Utbetalingsdagtype.Arbeidsgiverperiodedag].includes(
+                dag.utbetalingsdagtype,
+            ),
+    );
+
+const getAvvisteDager = (tidslinjeUtenAGPogHelg: Dag[]) =>
+    tidslinjeUtenAGPogHelg.filter((dag) =>
+        [Utbetalingsdagtype.AvvistDag, Utbetalingsdagtype.ForeldetDag, Utbetalingsdagtype.Feriedag].includes(
+            dag.utbetalingsdagtype,
+        ),
+    );
