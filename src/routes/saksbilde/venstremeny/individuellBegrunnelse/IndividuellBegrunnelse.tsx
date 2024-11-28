@@ -37,8 +37,6 @@ export const IndividuellBegrunnelse = ({
     const åpneModal = () => setModalÅpen(true);
     const lukkModal = () => setModalÅpen(false);
 
-    const skalÅpnesMedUtfylteVerdier = !erReadOnly && !erBeslutteroppgave;
-
     const onClose = () => {
         setVisIndividuellBegrunnelse(false);
         lukkModal();
@@ -64,7 +62,6 @@ export const IndividuellBegrunnelse = ({
                 erBeslutteroppgave={erBeslutteroppgave}
                 vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
-                skalÅpnesMedUtfylteVerdier={skalÅpnesMedUtfylteVerdier}
                 visIndividuellBegrunnelse={visIndividuellBegrunnelse}
                 åpneIndividuellBegrunnelse={åpneIndividuellBegrunnelse}
                 åpneModal={åpneModal}

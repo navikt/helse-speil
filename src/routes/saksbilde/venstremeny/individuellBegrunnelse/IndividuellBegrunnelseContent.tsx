@@ -13,7 +13,6 @@ interface IndividuellBegrunnelseContentProps {
     erBeslutteroppgave: boolean;
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
-    skalÅpnesMedUtfylteVerdier: boolean;
     visIndividuellBegrunnelse: boolean;
     åpneIndividuellBegrunnelse: () => void;
     åpneModal: () => void;
@@ -24,7 +23,6 @@ export const IndividuellBegrunnelseContent = ({
     erBeslutteroppgave,
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
-    skalÅpnesMedUtfylteVerdier,
     visIndividuellBegrunnelse,
     åpneIndividuellBegrunnelse,
     åpneModal,
@@ -51,7 +49,6 @@ export const IndividuellBegrunnelseContent = ({
                             vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                             setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                             minRows={4}
-                            focus={visIndividuellBegrunnelse || skalÅpnesMedUtfylteVerdier}
                         />
                     </Box>
                 </ReadMore>

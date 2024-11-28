@@ -6,20 +6,18 @@ interface BegrunnelseInputProps {
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     minRows: number;
-    focus: boolean;
 }
 
 export const BegrunnelseInput = ({
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
     minRows,
-    focus,
 }: BegrunnelseInputProps) => {
     const ref = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
         ref.current?.focus();
-    }, [focus]);
+    });
     return (
         <Textarea
             label=""
@@ -33,7 +31,6 @@ export const BegrunnelseInput = ({
             style={{ whiteSpace: 'pre-line' }}
             minRows={minRows}
             ref={ref}
-            autoFocus
         />
     );
 };
