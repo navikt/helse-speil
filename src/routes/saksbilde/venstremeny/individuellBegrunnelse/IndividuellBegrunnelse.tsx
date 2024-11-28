@@ -61,7 +61,6 @@ export const IndividuellBegrunnelse = ({
                 visIndividuellBegrunnelse={visIndividuellBegrunnelse}
                 åpneIndividuellBegrunnelse={åpneIndividuellBegrunnelse}
                 åpneModal={åpneModal}
-                periodeAvslag={periode.avslag}
             />
 
             {modalÅpen && (

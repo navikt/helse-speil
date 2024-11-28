@@ -3,7 +3,6 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { ExpandIcon } from '@navikt/aksel-icons';
 import { Box, Button, ReadMore } from '@navikt/ds-react';
 
-import { Avslag } from '@io/graphql';
 import { ReadOnlyIndividuellBegrunnelse } from '@saksbilde/venstremeny/ReadOnlyIndividuellBegrunnelse';
 import { BegrunnelseInput } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseInput';
 
@@ -18,7 +17,6 @@ interface IndividuellBegrunnelseContentProps {
     visIndividuellBegrunnelse: boolean;
     åpneIndividuellBegrunnelse: () => void;
     åpneModal: () => void;
-    periodeAvslag: Avslag[];
 }
 
 export const IndividuellBegrunnelseContent = ({
@@ -30,7 +28,6 @@ export const IndividuellBegrunnelseContent = ({
     visIndividuellBegrunnelse,
     åpneIndividuellBegrunnelse,
     åpneModal,
-    periodeAvslag,
 }: IndividuellBegrunnelseContentProps) => (
     <Box marginBlock="0 4" paddingBlock="4 0" className={styles['begrunnelse-vedtak']}>
         {!erReadOnly && !erBeslutteroppgave && (
@@ -61,8 +58,8 @@ export const IndividuellBegrunnelseContent = ({
             </Box>
         )}
 
-        {periodeAvslag.filter((it) => !it.invalidert).length > 0 && (erBeslutteroppgave || erReadOnly) && (
-            <ReadOnlyIndividuellBegrunnelse avslag={periodeAvslag[0]} />
+        {vedtakBegrunnelseTekst !== '' && (erBeslutteroppgave || erReadOnly) && (
+            <ReadOnlyIndividuellBegrunnelse vedtakBegrunnelseTekst={vedtakBegrunnelseTekst} />
         )}
     </Box>
 );
