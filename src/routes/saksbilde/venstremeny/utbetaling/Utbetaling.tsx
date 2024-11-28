@@ -149,7 +149,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
             <IndividuellBegrunnelse
                 visIndividuellBegrunnelse={visIndividuellBegrunnelse}
                 setVisIndividuellBegrunnelse={setVisIndividuellBegrunnelse}
-                avslagstype={avslagstype}
+                erInnvilgelse={avslagstype === undefined}
                 vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 periode={period}

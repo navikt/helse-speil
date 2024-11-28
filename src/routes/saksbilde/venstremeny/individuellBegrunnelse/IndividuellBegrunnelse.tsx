@@ -1,14 +1,14 @@
 import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Avslagstype, BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
 import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseModal';
 import { IndividuellBegrunnelseContent } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelseContent';
 
 interface BegrunnelseVedtakProps {
     visIndividuellBegrunnelse: boolean;
     setVisIndividuellBegrunnelse: Dispatch<SetStateAction<boolean>>;
-    avslagstype: Avslagstype | undefined;
+    erInnvilgelse: boolean;
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     periode: BeregnetPeriodeFragment;
@@ -18,7 +18,7 @@ interface BegrunnelseVedtakProps {
 export const IndividuellBegrunnelse = ({
     visIndividuellBegrunnelse,
     setVisIndividuellBegrunnelse,
-    avslagstype,
+    erInnvilgelse,
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
     periode,
@@ -30,7 +30,7 @@ export const IndividuellBegrunnelse = ({
 
     const erBeslutteroppgave = periode.totrinnsvurdering?.erBeslutteroppgave ?? false;
 
-    if (avslagstype === undefined) return null;
+    if (erInnvilgelse) return null;
 
     const åpneModal = () => setModalÅpen(true);
     const lukkModal = () => setModalÅpen(false);
