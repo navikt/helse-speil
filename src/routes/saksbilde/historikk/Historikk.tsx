@@ -20,12 +20,12 @@ import { Filtertype, HendelseObject } from '@typer/historikk';
 import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
 import { Arbeidsforholdoverstyringhendelse } from './hendelser/Arbeidsforholdoverstyringhendelse';
-import { Avslaghendelse } from './hendelser/Avslaghendelse';
 import { Dagoverstyringhendelse } from './hendelser/Dagoverstyringhendelse';
 import { HendelseSkeleton } from './hendelser/Hendelse';
 import { Inntektoverstyringhendelse } from './hendelser/Inntektoverstyringhendelse';
 import { Sykepengegrunnlagskjønnsfastsettinghendelse } from './hendelser/Sykepengegrunnlagskjønnsfastsettinghendelse';
 import { Utbetalinghendelse } from './hendelser/Utbetalinghendelse';
+import { VedtakBegrunnelsehendelse } from './hendelser/VedtakBegrunnelsehendelse';
 import { Dokumenthendelse } from './hendelser/dokument/Dokumenthendelse';
 import { Notathendelse } from './hendelser/notat/Notathendelse';
 import { useFilterState, useFilteredHistorikk, useShowHistorikkState, useShowHøyremenyState } from './state';
@@ -131,8 +131,8 @@ const HistorikkWithContent = (): ReactElement => {
                                         case 'Historikk': {
                                             return <Historikkhendelse key={it.id} {...it} />;
                                         }
-                                        case 'Avslag': {
-                                            return <Avslaghendelse key={it.id} {...it} />;
+                                        case 'VedtakBegrunnelse': {
+                                            return <VedtakBegrunnelsehendelse key={it.id} {...it} />;
                                         }
                                         case 'Annullering': {
                                             return <Annulleringhendelse key={it.id} {...it} />;

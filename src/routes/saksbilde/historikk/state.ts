@@ -24,7 +24,6 @@ import {
     getAnnetArbeidsforholdoverstyringhendelser,
     getAnnullering,
     getArbeidsforholdoverstyringhendelser,
-    getAvslag,
     getDagoverstyringer,
     getDagoverstyringerForAUU,
     getDokumenter,
@@ -36,6 +35,7 @@ import {
     getNotathendelser,
     getSykepengegrunnlagskjønnsfastsetting,
     getUtbetalingshendelse,
+    getVedtakBegrunnelser,
 } from './mapping';
 
 const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
@@ -66,7 +66,7 @@ const getHendelserForBeregnetPeriode = (
     const notater = getNotathendelser(period.notater.map(toNotat));
     const utbetaling = getUtbetalingshendelse(period);
     const historikkinnslag = getHistorikkinnslag(period);
-    const avslag = getAvslag(period);
+    const vedtakBegrunnelser = getVedtakBegrunnelser(period);
     const annullering = getAnnullering(period);
 
     return meldingOmVedtak.concat(
@@ -78,7 +78,7 @@ const getHendelserForBeregnetPeriode = (
             ...annetarbeidsforholdoverstyringer,
             ...sykepengegrunnlagskjønnsfastsetting,
             ...minimumSykdomsgradoverstyring,
-            ...avslag,
+            ...vedtakBegrunnelser,
         ]
             .filter((it: HendelseObject) =>
                 period.utbetaling.vurdering?.tidsstempel
@@ -190,7 +190,7 @@ const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
         'Utbetaling',
         'Historikk',
         'Notat',
-        'Avslag',
+        'VedtakBegrunnelse',
         'Annullering',
     ],
     Dokument: ['Dokument'],

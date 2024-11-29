@@ -4,8 +4,8 @@ import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { Avslagstype, Inntektskilde } from '@io/graphql';
-import { AvslaghendelseObject } from '@typer/historikk';
+import { Inntektskilde, VedtakUtfall } from '@io/graphql';
+import { VedtakBegrunnelseObject } from '@typer/historikk';
 
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
 import { Hendelse } from './Hendelse';
@@ -13,17 +13,17 @@ import { HendelseDate } from './HendelseDate';
 
 import styles from './Overstyringshendelse.module.css';
 
-type AvslaghendelseProps = Omit<AvslaghendelseObject, 'type' | 'id'>;
+type VedtakBegrunnelsehendelseProps = Omit<VedtakBegrunnelseObject, 'type' | 'id'>;
 
-export const Avslaghendelse = ({
-    avslagstype,
+export const VedtakBegrunnelsehendelse = ({
+    utfall,
     begrunnelse,
     saksbehandler,
     timestamp,
-}: AvslaghendelseProps): ReactElement => {
+}: VedtakBegrunnelsehendelseProps): ReactElement => {
     return (
         <Hendelse
-            title="Individuell begrunnelse for avslag"
+            title="Individuell begrunnelse for vedtak"
             icon={
                 <Kilde type={Inntektskilde.Saksbehandler}>
                     <PersonPencilFillIcon title="Saksbehandler ikon" />
@@ -33,12 +33,23 @@ export const Avslaghendelse = ({
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
                     <BodyShort weight="semibold">Type: </BodyShort>
-                    <BodyShort>{avslagstype === Avslagstype.DelvisAvslag ? 'Delvis innvilgelse' : 'Avslag'}</BodyShort>
+                    <BodyShort>{tekstForUtfall(utfall)}</BodyShort>
                     <BodyShort weight="semibold">Begrunnelse: </BodyShort>
-                    <BodyShort>{begrunnelse}</BodyShort>
+                    <BodyShort>{begrunnelse ?? ''}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>
             <HendelseDate timestamp={timestamp} ident={saksbehandler} />
         </Hendelse>
     );
+};
+
+const tekstForUtfall = (utfall: VedtakUtfall) => {
+    switch (utfall) {
+        case VedtakUtfall.Avslag:
+            return 'Avslag';
+        case VedtakUtfall.DelvisInnvilgelse:
+            return 'Delvis innvilgelse';
+        case VedtakUtfall.Innvilgelse:
+            return 'Innvilgelse';
+    }
 };

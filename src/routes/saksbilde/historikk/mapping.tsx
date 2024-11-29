@@ -34,7 +34,6 @@ import {
     AnnulleringhendelseObject,
     ArbeidsforholdoverstyringhendelseObject,
     ArbeidsgiverSkjønnHendelse,
-    AvslaghendelseObject,
     HendelseObject,
     HistorikkhendelseObject,
     InntektoverstyringhendelseObject,
@@ -42,6 +41,7 @@ import {
     NotathendelseObject,
     SykepengegrunnlagskjonnsfastsettinghendelseObject,
     UtbetalinghendelseObject,
+    VedtakBegrunnelseObject,
 } from '@typer/historikk';
 import { Notat } from '@typer/notat';
 import { DateString } from '@typer/shared';
@@ -161,19 +161,19 @@ export const getMeldingOmVedtak = (period: Periode): Array<HendelseObject> =>
           ]
         : [];
 
-export const getAvslag = (period: Periode): Array<AvslaghendelseObject> => {
+export const getVedtakBegrunnelser = (period: Periode): Array<VedtakBegrunnelseObject> => {
     if (!isBeregnetPeriode(period)) {
         return [];
     }
 
-    return period.avslag.map((avslag, index) => {
+    return period.vedtakBegrunnelser.map((vedtakBegrunnelse, index) => {
         return {
-            id: `avslag-${index}`,
-            type: 'Avslag',
-            avslagstype: avslag.type,
-            begrunnelse: avslag.begrunnelse,
-            saksbehandler: avslag.saksbehandlerIdent,
-            timestamp: avslag.opprettet,
+            id: `vedtakBegrunnelse-${index}`,
+            type: 'VedtakBegrunnelse',
+            utfall: vedtakBegrunnelse.utfall,
+            begrunnelse: vedtakBegrunnelse.begrunnelse,
+            saksbehandler: vedtakBegrunnelse.saksbehandlerIdent,
+            timestamp: vedtakBegrunnelse.opprettet,
         };
     });
 };

@@ -1,5 +1,4 @@
 import {
-    Avslagstype,
     Kommentar,
     Maybe,
     NotatType,
@@ -9,6 +8,7 @@ import {
     PeriodehistorikkType,
     SkjonnsfastsattSykepengegrunnlag,
     Utbetalingtype,
+    VedtakUtfall,
 } from '@io/graphql';
 
 import { DateString } from './shared';
@@ -26,7 +26,7 @@ export type Hendelsetype =
     | 'Notat'
     | 'Utbetaling'
     | 'Historikk'
-    | 'Avslag'
+    | 'VedtakBegrunnelse'
     | 'Annullering';
 
 export type ArbeidsgiverSkjønnHendelse = {
@@ -138,10 +138,10 @@ export type HistorikkhendelseObject = BaseHendelseObject & {
     erNyesteHistorikkhendelseMedType?: boolean;
 };
 
-export type AvslaghendelseObject = BaseHendelseObject & {
-    type: 'Avslag';
-    avslagstype: Avslagstype;
-    begrunnelse: string;
+export type VedtakBegrunnelseObject = BaseHendelseObject & {
+    type: 'VedtakBegrunnelse';
+    utfall: VedtakUtfall;
+    begrunnelse: string | null;
 };
 
 export type AnnulleringhendelseObject = BaseHendelseObject & {
@@ -161,5 +161,5 @@ export type HendelseObject =
     | NotathendelseObject
     | UtbetalinghendelseObject
     | HistorikkhendelseObject
-    | AvslaghendelseObject
+    | VedtakBegrunnelseObject
     | AnnulleringhendelseObject;
