@@ -86,7 +86,7 @@ interface UtbetalingProps {
 export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): Maybe<ReactElement> => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const lagretVedtakBegrunnelseTekst =
-        period.avslag[0] != undefined && !period.avslag[0].invalidert ? (period.avslag[0].begrunnelse as string) : '';
+        period.vedtakBegrunnelser[0] != undefined ? (period.vedtakBegrunnelser[0].begrunnelse as string) : '';
     const [vedtakBegrunnelseTekst, setVedtakBegrunnelseTekst] = useState(lagretVedtakBegrunnelseTekst);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const ventEllerHopp = useOnGodkjenn(period, person);
