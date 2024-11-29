@@ -36,16 +36,16 @@ describe('IndividuellBegrunnelse', () => {
 
         render(
             <IndividuellBegrunnelse
-                visIndividuellBegrunnelse={true}
-                setVisIndividuellBegrunnelse={jest.fn()}
-                avslag={null}
-                setAvslag={jest.fn()}
+                defaultÅpen={true}
+                erInnvilgelse={false}
+                vedtakBegrunnelseTekst={'en begrunnelse'}
+                setVedtakBegrunnelseTekst={jest.fn()}
                 periode={periode}
                 person={person}
             />,
         );
 
-        expect(screen.queryByText('Skriv begrunnelse for avslag')).toBeVisible();
+        expect(screen.queryByText('Skriv begrunnelse for vedtak')).toBeVisible();
         expect(screen.queryByText('en begrunnelse')).toBeVisible();
     });
 
@@ -80,16 +80,16 @@ describe('IndividuellBegrunnelse', () => {
 
         render(
             <IndividuellBegrunnelse
-                visIndividuellBegrunnelse={true}
-                setVisIndividuellBegrunnelse={jest.fn()}
-                avslag={null}
-                setAvslag={jest.fn()}
+                defaultÅpen={false}
+                erInnvilgelse={false}
+                vedtakBegrunnelseTekst={''}
+                setVedtakBegrunnelseTekst={jest.fn()}
                 periode={periode}
                 person={person}
             />,
         );
 
-        expect(screen.queryByText('Skriv begrunnelse for avslag')).toBeVisible();
+        expect(screen.queryByText('Skriv begrunnelse for vedtak')).toBeVisible();
         expect(screen.queryByText('en begrunnelse')).toBeNull();
     });
 });
