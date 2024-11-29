@@ -372,6 +372,12 @@ fragment beregnetPeriode on BeregnetPeriode {
         saksbehandlerIdent
         invalidert
     }
+    vedtakBegrunnelser {
+        utfall
+        begrunnelse
+        opprettet
+        saksbehandlerIdent
+    }
     annullering {
         saksbehandlerIdent
         arbeidsgiverFagsystemId

@@ -101,6 +101,7 @@ export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, 
     vedtaksperiodeId: nanoid(),
     vilkarsgrunnlagId: nanoid(),
     avslag: [],
+    vedtakBegrunnelser: [],
     ...overrides,
     medUtbetaling(utbetaling: Utbetaling) {
         this.utbetaling = utbetaling;

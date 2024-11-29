@@ -1,4 +1,4 @@
-import { Avslagstype, Utbetalingsdagtype } from '@io/graphql';
+import { Avslagstype, Utbetalingsdagtype, VedtakUtfall } from '@io/graphql';
 import { IndividuellBegrunnelse } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelse';
 import { enBeregnetPeriode, enDag } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
@@ -30,6 +30,15 @@ describe('IndividuellBegrunnelse', () => {
                     opprettet: '',
                     saksbehandlerIdent: '',
                     invalidert: false,
+                },
+            ],
+            vedtakBegrunnelser: [
+                {
+                    __typename: 'VedtakBegrunnelse',
+                    utfall: VedtakUtfall.DelvisInnvilgelse,
+                    begrunnelse: 'en begrunnelse',
+                    opprettet: '',
+                    saksbehandlerIdent: '',
                 },
             ],
         });
@@ -74,6 +83,15 @@ describe('IndividuellBegrunnelse', () => {
                     opprettet: '',
                     saksbehandlerIdent: '',
                     invalidert: true,
+                },
+            ],
+            vedtakBegrunnelser: [
+                {
+                    __typename: 'VedtakBegrunnelse',
+                    utfall: VedtakUtfall.DelvisInnvilgelse,
+                    begrunnelse: 'en begrunnelse',
+                    opprettet: '',
+                    saksbehandlerIdent: '',
                 },
             ],
         });

@@ -76,6 +76,7 @@ const getFetchedBeregnetPeriode = (
         vedtaksperiodeId: 'EN_ID',
         egenskaper: [],
         avslag: [],
+        vedtakBegrunnelser: [],
         annullering: null,
         vilkarsgrunnlagId: null,
         totrinnsvurdering: null,

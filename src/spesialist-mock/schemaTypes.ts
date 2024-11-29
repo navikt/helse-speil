@@ -266,6 +266,7 @@ export type BeregnetPeriode = Periode & {
     totrinnsvurdering?: Maybe<Totrinnsvurdering>;
     utbetaling: Utbetaling;
     varsler: Array<VarselDto>;
+    vedtakBegrunnelser: Array<VedtakBegrunnelse>;
     vedtaksperiodeId: Scalars['UUID']['output'];
     vilkarsgrunnlagId?: Maybe<Scalars['UUID']['output']>;
 };
@@ -651,8 +652,9 @@ export type MutationAnnullerArgs = {
 };
 
 export type MutationFattVedtakArgs = {
+    begrunnelse?: InputMaybe<Scalars['String']['input']>;
     oppgavereferanse: Scalars['String']['input'];
-    vedtakBegrunnelse: VedtakBegrunnelseInput;
+    utfall: VedtakUtfall;
 };
 
 export type MutationFeilregistrerKommentarArgs = {
@@ -746,7 +748,8 @@ export type MutationSendTilGodkjenningArgs = {
 
 export type MutationSendTilGodkjenningV2Args = {
     oppgavereferanse: Scalars['String']['input'];
-    vedtakBegrunnelse: VedtakBegrunnelseInput;
+    vedtakBegrunnelse?: InputMaybe<Scalars['String']['input']>;
+    vedtakUtfall: VedtakUtfall;
 };
 
 export type MutationSendTilInfotrygdArgs = {
@@ -1661,12 +1664,15 @@ export type VarselvurderingDto = {
     tidsstempel: Scalars['LocalDateTime']['output'];
 };
 
-export type VedtakBegrunnelseInput = {
-    begrunnelse?: InputMaybe<Scalars['String']['input']>;
-    utfall: VedtakBegrunnelseUtfall;
+export type VedtakBegrunnelse = {
+    __typename?: 'VedtakBegrunnelse';
+    begrunnelse?: Maybe<Scalars['String']['output']>;
+    opprettet: Scalars['LocalDateTime']['output'];
+    saksbehandlerIdent: Scalars['String']['output'];
+    utfall: VedtakUtfall;
 };
 
-export enum VedtakBegrunnelseUtfall {
+export enum VedtakUtfall {
     Avslag = 'AVSLAG',
     DelvisInnvilgelse = 'DELVIS_INNVILGELSE',
     Innvilgelse = 'INNVILGELSE',

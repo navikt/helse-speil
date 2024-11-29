@@ -2639,6 +2639,30 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "vedtakBegrunnelser",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "VedtakBegrunnelse",
+                                        "ofType": null
+                                    }
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "vedtaksperiodeId",
                         "description": null,
                         "args": [],
@@ -5909,6 +5933,18 @@
                         "description": null,
                         "args": [
                             {
+                                "name": "begrunnelse",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null,
+                                "isDeprecated": false,
+                                "deprecationReason": null
+                            },
+                            {
                                 "name": "oppgavereferanse",
                                 "description": null,
                                 "type": {
@@ -5925,14 +5961,14 @@
                                 "deprecationReason": null
                             },
                             {
-                                "name": "vedtakBegrunnelse",
+                                "name": "utfall",
                                 "description": null,
                                 "type": {
                                     "kind": "NON_NULL",
                                     "name": null,
                                     "ofType": {
-                                        "kind": "INPUT_OBJECT",
-                                        "name": "VedtakBegrunnelseInput",
+                                        "kind": "ENUM",
+                                        "name": "VedtakUtfall",
                                         "ofType": null
                                     }
                                 },
@@ -6772,11 +6808,23 @@
                                 "name": "vedtakBegrunnelse",
                                 "description": null,
                                 "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null,
+                                "isDeprecated": false,
+                                "deprecationReason": null
+                            },
+                            {
+                                "name": "vedtakUtfall",
+                                "description": null,
+                                "type": {
                                     "kind": "NON_NULL",
                                     "name": null,
                                     "ofType": {
-                                        "kind": "INPUT_OBJECT",
-                                        "name": "VedtakBegrunnelseInput",
+                                        "kind": "ENUM",
+                                        "name": "VedtakUtfall",
                                         "ofType": null
                                     }
                                 },
@@ -15310,48 +15358,80 @@
                 "possibleTypes": null
             },
             {
-                "kind": "INPUT_OBJECT",
-                "name": "VedtakBegrunnelseInput",
+                "kind": "OBJECT",
+                "name": "VedtakBegrunnelse",
                 "description": null,
-                "isOneOf": false,
-                "fields": null,
-                "inputFields": [
+                "isOneOf": null,
+                "fields": [
                     {
                         "name": "begrunnelse",
                         "description": null,
+                        "args": [],
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",
                             "ofType": null
                         },
-                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "opprettet",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "LocalDateTime",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "saksbehandlerIdent",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
                         "name": "utfall",
                         "description": null,
+                        "args": [],
                         "type": {
                             "kind": "NON_NULL",
                             "name": null,
                             "ofType": {
                                 "kind": "ENUM",
-                                "name": "VedtakBegrunnelseUtfall",
+                                "name": "VedtakUtfall",
                                 "ofType": null
                             }
                         },
-                        "defaultValue": null,
                         "isDeprecated": false,
                         "deprecationReason": null
                     }
                 ],
-                "interfaces": null,
+                "inputFields": null,
+                "interfaces": [],
                 "enumValues": null,
                 "possibleTypes": null
             },
             {
                 "kind": "ENUM",
-                "name": "VedtakBegrunnelseUtfall",
+                "name": "VedtakUtfall",
                 "description": null,
                 "isOneOf": null,
                 "fields": null,

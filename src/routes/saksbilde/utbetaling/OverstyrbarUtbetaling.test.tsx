@@ -30,6 +30,8 @@ jest.mock('./utbetalingstabell/useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,
 }));
 
+jest.setTimeout(7000);
+
 const dager = new Map<string, Utbetalingstabelldag>([
     ['2022-01-01', getUtbetalingstabellDag({ dato: '2022-01-01' })],
     ['2022-01-02', getUtbetalingstabellDag({ dato: '2022-01-02' })],

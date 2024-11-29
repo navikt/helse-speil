@@ -6,7 +6,7 @@ import { Button } from '@navikt/ds-react';
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import { FattVedtakDocument, Personinfo, Utbetaling, VedtakBegrunnelseUtfall } from '@io/graphql';
+import { FattVedtakDocument, Personinfo, Utbetaling, VedtakUtfall } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
 
@@ -35,7 +35,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     utbetaling: Utbetaling;
     arbeidsgiverNavn: string;
     personinfo: Personinfo;
-    utfall: VedtakBegrunnelseUtfall;
+    utfall: VedtakUtfall;
     vedtakBegrunnelseTekst: string;
     size: 'small' | 'medium';
 }
@@ -65,10 +65,8 @@ export const GodkjenningButton = ({
         void fattVedtakMutation({
             variables: {
                 oppgavereferanse: oppgavereferanse,
-                vedtakBegrunnelse: {
-                    utfall: utfall,
-                    begrunnelse: vedtakBegrunnelseTekst,
-                },
+                utfall: utfall,
+                begrunnelse: vedtakBegrunnelseTekst,
             },
             onCompleted: () => {
                 amplitude.logOppgaveGodkjent(erBeslutteroppgave);

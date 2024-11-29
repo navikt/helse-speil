@@ -268,6 +268,7 @@ export type BeregnetPeriode = Periode & {
     totrinnsvurdering: Maybe<Totrinnsvurdering>;
     utbetaling: Utbetaling;
     varsler: Array<VarselDto>;
+    vedtakBegrunnelser: Array<VedtakBegrunnelse>;
     vedtaksperiodeId: Scalars['UUID']['output'];
     vilkarsgrunnlagId: Maybe<Scalars['UUID']['output']>;
 };
@@ -653,8 +654,9 @@ export type MutationAnnullerArgs = {
 };
 
 export type MutationFattVedtakArgs = {
+    begrunnelse?: InputMaybe<Scalars['String']['input']>;
     oppgavereferanse: Scalars['String']['input'];
-    vedtakBegrunnelse: VedtakBegrunnelseInput;
+    utfall: VedtakUtfall;
 };
 
 export type MutationFeilregistrerKommentarArgs = {
@@ -748,7 +750,8 @@ export type MutationSendTilGodkjenningArgs = {
 
 export type MutationSendTilGodkjenningV2Args = {
     oppgavereferanse: Scalars['String']['input'];
-    vedtakBegrunnelse: VedtakBegrunnelseInput;
+    vedtakBegrunnelse?: InputMaybe<Scalars['String']['input']>;
+    vedtakUtfall: VedtakUtfall;
 };
 
 export type MutationSendTilInfotrygdArgs = {
@@ -1663,12 +1666,15 @@ export type VarselvurderingDto = {
     tidsstempel: Scalars['LocalDateTime']['output'];
 };
 
-export type VedtakBegrunnelseInput = {
-    begrunnelse?: InputMaybe<Scalars['String']['input']>;
-    utfall: VedtakBegrunnelseUtfall;
+export type VedtakBegrunnelse = {
+    __typename: 'VedtakBegrunnelse';
+    begrunnelse: Maybe<Scalars['String']['output']>;
+    opprettet: Scalars['LocalDateTime']['output'];
+    saksbehandlerIdent: Scalars['String']['output'];
+    utfall: VedtakUtfall;
 };
 
-export enum VedtakBegrunnelseUtfall {
+export enum VedtakUtfall {
     Avslag = 'AVSLAG',
     DelvisInnvilgelse = 'DELVIS_INNVILGELSE',
     Innvilgelse = 'INNVILGELSE',
@@ -2573,6 +2579,13 @@ export type ArbeidsgiverFragment = {
                       saksbehandlerIdent: string;
                       invalidert: boolean;
                   }>;
+                  vedtakBegrunnelser: Array<{
+                      __typename: 'VedtakBegrunnelse';
+                      utfall: VedtakUtfall;
+                      begrunnelse: string | null;
+                      opprettet: string;
+                      saksbehandlerIdent: string;
+                  }>;
                   annullering: {
                       __typename: 'Annullering';
                       saksbehandlerIdent: string;
@@ -3441,6 +3454,13 @@ export type BeregnetPeriodeFragment = {
         saksbehandlerIdent: string;
         invalidert: boolean;
     }>;
+    vedtakBegrunnelser: Array<{
+        __typename: 'VedtakBegrunnelse';
+        utfall: VedtakUtfall;
+        begrunnelse: string | null;
+        opprettet: string;
+        saksbehandlerIdent: string;
+    }>;
     annullering: {
         __typename: 'Annullering';
         saksbehandlerIdent: string;
@@ -4177,6 +4197,13 @@ export type PersonFragment = {
                           opprettet: string;
                           saksbehandlerIdent: string;
                           invalidert: boolean;
+                      }>;
+                      vedtakBegrunnelser: Array<{
+                          __typename: 'VedtakBegrunnelse';
+                          utfall: VedtakUtfall;
+                          begrunnelse: string | null;
+                          opprettet: string;
+                          saksbehandlerIdent: string;
                       }>;
                       annullering: {
                           __typename: 'Annullering';
@@ -4984,6 +5011,13 @@ export type FetchPersonQuery = {
                               saksbehandlerIdent: string;
                               invalidert: boolean;
                           }>;
+                          vedtakBegrunnelser: Array<{
+                              __typename: 'VedtakBegrunnelse';
+                              utfall: VedtakUtfall;
+                              begrunnelse: string | null;
+                              opprettet: string;
+                              saksbehandlerIdent: string;
+                          }>;
                           annullering: {
                               __typename: 'Annullering';
                               saksbehandlerIdent: string;
@@ -5407,7 +5441,8 @@ export type SendTilGodkjenningMutation = { __typename: 'Mutation'; sendTilGodkje
 
 export type SendTilGodkjenningV2MutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
-    vedtakBegrunnelse: VedtakBegrunnelseInput;
+    vedtakUtfall: VedtakUtfall;
+    vedtakBegrunnelse?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 export type SendTilGodkjenningV2Mutation = { __typename: 'Mutation'; sendTilGodkjenningV2: boolean };
@@ -5440,7 +5475,8 @@ export type SettVarselStatusMutation = {
 
 export type FattVedtakMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
-    vedtakBegrunnelse: VedtakBegrunnelseInput;
+    utfall: VedtakUtfall;
+    begrunnelse?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 export type FattVedtakMutation = { __typename: 'Mutation'; fattVedtak: boolean };
@@ -6608,6 +6644,19 @@ export const BeregnetPeriodeFragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'invalidert' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'vedtakBegrunnelser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'utfall' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
                             ],
                         },
                     },
@@ -7940,6 +7989,19 @@ export const ArbeidsgiverFragmentDoc = {
                     },
                     {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'vedtakBegrunnelser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'utfall' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'annullering' },
                         selectionSet: {
                             kind: 'SelectionSet',
@@ -8940,6 +9002,19 @@ export const PersonFragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'invalidert' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'vedtakBegrunnelser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'utfall' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
                             ],
                         },
                     },
@@ -11808,6 +11883,19 @@ export const FetchPersonDocument = {
                     },
                     {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'vedtakBegrunnelser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'utfall' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'annullering' },
                         selectionSet: {
                             kind: 'SelectionSet',
@@ -12660,11 +12748,16 @@ export const SendTilGodkjenningV2Document = {
                 },
                 {
                     kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'vedtakBegrunnelse' } },
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'vedtakUtfall' } },
                     type: {
                         kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'VedtakBegrunnelseInput' } },
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'VedtakUtfall' } },
                     },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'vedtakBegrunnelse' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
                 },
             ],
             selectionSet: {
@@ -12678,6 +12771,11 @@ export const SendTilGodkjenningV2Document = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'oppgavereferanse' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'vedtakUtfall' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'vedtakUtfall' } },
                             },
                             {
                                 kind: 'Argument',
@@ -12794,11 +12892,16 @@ export const FattVedtakDocument = {
                 },
                 {
                     kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'vedtakBegrunnelse' } },
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'utfall' } },
                     type: {
                         kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'VedtakBegrunnelseInput' } },
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'VedtakUtfall' } },
                     },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
                 },
             ],
             selectionSet: {
@@ -12815,8 +12918,13 @@ export const FattVedtakDocument = {
                             },
                             {
                                 kind: 'Argument',
-                                name: { kind: 'Name', value: 'vedtakBegrunnelse' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'vedtakBegrunnelse' } },
+                                name: { kind: 'Name', value: 'utfall' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'utfall' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'begrunnelse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
                             },
                         ],
                     },

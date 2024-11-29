@@ -16,7 +16,7 @@ import {
     Periodetilstand,
     PersonFragment,
     Utbetalingsdagtype,
-    VedtakBegrunnelseUtfall,
+    VedtakUtfall,
 } from '@io/graphql';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
@@ -101,10 +101,10 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
 
     const utfall =
         avvisteDager.length === 0
-            ? VedtakBegrunnelseUtfall.Innvilgelse
+            ? VedtakUtfall.Innvilgelse
             : tidslinjeUtenAGPogHelg.length === avvisteDager.length
-              ? VedtakBegrunnelseUtfall.Avslag
-              : VedtakBegrunnelseUtfall.DelvisInnvilgelse;
+              ? VedtakUtfall.Avslag
+              : VedtakUtfall.DelvisInnvilgelse;
 
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
@@ -138,7 +138,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         <>
             <IndividuellBegrunnelse
                 defaultÅpen={lagretVedtakBegrunnelseTekst !== ''}
-                erInnvilgelse={utfall === VedtakBegrunnelseUtfall.Innvilgelse}
+                erInnvilgelse={utfall === VedtakUtfall.Innvilgelse}
                 vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 periode={period}
