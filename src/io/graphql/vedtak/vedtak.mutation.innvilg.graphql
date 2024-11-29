@@ -1,3 +1,0 @@
-mutation InnvilgVedtak($oppgavereferanse: String!, $avslag: AvslagInput) {
-    innvilgVedtak(oppgavereferanse: $oppgavereferanse, avslag: $avslag)
-}

@@ -5432,13 +5432,6 @@ export type SendIReturMutationVariables = Exact<{
 
 export type SendIReturMutation = { __typename: 'Mutation'; sendIRetur: boolean };
 
-export type SendTilGodkjenningMutationVariables = Exact<{
-    oppgavereferanse: Scalars['String']['input'];
-    avslag?: InputMaybe<AvslagInput>;
-}>;
-
-export type SendTilGodkjenningMutation = { __typename: 'Mutation'; sendTilGodkjenning: boolean };
-
 export type SendTilGodkjenningV2MutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
     vedtakUtfall: VedtakUtfall;
@@ -5480,13 +5473,6 @@ export type FattVedtakMutationVariables = Exact<{
 }>;
 
 export type FattVedtakMutation = { __typename: 'Mutation'; fattVedtak: boolean };
-
-export type InnvilgVedtakMutationVariables = Exact<{
-    oppgavereferanse: Scalars['String']['input'];
-    avslag?: InputMaybe<AvslagInput>;
-}>;
-
-export type InnvilgVedtakMutation = { __typename: 'Mutation'; innvilgVedtak: boolean };
 
 export type TilInfoTrygdMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
@@ -12690,49 +12676,6 @@ export const SendIReturDocument = {
         },
     ],
 } as unknown as DocumentNode<SendIReturMutation, SendIReturMutationVariables>;
-export const SendTilGodkjenningDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'SendTilGodkjenning' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'avslag' } },
-                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'AvslagInput' } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'sendTilGodkjenning' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'oppgavereferanse' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'avslag' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'avslag' } },
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<SendTilGodkjenningMutation, SendTilGodkjenningMutationVariables>;
 export const SendTilGodkjenningV2Document = {
     kind: 'Document',
     definitions: [
@@ -12933,49 +12876,6 @@ export const FattVedtakDocument = {
         },
     ],
 } as unknown as DocumentNode<FattVedtakMutation, FattVedtakMutationVariables>;
-export const InnvilgVedtakDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'InnvilgVedtak' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'avslag' } },
-                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'AvslagInput' } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'innvilgVedtak' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'oppgavereferanse' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'avslag' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'avslag' } },
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<InnvilgVedtakMutation, InnvilgVedtakMutationVariables>;
 export const TilInfoTrygdDocument = {
     kind: 'Document',
     definitions: [

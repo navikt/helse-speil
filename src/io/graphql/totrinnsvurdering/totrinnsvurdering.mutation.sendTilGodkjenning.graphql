@@ -1,3 +1,0 @@
-mutation SendTilGodkjenning($oppgavereferanse: String!, $avslag: AvslagInput) {
-    sendTilGodkjenning(oppgavereferanse: $oppgavereferanse, avslag: $avslag)
-}
