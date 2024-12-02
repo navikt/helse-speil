@@ -1,5 +1,6 @@
 import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
+import { erProd } from '@/env';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
 import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseModal';
@@ -28,7 +29,7 @@ export const IndividuellBegrunnelse = ({
 
     const erBeslutteroppgave = periode.totrinnsvurdering?.erBeslutteroppgave ?? false;
 
-    if (erInnvilgelse) return null;
+    if (erInnvilgelse && erProd) return null;
 
     const åpneModal = () => setModalÅpen(true);
     const lukkModal = () => setModalÅpen(false);
