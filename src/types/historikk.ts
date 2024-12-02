@@ -141,7 +141,7 @@ export type HistorikkhendelseObject = BaseHendelseObject & {
 export type VedtakBegrunnelseObject = BaseHendelseObject & {
     type: 'VedtakBegrunnelse';
     utfall: VedtakUtfall;
-    begrunnelse: string | null;
+    begrunnelse: string;
 };
 
 export type AnnulleringhendelseObject = BaseHendelseObject & {

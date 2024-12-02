@@ -166,16 +166,20 @@ export const getVedtakBegrunnelser = (period: Periode): Array<VedtakBegrunnelseO
         return [];
     }
 
-    return period.vedtakBegrunnelser.map((vedtakBegrunnelse, index) => {
-        return {
-            id: `vedtakBegrunnelse-${index}`,
-            type: 'VedtakBegrunnelse',
-            utfall: vedtakBegrunnelse.utfall,
-            begrunnelse: vedtakBegrunnelse.begrunnelse,
-            saksbehandler: vedtakBegrunnelse.saksbehandlerIdent,
-            timestamp: vedtakBegrunnelse.opprettet,
-        };
-    });
+    return period.vedtakBegrunnelser
+        .filter((vedtakBegrunnelse) => {
+            return isNonEmpty(vedtakBegrunnelse.begrunnelse);
+        })
+        .map((vedtakBegrunnelse, index) => {
+            return {
+                id: `vedtakBegrunnelse-${index}`,
+                type: 'VedtakBegrunnelse',
+                utfall: vedtakBegrunnelse.utfall,
+                begrunnelse: vedtakBegrunnelse.begrunnelse!,
+                saksbehandler: vedtakBegrunnelse.saksbehandlerIdent,
+                timestamp: vedtakBegrunnelse.opprettet,
+            };
+        });
 };
 
 export const getAnnullering = (period: Periode): Maybe<AnnulleringhendelseObject> => {
@@ -588,3 +592,7 @@ const getArbeidsgivereÅrsinntekt = (
         }
         return liste;
     }, []);
+
+function isNonEmpty(begrunnelse: string | null): boolean {
+    return begrunnelse !== null && begrunnelse !== undefined && begrunnelse !== '';
+}

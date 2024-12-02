@@ -35,7 +35,7 @@ export const VedtakBegrunnelsehendelse = ({
                     <BodyShort weight="semibold">Type: </BodyShort>
                     <BodyShort>{tekstForUtfall(utfall)}</BodyShort>
                     <BodyShort weight="semibold">Begrunnelse: </BodyShort>
-                    <BodyShort>{begrunnelse ?? ''}</BodyShort>
+                    <BodyShort>{begrunnelse}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>
             <HendelseDate timestamp={timestamp} ident={saksbehandler} />
