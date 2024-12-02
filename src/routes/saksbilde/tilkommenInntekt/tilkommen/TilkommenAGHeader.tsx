@@ -8,7 +8,7 @@ import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverFragment, Maybe, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
 import { Arbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/Arbeidsgivernavn';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
-import { kanOverstyreTilkommenInntekt } from '@utils/featureToggles';
+import { visTilkommenInntektEndreKnapp } from '@utils/featureToggles';
 
 interface TilkommenAGHeaderProps {
     person: PersonFragment;
@@ -45,7 +45,7 @@ export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setE
                     </BodyShort>
                 </HStack>
                 <Kilde type={'Soknad'}>SØ</Kilde>
-                {!harBeslutteroppgave && kanOverstyreTilkommenInntekt && (
+                {!harBeslutteroppgave && visTilkommenInntektEndreKnapp && (
                     <EditButton
                         isOpen={editing}
                         openText="Avbryt"
