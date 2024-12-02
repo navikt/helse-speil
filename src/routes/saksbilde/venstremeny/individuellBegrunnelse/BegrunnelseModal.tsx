@@ -22,7 +22,7 @@ export const BegrunnelseModal = ({
         <Modal.Header closeButton={false}>
             <HStack justify="space-between" align="center">
                 <Heading level="1" size="medium">
-                    Skriv begrunnelse for vedtak
+                    Individuell begrunnelse
                 </Heading>
                 <Button size="small" variant="tertiary-neutral" onClick={lukkModal} icon={<ShrinkIcon />} />
             </HStack>

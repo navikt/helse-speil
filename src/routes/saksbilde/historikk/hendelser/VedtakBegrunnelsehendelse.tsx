@@ -23,7 +23,7 @@ export const VedtakBegrunnelsehendelse = ({
 }: VedtakBegrunnelsehendelseProps): ReactElement => {
     return (
         <Hendelse
-            title="Individuell begrunnelse for vedtak"
+            title="Individuell begrunnelse"
             icon={
                 <Kilde type={Inntektskilde.Saksbehandler}>
                     <PersonPencilFillIcon title="Saksbehandler ikon" />

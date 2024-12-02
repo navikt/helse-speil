@@ -12,7 +12,7 @@ export const ReadOnlyIndividuellBegrunnelse = ({ vedtakBegrunnelseTekst }: Begru
     return (
         <>
             <BodyShort weight="semibold" className={styles.tittel}>
-                Individuell begrunnelse for vedtak
+                Individuell begrunnelse
             </BodyShort>
             <BodyLong className={styles.begrunnelse} spacing>
                 {vedtakBegrunnelseTekst}

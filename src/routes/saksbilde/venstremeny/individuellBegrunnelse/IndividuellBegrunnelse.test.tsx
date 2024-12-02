@@ -54,7 +54,7 @@ describe('IndividuellBegrunnelse', () => {
             />,
         );
 
-        expect(screen.queryByText('Skriv begrunnelse for vedtak')).toBeVisible();
+        expect(screen.queryByText('Individuell begrunnelse')).toBeVisible();
         expect(screen.queryByText('en begrunnelse')).toBeVisible();
     });
 
@@ -107,7 +107,7 @@ describe('IndividuellBegrunnelse', () => {
             />,
         );
 
-        expect(screen.queryByText('Skriv begrunnelse for vedtak')).toBeVisible();
+        expect(screen.queryByText('Individuell begrunnelse')).toBeVisible();
         expect(screen.queryByText('en begrunnelse')).toBeNull();
     });
 });

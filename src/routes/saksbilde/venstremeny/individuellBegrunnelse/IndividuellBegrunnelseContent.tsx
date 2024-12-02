@@ -34,9 +34,9 @@ export const IndividuellBegrunnelseContent = ({
                     defaultOpen={defaultÅpen}
                     header={
                         vedtakBegrunnelseTekst === '' ? (
-                            <span>Skriv begrunnelse for vedtak</span>
+                            <span>Individuell begrunnelse</span>
                         ) : (
-                            <strong>Skriv begrunnelse for vedtak</strong>
+                            <strong>Individuell begrunnelse</strong>
                         )
                     }
                 >
