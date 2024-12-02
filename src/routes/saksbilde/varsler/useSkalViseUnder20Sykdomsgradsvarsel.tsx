@@ -2,6 +2,7 @@ import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import {
     getOppkuttedePerioder,
     getOverlappendeArbeidsgivere,
+    harPeriodeDagerMedUnder20ProsentTotalGrad,
 } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
@@ -21,7 +22,9 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     if (!person || !aktivPeriode?.skjaeringstidspunkt) return false;
 
     const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, aktivPeriode);
-    const delperioder = getOppkuttedePerioder(overlappendeArbeidsgivere, aktivPeriode);
+    const delperioder = getOppkuttedePerioder(overlappendeArbeidsgivere, aktivPeriode)?.filter((it) =>
+        harPeriodeDagerMedUnder20ProsentTotalGrad(it, person.arbeidsgivere, aktivPeriode.skjaeringstidspunkt),
+    );
 
     const harBlittVurdert: boolean =
         delperioder?.every((dp) =>
