@@ -152,7 +152,7 @@ export const usePeriodeTilGodkjenning = (person: Maybe<PersonFragment>): Maybe<B
 
     return (
         (person.arbeidsgivere
-            .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder)
+            ?.flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder)
             .filter(
                 (periode) => isBeregnetPeriode(periode) && periode.periodetilstand === 'TilGodkjenning',
             )?.[0] as BeregnetPeriodeFragment) ?? null
