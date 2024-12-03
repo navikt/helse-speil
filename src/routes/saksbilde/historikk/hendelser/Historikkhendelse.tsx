@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { ReactElement, useState } from 'react';
+import React, { PropsWithChildren, ReactElement, useState } from 'react';
 
 import {
     ArrowUndoIcon,
@@ -70,13 +70,17 @@ export const Historikkhendelse = ({
                 }}
                 className={classNames(notatStyles.NotatTextWrapper, isExpandable() && notatStyles.cursorpointer)}
             >
-                <Historikkinnhold
-                    expanded={expanded}
-                    tekst={notattekst}
-                    årsaker={årsaker}
-                    frist={frist}
-                    erNyesteHistorikkhendelseMedType={erNyesteHistorikkhendelseMedType}
-                />
+                {[PeriodehistorikkType.LeggPaVent, PeriodehistorikkType.OppdaterPaVentFrist].includes(historikktype) ? (
+                    <Påventinnhold
+                        expanded={expanded}
+                        tekst={notattekst}
+                        årsaker={årsaker}
+                        frist={frist}
+                        erNyesteHistorikkhendelseMedType={erNyesteHistorikkhendelseMedType}
+                    />
+                ) : (
+                    <UtvidbartInnhold expanded={expanded}>{notattekst}</UtvidbartInnhold>
+                )}
                 {isExpandable() && <ExpandButton expanded={expanded} />}
             </div>
             <HendelseDate timestamp={timestamp} ident={getIdenttekst(saksbehandler, historikktype)} />
@@ -99,21 +103,16 @@ export const Historikkhendelse = ({
     );
 };
 
-interface HistorikkinnholdProps {
+interface UtvidbartInnholdProps {
     expanded: boolean;
-    tekst: Maybe<string>;
-    årsaker?: string[];
-    frist?: string | null;
-    erNyesteHistorikkhendelseMedType?: boolean;
+    erPåvent?: boolean;
 }
 
-const Historikkinnhold = ({
+const UtvidbartInnhold = ({
     expanded,
-    tekst,
-    årsaker,
-    frist,
-    erNyesteHistorikkhendelseMedType,
-}: HistorikkinnholdProps): ReactElement => (
+    erPåvent = false,
+    children,
+}: PropsWithChildren<UtvidbartInnholdProps>): ReactElement => (
     <AnimatePresence mode="wait">
         {expanded ? (
             <motion.div
@@ -128,25 +127,55 @@ const Historikkinnhold = ({
                     ease: 'easeInOut',
                 }}
             >
-                <pre className={notatStyles.Notat}>{årsaker?.map((årsak) => årsak + '\n')}</pre>
-                {tekst && årsaker && årsaker.length > 0 && (
-                    <>
-                        <span className={notatStyles.bold}>Notat</span>
-                    </>
-                )}
-                <pre className={notatStyles.Notat}>{tekst}</pre>
+                {erPåvent ? children : <pre className={notatStyles.Notat}>{children}</pre>}
             </motion.div>
         ) : (
             <motion.p key="p" className={notatStyles.NotatTruncated}>
-                {årsaker && årsaker.length > 0 ? årsaker.map((årsak) => årsak + '\n') : tekst}
+                {children}
             </motion.p>
         )}
+    </AnimatePresence>
+);
+
+interface PåventinnholdProps {
+    expanded: boolean;
+    tekst: Maybe<string>;
+    årsaker?: string[];
+    frist?: string | null;
+    erNyesteHistorikkhendelseMedType?: boolean;
+}
+
+const Påventinnhold = ({
+    expanded,
+    tekst,
+    årsaker,
+    frist,
+    erNyesteHistorikkhendelseMedType,
+}: PåventinnholdProps): ReactElement => (
+    <>
+        <UtvidbartInnhold expanded={expanded}>
+            {expanded ? (
+                <>
+                    <pre className={notatStyles.Notat}>{årsaker?.map((årsak) => årsak + '\n')}</pre>
+                    {tekst && årsaker && årsaker.length > 0 && (
+                        <>
+                            <span className={notatStyles.bold}>Notat</span>
+                        </>
+                    )}
+                    <pre className={notatStyles.Notat}>{tekst}</pre>
+                </>
+            ) : årsaker && årsaker.length > 0 ? (
+                årsaker.map((årsak) => årsak + '\n')
+            ) : (
+                tekst
+            )}
+        </UtvidbartInnhold>
         {erNyesteHistorikkhendelseMedType && frist && (
             <BodyShort className={notatStyles.tidsfrist} size="medium">
                 Frist: <span className={notatStyles.bold}>{dayjs(frist).format(NORSK_DATOFORMAT)}</span>
             </BodyShort>
         )}
-    </AnimatePresence>
+    </>
 );
 
 interface ExpandButtonProps {
@@ -204,6 +233,7 @@ const getIcon = (type: PeriodehistorikkType): ReactElement => {
             return <ArrowsSquarepathIcon title="Piler Firkantsti ikon" className={classNames(styles.Innrammet)} />;
         }
         case PeriodehistorikkType.LeggPaVent:
+        case PeriodehistorikkType.OppdaterPaVentFrist:
         case PeriodehistorikkType.FjernFraPaVent: {
             return <TimerPauseIcon title="Timer ikon" className={classNames(styles.Innrammet, styles.pavent)} />;
         }
