@@ -295,6 +295,14 @@ fragment beregnetPeriode on BeregnetPeriode {
                 ...kommentar
             }
         }
+        ... on OppdaterPaVentFrist {
+            frist
+            arsaker
+            notattekst
+            kommentarer {
+                ...kommentar
+            }
+        }
         ... on TotrinnsvurderingRetur {
             notattekst
             kommentarer {

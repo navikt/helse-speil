@@ -15,6 +15,7 @@ import {
     Maybe,
     NotatType,
     NyttInntektsforholdPeriodeFragment,
+    OppdaterPaVentFrist,
     Periode,
     PeriodeHistorikkElementNy,
     PeriodehistorikkType,
@@ -222,19 +223,41 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
 };
 
 const årsaker = (
-    historikkelement: LagtPaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
-): string[] => (historikkelement.__typename === 'LagtPaVent' ? historikkelement.arsaker : []);
+    historikkelement:
+        | LagtPaVent
+        | FjernetFraPaVent
+        | OppdaterPaVentFrist
+        | TotrinnsvurderingRetur
+        | PeriodeHistorikkElementNy,
+): string[] =>
+    historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'OppdaterPaVentFrist'
+        ? historikkelement.arsaker
+        : [];
 
 const frist = (
-    historikkelement: LagtPaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
-): Maybe<string> => (historikkelement.__typename === 'LagtPaVent' ? historikkelement.frist : null);
+    historikkelement:
+        | LagtPaVent
+        | OppdaterPaVentFrist
+        | FjernetFraPaVent
+        | TotrinnsvurderingRetur
+        | PeriodeHistorikkElementNy,
+): Maybe<string> =>
+    historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'OppdaterPaVentFrist'
+        ? historikkelement.frist
+        : null;
 
 const notattekst = (
-    historikkelement: LagtPaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
+    historikkelement:
+        | LagtPaVent
+        | OppdaterPaVentFrist
+        | FjernetFraPaVent
+        | TotrinnsvurderingRetur
+        | PeriodeHistorikkElementNy,
 ): Maybe<string> => {
     const automatiskReturTekst =
         'Perioden er automatisk reberegnet etter at den ble sendt til beslutter. Sjekk om evt. endringer har betydning for saken.';
-    if (historikkelement.__typename === 'LagtPaVent') return historikkelement.notattekst;
+    if (historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'OppdaterPaVentFrist')
+        return historikkelement.notattekst;
     if (historikkelement.__typename === 'TotrinnsvurderingRetur') {
         return historikkelement.notattekst !== null ? historikkelement.notattekst : automatiskReturTekst;
     }
@@ -242,9 +265,16 @@ const notattekst = (
 };
 
 const kommentarer = (
-    historikkelement: LagtPaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
+    historikkelement:
+        | LagtPaVent
+        | OppdaterPaVentFrist
+        | FjernetFraPaVent
+        | TotrinnsvurderingRetur
+        | PeriodeHistorikkElementNy,
 ): Kommentar[] =>
-    historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'TotrinnsvurderingRetur'
+    historikkelement.__typename === 'LagtPaVent' ||
+    historikkelement.__typename === 'OppdaterPaVentFrist' ||
+    historikkelement.__typename === 'TotrinnsvurderingRetur'
         ? historikkelement.kommentarer
         : [];
 

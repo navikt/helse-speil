@@ -439,6 +439,8 @@ const getResolvers = (): IResolvers => ({
             switch (historikkinnslag.type) {
                 case 'LEGG_PA_VENT':
                     return 'LagtPaVent';
+                case 'OPPDATER_PA_VENT_FRIST':
+                    return 'OppdaterPaVentFrist';
                 case 'FJERN_FRA_PA_VENT':
                     return 'FjernetFraPaVent';
                 case 'TOTRINNSVURDERING_RETUR':

@@ -6,6 +6,7 @@ import {
     Kommentar,
     LagtPaVent,
     Maybe,
+    OppdaterPaVentFrist,
     PeriodeHistorikkElementNy,
     PeriodehistorikkType,
     TotrinnsvurderingRetur,
@@ -13,8 +14,13 @@ import {
 import { findVedtaksperiodeId } from '@spesialist-mock/storage/notat';
 import { UUID } from '@typer/spesialist-mock';
 
-export type HistorikkinnslagUnion = LagtPaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy;
-export type HistorikkinnslagMedKommentarer = LagtPaVent | TotrinnsvurderingRetur;
+export type HistorikkinnslagUnion =
+    | LagtPaVent
+    | OppdaterPaVentFrist
+    | FjernetFraPaVent
+    | TotrinnsvurderingRetur
+    | PeriodeHistorikkElementNy;
+export type HistorikkinnslagMedKommentarer = LagtPaVent | OppdaterPaVentFrist | TotrinnsvurderingRetur;
 
 export class HistorikkinnslagMock {
     private static historikkinnslagMap: Map<UUID, Array<HistorikkinnslagUnion>> = new Map();

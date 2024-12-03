@@ -2444,11 +2444,22 @@ export type ArbeidsgiverFragment = {
                         }
                       | {
                             __typename: 'OppdaterPaVentFrist';
+                            frist: string | null;
+                            arsaker: Array<string>;
+                            notattekst: string | null;
                             id: number;
                             type: PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
+                            kommentarer: Array<{
+                                __typename: 'Kommentar';
+                                id: number;
+                                tekst: string;
+                                opprettet: string;
+                                saksbehandlerident: string;
+                                feilregistrert_tidspunkt: string | null;
+                            }>;
                         }
                       | {
                             __typename: 'PeriodeHistorikkElementNy';
@@ -3327,11 +3338,22 @@ export type BeregnetPeriodeFragment = {
           }
         | {
               __typename: 'OppdaterPaVentFrist';
+              frist: string | null;
+              arsaker: Array<string>;
+              notattekst: string | null;
               id: number;
               type: PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
+              kommentarer: Array<{
+                  __typename: 'Kommentar';
+                  id: number;
+                  tekst: string;
+                  opprettet: string;
+                  saksbehandlerident: string;
+                  feilregistrert_tidspunkt: string | null;
+              }>;
           }
         | {
               __typename: 'PeriodeHistorikkElementNy';
@@ -4071,11 +4093,22 @@ export type PersonFragment = {
                             }
                           | {
                                 __typename: 'OppdaterPaVentFrist';
+                                frist: string | null;
+                                arsaker: Array<string>;
+                                notattekst: string | null;
                                 id: number;
                                 type: PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
                             }
                           | {
                                 __typename: 'PeriodeHistorikkElementNy';
@@ -4892,11 +4925,22 @@ export type FetchPersonQuery = {
                                 }
                               | {
                                     __typename: 'OppdaterPaVentFrist';
+                                    frist: string | null;
+                                    arsaker: Array<string>;
+                                    notattekst: string | null;
                                     id: number;
                                     type: PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
                                 }
                               | {
                                     __typename: 'PeriodeHistorikkElementNy';
@@ -6490,6 +6534,34 @@ export const BeregnetPeriodeFragmentDoc = {
                                     kind: 'InlineFragment',
                                     typeCondition: {
                                         kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'OppdaterPaVentFrist' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
                                         name: { kind: 'Name', value: 'TotrinnsvurderingRetur' },
                                     },
                                     selectionSet: {
@@ -7830,6 +7902,34 @@ export const ArbeidsgiverFragmentDoc = {
                                     kind: 'InlineFragment',
                                     typeCondition: {
                                         kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'OppdaterPaVentFrist' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
                                         name: { kind: 'Name', value: 'TotrinnsvurderingRetur' },
                                     },
                                     selectionSet: {
@@ -8822,6 +8922,34 @@ export const PersonFragmentDoc = {
                                 {
                                     kind: 'InlineFragment',
                                     typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagtPaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'OppdaterPaVentFrist' },
+                                    },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
@@ -11698,6 +11826,34 @@ export const FetchPersonDocument = {
                                 {
                                     kind: 'InlineFragment',
                                     typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagtPaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'OppdaterPaVentFrist' },
+                                    },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
