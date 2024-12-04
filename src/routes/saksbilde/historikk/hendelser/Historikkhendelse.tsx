@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { PropsWithChildren, ReactElement, useState } from 'react';
 
@@ -13,15 +12,14 @@ import {
     TimerPauseIcon,
     XMarkOctagonIcon,
 } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
 
 import { Maybe, PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
 import { KommentarerContent } from '@saksbilde/historikk/hendelser/notat/KommentarerContent';
+import { LagtPåventinnhold } from '@saksbilde/historikk/hendelser/påvent/LagtPåVentInnhold';
 import { PåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/PåVentDropdown';
 import { useActivePeriod } from '@state/periode';
 import { HistorikkhendelseObject } from '@typer/historikk';
-import { NORSK_DATOFORMAT } from '@utils/date';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { Hendelse } from './Hendelse';
@@ -86,7 +84,7 @@ export const Historikkhendelse = ({
                 className={classNames(notatStyles.NotatTextWrapper, isExpandable() && notatStyles.cursorpointer)}
             >
                 {[PeriodehistorikkType.LeggPaVent, PeriodehistorikkType.OppdaterPaVentFrist].includes(historikktype) ? (
-                    <Påventinnhold
+                    <LagtPåventinnhold
                         expanded={expanded}
                         tekst={notattekst}
                         årsaker={årsaker}
@@ -123,7 +121,7 @@ interface UtvidbartInnholdProps {
     erPåvent?: boolean;
 }
 
-const UtvidbartInnhold = ({
+export const UtvidbartInnhold = ({
     expanded,
     erPåvent = false,
     children,
@@ -150,47 +148,6 @@ const UtvidbartInnhold = ({
             </motion.p>
         )}
     </AnimatePresence>
-);
-
-interface PåventinnholdProps {
-    expanded: boolean;
-    tekst: Maybe<string>;
-    årsaker?: string[];
-    frist?: string | null;
-    erNyesteHistorikkhendelseMedType?: boolean;
-}
-
-const Påventinnhold = ({
-    expanded,
-    tekst,
-    årsaker,
-    frist,
-    erNyesteHistorikkhendelseMedType,
-}: PåventinnholdProps): ReactElement => (
-    <>
-        <UtvidbartInnhold expanded={expanded}>
-            {expanded ? (
-                <>
-                    <pre className={notatStyles.Notat}>{årsaker?.map((årsak) => årsak + '\n')}</pre>
-                    {tekst && årsaker && årsaker.length > 0 && (
-                        <>
-                            <span className={notatStyles.bold}>Notat</span>
-                        </>
-                    )}
-                    <pre className={notatStyles.Notat}>{tekst}</pre>
-                </>
-            ) : årsaker && årsaker.length > 0 ? (
-                årsaker.map((årsak) => årsak + '\n')
-            ) : (
-                tekst
-            )}
-        </UtvidbartInnhold>
-        {erNyesteHistorikkhendelseMedType && frist && (
-            <BodyShort className={notatStyles.tidsfrist} size="medium">
-                Frist: <span className={notatStyles.bold}>{dayjs(frist).format(NORSK_DATOFORMAT)}</span>
-            </BodyShort>
-        )}
-    </>
 );
 
 interface ExpandButtonProps {
