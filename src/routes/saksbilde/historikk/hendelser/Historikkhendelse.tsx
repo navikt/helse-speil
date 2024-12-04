@@ -9,17 +9,16 @@ import {
     CheckmarkCircleIcon,
     ChevronDownIcon,
     ChevronUpIcon,
-    MenuElipsisHorizontalIcon,
     PaperplaneIcon,
     TimerPauseIcon,
     XMarkOctagonIcon,
 } from '@navikt/aksel-icons';
-import { BodyShort, Button, Dropdown } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Maybe, PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
 import { KommentarerContent } from '@saksbilde/historikk/hendelser/notat/KommentarerContent';
-import { PåVentButton } from '@saksbilde/saksbildeMenu/dropdown/PåVentButton';
+import { PåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/PåVentDropdown';
 import { useActivePeriod } from '@state/periode';
 import { HistorikkhendelseObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT } from '@utils/date';
@@ -30,7 +29,6 @@ import { HendelseDate } from './HendelseDate';
 import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './notat/constants';
 
 import styles from './Historikkhendelse.module.css';
-import dropdownStyles from './notat/HendelseDropdownMenu.module.css';
 import notatStyles from './notat/Notathendelse.module.css';
 
 type HistorikkhendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'> & {
@@ -212,25 +210,6 @@ const ExpandButton = ({ expanded }: ExpandButtonProps): ReactElement => (
             </>
         )}
     </span>
-);
-
-const PåVentDropdown = ({ person }: { person: PersonFragment }) => (
-    <Dropdown>
-        <Button
-            as={Dropdown.Toggle}
-            size="xsmall"
-            variant="tertiary"
-            title="Mer"
-            className={dropdownStyles.ToggleButton}
-        >
-            <MenuElipsisHorizontalIcon title="Alternativer" height={20} width={20} />
-        </Button>
-        <Dropdown.Menu className={dropdownStyles.Menu}>
-            <Dropdown.Menu.List>
-                <PåVentButton person={person} />
-            </Dropdown.Menu.List>
-        </Dropdown.Menu>
-    </Dropdown>
 );
 
 const getTitle = (type: PeriodehistorikkType): string => {
