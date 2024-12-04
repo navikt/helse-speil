@@ -61,7 +61,8 @@ const TimelineWithContent = ({
             return ZoomLevel.SEKS_MÅNEDER;
         };
         setCurrentZoomLevel(defaultZoomLevel());
-    }, [activePeriod, setCurrentZoomLevel]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useKeyboard([
         {
