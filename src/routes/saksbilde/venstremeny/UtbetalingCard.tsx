@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { Maybe, Personinfo, Simulering, Utbetaling, Vilkarsgrunnlag } from '@io/graphql';
+import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus, Vilkarsgrunnlag } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
 import { BeløpTilUtbetaling } from './BeløpTilUtbetaling';
@@ -60,7 +60,7 @@ const UtbetalingCardBeregnet = ({
             periodePersonNettoBeløp={periodePersonNettoBeløp}
             periodeArbeidsgiverNettoBeløp={periodeArbeidsgiverNettoBeløp}
         />
-        {!arbeidsgiversimulering && !personsimulering && (
+        {!arbeidsgiversimulering && !personsimulering && utbetaling.status !== Utbetalingstatus.Annullert && (
             <BodyShort className={styles.ErrorMessage}>Mangler simulering</BodyShort>
         )}
     </section>
