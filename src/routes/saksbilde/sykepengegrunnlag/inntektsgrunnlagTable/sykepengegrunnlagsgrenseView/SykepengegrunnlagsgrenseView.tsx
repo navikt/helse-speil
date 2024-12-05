@@ -18,7 +18,7 @@ interface Props {
 
 export const SykepengegrunnlagsgrenseView = ({ sykepengegrunnlagsgrense, omregnetÅrsinntekt }: Props) => (
     <>
-        {omregnetÅrsinntekt && omregnetÅrsinntekt > sykepengegrunnlagsgrense.grense && (
+        {omregnetÅrsinntekt != undefined && omregnetÅrsinntekt > sykepengegrunnlagsgrense.grense && (
             <Detail className={styles.Detail}>
                 {`Sykepengegrunnlaget er begrenset til 6G: ${somPengerUtenDesimaler(sykepengegrunnlagsgrense.grense)}`}
                 <LovdataLenke paragraf="8-10">§ 8-10</LovdataLenke>
