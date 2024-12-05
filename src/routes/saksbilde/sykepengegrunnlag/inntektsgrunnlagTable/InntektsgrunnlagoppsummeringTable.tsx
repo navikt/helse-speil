@@ -5,6 +5,7 @@ import { BodyShort, Table } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
 import { somPenger } from '@utils/locale';
+import { avviksprosentVisning } from '@utils/tall';
 
 import styles from './SykepengegrunnlagPanel.module.css';
 
@@ -40,7 +41,7 @@ export const InntektsgrunnlagoppsummeringTable = ({
                     <TableCellBold text="Utregnet avvik" />
                     <Table.DataCell align="right" className={styles.pengeCell}>
                         <BodyShort weight="semibold">
-                            {avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}
+                            {avviksprosent ? avviksprosentVisning(avviksprosent) : '-'}
                         </BodyShort>
                     </Table.DataCell>
                 </Table.Row>
