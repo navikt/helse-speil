@@ -50,7 +50,7 @@ describe('OverstyrbarUtbetaling', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         render(<OverstyrbarUtbetaling arbeidsgiver={arbeidsgiver} person={person} dager={dager} periode={periode} />);
 
-        await userEvent.click(screen.getByText('Overstyr dager'));
+        await userEvent.click(screen.getByText('Revurder dager'));
         expect(screen.getByText('+ Legg til dager i tabellen')).toBeVisible();
 
         const checkboxes = screen.getAllByRole('checkbox');
@@ -89,7 +89,7 @@ describe('OverstyrbarUtbetaling', () => {
         const periode = enBeregnetPeriode({ periodetype: Periodetype.Forlengelse });
         render(<OverstyrbarUtbetaling arbeidsgiver={arbeidsgiver} person={person} dager={dager} periode={periode} />);
 
-        await userEvent.click(screen.getByText('Overstyr dager'));
+        await userEvent.click(screen.getByText('Revurder dager'));
         expect(screen.queryByText('+ Legg til dager')).not.toBeInTheDocument();
     });
 });

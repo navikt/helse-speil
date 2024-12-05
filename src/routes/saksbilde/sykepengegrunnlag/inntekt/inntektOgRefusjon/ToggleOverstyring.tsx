@@ -3,12 +3,15 @@ import React from 'react';
 import { PadlockUnlockedIcon, PersonPencilIcon } from '@navikt/aksel-icons';
 import { Button, HelpText } from '@navikt/ds-react';
 
-import { ArbeidsgiverFragment, Maybe, PersonFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, Maybe, PersonFragment, Utbetalingstatus } from '@io/graphql';
 import {
     useGhostInntektKanOverstyres,
     useInntektKanRevurderes,
 } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
-import { useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import {
+    useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
+    useUtbetalingForSkjæringstidspunkt,
+} from '@state/arbeidsgiver';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
@@ -38,6 +41,8 @@ export const ToggleOverstyring = ({
     const ghostInntektKanOverstyres =
         useGhostInntektKanOverstyres(person, periode.skjaeringstidspunkt, organisasjonsnummer) && !erDeaktivert;
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
+    const erRevurdering =
+        useUtbetalingForSkjæringstidspunkt(periode.skjaeringstidspunkt, person)?.status === Utbetalingstatus.Utbetalt;
 
     const kanOverstyres =
         vilkårsgrunnlagId != null && ((isBeregnetPeriode(periode) && kanRevurderes) || ghostInntektKanOverstyres);
@@ -47,7 +52,7 @@ export const ToggleOverstyring = ({
     return kanOverstyres ? (
         !editing ? (
             <Button onClick={() => setEditing(true)} size="xsmall" variant="secondary" icon={<PersonPencilIcon />}>
-                Overstyr
+                {erRevurdering ? 'Revurder' : 'Endre'}
             </Button>
         ) : (
             <Button onClick={() => setEditing(false)} size="xsmall" variant="tertiary" icon={<PadlockUnlockedIcon />}>

@@ -15,7 +15,7 @@ export const PeriodeViewSkeleton = (): ReactElement => (
                     <Heading size="small">Dagoversikt Arbeidsgivernavn Gmbh</Heading>
                 </Skeleton>
                 <Skeleton>
-                    <Button size="small">Overstyr dager</Button>
+                    <Button size="small">Endre dager</Button>
                 </Skeleton>
             </HStack>
             <Skeleton variant="rounded" height={400} />

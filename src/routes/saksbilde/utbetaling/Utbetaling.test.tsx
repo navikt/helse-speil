@@ -32,7 +32,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling person={person} periode={periode} />, { wrapper: ApolloWrapper });
 
-        expect(screen.getByText('Overstyr dager')).toBeVisible();
+        expect(screen.getByText('Revurder dager')).toBeVisible();
         expect(screen.getByText('3 dager')).toBeVisible();
         expect(screen.getByText('01.01.2020')).toBeVisible();
         expect(screen.getByText('02.01.2020')).toBeVisible();
@@ -68,7 +68,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling person={person} periode={periode} />, { wrapper: ApolloWrapper });
 
-        expect(screen.getByText('Overstyr dager')).toBeVisible();
+        expect(screen.getByText('Revurder dager')).toBeVisible();
     });
 
     it('rendrer utbetaling for periode som har vært delvis behandlet i Infotrygd', () => {
@@ -82,7 +82,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling person={person} periode={periodeA} />, { wrapper: ApolloWrapper });
 
-        expect(screen.getByText('Overstyr dager')).toBeVisible();
+        expect(screen.getByText('Revurder dager')).toBeVisible();
     });
 
     it('rendrer utbetaling for periode som har et tidligere skjæringstidspunkt', () => {
@@ -96,7 +96,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling person={person} periode={periodeA} />, { wrapper: ApolloWrapper });
 
-        expect(screen.getByText('Overstyr dager')).toBeVisible();
+        expect(screen.getByText('Revurder dager')).toBeVisible();
     });
 
     it('rendrer utbetaling for periode som ikke kan overstyres eller revurderes', () => {

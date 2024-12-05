@@ -262,6 +262,7 @@ export const OverstyrbarUtbetaling = ({
     const erFørstePeriodePåSkjæringstidspunkt =
         getFørstePeriodeForSkjæringstidspunkt(periode.skjaeringstidspunkt, arbeidsgiver)?.id === periode.id;
 
+    const erRevurdering = isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Utbetalt;
     return (
         <article
             className={classNames(styles.OverstyrbarUtbetaling, overstyrer && styles.overstyrer)}
@@ -274,6 +275,7 @@ export const OverstyrbarUtbetaling = ({
                     }
                     toggleOverstyring={toggleOverstyring}
                     arbeidsgiverNavn={arbeidsgiver.navn}
+                    erRevurdering={erRevurdering}
                 />
             )}
             {overstyrer && (
@@ -283,6 +285,7 @@ export const OverstyrbarUtbetaling = ({
                     setVisDagtypeModal={() => setVisDagtypeModal(true)}
                     erFørstePeriodePåSkjæringstidspunkt={erFørstePeriodePåSkjæringstidspunkt}
                     periodeFom={periodeFom.dato}
+                    erRevurdering={erRevurdering}
                 />
             )}
             <div className={classNames(styles.TableContainer)}>

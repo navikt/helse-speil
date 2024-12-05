@@ -28,7 +28,7 @@ describe('ToggleOverstyring', () => {
                 setEditing={jest.fn()}
             />,
         );
-        expect(screen.getByText('Overstyr')).toBeInTheDocument();
+        expect(screen.getByText('Revurder')).toBeInTheDocument();
     });
     it('skal vise avbryt knapp når editing', () => {
         const periode = enBeregnetPeriode();

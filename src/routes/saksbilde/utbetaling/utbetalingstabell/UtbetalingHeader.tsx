@@ -11,12 +11,14 @@ interface UtbetalingHeaderProps {
     periodeErForkastet: boolean;
     toggleOverstyring: () => void;
     arbeidsgiverNavn: string;
+    erRevurdering: boolean;
 }
 
 export const UtbetalingHeader = ({
     periodeErForkastet,
     toggleOverstyring,
     arbeidsgiverNavn,
+    erRevurdering,
 }: UtbetalingHeaderProps): Maybe<ReactElement> => (
     <HStack align="center" gap="1">
         <Heading size="xsmall" level="1">
@@ -32,7 +34,7 @@ export const UtbetalingHeader = ({
                 onClick={toggleOverstyring}
                 icon={<PersonPencilIcon fontSize="1.5rem" />}
             >
-                Overstyr dager
+                {erRevurdering ? 'Revurder' : 'Endre'} dager
             </Button>
         )}
     </HStack>
