@@ -13,7 +13,6 @@ import {
 import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import { SkjønnsfastsettingForm } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { useSkjønnsfastsettingDefaults } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/useSkjønnsfastsettingDefaults';
-import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
 import { SkjønnsfastsettingSammendrag } from './SkjønnsfastsettingSammendrag';
@@ -46,9 +45,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     const [editing, setEditing] = useState(false);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
     const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(person, periode, inntekter);
-    const harVarselForMerEnn25ProsentAvvik =
-        isBeregnetPeriode(periode) && periode.varsler.some((it) => it.kode === 'RV_IV_2');
-    const skalVise828andreLedd = harVarselForMerEnn25ProsentAvvik || avviksprosent > 25;
+    const skalVise828andreLedd = avviksprosent > 25;
 
     // TODO: legg inn loading og error
     const { maler, loading, error } = useSkjønnsfastsettelsesMaler(
