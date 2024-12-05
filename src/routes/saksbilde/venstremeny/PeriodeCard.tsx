@@ -96,7 +96,10 @@ interface MaksdatoRowProps {
 }
 
 const MaksdatoRow = ({ activePeriod }: MaksdatoRowProps): ReactElement => {
-    const maksdato = dayjs(activePeriod.maksdato).format(NORSK_DATOFORMAT);
+    const maksdatoDayjs = dayjs(activePeriod.maksdato);
+    const maksdatotekst = maksdatoDayjs.isValid()
+        ? `${maksdatoDayjs.format(NORSK_DATOFORMAT)} (${activePeriod.gjenstaendeSykedager ?? 'Ukjent antall'} dager igjen)`
+        : '-';
     const alderVedSisteSykedag = activePeriod.periodevilkar.alder.alderSisteSykedag ?? null;
 
     return (
@@ -107,10 +110,8 @@ const MaksdatoRow = ({ activePeriod }: MaksdatoRowProps): ReactElement => {
                 </div>
             </Tooltip>
             <div className={styles.maksdato}>
-                <BodyShort className={styles.noWrap}>{`${maksdato} (${
-                    activePeriod.gjenstaendeSykedager ?? 'Ukjent antall'
-                } dager igjen)`}</BodyShort>
-                {alderVedSisteSykedag &&
+                <BodyShort className={styles.noWrap}>{maksdatotekst}</BodyShort>
+                {!!alderVedSisteSykedag &&
                     (alderVedSisteSykedag >= 70 ? (
                         <div className={styles.over70}>
                             <Tooltip content="Over 70 år">
