@@ -10,7 +10,6 @@ import {
     PersonFragment,
     Sykepengegrunnlagsgrense,
 } from '@io/graphql';
-import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import { SkjønnsfastsettingForm } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { useSkjønnsfastsettingDefaults } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/useSkjønnsfastsettingDefaults';
 
@@ -58,39 +57,31 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     }, [editing]);
 
     return (
-        <div>
-            <div className={classNames(styles.formWrapper, editing && styles.redigerer)}>
-                <SkjønnsfastsettingHeader
+        <div className={classNames(styles.formWrapper, editing && styles.redigerer)}>
+            <SkjønnsfastsettingHeader
+                person={person}
+                sykepengegrunnlag={sykepengegrunnlag}
+                endretSykepengegrunnlag={endretSykepengegrunnlag}
+                skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
+                sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
+                editing={editing}
+                setEditing={setEditing}
+                maler={maler}
+            />
+            {!editing && skjønnsmessigFastsattÅrlig !== null && (
+                <SkjønnsfastsettingSammendrag arbeidsgivere={person.arbeidsgivere} />
+            )}
+            {editing && maler && omregnetÅrsinntekt != null && sammenligningsgrunnlag != null && (
+                <SkjønnsfastsettingForm
                     person={person}
-                    sykepengegrunnlag={sykepengegrunnlag}
-                    endretSykepengegrunnlag={endretSykepengegrunnlag}
-                    skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
+                    periode={periode}
+                    inntekter={inntekter}
+                    omregnetÅrsinntekt={omregnetÅrsinntekt}
+                    sammenligningsgrunnlag={sammenligningsgrunnlag}
                     sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
-                    editing={editing}
+                    onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
                     setEditing={setEditing}
                     maler={maler}
-                />
-                {!editing && skjønnsmessigFastsattÅrlig !== null && (
-                    <SkjønnsfastsettingSammendrag arbeidsgivere={person.arbeidsgivere} />
-                )}
-                {editing && maler && omregnetÅrsinntekt != null && sammenligningsgrunnlag != null && (
-                    <SkjønnsfastsettingForm
-                        person={person}
-                        periode={periode}
-                        inntekter={inntekter}
-                        omregnetÅrsinntekt={omregnetÅrsinntekt}
-                        sammenligningsgrunnlag={sammenligningsgrunnlag}
-                        sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
-                        onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
-                        setEditing={setEditing}
-                        maler={maler}
-                    />
-                )}
-            </div>
-            {omregnetÅrsinntekt != null && (
-                <SykepengegrunnlagsgrenseView
-                    sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
-                    omregnetÅrsinntekt={omregnetÅrsinntekt}
                 />
             )}
         </div>

@@ -9,6 +9,7 @@ import {
     PersonFragment,
     Sykepengegrunnlagsgrense,
 } from '@io/graphql';
+import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 
 import { SkjønnsfastsettingSykepengegrunnlag } from '../skjønnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
@@ -85,6 +86,10 @@ export const SykepengegrunnlagPanel = ({
                 skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
                 inntekter={getSorterteInntekter(inntekter, person.arbeidsgivere)}
                 avviksprosent={avviksprosent ?? 0}
+            />
+            <SykepengegrunnlagsgrenseView
+                sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
+                omregnetÅrsinntekt={omregnetÅrsinntekt}
             />
         </div>
     );
