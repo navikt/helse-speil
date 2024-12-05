@@ -46,11 +46,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(person, periode, inntekter);
     const skalVise828andreLedd = avviksprosent > 25;
 
-    // TODO: legg inn loading og error
-    const { maler, loading, error } = useSkjønnsfastsettelsesMaler(
-        skalVise828andreLedd,
-        (aktiveArbeidsgivere?.length ?? 0) > 1,
-    );
+    const { maler, error } = useSkjønnsfastsettelsesMaler(skalVise828andreLedd, (aktiveArbeidsgivere?.length ?? 0) > 1);
 
     useEffect(() => {
         setEndretSykepengegrunnlag(null);
@@ -67,6 +63,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                 editing={editing}
                 setEditing={setEditing}
                 maler={maler}
+                malerError={error?.message ? 'Mangler tekster for skjønnsfastsetting' : undefined}
             />
             {!editing && skjønnsmessigFastsattÅrlig !== null && (
                 <SkjønnsfastsettingSammendrag arbeidsgivere={person.arbeidsgivere} />

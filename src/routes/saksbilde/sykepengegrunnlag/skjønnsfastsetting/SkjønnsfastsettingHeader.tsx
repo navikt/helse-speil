@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, ErrorMessage } from '@navikt/ds-react';
 
 import { EditButton } from '@components/EditButton';
 import { Endringstrekant } from '@components/Endringstrekant';
@@ -22,6 +22,7 @@ interface SkjønnsfastsettingHeaderProps {
     editing: boolean;
     setEditing: (state: boolean) => void;
     maler: SkjønnsfastsettingMal[] | undefined;
+    malerError: string | undefined;
 }
 
 export const SkjønnsfastsettingHeader = ({
@@ -33,6 +34,7 @@ export const SkjønnsfastsettingHeader = ({
     editing,
     setEditing,
     maler,
+    malerError,
 }: SkjønnsfastsettingHeaderProps) => {
     const aktivPeriode = useActivePeriod(person);
     const harMaler = maler && maler.length > 0;
@@ -78,6 +80,7 @@ export const SkjønnsfastsettingHeader = ({
                     className={styles.redigeringsknapp}
                 />
             )}
+            {malerError && <ErrorMessage>{malerError}</ErrorMessage>}
         </div>
     );
 };
