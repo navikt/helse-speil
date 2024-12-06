@@ -621,6 +621,7 @@ export enum Mottaker {
 export type Mutation = {
     __typename?: 'Mutation';
     annuller: Scalars['Boolean']['output'];
+    endrePaVent?: Maybe<PaVent>;
     fattVedtak: Scalars['Boolean']['output'];
     feilregistrerKommentar?: Maybe<Kommentar>;
     feilregistrerKommentarV2?: Maybe<Kommentar>;
@@ -650,6 +651,14 @@ export type Mutation = {
 
 export type MutationAnnullerArgs = {
     annullering: AnnulleringDataInput;
+};
+
+export type MutationEndrePaVentArgs = {
+    arsaker: Array<PaVentArsakInput>;
+    frist: Scalars['LocalDate']['input'];
+    notatTekst?: InputMaybe<Scalars['String']['input']>;
+    oppgaveId: Scalars['String']['input'];
+    tildeling: Scalars['Boolean']['input'];
 };
 
 export type MutationFattVedtakArgs = {
@@ -1077,9 +1086,9 @@ export enum Periodehandling {
 }
 
 export enum PeriodehistorikkType {
+    EndrePaVent = 'ENDRE_PA_VENT',
     FjernFraPaVent = 'FJERN_FRA_PA_VENT',
     LeggPaVent = 'LEGG_PA_VENT',
-    OppdaterPaVentFrist = 'OPPDATER_PA_VENT_FRIST',
     StansAutomatiskBehandling = 'STANS_AUTOMATISK_BEHANDLING',
     TotrinnsvurderingAttestert = 'TOTRINNSVURDERING_ATTESTERT',
     TotrinnsvurderingRetur = 'TOTRINNSVURDERING_RETUR',

@@ -623,6 +623,7 @@ export enum Mottaker {
 export type Mutation = {
     __typename: 'Mutation';
     annuller: Scalars['Boolean']['output'];
+    endrePaVent: Maybe<PaVent>;
     fattVedtak: Scalars['Boolean']['output'];
     feilregistrerKommentar: Maybe<Kommentar>;
     feilregistrerKommentarV2: Maybe<Kommentar>;
@@ -652,6 +653,14 @@ export type Mutation = {
 
 export type MutationAnnullerArgs = {
     annullering: AnnulleringDataInput;
+};
+
+export type MutationEndrePaVentArgs = {
+    arsaker: Array<PaVentArsakInput>;
+    frist: Scalars['LocalDate']['input'];
+    notatTekst?: InputMaybe<Scalars['String']['input']>;
+    oppgaveId: Scalars['String']['input'];
+    tildeling: Scalars['Boolean']['input'];
 };
 
 export type MutationFattVedtakArgs = {
@@ -1079,9 +1088,9 @@ export enum Periodehandling {
 }
 
 export enum PeriodehistorikkType {
+    EndrePaVent = 'ENDRE_PA_VENT',
     FjernFraPaVent = 'FJERN_FRA_PA_VENT',
     LeggPaVent = 'LEGG_PA_VENT',
-    OppdaterPaVentFrist = 'OPPDATER_PA_VENT_FRIST',
     StansAutomatiskBehandling = 'STANS_AUTOMATISK_BEHANDLING',
     TotrinnsvurderingAttestert = 'TOTRINNSVURDERING_ATTESTERT',
     TotrinnsvurderingRetur = 'TOTRINNSVURDERING_RETUR',
@@ -5479,6 +5488,19 @@ export type OppdaterPersonMutationVariables = Exact<{
 }>;
 
 export type OppdaterPersonMutation = { __typename: 'Mutation'; oppdaterPerson: boolean };
+
+export type EndrePaVentMutationVariables = Exact<{
+    oppgaveId: Scalars['String']['input'];
+    frist: Scalars['LocalDate']['input'];
+    tildeling: Scalars['Boolean']['input'];
+    notatTekst?: InputMaybe<Scalars['String']['input']>;
+    arsaker: Array<PaVentArsakInput> | PaVentArsakInput;
+}>;
+
+export type EndrePaVentMutation = {
+    __typename: 'Mutation';
+    endrePaVent: { __typename: 'PaVent'; frist: string | null; oid: string } | null;
+};
 
 export type FjernPaVentMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input'];
@@ -12604,6 +12626,110 @@ export const OppdaterPersonDocument = {
         },
     ],
 } as unknown as DocumentNode<OppdaterPersonMutation, OppdaterPersonMutationVariables>;
+export const EndrePaVentDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'EndrePaVent' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'frist' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'LocalDate' } },
+                    },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'tildeling' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+                    },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'arsaker' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: {
+                            kind: 'ListType',
+                            type: {
+                                kind: 'NonNullType',
+                                type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaVentArsakInput' } },
+                            },
+                        },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endrePaVent' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgaveId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'frist' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'frist' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'tildeling' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'tildeling' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'notatTekst' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'arsaker' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'arsaker' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'pavent' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'pavent' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PaVent' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<EndrePaVentMutation, EndrePaVentMutationVariables>;
 export const FjernPaVentDocument = {
     kind: 'Document',
     definitions: [

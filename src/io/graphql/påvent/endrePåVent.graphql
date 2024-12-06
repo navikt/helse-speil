@@ -1,0 +1,5 @@
+mutation EndrePaVent($oppgaveId: String!, $frist: LocalDate!, $tildeling: Boolean!, $notatTekst: String, $arsaker: [PaVentArsakInput!]!) {
+    endrePaVent(oppgaveId: $oppgaveId, frist: $frist, tildeling: $tildeling, notatTekst: $notatTekst, arsaker: $arsaker) {
+        ...pavent
+    }
+}
