@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
+import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { AmplitudeProvider } from '@io/amplitude';
@@ -31,6 +32,7 @@ export default function Layout({ children }: PropsWithChildren): ReactElement {
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useKeyboardShortcuts();
     useResetOpenedDocuments();
+    useRefetchDriftsmeldinger();
 
     return (
         <div className={styles.Saksbilde}>
