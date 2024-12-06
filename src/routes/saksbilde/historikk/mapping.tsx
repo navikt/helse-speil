@@ -200,15 +200,6 @@ export const getAnnullering = (period: Periode): Maybe<AnnulleringhendelseObject
     };
 };
 
-type TempOppdaterPaVentFrist = {
-    __typename: 'OppdaterPaVentFrist';
-    id: number;
-    type: PeriodehistorikkType;
-    timestamp: string;
-    saksbehandlerIdent: string | null;
-    dialogRef: number | null;
-};
-
 export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<HistorikkhendelseObject> => {
     return periode.historikkinnslag.map((historikkelement, index) => {
         return {
@@ -233,39 +224,21 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
 };
 
 const årsaker = (
-    historikkelement:
-        | LagtPaVent
-        | FjernetFraPaVent
-        | EndrePaVent
-        | TotrinnsvurderingRetur
-        | PeriodeHistorikkElementNy
-        | TempOppdaterPaVentFrist,
+    historikkelement: LagtPaVent | FjernetFraPaVent | EndrePaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
 ): string[] =>
     historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'EndrePaVent'
         ? historikkelement.arsaker
         : [];
 
 const frist = (
-    historikkelement:
-        | LagtPaVent
-        | EndrePaVent
-        | FjernetFraPaVent
-        | TotrinnsvurderingRetur
-        | PeriodeHistorikkElementNy
-        | TempOppdaterPaVentFrist,
+    historikkelement: LagtPaVent | EndrePaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
 ): Maybe<string> =>
     historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'EndrePaVent'
         ? historikkelement.frist
         : null;
 
 const notattekst = (
-    historikkelement:
-        | LagtPaVent
-        | EndrePaVent
-        | FjernetFraPaVent
-        | TotrinnsvurderingRetur
-        | PeriodeHistorikkElementNy
-        | TempOppdaterPaVentFrist,
+    historikkelement: LagtPaVent | EndrePaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
 ): Maybe<string> => {
     const automatiskReturTekst = 'Perioden er automatisk reberegnet etter at den ble sendt til beslutter.';
     if (historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'EndrePaVent')
@@ -277,13 +250,7 @@ const notattekst = (
 };
 
 const kommentarer = (
-    historikkelement:
-        | LagtPaVent
-        | EndrePaVent
-        | FjernetFraPaVent
-        | TotrinnsvurderingRetur
-        | PeriodeHistorikkElementNy
-        | TempOppdaterPaVentFrist,
+    historikkelement: LagtPaVent | EndrePaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
 ): Kommentar[] =>
     historikkelement.__typename === 'LagtPaVent' ||
     historikkelement.__typename === 'EndrePaVent' ||

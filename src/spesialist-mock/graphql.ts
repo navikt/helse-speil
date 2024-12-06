@@ -440,7 +440,7 @@ const getResolvers = (): IResolvers => ({
                 case 'LEGG_PA_VENT':
                     return 'LagtPaVent';
                 case 'ENDRE_PA_VENT':
-                    return 'OppdaterPaVentFrist';
+                    return 'EndrePaVent';
                 case 'FJERN_FRA_PA_VENT':
                     return 'FjernetFraPaVent';
                 case 'TOTRINNSVURDERING_RETUR':

@@ -646,7 +646,6 @@ export type Mutation = {
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
     minimumSykdomsgrad: Scalars['Boolean']['output'];
-    oppdaterPaVentFrist?: Maybe<PaVent>;
     oppdaterPerson: Scalars['Boolean']['output'];
     opphevStans: Scalars['Boolean']['output'];
     opprettAbonnement: Scalars['Boolean']['output'];
@@ -728,14 +727,6 @@ export type MutationLeggTilNotatArgs = {
 
 export type MutationMinimumSykdomsgradArgs = {
     minimumSykdomsgrad: MinimumSykdomsgradInput;
-};
-
-export type MutationOppdaterPaVentFristArgs = {
-    arsaker: Array<PaVentArsakInput>;
-    frist: Scalars['LocalDate']['input'];
-    notatTekst?: InputMaybe<Scalars['String']['input']>;
-    oppgaveId: Scalars['String']['input'];
-    tildeling: Scalars['Boolean']['input'];
 };
 
 export type MutationOppdaterPersonArgs = {
@@ -865,19 +856,6 @@ export type OmregnetArsinntekt = {
     inntektFraAOrdningen?: Maybe<Array<InntektFraAOrdningen>>;
     kilde: Inntektskilde;
     manedsbelop: Scalars['Float']['output'];
-};
-
-export type OppdaterPaVentFrist = Historikkinnslag & {
-    __typename?: 'OppdaterPaVentFrist';
-    arsaker: Array<Scalars['String']['output']>;
-    dialogRef?: Maybe<Scalars['Int']['output']>;
-    frist?: Maybe<Scalars['LocalDate']['output']>;
-    id: Scalars['Int']['output'];
-    kommentarer: Array<Kommentar>;
-    notattekst?: Maybe<Scalars['String']['output']>;
-    saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
-    timestamp: Scalars['LocalDateTime']['output'];
-    type: PeriodehistorikkType;
 };
 
 export type OppgaveForPeriodevisning = {
