@@ -256,8 +256,7 @@ const notattekst = (
         | TotrinnsvurderingRetur
         | PeriodeHistorikkElementNy,
 ): Maybe<string> => {
-    const automatiskReturTekst =
-        'Perioden er automatisk reberegnet etter at den ble sendt til beslutter. Sjekk om evt. endringer har betydning for saken.';
+    const automatiskReturTekst = 'Perioden er automatisk reberegnet etter at den ble sendt til beslutter.';
     if (historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'OppdaterPaVentFrist')
         return historikkelement.notattekst;
     if (historikkelement.__typename === 'TotrinnsvurderingRetur') {
