@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import {
@@ -27,7 +27,7 @@ import { useVisiblePeriods } from './hooks/useVisiblePeriods';
 
 import styles from './Periods.module.css';
 
-const byFomAscending = (a: DatePeriod, b: DatePeriod): number => new Date(b.fom).getTime() - new Date(a.fom).getTime();
+const byFomDescending = (a: DatePeriod, b: DatePeriod): number => dayjs(b.fom).diff(dayjs(a.fom));
 
 const filterReadyPeriods = (periods: Array<PeriodeFragment>): Array<PeriodeFragment> =>
     periods.filter((it) => !(it.erForkastet && isNotReady(it)));
@@ -63,7 +63,9 @@ const mergePeriods = (
     nyeInntektsforholdPeriods: Array<NyttInntektsforholdPeriodeFragment>,
 ): Array<TimelinePeriod> => {
     const periodsFromSpleis = filterReadyPeriods(fromSpleis);
-    return [...periodsFromSpleis, ...fromInfotrygd, ...ghostPeriods, ...nyeInntektsforholdPeriods].sort(byFomAscending);
+    return [...periodsFromSpleis, ...fromInfotrygd, ...ghostPeriods, ...nyeInntektsforholdPeriods].sort(
+        byFomDescending,
+    );
 };
 
 interface PeriodsProps {
