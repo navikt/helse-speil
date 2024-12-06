@@ -158,12 +158,11 @@ const ExpandButton = ({ expanded }: ExpandButtonProps): ReactElement => (
     <span className={notatStyles.lesmer}>
         {expanded ? (
             <>
-                Vis mindre <ChevronUpIcon title="Vis mer av notatet" fontSize="1.5rem" />
+                Vis mindre <ChevronUpIcon title="Vis mindre av teksten" fontSize="1.5rem" />
             </>
         ) : (
             <>
-                Vis mer
-                <ChevronDownIcon title="Vis mindre av notatet" fontSize="1.5rem" />
+                Vis mer <ChevronDownIcon title="Vis mer av teksten" fontSize="1.5rem" />
             </>
         )}
     </span>
