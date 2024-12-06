@@ -5,7 +5,7 @@ import { Button, Dropdown } from '@navikt/ds-react';
 
 import { Maybe, PersonFragment } from '@io/graphql';
 import dropdownStyles from '@saksbilde/historikk/hendelser/notat/HendelseDropdownMenu.module.css';
-import { SettNyFristButton } from '@saksbilde/historikk/hendelser/påvent/SettNyFristButton';
+import { EndreButton } from '@saksbilde/historikk/hendelser/påvent/EndreButton';
 import { PåVentButton } from '@saksbilde/saksbildeMenu/dropdown/PåVentButton';
 import { DateString } from '@typer/shared';
 import { kanEndrePåVentFrist } from '@utils/featureToggles';
@@ -31,7 +31,7 @@ export const PåVentDropdown = ({ person, årsaker, notattekst, frist }: PåVent
         <Dropdown.Menu className={dropdownStyles.Menu}>
             <Dropdown.Menu.List>
                 {kanEndrePåVentFrist && (
-                    <SettNyFristButton person={person} årsaker={årsaker} notattekst={notattekst} frist={frist} />
+                    <EndreButton person={person} årsaker={årsaker} notattekst={notattekst} frist={frist} />
                 )}
                 <PåVentButton person={person} />
             </Dropdown.Menu.List>

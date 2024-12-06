@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { Textarea } from '@navikt/ds-react';
 
-import styles from './SettNyFristPåVentModal.module.scss';
+import styles from './EndrePåVentModal.module.scss';
 
 interface NotatProps {
     notattekst: string | null;

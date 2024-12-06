@@ -3,23 +3,18 @@ import React, { ReactElement, useState } from 'react';
 import { Dropdown } from '@navikt/ds-react';
 
 import { Maybe, PersonFragment, Personnavn } from '@io/graphql';
-import { SettNyFristPåVentModal } from '@saksbilde/historikk/hendelser/påvent/settnyfrist/SettNyFristPåVentModal';
+import { EndrePåVentModal } from '@saksbilde/historikk/hendelser/påvent/endre/EndrePåVentModal';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { DateString } from '@typer/shared';
 
-interface SettNyFristButtonProps {
+interface EndreButtonProps {
     person: PersonFragment;
     årsaker: string[];
     notattekst: Maybe<string>;
     frist: Maybe<DateString>;
 }
 
-export const SettNyFristButton = ({
-    person,
-    årsaker,
-    notattekst,
-    frist,
-}: SettNyFristButtonProps): Maybe<ReactElement> => {
+export const EndreButton = ({ person, årsaker, notattekst, frist }: EndreButtonProps): Maybe<ReactElement> => {
     const [showModal, setShowModal] = useState(false);
     const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     const oppgaveId = periodeTilGodkjenning?.oppgave?.id;
@@ -36,9 +31,9 @@ export const SettNyFristButton = ({
 
     return (
         <>
-            <Dropdown.Menu.List.Item onClick={() => setShowModal(true)}>Sett ny frist</Dropdown.Menu.List.Item>
+            <Dropdown.Menu.List.Item onClick={() => setShowModal(true)}>Endre</Dropdown.Menu.List.Item>
             {showModal && (
-                <SettNyFristPåVentModal
+                <EndrePåVentModal
                     onClose={() => setShowModal(false)}
                     navn={navn}
                     oppgaveId={oppgaveId}

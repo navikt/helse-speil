@@ -181,7 +181,7 @@ const getTitle = (type: PeriodehistorikkType): string => {
         case PeriodehistorikkType.LeggPaVent:
             return 'Lagt på vent';
         case PeriodehistorikkType.OppdaterPaVentFrist:
-            return 'Lagt på vent – frist endret';
+            return 'Lagt på vent – endret';
         case PeriodehistorikkType.FjernFraPaVent:
             return 'Fjernet fra på vent';
         case PeriodehistorikkType.StansAutomatiskBehandling:

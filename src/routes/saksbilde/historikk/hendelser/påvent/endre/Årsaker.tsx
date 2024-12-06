@@ -4,7 +4,7 @@ import { Checkbox, CheckboxGroup, Skeleton, VStack } from '@navikt/ds-react';
 
 import { Arsak } from '@external/sanity';
 
-import styles from './SettNyFristPåVentModal.module.scss';
+import styles from './EndrePåVentModal.module.scss';
 
 interface ÅrsakerProps {
     årsaker: Arsak[] | undefined;

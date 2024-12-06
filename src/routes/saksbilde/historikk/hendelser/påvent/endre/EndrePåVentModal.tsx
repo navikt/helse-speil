@@ -19,9 +19,9 @@ import { Frist } from './Frist';
 import { Notat } from './Notat';
 import { Årsaker } from './Årsaker';
 
-import styles from './SettNyFristPåVentModal.module.scss';
+import styles from './EndrePåVentModal.module.scss';
 
-interface SettNyFristPåVentModalProps {
+interface EndrePåVentModalProps {
     onClose: () => void;
     navn: Personnavn;
     oppgaveId: string;
@@ -32,7 +32,7 @@ interface SettNyFristPåVentModalProps {
     opprinneligFrist: Maybe<DateString>;
 }
 
-export const SettNyFristPåVentModal = ({
+export const EndrePåVentModal = ({
     onClose,
     navn,
     oppgaveId,
@@ -41,10 +41,10 @@ export const SettNyFristPåVentModal = ({
     opprinneligeÅrsaker,
     opprinneligNotattekst,
     opprinneligFrist,
-}: SettNyFristPåVentModalProps): ReactElement => {
+}: EndrePåVentModalProps): ReactElement => {
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
     const [oppdaterPåVentFrist, { loading, error: oppdaterPåVentFristError }] = useOppdaterPåVentFrist(periodeId);
-    const errorHandler = useOperationErrorHandler('Sett ny frist på vent');
+    const errorHandler = useOperationErrorHandler('Endre på vent');
     const router = useRouter();
     const saksbehandler = useInnloggetSaksbehandler();
     const { arsaker: årsaker, loading: årsakerLoading } = useArsaker('paventarsaker');
@@ -127,10 +127,10 @@ export const SettNyFristPåVentModal = ({
     const årsakAnnetErValgt = (valgteÅrsaker: Array<string>) => valgteÅrsaker.includes('Annet');
 
     return (
-        <Modal aria-label="Sett frist på på vent modal" portal closeOnBackdropClick open={true} onClose={onClose}>
+        <Modal aria-label="Endre på vent modal" portal closeOnBackdropClick open={true} onClose={onClose}>
             <Modal.Header>
                 <Heading level="1" size="medium" className={styles.tittel}>
-                    Legg på vent &ndash; frist endret
+                    Legg på vent &ndash; endre
                 </Heading>
                 {søkernavn && <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>}
             </Modal.Header>
@@ -172,7 +172,7 @@ export const SettNyFristPåVentModal = ({
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" type="button" loading={loading} onClick={onLeggPåVent}>
-                    Legg på vent
+                    Endre
                 </Button>
                 <Button variant="tertiary" type="button" onClick={onClose}>
                     Avbryt
