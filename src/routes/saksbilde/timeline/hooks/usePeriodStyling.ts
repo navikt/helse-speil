@@ -37,6 +37,13 @@ export const getPosition = (date: Dayjs, start: Dayjs, end: Dayjs): number => {
     return position > 0 ? (position < 100 ? position : 100) : 0;
 };
 
+/**
+ * Hei og gratulerer med å ha funnet frem til et av easter eggene i speil-koden.
+ *
+ * @param start venstre ende av utsnittet
+ * @param end høyre ende av utsnittet
+ * @param periods forventes å være sortert med nyeste (høyeste FOM) først
+ */
 export const usePeriodStyling = <T extends DatePeriod>(
     start: Dayjs,
     end: Dayjs,
@@ -56,8 +63,9 @@ export const usePeriodStyling = <T extends DatePeriod>(
             const right = getPosition(period.fom, start, end);
             const width = getPosition(period.tom, start, end) - right;
             const borderRadii = getBorderRadii(period);
+            const høyreEndeAvPeriodenErSkjult = start > period.fom;
 
-            if (right === 0 && start > period.fom) {
+            if (right === 0 && høyreEndeAvPeriodenErSkjult) {
                 borderRadii.borderTopRightRadius = 0;
                 borderRadii.borderBottomRightRadius = 0;
             }

@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { useMemo } from 'react';
 
-import { Periode, Periodetype } from '@io/graphql';
+import { Periode, Periodetilstand, Periodetype } from '@io/graphql';
 import { DatePeriod, DateString } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
 
@@ -19,37 +19,40 @@ const periodetype = (period: Periode): Periodetype =>
           ? Periodetype.Forstegangsbehandling
           : Periodetype.Forlengelse;
 
-const withinADay = (a: Dayjs, b: Dayjs): boolean => Math.abs(a.diff(b, 'day')) < 1;
+const withinADay = (left: Dayjs, right: Dayjs): boolean =>
+    Math.abs(left.startOf('day').diff(right.endOf('day'), 'day')) < 1;
 
-const isFørstegangsbehandling = (period: TimelinePeriod): boolean => {
-    return periodetype(period as unknown as Periode) === Periodetype.Forstegangsbehandling;
+// perioder som ligger inntil visse perioder skal ha butte ender i stedet for skarpe kanter.
+// Annullerte perioder har ikke nødvendigvis riktig skjæringstidspunkt, derfor må de ha unntak her.
+const kreverButteEnder = (timelinePeriod: TimelinePeriod) => {
+    const period = timelinePeriod as unknown as Periode;
+    return (
+        (periodetype(period) === Periodetype.Forstegangsbehandling ||
+            periodetype(period) === Periodetype.OvergangFraIt) &&
+        period.periodetilstand !== Periodetilstand.Annullert
+    );
 };
 
-const isOvergangFraInfotrygd = (period: TimelinePeriod): boolean => {
-    return periodetype(period as unknown as Periode) === Periodetype.OvergangFraIt;
-};
+// Svarer på om perioden på index i har en nabo til venstre for seg OG om den skal "ligge inntil" den, altså om den skal
+// ha flat eller butt venstreende.
 const hasLeftNeighbour = (i: number, periods: Array<TimelinePeriod>): boolean => {
-    const periode = periods[i - 1];
-    if (!periode) return false;
+    if (i < 1) return false;
+    const thisPeriod = periods[i];
+    const periodToTheLeft = periods[i - 1];
+    if (!periodToTheLeft || !thisPeriod) return false;
     return (
-        (i > 0 &&
-            withinADay(dayjs(periode?.fom).startOf('day'), dayjs(periods[i]?.tom).endOf('day')) &&
-            periode &&
-            !isFørstegangsbehandling(periode) &&
-            !isOvergangFraInfotrygd(periode)) ??
-        false
+        (withinADay(dayjs(periodToTheLeft.fom), dayjs(thisPeriod.tom)) && !kreverButteEnder(periodToTheLeft)) ?? false
     );
 };
 
+// Svarer på om perioden på index i har en nabo til høyre for seg OG om den skal "ligge inntil" den, altså om den skal
+// ha flat eller butt høyreende.
 const hasRightNeighbour = (i: number, periods: Array<TimelinePeriod>): boolean => {
-    const periode = periods[i];
-    if (!periode) return false;
-    return (
-        i < periods.length - 1 &&
-        withinADay(dayjs(periode.fom).startOf('day'), dayjs(periods[i + 1]?.tom).endOf('day')) &&
-        !isFørstegangsbehandling(periode) &&
-        !isOvergangFraInfotrygd(periode)
-    );
+    if (i >= periods.length - 1) return false;
+    const thisPeriod = periods[i];
+    const periodToTheRight = periods[i + 1];
+    if (!thisPeriod || !periodToTheRight) return false;
+    return withinADay(dayjs(thisPeriod.fom), dayjs(periodToTheRight.tom)) && !kreverButteEnder(thisPeriod);
 };
 
 export const usePopulateNeighbours = (periods: Array<TimelinePeriod>): Array<TimelinePeriod> =>
