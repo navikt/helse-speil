@@ -9,6 +9,8 @@ import {
     LeggPaVentDocument,
     LeggPaVentMutation,
     Maybe,
+    OppdaterPaVentFristDocument,
+    OppdaterPaVentFristMutation,
     OppgaveFeedDocument,
     Oppgaveegenskap,
     PaVent,
@@ -66,6 +68,53 @@ export const useLeggPåVent = (
         });
 
     return [leggPåVent, data];
+};
+
+export const useOppdaterPåVentFrist = (
+    periodeId?: string,
+): [
+    (
+        oppgavereferanse: string,
+        frist: string,
+        tildeling: boolean,
+        notattekst: Maybe<string>,
+        arsaker: PaVentArsakInput[],
+    ) => Promise<FetchResult<OppdaterPaVentFristMutation>>,
+    MutationResult<OppdaterPaVentFristMutation>,
+] => {
+    const optimistiskPaVent = useOptimistiskPaVent();
+    const [oppdaterPåVentFristMutation, data] = useMutation(OppdaterPaVentFristDocument);
+
+    const oppdaterPåVentFrist = async (
+        oppgavereferanse: string,
+        frist: string,
+        tildeling: boolean,
+        notattekst: Maybe<string>,
+        arsaker: PaVentArsakInput[],
+    ) =>
+        oppdaterPåVentFristMutation({
+            refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
+            optimisticResponse: {
+                __typename: 'Mutation',
+                oppdaterPaVentFrist: { ...optimistiskPaVent, frist },
+            },
+            variables: {
+                oppgaveId: oppgavereferanse,
+                frist: frist,
+                tildeling: tildeling,
+                notatTekst: notattekst,
+                arsaker: arsaker,
+            },
+            update: (cache, result) =>
+                oppdaterPåVentICache(
+                    cache,
+                    oppgavereferanse,
+                    periodeId ?? null,
+                    result.data?.oppdaterPaVentFrist ?? null,
+                ),
+        });
+
+    return [oppdaterPåVentFrist, data];
 };
 
 export const useFjernPåVentFraSaksbilde = (

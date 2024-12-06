@@ -71,7 +71,7 @@ export const Historikkhendelse = ({
     return (
         <Hendelse title={getTitle(historikktype)} icon={getIcon(historikktype)}>
             {erPeriodehistorikkElementPåVent && erAktivPeriodePåVent && erNyesteHistorikkhendelseMedType && (
-                <PåVentDropdown person={person} />
+                <PåVentDropdown person={person} årsaker={årsaker} notattekst={notattekst} frist={frist} />
             )}
             <div
                 role="button"

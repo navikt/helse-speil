@@ -55,3 +55,4 @@ export const kanOverstyreMinimumSykdomsgradToggle = (ident: string, grupper: str
 export const skalViseTilkommenInntekt: boolean = erUtvikling;
 export const kanOverstyreTilkommenInntekt: boolean = erUtvikling;
 export const visTilkommenInntektEndreKnapp: boolean = erLokal;
+export const kanEndrePåVentFrist: boolean = erUtvikling;
