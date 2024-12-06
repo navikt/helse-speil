@@ -114,7 +114,7 @@ const finnCacheId = (cache: ApolloCache<any>, historikkinnslagId: number, histor
         case PeriodehistorikkType.LeggPaVent:
             return cache.identify({ __typename: 'LagtPaVent', id: historikkinnslagId });
         case PeriodehistorikkType.EndrePaVent:
-            return cache.identify({ __typename: 'OppdaterPaVentFrist', id: historikkinnslagId });
+            return cache.identify({ __typename: 'EndrePaVent', id: historikkinnslagId });
         case PeriodehistorikkType.TotrinnsvurderingRetur:
             return cache.identify({ __typename: 'TotrinnsvurderingRetur', id: historikkinnslagId });
         default:

@@ -364,6 +364,19 @@ export enum Egenskap {
     Vergemal = 'VERGEMAL',
 }
 
+export type EndrePaVent = Historikkinnslag & {
+    __typename?: 'EndrePaVent';
+    arsaker: Array<Scalars['String']['output']>;
+    dialogRef?: Maybe<Scalars['Int']['output']>;
+    frist?: Maybe<Scalars['LocalDate']['output']>;
+    id: Scalars['Int']['output'];
+    kommentarer: Array<Kommentar>;
+    notattekst?: Maybe<Scalars['String']['output']>;
+    saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['LocalDateTime']['output'];
+    type: PeriodehistorikkType;
+};
+
 export type EndringIRefusjon = {
     __typename?: 'EndringIRefusjon';
     beloep?: Maybe<Scalars['Float']['output']>;

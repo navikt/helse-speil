@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
 
 import {
+    EndrePaVent,
     FjernetFraPaVent,
     Historikkinnslag,
     Kommentar,
     LagtPaVent,
     Maybe,
-    OppdaterPaVentFrist,
     PeriodeHistorikkElementNy,
     PeriodehistorikkType,
     TotrinnsvurderingRetur,
@@ -16,11 +16,11 @@ import { UUID } from '@typer/spesialist-mock';
 
 export type HistorikkinnslagUnion =
     | LagtPaVent
-    | OppdaterPaVentFrist
+    | EndrePaVent
     | FjernetFraPaVent
     | TotrinnsvurderingRetur
     | PeriodeHistorikkElementNy;
-export type HistorikkinnslagMedKommentarer = LagtPaVent | OppdaterPaVentFrist | TotrinnsvurderingRetur;
+export type HistorikkinnslagMedKommentarer = LagtPaVent | EndrePaVent | TotrinnsvurderingRetur;
 
 export class HistorikkinnslagMock {
     private static historikkinnslagMap: Map<UUID, Array<HistorikkinnslagUnion>> = new Map();

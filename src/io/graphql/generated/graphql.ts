@@ -366,6 +366,19 @@ export enum Egenskap {
     Vergemal = 'VERGEMAL',
 }
 
+export type EndrePaVent = Historikkinnslag & {
+    __typename: 'EndrePaVent';
+    arsaker: Array<Scalars['String']['output']>;
+    dialogRef: Maybe<Scalars['Int']['output']>;
+    frist: Maybe<Scalars['LocalDate']['output']>;
+    id: Scalars['Int']['output'];
+    kommentarer: Array<Kommentar>;
+    notattekst: Maybe<Scalars['String']['output']>;
+    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['LocalDateTime']['output'];
+    type: PeriodehistorikkType;
+};
+
 export type EndringIRefusjon = {
     __typename: 'EndringIRefusjon';
     beloep: Maybe<Scalars['Float']['output']>;
@@ -2425,6 +2438,25 @@ export type ArbeidsgiverFragment = {
                   }>;
                   historikkinnslag: Array<
                       | {
+                            __typename: 'EndrePaVent';
+                            frist: string | null;
+                            arsaker: Array<string>;
+                            notattekst: string | null;
+                            id: number;
+                            type: PeriodehistorikkType;
+                            timestamp: string;
+                            saksbehandlerIdent: string | null;
+                            dialogRef: number | null;
+                            kommentarer: Array<{
+                                __typename: 'Kommentar';
+                                id: number;
+                                tekst: string;
+                                opprettet: string;
+                                saksbehandlerident: string;
+                                feilregistrert_tidspunkt: string | null;
+                            }>;
+                        }
+                      | {
                             __typename: 'FjernetFraPaVent';
                             id: number;
                             type: PeriodehistorikkType;
@@ -2453,22 +2485,11 @@ export type ArbeidsgiverFragment = {
                         }
                       | {
                             __typename: 'OppdaterPaVentFrist';
-                            frist: string | null;
-                            arsaker: Array<string>;
-                            notattekst: string | null;
                             id: number;
                             type: PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
-                            kommentarer: Array<{
-                                __typename: 'Kommentar';
-                                id: number;
-                                tekst: string;
-                                opprettet: string;
-                                saksbehandlerident: string;
-                                feilregistrert_tidspunkt: string | null;
-                            }>;
                         }
                       | {
                             __typename: 'PeriodeHistorikkElementNy';
@@ -3319,6 +3340,25 @@ export type BeregnetPeriodeFragment = {
     }>;
     historikkinnslag: Array<
         | {
+              __typename: 'EndrePaVent';
+              frist: string | null;
+              arsaker: Array<string>;
+              notattekst: string | null;
+              id: number;
+              type: PeriodehistorikkType;
+              timestamp: string;
+              saksbehandlerIdent: string | null;
+              dialogRef: number | null;
+              kommentarer: Array<{
+                  __typename: 'Kommentar';
+                  id: number;
+                  tekst: string;
+                  opprettet: string;
+                  saksbehandlerident: string;
+                  feilregistrert_tidspunkt: string | null;
+              }>;
+          }
+        | {
               __typename: 'FjernetFraPaVent';
               id: number;
               type: PeriodehistorikkType;
@@ -3347,22 +3387,11 @@ export type BeregnetPeriodeFragment = {
           }
         | {
               __typename: 'OppdaterPaVentFrist';
-              frist: string | null;
-              arsaker: Array<string>;
-              notattekst: string | null;
               id: number;
               type: PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
-              kommentarer: Array<{
-                  __typename: 'Kommentar';
-                  id: number;
-                  tekst: string;
-                  opprettet: string;
-                  saksbehandlerident: string;
-                  feilregistrert_tidspunkt: string | null;
-              }>;
           }
         | {
               __typename: 'PeriodeHistorikkElementNy';
@@ -4074,6 +4103,25 @@ export type PersonFragment = {
                       }>;
                       historikkinnslag: Array<
                           | {
+                                __typename: 'EndrePaVent';
+                                frist: string | null;
+                                arsaker: Array<string>;
+                                notattekst: string | null;
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
+                            }
+                          | {
                                 __typename: 'FjernetFraPaVent';
                                 id: number;
                                 type: PeriodehistorikkType;
@@ -4102,22 +4150,11 @@ export type PersonFragment = {
                             }
                           | {
                                 __typename: 'OppdaterPaVentFrist';
-                                frist: string | null;
-                                arsaker: Array<string>;
-                                notattekst: string | null;
                                 id: number;
                                 type: PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
-                                kommentarer: Array<{
-                                    __typename: 'Kommentar';
-                                    id: number;
-                                    tekst: string;
-                                    opprettet: string;
-                                    saksbehandlerident: string;
-                                    feilregistrert_tidspunkt: string | null;
-                                }>;
                             }
                           | {
                                 __typename: 'PeriodeHistorikkElementNy';
@@ -4906,6 +4943,25 @@ export type FetchPersonQuery = {
                           }>;
                           historikkinnslag: Array<
                               | {
+                                    __typename: 'EndrePaVent';
+                                    frist: string | null;
+                                    arsaker: Array<string>;
+                                    notattekst: string | null;
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
+                                }
+                              | {
                                     __typename: 'FjernetFraPaVent';
                                     id: number;
                                     type: PeriodehistorikkType;
@@ -4934,22 +4990,11 @@ export type FetchPersonQuery = {
                                 }
                               | {
                                     __typename: 'OppdaterPaVentFrist';
-                                    frist: string | null;
-                                    arsaker: Array<string>;
-                                    notattekst: string | null;
                                     id: number;
                                     type: PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
-                                    kommentarer: Array<{
-                                        __typename: 'Kommentar';
-                                        id: number;
-                                        tekst: string;
-                                        opprettet: string;
-                                        saksbehandlerident: string;
-                                        feilregistrert_tidspunkt: string | null;
-                                    }>;
                                 }
                               | {
                                     __typename: 'PeriodeHistorikkElementNy';
@@ -6554,10 +6599,7 @@ export const BeregnetPeriodeFragmentDoc = {
                                 },
                                 {
                                     kind: 'InlineFragment',
-                                    typeCondition: {
-                                        kind: 'NamedType',
-                                        name: { kind: 'Name', value: 'OppdaterPaVentFrist' },
-                                    },
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'EndrePaVent' } },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
@@ -7922,10 +7964,7 @@ export const ArbeidsgiverFragmentDoc = {
                                 },
                                 {
                                     kind: 'InlineFragment',
-                                    typeCondition: {
-                                        kind: 'NamedType',
-                                        name: { kind: 'Name', value: 'OppdaterPaVentFrist' },
-                                    },
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'EndrePaVent' } },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
@@ -8968,10 +9007,7 @@ export const PersonFragmentDoc = {
                                 },
                                 {
                                     kind: 'InlineFragment',
-                                    typeCondition: {
-                                        kind: 'NamedType',
-                                        name: { kind: 'Name', value: 'OppdaterPaVentFrist' },
-                                    },
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'EndrePaVent' } },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
@@ -11872,10 +11908,7 @@ export const FetchPersonDocument = {
                                 },
                                 {
                                     kind: 'InlineFragment',
-                                    typeCondition: {
-                                        kind: 'NamedType',
-                                        name: { kind: 'Name', value: 'OppdaterPaVentFrist' },
-                                    },
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'EndrePaVent' } },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
