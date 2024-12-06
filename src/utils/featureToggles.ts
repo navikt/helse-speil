@@ -55,7 +55,7 @@ export const kanOverstyreMinimumSykdomsgradToggle = (ident: string, grupper: str
 export const skalViseTilkommenInntekt: boolean = erUtvikling;
 export const kanOverstyreTilkommenInntekt: boolean = erUtvikling;
 export const visTilkommenInntektEndreKnapp: boolean = erLokal;
-export const kanEndrePåVentFrist: boolean = erUtvikling;
+export const kanEndrePåVent: boolean = erUtvikling;
 
 export const kanSkriveBegrunnelseForInnvilgelseToggle = (ident: string, grupper: string[]): boolean =>
     erUtvikling || erCoachEllerSuper(ident) || erPåTeamBømlo(grupper);
