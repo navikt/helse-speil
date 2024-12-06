@@ -52,7 +52,7 @@ export const Historikkhendelse = ({
     const erAktivPeriodePåVent = isBeregnetPeriode(aktivPeriode) && aktivPeriode?.paVent !== null;
     const erPeriodehistorikkElementPåVent = [
         PeriodehistorikkType.LeggPaVent,
-        PeriodehistorikkType.OppdaterPaVentFrist,
+        PeriodehistorikkType.EndrePaVent,
     ].includes(historikktype);
 
     const isExpandable = () =>
@@ -83,7 +83,7 @@ export const Historikkhendelse = ({
                 }}
                 className={classNames(notatStyles.NotatTextWrapper, isExpandable() && notatStyles.cursorpointer)}
             >
-                {[PeriodehistorikkType.LeggPaVent, PeriodehistorikkType.OppdaterPaVentFrist].includes(historikktype) ? (
+                {[PeriodehistorikkType.LeggPaVent, PeriodehistorikkType.EndrePaVent].includes(historikktype) ? (
                     <LagtPåventinnhold
                         expanded={expanded}
                         tekst={notattekst}
@@ -180,7 +180,7 @@ const getTitle = (type: PeriodehistorikkType): string => {
             return 'Periode reberegnet';
         case PeriodehistorikkType.LeggPaVent:
             return 'Lagt på vent';
-        case PeriodehistorikkType.OppdaterPaVentFrist:
+        case PeriodehistorikkType.EndrePaVent:
             return 'Lagt på vent – endret';
         case PeriodehistorikkType.FjernFraPaVent:
             return 'Fjernet fra på vent';
@@ -206,7 +206,7 @@ const getIcon = (type: PeriodehistorikkType): ReactElement => {
             return <ArrowsSquarepathIcon title="Piler Firkantsti ikon" className={classNames(styles.Innrammet)} />;
         }
         case PeriodehistorikkType.LeggPaVent:
-        case PeriodehistorikkType.OppdaterPaVentFrist:
+        case PeriodehistorikkType.EndrePaVent:
         case PeriodehistorikkType.FjernFraPaVent: {
             return <TimerPauseIcon title="Timer ikon" className={classNames(styles.Innrammet, styles.pavent)} />;
         }

@@ -217,9 +217,8 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
             erNyesteHistorikkhendelseMedType:
                 [...periode.historikkinnslag]
                     .sort(byTimestampHistorikkinnslag)
-                    .find((it) =>
-                        [PeriodehistorikkType.LeggPaVent, PeriodehistorikkType.OppdaterPaVentFrist].includes(it.type),
-                    )?.id === historikkelement.id,
+                    .find((it) => [PeriodehistorikkType.LeggPaVent, PeriodehistorikkType.EndrePaVent].includes(it.type))
+                    ?.id === historikkelement.id,
         } as HistorikkhendelseObject;
     });
 };
