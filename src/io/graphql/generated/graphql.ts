@@ -5521,19 +5521,6 @@ export type LeggPaVentMutation = {
     leggPaVent: { __typename: 'PaVent'; frist: string | null; oid: string } | null;
 };
 
-export type OppdaterPaVentFristMutationVariables = Exact<{
-    oppgaveId: Scalars['String']['input'];
-    frist: Scalars['LocalDate']['input'];
-    tildeling: Scalars['Boolean']['input'];
-    notatTekst?: InputMaybe<Scalars['String']['input']>;
-    arsaker: Array<PaVentArsakInput> | PaVentArsakInput;
-}>;
-
-export type OppdaterPaVentFristMutation = {
-    __typename: 'Mutation';
-    oppdaterPaVentFrist: { __typename: 'PaVent'; frist: string | null; oid: string } | null;
-};
-
 export type PaventFragment = { __typename: 'PaVent'; frist: string | null; oid: string };
 
 export type SkjonnsfastsettelseMutationMutationVariables = Exact<{
@@ -12864,110 +12851,6 @@ export const LeggPaVentDocument = {
         },
     ],
 } as unknown as DocumentNode<LeggPaVentMutation, LeggPaVentMutationVariables>;
-export const OppdaterPaVentFristDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'OppdaterPaVentFrist' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'frist' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'LocalDate' } },
-                    },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'tildeling' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
-                    },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
-                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'arsaker' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: {
-                            kind: 'ListType',
-                            type: {
-                                kind: 'NonNullType',
-                                type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaVentArsakInput' } },
-                            },
-                        },
-                    },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'oppdaterPaVentFrist' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'oppgaveId' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'frist' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'frist' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'tildeling' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'tildeling' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'notatTekst' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'arsaker' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'arsaker' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'pavent' } }],
-                        },
-                    },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'pavent' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PaVent' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<OppdaterPaVentFristMutation, OppdaterPaVentFristMutationVariables>;
 export const SkjonnsfastsettelseMutationDocument = {
     kind: 'Document',
     definitions: [

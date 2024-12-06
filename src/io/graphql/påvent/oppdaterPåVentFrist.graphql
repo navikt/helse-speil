@@ -1,5 +1,0 @@
-mutation OppdaterPaVentFrist($oppgaveId: String!, $frist: LocalDate!, $tildeling: Boolean!, $notatTekst: String, $arsaker: [PaVentArsakInput!]!) {
-    oppdaterPaVentFrist(oppgaveId: $oppgaveId, frist: $frist, tildeling: $tildeling, notatTekst: $notatTekst, arsaker: $arsaker) {
-        ...pavent
-    }
-}
