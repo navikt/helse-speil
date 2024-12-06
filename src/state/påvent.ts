@@ -2,6 +2,8 @@ import { ApolloCache, FetchResult, InternalRefetchQueriesInclude, MutationResult
 import {
     AntallOppgaverDocument,
     Egenskap,
+    EndrePaVentDocument,
+    EndrePaVentMutation,
     FetchPersonDocument,
     FjernPaVentDocument,
     FjernPaVentMutation,
@@ -9,8 +11,6 @@ import {
     LeggPaVentDocument,
     LeggPaVentMutation,
     Maybe,
-    OppdaterPaVentFristDocument,
-    OppdaterPaVentFristMutation,
     OppgaveFeedDocument,
     Oppgaveegenskap,
     PaVent,
@@ -70,7 +70,7 @@ export const useLeggPåVent = (
     return [leggPåVent, data];
 };
 
-export const useOppdaterPåVentFrist = (
+export const useEndrePåVent = (
     periodeId?: string,
 ): [
     (
@@ -79,24 +79,24 @@ export const useOppdaterPåVentFrist = (
         tildeling: boolean,
         notattekst: Maybe<string>,
         arsaker: PaVentArsakInput[],
-    ) => Promise<FetchResult<OppdaterPaVentFristMutation>>,
-    MutationResult<OppdaterPaVentFristMutation>,
+    ) => Promise<FetchResult<EndrePaVentMutation>>,
+    MutationResult<EndrePaVentMutation>,
 ] => {
     const optimistiskPaVent = useOptimistiskPaVent();
-    const [oppdaterPåVentFristMutation, data] = useMutation(OppdaterPaVentFristDocument);
+    const [endrePåVentMutation, data] = useMutation(EndrePaVentDocument);
 
-    const oppdaterPåVentFrist = async (
+    const endrePåVent = async (
         oppgavereferanse: string,
         frist: string,
         tildeling: boolean,
         notattekst: Maybe<string>,
         arsaker: PaVentArsakInput[],
     ) =>
-        oppdaterPåVentFristMutation({
+        endrePåVentMutation({
             refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
             optimisticResponse: {
                 __typename: 'Mutation',
-                oppdaterPaVentFrist: { ...optimistiskPaVent, frist },
+                endrePaVent: { ...optimistiskPaVent, frist },
             },
             variables: {
                 oppgaveId: oppgavereferanse,
@@ -106,15 +106,10 @@ export const useOppdaterPåVentFrist = (
                 arsaker: arsaker,
             },
             update: (cache, result) =>
-                oppdaterPåVentICache(
-                    cache,
-                    oppgavereferanse,
-                    periodeId ?? null,
-                    result.data?.oppdaterPaVentFrist ?? null,
-                ),
+                oppdaterPåVentICache(cache, oppgavereferanse, periodeId ?? null, result.data?.endrePaVent ?? null),
         });
 
-    return [oppdaterPåVentFrist, data];
+    return [endrePåVent, data];
 };
 
 export const useFjernPåVentFraSaksbilde = (

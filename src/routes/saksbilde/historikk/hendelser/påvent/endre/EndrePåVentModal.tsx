@@ -8,7 +8,7 @@ import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { useArsaker } from '@external/sanity';
 import { Maybe, Personnavn, Tildeling } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useOppdaterPåVentFrist } from '@state/påvent';
+import { useEndrePåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
@@ -43,7 +43,7 @@ export const EndrePåVentModal = ({
     opprinneligFrist,
 }: EndrePåVentModalProps): ReactElement => {
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
-    const [oppdaterPåVentFrist, { loading, error: oppdaterPåVentFristError }] = useOppdaterPåVentFrist(periodeId);
+    const [endrePåVent, { loading, error: endrePåVentError }] = useEndrePåVent(periodeId);
     const errorHandler = useOperationErrorHandler('Endre på vent');
     const router = useRouter();
     const saksbehandler = useInnloggetSaksbehandler();
@@ -102,15 +102,15 @@ export const EndrePåVentModal = ({
         if (error) {
             return;
         }
-        await oppdaterPåVentFrist(
+        await endrePåVent(
             oppgaveId,
             dayjs(fristDato).format(ISO_DATOFORMAT),
             tildelSaksbehandler,
             notattekst,
             årsaker[0]!.arsaker!.filter((it) => valgteÅrsaker.includes(it.arsak)),
         );
-        if (oppdaterPåVentFristError) {
-            errorHandler(oppdaterPåVentFristError);
+        if (endrePåVentError) {
+            errorHandler(endrePåVentError);
         } else {
             router.push('/');
         }
@@ -118,8 +118,8 @@ export const EndrePåVentModal = ({
     };
 
     const errorMessage: string | undefined =
-        oppdaterPåVentFristError !== undefined
-            ? apolloErrorCode(oppdaterPåVentFristError) === 401
+        endrePåVentError !== undefined
+            ? apolloErrorCode(endrePåVentError) === 401
                 ? 'Du har blitt logget ut'
                 : 'Endringene kunne ikke lagres'
             : undefined;
