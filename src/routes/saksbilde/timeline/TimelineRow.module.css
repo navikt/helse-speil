@@ -15,8 +15,6 @@
     background: #f8f8f8;
     flex: 1;
     gap: 0.25rem;
-    height: 24px;
-    min-height: 24px;
 }
 
 .AlignWithExpandable {

@@ -25,6 +25,8 @@ import { usePeriodStyling } from './hooks/usePeriodStyling';
 import { usePopulateNeighbours } from './hooks/usePopulateNeighbours';
 import { useVisiblePeriods } from './hooks/useVisiblePeriods';
 
+import styles from './Periods.module.css';
+
 const byFomDescending = (a: DatePeriod, b: DatePeriod): number => dayjs(b.fom).diff(dayjs(a.fom));
 
 const filterReadyPeriods = (periods: Array<PeriodeFragment>): Array<PeriodeFragment> =>
@@ -96,7 +98,7 @@ export const Periods = ({
     const positions = usePeriodStyling(start, end, visiblePeriods);
 
     return (
-        <>
+        <div className={styles.Periods}>
             {visiblePeriods.map((period, i) => (
                 <Period
                     key={i}
@@ -107,6 +109,6 @@ export const Periods = ({
                     person={person}
                 />
             ))}
-        </>
+        </div>
     );
 };
