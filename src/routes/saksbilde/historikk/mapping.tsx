@@ -214,7 +214,7 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
             frist: frist(historikkelement),
             notattekst: notattekst(historikkelement),
             kommentarer: kommentarer(historikkelement),
-            erNyesteHistorikkhendelseMedType:
+            erNyestePåVentInnslag:
                 [...periode.historikkinnslag]
                     .sort(byTimestampHistorikkinnslag)
                     .find((it) => [PeriodehistorikkType.LeggPaVent, PeriodehistorikkType.EndrePaVent].includes(it.type))

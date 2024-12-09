@@ -135,7 +135,7 @@ export type HistorikkhendelseObject = BaseHendelseObject & {
     årsaker: string[];
     notattekst: Maybe<string>;
     kommentarer: Array<Kommentar>;
-    erNyesteHistorikkhendelseMedType?: boolean;
+    erNyestePåVentInnslag?: boolean;
 };
 
 export type VedtakBegrunnelseObject = BaseHendelseObject & {

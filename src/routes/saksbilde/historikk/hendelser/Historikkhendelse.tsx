@@ -44,7 +44,7 @@ export const Historikkhendelse = ({
     dialogRef,
     historikkinnslagId,
     kommentarer,
-    erNyesteHistorikkhendelseMedType = false,
+    erNyestePåVentInnslag = false,
 }: HistorikkhendelseProps): ReactElement => {
     const [showAddDialog, setShowAddDialog] = useState(false);
     const [expanded, setExpanded] = useState(false);
@@ -70,7 +70,7 @@ export const Historikkhendelse = ({
 
     return (
         <Hendelse title={getTitle(historikktype)} icon={getIcon(historikktype)}>
-            {erPeriodehistorikkElementPåVent && erAktivPeriodePåVent && erNyesteHistorikkhendelseMedType && (
+            {erPeriodehistorikkElementPåVent && erAktivPeriodePåVent && erNyestePåVentInnslag && (
                 <PåVentDropdown person={person} årsaker={årsaker} notattekst={notattekst} frist={frist} />
             )}
             <div
@@ -89,7 +89,7 @@ export const Historikkhendelse = ({
                         tekst={notattekst}
                         årsaker={årsaker}
                         frist={frist}
-                        erNyesteHistorikkhendelseMedType={erNyesteHistorikkhendelseMedType}
+                        erNyestePåVentInnslag={erNyestePåVentInnslag}
                     />
                 ) : (
                     <UtvidbartInnhold expanded={expanded}>{notattekst}</UtvidbartInnhold>

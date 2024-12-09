@@ -13,7 +13,7 @@ interface LagtPåventinnholdProps {
     tekst: Maybe<string>;
     årsaker?: string[];
     frist?: string | null;
-    erNyesteHistorikkhendelseMedType?: boolean;
+    erNyestePåVentInnslag?: boolean;
 }
 
 export const LagtPåventinnhold = ({
@@ -21,7 +21,7 @@ export const LagtPåventinnhold = ({
     tekst,
     årsaker,
     frist,
-    erNyesteHistorikkhendelseMedType,
+    erNyestePåVentInnslag,
 }: LagtPåventinnholdProps): ReactElement => (
     <>
         <UtvidbartInnhold expanded={expanded}>
@@ -41,7 +41,7 @@ export const LagtPåventinnhold = ({
                 tekst
             )}
         </UtvidbartInnhold>
-        {erNyesteHistorikkhendelseMedType && frist && (
+        {erNyestePåVentInnslag && frist && (
             <BodyShort className={notatStyles.tidsfrist} size="medium">
                 Frist: <span className={notatStyles.bold}>{dayjs(frist).format(NORSK_DATOFORMAT)}</span>
             </BodyShort>
