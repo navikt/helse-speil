@@ -1,10 +1,12 @@
 import React, { ReactElement, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import { Alert, BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
 
 import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Maybe } from '@io/graphql';
+import { calculatingState } from '@state/calculating';
 import { OverstyrtInntektOgRefusjon, useSlettLokaleOverstyringer } from '@state/overstyring';
 import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 
@@ -23,6 +25,7 @@ export const KalkulerEndringerVarsel = ({
     const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntektOgRefusjon();
     const [showModal, setShowModal] = useState(false);
     const antallRedigerteArbeidsgivere = lokaleInntektoverstyringer?.arbeidsgivere.length ?? 0;
+    const calculating = useRecoilValue(calculatingState);
 
     return (
         <>
@@ -46,6 +49,7 @@ export const KalkulerEndringerVarsel = ({
                         variant="tertiary"
                         type="button"
                         data-testid="kalkuler-avbryt-button"
+                        disabled={calculating}
                         onClick={() => setShowModal(true)}
                     >
                         Forkast endringer ({antallRedigerteArbeidsgivere})
