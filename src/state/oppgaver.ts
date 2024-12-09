@@ -213,7 +213,7 @@ const filtrering = (
             kategori: finnKategori(filter.column),
         }));
 
-    console.log(saksbehandlerident, grupper);
+    console.log(saksbehandlerident, grupper, ekskluderteEgenskaper);
 
     return {
         egenskaper: hackInnInfotrygdforlengelse(activeFilters)
@@ -225,7 +225,15 @@ const filtrering = (
                 egenskap: filter.key as Egenskap,
                 kategori: finnKategori(filter.column),
             })),
-        ekskluderteEgenskaper: ekskluderteEgenskaper,
+        ekskluderteEgenskaper: hackInnInfotrygdforlengelse(activeFilters)
+            .filter(
+                (filter) =>
+                    Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.ON,
+            )
+            .map((filter) => ({
+                egenskap: filter.key as Egenskap,
+                kategori: finnKategori(filter.column),
+            })),
         ingenUkategoriserteEgenskaper: false,
         tildelt: tildeltFiltrering(activeFilters),
         egneSaker: aktivTab === TabType.Mine,
