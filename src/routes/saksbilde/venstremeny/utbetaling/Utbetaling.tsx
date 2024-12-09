@@ -140,9 +140,9 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         totrinnsvurderingAktiv && isBeregnetPeriode(period) && period.totrinnsvurdering?.erBeslutteroppgave === false;
     const trengerTotrinnsvurdering =
         period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave;
-    const erTilkommenOgHarTilgang =
+    const erTilkommenOgHarIkkeTilgang =
         period.egenskaper.some((it) => it.egenskap === 'TILKOMMEN') &&
-        kanSeTilkommenInntekt(saksbehandlerident, grupper);
+        !kanSeTilkommenInntekt(saksbehandlerident, grupper);
 
     return (
         <Box
@@ -173,7 +173,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                                 periodenErSendt ||
                                 harUvurderteVarslerPåUtbetaling ||
                                 lokaleInntektoverstyringer.aktørId !== null ||
-                                erTilkommenOgHarTilgang
+                                erTilkommenOgHarIkkeTilgang
                             }
                             onSuccess={onSendTilGodkjenning}
                             utfall={utfall}
@@ -194,7 +194,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                                 periodenErSendt ||
                                 harUvurderteVarslerPåUtbetaling ||
                                 lokaleInntektoverstyringer.aktørId !== null ||
-                                erTilkommenOgHarTilgang
+                                erTilkommenOgHarIkkeTilgang
                             }
                             onSuccess={onGodkjennUtbetaling}
                             utfall={utfall}
