@@ -1,0 +1,25 @@
+.fokusområde {
+    outline: none;
+}
+
+.fokusområde:focus-visible {
+    box-shadow: var(--a-shadow-focus);
+}
+
+.klikkbar {
+    cursor: pointer;
+}
+
+.visMer {
+    display: flex;
+    align-items: center;
+    font-size: var(--a-font-size-medium);
+    font-weight: var(--a-font-weight-regular);
+    color: var(--a-surface-action);
+    text-decoration: underline;
+    gap: 0.5rem;
+}
+
+.visMer:hover {
+    text-decoration: none;
+}

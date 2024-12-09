@@ -10,10 +10,12 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { OpenedDokument } from '@components/OpenedDokument';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
+import { PeriodehistorikkType } from '@io/graphql';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/MinimumSykdomsgradhendelse';
+import { NyestePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/NyestePåVentHendelse';
 import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject } from '@typer/historikk';
 
@@ -48,6 +50,9 @@ const getHistorikkTitle = (type: Filtertype): string => {
         }
     }
 };
+
+const erPåVent = (historikktype: PeriodehistorikkType) =>
+    [PeriodehistorikkType.LeggPaVent, PeriodehistorikkType.EndrePaVent].includes(historikktype);
 
 const HistorikkWithContent = (): ReactElement => {
     const { loading, data } = useFetchPersonQuery();
@@ -129,7 +134,11 @@ const HistorikkWithContent = (): ReactElement => {
                                             return <Utbetalinghendelse key={it.id} {...it} />;
                                         }
                                         case 'Historikk': {
-                                            return <Historikkhendelse key={it.id} {...it} person={person} />;
+                                            if (erPåVent(it.historikktype) && it.erNyestePåVentInnslag) {
+                                                return <NyestePåVentHendelse key={it.id} {...it} person={person} />;
+                                            } else {
+                                                return <Historikkhendelse key={it.id} {...it} person={person} />;
+                                            }
                                         }
                                         case 'VedtakBegrunnelse': {
                                             return <VedtakBegrunnelsehendelse key={it.id} {...it} />;
