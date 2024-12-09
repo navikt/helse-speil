@@ -207,7 +207,7 @@ const filtrering = (
 ): FiltreringInput => {
     const ekskluderteEgenskaper = hackInnInfotrygdforlengelse(activeFilters)
         .filter(
-            (filter) => Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.OFF,
+            (filter) => Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.OUT,
         )
         .map((filter) => ({
             egenskap: filter.key as Egenskap,
