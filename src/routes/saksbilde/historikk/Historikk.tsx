@@ -150,7 +150,7 @@ const HistorikkWithContent = (): ReactElement => {
                                                     );
                                                 }
                                             } else {
-                                                return <Historikkhendelse key={it.id} {...it} person={person} />;
+                                                return <Historikkhendelse key={it.id} {...it} />;
                                             }
                                         }
                                         case 'VedtakBegrunnelse': {

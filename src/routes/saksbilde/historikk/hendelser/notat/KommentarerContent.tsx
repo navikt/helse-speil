@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button, HStack } from '@navikt/ds-react';
 
@@ -12,8 +12,6 @@ import { NotatForm } from './NotatForm';
 type KommentarerContentProps = {
     historikktype: PeriodehistorikkType;
     kommentarer: Array<Kommentar>;
-    showAddDialog: boolean;
-    setShowAddDialog: (show: boolean) => void;
     dialogRef: number;
     historikkinnslagId: number;
 };
@@ -21,11 +19,10 @@ type KommentarerContentProps = {
 export const KommentarerContent = ({
     historikktype,
     kommentarer,
-    showAddDialog,
-    setShowAddDialog,
     dialogRef,
     historikkinnslagId,
 }: KommentarerContentProps) => {
+    const [showAddDialog, setShowAddDialog] = useState(false);
     const { onLeggTilKommentar, loading, error } = useLeggTilKommentarMedDialogRef(
         dialogRef,
         historikkinnslagId,

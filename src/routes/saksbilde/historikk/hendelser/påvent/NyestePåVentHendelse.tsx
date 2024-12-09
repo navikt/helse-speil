@@ -33,7 +33,6 @@ export const NyestePåVentHendelse = ({
     historikkinnslagId,
     kommentarer,
 }: NyestePåVentHendelseProps): ReactElement => {
-    const [showAddDialog, setShowAddDialog] = useState(false);
     const [expanded, setExpanded] = useState(false);
     const aktivPeriode = useActivePeriod(person);
     const erAktivPeriodePåVent = isBeregnetPeriode(aktivPeriode) && aktivPeriode?.paVent !== null;
@@ -65,8 +64,6 @@ export const NyestePåVentHendelse = ({
                         kommentarer={kommentarer}
                         dialogRef={dialogRef}
                         historikkinnslagId={historikkinnslagId}
-                        showAddDialog={showAddDialog}
-                        setShowAddDialog={setShowAddDialog}
                     />
                 </ExpandableHistorikkContent>
             )}

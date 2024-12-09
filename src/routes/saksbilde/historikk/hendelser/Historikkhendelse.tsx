@@ -13,14 +13,10 @@ import {
     XMarkOctagonIcon,
 } from '@navikt/aksel-icons';
 
-import { Maybe, PeriodehistorikkType, PersonFragment } from '@io/graphql';
+import { Maybe, PeriodehistorikkType } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
 import { KommentarerContent } from '@saksbilde/historikk/hendelser/notat/KommentarerContent';
-import { LagtPåventinnhold } from '@saksbilde/historikk/hendelser/påvent/LagtPåVentInnhold';
-import { PåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/PåVentDropdown';
-import { useActivePeriod } from '@state/periode';
 import { HistorikkhendelseObject } from '@typer/historikk';
-import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { Hendelse } from './Hendelse';
 import { HendelseDate } from './HendelseDate';
@@ -29,32 +25,19 @@ import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './notat/constants';
 import styles from './Historikkhendelse.module.css';
 import notatStyles from './notat/Notathendelse.module.css';
 
-type HistorikkhendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'> & {
-    person: PersonFragment;
-};
+type HistorikkhendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
 
 export const Historikkhendelse = ({
-    person,
     historikktype,
     saksbehandler,
     timestamp,
     årsaker,
-    frist,
     notattekst,
     dialogRef,
     historikkinnslagId,
     kommentarer,
-    erNyestePåVentInnslag = false,
 }: HistorikkhendelseProps): ReactElement => {
-    const [showAddDialog, setShowAddDialog] = useState(false);
     const [expanded, setExpanded] = useState(false);
-    const aktivPeriode = useActivePeriod(person);
-    const erAktivPeriodePåVent = isBeregnetPeriode(aktivPeriode) && aktivPeriode?.paVent !== null;
-    const erPeriodehistorikkElementPåVent = [
-        PeriodehistorikkType.LeggPaVent,
-        PeriodehistorikkType.EndrePaVent,
-    ].includes(historikktype);
-
     const isExpandable = () =>
         (notattekst && notattekst.length > MAX_TEXT_LENGTH_BEFORE_TRUNCATION) ||
         (notattekst && notattekst.split('\n').length > 2) ||
@@ -70,9 +53,6 @@ export const Historikkhendelse = ({
 
     return (
         <Hendelse title={getTitle(historikktype)} icon={getIcon(historikktype)}>
-            {erPeriodehistorikkElementPåVent && erAktivPeriodePåVent && erNyestePåVentInnslag && (
-                <PåVentDropdown person={person} årsaker={årsaker} notattekst={notattekst} frist={frist} />
-            )}
             <div
                 role="button"
                 tabIndex={0}
@@ -83,17 +63,7 @@ export const Historikkhendelse = ({
                 }}
                 className={classNames(notatStyles.NotatTextWrapper, isExpandable() && notatStyles.cursorpointer)}
             >
-                {[PeriodehistorikkType.LeggPaVent, PeriodehistorikkType.EndrePaVent].includes(historikktype) ? (
-                    <LagtPåventinnhold
-                        expanded={expanded}
-                        tekst={notattekst}
-                        årsaker={årsaker}
-                        frist={frist}
-                        erNyestePåVentInnslag={erNyestePåVentInnslag}
-                    />
-                ) : (
-                    <UtvidbartInnhold expanded={expanded}>{notattekst}</UtvidbartInnhold>
-                )}
+                <UtvidbartInnhold expanded={expanded}>{notattekst}</UtvidbartInnhold>
                 {isExpandable() && <ExpandButton expanded={expanded} />}
             </div>
             <HendelseDate timestamp={timestamp} ident={getIdenttekst(saksbehandler, historikktype)} />
@@ -107,8 +77,6 @@ export const Historikkhendelse = ({
                         kommentarer={kommentarer}
                         dialogRef={dialogRef}
                         historikkinnslagId={historikkinnslagId}
-                        showAddDialog={showAddDialog}
-                        setShowAddDialog={setShowAddDialog}
                     />
                 </ExpandableHistorikkContent>
             )}
@@ -178,10 +146,6 @@ const getTitle = (type: PeriodehistorikkType): string => {
             return 'Godkjent og utbetalt';
         case PeriodehistorikkType.VedtaksperiodeReberegnet:
             return 'Periode reberegnet';
-        case PeriodehistorikkType.LeggPaVent:
-            return 'Lagt på vent';
-        case PeriodehistorikkType.EndrePaVent:
-            return 'Lagt på vent – endret';
         case PeriodehistorikkType.FjernFraPaVent:
             return 'Fjernet fra på vent';
         case PeriodehistorikkType.StansAutomatiskBehandling:
