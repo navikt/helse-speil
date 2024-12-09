@@ -4,6 +4,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { BodyShort, Box, HStack, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
+import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
@@ -23,6 +24,7 @@ import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { isRevurdering } from '@state/selectors/utbetaling';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
+import { kanSeTilkommenInntekt } from '@utils/featureToggles';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -95,6 +97,8 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang(person);
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
     const finnesNyereUtbetaltPeriodePåPerson = useFinnesNyereUtbetaltPeriodePåPerson(period, person);
+    const saksbehandlerident = useBrukerIdent();
+    const grupper = useBrukerGrupper();
 
     const tidslinjeUtenAGPogHelg = getTidslinjeUtenAGPogHelg(period);
     const avvisteDager = getAvvisteDager(tidslinjeUtenAGPogHelg);
@@ -133,6 +137,9 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         totrinnsvurderingAktiv && isBeregnetPeriode(period) && period.totrinnsvurdering?.erBeslutteroppgave === false;
     const trengerTotrinnsvurdering =
         period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave;
+    const erTilkommenOgHarTilgang =
+        period.egenskaper.some((it) => it.egenskap === 'TILKOMMEN') &&
+        kanSeTilkommenInntekt(saksbehandlerident, grupper);
 
     return (
         <Box
@@ -161,7 +168,8 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                             disabled={
                                 periodenErSendt ||
                                 harUvurderteVarslerPåUtbetaling ||
-                                lokaleInntektoverstyringer.aktørId !== null
+                                lokaleInntektoverstyringer.aktørId !== null ||
+                                erTilkommenOgHarTilgang
                             }
                             onSuccess={onSendTilGodkjenning}
                             utfall={utfall}
@@ -180,7 +188,8 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                             disabled={
                                 periodenErSendt ||
                                 harUvurderteVarslerPåUtbetaling ||
-                                lokaleInntektoverstyringer.aktørId !== null
+                                lokaleInntektoverstyringer.aktørId !== null ||
+                                erTilkommenOgHarTilgang
                             }
                             onSuccess={onGodkjennUtbetaling}
                             utfall={utfall}
