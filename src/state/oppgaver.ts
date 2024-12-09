@@ -30,6 +30,7 @@ import {
     useSorteringState,
 } from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
+import { kanSeTilkommenInntekt } from '@utils/featureToggles';
 
 export interface ApolloResponse<T> {
     data?: T;
@@ -206,14 +207,18 @@ const filtrering = (
 ): FiltreringInput => {
     const ekskluderteEgenskaper = hackInnInfotrygdforlengelse(activeFilters)
         .filter(
-            (filter) => Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.ON,
+            (filter) => Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.OFF,
         )
         .map((filter) => ({
             egenskap: filter.key as Egenskap,
             kategori: finnKategori(filter.column),
         }));
 
-    console.log(saksbehandlerident, grupper, ekskluderteEgenskaper);
+    if (!kanSeTilkommenInntekt(saksbehandlerident, grupper))
+        ekskluderteEgenskaper.push({
+            egenskap: Egenskap.Tilkommen,
+            kategori: Kategori.Ukategorisert,
+        });
 
     return {
         egenskaper: hackInnInfotrygdforlengelse(activeFilters)
@@ -225,15 +230,7 @@ const filtrering = (
                 egenskap: filter.key as Egenskap,
                 kategori: finnKategori(filter.column),
             })),
-        ekskluderteEgenskaper: hackInnInfotrygdforlengelse(activeFilters)
-            .filter(
-                (filter) =>
-                    Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.ON,
-            )
-            .map((filter) => ({
-                egenskap: filter.key as Egenskap,
-                kategori: finnKategori(filter.column),
-            })),
+        ekskluderteEgenskaper: ekskluderteEgenskaper,
         ingenUkategoriserteEgenskaper: false,
         tildelt: tildeltFiltrering(activeFilters),
         egneSaker: aktivTab === TabType.Mine,
