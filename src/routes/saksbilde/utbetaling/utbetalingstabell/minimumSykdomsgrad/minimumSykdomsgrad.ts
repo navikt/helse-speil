@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import * as R from 'remeda';
 
 import { useMutation } from '@apollo/client';
@@ -15,6 +15,7 @@ import {
     PeriodeFragment,
     PersonFragment,
 } from '@io/graphql';
+import { calculatingState } from '@state/calculating';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { overlapper } from '@state/selectors/period';
@@ -28,7 +29,7 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const setPollingRate = useSetOpptegnelserPollingRate();
-    const [calculating, setCalculating] = useState(false);
+    const [calculating, setCalculating] = useRecoilState(calculatingState);
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { error, loading }] = useMutation(MinimumSykdomsgradMutationDocument);

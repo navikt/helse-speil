@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation';
 import React, { ReactElement, useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import { BodyShort, Box, HStack, Loader } from '@navikt/ds-react';
 
@@ -20,6 +21,7 @@ import {
     VedtakUtfall,
 } from '@io/graphql';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
+import { calculatingState } from '@state/calculating';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { isRevurdering } from '@state/selectors/utbetaling';
@@ -99,6 +101,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const finnesNyereUtbetaltPeriodePåPerson = useFinnesNyereUtbetaltPeriodePåPerson(period, person);
     const saksbehandlerident = useBrukerIdent();
     const grupper = useBrukerGrupper();
+    const calculating = useRecoilValue(calculatingState);
 
     const tidslinjeUtenAGPogHelg = getTidslinjeUtenAGPogHelg(period);
     const avvisteDager = getAvvisteDager(tidslinjeUtenAGPogHelg);
@@ -166,6 +169,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                             personinfo={person.personinfo}
                             oppgavereferanse={period.oppgave?.id ?? ''}
                             disabled={
+                                calculating ||
                                 periodenErSendt ||
                                 harUvurderteVarslerPåUtbetaling ||
                                 lokaleInntektoverstyringer.aktørId !== null ||
@@ -186,6 +190,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                             oppgavereferanse={period.oppgave?.id ?? ''}
                             erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
                             disabled={
+                                calculating ||
                                 periodenErSendt ||
                                 harUvurderteVarslerPåUtbetaling ||
                                 lokaleInntektoverstyringer.aktørId !== null ||

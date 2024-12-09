@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import { FetchResult, useMutation } from '@apollo/client';
 import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
@@ -8,6 +9,7 @@ import {
     OverstyrInntektOgRefusjonMutationMutation,
     OverstyringArbeidsgiverInput,
 } from '@io/graphql';
+import { calculatingState } from '@state/calculating';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useSlettLokaleOverstyringer } from '@state/overstyring';
@@ -29,7 +31,7 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
     const removeToast = useRemoveToast();
     const setPollingRate = useSetOpptegnelserPollingRate();
     const resetLokaleOverstyringer = useSlettLokaleOverstyringer();
-    const [calculating, setCalculating] = useState(false);
+    const [calculating, setCalculating] = useRecoilState(calculatingState);
     const [slettLokaleOverstyringer, setSlettLokaleOverstyringer] = useState(false);
     const [timedOut, setTimedOut] = useState(false);
 

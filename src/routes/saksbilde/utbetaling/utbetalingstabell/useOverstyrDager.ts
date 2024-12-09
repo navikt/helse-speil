@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import { FetchResult, useMutation } from '@apollo/client';
 import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
@@ -10,6 +11,7 @@ import {
     OverstyrDagerMutationMutation,
     PersonFragment,
 } from '@io/graphql';
+import { calculatingState } from '@state/calculating';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
@@ -40,7 +42,7 @@ export const useOverstyrDager = (
     const setPollingRate = useSetOpptegnelserPollingRate();
     const [overstyrMutation, { error: overstyringError }] = useMutation(OverstyrDagerMutationDocument);
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
-    const [calculating, setCalculating] = useState(false);
+    const [calculating, setCalculating] = useRecoilState(calculatingState);
     const [timedOut, setTimedOut] = useState(false);
     const [done, setDone] = useState(false);
 
