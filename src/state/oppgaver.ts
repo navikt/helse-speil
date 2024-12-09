@@ -30,7 +30,6 @@ import {
     useSorteringState,
 } from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
-import { kanSeTilkommenInntekt } from '@utils/featureToggles';
 
 export interface ApolloResponse<T> {
     data?: T;
@@ -214,11 +213,7 @@ const filtrering = (
             kategori: finnKategori(filter.column),
         }));
 
-    if (!kanSeTilkommenInntekt(saksbehandlerident, grupper))
-        ekskluderteEgenskaper.push({
-            egenskap: Egenskap.Tilkommen,
-            kategori: Kategori.Ukategorisert,
-        });
+    console.log(saksbehandlerident, grupper);
 
     return {
         egenskaper: hackInnInfotrygdforlengelse(activeFilters)
