@@ -16,6 +16,7 @@ import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringh
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/MinimumSykdomsgradhendelse';
 import { NyestePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/NyestePåVentHendelse';
+import { TidligerePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/TidligerePåVentHendelse';
 import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject } from '@typer/historikk';
 
@@ -134,10 +135,12 @@ const HistorikkWithContent = (): ReactElement => {
                                             return <Utbetalinghendelse key={it.id} {...it} />;
                                         }
                                         case 'Historikk': {
-                                            if (erPåVent(it.historikktype) && it.erNyestePåVentInnslag) {
+                                            if (!erPåVent(it.historikktype)) {
+                                                return <Historikkhendelse key={it.id} {...it} person={person} />;
+                                            } else if (it.erNyestePåVentInnslag) {
                                                 return <NyestePåVentHendelse key={it.id} {...it} person={person} />;
                                             } else {
-                                                return <Historikkhendelse key={it.id} {...it} person={person} />;
+                                                return <TidligerePåVentHendelse key={it.id} {...it} />;
                                             }
                                         }
                                         case 'VedtakBegrunnelse': {
