@@ -11,7 +11,6 @@ import { ArbeidsgiverFragment, Infotrygdutbetaling, Maybe, PersonFragment } from
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
-import { skalViseTilkommenInntekt } from '@utils/featureToggles';
 import { capitalizeArbeidsgiver } from '@utils/locale';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -109,7 +108,7 @@ const TimelineWithContent = ({
                         (it) =>
                             it.generasjoner.length > 0 ||
                             it.ghostPerioder.length > 0 ||
-                            (it.nyeInntektsforholdPerioder.length > 0 && skalViseTilkommenInntekt),
+                            it.nyeInntektsforholdPerioder.length > 0,
                     )
                     .map((arbeidsgiver, i) => {
                         return arbeidsgiver.generasjoner.length > 1 ? (

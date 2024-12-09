@@ -21,7 +21,6 @@ import {
 import { InfotrygdPeriod } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
 import { OverstyringerPrDag } from '@typer/utbetalingstabell';
-import { skalViseTilkommenInntekt } from '@utils/featureToggles';
 
 export const isInfotrygdPeriod = (period?: Maybe<TimelinePeriod>): period is InfotrygdPeriod =>
     (period as InfotrygdPeriod)?.typetekst !== undefined && (period as InfotrygdPeriod)?.typetekst !== null;
@@ -36,7 +35,6 @@ export const isUberegnetPeriode = (period?: Maybe<TimelinePeriod>): period is Ub
     (period as UberegnetPeriodeFragment)?.__typename === 'UberegnetPeriode';
 
 export const isTilkommenInntekt = (period?: Maybe<TimelinePeriod>): period is NyttInntektsforholdPeriodeFragment =>
-    skalViseTilkommenInntekt &&
     (period as NyttInntektsforholdPeriodeFragment)?.__typename === 'NyttInntektsforholdPeriode';
 
 export const isSpleisVilkarsgrunnlag = (

@@ -2,7 +2,7 @@ import { SetRecoilState, atom, selector, useRecoilValue, useSetRecoilState } fro
 
 import { Egenskap } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
-import { harSpesialsaktilgang, kanFiltrerePåGosysEgenskap, kanOverstyreTilkommenInntekt } from '@utils/featureToggles';
+import { harSpesialsaktilgang, kanFiltrerePåGosysEgenskap, kanSeTilkommenInntekt } from '@utils/featureToggles';
 
 export type Filter = {
     key: string | Egenskap;
@@ -208,7 +208,7 @@ export const getDefaultFilters = (grupper: string[], ident: string): Filter[] =>
     filters
         .filter((filter) => filter.key !== 'SPESIALSAK' || harSpesialsaktilgang(grupper))
         .filter((filter) => filter.key !== 'GOSYS' || kanFiltrerePåGosysEgenskap(ident, grupper))
-        .filter((filter) => filter.key !== 'TILKOMMEN' || kanOverstyreTilkommenInntekt);
+        .filter((filter) => filter.key !== 'TILKOMMEN' || kanSeTilkommenInntekt(ident, grupper));
 
 const storageKeyForFilters = (tab: TabType) => 'filtereForTab_' + tab;
 

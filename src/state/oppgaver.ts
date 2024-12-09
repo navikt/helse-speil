@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { SortState } from '@navikt/ds-react';
 
 import { ApolloError, useQuery } from '@apollo/client';
+import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import {
     AntallOppgaverDocument,
     Egenskap,
@@ -29,6 +30,7 @@ import {
     useSorteringState,
 } from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
+import { kanSeTilkommenInntekt } from '@utils/featureToggles';
 
 export interface ApolloResponse<T> {
     data?: T;
@@ -139,7 +141,10 @@ const useSetHarIkkeTabFilterEllerSorteringsendringer = () => {
 const useFiltrering = () => {
     const aktivTab = useAktivTab();
     const { activeFilters } = useFilters();
-    return filtrering(activeFilters, aktivTab);
+    const saksbehandlerident = useBrukerIdent();
+    const grupper = useBrukerGrupper();
+
+    return filtrering(activeFilters, aktivTab, saksbehandlerident, grupper);
 };
 
 const useSortering = () => {
@@ -194,28 +199,44 @@ const finnKategori = (kolonne: Oppgaveoversiktkolonne) => {
     }
 };
 
-const filtrering = (activeFilters: Filter[], aktivTab: TabType): FiltreringInput => ({
-    egenskaper: hackInnInfotrygdforlengelse(activeFilters)
+const filtrering = (
+    activeFilters: Filter[],
+    aktivTab: TabType,
+    saksbehandlerident: string,
+    grupper: string[],
+): FiltreringInput => {
+    const ekskluderteEgenskaper = hackInnInfotrygdforlengelse(activeFilters)
         .filter(
             (filter) => Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.ON,
         )
         .map((filter) => ({
             egenskap: filter.key as Egenskap,
             kategori: finnKategori(filter.column),
-        })),
-    ekskluderteEgenskaper: hackInnInfotrygdforlengelse(activeFilters)
-        .filter(
-            (filter) => Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.OUT,
-        )
-        .map((filter) => ({
-            egenskap: filter.key as Egenskap,
-            kategori: finnKategori(filter.column),
-        })),
-    ingenUkategoriserteEgenskaper: false,
-    tildelt: tildeltFiltrering(activeFilters),
-    egneSaker: aktivTab === TabType.Mine,
-    egneSakerPaVent: aktivTab === TabType.Ventende,
-});
+        }));
+
+    if (!kanSeTilkommenInntekt(saksbehandlerident, grupper))
+        ekskluderteEgenskaper.push({
+            egenskap: Egenskap.Tilkommen,
+            kategori: Kategori.Ukategorisert,
+        });
+
+    return {
+        egenskaper: hackInnInfotrygdforlengelse(activeFilters)
+            .filter(
+                (filter) =>
+                    Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.ON,
+            )
+            .map((filter) => ({
+                egenskap: filter.key as Egenskap,
+                kategori: finnKategori(filter.column),
+            })),
+        ekskluderteEgenskaper: ekskluderteEgenskaper,
+        ingenUkategoriserteEgenskaper: false,
+        tildelt: tildeltFiltrering(activeFilters),
+        egneSaker: aktivTab === TabType.Mine,
+        egneSakerPaVent: aktivTab === TabType.Ventende,
+    };
+};
 
 // Vi viser begge egenskapene forlengelse og infotrygdforlengelse som "Forlengelse"
 // og vi har ikke eget filter for infotrygdforlengelse.

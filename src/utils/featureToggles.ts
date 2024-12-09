@@ -52,8 +52,8 @@ export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
 export const kanOverstyreMinimumSykdomsgradToggle = (ident: string, grupper: string[]): boolean =>
     erUtvikling || erCoachEllerSuper(ident) || erPåTeamBømlo(grupper);
 
-export const skalViseTilkommenInntekt: boolean = erUtvikling;
-export const kanOverstyreTilkommenInntekt: boolean = erUtvikling;
+export const kanSeTilkommenInntekt = (ident: string, grupper: string[]): boolean =>
+    erUtvikling || erCoachEllerSuper(ident) || erPåTeamBømlo(grupper);
 export const visTilkommenInntektEndreKnapp: boolean = erLokal;
 export const kanEndrePåVent: boolean = erUtvikling;
 
