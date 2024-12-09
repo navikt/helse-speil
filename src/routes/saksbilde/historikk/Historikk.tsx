@@ -135,12 +135,22 @@ const HistorikkWithContent = (): ReactElement => {
                                             return <Utbetalinghendelse key={it.id} {...it} />;
                                         }
                                         case 'Historikk': {
-                                            if (!erPåVent(it.historikktype)) {
-                                                return <Historikkhendelse key={it.id} {...it} person={person} />;
-                                            } else if (it.erNyestePåVentInnslag) {
-                                                return <NyestePåVentHendelse key={it.id} {...it} person={person} />;
+                                            if (erPåVent(it.historikktype)) {
+                                                if (it.erNyestePåVentInnslag) {
+                                                    return <NyestePåVentHendelse key={it.id} {...it} person={person} />;
+                                                } else {
+                                                    return (
+                                                        <TidligerePåVentHendelse
+                                                            key={it.id}
+                                                            {...it}
+                                                            erEndring={
+                                                                it.historikktype === PeriodehistorikkType.EndrePaVent
+                                                            }
+                                                        />
+                                                    );
+                                                }
                                             } else {
-                                                return <TidligerePåVentHendelse key={it.id} {...it} />;
+                                                return <Historikkhendelse key={it.id} {...it} person={person} />;
                                             }
                                         }
                                         case 'VedtakBegrunnelse': {

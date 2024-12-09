@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import React, { ReactElement, ReactNode } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { ReactElement, ReactNode, useState } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack } from '@navikt/ds-react';
@@ -12,8 +13,6 @@ import styles from './ExpandableHendelse.module.scss';
 interface ExpandableHendelseProps extends Omit<React.LiHTMLAttributes<HTMLLIElement>, 'title'> {
     title: ReactNode;
     icon?: ReactNode;
-    expanded: boolean;
-    setExpanded: (expanded: boolean) => void;
     saksbehandler: string | null;
     timestamp: DateString;
 }
@@ -21,14 +20,14 @@ interface ExpandableHendelseProps extends Omit<React.LiHTMLAttributes<HTMLLIElem
 export const ExpandableHendelse = ({
     icon,
     title,
-    expanded,
-    setExpanded,
     saksbehandler,
     timestamp,
     className,
     children,
     ...liProps
 }: ExpandableHendelseProps): ReactElement => {
+    const [expanded, setExpanded] = useState(false);
+
     return (
         <li
             role="button"
@@ -55,7 +54,24 @@ export const ExpandableHendelse = ({
                         <ChevronDownIcon title="Vis mer" fontSize="1.5rem" />
                     )}
                 </HStack>
-                {children}
+                <AnimatePresence mode="wait">
+                    {expanded && (
+                        <motion.div
+                            key="div"
+                            className={styles.animertUtvidetInnhold}
+                            initial={{ height: 0 }}
+                            exit={{ height: 0 }}
+                            animate={{ height: 'auto' }}
+                            transition={{
+                                type: 'tween',
+                                duration: 0.2,
+                                ease: 'easeInOut',
+                            }}
+                        >
+                            {children}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
                 <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             </div>
         </li>
