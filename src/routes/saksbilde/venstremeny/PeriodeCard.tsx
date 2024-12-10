@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { ClockDashedIcon } from '@navikt/aksel-icons';
-import { BodyShort, Tag, Tooltip } from '@navikt/ds-react';
+import { BodyShort, Box, Tag, Tooltip } from '@navikt/ds-react';
 
 import { EgenskaperTags } from '@components/EgenskaperTags';
 import { LoadingShimmer } from '@components/LoadingShimmer';
@@ -21,8 +21,8 @@ import {
     Periodetype,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import { DatePeriod, DateString } from '@typer/shared';
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { ActivePeriod, DatePeriod, DateString } from '@typer/shared';
+import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
 import { ArbeidsgiverRow } from './ArbeidsgiverRow';
 import { CardTitle } from './CardTitle';
@@ -139,6 +139,22 @@ const MaksdatoRow = ({ activePeriod }: MaksdatoRowProps): ReactElement => {
     );
 };
 
+const ArbeidsforholdOpphørt = ({ sluttdato, periode }: { sluttdato: string | null; periode: ActivePeriod }) => {
+    const harOpphørtArbeidsforhold = sluttdato !== null && dayjs(sluttdato, ISO_DATOFORMAT).isSameOrBefore(periode.tom);
+
+    return (
+        <>
+            {harOpphørtArbeidsforhold && (
+                <Box marginBlock="0 4">
+                    <Tag variant="info-moderate" style={{ fontSize: 16 }} size="small">
+                        Opphørt {dayjs(sluttdato, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
+                    </Tag>
+                </Box>
+            )}
+        </>
+    );
+};
+
 interface PeriodeCardUberegnetProps {
     periode: UberegnetPeriodeFragment;
     arbeidsgiver: ArbeidsgiverFragment;
@@ -147,39 +163,45 @@ interface PeriodeCardUberegnetProps {
 
 const PeriodeCardUberegnet = ({ periode, arbeidsgiver, månedsbeløp }: PeriodeCardUberegnetProps): ReactElement => {
     return (
-        <section className={styles.grid}>
-            {[Periodetilstand.UtbetaltVenterPaEnAnnenPeriode, Periodetilstand.VenterPaEnAnnenPeriode].includes(
-                periode.periodetilstand,
-            ) ? (
-                <VentepølseRow />
-            ) : (
-                <>
-                    <span className={styles.egenskaper}>
-                        <EgenskaperTags
-                            egenskaper={[
-                                {
-                                    __typename: 'Oppgaveegenskap',
-                                    egenskap:
-                                        periode.periodetype === Periodetype.Forlengelse
-                                            ? Egenskap.Forlengelse
-                                            : Egenskap.Forstegangsbehandling,
-                                    kategori: Kategori.Periodetype,
-                                },
-                            ]}
-                        />
-                    </span>
-                    <span />
-                </>
-            )}
-            <SykmeldingsperiodeRow periode={periode} />
-            <SkjæringstidspunktRow periodetype={periode.periodetype} skjæringstidspunkt={periode.skjaeringstidspunkt} />
-            <ArbeidsgiverRow.Uberegnet
-                navn={arbeidsgiver.navn}
-                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                arbeidsforhold={arbeidsgiver.arbeidsforhold}
-                månedsbeløp={månedsbeløp}
-            />
-        </section>
+        <div>
+            <ArbeidsforholdOpphørt sluttdato={arbeidsgiver.arbeidsforhold?.[0]?.sluttdato ?? null} periode={periode} />
+            <section className={styles.grid}>
+                {[Periodetilstand.UtbetaltVenterPaEnAnnenPeriode, Periodetilstand.VenterPaEnAnnenPeriode].includes(
+                    periode.periodetilstand,
+                ) ? (
+                    <VentepølseRow />
+                ) : (
+                    <>
+                        <span className={styles.egenskaper}>
+                            <EgenskaperTags
+                                egenskaper={[
+                                    {
+                                        __typename: 'Oppgaveegenskap',
+                                        egenskap:
+                                            periode.periodetype === Periodetype.Forlengelse
+                                                ? Egenskap.Forlengelse
+                                                : Egenskap.Forstegangsbehandling,
+                                        kategori: Kategori.Periodetype,
+                                    },
+                                ]}
+                            />
+                        </span>
+                        <span />
+                    </>
+                )}
+                <SykmeldingsperiodeRow periode={periode} />
+                <SkjæringstidspunktRow
+                    periodetype={periode.periodetype}
+                    skjæringstidspunkt={periode.skjaeringstidspunkt}
+                />
+                <ArbeidsgiverRow.Uberegnet
+                    navn={arbeidsgiver.navn}
+                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                    arbeidsforhold={arbeidsgiver.arbeidsforhold}
+                    månedsbeløp={månedsbeløp}
+                />
+            </section>
+        </div>
     );
 };
 
@@ -195,6 +217,7 @@ const PeriodeCardBeregnet = ({ periode, arbeidsgiver, månedsbeløp }: PeriodeCa
     );
     return (
         <div>
+            <ArbeidsforholdOpphørt sluttdato={arbeidsgiver.arbeidsforhold?.[0]?.sluttdato ?? null} periode={periode} />
             <span className={styles.egenskaper}>
                 {[Periodetilstand.UtbetaltVenterPaEnAnnenPeriode, Periodetilstand.VenterPaEnAnnenPeriode].includes(
                     periode.periodetilstand,
