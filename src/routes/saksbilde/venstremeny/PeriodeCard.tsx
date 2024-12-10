@@ -5,7 +5,6 @@ import React, { ReactElement } from 'react';
 import { ClockDashedIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Tag, Tooltip } from '@navikt/ds-react';
 
-import { erUtvikling } from '@/env';
 import { EgenskaperTags } from '@components/EgenskaperTags';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { LovdataLenke } from '@components/LovdataLenke';
@@ -14,6 +13,7 @@ import { Maksdatoikon } from '@components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '@components/ikoner/Skjæringstidspunktikon';
 import { Sykmeldingsperiodeikon } from '@components/ikoner/Sykmeldingsperiodeikon';
 import {
+    Arbeidsforhold,
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
     Egenskap,
@@ -140,15 +140,26 @@ const MaksdatoRow = ({ activePeriod }: MaksdatoRowProps): ReactElement => {
     );
 };
 
-const ArbeidsforholdOpphørt = ({ sluttdato, periode }: { sluttdato: string | null; periode: ActivePeriod }) => {
-    const harOpphørtArbeidsforhold = sluttdato !== null && dayjs(sluttdato, ISO_DATOFORMAT).isSameOrBefore(periode.tom);
+const ArbeidsforholdOpphørt = ({
+    arbeidsforhold,
+    periode,
+}: {
+    arbeidsforhold: Arbeidsforhold[];
+    periode: ActivePeriod;
+}) => {
+    const erAlleArbeidsforholdPåArbeidsgiverOpphørt = [...arbeidsforhold].every(
+        (it) => it.sluttdato !== null && dayjs(it.sluttdato, ISO_DATOFORMAT).isSameOrBefore(periode.tom),
+    );
+    const sisteOpphørteArbeidsforhold =
+        [...arbeidsforhold].sort((a, b) => (dayjs(a.sluttdato, ISO_DATOFORMAT).isBefore(b.sluttdato) ? -1 : 1))?.[0]
+            ?.sluttdato ?? null;
 
     return (
         <>
-            {harOpphørtArbeidsforhold && erUtvikling && (
+            {erAlleArbeidsforholdPåArbeidsgiverOpphørt && sisteOpphørteArbeidsforhold && (
                 <Box marginBlock="0 4">
                     <Tag variant="info-moderate" style={{ fontSize: 16 }} size="small">
-                        Opphørt {dayjs(sluttdato, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
+                        Opphørt {dayjs(sisteOpphørteArbeidsforhold, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
                     </Tag>
                 </Box>
             )}
@@ -165,7 +176,7 @@ interface PeriodeCardUberegnetProps {
 const PeriodeCardUberegnet = ({ periode, arbeidsgiver, månedsbeløp }: PeriodeCardUberegnetProps): ReactElement => {
     return (
         <div>
-            <ArbeidsforholdOpphørt sluttdato={arbeidsgiver.arbeidsforhold?.[0]?.sluttdato ?? null} periode={periode} />
+            <ArbeidsforholdOpphørt arbeidsforhold={arbeidsgiver.arbeidsforhold} periode={periode} />
             <section className={styles.grid}>
                 {[Periodetilstand.UtbetaltVenterPaEnAnnenPeriode, Periodetilstand.VenterPaEnAnnenPeriode].includes(
                     periode.periodetilstand,
@@ -218,7 +229,7 @@ const PeriodeCardBeregnet = ({ periode, arbeidsgiver, månedsbeløp }: PeriodeCa
     );
     return (
         <div>
-            <ArbeidsforholdOpphørt sluttdato={arbeidsgiver.arbeidsforhold?.[0]?.sluttdato ?? null} periode={periode} />
+            <ArbeidsforholdOpphørt arbeidsforhold={arbeidsgiver.arbeidsforhold} periode={periode} />
             <span className={styles.egenskaper}>
                 {[Periodetilstand.UtbetaltVenterPaEnAnnenPeriode, Periodetilstand.VenterPaEnAnnenPeriode].includes(
                     periode.periodetilstand,
