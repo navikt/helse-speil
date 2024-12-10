@@ -22,7 +22,7 @@
     content: '';
     height: 1px;
     width: 200px;
-    background-color: var(--a-text-subtle);
+    background-color: var(--a-border-divider);
 }
 
 .Kommentarer * {
