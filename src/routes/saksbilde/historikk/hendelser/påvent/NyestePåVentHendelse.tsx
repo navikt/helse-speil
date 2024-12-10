@@ -1,14 +1,17 @@
 import React, { ReactElement, useState } from 'react';
 
 import { TimerPauseIcon } from '@navikt/aksel-icons';
+import { BodyLong, BodyShort, HStack, VStack } from '@navikt/ds-react';
 
+import { AnimatedExpandableDiv } from '@components/AnimatedExpandableDiv';
 import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
 import { KommentarerContent } from '@saksbilde/historikk/hendelser/notat/KommentarerContent';
-import { LagtPåventinnhold } from '@saksbilde/historikk/hendelser/påvent/LagtPåVentInnhold';
 import { PåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/PåVentDropdown';
+import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe';
 import { useActivePeriod } from '@state/periode';
 import { HistorikkhendelseObject } from '@typer/historikk';
+import { somNorskDato } from '@utils/date';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { Expandable } from '../Expandable';
@@ -45,13 +48,19 @@ export const NyestePåVentHendelse = ({
                 <PåVentDropdown person={person} årsaker={årsaker} notattekst={notattekst} frist={frist} />
             )}
             <Expandable expandable={!!notattekst} expanded={expanded} setExpanded={setExpanded}>
-                <LagtPåventinnhold
-                    expanded={expanded}
-                    tekst={notattekst}
-                    årsaker={årsaker}
-                    frist={frist}
-                    erNyestePåVentInnslag={true}
-                />
+                <VStack gap="2">
+                    <ÅrsakListe årsaker={årsaker} />
+                    <HStack gap="1">
+                        <BodyShort>Frist:</BodyShort>
+                        <BodyShort weight="semibold">{somNorskDato(frist ?? undefined)}</BodyShort>
+                    </HStack>
+                    {!!notattekst && (
+                        <AnimatedExpandableDiv expanded={expanded}>
+                            <BodyShort weight="semibold">Notat</BodyShort>
+                            <BodyLong className={styles.tekstMedLinjeskift}>{notattekst}</BodyLong>
+                        </AnimatedExpandableDiv>
+                    )}
+                </VStack>
             </Expandable>
             <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             {dialogRef && (

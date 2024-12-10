@@ -1,10 +1,10 @@
 import classNames from 'classnames';
-import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactElement, ReactNode, useState } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack } from '@navikt/ds-react';
 
+import { AnimatedExpandableDiv } from '@components/AnimatedExpandableDiv';
 import { HendelseDate } from '@saksbilde/historikk/hendelser/HendelseDate';
 import { DateString } from '@typer/shared';
 
@@ -54,24 +54,7 @@ export const ExpandableHendelse = ({
                         <ChevronDownIcon title="Vis mer" fontSize="1.5rem" />
                     )}
                 </HStack>
-                <AnimatePresence mode="wait">
-                    {expanded && (
-                        <motion.div
-                            key="div"
-                            className={styles.animertUtvidetInnhold}
-                            initial={{ height: 0 }}
-                            exit={{ height: 0 }}
-                            animate={{ height: 'auto' }}
-                            transition={{
-                                type: 'tween',
-                                duration: 0.2,
-                                ease: 'easeInOut',
-                            }}
-                        >
-                            {children}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                <AnimatedExpandableDiv expanded={expanded}>{children}</AnimatedExpandableDiv>
                 <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             </div>
         </li>
