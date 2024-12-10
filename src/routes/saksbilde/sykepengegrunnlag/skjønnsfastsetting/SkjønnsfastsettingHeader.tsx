@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { PersonPencilFillIcon } from '@navikt/aksel-icons';
-import { BodyShort, ErrorMessage } from '@navikt/ds-react';
+import { PadlockUnlockedIcon, PersonPencilFillIcon, PersonPencilIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
-import { EditButton } from '@components/EditButton';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
 import { SkjønnsfastsettingMal } from '@external/sanity';
@@ -70,16 +69,30 @@ export const SkjønnsfastsettingHeader = ({
                     )}
                 </>
             )}
-            {!erBeslutteroppgave && harMaler && (
-                <EditButton
-                    isOpen={editing}
-                    openText="Avbryt"
-                    closedText="Skjønnsfastsett"
-                    onOpen={() => setEditing(true)}
-                    onClose={() => setEditing(false)}
-                    className={styles.redigeringsknapp}
-                />
-            )}
+            {!erBeslutteroppgave &&
+                harMaler &&
+                (!editing ? (
+                    <Button
+                        onClick={() => setEditing(true)}
+                        size="xsmall"
+                        variant="secondary"
+                        icon={<PersonPencilIcon />}
+                        className={styles.redigeringsknapp}
+                    >
+                        Skjønnsfastsett
+                    </Button>
+                ) : (
+                    <Button
+                        onClick={() => setEditing(false)}
+                        size="xsmall"
+                        variant="tertiary"
+                        icon={<PadlockUnlockedIcon />}
+                        className={styles.redigeringsknapp}
+                        style={{ marginRight: '1rem' }}
+                    >
+                        Avbryt
+                    </Button>
+                ))}
             {malerError && <ErrorMessage>{malerError}</ErrorMessage>}
         </div>
     );
