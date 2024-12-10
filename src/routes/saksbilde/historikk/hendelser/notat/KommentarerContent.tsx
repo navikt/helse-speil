@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Button, HStack } from '@navikt/ds-react';
+import { Button, VStack } from '@navikt/ds-react';
 
 import { ApolloCache, useMutation } from '@apollo/client';
 import { Kommentar, LeggTilKommentarDocument, PeriodehistorikkType } from '@io/graphql';
@@ -30,7 +30,7 @@ export const KommentarerContent = ({
         () => setShowAddDialog(false),
     );
     return (
-        <HStack gap="4">
+        <VStack gap="4" align="start">
             <Kommentarer kommentarer={kommentarer} />
             {showAddDialog ? (
                 <NotatForm
@@ -45,7 +45,7 @@ export const KommentarerContent = ({
                     Legg til ny kommentar
                 </Button>
             )}
-        </HStack>
+        </VStack>
     );
 };
 
