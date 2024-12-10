@@ -2,9 +2,8 @@ import React from 'react';
 
 import { Button, VStack } from '@navikt/ds-react';
 
-import { useMutation } from '@apollo/client';
-import { Kommentar, LeggTilKommentarDocument } from '@io/graphql';
-import { useInnloggetSaksbehandler } from '@state/authentication';
+import { Kommentar } from '@io/graphql';
+import { useLeggTilKommentar } from '@state/notater';
 
 import { Kommentarer } from './Kommentarer';
 import { NotatForm } from './NotatForm';
@@ -24,7 +23,7 @@ export const NotatHendelseContent = ({
     dialogRef,
     notatId,
 }: NotatHendelseContentProps) => {
-    const { onLeggTilKommentar, loading, error } = useLeggTilKommentar(dialogRef, notatId, () =>
+    const { onLeggTilKommentar, loading, error } = useLeggTilKommentar(dialogRef, { id: notatId, type: 'Notat' }, () =>
         setShowAddDialog(false),
     );
     return (
@@ -45,56 +44,4 @@ export const NotatHendelseContent = ({
             )}
         </VStack>
     );
-};
-
-const useLeggTilKommentar = (dialogRef: number, notatId: number, hideDialog: () => void) => {
-    const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const [leggTilKommentar, { error, loading }] = useMutation(LeggTilKommentarDocument);
-
-    const onLeggTilKommentar = async (tekst: string) => {
-        const saksbehandlerident = innloggetSaksbehandler.ident;
-        if (saksbehandlerident) {
-            await leggTilKommentar({
-                variables: {
-                    tekst,
-                    dialogRef,
-                    saksbehandlerident,
-                },
-                update: (cache, { data }) => {
-                    cache.writeQuery({
-                        query: LeggTilKommentarDocument,
-                        variables: {
-                            tekst,
-                            dialogRef,
-                            saksbehandlerident,
-                        },
-                        data,
-                    });
-                    cache.modify({
-                        id: cache.identify({ __typename: 'Notat', id: notatId }),
-                        fields: {
-                            kommentarer(eksisterendeKommentarer) {
-                                return [
-                                    ...eksisterendeKommentarer,
-                                    {
-                                        __ref: cache.identify({
-                                            __typename: 'Kommentar',
-                                            id: data?.leggTilKommentar?.id,
-                                        }),
-                                    },
-                                ];
-                            },
-                        },
-                    });
-                },
-            });
-            hideDialog();
-        }
-    };
-
-    return {
-        onLeggTilKommentar,
-        loading,
-        error,
-    };
 };

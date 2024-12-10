@@ -1,7 +1,9 @@
 import dayjs from 'dayjs';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { NotatFragment, NotatType } from '@io/graphql';
+import { useMutation } from '@apollo/client';
+import { LeggTilKommentarDocument, NotatFragment, NotatType, PeriodehistorikkType } from '@io/graphql';
+import { useInnloggetSaksbehandler } from '@state/authentication';
 import { Notat } from '@typer/notat';
 
 export const useNotater = () => useRecoilValue(lokaleNotaterState);
@@ -30,6 +32,82 @@ export const useFjernNotat = () => {
 export const useGetNotatTekst = (notattype: NotatType, vedtaksperiodeId: string): string | undefined => {
     const notater = useNotater();
     return notater.find((notat) => notat.type === notattype && notat.vedtaksperiodeId === vedtaksperiodeId)?.tekst;
+};
+
+export const useLeggTilKommentar = (
+    dialogRef: number,
+    kommentertInnhold: KommentertElement,
+    hideDialog: () => void,
+) => {
+    const innloggetSaksbehandler = useInnloggetSaksbehandler();
+    const [leggTilKommentar, { error, loading }] = useMutation(LeggTilKommentarDocument);
+
+    const onLeggTilKommentar = async (tekst: string) => {
+        const saksbehandlerident = innloggetSaksbehandler.ident;
+        if (saksbehandlerident) {
+            await leggTilKommentar({
+                variables: {
+                    tekst,
+                    dialogRef,
+                    saksbehandlerident,
+                },
+                update: (cache, { data }) => {
+                    cache.writeQuery({
+                        query: LeggTilKommentarDocument,
+                        variables: {
+                            tekst,
+                            dialogRef,
+                            saksbehandlerident,
+                        },
+                        data,
+                    });
+                    cache.modify({
+                        id: cache.identify({ __typename: kommentertInnhold.type, id: kommentertInnhold.id }),
+                        fields: {
+                            kommentarer(eksisterendeKommentarer) {
+                                return [
+                                    ...eksisterendeKommentarer,
+                                    {
+                                        __ref: cache.identify({
+                                            __typename: 'Kommentar',
+                                            id: data?.leggTilKommentar?.id,
+                                        }),
+                                    },
+                                ];
+                            },
+                        },
+                    });
+                },
+            });
+            hideDialog();
+        }
+    };
+
+    return {
+        onLeggTilKommentar,
+        loading,
+        error,
+    };
+};
+
+type KommentertElementType = 'LagtPaVent' | 'EndrePaVent' | 'TotrinnsvurderingRetur' | 'Notat';
+
+interface KommentertElement {
+    id: number;
+    type: KommentertElementType;
+}
+
+export const finnKommentertElementType = (historikktype: PeriodehistorikkType): KommentertElementType => {
+    switch (historikktype) {
+        case PeriodehistorikkType.LeggPaVent:
+            return 'LagtPaVent';
+        case PeriodehistorikkType.EndrePaVent:
+            return 'EndrePaVent';
+        case PeriodehistorikkType.TotrinnsvurderingRetur:
+            return 'TotrinnsvurderingRetur';
+        default:
+            return 'Notat';
+    }
 };
 
 export const toNotat = (spesialistNotat: NotatFragment): Notat => ({
