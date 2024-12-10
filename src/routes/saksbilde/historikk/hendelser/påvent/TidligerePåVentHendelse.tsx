@@ -43,11 +43,7 @@ export const TidligerePåVentHendelse = ({
                         <BodyShort weight="semibold">{somNorskDato(frist)}</BodyShort>
                     </HStack>
                 )}
-                {kommentarer && (
-                    <HStack gap="4">
-                        <Kommentarer kommentarer={kommentarer} />
-                    </HStack>
-                )}
+                {kommentarer && <Kommentarer kommentarer={kommentarer} />}
             </VStack>
         </ExpandableHendelse>
     );
