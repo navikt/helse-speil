@@ -10,7 +10,7 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { OpenedDokument } from '@components/OpenedDokument';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { PeriodehistorikkType } from '@io/graphql';
+import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
@@ -19,7 +19,7 @@ import { FjernFraPåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/
 import { NyestePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/NyestePåVentHendelse';
 import { TidligerePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/TidligerePåVentHendelse';
 import { useFetchPersonQuery } from '@state/person';
-import { Filtertype, HendelseObject } from '@typer/historikk';
+import { Filtertype, HendelseObject, HistorikkhendelseObject } from '@typer/historikk';
 
 import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
@@ -52,9 +52,6 @@ const getHistorikkTitle = (type: Filtertype): string => {
         }
     }
 };
-
-const erPåVent = (historikktype: PeriodehistorikkType) =>
-    [PeriodehistorikkType.LeggPaVent, PeriodehistorikkType.EndrePaVent].includes(historikktype);
 
 const HistorikkWithContent = (): ReactElement => {
     const { loading, data } = useFetchPersonQuery();
@@ -136,24 +133,16 @@ const HistorikkWithContent = (): ReactElement => {
                                             return <Utbetalinghendelse key={it.id} {...it} />;
                                         }
                                         case 'Historikk': {
-                                            if (erPåVent(it.historikktype)) {
-                                                if (it.erNyestePåVentInnslag) {
-                                                    return <NyestePåVentHendelse key={it.id} {...it} person={person} />;
-                                                } else {
-                                                    return (
-                                                        <TidligerePåVentHendelse
-                                                            key={it.id}
-                                                            {...it}
-                                                            erEndring={
-                                                                it.historikktype === PeriodehistorikkType.EndrePaVent
-                                                            }
-                                                        />
-                                                    );
+                                            switch (it.historikktype) {
+                                                case PeriodehistorikkType.LeggPaVent:
+                                                case PeriodehistorikkType.EndrePaVent: {
+                                                    return <PåVentHendelse key={it.id} hendelse={it} person={person} />;
                                                 }
-                                            } else if (it.historikktype === PeriodehistorikkType.FjernFraPaVent) {
-                                                return <FjernFraPåVentHendelse key={it.id} {...it} />;
-                                            } else {
-                                                return <Historikkhendelse key={it.id} {...it} />;
+                                                case PeriodehistorikkType.FjernFraPaVent: {
+                                                    return <FjernFraPåVentHendelse key={it.id} {...it} />;
+                                                }
+                                                default:
+                                                    return <Historikkhendelse key={it.id} {...it} />;
                                             }
                                         }
                                         case 'VedtakBegrunnelse': {
@@ -175,6 +164,25 @@ const HistorikkWithContent = (): ReactElement => {
             <Historikkmeny />
         </div>
     );
+};
+
+interface PåVentHendelseProps {
+    hendelse: HistorikkhendelseObject;
+    person: PersonFragment;
+}
+
+const PåVentHendelse = ({ hendelse, person }: PåVentHendelseProps) => {
+    if (hendelse.erNyestePåVentInnslag) {
+        return <NyestePåVentHendelse key={hendelse.id} {...hendelse} person={person} />;
+    } else {
+        return (
+            <TidligerePåVentHendelse
+                key={hendelse.id}
+                {...hendelse}
+                erEndring={hendelse.historikktype === PeriodehistorikkType.EndrePaVent}
+            />
+        );
+    }
 };
 
 export const HistorikkSkeleton = (): ReactElement => {
