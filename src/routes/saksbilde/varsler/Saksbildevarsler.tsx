@@ -95,11 +95,26 @@ const beslutteroppgave = (
 
     if (
         endringerEtterNyesteUtbetalingPåPerson?.some(
-            (it) => isInntektoverstyring(it) && it.inntekt.fraManedligInntekt !== it.inntekt.manedligInntekt,
+            (it) =>
+                isInntektoverstyring(it) &&
+                it.inntekt.fraManedligInntekt !== it.inntekt.manedligInntekt &&
+                it.inntekt.begrunnelse !== 'tilkommen',
         ) ??
         false
     ) {
         årsaker.push('Overstyring av månedsinntekt');
+    }
+
+    if (
+        endringerEtterNyesteUtbetalingPåPerson?.some(
+            (it) =>
+                isInntektoverstyring(it) &&
+                it.inntekt.fraManedligInntekt !== it.inntekt.manedligInntekt &&
+                it.inntekt.begrunnelse === 'tilkommen',
+        ) ??
+        false
+    ) {
+        årsaker.push('Overstyring av månedsinntekt på tilkommen inntekt');
     }
 
     if (
