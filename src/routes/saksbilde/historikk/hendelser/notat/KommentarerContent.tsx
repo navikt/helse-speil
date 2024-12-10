@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 
-import { Button, VStack } from '@navikt/ds-react';
-
 import { Kommentar, PeriodehistorikkType } from '@io/graphql';
+import { LeggTilKommentar } from '@saksbilde/historikk/hendelser/notat/LeggTilKommentar';
 import { finnKommentertElementType, useLeggTilKommentar } from '@state/notater';
-
-import { Kommentarer } from './Kommentarer';
-import { NotatForm } from './NotatForm';
 
 type KommentarerContentProps = {
     historikktype: PeriodehistorikkType;
@@ -30,21 +26,13 @@ export const KommentarerContent = ({
     );
 
     return (
-        <VStack gap="4" align="start">
-            <Kommentarer kommentarer={kommentarer} />
-            {showAddDialog ? (
-                <NotatForm
-                    label="Kommentar"
-                    onSubmitForm={onLeggTilKommentar}
-                    closeForm={() => setShowAddDialog(false)}
-                    isFetching={loading}
-                    hasError={error !== undefined}
-                />
-            ) : (
-                <Button variant="tertiary" size="xsmall" onClick={() => setShowAddDialog(true)}>
-                    Legg til ny kommentar
-                </Button>
-            )}
-        </VStack>
+        <LeggTilKommentar
+            kommentarer={kommentarer}
+            showAddDialog={showAddDialog}
+            setShowAddDialog={setShowAddDialog}
+            onLeggTilKommentar={onLeggTilKommentar}
+            loading={loading}
+            hasError={error != undefined}
+        />
     );
 };
