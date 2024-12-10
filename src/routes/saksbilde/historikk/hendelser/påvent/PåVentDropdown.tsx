@@ -8,7 +8,6 @@ import dropdownStyles from '@saksbilde/historikk/hendelser/notat/HendelseDropdow
 import { EndreButton } from '@saksbilde/historikk/hendelser/påvent/EndreButton';
 import { PåVentButton } from '@saksbilde/saksbildeMenu/dropdown/PåVentButton';
 import { DateString } from '@typer/shared';
-import { kanEndrePåVent } from '@utils/featureToggles';
 
 interface PåVentDropdownProps {
     person: PersonFragment;
@@ -30,9 +29,7 @@ export const PåVentDropdown = ({ person, årsaker, notattekst, frist }: PåVent
         </Button>
         <Dropdown.Menu className={dropdownStyles.Menu}>
             <Dropdown.Menu.List>
-                {kanEndrePåVent && (
-                    <EndreButton person={person} årsaker={årsaker} notattekst={notattekst} frist={frist} />
-                )}
+                <EndreButton person={person} årsaker={årsaker} notattekst={notattekst} frist={frist} />
                 <PåVentButton person={person} />
             </Dropdown.Menu.List>
         </Dropdown.Menu>
