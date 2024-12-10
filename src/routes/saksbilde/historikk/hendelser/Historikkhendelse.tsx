@@ -8,9 +8,7 @@ import { Maybe, PeriodehistorikkType } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
 import {
     StansAutomatiskBehandlingIkon,
-    TotrinnsvurderingAttestertIkon,
     TotrinnsvurderingReturIkon,
-    TotrinnsvurderingTilGodkjenningIkon,
     VedtaksperiodeReberegnetIkon,
 } from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { KommentarerContent } from '@saksbilde/historikk/hendelser/notat/KommentarerContent';
@@ -135,16 +133,10 @@ const ExpandButton = ({ expanded }: ExpandButtonProps): ReactElement => (
 
 const getTitle = (type: PeriodehistorikkType): string => {
     switch (type) {
-        case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning:
-            return 'Sendt til godkjenning';
         case PeriodehistorikkType.TotrinnsvurderingRetur:
             return 'Returnert';
-        case PeriodehistorikkType.TotrinnsvurderingAttestert:
-            return 'Godkjent og utbetalt';
         case PeriodehistorikkType.VedtaksperiodeReberegnet:
             return 'Periode reberegnet';
-        case PeriodehistorikkType.FjernFraPaVent:
-            return 'Fjernet fra på vent';
         case PeriodehistorikkType.StansAutomatiskBehandling:
             return 'Automatisk behandling stanset';
         default:
@@ -154,14 +146,8 @@ const getTitle = (type: PeriodehistorikkType): string => {
 
 const getIcon = (type: PeriodehistorikkType): ReactElement => {
     switch (type) {
-        case PeriodehistorikkType.TotrinnsvurderingAttestert: {
-            return <TotrinnsvurderingAttestertIkon />;
-        }
         case PeriodehistorikkType.TotrinnsvurderingRetur: {
             return <TotrinnsvurderingReturIkon />;
-        }
-        case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning: {
-            return <TotrinnsvurderingTilGodkjenningIkon />;
         }
         case PeriodehistorikkType.VedtaksperiodeReberegnet: {
             return <VedtaksperiodeReberegnetIkon />;

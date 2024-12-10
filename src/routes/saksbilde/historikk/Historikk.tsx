@@ -18,6 +18,8 @@ import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/Minim
 import { FjernFraPåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/FjernFraPåVentHendelse';
 import { NyestePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/NyestePåVentHendelse';
 import { TidligerePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/TidligerePåVentHendelse';
+import { TotrinnsvurderingAttestertHendelse } from '@saksbilde/historikk/hendelser/totrinnsvurdering/TotrinnsvurderingAttestertHendelse';
+import { TotrinnsvurderingTilGodkjenningHendelse } from '@saksbilde/historikk/hendelser/totrinnsvurdering/TotrinnsvurderingTilGodkjenningHendelse';
 import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject, HistorikkhendelseObject } from '@typer/historikk';
 
@@ -140,6 +142,14 @@ const HistorikkWithContent = (): ReactElement => {
                                                 }
                                                 case PeriodehistorikkType.FjernFraPaVent: {
                                                     return <FjernFraPåVentHendelse key={it.id} {...it} />;
+                                                }
+                                                case PeriodehistorikkType.TotrinnsvurderingAttestert: {
+                                                    return <TotrinnsvurderingAttestertHendelse key={it.id} {...it} />;
+                                                }
+                                                case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning: {
+                                                    return (
+                                                        <TotrinnsvurderingTilGodkjenningHendelse key={it.id} {...it} />
+                                                    );
                                                 }
                                                 default:
                                                     return <Historikkhendelse key={it.id} {...it} />;
