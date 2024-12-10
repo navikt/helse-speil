@@ -2,19 +2,17 @@ import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { PropsWithChildren, ReactElement, useState } from 'react';
 
-import {
-    ArrowUndoIcon,
-    ArrowsSquarepathIcon,
-    CheckmarkCircleIcon,
-    ChevronDownIcon,
-    ChevronUpIcon,
-    PaperplaneIcon,
-    TimerPauseIcon,
-    XMarkOctagonIcon,
-} from '@navikt/aksel-icons';
+import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 
 import { Maybe, PeriodehistorikkType } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
+import {
+    StansAutomatiskBehandlingIkon,
+    TotrinnsvurderingAttestertIkon,
+    TotrinnsvurderingReturIkon,
+    TotrinnsvurderingTilGodkjenningIkon,
+    VedtaksperiodeReberegnetIkon,
+} from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { KommentarerContent } from '@saksbilde/historikk/hendelser/notat/KommentarerContent';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
@@ -22,7 +20,6 @@ import { Hendelse } from './Hendelse';
 import { HendelseDate } from './HendelseDate';
 import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './notat/constants';
 
-import styles from './Historikkhendelse.module.css';
 import notatStyles from './notat/Notathendelse.module.css';
 
 type HistorikkhendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
@@ -158,24 +155,22 @@ const getTitle = (type: PeriodehistorikkType): string => {
 const getIcon = (type: PeriodehistorikkType): ReactElement => {
     switch (type) {
         case PeriodehistorikkType.TotrinnsvurderingAttestert: {
-            return <CheckmarkCircleIcon title="Sjekkmerke ikon" className={styles.Innrammet} />;
+            return <TotrinnsvurderingAttestertIkon />;
         }
         case PeriodehistorikkType.TotrinnsvurderingRetur: {
-            return <ArrowUndoIcon title="Pil tilbake ikon" className={classNames(styles.Innrammet)} />;
+            return <TotrinnsvurderingReturIkon />;
         }
         case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning: {
-            return <PaperplaneIcon title="Papirfly ikon" className={styles.Innrammet} />;
+            return <TotrinnsvurderingTilGodkjenningIkon />;
         }
         case PeriodehistorikkType.VedtaksperiodeReberegnet: {
-            return <ArrowsSquarepathIcon title="Piler Firkantsti ikon" className={classNames(styles.Innrammet)} />;
-        }
-        case PeriodehistorikkType.LeggPaVent:
-        case PeriodehistorikkType.EndrePaVent:
-        case PeriodehistorikkType.FjernFraPaVent: {
-            return <TimerPauseIcon title="Timer ikon" className={classNames(styles.Innrammet, styles.pavent)} />;
+            return <VedtaksperiodeReberegnetIkon />;
         }
         case PeriodehistorikkType.StansAutomatiskBehandling: {
-            return <XMarkOctagonIcon title="Stopp ikon" className={classNames(styles.Innrammet, styles.opphevstans)} />;
+            return <StansAutomatiskBehandlingIkon />;
+        }
+        default: {
+            return <></>;
         }
     }
 };

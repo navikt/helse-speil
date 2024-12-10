@@ -1,0 +1,37 @@
+$icon-container-width: 20px;
+.hendelse {
+  position: relative;
+  margin: 0;
+  padding: 16px 0;
+  display: flex;
+  gap: 0.5rem;
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid var(--a-border-default);
+  }
+
+  .iconContainer {
+    display: flex;
+    align-items: center;
+    height: 14px; /* styrer vertikal sentrering */
+    margin-top: 5px;
+    width: $icon-container-width;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+    flex: 1;
+    max-width: calc(100% - var(--gap) - $icon-container-width);
+  }
+}
+
+.fokusområde {
+  outline: none;
+}
+
+.fokusområde:focus-visible {
+  box-shadow: var(--a-shadow-focus);
+}

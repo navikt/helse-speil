@@ -1,11 +1,11 @@
 import React, { ReactElement, useState } from 'react';
 
-import { TimerPauseIcon } from '@navikt/aksel-icons';
 import { BodyLong, BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { AnimatedExpandableDiv } from '@components/AnimatedExpandableDiv';
 import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
+import { PåVentIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { KommentarerContent } from '@saksbilde/historikk/hendelser/notat/KommentarerContent';
 import { PåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/PåVentDropdown';
 import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe';
@@ -17,8 +17,6 @@ import { isBeregnetPeriode } from '@utils/typeguards';
 import { Expandable } from '../Expandable';
 import { Hendelse } from '../Hendelse';
 import { HendelseDate } from '../HendelseDate';
-
-import styles from './NyestePåVentHendelse.module.css';
 
 type NyestePåVentHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'> & {
     person: PersonFragment;
@@ -42,7 +40,7 @@ export const NyestePåVentHendelse = ({
     return (
         <Hendelse
             title={`Lagt på vent${historikktype === PeriodehistorikkType.EndrePaVent ? ' – endret' : ''}`}
-            icon={<TimerPauseIcon title="Timer-ikon" className={styles.ikon} />}
+            icon={<PåVentIkon />}
         >
             {erAktivPeriodePåVent && (
                 <PåVentDropdown person={person} årsaker={årsaker} notattekst={notattekst} frist={frist} />
@@ -57,7 +55,7 @@ export const NyestePåVentHendelse = ({
                     {!!notattekst && (
                         <AnimatedExpandableDiv expanded={expanded}>
                             <BodyShort weight="semibold">Notat</BodyShort>
-                            <BodyLong className={styles.tekstMedLinjeskift}>{notattekst}</BodyLong>
+                            <BodyLong style={{ whiteSpace: 'pre-wrap' }}>{notattekst}</BodyLong>
                         </AnimatedExpandableDiv>
                     )}
                 </VStack>

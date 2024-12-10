@@ -1,15 +1,13 @@
 import React, { ReactElement } from 'react';
 
-import { TimerPauseIcon } from '@navikt/aksel-icons';
 import { BodyLong, BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { ExpandableHendelse } from '@saksbilde/historikk/hendelser/ExpandableHendelse';
+import { PåVentIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { Kommentarer } from '@saksbilde/historikk/hendelser/notat/Kommentarer';
 import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe';
 import { HistorikkhendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
-
-import styles from './TidligerePåVentHendelse.module.css';
 
 type TidligerePåVentHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'> & {
     erEndring: boolean;
@@ -27,7 +25,7 @@ export const TidligerePåVentHendelse = ({
     return (
         <ExpandableHendelse
             title={`Lagt på vent${erEndring ? ' – endret' : ''}`}
-            icon={<TimerPauseIcon title="Timer-ikon" className={styles.ikon} />}
+            icon={<PåVentIkon />}
             timestamp={timestamp}
             saksbehandler={saksbehandler}
         >
@@ -35,7 +33,7 @@ export const TidligerePåVentHendelse = ({
                 <ÅrsakListe årsaker={årsaker} />
                 <div>
                     {notattekst && <BodyShort weight="semibold">Notat</BodyShort>}
-                    <BodyLong className={styles.tekstMedLinjeskift}>{notattekst}</BodyLong>
+                    <BodyLong style={{ whiteSpace: 'pre-wrap' }}>{notattekst}</BodyLong>
                 </div>
                 {frist && (
                     <HStack gap="1">

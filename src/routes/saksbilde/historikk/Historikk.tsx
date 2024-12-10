@@ -15,6 +15,7 @@ import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/MinimumSykdomsgradhendelse';
+import { FjernFraPåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/FjernFraPåVentHendelse';
 import { NyestePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/NyestePåVentHendelse';
 import { TidligerePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/TidligerePåVentHendelse';
 import { useFetchPersonQuery } from '@state/person';
@@ -149,6 +150,8 @@ const HistorikkWithContent = (): ReactElement => {
                                                         />
                                                     );
                                                 }
+                                            } else if (it.historikktype === PeriodehistorikkType.FjernFraPaVent) {
+                                                return <FjernFraPåVentHendelse key={it.id} {...it} />;
                                             } else {
                                                 return <Historikkhendelse key={it.id} {...it} />;
                                             }
