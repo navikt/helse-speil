@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { BodyShort, Box, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
+import { PadlockUnlockedIcon, PersonPencilIcon } from '@navikt/aksel-icons';
+import { BodyShort, Box, Button, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
-import { EditButton } from '@components/EditButton';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverFragment, Maybe, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
@@ -45,15 +45,27 @@ export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setE
                     </BodyShort>
                 </HStack>
                 <Kilde type={'Soknad'}>SØ</Kilde>
-                {!harBeslutteroppgave && visTilkommenInntektEndreKnapp && (
-                    <EditButton
-                        isOpen={editing}
-                        openText="Avbryt"
-                        closedText="Endre"
-                        onOpen={() => setEditing(true)}
-                        onClose={() => setEditing(false)}
-                    />
-                )}
+                {!harBeslutteroppgave &&
+                    visTilkommenInntektEndreKnapp &&
+                    (!editing ? (
+                        <Button
+                            onClick={() => setEditing(true)}
+                            size="xsmall"
+                            variant="secondary"
+                            icon={<PersonPencilIcon />}
+                        >
+                            Endre
+                        </Button>
+                    ) : (
+                        <Button
+                            onClick={() => setEditing(false)}
+                            size="xsmall"
+                            variant="tertiary"
+                            icon={<PadlockUnlockedIcon />}
+                        >
+                            Avbryt
+                        </Button>
+                    ))}
             </HStack>
         </HStack>
     );
