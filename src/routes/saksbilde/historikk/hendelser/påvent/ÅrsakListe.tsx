@@ -12,19 +12,8 @@ export const ÅrsakListe = ({ årsaker }: ÅrsakListeProps): ReactElement => (
     <ul className={styles.list}>
         {årsaker?.map((årsak, index) => (
             <li key={index}>
-                <HStack gap="3" align="center">
-                    <svg
-                        width="0.375rem"
-                        height="0.375rem"
-                        viewBox="0 0 6 6"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden
-                        focusable={false}
-                        role="img"
-                    >
-                        <rect width="6" height="6" rx="3" fill="currentColor" />
-                    </svg>
+                <HStack gap="3" align="center" wrap={false}>
+                    <span className={styles.prikk}>•</span>
                     {årsak}
                 </HStack>
             </li>
