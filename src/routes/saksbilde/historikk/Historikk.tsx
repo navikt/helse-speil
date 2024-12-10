@@ -15,6 +15,8 @@ import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/MinimumSykdomsgradhendelse';
+import { StansAutomatiskBehandlingHendelse } from '@saksbilde/historikk/hendelser/StansAutomatiskBehandlingHendelse';
+import { VedtaksperiodeReberegnetHendelse } from '@saksbilde/historikk/hendelser/VedtaksperiodeReberegnetHendelse';
 import { FjernFraPåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/FjernFraPåVentHendelse';
 import { NyestePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/NyestePåVentHendelse';
 import { TidligerePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/TidligerePåVentHendelse';
@@ -150,6 +152,12 @@ const HistorikkWithContent = (): ReactElement => {
                                                     return (
                                                         <TotrinnsvurderingTilGodkjenningHendelse key={it.id} {...it} />
                                                     );
+                                                }
+                                                case PeriodehistorikkType.VedtaksperiodeReberegnet: {
+                                                    return <VedtaksperiodeReberegnetHendelse key={it.id} {...it} />;
+                                                }
+                                                case PeriodehistorikkType.StansAutomatiskBehandling: {
+                                                    return <StansAutomatiskBehandlingHendelse key={it.id} {...it} />;
                                                 }
                                                 default:
                                                     return <Historikkhendelse key={it.id} {...it} />;

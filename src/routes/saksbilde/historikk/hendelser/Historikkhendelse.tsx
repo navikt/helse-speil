@@ -6,11 +6,7 @@ import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 
 import { Maybe, PeriodehistorikkType } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
-import {
-    StansAutomatiskBehandlingIkon,
-    TotrinnsvurderingReturIkon,
-    VedtaksperiodeReberegnetIkon,
-} from '@saksbilde/historikk/hendelser/HendelseIkon';
+import { TotrinnsvurderingReturIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { KommentarerContent } from '@saksbilde/historikk/hendelser/notat/KommentarerContent';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
@@ -135,10 +131,6 @@ const getTitle = (type: PeriodehistorikkType): string => {
     switch (type) {
         case PeriodehistorikkType.TotrinnsvurderingRetur:
             return 'Returnert';
-        case PeriodehistorikkType.VedtaksperiodeReberegnet:
-            return 'Periode reberegnet';
-        case PeriodehistorikkType.StansAutomatiskBehandling:
-            return 'Automatisk behandling stanset';
         default:
             return '';
     }
@@ -148,12 +140,6 @@ const getIcon = (type: PeriodehistorikkType): ReactElement => {
     switch (type) {
         case PeriodehistorikkType.TotrinnsvurderingRetur: {
             return <TotrinnsvurderingReturIkon />;
-        }
-        case PeriodehistorikkType.VedtaksperiodeReberegnet: {
-            return <VedtaksperiodeReberegnetIkon />;
-        }
-        case PeriodehistorikkType.StansAutomatiskBehandling: {
-            return <StansAutomatiskBehandlingIkon />;
         }
         default: {
             return <></>;
