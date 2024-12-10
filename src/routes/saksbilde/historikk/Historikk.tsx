@@ -13,9 +13,9 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
-import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/MinimumSykdomsgradhendelse';
 import { StansAutomatiskBehandlingHendelse } from '@saksbilde/historikk/hendelser/StansAutomatiskBehandlingHendelse';
+import { TotrinnsvurderingReturHendelse } from '@saksbilde/historikk/hendelser/TotrinnsvurderingReturHendelse';
 import { VedtaksperiodeReberegnetHendelse } from '@saksbilde/historikk/hendelser/VedtaksperiodeReberegnetHendelse';
 import { FjernFraPåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/FjernFraPåVentHendelse';
 import { NyestePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/NyestePåVentHendelse';
@@ -137,31 +137,7 @@ const HistorikkWithContent = (): ReactElement => {
                                             return <Utbetalinghendelse key={it.id} {...it} />;
                                         }
                                         case 'Historikk': {
-                                            switch (it.historikktype) {
-                                                case PeriodehistorikkType.LeggPaVent:
-                                                case PeriodehistorikkType.EndrePaVent: {
-                                                    return <PåVentHendelse key={it.id} hendelse={it} person={person} />;
-                                                }
-                                                case PeriodehistorikkType.FjernFraPaVent: {
-                                                    return <FjernFraPåVentHendelse key={it.id} {...it} />;
-                                                }
-                                                case PeriodehistorikkType.TotrinnsvurderingAttestert: {
-                                                    return <TotrinnsvurderingAttestertHendelse key={it.id} {...it} />;
-                                                }
-                                                case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning: {
-                                                    return (
-                                                        <TotrinnsvurderingTilGodkjenningHendelse key={it.id} {...it} />
-                                                    );
-                                                }
-                                                case PeriodehistorikkType.VedtaksperiodeReberegnet: {
-                                                    return <VedtaksperiodeReberegnetHendelse key={it.id} {...it} />;
-                                                }
-                                                case PeriodehistorikkType.StansAutomatiskBehandling: {
-                                                    return <StansAutomatiskBehandlingHendelse key={it.id} {...it} />;
-                                                }
-                                                default:
-                                                    return <Historikkhendelse key={it.id} {...it} />;
-                                            }
+                                            return <HistorikkHendelse hendelse={it} person={person} />;
                                         }
                                         case 'VedtakBegrunnelse': {
                                             return <VedtakBegrunnelsehendelse key={it.id} {...it} />;
@@ -182,6 +158,38 @@ const HistorikkWithContent = (): ReactElement => {
             <Historikkmeny />
         </div>
     );
+};
+
+interface HistorikkHendelseProps {
+    hendelse: HistorikkhendelseObject;
+    person: PersonFragment;
+}
+
+const HistorikkHendelse = ({ hendelse, person }: HistorikkHendelseProps) => {
+    switch (hendelse.historikktype) {
+        case PeriodehistorikkType.LeggPaVent:
+        case PeriodehistorikkType.EndrePaVent: {
+            return <PåVentHendelse key={hendelse.id} hendelse={hendelse} person={person} />;
+        }
+        case PeriodehistorikkType.FjernFraPaVent: {
+            return <FjernFraPåVentHendelse key={hendelse.id} {...hendelse} />;
+        }
+        case PeriodehistorikkType.TotrinnsvurderingAttestert: {
+            return <TotrinnsvurderingAttestertHendelse key={hendelse.id} {...hendelse} />;
+        }
+        case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning: {
+            return <TotrinnsvurderingTilGodkjenningHendelse key={hendelse.id} {...hendelse} />;
+        }
+        case PeriodehistorikkType.VedtaksperiodeReberegnet: {
+            return <VedtaksperiodeReberegnetHendelse key={hendelse.id} {...hendelse} />;
+        }
+        case PeriodehistorikkType.StansAutomatiskBehandling: {
+            return <StansAutomatiskBehandlingHendelse key={hendelse.id} {...hendelse} />;
+        }
+        case PeriodehistorikkType.TotrinnsvurderingRetur: {
+            return <TotrinnsvurderingReturHendelse key={hendelse.id} {...hendelse} />;
+        }
+    }
 };
 
 interface PåVentHendelseProps {

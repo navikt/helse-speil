@@ -4,7 +4,7 @@ import React, { PropsWithChildren, ReactElement, useState } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 
-import { Maybe, PeriodehistorikkType } from '@io/graphql';
+import { PeriodehistorikkType } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
 import { TotrinnsvurderingReturIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { KommentarerContent } from '@saksbilde/historikk/hendelser/notat/KommentarerContent';
@@ -16,24 +16,20 @@ import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './notat/constants';
 
 import notatStyles from './notat/Notathendelse.module.css';
 
-type HistorikkhendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
+type TotrinnsvurderingReturHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
 
-export const Historikkhendelse = ({
-    historikktype,
+export const TotrinnsvurderingReturHendelse = ({
     saksbehandler,
     timestamp,
-    årsaker,
     notattekst,
     dialogRef,
     historikkinnslagId,
     kommentarer,
-}: HistorikkhendelseProps): ReactElement => {
+}: TotrinnsvurderingReturHendelseProps): ReactElement => {
     const [expanded, setExpanded] = useState(false);
     const isExpandable = () =>
         (notattekst && notattekst.length > MAX_TEXT_LENGTH_BEFORE_TRUNCATION) ||
         (notattekst && notattekst.split('\n').length > 2) ||
-        (årsaker && årsaker.length >= 2) ||
-        (årsaker && årsaker.length > 0 && !!notattekst) ||
         false;
 
     const toggleNotat = (event: React.KeyboardEvent) => {
@@ -43,7 +39,7 @@ export const Historikkhendelse = ({
     };
 
     return (
-        <Hendelse title={getTitle(historikktype)} icon={getIcon(historikktype)}>
+        <Hendelse title="Returnert" icon={<TotrinnsvurderingReturIkon />}>
             <div
                 role="button"
                 tabIndex={0}
@@ -57,14 +53,14 @@ export const Historikkhendelse = ({
                 <UtvidbartInnhold expanded={expanded}>{notattekst}</UtvidbartInnhold>
                 {isExpandable() && <ExpandButton expanded={expanded} />}
             </div>
-            <HendelseDate timestamp={timestamp} ident={getIdenttekst(saksbehandler, historikktype)} />
+            <HendelseDate timestamp={timestamp} ident={saksbehandler ?? 'Automatisk'} />
             {dialogRef && (
                 <ExpandableHistorikkContent
                     openText={`Kommentarer (${kommentarer?.length})`}
                     closeText="Lukk kommentarer"
                 >
                     <KommentarerContent
-                        historikktype={historikktype}
+                        historikktype={PeriodehistorikkType.TotrinnsvurderingRetur}
                         kommentarer={kommentarer}
                         dialogRef={dialogRef}
                         historikkinnslagId={historikkinnslagId}
@@ -126,29 +122,3 @@ const ExpandButton = ({ expanded }: ExpandButtonProps): ReactElement => (
         )}
     </span>
 );
-
-const getTitle = (type: PeriodehistorikkType): string => {
-    switch (type) {
-        case PeriodehistorikkType.TotrinnsvurderingRetur:
-            return 'Returnert';
-        default:
-            return '';
-    }
-};
-
-const getIcon = (type: PeriodehistorikkType): ReactElement => {
-    switch (type) {
-        case PeriodehistorikkType.TotrinnsvurderingRetur: {
-            return <TotrinnsvurderingReturIkon />;
-        }
-        default: {
-            return <></>;
-        }
-    }
-};
-
-const getIdenttekst = (ident: Maybe<string>, type: PeriodehistorikkType): Maybe<string> => {
-    // Kunne ha differensiert på om det er skrevet notat eller ikke, men ident føles mer nærliggende :thunkies:
-    if (type == PeriodehistorikkType.TotrinnsvurderingRetur && ident == null) return 'Automatisk';
-    return ident;
-};
