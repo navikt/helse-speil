@@ -5,6 +5,7 @@ import React, { ReactElement } from 'react';
 import { ClockDashedIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Tag, Tooltip } from '@navikt/ds-react';
 
+import { erUtvikling } from '@/env';
 import { EgenskaperTags } from '@components/EgenskaperTags';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { LovdataLenke } from '@components/LovdataLenke';
@@ -144,7 +145,7 @@ const ArbeidsforholdOpphørt = ({ sluttdato, periode }: { sluttdato: string | nu
 
     return (
         <>
-            {harOpphørtArbeidsforhold && (
+            {harOpphørtArbeidsforhold && erUtvikling && (
                 <Box marginBlock="0 4">
                     <Tag variant="info-moderate" style={{ fontSize: 16 }} size="small">
                         Opphørt {dayjs(sluttdato, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
