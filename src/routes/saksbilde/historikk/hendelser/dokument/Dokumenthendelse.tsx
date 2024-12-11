@@ -77,7 +77,7 @@ export const Dokumenthendelse = ({
             title={
                 <span className={styles.header}>
                     <span>{dokumenttypetittel(dokumenttype)}</span>
-                    {dokumenttype !== 'InntektHentetFraAordningen' && dokumenttype !== 'Sykmelding' && (
+                    {(dokumenttype === 'Søknad' || dokumenttype === 'Inntektsmelding') && (
                         <button
                             className={classNames(
                                 styles.åpne,
