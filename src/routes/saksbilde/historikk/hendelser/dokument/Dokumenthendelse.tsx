@@ -77,19 +77,19 @@ export const Dokumenthendelse = ({
             title={
                 <span className={styles.header}>
                     <span>{dokumenttypetittel(dokumenttype)}</span>
-                    <button
-                        className={classNames(
-                            styles.åpne,
-                            (åpnedeDokumenter.find((it) => it.dokumentId === dokumentId) ||
-                                dokumenttype === 'Sykmelding') &&
-                                styles.skjult,
-                        )}
-                        onClick={åpneINyKolonne}
-                    >
-                        {dokumenttype !== 'InntektHentetFraAordningen' && (
+                    {dokumenttype !== 'InntektHentetFraAordningen' && (
+                        <button
+                            className={classNames(
+                                styles.åpne,
+                                (åpnedeDokumenter.find((it) => it.dokumentId === dokumentId) ||
+                                    dokumenttype === 'Sykmelding') &&
+                                    styles.skjult,
+                            )}
+                            onClick={åpneINyKolonne}
+                        >
                             <ArrowForwardIcon title="Åpne dokument til høyre" fontSize="1.5rem" />
-                        )}
-                    </button>
+                        </button>
+                    )}
                 </span>
             }
             icon={<Kilde type={getKildetype(dokumenttype)}>{getKildetekst(dokumenttype)}</Kilde>}
