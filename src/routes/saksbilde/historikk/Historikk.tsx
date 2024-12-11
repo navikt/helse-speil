@@ -17,6 +17,8 @@ import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/Minim
 import { StansAutomatiskBehandlingHendelse } from '@saksbilde/historikk/hendelser/StansAutomatiskBehandlingHendelse';
 import { TotrinnsvurderingReturHendelse } from '@saksbilde/historikk/hendelser/TotrinnsvurderingReturHendelse';
 import { VedtaksperiodeReberegnetHendelse } from '@saksbilde/historikk/hendelser/VedtaksperiodeReberegnetHendelse';
+import { Dokumenthendelse } from '@saksbilde/historikk/hendelser/dokument/Dokumenthendelse';
+import { SøknadEllerInntektsmeldingDokumentHendelse } from '@saksbilde/historikk/hendelser/dokument/SøknadEllerInntektsmeldingDokumentHendelse';
 import { VedtakDokumentHendelse } from '@saksbilde/historikk/hendelser/dokument/VedtakDokumenthendelse';
 import { FjernFraPåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/FjernFraPåVentHendelse';
 import { NyestePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/NyestePåVentHendelse';
@@ -35,7 +37,6 @@ import { Inntektoverstyringhendelse } from './hendelser/Inntektoverstyringhendel
 import { Sykepengegrunnlagskjønnsfastsettinghendelse } from './hendelser/Sykepengegrunnlagskjønnsfastsettinghendelse';
 import { Utbetalinghendelse } from './hendelser/Utbetalinghendelse';
 import { VedtakBegrunnelsehendelse } from './hendelser/VedtakBegrunnelsehendelse';
-import { Dokumenthendelse } from './hendelser/dokument/Dokumenthendelse';
 import { Notathendelse } from './hendelser/notat/Notathendelse';
 import { useFilterState, useFilteredHistorikk, useShowHistorikkState, useShowHøyremenyState } from './state';
 
@@ -129,17 +130,28 @@ const HistorikkWithContent = (): ReactElement => {
                                             return <MinimumSykdomsgradhendelse key={`${it.id}-${index}`} {...it} />;
                                         }
                                         case 'Dokument': {
-                                            if (it.dokumenttype === 'Vedtak') {
-                                                return (
-                                                    <VedtakDokumentHendelse
-                                                        key={it.id}
-                                                        dokumentId={it.dokumentId ?? undefined}
-                                                        fødselsnummer={person.fodselsnummer}
-                                                        timestamp={it.timestamp}
-                                                    />
-                                                );
-                                            } else {
-                                                return <Dokumenthendelse key={it.id} {...it} person={person} />;
+                                            switch (it.dokumenttype) {
+                                                case 'Vedtak':
+                                                    return (
+                                                        <VedtakDokumentHendelse
+                                                            key={it.id}
+                                                            dokumentId={it.dokumentId ?? undefined}
+                                                            fødselsnummer={person.fodselsnummer}
+                                                            timestamp={it.timestamp}
+                                                        />
+                                                    );
+                                                case 'Søknad':
+                                                case 'Inntektsmelding':
+                                                    return (
+                                                        <SøknadEllerInntektsmeldingDokumentHendelse
+                                                            key={it.id}
+                                                            {...it}
+                                                            person={person}
+                                                        />
+                                                    );
+                                                case 'InntektHentetFraAordningen':
+                                                case 'Sykmelding':
+                                                    return <Dokumenthendelse key={it.id} {...it} person={person} />;
                                             }
                                         }
                                         case 'Notat': {

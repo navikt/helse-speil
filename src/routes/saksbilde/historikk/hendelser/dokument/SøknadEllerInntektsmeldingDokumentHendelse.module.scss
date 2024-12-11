@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.åpne {
+  border: 0;
+  width: 1rem;
+  height: 1rem;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 0.25rem;
+  margin-left: 2rem;
+
+  &.skjult {
+    display: none;
+  }
+
+  svg {
+    font-size: 1rem;
+  }
+
+  &:hover {
+    background: var(--a-surface-hover)
+  }
+}
