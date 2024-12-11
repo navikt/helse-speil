@@ -11,11 +11,11 @@ import styles from './EnkelHendelse.module.scss';
 interface EnkelHendelseProps {
     icon: ReactNode;
     title: ReactNode;
-    saksbehandler?: string;
     timestamp: DateString;
+    saksbehandler?: string;
 }
 
-export const EnkelHendelse = ({ icon, title, saksbehandler, timestamp }: EnkelHendelseProps): ReactElement => (
+export const EnkelHendelse = ({ icon, title, timestamp, saksbehandler }: EnkelHendelseProps): ReactElement => (
     <li tabIndex={0} className={classNames(styles.fokusområde, styles.hendelse)}>
         <div className={styles.iconContainer}>{icon}</div>
         <div className={styles.content}>
