@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.åpne-vedtak {
+  font-size: 14px;
+  line-height: var(--a-font-line-height-xlarge);
+  cursor: pointer;
+
+  .eksternlenke {
+    margin-left: 0.5rem;
+    font-size: 1.1rem;
+  }
+}

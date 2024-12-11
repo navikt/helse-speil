@@ -1,11 +1,9 @@
 import classNames from 'classnames';
 import React, { ReactElement, ReactNode, useCallback, useEffect, useState } from 'react';
 
-import { ArrowForwardIcon, ExternalLinkIcon } from '@navikt/aksel-icons';
-import { Link } from '@navikt/ds-react';
+import { ArrowForwardIcon } from '@navikt/aksel-icons';
 
 import { Kilde } from '@components/Kilde';
-import { hoppTilModia } from '@components/SystemMenu';
 import { PersonFragment } from '@io/graphql';
 import { DokumenthendelseObject } from '@typer/historikk';
 
@@ -74,7 +72,7 @@ export const Dokumenthendelse = ({
         });
     };
 
-    return dokumenttype !== 'Vedtak' ? (
+    return (
         <Hendelse
             title={
                 <span className={styles.header}>
@@ -99,29 +97,6 @@ export const Dokumenthendelse = ({
             {(dokumenttype === 'Søknad' || dokumenttype === 'Inntektsmelding') && (
                 <ExpandableHistorikkContent onOpen={setShowDokumenter}>{dokument}</ExpandableHistorikkContent>
             )}
-            <HendelseDate timestamp={timestamp} />
-        </Hendelse>
-    ) : (
-        <Hendelse
-            title={
-                <span className={styles.header}>
-                    <span>Melding om vedtak</span>
-                </span>
-            }
-            icon={<Kilde type="VEDTAK">{getKildetekst(dokumenttype)}</Kilde>}
-        >
-            <Link
-                onClick={() =>
-                    hoppTilModia(
-                        `https://spinnsyn-frontend-interne.intern.nav.no/syk/sykepenger?id=${dokumentId}`,
-                        fødselsnummer,
-                    )
-                }
-                className={styles['åpne-vedtak']}
-            >
-                Åpne vedtak i ny fane
-                <ExternalLinkIcon className={styles.eksternlenke} />
-            </Link>
             <HendelseDate timestamp={timestamp} />
         </Hendelse>
     );

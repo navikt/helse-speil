@@ -17,6 +17,7 @@ import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/Minim
 import { StansAutomatiskBehandlingHendelse } from '@saksbilde/historikk/hendelser/StansAutomatiskBehandlingHendelse';
 import { TotrinnsvurderingReturHendelse } from '@saksbilde/historikk/hendelser/TotrinnsvurderingReturHendelse';
 import { VedtaksperiodeReberegnetHendelse } from '@saksbilde/historikk/hendelser/VedtaksperiodeReberegnetHendelse';
+import { VedtakDokumentHendelse } from '@saksbilde/historikk/hendelser/dokument/VedtakDokumenthendelse';
 import { FjernFraPåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/FjernFraPåVentHendelse';
 import { NyestePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/NyestePåVentHendelse';
 import { TidligerePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/TidligerePåVentHendelse';
@@ -128,7 +129,18 @@ const HistorikkWithContent = (): ReactElement => {
                                             return <MinimumSykdomsgradhendelse key={`${it.id}-${index}`} {...it} />;
                                         }
                                         case 'Dokument': {
-                                            return <Dokumenthendelse key={it.id} {...it} person={person} />;
+                                            if (it.dokumenttype === 'Vedtak') {
+                                                return (
+                                                    <VedtakDokumentHendelse
+                                                        key={it.id}
+                                                        dokumentId={it.dokumentId ?? undefined}
+                                                        fødselsnummer={person.fodselsnummer}
+                                                        timestamp={it.timestamp}
+                                                    />
+                                                );
+                                            } else {
+                                                return <Dokumenthendelse key={it.id} {...it} person={person} />;
+                                            }
                                         }
                                         case 'Notat': {
                                             return <Notathendelse key={it.id} {...it} />;
