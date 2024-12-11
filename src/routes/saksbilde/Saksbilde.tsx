@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import { Maybe, PersonFragment } from '@io/graphql';
 import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
 import { Verktøylinje } from '@saksbilde/Verktøylinje';
@@ -24,8 +23,6 @@ export const Saksbilde = ({ children }: SaksbildeProps) => {
 
     const person: Maybe<PersonFragment> = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
-    const saksbehandlerident = useBrukerIdent();
-    const grupper = useBrukerGrupper();
 
     if (loading) {
         return <PeriodeViewSkeleton />;

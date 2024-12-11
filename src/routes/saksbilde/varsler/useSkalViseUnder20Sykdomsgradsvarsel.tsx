@@ -1,4 +1,3 @@
-import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import {
     getOppkuttedePerioder,
     getOverlappendeArbeidsgivere,
@@ -15,8 +14,6 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     const person = data?.person ?? null;
     const arbeidsgiver = useCurrentArbeidsgiver(person);
     const aktivPeriode = useActivePeriod(person);
-    const saksbehandlerident = useBrukerIdent();
-    const grupper = useBrukerGrupper();
 
     if (!person || !aktivPeriode?.skjaeringstidspunkt) return false;
 
