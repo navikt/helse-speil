@@ -151,7 +151,13 @@ const HistorikkWithContent = (): ReactElement => {
                                                     );
                                                 case 'InntektHentetFraAordningen':
                                                 case 'Sykmelding':
-                                                    return <Dokumenthendelse key={it.id} {...it} person={person} />;
+                                                    return (
+                                                        <Dokumenthendelse
+                                                            key={it.id}
+                                                            dokumenttype={it.dokumenttype}
+                                                            timestamp={it.timestamp}
+                                                        />
+                                                    );
                                             }
                                         }
                                         case 'Notat': {
