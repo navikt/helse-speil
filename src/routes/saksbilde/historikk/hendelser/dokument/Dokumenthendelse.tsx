@@ -77,13 +77,11 @@ export const Dokumenthendelse = ({
             title={
                 <span className={styles.header}>
                     <span>{dokumenttypetittel(dokumenttype)}</span>
-                    {dokumenttype !== 'InntektHentetFraAordningen' && (
+                    {dokumenttype !== 'InntektHentetFraAordningen' && dokumenttype !== 'Sykmelding' && (
                         <button
                             className={classNames(
                                 styles.åpne,
-                                (åpnedeDokumenter.find((it) => it.dokumentId === dokumentId) ||
-                                    dokumenttype === 'Sykmelding') &&
-                                    styles.skjult,
+                                åpnedeDokumenter.find((it) => it.dokumentId === dokumentId) && styles.skjult,
                             )}
                             onClick={åpneINyKolonne}
                         >
