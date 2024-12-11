@@ -18,7 +18,8 @@ import { StansAutomatiskBehandlingHendelse } from '@saksbilde/historikk/hendelse
 import { TotrinnsvurderingReturHendelse } from '@saksbilde/historikk/hendelser/TotrinnsvurderingReturHendelse';
 import { VedtaksperiodeReberegnetHendelse } from '@saksbilde/historikk/hendelser/VedtaksperiodeReberegnetHendelse';
 import { Dokumenthendelse } from '@saksbilde/historikk/hendelser/dokument/Dokumenthendelse';
-import { SøknadEllerInntektsmeldingDokumentHendelse } from '@saksbilde/historikk/hendelser/dokument/SøknadEllerInntektsmeldingDokumentHendelse';
+import { InntektsmeldingDokumentHendelse } from '@saksbilde/historikk/hendelser/dokument/InntektsmeldingDokumentHendelse';
+import { SøknadDokumentHendelse } from '@saksbilde/historikk/hendelser/dokument/SøknadDokumentHendelse';
 import { VedtakDokumentHendelse } from '@saksbilde/historikk/hendelser/dokument/VedtakDokumenthendelse';
 import { FjernFraPåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/FjernFraPåVentHendelse';
 import { NyestePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/NyestePåVentHendelse';
@@ -141,12 +142,21 @@ const HistorikkWithContent = (): ReactElement => {
                                                         />
                                                     );
                                                 case 'Søknad':
+                                                    return (
+                                                        <SøknadDokumentHendelse
+                                                            key={it.id}
+                                                            dokumentId={it.dokumentId ?? undefined}
+                                                            fødselsnummer={person.fodselsnummer}
+                                                            timestamp={it.timestamp}
+                                                        />
+                                                    );
                                                 case 'Inntektsmelding':
                                                     return (
-                                                        <SøknadEllerInntektsmeldingDokumentHendelse
+                                                        <InntektsmeldingDokumentHendelse
                                                             key={it.id}
-                                                            {...it}
+                                                            dokumentId={it.dokumentId ?? undefined}
                                                             person={person}
+                                                            timestamp={it.timestamp}
                                                         />
                                                     );
                                                 case 'InntektHentetFraAordningen':

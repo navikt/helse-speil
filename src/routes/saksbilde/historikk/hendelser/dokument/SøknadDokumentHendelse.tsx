@@ -4,59 +4,35 @@ import React, { ReactElement, ReactNode, useCallback, useEffect, useState } from
 import { ArrowForwardIcon } from '@navikt/aksel-icons';
 
 import { Kilde } from '@components/Kilde';
-import { PersonFragment } from '@io/graphql';
-import { DokumenthendelseObject } from '@typer/historikk';
+import { DateString } from '@typer/shared';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
 import { Hendelse } from '../Hendelse';
 import { HendelseDate } from '../HendelseDate';
-import { Inntektsmeldingsinnhold } from './Inntektsmeldingsinnhold';
 import { Søknadsinnhold } from './Søknadsinnhold';
 import { getKildetekst, getKildetype, useAddOpenedDocument, useOpenedDocuments } from './dokument';
 
-import styles from './SøknadEllerInntektsmeldingDokumentHendelse.module.scss';
+import styles from './SøknadDokumentHendelse.module.scss';
 
-type SøknadEllerInntektsmeldingDokumentHendelseProps = Omit<DokumenthendelseObject, 'type' | 'id'> & {
-    person: PersonFragment;
+type SøknadDokumentHendelseProps = {
+    dokumentId?: string;
+    fødselsnummer: string;
+    timestamp: DateString;
 };
 
-const dokumenttypetittel = (
-    type: 'Inntektsmelding' | 'Sykmelding' | 'Søknad' | 'Vedtak' | 'InntektHentetFraAordningen',
-) => {
-    switch (type) {
-        case 'Inntektsmelding':
-        case 'Sykmelding':
-        case 'Søknad':
-        case 'Vedtak':
-            return type + ' mottatt';
-        case 'InntektHentetFraAordningen':
-            return 'Inntekt hentet fra A-ordningen';
-    }
-};
-
-export const SøknadEllerInntektsmeldingDokumentHendelse = ({
-    dokumenttype,
+export const SøknadDokumentHendelse = ({
     timestamp,
     dokumentId,
-    person,
-}: SøknadEllerInntektsmeldingDokumentHendelseProps): ReactElement => {
+    fødselsnummer,
+}: SøknadDokumentHendelseProps): ReactElement => {
     const [showDokumenter, setShowDokumenter] = useState(false);
     const [dokument, setDokument] = useState<ReactNode>(null);
     const leggTilÅpnetDokument = useAddOpenedDocument();
     const åpnedeDokumenter = useOpenedDocuments();
-    const fødselsnummer = person.fodselsnummer;
 
     const setDokumenter = useCallback(() => {
-        if (dokumenttype === 'Søknad') {
-            setDokument(<Søknadsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} />);
-        }
-
-        if (dokumenttype === 'Inntektsmelding') {
-            setDokument(
-                <Inntektsmeldingsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} person={person} />,
-            );
-        }
-    }, [dokumentId, dokumenttype, fødselsnummer, person]);
+        setDokument(<Søknadsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} />);
+    }, [dokumentId, fødselsnummer]);
 
     useEffect(() => {
         if (!showDokumenter || !fødselsnummer) return;
@@ -67,7 +43,7 @@ export const SøknadEllerInntektsmeldingDokumentHendelse = ({
         leggTilÅpnetDokument({
             dokumentId: dokumentId ?? '',
             fødselsnummer: fødselsnummer,
-            dokumenttype: dokumenttype,
+            dokumenttype: 'Søknad',
             timestamp: timestamp,
         });
     };
@@ -76,7 +52,7 @@ export const SøknadEllerInntektsmeldingDokumentHendelse = ({
         <Hendelse
             title={
                 <span className={styles.header}>
-                    <span>{dokumenttypetittel(dokumenttype)}</span>
+                    <span>Søknad mottatt</span>
                     <button
                         className={classNames(
                             styles.åpne,
@@ -88,7 +64,7 @@ export const SøknadEllerInntektsmeldingDokumentHendelse = ({
                     </button>
                 </span>
             }
-            icon={<Kilde type={getKildetype(dokumenttype)}>{getKildetekst(dokumenttype)}</Kilde>}
+            icon={<Kilde type={getKildetype('Søknad')}>{getKildetekst('Søknad')}</Kilde>}
         >
             <ExpandableHistorikkContent onOpen={setShowDokumenter}>{dokument}</ExpandableHistorikkContent>
             <HendelseDate timestamp={timestamp} />
