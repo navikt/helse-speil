@@ -11,7 +11,6 @@ import { harPeriodeDagerMedUnder20ProsentTotalGrad } from '@saksbilde/utbetaling
 import { finnInitierendeVedtaksperiodeIdFraOverlappendePeriode } from '@saksbilde/utils';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { kanOverstyreMinimumSykdomsgradToggle } from '@utils/featureToggles';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import styles from './saksbilder/SharedViews.module.css';
@@ -49,15 +48,13 @@ export const Saksbilde = ({ children }: SaksbildeProps) => {
 
     return (
         <div className={styles.Content}>
-            {kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident, grupper) &&
-                periodeHarDatoerMedUnder20ProsentTotalGrad &&
-                initierendeVedtaksperiodeId && (
-                    <Verktøylinje
-                        person={person}
-                        aktivPeriode={aktivPeriode}
-                        initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
-                    />
-                )}
+            {periodeHarDatoerMedUnder20ProsentTotalGrad && initierendeVedtaksperiodeId && (
+                <Verktøylinje
+                    person={person}
+                    aktivPeriode={aktivPeriode}
+                    initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
+                />
+            )}
             <SaksbildeVarsel person={person} periode={aktivPeriode} />
             <SaksbildeMenu person={person} activePeriod={aktivPeriode} />
             {children}

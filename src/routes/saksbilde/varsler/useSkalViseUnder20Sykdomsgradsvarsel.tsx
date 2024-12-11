@@ -8,7 +8,6 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { ActivePeriod } from '@typer/shared';
-import { kanOverstyreMinimumSykdomsgradToggle } from '@utils/featureToggles';
 import { isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
 
 export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
@@ -64,8 +63,7 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
         harDagerMedUnder20ProsentTotalGrad &&
         harDagerMedMerEnn0ProsentTotalGrad &&
         !harBlittVurdert &&
-        harFlereArbeidsgiverePåSkjæringstidspunkt &&
-        kanOverstyreMinimumSykdomsgradToggle(saksbehandlerident, grupper)
+        harFlereArbeidsgiverePåSkjæringstidspunkt
     );
 };
 
