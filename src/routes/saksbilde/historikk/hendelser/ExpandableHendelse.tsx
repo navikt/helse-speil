@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { ReactElement, ReactNode, useState } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
-import { BodyShort, HStack } from '@navikt/ds-react';
+import { BodyShort, HStack, Spacer } from '@navikt/ds-react';
 
 import { AnimatedExpandableDiv } from '@components/AnimatedExpandableDiv';
 import { HendelseDate } from '@saksbilde/historikk/hendelser/HendelseDate';
@@ -13,8 +13,9 @@ import styles from './ExpandableHendelse.module.scss';
 interface ExpandableHendelseProps extends Omit<React.LiHTMLAttributes<HTMLLIElement>, 'title'> {
     title: ReactNode;
     icon?: ReactNode;
-    saksbehandler: string | null;
+    saksbehandler?: string;
     timestamp: DateString;
+    topRightButton?: ReactNode;
 }
 
 export const ExpandableHendelse = ({
@@ -22,11 +23,16 @@ export const ExpandableHendelse = ({
     title,
     saksbehandler,
     timestamp,
+    topRightButton,
     className,
     children,
     ...liProps
 }: ExpandableHendelseProps): ReactElement => {
     const [expanded, setExpanded] = useState(false);
+
+    function toggleExpanded() {
+        setExpanded(!expanded);
+    }
 
     return (
         <li
@@ -34,12 +40,14 @@ export const ExpandableHendelse = ({
             tabIndex={0}
             onKeyDown={(event: React.KeyboardEvent) => {
                 if (event.code === 'Enter' || event.code === 'Space') {
-                    setExpanded(!expanded);
+                    toggleExpanded();
                 }
             }}
             onClick={() => {
                 // ikke minimer når man markerer tekst
-                if (window.getSelection()?.type !== 'Range') setExpanded(!expanded);
+                if (window.getSelection()?.type !== 'Range') {
+                    toggleExpanded();
+                }
             }}
             className={classNames(styles.fokusområde, styles.klikkbar, styles.hendelse, className)}
             {...liProps}
@@ -52,6 +60,13 @@ export const ExpandableHendelse = ({
                         <ChevronUpIcon title="Vis mindre" fontSize="1.5rem" />
                     ) : (
                         <ChevronDownIcon title="Vis mer" fontSize="1.5rem" />
+                    )}
+
+                    {topRightButton && (
+                        <>
+                            <Spacer />
+                            {topRightButton}
+                        </>
                     )}
                 </HStack>
                 <AnimatedExpandableDiv expanded={expanded}>{children}</AnimatedExpandableDiv>
