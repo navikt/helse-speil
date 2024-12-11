@@ -2,10 +2,9 @@ import React, { ReactElement } from 'react';
 
 import { Kilde } from '@components/Kilde';
 import { PersonFragment } from '@io/graphql';
+import { EnkelHendelse } from '@saksbilde/historikk/hendelser/EnkelHendelse';
 import { DokumenthendelseObject } from '@typer/historikk';
 
-import { Hendelse } from '../Hendelse';
-import { HendelseDate } from '../HendelseDate';
 import { getKildetekst, getKildetype } from './dokument';
 
 import styles from './Dokumenthendelse.module.scss';
@@ -29,14 +28,13 @@ const dokumenttypetittel = (
 };
 
 export const Dokumenthendelse = ({ dokumenttype, timestamp }: DokumenthendelseProps): ReactElement => (
-    <Hendelse
+    <EnkelHendelse
         title={
             <span className={styles.header}>
                 <span>{dokumenttypetittel(dokumenttype)}</span>
             </span>
         }
         icon={<Kilde type={getKildetype(dokumenttype)}>{getKildetekst(dokumenttype)}</Kilde>}
-    >
-        <HendelseDate timestamp={timestamp} />
-    </Hendelse>
+        timestamp={timestamp}
+    />
 );
