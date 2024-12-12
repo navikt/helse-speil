@@ -24,7 +24,7 @@ export const LeggTilKommentar = ({
     hasError,
 }: LeggTilKommentarProps) => (
     <VStack gap="4" align="start">
-        <Kommentarer kommentarer={kommentarer} />
+        <Kommentarer kommentarer={kommentarer} readOnly={false} />
         {showAddDialog ? (
             <NotatForm
                 label="Kommentar"

@@ -10,9 +10,10 @@ import styles from './Kommentarer.module.css';
 
 interface KommentarerProps {
     kommentarer: Array<Kommentar>;
+    readOnly: boolean;
 }
 
-export const Kommentarer = ({ kommentarer }: KommentarerProps): Maybe<ReactElement> => {
+export const Kommentarer = ({ kommentarer, readOnly }: KommentarerProps): Maybe<ReactElement> => {
     if (kommentarer.length === 0) return null;
 
     return (
@@ -21,7 +22,7 @@ export const Kommentarer = ({ kommentarer }: KommentarerProps): Maybe<ReactEleme
             {[...kommentarer]
                 .sort((a, b) => new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime())
                 .map((kommentar, index) => (
-                    <NotatKommentar kommentar={kommentar} key={index} />
+                    <NotatKommentar kommentar={kommentar} readOnly={readOnly} key={index} />
                 ))}
         </div>
     );

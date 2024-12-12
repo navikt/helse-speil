@@ -39,7 +39,7 @@ export const TidligerePåVentHendelse = ({
                     {notattekst && <BodyShort weight="semibold">Notat</BodyShort>}
                     <BodyLong style={{ whiteSpace: 'pre-wrap' }}>{notattekst}</BodyLong>
                 </div>
-                {kommentarer && <Kommentarer kommentarer={kommentarer} />}
+                {kommentarer && <Kommentarer kommentarer={kommentarer} readOnly={true} />}
             </VStack>
         </ExpandableHendelse>
     );
