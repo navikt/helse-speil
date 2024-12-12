@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PadlockUnlockedIcon, PersonPencilIcon } from '@navikt/aksel-icons';
+import { PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { Button, HelpText } from '@navikt/ds-react';
 
 import { ArbeidsgiverFragment, Maybe, PersonFragment, Utbetalingstatus } from '@io/graphql';
@@ -55,7 +55,7 @@ export const ToggleOverstyring = ({
                 {erRevurdering ? 'Revurder' : 'Endre'}
             </Button>
         ) : (
-            <Button onClick={() => setEditing(false)} size="xsmall" variant="tertiary" icon={<PadlockUnlockedIcon />}>
+            <Button onClick={() => setEditing(false)} size="xsmall" variant="tertiary" icon={<XMarkIcon />}>
                 Avbryt
             </Button>
         )

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { PadlockUnlockedIcon } from '@navikt/aksel-icons';
+import { XMarkIcon } from '@navikt/aksel-icons';
 import { Box, Button, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { LeggTilDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/LeggTilDager';
@@ -33,7 +33,7 @@ export const OverstyringToolBar = ({
                 <Button
                     size="xsmall"
                     variant="tertiary"
-                    icon={<PadlockUnlockedIcon fontSize="1.5rem" />}
+                    icon={<XMarkIcon />}
                     onClick={() => {
                         toggleOverstyring();
                         setVisLeggTilDagerForm(false);

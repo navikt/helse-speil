@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PadlockUnlockedIcon, PersonPencilFillIcon, PersonPencilIcon } from '@navikt/aksel-icons';
+import { PersonPencilFillIcon, PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
@@ -86,7 +86,7 @@ export const SkjønnsfastsettingHeader = ({
                         onClick={() => setEditing(false)}
                         size="xsmall"
                         variant="tertiary"
-                        icon={<PadlockUnlockedIcon />}
+                        icon={<XMarkIcon />}
                         className={styles.redigeringsknapp}
                         style={{ marginRight: '1rem' }}
                     >

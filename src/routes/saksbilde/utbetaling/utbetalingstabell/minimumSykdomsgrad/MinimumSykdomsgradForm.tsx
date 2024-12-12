@@ -9,7 +9,7 @@ import {
     useFormContext,
 } from 'react-hook-form';
 
-import { PadlockUnlockedIcon } from '@navikt/aksel-icons';
+import { XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Button, ErrorMessage, HStack, Heading, Table, Textarea, VStack } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
@@ -89,7 +89,7 @@ export const MinimumSykdomsgradForm = ({
                 <Button
                     size="xsmall"
                     variant="tertiary"
-                    icon={<PadlockUnlockedIcon />}
+                    icon={<XMarkIcon />}
                     onClick={() => setOverstyrerMinimumSykdomsgrad(false)}
                 >
                     Avbryt

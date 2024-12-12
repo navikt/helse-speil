@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PadlockUnlockedIcon, PersonPencilIcon } from '@navikt/aksel-icons';
+import { PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Button, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
@@ -57,12 +57,7 @@ export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setE
                             Endre
                         </Button>
                     ) : (
-                        <Button
-                            onClick={() => setEditing(false)}
-                            size="xsmall"
-                            variant="tertiary"
-                            icon={<PadlockUnlockedIcon />}
-                        >
+                        <Button onClick={() => setEditing(false)} size="xsmall" variant="tertiary" icon={<XMarkIcon />}>
                             Avbryt
                         </Button>
                     ))}
