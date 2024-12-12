@@ -31,6 +31,7 @@ export const Expandable = ({
             tabIndex={0}
             onKeyDown={(event: React.KeyboardEvent) => {
                 if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
                     toggleExpanded();
                     event.stopPropagation();
                 }
