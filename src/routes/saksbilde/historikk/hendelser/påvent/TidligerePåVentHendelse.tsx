@@ -24,9 +24,9 @@ export const TidligerePåVentHendelse = ({
 }: TidligerePåVentHendelseProps): ReactElement => {
     return (
         <ExpandableHendelse
-            title={`Lagt på vent${erEndring ? ' – endret' : ''}`}
-            icon={<PåVentIkon />}
-            timestamp={timestamp}
+            tittel={`Lagt på vent${erEndring ? ' – endret' : ''}`}
+            ikon={<PåVentIkon />}
+            tidsstempel={timestamp}
             saksbehandler={saksbehandler ?? undefined}
         >
             <VStack gap="2">

@@ -39,9 +39,9 @@ export const InntektsmeldingDokumentHendelse = ({
 
     return (
         <ExpandableHendelse
-            icon={<InntektsmeldingKildeIkon />}
-            title="Inntektsmelding mottatt"
-            topRightButton={
+            ikon={<InntektsmeldingKildeIkon />}
+            tittel="Inntektsmelding mottatt"
+            kontekstknapp={
                 !dokumentetErÅpnet() && (
                     <button
                         className={styles.åpne}
@@ -54,7 +54,7 @@ export const InntektsmeldingDokumentHendelse = ({
                     </button>
                 )
             }
-            timestamp={timestamp}
+            tidsstempel={timestamp}
         >
             <Inntektsmeldingsinnhold dokumentId={dokumentId} fødselsnummer={person.fodselsnummer} person={person} />
         </ExpandableHendelse>

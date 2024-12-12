@@ -38,9 +38,9 @@ export const SøknadDokumentHendelse = ({
 
     return (
         <ExpandableHendelse
-            icon={<SøknadKildeIkon />}
-            title="Søknad mottatt"
-            topRightButton={
+            ikon={<SøknadKildeIkon />}
+            tittel="Søknad mottatt"
+            kontekstknapp={
                 !dokumentetErÅpnet() && (
                     <button
                         className={styles.åpne}
@@ -53,7 +53,7 @@ export const SøknadDokumentHendelse = ({
                     </button>
                 )
             }
-            timestamp={timestamp}
+            tidsstempel={timestamp}
         >
             <Søknadsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} />
         </ExpandableHendelse>

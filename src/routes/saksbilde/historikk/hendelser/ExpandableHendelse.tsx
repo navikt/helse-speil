@@ -11,19 +11,19 @@ import { DateString } from '@typer/shared';
 import styles from './ExpandableHendelse.module.scss';
 
 interface ExpandableHendelseProps extends Omit<React.LiHTMLAttributes<HTMLLIElement>, 'title'> {
-    title: ReactNode;
-    icon?: ReactNode;
+    tittel: ReactNode;
+    ikon?: ReactNode;
     saksbehandler?: string;
-    timestamp: DateString;
-    topRightButton?: ReactNode;
+    tidsstempel: DateString;
+    kontekstknapp?: ReactNode;
 }
 
 export const ExpandableHendelse = ({
-    icon,
-    title,
+    ikon,
+    tittel,
     saksbehandler,
-    timestamp,
-    topRightButton,
+    tidsstempel,
+    kontekstknapp,
     className,
     children,
     ...liProps
@@ -52,22 +52,22 @@ export const ExpandableHendelse = ({
             className={classNames(styles.fokusområde, styles.klikkbar, styles.hendelse, className)}
             {...liProps}
         >
-            <div className={styles.iconContainer}>{icon}</div>
+            <div className={styles.iconContainer}>{ikon}</div>
             <div className={styles.content}>
                 <HStack gap="1" wrap={false}>
                     <HStack>
-                        <BodyShort weight="semibold">{title}</BodyShort>
+                        <BodyShort weight="semibold">{tittel}</BodyShort>
                         {expanded ? (
                             <ChevronUpIcon title="Vis mindre" fontSize="1.5rem" />
                         ) : (
                             <ChevronDownIcon title="Vis mer" fontSize="1.5rem" />
                         )}
                     </HStack>
-                    {topRightButton && <Spacer />}
-                    {topRightButton}
+                    {kontekstknapp && <Spacer />}
+                    {kontekstknapp}
                 </HStack>
                 <AnimatedExpandableDiv expanded={expanded}>{children}</AnimatedExpandableDiv>
-                <HendelseDate timestamp={timestamp} ident={saksbehandler} />
+                <HendelseDate timestamp={tidsstempel} ident={saksbehandler} />
             </div>
         </li>
     );
