@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React from 'react';
 
 import { PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
@@ -8,6 +9,7 @@ import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverFragment, Maybe, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
 import { Arbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/Arbeidsgivernavn';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
+import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { visTilkommenInntektEndreKnapp } from '@utils/featureToggles';
 
 interface TilkommenAGHeaderProps {
@@ -20,6 +22,10 @@ interface TilkommenAGHeaderProps {
 
 export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setEditing }: TilkommenAGHeaderProps) => {
     const harBeslutteroppgave = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
+    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
+    const harPeriodeTilGodkjenningTidligereEnnTilkommenPeriode = dayjs(periodeTilGodkjenning?.tom).isBefore(
+        periode.fom,
+    );
 
     if (arbeidsgiver == null) return null;
 
@@ -47,6 +53,7 @@ export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setE
                 <Kilde type={'Soknad'}>SØ</Kilde>
                 {!harBeslutteroppgave &&
                     visTilkommenInntektEndreKnapp &&
+                    !harPeriodeTilGodkjenningTidligereEnnTilkommenPeriode &&
                     (!editing ? (
                         <Button
                             onClick={() => setEditing(true)}
