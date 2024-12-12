@@ -167,6 +167,12 @@ const filters = [
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
+        key: Egenskap.ManglerIm,
+        label: 'Mangler IM',
+        status: FilterStatus.OFF,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
+    },
+    {
         key: Egenskap.Medlemskap,
         label: 'Medlemskap',
         status: FilterStatus.OFF,
