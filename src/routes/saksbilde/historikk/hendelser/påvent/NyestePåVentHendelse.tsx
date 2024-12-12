@@ -3,10 +3,10 @@ import React, { ReactElement } from 'react';
 import { BodyLong, BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
-import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
 import { PåVentIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
-import { KommentarerContent } from '@saksbilde/historikk/hendelser/notat/KommentarerContent';
+import { Kommentarer } from '@saksbilde/historikk/hendelser/notat/Kommentarer';
 import { PåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/PåVentDropdown';
+import { PåVentLeggTilKommentar } from '@saksbilde/historikk/hendelser/påvent/PåVentLeggTilKommentar';
 import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe';
 import { useActivePeriod } from '@state/periode';
 import { HistorikkhendelseObject } from '@typer/historikk';
@@ -57,17 +57,21 @@ export const NyestePåVentHendelse = ({
                     </Expandable>
                 )}
                 {dialogRef && (
-                    <ExpandableHistorikkContent
-                        openText={`Kommentarer (${kommentarer?.length})`}
-                        closeText="Lukk kommentarer"
-                    >
-                        <KommentarerContent
+                    <>
+                        {kommentarer?.length > 0 && (
+                            <Expandable
+                                expandText={`Kommentarer (${kommentarer?.length})`}
+                                collapseText="Lukk kommentarer"
+                            >
+                                <Kommentarer kommentarer={kommentarer} readOnly={false} />
+                            </Expandable>
+                        )}
+                        <PåVentLeggTilKommentar
                             historikktype={historikktype}
-                            kommentarer={kommentarer}
                             dialogRef={dialogRef}
                             historikkinnslagId={historikkinnslagId}
                         />
-                    </ExpandableHistorikkContent>
+                    </>
                 )}
             </VStack>
         </Hendelse>
