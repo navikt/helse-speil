@@ -92,6 +92,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const lagretVedtakBegrunnelseTekst =
         period.vedtakBegrunnelser[0] != undefined ? (period.vedtakBegrunnelser[0].begrunnelse as string) : '';
     const [vedtakBegrunnelseTekst, setVedtakBegrunnelseTekst] = useState(lagretVedtakBegrunnelseTekst);
+    const rensetVedtakBegrunnelseTekst = vedtakBegrunnelseTekst.trim();
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const ventEllerHopp = useOnGodkjenn(period, person);
     const router = useRouter();
@@ -177,7 +178,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                             }
                             onSuccess={onSendTilGodkjenning}
                             utfall={utfall}
-                            vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
+                            vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
                         >
                             Send til godkjenning
                         </SendTilGodkjenningButton>
@@ -198,7 +199,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                             }
                             onSuccess={onGodkjennUtbetaling}
                             utfall={utfall}
-                            vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
+                            vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
                         >
                             {erBeslutteroppgaveOgHarTilgang
                                 ? 'Godkjenn og fatt vedtak'
