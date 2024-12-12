@@ -1,41 +1,31 @@
-import classNames from 'classnames';
-import React, { ReactElement, useState } from 'react';
+import React, { PropsWithChildren, ReactElement, useState } from 'react';
 
-import { Accordion } from '@navikt/ds-react';
+import { AnimatedExpandableDiv } from '@components/AnimatedExpandableDiv';
+import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
 
-import styles from './ExpandableHistorikkContent.module.css';
-
-interface ExpandableHistorikkContentProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ExpandableHistorikkContentProps extends PropsWithChildren {
     openText?: string;
     closeText?: string;
-    onOpen?: (open: boolean) => void;
+    className?: string;
 }
 
 export const ExpandableHistorikkContent = ({
-    className,
-    children,
     openText = 'Åpne',
     closeText = 'Lukk',
-    onOpen = () => {},
-    ...divProps
+    className,
+    children,
 }: ExpandableHistorikkContentProps): ReactElement => {
-    const [open, setOpen] = useState(false);
+    const [expanded, setExpanded] = useState(false);
     return (
-        <Accordion>
-            <Accordion.Item open={open} className={classNames(styles.item, className)} {...divProps}>
-                <Accordion.Header
-                    className={styles.Header}
-                    onClick={() => {
-                        setOpen((prevState) => !prevState);
-                        onOpen(!open);
-                    }}
-                >
-                    {open ? closeText : openText}
-                </Accordion.Header>
-                <Accordion.Content style={{ minWidth: '200px' }} className={styles.Content}>
-                    {children}
-                </Accordion.Content>
-            </Accordion.Item>
-        </Accordion>
+        <Expandable
+            expandable={true}
+            expanded={expanded}
+            setExpanded={setExpanded}
+            expandText={openText}
+            collapseText={closeText}
+            className={className}
+        >
+            <AnimatedExpandableDiv expanded={expanded}>{children}</AnimatedExpandableDiv>
+        </Expandable>
     );
 };

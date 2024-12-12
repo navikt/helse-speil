@@ -9,9 +9,20 @@ interface ExpandableProps extends PropsWithChildren {
     expandable: boolean;
     expanded: boolean;
     setExpanded: (expanded: boolean) => void;
+    expandText?: string;
+    collapseText?: string;
+    className?: string;
 }
 
-export const Expandable = ({ expandable, expanded, setExpanded, children }: ExpandableProps): ReactElement => (
+export const Expandable = ({
+    expandable,
+    expanded,
+    setExpanded,
+    expandText = 'Vis mer',
+    collapseText = 'Vis mindre',
+    className,
+    children,
+}: ExpandableProps): ReactElement => (
     <div
         role="button"
         tabIndex={0}
@@ -24,27 +35,14 @@ export const Expandable = ({ expandable, expanded, setExpanded, children }: Expa
             // ikke minimer når man markerer tekst
             if (window.getSelection()?.type !== 'Range') setExpanded(expandable && !expanded);
         }}
-        className={classNames(styles.fokusområde, expandable && styles.klikkbar)}
+        className={classNames(styles.fokusområde, expandable && styles.klikkbar, className)}
     >
         {children}
-        {expandable && <VisMerTekst expanded={expanded} />}
-    </div>
-);
-
-interface VisMerTekstProps {
-    expanded: boolean;
-}
-
-const VisMerTekst = ({ expanded }: VisMerTekstProps): ReactElement => (
-    <span className={styles.visMer}>
-        {expanded ? (
-            <>
-                Vis mindre <ChevronUpIcon title="Vis mindre av teksten" fontSize="1.5rem" />
-            </>
-        ) : (
-            <>
-                Vis mer <ChevronDownIcon title="Vis mer av teksten" fontSize="1.5rem" />
-            </>
+        {expandable && (
+            <span className={styles.expandCollapseButton}>
+                {expanded ? collapseText : expandText}
+                {expanded ? <ChevronUpIcon fontSize="1.5rem" /> : <ChevronDownIcon fontSize="1.5rem" />}
+            </span>
         )}
-    </span>
+    </div>
 );

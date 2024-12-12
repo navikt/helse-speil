@@ -10,7 +10,7 @@
     cursor: pointer;
 }
 
-.visMer {
+.expandCollapseButton {
     display: flex;
     align-items: center;
     font-size: var(--a-font-size-medium);
@@ -20,6 +20,6 @@
     gap: 0.5rem;
 }
 
-.visMer:hover {
+.expandCollapseButton:hover {
     text-decoration: none;
 }
