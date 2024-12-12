@@ -1,8 +1,7 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyLong, BodyShort, HStack, VStack } from '@navikt/ds-react';
 
-import { AnimatedExpandableDiv } from '@components/AnimatedExpandableDiv';
 import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
 import { PåVentIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
@@ -34,7 +33,6 @@ export const NyestePåVentHendelse = ({
     historikkinnslagId,
     kommentarer,
 }: NyestePåVentHendelseProps): ReactElement => {
-    const [expanded, setExpanded] = useState(false);
     const aktivPeriode = useActivePeriod(person);
     const erAktivPeriodePåVent = isBeregnetPeriode(aktivPeriode) && aktivPeriode?.paVent !== null;
     return (
@@ -45,21 +43,19 @@ export const NyestePåVentHendelse = ({
             {erAktivPeriodePåVent && (
                 <PåVentDropdown person={person} årsaker={årsaker} notattekst={notattekst} frist={frist} />
             )}
-            <Expandable expandable={!!notattekst} expanded={expanded} setExpanded={setExpanded}>
-                <VStack gap="2">
-                    <ÅrsakListe årsaker={årsaker} />
-                    <HStack gap="1">
-                        <BodyShort>Frist:</BodyShort>
-                        <BodyShort weight="semibold">{somNorskDato(frist ?? undefined)}</BodyShort>
-                    </HStack>
-                    {!!notattekst && (
-                        <AnimatedExpandableDiv expanded={expanded}>
-                            <BodyShort weight="semibold">Notat</BodyShort>
-                            <BodyLong style={{ whiteSpace: 'pre-wrap' }}>{notattekst}</BodyLong>
-                        </AnimatedExpandableDiv>
-                    )}
-                </VStack>
-            </Expandable>
+            <VStack gap="2">
+                <ÅrsakListe årsaker={årsaker} />
+                <HStack gap="1">
+                    <BodyShort>Frist:</BodyShort>
+                    <BodyShort weight="semibold">{somNorskDato(frist ?? undefined)}</BodyShort>
+                </HStack>
+            </VStack>
+            {!!notattekst && (
+                <Expandable>
+                    <BodyShort weight="semibold">Notat</BodyShort>
+                    <BodyLong style={{ whiteSpace: 'pre-wrap' }}>{notattekst}</BodyLong>
+                </Expandable>
+            )}
             <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             {dialogRef && (
                 <ExpandableHistorikkContent

@@ -1,6 +1,5 @@
-import React, { PropsWithChildren, ReactElement, useState } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
-import { AnimatedExpandableDiv } from '@components/AnimatedExpandableDiv';
 import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
 
 interface ExpandableHistorikkContentProps extends PropsWithChildren {
@@ -15,17 +14,9 @@ export const ExpandableHistorikkContent = ({
     className,
     children,
 }: ExpandableHistorikkContentProps): ReactElement => {
-    const [expanded, setExpanded] = useState(false);
     return (
-        <Expandable
-            expandable={true}
-            expanded={expanded}
-            setExpanded={setExpanded}
-            expandText={openText}
-            collapseText={closeText}
-            className={className}
-        >
-            <AnimatedExpandableDiv expanded={expanded}>{children}</AnimatedExpandableDiv>
+        <Expandable expandText={openText} collapseText={closeText} className={className}>
+            {children}
         </Expandable>
     );
 };
