@@ -31,16 +31,14 @@ export const TidligerePåVentHendelse = ({
         >
             <VStack gap="2">
                 <ÅrsakListe årsaker={årsaker} />
+                <HStack gap="1">
+                    <BodyShort>Frist:</BodyShort>
+                    <BodyShort weight="semibold">{somNorskDato(frist ?? undefined)}</BodyShort>
+                </HStack>
                 <div>
                     {notattekst && <BodyShort weight="semibold">Notat</BodyShort>}
                     <BodyLong style={{ whiteSpace: 'pre-wrap' }}>{notattekst}</BodyLong>
                 </div>
-                {frist && (
-                    <HStack gap="1">
-                        <BodyShort>Frist:</BodyShort>
-                        <BodyShort weight="semibold">{somNorskDato(frist)}</BodyShort>
-                    </HStack>
-                )}
                 {kommentarer && <Kommentarer kommentarer={kommentarer} />}
             </VStack>
         </ExpandableHendelse>
