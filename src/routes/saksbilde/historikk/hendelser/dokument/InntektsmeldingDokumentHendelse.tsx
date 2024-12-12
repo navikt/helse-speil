@@ -26,20 +26,18 @@ export const InntektsmeldingDokumentHendelse = ({
     const fjernÅpnetDokument = useRemoveOpenedDocument();
     const åpnedeDokumenter = useOpenedDocuments();
 
-    const åpneINyKolonne = () => {
-        leggTilÅpnetDokument({
-            dokumentId: dokumentId,
-            fødselsnummer: person.fodselsnummer,
-            dokumenttype: 'Inntektsmelding',
-            timestamp: timestamp,
-        });
-    };
-
-    const lukkINyKolonne = () => {
-        fjernÅpnetDokument(dokumentId);
-    };
-
     const dokumentetErÅpnet = () => åpnedeDokumenter.find((it) => it.dokumentId === dokumentId);
+
+    function toggleÅpnetDokument() {
+        dokumentetErÅpnet()
+            ? fjernÅpnetDokument(dokumentId)
+            : leggTilÅpnetDokument({
+                  dokumentId: dokumentId,
+                  fødselsnummer: person.fodselsnummer,
+                  dokumenttype: 'Inntektsmelding',
+                  timestamp: timestamp,
+              });
+    }
 
     return (
         <ExpandableHendelse
@@ -52,9 +50,17 @@ export const InntektsmeldingDokumentHendelse = ({
                     title="Åpne dokument til høyre"
                     icon={dokumentetErÅpnet() ? <ChevronLeftCircleIcon /> : <ChevronRightCircleIcon />}
                     onClick={(event) => {
-                        dokumentetErÅpnet() ? lukkINyKolonne() : åpneINyKolonne();
+                        toggleÅpnetDokument();
                         event.stopPropagation();
                     }}
+                    onKeyDown={(event: React.KeyboardEvent) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            toggleÅpnetDokument();
+                            event.stopPropagation();
+                        }
+                    }}
+                    onKeyUp={(event: React.KeyboardEvent) => event.preventDefault()}
                 />
             }
             tidsstempel={timestamp}
