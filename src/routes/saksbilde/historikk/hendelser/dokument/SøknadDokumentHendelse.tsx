@@ -1,14 +1,13 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { ArrowForwardIcon } from '@navikt/aksel-icons';
 
-import { Kilde } from '@components/Kilde';
+import { SøknadKildeIkon } from '@components/Kilde';
 import { ExpandableHendelse } from '@saksbilde/historikk/hendelser/ExpandableHendelse';
 import { DateString } from '@typer/shared';
 
 import { Søknadsinnhold } from './Søknadsinnhold';
-import { getKildetekst, getKildetype, useAddOpenedDocument, useOpenedDocuments } from './dokument';
+import { useAddOpenedDocument, useOpenedDocuments } from './dokument';
 
 import styles from './SøknadDokumentHendelse.module.scss';
 
@@ -35,20 +34,24 @@ export const SøknadDokumentHendelse = ({
         });
     };
 
+    const dokumentetErÅpnet = () => åpnedeDokumenter.find((it) => it.dokumentId === dokumentId);
+
     return (
         <ExpandableHendelse
-            icon={<Kilde type={getKildetype('Søknad')}>{getKildetekst('Søknad')}</Kilde>}
+            icon={<SøknadKildeIkon />}
             title="Søknad mottatt"
             topRightButton={
-                <button
-                    className={classNames(
-                        styles.åpne,
-                        åpnedeDokumenter.find((it) => it.dokumentId === dokumentId) && styles.skjult,
-                    )}
-                    onClick={åpneINyKolonne}
-                >
-                    <ArrowForwardIcon title="Åpne dokument til høyre" fontSize="1.5rem" />
-                </button>
+                !dokumentetErÅpnet() && (
+                    <button
+                        className={styles.åpne}
+                        onClick={(event) => {
+                            åpneINyKolonne();
+                            event.stopPropagation();
+                        }}
+                    >
+                        <ArrowForwardIcon title="Åpne dokument til høyre" fontSize="1.5rem" />
+                    </button>
+                )
             }
             timestamp={timestamp}
         >

@@ -80,3 +80,5 @@ export const Kilde = ({ type, children, className }: PropsWithChildren<KildeProp
 export const InntektsmeldingKildeIkon = () => (
     <Kilde type={getKildetype('Inntektsmelding')}>{getKildetekst('Inntektsmelding')}</Kilde>
 );
+
+export const SøknadKildeIkon = () => <Kilde type={getKildetype('Søknad')}>{getKildetekst('Søknad')}</Kilde>;
