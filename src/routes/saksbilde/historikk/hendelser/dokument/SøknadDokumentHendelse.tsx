@@ -46,7 +46,7 @@ export const SøknadDokumentHendelse = ({
                 <Button
                     size="xsmall"
                     variant="tertiary"
-                    title="Åpne dokument til høyre"
+                    title={dokumentetErÅpnet() ? 'Lukk panel' : 'Åpne opp panel'}
                     icon={dokumentetErÅpnet() ? <ChevronLeftCircleIcon /> : <ChevronRightCircleIcon />}
                     onClick={(event) => {
                         toggleÅpnetDokument();
