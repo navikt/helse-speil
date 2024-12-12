@@ -27,7 +27,7 @@ export const TidligerePåVentHendelse = ({
             title={`Lagt på vent${erEndring ? ' – endret' : ''}`}
             icon={<PåVentIkon />}
             timestamp={timestamp}
-            saksbehandler={saksbehandler}
+            saksbehandler={saksbehandler ?? undefined}
         >
             <VStack gap="2">
                 <ÅrsakListe årsaker={årsaker} />
