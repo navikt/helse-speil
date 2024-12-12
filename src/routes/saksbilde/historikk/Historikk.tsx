@@ -145,7 +145,7 @@ const HistorikkWithContent = (): ReactElement => {
                                                     return (
                                                         <SøknadDokumentHendelse
                                                             key={it.id}
-                                                            dokumentId={it.dokumentId ?? undefined}
+                                                            dokumentId={it.dokumentId ?? ''}
                                                             fødselsnummer={person.fodselsnummer}
                                                             timestamp={it.timestamp}
                                                         />
@@ -154,7 +154,7 @@ const HistorikkWithContent = (): ReactElement => {
                                                     return (
                                                         <InntektsmeldingDokumentHendelse
                                                             key={it.id}
-                                                            dokumentId={it.dokumentId ?? undefined}
+                                                            dokumentId={it.dokumentId ?? ''}
                                                             person={person}
                                                             timestamp={it.timestamp}
                                                         />
