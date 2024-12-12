@@ -63,6 +63,12 @@ export const isInntektoverstyringer = (
     overstyringer?: Maybe<Array<Overstyring>>,
 ): overstyringer is Array<Inntektoverstyring> => overstyringer?.every(isInntektoverstyring) ?? false;
 
+export const isTilkommenInntektoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Inntektoverstyring =>
+    (overstyring as Inntektoverstyring)?.inntekt.begrunnelse === 'tilkommen';
+
+export const isNotTilkommenInntektoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Inntektoverstyring =>
+    (overstyring as Inntektoverstyring)?.inntekt.begrunnelse !== 'tilkommen';
+
 export const isArbeidsforholdoverstyring = (
     overstyring?: Maybe<Overstyring>,
 ): overstyring is Arbeidsforholdoverstyring =>

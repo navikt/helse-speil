@@ -30,7 +30,9 @@ import {
     isDagoverstyring,
     isGhostPeriode,
     isInntektoverstyring,
+    isNotTilkommenInntektoverstyring,
     isTilkommenInntekt,
+    isTilkommenInntektoverstyring,
     isUberegnetPeriode,
 } from '@utils/typeguards';
 
@@ -280,6 +282,7 @@ export const useVurderingForSkjæringstidspunkt = (
 
 type UseEndringerForPeriodeResult = {
     inntektsendringer: Inntektoverstyring[];
+    tilkommenInntektsendringer: Inntektoverstyring[];
     arbeidsforholdendringer: Arbeidsforholdoverstyring[];
     dagendringer: Dagoverstyring[];
 };
@@ -290,8 +293,8 @@ export const useEndringerForPeriode = (
 ): UseEndringerForPeriodeResult => {
     const periode = useActivePeriod(person);
 
-    if (!endringer || !periode || isTilkommenInntekt(periode)) {
-        return { inntektsendringer: [], arbeidsforholdendringer: [], dagendringer: [] };
+    if (!endringer || !periode) {
+        return { inntektsendringer: [], tilkommenInntektsendringer: [], arbeidsforholdendringer: [], dagendringer: [] };
     }
 
     if (isGhostPeriode(periode)) {
@@ -301,14 +304,31 @@ export const useEndringerForPeriode = (
 
         const inntekter = endringer
             .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
-            .filter(isInntektoverstyring);
+            .filter(isInntektoverstyring)
+            .filter(isNotTilkommenInntektoverstyring);
 
-        return { inntektsendringer: inntekter, arbeidsforholdendringer: arbeidsforhold, dagendringer: [] };
+        const tilkommenInntekter = endringer
+            .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
+            .filter(isInntektoverstyring)
+            .filter(isTilkommenInntektoverstyring);
+
+        return {
+            inntektsendringer: inntekter,
+            tilkommenInntektsendringer: tilkommenInntekter,
+            arbeidsforholdendringer: arbeidsforhold,
+            dagendringer: [],
+        };
     }
 
     const inntekter = endringer
         .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
-        .filter(isInntektoverstyring);
+        .filter(isInntektoverstyring)
+        .filter(isNotTilkommenInntektoverstyring);
+
+    const tilkommenInntekter = endringer
+        .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
+        .filter(isInntektoverstyring)
+        .filter(isTilkommenInntektoverstyring);
 
     const arbeidsforhold = endringer
         .filter((it) => dayjs((periode as BeregnetPeriodeFragment).skjaeringstidspunkt).isSameOrBefore(it.timestamp))
@@ -318,7 +338,12 @@ export const useEndringerForPeriode = (
         .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
         .filter(isDagoverstyring);
 
-    return { inntektsendringer: inntekter, arbeidsforholdendringer: arbeidsforhold, dagendringer: dager };
+    return {
+        inntektsendringer: inntekter,
+        tilkommenInntektsendringer: tilkommenInntekter,
+        arbeidsforholdendringer: arbeidsforhold,
+        dagendringer: dager,
+    };
 };
 
 export const useDagoverstyringer = (
