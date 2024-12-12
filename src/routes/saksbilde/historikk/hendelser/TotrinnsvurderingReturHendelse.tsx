@@ -40,6 +40,7 @@ export const TotrinnsvurderingReturHendelse = ({
 
     return (
         <Hendelse title="Returnert" icon={<TotrinnsvurderingReturIkon />}>
+            <HendelseDate timestamp={timestamp} ident={saksbehandler ?? 'Automatisk'} />
             <div
                 role="button"
                 tabIndex={0}
@@ -53,7 +54,6 @@ export const TotrinnsvurderingReturHendelse = ({
                 <UtvidbartInnhold expanded={expanded}>{notattekst}</UtvidbartInnhold>
                 {isExpandable() && <ExpandButton expanded={expanded} />}
             </div>
-            <HendelseDate timestamp={timestamp} ident={saksbehandler ?? 'Automatisk'} />
             {dialogRef && (
                 <ExpandableHistorikkContent
                     openText={`Kommentarer (${kommentarer?.length})`}

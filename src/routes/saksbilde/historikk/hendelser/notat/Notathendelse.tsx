@@ -80,6 +80,7 @@ export const Notathendelse = ({
             {!feilregistrert && innloggetSaksbehandler.ident === saksbehandler && (
                 <HendelseDropdownMenu feilregistrerAction={feilregistrerNotat} isFetching={loading} />
             )}
+            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             <div
                 role="button"
                 tabIndex={0}
@@ -128,7 +129,6 @@ export const Notathendelse = ({
                 )}
             </div>
             {error && <ErrorMessage>Kunne ikke feilregistrere notat. Prøv igjen senere.</ErrorMessage>}
-            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             <ExpandableHistorikkContent openText={`Kommentarer (${kommentarer.length})`} closeText="Lukk kommentarer">
                 <NotatHendelseContent
                     kommentarer={kommentarer}

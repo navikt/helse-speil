@@ -66,8 +66,8 @@ export const ExpandableHendelse = ({
                     {kontekstknapp && <Spacer />}
                     {kontekstknapp}
                 </HStack>
-                <AnimatedExpandableDiv expanded={expanded}>{children}</AnimatedExpandableDiv>
                 <HendelseDate timestamp={tidsstempel} ident={saksbehandler} />
+                <AnimatedExpandableDiv expanded={expanded}>{children}</AnimatedExpandableDiv>
             </div>
         </li>
     );

@@ -31,6 +31,7 @@ export const MinimumSykdomsgradhendelse = ({
                 </Kilde>
             }
         >
+            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
                     {minimumSykdomsgrad.perioderVurdertOk.length > 0 && (
@@ -65,7 +66,6 @@ export const MinimumSykdomsgradhendelse = ({
                     <BodyShort className={styles.begrunnelse}>{minimumSykdomsgrad.begrunnelse}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>
-            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
         </Hendelse>
     </>
 );

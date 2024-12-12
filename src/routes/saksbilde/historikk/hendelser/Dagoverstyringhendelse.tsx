@@ -68,6 +68,7 @@ export const Dagoverstyringhendelse = ({
             </Kilde>
         }
     >
+        <HendelseDate timestamp={timestamp} ident={saksbehandler} />
         <ExpandableHistorikkContent>
             <BodyShort weight="semibold">Begrunnelse</BodyShort>
             <BodyShort>{begrunnelse}</BodyShort>
@@ -97,6 +98,5 @@ export const Dagoverstyringhendelse = ({
                 ))}
             </div>
         </ExpandableHistorikkContent>
-        <HendelseDate timestamp={timestamp} ident={saksbehandler} />
     </Hendelse>
 );

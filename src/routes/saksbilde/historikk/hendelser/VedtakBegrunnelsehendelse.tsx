@@ -30,6 +30,7 @@ export const VedtakBegrunnelsehendelse = ({
                 </Kilde>
             }
         >
+            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
                     <BodyShort weight="semibold">Type: </BodyShort>
@@ -38,7 +39,6 @@ export const VedtakBegrunnelsehendelse = ({
                     <BodyShort>{begrunnelse}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>
-            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
         </Hendelse>
     );
 };

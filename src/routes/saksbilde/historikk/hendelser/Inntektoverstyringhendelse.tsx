@@ -35,6 +35,7 @@ export const Inntektoverstyringhendelse = ({
                         </Kilde>
                     }
                 >
+                    <HendelseDate timestamp={timestamp} ident={saksbehandler} />
                     <ExpandableHistorikkContent>
                         <div className={styles.Grid}>
                             <BodyShort weight="semibold">Begrunnelse </BodyShort>
@@ -52,7 +53,6 @@ export const Inntektoverstyringhendelse = ({
                             <BodyShort>{getFormattedDateString(inntekt.skjaeringstidspunkt)}</BodyShort>
                         </div>
                     </ExpandableHistorikkContent>
-                    <HendelseDate timestamp={timestamp} ident={saksbehandler} />
                 </Hendelse>
             )}
             {JSON.stringify(inntekt?.fraRefusjonsopplysninger) !==
@@ -71,6 +71,7 @@ export const Inntektoverstyringhendelse = ({
                         </Kilde>
                     }
                 >
+                    <HendelseDate timestamp={timestamp} ident={saksbehandler} />
                     <ExpandableHistorikkContent>
                         <div className={styles.Grid}>
                             <BodyShort weight="semibold">Begrunnelse </BodyShort>
@@ -136,7 +137,6 @@ export const Inntektoverstyringhendelse = ({
                             <BodyShort>{getFormattedDateString(inntekt.skjaeringstidspunkt)}</BodyShort>
                         </div>
                     </ExpandableHistorikkContent>
-                    <HendelseDate timestamp={timestamp} ident={saksbehandler} />
                 </Hendelse>
             )}
         </>

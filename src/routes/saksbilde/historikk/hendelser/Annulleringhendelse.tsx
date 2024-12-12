@@ -24,6 +24,7 @@ export const Annulleringhendelse = ({
             title="Saken er annullert "
             icon={<XMarkOctagonIcon title="Stopp ikon" className={styles.annullertikon} />}
         >
+            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
                     <BodyShort weight="semibold">Årsaker: </BodyShort>
@@ -34,7 +35,6 @@ export const Annulleringhendelse = ({
                     <BodyShort>{begrunnelse}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>
-            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
         </Hendelse>
     );
 };

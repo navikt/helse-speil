@@ -43,6 +43,7 @@ export const NotatKommentar = ({ kommentar, readOnly }: NotatKommentarProps) => 
 
     return (
         <div key={kommentar.id} className={styles.Kommentar}>
+            <HendelseDate timestamp={kommentar.opprettet} ident={kommentar.saksbehandlerident} />
             <div className={classNames(erFeilregistrert && styles.Feilregistrert)}>
                 {kommentar.tekst} {erFeilregistrert && '(feilregistert)'}
             </div>
@@ -55,7 +56,6 @@ export const NotatKommentar = ({ kommentar, readOnly }: NotatKommentarProps) => 
                     />
                 )}
             {error && <ErrorMessage>Kunne ikke feilregistrere kommentar. Prøv igjen senere.</ErrorMessage>}
-            <HendelseDate timestamp={kommentar.opprettet} ident={kommentar.saksbehandlerident} />
         </div>
     );
 };

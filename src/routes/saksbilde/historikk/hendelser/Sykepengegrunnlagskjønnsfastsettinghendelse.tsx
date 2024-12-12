@@ -49,6 +49,7 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
                 </Kilde>
             }
         >
+            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
                     <BodyShort weight="semibold">Årsak </BodyShort>
@@ -81,7 +82,6 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
                     <BodyShort>{getFormattedDateString(skjønnsfastsatt.skjaeringstidspunkt)}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>
-            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
         </Hendelse>
     </>
 );

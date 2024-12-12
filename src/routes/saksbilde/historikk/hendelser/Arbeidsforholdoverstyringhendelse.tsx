@@ -33,6 +33,7 @@ export const Arbeidsforholdoverstyringhendelse = ({
                 </Kilde>
             }
         >
+            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
                     <BodyShort>Begrunnelse: </BodyShort>
@@ -43,7 +44,6 @@ export const Arbeidsforholdoverstyringhendelse = ({
                     <BodyShort>{getFormattedDateString(skjæringstidspunkt)}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>
-            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
         </Hendelse>
     );
 };

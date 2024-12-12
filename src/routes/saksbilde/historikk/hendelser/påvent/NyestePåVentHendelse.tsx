@@ -43,33 +43,33 @@ export const NyestePåVentHendelse = ({
             {erAktivPeriodePåVent && (
                 <PåVentDropdown person={person} årsaker={årsaker} notattekst={notattekst} frist={frist} />
             )}
+            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             <VStack gap="2">
                 <ÅrsakListe årsaker={årsaker} />
                 <HStack gap="1">
                     <BodyShort>Frist:</BodyShort>
                     <BodyShort weight="semibold">{somNorskDato(frist ?? undefined)}</BodyShort>
                 </HStack>
+                {!!notattekst && (
+                    <Expandable>
+                        <BodyShort weight="semibold">Notat</BodyShort>
+                        <BodyLong style={{ whiteSpace: 'pre-wrap' }}>{notattekst}</BodyLong>
+                    </Expandable>
+                )}
+                {dialogRef && (
+                    <ExpandableHistorikkContent
+                        openText={`Kommentarer (${kommentarer?.length})`}
+                        closeText="Lukk kommentarer"
+                    >
+                        <KommentarerContent
+                            historikktype={historikktype}
+                            kommentarer={kommentarer}
+                            dialogRef={dialogRef}
+                            historikkinnslagId={historikkinnslagId}
+                        />
+                    </ExpandableHistorikkContent>
+                )}
             </VStack>
-            {!!notattekst && (
-                <Expandable>
-                    <BodyShort weight="semibold">Notat</BodyShort>
-                    <BodyLong style={{ whiteSpace: 'pre-wrap' }}>{notattekst}</BodyLong>
-                </Expandable>
-            )}
-            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
-            {dialogRef && (
-                <ExpandableHistorikkContent
-                    openText={`Kommentarer (${kommentarer?.length})`}
-                    closeText="Lukk kommentarer"
-                >
-                    <KommentarerContent
-                        historikktype={historikktype}
-                        kommentarer={kommentarer}
-                        dialogRef={dialogRef}
-                        historikkinnslagId={historikkinnslagId}
-                    />
-                </ExpandableHistorikkContent>
-            )}
         </Hendelse>
     );
 };
