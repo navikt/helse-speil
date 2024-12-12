@@ -82,6 +82,7 @@ const getTypePolicies = (): TypePolicies => {
         Notat: { keyFields: ['id'] },
         Kommentar: { keyFields: ['id'] },
         LagtPaVent: { keyFields: ['id'] },
+        EndrePaVent: { keyFields: ['id'] },
         TotrinnsvurderingRetur: { keyFields: ['id'] },
         Person: { keyFields: ['fodselsnummer'], merge: false },
         VarselDTO: { keyFields: ['generasjonId', 'kode'] },
