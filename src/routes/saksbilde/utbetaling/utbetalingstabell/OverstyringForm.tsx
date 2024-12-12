@@ -72,7 +72,7 @@ export const OverstyringForm = ({
         <VStack marginInline="8" width="640px" gap="8">
             <Textarea
                 id="begrunnelse"
-                label="Begrunnelse for endringer"
+                label="Notat til beslutter"
                 value={oppsummering}
                 description={
                     <span>
