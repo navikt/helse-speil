@@ -6,13 +6,12 @@ import { BodyShort } from '@navikt/ds-react';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Inntektskilde, Maybe, Skjonnsfastsettingstype } from '@io/graphql';
+import { ExpandableHendelse } from '@saksbilde/historikk/hendelser/ExpandableHendelse';
 import { SykepengegrunnlagskjonnsfastsettinghendelseObject } from '@typer/historikk';
 import { getFormattedDateString } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
-import { Hendelse } from './Hendelse';
-import { HendelseDate } from './HendelseDate';
 
 import styles from './Overstyringshendelse.module.css';
 
@@ -41,47 +40,46 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
     arbeidsgivere,
 }: SykepengegrunnlagskjønnsfastsettinghendelseProps): ReactElement => (
     <>
-        <Hendelse
-            title="Sykepengegrunnlag skjønnsfastsatt"
-            icon={
+        <ExpandableHendelse
+            ikon={
                 <Kilde type={Inntektskilde.Saksbehandler}>
                     <PersonPencilFillIcon title="Saksbehandler ikon" />
                 </Kilde>
             }
+            tittel="Sykepengegrunnlag skjønnsfastsatt"
+            tidsstempel={timestamp}
+            saksbehandler={saksbehandler}
         >
-            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
-            <ExpandableHistorikkContent>
-                <div className={styles.Grid}>
-                    <BodyShort weight="semibold">Årsak </BodyShort>
-                    <BodyShort>{skjønnsfastsatt.arsak}</BodyShort>
-                    <BodyShort weight="semibold">Type skjønnsfastsettelse </BodyShort>
-                    <BodyShort>{getSkjønnsfastsettelseTypeTekst(skjønnsfastsatt.type)}</BodyShort>
-                    <BodyShort weight="semibold">Begrunnelse </BodyShort>
-                    <ExpandableHistorikkContent className={styles.begrunnelse}>
-                        <BodyShort>{skjønnsfastsatt.begrunnelseMal}</BodyShort>
-                    </ExpandableHistorikkContent>
-                    <BodyShort weight="semibold">Nærmere begrunnelse for skjønnsvurderingen </BodyShort>
-                    <BodyShort>{skjønnsfastsatt.begrunnelseFritekst}</BodyShort>
-                    <BodyShort weight="semibold">Konklusjon </BodyShort>
-                    <BodyShort>{skjønnsfastsatt.begrunnelseKonklusjon}</BodyShort>
-                    <BodyShort weight="semibold">Årsinntekt </BodyShort>
-                    <div className={styles.arbeidsgivere}>
-                        {arbeidsgivere.map((ag, index) => (
-                            <Fragment key={`ag-${index}`}>
-                                <AnonymizableText>{ag.navn}</AnonymizableText>
-                                <BodyShort>
-                                    {ag.fraÅrlig !== ag.årlig && (
-                                        <span className={styles.FromValue}>{somPenger(ag.fraÅrlig)}</span>
-                                    )}
-                                    {somPenger(ag.årlig)}
-                                </BodyShort>
-                            </Fragment>
-                        ))}
-                    </div>
-                    <BodyShort weight="semibold">Skj. tidspunkt</BodyShort>
-                    <BodyShort>{getFormattedDateString(skjønnsfastsatt.skjaeringstidspunkt)}</BodyShort>
+            <div className={styles.Grid}>
+                <BodyShort weight="semibold">Årsak </BodyShort>
+                <BodyShort>{skjønnsfastsatt.arsak}</BodyShort>
+                <BodyShort weight="semibold">Type skjønnsfastsettelse </BodyShort>
+                <BodyShort>{getSkjønnsfastsettelseTypeTekst(skjønnsfastsatt.type)}</BodyShort>
+                <BodyShort weight="semibold">Begrunnelse </BodyShort>
+                <ExpandableHistorikkContent className={styles.begrunnelse}>
+                    <BodyShort>{skjønnsfastsatt.begrunnelseMal}</BodyShort>
+                </ExpandableHistorikkContent>
+                <BodyShort weight="semibold">Nærmere begrunnelse for skjønnsvurderingen </BodyShort>
+                <BodyShort>{skjønnsfastsatt.begrunnelseFritekst}</BodyShort>
+                <BodyShort weight="semibold">Konklusjon </BodyShort>
+                <BodyShort>{skjønnsfastsatt.begrunnelseKonklusjon}</BodyShort>
+                <BodyShort weight="semibold">Årsinntekt </BodyShort>
+                <div className={styles.arbeidsgivere}>
+                    {arbeidsgivere.map((ag, index) => (
+                        <Fragment key={`ag-${index}`}>
+                            <AnonymizableText>{ag.navn}</AnonymizableText>
+                            <BodyShort>
+                                {ag.fraÅrlig !== ag.årlig && (
+                                    <span className={styles.FromValue}>{somPenger(ag.fraÅrlig)}</span>
+                                )}
+                                {somPenger(ag.årlig)}
+                            </BodyShort>
+                        </Fragment>
+                    ))}
                 </div>
-            </ExpandableHistorikkContent>
-        </Hendelse>
+                <BodyShort weight="semibold">Skj. tidspunkt</BodyShort>
+                <BodyShort>{getFormattedDateString(skjønnsfastsatt.skjaeringstidspunkt)}</BodyShort>
+            </div>
+        </ExpandableHendelse>
     </>
 );
