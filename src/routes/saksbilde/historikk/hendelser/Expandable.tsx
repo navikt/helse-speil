@@ -30,11 +30,17 @@ export const Expandable = ({
             role="button"
             tabIndex={0}
             onKeyDown={(event: React.KeyboardEvent) => {
-                if (event.code === 'Enter' || event.code === 'Space') toggleExpanded();
+                if (event.key === 'Enter' || event.key === ' ') {
+                    toggleExpanded();
+                    event.stopPropagation();
+                }
             }}
-            onClick={() => {
+            onClick={(event: React.MouseEvent) => {
                 // Ikke minimer når man markerer tekst
-                if (window.getSelection()?.type !== 'Range') toggleExpanded();
+                if (window.getSelection()?.type !== 'Range') {
+                    toggleExpanded();
+                    event.stopPropagation();
+                }
             }}
             className={classNames(styles.fokusområde, styles.klikkbar, className)}
         >
