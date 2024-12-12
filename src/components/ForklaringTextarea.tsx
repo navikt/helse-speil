@@ -19,7 +19,7 @@ export const ForklaringTextarea = ({ description }: ForklaringTextareaProps): Re
 
     return (
         <Textarea
-            label="Forklaring"
+            label="Notat til beslutter"
             id="forklaring"
             value={forklaring}
             ref={ref}
