@@ -1,17 +1,14 @@
-import classNames from 'classnames';
-import React, { ReactElement, ReactNode, useCallback, useEffect, useState } from 'react';
+import React, { ReactElement } from 'react';
 
 import { ArrowForwardIcon } from '@navikt/aksel-icons';
 
-import { Kilde } from '@components/Kilde';
+import { InntektsmeldingKildeIkon } from '@components/Kilde';
 import { PersonFragment } from '@io/graphql';
+import { ExpandableHendelse } from '@saksbilde/historikk/hendelser/ExpandableHendelse';
 import { DateString } from '@typer/shared';
 
-import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
-import { Hendelse } from '../Hendelse';
-import { HendelseDate } from '../HendelseDate';
 import { Inntektsmeldingsinnhold } from './Inntektsmeldingsinnhold';
-import { getKildetekst, getKildetype, useAddOpenedDocument, useOpenedDocuments } from './dokument';
+import { useAddOpenedDocument, useOpenedDocuments } from './dokument';
 
 import styles from './InntektsmeldingDokumentHendelse.module.scss';
 
@@ -26,50 +23,40 @@ export const InntektsmeldingDokumentHendelse = ({
     person,
     timestamp,
 }: InntektsmeldingDokumentHendelseProps): ReactElement => {
-    const [showDokumenter, setShowDokumenter] = useState(false);
-    const [dokument, setDokument] = useState<ReactNode>(null);
     const leggTilÅpnetDokument = useAddOpenedDocument();
     const åpnedeDokumenter = useOpenedDocuments();
-    const fødselsnummer = person.fodselsnummer;
-
-    const setDokumenter = useCallback(() => {
-        setDokument(<Inntektsmeldingsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} person={person} />);
-    }, [dokumentId, person]);
-
-    useEffect(() => {
-        if (!showDokumenter || !fødselsnummer) return;
-        setDokumenter();
-    }, [fødselsnummer, setDokumenter, showDokumenter]);
 
     const åpneINyKolonne = () => {
         leggTilÅpnetDokument({
             dokumentId: dokumentId ?? '',
-            fødselsnummer: fødselsnummer,
+            fødselsnummer: person.fodselsnummer,
             dokumenttype: 'Inntektsmelding',
             timestamp: timestamp,
         });
     };
 
+    const dokumentetErÅpnet = () => åpnedeDokumenter.find((it) => it.dokumentId === dokumentId);
+
     return (
-        <Hendelse
-            title={
-                <span className={styles.header}>
-                    <span>Inntektsmelding mottatt</span>
+        <ExpandableHendelse
+            icon={<InntektsmeldingKildeIkon />}
+            title="Inntektsmelding mottatt"
+            topRightButton={
+                !dokumentetErÅpnet() && (
                     <button
-                        className={classNames(
-                            styles.åpne,
-                            åpnedeDokumenter.find((it) => it.dokumentId === dokumentId) && styles.skjult,
-                        )}
-                        onClick={åpneINyKolonne}
+                        className={styles.åpne}
+                        onClick={(event) => {
+                            åpneINyKolonne();
+                            event.stopPropagation();
+                        }}
                     >
                         <ArrowForwardIcon title="Åpne dokument til høyre" fontSize="1.5rem" />
                     </button>
-                </span>
+                )
             }
-            icon={<Kilde type={getKildetype('Inntektsmelding')}>{getKildetekst('Inntektsmelding')}</Kilde>}
+            timestamp={timestamp}
         >
-            <ExpandableHistorikkContent onOpen={setShowDokumenter}>{dokument}</ExpandableHistorikkContent>
-            <HendelseDate timestamp={timestamp} />
-        </Hendelse>
+            <Inntektsmeldingsinnhold dokumentId={dokumentId} fødselsnummer={person.fodselsnummer} person={person} />
+        </ExpandableHendelse>
     );
 };

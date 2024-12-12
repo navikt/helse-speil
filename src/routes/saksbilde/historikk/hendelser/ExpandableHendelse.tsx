@@ -54,20 +54,17 @@ export const ExpandableHendelse = ({
         >
             <div className={styles.iconContainer}>{icon}</div>
             <div className={styles.content}>
-                <HStack gap="1">
-                    <BodyShort weight="semibold">{title}</BodyShort>
-                    {expanded ? (
-                        <ChevronUpIcon title="Vis mindre" fontSize="1.5rem" />
-                    ) : (
-                        <ChevronDownIcon title="Vis mer" fontSize="1.5rem" />
-                    )}
-
-                    {topRightButton && (
-                        <>
-                            <Spacer />
-                            {topRightButton}
-                        </>
-                    )}
+                <HStack gap="1" wrap={false}>
+                    <HStack>
+                        <BodyShort weight="semibold">{title}</BodyShort>
+                        {expanded ? (
+                            <ChevronUpIcon title="Vis mindre" fontSize="1.5rem" />
+                        ) : (
+                            <ChevronDownIcon title="Vis mer" fontSize="1.5rem" />
+                        )}
+                    </HStack>
+                    {topRightButton && <Spacer />}
+                    {topRightButton}
                 </HStack>
                 <AnimatedExpandableDiv expanded={expanded}>{children}</AnimatedExpandableDiv>
                 <HendelseDate timestamp={timestamp} ident={saksbehandler} />
