@@ -3401,6 +3401,12 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "MANGLER_IM",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "MEDLEMSKAP",
                         "description": null,
                         "isDeprecated": false,

@@ -809,6 +809,10 @@
                                             "egenskap": "UTLAND"
                                         },
                                         {
+                                            "kategori": "Ukategorisert",
+                                            "egenskap": "MANGLER_IM"
+                                        },
+                                        {
                                             "kategori": "Status",
                                             "egenskap": "BESLUTTER"
                                         },

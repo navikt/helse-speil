@@ -347,6 +347,7 @@ export enum Egenskap {
     Haster = 'HASTER',
     Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
     IngenUtbetaling = 'INGEN_UTBETALING',
+    ManglerIm = 'MANGLER_IM',
     Medlemskap = 'MEDLEMSKAP',
     OvergangFraIt = 'OVERGANG_FRA_IT',
     PaVent = 'PA_VENT',

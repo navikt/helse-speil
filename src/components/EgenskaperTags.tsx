@@ -51,6 +51,8 @@ const tilTekst = (egenskap: Egenskap) => {
             return 'Ingen mottaker';
         case Egenskap.Tilbakedatert:
             return 'Tilbakedatert';
+        case Egenskap.ManglerIm:
+            return 'Mangler IM';
         case Egenskap.Medlemskap:
             return 'Medlemskap';
         case Egenskap.Gosys:

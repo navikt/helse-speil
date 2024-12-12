@@ -32,6 +32,7 @@ export const oppgaver: OppgaveTilBehandling[] = [
             { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Haster },
             { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Vergemal },
             { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Utland },
+            { kategori: Kategori.Ukategorisert, egenskap: Egenskap.ManglerIm },
             { kategori: Kategori.Status, egenskap: Egenskap.Beslutter },
             { kategori: Kategori.Status, egenskap: Egenskap.PaVent },
         ],
