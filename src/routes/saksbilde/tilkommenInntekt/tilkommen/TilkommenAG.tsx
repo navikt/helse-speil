@@ -34,7 +34,7 @@ export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps)
                 paddingBlock="4"
                 paddingInline={editing ? '10' : '6'}
                 marginInline={editing ? '0' : '4'}
-                borderRadius={editing ? undefined : 'medium'}
+                borderRadius={editing ? undefined : 'xlarge'}
                 minWidth="390px"
                 maxWidth={editing ? undefined : '730px'}
             >
