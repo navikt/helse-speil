@@ -16,10 +16,9 @@ import styles from './Kommentarer.module.css';
 
 interface KommentarProps {
     kommentar: GraphQLKommentar;
-    readOnly: boolean;
 }
 
-export const Kommentar = ({ kommentar, readOnly }: KommentarProps) => {
+export const Kommentar = ({ kommentar }: KommentarProps) => {
     const [feilregistrerKommentar, { loading, error }] = useMutation(FeilregistrerKommentarMutationDocument);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
 
@@ -47,14 +46,9 @@ export const Kommentar = ({ kommentar, readOnly }: KommentarProps) => {
             <div className={classNames(erFeilregistrert && styles.Feilregistrert)}>
                 {kommentar.tekst} {erFeilregistrert && '(feilregistert)'}
             </div>
-            {!readOnly &&
-                !kommentar.feilregistrert_tidspunkt &&
-                innloggetSaksbehandler.ident === kommentar.saksbehandlerident && (
-                    <KommentarDropdown
-                        feilregistrerAction={onFeilregistrerKommentar(kommentar.id)}
-                        isFetching={loading}
-                    />
-                )}
+            {!kommentar.feilregistrert_tidspunkt && innloggetSaksbehandler.ident === kommentar.saksbehandlerident && (
+                <KommentarDropdown feilregistrerAction={onFeilregistrerKommentar(kommentar.id)} isFetching={loading} />
+            )}
             {error && <ErrorMessage>Kunne ikke feilregistrere kommentar. Prøv igjen senere.</ErrorMessage>}
         </div>
     );

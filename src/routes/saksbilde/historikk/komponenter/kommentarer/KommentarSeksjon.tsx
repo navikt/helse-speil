@@ -21,7 +21,7 @@ export const KommentarSeksjon = ({
     <>
         {kommentarer?.length > 0 && (
             <Expandable expandText={`Kommentarer (${kommentarer?.length})`} collapseText="Lukk kommentarer">
-                <Kommentarer kommentarer={kommentarer} readOnly={false} />
+                <Kommentarer kommentarer={kommentarer} />
             </Expandable>
         )}
         {dialogRef && (
