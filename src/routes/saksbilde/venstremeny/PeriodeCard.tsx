@@ -151,7 +151,7 @@ const ArbeidsforholdOpphørt = ({
         (it) => it.sluttdato !== null && dayjs(it.sluttdato, ISO_DATOFORMAT).isSameOrBefore(periode.tom),
     );
     const sisteOpphørteArbeidsforhold =
-        [...arbeidsforhold].sort((a, b) => (dayjs(a.sluttdato, ISO_DATOFORMAT).isBefore(b.sluttdato) ? -1 : 1))?.[0]
+        [...arbeidsforhold].sort((a, b) => (dayjs(a.sluttdato, ISO_DATOFORMAT).isBefore(b.sluttdato) ? 1 : -1))?.[0]
             ?.sluttdato ?? null;
 
     return (
