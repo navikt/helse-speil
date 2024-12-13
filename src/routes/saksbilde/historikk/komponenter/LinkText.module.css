@@ -1,4 +1,4 @@
-.expandCollapseButton {
+.linkText {
     display: flex;
     align-items: center;
     font-size: var(--a-font-size-medium);
@@ -8,6 +8,6 @@
     gap: 0.5rem;
 }
 
-.expandCollapseButton:hover {
+.linkText:hover {
     text-decoration: none;
 }

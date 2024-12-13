@@ -1,0 +1,8 @@
+.interactable {
+    outline: none;
+    cursor: pointer;
+}
+
+.interactable:focus-visible {
+    box-shadow: var(--a-shadow-focus);
+}

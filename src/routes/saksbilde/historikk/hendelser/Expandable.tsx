@@ -4,6 +4,7 @@ import React, { PropsWithChildren, ReactElement, useRef, useState } from 'react'
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 
 import { AnimatedExpandableDiv } from '@components/AnimatedExpandableDiv';
+import { LinkText } from '@saksbilde/historikk/komponenter/LinkText';
 
 import styles from './Expandable.module.css';
 
@@ -51,10 +52,10 @@ export const Expandable = ({
             ref={ref}
         >
             <AnimatedExpandableDiv expanded={expanded}>{children}</AnimatedExpandableDiv>
-            <span className={styles.expandCollapseButton}>
+            <LinkText>
                 {expanded ? collapseText : expandText}
                 {expanded ? <ChevronUpIcon fontSize="1.5rem" /> : <ChevronDownIcon fontSize="1.5rem" />}
-            </span>
+            </LinkText>
         </div>
     );
 };

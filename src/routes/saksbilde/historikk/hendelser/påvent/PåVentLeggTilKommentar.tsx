@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 
 import { PeriodehistorikkType } from '@io/graphql';
 import { NotatForm } from '@saksbilde/historikk/hendelser/notat/NotatForm';
+import { InteractableLinkText } from '@saksbilde/historikk/komponenter/InteractableLinkText';
 import { finnKommentertElementType, useLeggTilKommentar } from '@state/notater';
-
-import styles from './PåVentLeggTilKommentar.module.css';
 
 type PåVentLeggTilKommentarProps = {
     historikktype: PeriodehistorikkType;
@@ -34,8 +33,6 @@ export const PåVentLeggTilKommentar = ({
             hasError={error != undefined}
         />
     ) : (
-        <span className={styles.expandCollapseButton} onClick={() => setShowAddDialog(true)}>
-            Legg til ny kommentar
-        </span>
+        <InteractableLinkText onInteract={() => setShowAddDialog(true)}>Legg til ny kommentar</InteractableLinkText>
     );
 };
