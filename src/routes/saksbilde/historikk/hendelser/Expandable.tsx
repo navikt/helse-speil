@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { PropsWithChildren, ReactElement, useState } from 'react';
+import React, { PropsWithChildren, ReactElement, useRef, useState } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 
@@ -20,6 +20,7 @@ export const Expandable = ({
     children,
 }: ExpandableProps): ReactElement => {
     const [expanded, setExpanded] = useState(false);
+    const ref = useRef(null);
 
     const toggleExpanded = () => {
         setExpanded((expanded) => !expanded);
@@ -29,13 +30,6 @@ export const Expandable = ({
         <div
             role="button"
             tabIndex={0}
-            onKeyDown={(event: React.KeyboardEvent) => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    toggleExpanded();
-                    event.stopPropagation();
-                }
-            }}
             onClick={(event: React.MouseEvent) => {
                 // Ikke minimer når man markerer tekst
                 if (window.getSelection()?.type !== 'Range') {
@@ -43,7 +37,18 @@ export const Expandable = ({
                     event.stopPropagation();
                 }
             }}
+            onKeyDown={(event: React.KeyboardEvent) => {
+                // Reager kun hvis akkurat dette elementet er markert med tab
+                if (event.target === ref.current) {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        toggleExpanded();
+                        event.stopPropagation();
+                        event.preventDefault(); // Forhindre urelatert scrolling
+                    }
+                }
+            }}
             className={classNames(styles.fokusområde, styles.klikkbar, className)}
+            ref={ref}
         >
             <AnimatedExpandableDiv expanded={expanded}>{children}</AnimatedExpandableDiv>
             <span className={styles.expandCollapseButton}>

@@ -12,13 +12,16 @@ type DropdownMenuProps = {
 
 export const HendelseDropdownMenu = ({ feilregistrerAction, isFetching }: DropdownMenuProps) => {
     return (
-        <Dropdown>
+        <Dropdown onSelect={(event: React.MouseEvent) => event.stopPropagation()}>
             <Button
                 as={Dropdown.Toggle}
                 variant="tertiary"
                 className={styles.ToggleButton}
                 size="xsmall"
                 loading={isFetching}
+                onClick={(event: React.MouseEvent) => {
+                    event.stopPropagation();
+                }}
             >
                 <MenuElipsisHorizontalIcon height={32} width={32} />
             </Button>

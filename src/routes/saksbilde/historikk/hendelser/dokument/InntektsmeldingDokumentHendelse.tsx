@@ -49,18 +49,10 @@ export const InntektsmeldingDokumentHendelse = ({
                     variant="tertiary"
                     title={dokumentetErÅpnet() ? 'Lukk panel' : 'Åpne opp panel'}
                     icon={dokumentetErÅpnet() ? <ChevronLeftCircleIcon /> : <ChevronRightCircleIcon />}
-                    onClick={(event) => {
+                    onClick={(event: React.MouseEvent) => {
                         toggleÅpnetDokument();
                         event.stopPropagation();
                     }}
-                    onKeyDown={(event: React.KeyboardEvent) => {
-                        if (event.key === 'Enter' || event.key === ' ') {
-                            event.preventDefault();
-                            toggleÅpnetDokument();
-                            event.stopPropagation();
-                        }
-                    }}
-                    onKeyUp={(event: React.KeyboardEvent) => event.preventDefault()}
                 />
             }
             tidsstempel={timestamp}

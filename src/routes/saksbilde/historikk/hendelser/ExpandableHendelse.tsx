@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ReactElement, ReactNode, useState } from 'react';
+import React, { ReactElement, ReactNode, useRef, useState } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack, Spacer } from '@navikt/ds-react';
@@ -29,6 +29,7 @@ export const ExpandableHendelse = ({
     ...liProps
 }: ExpandableHendelseProps): ReactElement => {
     const [expanded, setExpanded] = useState(false);
+    const ref = useRef(null);
 
     function toggleExpanded() {
         setExpanded(!expanded);
@@ -38,18 +39,25 @@ export const ExpandableHendelse = ({
         <li
             role="button"
             tabIndex={0}
-            onKeyDown={(event: React.KeyboardEvent) => {
-                if (event.code === 'Enter' || event.code === 'Space') {
-                    toggleExpanded();
-                }
-            }}
-            onClick={() => {
-                // ikke minimer når man markerer tekst
+            onClick={(event: React.MouseEvent) => {
+                // Ikke minimer når man markerer tekst
                 if (window.getSelection()?.type !== 'Range') {
                     toggleExpanded();
+                    event.stopPropagation();
+                }
+            }}
+            onKeyDown={(event: React.KeyboardEvent) => {
+                // Reager kun hvis akkurat dette elementet er markert med tab
+                if (event.target === ref.current) {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        toggleExpanded();
+                        event.preventDefault();
+                        event.stopPropagation(); // Forhindre urelatert scrolling
+                    }
                 }
             }}
             className={classNames(styles.fokusområde, styles.klikkbar, styles.hendelse, className)}
+            ref={ref}
             {...liProps}
         >
             <div className={styles.iconContainer}>{ikon}</div>
