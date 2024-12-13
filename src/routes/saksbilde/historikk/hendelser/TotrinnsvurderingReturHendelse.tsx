@@ -5,9 +5,8 @@ import React, { PropsWithChildren, ReactElement, useState } from 'react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 
 import { PeriodehistorikkType } from '@io/graphql';
-import { ExpandableHistorikkContent } from '@saksbilde/historikk/hendelser/ExpandableHistorikkContent';
 import { TotrinnsvurderingReturIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
-import { KommentarerContent } from '@saksbilde/historikk/hendelser/notat/KommentarerContent';
+import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
 import { Hendelse } from './Hendelse';
@@ -54,19 +53,12 @@ export const TotrinnsvurderingReturHendelse = ({
                 <UtvidbartInnhold expanded={expanded}>{notattekst}</UtvidbartInnhold>
                 {isExpandable() && <ExpandButton expanded={expanded} />}
             </div>
-            {dialogRef && (
-                <ExpandableHistorikkContent
-                    openText={`Kommentarer (${kommentarer?.length})`}
-                    closeText="Lukk kommentarer"
-                >
-                    <KommentarerContent
-                        historikktype={PeriodehistorikkType.TotrinnsvurderingRetur}
-                        kommentarer={kommentarer}
-                        dialogRef={dialogRef}
-                        historikkinnslagId={historikkinnslagId}
-                    />
-                </ExpandableHistorikkContent>
-            )}
+            <KommentarSeksjon
+                kommentarer={kommentarer}
+                dialogRef={dialogRef}
+                historikkinnslagId={historikkinnslagId}
+                historikktype={PeriodehistorikkType.TotrinnsvurderingRetur}
+            />
         </Hendelse>
     );
 };

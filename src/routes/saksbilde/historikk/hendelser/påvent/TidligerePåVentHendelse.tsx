@@ -4,8 +4,8 @@ import { BodyLong, BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { ExpandableHendelse } from '@saksbilde/historikk/hendelser/ExpandableHendelse';
 import { PåVentIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
-import { Kommentarer } from '@saksbilde/historikk/hendelser/notat/Kommentarer';
 import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe';
+import { Kommentarer } from '@saksbilde/historikk/komponenter/kommentarer/Kommentarer';
 import { HistorikkhendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
 

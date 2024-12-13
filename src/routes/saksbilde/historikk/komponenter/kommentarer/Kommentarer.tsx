@@ -2,14 +2,14 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Kommentar, Maybe } from '@io/graphql';
+import { Kommentar as GraphQLKommentar, Maybe } from '@io/graphql';
 
-import { NotatKommentar } from './NotatKommentar';
+import { Kommentar } from './Kommentar';
 
 import styles from './Kommentarer.module.css';
 
 interface KommentarerProps {
-    kommentarer: Array<Kommentar>;
+    kommentarer: Array<GraphQLKommentar>;
     readOnly: boolean;
 }
 
@@ -22,7 +22,7 @@ export const Kommentarer = ({ kommentarer, readOnly }: KommentarerProps): Maybe<
             {[...kommentarer]
                 .sort((a, b) => new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime())
                 .map((kommentar, index) => (
-                    <NotatKommentar kommentar={kommentar} readOnly={readOnly} key={index} />
+                    <Kommentar kommentar={kommentar} readOnly={readOnly} key={index} />
                 ))}
         </div>
     );

@@ -1,0 +1,20 @@
+.ToggleButton {
+    width: max-content;
+    height: 24px;
+    position: absolute;
+    right: 0;
+}
+
+.ToggleButton > span {
+    display: flex;
+    align-items: center;
+}
+
+.Menu {
+    width: 100%;
+}
+
+.ListItem {
+    height: 32px;
+    font-size: var(--a-font-size-large);
+}

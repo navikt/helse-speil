@@ -97,7 +97,7 @@ interface KommentertElement {
     type: KommentertElementType;
 }
 
-export const finnKommentertElementType = (historikktype: PeriodehistorikkType): KommentertElementType => {
+export const finnKommentertElementType = (historikktype?: PeriodehistorikkType): KommentertElementType => {
     switch (historikktype) {
         case PeriodehistorikkType.LeggPaVent:
             return 'LagtPaVent';

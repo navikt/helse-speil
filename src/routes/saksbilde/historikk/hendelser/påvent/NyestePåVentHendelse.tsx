@@ -4,10 +4,9 @@ import { BodyLong, BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { PåVentIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
-import { Kommentarer } from '@saksbilde/historikk/hendelser/notat/Kommentarer';
 import { PåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/PåVentDropdown';
-import { PåVentLeggTilKommentar } from '@saksbilde/historikk/hendelser/påvent/PåVentLeggTilKommentar';
 import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe';
+import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
 import { useActivePeriod } from '@state/periode';
 import { HistorikkhendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
@@ -56,23 +55,12 @@ export const NyestePåVentHendelse = ({
                         <BodyLong style={{ whiteSpace: 'pre-wrap' }}>{notattekst}</BodyLong>
                     </Expandable>
                 )}
-                {dialogRef && (
-                    <>
-                        {kommentarer?.length > 0 && (
-                            <Expandable
-                                expandText={`Kommentarer (${kommentarer?.length})`}
-                                collapseText="Lukk kommentarer"
-                            >
-                                <Kommentarer kommentarer={kommentarer} readOnly={false} />
-                            </Expandable>
-                        )}
-                        <PåVentLeggTilKommentar
-                            historikktype={historikktype}
-                            dialogRef={dialogRef}
-                            historikkinnslagId={historikkinnslagId}
-                        />
-                    </>
-                )}
+                <KommentarSeksjon
+                    kommentarer={kommentarer}
+                    dialogRef={dialogRef}
+                    historikkinnslagId={historikkinnslagId}
+                    historikktype={historikktype}
+                />
             </VStack>
         </Hendelse>
     );

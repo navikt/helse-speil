@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 
 import { Button, HStack, Textarea } from '@navikt/ds-react';
 
-import styles from './NotatForm.module.css';
+import styles from './LeggTilNyKommentarForm.module.css';
 
-interface NotatFormProps extends Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
+interface LeggTilNyKommentarFormProps extends Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
     label?: string;
     onSubmitForm: (tekst: string) => void;
     closeForm: () => void;
@@ -13,14 +13,14 @@ interface NotatFormProps extends Omit<React.FormHTMLAttributes<HTMLFormElement>,
     hasError: boolean;
 }
 
-export const NotatForm = ({
+export const LeggTilNyKommentarForm = ({
     label = 'Notat',
     onSubmitForm,
     closeForm,
     isFetching,
     hasError,
     ...formProps
-}: NotatFormProps): ReactElement => {
+}: LeggTilNyKommentarFormProps): ReactElement => {
     const form = useForm();
 
     const submitForm = () => {
@@ -28,7 +28,7 @@ export const NotatForm = ({
     };
 
     return (
-        <form className={styles.notatform} onSubmit={form.handleSubmit(submitForm)} {...formProps}>
+        <form className={styles.leggTilNyKommentarForm} onSubmit={form.handleSubmit(submitForm)} {...formProps}>
             <Textarea
                 autoFocus
                 label={label}

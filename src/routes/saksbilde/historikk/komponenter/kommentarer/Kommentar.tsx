@@ -5,21 +5,21 @@ import React from 'react';
 import { ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { FeilregistrerKommentarMutationDocument, Kommentar } from '@io/graphql';
+import { FeilregistrerKommentarMutationDocument, Kommentar as GraphQLKommentar } from '@io/graphql';
+import { HendelseDate } from '@saksbilde/historikk/hendelser/HendelseDate';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
-import { HendelseDate } from '../HendelseDate';
-import { HendelseDropdownMenu } from './HendelseDropdownMenu';
+import { KommentarDropdown } from './KommentarDropdown';
 
 import styles from './Kommentarer.module.css';
 
-interface NotatKommentarProps {
-    kommentar: Kommentar;
+interface KommentarProps {
+    kommentar: GraphQLKommentar;
     readOnly: boolean;
 }
 
-export const NotatKommentar = ({ kommentar, readOnly }: NotatKommentarProps) => {
+export const Kommentar = ({ kommentar, readOnly }: KommentarProps) => {
     const [feilregistrerKommentar, { loading, error }] = useMutation(FeilregistrerKommentarMutationDocument);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
 
@@ -50,7 +50,7 @@ export const NotatKommentar = ({ kommentar, readOnly }: NotatKommentarProps) => 
             {!readOnly &&
                 !kommentar.feilregistrert_tidspunkt &&
                 innloggetSaksbehandler.ident === kommentar.saksbehandlerident && (
-                    <HendelseDropdownMenu
+                    <KommentarDropdown
                         feilregistrerAction={onFeilregistrerKommentar(kommentar.id)}
                         isFetching={loading}
                     />

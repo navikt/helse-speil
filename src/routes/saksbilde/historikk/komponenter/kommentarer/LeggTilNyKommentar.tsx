@@ -1,21 +1,17 @@
 import React, { useState } from 'react';
 
 import { PeriodehistorikkType } from '@io/graphql';
-import { NotatForm } from '@saksbilde/historikk/hendelser/notat/NotatForm';
 import { InteractableLinkText } from '@saksbilde/historikk/komponenter/InteractableLinkText';
+import { LeggTilNyKommentarForm } from '@saksbilde/historikk/komponenter/kommentarer/LeggTilNyKommentarForm';
 import { finnKommentertElementType, useLeggTilKommentar } from '@state/notater';
 
-type PåVentLeggTilKommentarProps = {
-    historikktype: PeriodehistorikkType;
+type LeggTilNyKommentarProps = {
     dialogRef: number;
     historikkinnslagId: number;
+    historikktype?: PeriodehistorikkType;
 };
 
-export const PåVentLeggTilKommentar = ({
-    historikktype,
-    dialogRef,
-    historikkinnslagId,
-}: PåVentLeggTilKommentarProps) => {
+export const LeggTilNyKommentar = ({ dialogRef, historikkinnslagId, historikktype }: LeggTilNyKommentarProps) => {
     const [showAddDialog, setShowAddDialog] = useState(false);
 
     const { onLeggTilKommentar, loading, error } = useLeggTilKommentar(
@@ -25,7 +21,7 @@ export const PåVentLeggTilKommentar = ({
     );
 
     return showAddDialog ? (
-        <NotatForm
+        <LeggTilNyKommentarForm
             label="Kommentar"
             onSubmitForm={onLeggTilKommentar}
             closeForm={() => setShowAddDialog(false)}

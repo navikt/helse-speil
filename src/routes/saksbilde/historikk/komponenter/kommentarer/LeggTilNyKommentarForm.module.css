@@ -1,8 +1,8 @@
-.notatform {
+.leggTilNyKommentarForm {
     display: flex;
     flex-direction: column;
 }
 
-.notatform textarea {
+.leggTilNyKommentarForm textarea {
     font-size: var(--a-font-size-medium);
 }

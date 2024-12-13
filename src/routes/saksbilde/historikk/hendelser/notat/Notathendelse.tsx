@@ -15,15 +15,14 @@ import { ErrorMessage } from '@navikt/ds-react';
 import { useMutation } from '@apollo/client';
 import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import notatStyles from '@saksbilde/historikk/hendelser/notat/Notathendelse.module.css';
+import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { NotathendelseObject } from '@typer/historikk';
 import { NotatType } from '@typer/notat';
 
-import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
 import { Hendelse } from '../Hendelse';
 import { HendelseDate } from '../HendelseDate';
 import { HendelseDropdownMenu } from './HendelseDropdownMenu';
-import { NotatHendelseContent } from './NotathendelseContent';
 import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './constants';
 
 import styles from './Notathendelse.module.css';
@@ -40,7 +39,6 @@ export const Notathendelse = ({
     feilregistrert,
     kommentarer,
 }: NotathendelseProps): ReactElement => {
-    const [showAddDialog, setShowAddDialog] = useState(false);
     const [expanded, setExpanded] = useState(false);
 
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
@@ -59,9 +57,6 @@ export const Notathendelse = ({
                     },
                 },
             });
-        },
-        onCompleted: () => {
-            setShowAddDialog(false);
         },
     });
 
@@ -129,15 +124,11 @@ export const Notathendelse = ({
                 )}
             </div>
             {error && <ErrorMessage>Kunne ikke feilregistrere notat. Prøv igjen senere.</ErrorMessage>}
-            <ExpandableHistorikkContent openText={`Kommentarer (${kommentarer.length})`} closeText="Lukk kommentarer">
-                <NotatHendelseContent
-                    kommentarer={kommentarer}
-                    dialogRef={dialogRef}
-                    notatId={Number.parseInt(id)}
-                    showAddDialog={showAddDialog}
-                    setShowAddDialog={setShowAddDialog}
-                />
-            </ExpandableHistorikkContent>
+            <KommentarSeksjon
+                kommentarer={kommentarer}
+                dialogRef={dialogRef}
+                historikkinnslagId={Number.parseInt(id)}
+            />
         </Hendelse>
     );
 };
