@@ -159,7 +159,8 @@ const ArbeidsforholdOpphørt = ({
             {erAlleArbeidsforholdPåArbeidsgiverOpphørt && sisteOpphørteArbeidsforhold && (
                 <Box marginBlock="0 4">
                     <Tag variant="info-moderate" style={{ fontSize: 16 }} size="small">
-                        Opphørt {dayjs(sisteOpphørteArbeidsforhold, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
+                        Arbeidsforhold opphørt{' '}
+                        {dayjs(sisteOpphørteArbeidsforhold, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
                     </Tag>
                 </Box>
             )}
