@@ -112,6 +112,7 @@ export const harPeriodeDagerMedUnder20ProsentTotalGrad = (
     return alleOverlappendePerioderPåSkjæringstidspunkt
         .flatMap((it) => it.tidslinje)
         .filter((it) => dayjs(it.dato, ISO_DATOFORMAT).isBetween(periode.fom, periode.tom, 'day', '[]'))
+        .filter((dag) => dag?.sykdomsdagtype === 'SYKEDAG')
         .some((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 100) < 20);
 };
 

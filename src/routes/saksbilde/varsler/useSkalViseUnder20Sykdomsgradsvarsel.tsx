@@ -54,7 +54,9 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
         alleSammenfallendeDager.filter((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 0) > 0).length > 0;
 
     const harDagerMedUnder20ProsentTotalGrad =
-        alleSammenfallendeDager.filter((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 100) < 20).length > 0;
+        alleSammenfallendeDager
+            .filter((dag) => dag?.sykdomsdagtype === 'SYKEDAG')
+            .filter((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 100) < 20).length > 0;
 
     return (
         harDagerMedUnder20ProsentTotalGrad &&
