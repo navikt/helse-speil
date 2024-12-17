@@ -120,32 +120,54 @@ export const getOppkuttedePerioder = (
     overlappendeArbeidsgivere: ArbeidsgiverFragment[],
     aktivPeriode: ActivePeriod,
 ): Maybe<DatePeriod[]> => {
-    const datoer: string[] = [];
+    const fomdatoer: string[] = [];
+    const tomdatoer: string[] = [];
+
     overlappendeArbeidsgivere.map((ag) =>
         ag.generasjoner[0]?.perioder.forEach((periode) => {
             if (dayjs(periode.fom, ISO_DATOFORMAT).isBetween(aktivPeriode.fom, aktivPeriode.tom, 'day', '[]')) {
-                datoer.push(periode.fom);
-                if (dayjs(periode.fom, ISO_DATOFORMAT).isAfter(aktivPeriode.fom))
-                    datoer.push(dayjs(periode.fom, ISO_DATOFORMAT).subtract(1, 'day').format(ISO_DATOFORMAT));
+                fomdatoer.push(periode.fom);
             }
             if (dayjs(periode.tom, ISO_DATOFORMAT).isBetween(aktivPeriode.fom, aktivPeriode.tom, 'day', '[]')) {
-                datoer.push(periode.tom);
-                if (dayjs(periode.tom, ISO_DATOFORMAT).isBefore(aktivPeriode.tom))
-                    datoer.push(dayjs(periode.tom, ISO_DATOFORMAT).add(1, 'day').format(ISO_DATOFORMAT));
+                tomdatoer.push(periode.tom);
             }
         }),
     );
-    const unikeDatoer = [...new Set(datoer)]
+
+    const unikeFomdatoer = [...new Set(fomdatoer)];
+    const unikeTomdatoer = [...new Set(tomdatoer)];
+
+    for (let i = 0; i < unikeFomdatoer.length; i += 1) {
+        let fom = dayjs(unikeFomdatoer[i], ISO_DATOFORMAT);
+        if (fom.isAfter(dayjs(aktivPeriode.fom, ISO_DATOFORMAT))) {
+            let forrigedato = fom.subtract(1, 'day');
+            if (!unikeTomdatoer.includes(forrigedato.format(ISO_DATOFORMAT))) {
+                unikeTomdatoer.push(forrigedato.format(ISO_DATOFORMAT));
+            }
+        }
+    }
+
+    for (let i = 0; i < unikeTomdatoer.length; i += 1) {
+        let tom = dayjs(unikeTomdatoer[i], ISO_DATOFORMAT);
+        if (tom.isBefore(dayjs(aktivPeriode.tom, ISO_DATOFORMAT))) {
+            let nestedato = tom.add(1, 'day');
+            if (!unikeFomdatoer.includes(nestedato.format(ISO_DATOFORMAT))) {
+                unikeFomdatoer.push(nestedato.format(ISO_DATOFORMAT));
+            }
+        }
+    }
+
+    const alleDatoerSortertStigende = [...unikeFomdatoer, ...unikeTomdatoer]
         .sort(byDate)
         .filter((it) => it !== undefined)
         .filter(isNotUndefined);
 
-    if (unikeDatoer.length % 2 !== 0) return null;
+    if (alleDatoerSortertStigende.length % 2 !== 0) return null;
 
     const oppkuttedePerioder: DatePeriod[] = [];
-    for (let i = 0; i < unikeDatoer.length; i += 2) {
-        const fom = unikeDatoer[i];
-        const tom = unikeDatoer[i + 1];
+    for (let i = 0; i < alleDatoerSortertStigende.length; i += 2) {
+        const fom = alleDatoerSortertStigende[i];
+        const tom = alleDatoerSortertStigende[i + 1];
 
         if (!fom || !tom) return null;
         oppkuttedePerioder.push({ fom, tom });
