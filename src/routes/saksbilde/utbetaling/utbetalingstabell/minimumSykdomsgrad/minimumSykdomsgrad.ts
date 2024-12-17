@@ -135,7 +135,7 @@ export const getOppkuttedePerioder = (
             }
         }),
     );
-    const unikeDatoer = datoer
+    const unikeDatoer = [...new Set(datoer)]
         .sort(byDate)
         .filter((it) => it !== undefined)
         .filter(isNotUndefined);
