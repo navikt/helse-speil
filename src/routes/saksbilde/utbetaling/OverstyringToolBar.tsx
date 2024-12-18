@@ -11,7 +11,7 @@ interface OverstyringToolBarProps {
     toggleOverstyring: () => void;
     onSubmitPølsestrekk: (dagerLagtTil: Map<string, Utbetalingstabelldag>) => void;
     setVisDagtypeModal: () => void;
-    erFørstePeriodePåSkjæringstidspunkt: boolean;
+    kanStrekkes: boolean;
     periodeFom: DateString;
     erRevurdering: boolean;
 }
@@ -20,7 +20,7 @@ export const OverstyringToolBar = ({
     toggleOverstyring,
     onSubmitPølsestrekk,
     setVisDagtypeModal,
-    erFørstePeriodePåSkjæringstidspunkt,
+    kanStrekkes,
     periodeFom,
     erRevurdering,
 }: OverstyringToolBarProps) => {
@@ -42,7 +42,7 @@ export const OverstyringToolBar = ({
                     Avbryt
                 </Button>
             </HStack>
-            {erFørstePeriodePåSkjæringstidspunkt && !visLeggTilDagerForm && (
+            {kanStrekkes && !visLeggTilDagerForm && (
                 <Button size="xsmall" variant="tertiary" onClick={() => setVisLeggTilDagerForm(true)}>
                     + Legg til dager i tabellen
                 </Button>

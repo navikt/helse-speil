@@ -12,7 +12,7 @@ import {
     UberegnetPeriodeFragment,
     Utbetalingstatus,
 } from '@io/graphql';
-import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
+import { kanStrekkes } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
 import { DagtypeModal } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeModal';
 import { UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
@@ -259,9 +259,6 @@ export const OverstyrbarUtbetaling = ({
     const periodeFom = Array.from(alleDager.values())[0];
     if (periodeFom == undefined) return <></>;
 
-    const erFørstePeriodePåSkjæringstidspunkt =
-        getFørstePeriodeForSkjæringstidspunkt(periode.skjaeringstidspunkt, arbeidsgiver)?.id === periode.id;
-
     const erRevurdering = isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Utbetalt;
     return (
         <article
@@ -283,7 +280,7 @@ export const OverstyrbarUtbetaling = ({
                     toggleOverstyring={toggleOverstyring}
                     onSubmitPølsestrekk={onSubmitPølsestrekk}
                     setVisDagtypeModal={() => setVisDagtypeModal(true)}
-                    erFørstePeriodePåSkjæringstidspunkt={erFørstePeriodePåSkjæringstidspunkt}
+                    kanStrekkes={kanStrekkes(periode, arbeidsgiver)}
                     periodeFom={periodeFom.dato}
                     erRevurdering={erRevurdering}
                 />

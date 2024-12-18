@@ -389,6 +389,23 @@ export const getFørstePeriodeForSkjæringstidspunkt = (
               .pop()
         : undefined;
 
+export const kanStrekkes = (
+    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+    arbeidsgiver: ArbeidsgiverFragment,
+): boolean => {
+    const erFørstePeriodePåSkjæringstidspunkt =
+        getFørstePeriodeForSkjæringstidspunkt(periode.skjaeringstidspunkt, arbeidsgiver)?.id === periode.id;
+
+    const sistePeriodeFørAktivPeriode = arbeidsgiver.generasjoner[0]?.perioder.filter((p) =>
+        dayjs(p.tom).isBefore(periode.fom),
+    )[0];
+
+    const tidligerePeriodeErIkkeSammenhengende =
+        sistePeriodeFørAktivPeriode && dayjs(sistePeriodeFørAktivPeriode.tom).add(1, 'day').isBefore(periode.fom);
+
+    return (erFørstePeriodePåSkjæringstidspunkt || tidligerePeriodeErIkkeSammenhengende) ?? false;
+};
+
 const getSisteVurdertePeriodeForSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
     arbeidsgiver: ArbeidsgiverFragment,
