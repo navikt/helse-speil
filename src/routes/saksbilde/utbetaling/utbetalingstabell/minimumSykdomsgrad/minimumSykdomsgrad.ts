@@ -127,35 +127,21 @@ export const getOppkuttedePerioder = (
         ag.generasjoner[0]?.perioder.forEach((periode) => {
             if (dayjs(periode.fom, ISO_DATOFORMAT).isBetween(aktivPeriode.fom, aktivPeriode.tom, 'day', '[]')) {
                 fomdatoer.push(periode.fom);
+                if (dayjs(periode.fom, ISO_DATOFORMAT).isAfter(dayjs(aktivPeriode.fom, ISO_DATOFORMAT))) {
+                    tomdatoer.push(dayjs(periode.fom, ISO_DATOFORMAT).subtract(1, 'day').format(ISO_DATOFORMAT));
+                }
             }
             if (dayjs(periode.tom, ISO_DATOFORMAT).isBetween(aktivPeriode.fom, aktivPeriode.tom, 'day', '[]')) {
                 tomdatoer.push(periode.tom);
+                if (dayjs(periode.tom, ISO_DATOFORMAT).isBefore(dayjs(aktivPeriode.tom, ISO_DATOFORMAT))) {
+                    fomdatoer.push(dayjs(periode.tom, ISO_DATOFORMAT).add(1, 'day').format(ISO_DATOFORMAT));
+                }
             }
         }),
     );
 
     const unikeFomdatoer = [...new Set(fomdatoer)];
     const unikeTomdatoer = [...new Set(tomdatoer)];
-
-    for (let i = 0; i < unikeFomdatoer.length; i += 1) {
-        let fom = dayjs(unikeFomdatoer[i], ISO_DATOFORMAT);
-        if (fom.isAfter(dayjs(aktivPeriode.fom, ISO_DATOFORMAT))) {
-            let forrigedato = fom.subtract(1, 'day');
-            if (!unikeTomdatoer.includes(forrigedato.format(ISO_DATOFORMAT))) {
-                unikeTomdatoer.push(forrigedato.format(ISO_DATOFORMAT));
-            }
-        }
-    }
-
-    for (let i = 0; i < unikeTomdatoer.length; i += 1) {
-        let tom = dayjs(unikeTomdatoer[i], ISO_DATOFORMAT);
-        if (tom.isBefore(dayjs(aktivPeriode.tom, ISO_DATOFORMAT))) {
-            let nestedato = tom.add(1, 'day');
-            if (!unikeFomdatoer.includes(nestedato.format(ISO_DATOFORMAT))) {
-                unikeFomdatoer.push(nestedato.format(ISO_DATOFORMAT));
-            }
-        }
-    }
 
     const alleDatoerSortertStigende = [...unikeFomdatoer, ...unikeTomdatoer]
         .sort(byDate)
