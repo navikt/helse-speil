@@ -8,7 +8,6 @@ import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
 import {
     ArbeidsgiverFragment,
     ArbeidsgiverInput,
-    Maybe,
     MinimumSykdomsgradInput,
     MinimumSykdomsgradMutationDocument,
     OpprettAbonnementDocument,
@@ -116,29 +115,27 @@ export const harPeriodeDagerMedUnder20ProsentTotalGrad = (
         .some((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 100) < 20);
 };
 
-export const getOppkuttedePerioder = (
-    overlappendeArbeidsgivere: ArbeidsgiverFragment[],
-    aktivPeriode: ActivePeriod,
-): Maybe<DatePeriod[]> => {
+const kappOverlappendePerioder = (
+    overlappendePerioder: DatePeriod[],
+    aktivPeriode: DatePeriod,
+): DatePeriod[] | undefined => {
     const fomdatoer: string[] = [];
     const tomdatoer: string[] = [];
 
-    overlappendeArbeidsgivere.map((ag) =>
-        ag.generasjoner[0]?.perioder.forEach((periode) => {
-            if (dayjs(periode.fom, ISO_DATOFORMAT).isBetween(aktivPeriode.fom, aktivPeriode.tom, 'day', '[]')) {
-                fomdatoer.push(periode.fom);
-                if (dayjs(periode.fom, ISO_DATOFORMAT).isAfter(dayjs(aktivPeriode.fom, ISO_DATOFORMAT))) {
-                    tomdatoer.push(dayjs(periode.fom, ISO_DATOFORMAT).subtract(1, 'day').format(ISO_DATOFORMAT));
-                }
+    overlappendePerioder.forEach((periode) => {
+        if (dayjs(periode.fom, ISO_DATOFORMAT).isBetween(aktivPeriode.fom, aktivPeriode.tom, 'day', '[]')) {
+            fomdatoer.push(periode.fom);
+            if (dayjs(periode.fom, ISO_DATOFORMAT).isAfter(dayjs(aktivPeriode.fom, ISO_DATOFORMAT))) {
+                tomdatoer.push(dayjs(periode.fom, ISO_DATOFORMAT).subtract(1, 'day').format(ISO_DATOFORMAT));
             }
-            if (dayjs(periode.tom, ISO_DATOFORMAT).isBetween(aktivPeriode.fom, aktivPeriode.tom, 'day', '[]')) {
-                tomdatoer.push(periode.tom);
-                if (dayjs(periode.tom, ISO_DATOFORMAT).isBefore(dayjs(aktivPeriode.tom, ISO_DATOFORMAT))) {
-                    fomdatoer.push(dayjs(periode.tom, ISO_DATOFORMAT).add(1, 'day').format(ISO_DATOFORMAT));
-                }
+        }
+        if (dayjs(periode.tom, ISO_DATOFORMAT).isBetween(aktivPeriode.fom, aktivPeriode.tom, 'day', '[]')) {
+            tomdatoer.push(periode.tom);
+            if (dayjs(periode.tom, ISO_DATOFORMAT).isBefore(dayjs(aktivPeriode.tom, ISO_DATOFORMAT))) {
+                fomdatoer.push(dayjs(periode.tom, ISO_DATOFORMAT).add(1, 'day').format(ISO_DATOFORMAT));
             }
-        }),
-    );
+        }
+    });
 
     const unikeFomdatoer = [...new Set(fomdatoer)];
     const unikeTomdatoer = [...new Set(tomdatoer)];
@@ -148,19 +145,35 @@ export const getOppkuttedePerioder = (
         .filter((it) => it !== undefined)
         .filter(isNotUndefined);
 
-    if (alleDatoerSortertStigende.length % 2 !== 0) return null;
+    if (alleDatoerSortertStigende.length % 2 !== 0) return undefined;
 
     const oppkuttedePerioder: DatePeriod[] = [];
     for (let i = 0; i < alleDatoerSortertStigende.length; i += 2) {
         const fom = alleDatoerSortertStigende[i];
         const tom = alleDatoerSortertStigende[i + 1];
 
-        if (!fom || !tom) return null;
+        if (!fom || !tom) return undefined;
         oppkuttedePerioder.push({ fom, tom });
     }
 
     return oppkuttedePerioder;
 };
+
+export const getOppkuttedePerioder = (
+    overlappendeArbeidsgivere: ArbeidsgiverFragment[],
+    aktivPeriode: ActivePeriod,
+): DatePeriod[] | undefined =>
+    kappOverlappendePerioder(allePerioder(overlappendeArbeidsgivere), tilDatePeriod(aktivPeriode));
+
+const allePerioder = (overlappendeArbeidsgivere: ArbeidsgiverFragment[]): DatePeriod[] =>
+    R.pipe(
+        overlappendeArbeidsgivere,
+        R.flatMap((ag) => ag.generasjoner[0]?.perioder),
+        R.filter((periode) => periode !== undefined),
+        R.map(tilDatePeriod),
+    );
+
+const tilDatePeriod = (periode: { fom: string; tom: string }): DatePeriod => ({ fom: periode.fom, tom: periode.tom });
 
 const byDate = (a: string, b: string): number => {
     return dayjs(a, ISO_DATOFORMAT).isBefore(b) ? -1 : 1;
