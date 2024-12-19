@@ -47,7 +47,7 @@
         "graphql": "^16.9.0",
         "graphql-yoga": "^5.10.3",
         "jose": "^5.9.6",
-        "nanoid": "^3.3.7",
+        "nanoid": "^3.3.8",
         "next": "^14.2.14",
         "nextleton": "^0.6.1",
         "prom-client": "^15.1.3",
