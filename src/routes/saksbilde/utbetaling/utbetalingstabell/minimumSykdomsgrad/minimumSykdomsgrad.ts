@@ -109,11 +109,12 @@ export const harPeriodeDagerMedUnder20ProsentTotalGrad = (
         R.filter((it) => overlapper(it)(periode)),
     );
 
-    return alleOverlappendePerioderPåSkjæringstidspunkt
-        .flatMap((it) => it.tidslinje)
-        .filter((it) => dayjs(it.dato, ISO_DATOFORMAT).isBetween(periode.fom, periode.tom, 'day', '[]'))
-        .filter((dag) => dag?.sykdomsdagtype === 'SYKEDAG')
-        .some((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 100) < 20);
+    return R.pipe(
+        alleOverlappendePerioderPåSkjæringstidspunkt,
+        R.flatMap((it) => it.tidslinje),
+        R.filter((it) => erIPeriode(it.dato, periode)),
+        R.filter((dag) => dag?.sykdomsdagtype === 'SYKEDAG'),
+    ).some((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 100) < 20);
 };
 
 const kappOverlappendePerioder = (
