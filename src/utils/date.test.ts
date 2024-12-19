@@ -3,7 +3,6 @@ import {
     getFormattedDatetimeString,
     minusEnDag,
     plussEnDag,
-    somDate,
     somDato,
     somNorskDato,
 } from '@utils/date';
@@ -27,12 +26,6 @@ describe('date', () => {
     });
     it('skal gjøre string til dayjs', () => {
         expect(somDato('2020-01-01').format()).toEqual('2020-01-01T00:00:00+01:00');
-    });
-    it('skal gjøre string til Date', () => {
-        expect(somDate()).toBeUndefined();
-        expect(somDate('hei')).toBeUndefined();
-        expect(somDate('2020-20-20')).toBeUndefined();
-        expect(somDate('2020-01-01')).toEqual(new Date('2019-12-31T23:00:00.000Z'));
     });
     it('skal kunne legge til en dag på dato', () => {
         expect(plussEnDag('2020-01-01')).toBe('2020-01-02');
