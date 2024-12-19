@@ -1,4 +1,5 @@
 import {
+    ISO_DATOFORMAT,
     getFormattedDateString,
     getFormattedDatetimeString,
     minusEnDag,
@@ -25,7 +26,7 @@ describe('date', () => {
         expect(getFormattedDatetimeString('2020-01-01T13:37:00')).toBe('01.01.2020 kl. 13.37');
     });
     it('skal gjøre string til dayjs', () => {
-        expect(somDato('2020-01-01').format()).toEqual('2020-01-01T00:00:00+01:00');
+        expect(somDato('2020-01-01').format(ISO_DATOFORMAT)).toEqual('2020-01-01');
     });
     it('skal kunne legge til en dag på dato', () => {
         expect(plussEnDag('2020-01-01')).toBe('2020-01-02');
