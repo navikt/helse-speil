@@ -22,6 +22,7 @@ import { useAddToast, useRemoveToast } from '@state/toasts';
 import { MinimumSykdomsgradArbeidsgiver, OverstyrtMinimumSykdomsgradDTO } from '@typer/overstyring';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
+import { erIPeriode } from '@utils/periode';
 import { isBeregnetPeriode, isNotUndefined, isUberegnetPeriode } from '@utils/typeguards';
 
 export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => void) => {
@@ -123,13 +124,13 @@ const kappOverlappendePerioder = (
     const tomdatoer: string[] = [];
 
     overlappendePerioder.forEach((periode) => {
-        if (dayjs(periode.fom, ISO_DATOFORMAT).isBetween(aktivPeriode.fom, aktivPeriode.tom, 'day', '[]')) {
+        if (erIPeriode(periode.fom, aktivPeriode)) {
             fomdatoer.push(periode.fom);
             if (dayjs(periode.fom, ISO_DATOFORMAT).isAfter(dayjs(aktivPeriode.fom, ISO_DATOFORMAT))) {
                 tomdatoer.push(dayjs(periode.fom, ISO_DATOFORMAT).subtract(1, 'day').format(ISO_DATOFORMAT));
             }
         }
-        if (dayjs(periode.tom, ISO_DATOFORMAT).isBetween(aktivPeriode.fom, aktivPeriode.tom, 'day', '[]')) {
+        if (erIPeriode(periode.tom, aktivPeriode)) {
             tomdatoer.push(periode.tom);
             if (dayjs(periode.tom, ISO_DATOFORMAT).isBefore(dayjs(aktivPeriode.tom, ISO_DATOFORMAT))) {
                 fomdatoer.push(dayjs(periode.tom, ISO_DATOFORMAT).add(1, 'day').format(ISO_DATOFORMAT));
