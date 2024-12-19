@@ -1,4 +1,12 @@
-import { getFormattedDateString, getFormattedDatetimeString, somDate, somDato, somNorskDato } from '@utils/date';
+import {
+    getFormattedDateString,
+    getFormattedDatetimeString,
+    minusEnDag,
+    plussEnDag,
+    somDate,
+    somDato,
+    somNorskDato,
+} from '@utils/date';
 
 describe('date', () => {
     it('skal formattere dato til norsk format', () => {
@@ -25,5 +33,11 @@ describe('date', () => {
         expect(somDate('hei')).toBeUndefined();
         expect(somDate('2020-20-20')).toBeUndefined();
         expect(somDate('2020-01-01')).toEqual(new Date('2019-12-31T23:00:00.000Z'));
+    });
+    it('skal kunne legge til en dag på dato', () => {
+        expect(plussEnDag('2020-01-01')).toBe('2020-01-02');
+    });
+    it('skal kunne trekke fra en dag på dato', () => {
+        expect(minusEnDag('2020-01-02')).toBe('2020-01-01');
     });
 });

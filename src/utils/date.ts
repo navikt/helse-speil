@@ -22,3 +22,9 @@ export const somDate = (dato?: string): Date | undefined =>
 
 export const somNorskDato = (dato: string | undefined): string | undefined =>
     dato ? dayjs(somDate(dato)).format(NORSK_DATOFORMAT) : undefined;
+
+export const plussEnDag = (dato: DateString): DateString =>
+    dayjs(dato, ISO_DATOFORMAT, true).add(1, 'day').format(ISO_DATOFORMAT);
+
+export const minusEnDag = (dato: DateString): DateString =>
+    dayjs(dato, ISO_DATOFORMAT, true).subtract(1, 'day').format(ISO_DATOFORMAT);

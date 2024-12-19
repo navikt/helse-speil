@@ -21,7 +21,7 @@ import { overlapper } from '@state/selectors/period';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { MinimumSykdomsgradArbeidsgiver, OverstyrtMinimumSykdomsgradDTO } from '@typer/overstyring';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
-import { ISO_DATOFORMAT } from '@utils/date';
+import { ISO_DATOFORMAT, minusEnDag, plussEnDag } from '@utils/date';
 import { erEtter, erFør, erIPeriode } from '@utils/periode';
 import { isBeregnetPeriode, isNotUndefined, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -127,13 +127,13 @@ const kappOverlappendePerioder = (
         if (erIPeriode(periode.fom, aktivPeriode)) {
             fomdatoer.push(periode.fom);
             if (erEtter(periode.fom, aktivPeriode.fom)) {
-                tomdatoer.push(dayjs(periode.fom, ISO_DATOFORMAT).subtract(1, 'day').format(ISO_DATOFORMAT));
+                tomdatoer.push(minusEnDag(periode.fom));
             }
         }
         if (erIPeriode(periode.tom, aktivPeriode)) {
             tomdatoer.push(periode.tom);
             if (erFør(periode.tom, aktivPeriode.tom)) {
-                fomdatoer.push(dayjs(periode.tom, ISO_DATOFORMAT).add(1, 'day').format(ISO_DATOFORMAT));
+                fomdatoer.push(plussEnDag(periode.tom));
             }
         }
     });
