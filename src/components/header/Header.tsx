@@ -12,6 +12,7 @@ import { SystemMenu } from '@components/SystemMenu';
 import { UserMenu } from '@components/UserMenu';
 import { EasterEgg } from '@components/header/EasterEgg';
 import { Personsøk } from '@components/header/Personsøk';
+import { Nyheter } from '@components/header/nyheter/Nyheter';
 import { ToggleMenyButton } from '@components/header/toggleMeny/ToggleMenyButton';
 import { graphqlplayground } from '@utils/featureToggles';
 
@@ -35,6 +36,7 @@ export const Header = () => {
                     GraphQL Playground
                 </InternalHeader.Title>
             )}
+            {erUtvikling && <Nyheter />}
             <SystemMenu />
             <UserMenu />
         </InternalHeader>

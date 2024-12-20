@@ -1,0 +1,35 @@
+.menu {
+  width: 400px;
+  max-height: 736px;
+  overflow-y: hidden;
+  padding: 0;
+  border-color: var(--a-border-action-selected);
+}
+
+.list {
+  height: 100%;
+}
+
+.heading {
+  background-color: var(--a-border-action-selected);
+  color: var(--a-text-on-inverted);
+  padding: var(--a-spacing-3) var(--a-spacing-4) var(--a-spacing-3);
+  margin: 0;
+}
+
+.scrollablecontainer {
+  width: 100%;
+  max-height: 566px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0 var(--a-spacing-4);
+  margin: 0;
+
+  > li {
+    border-top: 1px solid var(--a-border-default);
+  }
+
+  > li:first-child {
+    border-top: none;
+  }
+}

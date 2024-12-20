@@ -1,0 +1,21 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--a-spacing-4);
+  min-height: 10rem;
+}
+
+.bilde {
+  object-fit: contain;
+}
+
+.step {
+  background-color: var(--a-surface-action-subtle-hover);
+  height: 12px;
+  width: 12px;
+  border-radius: 100%;
+}
+
+.activestep {
+  background-color: var(--a-text-action);
+}

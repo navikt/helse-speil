@@ -10,6 +10,17 @@ const nextConfig = {
         ignoreDuringBuilds: true,
         dirs: ['src'],
     },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'cdn.sanity.io',
+                port: '',
+                pathname: '/images/z9kr8ddn/production/**',
+                search: '',
+            },
+        ],
+    },
 };
 
 export default nextConfig;

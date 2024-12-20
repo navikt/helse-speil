@@ -1,5 +1,7 @@
 import { erProd } from '@/env';
 import { gql, useQuery } from '@apollo/client';
+import { Maybe } from '@io/graphql';
+import { PortableTextBlock } from '@portabletext/react';
 import { Lovhjemmel } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
 
@@ -36,6 +38,38 @@ export interface Arsak {
     arsak: string;
 }
 
+export type NyhetType = {
+    _id: string;
+    _createdAt: string;
+    iProd: boolean;
+    tittel: string;
+    beskrivelse: PortableTextBlock[];
+    dato: DateString;
+    lenke: Maybe<Lenke>;
+    modal: NyhetModalType;
+};
+
+type Lenke = {
+    lenkeTekst: string;
+    lenkeUrl: string;
+};
+
+export type NyhetModalType = {
+    antallSlides: number;
+    tvungenModal: boolean;
+    modalOverskrift: string;
+    modalSlide1: Maybe<NyhetModalSlide>;
+    modalSlide2: Maybe<NyhetModalSlide>;
+    modalSlide3: Maybe<NyhetModalSlide>;
+};
+
+type NyhetModalSlide = {
+    slideOverskrift: string;
+    altTekst: string;
+    bildeUrl: string;
+    slideBeskrivelse: PortableTextBlock[];
+};
+
 type SkjønnsfastsettelseMalerQueryResult = {
     sanity: {
         result: SkjønnsfastsettingMal[];
@@ -51,6 +85,12 @@ type DriftsmeldingerQueryResult = {
 type ArsakerQueryResult = {
     sanity: {
         result: Arsaker[];
+    };
+};
+
+type NyheterQueryResult = {
+    sanity: {
+        result: NyhetType[];
     };
 };
 
@@ -138,6 +178,66 @@ export function useArsaker(id: string) {
 
     return {
         arsaker: data?.sanity?.result ?? [],
+        loading,
+        error,
+    };
+}
+
+export function useNyheter() {
+    const { data, error, loading } = useQuery<NyheterQueryResult, SanityQueryVariables>(
+        gql`
+            query Nyhet($input: QueryPayload!) {
+                sanity(input: $input)
+                    @rest(type: "NyhetResult", endpoint: "sanity", path: "", method: "POST", bodyKey: "input") {
+                    result
+                }
+            }
+        `,
+        {
+            variables: {
+                input: {
+                    query: `*[_type == "nyhet"]{
+                    _id,
+                    _createdAt,
+                    iProd,
+                    tittel,
+                    beskrivelse,
+                    dato,
+                    lenke {
+                        lenkeTekst,
+                        lenkeUrl
+                    },
+                    modal {
+                        antallSlides,
+                        tvungenModal,
+                        modalOverskrift,
+                        modalSlide1 {
+                            slideOverskrift,
+                            altTekst,
+                            "bildeUrl": slideBilde.asset->url,
+                            slideBeskrivelse
+                        },
+                        modalSlide2 {
+                            slideOverskrift,
+                            altTekst,
+                            "bildeUrl": slideBilde.asset->url,
+                            slideBeskrivelse
+                        },
+                        modalSlide3 {
+                            slideOverskrift,
+                            altTekst,
+                            "bildeUrl": slideBilde.asset->url,
+                            slideBeskrivelse
+                        }
+                    }
+                } | order(_createdAt desc)`,
+                },
+            },
+        },
+    );
+
+    return {
+        nyheter: data?.sanity?.result ?? [],
         loading,
         error,
     };
