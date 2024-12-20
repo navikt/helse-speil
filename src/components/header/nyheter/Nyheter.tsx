@@ -14,8 +14,6 @@ export const Nyheter = () => {
     const { nyheter, loading } = useNyheter();
     const antallNyheter = nyheter.length;
 
-    console.log(nyheter);
-
     useEffect(() => {
         if (!loading) {
             setSkalViseIkonMedPrikk(harNyNyhet(antallNyheter));

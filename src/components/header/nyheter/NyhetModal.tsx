@@ -44,6 +44,7 @@ export const NyhetModal = ({ onClose, showModal, nyhetModal }: NyhetModalProps):
                         alt={slides[slideIndex]?.altTekst}
                         height={400}
                         width={730}
+                        unoptimized
                     />
                 )}
             </Modal.Body>
