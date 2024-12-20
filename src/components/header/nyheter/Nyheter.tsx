@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 
 import { BellFillIcon } from '@navikt/aksel-icons';
@@ -12,17 +13,19 @@ import styles from './Nyheter.module.scss';
 export const Nyheter = () => {
     const [skalViseIkonMedPrikk, setSkalViseIkonMedPrikk] = useState(false);
     const { nyheter, loading } = useNyheter();
-    const antallNyheter = nyheter.length;
+    const sisteNyhet = nyheter[0];
 
     useEffect(() => {
         if (!loading) {
-            setSkalViseIkonMedPrikk(harNyNyhet(antallNyheter));
+            setSkalViseIkonMedPrikk(harNyNyhet(sisteNyhet?._createdAt));
         }
-    }, [loading, setSkalViseIkonMedPrikk, antallNyheter]);
+    }, [loading, setSkalViseIkonMedPrikk, sisteNyhet]);
 
     return (
         <Dropdown
-            onOpenChange={(open) => lagreAntallNyheter(open, antallNyheter, () => setSkalViseIkonMedPrikk(false))}
+            onOpenChange={(open) =>
+                lagreSisteNyhetOpprettet(open, sisteNyhet?._createdAt, () => setSkalViseIkonMedPrikk(false))
+            }
         >
             <Header.Button as={Dropdown.Toggle} aria-label="Toggle dropdown">
                 {skalViseIkonMedPrikk ? <BjelleDottIkon /> : <BellFillIcon title="nyheter i speil" fontSize="26px" />}
@@ -32,7 +35,7 @@ export const Nyheter = () => {
                     <Dropdown.Menu.GroupedList.Heading className={styles.heading}>
                         Nytt i speil
                     </Dropdown.Menu.GroupedList.Heading>
-                    {antallNyheter > 0 ? (
+                    {nyheter.length > 0 ? (
                         <ScrollableContainer>
                             {nyheter.map((nyhet) => (
                                 <Nyhet key={nyhet._id} nyhet={nyhet} />
@@ -53,23 +56,22 @@ const ScrollableContainer = ({ children }: PropsWithChildren) => {
     return <ul className={styles.scrollablecontainer}>{children}</ul>;
 };
 
-const harNyNyhet = (antallNyheter: number): boolean => {
+const harNyNyhet = (sisteNyhetOpprettet: string | undefined): boolean => {
     if (typeof window === 'undefined') return false;
-    const lagretAntall = Number(localStorage.getItem('antallNyheter'));
-    if (lagretAntall === 0 && antallNyheter > 0) {
-        localStorage.setItem('antallNyheter', JSON.stringify(antallNyheter));
-        return true;
-    }
-    if (lagretAntall > antallNyheter) {
-        localStorage.setItem('antallNyheter', JSON.stringify(antallNyheter));
-        return false;
-    }
-    return antallNyheter > lagretAntall;
+    const lagretSisteNyhetOpprettet = localStorage.getItem('sisteNyhetOpprettet');
+
+    if (lagretSisteNyhetOpprettet === null && sisteNyhetOpprettet !== undefined) return true;
+
+    return dayjs(sisteNyhetOpprettet).isAfter(JSON.parse(lagretSisteNyhetOpprettet!!));
 };
 
-const lagreAntallNyheter = (open: boolean, antallNyheter: number, visIkonUtenPrikk: () => void): void => {
+const lagreSisteNyhetOpprettet = (
+    open: boolean,
+    sisteNyhetOpprettet: string | undefined,
+    visIkonUtenPrikk: () => void,
+): void => {
     if (open) {
-        localStorage.setItem('antallNyheter', JSON.stringify(antallNyheter));
+        localStorage.setItem('sisteNyhetOpprettet', JSON.stringify(sisteNyhetOpprettet));
         visIkonUtenPrikk();
     }
 };
