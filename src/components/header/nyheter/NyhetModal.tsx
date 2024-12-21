@@ -38,14 +38,15 @@ export const NyhetModal = ({ onClose, showModal, nyhetModal }: NyhetModalProps):
                     <PortableText value={slides[slideIndex]?.slideBeskrivelse} components={components} />
                 )}
                 {slides[slideIndex]?.bildeUrl && (
-                    <Image
-                        className={styles.bilde}
-                        src={slides[slideIndex]?.bildeUrl}
-                        alt={slides[slideIndex]?.altTekst}
-                        height={400}
-                        width={730}
-                        unoptimized
-                    />
+                    <div className={styles.bildecontainer}>
+                        <Image
+                            className={styles.bilde}
+                            src={slides[slideIndex]?.bildeUrl}
+                            alt={slides[slideIndex]?.altTekst}
+                            fill
+                            unoptimized
+                        />
+                    </div>
                 )}
             </Modal.Body>
             {slides.length > 1 && (
