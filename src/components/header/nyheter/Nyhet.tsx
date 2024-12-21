@@ -6,6 +6,7 @@ import { BodyShort, Button, HStack, Heading, Link, VStack } from '@navikt/ds-rea
 
 import { NyhetModal } from '@components/header/nyheter/NyhetModal';
 import { NyhetType } from '@external/sanity';
+import { Maybe } from '@io/graphql';
 import { PortableText, PortableTextComponents } from '@portabletext/react';
 import { getFormattedDateString } from '@utils/date';
 
@@ -17,6 +18,9 @@ interface NyhetProps {
 
 export const Nyhet = ({ nyhet }: NyhetProps) => {
     const [showModal, setShowModal] = useState(false);
+    const nyhetIderForLukkedeTvungeneModaler = localStorage.getItem('nyhetIderForLukkedeTvungeneModaler');
+    ryddOppLocalStorage(nyhet, nyhetIderForLukkedeTvungeneModaler);
+
     return (
         <VStack className={styles.nyhet} as="li" gap="2">
             <BodyShort className={styles.dato} size="small">
@@ -44,11 +48,48 @@ export const Nyhet = ({ nyhet }: NyhetProps) => {
                     </Link>
                 )}
             </HStack>
-            {showModal && (
-                <NyhetModal nyhetModal={nyhet.modal} onClose={() => setShowModal(false)} showModal={showModal} />
+            {skalViseModal(showModal, nyhet, nyhetIderForLukkedeTvungeneModaler) && (
+                <NyhetModal
+                    nyhetModal={nyhet.modal}
+                    onClose={() => {
+                        setShowModal(false);
+                        if (nyhet.modal.tvungenModal) {
+                            lagreTvungenModalLukket(nyhet._id);
+                        }
+                    }}
+                    showModal={skalViseModal(showModal, nyhet, nyhetIderForLukkedeTvungeneModaler)}
+                />
             )}
         </VStack>
     );
+};
+
+const skalViseModal = (showModal: boolean, nyhet: NyhetType, ider: Maybe<string>): boolean => {
+    if (showModal) return true;
+    if (ider) {
+        const idListe: string[] = JSON.parse(ider);
+        if (idListe.includes(nyhet._id)) return false;
+    }
+    return nyhet.modal.tvungenModal;
+};
+
+const lagreTvungenModalLukket = (id: string): void => {
+    const ting = localStorage.getItem('nyhetIderForLukkedeTvungeneModaler');
+    if (ting) {
+        localStorage.setItem('nyhetIderForLukkedeTvungeneModaler', JSON.stringify([...JSON.parse(ting), id]));
+    } else {
+        localStorage.setItem('nyhetIderForLukkedeTvungeneModaler', JSON.stringify([id]));
+    }
+};
+
+const ryddOppLocalStorage = (nyhet: NyhetType, iderFraLocalStorage: Maybe<string>) => {
+    if (iderFraLocalStorage && !nyhet.modal.tvungenModal) {
+        const idListe: string[] = JSON.parse(iderFraLocalStorage);
+        localStorage.setItem(
+            'nyhetIderForLukkedeTvungeneModaler',
+            JSON.stringify(idListe.filter((id) => id !== nyhet._id)),
+        );
+    }
 };
 
 export const components: PortableTextComponents = {

@@ -49,7 +49,7 @@ export const NyhetModal = ({ onClose, showModal, nyhetModal }: NyhetModalProps):
                 )}
             </Modal.Body>
             {slides.length > 1 && (
-                <HStack justify="space-between" align="center" paddingBlock="4 6" paddingInline="24 24">
+                <HStack gap="16" justify="center" align="center" paddingBlock="4 6" paddingInline="6 6">
                     <Button
                         variant="tertiary"
                         icon={<ChevronLeftIcon />}
