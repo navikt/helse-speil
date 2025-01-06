@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { erProd } from '@/env';
 import { gql, useQuery } from '@apollo/client';
 import { Maybe } from '@io/graphql';
@@ -135,6 +137,10 @@ export function useSkjønnsfastsettelsesMaler(skalVise828AndreLedd: boolean, har
     };
 }
 
+/**
+ * Returnerer *aktive* driftsmeldinger, det vil si at "ferdigstilte" driftsmeldinger som kommer tilbake fra sanity blir
+ * filtrert vekk.
+ */
 export function useDriftsmelding() {
     const { data, error, loading } = useQuery<DriftsmeldingerQueryResult, SanityQueryVariables>(
         gql`
@@ -152,8 +158,16 @@ export function useDriftsmelding() {
         },
     );
 
+    const alleDriftsmeldinger = data?.sanity?.result.filter((it: Driftsmelding) => (erProd ? it.iProd : true)) ?? [];
+    const aktiveDriftsmeldinger = alleDriftsmeldinger
+        .map((driftsmelding) => {
+            const harGått30min = dayjs(driftsmelding._updatedAt).add(30, 'minutes').isBefore(dayjs());
+            return harGått30min && driftsmelding.level === 'success' ? null : driftsmelding;
+        })
+        .filter((driftsmelding) => driftsmelding !== null);
+
     return {
-        driftsmeldinger: data?.sanity?.result.filter((it: Driftsmelding) => (erProd ? it.iProd : true)) ?? [],
+        driftsmeldinger: aktiveDriftsmeldinger,
         loading,
         error,
     };

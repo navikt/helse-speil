@@ -18,11 +18,7 @@
 
 .fullHeight {
     display: flex;
-    height: calc(100vh - 112px);
-}
-
-.driftsmelding {
-    height: calc(100vh - 201px);
+    overflow: hidden;
 }
 
 .Alert {

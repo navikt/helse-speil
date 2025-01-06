@@ -1,6 +1,5 @@
 'use client';
 
-import classNames from 'classnames';
 import dynamic from 'next/dynamic';
 import React, { ReactElement } from 'react';
 
@@ -8,7 +7,6 @@ import { Alert } from '@navikt/ds-react';
 
 import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
-import { useDriftsmelding } from '@external/sanity';
 import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
 import { useLoadingToast } from '@hooks/useLoadingToast';
@@ -41,7 +39,6 @@ export const Oversikt = (): ReactElement => {
     const oppgaveFeed = useOppgaveFeed();
     const aktivTab = useAktivTab();
     const { allFilters } = useFilters();
-    const { driftsmeldinger } = useDriftsmelding();
 
     useLoadingToast({ isLoading: oppgaveFeed.loading, message: 'Henter oppgaver' });
     useKeyboardShortcuts();
@@ -56,7 +53,7 @@ export const Oversikt = (): ReactElement => {
                 </Alert>
             )}
             <Tabs />
-            <div className={classNames(styles.fullHeight, (driftsmeldinger?.length ?? 0) > 0 && styles.driftsmelding)}>
+            <div className={styles.fullHeight}>
                 <Filtermeny filters={allFilters} />
                 <section className={styles.Content}>
                     {aktivTab === TabType.BehandletIdag ? (

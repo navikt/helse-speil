@@ -18,15 +18,12 @@ interface DriftsmeldingProps {
     driftsmelding: DriftsmeldingType;
 }
 
-export const Driftsmeldinger = (): (ReactElement | null)[] => {
+export const Driftsmeldinger = (): ReactElement[] => {
     const { driftsmeldinger } = useDriftsmelding();
 
-    return R.sortBy(driftsmeldinger, [R.prop('opprettet'), 'desc']).map((driftsmelding, index) => {
-        const harGått30min = dayjs(driftsmelding._updatedAt).add(30, 'minutes').isBefore(dayjs());
-        if (harGått30min && driftsmelding.level === 'success') return null;
-
-        return <Driftsmelding key={index} driftsmelding={driftsmelding} />;
-    });
+    return R.sortBy(driftsmeldinger, [R.prop('opprettet'), 'desc']).map((driftsmelding, index) => (
+        <Driftsmelding key={index} driftsmelding={driftsmelding} />
+    ));
 };
 
 const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): Maybe<ReactElement> => {
