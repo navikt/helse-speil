@@ -96,29 +96,6 @@ interface OverstyrArbeidsforholdSkjemaProps {
     onSubmit: () => void;
 }
 
-const begrunnelser: BegrunnelseForOverstyring[] = [
-    {
-        id: '0',
-        forklaring: 'Avbrudd mer enn 14 dager (generell)',
-        lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
-    },
-    {
-        id: '1',
-        forklaring: 'Avbrudd mer enn 14 dager (tilkallingsvikar/sporadiske vakter)',
-        lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
-    },
-    {
-        id: '2',
-        forklaring: 'Arbeidsforhold opphørt',
-        lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
-    },
-    {
-        id: '3',
-        forklaring: 'Annet',
-        lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
-    },
-];
-
 const OverstyrArbeidsforholdSkjema = ({
     person,
     onClose,
@@ -187,3 +164,26 @@ const OverstyrArbeidsforholdSkjema = ({
         </FormProvider>
     );
 };
+
+const begrunnelser: BegrunnelseForOverstyring[] = [
+    {
+        id: '0',
+        forklaring: 'Avbrudd mer enn 14 dager (generell)',
+        lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
+    },
+    {
+        id: '1',
+        forklaring: 'Avbrudd mer enn 14 dager (tilkallingsvikar/sporadiske vakter)',
+        lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
+    },
+    {
+        id: '2',
+        forklaring: 'Arbeidsforhold opphørt',
+        lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
+    },
+    {
+        id: '3',
+        forklaring: 'Annet',
+        lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
+    },
+];
