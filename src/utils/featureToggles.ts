@@ -4,8 +4,7 @@ const groupIdForTbd = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 const groupIdSpesialsaker = '39c09f12-4a2f-44da-ab6a-ac43d680294c';
 
-const eminem = 'G103083';
-const supersaksbehandlere = [eminem, 'N115007', 'C117102', 'K164523'];
+const supersaksbehandlere = ['N115007', 'C117102', 'K164523', 'A148751', 'S161635'];
 
 const fagkoordinatorer = ['M136300', 'S108267', 'K123956', 'G157538'];
 
