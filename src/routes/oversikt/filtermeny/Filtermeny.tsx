@@ -24,7 +24,7 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
 
     return (
         <JusterbarSidemeny
-            defaultBredde={320}
+            defaultBredde={280}
             visSidemeny={showFiltermeny}
             localStorageNavn="filterBredde"
             åpnesTilVenstre
