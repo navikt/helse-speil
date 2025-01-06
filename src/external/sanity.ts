@@ -237,7 +237,7 @@ export function useNyheter() {
     );
 
     return {
-        nyheter: data?.sanity?.result ?? [],
+        nyheter: data?.sanity?.result.filter((it: NyhetType) => (erProd ? it.iProd : true)) ?? [],
         loading,
         error,
     };
