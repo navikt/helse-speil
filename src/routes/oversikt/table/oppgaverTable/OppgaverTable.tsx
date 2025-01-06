@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
@@ -15,6 +16,7 @@ import styles from '../table.module.css';
 
 interface OppgaverTableProps {
     oppgaver: OppgaveTilBehandling[];
+    loading: boolean;
     antallOppgaver: number;
     numberOfPages: number;
     currentPage: number;
@@ -23,7 +25,15 @@ interface OppgaverTableProps {
 }
 
 export const OppgaverTable = React.memo(
-    ({ oppgaver, antallOppgaver, numberOfPages, currentPage, limit, setPage }: OppgaverTableProps): ReactElement => {
+    ({
+        oppgaver,
+        loading,
+        antallOppgaver,
+        numberOfPages,
+        currentPage,
+        limit,
+        setPage,
+    }: OppgaverTableProps): ReactElement => {
         const tab = useAktivTab();
         const { activeFilters } = useFilters();
         const sort = useSorteringState();
@@ -32,7 +42,7 @@ export const OppgaverTable = React.memo(
         const setMultipleFilters = useSetMultipleFilters();
 
         return (
-            <div className={styles.TableContainer}>
+            <div className={classNames(styles.TableContainer, loading && styles.Loading)}>
                 <FilterChips
                     activeFilters={activeFilters}
                     setMultipleFilters={setMultipleFilters}

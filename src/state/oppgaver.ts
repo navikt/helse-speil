@@ -70,6 +70,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
             filtrering: originalFiltreringRef.current,
             sortering: originalSorteringRef.current,
         },
+        notifyOnNetworkStatusChange: true,
         initialFetchPolicy: 'network-only',
         nextFetchPolicy: 'cache-first',
         onError: () => {
