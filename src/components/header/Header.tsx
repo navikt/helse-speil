@@ -36,7 +36,7 @@ export const Header = () => {
                     GraphQL Playground
                 </InternalHeader.Title>
             )}
-            {erUtvikling && <Nyheter />}
+            <Nyheter />
             <SystemMenu />
             <UserMenu />
         </InternalHeader>
