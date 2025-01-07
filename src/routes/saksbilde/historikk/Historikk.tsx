@@ -176,7 +176,7 @@ const HistorikkWithContent = (): ReactElement => {
                                             return <Utbetalinghendelse key={it.id} {...it} />;
                                         }
                                         case 'Historikk': {
-                                            return <HistorikkHendelse hendelse={it} person={person} />;
+                                            return <HistorikkHendelse key={it.id} hendelse={it} person={person} />;
                                         }
                                         case 'VedtakBegrunnelse': {
                                             return <VedtakBegrunnelsehendelse key={it.id} {...it} />;
