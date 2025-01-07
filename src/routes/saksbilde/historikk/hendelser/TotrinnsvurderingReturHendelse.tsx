@@ -13,7 +13,7 @@ import { Hendelse } from './Hendelse';
 import { HendelseDate } from './HendelseDate';
 import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './notat/constants';
 
-import notatStyles from './notat/Notathendelse.module.css';
+import notatStyles from './TotrinnsvurderingReturHendelse.module.css';
 
 type TotrinnsvurderingReturHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
 
