@@ -44,10 +44,10 @@ export const SøknadDokumentHendelse = ({
             title="Søknad mottatt"
             kontekstknapp={
                 <Button
-                    size="xsmall"
-                    variant="tertiary"
-                    title={dokumentetErÅpnet() ? 'Lukk panel' : 'Åpne opp panel'}
                     icon={dokumentetErÅpnet() ? <ChevronLeftCircleIcon /> : <ChevronRightCircleIcon />}
+                    title={dokumentetErÅpnet() ? 'Lukk panel' : 'Åpne opp panel'}
+                    variant="tertiary"
+                    size="xsmall"
                     onClick={(event: React.MouseEvent) => {
                         toggleÅpnetDokument();
                         event.stopPropagation();
