@@ -4,7 +4,7 @@ import { ChevronLeftCircleIcon, ChevronRightCircleIcon } from '@navikt/aksel-ico
 import { Button } from '@navikt/ds-react';
 
 import { SøknadKildeIkon } from '@components/Kilde';
-import { ExpandableHendelse } from '@saksbilde/historikk/hendelser/ExpandableHendelse';
+import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { DateString } from '@typer/shared';
 
 import { Søknadsinnhold } from './Søknadsinnhold';
@@ -39,9 +39,9 @@ export const SøknadDokumentHendelse = ({
     }
 
     return (
-        <ExpandableHendelse
-            ikon={<SøknadKildeIkon />}
-            tittel="Søknad mottatt"
+        <Historikkhendelse
+            icon={<SøknadKildeIkon />}
+            title="Søknad mottatt"
             kontekstknapp={
                 <Button
                     size="xsmall"
@@ -54,9 +54,10 @@ export const SøknadDokumentHendelse = ({
                     }}
                 />
             }
-            tidsstempel={timestamp}
+            timestamp={timestamp}
+            aktiv={false}
         >
             <Søknadsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} />
-        </ExpandableHendelse>
+        </Historikkhendelse>
     );
 };

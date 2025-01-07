@@ -5,7 +5,7 @@ import { Button } from '@navikt/ds-react';
 
 import { InntektsmeldingKildeIkon } from '@components/Kilde';
 import { PersonFragment } from '@io/graphql';
-import { ExpandableHendelse } from '@saksbilde/historikk/hendelser/ExpandableHendelse';
+import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { DateString } from '@typer/shared';
 
 import { Inntektsmeldingsinnhold } from './Inntektsmeldingsinnhold';
@@ -40,9 +40,9 @@ export const InntektsmeldingDokumentHendelse = ({
     }
 
     return (
-        <ExpandableHendelse
-            ikon={<InntektsmeldingKildeIkon />}
-            tittel="Inntektsmelding mottatt"
+        <Historikkhendelse
+            icon={<InntektsmeldingKildeIkon />}
+            title="Inntektsmelding mottatt"
             kontekstknapp={
                 <Button
                     size="xsmall"
@@ -55,9 +55,10 @@ export const InntektsmeldingDokumentHendelse = ({
                     }}
                 />
             }
-            tidsstempel={timestamp}
+            timestamp={timestamp}
+            aktiv={false}
         >
             <Inntektsmeldingsinnhold dokumentId={dokumentId} fødselsnummer={person.fodselsnummer} person={person} />
-        </ExpandableHendelse>
+        </Historikkhendelse>
     );
 };
