@@ -32,7 +32,7 @@ export const JusterbarSidemeny = ({
     const maxWidth = 1980;
 
     useEffect(() => {
-        window.addEventListener('mousemove', (e) => {
+        const mousemoveListener = (e: MouseEvent) => {
             if (!isResized.current) {
                 return;
             }
@@ -43,11 +43,17 @@ export const JusterbarSidemeny = ({
 
                 return isWidthInRange ? newWidth : previousWidth;
             });
-        });
+        };
+        window.addEventListener('mousemove', mousemoveListener);
 
-        window.addEventListener('mouseup', () => {
+        const mouseupListener = () => {
             isResized.current = false;
-        });
+        };
+        window.addEventListener('mouseup', mouseupListener);
+        return () => {
+            window.removeEventListener('mousemove', mousemoveListener);
+            window.removeEventListener('mouseup', mouseupListener);
+        };
     }, [åpnesTilVenstre]);
 
     useEffect(() => {
