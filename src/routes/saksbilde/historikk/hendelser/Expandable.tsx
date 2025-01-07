@@ -11,12 +11,14 @@ import styles from './Expandable.module.css';
 interface ExpandableProps extends PropsWithChildren {
     expandText?: string;
     collapseText?: string;
+    flattened?: boolean;
     className?: string;
 }
 
 export const Expandable = ({
     expandText = 'Vis mer',
     collapseText = 'Vis mindre',
+    flattened = false,
     className,
     children,
 }: ExpandableProps): ReactElement => {
@@ -27,7 +29,9 @@ export const Expandable = ({
         setExpanded((expanded) => !expanded);
     };
 
-    return (
+    return flattened ? (
+        <div>{children}</div>
+    ) : (
         <div
             role="button"
             tabIndex={0}

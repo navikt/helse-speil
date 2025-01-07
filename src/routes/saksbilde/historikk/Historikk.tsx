@@ -22,8 +22,6 @@ import { InntektsmeldingDokumentHendelse } from '@saksbilde/historikk/hendelser/
 import { SøknadDokumentHendelse } from '@saksbilde/historikk/hendelser/dokument/SøknadDokumentHendelse';
 import { VedtakDokumentHendelse } from '@saksbilde/historikk/hendelser/dokument/VedtakDokumenthendelse';
 import { FjernFraPåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/FjernFraPåVentHendelse';
-import { NyestePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/NyestePåVentHendelse';
-import { TidligerePåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/TidligerePåVentHendelse';
 import { TotrinnsvurderingAttestertHendelse } from '@saksbilde/historikk/hendelser/totrinnsvurdering/TotrinnsvurderingAttestertHendelse';
 import { TotrinnsvurderingTilGodkjenningHendelse } from '@saksbilde/historikk/hendelser/totrinnsvurdering/TotrinnsvurderingTilGodkjenningHendelse';
 import { useFetchPersonQuery } from '@state/person';
@@ -39,6 +37,7 @@ import { Sykepengegrunnlagskjønnsfastsettinghendelse } from './hendelser/Sykepe
 import { Utbetalinghendelse } from './hendelser/Utbetalinghendelse';
 import { VedtakBegrunnelsehendelse } from './hendelser/VedtakBegrunnelsehendelse';
 import { Notathendelse } from './hendelser/notat/Notathendelse';
+import { PåVentHendelse } from './hendelser/påvent/PåVentHendelse';
 import { useFilterState, useFilteredHistorikk, useShowHistorikkState, useShowHøyremenyState } from './state';
 
 import styles from './Historikk.module.css';
@@ -229,25 +228,6 @@ const HistorikkHendelse = ({ hendelse, person }: HistorikkHendelseProps) => {
         case PeriodehistorikkType.TotrinnsvurderingRetur: {
             return <TotrinnsvurderingReturHendelse key={hendelse.id} {...hendelse} />;
         }
-    }
-};
-
-interface PåVentHendelseProps {
-    hendelse: HistorikkhendelseObject;
-    person: PersonFragment;
-}
-
-const PåVentHendelse = ({ hendelse, person }: PåVentHendelseProps) => {
-    if (hendelse.erNyestePåVentInnslag) {
-        return <NyestePåVentHendelse key={hendelse.id} {...hendelse} person={person} />;
-    } else {
-        return (
-            <TidligerePåVentHendelse
-                key={hendelse.id}
-                {...hendelse}
-                erEndring={hendelse.historikktype === PeriodehistorikkType.EndrePaVent}
-            />
-        );
     }
 };
 
