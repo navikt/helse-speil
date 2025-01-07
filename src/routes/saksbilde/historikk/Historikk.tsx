@@ -205,30 +205,19 @@ interface HistorikkHendelseProps {
 }
 
 const HistorikkHendelse = ({ hendelse, person }: HistorikkHendelseProps) => {
-    switch (hendelse.historikktype) {
-        case PeriodehistorikkType.LeggPaVent:
-        case PeriodehistorikkType.EndrePaVent: {
-            return <PåVentHendelse key={hendelse.id} hendelse={hendelse} person={person} />;
-        }
-        case PeriodehistorikkType.FjernFraPaVent: {
-            return <FjernFraPåVentHendelse key={hendelse.id} {...hendelse} />;
-        }
-        case PeriodehistorikkType.TotrinnsvurderingAttestert: {
-            return <TotrinnsvurderingAttestertHendelse key={hendelse.id} {...hendelse} />;
-        }
-        case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning: {
-            return <TotrinnsvurderingTilGodkjenningHendelse key={hendelse.id} {...hendelse} />;
-        }
-        case PeriodehistorikkType.VedtaksperiodeReberegnet: {
-            return <VedtaksperiodeReberegnetHendelse key={hendelse.id} {...hendelse} />;
-        }
-        case PeriodehistorikkType.StansAutomatiskBehandling: {
-            return <StansAutomatiskBehandlingHendelse key={hendelse.id} {...hendelse} />;
-        }
-        case PeriodehistorikkType.TotrinnsvurderingRetur: {
-            return <TotrinnsvurderingReturHendelse key={hendelse.id} {...hendelse} />;
-        }
-    }
+    const HendelseComponent = historikkhendelseComponents[hendelse.historikktype];
+    return <HendelseComponent person={person} hendelse={hendelse} {...hendelse} />;
+};
+
+const historikkhendelseComponents = {
+    [PeriodehistorikkType.LeggPaVent]: PåVentHendelse,
+    [PeriodehistorikkType.EndrePaVent]: PåVentHendelse,
+    [PeriodehistorikkType.FjernFraPaVent]: FjernFraPåVentHendelse,
+    [PeriodehistorikkType.TotrinnsvurderingAttestert]: TotrinnsvurderingAttestertHendelse,
+    [PeriodehistorikkType.TotrinnsvurderingTilGodkjenning]: TotrinnsvurderingTilGodkjenningHendelse,
+    [PeriodehistorikkType.VedtaksperiodeReberegnet]: VedtaksperiodeReberegnetHendelse,
+    [PeriodehistorikkType.StansAutomatiskBehandling]: StansAutomatiskBehandlingHendelse,
+    [PeriodehistorikkType.TotrinnsvurderingRetur]: TotrinnsvurderingReturHendelse,
 };
 
 export const HistorikkSkeleton = (): ReactElement => {
