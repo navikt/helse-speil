@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
-import { EnkelHendelse } from '@saksbilde/historikk/hendelser/EnkelHendelse';
 import { VedtaksperiodeReberegnetIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
+import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
 type VedtaksperiodeReberegnetHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
@@ -10,10 +10,10 @@ export const VedtaksperiodeReberegnetHendelse = ({
     saksbehandler,
     timestamp,
 }: VedtaksperiodeReberegnetHendelseProps): ReactElement => (
-    <EnkelHendelse
-        title="Periode reberegnet"
+    <Historikkhendelse
         icon={<VedtaksperiodeReberegnetIkon />}
-        saksbehandler={saksbehandler ?? undefined}
+        title="Periode reberegnet"
         timestamp={timestamp}
+        saksbehandler={saksbehandler ?? undefined}
     />
 );

@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { Kilde } from '@components/Kilde';
-import { EnkelHendelse } from '@saksbilde/historikk/hendelser/EnkelHendelse';
+import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { DateString } from '@typer/shared';
 
 import { getKildetekst, getKildetype } from './dokument';
@@ -12,11 +12,11 @@ type DokumenthendelseProps = {
 };
 
 export const Dokumenthendelse = ({ dokumenttype, timestamp }: DokumenthendelseProps): ReactElement => (
-    <EnkelHendelse
+    <Historikkhendelse
+        icon={<Kilde type={getKildetype(dokumenttype)}>{getKildetekst(dokumenttype)}</Kilde>}
         title={
             dokumenttype === 'InntektHentetFraAordningen' ? 'Inntekt hentet fra A-ordningen' : dokumenttype + ' mottatt'
         }
-        icon={<Kilde type={getKildetype(dokumenttype)}>{getKildetekst(dokumenttype)}</Kilde>}
         timestamp={timestamp}
     />
 );

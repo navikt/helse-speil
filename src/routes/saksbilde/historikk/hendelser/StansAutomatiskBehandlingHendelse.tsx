@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
-import { EnkelHendelse } from '@saksbilde/historikk/hendelser/EnkelHendelse';
 import { StansAutomatiskBehandlingIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
+import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
 type StansAutomatiskBehandlingHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
@@ -10,10 +10,10 @@ export const StansAutomatiskBehandlingHendelse = ({
     saksbehandler,
     timestamp,
 }: StansAutomatiskBehandlingHendelseProps): ReactElement => (
-    <EnkelHendelse
-        title="Automatisk behandling stanset"
+    <Historikkhendelse
         icon={<StansAutomatiskBehandlingIkon />}
-        saksbehandler={saksbehandler ?? undefined}
+        title="Automatisk behandling stanset"
         timestamp={timestamp}
+        saksbehandler={saksbehandler ?? undefined}
     />
 );

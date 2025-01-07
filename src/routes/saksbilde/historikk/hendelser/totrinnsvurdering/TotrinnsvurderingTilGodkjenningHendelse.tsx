@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
-import { EnkelHendelse } from '@saksbilde/historikk/hendelser/EnkelHendelse';
 import { TotrinnsvurderingTilGodkjenningIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
+import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
 type TotrinnsvurderingTilGodkjenningHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
@@ -10,10 +10,10 @@ export const TotrinnsvurderingTilGodkjenningHendelse = ({
     saksbehandler,
     timestamp,
 }: TotrinnsvurderingTilGodkjenningHendelseProps): ReactElement => (
-    <EnkelHendelse
-        title="Sendt til godkjenning"
+    <Historikkhendelse
         icon={<TotrinnsvurderingTilGodkjenningIkon />}
-        saksbehandler={saksbehandler ?? undefined}
+        title="Sendt til godkjenning"
         timestamp={timestamp}
+        saksbehandler={saksbehandler ?? undefined}
     />
 );
