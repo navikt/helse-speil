@@ -1,16 +1,19 @@
 import React, { ReactElement } from 'react';
 
-import { EnkelHendelse } from '@saksbilde/historikk/hendelser/EnkelHendelse';
 import { PåVentIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
-import { HistorikkhendelseObject } from '@typer/historikk';
+import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
+import { DateString } from '@typer/shared';
 
-type FjernFraPåVentHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
+type FjernFraPåVentHendelseProps = {
+    timestamp: DateString;
+    saksbehandler?: string;
+};
 
-export const FjernFraPåVentHendelse = ({ saksbehandler, timestamp }: FjernFraPåVentHendelseProps): ReactElement => (
-    <EnkelHendelse
+export const FjernFraPåVentHendelse = ({ timestamp, saksbehandler }: FjernFraPåVentHendelseProps): ReactElement => (
+    <Historikkhendelse
         title="Fjernet fra på vent"
         icon={<PåVentIkon />}
-        saksbehandler={saksbehandler ?? undefined}
         timestamp={timestamp}
+        saksbehandler={saksbehandler}
     />
 );
