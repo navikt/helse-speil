@@ -15,12 +15,12 @@ import { HistorikkhendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-interface PåVentHendelseProps {
+interface LagtPåVentHendelseProps {
     hendelse: HistorikkhendelseObject;
     person: PersonFragment;
 }
 
-export const PåVentHendelse = ({ hendelse, person }: PåVentHendelseProps) => {
+export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelseProps) => {
     const aktivPeriode = useActivePeriod(person);
     const erAktivPeriodePåVent = isBeregnetPeriode(aktivPeriode) && aktivPeriode?.paVent !== null;
     return (
