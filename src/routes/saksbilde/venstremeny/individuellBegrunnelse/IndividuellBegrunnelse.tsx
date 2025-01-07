@@ -1,11 +1,9 @@
 import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
-import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
 import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseModal';
 import { IndividuellBegrunnelseContent } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelseContent';
-import { kanSkriveBegrunnelseForInnvilgelseToggle } from '@utils/featureToggles';
 
 interface BegrunnelseVedtakProps {
     defaultÅpen: boolean;
@@ -30,10 +28,7 @@ export const IndividuellBegrunnelse = ({
 
     const erBeslutteroppgave = periode.totrinnsvurdering?.erBeslutteroppgave ?? false;
 
-    const saksbehandlerident = useBrukerIdent();
-    const grupper = useBrukerGrupper();
-
-    if (erInnvilgelse && !kanSkriveBegrunnelseForInnvilgelseToggle(saksbehandlerident, grupper)) return null;
+    if (erInnvilgelse) return null;
 
     const åpneModal = () => setModalÅpen(true);
     const lukkModal = () => setModalÅpen(false);
