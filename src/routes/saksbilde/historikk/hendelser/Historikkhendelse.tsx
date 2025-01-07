@@ -39,8 +39,11 @@ export const Historikkhendelse = ({
         <li tabIndex={0} className={classNames(styles.fokusområde, styles.hendelse)}>
             <div className={styles.iconContainer}>{icon}</div>
             <div className={styles.content}>
-                <BodyShort weight="semibold">{title}</BodyShort>
-                {kontekstknapp}
+                <HStack gap="1" wrap={false}>
+                    <BodyShort weight="semibold">{title}</BodyShort>
+                    {kontekstknapp && <Spacer />}
+                    {kontekstknapp}
+                </HStack>
                 <HendelseDate timestamp={timestamp} ident={saksbehandler} />
                 {children && <VStack gap="2">{children}</VStack>}
             </div>

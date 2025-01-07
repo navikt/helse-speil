@@ -6,7 +6,7 @@ import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
 import { PåVentIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
-import { PåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/PåVentDropdown';
+import { LagtPåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/LagtPåVentDropdown';
 import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe';
 import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
 import { Kommentarer } from '@saksbilde/historikk/komponenter/kommentarer/Kommentarer';
@@ -31,7 +31,7 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
             saksbehandler={hendelse.saksbehandler ?? undefined}
             kontekstknapp={
                 hendelse.erNyestePåVentInnslag && erAktivPeriodePåVent ? (
-                    <PåVentDropdown
+                    <LagtPåVentDropdown
                         person={person}
                         årsaker={hendelse.årsaker}
                         notattekst={hendelse.notattekst}
