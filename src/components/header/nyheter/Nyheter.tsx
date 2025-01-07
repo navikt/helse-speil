@@ -33,7 +33,7 @@ export const Nyheter = () => {
             <Dropdown.Menu className={styles.menu}>
                 <Dropdown.Menu.GroupedList className={styles.list}>
                     <Dropdown.Menu.GroupedList.Heading className={styles.heading}>
-                        Nytt i speil
+                        Nytt i Speil
                     </Dropdown.Menu.GroupedList.Heading>
                     {nyheter.length > 0 ? (
                         <ScrollableContainer>
