@@ -8,6 +8,8 @@ import { PåVentIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { PåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/PåVentDropdown';
 import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe';
+import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
+import { Kommentarer } from '@saksbilde/historikk/komponenter/kommentarer/Kommentarer';
 import { useActivePeriod } from '@state/periode';
 import { HistorikkhendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
@@ -23,13 +25,12 @@ export const PåVentHendelse = ({ hendelse, person }: PåVentHendelseProps) => {
     const erAktivPeriodePåVent = isBeregnetPeriode(aktivPeriode) && aktivPeriode?.paVent !== null;
     return (
         <Historikkhendelse
-            erNyesteHendelseAvType={hendelse.erNyestePåVentInnslag ?? false}
-            title={`Lagt på vent${hendelse.historikktype === PeriodehistorikkType.EndrePaVent ? ' – endret' : ''}`}
             icon={<PåVentIkon />}
+            title={`Lagt på vent${hendelse.historikktype === PeriodehistorikkType.EndrePaVent ? ' – endret' : ''}`}
             timestamp={hendelse.timestamp}
-            saksbehandler={hendelse.saksbehandler}
+            saksbehandler={hendelse.saksbehandler ?? undefined}
             kontekstknapp={
-                erAktivPeriodePåVent ? (
+                hendelse.erNyestePåVentInnslag && erAktivPeriodePåVent ? (
                     <PåVentDropdown
                         person={person}
                         årsaker={hendelse.årsaker}
@@ -38,10 +39,7 @@ export const PåVentHendelse = ({ hendelse, person }: PåVentHendelseProps) => {
                     />
                 ) : undefined
             }
-            kommentarer={hendelse.kommentarer}
-            dialogRef={hendelse.dialogRef}
-            historikkinnslagId={hendelse.historikkinnslagId}
-            historikktype={hendelse.historikktype}
+            aktiv={hendelse.erNyestePåVentInnslag}
         >
             <ÅrsakListe årsaker={hendelse.årsaker} />
             <HStack gap="1">
@@ -53,6 +51,17 @@ export const PåVentHendelse = ({ hendelse, person }: PåVentHendelseProps) => {
                     <BodyShort weight="semibold">Notat</BodyShort>
                     <BodyLong style={{ whiteSpace: 'pre-wrap' }}>{hendelse.notattekst}</BodyLong>
                 </Expandable>
+            )}
+            {hendelse.erNyestePåVentInnslag && (
+                <KommentarSeksjon
+                    kommentarer={hendelse.kommentarer!}
+                    dialogRef={hendelse.dialogRef ?? undefined}
+                    historikkinnslagId={hendelse.historikkinnslagId!}
+                    historikktype={hendelse.historikktype}
+                />
+            )}
+            {!hendelse.erNyestePåVentInnslag && hendelse.kommentarer && (
+                <Kommentarer kommentarer={hendelse.kommentarer} />
             )}
         </Historikkhendelse>
     );

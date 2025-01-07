@@ -1,13 +1,13 @@
 import React, { ReactElement } from 'react';
 
-import { Kommentar, Maybe, PeriodehistorikkType } from '@io/graphql';
+import { Kommentar, PeriodehistorikkType } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
 import { Kommentarer } from '@saksbilde/historikk/komponenter/kommentarer/Kommentarer';
 import { LeggTilNyKommentar } from '@saksbilde/historikk/komponenter/kommentarer/LeggTilNyKommentar';
 
 type KommentarSeksjonProps = {
     kommentarer: Array<Kommentar>;
-    dialogRef: Maybe<number>;
+    dialogRef?: number;
     historikkinnslagId: number;
     historikktype?: PeriodehistorikkType;
 };

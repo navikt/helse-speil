@@ -55,7 +55,7 @@ export const TotrinnsvurderingReturHendelse = ({
             </div>
             <KommentarSeksjon
                 kommentarer={kommentarer}
-                dialogRef={dialogRef}
+                dialogRef={dialogRef ?? undefined}
                 historikkinnslagId={historikkinnslagId}
                 historikktype={PeriodehistorikkType.TotrinnsvurderingRetur}
             />
