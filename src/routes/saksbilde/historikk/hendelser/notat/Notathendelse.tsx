@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 
-import { BodyLong, ErrorMessage, VStack } from '@navikt/ds-react';
+import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
+import { ActionMenu, BodyLong, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { FeilregistrerNotatMutationDocument } from '@io/graphql';
@@ -11,8 +12,6 @@ import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/K
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { NotathendelseObject } from '@typer/historikk';
 import { NotatType } from '@typer/notat';
-
-import { HendelseDropdownMenu } from './HendelseDropdownMenu';
 
 type NotathendelseProps = Omit<NotathendelseObject, 'type'>;
 
@@ -53,7 +52,20 @@ export const Notathendelse = ({
             title={toNotatTittel(notattype) + (feilregistrert ? ' (feilregistrert)' : '')}
             kontekstknapp={
                 !feilregistrert && innloggetSaksbehandler.ident === saksbehandler ? (
-                    <HendelseDropdownMenu feilregistrerAction={feilregistrerNotat} isFetching={loading} />
+                    <ActionMenu>
+                        <ActionMenu.Trigger>
+                            <Button
+                                icon={<MenuElipsisHorizontalIcon />}
+                                title="Alternativer"
+                                variant="tertiary"
+                                size="xsmall"
+                                loading={loading}
+                            />
+                        </ActionMenu.Trigger>
+                        <ActionMenu.Content>
+                            <ActionMenu.Item onSelect={() => feilregistrerNotat()}>Feilregistrer</ActionMenu.Item>
+                        </ActionMenu.Content>
+                    </ActionMenu>
                 ) : undefined
             }
             timestamp={timestamp}
