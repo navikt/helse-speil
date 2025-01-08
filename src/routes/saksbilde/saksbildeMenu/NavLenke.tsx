@@ -28,6 +28,6 @@ export const NavLenke = ({ tittel, to }: NavLenkeProps): ReactElement => {
 
 export const NavLenkeSkeleton = ({ tittel }: { tittel: string }) => (
     <Skeleton>
-        <Box className={styles.NavLink}>{tittel}</Box>
+        <Box style={{ height: '46px' }}>{tittel}</Box>
     </Skeleton>
 );

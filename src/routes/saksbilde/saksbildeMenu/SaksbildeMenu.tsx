@@ -52,7 +52,7 @@ const SaksbildeMenuWrapper = (props: BoxProps) => (
 
 export const SaksbildemenySkeleton = () => (
     <SaksbildeMenuWrapper>
-        <HStack gap="4">
+        <HStack gap="5" paddingInline="5">
             <NavLenkeSkeleton tittel="Dagoversikt" />
             <NavLenkeSkeleton tittel="Inngangsvilkår" />
             <NavLenkeSkeleton tittel="Sykepengegrunnlag" />
