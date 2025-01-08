@@ -21,7 +21,8 @@ import { Dokumenthendelse } from '@saksbilde/historikk/hendelser/dokument/Dokume
 import { InntektsmeldingDokumentHendelse } from '@saksbilde/historikk/hendelser/dokument/InntektsmeldingDokumentHendelse';
 import { SøknadDokumentHendelse } from '@saksbilde/historikk/hendelser/dokument/SøknadDokumentHendelse';
 import { VedtakDokumentHendelse } from '@saksbilde/historikk/hendelser/dokument/VedtakDokumenthendelse';
-import { FjernFraPåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/FjernFraPåVentHendelse';
+import { FjernetFraPåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/FjernetFraPåVentHendelse';
+import { LagtPåVentHendelse } from '@saksbilde/historikk/hendelser/påvent/LagtPåVentHendelse';
 import { TotrinnsvurderingAttestertHendelse } from '@saksbilde/historikk/hendelser/totrinnsvurdering/TotrinnsvurderingAttestertHendelse';
 import { TotrinnsvurderingTilGodkjenningHendelse } from '@saksbilde/historikk/hendelser/totrinnsvurdering/TotrinnsvurderingTilGodkjenningHendelse';
 import { useFetchPersonQuery } from '@state/person';
@@ -37,7 +38,6 @@ import { Sykepengegrunnlagskjønnsfastsettinghendelse } from './hendelser/Sykepe
 import { Utbetalinghendelse } from './hendelser/Utbetalinghendelse';
 import { VedtakBegrunnelsehendelse } from './hendelser/VedtakBegrunnelsehendelse';
 import { Notathendelse } from './hendelser/notat/Notathendelse';
-import { PåVentHendelse } from './hendelser/påvent/PåVentHendelse';
 import { useFilterState, useFilteredHistorikk, useShowHistorikkState, useShowHøyremenyState } from './state';
 
 import styles from './Historikk.module.css';
@@ -210,9 +210,9 @@ const HistorikkHendelse = ({ hendelse, person }: HistorikkHendelseProps) => {
 };
 
 const historikkhendelseComponents = {
-    [PeriodehistorikkType.LeggPaVent]: PåVentHendelse,
-    [PeriodehistorikkType.EndrePaVent]: PåVentHendelse,
-    [PeriodehistorikkType.FjernFraPaVent]: FjernFraPåVentHendelse,
+    [PeriodehistorikkType.LeggPaVent]: LagtPåVentHendelse,
+    [PeriodehistorikkType.EndrePaVent]: LagtPåVentHendelse,
+    [PeriodehistorikkType.FjernFraPaVent]: FjernetFraPåVentHendelse,
     [PeriodehistorikkType.TotrinnsvurderingAttestert]: TotrinnsvurderingAttestertHendelse,
     [PeriodehistorikkType.TotrinnsvurderingTilGodkjenning]: TotrinnsvurderingTilGodkjenningHendelse,
     [PeriodehistorikkType.VedtaksperiodeReberegnet]: VedtaksperiodeReberegnetHendelse,
