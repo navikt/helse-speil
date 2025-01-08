@@ -4335,6 +4335,7 @@
                     "overstyringer": [
                         {
                             "hendelseId": "d5666dad-833b-47c3-9e81-dabe377d6cd2",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",
@@ -10650,6 +10651,7 @@
                     "overstyringer": [
                         {
                             "hendelseId": "ddb56e52-58ac-4894-800c-5988a198d9de",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",

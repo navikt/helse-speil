@@ -26778,6 +26778,7 @@
                     "overstyringer": [
                         {
                             "hendelseId": "54508e85-1533-492a-bb1e-53b4c947d86f",
+                            "vedtaksperiodeId": "526f95a7-ad49-42a0-8bb7-13d1051ff386",
                             "saksbehandler": {
                                 "ident": "A123456",
                                 "navn": "Sykkel, Skvetten"
