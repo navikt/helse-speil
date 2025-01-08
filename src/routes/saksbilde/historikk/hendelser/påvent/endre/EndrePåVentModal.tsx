@@ -26,7 +26,7 @@ interface EndrePåVentModalProps {
     navn: Personnavn;
     oppgaveId: string;
     tildeling: Maybe<Tildeling>;
-    periodeId?: string;
+    behandlingId?: string;
     opprinneligeÅrsaker: string[];
     opprinneligNotattekst: Maybe<string>;
     opprinneligFrist: Maybe<DateString>;
@@ -37,13 +37,13 @@ export const EndrePåVentModal = ({
     navn,
     oppgaveId,
     tildeling,
-    periodeId,
+    behandlingId,
     opprinneligeÅrsaker,
     opprinneligNotattekst,
     opprinneligFrist,
 }: EndrePåVentModalProps): ReactElement => {
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
-    const [endrePåVent, { loading, error: endrePåVentError }] = useEndrePåVent(periodeId);
+    const [endrePåVent, { loading, error: endrePåVentError }] = useEndrePåVent(behandlingId);
     const errorHandler = useOperationErrorHandler('Endre på vent');
     const router = useRouter();
     const saksbehandler = useInnloggetSaksbehandler();

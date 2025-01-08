@@ -29,7 +29,7 @@ const useOptimistiskPaVent = (): PaventFragment => {
 };
 
 export const useLeggPåVent = (
-    periodeId?: string,
+    behandlingId?: string,
 ): [
     (
         oppgavereferanse: string,
@@ -64,14 +64,14 @@ export const useLeggPåVent = (
                 arsaker: arsaker,
             },
             update: (cache, result) =>
-                oppdaterPåVentICache(cache, oppgavereferanse, periodeId ?? null, result.data?.leggPaVent ?? null),
+                oppdaterPåVentICache(cache, oppgavereferanse, behandlingId ?? null, result.data?.leggPaVent ?? null),
         });
 
     return [leggPåVent, data];
 };
 
 export const useEndrePåVent = (
-    periodeId?: string,
+    behandlingId?: string,
 ): [
     (
         oppgavereferanse: string,
@@ -106,7 +106,7 @@ export const useEndrePåVent = (
                 arsaker: arsaker,
             },
             update: (cache, result) =>
-                oppdaterPåVentICache(cache, oppgavereferanse, periodeId ?? null, result.data?.endrePaVent ?? null),
+                oppdaterPåVentICache(cache, oppgavereferanse, behandlingId ?? null, result.data?.endrePaVent ?? null),
         });
 
     return [endrePåVent, data];

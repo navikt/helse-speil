@@ -33,6 +33,7 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
                 hendelse.erNyestePåVentInnslag && erAktivPeriodePåVent ? (
                     <LagtPåVentDropdown
                         person={person}
+                        periode={aktivPeriode}
                         årsaker={hendelse.årsaker}
                         notattekst={hendelse.notattekst}
                         frist={hendelse.frist}
