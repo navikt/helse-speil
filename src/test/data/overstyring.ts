@@ -8,6 +8,7 @@ export const enDagoverstyring: OverridableConstructor<
     Dagoverstyring
 > = (overrides) => ({
     __typename: 'Dagoverstyring',
+    vedtaksperiodeId: '',
     begrunnelse: 'En begrunnelse',
     dager: [],
     hendelseId: nanoid(),
@@ -23,6 +24,7 @@ export const enDagoverstyring: OverridableConstructor<
 
 export const enArbeidsforholdoverstyring: OverridableConstructor<Arbeidsforholdoverstyring> = (overrides) => ({
     __typename: 'Arbeidsforholdoverstyring',
+    vedtaksperiodeId: '',
     begrunnelse: 'En begrunnelse',
     deaktivert: false,
     forklaring: 'En forklaring',
@@ -40,6 +42,7 @@ export const enArbeidsforholdoverstyring: OverridableConstructor<Arbeidsforholdo
 
 export const enInntektoverstyring: OverridableConstructor<Inntektoverstyring> = (overrides) => ({
     __typename: 'Inntektoverstyring',
+    vedtaksperiodeId: '',
     begrunnelse: 'En begrunnelse',
     hendelseId: nanoid(),
     inntekt: {

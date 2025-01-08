@@ -26,6 +26,7 @@ export type Utbetalingstabelldagtype =
     | 'Opplæringspenger';
 
 export type OverstyringerPrDag = {
+    vedtaksperiodeId: string;
     hendelseId: string;
     begrunnelse: string;
     saksbehandler: {

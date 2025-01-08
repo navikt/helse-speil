@@ -169,6 +169,7 @@ export const useTabelldagerMap = ({
                         ...existing,
                         overstyringer: (existing.overstyringer ?? []).concat([
                             {
+                                vedtaksperiodeId: overstyring.vedtaksperiodeId,
                                 hendelseId: overstyring.hendelseId,
                                 begrunnelse: overstyring.begrunnelse,
                                 saksbehandler: overstyring.saksbehandler,

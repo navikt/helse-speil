@@ -157,6 +157,7 @@ const getVarsel = (status?: Varselstatus): VarselDto => {
 
 const enDagoverstyring: Dagoverstyring = {
     __typename: 'Dagoverstyring',
+    vedtaksperiodeId: '',
     hendelseId: 'en-id',
     timestamp: '2020-01-01',
     begrunnelse: 'Fordi',
