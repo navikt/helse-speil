@@ -123,7 +123,7 @@ export const toNotat = (spesialistNotat: NotatFragment): Notat => ({
     opprettet: dayjs(spesialistNotat.opprettet),
     vedtaksperiodeId: spesialistNotat.vedtaksperiodeId,
     feilregistrert: spesialistNotat.feilregistrert,
-    type: spesialistNotat.type,
+    erOpphevStans: spesialistNotat.type === 'OpphevStans',
     kommentarer: spesialistNotat.kommentarer ?? [],
 });
 

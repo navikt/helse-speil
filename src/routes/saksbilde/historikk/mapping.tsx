@@ -14,7 +14,6 @@ import {
     Kommentar,
     LagtPaVent,
     Maybe,
-    NotatType,
     NyttInntektsforholdPeriodeFragment,
     Periode,
     PeriodeHistorikkElementNy,
@@ -581,14 +580,15 @@ export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObj
                 dialogRef: notat.dialogRef,
                 type: 'Notat',
                 tekst: notat.tekst,
-                notattype: notat.type as NotatType,
+                erOpphevStans: notat.erOpphevStans,
                 saksbehandler: notat.saksbehandler.ident,
                 timestamp: notat.opprettet.format(ISO_TIDSPUNKTFORMAT),
                 feilregistrert: notat.feilregistrert,
                 vedtaksperiodeId: notat.vedtaksperiodeId,
                 kommentarer: notat.kommentarer,
                 erNyesteNotatMedType:
-                    [...notater].sort(byTimestamp).find((it) => it.type === notat.type)?.id === notat.id,
+                    [...notater].sort(byTimestamp).find((it) => it.erOpphevStans === notat.erOpphevStans)?.id ===
+                    notat.id,
             }) satisfies NotathendelseObject,
     );
 

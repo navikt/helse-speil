@@ -1,7 +1,6 @@
 import {
     Kommentar,
     Maybe,
-    NotatType,
     OverstyrtDag,
     OverstyrtInntekt,
     OverstyrtMinimumSykdomsgrad,
@@ -106,7 +105,7 @@ export type NotathendelseObject = BaseHendelseObject & {
     dialogRef: number;
     type: 'Notat';
     tekst: string;
-    notattype: NotatType;
+    erOpphevStans: boolean;
     saksbehandler: string;
     timestamp: DateString;
     feilregistrert: boolean;

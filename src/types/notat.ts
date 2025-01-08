@@ -9,8 +9,6 @@ export type NotatSaksbehandler = {
     ident: string;
 };
 
-export type NotatType = 'PaaVent' | 'Retur' | 'Generelt' | 'OpphevStans';
-
 export type Notat = {
     id: string;
     dialogRef: number;
@@ -19,6 +17,6 @@ export type Notat = {
     opprettet: Dayjs;
     vedtaksperiodeId: string;
     feilregistrert: boolean;
-    type: NotatType;
+    erOpphevStans: boolean;
     kommentarer: Array<Kommentar>;
 };

@@ -11,8 +11,6 @@ import {
     XMarkOctagonIcon,
 } from '@navikt/aksel-icons';
 
-import { NotatType } from '@typer/notat';
-
 import styles from './HendelseIkon.module.css';
 
 export const TotrinnsvurderingAttestertIkon = () => (
@@ -38,18 +36,13 @@ export const StansAutomatiskBehandlingIkon = () => (
 );
 
 interface NotatIkonProps {
-    notattype: NotatType;
+    erOpphevStans: boolean;
 }
 
-export const NotatIkon = ({ notattype }: NotatIkonProps): ReactElement => {
-    switch (notattype) {
-        case 'OpphevStans':
-            return <CheckmarkCircleIcon title="Sjekkmerke ikon" className={styles.ikon} />;
-        case 'PaaVent':
-            return <TimerPauseIcon title="Timer ikon" className={classNames(styles.ikon, styles.påVent)} />;
-        case 'Retur':
-            return <PaperplaneIcon title="Papirfly ikon" className={classNames(styles.ikon, styles.retur)} />;
-        case 'Generelt':
-            return <ChatIcon title="Chat ikon" className={styles.ikon} />;
+export const NotatIkon = ({ erOpphevStans }: NotatIkonProps): ReactElement => {
+    if (erOpphevStans) {
+        return <CheckmarkCircleIcon title="Sjekkmerke ikon" className={styles.ikon} />;
+    } else {
+        return <ChatIcon title="Chat ikon" className={styles.ikon} />;
     }
 };

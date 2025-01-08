@@ -11,7 +11,6 @@ import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhende
 import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { NotathendelseObject } from '@typer/historikk';
-import { NotatType } from '@typer/notat';
 
 type NotathendelseProps = Omit<NotathendelseObject, 'type'>;
 
@@ -19,7 +18,7 @@ export const Notathendelse = ({
     id,
     dialogRef,
     tekst,
-    notattype,
+    erOpphevStans,
     saksbehandler,
     timestamp,
     feilregistrert,
@@ -48,8 +47,8 @@ export const Notathendelse = ({
     const øvrigeTekstlinjer = tekst.slice(førsteTekstlinje.length).trim();
     return (
         <Historikkhendelse
-            icon={<NotatIkon notattype={notattype} />}
-            title={toNotatTittel(notattype) + (feilregistrert ? ' (feilregistrert)' : '')}
+            icon={<NotatIkon erOpphevStans={erOpphevStans} />}
+            title={toNotatTittel(erOpphevStans) + (feilregistrert ? ' (feilregistrert)' : '')}
             kontekstknapp={
                 !feilregistrert && innloggetSaksbehandler.ident === saksbehandler ? (
                     <ActionMenu>
@@ -90,15 +89,10 @@ export const Notathendelse = ({
     );
 };
 
-const toNotatTittel = (notattype: NotatType): string => {
-    switch (notattype) {
-        case 'OpphevStans':
-            return 'Stans opphevet';
-        case 'PaaVent':
-            return 'Lagt på vent';
-        case 'Retur':
-            return 'Returnert';
-        default:
-            return 'Notat';
+const toNotatTittel = (erOpphevStans: boolean): string => {
+    if (erOpphevStans) {
+        return 'Stans opphevet';
+    } else {
+        return 'Notat';
     }
 };
