@@ -45,7 +45,7 @@ const SaksbildeMenuWrapper = (props: BoxProps) => (
         borderWidth="0 0 1 0"
         borderColor="border-subtle"
         height="3rem"
-        minWidth="780px"
+        overflow="hidden"
         {...props}
     />
 );
