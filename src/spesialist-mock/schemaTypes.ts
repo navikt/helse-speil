@@ -104,6 +104,7 @@ export type Arbeidsforholdoverstyring = Overstyring & {
     saksbehandler: Saksbehandler;
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     timestamp: Scalars['LocalDateTime']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
 export type Arbeidsgiver = {
@@ -290,6 +291,7 @@ export type Dagoverstyring = Overstyring & {
     hendelseId: Scalars['UUID']['output'];
     saksbehandler: Saksbehandler;
     timestamp: Scalars['LocalDateTime']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
 export enum Dagtype {
@@ -522,6 +524,7 @@ export type Inntektoverstyring = Overstyring & {
     inntekt: OverstyrtInntekt;
     saksbehandler: Saksbehandler;
     timestamp: Scalars['LocalDateTime']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
 export enum Inntektskilde {
@@ -623,6 +626,7 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
     minimumSykdomsgrad: OverstyrtMinimumSykdomsgrad;
     saksbehandler: Saksbehandler;
     timestamp: Scalars['LocalDateTime']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
 export enum Mottaker {
@@ -658,7 +662,7 @@ export type Mutation = {
     sendTilGodkjenning: Scalars['Boolean']['output'];
     sendTilGodkjenningV2: Scalars['Boolean']['output'];
     sendTilInfotrygd: Scalars['Boolean']['output'];
-    settVarselstatus: VarselDto;
+    settVarselstatus?: Maybe<VarselDto>;
     skjonnsfastsettSykepengegrunnlag: Scalars['Boolean']['output'];
 };
 
@@ -947,6 +951,7 @@ export type Overstyring = {
     hendelseId: Scalars['UUID']['output'];
     saksbehandler: Saksbehandler;
     timestamp: Scalars['LocalDateTime']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
 export type OverstyringArbeidsforholdInput = {
@@ -1008,6 +1013,7 @@ export type OverstyrtInntekt = {
 export type OverstyrtMinimumSykdomsgrad = {
     __typename?: 'OverstyrtMinimumSykdomsgrad';
     begrunnelse: Scalars['String']['output'];
+    /** @deprecated Bruk vedtaksperiodeId i stedet */
     initierendeVedtaksperiodeId: Scalars['UUID']['output'];
     perioderVurdertIkkeOk: Array<OverstyrtMinimumSykdomsgradPeriode>;
     perioderVurdertOk: Array<OverstyrtMinimumSykdomsgradPeriode>;
@@ -1162,7 +1168,7 @@ export type Query = {
     behandledeOppgaverFeed: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentInntektsmelding?: Maybe<DokumentInntektsmelding>;
-    hentSoknad: Soknad;
+    hentSoknad?: Maybe<Soknad>;
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     person?: Maybe<Person>;
@@ -1525,6 +1531,7 @@ export type Sykepengegrunnlagskjonnsfastsetting = Overstyring & {
     saksbehandler: Saksbehandler;
     skjonnsfastsatt: SkjonnsfastsattSykepengegrunnlag;
     timestamp: Scalars['LocalDateTime']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
 export type Sykmelding = Hendelse & {

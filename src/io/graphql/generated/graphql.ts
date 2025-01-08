@@ -106,6 +106,7 @@ export type Arbeidsforholdoverstyring = Overstyring & {
     saksbehandler: Saksbehandler;
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     timestamp: Scalars['LocalDateTime']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
 export type Arbeidsgiver = {
@@ -292,6 +293,7 @@ export type Dagoverstyring = Overstyring & {
     hendelseId: Scalars['UUID']['output'];
     saksbehandler: Saksbehandler;
     timestamp: Scalars['LocalDateTime']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
 export enum Dagtype {
@@ -524,6 +526,7 @@ export type Inntektoverstyring = Overstyring & {
     inntekt: OverstyrtInntekt;
     saksbehandler: Saksbehandler;
     timestamp: Scalars['LocalDateTime']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
 export enum Inntektskilde {
@@ -625,6 +628,7 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
     minimumSykdomsgrad: OverstyrtMinimumSykdomsgrad;
     saksbehandler: Saksbehandler;
     timestamp: Scalars['LocalDateTime']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
 export enum Mottaker {
@@ -660,7 +664,7 @@ export type Mutation = {
     sendTilGodkjenning: Scalars['Boolean']['output'];
     sendTilGodkjenningV2: Scalars['Boolean']['output'];
     sendTilInfotrygd: Scalars['Boolean']['output'];
-    settVarselstatus: VarselDto;
+    settVarselstatus: Maybe<VarselDto>;
     skjonnsfastsettSykepengegrunnlag: Scalars['Boolean']['output'];
 };
 
@@ -949,6 +953,7 @@ export type Overstyring = {
     hendelseId: Scalars['UUID']['output'];
     saksbehandler: Saksbehandler;
     timestamp: Scalars['LocalDateTime']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
 export type OverstyringArbeidsforholdInput = {
@@ -1010,6 +1015,7 @@ export type OverstyrtInntekt = {
 export type OverstyrtMinimumSykdomsgrad = {
     __typename: 'OverstyrtMinimumSykdomsgrad';
     begrunnelse: Scalars['String']['output'];
+    /** @deprecated Bruk vedtaksperiodeId i stedet */
     initierendeVedtaksperiodeId: Scalars['UUID']['output'];
     perioderVurdertIkkeOk: Array<OverstyrtMinimumSykdomsgradPeriode>;
     perioderVurdertOk: Array<OverstyrtMinimumSykdomsgradPeriode>;
@@ -1164,7 +1170,7 @@ export type Query = {
     behandledeOppgaverFeed: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentInntektsmelding: Maybe<DokumentInntektsmelding>;
-    hentSoknad: Soknad;
+    hentSoknad: Maybe<Soknad>;
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     person: Maybe<Person>;
@@ -1527,6 +1533,7 @@ export type Sykepengegrunnlagskjonnsfastsetting = Overstyring & {
     saksbehandler: Saksbehandler;
     skjonnsfastsatt: SkjonnsfastsattSykepengegrunnlag;
     timestamp: Scalars['LocalDateTime']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
 export type Sykmelding = Hendelse & {
@@ -1986,7 +1993,7 @@ export type FetchSoknadQuery = {
             }> | null;
             svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
         }> | null;
-    };
+    } | null;
 };
 
 export type FeilregistrerKommentarMutationMutationVariables = Exact<{
@@ -2237,6 +2244,7 @@ export type Overstyring_Arbeidsforholdoverstyring_Fragment = {
     hendelseId: string;
     timestamp: string;
     ferdigstilt: boolean;
+    vedtaksperiodeId: string;
     saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
 };
 
@@ -2246,6 +2254,7 @@ export type Overstyring_Dagoverstyring_Fragment = {
     hendelseId: string;
     timestamp: string;
     ferdigstilt: boolean;
+    vedtaksperiodeId: string;
     dager: Array<{
         __typename: 'OverstyrtDag';
         grad: number | null;
@@ -2262,6 +2271,7 @@ export type Overstyring_Inntektoverstyring_Fragment = {
     hendelseId: string;
     timestamp: string;
     ferdigstilt: boolean;
+    vedtaksperiodeId: string;
     inntekt: {
         __typename: 'OverstyrtInntekt';
         skjaeringstidspunkt: string;
@@ -2290,6 +2300,7 @@ export type Overstyring_MinimumSykdomsgradOverstyring_Fragment = {
     hendelseId: string;
     timestamp: string;
     ferdigstilt: boolean;
+    vedtaksperiodeId: string;
     minimumSykdomsgrad: {
         __typename: 'OverstyrtMinimumSykdomsgrad';
         begrunnelse: string;
@@ -2305,6 +2316,7 @@ export type Overstyring_Sykepengegrunnlagskjonnsfastsetting_Fragment = {
     hendelseId: string;
     timestamp: string;
     ferdigstilt: boolean;
+    vedtaksperiodeId: string;
     skjonnsfastsatt: {
         __typename: 'SkjonnsfastsattSykepengegrunnlag';
         arsak: string;
@@ -2885,6 +2897,7 @@ export type ArbeidsgiverFragment = {
               hendelseId: string;
               timestamp: string;
               ferdigstilt: boolean;
+              vedtaksperiodeId: string;
               saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
           }
         | {
@@ -2893,6 +2906,7 @@ export type ArbeidsgiverFragment = {
               hendelseId: string;
               timestamp: string;
               ferdigstilt: boolean;
+              vedtaksperiodeId: string;
               dager: Array<{
                   __typename: 'OverstyrtDag';
                   grad: number | null;
@@ -2908,6 +2922,7 @@ export type ArbeidsgiverFragment = {
               hendelseId: string;
               timestamp: string;
               ferdigstilt: boolean;
+              vedtaksperiodeId: string;
               inntekt: {
                   __typename: 'OverstyrtInntekt';
                   skjaeringstidspunkt: string;
@@ -2935,6 +2950,7 @@ export type ArbeidsgiverFragment = {
               hendelseId: string;
               timestamp: string;
               ferdigstilt: boolean;
+              vedtaksperiodeId: string;
               minimumSykdomsgrad: {
                   __typename: 'OverstyrtMinimumSykdomsgrad';
                   begrunnelse: string;
@@ -2957,6 +2973,7 @@ export type ArbeidsgiverFragment = {
               hendelseId: string;
               timestamp: string;
               ferdigstilt: boolean;
+              vedtaksperiodeId: string;
               skjonnsfastsatt: {
                   __typename: 'SkjonnsfastsattSykepengegrunnlag';
                   arsak: string;
@@ -4542,6 +4559,7 @@ export type PersonFragment = {
                   hendelseId: string;
                   timestamp: string;
                   ferdigstilt: boolean;
+                  vedtaksperiodeId: string;
                   saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
               }
             | {
@@ -4550,6 +4568,7 @@ export type PersonFragment = {
                   hendelseId: string;
                   timestamp: string;
                   ferdigstilt: boolean;
+                  vedtaksperiodeId: string;
                   dager: Array<{
                       __typename: 'OverstyrtDag';
                       grad: number | null;
@@ -4565,6 +4584,7 @@ export type PersonFragment = {
                   hendelseId: string;
                   timestamp: string;
                   ferdigstilt: boolean;
+                  vedtaksperiodeId: string;
                   inntekt: {
                       __typename: 'OverstyrtInntekt';
                       skjaeringstidspunkt: string;
@@ -4592,6 +4612,7 @@ export type PersonFragment = {
                   hendelseId: string;
                   timestamp: string;
                   ferdigstilt: boolean;
+                  vedtaksperiodeId: string;
                   minimumSykdomsgrad: {
                       __typename: 'OverstyrtMinimumSykdomsgrad';
                       begrunnelse: string;
@@ -4614,6 +4635,7 @@ export type PersonFragment = {
                   hendelseId: string;
                   timestamp: string;
                   ferdigstilt: boolean;
+                  vedtaksperiodeId: string;
                   skjonnsfastsatt: {
                       __typename: 'SkjonnsfastsattSykepengegrunnlag';
                       arsak: string;
@@ -5374,6 +5396,7 @@ export type FetchPersonQuery = {
                       hendelseId: string;
                       timestamp: string;
                       ferdigstilt: boolean;
+                      vedtaksperiodeId: string;
                       saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
                   }
                 | {
@@ -5382,6 +5405,7 @@ export type FetchPersonQuery = {
                       hendelseId: string;
                       timestamp: string;
                       ferdigstilt: boolean;
+                      vedtaksperiodeId: string;
                       dager: Array<{
                           __typename: 'OverstyrtDag';
                           grad: number | null;
@@ -5397,6 +5421,7 @@ export type FetchPersonQuery = {
                       hendelseId: string;
                       timestamp: string;
                       ferdigstilt: boolean;
+                      vedtaksperiodeId: string;
                       inntekt: {
                           __typename: 'OverstyrtInntekt';
                           skjaeringstidspunkt: string;
@@ -5424,6 +5449,7 @@ export type FetchPersonQuery = {
                       hendelseId: string;
                       timestamp: string;
                       ferdigstilt: boolean;
+                      vedtaksperiodeId: string;
                       minimumSykdomsgrad: {
                           __typename: 'OverstyrtMinimumSykdomsgrad';
                           begrunnelse: string;
@@ -5446,6 +5472,7 @@ export type FetchPersonQuery = {
                       hendelseId: string;
                       timestamp: string;
                       ferdigstilt: boolean;
+                      vedtaksperiodeId: string;
                       skjonnsfastsatt: {
                           __typename: 'SkjonnsfastsattSykepengegrunnlag';
                           arsak: string;
@@ -5576,7 +5603,7 @@ export type SettVarselStatusMutation = {
             status: Varselstatus;
             tidsstempel: string;
         } | null;
-    };
+    } | null;
 };
 
 export type FattVedtakMutationVariables = Exact<{
@@ -7159,6 +7186,7 @@ export const OverstyringFragmentDoc = {
                     },
                     { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'ferdigstilt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                     { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
                     {
                         kind: 'InlineFragment',
@@ -8189,6 +8217,7 @@ export const ArbeidsgiverFragmentDoc = {
                     },
                     { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'ferdigstilt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                     { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
                     {
                         kind: 'InlineFragment',
@@ -9232,6 +9261,7 @@ export const PersonFragmentDoc = {
                     },
                     { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'ferdigstilt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                     { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
                     {
                         kind: 'InlineFragment',
@@ -12133,6 +12163,7 @@ export const FetchPersonDocument = {
                     },
                     { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'ferdigstilt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                     { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
                     {
                         kind: 'InlineFragment',

@@ -43,6 +43,7 @@ fragment overstyring on Overstyring {
     }
     timestamp
     ferdigstilt
+    vedtaksperiodeId
     __typename
     ... on Dagoverstyring {
         begrunnelse
