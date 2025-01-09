@@ -4,7 +4,7 @@ import { BodyLong, VStack } from '@navikt/ds-react';
 
 import { PeriodehistorikkType } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
-import { TotrinnsvurderingReturIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
+import { HistorikkArrowUndoIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
@@ -25,7 +25,7 @@ export const TotrinnsvurderingReturHendelse = ({
 
     return (
         <Historikkhendelse
-            icon={<TotrinnsvurderingReturIkon />}
+            icon={<HistorikkArrowUndoIkon />}
             title="Returnert"
             timestamp={timestamp}
             saksbehandler={saksbehandler ?? 'Automatisk'}

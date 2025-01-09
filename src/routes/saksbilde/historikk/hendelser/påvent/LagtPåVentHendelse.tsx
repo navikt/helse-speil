@@ -4,7 +4,7 @@ import { BodyLong, BodyShort, HStack } from '@navikt/ds-react';
 
 import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
-import { PåVentIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
+import { HistorikkTimerPauseIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { LagtPåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/LagtPåVentDropdown';
 import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe';
@@ -25,7 +25,7 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
     const erAktivPeriodePåVent = isBeregnetPeriode(aktivPeriode) && aktivPeriode?.paVent !== null;
     return (
         <Historikkhendelse
-            icon={<PåVentIkon />}
+            icon={<HistorikkTimerPauseIkon />}
             title={`Lagt på vent${hendelse.historikktype === PeriodehistorikkType.EndrePaVent ? ' – endret' : ''}`}
             timestamp={hendelse.timestamp}
             saksbehandler={hendelse.saksbehandler ?? undefined}

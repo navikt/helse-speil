@@ -6,7 +6,7 @@ import { ActionMenu, BodyLong, Button, ErrorMessage, VStack } from '@navikt/ds-r
 import { useMutation } from '@apollo/client';
 import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
-import { NotatIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
+import { HistorikkChatIkon, HistorikkCheckmarkCircleIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -47,7 +47,7 @@ export const Notathendelse = ({
     const øvrigeTekstlinjer = tekst.slice(førsteTekstlinje.length).trim();
     return (
         <Historikkhendelse
-            icon={<NotatIkon erOpphevStans={erOpphevStans} />}
+            icon={erOpphevStans ? <HistorikkCheckmarkCircleIkon /> : <HistorikkChatIkon />}
             title={toNotatTittel(erOpphevStans) + (feilregistrert ? ' (feilregistrert)' : '')}
             kontekstknapp={
                 !feilregistrert && innloggetSaksbehandler.ident === saksbehandler ? (

@@ -12,26 +12,16 @@ import {
 
 import styles from './HendelseIkon.module.css';
 
+export const HistorikkArrowSquarepathIkon = (): ReactElement => <ArrowsSquarepathIcon className={styles.ikon} />;
+
+export const HistorikkArrowUndoIkon = (): ReactElement => <ArrowUndoIcon className={styles.ikon} />;
+
+export const HistorikkChatIkon = (): ReactElement => <ChatIcon className={styles.ikon} />;
+
 export const HistorikkCheckmarkCircleIkon = (): ReactElement => <CheckmarkCircleIcon className={styles.ikon} />;
 
-export const TotrinnsvurderingReturIkon = (): ReactElement => <ArrowUndoIcon className={styles.ikon} />;
+export const HistorikkPaperplaneIkon = (): ReactElement => <PaperplaneIcon className={styles.ikon} />;
 
-export const TotrinnsvurderingTilGodkjenningIkon = (): ReactElement => <PaperplaneIcon className={styles.ikon} />;
-
-export const VedtaksperiodeReberegnetIkon = (): ReactElement => <ArrowsSquarepathIcon className={styles.ikon} />;
-
-export const PåVentIkon = (): ReactElement => <TimerPauseIcon className={styles.ikon} />;
+export const HistorikkTimerPauseIkon = (): ReactElement => <TimerPauseIcon className={styles.ikon} />;
 
 export const HistorikkXMarkOctagonIkon = (): ReactElement => <XMarkOctagonIcon className={styles.ikon} />;
-
-interface NotatIkonProps {
-    erOpphevStans: boolean;
-}
-
-export const NotatIkon = ({ erOpphevStans }: NotatIkonProps): ReactElement => {
-    if (erOpphevStans) {
-        return <CheckmarkCircleIcon className={styles.ikon} />;
-    } else {
-        return <ChatIcon className={styles.ikon} />;
-    }
-};

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { VedtaksperiodeReberegnetIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
+import { HistorikkArrowSquarepathIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
@@ -11,7 +11,7 @@ export const VedtaksperiodeReberegnetHendelse = ({
     timestamp,
 }: VedtaksperiodeReberegnetHendelseProps): ReactElement => (
     <Historikkhendelse
-        icon={<VedtaksperiodeReberegnetIkon />}
+        icon={<HistorikkArrowSquarepathIkon />}
         title="Periode reberegnet"
         timestamp={timestamp}
         saksbehandler={saksbehandler ?? undefined}

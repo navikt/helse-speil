@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { TotrinnsvurderingTilGodkjenningIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
+import { HistorikkPaperplaneIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
@@ -11,7 +11,7 @@ export const TotrinnsvurderingTilGodkjenningHendelse = ({
     timestamp,
 }: TotrinnsvurderingTilGodkjenningHendelseProps): ReactElement => (
     <Historikkhendelse
-        icon={<TotrinnsvurderingTilGodkjenningIkon />}
+        icon={<HistorikkPaperplaneIkon />}
         title="Sendt til godkjenning"
         timestamp={timestamp}
         saksbehandler={saksbehandler ?? undefined}
