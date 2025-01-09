@@ -189,6 +189,7 @@ const getResolvers = (): IResolvers => ({
             return NotatMock.getNotat(id);
         },
         feilregistrerKommentar: (_, { id }: MutationFeilregistrerKommentarArgs) => {
+            // Fungerer bare for generelle notater, ikke lagt på vent osv
             NotatMock.feilregistrerKommentar({ id });
             return NotatMock.getKommentar(id);
         },
