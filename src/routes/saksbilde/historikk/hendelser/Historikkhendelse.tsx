@@ -35,20 +35,7 @@ export const Historikkhendelse = ({
         setExpanded(!expanded);
     }
 
-    return aktiv || !children ? (
-        <li tabIndex={0} className={classNames(styles.fokusområde, styles.hendelse)}>
-            <div className={styles.iconContainer}>{icon}</div>
-            <div className={styles.content}>
-                <HStack gap="1" wrap={false}>
-                    <BodyShort weight="semibold">{title}</BodyShort>
-                    {kontekstknapp && <Spacer />}
-                    {kontekstknapp}
-                </HStack>
-                <HendelseDate timestamp={timestamp} ident={saksbehandler} />
-                {children && <VStack gap="2">{children}</VStack>}
-            </div>
-        </li>
-    ) : (
+    return !aktiv && children ? (
         <li
             role="button"
             tabIndex={0}
@@ -90,6 +77,19 @@ export const Historikkhendelse = ({
                 <AnimatedExpandableDiv expanded={expanded}>
                     <VStack gap="2">{children}</VStack>
                 </AnimatedExpandableDiv>
+            </div>
+        </li>
+    ) : (
+        <li tabIndex={0} className={classNames(styles.fokusområde, styles.hendelse)}>
+            <div className={styles.iconContainer}>{icon}</div>
+            <div className={styles.content}>
+                <HStack gap="1" wrap={false}>
+                    <BodyShort weight="semibold">{title}</BodyShort>
+                    {kontekstknapp && <Spacer />}
+                    {kontekstknapp}
+                </HStack>
+                <HendelseDate timestamp={timestamp} ident={saksbehandler} />
+                {children && <VStack gap="2">{children}</VStack>}
             </div>
         </li>
     );
