@@ -5,13 +5,9 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, VedtakUtfall } from '@io/graphql';
+import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
+import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { VedtakBegrunnelseObject } from '@typer/historikk';
-
-import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
-import { Hendelse } from './Hendelse';
-import { HendelseDate } from './HendelseDate';
-
-import styles from './Overstyringshendelse.module.css';
 
 type VedtakBegrunnelsehendelseProps = Omit<VedtakBegrunnelseObject, 'type' | 'id'>;
 
@@ -22,24 +18,24 @@ export const VedtakBegrunnelsehendelse = ({
     timestamp,
 }: VedtakBegrunnelsehendelseProps): ReactElement => {
     return (
-        <Hendelse
-            title="Individuell begrunnelse"
+        <Historikkhendelse
             icon={
                 <Kilde type={Inntektskilde.Saksbehandler}>
-                    <PersonPencilFillIcon title="Saksbehandler ikon" />
+                    <PersonPencilFillIcon />
                 </Kilde>
             }
+            title="Individuell begrunnelse"
+            timestamp={timestamp}
+            saksbehandler={saksbehandler}
+            aktiv={false}
         >
-            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
-            <ExpandableHistorikkContent>
-                <div className={styles.Grid}>
-                    <BodyShort weight="semibold">Type: </BodyShort>
-                    <BodyShort>{tekstForUtfall(utfall)}</BodyShort>
-                    <BodyShort weight="semibold">Begrunnelse: </BodyShort>
-                    <BodyShort>{begrunnelse}</BodyShort>
-                </div>
-            </ExpandableHistorikkContent>
-        </Hendelse>
+            <HistorikkSection tittel="Type">
+                <BodyShort>{tekstForUtfall(utfall)}</BodyShort>
+            </HistorikkSection>
+            <HistorikkSection tittel="Begrunnelse">
+                <BodyShort>{begrunnelse}</BodyShort>
+            </HistorikkSection>
+        </Historikkhendelse>
     );
 };
 

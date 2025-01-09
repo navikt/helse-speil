@@ -141,6 +141,8 @@ export type VedtakBegrunnelseObject = BaseHendelseObject & {
     type: 'VedtakBegrunnelse';
     utfall: VedtakUtfall;
     begrunnelse: string;
+    timestamp: DateString;
+    saksbehandler: string;
 };
 
 export type AnnulleringhendelseObject = BaseHendelseObject & {
