@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { Alert, BodyShort, ErrorMessage } from '@navikt/ds-react';
 
+import { erUtvikling } from '@/env';
 import { useForrigeGenerasjonPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import {
@@ -83,7 +84,7 @@ export const VenstremenyBeregnetPeriode = ({
             ) : (
                 <>
                     <HarVurderbareVarsler person={currentPerson} />
-                    <HarBeslutteroppgaver person={currentPerson} />
+                    {erUtvikling && <HarBeslutteroppgaver person={currentPerson} />}
                     <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver} />
                 </>
             )}
