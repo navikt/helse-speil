@@ -5,13 +5,11 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, OverstyrtDag } from '@io/graphql';
+import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
+import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { DagoverstyringhendelseObject } from '@typer/historikk';
 import { DateString } from '@typer/shared';
 import { getFormattedDateString } from '@utils/date';
-
-import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
-import { Hendelse } from './Hendelse';
-import { HendelseDate } from './HendelseDate';
 
 import styles from './Dagoverstyringhendelse.module.css';
 
@@ -60,43 +58,44 @@ export const Dagoverstyringhendelse = ({
     begrunnelse,
     dager,
 }: DagoverstyringhendelseProps): ReactElement => (
-    <Hendelse
-        title={erRevurdering ? 'Dager revurdert' : 'Dager endret'}
+    <Historikkhendelse
         icon={
             <Kilde type={Inntektskilde.Saksbehandler}>
                 <PersonPencilFillIcon title="Saksbehandler ikon" />
             </Kilde>
         }
+        title={erRevurdering ? 'Dager revurdert' : 'Dager endret'}
+        timestamp={timestamp}
+        saksbehandler={saksbehandler}
+        aktiv={false}
     >
-        <HendelseDate timestamp={timestamp} ident={saksbehandler} />
-        <ExpandableHistorikkContent>
-            <BodyShort weight="semibold">Begrunnelse</BodyShort>
+        <HistorikkSection tittel="Begrunnelse">
             <BodyShort>{begrunnelse}</BodyShort>
-            <div className={styles.Content}>
-                {groupSimilarDays(dager).map((group, i) => (
-                    <div key={i} className={styles.Grid}>
-                        <BodyShort>Dato:</BodyShort>
-                        <BodyShort>
-                            {getFormattedDateString(group.start)}
-                            {group.start !== group.end && ` - ${getFormattedDateString(group.end)}`}
-                        </BodyShort>
-                        <BodyShort>Grad:</BodyShort>
-                        <BodyShort>
-                            {group.fraGrad !== null && group.fraGrad !== undefined && group.grad !== group.fraGrad && (
-                                <span className={styles.FromValue}>{group.fraGrad} %</span>
-                            )}
-                            {group.grad} %
-                        </BodyShort>
-                        <BodyShort>Type:</BodyShort>
-                        <BodyShort>
-                            {group.fraType && group.fraType !== group.type && (
-                                <span className={styles.FromValue}>{group.fraType}</span>
-                            )}
-                            {group.type}
-                        </BodyShort>
-                    </div>
-                ))}
-            </div>
-        </ExpandableHistorikkContent>
-    </Hendelse>
+        </HistorikkSection>
+        <div className={styles.Content}>
+            {groupSimilarDays(dager).map((group, i) => (
+                <div key={i} className={styles.Grid}>
+                    <BodyShort>Dato:</BodyShort>
+                    <BodyShort>
+                        {getFormattedDateString(group.start)}
+                        {group.start !== group.end && ` - ${getFormattedDateString(group.end)}`}
+                    </BodyShort>
+                    <BodyShort>Grad:</BodyShort>
+                    <BodyShort>
+                        {group.fraGrad !== null && group.fraGrad !== undefined && group.grad !== group.fraGrad && (
+                            <span className={styles.FromValue}>{group.fraGrad} %</span>
+                        )}
+                        {group.grad} %
+                    </BodyShort>
+                    <BodyShort>Type:</BodyShort>
+                    <BodyShort>
+                        {group.fraType && group.fraType !== group.type && (
+                            <span className={styles.FromValue}>{group.fraType}</span>
+                        )}
+                        {group.type}
+                    </BodyShort>
+                </div>
+            ))}
+        </div>
+    </Historikkhendelse>
 );
