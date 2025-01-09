@@ -16,7 +16,7 @@ import { somPenger } from '@utils/locale';
 
 import styles from './Inntektoverstyringhendelse.module.css';
 
-type SykepengegrunnlagskjønnsfastsettinghendelseProps = Omit<
+type SykepengegrunnlagSkjønnsfastsatthendelseProps = Omit<
     SykepengegrunnlagskjonnsfastsettinghendelseObject,
     'type' | 'id'
 >;
@@ -34,12 +34,12 @@ const getSkjønnsfastsettelseTypeTekst = (type?: Maybe<Skjonnsfastsettingstype>)
     }
 };
 
-export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
+export const SykepengegrunnlagSkjønnsfastsatthendelse = ({
     saksbehandler,
     timestamp,
     skjønnsfastsatt,
     arbeidsgivere,
-}: SykepengegrunnlagskjønnsfastsettinghendelseProps): ReactElement => (
+}: SykepengegrunnlagSkjønnsfastsatthendelseProps): ReactElement => (
     <Historikkhendelse
         icon={
             <Kilde type={Inntektskilde.Saksbehandler}>

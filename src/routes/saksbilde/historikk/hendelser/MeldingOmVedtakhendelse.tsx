@@ -8,17 +8,17 @@ import { hoppTilModia } from '@components/SystemMenu';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { DateString } from '@typer/shared';
 
-type VedtakDokumentHendelseProps = {
+type MeldingOmVedtakhendelseProps = {
     dokumentId?: string;
     fødselsnummer: string;
     timestamp: DateString;
 };
 
-export const VedtakDokumentHendelse = ({
+export const MeldingOmVedtakhendelse = ({
     dokumentId,
     fødselsnummer,
     timestamp,
-}: VedtakDokumentHendelseProps): ReactElement => (
+}: MeldingOmVedtakhendelseProps): ReactElement => (
     <Historikkhendelse
         icon={<Kilde type="VEDTAK">MV</Kilde>}
         title="Melding om vedtak"

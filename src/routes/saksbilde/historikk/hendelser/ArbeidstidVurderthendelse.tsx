@@ -12,13 +12,13 @@ import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhen
 import { MinimumSykdomsgradhendelseObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT } from '@utils/date';
 
-type MinimumSykdomsgradhendelseProps = Omit<MinimumSykdomsgradhendelseObject, 'type' | 'id'>;
+type ArbeidstidVurderthendelseProps = Omit<MinimumSykdomsgradhendelseObject, 'type' | 'id'>;
 
-export const MinimumSykdomsgradhendelse = ({
+export const ArbeidstidVurderthendelse = ({
     saksbehandler,
     timestamp,
     minimumSykdomsgrad,
-}: MinimumSykdomsgradhendelseProps): ReactElement => (
+}: ArbeidstidVurderthendelseProps): ReactElement => (
     <Historikkhendelse
         icon={
             <Kilde type={Inntektskilde.Saksbehandler}>

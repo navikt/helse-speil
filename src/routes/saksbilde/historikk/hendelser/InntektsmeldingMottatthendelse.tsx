@@ -3,24 +3,25 @@ import React, { ReactElement } from 'react';
 import { ChevronLeftCircleIcon, ChevronRightCircleIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
-import { SøknadKildeIkon } from '@components/Kilde';
+import { InntektsmeldingKildeIkon } from '@components/Kilde';
+import { PersonFragment } from '@io/graphql';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { DateString } from '@typer/shared';
 
-import { Søknadsinnhold } from './dokument/Søknadsinnhold';
+import { Inntektsmeldingsinnhold } from './dokument/Inntektsmeldingsinnhold';
 import { useAddOpenedDocument, useOpenedDocuments, useRemoveOpenedDocument } from './dokument/dokument';
 
-type SøknadDokumentHendelseProps = {
+type InntektsmeldingMottatthendelseProps = {
     dokumentId: string;
-    fødselsnummer: string;
+    person: PersonFragment;
     timestamp: DateString;
 };
 
-export const SøknadDokumentHendelse = ({
-    timestamp,
+export const InntektsmeldingMottatthendelse = ({
     dokumentId,
-    fødselsnummer,
-}: SøknadDokumentHendelseProps): ReactElement => {
+    person,
+    timestamp,
+}: InntektsmeldingMottatthendelseProps): ReactElement => {
     const leggTilÅpnetDokument = useAddOpenedDocument();
     const fjernÅpnetDokument = useRemoveOpenedDocument();
     const åpnedeDokumenter = useOpenedDocuments();
@@ -32,16 +33,16 @@ export const SøknadDokumentHendelse = ({
             ? fjernÅpnetDokument(dokumentId)
             : leggTilÅpnetDokument({
                   dokumentId: dokumentId,
-                  fødselsnummer: fødselsnummer,
-                  dokumenttype: 'Søknad',
+                  fødselsnummer: person.fodselsnummer,
+                  dokumenttype: 'Inntektsmelding',
                   timestamp: timestamp,
               });
     }
 
     return (
         <Historikkhendelse
-            icon={<SøknadKildeIkon />}
-            title="Søknad mottatt"
+            icon={<InntektsmeldingKildeIkon />}
+            title="Inntektsmelding mottatt"
             kontekstknapp={
                 <Button
                     icon={dokumentetErÅpnet() ? <ChevronLeftCircleIcon /> : <ChevronRightCircleIcon />}
@@ -57,7 +58,7 @@ export const SøknadDokumentHendelse = ({
             timestamp={timestamp}
             aktiv={false}
         >
-            <Søknadsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} />
+            <Inntektsmeldingsinnhold dokumentId={dokumentId} fødselsnummer={person.fodselsnummer} person={person} />
         </Historikkhendelse>
     );
 };

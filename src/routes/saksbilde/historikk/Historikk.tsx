@@ -12,19 +12,20 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
-import { Dokumenthendelse } from '@saksbilde/historikk/hendelser/Dokumenthendelse';
+import { ArbeidstidVurderthendelse } from '@saksbilde/historikk/hendelser/ArbeidstidVurderthendelse';
 import { FjernetFraPåVentHendelse } from '@saksbilde/historikk/hendelser/FjernetFraPåVentHendelse';
-import { HistorikkSkeleton } from '@saksbilde/historikk/hendelser/HistorikkSkeleton';
-import { InntektsmeldingDokumentHendelse } from '@saksbilde/historikk/hendelser/InntektsmeldingDokumentHendelse';
+import { InntektHentetFraAordningenhendelse } from '@saksbilde/historikk/hendelser/InntektHentetFraAordningenhendelse';
+import { InntektsmeldingMottatthendelse } from '@saksbilde/historikk/hendelser/InntektsmeldingMottatthendelse';
 import { LagtPåVentHendelse } from '@saksbilde/historikk/hendelser/LagtPåVentHendelse';
-import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/MinimumSykdomsgradhendelse';
+import { MeldingOmVedtakhendelse } from '@saksbilde/historikk/hendelser/MeldingOmVedtakhendelse';
 import { StansAutomatiskBehandlingHendelse } from '@saksbilde/historikk/hendelser/StansAutomatiskBehandlingHendelse';
-import { SøknadDokumentHendelse } from '@saksbilde/historikk/hendelser/SøknadDokumentHendelse';
+import { SykmeldingMottatthendelse } from '@saksbilde/historikk/hendelser/SykmeldingMottatthendelse';
+import { SøknadMottatthendelse } from '@saksbilde/historikk/hendelser/SøknadMottatthendelse';
 import { TotrinnsvurderingAttestertHendelse } from '@saksbilde/historikk/hendelser/TotrinnsvurderingAttestertHendelse';
 import { TotrinnsvurderingReturHendelse } from '@saksbilde/historikk/hendelser/TotrinnsvurderingReturHendelse';
 import { TotrinnsvurderingTilGodkjenningHendelse } from '@saksbilde/historikk/hendelser/TotrinnsvurderingTilGodkjenningHendelse';
-import { VedtakDokumentHendelse } from '@saksbilde/historikk/hendelser/VedtakDokumenthendelse';
 import { VedtaksperiodeReberegnetHendelse } from '@saksbilde/historikk/hendelser/VedtaksperiodeReberegnetHendelse';
+import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
 import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject, HistorikkhendelseObject } from '@typer/historikk';
 
@@ -34,7 +35,7 @@ import { Arbeidsforholdoverstyringhendelse } from './hendelser/Arbeidsforholdove
 import { Dagoverstyringhendelse } from './hendelser/Dagoverstyringhendelse';
 import { Inntektoverstyringhendelse } from './hendelser/Inntektoverstyringhendelse';
 import { Notathendelse } from './hendelser/Notathendelse';
-import { Sykepengegrunnlagskjønnsfastsettinghendelse } from './hendelser/Sykepengegrunnlagskjønnsfastsettinghendelse';
+import { SykepengegrunnlagSkjønnsfastsatthendelse } from './hendelser/SykepengegrunnlagSkjønnsfastsatthendelse';
 import { Utbetalinghendelse } from './hendelser/Utbetalinghendelse';
 import { VedtakBegrunnelsehendelse } from './hendelser/VedtakBegrunnelsehendelse';
 import { useFilterState, useFilteredHistorikk, useShowHistorikkState, useShowHøyremenyState } from './state';
@@ -119,20 +120,20 @@ const HistorikkWithContent = (): ReactElement => {
                                         }
                                         case 'Sykepengegrunnlagskjonnsfastsetting': {
                                             return (
-                                                <Sykepengegrunnlagskjønnsfastsettinghendelse
+                                                <SykepengegrunnlagSkjønnsfastsatthendelse
                                                     key={`${it.id}-${index}`}
                                                     {...it}
                                                 />
                                             );
                                         }
                                         case 'MinimumSykdomsgradoverstyring': {
-                                            return <MinimumSykdomsgradhendelse key={`${it.id}-${index}`} {...it} />;
+                                            return <ArbeidstidVurderthendelse key={`${it.id}-${index}`} {...it} />;
                                         }
                                         case 'Dokument': {
                                             switch (it.dokumenttype) {
                                                 case 'Vedtak':
                                                     return (
-                                                        <VedtakDokumentHendelse
+                                                        <MeldingOmVedtakhendelse
                                                             key={it.id}
                                                             dokumentId={it.dokumentId ?? undefined}
                                                             fødselsnummer={person.fodselsnummer}
@@ -141,7 +142,7 @@ const HistorikkWithContent = (): ReactElement => {
                                                     );
                                                 case 'Søknad':
                                                     return (
-                                                        <SøknadDokumentHendelse
+                                                        <SøknadMottatthendelse
                                                             key={it.id}
                                                             dokumentId={it.dokumentId ?? ''}
                                                             fødselsnummer={person.fodselsnummer}
@@ -150,19 +151,24 @@ const HistorikkWithContent = (): ReactElement => {
                                                     );
                                                 case 'Inntektsmelding':
                                                     return (
-                                                        <InntektsmeldingDokumentHendelse
+                                                        <InntektsmeldingMottatthendelse
                                                             key={it.id}
                                                             dokumentId={it.dokumentId ?? ''}
                                                             person={person}
                                                             timestamp={it.timestamp}
                                                         />
                                                     );
-                                                case 'InntektHentetFraAordningen':
                                                 case 'Sykmelding':
                                                     return (
-                                                        <Dokumenthendelse
+                                                        <SykmeldingMottatthendelse
                                                             key={it.id}
-                                                            dokumenttype={it.dokumenttype}
+                                                            timestamp={it.timestamp}
+                                                        />
+                                                    );
+                                                case 'InntektHentetFraAordningen':
+                                                    return (
+                                                        <InntektHentetFraAordningenhendelse
+                                                            key={it.id}
                                                             timestamp={it.timestamp}
                                                         />
                                                     );

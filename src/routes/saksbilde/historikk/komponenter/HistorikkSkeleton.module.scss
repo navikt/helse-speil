@@ -1,0 +1,63 @@
+$icon-container-width: 20px;
+.hendelse {
+  position: relative;
+  margin: 0;
+  padding: 16px 0;
+  display: flex;
+  gap: 0.5rem;
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid var(--a-border-default);
+  }
+
+  .iconContainer {
+    display: flex;
+    align-items: center;
+    height: 14px; /* styrer vertikal sentrering */
+    margin-top: 5px;
+    width: $icon-container-width;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+    flex: 1;
+    max-width: calc(100% - var(--gap) - $icon-container-width);
+  }
+}
+
+.historikkskeletonwrapper {
+  grid-area: høyremeny;
+  height: 100%;
+  width: 378px;
+}
+
+.historikkskeleton {
+  padding-left: var(--a-spacing-6);
+  padding-right: var(--a-spacing-8);
+  border-left: 1px solid;
+  height: 100%;
+  width: 320px;
+}
+
+.historikkskeleton > ul {
+  padding: 0;
+  margin: 0;
+}
+
+.historikkskeleton > ul > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  font-size: 14px;
+}
+
+.historikkskeletonmeny {
+  width: 58px;
+  height: 100%;
+  border-left: 1px solid var(--a-border-divider);
+  padding: var(--a-spacing-6) var(--a-spacing-3);
+}

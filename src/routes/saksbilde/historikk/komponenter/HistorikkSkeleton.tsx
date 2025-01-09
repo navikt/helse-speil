@@ -3,7 +3,8 @@ import React, { ReactElement } from 'react';
 import { HStack, VStack } from '@navikt/ds-react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import styles from '@saksbilde/historikk/Historikk.module.css';
+
+import styles from './HistorikkSkeleton.module.scss';
 
 export const HistorikkSkeleton = (): ReactElement => {
     return (
