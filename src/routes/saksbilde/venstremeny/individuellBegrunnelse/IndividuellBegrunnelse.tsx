@@ -7,7 +7,6 @@ import { IndividuellBegrunnelseContent } from '@saksbilde/venstremeny/individuel
 
 interface BegrunnelseVedtakProps {
     defaultÅpen: boolean;
-    erInnvilgelse: boolean;
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     periode: BeregnetPeriodeFragment;
@@ -16,7 +15,6 @@ interface BegrunnelseVedtakProps {
 
 export const IndividuellBegrunnelse = ({
     defaultÅpen,
-    erInnvilgelse,
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
     periode,
@@ -27,8 +25,6 @@ export const IndividuellBegrunnelse = ({
     const erReadOnly = useIsReadOnlyOppgave(person);
 
     const erBeslutteroppgave = periode.totrinnsvurdering?.erBeslutteroppgave ?? false;
-
-    if (erInnvilgelse) return null;
 
     const åpneModal = () => setModalÅpen(true);
     const lukkModal = () => setModalÅpen(false);

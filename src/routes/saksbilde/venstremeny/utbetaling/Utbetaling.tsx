@@ -154,7 +154,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         >
             <IndividuellBegrunnelse
                 defaultÅpen={lagretVedtakBegrunnelseTekst !== ''}
-                erInnvilgelse={utfall === VedtakUtfall.Innvilgelse}
                 vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 periode={period}
