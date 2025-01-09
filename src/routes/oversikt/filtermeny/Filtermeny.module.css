@@ -2,6 +2,7 @@
     overflow: auto;
     height: 100%;
     padding-left: var(--a-spacing-2);
+    scrollbar-width: none;
 }
 
 .filterskeleton {
