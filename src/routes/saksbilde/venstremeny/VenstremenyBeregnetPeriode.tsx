@@ -16,6 +16,7 @@ import {
     PersonFragment,
     Utbetalingsdagtype,
 } from '@io/graphql';
+import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { PeriodState } from '@typer/shared';
@@ -82,6 +83,7 @@ export const VenstremenyBeregnetPeriode = ({
             ) : (
                 <>
                     <HarVurderbareVarsler person={currentPerson} />
+                    <HarBeslutteroppgaver person={currentPerson} />
                     <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver} />
                 </>
             )}
