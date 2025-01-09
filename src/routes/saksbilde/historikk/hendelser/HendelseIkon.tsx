@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import {
@@ -13,23 +12,17 @@ import {
 
 import styles from './HendelseIkon.module.css';
 
-export const HistorikkCheckmarkCircleIkon = () => <CheckmarkCircleIcon className={styles.ikon} />;
+export const HistorikkCheckmarkCircleIkon = (): ReactElement => <CheckmarkCircleIcon className={styles.ikon} />;
 
-export const TotrinnsvurderingReturIkon = () => <ArrowUndoIcon title="Pil tilbakeikon" className={styles.ikon} />;
+export const TotrinnsvurderingReturIkon = (): ReactElement => <ArrowUndoIcon className={styles.ikon} />;
 
-export const TotrinnsvurderingTilGodkjenningIkon = () => (
-    <PaperplaneIcon title="Papirflyikon" className={styles.ikon} />
-);
+export const TotrinnsvurderingTilGodkjenningIkon = (): ReactElement => <PaperplaneIcon className={styles.ikon} />;
 
-export const VedtaksperiodeReberegnetIkon = () => (
-    <ArrowsSquarepathIcon title="Piler Firkantstiikon" className={styles.ikon} />
-);
+export const VedtaksperiodeReberegnetIkon = (): ReactElement => <ArrowsSquarepathIcon className={styles.ikon} />;
 
-export const PåVentIkon = () => (
-    <TimerPauseIcon title="Timer-ikon" className={classNames(styles.ikon, styles.påVent)} />
-);
+export const PåVentIkon = (): ReactElement => <TimerPauseIcon className={styles.ikon} />;
 
-export const HistorikkXMarkOctagonIkon = () => <XMarkOctagonIcon className={classNames(styles.ikon)} />;
+export const HistorikkXMarkOctagonIkon = (): ReactElement => <XMarkOctagonIcon className={styles.ikon} />;
 
 interface NotatIkonProps {
     erOpphevStans: boolean;
@@ -37,8 +30,8 @@ interface NotatIkonProps {
 
 export const NotatIkon = ({ erOpphevStans }: NotatIkonProps): ReactElement => {
     if (erOpphevStans) {
-        return <CheckmarkCircleIcon title="Sjekkmerke ikon" className={styles.ikon} />;
+        return <CheckmarkCircleIcon className={styles.ikon} />;
     } else {
-        return <ChatIcon title="Chat ikon" className={styles.ikon} />;
+        return <ChatIcon className={styles.ikon} />;
     }
 };
