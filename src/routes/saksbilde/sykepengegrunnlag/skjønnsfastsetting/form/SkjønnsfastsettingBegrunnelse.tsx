@@ -1,8 +1,9 @@
 import React, { ReactElement, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { BodyLong, BodyShort, Modal, Textarea } from '@navikt/ds-react';
+import { BodyShort, Modal, Textarea } from '@navikt/ds-react';
 
+import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
 import { TilleggsinfoKnapp } from '@components/TilleggsinfoKnapp';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { toKronerOgØre } from '@utils/locale';
@@ -45,12 +46,12 @@ export const SkjønnsfastsettingBegrunnelse = ({
                     </BodyShort>
                     <ExpandableSkjønnsfastsettingBegrunnelseContent>
                         {valgtMal?.begrunnelse && (
-                            <BodyLong className={styles.mal}>
+                            <BodyLongWithPreWrap className={styles.mal}>
                                 {valgtMal.begrunnelse
                                     .replace('${omregnetÅrsinntekt}', toKronerOgØre(omregnetÅrsinntekt))
                                     .replace('${omregnetMånedsinntekt}', toKronerOgØre(omregnetÅrsinntekt / 12))
                                     .replace('${sammenligningsgrunnlag}', toKronerOgØre(sammenligningsgrunnlag))}
-                            </BodyLong>
+                            </BodyLongWithPreWrap>
                         )}
                     </ExpandableSkjønnsfastsettingBegrunnelseContent>
                 </div>
@@ -74,9 +75,9 @@ export const SkjønnsfastsettingBegrunnelse = ({
                     resize
                 />
                 {valgtMal?.konklusjon && (
-                    <BodyLong className={styles.mal}>
+                    <BodyLongWithPreWrap className={styles.mal}>
                         {valgtMal.konklusjon.replace('${skjønnsfastsattÅrsinntekt}', toKronerOgØre(skjønnsfastsatt))}
-                    </BodyLong>
+                    </BodyLongWithPreWrap>
                 )}
             </div>
             <Modal

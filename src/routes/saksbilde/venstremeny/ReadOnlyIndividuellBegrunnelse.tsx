@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { BodyLong, BodyShort } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
+
+import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
 
 import styles from './BegrunnelseVedtakReadonly.module.scss';
 
@@ -14,9 +16,7 @@ export const ReadOnlyIndividuellBegrunnelse = ({ vedtakBegrunnelseTekst }: Begru
             <BodyShort weight="semibold" className={styles.tittel}>
                 Individuell begrunnelse
             </BodyShort>
-            <BodyLong className={styles.begrunnelse} spacing>
-                {vedtakBegrunnelseTekst}
-            </BodyLong>
+            <BodyLongWithPreWrap spacing>{vedtakBegrunnelseTekst}</BodyLongWithPreWrap>
         </>
     );
 };

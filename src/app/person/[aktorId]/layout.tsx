@@ -12,7 +12,7 @@ import { usePollEtterOpptegnelser } from '@io/graphql/polling';
 import { Saksbilde } from '@saksbilde/Saksbilde';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { EmojiTilbakemeldingMedPeriode } from '@saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
-import { HistorikkSkeleton } from '@saksbilde/historikk';
+import { HistorikkSkeleton } from '@saksbilde/historikk/hendelser/HistorikkSkeleton';
 import { useResetOpenedDocuments } from '@saksbilde/historikk/hendelser/dokument/dokument';
 import { InfovarselOmStans } from '@saksbilde/infovarselOmStans/InfovarselOmStans';
 import { PersonHeader } from '@saksbilde/personHeader';

@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { BodyLong, BodyShort, HStack } from '@navikt/ds-react';
+import { BodyShort, HStack } from '@navikt/ds-react';
 
+import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
 import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
 import { HistorikkTimerPauseIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
@@ -50,7 +51,7 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
             {!!hendelse.notattekst && (
                 <Expandable flattened={!hendelse.erNyestePåVentInnslag}>
                     <BodyShort weight="semibold">Notat</BodyShort>
-                    <BodyLong style={{ whiteSpace: 'pre-wrap' }}>{hendelse.notattekst}</BodyLong>
+                    <BodyLongWithPreWrap>{hendelse.notattekst}</BodyLongWithPreWrap>
                 </Expandable>
             )}
             {hendelse.erNyestePåVentInnslag && (

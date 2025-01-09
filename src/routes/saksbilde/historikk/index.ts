@@ -1,4 +1,4 @@
-import { Historikk, HistorikkSkeleton } from './Historikk';
+import { Historikk } from './Historikk';
 import { Historikkmeny } from './Historikkmeny';
 
-export { Historikk, HistorikkSkeleton, Historikkmeny };
+export { Historikk, Historikkmeny };

@@ -1,9 +1,10 @@
 import React, { ReactElement } from 'react';
 
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
-import { ActionMenu, BodyLong, Button, ErrorMessage, VStack } from '@navikt/ds-react';
+import { ActionMenu, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
+import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
 import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
 import { HistorikkChatIkon, HistorikkCheckmarkCircleIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
@@ -76,7 +77,7 @@ export const Notathendelse = ({
                 {førsteTekstlinje}
                 {øvrigeTekstlinjer !== '' && (
                     <Expandable>
-                        <BodyLong style={{ whiteSpace: 'pre-wrap' }}>{øvrigeTekstlinjer}</BodyLong>
+                        <BodyLongWithPreWrap>{øvrigeTekstlinjer}</BodyLongWithPreWrap>
                     </Expandable>
                 )}
             </VStack>

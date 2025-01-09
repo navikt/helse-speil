@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
 
-import { BodyLong, VStack } from '@navikt/ds-react';
+import { VStack } from '@navikt/ds-react';
 
+import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
 import { PeriodehistorikkType } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
 import { HistorikkArrowUndoIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
@@ -36,7 +37,7 @@ export const TotrinnsvurderingReturHendelse = ({
                     {førsteTekstlinje}
                     {øvrigeTekstlinjer !== '' && (
                         <Expandable>
-                            <BodyLong style={{ whiteSpace: 'pre-wrap' }}>{øvrigeTekstlinjer}</BodyLong>
+                            <BodyLongWithPreWrap>{øvrigeTekstlinjer}</BodyLongWithPreWrap>
                         </Expandable>
                     )}
                 </VStack>

@@ -3,16 +3,16 @@ import { motion } from 'framer-motion';
 import React, { ReactElement } from 'react';
 
 import { XMarkIcon } from '@navikt/aksel-icons';
-import { BodyShort, HStack, VStack } from '@navikt/ds-react';
+import { BodyShort, HStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { LoadingShimmer } from '@components/LoadingShimmer';
 import { OpenedDokument } from '@components/OpenedDokument';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
+import { HistorikkSkeleton } from '@saksbilde/historikk/hendelser/HistorikkSkeleton';
 import { MinimumSykdomsgradhendelse } from '@saksbilde/historikk/hendelser/MinimumSykdomsgradhendelse';
 import { StansAutomatiskBehandlingHendelse } from '@saksbilde/historikk/hendelser/StansAutomatiskBehandlingHendelse';
 import { TotrinnsvurderingReturHendelse } from '@saksbilde/historikk/hendelser/TotrinnsvurderingReturHendelse';
@@ -32,7 +32,6 @@ import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
 import { Arbeidsforholdoverstyringhendelse } from './hendelser/Arbeidsforholdoverstyringhendelse';
 import { Dagoverstyringhendelse } from './hendelser/Dagoverstyringhendelse';
-import { HendelseSkeleton } from './hendelser/Hendelse';
 import { Inntektoverstyringhendelse } from './hendelser/Inntektoverstyringhendelse';
 import { Sykepengegrunnlagskjønnsfastsettinghendelse } from './hendelser/Sykepengegrunnlagskjønnsfastsettinghendelse';
 import { Utbetalinghendelse } from './hendelser/Utbetalinghendelse';
@@ -218,27 +217,6 @@ const historikkhendelseComponents = {
     [PeriodehistorikkType.VedtaksperiodeReberegnet]: VedtaksperiodeReberegnetHendelse,
     [PeriodehistorikkType.StansAutomatiskBehandling]: StansAutomatiskBehandlingHendelse,
     [PeriodehistorikkType.TotrinnsvurderingRetur]: TotrinnsvurderingReturHendelse,
-};
-
-export const HistorikkSkeleton = (): ReactElement => {
-    return (
-        <HStack className={styles.historikkskeletonwrapper}>
-            <div className={styles.historikkskeleton}>
-                <ul>
-                    <div>HISTORIKK</div>
-                    <HendelseSkeleton enLinje />
-                    <HendelseSkeleton />
-                    <HendelseSkeleton />
-                </ul>
-            </div>
-            <VStack gap="6" className={styles.historikkskeletonmeny}>
-                <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />
-                <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />
-                <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />
-                <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />
-            </VStack>
-        </HStack>
-    );
 };
 
 const HistorikkError = (): ReactElement => {

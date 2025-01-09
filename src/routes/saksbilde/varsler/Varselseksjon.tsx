@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, ReactElement, ReactNode } from 'react';
 
-import { BodyLong } from '@navikt/ds-react';
+import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
 
 import styles from './Varselseksjon.module.css';
 
@@ -10,7 +10,7 @@ type VarselseksjonProps = {
 
 export const Varselseksjon = ({ tittel, children }: PropsWithChildren<VarselseksjonProps>): ReactElement => (
     <div className={styles.container}>
-        <BodyLong className={styles.tittel}>{tittel}</BodyLong>
-        <BodyLong>{children}</BodyLong>
+        <BodyLongWithPreWrap weight="semibold">{tittel}</BodyLongWithPreWrap>
+        <BodyLongWithPreWrap>{children}</BodyLongWithPreWrap>
     </div>
 );

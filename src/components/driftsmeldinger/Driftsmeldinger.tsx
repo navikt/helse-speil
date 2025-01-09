@@ -6,8 +6,9 @@ import React, { ReactElement, useState } from 'react';
 import * as R from 'remeda';
 
 import { ChevronDownIcon } from '@navikt/aksel-icons';
-import { Alert, BodyLong, BodyShort, HStack } from '@navikt/ds-react';
+import { Alert, BodyShort, HStack } from '@navikt/ds-react';
 
+import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
 import { Driftsmelding as DriftsmeldingType, useDriftsmelding } from '@external/sanity';
 import { Maybe } from '@io/graphql';
 import { getFormattedDatetimeString } from '@utils/date';
@@ -53,7 +54,9 @@ const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): Maybe<ReactElemen
                     />
                 </span>
             </HStack>
-            {åpneDriftsmelding && <BodyLong className={styles.melding}>{driftsmelding.melding}</BodyLong>}
+            {åpneDriftsmelding && (
+                <BodyLongWithPreWrap className={styles.melding}>{driftsmelding.melding}</BodyLongWithPreWrap>
+            )}
         </Alert>
     ) : null;
 };
