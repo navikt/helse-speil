@@ -5,7 +5,7 @@ import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack, Spacer, VStack } from '@navikt/ds-react';
 
 import { AnimatedExpandableDiv } from '@components/AnimatedExpandableDiv';
-import { HendelseDate } from '@saksbilde/historikk/hendelser/HendelseDate';
+import { HendelseDate } from '@saksbilde/historikk/komponenter/HendelseDate';
 import { DateString } from '@typer/shared';
 
 import styles from './Historikkhendelse.module.scss';

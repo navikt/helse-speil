@@ -5,8 +5,8 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, VedtakUtfall } from '@io/graphql';
-import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
+import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { VedtakBegrunnelseObject } from '@typer/historikk';
 
 type VedtakBegrunnelsehendelseProps = Omit<VedtakBegrunnelseObject, 'type' | 'id'>;

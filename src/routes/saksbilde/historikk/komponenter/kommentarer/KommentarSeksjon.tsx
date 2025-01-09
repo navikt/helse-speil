@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { Kommentar, PeriodehistorikkType } from '@io/graphql';
-import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
+import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { Kommentarer } from '@saksbilde/historikk/komponenter/kommentarer/Kommentarer';
 import { LeggTilNyKommentar } from '@saksbilde/historikk/komponenter/kommentarer/LeggTilNyKommentar';
 

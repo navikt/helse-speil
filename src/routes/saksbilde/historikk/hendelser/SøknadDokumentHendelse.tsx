@@ -4,11 +4,11 @@ import { ChevronLeftCircleIcon, ChevronRightCircleIcon } from '@navikt/aksel-ico
 import { Button } from '@navikt/ds-react';
 
 import { SøknadKildeIkon } from '@components/Kilde';
-import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
+import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { DateString } from '@typer/shared';
 
-import { Søknadsinnhold } from './Søknadsinnhold';
-import { useAddOpenedDocument, useOpenedDocuments, useRemoveOpenedDocument } from './dokument';
+import { Søknadsinnhold } from './dokument/Søknadsinnhold';
+import { useAddOpenedDocument, useOpenedDocuments, useRemoveOpenedDocument } from './dokument/dokument';
 
 type SøknadDokumentHendelseProps = {
     dokumentId: string;

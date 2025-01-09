@@ -6,7 +6,7 @@ import { ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { FeilregistrerKommentarMutationDocument, Kommentar as GraphQLKommentar } from '@io/graphql';
-import { HendelseDate } from '@saksbilde/historikk/hendelser/HendelseDate';
+import { HendelseDate } from '@saksbilde/historikk/komponenter/HendelseDate';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 

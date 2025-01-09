@@ -1,0 +1,12 @@
+.gridfullwidth {
+    grid-column: 1 / span 2;
+}
+
+.refusjonselementer > p:last-child {
+    padding-bottom: 0.5rem;
+}
+
+.fromvalue {
+    text-decoration: line-through;
+    margin-right: 3px;
+}

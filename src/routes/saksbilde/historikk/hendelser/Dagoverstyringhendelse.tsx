@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react';
 
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, VStack } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, OverstyrtDag } from '@io/graphql';
-import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
+import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { DagoverstyringhendelseObject } from '@typer/historikk';
 import { DateString } from '@typer/shared';
 import { getFormattedDateString } from '@utils/date';
@@ -72,9 +72,9 @@ export const Dagoverstyringhendelse = ({
         <HistorikkSection tittel="Begrunnelse">
             <BodyShort>{begrunnelse}</BodyShort>
         </HistorikkSection>
-        <div className={styles.Content}>
+        <VStack marginBlock="2 2">
             {groupSimilarDays(dager).map((group, i) => (
-                <div key={i} className={styles.Grid}>
+                <div key={i} className={styles.grid}>
                     <BodyShort>Dato:</BodyShort>
                     <BodyShort>
                         {getFormattedDateString(group.start)}
@@ -83,19 +83,19 @@ export const Dagoverstyringhendelse = ({
                     <BodyShort>Grad:</BodyShort>
                     <BodyShort>
                         {group.fraGrad !== null && group.fraGrad !== undefined && group.grad !== group.fraGrad && (
-                            <span className={styles.FromValue}>{group.fraGrad} %</span>
+                            <span className={styles.fromvalue}>{group.fraGrad} %</span>
                         )}
                         {group.grad} %
                     </BodyShort>
                     <BodyShort>Type:</BodyShort>
                     <BodyShort>
                         {group.fraType && group.fraType !== group.type && (
-                            <span className={styles.FromValue}>{group.fraType}</span>
+                            <span className={styles.fromvalue}>{group.fraType}</span>
                         )}
                         {group.type}
                     </BodyShort>
                 </div>
             ))}
-        </div>
+        </VStack>
     </Historikkhendelse>
 );

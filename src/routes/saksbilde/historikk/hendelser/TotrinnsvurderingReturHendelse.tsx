@@ -4,12 +4,12 @@ import { VStack } from '@navikt/ds-react';
 
 import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
 import { PeriodehistorikkType } from '@io/graphql';
-import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
-import { HistorikkArrowUndoIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
+import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
+import { HistorikkArrowUndoIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
-import { Historikkhendelse } from './Historikkhendelse';
+import { Historikkhendelse } from '../komponenter/Historikkhendelse';
 
 type TotrinnsvurderingReturHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
 

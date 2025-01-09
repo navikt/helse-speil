@@ -4,11 +4,11 @@ import { BodyShort, HStack } from '@navikt/ds-react';
 
 import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
 import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
-import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
-import { HistorikkTimerPauseIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
-import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { LagtPåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/LagtPåVentDropdown';
 import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe';
+import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
+import { HistorikkTimerPauseIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
+import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
 import { Kommentarer } from '@saksbilde/historikk/komponenter/kommentarer/Kommentarer';
 import { useActivePeriod } from '@state/periode';

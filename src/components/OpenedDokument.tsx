@@ -5,7 +5,6 @@ import { XMarkIcon } from '@navikt/aksel-icons';
 
 import { Kilde } from '@components/Kilde';
 import { Maybe, PersonFragment } from '@io/graphql';
-import { HendelseDate } from '@saksbilde/historikk/hendelser/HendelseDate';
 import { Inntektsmeldingsinnhold } from '@saksbilde/historikk/hendelser/dokument/Inntektsmeldingsinnhold';
 import { Søknadsinnhold } from '@saksbilde/historikk/hendelser/dokument/Søknadsinnhold';
 import {
@@ -14,6 +13,7 @@ import {
     useOpenedDocuments,
     useRemoveOpenedDocument,
 } from '@saksbilde/historikk/hendelser/dokument/dokument';
+import { HendelseDate } from '@saksbilde/historikk/komponenter/HendelseDate';
 
 import styles from './ÅpnetDokument.module.scss';
 

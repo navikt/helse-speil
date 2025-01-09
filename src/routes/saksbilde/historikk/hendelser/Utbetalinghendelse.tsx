@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 
 import { Utbetalingtype } from '@io/graphql';
-import { HistorikkCheckmarkCircleIkon, HistorikkXMarkOctagonIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
-import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
+import { HistorikkCheckmarkCircleIkon, HistorikkXMarkOctagonIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
+import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { UtbetalinghendelseObject } from '@typer/historikk';
 
 const getTittel = (type: Utbetalingtype, automatisk: boolean, godkjent: boolean): string => {

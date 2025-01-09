@@ -5,7 +5,7 @@ import { Button } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { hoppTilModia } from '@components/SystemMenu';
-import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
+import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { DateString } from '@typer/shared';
 
 type VedtakDokumentHendelseProps = {

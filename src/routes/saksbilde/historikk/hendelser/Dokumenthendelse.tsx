@@ -1,10 +1,10 @@
 import React, { ReactElement } from 'react';
 
 import { Kilde } from '@components/Kilde';
-import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
+import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { DateString } from '@typer/shared';
 
-import { getKildetekst, getKildetype } from './dokument';
+import { getKildetekst, getKildetype } from './dokument/dokument';
 
 type DokumenthendelseProps = {
     dokumenttype: 'Sykmelding' | 'InntektHentetFraAordningen';

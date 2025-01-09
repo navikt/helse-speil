@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
-import { HistorikkPaperplaneIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
-import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
+import { HistorikkPaperplaneIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
+import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
 type TotrinnsvurderingTilGodkjenningHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;

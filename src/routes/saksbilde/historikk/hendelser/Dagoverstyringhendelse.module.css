@@ -1,35 +1,26 @@
-.Content {
-    display: flex;
-    flex-direction: column;
-    margin: 8px 0;
-}
-
-.Grid {
+.grid {
     padding: 8px;
     position: relative;
     display: grid;
     grid-template-columns: max-content max-content;
     column-gap: 8px;
-}
-
-.Grid {
     border-top: 1px solid var(--a-border-default);
 }
 
-.Grid:last-of-type {
+.grid:last-of-type {
     border-bottom: 1px solid var(--a-border-default);
 }
 
-.Grid:nth-child(2n + 1) {
+.grid:nth-child(2n + 1) {
     background: var(--a-surface-subtle);
 }
 
-.Grid p {
+.grid p {
     font-size: var(--a-font-size-large);
     line-height: var(--a-font-line-height-large);
 }
 
-.FromValue {
+.fromvalue {
     text-decoration: line-through;
     margin-right: 3px;
 }

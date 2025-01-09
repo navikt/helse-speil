@@ -4,14 +4,13 @@ import React, { ReactElement } from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde } from '@io/graphql';
-import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
+import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { MinimumSykdomsgradhendelseObject } from '@typer/historikk';
 import { NORSK_DATOFORMAT } from '@utils/date';
-
-import styles from './Overstyringshendelse.module.css';
 
 type MinimumSykdomsgradhendelseProps = Omit<MinimumSykdomsgradhendelseObject, 'type' | 'id'>;
 
@@ -58,7 +57,7 @@ export const MinimumSykdomsgradhendelse = ({
             </HistorikkSection>
         )}
         <HistorikkSection tittel="Notat til beslutter">
-            <BodyShort className={styles.begrunnelse}>{minimumSykdomsgrad.begrunnelse}</BodyShort>
+            <BodyLongWithPreWrap>{minimumSykdomsgrad.begrunnelse}</BodyLongWithPreWrap>
         </HistorikkSection>
     </Historikkhendelse>
 );

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
@@ -6,13 +7,13 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, Refusjonsopplysning } from '@io/graphql';
-import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
+import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { InntektoverstyringhendelseObject } from '@typer/historikk';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT, getFormattedDateString } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
-import styles from './Overstyringshendelse.module.css';
+import styles from './Inntektoverstyringhendelse.module.css';
 
 type InntektoverstyringhendelseProps = Omit<InntektoverstyringhendelseObject, 'type' | 'id'>;
 
@@ -45,7 +46,7 @@ export const Inntektoverstyringhendelse = ({
                     <HistorikkSection tittel="Mnd. inntekt">
                         <BodyShort>
                             {inntekt.fraManedligInntekt !== undefined && (
-                                <span className={styles.FromValue}>{somPenger(inntekt.fraManedligInntekt)}</span>
+                                <span className={styles.fromvalue}>{somPenger(inntekt.fraManedligInntekt)}</span>
                             )}
                             {somPenger(inntekt.manedligInntekt)}
                         </BodyShort>
@@ -81,7 +82,7 @@ export const Inntektoverstyringhendelse = ({
                         <BodyShort>{inntekt.forklaring}</BodyShort>
                     </HistorikkSection>
                     <HistorikkSection tittel="Refusjon">
-                        <div className={`${styles.GridFullWidth} ${styles.Refusjonselementer}`}>
+                        <div className={classNames(styles.gridfullwidth, styles.refusjonselementer)}>
                             {inntekt.fraRefusjonsopplysninger &&
                                 [...inntekt.fraRefusjonsopplysninger]
                                     .sort(
@@ -91,7 +92,7 @@ export const Inntektoverstyringhendelse = ({
                                     .map((fraRefusjonsopplysning, index) => {
                                         return (
                                             <BodyShort
-                                                className={`${styles.GridFullWidth} ${styles.Refusjonselement}`}
+                                                className={styles.gridfullwidth}
                                                 key={`${fraRefusjonsopplysning?.fom}${index}`}
                                             >
                                                 <span className={styles.FromValue}>
@@ -111,12 +112,12 @@ export const Inntektoverstyringhendelse = ({
                                         );
                                     })}
                         </div>
-                        <div className={`${styles.GridFullWidth} ${styles.Refusjonselementer}`}>
+                        <div className={classNames(styles.gridfullwidth, styles.refusjonselementer)}>
                             {inntekt.refusjonsopplysninger &&
                                 inntekt.refusjonsopplysninger.map((refusjonsopplysning, index) => {
                                     return (
                                         <BodyShort
-                                            className={`${styles.GridFullWidth} ${styles.Refusjonselement}`}
+                                            className={styles.gridfullwidth}
                                             key={`${refusjonsopplysning?.fom}${index}`}
                                         >
                                             {dayjs(refusjonsopplysning.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}-

@@ -7,14 +7,14 @@ import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Inntektskilde, Maybe, Skjonnsfastsettingstype } from '@io/graphql';
-import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
-import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
+import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
+import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { SykepengegrunnlagskjonnsfastsettinghendelseObject } from '@typer/historikk';
 import { getFormattedDateString } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
-import styles from './Overstyringshendelse.module.css';
+import styles from './Inntektoverstyringhendelse.module.css';
 
 type SykepengegrunnlagskjønnsfastsettinghendelseProps = Omit<
     SykepengegrunnlagskjonnsfastsettinghendelseObject,
@@ -73,7 +73,7 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
                 <Fragment key={`ag-${index}`}>
                     <AnonymizableText>{ag.navn}</AnonymizableText>
                     <BodyShort>
-                        {ag.fraÅrlig !== ag.årlig && <span className={styles.FromValue}>{somPenger(ag.fraÅrlig)}</span>}
+                        {ag.fraÅrlig !== ag.årlig && <span className={styles.fromvalue}>{somPenger(ag.fraÅrlig)}</span>}
                         {somPenger(ag.årlig)}
                     </BodyShort>
                 </Fragment>
