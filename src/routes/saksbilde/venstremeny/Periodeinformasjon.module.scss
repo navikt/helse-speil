@@ -1,3 +1,7 @@
+.tittel {
+    margin-top: 2px;
+}
+
 .button {
     padding: 0;
     text-decoration: underline;
@@ -12,7 +16,7 @@
     }
 }
 
-li.li {
+li.datoliste {
     margin-block-end: var(--a-spacing-1);
 
     > div {
