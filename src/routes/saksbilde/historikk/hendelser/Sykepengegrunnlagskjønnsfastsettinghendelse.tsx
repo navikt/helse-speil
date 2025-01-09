@@ -1,17 +1,17 @@
 import React, { Fragment, ReactElement } from 'react';
 
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
+import { BodyLong, BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Inntektskilde, Maybe, Skjonnsfastsettingstype } from '@io/graphql';
+import { Expandable } from '@saksbilde/historikk/hendelser/Expandable';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
+import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { SykepengegrunnlagskjonnsfastsettinghendelseObject } from '@typer/historikk';
 import { getFormattedDateString } from '@utils/date';
 import { somPenger } from '@utils/locale';
-
-import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
 
 import styles from './Overstyringshendelse.module.css';
 
@@ -50,35 +50,36 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
         saksbehandler={saksbehandler}
         aktiv={false}
     >
-        <div className={styles.Grid}>
-            <BodyShort weight="semibold">Årsak </BodyShort>
+        <HistorikkSection tittel="Årsak">
             <BodyShort>{skjønnsfastsatt.arsak}</BodyShort>
-            <BodyShort weight="semibold">Type skjønnsfastsettelse </BodyShort>
+        </HistorikkSection>
+        <HistorikkSection tittel="Type skjønnsfastsettelse">
             <BodyShort>{getSkjønnsfastsettelseTypeTekst(skjønnsfastsatt.type)}</BodyShort>
-            <BodyShort weight="semibold">Begrunnelse </BodyShort>
-            <ExpandableHistorikkContent className={styles.begrunnelse}>
-                <BodyShort>{skjønnsfastsatt.begrunnelseMal}</BodyShort>
-            </ExpandableHistorikkContent>
-            <BodyShort weight="semibold">Nærmere begrunnelse for skjønnsvurderingen </BodyShort>
+        </HistorikkSection>
+        <HistorikkSection tittel="Begrunnelse">
+            <Expandable expandText="Åpne" collapseText="Lukk">
+                <BodyLong className={styles.begrunnelse}>{skjønnsfastsatt.begrunnelseMal}</BodyLong>
+            </Expandable>
+        </HistorikkSection>
+        <HistorikkSection tittel="Nærmere begrunnelse for skjønnsvurderingen">
             <BodyShort>{skjønnsfastsatt.begrunnelseFritekst}</BodyShort>
-            <BodyShort weight="semibold">Konklusjon </BodyShort>
+        </HistorikkSection>
+        <HistorikkSection tittel="Konklusjon">
             <BodyShort>{skjønnsfastsatt.begrunnelseKonklusjon}</BodyShort>
-            <BodyShort weight="semibold">Årsinntekt </BodyShort>
-            <div className={styles.arbeidsgivere}>
-                {arbeidsgivere.map((ag, index) => (
-                    <Fragment key={`ag-${index}`}>
-                        <AnonymizableText>{ag.navn}</AnonymizableText>
-                        <BodyShort>
-                            {ag.fraÅrlig !== ag.årlig && (
-                                <span className={styles.FromValue}>{somPenger(ag.fraÅrlig)}</span>
-                            )}
-                            {somPenger(ag.årlig)}
-                        </BodyShort>
-                    </Fragment>
-                ))}
-            </div>
-            <BodyShort weight="semibold">Skj. tidspunkt</BodyShort>
+        </HistorikkSection>
+        <HistorikkSection tittel="Årsinntekt">
+            {arbeidsgivere.map((ag, index) => (
+                <Fragment key={`ag-${index}`}>
+                    <AnonymizableText>{ag.navn}</AnonymizableText>
+                    <BodyShort>
+                        {ag.fraÅrlig !== ag.årlig && <span className={styles.FromValue}>{somPenger(ag.fraÅrlig)}</span>}
+                        {somPenger(ag.årlig)}
+                    </BodyShort>
+                </Fragment>
+            ))}
+        </HistorikkSection>
+        <HistorikkSection tittel="Skj. tidspunkt">
             <BodyShort>{getFormattedDateString(skjønnsfastsatt.skjaeringstidspunkt)}</BodyShort>
-        </div>
+        </HistorikkSection>
     </Historikkhendelse>
 );

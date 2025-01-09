@@ -20,9 +20,8 @@
     margin-right: 3px;
 }
 
-.begrunnelse,
-.arbeidsgivere {
-    margin-bottom: 0.5rem;
+.begrunnelse {
+    white-space: pre-wrap;
 }
 
 .annullertikon {

@@ -5,14 +5,10 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde } from '@io/graphql';
+import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
+import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { ArbeidsforholdoverstyringhendelseObject } from '@typer/historikk';
 import { getFormattedDateString } from '@utils/date';
-
-import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
-import { Hendelse } from './Hendelse';
-import { HendelseDate } from './HendelseDate';
-
-import styles from './Overstyringshendelse.module.css';
 
 type ArbeidsforholdoverstyringhendelseProps = Omit<ArbeidsforholdoverstyringhendelseObject, 'type' | 'id'>;
 
@@ -25,25 +21,26 @@ export const Arbeidsforholdoverstyringhendelse = ({
     skjæringstidspunkt,
 }: ArbeidsforholdoverstyringhendelseProps): ReactElement => {
     return (
-        <Hendelse
-            title={erDeaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
+        <Historikkhendelse
             icon={
                 <Kilde type={Inntektskilde.Saksbehandler}>
                     <PersonPencilFillIcon title="Saksbehandler ikon" />
                 </Kilde>
             }
+            title={erDeaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
+            timestamp={timestamp}
+            saksbehandler={saksbehandler}
+            aktiv={false}
         >
-            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
-            <ExpandableHistorikkContent>
-                <div className={styles.Grid}>
-                    <BodyShort>Begrunnelse: </BodyShort>
-                    <BodyShort>{begrunnelse}</BodyShort>
-                    <BodyShort>Forklaring: </BodyShort>
-                    <BodyShort>{forklaring}</BodyShort>
-                    <BodyShort>Skj. tidspunkt:</BodyShort>
-                    <BodyShort>{getFormattedDateString(skjæringstidspunkt)}</BodyShort>
-                </div>
-            </ExpandableHistorikkContent>
-        </Hendelse>
+            <HistorikkSection tittel="Begrunnelse">
+                <BodyShort>{begrunnelse}</BodyShort>
+            </HistorikkSection>
+            <HistorikkSection tittel="Forklaring">
+                <BodyShort>{forklaring}</BodyShort>
+            </HistorikkSection>
+            <HistorikkSection tittel="Skj. tidspunkt">
+                <BodyShort>{getFormattedDateString(skjæringstidspunkt)}</BodyShort>
+            </HistorikkSection>
+        </Historikkhendelse>
     );
 };
