@@ -149,6 +149,8 @@ export type AnnulleringhendelseObject = BaseHendelseObject & {
     type: 'Annullering';
     årsaker: string[];
     begrunnelse: string | null;
+    timestamp: DateString;
+    saksbehandler: string;
 };
 
 export type HendelseObject =

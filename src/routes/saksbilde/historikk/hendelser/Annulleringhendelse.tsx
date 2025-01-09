@@ -1,15 +1,11 @@
 import React, { ReactElement } from 'react';
 
-import { XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { HistorikkXMarkOctagonIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
+import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
+import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { AnnulleringhendelseObject } from '@typer/historikk';
-
-import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
-import { Hendelse } from './Hendelse';
-import { HendelseDate } from './HendelseDate';
-
-import styles from './Overstyringshendelse.module.css';
 
 type AnnulleringhendelseProps = Omit<AnnulleringhendelseObject, 'type' | 'id'>;
 
@@ -18,23 +14,21 @@ export const Annulleringhendelse = ({
     begrunnelse,
     saksbehandler,
     timestamp,
-}: AnnulleringhendelseProps): ReactElement => {
-    return (
-        <Hendelse
-            title="Saken er annullert "
-            icon={<XMarkOctagonIcon title="Stopp ikon" className={styles.annullertikon} />}
-        >
-            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
-            <ExpandableHistorikkContent>
-                <div className={styles.Grid}>
-                    <BodyShort weight="semibold">Årsaker: </BodyShort>
-                    {årsaker.map((årsak, index) => (
-                        <BodyShort key={index + årsak}>{årsak}</BodyShort>
-                    ))}
-                    <BodyShort weight="semibold">Begrunnelse: </BodyShort>
-                    <BodyShort>{begrunnelse}</BodyShort>
-                </div>
-            </ExpandableHistorikkContent>
-        </Hendelse>
-    );
-};
+}: AnnulleringhendelseProps): ReactElement => (
+    <Historikkhendelse
+        icon={<HistorikkXMarkOctagonIkon />}
+        title="Saken er annullert"
+        timestamp={timestamp}
+        saksbehandler={saksbehandler}
+        aktiv={false}
+    >
+        <HistorikkSection tittel="Årsaker">
+            {årsaker.map((årsak, index) => (
+                <BodyShort key={index + årsak}>{årsak}</BodyShort>
+            ))}
+        </HistorikkSection>
+        <HistorikkSection tittel="Begrunnelse">
+            <BodyShort>{begrunnelse}</BodyShort>
+        </HistorikkSection>
+    </Historikkhendelse>
+);
