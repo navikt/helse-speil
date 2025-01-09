@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { StansAutomatiskBehandlingIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
+import { HistorikkXMarkOctagonIkon } from '@saksbilde/historikk/hendelser/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/hendelser/Historikkhendelse';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
@@ -11,7 +11,7 @@ export const StansAutomatiskBehandlingHendelse = ({
     timestamp,
 }: StansAutomatiskBehandlingHendelseProps): ReactElement => (
     <Historikkhendelse
-        icon={<StansAutomatiskBehandlingIkon />}
+        icon={<HistorikkXMarkOctagonIkon />}
         title="Automatisk behandling stanset"
         timestamp={timestamp}
         saksbehandler={saksbehandler ?? undefined}

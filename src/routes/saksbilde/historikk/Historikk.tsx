@@ -204,7 +204,7 @@ interface HistorikkHendelseProps {
     person: PersonFragment;
 }
 
-const HistorikkHendelse = ({ hendelse, person }: HistorikkHendelseProps) => {
+const HistorikkHendelse = ({ hendelse, person }: HistorikkHendelseProps): ReactElement => {
     const HendelseComponent = historikkhendelseComponents[hendelse.historikktype];
     return <HendelseComponent person={person} hendelse={hendelse} {...hendelse} />;
 };

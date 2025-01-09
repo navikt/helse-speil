@@ -13,9 +13,7 @@ import {
 
 import styles from './HendelseIkon.module.css';
 
-export const TotrinnsvurderingAttestertIkon = () => (
-    <CheckmarkCircleIcon title="Sjekkmerkeikon" className={styles.ikon} />
-);
+export const HistorikkCheckmarkCircleIkon = () => <CheckmarkCircleIcon className={styles.ikon} />;
 
 export const TotrinnsvurderingReturIkon = () => <ArrowUndoIcon title="Pil tilbakeikon" className={styles.ikon} />;
 
@@ -31,9 +29,7 @@ export const PåVentIkon = () => (
     <TimerPauseIcon title="Timer-ikon" className={classNames(styles.ikon, styles.påVent)} />
 );
 
-export const StansAutomatiskBehandlingIkon = () => (
-    <XMarkOctagonIcon title="Stoppikon" className={classNames(styles.ikon, styles.opphevStans)} />
-);
+export const HistorikkXMarkOctagonIkon = () => <XMarkOctagonIcon className={classNames(styles.ikon)} />;
 
 interface NotatIkonProps {
     erOpphevStans: boolean;
