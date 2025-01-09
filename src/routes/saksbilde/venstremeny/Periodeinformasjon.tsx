@@ -39,7 +39,7 @@ export const Periodeinformasjon = ({
                 {informasjon.perioder.map((periode) => (
                     <List.Item key={periode.id} className={styles.datoliste}>
                         <Button
-                            className={styles.button}
+                            className={styles.lenkeknapp}
                             variant="tertiary"
                             onClick={() => setAktivPeriode(periode.id)}
                         >
