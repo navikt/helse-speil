@@ -48,6 +48,7 @@ export const SøknadMottatthendelse = ({
                     title={dokumentetErÅpnet() ? 'Lukk panel' : 'Åpne opp panel'}
                     variant="tertiary"
                     size="xsmall"
+                    style={{ height: '24px' }}
                     onClick={(event: React.MouseEvent) => {
                         toggleÅpnetDokument();
                         event.stopPropagation();

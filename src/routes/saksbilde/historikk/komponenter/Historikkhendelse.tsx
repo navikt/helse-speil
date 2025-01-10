@@ -62,12 +62,12 @@ export const Historikkhendelse = ({
             <div className={styles.iconContainer}>{icon}</div>
             <div className={styles.content}>
                 <HStack gap="1" wrap={false}>
-                    <HStack>
+                    <HStack gap="1" wrap={false}>
                         <BodyShort weight="semibold">{title}</BodyShort>
                         {expanded ? (
-                            <ChevronUpIcon title="Vis mindre" fontSize="1.5rem" />
+                            <ChevronUpIcon style={{ flexShrink: 0 }} title="Vis mindre" fontSize="1.5rem" />
                         ) : (
-                            <ChevronDownIcon title="Vis mer" fontSize="1.5rem" />
+                            <ChevronDownIcon style={{ flexShrink: 0 }} title="Vis mer" fontSize="1.5rem" />
                         )}
                     </HStack>
                     {kontekstknapp && <Spacer />}
