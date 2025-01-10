@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { Tooltip } from '@navikt/ds-react';
 
@@ -49,6 +49,7 @@ const getKildeTypeTooltip = (kilde: KildeikonType): string => {
             return 'Sykmelding';
         case 'Saksbehandler':
             return 'Saksbehandler';
+        case 'InntektHentetFraAordningen':
         case Inntektskilde.Aordningen:
             return 'A-ordningen';
         case Inntektskilde.IkkeRapportert:
@@ -67,18 +68,18 @@ const getKildeTypeTooltip = (kilde: KildeikonType): string => {
 const erTekst = (kilde: KildeikonType): boolean =>
     kilde !== 'Saksbehandler' && kilde !== Inntektskilde.Saksbehandler && kilde !== Inntektskilde.SkjonnsmessigFastsatt;
 
-export const Kilde = ({ type, children, className }: PropsWithChildren<KildeProps>) => {
-    return (
-        <Tooltip content={getKildeTypeTooltip(type)}>
-            <div className={classNames(styles.kildeikon, styles[`kildeikon__${finnCSSklasse(type)}`], className)}>
-                {erTekst(type) ? <div className={styles.tekst}>{children}</div> : children}
-            </div>
-        </Tooltip>
-    );
-};
+export const Kilde = ({ type, children, className }: PropsWithChildren<KildeProps>): ReactElement => (
+    <Tooltip content={getKildeTypeTooltip(type)}>
+        <div className={classNames(styles.kildeikon, styles[`kildeikon__${finnCSSklasse(type)}`], className)}>
+            {erTekst(type) ? <div className={styles.tekst}>{children}</div> : children}
+        </div>
+    </Tooltip>
+);
 
-export const InntektsmeldingKildeIkon = () => (
+export const InntektsmeldingKildeIkon = (): ReactElement => (
     <Kilde type={getKildetype('Inntektsmelding')}>{getKildetekst('Inntektsmelding')}</Kilde>
 );
 
-export const SøknadKildeIkon = () => <Kilde type={getKildetype('Søknad')}>{getKildetekst('Søknad')}</Kilde>;
+export const SøknadKildeIkon = (): ReactElement => (
+    <Kilde type={getKildetype('Søknad')}>{getKildetekst('Søknad')}</Kilde>
+);
