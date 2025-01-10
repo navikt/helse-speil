@@ -27,19 +27,18 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): May
         .map(
             (arbeidsgiver): Periodeinformasjon => ({
                 arbeidsgivernavn: arbeidsgiver.navn,
-                perioder: arbeidsgiver.generasjoner
-                    .flatMap((generasjon) =>
-                        generasjon.perioder.filter((periode) =>
+                perioder:
+                    arbeidsgiver.generasjoner[0]?.perioder
+                        .filter((periode) =>
                             arbeidsgiver.overstyringer
                                 .filter((overstyring) => !overstyring.ferdigstilt)
                                 .some((overstyring) => overstyring.vedtaksperiodeId === periode.vedtaksperiodeId),
-                        ),
-                    )
-                    .map((periode) => ({
-                        id: periode.id,
-                        fom: periode.fom,
-                        tom: periode.tom,
-                    })),
+                        )
+                        .map((periode) => ({
+                            id: periode.id,
+                            fom: periode.fom,
+                            tom: periode.tom,
+                        })) ?? [],
             }),
         )
         .filter((overstyring) => overstyring.perioder.length > 0);
