@@ -24,6 +24,7 @@
     padding: 0;
     color: var(--a-text-default);
     overflow: auto;
+    scrollbar-width: none;
     box-sizing: border-box;
     flex: 1;
 }
