@@ -95,7 +95,7 @@ export const Inntektoverstyringhendelse = ({
                                                 className={styles.gridfullwidth}
                                                 key={`${fraRefusjonsopplysning?.fom}${index}`}
                                             >
-                                                <span className={styles.FromValue}>
+                                                <span className={styles.fromvalue}>
                                                     {dayjs(fraRefusjonsopplysning.fom, ISO_DATOFORMAT).format(
                                                         NORSK_DATOFORMAT,
                                                     )}
