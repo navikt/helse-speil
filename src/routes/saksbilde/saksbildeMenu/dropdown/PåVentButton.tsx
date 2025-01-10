@@ -2,8 +2,8 @@ import React, { ReactElement, useState } from 'react';
 
 import { Dropdown, Loader } from '@navikt/ds-react';
 
+import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
 import { Maybe, PersonFragment, Personnavn } from '@io/graphql';
-import { PåVentNotatModal } from '@oversikt/table/cells/notat/PåVentNotatModal';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useFjernPåVentFraSaksbilde } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
@@ -50,13 +50,12 @@ export const PåVentButton = ({ person }: PåVentButtonProps): Maybe<ReactElemen
                 <Dropdown.Menu.List.Item onClick={() => setShowModal(true)}>Legg på vent</Dropdown.Menu.List.Item>
             )}
             {showModal && (
-                <PåVentNotatModal
-                    onClose={() => setShowModal(false)}
-                    showModal={showModal}
-                    navn={navn}
+                <LeggPåVentModal
                     oppgaveId={oppgaveId}
-                    tildeling={tildeling}
                     behandlingId={periodeTilGodkjenning.behandlingId}
+                    navn={navn}
+                    utgangspunktTildeling={tildeling}
+                    onClose={() => setShowModal(false)}
                 />
             )}
         </>

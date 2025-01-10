@@ -3,9 +3,8 @@ import React, { ReactElement, useState } from 'react';
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, Loader } from '@navikt/ds-react';
 
+import { EndrePåVentModal } from '@components/påvent/PåVentModaler';
 import { BeregnetPeriodeFragment, Maybe, PersonFragment, Personnavn } from '@io/graphql';
-import { PåVentNotatModal } from '@oversikt/table/cells/notat/PåVentNotatModal';
-import { EndrePåVentModal } from '@saksbilde/historikk/hendelser/påvent/endre/EndrePåVentModal';
 import { useFjernPåVentFraSaksbilde } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 import { DateString } from '@typer/shared';
@@ -26,7 +25,6 @@ export const LagtPåVentDropdown = ({
     frist,
 }: LagtPåVentDropdownProps): Maybe<ReactElement> => {
     const [showEndreModal, setShowEndreModal] = useState(false);
-    const [showLeggPåVentModal, setShowLeggPåVentModal] = useState(false);
 
     const oppgaveId = periode.oppgave?.id;
 
@@ -72,24 +70,14 @@ export const LagtPåVentDropdown = ({
             </ActionMenu>
             {showEndreModal && (
                 <EndrePåVentModal
-                    onClose={() => setShowEndreModal(false)}
-                    navn={navn}
                     oppgaveId={oppgaveId!}
-                    tildeling={tildeling}
                     behandlingId={periode.behandlingId}
-                    opprinneligeÅrsaker={årsaker}
-                    opprinneligNotattekst={notattekst}
-                    opprinneligFrist={frist}
-                />
-            )}
-            {showLeggPåVentModal && (
-                <PåVentNotatModal
-                    onClose={() => setShowLeggPåVentModal(false)}
-                    showModal={showLeggPåVentModal}
                     navn={navn}
-                    oppgaveId={oppgaveId}
-                    tildeling={tildeling}
-                    behandlingId={periode.behandlingId}
+                    utgangspunktÅrsaker={årsaker}
+                    utgangspunktNotattekst={notattekst}
+                    utgangspunktFrist={frist!}
+                    utgangspunktTildeling={tildeling}
+                    onClose={() => setShowEndreModal(false)}
                 />
             )}
         </>

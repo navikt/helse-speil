@@ -7,8 +7,8 @@ import { LinkRow } from '@oversikt/table/LinkRow';
 import { DatoCell } from '@oversikt/table/cells/DatoCell';
 import { EgenskaperTagsCell } from '@oversikt/table/cells/EgenskaperTagsCell';
 import { TildelingCell } from '@oversikt/table/cells/TildelingCell';
-import { PåVentCell } from '@oversikt/table/cells/notat/PåVentCell';
 import { OptionsCell } from '@oversikt/table/cells/options/OptionsCell';
+import { PåVentCell } from '@oversikt/table/cells/påvent/PåVentCell';
 import { SortKey, dateSortKey, getVisningsDato } from '@oversikt/table/state/sortation';
 import { ISO_DATOFORMAT } from '@utils/date';
 

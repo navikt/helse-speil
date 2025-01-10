@@ -1,14 +1,15 @@
-import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
+import React, { Dispatch, ReactElement, SetStateAction } from 'react';
 
 import { DatePicker, useDatepicker } from '@navikt/ds-react';
 
 interface FristProps {
     fristDato: Date | null;
     setFristDato: Dispatch<SetStateAction<Date | null>>;
+    error: string | null;
+    setError: Dispatch<SetStateAction<string | null>>;
 }
 
-export const Frist = ({ fristDato, setFristDato }: FristProps): ReactElement => {
-    const [error, setError] = useState<string | null>(null);
+export const Frist = ({ fristDato, setFristDato, error, setError }: FristProps): ReactElement => {
     const { datepickerProps, inputProps } = useDatepicker({
         required: true,
         defaultSelected: fristDato ?? undefined,

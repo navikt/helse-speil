@@ -2,8 +2,8 @@ import React, { ReactElement, useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react';
 
+import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
 import { Maybe, Personnavn, Tildeling } from '@io/graphql';
-import { PåVentNotatModal } from '@oversikt/table/cells/notat/PåVentNotatModal';
 import { useFjernPåVentFraOppgaveoversikt } from '@state/påvent';
 
 import styles from './OptionsCell.module.css';
@@ -40,12 +40,11 @@ export const PåVentMenuButton = ({
                 </Dropdown.Menu.List.Item>
             )}
             {showModal && (
-                <PåVentNotatModal
-                    onClose={() => setShowModal(false)}
-                    showModal={showModal}
-                    navn={navn}
-                    tildeling={tildeling}
+                <LeggPåVentModal
                     oppgaveId={oppgavereferanse}
+                    navn={navn}
+                    utgangspunktTildeling={tildeling}
+                    onClose={() => setShowModal(false)}
                 />
             )}
         </>

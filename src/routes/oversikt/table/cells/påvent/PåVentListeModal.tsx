@@ -6,7 +6,7 @@ import { PaVentInfo, Personnavn } from '@io/graphql';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { getFormatertNavn } from '@utils/string';
 
-import styles from './PåVentModal.module.scss';
+import styles from './PåVentListeModal.module.scss';
 
 type PåVentListeModalProps = {
     onClose: () => void;
