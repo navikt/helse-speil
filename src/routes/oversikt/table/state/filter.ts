@@ -2,12 +2,7 @@ import { SetRecoilState, atom, selector, useRecoilValue, useSetRecoilState } fro
 
 import { Egenskap } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
-import {
-    harSpesialsaktilgang,
-    kanFiltrerePåGosysEgenskap,
-    kanFiltrerePåManglerIM,
-    kanSeTilkommenInntekt,
-} from '@utils/featureToggles';
+import { kanFiltrerePåGosysEgenskap, kanFiltrerePåManglerIM, kanSeTilkommenInntekt } from '@utils/featureToggles';
 
 export type Filter = {
     key: string | Egenskap;
@@ -196,12 +191,6 @@ const filters = [
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.Spesialsak,
-        label: '🌰',
-        status: FilterStatus.OFF,
-        column: Oppgaveoversiktkolonne.EGENSKAPER,
-    },
-    {
         key: Egenskap.EnArbeidsgiver,
         label: 'En arbeidsgiver',
         status: FilterStatus.OFF,
@@ -217,7 +206,6 @@ const filters = [
 
 export const getDefaultFilters = (grupper: string[], ident: string): Filter[] =>
     filters
-        .filter((filter) => filter.key !== Egenskap.Spesialsak || harSpesialsaktilgang(grupper))
         .filter((filter) => filter.key !== Egenskap.Gosys || kanFiltrerePåGosysEgenskap(ident, grupper))
         .filter((filter) => filter.key !== Egenskap.Tilkommen || kanSeTilkommenInntekt(ident, grupper))
         .filter((filter) => filter.key !== Egenskap.ManglerIm || kanFiltrerePåManglerIM(ident, grupper));

@@ -16,8 +16,6 @@ const tilTekst = (egenskap: Egenskap) => {
             return 'Retur';
         case Egenskap.RiskQa:
             return 'Risk QA';
-        case Egenskap.Spesialsak:
-            return '🌰';
         case Egenskap.Stikkprove:
             return 'Stikkprøve';
         case Egenskap.Utland:
@@ -68,8 +66,6 @@ const tilTooltip = (egenskap: Egenskap) => {
     switch (egenskap) {
         case Egenskap.Forstegangsbehandling:
             return 'Førstegangsbehandling';
-        case Egenskap.Spesialsak:
-            return 'Spesialsak';
         default:
             return tilTekst(egenskap);
     }

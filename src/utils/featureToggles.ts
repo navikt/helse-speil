@@ -2,7 +2,6 @@ import { erLokal, erUtvikling } from '@/env';
 
 const groupIdForTbd = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
-const groupIdSpesialsaker = '39c09f12-4a2f-44da-ab6a-ac43d680294c';
 
 const supersaksbehandlere = ['N115007', 'C117102', 'K164523', 'A148751', 'S161635'];
 
@@ -41,9 +40,6 @@ export const kanFrigiAndresOppgaver = (ident: string) => kanFrigiSaker(ident) ||
 export const graphqlplayground = (grupper: string[]) => erUtvikling || erPåTeamBømlo(grupper);
 
 export const harBeslutterrolle = (grupper: string[]): boolean => grupper.includes(groupIdForBesluttere);
-
-export const harSpesialsaktilgang = (grupper: string[]): boolean =>
-    grupper.includes(groupIdSpesialsaker) || erUtvikling;
 
 export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
     erCoachEllerSuper(ident) || erFunksjoneltAnsvarligIPoHelse(ident) || erPåTeamBømlo(grupper) || erLokal;

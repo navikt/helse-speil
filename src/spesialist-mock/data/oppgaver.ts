@@ -137,7 +137,6 @@ export const oppgaver: OppgaveTilBehandling[] = [
             { kategori: Kategori.Oppgavetype, egenskap: Egenskap.Soknad },
             { kategori: Kategori.Mottaker, egenskap: Egenskap.UtbetalingTilArbeidsgiver },
             { kategori: Kategori.Inntektskilde, egenskap: Egenskap.EnArbeidsgiver },
-            { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Spesialsak },
             { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Utland },
         ],
     },

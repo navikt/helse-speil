@@ -121,7 +121,6 @@ const tilfeldigeUkategoriserteEgenskaper = () => {
         egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.FortroligAdresse });
     if (Math.random() > 0.8) egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.Haster });
     if (Math.random() > 0.9) egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.Utland });
-    if (Math.random() > 0.97) egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.Spesialsak });
     if (Math.random() > 0.95)
         egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.Skjonnsfastsettelse });
 
