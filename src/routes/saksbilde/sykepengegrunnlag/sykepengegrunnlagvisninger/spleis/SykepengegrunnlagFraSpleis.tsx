@@ -44,6 +44,8 @@ export const SykepengegrunnlagFraSpleis = ({
         }
     }, [vilkårsgrunnlag, aktivArbeidsgiver]);
 
+    if (aktivArbeidsgiver == null) return <></>;
+
     return (
         <HStack justify="start" wrap={false} {...rest}>
             <SykepengegrunnlagPanel
@@ -58,6 +60,7 @@ export const SykepengegrunnlagFraSpleis = ({
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 skjønnsmessigFastsattÅrlig={vilkårsgrunnlag.skjonnsmessigFastsattAarlig}
                 person={person}
+                arbeidsgiver={aktivArbeidsgiver}
             />
             <span className={styles.strek} />
             <Inntekt person={person} inntekt={aktivInntektskilde} />

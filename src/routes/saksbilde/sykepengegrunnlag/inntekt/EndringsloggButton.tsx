@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { ReactElement, useRef, useState } from 'react';
 
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
@@ -6,8 +7,14 @@ import { Kilde } from '@components/Kilde';
 import { EndringsloggArbeidsforhold } from '@components/endringslogg/EndringsloggArbeidsforhold';
 import { EndringsloggDager } from '@components/endringslogg/EndringsloggDager';
 import { EndringsloggInntekt } from '@components/endringslogg/EndringsloggInntekt';
+import { EndringsloggSykepengegrunnlagskjønnsfastsetting } from '@components/endringslogg/EndringsloggSykepengegrunnlagskjønnsfastsetting';
 import { Maybe, OverstyringFragment } from '@io/graphql';
-import { isArbeidsforholdoverstyringer, isInntektoverstyringer, isOverstyringerPrDag } from '@utils/typeguards';
+import {
+    isArbeidsforholdoverstyringer,
+    isInntektoverstyringer,
+    isOverstyringerPrDag,
+    isSykepengegrunnlagskjønnsfastsettinger,
+} from '@utils/typeguards';
 
 import styles from './EndringsloggButton.module.css';
 
@@ -17,6 +24,7 @@ interface EndringsloggButtonProps<T extends OverstyringFragment> extends React.H
 
 export const EndringsloggButton = <T extends OverstyringFragment>({
     endringer,
+    className,
     ...buttonProps
 }: EndringsloggButtonProps<T>): Maybe<ReactElement> => {
     const [visEndringslogg, setVisEndringslogg] = useState(false);
@@ -30,7 +38,7 @@ export const EndringsloggButton = <T extends OverstyringFragment>({
     return (
         <>
             <button
-                className={styles.button}
+                className={classNames(styles.button, className)}
                 type="button"
                 ref={buttonRef}
                 {...buttonProps}
@@ -56,6 +64,13 @@ export const EndringsloggButton = <T extends OverstyringFragment>({
             )}
             {visEndringslogg && isOverstyringerPrDag(endringer) && (
                 <EndringsloggDager
+                    endringer={endringer}
+                    onClose={() => setVisEndringslogg(false)}
+                    showModal={visEndringslogg}
+                />
+            )}
+            {visEndringslogg && isSykepengegrunnlagskjønnsfastsettinger(endringer) && (
+                <EndringsloggSykepengegrunnlagskjønnsfastsetting
                     endringer={endringer}
                     onClose={() => setVisEndringslogg(false)}
                     showModal={visEndringslogg}

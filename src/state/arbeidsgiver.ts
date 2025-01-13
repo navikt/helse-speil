@@ -13,6 +13,7 @@ import {
     NyttInntektsforholdPeriodeFragment,
     OverstyringFragment,
     PersonFragment,
+    Sykepengegrunnlagskjonnsfastsetting,
     UberegnetPeriodeFragment,
     Utbetaling,
     Vurdering,
@@ -31,6 +32,7 @@ import {
     isGhostPeriode,
     isInntektoverstyring,
     isNotTilkommenInntektoverstyring,
+    isSykepengegrunnlagskjønnsfastsetting,
     isTilkommenInntekt,
     isTilkommenInntektoverstyring,
     isUberegnetPeriode,
@@ -283,6 +285,7 @@ export const useVurderingForSkjæringstidspunkt = (
 type UseEndringerForPeriodeResult = {
     inntektsendringer: Inntektoverstyring[];
     tilkommenInntektsendringer: Inntektoverstyring[];
+    skjønnsfastsettingsendringer: Sykepengegrunnlagskjonnsfastsetting[];
     arbeidsforholdendringer: Arbeidsforholdoverstyring[];
     dagendringer: Dagoverstyring[];
 };
@@ -294,7 +297,13 @@ export const useEndringerForPeriode = (
     const periode = useActivePeriod(person);
 
     if (!endringer || !periode) {
-        return { inntektsendringer: [], tilkommenInntektsendringer: [], arbeidsforholdendringer: [], dagendringer: [] };
+        return {
+            inntektsendringer: [],
+            tilkommenInntektsendringer: [],
+            skjønnsfastsettingsendringer: [],
+            arbeidsforholdendringer: [],
+            dagendringer: [],
+        };
     }
 
     if (isGhostPeriode(periode)) {
@@ -312,9 +321,14 @@ export const useEndringerForPeriode = (
             .filter(isInntektoverstyring)
             .filter(isTilkommenInntektoverstyring);
 
+        const skjønnsfastsettingsendringer = endringer
+            .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
+            .filter(isSykepengegrunnlagskjønnsfastsetting);
+
         return {
             inntektsendringer: inntekter,
             tilkommenInntektsendringer: tilkommenInntekter,
+            skjønnsfastsettingsendringer: skjønnsfastsettingsendringer,
             arbeidsforholdendringer: arbeidsforhold,
             dagendringer: [],
         };
@@ -330,6 +344,12 @@ export const useEndringerForPeriode = (
         .filter(isInntektoverstyring)
         .filter(isTilkommenInntektoverstyring);
 
+    const skjønnsfastsettingsendringer = endringer
+        .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
+        .filter(isSykepengegrunnlagskjønnsfastsetting);
+
+    console.log(skjønnsfastsettingsendringer);
+
     const arbeidsforhold = endringer
         .filter((it) => dayjs((periode as BeregnetPeriodeFragment).skjaeringstidspunkt).isSameOrBefore(it.timestamp))
         .filter(isArbeidsforholdoverstyring);
@@ -341,6 +361,7 @@ export const useEndringerForPeriode = (
     return {
         inntektsendringer: inntekter,
         tilkommenInntektsendringer: tilkommenInntekter,
+        skjønnsfastsettingsendringer: skjønnsfastsettingsendringer,
         arbeidsforholdendringer: arbeidsforhold,
         dagendringer: dager,
     };

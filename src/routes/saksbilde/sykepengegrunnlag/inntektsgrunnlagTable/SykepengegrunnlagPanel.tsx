@@ -29,6 +29,7 @@ interface SykepengegrunnlagPanelProps {
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     person: PersonFragment;
     periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
+    arbeidsgiver: ArbeidsgiverFragment;
 }
 
 // Inntekter fra vilkårsgrunnlaget er ikke nødvendigvis i samme rekkefølge som arbeidsgiverne på personen. Det er viktig
@@ -59,6 +60,7 @@ export const SykepengegrunnlagPanel = ({
     skjønnsmessigFastsattÅrlig,
     person,
     periode,
+    arbeidsgiver,
 }: SykepengegrunnlagPanelProps) => {
     return (
         <div className={styles.wrapper}>
@@ -86,6 +88,7 @@ export const SykepengegrunnlagPanel = ({
                 skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
                 inntekter={getSorterteInntekter(inntekter, person.arbeidsgivere)}
                 avviksprosent={avviksprosent ?? 0}
+                arbeidsgiver={arbeidsgiver}
             />
             <SykepengegrunnlagsgrenseView
                 sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}

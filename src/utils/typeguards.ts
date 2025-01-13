@@ -83,6 +83,11 @@ export const isSykepengegrunnlagskjønnsfastsetting = (
 ): overstyring is Sykepengegrunnlagskjonnsfastsetting =>
     (overstyring as Sykepengegrunnlagskjonnsfastsetting)?.__typename === 'Sykepengegrunnlagskjonnsfastsetting';
 
+export const isSykepengegrunnlagskjønnsfastsettinger = (
+    overstyringer?: Maybe<Array<Overstyring>>,
+): overstyringer is Array<Sykepengegrunnlagskjonnsfastsetting> =>
+    overstyringer?.every(isSykepengegrunnlagskjønnsfastsetting) ?? false;
+
 export const isMinimumSykdomsgradsoverstyring = (
     overstyring?: Maybe<Overstyring>,
 ): overstyring is MinimumSykdomsgradOverstyring =>

@@ -1,12 +1,19 @@
 import React from 'react';
 
-import { PersonPencilFillIcon, PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
+import { PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
-import { Kilde } from '@components/Kilde';
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import { BeregnetPeriodeFragment, Maybe, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
+import {
+    ArbeidsgiverFragment,
+    BeregnetPeriodeFragment,
+    Maybe,
+    PersonFragment,
+    Sykepengegrunnlagsgrense,
+} from '@io/graphql';
+import { EndringsloggButton } from '@saksbilde/sykepengegrunnlag/inntekt/EndringsloggButton';
+import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 
@@ -16,25 +23,27 @@ interface SkjønnsfastsettingHeaderProps {
     person: PersonFragment;
     sykepengegrunnlag: number;
     endretSykepengegrunnlag: Maybe<number>;
-    skjønnsmessigFastsattÅrlig?: Maybe<number>;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     editing: boolean;
     setEditing: (state: boolean) => void;
     maler: SkjønnsfastsettingMal[] | undefined;
     malerError: string | undefined;
+    arbeidsgiver: ArbeidsgiverFragment;
 }
 
 export const SkjønnsfastsettingHeader = ({
     person,
     sykepengegrunnlag,
     endretSykepengegrunnlag,
-    skjønnsmessigFastsattÅrlig,
     sykepengegrunnlagsgrense,
     editing,
     setEditing,
     maler,
     malerError,
+    arbeidsgiver,
 }: SkjønnsfastsettingHeaderProps) => {
+    const endringer = useArbeidsgiver(person, arbeidsgiver.organisasjonsnummer)?.overstyringer;
+    const { skjønnsfastsettingsendringer } = useEndringerForPeriode(endringer, person);
     const aktivPeriode = useActivePeriod(person);
     const harMaler = maler && maler.length > 0;
 
@@ -62,10 +71,8 @@ export const SkjønnsfastsettingHeader = ({
                     {visningharEndring && (
                         <p className={styles.opprinneligSykepengegrunnlag}>{toKronerOgØre(sykepengegrunnlag)}</p>
                     )}
-                    {skjønnsmessigFastsattÅrlig != null && (
-                        <Kilde type={'Saksbehandler'} className={styles.kildeIkon}>
-                            <PersonPencilFillIcon title="Saksbehandler ikon" />
-                        </Kilde>
+                    {skjønnsfastsettingsendringer.length > 0 && (
+                        <EndringsloggButton endringer={skjønnsfastsettingsendringer} className={styles.kildeIkon} />
                     )}
                 </>
             )}

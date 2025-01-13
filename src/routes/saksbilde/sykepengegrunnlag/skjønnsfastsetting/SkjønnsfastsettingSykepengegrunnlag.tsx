@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
 import {
+    ArbeidsgiverFragment,
     Arbeidsgiverinntekt,
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
@@ -28,6 +29,7 @@ interface SkjønnsfastsettingSykepengegrunnlagProps {
     skjønnsmessigFastsattÅrlig?: Maybe<number>;
     inntekter: Arbeidsgiverinntekt[];
     avviksprosent: number;
+    arbeidsgiver: ArbeidsgiverFragment;
 }
 
 export const SkjønnsfastsettingSykepengegrunnlag = ({
@@ -40,6 +42,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     skjønnsmessigFastsattÅrlig,
     inntekter,
     avviksprosent,
+    arbeidsgiver,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editing, setEditing] = useState(false);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
@@ -58,12 +61,12 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                 person={person}
                 sykepengegrunnlag={sykepengegrunnlag}
                 endretSykepengegrunnlag={endretSykepengegrunnlag}
-                skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
                 sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                 editing={editing}
                 setEditing={setEditing}
                 maler={maler}
                 malerError={error?.message ? 'Mangler tekster for skjønnsfastsetting' : undefined}
+                arbeidsgiver={arbeidsgiver}
             />
             {!editing && skjønnsmessigFastsattÅrlig !== null && (
                 <SkjønnsfastsettingSammendrag arbeidsgivere={person.arbeidsgivere} />

@@ -54,6 +54,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
             inntektsendringer: [],
             arbeidsforholdendringer: [],
             dagendringer: [],
+            skjønnsfastsettingsendringer: [],
         });
         (useVilkårsgrunnlag as jest.Mock).mockReturnValue(vilkårsgrunnlag);
         (useIsAnonymous as jest.Mock).mockReturnValue(false);
@@ -101,6 +102,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
             inntektsendringer: [],
             arbeidsforholdendringer: [],
             dagendringer: [],
+            skjønnsfastsettingsendringer: [],
         });
 
         render(
@@ -137,6 +139,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
             inntektsendringer: [],
             arbeidsforholdendringer: [],
             dagendringer: [],
+            skjønnsfastsettingsendringer: [],
         });
 
         render(
