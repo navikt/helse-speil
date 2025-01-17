@@ -75,26 +75,24 @@ const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: D
 };
 
 const beslutteroppgave = (
-    periodState: PeriodState,
-    erBeslutteroppgave = false,
     endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>,
     harDagOverstyringer = false,
     activePeriodTom?: string,
     navnPåDeaktiverteGhostArbeidsgivere?: string,
 ): Maybe<{ grad: string; melding: string }> => {
-    if (!erBeslutteroppgave || !['tilGodkjenning', 'revurderes'].includes(periodState)) return null;
+    if (endringerEtterNyesteUtbetalingPåPerson == null) return null;
+    const aktuelleOverstyringer = endringerEtterNyesteUtbetalingPåPerson.filter(
+        (overstyring) => !overstyring.ferdigstilt,
+    );
 
     const årsaker = [];
 
-    if (
-        harDagOverstyringer ||
-        harRelevanteDagoverstyringer(endringerEtterNyesteUtbetalingPåPerson ?? [], activePeriodTom)
-    ) {
+    if (harDagOverstyringer || harRelevanteDagoverstyringer(aktuelleOverstyringer ?? [], activePeriodTom)) {
         årsaker.push('Overstyring av dager');
     }
 
     if (
-        endringerEtterNyesteUtbetalingPåPerson?.some(
+        aktuelleOverstyringer.some(
             (it) =>
                 isInntektoverstyring(it) &&
                 it.inntekt.fraManedligInntekt !== it.inntekt.manedligInntekt &&
@@ -106,38 +104,36 @@ const beslutteroppgave = (
     }
 
     if (
-        endringerEtterNyesteUtbetalingPåPerson?.some(
+        aktuelleOverstyringer.some(
             (it) =>
                 isInntektoverstyring(it) &&
                 it.inntekt.fraManedligInntekt !== it.inntekt.manedligInntekt &&
                 it.inntekt.begrunnelse === 'tilkommen',
-        ) ??
-        false
+        )
     ) {
         årsaker.push('Overstyring av månedsinntekt på tilkommen inntekt');
     }
 
     if (
-        endringerEtterNyesteUtbetalingPåPerson?.some(
+        aktuelleOverstyringer.some(
             (it) =>
                 isInntektoverstyring(it) &&
                 JSON.stringify(it.inntekt.fraRefusjonsopplysninger) !==
                     JSON.stringify(it.inntekt.refusjonsopplysninger),
-        ) ??
-        false
+        )
     ) {
         årsaker.push('Overstyring av Refusjon');
     }
 
-    if (endringerEtterNyesteUtbetalingPåPerson?.some(isArbeidsforholdoverstyring) ?? false) {
+    if (aktuelleOverstyringer.some(isArbeidsforholdoverstyring)) {
         årsaker.push(`Overstyring av annet arbeidsforhold (${navnPåDeaktiverteGhostArbeidsgivere})`);
     }
 
-    if (endringerEtterNyesteUtbetalingPåPerson?.some(isSykepengegrunnlagskjønnsfastsetting) ?? false) {
+    if (aktuelleOverstyringer.some(isSykepengegrunnlagskjønnsfastsetting)) {
         årsaker.push('Skjønnsfastsettelse');
     }
 
-    if (endringerEtterNyesteUtbetalingPåPerson?.some(isMinimumSykdomsgradsoverstyring) ?? false) {
+    if (aktuelleOverstyringer.some(isMinimumSykdomsgradsoverstyring)) {
         årsaker.push('Vurdering av minimum sykdomsgrad');
     }
 
@@ -181,8 +177,6 @@ export const Saksbildevarsler = ({
         sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
         vedtaksperiodeVenter(periodState),
         beslutteroppgave(
-            periodState,
-            erBeslutteroppgave,
             endringerEtterNyesteUtbetalingPåPerson,
             harDagOverstyringer,
             activePeriodTom,

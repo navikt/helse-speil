@@ -9,6 +9,7 @@ import {
     Overstyring,
     Periodetilstand,
     PersonFragment,
+    UberegnetPeriodeFragment,
 } from '@io/graphql';
 import styles from '@saksbilde/saksbilder/SharedViews.module.css';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
@@ -45,7 +46,7 @@ export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
             </Alert>
         );
     } else if (isUberegnetPeriode(periode)) {
-        return <Saksbildevarsler periodState={getPeriodState(periode)} varsler={periode.varsler} />;
+        return <UberegnetSaksbildevarsler person={person} periode={periode as UberegnetPeriodeFragment} />;
     }
 
     if (!periode.skjaeringstidspunkt) {
@@ -72,7 +73,10 @@ const useOverstyringerEtterSisteGodkjenteUtbetaling = (person: PersonFragment): 
     return getOverstyringerForEksisterendePerioder(person, timestamp);
 };
 
-const useNavnPåDeaktiverteGhostArbeidsgivere = (person: PersonFragment, periode: BeregnetPeriodeFragment) => {
+const useNavnPåDeaktiverteGhostArbeidsgivere = (
+    person: PersonFragment,
+    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+) => {
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periode);
     return isSpleisVilkarsgrunnlag(vilkårsgrunnlag)
         ? person.arbeidsgivere
@@ -98,7 +102,6 @@ const BeregnetSaksbildevarsler = ({ person, periode }: BeregnetSaksbildevarslerP
     const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
-
     return (
         <Saksbildevarsler
             periodState={getPeriodState(periode)}
@@ -106,6 +109,28 @@ const BeregnetSaksbildevarsler = ({ person, periode }: BeregnetSaksbildevarslerP
             varsler={periode.varsler}
             erTidligereSaksbehandler={erTidligereSaksbehandler}
             erBeslutteroppgave={periode.totrinnsvurdering?.erBeslutteroppgave}
+            endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
+            harDagOverstyringer={harDagOverstyringer}
+            activePeriodTom={periode.tom}
+            skjæringstidspunkt={periode.skjaeringstidspunkt}
+            navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
+        />
+    );
+};
+
+interface UberegnetSaksbildevarslerProps {
+    person: PersonFragment;
+    periode: UberegnetPeriodeFragment;
+}
+
+const UberegnetSaksbildevarsler = ({ person, periode }: UberegnetSaksbildevarslerProps) => {
+    const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
+    const harDagOverstyringer = useHarDagOverstyringer(periode, person);
+    const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
+    return (
+        <Saksbildevarsler
+            periodState={getPeriodState(periode)}
+            varsler={periode.varsler}
             endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
             harDagOverstyringer={harDagOverstyringer}
             activePeriodTom={periode.tom}

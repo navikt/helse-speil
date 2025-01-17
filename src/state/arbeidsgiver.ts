@@ -385,7 +385,10 @@ export const useDagoverstyringer = (
         );
     }, [arbeidsgiver, fom, tom]);
 };
-export const useHarDagOverstyringer = (periode: BeregnetPeriodeFragment, person: PersonFragment): boolean => {
+export const useHarDagOverstyringer = (
+    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+    person: PersonFragment,
+): boolean => {
     const arbeidsgiver = useCurrentArbeidsgiver(person);
     const dagendringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
 

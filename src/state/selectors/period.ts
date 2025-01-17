@@ -30,7 +30,7 @@ export const getOppgavereferanse = (
 };
 
 export const harBlittUtbetaltTidligere = (
-    period: BeregnetPeriodeFragment,
+    period: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
     arbeidsgiver: ArbeidsgiverFragment,
 ): boolean => {
     if (arbeidsgiver.generasjoner.length <= 1) {
