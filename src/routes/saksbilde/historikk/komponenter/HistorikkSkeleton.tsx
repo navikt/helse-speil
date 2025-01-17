@@ -4,12 +4,13 @@ import { HStack, VStack } from '@navikt/ds-react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
 
-import styles from './HistorikkSkeleton.module.scss';
+import skeletonStyles from './HistorikkSkeleton.module.scss';
+import hendelseStyles from './Historikkhendelse.module.scss';
 
 export const HistorikkSkeleton = (): ReactElement => {
     return (
-        <HStack className={styles.historikkskeletonwrapper}>
-            <div className={styles.historikkskeleton}>
+        <HStack className={skeletonStyles.historikkskeletonwrapper}>
+            <div className={skeletonStyles.historikkskeleton}>
                 <ul>
                     <div>HISTORIKK</div>
                     <HistorikkhendelseSkeleton enLinje />
@@ -17,7 +18,7 @@ export const HistorikkSkeleton = (): ReactElement => {
                     <HistorikkhendelseSkeleton />
                 </ul>
             </div>
-            <VStack gap="6" className={styles.historikkskeletonmeny}>
+            <VStack gap="6" className={skeletonStyles.historikkskeletonmeny}>
                 <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />
                 <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />
                 <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />
@@ -33,11 +34,11 @@ type HistorikkhendelseSkeletonProps = {
 
 const HistorikkhendelseSkeleton = ({ enLinje }: HistorikkhendelseSkeletonProps): ReactElement => {
     return (
-        <li className={styles.hendelse}>
-            <div className={styles.iconContainer}>
+        <li className={hendelseStyles.hendelse}>
+            <div className={hendelseStyles.iconContainer}>
                 <LoadingShimmer style={{ height: 20, marginBottom: 4 }} />
             </div>
-            <div className={styles.content}>
+            <div className={hendelseStyles.content}>
                 <LoadingShimmer style={{ height: 20, marginBottom: 4 }} />
                 {!enLinje && <LoadingShimmer style={{ height: 20, width: 74, marginBottom: 4 }} />}
                 {!enLinje && <LoadingShimmer style={{ height: 20, width: 120 }} />}
