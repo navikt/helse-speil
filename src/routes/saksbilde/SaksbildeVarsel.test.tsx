@@ -74,7 +74,7 @@ describe('SaksbildeVarsel', () => {
             />,
         );
 
-        expect(screen.getByText('Beslutteroppgave: Overstyring av dager')).toBeInTheDocument();
+        expect(screen.getByText('Kontroller: Overstyring av dager')).toBeInTheDocument();
     });
     it('skal rendre eget varsel for ghost periode', () => {
         const arbeidsgiver = enArbeidsgiver();

@@ -47,7 +47,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): May
 
     return (
         <Periodeinformasjon
-            tittel="Perioder med beslutteroppgaver"
+            tittel="Perioder til kontroll"
             periodeinformasjon={overstyringer}
             setAktivPeriode={setActivePeriodId}
         />

@@ -139,7 +139,7 @@ const beslutteroppgave = (
 
     if (årsaker.length > 0) {
         const overstyringÅrsaker = årsaker.join(', ').replace(/,(?=[^,]*$)/, ' og');
-        return { grad: 'info', melding: `Beslutteroppgave: ${overstyringÅrsaker}` };
+        return { grad: 'info', melding: `Kontroller: ${overstyringÅrsaker}` };
     }
 
     return null;
