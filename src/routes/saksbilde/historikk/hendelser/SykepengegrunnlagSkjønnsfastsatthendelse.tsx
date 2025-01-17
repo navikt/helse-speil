@@ -63,7 +63,7 @@ export const SykepengegrunnlagSkjønnsfastsatthendelse = ({
             </Expandable>
         </HistorikkSection>
         <HistorikkSection tittel="Nærmere begrunnelse for skjønnsvurderingen">
-            <BodyShort style={{ whiteSpace: 'pre-wrap' }}>{skjønnsfastsatt.begrunnelseFritekst}</BodyShort>
+            <BodyLongWithPreWrap>{skjønnsfastsatt.begrunnelseFritekst}</BodyLongWithPreWrap>
         </HistorikkSection>
         <HistorikkSection tittel="Konklusjon">
             <BodyShort>{skjønnsfastsatt.begrunnelseKonklusjon}</BodyShort>
