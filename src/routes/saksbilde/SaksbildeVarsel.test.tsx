@@ -2,6 +2,7 @@ import { Dagoverstyring, Dagtype, Periodetilstand, VarselDto, Varselstatus } fro
 import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
+import { enGenerasjon } from '@test-data/generasjon';
 import { enOppgave } from '@test-data/oppgave';
 import {
     enBeregnetPeriode,
@@ -51,26 +52,28 @@ describe('SaksbildeVarsel', () => {
         expect(screen.getByText('Utbetalingen er sendt til annullering')).toBeInTheDocument();
     });
     it('skal rendre eget varsel for beregnet periode', () => {
+        const periode = enBeregnetPeriode({
+            periodetilstand: Periodetilstand.TilGodkjenning,
+            totrinnsvurdering: {
+                __typename: 'Totrinnsvurdering',
+                erBeslutteroppgave: true,
+                erRetur: false,
+                saksbehandler: null,
+                beslutter: null,
+            },
+            oppgave: enOppgave(),
+        });
         render(
             <SaksbildeVarsel
                 person={enPerson({
                     arbeidsgivere: [
                         enArbeidsgiver({
                             overstyringer: [enDagoverstyring],
+                            generasjoner: [enGenerasjon({ perioder: [periode] })],
                         }),
                     ],
                 })}
-                periode={enBeregnetPeriode({
-                    periodetilstand: Periodetilstand.TilGodkjenning,
-                    totrinnsvurdering: {
-                        __typename: 'Totrinnsvurdering',
-                        erBeslutteroppgave: true,
-                        erRetur: false,
-                        saksbehandler: null,
-                        beslutter: null,
-                    },
-                    oppgave: enOppgave(),
-                })}
+                periode={periode}
             />,
         );
 

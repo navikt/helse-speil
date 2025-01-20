@@ -75,12 +75,13 @@ const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: D
 };
 
 const beslutteroppgave = (
+    harTotrinnsvurdering: boolean,
     endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>,
     harDagOverstyringer = false,
     activePeriodTom?: string,
     navnPåDeaktiverteGhostArbeidsgivere?: string,
 ): Maybe<{ grad: string; melding: string }> => {
-    if (endringerEtterNyesteUtbetalingPåPerson == null) return null;
+    if (!harTotrinnsvurdering || endringerEtterNyesteUtbetalingPåPerson == null) return null;
     const aktuelleOverstyringer = endringerEtterNyesteUtbetalingPåPerson.filter(
         (overstyring) => !overstyring.ferdigstilt,
     );
@@ -156,6 +157,7 @@ interface SaksbildevarslerProps {
     activePeriodTom?: string;
     skjæringstidspunkt?: string;
     navnPåDeaktiverteGhostArbeidsgivere?: string;
+    harTotrinnsvurdering: boolean;
 }
 
 export const Saksbildevarsler = ({
@@ -169,6 +171,7 @@ export const Saksbildevarsler = ({
     activePeriodTom,
     skjæringstidspunkt,
     navnPåDeaktiverteGhostArbeidsgivere,
+    harTotrinnsvurdering,
 }: SaksbildevarslerProps) => {
     const [open, setOpen] = useState(true);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
@@ -177,6 +180,7 @@ export const Saksbildevarsler = ({
         sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
         vedtaksperiodeVenter(periodState),
         beslutteroppgave(
+            harTotrinnsvurdering,
             endringerEtterNyesteUtbetalingPåPerson,
             harDagOverstyringer,
             activePeriodTom,

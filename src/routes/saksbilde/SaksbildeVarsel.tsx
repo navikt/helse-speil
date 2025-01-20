@@ -61,7 +61,11 @@ export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
         return <BeregnetSaksbildevarsler periode={periode as BeregnetPeriodeFragment} person={person} />;
     } else if (isGhostPeriode(periode) || isTilkommenInntekt(periode)) {
         return (
-            <Saksbildevarsler periodState={getPeriodState(periode)} skjæringstidspunkt={periode.skjaeringstidspunkt} />
+            <Saksbildevarsler
+                periodState={getPeriodState(periode)}
+                skjæringstidspunkt={periode.skjaeringstidspunkt}
+                harTotrinnsvurdering={false}
+            />
         );
     } else {
         return null;
@@ -92,6 +96,11 @@ const useNavnPåDeaktiverteGhostArbeidsgivere = (
         : undefined;
 };
 
+const useHarTotrinnsvurdering = (person: PersonFragment) =>
+    person.arbeidsgivere
+        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
+        .some((periode) => isBeregnetPeriode(periode) && periode.totrinnsvurdering?.erBeslutteroppgave);
+
 interface BeregnetSaksbildevarslerProps {
     person: PersonFragment;
     periode: BeregnetPeriodeFragment;
@@ -102,6 +111,7 @@ const BeregnetSaksbildevarsler = ({ person, periode }: BeregnetSaksbildevarslerP
     const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
+    const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
     return (
         <Saksbildevarsler
             periodState={getPeriodState(periode)}
@@ -114,6 +124,7 @@ const BeregnetSaksbildevarsler = ({ person, periode }: BeregnetSaksbildevarslerP
             activePeriodTom={periode.tom}
             skjæringstidspunkt={periode.skjaeringstidspunkt}
             navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
+            harTotrinnsvurdering={harTotrinnsvurdering}
         />
     );
 };
@@ -127,6 +138,7 @@ const UberegnetSaksbildevarsler = ({ person, periode }: UberegnetSaksbildevarsle
     const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
+    const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
     return (
         <Saksbildevarsler
             periodState={getPeriodState(periode)}
@@ -136,6 +148,7 @@ const UberegnetSaksbildevarsler = ({ person, periode }: UberegnetSaksbildevarsle
             activePeriodTom={periode.tom}
             skjæringstidspunkt={periode.skjaeringstidspunkt}
             navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
+            harTotrinnsvurdering={harTotrinnsvurdering}
         />
     );
 };

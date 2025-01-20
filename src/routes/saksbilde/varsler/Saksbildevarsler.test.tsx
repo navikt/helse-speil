@@ -24,7 +24,7 @@ describe('Saksbildevarsler', () => {
     }) => (
         <ApolloWrapper>
             <RecoilRoot>
-                <Saksbildevarsler periodState={periodState} varsler={varsler} />
+                <Saksbildevarsler periodState={periodState} varsler={varsler} harTotrinnsvurdering={false} />
             </RecoilRoot>
         </ApolloWrapper>
     );
