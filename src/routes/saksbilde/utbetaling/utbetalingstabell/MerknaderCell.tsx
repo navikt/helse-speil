@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Table, Tooltip } from '@navikt/ds-react';
+import { BodyShort, Link, Table, Tooltip } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Begrunnelse, Maybe } from '@io/graphql';
@@ -67,9 +67,12 @@ const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): Ma
                     <span className={styles.container} data-testid="Krav til medlemskap er ikke oppfylt">
                         <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>
                         <BodyShort> og </BodyShort>
-                        <LovdataLenke paragraf="2-" harParagraf={false}>
+                        <Link
+                            target="_blank"
+                            href={'https://lovdata.no/pro/#document/NL/lov/1997-02-28-19/KAPITTEL_1-2'}
+                        >
                             kap. 2
-                        </LovdataLenke>
+                        </Link>
                     </span>
                 </Tooltip>
             );

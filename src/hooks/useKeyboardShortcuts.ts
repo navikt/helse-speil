@@ -278,7 +278,7 @@ export const useKeyboardActions = (): Action[] => {
             key: Key.L,
             visningstekst: 'Åpne Lovdata',
             visningssnarvei: ['⇧', 'L'],
-            action: () => window.open('https://lovdata.no/nav/folketrygdloven/kap8', '_blank'),
+            action: () => window.open('https://lovdata.no/pro/#document/NL/lov/1997-02-28-19/KAPITTEL_4-4', '_blank'),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
         },
