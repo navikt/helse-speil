@@ -85,7 +85,7 @@ export const Dagoverstyringhendelse = ({
                         {group.fraGrad !== null && group.fraGrad !== undefined && group.grad !== group.fraGrad && (
                             <span className={styles.fromvalue}>{group.fraGrad} %</span>
                         )}
-                        {group.grad} %
+                        {group.grad} {group.grad !== null && group.grad !== undefined && '%'}
                     </BodyShort>
                     <BodyShort>Type:</BodyShort>
                     <BodyShort>
