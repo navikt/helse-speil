@@ -57,7 +57,13 @@ const VenstremenyContainer = (): Maybe<ReactElement> => {
     }
 
     if (isUberegnetPeriode(activePeriod)) {
-        return <VenstremenyUberegnetPeriode activePeriod={activePeriod} currentArbeidsgiver={currentArbeidsgiver} />;
+        return (
+            <VenstremenyUberegnetPeriode
+                activePeriod={activePeriod}
+                currentArbeidsgiver={currentArbeidsgiver}
+                currentPerson={currentPerson}
+            />
+        );
     }
 
     return null;

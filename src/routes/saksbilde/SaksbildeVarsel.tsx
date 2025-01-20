@@ -3,6 +3,7 @@ import React from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
+import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import {
     Arbeidsforholdoverstyring,
     BeregnetPeriodeFragment,
@@ -95,11 +96,6 @@ const useNavnPåDeaktiverteGhostArbeidsgivere = (
               .join(', ')
         : undefined;
 };
-
-const useHarTotrinnsvurdering = (person: PersonFragment) =>
-    person.arbeidsgivere
-        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
-        .some((periode) => isBeregnetPeriode(periode) && periode.totrinnsvurdering?.erBeslutteroppgave);
 
 interface BeregnetSaksbildevarslerProps {
     person: PersonFragment;

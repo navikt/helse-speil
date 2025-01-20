@@ -1,10 +1,10 @@
 import React, { ReactElement } from 'react';
 
+import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { Maybe, PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useSetActivePeriodId } from '@state/periode';
-import { isBeregnetPeriode } from '@utils/typeguards';
 
 interface HarBeslutteroppgaverProps {
     person: PersonFragment;
@@ -13,15 +13,9 @@ interface HarBeslutteroppgaverProps {
 export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Maybe<ReactElement> => {
     const setActivePeriodId = useSetActivePeriodId(person);
     const harPeriodeTilGodkjenning = usePeriodeTilGodkjenning(person);
+    const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
 
-    if (!harPeriodeTilGodkjenning) return null;
-
-    const harBeslutteroppgave = person.arbeidsgivere
-        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner)
-        .flatMap((generasjon) => generasjon.perioder)
-        .some((periode) => isBeregnetPeriode(periode) && periode.totrinnsvurdering?.erBeslutteroppgave);
-
-    if (!harBeslutteroppgave) return null;
+    if (!harPeriodeTilGodkjenning || !harTotrinnsvurdering) return null;
 
     const overstyringer = person.arbeidsgivere
         .map(
