@@ -10,7 +10,7 @@ import { RecoilWrapper } from '@test-wrappers';
 import { RenderHookResult, RenderOptions, Screen, render, renderHook, screen } from '@testing-library/react';
 
 type ProviderProps = {
-    readonly initialQueries?: Cache.WriteQueryOptions<unknown, unknown>[];
+    readonly initialQueries?: Cache.WriteQueryOptions<any, any>[];
     readonly mocks?: MockedResponse[];
     readonly state?: (mutableSnapshot: MutableSnapshot) => void;
 };
