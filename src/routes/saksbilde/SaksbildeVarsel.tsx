@@ -6,6 +6,7 @@ import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler'
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import {
     Arbeidsforholdoverstyring,
+    ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
     Overstyring,
     Periodetilstand,
@@ -16,7 +17,6 @@ import styles from '@saksbilde/saksbilder/SharedViews.module.css';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
-import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/utils';
 import { ActivePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
 import {
@@ -73,11 +73,6 @@ export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
     }
 };
 
-const useOverstyringerEtterSisteGodkjenteUtbetaling = (person: PersonFragment): Array<Overstyring> => {
-    const timestamp = getLatestUtbetalingTimestamp(person);
-    return getOverstyringerForEksisterendePerioder(person, timestamp);
-};
-
 const useNavnPåDeaktiverteGhostArbeidsgivere = (
     person: PersonFragment,
     periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
@@ -102,12 +97,22 @@ interface BeregnetSaksbildevarslerProps {
     periode: BeregnetPeriodeFragment;
 }
 
+function getÅpneEndringerForPeriode(arbeidsgivere: ArbeidsgiverFragment[], vedtaksperiodeId: string) {
+    return arbeidsgivere
+        .flatMap((ag) => ag.overstyringer)
+        .filter((overstyring) => !overstyring.ferdigstilt && overstyring.vedtaksperiodeId === vedtaksperiodeId);
+}
+
 const BeregnetSaksbildevarsler = ({ person, periode }: BeregnetSaksbildevarslerProps) => {
     const erTidligereSaksbehandler = useErTidligereSaksbehandler(person);
-    const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
+    const åpneEndringerPåPerson: Overstyring[] = getÅpneEndringerForPeriode(
+        person.arbeidsgivere,
+        periode.vedtaksperiodeId,
+    );
+
     return (
         <Saksbildevarsler
             periodState={getPeriodState(periode)}
@@ -115,7 +120,7 @@ const BeregnetSaksbildevarsler = ({ person, periode }: BeregnetSaksbildevarslerP
             varsler={periode.varsler}
             erTidligereSaksbehandler={erTidligereSaksbehandler}
             erBeslutteroppgave={periode.totrinnsvurdering?.erBeslutteroppgave}
-            endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
+            åpneEndringerPåPerson={åpneEndringerPåPerson}
             harDagOverstyringer={harDagOverstyringer}
             activePeriodTom={periode.tom}
             skjæringstidspunkt={periode.skjaeringstidspunkt}
@@ -131,15 +136,18 @@ interface UberegnetSaksbildevarslerProps {
 }
 
 const UberegnetSaksbildevarsler = ({ person, periode }: UberegnetSaksbildevarslerProps) => {
-    const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
+    const åpneEndringerPåPerson: Overstyring[] = getÅpneEndringerForPeriode(
+        person.arbeidsgivere,
+        periode.vedtaksperiodeId,
+    );
     return (
         <Saksbildevarsler
             periodState={getPeriodState(periode)}
             varsler={periode.varsler}
-            endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
+            åpneEndringerPåPerson={åpneEndringerPåPerson}
             harDagOverstyringer={harDagOverstyringer}
             activePeriodTom={periode.tom}
             skjæringstidspunkt={periode.skjaeringstidspunkt}

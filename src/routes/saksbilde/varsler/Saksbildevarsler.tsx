@@ -76,15 +76,13 @@ const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: D
 
 const beslutteroppgave = (
     harTotrinnsvurdering: boolean,
-    endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>,
+    åpneEndringerPåPerson?: Maybe<Array<Overstyring>>,
     harDagOverstyringer = false,
     activePeriodTom?: string,
     navnPåDeaktiverteGhostArbeidsgivere?: string,
 ): Maybe<{ grad: string; melding: string }> => {
-    if (!harTotrinnsvurdering || endringerEtterNyesteUtbetalingPåPerson == null) return null;
-    const aktuelleOverstyringer = endringerEtterNyesteUtbetalingPåPerson.filter(
-        (overstyring) => !overstyring.ferdigstilt,
-    );
+    if (!harTotrinnsvurdering || åpneEndringerPåPerson == null) return null;
+    const aktuelleOverstyringer = åpneEndringerPåPerson.filter((overstyring) => !overstyring.ferdigstilt);
 
     const årsaker = [];
 
@@ -152,7 +150,7 @@ interface SaksbildevarslerProps {
     varsler?: Maybe<Array<VarselDto>>;
     erTidligereSaksbehandler?: boolean;
     erBeslutteroppgave?: boolean;
-    endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>;
+    åpneEndringerPåPerson?: Maybe<Array<Overstyring>>;
     harDagOverstyringer?: boolean;
     activePeriodTom?: string;
     skjæringstidspunkt?: string;
@@ -166,7 +164,7 @@ export const Saksbildevarsler = ({
     varsler,
     erTidligereSaksbehandler = false,
     erBeslutteroppgave = false,
-    endringerEtterNyesteUtbetalingPåPerson,
+    åpneEndringerPåPerson,
     harDagOverstyringer,
     activePeriodTom,
     skjæringstidspunkt,
@@ -181,7 +179,7 @@ export const Saksbildevarsler = ({
         vedtaksperiodeVenter(periodState),
         beslutteroppgave(
             harTotrinnsvurdering,
-            endringerEtterNyesteUtbetalingPåPerson,
+            åpneEndringerPåPerson,
             harDagOverstyringer,
             activePeriodTom,
             navnPåDeaktiverteGhostArbeidsgivere,
