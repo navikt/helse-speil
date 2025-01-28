@@ -165,21 +165,6 @@ export type Avslag = {
     type: Avslagstype;
 };
 
-export type AvslagInput = {
-    data?: InputMaybe<AvslagsdataInput>;
-    handling: Avslagshandling;
-};
-
-export type AvslagsdataInput = {
-    begrunnelse: Scalars['String']['input'];
-    type: Avslagstype;
-};
-
-export enum Avslagshandling {
-    Invalider = 'INVALIDER',
-    Opprett = 'OPPRETT',
-}
-
 export enum Avslagstype {
     Avslag = 'AVSLAG',
     DelvisAvslag = 'DELVIS_AVSLAG',
@@ -648,7 +633,6 @@ export type Mutation = {
     feilregistrerNotat: Maybe<Notat>;
     fjernPaVent: Maybe<Scalars['Boolean']['output']>;
     fjernTildeling: Scalars['Boolean']['output'];
-    innvilgVedtak: Scalars['Boolean']['output'];
     leggPaVent: Maybe<PaVent>;
     leggTilKommentar: Maybe<Kommentar>;
     leggTilNotat: Maybe<Notat>;
@@ -661,7 +645,6 @@ export type Mutation = {
     overstyrDager: Scalars['Boolean']['output'];
     overstyrInntektOgRefusjon: Scalars['Boolean']['output'];
     sendIRetur: Scalars['Boolean']['output'];
-    sendTilGodkjenning: Scalars['Boolean']['output'];
     sendTilGodkjenningV2: Scalars['Boolean']['output'];
     sendTilInfotrygd: Scalars['Boolean']['output'];
     settVarselstatus: Maybe<VarselDto>;
@@ -704,11 +687,6 @@ export type MutationFjernPaVentArgs = {
 
 export type MutationFjernTildelingArgs = {
     oppgaveId: Scalars['String']['input'];
-};
-
-export type MutationInnvilgVedtakArgs = {
-    avslag?: InputMaybe<AvslagInput>;
-    oppgavereferanse: Scalars['String']['input'];
 };
 
 export type MutationLeggPaVentArgs = {
@@ -767,11 +745,6 @@ export type MutationOverstyrInntektOgRefusjonArgs = {
 
 export type MutationSendIReturArgs = {
     notatTekst: Scalars['String']['input'];
-    oppgavereferanse: Scalars['String']['input'];
-};
-
-export type MutationSendTilGodkjenningArgs = {
-    avslag?: InputMaybe<AvslagInput>;
     oppgavereferanse: Scalars['String']['input'];
 };
 
