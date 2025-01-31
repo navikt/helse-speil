@@ -348,8 +348,6 @@ export const useEndringerForPeriode = (
         .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
         .filter(isSykepengegrunnlagskjønnsfastsetting);
 
-    console.log(skjønnsfastsettingsendringer);
-
     const arbeidsforhold = endringer
         .filter((it) => dayjs((periode as BeregnetPeriodeFragment).skjaeringstidspunkt).isSameOrBefore(it.timestamp))
         .filter(isArbeidsforholdoverstyring);
