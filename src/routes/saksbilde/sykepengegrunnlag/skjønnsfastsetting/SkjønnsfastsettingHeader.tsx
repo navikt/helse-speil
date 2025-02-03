@@ -5,13 +5,7 @@ import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import {
-    ArbeidsgiverFragment,
-    BeregnetPeriodeFragment,
-    Maybe,
-    PersonFragment,
-    Sykepengegrunnlagsgrense,
-} from '@io/graphql';
+import { BeregnetPeriodeFragment, Maybe, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { EndringsloggButton } from '@saksbilde/sykepengegrunnlag/inntekt/EndringsloggButton';
 import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
@@ -28,7 +22,7 @@ interface SkjønnsfastsettingHeaderProps {
     setEditing: (state: boolean) => void;
     maler: SkjønnsfastsettingMal[] | undefined;
     malerError: string | undefined;
-    arbeidsgiver: ArbeidsgiverFragment;
+    organisasjonsnummer: string;
 }
 
 export const SkjønnsfastsettingHeader = ({
@@ -40,9 +34,9 @@ export const SkjønnsfastsettingHeader = ({
     setEditing,
     maler,
     malerError,
-    arbeidsgiver,
+    organisasjonsnummer,
 }: SkjønnsfastsettingHeaderProps) => {
-    const endringer = useArbeidsgiver(person, arbeidsgiver.organisasjonsnummer)?.overstyringer;
+    const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
     const { skjønnsfastsettingsendringer } = useEndringerForPeriode(endringer, person);
     const aktivPeriode = useActivePeriod(person);
     const harMaler = maler && maler.length > 0;

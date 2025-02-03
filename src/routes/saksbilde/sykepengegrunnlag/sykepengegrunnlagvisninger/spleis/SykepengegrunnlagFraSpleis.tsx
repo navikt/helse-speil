@@ -11,7 +11,6 @@ import {
 } from '@io/graphql';
 import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
 import { SykepengegrunnlagPanel } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/SykepengegrunnlagPanel';
-import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { getRequiredInntekt } from '@state/utils';
 
 import styles from './SykepengegrunnlagFraSpleis.module.css';
@@ -32,19 +31,16 @@ export const SykepengegrunnlagFraSpleis = ({
 }: SykepengegrunnlagFraSpleisProps): ReactElement => {
     const inntekt = getRequiredInntekt(vilkårsgrunnlag, organisasjonsnummer);
     const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(inntekt);
-    const aktivArbeidsgiver = useArbeidsgiver(person, aktivInntektskilde.arbeidsgiver);
 
     useEffect(() => {
         setAktivInntektskilde(inntekt);
     }, [inntekt]);
 
-    useEffect(() => {
-        if (aktivArbeidsgiver) {
-            setAktivInntektskilde(getRequiredInntekt(vilkårsgrunnlag, aktivArbeidsgiver.organisasjonsnummer));
-        }
-    }, [vilkårsgrunnlag, aktivArbeidsgiver]);
-
-    if (aktivArbeidsgiver == null) return <></>;
+    // useEffect(() => {
+    //     if (aktivArbeidsgiverOrgnummer) {
+    //         setAktivInntektskilde(getRequiredInntekt(vilkårsgrunnlag, aktivArbeidsgiverOrgnummer));
+    //     }
+    // }, [vilkårsgrunnlag, aktivArbeidsgiverOrgnummer]);
 
     return (
         <HStack justify="start" wrap={false} {...rest}>
@@ -60,7 +56,7 @@ export const SykepengegrunnlagFraSpleis = ({
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 skjønnsmessigFastsattÅrlig={vilkårsgrunnlag.skjonnsmessigFastsattAarlig}
                 person={person}
-                arbeidsgiver={aktivArbeidsgiver}
+                organisasjonsnummer={aktivInntektskilde.arbeidsgiver}
             />
             <span className={styles.strek} />
             <Inntekt person={person} inntekt={aktivInntektskilde} />
