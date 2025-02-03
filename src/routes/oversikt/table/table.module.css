@@ -20,6 +20,15 @@
     vertical-align: bottom;
 }
 
+.TableContainer tbody {
+    transition: opacity 0.1s;
+}
+
+.TableContainer.Loading tbody {
+    opacity: 0.6;
+    transition: opacity 0.1s;
+}
+
 .Content {
     padding: 0;
     color: var(--a-text-default);

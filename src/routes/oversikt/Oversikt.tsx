@@ -40,7 +40,11 @@ export const Oversikt = (): ReactElement => {
     const aktivTab = useAktivTab();
     const { allFilters } = useFilters();
 
-    useLoadingToast({ isLoading: oppgaveFeed.loading, message: 'Henter oppgaver' });
+    // oppgaveFeed.oppgaver blir undefined hvis man velger inn eller ut egenskaper og det blir en request apollo client
+    // ikke har gjort ennå
+    const harIkkeHentetOppgaverForGjeldendeQuery = oppgaveFeed.oppgaver === undefined && oppgaveFeed.loading;
+
+    useLoadingToast({ isLoading: harIkkeHentetOppgaverForGjeldendeQuery, message: 'Henter oppgaver' });
     useKeyboardShortcuts();
     useFjernPersonFraApolloCache();
     useRefetchDriftsmeldinger();
@@ -58,11 +62,12 @@ export const Oversikt = (): ReactElement => {
                 <section className={styles.Content}>
                     {aktivTab === TabType.BehandletIdag ? (
                         <BehandletIdagTable />
-                    ) : oppgaveFeed.loading ? (
+                    ) : harIkkeHentetOppgaverForGjeldendeQuery ? (
                         <OppgaverTableSkeleton />
                     ) : oppgaveFeed.oppgaver ? (
                         <OppgaverTable
                             oppgaver={oppgaveFeed.oppgaver}
+                            loading={oppgaveFeed.loading}
                             antallOppgaver={oppgaveFeed.antallOppgaver}
                             numberOfPages={oppgaveFeed.numberOfPages}
                             currentPage={oppgaveFeed.currentPage}

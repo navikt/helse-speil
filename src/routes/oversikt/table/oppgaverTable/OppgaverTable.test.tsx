@@ -19,6 +19,7 @@ describe('OppgaverTable', () => {
                 limit={14}
                 setPage={() => {}}
                 oppgaver={oppgaver}
+                loading={false}
             />,
             { wrapper: ApolloWrapper },
         );
@@ -41,6 +42,7 @@ describe('OppgaverTable', () => {
                 limit={14}
                 setPage={() => {}}
                 oppgaver={oppgaver}
+                loading={false}
             />,
             { wrapper: ApolloWrapper },
         );
