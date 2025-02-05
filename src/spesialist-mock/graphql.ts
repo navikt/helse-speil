@@ -217,14 +217,14 @@ const getResolvers = (): IResolvers => ({
             if (TildelingMock.harTildeling(oppgaveId)) {
                 return new GraphQLError('Oppgave allerede tildelt', {
                     extensions: {
-                        code: { value: 409 },
+                        code: 409,
                         tildeling: TildelingMock.getTildeling(oppgaveId),
                     },
                 });
             }
             if (Math.random() > 0.95) {
                 return new GraphQLError(`Kunne ikke tildele oppgave med oppgaveId=${oppgaveId}`, {
-                    extensions: { code: { value: 500 } },
+                    extensions: { code: 500 },
                 });
             }
             TildelingMock.setTildeling(oppgaveId, {
@@ -275,7 +275,7 @@ const getResolvers = (): IResolvers => ({
             return (
                 Math.random() < 0.95 ||
                 new GraphQLError(`Oppgaven er ikke åpen.`, {
-                    extensions: { code: { value: 500 } },
+                    extensions: { code: 500 },
                 })
             );
         },
@@ -283,7 +283,7 @@ const getResolvers = (): IResolvers => ({
             return (
                 Math.random() < 0.95 ||
                 new GraphQLError(`Allerede sendt til Infotrygd`, {
-                    extensions: { code: { value: 409 } },
+                    extensions: { code: 409 },
                 })
             );
         },
