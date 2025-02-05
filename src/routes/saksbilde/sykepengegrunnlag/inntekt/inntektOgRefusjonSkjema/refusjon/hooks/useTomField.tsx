@@ -34,18 +34,19 @@ export const useTomField = (fom: string, tom: string | undefined, index: number)
         setTomValue(dayjs(date).format(NORSK_DATOFORMAT));
     };
 
-    const onChangeTom = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const date = dayjs(event.target.value, NORSK_DATOFORMAT, true).format(ISO_DATOFORMAT);
-        const validDate = date !== 'Invalid Date';
-        setTomValue(event.target.value);
-        setTomField(validDate ? date : undefined);
-    };
-
     const tomDatePicker = useDatepicker({
         defaultSelected: somDate(tom),
         defaultMonth: somDate(tom) ?? somDate(fom),
         onDateChange: updateTom,
     });
+
+    const onChangeTom = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const date = dayjs(event.target.value, NORSK_DATOFORMAT, true).format(ISO_DATOFORMAT);
+        const validDate = date !== 'Invalid Date';
+        setTomValue(event.target.value);
+        setTomField(validDate ? date : undefined);
+        if (validDate) tomDatePicker.setSelected(new Date(date));
+    };
 
     return {
         tomField: { ...tomField, onChange: onChangeTom, value: tomValue },

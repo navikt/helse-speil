@@ -34,18 +34,19 @@ export const useFomField = (fom: string, tom: string | undefined, index: number)
         setFomValue(dayjs(date).format(NORSK_DATOFORMAT));
     };
 
-    const onChangeFom = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const date = dayjs(event.target.value, NORSK_DATOFORMAT, true).format(ISO_DATOFORMAT);
-        const validDate = date !== 'Invalid Date';
-        setFomValue(event.target.value);
-        setFomField(validDate ? date : event.target.value);
-    };
-
     const fomDatePicker = useDatepicker({
         defaultSelected: somDate(fom),
         defaultMonth: somDate(fom),
         onDateChange: updateFom,
     });
+
+    const onChangeFom = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const date = dayjs(event.target.value, NORSK_DATOFORMAT, true).format(ISO_DATOFORMAT);
+        const validDate = date !== 'Invalid Date';
+        setFomValue(event.target.value);
+        setFomField(validDate ? date : event.target.value);
+        if (validDate) fomDatePicker.setSelected(new Date(date));
+    };
 
     return {
         fomField: { ...fomField, onChange: onChangeFom, value: fomValue },

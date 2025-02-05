@@ -39,8 +39,11 @@ export const RefusjonsperiodeInput = ({
         <HStack wrap gap="2" justify="center">
             <DatePicker {...fomDatePickerProps}>
                 <DatePicker.Input
-                    {...fomInputProps}
                     {...fomFieldProps}
+                    onBlur={(event) => {
+                        fomInputProps.onBlur && fomInputProps.onBlur(event);
+                    }}
+                    onFocus={fomInputProps.onFocus}
                     label="Fra og med dato"
                     hideLabel
                     size="small"
@@ -49,8 +52,11 @@ export const RefusjonsperiodeInput = ({
             </DatePicker>
             <DatePicker {...tomDatePickerProps}>
                 <DatePicker.Input
-                    {...tomInputProps}
                     {...tomFieldProps}
+                    onBlur={(event) => {
+                        tomInputProps.onBlur && tomInputProps.onBlur(event);
+                    }}
+                    onFocus={tomInputProps.onFocus}
                     label="Til og med dato"
                     hideLabel
                     size="small"
