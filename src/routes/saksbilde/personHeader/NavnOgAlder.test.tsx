@@ -8,7 +8,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 describe('NavnOgAlder', () => {
     test('rendrer ok', () => {
         render(<NavnOgAlder personinfo={defaultPersoninfo} dodsdato={null} />, { wrapper: ApolloWrapper });
-        expect(screen.getByText('Wayne, Bruce Batman (48 år)')).toBeVisible();
+        expect(screen.getByText('Wayne, Bruce Batman (49 år)')).toBeVisible();
     });
 
     test('Regner alder ut fra fødselsdato', () => {
