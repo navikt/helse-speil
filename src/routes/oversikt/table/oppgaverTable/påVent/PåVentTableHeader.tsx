@@ -7,7 +7,7 @@ import { SortKey, dateSortKey } from '@oversikt/table/state/sortation';
 
 import { DateSelectHeader, tilDatoHeaderTekst } from '../DateSelectHeader';
 
-export const MineSakerSortHeaderRow = (): ReactElement => {
+export const PåVentTableHeader = (): ReactElement => {
     const datoSelectKey = useRecoilValue(dateSortKey);
     return (
         <Table.Header>

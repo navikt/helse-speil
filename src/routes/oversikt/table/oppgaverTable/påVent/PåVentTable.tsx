@@ -7,7 +7,7 @@ import { SortKey, useUpdateSort } from '@oversikt/table/state/sortation';
 
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { PåVentOppgaveRow } from './PåVentOppgaveRow';
-import { PåVentSortHeaderRow } from './PåVentSortHeaderRow';
+import { PåVentTableHeader } from './PåVentTableHeader';
 
 import styles from '../../table.module.css';
 
@@ -27,7 +27,7 @@ export const PåVentTable = ({ oppgaver, sort, setSort }: PåVentTableProps): Re
             aria-label="Saker som er tildelt meg og satt på vent"
             zebraStripes
         >
-            <PåVentSortHeaderRow />
+            <PåVentTableHeader />
             <Table.Body>
                 {oppgaver.length > 0 ? (
                     oppgaver.map((oppgave) => <PåVentOppgaveRow key={oppgave.id} oppgave={oppgave} />)
