@@ -7,7 +7,7 @@ import { SortKey, useUpdateSort } from '@oversikt/table/state/sortation';
 
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { TilGodkjenningOppgaveRow } from './TilGodkjenningOppgaveRow';
-import { TilGodkjenningSortHeaderRow } from './TilGodkjenningSortHeaderRow';
+import { TilGodkjenningTableHeader } from './TilGodkjenningTableHeader';
 
 import styles from '../../table.module.css';
 
@@ -27,7 +27,7 @@ export const TilGodkjenningTable = ({ oppgaver, sort, setSort }: TilGodkjenningT
             aria-label="Saker som er klare for behandling"
             zebraStripes
         >
-            <TilGodkjenningSortHeaderRow />
+            <TilGodkjenningTableHeader />
             <Table.Body>
                 {oppgaver.length > 0 ? (
                     oppgaver.map((oppgave) => <TilGodkjenningOppgaveRow key={oppgave.id} oppgave={oppgave} />)
