@@ -21,6 +21,8 @@ må du ha et Github Personal Access satt i miljøvariabelen `NPM_AUTH_TOKEN`.
 
 Dette tokenet trenger scopet `read:packages`. Legg til følgende i `~/.bashrc` eller `~/.zshrc`:
 
+> Husk å trykke Configure SSO for navikt
+
 ```shell
 export NPM_AUTH_TOKEN=<token>
 ```
