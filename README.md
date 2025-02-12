@@ -19,9 +19,9 @@ Prettier kan settes opp til å formatere kode automatisk on-save. Hvordan dette 
 For å kunne laste dependencies fra Github Package Registry
 må du ha et Github Personal Access satt i miljøvariabelen `NPM_AUTH_TOKEN`.
 
-Dette tokenet trenger scopet `read:packages`. Legg til følgende i `~/.bashrc` eller `~/.zshrc`:
+Dette tokenet trenger scopet `read:packages`. Husk å trykke Configure SSO for navikt.
 
-> Husk å trykke Configure SSO for navikt
+Legg til følgende i `~/.bashrc` eller `~/.zshrc`:
 
 ```shell
 export NPM_AUTH_TOKEN=<token>
