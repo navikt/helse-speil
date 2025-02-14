@@ -44,9 +44,6 @@ export const harBeslutterrolle = (grupper: string[]): boolean => grupper.include
 export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
     erCoachEllerSuper(ident) || erFunksjoneltAnsvarligIPoHelse(ident) || erPåTeamBømlo(grupper) || erLokal;
 
-export const kanFiltrerePåManglerIM = (ident: string, grupper: string[]) =>
-    erCoachEllerSuper(ident) || erFunksjoneltAnsvarligIPoHelse(ident) || erPåTeamBømlo(grupper);
-
 export const kanSeTilkommenInntekt = (ident: string, grupper: string[]): boolean =>
     erUtvikling || erCoachEllerSuper(ident) || erPåTeamBømlo(grupper);
 export const visTilkommenInntektEndreKnapp: boolean = erUtvikling;
