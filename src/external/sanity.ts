@@ -22,8 +22,8 @@ export interface SkjønnsfastsettingMal {
 export interface Driftsmelding {
     _id: string;
     _rev: string;
-    iProd: boolean;
-    iDev: boolean;
+    iProd: 'true' | 'false';
+    iDev: 'true' | 'false';
     level: 'info' | 'warning' | 'error' | 'success';
     tittel: string;
     melding: string;
@@ -159,8 +159,8 @@ export function useDriftsmelding() {
 
     const alleDriftsmeldinger =
         data?.sanity?.result
-            .filter((it: Driftsmelding) => (erProd ? it.iProd : true))
-            .filter((it: Driftsmelding) => !erUtvikling || it.iDev) ?? [];
+            .filter((it: Driftsmelding) => !erProd || it.iProd === 'true')
+            .filter((it: Driftsmelding) => !erUtvikling || it.iDev === 'true') ?? [];
     const aktiveDriftsmeldinger = alleDriftsmeldinger
         .map((driftsmelding) => {
             const harGått30min = dayjs(driftsmelding._updatedAt).add(30, 'minutes').isBefore(dayjs());
