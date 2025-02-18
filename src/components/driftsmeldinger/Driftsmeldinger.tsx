@@ -22,7 +22,7 @@ interface DriftsmeldingProps {
 export const Driftsmeldinger = (): ReactElement[] => {
     const { driftsmeldinger } = useDriftsmelding();
 
-    return R.sortBy(driftsmeldinger, [R.prop('opprettet'), 'desc']).map((driftsmelding, index) => (
+    return R.sortBy(driftsmeldinger, [R.prop('_updatedAt'), 'desc']).map((driftsmelding, index) => (
         <Driftsmelding key={index} driftsmelding={driftsmelding} />
     ));
 };
@@ -44,7 +44,7 @@ const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): Maybe<ReactElemen
                     {driftsmelding.level === 'success' ? `[Løst] ${driftsmelding.tittel}` : driftsmelding.tittel}
                 </BodyShort>
                 <BodyShort className={styles.dato}>
-                    ({getFormattedDatetimeString(driftsmelding.opprettet.toString())})
+                    ({getFormattedDatetimeString(driftsmelding._updatedAt.toString())})
                 </BodyShort>
                 <span className={styles.button}>
                     <ChevronDownIcon

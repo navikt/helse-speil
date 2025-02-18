@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { erProd } from '@/env';
+import { erProd, erUtvikling } from '@/env';
 import { gql, useQuery } from '@apollo/client';
 import { Maybe } from '@io/graphql';
 import { PortableTextBlock } from '@portabletext/react';
@@ -23,11 +23,12 @@ export interface Driftsmelding {
     _id: string;
     _rev: string;
     iProd: boolean;
+    iDev: boolean;
     level: 'info' | 'warning' | 'error' | 'success';
     tittel: string;
     melding: string;
-    opprettet: DateString;
     _updatedAt: DateString;
+    _createdAt: DateString;
 }
 
 export interface Arsaker {
@@ -152,13 +153,14 @@ export function useDriftsmelding() {
             }
         `,
         {
-            variables: {
-                input: { query: `*[_type == "driftsmelding" && solved != true]` },
-            },
+            variables: { input: { query: `*[_type == "driftsmelding"]` } },
         },
     );
 
-    const alleDriftsmeldinger = data?.sanity?.result.filter((it: Driftsmelding) => (erProd ? it.iProd : true)) ?? [];
+    const alleDriftsmeldinger =
+        data?.sanity?.result
+            .filter((it: Driftsmelding) => (erProd ? it.iProd : true))
+            .filter((it: Driftsmelding) => !erUtvikling || it.iDev) ?? [];
     const aktiveDriftsmeldinger = alleDriftsmeldinger
         .map((driftsmelding) => {
             const harGått30min = dayjs(driftsmelding._updatedAt).add(30, 'minutes').isBefore(dayjs());
