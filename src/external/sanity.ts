@@ -157,16 +157,17 @@ export function useDriftsmelding() {
         },
     );
 
-    const alleDriftsmeldinger =
+    const aktiveDriftsmeldinger =
         data?.sanity?.result
             .filter((it: Driftsmelding) => !erProd || it.iProd === 'true')
-            .filter((it: Driftsmelding) => !erUtvikling || it.iDev === 'true') ?? [];
-    const aktiveDriftsmeldinger = alleDriftsmeldinger
-        .map((driftsmelding) => {
-            const harGått30min = dayjs(driftsmelding._updatedAt).add(30, 'minutes').isBefore(dayjs());
-            return harGått30min && driftsmelding.level === 'success' ? null : driftsmelding;
-        })
-        .filter((driftsmelding) => driftsmelding !== null);
+            .filter((it: Driftsmelding) => !erUtvikling || it.iDev === 'true')
+            .filter(
+                (driftsmelding) =>
+                    !(
+                        dayjs(driftsmelding._updatedAt).add(30, 'minutes').isBefore(dayjs()) &&
+                        driftsmelding.level === 'success'
+                    ),
+            ) ?? [];
 
     return {
         driftsmeldinger: aktiveDriftsmeldinger,
