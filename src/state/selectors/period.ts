@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
-    Generasjon,
     GhostPeriodeFragment,
     Maybe,
     NyttInntektsforholdPeriodeFragment,
@@ -15,7 +14,7 @@ import {
 import { isGodkjent as utbetalingIsGodkjent } from '@state/selectors/utbetaling';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
-import { isBeregnetPeriode, isNotUndefined, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isNotNullOrUndefined, isUberegnetPeriode } from '@utils/typeguards';
 
 export const getOppgavereferanse = (
     period?: Maybe<
@@ -60,7 +59,7 @@ export const isNotReady = (period: PeriodeFragment) =>
 
 export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: ArbeidsgiverFragment): boolean => {
     const sisteGenerasjon = arbeidsgiver.generasjoner[0];
-    if ((!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) || !isNotUndefined<Generasjon>(sisteGenerasjon)) {
+    if ((!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) || !isNotNullOrUndefined(sisteGenerasjon)) {
         return false;
     }
 

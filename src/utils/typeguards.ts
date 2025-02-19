@@ -101,6 +101,6 @@ export const isArbeidsgiver = (arbeidsgiver?: Maybe<ArbeidsgiverFragment>): arbe
     return arbeidsgiver !== undefined && arbeidsgiver !== null;
 };
 
-export function isNotUndefined<T>(type?: Maybe<T>): type is T {
-    return type !== undefined && type !== null;
+export function isNotNullOrUndefined<T>(value: T): value is NonNullable<T> {
+    return value != null;
 }

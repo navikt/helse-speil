@@ -23,7 +23,7 @@ import { MinimumSykdomsgradArbeidsgiver, OverstyrtMinimumSykdomsgradDTO } from '
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { ISO_DATOFORMAT, minusEnDag, plussEnDag } from '@utils/date';
 import { erEtter, erFør, erIPeriode } from '@utils/periode';
-import { isBeregnetPeriode, isNotUndefined, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isNotNullOrUndefined, isUberegnetPeriode } from '@utils/typeguards';
 
 export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
@@ -142,10 +142,7 @@ const kappOverlappendePerioder = (
     const unikeFomdatoer = [...new Set(fomdatoer)];
     const unikeTomdatoer = [...new Set(tomdatoer)];
 
-    const alleDatoerSortertStigende = [...unikeFomdatoer, ...unikeTomdatoer]
-        .sort(byDate)
-        .filter((it) => it !== undefined)
-        .filter(isNotUndefined);
+    const alleDatoerSortertStigende = [...unikeFomdatoer, ...unikeTomdatoer].sort(byDate).filter(isNotNullOrUndefined);
 
     if (alleDatoerSortertStigende.length % 2 !== 0) return undefined;
 
