@@ -41,7 +41,7 @@ export const InntektsgrunnlagoppsummeringTable = ({
                     <TableCellBold text="Utregnet avvik" />
                     <Table.DataCell align="right" className={styles.pengeCell}>
                         <BodyShort weight="semibold">
-                            {avviksprosent ? avviksprosentVisning(avviksprosent) : '-'}
+                            {avviksprosent != undefined ? avviksprosentVisning(avviksprosent) : '-'}
                         </BodyShort>
                     </Table.DataCell>
                 </Table.Row>
