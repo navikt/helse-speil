@@ -34,18 +34,25 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
     const [calculating, setCalculating] = useRecoilState(calculatingState);
     const [slettLokaleOverstyringer, setSlettLokaleOverstyringer] = useState(false);
     const [timedOut, setTimedOut] = useState(false);
+    const [ferdigOpptegnelse, setFerdigOpptegnelse] = useState(false);
 
     const [overstyrMutation, { loading, error }] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
     useHåndterOpptegnelser((opptegnelse) => {
-        const erFerdigOpptegnelse = erOpptegnelseForNyOppgave(opptegnelse);
-        if (erFerdigOpptegnelse && calculating) {
+        if (erOpptegnelseForNyOppgave(opptegnelse) && !ferdigOpptegnelse && calculating) {
+            setFerdigOpptegnelse(true);
+        }
+    });
+
+    useEffect(() => {
+        if (ferdigOpptegnelse) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
             setSlettLokaleOverstyringer(true);
+            setFerdigOpptegnelse(false);
         }
-    });
+    }, [ferdigOpptegnelse, addToast, removeToast, setCalculating]);
 
     useEffect(() => {
         if (slettLokaleOverstyringer) {

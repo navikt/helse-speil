@@ -90,12 +90,22 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
     });
 
     it('viser fullført toast når overstyring er ferdig', async () => {
-        const { result, rerender } = renderHook(usePostOverstyrtInntektOgRefusjon, {
+        const { result } = renderHook(usePostOverstyrtInntektOgRefusjon, {
             wrapper: ({ children }) => (
                 <MockedProvider mocks={mocks}>
                     <RecoilWrapper>{children}</RecoilWrapper>
                 </MockedProvider>
             ),
+        });
+
+        (useHåndterOpptegnelser as jest.Mock).mockImplementation((callBack: (o: Opptegnelse) => void) => {
+            callBack({
+                aktorId: '1',
+                sekvensnummer: 1,
+                type: Opptegnelsetype.RevurderingFerdigbehandlet,
+                payload: '{}',
+                __typename: 'Opptegnelse',
+            });
         });
 
         await act(() =>
@@ -119,19 +129,6 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
                 vedtaksperiodeId: '123',
             }),
         );
-        rerender();
-
-        (useHåndterOpptegnelser as jest.Mock).mockImplementation((callBack: (o: Opptegnelse) => void) => {
-            callBack({
-                aktorId: '1',
-                sekvensnummer: 1,
-                type: Opptegnelsetype.RevurderingFerdigbehandlet,
-                payload: '{}',
-                __typename: 'Opptegnelse',
-            });
-        });
-
-        rerender();
 
         await waitFor(() =>
             expect(addToastMock).toHaveBeenCalledWith(
