@@ -2,6 +2,7 @@ import React from 'react';
 
 import { fetchPersonMock, opptegnelseMock } from '@apollo-mocks';
 import { MockedProvider } from '@apollo/client/testing';
+import { useNyheter } from '@external/sanity';
 import { useKeyboardActions } from '@hooks/useKeyboardShortcuts';
 import { Maybe } from '@io/graphql';
 import { RecoilWrapper } from '@test-wrappers';
@@ -13,6 +14,7 @@ import { SpeilError } from '@utils/error';
 import { Header } from './Header';
 
 jest.mock('@hooks/useKeyboardShortcuts');
+jest.mock('@external/sanity');
 
 let cachedVarsel: Maybe<SpeilError> = null;
 
@@ -31,6 +33,7 @@ jest.mock('@state/varsler', () => ({
 describe('Header', () => {
     beforeEach(() => {
         (useKeyboardActions as jest.Mock).mockReturnValue(() => Promise.resolve(null));
+        (useNyheter as jest.Mock).mockReturnValue({ nyheter: [] });
     });
     afterEach(() => {
         jest.clearAllMocks();
