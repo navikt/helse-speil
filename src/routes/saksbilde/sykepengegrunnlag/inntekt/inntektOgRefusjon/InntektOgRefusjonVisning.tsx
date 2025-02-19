@@ -62,6 +62,19 @@ export const InntektOgRefusjonVisning = ({
     const skalVise12mnd828 =
         ((getVilkårsgrunnlag(person, vilkårsgrunnlagId) as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) > 25;
 
+    function finnInntektFraAOrdningen(): InntektFraAOrdningen[] | undefined {
+        if (
+            erInntektskildeAordningen &&
+            !skalVise12mnd828 &&
+            omregnetÅrsinntekt?.inntektFraAOrdningen &&
+            omregnetÅrsinntekt.inntektFraAOrdningen.length > 0
+        ) {
+            return omregnetÅrsinntekt.inntektFraAOrdningen;
+        } else {
+            return inntektFraAOrdningen;
+        }
+    }
+
     return (
         <>
             <ReadOnlyInntekt
@@ -75,11 +88,7 @@ export const InntektOgRefusjonVisning = ({
             )}
             <SisteTolvMånedersInntekt
                 skjæringstidspunkt={skjæringstidspunkt}
-                inntektFraAOrdningen={
-                    erInntektskildeAordningen && !skalVise12mnd828
-                        ? (omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen)
-                        : inntektFraAOrdningen
-                }
+                inntektFraAOrdningen={finnInntektFraAOrdningen()}
                 erAktivGhost={erGhostperiode && !erDeaktivert}
                 inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
             />

@@ -36,12 +36,6 @@ export const SykepengegrunnlagFraSpleis = ({
         setAktivInntektskilde(inntekt);
     }, [inntekt]);
 
-    // useEffect(() => {
-    //     if (aktivArbeidsgiverOrgnummer) {
-    //         setAktivInntektskilde(getRequiredInntekt(vilkårsgrunnlag, aktivArbeidsgiverOrgnummer));
-    //     }
-    // }, [vilkårsgrunnlag, aktivArbeidsgiverOrgnummer]);
-
     return (
         <HStack justify="start" wrap={false} {...rest}>
             <SykepengegrunnlagPanel
