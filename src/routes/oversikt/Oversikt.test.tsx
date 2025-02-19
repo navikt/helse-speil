@@ -11,6 +11,7 @@ import { Oversikt } from './Oversikt';
 
 jest.mock('@state/oppgaver');
 jest.mock('@external/sanity');
+jest.mock('@hooks/useRefetchDriftsmeldinger');
 
 describe('Oversikt', () => {
     it('rendrer uten violations', async () => {
