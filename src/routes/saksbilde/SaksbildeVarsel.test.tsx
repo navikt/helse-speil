@@ -17,14 +17,18 @@ jest.mock('@state/overstyring');
 
 describe('SaksbildeVarsel', () => {
     it('skal kaste feil om periode mangler skjæringstidspunkt', () => {
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
         const periode = enBeregnetPeriode({ skjaeringstidspunkt: undefined });
 
         expect(() => render(<SaksbildeVarsel person={enPerson()} periode={periode} />)).toThrow();
+        consoleErrorSpy.mockRestore();
     });
     it('skal kaste feil om ikke uberegnet periode mangler skjæringstidspunkt', () => {
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
         const periode = enBeregnetPeriode({ vilkarsgrunnlagId: undefined });
 
         expect(() => render(<SaksbildeVarsel person={enPerson()} periode={periode} />)).toThrow();
+        consoleErrorSpy.mockRestore();
     });
     it('skal rendre eget varsel for uberegnet periode', () => {
         render(<SaksbildeVarsel person={enPerson()} periode={enUberegnetPeriode({ varsler: [getVarsel()] })} />);
