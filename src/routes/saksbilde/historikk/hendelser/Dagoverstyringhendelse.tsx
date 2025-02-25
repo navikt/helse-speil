@@ -1,11 +1,10 @@
 import React, { ReactElement } from 'react';
 
-import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { Kilde } from '@components/Kilde';
-import { Inntektskilde, OverstyrtDag } from '@io/graphql';
+import { OverstyrtDag } from '@io/graphql';
+import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { DagoverstyringhendelseObject } from '@typer/historikk';
@@ -60,11 +59,7 @@ export const Dagoverstyringhendelse = ({
     dager,
 }: DagoverstyringhendelseProps): ReactElement => (
     <Historikkhendelse
-        icon={
-            <Kilde type={Inntektskilde.Saksbehandler}>
-                <PersonPencilFillIcon title="Saksbehandler ikon" />
-            </Kilde>
-        }
+        icon={<HistorikkKildeSaksbehandlerIkon />}
         title={erRevurdering ? 'Dager revurdert' : 'Dager endret'}
         timestamp={timestamp}
         saksbehandler={saksbehandler}

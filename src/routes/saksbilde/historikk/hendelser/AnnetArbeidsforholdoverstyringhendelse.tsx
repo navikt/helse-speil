@@ -1,12 +1,10 @@
 import React, { ReactElement } from 'react';
 
-import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { Kilde } from '@components/Kilde';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
-import { Inntektskilde } from '@io/graphql';
+import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { AnnetArbeidsforholdoverstyringhendelseObject } from '@typer/historikk';
@@ -25,11 +23,7 @@ export const AnnetArbeidsforholdoverstyringhendelse = ({
 }: AnnetArbeidsforholdoverstyringhendelseProps): ReactElement => {
     return (
         <Historikkhendelse
-            icon={
-                <Kilde type={Inntektskilde.Saksbehandler}>
-                    <PersonPencilFillIcon title="Saksbehandler ikon" />
-                </Kilde>
-            }
+            icon={<HistorikkKildeSaksbehandlerIkon />}
             title={
                 erDeaktivert
                     ? `Annet arbeidsforhold brukes ikke i beregningen`

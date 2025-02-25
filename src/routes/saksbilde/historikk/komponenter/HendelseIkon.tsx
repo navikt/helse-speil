@@ -6,9 +6,14 @@ import {
     ChatIcon,
     CheckmarkCircleIcon,
     PaperplaneIcon,
+    PersonPencilFillIcon,
     TimerPauseIcon,
     XMarkOctagonIcon,
 } from '@navikt/aksel-icons';
+
+import { Kilde } from '@components/Kilde';
+import { Inntektskilde } from '@io/graphql';
+import { getKildetekst, getKildetype } from '@saksbilde/historikk/hendelser/dokument/dokument';
 
 import styles from './HendelseIkon.module.css';
 
@@ -25,3 +30,25 @@ export const HistorikkPaperplaneIkon = (): ReactElement => <PaperplaneIcon class
 export const HistorikkTimerPauseIkon = (): ReactElement => <TimerPauseIcon className={styles.ikon} />;
 
 export const HistorikkXMarkOctagonIkon = (): ReactElement => <XMarkOctagonIcon className={styles.ikon} />;
+
+export const HistorikkKildeSaksbehandlerIkon = (): ReactElement => (
+    <Kilde type={Inntektskilde.Saksbehandler}>
+        <PersonPencilFillIcon title="Saksbehandler ikon" />
+    </Kilde>
+);
+
+export const HistorikkKildeInntektHentetFraAordningenIkon = (): ReactElement => (
+    <Kilde type="InntektHentetFraAordningen">AO</Kilde>
+);
+
+export const HistorikkKildeVedtakIkon = (): ReactElement => <Kilde type="VEDTAK">MV</Kilde>;
+
+export const HistorikkKildeSykmeldingIkon = (): ReactElement => <Kilde type="Sykmelding">SM</Kilde>;
+
+export const HistorikkKildeInntektsmeldingIkon = (): ReactElement => (
+    <Kilde type={getKildetype('Inntektsmelding')}>{getKildetekst('Inntektsmelding')}</Kilde>
+);
+
+export const HistorikkKildeSøknadIkon = (): ReactElement => (
+    <Kilde type={getKildetype('Søknad')}>{getKildetekst('Søknad')}</Kilde>
+);

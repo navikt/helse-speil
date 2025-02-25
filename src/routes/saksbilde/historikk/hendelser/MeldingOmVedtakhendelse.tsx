@@ -3,8 +3,8 @@ import React, { ReactElement } from 'react';
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
-import { Kilde } from '@components/Kilde';
 import { hoppTilModia } from '@components/SystemMenu';
+import { HistorikkKildeVedtakIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { DateString } from '@typer/shared';
 
@@ -20,7 +20,7 @@ export const MeldingOmVedtakhendelse = ({
     timestamp,
 }: MeldingOmVedtakhendelseProps): ReactElement => (
     <Historikkhendelse
-        icon={<Kilde type="VEDTAK">MV</Kilde>}
+        icon={<HistorikkKildeVedtakIkon />}
         title="Melding om vedtak"
         kontekstknapp={
             <Button

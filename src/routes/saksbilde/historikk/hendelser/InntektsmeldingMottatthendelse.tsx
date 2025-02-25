@@ -3,8 +3,8 @@ import React, { ReactElement } from 'react';
 import { ChevronLeftCircleIcon, ChevronRightCircleIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
-import { InntektsmeldingKildeIkon } from '@components/Kilde';
 import { PersonFragment } from '@io/graphql';
+import { HistorikkKildeInntektsmeldingIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { DateString } from '@typer/shared';
 
@@ -41,7 +41,7 @@ export const InntektsmeldingMottatthendelse = ({
 
     return (
         <Historikkhendelse
-            icon={<InntektsmeldingKildeIkon />}
+            icon={<HistorikkKildeInntektsmeldingIkon />}
             title="Inntektsmelding mottatt"
             kontekstknapp={
                 <Button

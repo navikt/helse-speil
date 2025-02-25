@@ -4,7 +4,7 @@ import React, { PropsWithChildren, ReactElement } from 'react';
 import { Tooltip } from '@navikt/ds-react';
 
 import { Inntektskilde } from '@io/graphql';
-import { Kildetype, getKildetekst, getKildetype } from '@saksbilde/historikk/hendelser/dokument/dokument';
+import { Kildetype } from '@saksbilde/historikk/hendelser/dokument/dokument';
 
 import styles from './Kilde.module.scss';
 
@@ -75,12 +75,4 @@ export const Kilde = ({ type, children, className }: PropsWithChildren<KildeProp
             {erTekst(type) ? <div className={styles.tekst}>{children}</div> : children}
         </div>
     </Tooltip>
-);
-
-export const InntektsmeldingKildeIkon = (): ReactElement => (
-    <Kilde type={getKildetype('Inntektsmelding')}>{getKildetekst('Inntektsmelding')}</Kilde>
-);
-
-export const SøknadKildeIkon = (): ReactElement => (
-    <Kilde type={getKildetype('Søknad')}>{getKildetekst('Søknad')}</Kilde>
 );

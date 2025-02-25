@@ -1,13 +1,12 @@
 import React, { Fragment, ReactElement } from 'react';
 
-import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Inntektskilde, Maybe, Skjonnsfastsettingstype } from '@io/graphql';
+import { Maybe, Skjonnsfastsettingstype } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
+import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { SykepengegrunnlagskjonnsfastsettinghendelseObject } from '@typer/historikk';
@@ -41,11 +40,7 @@ export const SykepengegrunnlagSkjønnsfastsatthendelse = ({
     arbeidsgivere,
 }: SykepengegrunnlagSkjønnsfastsatthendelseProps): ReactElement => (
     <Historikkhendelse
-        icon={
-            <Kilde type={Inntektskilde.Saksbehandler}>
-                <PersonPencilFillIcon title="Saksbehandler ikon" />
-            </Kilde>
-        }
+        icon={<HistorikkKildeSaksbehandlerIkon />}
         title="Sykepengegrunnlag skjønnsfastsatt"
         timestamp={timestamp}
         saksbehandler={saksbehandler}

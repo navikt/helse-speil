@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Kilde } from '@components/Kilde';
+import { HistorikkKildeInntektHentetFraAordningenIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { DateString } from '@typer/shared';
 
@@ -12,7 +12,7 @@ export const InntektHentetFraAordningenhendelse = ({
     timestamp,
 }: InntektHentetFraAordningenhendelseProps): ReactElement => (
     <Historikkhendelse
-        icon={<Kilde type="InntektHentetFraAordningen">AO</Kilde>}
+        icon={<HistorikkKildeInntektHentetFraAordningenIkon />}
         title="Inntekt hentet fra A-ordningen"
         timestamp={timestamp}
     />

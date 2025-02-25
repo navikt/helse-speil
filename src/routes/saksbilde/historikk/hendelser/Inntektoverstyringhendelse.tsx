@@ -8,6 +8,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, Refusjonsopplysning } from '@io/graphql';
+import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { InntektoverstyringhendelseObject } from '@typer/historikk';
@@ -28,11 +29,7 @@ export const Inntektoverstyringhendelse = ({
         <>
             {inntekt.fraManedligInntekt !== inntekt.manedligInntekt && (
                 <Historikkhendelse
-                    icon={
-                        <Kilde type={Inntektskilde.Saksbehandler}>
-                            <PersonPencilFillIcon title="Saksbehandler ikon" />
-                        </Kilde>
-                    }
+                    icon={<HistorikkKildeSaksbehandlerIkon />}
                     title={erRevurdering ? 'Månedsinntekt revurdert' : 'Månedsinntekt endret'}
                     timestamp={timestamp}
                     saksbehandler={saksbehandler}
