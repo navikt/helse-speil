@@ -28,7 +28,6 @@ export const ForklaringTextarea = ({ description }: ForklaringTextareaProps): Re
                 setForklaring(event.target.value);
             }}
             description={description}
-            maxLength={1000}
             aria-labelledby="forklaring-label forklaring-feil"
             error={form.formState.errors.forklaring ? (form.formState.errors.forklaring.message as string) : null}
             style={{ whiteSpace: 'pre-line' }}

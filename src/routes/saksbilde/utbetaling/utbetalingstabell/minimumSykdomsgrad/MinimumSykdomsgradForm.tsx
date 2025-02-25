@@ -199,10 +199,6 @@ const NotatTilBeslutter = ({ vedtaksperiodeId }: NotatTilBeslutterProps) => {
         name: 'begrunnelse',
         rules: {
             required: 'Begrunnelse kan ikke være tom',
-            maxLength: {
-                value: 1000,
-                message: `Det er kun tillatt med 1000 tegn`,
-            },
             validate: {
                 måFyllesUt: () => lagretNotat.length !== 0 || 'Begrunnelse kan ikke være tom',
             },
