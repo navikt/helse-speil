@@ -15,15 +15,12 @@ export const getKildetype = (dokumenttype: DokumenthendelseObject['dokumenttype'
     switch (dokumenttype) {
         case 'InntektHentetFraAordningen':
             return 'InntektHentetFraAordningen';
-        case 'Inntektsmelding': {
+        case 'Inntektsmelding':
             return 'Inntektsmelding';
-        }
-        case 'Sykmelding': {
+        case 'Sykmelding':
             return 'Sykmelding';
-        }
-        case 'Søknad': {
+        case 'Søknad':
             return 'Soknad';
-        }
         default:
             return 'Ukjent';
     }
@@ -33,18 +30,14 @@ export const getKildetekst = (dokumenttype: DokumenthendelseObject['dokumenttype
     switch (dokumenttype) {
         case 'InntektHentetFraAordningen':
             return 'AO';
-        case 'Inntektsmelding': {
+        case 'Inntektsmelding':
             return 'IM';
-        }
-        case 'Sykmelding': {
+        case 'Sykmelding':
             return 'SM';
-        }
-        case 'Søknad': {
+        case 'Søknad':
             return 'SØ';
-        }
-        case 'Vedtak': {
+        case 'Vedtak':
             return 'MV';
-        }
     }
 };
 
