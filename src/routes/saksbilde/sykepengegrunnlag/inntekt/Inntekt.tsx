@@ -78,10 +78,7 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<Rea
             : [];
 
     return (
-        <Box
-            background={inntekt.deaktivert ? 'bg-subtle' : 'surface-action-subtle'}
-            className={cn(styles.inntekt, editing && styles.editing)}
-        >
+        <Box background={'surface-action-subtle'} className={cn(styles.inntekt, editing && styles.editing)}>
             {inntekt.omregnetArsinntekt != null && arbeidsgiver != null ? (
                 <InntektOgRefusjon
                     person={person}
