@@ -13,7 +13,6 @@ import {
 
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde } from '@io/graphql';
-import { getKildetekst, getKildetype } from '@saksbilde/historikk/hendelser/dokument/dokument';
 
 import styles from './HendelseIkon.module.css';
 
@@ -45,10 +44,6 @@ export const HistorikkKildeVedtakIkon = (): ReactElement => <Kilde type="VEDTAK"
 
 export const HistorikkKildeSykmeldingIkon = (): ReactElement => <Kilde type="Sykmelding">SM</Kilde>;
 
-export const HistorikkKildeInntektsmeldingIkon = (): ReactElement => (
-    <Kilde type={getKildetype('Inntektsmelding')}>{getKildetekst('Inntektsmelding')}</Kilde>
-);
+export const HistorikkKildeInntektsmeldingIkon = (): ReactElement => <Kilde type="Inntektsmelding">IM</Kilde>;
 
-export const HistorikkKildeSøknadIkon = (): ReactElement => (
-    <Kilde type={getKildetype('Søknad')}>{getKildetekst('Søknad')}</Kilde>
-);
+export const HistorikkKildeSøknadIkon = (): ReactElement => <Kilde type="Soknad">SØ</Kilde>;
