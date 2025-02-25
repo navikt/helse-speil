@@ -29,6 +29,7 @@ const finnCSSklasse = (type: KildeikonType) => {
         case 'Soknad':
             return 'søknad';
         case 'Inntektsmelding':
+        case Inntektskilde.Inntektsmelding:
             return 'inntektsmelding';
         case 'Saksbehandler':
         case Inntektskilde.SkjonnsmessigFastsatt:
