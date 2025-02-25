@@ -176,7 +176,7 @@ export const egenmeldingValidering = (
 
     const førsteDagMedAgp = Array.from(alleDager.values())
         .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)))
-        .find((dag) => dag.erAGP)?.dato;
+        .find((dag) => dag.erAGP && dag.dag.speilDagtype === 'Syk')?.dato;
 
     const dagerSomKanOverstyresTilEgenmelding: Utbetalingstabelldag[] = overstyrtTilEgenmelding.filter((dag) => {
         return dag.erAGP || dag.erNyDag || dayjs(dag.dato).isBefore(førsteDagMedAgp ?? null);
@@ -185,7 +185,7 @@ export const egenmeldingValidering = (
     if (dagerSomKanOverstyresTilEgenmelding.length !== overstyrtTilEgenmelding.length) {
         setError(
             'kanIkkeOverstyreTilEgenmelding',
-            'Egenmelding kan kun overstyres i arbeidsgiverperioden eller legges til som en ny dag.',
+            'Egenmelding kan kun overstyres i eller før arbeidsgiverperioden eller legges til som en ny dag.',
         );
         return false;
     }
