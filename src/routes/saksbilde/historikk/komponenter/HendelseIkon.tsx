@@ -32,7 +32,7 @@ export const HistorikkXMarkOctagonIkon = (): ReactElement => <XMarkOctagonIcon c
 
 export const HistorikkKildeSaksbehandlerIkon = (): ReactElement => (
     <Kilde type={Inntektskilde.Saksbehandler}>
-        <PersonPencilFillIcon title="Saksbehandler ikon" />
+        <PersonPencilFillIcon />
     </Kilde>
 );
 
