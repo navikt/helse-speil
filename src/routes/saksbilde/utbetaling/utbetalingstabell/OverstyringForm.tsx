@@ -54,7 +54,7 @@ export const OverstyringForm = ({
             arbeidIkkeGjenopptattValidering(overstyrteDager, setCustomError) &&
             andreYtelserValidering(overstyrteDager, alleDager, setCustomError) &&
             sykNavValidering(overstyrteDager, setCustomError) &&
-            egenmeldingValidering(overstyrteDager, setCustomError)
+            egenmeldingValidering(overstyrteDager, alleDager, setCustomError)
         ) {
             handleSubmit(onSubmit)();
         }

@@ -163,6 +163,7 @@ export const sykNavValidering = (
 };
 export const egenmeldingValidering = (
     overstyrteDager: Map<string, Utbetalingstabelldag>,
+    alleDager: Map<string, Utbetalingstabelldag>,
     setError: (name: string, message: string) => void,
 ): boolean => {
     const overstyrtTilEgenmelding = Array.from(overstyrteDager.values())
@@ -173,9 +174,13 @@ export const egenmeldingValidering = (
         return true;
     }
 
-    const dagerSomKanOverstyresTilEgenmelding: Utbetalingstabelldag[] = overstyrtTilEgenmelding.filter(
-        (dag) => dag.erAGP || dag.erNyDag,
-    );
+    const førsteDagMedAgp = Array.from(alleDager.values())
+        .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)))
+        .find((dag) => dag.erAGP)?.dato;
+
+    const dagerSomKanOverstyresTilEgenmelding: Utbetalingstabelldag[] = overstyrtTilEgenmelding.filter((dag) => {
+        return dag.erAGP || dag.erNyDag || dayjs(dag.dato).isBefore(førsteDagMedAgp ?? null);
+    });
 
     if (dagerSomKanOverstyresTilEgenmelding.length !== overstyrtTilEgenmelding.length) {
         setError(
@@ -199,12 +204,12 @@ const getHaleAndSnute = (
 ): SnuteAndHale => {
     // TODO: ikke sjekk mot visningstekst
     const snute = førsteOverstyrteDagtype
-        ? R.first([...Array.from(alleDager.values())].filter((it) => it.dag.visningstekst !== førsteOverstyrteDagtype))
-              ?.dato ?? ''
+        ? (R.first([...Array.from(alleDager.values())].filter((it) => it.dag.visningstekst !== førsteOverstyrteDagtype))
+              ?.dato ?? '')
         : '';
     const hale = sisteOverstyrteDagtype
-        ? R.last([...Array.from(alleDager.values())].filter((it) => it.dag.visningstekst !== sisteOverstyrteDagtype))
-              ?.dato ?? ''
+        ? (R.last([...Array.from(alleDager.values())].filter((it) => it.dag.visningstekst !== sisteOverstyrteDagtype))
+              ?.dato ?? '')
         : '';
 
     return { snute, hale };

@@ -205,7 +205,7 @@ describe('OverstyringForm', () => {
         expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
     });
 
-    it('viser feilmelding dersom egenmelding ikke er ny dag eller innenfor agp', async () => {
+    it('viser feilmelding dersom egenmelding ikke er ny dag, innenfor eller før agp ', async () => {
         const overstyrteDager = new Map([
             ['2020-01-02', { dag: Egenmeldingsdag, fraType: 'Syk', dato: '2020-01-02' } as Utbetalingstabelldag],
         ]);
