@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BodyShort, HStack } from '@navikt/ds-react';
 
-import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { LagtPåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/LagtPåVentDropdown';
 import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe';
@@ -51,7 +51,7 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
             {!!hendelse.notattekst && (
                 <Expandable flattened={!hendelse.erNyestePåVentInnslag}>
                     <BodyShort weight="semibold">Notat</BodyShort>
-                    <BodyLongWithPreWrap>{hendelse.notattekst}</BodyLongWithPreWrap>
+                    <BodyShortWithPreWrap>{hendelse.notattekst}</BodyShortWithPreWrap>
                 </Expandable>
             )}
             {hendelse.erNyestePåVentInnslag && (

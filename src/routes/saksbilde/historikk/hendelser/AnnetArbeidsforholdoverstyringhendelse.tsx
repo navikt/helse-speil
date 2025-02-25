@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Inntektskilde } from '@io/graphql';
@@ -45,7 +46,7 @@ export const AnnetArbeidsforholdoverstyringhendelse = ({
                 <BodyShort>{begrunnelse}</BodyShort>
             </HistorikkSection>
             <HistorikkSection tittel="Begrunnelse">
-                <BodyShort>{forklaring}</BodyShort>
+                <BodyShortWithPreWrap>{forklaring}</BodyShortWithPreWrap>
             </HistorikkSection>
             <HistorikkSection tittel="Skj. tidspunkt">
                 <BodyShort>{getFormattedDateString(skjæringstidspunkt)}</BodyShort>

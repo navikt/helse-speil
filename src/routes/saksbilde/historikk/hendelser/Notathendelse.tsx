@@ -4,7 +4,7 @@ import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkChatIkon, HistorikkCheckmarkCircleIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
@@ -77,7 +77,7 @@ export const Notathendelse = ({
                 {førsteTekstlinje}
                 {øvrigeTekstlinjer !== '' && (
                     <Expandable>
-                        <BodyLongWithPreWrap>{øvrigeTekstlinjer}</BodyLongWithPreWrap>
+                        <BodyShortWithPreWrap>{øvrigeTekstlinjer}</BodyShortWithPreWrap>
                     </Expandable>
                 )}
             </VStack>

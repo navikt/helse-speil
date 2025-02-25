@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { HistorikkXMarkOctagonIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
@@ -28,7 +29,7 @@ export const Annulleringhendelse = ({
             ))}
         </HistorikkSection>
         <HistorikkSection tittel="Begrunnelse">
-            <BodyShort>{begrunnelse}</BodyShort>
+            <BodyShortWithPreWrap>{begrunnelse}</BodyShortWithPreWrap>
         </HistorikkSection>
     </Historikkhendelse>
 );

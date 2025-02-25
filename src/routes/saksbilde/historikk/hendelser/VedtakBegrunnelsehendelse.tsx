@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, VedtakUtfall } from '@io/graphql';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
@@ -33,7 +34,7 @@ export const VedtakBegrunnelsehendelse = ({
                 <BodyShort>{tekstForUtfall(utfall)}</BodyShort>
             </HistorikkSection>
             <HistorikkSection tittel="Begrunnelse">
-                <BodyShort>{begrunnelse}</BodyShort>
+                <BodyShortWithPreWrap>{begrunnelse}</BodyShortWithPreWrap>
             </HistorikkSection>
         </Historikkhendelse>
     );

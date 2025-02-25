@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, OverstyrtDag } from '@io/graphql';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
@@ -70,7 +71,7 @@ export const Dagoverstyringhendelse = ({
         aktiv={false}
     >
         <HistorikkSection tittel="Begrunnelse">
-            <BodyShort>{begrunnelse}</BodyShort>
+            <BodyShortWithPreWrap>{begrunnelse}</BodyShortWithPreWrap>
         </HistorikkSection>
         <VStack marginBlock="2 2">
             {groupSimilarDays(dager).map((group, i) => (

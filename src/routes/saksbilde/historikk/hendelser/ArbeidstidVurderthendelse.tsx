@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde } from '@io/graphql';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
@@ -57,7 +57,7 @@ export const ArbeidstidVurderthendelse = ({
             </HistorikkSection>
         )}
         <HistorikkSection tittel="Notat til beslutter">
-            <BodyLongWithPreWrap>{minimumSykdomsgrad.begrunnelse}</BodyLongWithPreWrap>
+            <BodyShortWithPreWrap>{minimumSykdomsgrad.begrunnelse}</BodyShortWithPreWrap>
         </HistorikkSection>
     </Historikkhendelse>
 );

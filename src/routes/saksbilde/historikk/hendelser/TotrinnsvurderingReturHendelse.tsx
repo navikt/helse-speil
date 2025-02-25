@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
-import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { PeriodehistorikkType } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkArrowUndoIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
@@ -37,7 +37,7 @@ export const TotrinnsvurderingReturHendelse = ({
                     {førsteTekstlinje}
                     {øvrigeTekstlinjer !== '' && (
                         <Expandable>
-                            <BodyLongWithPreWrap>{øvrigeTekstlinjer}</BodyLongWithPreWrap>
+                            <BodyShortWithPreWrap>{øvrigeTekstlinjer}</BodyShortWithPreWrap>
                         </Expandable>
                     )}
                 </VStack>

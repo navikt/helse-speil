@@ -3,7 +3,7 @@ import React, { Fragment, ReactElement } from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { BodyLongWithPreWrap } from '@components/BodyLongWithPreWrap';
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Inntektskilde, Maybe, Skjonnsfastsettingstype } from '@io/graphql';
@@ -59,11 +59,11 @@ export const SykepengegrunnlagSkjønnsfastsatthendelse = ({
         </HistorikkSection>
         <HistorikkSection tittel="Begrunnelse">
             <Expandable expandText="Åpne" collapseText="Lukk">
-                <BodyLongWithPreWrap>{skjønnsfastsatt.begrunnelseMal}</BodyLongWithPreWrap>
+                <BodyShortWithPreWrap>{skjønnsfastsatt.begrunnelseMal}</BodyShortWithPreWrap>
             </Expandable>
         </HistorikkSection>
         <HistorikkSection tittel="Nærmere begrunnelse for skjønnsvurderingen">
-            <BodyLongWithPreWrap>{skjønnsfastsatt.begrunnelseFritekst}</BodyLongWithPreWrap>
+            <BodyShortWithPreWrap>{skjønnsfastsatt.begrunnelseFritekst}</BodyShortWithPreWrap>
         </HistorikkSection>
         <HistorikkSection tittel="Konklusjon">
             <BodyShort>{skjønnsfastsatt.begrunnelseKonklusjon}</BodyShort>

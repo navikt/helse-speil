@@ -5,6 +5,7 @@ import React, { ReactElement } from 'react';
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, Refusjonsopplysning } from '@io/graphql';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
@@ -41,7 +42,7 @@ export const Inntektoverstyringhendelse = ({
                         <BodyShort>{inntekt.begrunnelse}</BodyShort>
                     </HistorikkSection>
                     <HistorikkSection tittel="Forklaring">
-                        <BodyShort>{inntekt.forklaring}</BodyShort>
+                        <BodyShortWithPreWrap>{inntekt.forklaring}</BodyShortWithPreWrap>
                     </HistorikkSection>
                     <HistorikkSection tittel="Mnd. inntekt">
                         <BodyShort>
