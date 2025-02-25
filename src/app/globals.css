@@ -39,16 +39,19 @@
     --anonymous-color: var(--anonymous-background);
     --anonymous-border-radius: 0.25rem;
     --anonymous-opacity: 0;
+    --anonymous-user-select: none;
 
     --visible-color: unset;
     --visible-background: unset;
     --visible-border-radius: unset;
     --visible-opacity: 1;
+    --visible-user-select: unset;
 
     --anonymizable-background: unset;
     --anonymizable-color: unset;
     --anonymizable-border-radius: unset;
     --anonymizable-opacity: 1;
+    --anonymizable-user-select: unset;
 }
 
 html,

@@ -7,6 +7,7 @@ const anomizedStyle = {
     '--anonymizable-color': 'var(--anonymous-color)',
     '--anonymizable-border-radius': 'var(--anonymous-border-radius)',
     '--anonymizable-opacity': 'var(--anonymous-opacity)',
+    '--anonymizable-user-select': 'var(--anonymous-user-select)',
 } as CSSProperties;
 
 const visibleStyle = {
@@ -14,6 +15,7 @@ const visibleStyle = {
     '--anonymizable-color': 'var(--visible-color)',
     '--anonymizable-border-radius': 'var(--visible-border-radius)',
     '--anonymizable-opacity': 'var(--visible-opacity)',
+    '--anonymizable-user-select': 'var(--visible-user-select)',
 } as CSSProperties;
 
 export const AnonymiseringProvider = ({ children }: PropsWithChildren) => {

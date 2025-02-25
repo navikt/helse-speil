@@ -2,10 +2,11 @@
     color: var(--anonymizable-color);
     background-color: var(--anonymizable-color);
     border-radius: var(--anonymizable-border-radius);
+    user-select: var(--anonymizable-user-select);
     width: fit-content;
 }
 
-.Anonymous::selection,
 .Anonymous * {
-    opacity: 1;
+    opacity: var(--anonymizable-opacity);
+    user-select: var(--anonymizable-user-select);
 }
