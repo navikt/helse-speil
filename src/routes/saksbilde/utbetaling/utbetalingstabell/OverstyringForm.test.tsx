@@ -22,7 +22,7 @@ const arbeidsdagvalideringstekst =
     'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til i forkant av perioden, i slutten av perioden, eller endres i arbeidsgiverperioden';
 
 const egenmeldingvalideringstekst =
-    'Egenmelding kan kun overstyres i arbeidsgiverperioden eller legges til som en ny dag.';
+    'Egenmelding kan kun overstyres i eller før arbeidsgiverperioden eller legges til som en ny dag.';
 
 describe('OverstyringForm', () => {
     const alleDager = new Map([
