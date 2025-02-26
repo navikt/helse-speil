@@ -23,6 +23,7 @@ import {
     Skjønnsfastsettingstype,
     usePostSkjønnsfastsattSykepengegrunnlag,
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { useSetSkjønnsfastsettelseFormState } from '@state/forms/skjønnsfastsetting';
 import { avrundetToDesimaler } from '@utils/tall';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -68,6 +69,7 @@ export const SkjønnsfastsettingForm = ({
     );
     const erBeslutteroppgave = isBeregnetPeriode(periode) && (periode.totrinnsvurdering?.erBeslutteroppgave ?? false);
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
+    const setSkjønnsfastsettelseFormState = useSetSkjønnsfastsettelseFormState();
     const avrundetSammenligningsgrunnlag = avrundetToDesimaler(sammenligningsgrunnlag);
     const cancelEditing = () => {
         setEditing(false);
@@ -92,6 +94,17 @@ export const SkjønnsfastsettingForm = ({
         name: 'årsak',
         control: control,
     });
+
+    const watchedValues = watch(['årsak', 'begrunnelseFritekst', 'type']);
+
+    const prevValues = useRef(watchedValues);
+
+    useEffect(() => {
+        if (JSON.stringify(prevValues.current) !== JSON.stringify(watchedValues)) {
+            setSkjønnsfastsettelseFormState(watchedValues[0], watchedValues[1], watchedValues[2]);
+            prevValues.current = watchedValues;
+        }
+    }, [watchedValues, setSkjønnsfastsettelseFormState]);
 
     const valgtMal = maler.find((it) => it.arsak === valgtÅrsak);
 
