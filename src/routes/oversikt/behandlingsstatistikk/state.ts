@@ -1,27 +1,11 @@
-import { AtomEffect, atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 
-const syncWithLocalStorageEffect: AtomEffect<boolean> = ({ onSet, setSelf }) => {
-    if (typeof window === 'undefined') return;
-
-    const key = 'showStatistikk';
-    const savedValue = localStorage.getItem(key);
-    if (savedValue) {
-        setSelf(savedValue === 'true');
-    }
-    onSet((newValue) => {
-        localStorage.setItem(key, `${newValue}`);
-    });
-};
-
-const showStatistikk = atom<boolean>({
-    key: 'showStatistikk',
-    default: true,
-    effects: [syncWithLocalStorageEffect],
-});
+const showStatistikk = atomWithStorage('showStatistikk', true);
 
 export const useToggleStatistikk = () => {
-    const setShow = useSetRecoilState(showStatistikk);
+    const setShow = useSetAtom(showStatistikk);
     return () => setShow((show) => !show);
 };
 
-export const useShowStatistikk = (): boolean => useRecoilValue(showStatistikk);
+export const useShowStatistikk = (): boolean => useAtomValue(showStatistikk);
