@@ -1,16 +1,16 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Table, Tooltip } from '@navikt/ds-react';
+import { BodyShort, DataCellProps, Table, Tooltip } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
 
-interface BehandletAvCellProps {
+interface SaksbehandlerIdentCellProps extends DataCellProps {
     name?: Maybe<string>;
 }
 
-export const BehandletAvCell = ({ name }: BehandletAvCellProps): ReactElement => {
+export const SaksbehandlerIdentCell = ({ name, ...rest }: SaksbehandlerIdentCellProps): ReactElement => {
     return (
-        <Table.DataCell>
+        <Table.DataCell {...rest}>
             {name ? (
                 <Tooltip content={name}>
                     <BodyShort truncate>{name}</BodyShort>

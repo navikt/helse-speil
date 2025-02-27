@@ -10,8 +10,8 @@ import { LinkRow } from './LinkRow';
 import { OppgaverTableError } from './OppgaverTableError';
 import { OppgaverTableSkeleton } from './OppgaverTableSkeleton';
 import { Pagination } from './Pagination';
-import { BehandletAvCell } from './cells/BehandletAvCell';
 import { BehandletTimestampCell } from './cells/BehandletTimestampCell';
+import { SaksbehandlerIdentCell } from './cells/SaksbehandlerIdentCell';
 import { SøkerCell } from './cells/SøkerCell';
 
 import styles from './table.module.css';
@@ -38,7 +38,8 @@ export const BehandletIdagTable = (): ReactElement => {
                     <Table className={styles.Table} aria-label="Oppgaver behandlet av meg i dag" zebraStripes>
                         <Table.Header>
                             <Table.Row>
-                                <HeaderCell text="Behandlet av" />
+                                <HeaderCell text="Saksbehandler" />
+                                <HeaderCell text="Beslutter" />
                                 <HeaderCell text="Søker" />
                                 <HeaderCell text="Behandlet" />
                             </Table.Row>
@@ -46,7 +47,8 @@ export const BehandletIdagTable = (): ReactElement => {
                         <Table.Body>
                             {behandledeOppgaverFeed.oppgaver?.map((oppgave) => (
                                 <LinkRow aktørId={oppgave.aktorId} key={oppgave.id}>
-                                    <BehandletAvCell name={oppgave.ferdigstiltAv} />
+                                    <SaksbehandlerIdentCell name={oppgave.saksbehandler} style={{ width: 180 }} />
+                                    <SaksbehandlerIdentCell name={oppgave.beslutter} />
                                     <SøkerCell
                                         name={{
                                             fornavn: oppgave.personnavn.fornavn,
