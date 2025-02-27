@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, useAtom, useAtomValue } from 'jotai';
 
 import {
     BeregnetPeriodeFragment,
@@ -14,7 +14,7 @@ import {
     findArbeidsgiverWithNyttInntektsforholdPeriode,
     findArbeidsgiverWithPeriode,
 } from '@state/arbeidsgiver';
-import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
+import { atomWithSessionStorage } from '@state/jotai';
 import { toNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { Filtertype, HendelseObject, Hendelsetype } from '@typer/historikk';
@@ -173,10 +173,7 @@ const useHistorikk = (person: Maybe<PersonFragment>): HendelseObject[] => {
     return [];
 };
 
-const filterState = atom<Filtertype>({
-    key: 'filterState',
-    default: 'Historikk',
-});
+const filterState = atom<Filtertype>('Historikk');
 
 const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
     Historikk: [
@@ -205,27 +202,19 @@ const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
     ],
 };
 
-const showHistorikkState = atom<boolean>({
-    key: 'showHistorikkState',
-    default: true,
-    effects: [sessionStorageEffect()],
-});
+const showHistorikkState = atomWithSessionStorage('showHistorikkState', true);
 
-export const useShowHistorikkState = () => useRecoilState(showHistorikkState);
+export const useShowHistorikkState = () => useAtom(showHistorikkState);
 
 export const useFilteredHistorikk = (person: Maybe<PersonFragment>): Array<HendelseObject> => {
-    const filter = useRecoilValue(filterState);
+    const filter = useAtomValue(filterState);
     const historikk = useHistorikk(person);
 
     return historikk.filter((hendelse) => filterMap[filter].includes(hendelse.type));
 };
 
-export const useFilterState = () => useRecoilState(filterState);
+export const useFilterState = () => useAtom(filterState);
 
-const showHøyremenyState = atom<boolean>({
-    key: 'showHøyremenyState',
-    default: true,
-    effects: [sessionStorageEffect()],
-});
+const showHøyremenyState = atomWithSessionStorage('showHøyremenyState', true);
 
-export const useShowHøyremenyState = () => useRecoilState(showHøyremenyState);
+export const useShowHøyremenyState = () => useAtom(showHøyremenyState);
