@@ -1,5 +1,5 @@
+import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
-import { atom, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { DokumenthendelseObject } from '@typer/historikk';
 
@@ -41,27 +41,27 @@ export const getKildetekst = (dokumenttype: DokumenthendelseObject['dokumenttype
     }
 };
 
-export const useOpenedDocuments = () => useRecoilValue(openedDocumentState);
+export const useOpenedDocuments = () => useAtomValue(openedDocumentState);
 
 export const useAddOpenedDocument = () => {
-    const setOpenedDocuments = useSetRecoilState(openedDocumentState);
+    const setOpenedDocuments = useSetAtom(openedDocumentState);
     return (dokument: Dokument) => {
         setOpenedDocuments((åpnedeDokumenter) => [...åpnedeDokumenter, dokument]);
     };
 };
 
 export const useRemoveOpenedDocument = () => {
-    const setOpenedDocuments = useSetRecoilState(openedDocumentState);
+    const setOpenedDocuments = useSetAtom(openedDocumentState);
     return (dokumentId: string) => {
         setOpenedDocuments((prevState) => prevState.filter((item) => item.dokumentId !== dokumentId));
     };
 };
 
 export const useResetOpenedDocuments = () => {
-    const resetOpenedDocuments = useResetRecoilState(openedDocumentState);
+    const setOpenedDocuments = useSetAtom(openedDocumentState);
     useEffect(() => {
-        resetOpenedDocuments();
-    }, [resetOpenedDocuments]);
+        setOpenedDocuments([]);
+    }, [setOpenedDocuments]);
 };
 
 interface Dokument {
@@ -71,7 +71,4 @@ interface Dokument {
     timestamp: string;
 }
 
-const openedDocumentState = atom<Dokument[]>({
-    key: 'openedDocuments',
-    default: [],
-});
+const openedDocumentState = atom<Dokument[]>([]);
