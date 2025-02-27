@@ -1,38 +1,20 @@
-import { AtomEffect, atom, useRecoilValue, useSetRecoilState } from 'recoil';
-
-const syncWithLocalStorageEffect: AtomEffect<boolean> = ({ onSet, setSelf }) => {
-    if (typeof window === 'undefined') return;
-
-    const key = 'showFiltermeny';
-    const savedValue = localStorage.getItem(key);
-    if (savedValue) {
-        setSelf(savedValue === 'true');
-    }
-    onSet((newValue) => {
-        localStorage.setItem(key, `${newValue}`);
-    });
-};
+import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 
 export const useToggleFiltermeny = () => {
-    const setShow = useSetRecoilState(showFiltermeny);
+    const setShow = useSetAtom(showFiltermeny);
     return () => setShow((show) => !show);
 };
 
-export const useShowFiltermeny = (): boolean => useRecoilValue(showFiltermeny);
+export const useShowFiltermeny = (): boolean => useAtomValue(showFiltermeny);
 
-const showFiltermeny = atom<boolean>({
-    key: 'showFiltermeny',
-    default: true,
-    effects: [syncWithLocalStorageEffect],
-});
+const showFiltermeny = atomWithStorage('showFiltermeny', true);
 
-export const useFiltermenyWidth = () => useRecoilValue(filtermenyWidthState);
+export const useFiltermenyWidth = () => useAtomValue(filtermenyWidth);
+
 export const useSetFiltermenyWidth = () => {
-    const setFiltermenyWidth = useSetRecoilState(filtermenyWidthState);
+    const setFiltermenyWidth = useSetAtom(filtermenyWidth);
     return (width: number) => setFiltermenyWidth(width);
 };
 
-const filtermenyWidthState = atom<number>({
-    key: 'filtermenyWidth',
-    default: 320,
-});
+const filtermenyWidth = atom(320);
