@@ -20,7 +20,7 @@ type SykepengegrunnlagSkjønnsfastsatthendelseProps = Omit<
     'type' | 'id'
 >;
 
-const getSkjønnsfastsettelseTypeTekst = (type?: Maybe<Skjonnsfastsettingstype>) => {
+export const getSkjønnsfastsettelseTypeTekst = (type?: Maybe<Skjonnsfastsettingstype>) => {
     switch (type) {
         case 'ANNET':
             return 'Annet';

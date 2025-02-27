@@ -7,14 +7,8 @@ import { Kilde } from '@components/Kilde';
 import { EndringsloggArbeidsforhold } from '@components/endringslogg/EndringsloggArbeidsforhold';
 import { EndringsloggDager } from '@components/endringslogg/EndringsloggDager';
 import { EndringsloggInntekt } from '@components/endringslogg/EndringsloggInntekt';
-import { EndringsloggSykepengegrunnlagskjønnsfastsetting } from '@components/endringslogg/EndringsloggSykepengegrunnlagskjønnsfastsetting';
 import { Maybe, OverstyringFragment } from '@io/graphql';
-import {
-    isArbeidsforholdoverstyringer,
-    isInntektoverstyringer,
-    isOverstyringerPrDag,
-    isSykepengegrunnlagskjønnsfastsettinger,
-} from '@utils/typeguards';
+import { isArbeidsforholdoverstyringer, isInntektoverstyringer, isOverstyringerPrDag } from '@utils/typeguards';
 
 import styles from './EndringsloggButton.module.css';
 
@@ -64,13 +58,6 @@ export const EndringsloggButton = <T extends OverstyringFragment>({
             )}
             {visEndringslogg && isOverstyringerPrDag(endringer) && (
                 <EndringsloggDager
-                    endringer={endringer}
-                    onClose={() => setVisEndringslogg(false)}
-                    showModal={visEndringslogg}
-                />
-            )}
-            {visEndringslogg && isSykepengegrunnlagskjønnsfastsettinger(endringer) && (
-                <EndringsloggSykepengegrunnlagskjønnsfastsetting
                     endringer={endringer}
                     onClose={() => setVisEndringslogg(false)}
                     showModal={visEndringslogg}

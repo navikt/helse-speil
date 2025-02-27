@@ -3,17 +3,19 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
 
+import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
-import { Sykepengegrunnlagskjonnsfastsetting } from '@io/graphql';
+import { getSkjønnsfastsettelseTypeTekst } from '@saksbilde/historikk/hendelser/SykepengegrunnlagSkjønnsfastsatthendelse';
+import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/SkjønnsfastsettingHeader';
 import { NORSK_DATOFORMAT, getFormattedDateString } from '@utils/date';
-import { somPenger } from '@utils/locale';
+import { capitalizeArbeidsgiver, somPenger } from '@utils/locale';
 
 import styles from './Endringslogg.module.css';
 
 type EndringsloggSykepengegrunnlagskjønnsfastsettingProps = {
     onClose: () => void;
     showModal: boolean;
-    endringer: Array<Sykepengegrunnlagskjonnsfastsetting>;
+    endringer: SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn[];
 };
 
 export const EndringsloggSykepengegrunnlagskjønnsfastsetting = ({
@@ -39,6 +41,7 @@ export const EndringsloggSykepengegrunnlagskjønnsfastsetting = ({
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Dato</Table.HeaderCell>
+                        <Table.HeaderCell>Arbeidsgiver</Table.HeaderCell>
                         <Table.HeaderCell>Sykepengegrunnlag</Table.HeaderCell>
                         <Table.HeaderCell>Skjæringstidpunkt</Table.HeaderCell>
                         <Table.HeaderCell>Årsak</Table.HeaderCell>
@@ -52,6 +55,11 @@ export const EndringsloggSykepengegrunnlagskjønnsfastsetting = ({
                         .map((endring, i) => (
                             <Table.Row key={i}>
                                 <Table.DataCell>{dayjs(endring.timestamp).format(NORSK_DATOFORMAT)}</Table.DataCell>
+                                <Table.DataCell>
+                                    <AnonymizableTextWithEllipsis>
+                                        {capitalizeArbeidsgiver(endring.arbeidsgivernavn)}
+                                    </AnonymizableTextWithEllipsis>
+                                </Table.DataCell>
                                 <Table.DataCell>
                                     <span className={styles.PreviousValue}>
                                         {somPenger(endring.skjonnsfastsatt.fraArlig)}
@@ -67,7 +75,9 @@ export const EndringsloggSykepengegrunnlagskjønnsfastsetting = ({
                                     </BodyShort>
                                 </Table.DataCell>
                                 <Table.DataCell>
-                                    <BodyShort className={styles.Begrunnelse}>{endring.skjonnsfastsatt.type}</BodyShort>
+                                    <BodyShort className={styles.Begrunnelse}>
+                                        {getSkjønnsfastsettelseTypeTekst(endring.skjonnsfastsatt.type)}
+                                    </BodyShort>
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     {endring.saksbehandler.ident ?? endring.saksbehandler.navn}

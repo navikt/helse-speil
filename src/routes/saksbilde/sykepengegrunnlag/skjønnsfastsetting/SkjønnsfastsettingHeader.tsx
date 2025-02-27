@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React from 'react';
 
 import { PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
@@ -5,11 +6,17 @@ import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import { BeregnetPeriodeFragment, Maybe, PersonFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
-import { EndringsloggButton } from '@saksbilde/sykepengegrunnlag/inntekt/EndringsloggButton';
-import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
+import {
+    BeregnetPeriodeFragment,
+    Maybe,
+    PersonFragment,
+    Sykepengegrunnlagsgrense,
+    Sykepengegrunnlagskjonnsfastsetting,
+} from '@io/graphql';
+import { EndringsloggSkjønnsfastsettingButton } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/EndringsloggSkjønnsfastsettingButton';
 import { useActivePeriod } from '@state/periode';
 import { somPenger, toKronerOgØre } from '@utils/locale';
+import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import styles from './SkjønnsfastsettingHeader.module.css';
 
@@ -34,14 +41,22 @@ export const SkjønnsfastsettingHeader = ({
     setEditing,
     maler,
     malerError,
-    organisasjonsnummer,
 }: SkjønnsfastsettingHeaderProps) => {
-    const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
-    const { skjønnsfastsettingsendringer } = useEndringerForPeriode(endringer, person);
     const aktivPeriode = useActivePeriod(person);
     const harMaler = maler && maler.length > 0;
 
     if (!person || !aktivPeriode) return <></>;
+
+    const skjønnsfastsettingEndringer: SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn[] =
+        person.arbeidsgivere.flatMap((arbeidsgiver) =>
+            arbeidsgiver.overstyringer
+                .filter((it) => dayjs(aktivPeriode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
+                .filter(isSykepengegrunnlagskjønnsfastsetting)
+                .map((overstyring) => ({
+                    ...overstyring,
+                    arbeidsgivernavn: arbeidsgiver.navn,
+                })),
+        );
 
     const erBeslutteroppgave = (aktivPeriode as BeregnetPeriodeFragment).totrinnsvurdering?.erBeslutteroppgave ?? false;
     const visningEndretSykepengegrunnlag = endretSykepengegrunnlag
@@ -65,8 +80,11 @@ export const SkjønnsfastsettingHeader = ({
                     {visningharEndring && (
                         <p className={styles.opprinneligSykepengegrunnlag}>{toKronerOgØre(sykepengegrunnlag)}</p>
                     )}
-                    {skjønnsfastsettingsendringer.length > 0 && (
-                        <EndringsloggButton endringer={skjønnsfastsettingsendringer} className={styles.kildeIkon} />
+                    {skjønnsfastsettingEndringer.length > 0 && (
+                        <EndringsloggSkjønnsfastsettingButton
+                            endringer={skjønnsfastsettingEndringer}
+                            className={styles.kildeIkon}
+                        />
                     )}
                 </>
             )}
@@ -98,3 +116,7 @@ export const SkjønnsfastsettingHeader = ({
         </div>
     );
 };
+
+export interface SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn extends Sykepengegrunnlagskjonnsfastsetting {
+    arbeidsgivernavn: string;
+}
