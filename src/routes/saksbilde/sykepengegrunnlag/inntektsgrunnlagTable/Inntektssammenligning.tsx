@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
@@ -89,7 +88,6 @@ export const Inntektssammenligning = ({
                         beløp={skjønnsmessigFastsatt?.belop}
                     />
                 }
-                ikon={<SkjønnsfastsettingIkon kilde={skjønnsmessigFastsatt?.kilde} />}
             />
         </tr>
     );
@@ -128,14 +126,3 @@ const SkjønnsfastsettingContent = ({ arbeidsforholdErDeaktivert, kilde, beløp 
         {!arbeidsforholdErDeaktivert && kilde === Inntektskilde.SkjonnsmessigFastsatt ? somPenger(beløp) : '-'}
     </BodyShort>
 );
-
-interface SkjønnsfastsettingIkonProps {
-    kilde?: Inntektskilde;
-}
-
-const SkjønnsfastsettingIkon = ({ kilde }: SkjønnsfastsettingIkonProps) =>
-    kilde === Inntektskilde.SkjonnsmessigFastsatt && (
-        <Kilde type={kilde}>
-            <PersonPencilFillIcon title="Saksbehandler ikon" />
-        </Kilde>
-    );
