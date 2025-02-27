@@ -195,12 +195,14 @@ export type BehandletOppgave = {
     __typename: 'BehandletOppgave';
     aktorId: Scalars['String']['output'];
     antallArbeidsforhold: AntallArbeidsforhold;
+    beslutter: Maybe<Scalars['String']['output']>;
     ferdigstiltAv: Maybe<Scalars['String']['output']>;
     ferdigstiltTidspunkt: Scalars['LocalDateTime']['output'];
     id: Scalars['String']['output'];
     oppgavetype: Oppgavetype;
     periodetype: Periodetype;
     personnavn: Personnavn;
+    saksbehandler: Maybe<Scalars['String']['output']>;
 };
 
 export type Behandlingsstatistikk = {
@@ -1775,6 +1777,8 @@ export type BehandledeOppgaverFeedQuery = {
             id: string;
             aktorId: string;
             ferdigstiltAv: string | null;
+            beslutter: string | null;
+            saksbehandler: string | null;
             ferdigstiltTidspunkt: string;
             antallArbeidsforhold: AntallArbeidsforhold;
             periodetype: Periodetype;
@@ -9836,6 +9840,8 @@ export const BehandledeOppgaverFeedDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltAv' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beslutter' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltTidspunkt' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'antallArbeidsforhold' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },

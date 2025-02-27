@@ -4,6 +4,8 @@ query BehandledeOppgaverFeed($offset: Int!, $limit: Int!) {
             id
             aktorId
             ferdigstiltAv
+            beslutter
+            saksbehandler
             ferdigstiltTidspunkt
             antallArbeidsforhold
             periodetype

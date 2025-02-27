@@ -193,12 +193,14 @@ export type BehandletOppgave = {
     __typename?: 'BehandletOppgave';
     aktorId: Scalars['String']['output'];
     antallArbeidsforhold: AntallArbeidsforhold;
+    beslutter?: Maybe<Scalars['String']['output']>;
     ferdigstiltAv?: Maybe<Scalars['String']['output']>;
     ferdigstiltTidspunkt: Scalars['LocalDateTime']['output'];
     id: Scalars['String']['output'];
     oppgavetype: Oppgavetype;
     periodetype: Periodetype;
     personnavn: Personnavn;
+    saksbehandler?: Maybe<Scalars['String']['output']>;
 };
 
 export type Behandlingsstatistikk = {
