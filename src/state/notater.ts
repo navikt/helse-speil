@@ -1,15 +1,15 @@
 import dayjs from 'dayjs';
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, useAtomValue, useSetAtom } from 'jotai';
 
 import { useMutation } from '@apollo/client';
 import { LeggTilKommentarDocument, NotatFragment, NotatType, PeriodehistorikkType } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { Notat } from '@typer/notat';
 
-export const useNotater = () => useRecoilValue(lokaleNotaterState);
+export const useNotater = () => useAtomValue(lokaleNotaterState);
 
 export const useReplaceNotat = () => {
-    const setNotat = useSetRecoilState(lokaleNotaterState);
+    const setNotat = useSetAtom(lokaleNotaterState);
     return (nyttNotat: LagretNotat) => {
         setNotat((currentState: LagretNotat[]) => [
             ...currentState.filter(
@@ -21,7 +21,7 @@ export const useReplaceNotat = () => {
 };
 
 export const useFjernNotat = () => {
-    const setNotat = useSetRecoilState(lokaleNotaterState);
+    const setNotat = useSetAtom(lokaleNotaterState);
     return (vedtaksperiodeId: string, notattype: NotatType) => {
         setNotat((currentValue) => [
             ...currentValue.filter((notat) => notat.type !== notattype || notat.vedtaksperiodeId !== vedtaksperiodeId),
@@ -133,7 +133,4 @@ export interface LagretNotat {
     type: NotatType;
 }
 
-const lokaleNotaterState = atom({
-    key: 'lokaleNotaterState',
-    default: [] as LagretNotat[],
-});
+const lokaleNotaterState = atom<LagretNotat[]>([]);
