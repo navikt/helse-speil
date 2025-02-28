@@ -1,8 +1,25 @@
 {
-    "extends": "next/core-web-vitals",
+    "extends": ["next/core-web-vitals", "next/typescript"],
     "plugins": ["import"],
     "rules": {
         "import/no-extraneous-dependencies": "error",
-        "react/display-name": "off"
+        "react/display-name": "off",
+        "@typescript-eslint/no-namespace": "off",
+        // Ignorerer variabler som starter med _
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "args": "all",
+                "argsIgnorePattern": "^_",
+                "caughtErrors": "all",
+                "caughtErrorsIgnorePattern": "^_",
+                "destructuredArrayIgnorePattern": "^_",
+                "varsIgnorePattern": "^_",
+                "ignoreRestSiblings": true
+            }
+        ]
+    },
+    "parserOptions": {
+        "project": "./tsconfig.json"
     }
 }

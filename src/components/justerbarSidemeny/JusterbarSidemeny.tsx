@@ -64,7 +64,7 @@ export const JusterbarSidemeny = ({
 
     useEffect(() => {
         if (!visSidemeny) {
-            localStorageNavn && localStorage.removeItem(localStorageNavn);
+            if (localStorageNavn) localStorage.removeItem(localStorageNavn);
             setWidth(defaultBredde);
         }
     }, [defaultBredde, localStorageNavn, visSidemeny]);

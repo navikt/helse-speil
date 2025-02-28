@@ -83,7 +83,9 @@ const useVisDriftsmelding = (driftsmelding: DriftsmeldingType): [boolean, () => 
     function get<T>(key?: T): T extends string ? Detaljer : UtkvitterteDriftsmeldinger {
         const value = localStorage.getItem(globalKey);
         const deserialized = deserialize(value);
-        return (key ? deserialized[key as string] : deserialized) as any;
+        return (key ? deserialized[key as string] : deserialized) as T extends string
+            ? Detaljer
+            : UtkvitterteDriftsmeldinger;
     }
 
     function set(utkvitterteDriftsmeldinger: UtkvitterteDriftsmeldinger) {

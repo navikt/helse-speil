@@ -74,7 +74,7 @@ export const EditableTilkommenAG = ({
     }, [values, omregnetÅrsinntektMånedsbeløpRounded, onEndre]);
 
     useEffect(() => {
-        harFeil && feiloppsummeringRef.current?.focus();
+        if (harFeil) feiloppsummeringRef.current?.focus();
     }, [harFeil]);
 
     const confirmChanges = () => {

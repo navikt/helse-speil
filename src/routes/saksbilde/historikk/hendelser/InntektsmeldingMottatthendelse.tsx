@@ -29,14 +29,16 @@ export const InntektsmeldingMottatthendelse = ({
     const dokumentetErÅpnet = () => åpnedeDokumenter.find((it) => it.dokumentId === dokumentId);
 
     function toggleÅpnetDokument() {
-        dokumentetErÅpnet()
-            ? fjernÅpnetDokument(dokumentId)
-            : leggTilÅpnetDokument({
-                  dokumentId: dokumentId,
-                  fødselsnummer: person.fodselsnummer,
-                  dokumenttype: 'Inntektsmelding',
-                  timestamp: timestamp,
-              });
+        if (dokumentetErÅpnet()) {
+            fjernÅpnetDokument(dokumentId);
+        } else {
+            leggTilÅpnetDokument({
+                dokumentId: dokumentId,
+                fødselsnummer: person.fodselsnummer,
+                dokumenttype: 'Inntektsmelding',
+                timestamp: timestamp,
+            });
+        }
     }
 
     return (

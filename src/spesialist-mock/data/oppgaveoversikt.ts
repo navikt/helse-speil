@@ -148,10 +148,10 @@ const syncMock = (oppgaver: OppgaveTilBehandling[]) => {
                 paVentInfo = {
                     arsaker: historikkinnslag.arsaker,
                     tekst: historikkinnslag.notattekst,
-                    dialogRef: historikkinnslag.dialogRef!!,
+                    dialogRef: historikkinnslag.dialogRef!,
                     opprettet: historikkinnslag.timestamp,
-                    saksbehandler: historikkinnslag.saksbehandlerIdent!!,
-                    tidsfrist: historikkinnslag.frist!!,
+                    saksbehandler: historikkinnslag.saksbehandlerIdent!,
+                    tidsfrist: historikkinnslag.frist!,
                     kommentarer: historikkinnslag.kommentarer,
                 };
                 egenskaper = !egenskaper.some((e) => e.egenskap === Egenskap.PaVent)

@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { erDev, erProd } from '@/env';
 import { buildSchema } from '@spesialist-mock/graphql';
 
-let yogaRequestHandler: ((req: Request, ctx: {}) => Response | Promise<Response>) | null;
+let yogaRequestHandler: ((req: Request, ctx: object) => Response | Promise<Response>) | null;
 
 function getRequestHandler() {
     if (yogaRequestHandler == null) {
@@ -20,7 +20,7 @@ function getRequestHandler() {
     return yogaRequestHandler;
 }
 
-function handleRequest(req: Request, ctx: {}) {
+function handleRequest(req: Request, ctx: object) {
     if (erProd || erDev) {
         notFound();
     }

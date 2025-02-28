@@ -41,7 +41,7 @@ export const RefusjonsperiodeInput = ({
                 <DatePicker.Input
                     {...fomFieldProps}
                     onBlur={(event) => {
-                        fomInputProps.onBlur && fomInputProps.onBlur(event);
+                        if (fomInputProps.onBlur) fomInputProps.onBlur(event);
                     }}
                     onFocus={fomInputProps.onFocus}
                     label="Fra og med dato"
@@ -54,7 +54,7 @@ export const RefusjonsperiodeInput = ({
                 <DatePicker.Input
                     {...tomFieldProps}
                     onBlur={(event) => {
-                        tomInputProps.onBlur && tomInputProps.onBlur(event);
+                        if (tomInputProps.onBlur) tomInputProps.onBlur(event);
                     }}
                     onFocus={tomInputProps.onFocus}
                     label="Til og med dato"

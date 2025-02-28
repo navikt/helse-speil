@@ -10,6 +10,7 @@ import { RecoilWrapper } from '@test-wrappers';
 import { RenderHookResult, RenderOptions, Screen, render, renderHook, screen } from '@testing-library/react';
 
 type ProviderProps = {
+    // eslint-disable-next-line
     readonly initialQueries?: Cache.WriteQueryOptions<any, any>[];
     readonly mocks?: MockedResponse[];
     readonly state?: (mutableSnapshot: MutableSnapshot) => void;

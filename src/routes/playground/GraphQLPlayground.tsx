@@ -4,7 +4,7 @@ import React from 'react';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 
 export const GraphQLPlayground = () => {
-    const [fetcher, setFetcher] = React.useState(() =>
+    const [fetcher, _] = React.useState(() =>
         createGraphiQLFetcher({
             url: `/api/graphql`,
         }),

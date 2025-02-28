@@ -5,7 +5,7 @@ import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 
 import { Kilde } from '@components/Kilde';
 import { EndringsloggSykepengegrunnlagskjønnsfastsetting } from '@components/endringslogg/EndringsloggSykepengegrunnlagskjønnsfastsetting';
-import { Maybe, OverstyringFragment } from '@io/graphql';
+import { Maybe } from '@io/graphql';
 import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/SkjønnsfastsettingHeader';
 
 import styles from '../inntekt/EndringsloggButton.module.css';
@@ -14,7 +14,7 @@ interface EndringsloggSkjønnsfastsettingButtonProps extends React.HTMLAttribute
     endringer: SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn[];
 }
 
-export const EndringsloggSkjønnsfastsettingButton = <T extends OverstyringFragment>({
+export const EndringsloggSkjønnsfastsettingButton = ({
     endringer,
     className,
     ...buttonProps

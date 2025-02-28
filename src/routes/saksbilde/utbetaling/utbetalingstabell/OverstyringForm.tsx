@@ -63,7 +63,7 @@ export const OverstyringForm = ({
     const harFeil = !formState?.isValid;
 
     useEffect(() => {
-        harFeil && oppsummeringRef.current?.focus();
+        if (harFeil) oppsummeringRef.current?.focus();
     }, [harFeil]);
 
     const visFeilOppsummering = !formState.isValid && Object.entries(formState.errors).length > 0;

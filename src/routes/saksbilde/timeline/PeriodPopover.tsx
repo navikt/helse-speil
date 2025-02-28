@@ -30,7 +30,7 @@ const groupDayTypes = (period: BeregnetPeriodeFragment): Map<Utbetalingsdagtype,
             map.set(currentDayType, []);
         }
         const tom = period.tidslinje[i - 1]?.dato;
-        tom && map.get(currentDayType)?.push({ fom: currentFom, tom: tom });
+        if (tom) map.get(currentDayType)?.push({ fom: currentFom, tom: tom });
     };
 
     for (let i = 1; i < period.tidslinje.length; i++) {

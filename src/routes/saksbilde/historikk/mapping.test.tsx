@@ -8,7 +8,7 @@ describe('mapping', () => {
         test('Finner første periode for skjæringstidspunkt', async () => {
             const generasjon = enGenerasjon();
             const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon] });
-            const skjæringstidspunkt = generasjon.perioder[0]?.skjaeringstidspunkt!;
+            const skjæringstidspunkt = generasjon.perioder[0]?.skjaeringstidspunkt as string;
             const førstePeriodeForSkjæringstidspunkt = getFørstePeriodeForSkjæringstidspunkt(
                 skjæringstidspunkt,
                 arbeidsgiver,
@@ -20,7 +20,7 @@ describe('mapping', () => {
         test('Takler arbeidsgivere uten sykefravær', async () => {
             const generasjon = enGenerasjon();
             const arbeidsgiver = enArbeidsgiver({ generasjoner: [], ghostPerioder: [enGhostPeriode()] });
-            const skjæringstidspunkt = generasjon.perioder[0]?.skjaeringstidspunkt!;
+            const skjæringstidspunkt = generasjon.perioder[0]?.skjaeringstidspunkt as string;
             const førstePeriodeForSkjæringstidspunkt = getFørstePeriodeForSkjæringstidspunkt(
                 skjæringstidspunkt,
                 arbeidsgiver,

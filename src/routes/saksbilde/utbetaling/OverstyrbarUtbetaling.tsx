@@ -111,7 +111,11 @@ const reducer: Reducer<DagerState, DagerAction> = (prevState, action) => {
 
     const toggleMarkerteDager = (dag: Utbetalingstabelldag, toggle: boolean) => {
         const nyeMarkerteDager = new Map(prevState.markerteDager);
-        toggle ? nyeMarkerteDager.set(getKey(dag), dag) : nyeMarkerteDager.delete(getKey(dag));
+        if (toggle) {
+            nyeMarkerteDager.set(getKey(dag), dag);
+        } else {
+            nyeMarkerteDager.delete(getKey(dag));
+        }
         return {
             ...prevState,
             markerteDager: nyeMarkerteDager,
@@ -128,7 +132,11 @@ const reducer: Reducer<DagerState, DagerAction> = (prevState, action) => {
         Array.from(alleDager.values())
             .filter((it) => dayjs(it.dato).isBetween(forrigeValgteDag.dato, dag.dato, 'day', '[]'))
             .forEach((it) => {
-                toggle ? nyeMarkerteDager.set(getKey(it), it) : nyeMarkerteDager.delete(getKey(it));
+                if (toggle) {
+                    nyeMarkerteDager.set(getKey(it), it);
+                } else {
+                    nyeMarkerteDager.delete(getKey(it));
+                }
             });
         return {
             ...prevState,

@@ -25,7 +25,7 @@ export const useInteractOutside = ({ ref, onInteractOutside, active = true }: Us
                 } else {
                     const shouldHaveFocus = current?.contains(targetElement) || modalRef?.contains(targetElement);
                     if (active) {
-                        !shouldHaveFocus && onInteractOutside();
+                        if (!shouldHaveFocus) onInteractOutside();
                         setFocused(shouldHaveFocus ?? false);
                     }
                 }

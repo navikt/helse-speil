@@ -114,7 +114,7 @@ export const InntektOgRefusjonSkjema = ({
     }, [harEndringer, harEndring]);
 
     useEffect(() => {
-        harFeil && feiloppsummeringRef.current?.focus();
+        if (harFeil) feiloppsummeringRef.current?.focus();
     }, [harFeil]);
 
     const confirmChanges = () => {
@@ -315,13 +315,13 @@ const refusjonsvalidator =
 
         const manglerRefusjonsopplysninger: boolean = refusjonsopplysninger.length === 0;
 
-        sisteTomErFørPeriodensTom &&
+        if (sisteTomErFørPeriodensTom)
             setError('refusjonsopplysninger', {
                 type: 'custom',
                 message: 'Siste til og med dato kan ikke være før periodens til og med dato.',
             });
 
-        førsteFomErEtterFørstePeriodesFom &&
+        if (førsteFomErEtterFørstePeriodesFom)
             setError('refusjonsopplysninger', {
                 type: 'custom',
                 message: `Tidligste fra og med dato for refusjon må være lik eller før ${dayjs(
@@ -330,13 +330,13 @@ const refusjonsvalidator =
                 ).format(NORSK_DATOFORMAT)}`,
             });
 
-        erGapIDatoer &&
+        if (erGapIDatoer)
             setError('refusjonsopplysninger', {
                 type: 'custom',
                 message: 'Refusjonsdatoene må være sammenhengende.',
             });
 
-        manglerRefusjonsopplysninger &&
+        if (manglerRefusjonsopplysninger)
             setError('refusjonsopplysninger', { type: 'custom', message: 'Mangler refusjonsopplysninger' });
 
         if (

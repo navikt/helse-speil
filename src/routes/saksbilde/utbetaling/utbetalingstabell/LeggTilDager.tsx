@@ -93,7 +93,7 @@ export const LeggTilDagerForm = React.memo(
             defaultMonth: periodeFomMinusEnDag.toDate(),
             defaultSelected: periodeFomMinusEnDag.toDate(),
             onDateChange: (date: Date | undefined) => {
-                date && setEndring({ ...endring, fom: dayjs(date).format(ISO_DATOFORMAT) });
+                if (date) setEndring({ ...endring, fom: dayjs(date).format(ISO_DATOFORMAT) });
             },
         });
 

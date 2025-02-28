@@ -64,7 +64,7 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkule
         if (calculating && opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE') {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
-            onFerdigKalkulert && onFerdigKalkulert();
+            if (onFerdigKalkulert) onFerdigKalkulert();
         }
     });
 

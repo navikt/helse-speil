@@ -49,8 +49,7 @@ export const useNavigation = (): Navigation => {
 
     const navigateTo = (ønsketFane: Fane, aktørId: Maybe<string> = currentAktørId) => {
         const destination = `/person/${aktørId}${locations[ønsketFane]}`;
-        const current = pathname;
-        if (destination !== current) {
+        if (destination !== pathname) {
             router.push(destination);
         }
     };

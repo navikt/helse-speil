@@ -60,7 +60,7 @@ export class HistorikkinnslagMock {
     };
 
     static findKeyByDialogId = (dialogId: number) => {
-        for (let [key, values] of HistorikkinnslagMock.historikkinnslagMap.entries()) {
+        for (const [key, values] of HistorikkinnslagMock.historikkinnslagMap.entries()) {
             if (Array.isArray(values) && values.find((h) => h.dialogRef === dialogId)) {
                 return key;
             }

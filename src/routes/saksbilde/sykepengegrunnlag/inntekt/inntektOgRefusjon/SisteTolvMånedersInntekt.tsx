@@ -24,7 +24,7 @@ const leggInnIkkeRapporterteMåneder = (
     inntekterFraAordningen: Array<InntektFraAOrdningen>,
     antallMåneder: number = 12,
 ) =>
-    [...Array(antallMåneder)].map((m, i) => {
+    [...Array(antallMåneder)].map((_, i) => {
         const aktuellMnd = dayjs(skjæringstidspunkt, ISO_DATOFORMAT)
             .subtract(i + 1, 'month')
             .format('YYYY-MM');

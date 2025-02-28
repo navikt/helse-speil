@@ -117,7 +117,7 @@ export const SkjønnsfastsettingForm = ({
     );
 
     useEffect(() => {
-        harFeil && feiloppsummeringRef.current?.focus();
+        if (harFeil) feiloppsummeringRef.current?.focus();
     }, [harFeil]);
 
     useEffect(() => {

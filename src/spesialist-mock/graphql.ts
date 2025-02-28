@@ -180,7 +180,7 @@ const getResolvers = (): IResolvers => ({
             return NotatMock.addNotat(vedtaksperiodeId, {
                 tekst: tekst,
                 type: type,
-                dialogRef: DialogMock.addDialog()!!,
+                dialogRef: DialogMock.addDialog() ?? undefined,
             });
         },
         feilregistrerNotat: (_, { id }: MutationFeilregistrerNotatArgs) => {

@@ -62,7 +62,7 @@ const harNyNyhet = (sisteNyhetOpprettet: string | undefined): boolean => {
 
     if (lagretSisteNyhetOpprettet === null && sisteNyhetOpprettet !== undefined) return true;
 
-    return dayjs(sisteNyhetOpprettet).isAfter(JSON.parse(lagretSisteNyhetOpprettet!!));
+    return dayjs(sisteNyhetOpprettet).isAfter(JSON.parse(lagretSisteNyhetOpprettet!));
 };
 
 const lagreSisteNyhetOpprettet = (

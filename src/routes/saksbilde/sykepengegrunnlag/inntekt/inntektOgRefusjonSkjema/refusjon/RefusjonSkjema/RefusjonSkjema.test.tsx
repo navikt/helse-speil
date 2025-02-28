@@ -63,7 +63,7 @@ describe('Refusjonskjema', () => {
         );
         expect(screen.queryByLabelText('Til og med dato')).toHaveValue('');
         expect(screen.queryByLabelText('Månedlig refusjon')).toHaveValue(
-            toKronerOgØre(en_refusjonsopplysning[0]?.beløp!),
+            toKronerOgØre(en_refusjonsopplysning[0]?.beløp as number),
         );
         expect(screen.queryByText('IM')).toBeInTheDocument();
     });

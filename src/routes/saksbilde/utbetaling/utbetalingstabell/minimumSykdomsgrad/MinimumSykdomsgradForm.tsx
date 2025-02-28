@@ -71,11 +71,17 @@ export const MinimumSykdomsgradForm = ({
             perioderVurdertOk: perioderVurdertOk,
             perioderVurdertIkkeOk: perioderVurdertIkkeOk,
             begrunnelse: skjemaverdier.begrunnelse,
-            arbeidsgivere: overlappendeArbeidsgivere.map((it) => {
+            arbeidsgivere: overlappendeArbeidsgivere.map((arbeidsgiver) => {
+                const berørtVedtaksperiodeId = arbeidsgiver.generasjoner[0]?.perioder.find(
+                    overlapper(aktivPeriode),
+                )?.vedtaksperiodeId;
+                if (berørtVedtaksperiodeId == undefined)
+                    throw new Error(
+                        'Mangler berørt vedtaksperiodeId for arbeidsgiver: ' + arbeidsgiver.organisasjonsnummer,
+                    );
                 return {
-                    organisasjonsnummer: it.organisasjonsnummer,
-                    berørtVedtaksperiodeId: it.generasjoner[0]?.perioder.find(overlapper(aktivPeriode))
-                        ?.vedtaksperiodeId!,
+                    organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+                    berørtVedtaksperiodeId: berørtVedtaksperiodeId,
                 };
             }),
             initierendeVedtaksperiodeId: initierendeVedtaksperiodeId,
@@ -83,7 +89,7 @@ export const MinimumSykdomsgradForm = ({
     };
 
     return (
-        <Box background="surface-subtle" as="article" padding="4">
+        <Box background={'surface-subtle'} as="article" padding="4">
             <HStack gap="2" paddingBlock="0 3">
                 <Heading size="small">Arbeidstidsvurdering</Heading>
                 <Button

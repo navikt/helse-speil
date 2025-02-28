@@ -18,9 +18,10 @@ export class DialogMock {
         DialogMock.dialog.set(dialogId, [...DialogMock.getKommentarer(dialogId), mockedKommentar]);
 
         const historikkinnslag = HistorikkinnslagMock.getHistorikkinnslagMedDialogId(dialogId);
+        const id = HistorikkinnslagMock.findKeyByDialogId(dialogId);
 
-        if (historikkinnslag) {
-            HistorikkinnslagMock.updateHistorikkinnslag(HistorikkinnslagMock.findKeyByDialogId(dialogId)!!, dialogId, {
+        if (historikkinnslag && id) {
+            HistorikkinnslagMock.updateHistorikkinnslag(id, dialogId, {
                 kommentarer: DialogMock.getKommentarer(dialogId),
             });
         } else {

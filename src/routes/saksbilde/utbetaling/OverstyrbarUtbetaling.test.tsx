@@ -16,11 +16,7 @@ let postOverstyringArguments: [Utbetalingstabelldag[], string] | [] = [];
 
 jest.mock('./utbetalingstabell/useOverstyrDager', () => ({
     useOverstyrDager: () => ({
-        postOverstyring: (
-            dager: Utbetalingstabelldag[],
-            overstyrteDager: Utbetalingstabelldag[],
-            begrunnelse: string,
-        ) => {
+        postOverstyring: (_: Utbetalingstabelldag[], overstyrteDager: Utbetalingstabelldag[], begrunnelse: string) => {
             postOverstyringArguments = [overstyrteDager, begrunnelse];
         },
     }),

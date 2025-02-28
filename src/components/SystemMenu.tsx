@@ -51,7 +51,7 @@ export const hoppTilModia = async (url: string, fødselsnummer: Maybe<string>) =
     const forbered = () => (fødselsnummer ? settModiaContext(fødselsnummer) : nullstillModiaContext());
     try {
         await forbered();
-    } catch (error) {
+    } catch (_) {
         const tekst = fødselsnummer
             ? 'Søk av person i Modia feilet, du må søke den opp manuelt når du kommer til Modia.'
             : 'Forrige person kan fortsatt være valgt når du kommer til Modia.';

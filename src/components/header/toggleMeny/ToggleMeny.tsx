@@ -48,7 +48,7 @@ export const ToggleMeny = ({ onClose, showModal }: ToggleMenyProps) => {
 };
 
 const totrinnsvurderingStateToCheckboxValue = (totrinn: TotrinnsvurderingState): string[] => {
-    let array: string[] = [];
+    const array: string[] = [];
     if (totrinn.erAktiv) array.push('erAktiv');
     if (totrinn.harBeslutterrolle) array.push('harBeslutterrolle');
     if (totrinn.kanBeslutteEgne) array.push('kanBeslutteEgne');

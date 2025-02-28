@@ -231,7 +231,7 @@ const FellesPåVentModal = ({
     };
 
     const submit = async () => {
-        let error = validate();
+        const error = validate();
         if (error) {
             return;
         }

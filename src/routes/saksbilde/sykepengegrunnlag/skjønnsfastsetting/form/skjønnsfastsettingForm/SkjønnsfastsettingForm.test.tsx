@@ -84,8 +84,8 @@ describe('SkjønnsfastsettingForm', () => {
                 maler={maler}
             />,
         );
-        expect(await screen.findByText(maler[0]?.arsak!)).toBeInTheDocument();
-        expect(await screen.findByText(maler[1]?.arsak!)).toBeInTheDocument();
+        expect(await screen.findByText(maler[0]?.arsak as string)).toBeInTheDocument();
+        expect(await screen.findByText(maler[1]?.arsak as string)).toBeInTheDocument();
     });
     it('viser skjønnsfastsettingstyper ved valg av 25 % avvik som årsak', async () => {
         render(

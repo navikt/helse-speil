@@ -243,7 +243,7 @@ const filtrering = (
 // og vi har ikke eget filter for infotrygdforlengelse.
 // Så når man filtrerer på Forlengelse må vi også sende med Infotrygdforlengelse-egenskapen i filtreringen til Spesialist
 const hackInnInfotrygdforlengelse = (activeFilters: Filter[]): Filter[] => {
-    let filterArray: Filter[] = [...activeFilters];
+    const filterArray: Filter[] = [...activeFilters];
     const forlengelseFilter = activeFilters.find((f) => f.key === Egenskap.Forlengelse);
     if (forlengelseFilter) {
         filterArray.push({
