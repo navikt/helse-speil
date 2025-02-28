@@ -1,17 +1,14 @@
-import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 
 import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
 import { ActivePeriod } from '@typer/shared';
 import { raise } from '@utils/ts';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-const activePeriodIdState = atom<Maybe<string>>({
-    key: 'activePeriodId',
-    default: null,
-});
+const activePeriodIdState = atom<Maybe<string>>(null);
 
 export const useSetActivePeriodId = (person: PersonFragment) => {
-    const [activePeriodId, setActivePeriodId] = useRecoilState(activePeriodIdState);
+    const [activePeriodId, setActivePeriodId] = useAtom(activePeriodIdState);
 
     return (periodeId: string) => {
         if (activePeriodId === periodeId) return;
@@ -22,7 +19,7 @@ export const useSetActivePeriodId = (person: PersonFragment) => {
 };
 
 export const useActivePeriod = (person: Maybe<PersonFragment>): Maybe<ActivePeriod> => {
-    const activePeriodId = useRecoilValue(activePeriodIdState);
+    const activePeriodId = useAtomValue(activePeriodIdState);
 
     if (!person) return null;
 
@@ -30,14 +27,14 @@ export const useActivePeriod = (person: Maybe<PersonFragment>): Maybe<ActivePeri
 };
 
 export const useActivePeriodWithPerson = (person: PersonFragment): Maybe<ActivePeriod> => {
-    const activePeriodId = useRecoilValue(activePeriodIdState);
+    const activePeriodId = useAtomValue(activePeriodIdState);
     const periodToSelect = person ? findPeriodToSelect(person) : null;
 
     return findPeriod(activePeriodId, person) ?? periodToSelect;
 };
 
 export const useSelectPeriod = () => {
-    const setActivePeriodId = useSetRecoilState(activePeriodIdState);
+    const setActivePeriodId = useSetAtom(activePeriodIdState);
     return (person: PersonFragment) => {
         const periodToSelect = findPeriodToSelect(person);
         if (periodToSelect) {
