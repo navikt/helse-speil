@@ -1,4 +1,5 @@
-import { atom, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
+import { atomWithReset, useResetAtom } from 'jotai/utils';
 
 import {
     ArbeidsgiverFragment,
@@ -20,9 +21,9 @@ import {
 import { ActivePeriod, DateString } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
-export const useInntektOgRefusjon = () => useRecoilValue(inntektOgRefusjonState);
+export const useInntektOgRefusjon = () => useAtomValue(inntektOgRefusjonState);
 
-export const useSlettLokaleOverstyringer = () => useResetRecoilState(inntektOgRefusjonState);
+export const useSlettLokaleOverstyringer = () => useResetAtom(inntektOgRefusjonState);
 
 export const useLokaleInntektOverstyringer = (
     person: PersonFragment,
@@ -33,7 +34,7 @@ export const useLokaleInntektOverstyringer = (
         throw Error('Mangler persondata.');
     }
 
-    const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
+    const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useAtom(inntektOgRefusjonState);
 
     return (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO, organisasjonsnummer?: string) => {
         const overstyrtArbeidsgiver = (overstyrtInntekt as OverstyrtInntektOgRefusjonDTO).arbeidsgivere[0];
@@ -162,12 +163,9 @@ export type OverstyrtInntektOgRefusjon = {
     arbeidsgivere: OverstyrtInntektOgRefusjonArbeidsgiver[] | [];
 };
 
-const inntektOgRefusjonState = atom<OverstyrtInntektOgRefusjon>({
-    key: 'inntektOgRefusjonState',
-    default: {
-        aktørId: null,
-        fødselsnummer: null,
-        skjæringstidspunkt: null,
-        arbeidsgivere: [],
-    },
+const inntektOgRefusjonState = atomWithReset<OverstyrtInntektOgRefusjon>({
+    aktørId: null,
+    fødselsnummer: null,
+    skjæringstidspunkt: null,
+    arbeidsgivere: [],
 });
