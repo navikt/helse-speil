@@ -1,6 +1,5 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import { SetRecoilState, atom as recoilAtom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -20,37 +19,14 @@ const defaultSortation: SortState = {
     direction: 'ascending',
 };
 
-const storageKeyForSortering = (tab: TabType) => 'sorteringForTab_' + tab;
-
-const getSorteringFromLocalStorage = (tab: TabType): SortState => {
-    const savedState = localStorage.getItem(storageKeyForSortering(tab));
-    if (savedState != null) {
-        return savedState ? JSON.parse(savedState) : undefined;
-    } else {
-        return defaultSortation;
-    }
-};
-
 type SorteringPerTab = { [key in TabType]: SortState };
 
-const sorteringPerTab = recoilAtom<SorteringPerTab>({
-    key: 'sorteringPerTab',
-    default: {
-        [TabType.TilGodkjenning]: defaultSortation,
-        [TabType.Mine]: defaultSortation,
-        [TabType.Ventende]: defaultSortation,
-        [TabType.BehandletIdag]: defaultSortation,
-    },
+const sorteringPerTab = atomWithStorage<SorteringPerTab>('sorteringPerTab', {
+    [TabType.TilGodkjenning]: defaultSortation,
+    [TabType.Mine]: defaultSortation,
+    [TabType.Ventende]: defaultSortation,
+    [TabType.BehandletIdag]: defaultSortation,
 });
-
-export const hydrateSorteringForTab = (set: SetRecoilState) => {
-    set(sorteringPerTab, {
-        [TabType.TilGodkjenning]: getSorteringFromLocalStorage(TabType.TilGodkjenning),
-        [TabType.Mine]: getSorteringFromLocalStorage(TabType.Mine),
-        [TabType.Ventende]: getSorteringFromLocalStorage(TabType.Ventende),
-        [TabType.BehandletIdag]: defaultSortation,
-    });
-};
 
 const sorteringEndret = atom(false);
 
@@ -62,20 +38,15 @@ export const useSetSorteringIkkeEndret = () => {
     };
 };
 
-const sortering = selector<SortState>({
-    key: 'sortering',
-    get: ({ get }) => {
-        return get(sorteringPerTab)[get(tabState)];
-    },
-    set: ({ get, set }, newValue) => {
-        localStorage.setItem(storageKeyForSortering(get(tabState)), newValue ? JSON.stringify(newValue) : '');
-        set(sorteringPerTab, (sortering) => ({ ...sortering, [get(tabState)]: newValue }));
-    },
-});
+const sortering = atom(
+    (get) => get(sorteringPerTab)[get(tabState)],
+    (get, set, newValue: SortState) =>
+        set(sorteringPerTab, (prevState) => ({ ...prevState, [get(tabState)]: newValue })),
+);
 
-export const useSorteringState = () => useRecoilValue(sortering);
+export const useSorteringState = () => useAtomValue(sortering);
 export const useSetSortering = () => {
-    const setSortering = useSetRecoilState(sortering);
+    const setSortering = useSetAtom(sortering);
     return (sortering: SortState) => {
         setSortering(sortering);
     };

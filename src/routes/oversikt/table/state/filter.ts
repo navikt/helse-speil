@@ -1,5 +1,6 @@
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { SetRecoilState, atom as recoilAtom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
+import { WritableAtom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
+import { SetStateAction } from 'react';
 
 import { Egenskap } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
@@ -29,7 +30,7 @@ export enum Oppgaveoversiktkolonne {
     ANTALLARBEIDSFORHOLD = 'ANTALLARBEIDSFORHOLD',
 }
 
-type ActiveFiltersPerTab = {
+type FiltersPerTab = {
     [key in TabType]: Filter[];
 };
 
@@ -210,63 +211,47 @@ export const getDefaultFilters = (grupper: string[], ident: string): Filter[] =>
         .filter((filter) => filter.key !== Egenskap.Gosys || kanFiltrerePåGosysEgenskap(ident, grupper))
         .filter((filter) => filter.key !== Egenskap.Tilkommen || kanSeTilkommenInntekt(ident, grupper));
 
-const storageKeyForFilters = (tab: TabType) => 'filtereForTab_' + tab;
-
-const hentValgteFiltre = (tab: TabType, defaultFilters: Filter[]): Filter[] => {
-    const filters = localStorage.getItem(storageKeyForFilters(tab));
-    if (filters == null && tab === TabType.TilGodkjenning) return defaultFilters.map(filterOut('TILDELTE_SAKER'));
-    if (filters == null && tab === TabType.Mine) return defaultFilters.map(filterOut('PA_VENT'));
-    if (filters == null) {
+const hentFiltreForTab = (tab: TabType, defaultFilters: Filter[]): Filter[] => {
+    const filtersFromStorage = localStorage.getItem('filtersPerTab');
+    if (filtersFromStorage == null) {
         return defaultFilters;
     }
 
-    const activeFilters: Filter[] = JSON.parse(filters);
+    const filtersForThisTab: Filter[] = JSON.parse(filtersFromStorage)[tab];
 
     return defaultFilters.map(
-        (defaultFilter) =>
-            activeFilters.find((activeFilter) => defaultFilter.key === activeFilter.key) || defaultFilter,
+        (defaultFilter) => filtersForThisTab.find((filter) => defaultFilter.key === filter.key) || defaultFilter,
     );
 };
 
-const filterOut = (key: string) => (it: Filter) => (it.key === key ? { ...it, status: FilterStatus.OUT } : it);
-
-const allFilters = recoilAtom<ActiveFiltersPerTab>({
-    key: 'activeFiltersPerTab',
-    default: {
-        [TabType.TilGodkjenning]: [],
-        [TabType.Mine]: [],
-        [TabType.Ventende]: [],
-        [TabType.BehandletIdag]: [],
-    },
+const filtersPerTab = atomWithStorage<FiltersPerTab>('filtersPerTab', {
+    [TabType.TilGodkjenning]: filters,
+    [TabType.Mine]: filters,
+    [TabType.Ventende]: filters,
+    [TabType.BehandletIdag]: filters,
 });
 
-export const hydrateAllFilters = (set: SetRecoilState, grupper: string[], ident: string) => {
-    set(allFilters, (prevState) => ({
-        ...prevState,
-        [TabType.TilGodkjenning]: hentValgteFiltre(TabType.TilGodkjenning, getDefaultFilters(grupper, ident)),
-        [TabType.Mine]: hentValgteFiltre(TabType.Mine, getDefaultFilters(grupper, ident)),
-        [TabType.Ventende]: hentValgteFiltre(TabType.Ventende, getDefaultFilters(grupper, ident)),
-        [TabType.BehandletIdag]: [],
-    }));
-};
+export function hydrateFilters(
+    grupper: string[],
+    ident: string,
+): [WritableAtom<FiltersPerTab, [SetStateAction<FiltersPerTab>], void>, FiltersPerTab] {
+    return [
+        filtersPerTab,
+        {
+            [TabType.TilGodkjenning]: hentFiltreForTab(TabType.TilGodkjenning, getDefaultFilters(grupper, ident)),
+            [TabType.Mine]: hentFiltreForTab(TabType.Mine, getDefaultFilters(grupper, ident)),
+            [TabType.Ventende]: hentFiltreForTab(TabType.Ventende, getDefaultFilters(grupper, ident)),
+            [TabType.BehandletIdag]: [],
+        },
+    ];
+}
 
-const filtersState = selector<Filter[]>({
-    key: 'filtersState',
-    get: ({ get }) => {
-        const tab = get(tabState);
-        return get(allFilters)[tab];
+const filtersState = atom(
+    (get) => get(filtersPerTab)[get(tabState)],
+    (get, set, newFilters: Filter[]) => {
+        set(filtersPerTab, (filters) => ({ ...filters, [get(tabState)]: newFilters }));
     },
-    set: ({ get, set }, newValue) => {
-        const tab = get(tabState);
-
-        if (Array.isArray(newValue)) {
-            const aktiveFiltre = newValue.filter((f) => f.status !== FilterStatus.OFF);
-            localStorage.setItem(storageKeyForFilters(tab), JSON.stringify(aktiveFiltre));
-        }
-
-        set(allFilters, (filters) => ({ ...filters, [tab]: newValue }));
-    },
-});
+);
 
 export const useFilterEndret = () => useAtomValue(filterEndretState);
 export const useSetFilterIkkeEndret = () => {
@@ -277,24 +262,24 @@ export const useSetFilterIkkeEndret = () => {
 const filterEndretState = atom(false);
 
 export const useFilters = () => ({
-    allFilters: useRecoilValue(filtersState),
-    activeFilters: useRecoilValue(filtersState).filter((filter) => filter.status !== FilterStatus.OFF),
+    allFilters: useAtomValue(filtersState),
+    activeFilters: useAtomValue(filtersState).filter((filter) => filter.status !== FilterStatus.OFF),
 });
 
 export const useSetMultipleFilters = () => {
-    const setFilters = useSetRecoilState(filtersState);
+    const [filters, setFilters] = useAtom(filtersState);
     const setFilterEndret = useSetAtom(filterEndretState);
     return (filterStatus: FilterStatus, ...keys: string[]) => {
-        setFilters((filters) => filters.map((it) => (keys.includes(it.key) ? { ...it, status: filterStatus } : it)));
+        setFilters(filters.map((it) => (keys.includes(it.key) ? { ...it, status: filterStatus } : it)));
         setFilterEndret(true);
     };
 };
 
 export const useToggleFilter = () => {
-    const setFilters = useSetRecoilState(filtersState);
+    const [filters, setFilters] = useAtom(filtersState);
     const setFilterEndret = useSetAtom(filterEndretState);
     return (key: string, status: FilterStatus) => {
-        setFilters((filters) => filters.map((it) => (it.key === key ? { ...it, status } : it)));
+        setFilters(filters.map((it) => (it.key === key ? { ...it, status } : it)));
         setFilterEndret(true);
     };
 };

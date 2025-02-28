@@ -13,8 +13,7 @@ import type { WritableAtom } from 'jotai';
 import { Provider } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
 import { usePathname } from 'next/navigation';
-import { PropsWithChildren, ReactElement, ReactNode, useCallback, useEffect, useState } from 'react';
-import { RecoilRoot, SetRecoilState } from 'recoil';
+import { PropsWithChildren, ReactElement, ReactNode, useEffect, useState } from 'react';
 
 import { ApolloProvider } from '@apollo/client';
 import { createApolloClient } from '@app/apollo/apolloClient';
@@ -22,8 +21,7 @@ import { Bruker, BrukerContext } from '@auth/brukerContext';
 import { AnonymiseringProvider } from '@components/anonymizable/AnonymizationProvider';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { initInstrumentation } from '@observability/faro';
-import { hydrateAllFilters } from '@oversikt/table/state/filter';
-import { hydrateSorteringForTab } from '@oversikt/table/state/sortation';
+import { hydrateFilters } from '@oversikt/table/state/filter';
 import { useFetchPersonQuery } from '@state/person';
 import { hydrateKanFrigiOppgaverState, hydrateTotrinnsvurderingState } from '@state/toggles';
 import { useSetVarsler } from '@state/varsler';
@@ -46,33 +44,23 @@ type Props = {
 export const Providers = ({ children, bruker }: PropsWithChildren<Props>): ReactElement => {
     const [apolloClient] = useState(() => createApolloClient());
 
-    const initializeState = useCallback(
-        ({ set }: { set: SetRecoilState }) => {
-            if (typeof window === 'undefined') return;
-            hydrateAllFilters(set, bruker.grupper, bruker.ident);
-            hydrateSorteringForTab(set);
-        },
-        [bruker.grupper, bruker.ident],
-    );
-
     return (
         <ApolloProvider client={apolloClient}>
-            <RecoilRoot initializeState={initializeState}>
-                <Provider>
-                    <AtomsHydrator
-                        atomValues={[
-                            hydrateKanFrigiOppgaverState(bruker.ident),
-                            hydrateTotrinnsvurderingState(bruker.grupper),
-                        ]}
-                    >
-                        <SyncAlerts>
-                            <AnonymiseringProvider>
-                                <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
-                            </AnonymiseringProvider>
-                        </SyncAlerts>
-                    </AtomsHydrator>
-                </Provider>
-            </RecoilRoot>
+            <Provider>
+                <AtomsHydrator
+                    atomValues={[
+                        hydrateKanFrigiOppgaverState(bruker.ident),
+                        hydrateTotrinnsvurderingState(bruker.grupper),
+                        hydrateFilters(bruker.grupper, bruker.ident),
+                    ]}
+                >
+                    <SyncAlerts>
+                        <AnonymiseringProvider>
+                            <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
+                        </AnonymiseringProvider>
+                    </SyncAlerts>
+                </AtomsHydrator>
+            </Provider>
         </ApolloProvider>
     );
 };

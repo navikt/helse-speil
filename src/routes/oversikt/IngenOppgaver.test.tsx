@@ -1,23 +1,17 @@
 import { axe } from 'jest-axe';
 import React from 'react';
-import { MutableSnapshot } from 'recoil';
 
-import { wrapperWithRecoilInitializer } from '@test-wrappers';
+import { wrapperWithJotaiInitalizer } from '@test-wrappers';
 import { render } from '@testing-library/react';
 
 import { IngenOppgaver } from './IngenOppgaver';
 import { TabType, tabState } from './tabState';
 
-const initializerWithTabType =
-    (tabType: TabType) =>
-    ({ set }: MutableSnapshot) => {
-        set(tabState, tabType);
-    };
-
 describe('Ingen oppgaver', () => {
     it('rendrer til godkjenning uten violations', async () => {
-        const initializer = initializerWithTabType(TabType.TilGodkjenning);
-        const { container } = render(<IngenOppgaver />, { wrapper: wrapperWithRecoilInitializer(initializer) });
+        const { container } = render(<IngenOppgaver />, {
+            wrapper: wrapperWithJotaiInitalizer([[tabState, TabType.TilGodkjenning]]),
+        });
 
         const result = await axe(container);
 
@@ -25,8 +19,9 @@ describe('Ingen oppgaver', () => {
     });
 
     it('rendrer behandlet idag uten violations', async () => {
-        const initializer = initializerWithTabType(TabType.BehandletIdag);
-        const { container } = render(<IngenOppgaver />, { wrapper: wrapperWithRecoilInitializer(initializer) });
+        const { container } = render(<IngenOppgaver />, {
+            wrapper: wrapperWithJotaiInitalizer([[tabState, TabType.BehandletIdag]]),
+        });
 
         const result = await axe(container);
 
@@ -34,8 +29,9 @@ describe('Ingen oppgaver', () => {
     });
 
     it('rendrer mine oppgaver uten violations', async () => {
-        const initializer = initializerWithTabType(TabType.Mine);
-        const { container } = render(<IngenOppgaver />, { wrapper: wrapperWithRecoilInitializer(initializer) });
+        const { container } = render(<IngenOppgaver />, {
+            wrapper: wrapperWithJotaiInitalizer([[tabState, TabType.Mine]]),
+        });
 
         const result = await axe(container);
 
@@ -43,8 +39,9 @@ describe('Ingen oppgaver', () => {
     });
 
     it('rendrer ventende oppgaver uten violations', async () => {
-        const initializer = initializerWithTabType(TabType.Ventende);
-        const { container } = render(<IngenOppgaver />, { wrapper: wrapperWithRecoilInitializer(initializer) });
+        const { container } = render(<IngenOppgaver />, {
+            wrapper: wrapperWithJotaiInitalizer([[tabState, TabType.Ventende]]),
+        });
 
         const result = await axe(container);
 

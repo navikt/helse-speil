@@ -1,7 +1,6 @@
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { atom as recoilAtom, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 
-import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
+import { atomWithSessionStorage } from '@state/jotai';
 
 export enum TabType {
     TilGodkjenning = 'alle',
@@ -10,11 +9,7 @@ export enum TabType {
     BehandletIdag = 'behandletIdag',
 }
 
-export const tabState = recoilAtom<TabType>({
-    key: 'tabState',
-    default: TabType.TilGodkjenning,
-    effects: [sessionStorageEffect()],
-});
+export const tabState = atomWithSessionStorage<TabType>('tabState', TabType.TilGodkjenning);
 
 export const tabEndret = atom(false);
 
@@ -24,10 +19,10 @@ export const useSetTabIkkeEndret = () => {
     return () => setState(false);
 };
 
-export const useAktivTab = (): TabType => useRecoilValue(tabState);
+export const useAktivTab = () => useAtomValue(tabState);
 
 export const useSwitchTab = (): [aktivTab: TabType, setAktivTab: (tab: TabType) => void] => {
-    const [aktivTab, setAktivTab] = useRecoilState(tabState);
+    const [aktivTab, setAktivTab] = useAtom(tabState);
     const setTabEndret = useSetAtom(tabEndret);
     return [
         aktivTab,
