@@ -1,36 +1,15 @@
-import { useCallback } from 'react';
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 
-const anonymityState = atom<boolean>({
-    key: 'anonymityState',
-    default: false,
-    effects: [
-        ({ onSet }) => {
-            onSet((newValue) => {
-                localStorage.setItem('anonymisering', JSON.stringify(newValue));
-            });
-        },
-    ],
-});
-
-export const useSetAnonymity = () => {
-    const setAnonymity = useSetRecoilState(anonymityState);
-
-    return useCallback(
-        (value: boolean) => {
-            setAnonymity(value);
-        },
-        [setAnonymity],
-    );
-};
+const anonymityState = atomWithStorage('anonymisering', false);
 
 export const useToggleAnonymity = (): (() => void) => {
-    const setAnonymity = useSetRecoilState(anonymityState);
+    const setAnonymity = useSetAtom(anonymityState);
     return () => {
         setAnonymity((prevState) => !prevState);
     };
 };
 
 export const useIsAnonymous = () => {
-    return useRecoilValue(anonymityState);
+    return useAtomValue(anonymityState);
 };

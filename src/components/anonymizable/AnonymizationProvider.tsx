@@ -1,6 +1,6 @@
-import { CSSProperties, PropsWithChildren, useEffect } from 'react';
+import { CSSProperties, PropsWithChildren, ReactElement } from 'react';
 
-import { useIsAnonymous, useSetAnonymity } from '@state/anonymization';
+import { useIsAnonymous } from '@state/anonymization';
 
 const anomizedStyle = {
     '--anonymizable-background': 'var(--anonymous-background)',
@@ -18,19 +18,8 @@ const visibleStyle = {
     '--anonymizable-user-select': 'var(--visible-user-select)',
 } as CSSProperties;
 
-export const AnonymiseringProvider = ({ children }: PropsWithChildren) => {
+export const AnonymiseringProvider = ({ children }: PropsWithChildren): ReactElement => {
     const anonymiser = useIsAnonymous();
-    const setAnonymity = useSetAnonymity();
-
-    useEffect(() => {
-        // Hydrer localStorage-verdi for anonymisering, fordi serveren vet ikke hva som er i localStorage (SSR)
-        const anonymisering = localStorage.getItem('anonymisering');
-        if (anonymisering !== null) {
-            const anonymiseringBool = anonymisering === 'true';
-            setAnonymity(anonymiseringBool);
-        }
-    }, [setAnonymity]);
-
     return (
         <body style={anonymiser ? anomizedStyle : visibleStyle}>
             <div id="root">{children}</div>
