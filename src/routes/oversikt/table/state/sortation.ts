@@ -1,6 +1,6 @@
-import { useAtom, useAtomValue } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import { SetRecoilState, atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
+import { SetRecoilState, atom as recoilAtom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -33,7 +33,7 @@ const getSorteringFromLocalStorage = (tab: TabType): SortState => {
 
 type SorteringPerTab = { [key in TabType]: SortState };
 
-const sorteringPerTab = atom<SorteringPerTab>({
+const sorteringPerTab = recoilAtom<SorteringPerTab>({
     key: 'sorteringPerTab',
     default: {
         [TabType.TilGodkjenning]: defaultSortation,
@@ -52,14 +52,11 @@ export const hydrateSorteringForTab = (set: SetRecoilState) => {
     });
 };
 
-const sorteringEndret = atom<boolean>({
-    key: 'sorteringEndret',
-    default: false,
-});
+const sorteringEndret = atom(false);
 
-export const useSorteringEndret = () => useRecoilValue(sorteringEndret);
+export const useSorteringEndret = () => useAtomValue(sorteringEndret);
 export const useSetSorteringIkkeEndret = () => {
-    const setEndret = useSetRecoilState(sorteringEndret);
+    const setEndret = useSetAtom(sorteringEndret);
     return () => {
         setEndret(false);
     };
@@ -85,7 +82,7 @@ export const useSetSortering = () => {
 };
 
 export const useUpdateSort = () => {
-    const setSorteringEndret = useSetRecoilState(sorteringEndret);
+    const setSorteringEndret = useSetAtom(sorteringEndret);
     return (sort: SortState, setSort: (state: SortState) => void, sortKey: SortKey) => {
         const sortState = {
             orderBy: sortKey,
