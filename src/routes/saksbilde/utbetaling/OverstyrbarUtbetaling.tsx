@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React, { ReactElement, Reducer, useEffect, useReducer, useState } from 'react';
+import React, { ReactElement, Reducer, useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { TimeoutModal } from '@components/TimeoutModal';
@@ -190,6 +190,7 @@ export const OverstyrbarUtbetaling = ({
     dager,
     periode,
 }: OverstyrbarUtbetalingProps): ReactElement => {
+    const aktuellPeriode = useRef(periode);
     const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
     const [visDagtypeModal, setVisDagtypeModal] = useState(false);
@@ -198,6 +199,11 @@ export const OverstyrbarUtbetaling = ({
     const { postOverstyring, error, timedOut, setTimedOut, done } = useOverstyrDager(person, arbeidsgiver);
 
     const [state, dispatch] = useReducer(reducer, defaultDagerState);
+
+    if (aktuellPeriode.current.id !== periode.id) {
+        setOverstyrer(false);
+        aktuellPeriode.current = periode;
+    }
 
     const { markerteDager, overstyrteDager, nyeDager } = state;
 
