@@ -1,7 +1,7 @@
-import { atom, useRecoilState } from 'recoil';
+import { atom, useAtom } from 'jotai';
 
 import { useMutation } from '@apollo/client';
-import { OpprettAbonnementDocument, Opptegnelsetype } from '@io/graphql';
+import { Maybe, OpprettAbonnementDocument, Opptegnelsetype } from '@io/graphql';
 import { usePollEtterOpptegnelser } from '@io/graphql/polling';
 import { useHåndterOpptegnelser } from '@state/opptegnelser';
 
@@ -10,13 +10,10 @@ export type PersonSomKlargjøres = {
     erKlargjort: boolean;
 };
 
-const personSomKlargjøresState = atom<PersonSomKlargjøres | null>({
-    key: 'personSomKlargjøresState',
-    default: null,
-});
+const personSomKlargjøresState = atom<Maybe<PersonSomKlargjøres>>(null);
 
 export const usePersonKlargjøres = () => {
-    const [state, setState] = useRecoilState(personSomKlargjøresState);
+    const [state, setState] = useAtom(personSomKlargjøresState);
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
     usePollEtterOpptegnelser();
 
