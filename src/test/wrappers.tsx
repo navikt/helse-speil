@@ -1,3 +1,5 @@
+import { Provider, type WritableAtom } from 'jotai';
+import { useHydrateAtoms } from 'jotai/utils';
 import React, { PropsWithChildren, ReactElement } from 'react';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 
@@ -8,6 +10,10 @@ import { BrukerContext } from '@auth/brukerContext';
 
 interface RecoilProps {
     initializeState?: (mutableSnapshot: MutableSnapshot) => void;
+}
+
+interface JotaiProps {
+    atomValues?: Iterable<readonly [WritableAtom<unknown, [never], unknown>, unknown]>;
 }
 
 export type ApolloProps = RecoilProps & {
@@ -38,12 +44,43 @@ export const RecoilWrapper = ({ children, initializeState }: PropsWithChildren<R
     );
 };
 
+export const JotaiWrapper = ({ children, atomValues }: PropsWithChildren<JotaiProps>): ReactElement => {
+    return (
+        <BrukerContext.Provider
+            value={{
+                oid: 'test-oid',
+                epost: 'test-username',
+                navn: 'Test User',
+                ident: 'Otest123',
+                grupper: ['test-group'],
+            }}
+        >
+            <Provider>
+                <HydrateAtoms atomValues={atomValues}>{children}</HydrateAtoms>
+            </Provider>
+        </BrukerContext.Provider>
+    );
+};
+
 export const wrapperWithRecoilInitializer =
     (initializer: (mutableSnapshot: MutableSnapshot) => void) =>
     // eslint-disable-next-line react/display-name
     ({ children }: PropsWithChildren): ReactElement => {
         return <RecoilWrapper initializeState={initializer}>{children}</RecoilWrapper>;
     };
+
+function HydrateAtoms({ atomValues, children }: PropsWithChildren<JotaiProps>) {
+    useHydrateAtoms(new Map(atomValues));
+    return children;
+}
+
+export function wrapperWithJotaiInitalizer(
+    atomValues?: Iterable<readonly [WritableAtom<unknown, [never], unknown>, unknown]>,
+) {
+    return ({ children }: PropsWithChildren): ReactElement => {
+        return <JotaiWrapper atomValues={atomValues}> {children} </JotaiWrapper>;
+    };
+}
 
 export const TestCellWrapper = ({ children }: PropsWithChildren): ReactElement => (
     <Table>

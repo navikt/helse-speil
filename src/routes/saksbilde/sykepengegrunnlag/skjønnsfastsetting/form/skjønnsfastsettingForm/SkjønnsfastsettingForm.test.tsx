@@ -7,8 +7,9 @@ import { enGenerasjon } from '@test-data/generasjon';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
-import { render, screen } from '@test-utils';
-import { fireEvent } from '@testing-library/react';
+import { screen } from '@test-utils';
+import { wrapperWithJotaiInitalizer } from '@test-wrappers';
+import { fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 jest.mock('@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting');
@@ -83,6 +84,7 @@ describe('SkjønnsfastsettingForm', () => {
                 setEditing={jest.fn()}
                 maler={maler}
             />,
+            { wrapper: wrapperWithJotaiInitalizer() },
         );
         expect(await screen.findByText(maler[0]?.arsak as string)).toBeInTheDocument();
         expect(await screen.findByText(maler[1]?.arsak as string)).toBeInTheDocument();
@@ -100,6 +102,7 @@ describe('SkjønnsfastsettingForm', () => {
                 setEditing={jest.fn()}
                 maler={maler}
             />,
+            { wrapper: wrapperWithJotaiInitalizer() },
         );
 
         fireEvent.click(screen.getByText(malMed25Avvik.arsak));
@@ -123,6 +126,7 @@ describe('SkjønnsfastsettingForm', () => {
                 setEditing={jest.fn()}
                 maler={maler}
             />,
+            { wrapper: wrapperWithJotaiInitalizer() },
         );
 
         await user.click(screen.getByText(enMal.arsak));
@@ -171,6 +175,7 @@ describe('SkjønnsfastsettingForm', () => {
                 setEditing={jest.fn()}
                 maler={maler}
             />,
+            { wrapper: wrapperWithJotaiInitalizer() },
         );
 
         await user.click(screen.getByText(malMed25Avvik.arsak));
