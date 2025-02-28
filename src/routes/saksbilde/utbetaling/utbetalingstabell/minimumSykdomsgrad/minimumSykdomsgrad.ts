@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
+import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { useState } from 'react';
-import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import * as R from 'remeda';
 
 import { useMutation } from '@apollo/client';
@@ -183,15 +184,12 @@ interface LagretNotat {
     tekst: string;
 }
 
-const lokaleArbeidstidsvurderingNotaterState = atom({
-    key: 'lokaleArbeidstidsvurderingNotaterState',
-    default: [] as LagretNotat[],
-});
+const lokaleArbeidstidsvurderingNotaterState = atom<LagretNotat[]>([]);
 
-export const useNotater = () => useRecoilValue(lokaleArbeidstidsvurderingNotaterState);
+export const useNotater = () => useAtomValue(lokaleArbeidstidsvurderingNotaterState);
 
 export const useReplaceNotat = () => {
-    const setNotat = useSetRecoilState(lokaleArbeidstidsvurderingNotaterState);
+    const setNotat = useSetAtom(lokaleArbeidstidsvurderingNotaterState);
     return (nyttNotat: LagretNotat) => {
         setNotat((currentState: LagretNotat[]) => [
             ...currentState.filter((notat) => notat.vedtaksperiodeId !== nyttNotat.vedtaksperiodeId),
@@ -201,7 +199,7 @@ export const useReplaceNotat = () => {
 };
 
 export const useFjernNotat = () => {
-    const setNotat = useSetRecoilState(lokaleArbeidstidsvurderingNotaterState);
+    const setNotat = useSetAtom(lokaleArbeidstidsvurderingNotaterState);
     return (vedtaksperiodeId: string) => {
         setNotat((currentValue) => [...currentValue.filter((notat) => notat.vedtaksperiodeId !== vedtaksperiodeId)]);
     };
