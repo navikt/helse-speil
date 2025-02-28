@@ -1,6 +1,9 @@
-import { SetRecoilState, atom, useRecoilState, useRecoilValue } from 'recoil';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useEffect } from 'react';
+import { SetRecoilState, atom, useRecoilState } from 'recoil';
 
 import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
+import { atomWithSessionStorage } from '@state/jotai';
 import { harBeslutterrolle, kanFrigiAndresOppgaver } from '@utils/featureToggles';
 
 // Totrinnsvurdering
@@ -56,22 +59,21 @@ export const useKanBeslutteEgneOppgaver = (): boolean => {
 };
 
 // Tildeling
-const kanFrigiOppgaverState = atom<boolean>({
-    key: 'kanFrigiOppgaverState',
-    default: false,
-    effects: [sessionStorageEffect()],
-});
+const kanFrigiOppgaverState = atomWithSessionStorage('kanFrigiOppgaverState', false);
 
-export const hydrateKanFrigiOppgaverState = (set: SetRecoilState, ident: string) => {
-    set(kanFrigiOppgaverState, kanFrigiAndresOppgaver(ident));
+export const useHydrateKanFrigiOppgaverState = (ident: string) => {
+    const setKanFrigiOppgaverState = useSetAtom(kanFrigiOppgaverState);
+    useEffect(() => {
+        setKanFrigiOppgaverState(kanFrigiAndresOppgaver(ident));
+    }, [ident, setKanFrigiOppgaverState]);
 };
 
 export const useKanFrigiOppgaver = (): boolean => {
-    return useRecoilValue(kanFrigiOppgaverState);
+    return useAtomValue(kanFrigiOppgaverState);
 };
 
 export const useToggleKanFrigiOppgaver = (): [value: boolean, toggle: () => void] => {
-    const [kanFrigiOppgaver, setKanFrigiOppgaver] = useRecoilState(kanFrigiOppgaverState);
+    const [kanFrigiOppgaver, setKanFrigiOppgaver] = useAtom(kanFrigiOppgaverState);
 
     return [kanFrigiOppgaver, () => setKanFrigiOppgaver((prevState) => !prevState)];
 };
