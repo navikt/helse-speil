@@ -9,6 +9,9 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import type { WritableAtom } from 'jotai';
+import { Provider } from 'jotai';
+import { useHydrateAtoms } from 'jotai/utils';
 import { usePathname } from 'next/navigation';
 import { PropsWithChildren, ReactElement, ReactNode, useCallback, useEffect, useState } from 'react';
 import { RecoilRoot, SetRecoilState } from 'recoil';
@@ -22,7 +25,7 @@ import { initInstrumentation } from '@observability/faro';
 import { hydrateAllFilters } from '@oversikt/table/state/filter';
 import { hydrateSorteringForTab } from '@oversikt/table/state/sortation';
 import { useFetchPersonQuery } from '@state/person';
-import { hydrateTotrinnsvurderingState, useHydrateKanFrigiOppgaverState } from '@state/toggles';
+import { hydrateKanFrigiOppgaverState, hydrateTotrinnsvurderingState } from '@state/toggles';
 import { useSetVarsler } from '@state/varsler';
 
 dayjs.extend(relativeTime);
@@ -42,13 +45,10 @@ type Props = {
 
 export const Providers = ({ children, bruker }: PropsWithChildren<Props>): ReactElement => {
     const [apolloClient] = useState(() => createApolloClient());
-    useHydrateKanFrigiOppgaverState(bruker.ident);
 
     const initializeState = useCallback(
         ({ set }: { set: SetRecoilState }) => {
             if (typeof window === 'undefined') return;
-            hydrateTotrinnsvurderingState(set, bruker.grupper);
-            // hydrateKanFrigiOppgaverState(set, bruker.ident);
             hydrateAllFilters(set, bruker.grupper, bruker.ident);
             hydrateSorteringForTab(set);
         },
@@ -58,15 +58,35 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
     return (
         <ApolloProvider client={apolloClient}>
             <RecoilRoot initializeState={initializeState}>
-                <SyncAlerts>
-                    <AnonymiseringProvider>
-                        <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
-                    </AnonymiseringProvider>
-                </SyncAlerts>
+                <Provider>
+                    <AtomsHydrator
+                        atomValues={[
+                            hydrateKanFrigiOppgaverState(bruker.ident),
+                            hydrateTotrinnsvurderingState(bruker.grupper),
+                        ]}
+                    >
+                        <SyncAlerts>
+                            <AnonymiseringProvider>
+                                <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
+                            </AnonymiseringProvider>
+                        </SyncAlerts>
+                    </AtomsHydrator>
+                </Provider>
             </RecoilRoot>
         </ApolloProvider>
     );
 };
+
+function AtomsHydrator({
+    atomValues,
+    children,
+}: {
+    atomValues: Iterable<readonly [WritableAtom<unknown, [never], unknown>, unknown]>;
+    children: ReactNode;
+}) {
+    useHydrateAtoms(new Map(atomValues));
+    return children;
+}
 
 const SyncAlerts = ({ children }: PropsWithChildren): ReactNode => {
     const { loading } = useFetchPersonQuery();
