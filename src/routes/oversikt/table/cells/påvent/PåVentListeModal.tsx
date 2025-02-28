@@ -2,6 +2,7 @@ import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { BodyShort, HStack, Heading, Modal, VStack } from '@navikt/ds-react';
 
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { PaVentInfo, Personnavn } from '@io/graphql';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { getFormatertNavn } from '@utils/string';
@@ -28,7 +29,9 @@ export const PåVentListeModal = ({ onClose, showModal, navn, påVentInfo }: På
             <Modal.Body>
                 <VStack gap="6">
                     <HStack gap="12">
-                        <Innhold tittel="Søker">{søkernavn}</Innhold>
+                        <Innhold tittel="Søker" anonymize>
+                            {søkernavn}
+                        </Innhold>
                         <Innhold tittel="Dato">{getFormattedDatetimeString(påVentInfo.opprettet)}</Innhold>
                         <Innhold tittel="Frist">{somNorskDato(påVentInfo.tidsfrist)}</Innhold>
                         <Innhold tittel="Saksbehandler">{påVentInfo.saksbehandler}</Innhold>
@@ -63,13 +66,14 @@ export const PåVentListeModal = ({ onClose, showModal, navn, påVentInfo }: På
 
 interface TingProps {
     tittel: string;
+    anonymize?: boolean;
 }
 
-const Innhold = ({ tittel, children }: PropsWithChildren<TingProps>): ReactElement => (
+const Innhold = ({ tittel, children, anonymize = false }: PropsWithChildren<TingProps>): ReactElement => (
     <VStack>
         <Heading level="2" size="xsmall">
             {tittel}
         </Heading>
-        <BodyShort>{children}</BodyShort>
+        {anonymize ? <AnonymizableText>{children}</AnonymizableText> : <BodyShort>{children}</BodyShort>}
     </VStack>
 );
