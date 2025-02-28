@@ -80,7 +80,7 @@ export const SkjønnsfastsettingForm = ({
     const form = useForm<SkjønnsfastsettingFormFields>({
         shouldFocusError: false,
         mode: 'onBlur',
-        values: defaults,
+        defaultValues: defaults,
     });
 
     const { control, formState, setValue, getValues, handleSubmit, watch } = form;

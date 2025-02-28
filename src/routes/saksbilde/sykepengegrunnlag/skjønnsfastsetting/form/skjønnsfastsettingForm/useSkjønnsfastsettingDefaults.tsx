@@ -9,6 +9,7 @@ import {
 } from '@io/graphql';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useSkjønnsfastsettelseFormState } from '@state/forms/skjønnsfastsetting';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
@@ -23,6 +24,7 @@ export const useSkjønnsfastsettingDefaults = (
     defaults: SkjønnsfastsettingFormFields;
 } => {
     const arbeidsgiver = useCurrentArbeidsgiver(person);
+    const skjønnsfastsettelseFormState = useSkjønnsfastsettelseFormState();
 
     if (!arbeidsgiver)
         return {
@@ -89,9 +91,10 @@ export const useSkjønnsfastsettingDefaults = (
         aktiveArbeidsgivere: aktiveArbeidsgivere,
         aktiveArbeidsgivereInntekter: aktiveArbeidsgivereInntekter,
         defaults: {
-            begrunnelseFritekst: forrigeSkjønnsfastsettelseFritekst,
-            type: forrigeType ?? '',
-            årsak: '',
+            begrunnelseFritekst:
+                skjønnsfastsettelseFormState?.begrunnelseFritekst ?? forrigeSkjønnsfastsettelseFritekst,
+            type: skjønnsfastsettelseFormState?.type ?? forrigeType ?? '',
+            årsak: skjønnsfastsettelseFormState?.årsak ?? '',
             arbeidsgivere: aktiveArbeidsgivereInntekter.map((inntekt) => ({
                 organisasjonsnummer: inntekt.arbeidsgiver,
                 årlig: 0,
