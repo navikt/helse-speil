@@ -1,6 +1,5 @@
-import { atom } from 'recoil';
+import { atom, useAtom, useAtomValue } from 'jotai';
 
-export const calculatingState = atom<boolean>({
-    key: 'calculatingState',
-    default: false,
-});
+const calculatingState = atom(false);
+export const useCalculatingState = () => useAtom(calculatingState);
+export const useCalculatingValue = () => useAtomValue(calculatingState);

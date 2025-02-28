@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
 
 import { useMutation } from '@apollo/client';
 import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
@@ -10,7 +9,7 @@ import {
     OverstyringArbeidsforholdInput,
     PersonFragment,
 } from '@io/graphql';
-import { calculatingState } from '@state/calculating';
+import { useCalculatingState } from '@state/calculating';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useActivePeriodWithPerson } from '@state/periode';
@@ -54,7 +53,7 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkule
     const removeToast = useRemoveToast();
     const setPollingRate = useSetOpptegnelserPollingRate();
 
-    const [calculating, setCalculating] = useRecoilState(calculatingState);
+    const [calculating, setCalculating] = useCalculatingState();
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { error, loading }] = useMutation(OverstyrArbeidsforholdMutationDocument);
