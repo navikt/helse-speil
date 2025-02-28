@@ -1,4 +1,5 @@
-import { SetRecoilState, atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { SetRecoilState, atom as recoilAtom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Egenskap } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
@@ -229,7 +230,7 @@ const hentValgteFiltre = (tab: TabType, defaultFilters: Filter[]): Filter[] => {
 
 const filterOut = (key: string) => (it: Filter) => (it.key === key ? { ...it, status: FilterStatus.OUT } : it);
 
-const allFilters = atom<ActiveFiltersPerTab>({
+const allFilters = recoilAtom<ActiveFiltersPerTab>({
     key: 'activeFiltersPerTab',
     default: {
         [TabType.TilGodkjenning]: [],
@@ -267,16 +268,13 @@ const filtersState = selector<Filter[]>({
     },
 });
 
-export const useFilterEndret = () => useRecoilValue(filterEndretState);
+export const useFilterEndret = () => useAtomValue(filterEndretState);
 export const useSetFilterIkkeEndret = () => {
-    const setFilterEndret = useSetRecoilState(filterEndretState);
+    const setFilterEndret = useSetAtom(filterEndretState);
     return () => setFilterEndret(false);
 };
 
-const filterEndretState = atom<boolean>({
-    key: 'filterEndret',
-    default: false,
-});
+const filterEndretState = atom(false);
 
 export const useFilters = () => ({
     allFilters: useRecoilValue(filtersState),
@@ -285,7 +283,7 @@ export const useFilters = () => ({
 
 export const useSetMultipleFilters = () => {
     const setFilters = useSetRecoilState(filtersState);
-    const setFilterEndret = useSetRecoilState(filterEndretState);
+    const setFilterEndret = useSetAtom(filterEndretState);
     return (filterStatus: FilterStatus, ...keys: string[]) => {
         setFilters((filters) => filters.map((it) => (keys.includes(it.key) ? { ...it, status: filterStatus } : it)));
         setFilterEndret(true);
@@ -294,7 +292,7 @@ export const useSetMultipleFilters = () => {
 
 export const useToggleFilter = () => {
     const setFilters = useSetRecoilState(filtersState);
-    const setFilterEndret = useSetRecoilState(filterEndretState);
+    const setFilterEndret = useSetAtom(filterEndretState);
     return (key: string, status: FilterStatus) => {
         setFilters((filters) => filters.map((it) => (it.key === key ? { ...it, status } : it)));
         setFilterEndret(true);
