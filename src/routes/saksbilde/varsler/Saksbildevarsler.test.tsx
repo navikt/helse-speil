@@ -1,12 +1,9 @@
 import React from 'react';
-import { RecoilRoot } from 'recoil';
 
-import { Maybe, VarselDto } from '@io/graphql';
 import { useFetchPersonQuery } from '@state/person';
-import { ApolloWrapper } from '@test-wrappers';
+import { render } from '@test-utils';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
-import { PeriodState } from '@typer/shared';
+import { screen } from '@testing-library/react';
 
 import { Saksbildevarsler } from './Saksbildevarsler';
 
@@ -15,34 +12,20 @@ jest.mock('@state/person');
 describe('Saksbildevarsler', () => {
     (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: null });
 
-    const SaksbildevarslerWrapper = ({
-        periodState,
-        varsler,
-    }: {
-        periodState: PeriodState;
-        varsler?: Maybe<Array<VarselDto>>;
-    }) => (
-        <ApolloWrapper>
-            <RecoilRoot>
-                <Saksbildevarsler periodState={periodState} varsler={varsler} harTotrinnsvurdering={false} />
-            </RecoilRoot>
-        </ApolloWrapper>
-    );
-
     test('viser feilvarsel om utbetaling har feilet', () => {
-        render(<SaksbildevarslerWrapper periodState="utbetalingFeilet" />);
+        render(<Saksbildevarsler periodState="utbetalingFeilet" harTotrinnsvurdering={false} />);
         expect(screen.getByText('Utbetalingen feilet.')).toBeVisible();
     });
     test('viser varsel om at perioden venter på inntektsmelding', () => {
-        render(<SaksbildevarslerWrapper periodState="venterPåInntektsopplysninger" />);
+        render(<Saksbildevarsler periodState="venterPåInntektsopplysninger" harTotrinnsvurdering={false} />);
         expect(screen.getByText('Ikke klar til behandling - venter på inntektsmelding')).toBeVisible();
     });
     test('viser feilvarsel om annullering feilet', () => {
-        render(<SaksbildevarslerWrapper periodState="annulleringFeilet" />);
+        render(<Saksbildevarsler periodState="annulleringFeilet" harTotrinnsvurdering={false} />);
         expect(screen.getByText('Annulleringen feilet. Kontakt utviklerteamet.')).toBeVisible();
     });
     test('viser feilvarsel om saken har en aktiv oppgave men mangler oppgavereferanse', () => {
-        render(<SaksbildevarslerWrapper periodState="tilGodkjenning" />);
+        render(<Saksbildevarsler periodState="tilGodkjenning" harTotrinnsvurdering={false} />);
         expect(
             screen.getByText(
                 `Denne perioden kan ikke utbetales. Det kan skyldes at den allerede er forsøkt utbetalt, men at det er forsinkelser i systemet.`,
@@ -50,12 +33,12 @@ describe('Saksbildevarsler', () => {
         ).toBeVisible();
     });
     test('viser feilvarsel om vedtaksperioden har en ukjent tilstand', () => {
-        render(<SaksbildevarslerWrapper periodState="ukjent" />);
+        render(<Saksbildevarsler periodState="ukjent" harTotrinnsvurdering={false} />);
         expect(screen.getByText('Kunne ikke lese informasjon om sakens tilstand.')).toBeVisible();
     });
     test('viser varsler', () => {
         render(
-            <SaksbildevarslerWrapper
+            <Saksbildevarsler
                 periodState="utbetalt"
                 varsler={[
                     {
@@ -81,6 +64,7 @@ describe('Saksbildevarsler', () => {
                         vurdering: null,
                     },
                 ]}
+                harTotrinnsvurdering={false}
             />,
         );
         expect(screen.getByText('Dette er en aktivitet')).toBeVisible();

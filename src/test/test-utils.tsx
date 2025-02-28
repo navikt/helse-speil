@@ -1,19 +1,27 @@
+import type { WritableAtom } from 'jotai/index';
 import React, { PropsWithChildren, ReactElement } from 'react';
-import { MutableSnapshot } from 'recoil';
 
 import { logger } from '@/logger';
 import { ApolloLink, Cache, InMemoryCache } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
-import { MockLink, MockedProvider, MockedResponse } from '@apollo/client/testing';
+import { MockLink, MockedResponse } from '@apollo/client/testing';
 import { apolloCacheConfig, restLink } from '@app/apollo/apolloClient';
-import { RecoilWrapper } from '@test-wrappers';
-import { RenderHookResult, RenderOptions, Screen, render, renderHook, screen } from '@testing-library/react';
+import { ApolloWrapper } from '@test-wrappers';
+import {
+    RenderHookOptions,
+    RenderHookResult,
+    RenderOptions,
+    Screen,
+    render,
+    renderHook,
+    screen,
+} from '@testing-library/react';
 
 type ProviderProps = {
     // eslint-disable-next-line
     readonly initialQueries?: Cache.WriteQueryOptions<any, any>[];
     readonly mocks?: MockedResponse[];
-    readonly state?: (mutableSnapshot: MutableSnapshot) => void;
+    readonly state?: Iterable<readonly [WritableAtom<unknown, [never], unknown>, unknown]>;
 };
 
 const errorLoggingLink = onError(({ graphQLErrors, networkError }) => {
@@ -43,9 +51,9 @@ const AllTheProviders = ({
     initialQueries?.forEach((it) => cache.writeQuery(it));
 
     return (
-        <MockedProvider link={link} mocks={mocks} cache={cache}>
-            <RecoilWrapper initializeState={state}>{children}</RecoilWrapper>
-        </MockedProvider>
+        <ApolloWrapper link={link} mocks={mocks} cache={cache} atomValues={state}>
+            {children}
+        </ApolloWrapper>
     );
 };
 
@@ -63,7 +71,7 @@ function customRender(
 
 function customRenderHook<Result, Props>(
     render: (initialProps: Props) => Result,
-    options: Omit<RenderOptions, 'wrapper'> & ProviderProps = {},
+    options: Omit<RenderHookOptions<Props>, 'wrapper'> & ProviderProps = {},
 ): RenderHookResult<Result, Props> {
     const { initialQueries, mocks, state, ...renderOptions } = options;
 

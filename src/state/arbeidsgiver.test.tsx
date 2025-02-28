@@ -15,8 +15,7 @@ import { enArbeidsforholdoverstyring, enDagoverstyring, enInntektoverstyring } f
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
-import { wrapperWithRecoilInitializer } from '@test-wrappers';
-import { renderHook } from '@testing-library/react';
+import { renderHook } from '@test-utils';
 
 jest.mock('@state/person');
 jest.mock('@state/periode');
@@ -62,13 +61,7 @@ describe('useCurrentArbeidsgiver', () => {
     });
 
     it('returnerer null hvis det ikke finnes en aktiv periode', () => {
-        const initializer = () => {
-            // do nothing
-        };
-
-        const { result } = renderHook(() => useCurrentArbeidsgiver(enPerson()), {
-            wrapper: wrapperWithRecoilInitializer(initializer),
-        });
+        const { result } = renderHook(() => useCurrentArbeidsgiver(enPerson()));
 
         expect(result.current).toBeNull();
     });

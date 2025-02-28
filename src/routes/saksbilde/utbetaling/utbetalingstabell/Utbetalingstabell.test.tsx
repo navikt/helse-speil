@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Kildetype } from '@io/graphql';
 import { enPerson } from '@test-data/person';
-import { RecoilWrapper } from '@test-wrappers';
+import { render } from '@test-utils';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { Utbetalingstabell } from './Utbetalingstabell';
@@ -50,9 +50,6 @@ describe('Utbetalingstabell', () => {
                 personFødselsdato={'01-01-2000'}
                 person={enPerson()}
             />,
-            {
-                wrapper: RecoilWrapper,
-            },
         );
 
         expect(screen.getAllByRole('row')).toHaveLength(7);

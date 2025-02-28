@@ -1,46 +1,34 @@
 import { Provider, type WritableAtom } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
 import React, { PropsWithChildren, ReactElement } from 'react';
-import { MutableSnapshot, RecoilRoot } from 'recoil';
 
 import { Table } from '@navikt/ds-react';
 
-import { MockedProvider, MockedResponse } from '@apollo/client/testing';
+import type { ApolloLink, InMemoryCache } from '@apollo/client';
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing';
 import { BrukerContext } from '@auth/brukerContext';
-
-interface RecoilProps {
-    initializeState?: (mutableSnapshot: MutableSnapshot) => void;
-}
 
 interface JotaiProps {
     atomValues?: Iterable<readonly [WritableAtom<unknown, [never], unknown>, unknown]>;
 }
 
-export type ApolloProps = RecoilProps & {
+export type ApolloProps = JotaiProps & {
     mocks?: MockedResponse[];
+    link?: ApolloLink;
+    cache?: InMemoryCache;
 };
 
-export const ApolloWrapper = ({ children, initializeState, mocks }: PropsWithChildren<ApolloProps>): ReactElement => {
+export const ApolloWrapper = ({
+    children,
+    atomValues,
+    mocks,
+    link,
+    cache,
+}: PropsWithChildren<ApolloProps>): ReactElement => {
     return (
-        <MockedProvider mocks={mocks}>
-            <RecoilWrapper initializeState={initializeState}>{children}</RecoilWrapper>
+        <MockedProvider mocks={mocks} link={link} cache={cache}>
+            <JotaiWrapper atomValues={atomValues}>{children}</JotaiWrapper>
         </MockedProvider>
-    );
-};
-
-export const RecoilWrapper = ({ children, initializeState }: PropsWithChildren<RecoilProps>): ReactElement => {
-    return (
-        <BrukerContext.Provider
-            value={{
-                oid: 'test-oid',
-                epost: 'test-username',
-                navn: 'Test User',
-                ident: 'Otest123',
-                grupper: ['test-group'],
-            }}
-        >
-            <RecoilRoot initializeState={initializeState}>{children}</RecoilRoot>
-        </BrukerContext.Provider>
     );
 };
 
@@ -61,13 +49,6 @@ export const JotaiWrapper = ({ children, atomValues }: PropsWithChildren<JotaiPr
         </BrukerContext.Provider>
     );
 };
-
-export const wrapperWithRecoilInitializer =
-    (initializer: (mutableSnapshot: MutableSnapshot) => void) =>
-    // eslint-disable-next-line react/display-name
-    ({ children }: PropsWithChildren): ReactElement => {
-        return <RecoilWrapper initializeState={initializer}>{children}</RecoilWrapper>;
-    };
 
 function HydrateAtoms({ atomValues, children }: PropsWithChildren<JotaiProps>) {
     useHydrateAtoms(new Map(atomValues));

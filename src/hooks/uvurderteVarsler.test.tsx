@@ -142,7 +142,9 @@ describe('useUvurderteVarslerpåEllerFør', () => {
             ),
         ];
 
-        const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(period, arbeidsgivere));
+        const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(period, arbeidsgivere), {
+            initialProps: '',
+        });
 
         expect(result.current).toEqual(false);
     });

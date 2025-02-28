@@ -1,13 +1,12 @@
 import React from 'react';
 
 import { fetchPersonMock, opptegnelseMock } from '@apollo-mocks';
-import { MockedProvider } from '@apollo/client/testing';
 import { useNyheter } from '@external/sanity';
 import { useKeyboardActions } from '@hooks/useKeyboardShortcuts';
 import { Maybe } from '@io/graphql';
-import { RecoilWrapper } from '@test-wrappers';
+import { render } from '@test-utils';
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SpeilError } from '@utils/error';
 
@@ -41,26 +40,14 @@ describe('Header', () => {
     });
 
     it('legger til varsel ved ugyldig søk', async () => {
-        render(
-            <MockedProvider mocks={[fetchPersonMock, opptegnelseMock]} addTypename={false}>
-                <RecoilWrapper>
-                    <Header />
-                </RecoilWrapper>
-            </MockedProvider>,
-        );
+        render(<Header />, { mocks: [fetchPersonMock, opptegnelseMock] });
         await userEvent.type(screen.getByRole('searchbox'), 'test');
         fireEvent.submit(screen.getByRole('searchbox'));
         expect(cachedVarsel).not.toBeNull();
     });
 
     it('legger ikke til varsel ved gyldig søk', async () => {
-        render(
-            <MockedProvider mocks={[fetchPersonMock, opptegnelseMock]} addTypename={false}>
-                <RecoilWrapper>
-                    <Header />
-                </RecoilWrapper>
-            </MockedProvider>,
-        );
+        render(<Header />, { mocks: [fetchPersonMock, opptegnelseMock] });
         await userEvent.type(screen.getByRole('searchbox'), '12345678910');
         fireEvent.submit(screen.getByRole('searchbox'));
         expect(cachedVarsel).toBeNull();
