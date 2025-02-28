@@ -1,17 +1,14 @@
 import { axe } from 'jest-axe';
 import React from 'react';
 
-import { wrapperWithJotaiInitalizer } from '@test-wrappers';
-import { render } from '@testing-library/react';
+import { render } from '@/test/test-utils';
 
 import { IngenOppgaver } from './IngenOppgaver';
 import { TabType, tabState } from './tabState';
 
 describe('Ingen oppgaver', () => {
     it('rendrer til godkjenning uten violations', async () => {
-        const { container } = render(<IngenOppgaver />, {
-            wrapper: wrapperWithJotaiInitalizer([[tabState, TabType.TilGodkjenning]]),
-        });
+        const { container } = render(<IngenOppgaver />, { atomValues: [[tabState, TabType.TilGodkjenning]] });
 
         const result = await axe(container);
 
@@ -19,9 +16,7 @@ describe('Ingen oppgaver', () => {
     });
 
     it('rendrer behandlet idag uten violations', async () => {
-        const { container } = render(<IngenOppgaver />, {
-            wrapper: wrapperWithJotaiInitalizer([[tabState, TabType.BehandletIdag]]),
-        });
+        const { container } = render(<IngenOppgaver />, { atomValues: [[tabState, TabType.BehandletIdag]] });
 
         const result = await axe(container);
 
@@ -29,9 +24,7 @@ describe('Ingen oppgaver', () => {
     });
 
     it('rendrer mine oppgaver uten violations', async () => {
-        const { container } = render(<IngenOppgaver />, {
-            wrapper: wrapperWithJotaiInitalizer([[tabState, TabType.Mine]]),
-        });
+        const { container } = render(<IngenOppgaver />, { atomValues: [[tabState, TabType.Mine]] });
 
         const result = await axe(container);
 
@@ -39,9 +32,7 @@ describe('Ingen oppgaver', () => {
     });
 
     it('rendrer ventende oppgaver uten violations', async () => {
-        const { container } = render(<IngenOppgaver />, {
-            wrapper: wrapperWithJotaiInitalizer([[tabState, TabType.Ventende]]),
-        });
+        const { container } = render(<IngenOppgaver />, { atomValues: [[tabState, TabType.Ventende]] });
 
         const result = await axe(container);
 

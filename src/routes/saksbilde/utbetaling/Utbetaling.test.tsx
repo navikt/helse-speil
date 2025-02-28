@@ -8,8 +8,8 @@ import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode, enDag } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
-import { ApolloWrapper } from '@test-wrappers';
-import { render, screen } from '@testing-library/react';
+import { render } from '@test-utils';
+import { screen } from '@testing-library/react';
 
 import { Utbetaling } from './Utbetaling';
 
@@ -30,7 +30,7 @@ describe('Utbetaling', () => {
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
-        render(<Utbetaling person={person} periode={periode} />, { wrapper: ApolloWrapper });
+        render(<Utbetaling person={person} periode={periode} />);
 
         expect(screen.getByText('Revurder dager')).toBeVisible();
         expect(screen.getByText('3 dager')).toBeVisible();
@@ -50,7 +50,7 @@ describe('Utbetaling', () => {
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
-        render(<Utbetaling person={person} periode={periode} />, { wrapper: ApolloWrapper });
+        render(<Utbetaling person={person} periode={periode} />);
 
         expect(screen.getByText('Kan ikke revurdere perioden på grunn av manglende datagrunnlag')).toBeVisible();
     });
@@ -66,7 +66,7 @@ describe('Utbetaling', () => {
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
-        render(<Utbetaling person={person} periode={periode} />, { wrapper: ApolloWrapper });
+        render(<Utbetaling person={person} periode={periode} />);
 
         expect(screen.getByText('Revurder dager')).toBeVisible();
     });
@@ -80,7 +80,7 @@ describe('Utbetaling', () => {
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
-        render(<Utbetaling person={person} periode={periodeA} />, { wrapper: ApolloWrapper });
+        render(<Utbetaling person={person} periode={periodeA} />);
 
         expect(screen.getByText('Revurder dager')).toBeVisible();
     });
@@ -94,7 +94,7 @@ describe('Utbetaling', () => {
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
-        render(<Utbetaling person={person} periode={periodeA} />, { wrapper: ApolloWrapper });
+        render(<Utbetaling person={person} periode={periodeA} />);
 
         expect(screen.getByText('Revurder dager')).toBeVisible();
     });
@@ -116,7 +116,7 @@ describe('Utbetaling', () => {
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiverB);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(false);
 
-        render(<Utbetaling person={person} periode={periodeB} />, { wrapper: ApolloWrapper });
+        render(<Utbetaling person={person} periode={periodeB} />);
 
         expect(screen.queryByText('Overstyr dager')).not.toBeInTheDocument();
     });

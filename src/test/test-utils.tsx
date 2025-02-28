@@ -21,7 +21,7 @@ type ProviderProps = {
     // eslint-disable-next-line
     readonly initialQueries?: Cache.WriteQueryOptions<any, any>[];
     readonly mocks?: MockedResponse[];
-    readonly state?: Iterable<readonly [WritableAtom<unknown, [never], unknown>, unknown]>;
+    readonly atomValues?: Iterable<readonly [WritableAtom<unknown, [never], unknown>, unknown]>;
 };
 
 const errorLoggingLink = onError(({ graphQLErrors, networkError }) => {
@@ -42,7 +42,7 @@ const AllTheProviders = ({
     children,
     mocks,
     initialQueries,
-    state,
+    atomValues,
 }: PropsWithChildren<ProviderProps>): ReactElement => {
     const mockLink = new MockLink(mocks ?? []);
     const link = ApolloLink.from([errorLoggingLink, restLink, mockLink]);
@@ -51,7 +51,7 @@ const AllTheProviders = ({
     initialQueries?.forEach((it) => cache.writeQuery(it));
 
     return (
-        <ApolloWrapper link={link} mocks={mocks} cache={cache} atomValues={state}>
+        <ApolloWrapper link={link} mocks={mocks} cache={cache} atomValues={atomValues}>
             {children}
         </ApolloWrapper>
     );
@@ -61,10 +61,12 @@ function customRender(
     ui: ReactElement,
     options: Omit<RenderOptions, 'wrapper'> & ProviderProps = {},
 ): ReturnType<typeof render> {
-    const { initialQueries, mocks, state, ...renderOptions } = options;
+    const { initialQueries, mocks, atomValues, ...renderOptions } = options;
 
     return render(ui, {
-        wrapper: (props) => <AllTheProviders {...props} initialQueries={initialQueries} mocks={mocks} state={state} />,
+        wrapper: (props) => (
+            <AllTheProviders {...props} initialQueries={initialQueries} mocks={mocks} atomValues={atomValues} />
+        ),
         ...renderOptions,
     });
 }
@@ -73,10 +75,12 @@ function customRenderHook<Result, Props>(
     render: (initialProps: Props) => Result,
     options: Omit<RenderHookOptions<Props>, 'wrapper'> & ProviderProps = {},
 ): RenderHookResult<Result, Props> {
-    const { initialQueries, mocks, state, ...renderOptions } = options;
+    const { initialQueries, mocks, atomValues, ...renderOptions } = options;
 
     return renderHook(render, {
-        wrapper: (props) => <AllTheProviders {...props} initialQueries={initialQueries} mocks={mocks} state={state} />,
+        wrapper: (props) => (
+            <AllTheProviders {...props} initialQueries={initialQueries} mocks={mocks} atomValues={atomValues} />
+        ),
         ...renderOptions,
     });
 }

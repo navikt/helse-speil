@@ -55,14 +55,6 @@ function HydrateAtoms({ atomValues, children }: PropsWithChildren<JotaiProps>) {
     return children;
 }
 
-export function wrapperWithJotaiInitalizer(
-    atomValues?: Iterable<readonly [WritableAtom<unknown, [never], unknown>, unknown]>,
-) {
-    return ({ children }: PropsWithChildren): ReactElement => {
-        return <JotaiWrapper atomValues={atomValues}> {children} </JotaiWrapper>;
-    };
-}
-
 export const TestCellWrapper = ({ children }: PropsWithChildren): ReactElement => (
     <Table>
         <Table.Body>

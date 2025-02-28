@@ -14,8 +14,8 @@ import {
     Utbetalingtype,
 } from '@io/graphql';
 import { enPerson } from '@test-data/person';
-import { ApolloWrapper } from '@test-wrappers';
-import { render, screen } from '@testing-library/react';
+import { render } from '@test-utils';
+import { screen } from '@testing-library/react';
 
 import { BeregnetPopover } from './PeriodPopover';
 
@@ -139,7 +139,6 @@ describe('PeriodPopover', () => {
                 tom="2023-01-01"
                 person={person}
             />,
-            { wrapper: ApolloWrapper },
         );
         expect(screen.queryByText('Arbeidsgiver')).not.toBeInTheDocument();
         expect(screen.queryByText('Sykmeldt')).not.toBeInTheDocument();
@@ -153,7 +152,6 @@ describe('PeriodPopover', () => {
                 tom="2023-01-01"
                 person={person}
             />,
-            { wrapper: ApolloWrapper },
         );
         expect(screen.getByText('Arbeidsgiver')).toBeVisible();
     });
@@ -166,7 +164,6 @@ describe('PeriodPopover', () => {
                 tom="2023-01-01"
                 person={person}
             />,
-            { wrapper: ApolloWrapper },
         );
         expect(screen.getByText('Sykmeldt')).toBeVisible();
     });
@@ -179,7 +176,6 @@ describe('PeriodPopover', () => {
                 tom="2023-01-01"
                 person={person}
             />,
-            { wrapper: ApolloWrapper },
         );
         expect(screen.getByText('Arbeidsgiver / Sykmeldt')).toBeVisible();
     });
@@ -193,7 +189,6 @@ describe('PeriodPopover', () => {
                 tom="2023-01-01"
                 person={person}
             />,
-            { wrapper: ApolloWrapper },
         );
         expect(screen.getByText('Dager igjen:')).toBeVisible();
     });

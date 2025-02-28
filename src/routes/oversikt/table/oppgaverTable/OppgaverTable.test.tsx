@@ -2,8 +2,8 @@ import { axe } from 'jest-axe';
 import React from 'react';
 
 import { enOppgaveForOversikten } from '@test-data/oppgave';
-import { ApolloWrapper } from '@test-wrappers';
-import { render, screen } from '@testing-library/react';
+import { render } from '@test-utils';
+import { screen } from '@testing-library/react';
 
 import { OppgaverTable } from './OppgaverTable';
 
@@ -21,7 +21,6 @@ describe('OppgaverTable', () => {
                 oppgaver={oppgaver}
                 loading={false}
             />,
-            { wrapper: ApolloWrapper },
         );
 
         expect(await screen.findByText('Saksbehandler')).toBeInTheDocument();
@@ -44,7 +43,6 @@ describe('OppgaverTable', () => {
                 oppgaver={oppgaver}
                 loading={false}
             />,
-            { wrapper: ApolloWrapper },
         );
 
         expect(screen.getByText('Saksbehandler')).toBeVisible();

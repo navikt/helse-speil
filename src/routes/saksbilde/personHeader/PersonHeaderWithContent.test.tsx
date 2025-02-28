@@ -1,7 +1,7 @@
 import { Adressebeskyttelse, Kjonn } from '@io/graphql';
 import { enPerson } from '@test-data/person';
-import { ApolloWrapper } from '@test-wrappers';
-import { render, screen } from '@testing-library/react';
+import { render } from '@test-utils';
+import { screen } from '@testing-library/react';
 
 import { PersonHeaderWithContent } from './PersonHeaderWIthContent';
 
@@ -34,7 +34,6 @@ describe('Personlinje', () => {
                     dodsdato: null,
                 })}
             />,
-            { wrapper: ApolloWrapper },
         );
         expect(screen.getByText('Høiby, Marius Borg', { exact: false })).toBeVisible();
         expect(screen.getByText('123456 78910')).toBeVisible();
