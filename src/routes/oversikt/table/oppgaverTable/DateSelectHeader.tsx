@@ -1,14 +1,13 @@
 import React, { ReactElement } from 'react';
-import { useRecoilState } from 'recoil';
 
 import { Select, Table } from '@navikt/ds-react';
 
-import { SortKey, dateSortKey } from '../state/sortation';
+import { SortKey, useDateSortState } from '../state/sortation';
 
 import styles from './DateSelectHeader.module.css';
 
 export const DateSelectHeader = (): ReactElement => {
-    const [datoKey, setDatoKey] = useRecoilState(dateSortKey);
+    const [datoKey, setDatoKey] = useDateSortState();
     const lagreValgtDatoSortering = (key: string) => setDatoKey(key as unknown as SortKey);
 
     return (

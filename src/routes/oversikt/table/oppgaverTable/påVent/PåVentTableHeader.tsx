@@ -1,14 +1,13 @@
 import React, { ReactElement } from 'react';
-import { useRecoilValue } from 'recoil';
 
 import { Table } from '@navikt/ds-react';
 
-import { SortKey, dateSortKey } from '@oversikt/table/state/sortation';
+import { SortKey, useDateSortValue } from '@oversikt/table/state/sortation';
 
 import { DateSelectHeader, tilDatoHeaderTekst } from '../DateSelectHeader';
 
 export const PåVentTableHeader = (): ReactElement => {
-    const datoSelectKey = useRecoilValue(dateSortKey);
+    const datoSelectKey = useDateSortValue();
     return (
         <Table.Header>
             <Table.Row>

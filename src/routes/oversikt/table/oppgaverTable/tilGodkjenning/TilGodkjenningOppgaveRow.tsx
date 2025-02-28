@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
-import { useRecoilValue } from 'recoil';
 
 import { OppgaveTilBehandling } from '@io/graphql';
 import { LinkRow } from '@oversikt/table/LinkRow';
@@ -9,7 +8,7 @@ import { EgenskaperTagsCell } from '@oversikt/table/cells/EgenskaperTagsCell';
 import { TildelingCell } from '@oversikt/table/cells/TildelingCell';
 import { OptionsCell } from '@oversikt/table/cells/options/OptionsCell';
 import { PåVentCell } from '@oversikt/table/cells/påvent/PåVentCell';
-import { SortKey, dateSortKey, getVisningsDato } from '@oversikt/table/state/sortation';
+import { SortKey, getVisningsDato, useDateSortValue } from '@oversikt/table/state/sortation';
 import { ISO_DATOFORMAT } from '@utils/date';
 
 interface TilGodkjenningOppgaveRowProps {
@@ -17,7 +16,7 @@ interface TilGodkjenningOppgaveRowProps {
 }
 
 export const TilGodkjenningOppgaveRow = ({ oppgave }: TilGodkjenningOppgaveRowProps): ReactElement => {
-    const sorteringsnøkkel = useRecoilValue(dateSortKey);
+    const sorteringsnøkkel = useDateSortValue();
 
     const utgåttFrist: boolean =
         oppgave.paVentInfo?.tidsfrist != null &&

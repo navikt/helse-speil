@@ -1,4 +1,6 @@
-import { AtomEffect, SetRecoilState, atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useAtom, useAtomValue } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
+import { SetRecoilState, atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -95,23 +97,9 @@ export const useUpdateSort = () => {
     };
 };
 
-const syncWithLocalStorageEffect: AtomEffect<SortKey> = ({ onSet, setSelf, trigger }) => {
-    if (typeof window === 'undefined') return;
-    const key = 'dateSortKey';
-    const savedValue = localStorage.getItem(key) as SortKey;
-    if (savedValue && trigger === 'get') {
-        setSelf(savedValue);
-    }
-    onSet((newValue) => {
-        localStorage.setItem(key, `${newValue}`);
-    });
-};
-
-export const dateSortKey = atom<SortKey>({
-    key: 'dateSortKey',
-    default: SortKey.Opprettet,
-    effects: [syncWithLocalStorageEffect],
-});
+const dateSortKey = atomWithStorage<SortKey>('dateSortKey', SortKey.Opprettet);
+export const useDateSortState = () => useAtom(dateSortKey);
+export const useDateSortValue = () => useAtomValue(dateSortKey);
 
 export const getVisningsDato = (oppgave: OppgaveTilBehandling, sorteringsnøkkel: SortKey): Maybe<string> => {
     switch (sorteringsnøkkel) {
