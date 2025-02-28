@@ -1,6 +1,6 @@
 import { GraphQLFormattedError } from 'graphql/error';
+import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { useSearchParams } from 'next/navigation';
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Maybe } from '@io/graphql';
 import {
@@ -14,10 +14,7 @@ import {
 import { useFetchPersonQuery } from '@state/person';
 import { SpeilError } from '@utils/error';
 
-const varslerState = atom<Array<SpeilError>>({
-    key: 'varslerState',
-    default: [],
-});
+const varslerState = atom<Array<SpeilError>>([]);
 
 export const useVarsler = (): Array<SpeilError> => {
     const params = useSearchParams();
@@ -25,7 +22,7 @@ export const useVarsler = (): Array<SpeilError> => {
 
     const errors: SpeilError[] = error?.graphQLErrors.map(mapError(variables?.fnr ?? variables?.aktorId)) ?? [];
 
-    return useRecoilValue(varslerState).concat(params.get('aktorId') !== undefined ? errors : []);
+    return useAtomValue(varslerState).concat(params.get('aktorId') !== undefined ? errors : []);
 };
 
 export const useRapporterGraphQLErrors = (): ((
@@ -38,7 +35,7 @@ export const useRapporterGraphQLErrors = (): ((
 };
 
 export const useAddVarsel = (): ((varsel: SpeilError) => void) => {
-    const setVarsler = useSetRecoilState(varslerState);
+    const setVarsler = useSetAtom(varslerState);
 
     return (varsel: SpeilError) => {
         setVarsler((varsler) => [...varsler.filter((it) => it.name !== varsel.name), varsel]);
@@ -48,7 +45,7 @@ export const useAddVarsel = (): ((varsel: SpeilError) => void) => {
 export const useOperationErrorHandler = (operasjon: string) => {
     const varsel: SpeilError = new SpeilError(`Det oppstod en feil. Handlingen som ikke ble utført: ${operasjon}`);
 
-    const setVarsler = useSetRecoilState(varslerState);
+    const setVarsler = useSetAtom(varslerState);
 
     return (ex: Error) => {
         console.log(`Feil ved ${operasjon}. ${ex.message}`);
@@ -57,7 +54,7 @@ export const useOperationErrorHandler = (operasjon: string) => {
 };
 
 export const useRemoveVarsel = () => {
-    const setVarsler = useSetRecoilState(varslerState);
+    const setVarsler = useSetAtom(varslerState);
 
     return (name: string) => {
         setVarsler((varsler) => varsler.filter((it) => it.name !== name));
@@ -65,7 +62,7 @@ export const useRemoveVarsel = () => {
 };
 
 export const useSetVarsler = () => {
-    return useSetRecoilState(varslerState);
+    return useSetAtom(varslerState);
 };
 
 const mapError =
