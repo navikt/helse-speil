@@ -86,6 +86,7 @@ export const useSkjønnsfastsettingDefaults = (
         : undefined;
     const forrigeSkjønnsfastsettelseFritekst = forrigeSkjønnsfastsettelse?.skjonnsfastsatt?.begrunnelseFritekst ?? '';
     const forrigeType = mapType(forrigeSkjønnsfastsettelse?.skjonnsfastsatt?.type);
+    const forrigeÅrsak = forrigeSkjønnsfastsettelse?.skjonnsfastsatt.arsak;
 
     return {
         aktiveArbeidsgivere: aktiveArbeidsgivere,
@@ -94,7 +95,7 @@ export const useSkjønnsfastsettingDefaults = (
             begrunnelseFritekst:
                 skjønnsfastsettelseFormState?.begrunnelseFritekst ?? forrigeSkjønnsfastsettelseFritekst,
             type: skjønnsfastsettelseFormState?.type ?? forrigeType ?? '',
-            årsak: skjønnsfastsettelseFormState?.årsak ?? '',
+            årsak: skjønnsfastsettelseFormState?.årsak ?? forrigeÅrsak ?? '',
             arbeidsgivere: aktiveArbeidsgivereInntekter.map((inntekt) => ({
                 organisasjonsnummer: inntekt.arbeidsgiver,
                 årlig: 0,
