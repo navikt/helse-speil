@@ -27,13 +27,13 @@ const totrinnsvurderingState = atomWithSessionStorage<TotrinnsvurderingState>(
 export function hydrateTotrinnsvurderingState(
     brukerRoller: string[],
 ): [WritableAtom<TotrinnsvurderingState, [SetStateAction<TotrinnsvurderingState>], void>, TotrinnsvurderingState] {
-    const sessionStorageState = sessionStorage.getItem('totrinnsvurderingState');
+    const sessionStorageState = typeof window !== 'undefined' ? sessionStorage.getItem('totrinnsvurderingState') : null;
+
     return [
         totrinnsvurderingState,
-        (erUtvikling && sessionStorageState && JSON.parse(sessionStorageState)) ?? {
-            ...defaultTotrinnsvurderingState,
-            harBeslutterrolle: harBeslutterrolle(brukerRoller),
-        },
+        sessionStorageState && erUtvikling
+            ? JSON.parse(sessionStorageState)
+            : { ...defaultTotrinnsvurderingState, harBeslutterrolle: harBeslutterrolle(brukerRoller) },
     ];
 }
 
@@ -71,10 +71,10 @@ const kanFrigiOppgaverState = atomWithSessionStorage('kanFrigiOppgaverState', fa
 export function hydrateKanFrigiOppgaverState(
     ident: string,
 ): [WritableAtom<boolean, [SetStateAction<boolean>], void>, boolean] {
-    const sessionStorageState = sessionStorage.getItem('kanFrigiOppgaverState');
+    const sessionStorageState = typeof window !== 'undefined' ? sessionStorage.getItem('kanFrigiOppgaverState') : null;
     return [
         kanFrigiOppgaverState,
-        (erUtvikling && sessionStorageState && JSON.parse(sessionStorageState)) ?? kanFrigiAndresOppgaver(ident),
+        erUtvikling && sessionStorageState ? JSON.parse(sessionStorageState) : kanFrigiAndresOppgaver(ident),
     ];
 }
 

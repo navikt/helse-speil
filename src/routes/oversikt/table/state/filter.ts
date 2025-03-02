@@ -212,10 +212,8 @@ export const getDefaultFilters = (grupper: string[], ident: string): Filter[] =>
         .filter((filter) => filter.key !== Egenskap.Tilkommen || kanSeTilkommenInntekt(ident, grupper));
 
 const hentFiltreForTab = (tab: TabType, defaultFilters: Filter[]): Filter[] => {
-    const filtersFromStorage = localStorage.getItem('filtersPerTab');
-    if (filtersFromStorage == null) {
-        return defaultFilters;
-    }
+    const filtersFromStorage = typeof window !== 'undefined' ? localStorage.getItem('filtersPerTab') : null;
+    if (filtersFromStorage == null) return defaultFilters;
 
     const filtersForThisTab: Filter[] = JSON.parse(filtersFromStorage)[tab];
 
