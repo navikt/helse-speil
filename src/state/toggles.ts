@@ -25,7 +25,7 @@ const totrinnsvurderingState = atomWithSessionStorage<TotrinnsvurderingState>(
 export function hydrateTotrinnsvurderingState(
     brukerRoller: string[],
 ): [WritableAtom<TotrinnsvurderingState, [SetStateAction<TotrinnsvurderingState>], void>, TotrinnsvurderingState] {
-    const sessionStorageState = typeof window !== 'undefined' ? sessionStorage.getItem('totrinnsvurderingState') : null;
+    const sessionStorageState = sessionStorage.getItem('totrinnsvurderingState');
 
     return [
         totrinnsvurderingState,
@@ -65,7 +65,7 @@ const kanFrigiOppgaverState = atomWithSessionStorage('kanFrigiOppgaverState', fa
 export function hydrateKanFrigiOppgaverState(
     ident: string,
 ): [WritableAtom<boolean, [SetStateAction<boolean>], void>, boolean] {
-    const sessionStorageState = typeof window !== 'undefined' ? sessionStorage.getItem('kanFrigiOppgaverState') : null;
+    const sessionStorageState = sessionStorage.getItem('kanFrigiOppgaverState');
     return [
         kanFrigiOppgaverState,
         erUtvikling && sessionStorageState ? JSON.parse(sessionStorageState) : kanFrigiAndresOppgaver(ident),

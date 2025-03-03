@@ -211,17 +211,6 @@ export const getDefaultFilters = (grupper: string[], ident: string): Filter[] =>
         .filter((filter) => filter.key !== Egenskap.Gosys || kanFiltrerePåGosysEgenskap(ident, grupper))
         .filter((filter) => filter.key !== Egenskap.Tilkommen || kanSeTilkommenInntekt(ident, grupper));
 
-const hentFiltreForTab = (tab: TabType, defaultFilters: Filter[]): Filter[] => {
-    const filtersFromStorage = typeof window !== 'undefined' ? localStorage.getItem('filtersPerTab') : null;
-    if (filtersFromStorage == null) return defaultFilters;
-
-    const filtersForThisTab: Filter[] = JSON.parse(filtersFromStorage)[tab];
-
-    return defaultFilters.map(
-        (defaultFilter) => filtersForThisTab.find((filter) => defaultFilter.key === filter.key) || defaultFilter,
-    );
-};
-
 const filtersPerTab = atomWithLocalStorage<FiltersPerTab>('filtersPerTab', {
     [TabType.TilGodkjenning]: filters,
     [TabType.Mine]: filters,
@@ -233,6 +222,18 @@ export function hydrateFilters(
     grupper: string[],
     ident: string,
 ): [WritableAtom<FiltersPerTab, [SetStateAction<FiltersPerTab>], void>, FiltersPerTab] {
+    // Denne er plassert inne i hydrate-funksjonen for å unngå at den blir kalt ifm. server-side rendering
+    const hentFiltreForTab = (tab: TabType, defaultFilters: Filter[]): Filter[] => {
+        const filtersFromStorage = localStorage.getItem('filtersPerTab');
+        if (filtersFromStorage == null) return defaultFilters;
+
+        const filtersForThisTab: Filter[] = JSON.parse(filtersFromStorage)[tab];
+
+        return defaultFilters.map(
+            (defaultFilter) => filtersForThisTab.find((filter) => defaultFilter.key === filter.key) || defaultFilter,
+        );
+    };
+
     return [
         filtersPerTab,
         {
