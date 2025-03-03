@@ -7,5 +7,8 @@ export function atomWithSessionStorage<T>(key: string, initialValue: T) {
         key,
         initialValue,
         createJSONStorage(() => (typeof window !== 'undefined' ? sessionStorage : (undefined as unknown as Storage))),
+        {
+            getOnInit: true,
+        },
     );
 }
