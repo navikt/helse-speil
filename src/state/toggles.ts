@@ -8,13 +8,11 @@ import { harBeslutterrolle, kanFrigiAndresOppgaver } from '@utils/featureToggles
 
 // Totrinnsvurdering
 export type TotrinnsvurderingState = {
-    erAktiv: boolean;
     harBeslutterrolle: boolean;
     kanBeslutteEgne: boolean;
 };
 
 const defaultTotrinnsvurderingState: TotrinnsvurderingState = {
-    erAktiv: true,
     harBeslutterrolle: false,
     kanBeslutteEgne: false,
 };
@@ -55,10 +53,6 @@ export const useTotrinnsvurdering = (): [
 
 export const useHarBeslutterrolle = (): boolean => {
     return useTotrinnsvurdering()[0]?.harBeslutterrolle;
-};
-
-export const useTotrinnsvurderingErAktiv = (): boolean => {
-    return useTotrinnsvurdering()[0]?.erAktiv;
 };
 
 export const useKanBeslutteEgneOppgaver = (): boolean => {

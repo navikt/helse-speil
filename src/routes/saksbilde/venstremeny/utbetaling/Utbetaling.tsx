@@ -24,7 +24,6 @@ import { useCalculatingValue } from '@state/calculating';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { isRevurdering } from '@state/selectors/utbetaling';
-import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { kanSeTilkommenInntekt } from '@utils/featureToggles';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -95,7 +94,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const ventEllerHopp = useOnGodkjenn(period, person);
     const router = useRouter();
-    const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang(person);
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
     const finnesNyereUtbetaltPeriodePåPerson = useFinnesNyereUtbetaltPeriodePåPerson(period, person);
@@ -137,7 +135,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const harArbeidsgiverutbetaling = period.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = period.utbetaling.personNettoBelop !== 0;
     const kanSendesTilTotrinnsvurdering =
-        totrinnsvurderingAktiv && isBeregnetPeriode(period) && period.totrinnsvurdering?.erBeslutteroppgave === false;
+        isBeregnetPeriode(period) && period.totrinnsvurdering?.erBeslutteroppgave === false;
     const trengerTotrinnsvurdering =
         period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave;
     const erTilkommenOgHarIkkeTilgang =
