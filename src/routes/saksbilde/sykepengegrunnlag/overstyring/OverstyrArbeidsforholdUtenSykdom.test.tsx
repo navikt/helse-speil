@@ -13,7 +13,6 @@ import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { createMock, render, screen } from '@test-utils';
-import { waitForElementToBeRemoved } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
 describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
@@ -32,11 +31,7 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
         expect(screen.getByText('Ikke bruk arbeidsforholdet i beregningen')).toBeInTheDocument();
     });
 
-    // Denne er litt vrien. Sliter med komboen av submitting av overstyring og lytting og mottak av opptegnelse.
-    // Forventer at <OverstyrArbeidsforholdUtenSykdon /> skal forsvinne etter man har sendt inn overstyring,
-    // men det er noe feil som gjør at komponentet ikke forstår at overstyring er sendt og resultat mottat og dermed
-    // skulle vært skjult.
-    it.skip('skal ikke vise ikke bruk arbeidsforholdet knap om arbeidsforholdet ikke er deaktivert og arbeidsforholdet har blitt markert som ikke i bruk', async () => {
+    it('skal ikke vise ikke bruk arbeidsforholdet knap om arbeidsforholdet ikke er deaktivert og arbeidsforholdet har blitt markert som ikke i bruk', async () => {
         const periode = enBeregnetPeriode();
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
@@ -132,7 +127,6 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
         await userEvent.click(screen.getAllByRole('radio')[0]!);
         await userEvent.type(screen.getByRole('textbox'), 'En begrunnelse');
         await userEvent.click(screen.getByRole('button', { name: 'Ferdig' }));
-        await waitForElementToBeRemoved(screen.queryByRole('button', { name: 'Ferdig' }));
         expect(
             screen.queryByRole('button', { name: 'Ikke bruk arbeidsforholdet i beregningen' }),
         ).not.toBeInTheDocument();

@@ -119,7 +119,7 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
         await waitFor(() => expect(result.current.isLoading).toBeFalsy());
     });
 
-    it.skip('setter error om sending av overstyring feiler', async () => {
+    it('setter error om sending av overstyring feiler', async () => {
         const { result, rerender } = renderHook(usePostOverstyrtInntektOgRefusjon, { mocks });
 
         await act(() =>
@@ -178,6 +178,7 @@ const mocks = [
         },
         result: {
             data: {
+                __typename: 'Mutation',
                 overstyrInntektOgRefusjon: true,
             },
         },
@@ -208,7 +209,9 @@ const mocks = [
                 },
             },
         },
-        error: Error('en feil'),
+        result: {
+            errors: [{ message: 'en feil' }],
+        },
     },
     {
         request: {

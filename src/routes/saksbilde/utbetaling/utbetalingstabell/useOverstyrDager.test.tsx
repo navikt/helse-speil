@@ -83,7 +83,7 @@ describe('useOverstyrDager', () => {
         await waitFor(() => expect(result.current.done).toBeTruthy());
     });
 
-    test.skip('skal ha error hvis overstyring ikke virker', async () => {
+    test('skal ha error hvis overstyring ikke virker', async () => {
         const person = enPerson({
             aktorId: AKTØR_ID,
             fodselsnummer: FØDSELSNUMMER,
@@ -167,7 +167,9 @@ const mocks = [
                 },
             },
         },
-        error: new Error('en feil'),
+        result: {
+            errors: [{ message: 'en feil' }],
+        },
     },
     {
         request: {
