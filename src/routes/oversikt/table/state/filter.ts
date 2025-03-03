@@ -1,9 +1,9 @@
 import { WritableAtom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
 import { SetStateAction } from 'react';
 
 import { Egenskap } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
+import { atomWithLocalStorage } from '@state/jotai';
 import { kanFiltrerePåGosysEgenskap, kanSeTilkommenInntekt } from '@utils/featureToggles';
 
 export type Filter = {
@@ -222,7 +222,7 @@ const hentFiltreForTab = (tab: TabType, defaultFilters: Filter[]): Filter[] => {
     );
 };
 
-const filtersPerTab = atomWithStorage<FiltersPerTab>('filtersPerTab', {
+const filtersPerTab = atomWithLocalStorage<FiltersPerTab>('filtersPerTab', {
     [TabType.TilGodkjenning]: filters,
     [TabType.Mine]: filters,
     [TabType.Ventende]: filters,

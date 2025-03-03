@@ -12,3 +12,9 @@ export function atomWithSessionStorage<T>(key: string, initialValue: T) {
         },
     );
 }
+
+export function atomWithLocalStorage<T>(key: string, initialValue: T) {
+    return atomWithStorage<T>(key, initialValue, undefined, {
+        getOnInit: true,
+    });
+}

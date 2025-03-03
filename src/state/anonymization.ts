@@ -1,7 +1,8 @@
 import { useAtomValue, useSetAtom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
 
-const anonymityState = atomWithStorage('anonymisering', false);
+import { atomWithLocalStorage } from '@state/jotai';
+
+const anonymityState = atomWithLocalStorage('anonymisering', false);
 
 export const useToggleAnonymity = (): (() => void) => {
     const setAnonymity = useSetAtom(anonymityState);

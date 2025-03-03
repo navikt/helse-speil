@@ -1,7 +1,8 @@
 import { useAtomValue, useSetAtom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
 
-const showStatistikk = atomWithStorage('showStatistikk', true);
+import { atomWithLocalStorage } from '@state/jotai';
+
+const showStatistikk = atomWithLocalStorage('showStatistikk', true);
 
 export const useToggleStatistikk = () => {
     const setShow = useSetAtom(showStatistikk);

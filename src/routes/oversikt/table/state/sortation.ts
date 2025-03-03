@@ -1,10 +1,10 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
 
 import { SortState } from '@navikt/ds-react';
 
 import { Maybe, OppgaveTilBehandling } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
+import { atomWithLocalStorage } from '@state/jotai';
 
 export enum SortKey {
     Saksbehandler = 'saksbehandler',
@@ -21,7 +21,7 @@ const defaultSortation: SortState = {
 
 type SorteringPerTab = { [key in TabType]: SortState };
 
-const sorteringPerTab = atomWithStorage<SorteringPerTab>('sorteringPerTab', {
+const sorteringPerTab = atomWithLocalStorage<SorteringPerTab>('sorteringPerTab', {
     [TabType.TilGodkjenning]: defaultSortation,
     [TabType.Mine]: defaultSortation,
     [TabType.Ventende]: defaultSortation,
@@ -65,7 +65,7 @@ export const useUpdateSort = () => {
     };
 };
 
-const dateSortKey = atomWithStorage<SortKey>('dateSortKey', SortKey.Opprettet);
+const dateSortKey = atomWithLocalStorage<SortKey>('dateSortKey', SortKey.Opprettet);
 export const useDateSortState = () => useAtom(dateSortKey);
 export const useDateSortValue = () => useAtomValue(dateSortKey);
 

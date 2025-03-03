@@ -1,5 +1,6 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
+
+import { atomWithLocalStorage } from '@state/jotai';
 
 export const useToggleFiltermeny = () => {
     const setShow = useSetAtom(showFiltermeny);
@@ -8,7 +9,7 @@ export const useToggleFiltermeny = () => {
 
 export const useShowFiltermeny = (): boolean => useAtomValue(showFiltermeny);
 
-const showFiltermeny = atomWithStorage('showFiltermeny', true);
+const showFiltermeny = atomWithLocalStorage('showFiltermeny', true);
 
 export const useFiltermenyWidth = () => useAtomValue(filtermenyWidth);
 
