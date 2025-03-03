@@ -134,10 +134,8 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const isRevurdering = period.utbetaling.type === 'REVURDERING';
     const harArbeidsgiverutbetaling = period.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = period.utbetaling.personNettoBelop !== 0;
-    const kanSendesTilTotrinnsvurdering =
-        isBeregnetPeriode(period) && period.totrinnsvurdering?.erBeslutteroppgave === false;
     const trengerTotrinnsvurdering =
-        period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave;
+        isBeregnetPeriode(period) && period.totrinnsvurdering && !period.totrinnsvurdering.erBeslutteroppgave;
     const erTilkommenOgHarIkkeTilgang =
         period.egenskaper.some((it) => it.egenskap === 'TILKOMMEN') &&
         !kanSeTilkommenInntekt(saksbehandlerident, grupper);
@@ -158,7 +156,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
             />
             {!erReadOnly && (
                 <HStack gap="4">
-                    {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering ? (
+                    {trengerTotrinnsvurdering ? (
                         <SendTilGodkjenningButton
                             size="small"
                             utbetaling={period.utbetaling}
@@ -224,9 +222,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                 <BodyShort className={styles.infotekst}>
                     <Loader className={styles.spinner} />
                     <span>
-                        {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering
-                            ? 'Perioden sendes til godkjenning'
-                            : 'Neste periode klargjøres'}
+                        {trengerTotrinnsvurdering ? 'Perioden sendes til godkjenning' : 'Neste periode klargjøres'}
                     </span>
                 </BodyShort>
             )}
