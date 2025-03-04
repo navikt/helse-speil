@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 
 import { Maybe } from '@io/graphql';
-import { DateString } from '@typer/shared';
+import { DatePeriod, DateString } from '@typer/shared';
 
 export const NORSK_DATOFORMAT_MED_KLOKKESLETT = 'DD.MM.YYYY kl. HH.mm';
 export const NORSK_DATOFORMAT = 'DD.MM.YYYY';
@@ -28,3 +28,10 @@ export const plussEnDag = (dato: DateString): DateString =>
 
 export const minusEnDag = (dato: DateString): DateString =>
     dayjs(dato, ISO_DATOFORMAT, true).subtract(1, 'day').format(ISO_DATOFORMAT);
+
+export const erIPeriode = (dato: DateString, periode: DatePeriod) =>
+    dayjs(dato, ISO_DATOFORMAT, true).isBetween(periode.fom, periode.tom, 'day', '[]');
+export const erEtter = (dato: DateString, tidligst: DateString) =>
+    dayjs(dato, ISO_DATOFORMAT, true).isAfter(dayjs(tidligst, ISO_DATOFORMAT, true));
+export const erFør = (dato: DateString, senest: DateString) =>
+    dayjs(dato, ISO_DATOFORMAT, true).isBefore(dayjs(senest, ISO_DATOFORMAT, true));

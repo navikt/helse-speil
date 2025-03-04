@@ -21,8 +21,7 @@ import { overlapper } from '@state/selectors/period';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { MinimumSykdomsgradArbeidsgiver, OverstyrtMinimumSykdomsgradDTO } from '@typer/overstyring';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
-import { ISO_DATOFORMAT, minusEnDag, plussEnDag } from '@utils/date';
-import { erEtter, erFør, erIPeriode } from '@utils/periode';
+import { ISO_DATOFORMAT, erEtter, erFør, erIPeriode, minusEnDag, plussEnDag } from '@utils/date';
 import { isBeregnetPeriode, isNotNullOrUndefined, isUberegnetPeriode } from '@utils/typeguards';
 
 export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => void) => {
