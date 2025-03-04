@@ -1,10 +1,9 @@
-import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { DateString } from '@typer/shared';
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import { Vilkårsgrupperad } from './Vilkårsgrupperad';
@@ -22,11 +21,9 @@ export const Opptjeningstid = ({
 }: OpptjeningstidProps): ReactElement => (
     <>
         <Vilkårsgrupperad label="Skjæringstidspunkt">
-            {dayjs(skjæringstidspunkt).format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
+            {somNorskDato(skjæringstidspunkt) ?? 'Ikke funnet'}
         </Vilkårsgrupperad>
-        <Vilkårsgrupperad label="Opptjening fra">
-            {dayjs(opptjeningFra).format(NORSK_DATOFORMAT) ?? 'ukjent'}
-        </Vilkårsgrupperad>
+        <Vilkårsgrupperad label="Opptjening fra">{somNorskDato(opptjeningFra) ?? 'ukjent'}</Vilkårsgrupperad>
         <Vilkårsgrupperad label="Antall dager (>28)">{`${antallOpptjeningsdagerErMinst}`}</Vilkårsgrupperad>
     </>
 );

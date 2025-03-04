@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import React, { ReactElement, useState } from 'react';
 
 import { Accordion, BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
@@ -10,7 +9,7 @@ import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anon
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { Arbeidsforhold } from '@io/graphql';
 import { useIsAnonymous } from '@state/anonymization';
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { somNorskDato } from '@utils/date';
 import { capitalize, capitalizeArbeidsgiver, somPenger } from '@utils/locale';
 
 import styles from './ArbeidsgiverRow.module.scss';
@@ -38,8 +37,8 @@ const ArbeidsforholdRow = ({ arbeidsforhold, erAnonymisert }: ArbeidsforholdRowP
         <>
             {arbeidsforhold.map((arbeidsforhold, i) => {
                 const stillingstittel = capitalize(arbeidsforhold.stillingstittel);
-                const fom = dayjs(arbeidsforhold.startdato).format(NORSK_DATOFORMAT);
-                const tom = arbeidsforhold.sluttdato && dayjs(arbeidsforhold.sluttdato).format(NORSK_DATOFORMAT);
+                const fom = somNorskDato(arbeidsforhold.startdato);
+                const tom = arbeidsforhold.sluttdato && somNorskDato(arbeidsforhold.sluttdato);
 
                 return (
                     <React.Fragment key={i}>

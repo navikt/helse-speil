@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import React from 'react';
 
 import { BriefcaseClockIcon } from '@navikt/aksel-icons';
@@ -8,7 +7,7 @@ import { Maybe, MinimumSykdomsgradOverstyring } from '@io/graphql';
 import { Delperiode } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/Delperiode';
 import { byTimestamp } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/DelperiodeWrapper';
 import { DatePeriod } from '@typer/shared';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
+import { somNorskDato } from '@utils/date';
 
 import styles from './MinimumSykdomsgradVisning.module.scss';
 
@@ -85,8 +84,7 @@ export const MinimumSykdomsgradVisning = ({ oppkuttedePerioder, minimumSykdomsgr
                     </BodyShort>
                     {delperioder.map((it) => (
                         <List.Item key={it.periode.fom}>
-                            {dayjs(it.periode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)} –{' '}
-                            {dayjs(it.periode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)} ({it.defaultValue}):
+                            {somNorskDato(it.periode.fom)} – {somNorskDato(it.periode.tom)} ({it.defaultValue}):
                             <br />
                             {it.notat}
                         </List.Item>

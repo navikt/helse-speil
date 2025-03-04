@@ -1,11 +1,10 @@
-import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
 
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { Inntektoverstyring } from '@io/graphql';
-import { NORSK_DATOFORMAT, getFormattedDateString } from '@utils/date';
+import { getFormattedDateString, somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import styles from './Endringslogg.module.css';
@@ -47,7 +46,7 @@ export const EndringsloggInntekt = ({ endringer, onClose, showModal }: Endringsl
                         .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
                         .map((endring, i) => (
                             <Table.Row key={i}>
-                                <Table.DataCell>{dayjs(endring.timestamp).format(NORSK_DATOFORMAT)}</Table.DataCell>
+                                <Table.DataCell>{somNorskDato(endring.timestamp)}</Table.DataCell>
                                 <Table.DataCell>
                                     <span className={styles.PreviousValue}>
                                         {somPenger(endring.inntekt.fraManedligInntekt)}

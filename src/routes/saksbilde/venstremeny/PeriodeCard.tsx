@@ -23,7 +23,7 @@ import {
     UberegnetPeriodeFragment,
 } from '@io/graphql';
 import { ActivePeriod, DatePeriod, DateString } from '@typer/shared';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
+import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
 
 import { ArbeidsgiverRow } from './ArbeidsgiverRow';
 import { CardTitle } from './CardTitle';
@@ -46,8 +46,8 @@ interface SykmeldingsperiodeRowProps {
 }
 
 const SykmeldingsperiodeRow = ({ periode }: SykmeldingsperiodeRowProps): ReactElement => {
-    const fom = dayjs(periode.fom).format(NORSK_DATOFORMAT);
-    const tom = dayjs(periode.tom).format(NORSK_DATOFORMAT);
+    const fom = somNorskDato(periode.fom);
+    const tom = somNorskDato(periode.tom);
 
     return (
         <>
@@ -77,7 +77,7 @@ const SkjæringstidspunktRow = ({ periodetype, skjæringstidspunkt }: Skjærings
             {periodetype === Periodetype.OvergangFraIt ? (
                 <BodyShort>Skjæringstidspunkt i Infotrygd/Gosys</BodyShort>
             ) : (
-                <BodyShort>{dayjs(skjæringstidspunkt).format(NORSK_DATOFORMAT)}</BodyShort>
+                <BodyShort>{somNorskDato(skjæringstidspunkt)}</BodyShort>
             )}
         </>
     );
@@ -159,8 +159,7 @@ const ArbeidsforholdOpphørt = ({
             {erAlleArbeidsforholdPåArbeidsgiverOpphørt && sisteOpphørteArbeidsforhold && (
                 <Box marginBlock="0 4">
                     <Tag variant="info-moderate" style={{ fontSize: 16 }} size="small">
-                        Arbeidsforhold opphørt{' '}
-                        {dayjs(sisteOpphørteArbeidsforhold, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
+                        Arbeidsforhold opphørt {somNorskDato(sisteOpphørteArbeidsforhold)}
                     </Tag>
                 </Box>
             )}

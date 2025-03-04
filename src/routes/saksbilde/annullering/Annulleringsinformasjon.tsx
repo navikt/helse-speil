@@ -1,10 +1,9 @@
-import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { Maybe, PersonFragment } from '@io/graphql';
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import { useTotaltUtbetaltForSykefraværstilfellet } from './annullering';
@@ -22,8 +21,8 @@ export const Annulleringsinformasjon = ({ person }: { person: PersonFragment }):
             <ul>
                 <li>
                     <BodyShort>
-                        {førsteUtbetalingsdag !== undefined && dayjs(førsteUtbetalingsdag).format(NORSK_DATOFORMAT)} -{' '}
-                        {sisteUtbetalingsdag !== undefined && dayjs(sisteUtbetalingsdag).format(NORSK_DATOFORMAT)}
+                        {førsteUtbetalingsdag !== undefined && somNorskDato(førsteUtbetalingsdag)} -{' '}
+                        {sisteUtbetalingsdag !== undefined && somNorskDato(sisteUtbetalingsdag)}
                         {totalbeløp ? ` - ${somPenger(totalbeløp)}` : null}
                     </BodyShort>
                 </li>

@@ -1,11 +1,10 @@
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { CheckmarkIcon } from '@navikt/aksel-icons';
 
 import { Maybe, SporsmalFragment, Svar, Svartype } from '@io/graphql';
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { somNorskDato } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
 import { DokumentFragment } from './DokumentFragment';
@@ -58,25 +57,21 @@ const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
             return toKronerOgØre(Number(svar[0]?.verdi) / 100);
         case Svartype.Dato:
         case Svartype.RadioGruppeUkekalender:
-            return dayjs(svar[0]?.verdi).format(NORSK_DATOFORMAT);
+            return somNorskDato(svar[0]?.verdi);
         case Svartype.Datoer:
         case Svartype.InfoBehandlingsdager:
             return svar
-                .flatMap((it) => dayjs(it.verdi).format(NORSK_DATOFORMAT))
+                .flatMap((it) => somNorskDato(it.verdi ?? undefined))
                 .join(', ')
                 .replace(/,(?=[^,]*$)/, ' og');
         case Svartype.Periode:
-            return `${dayjs(JSON.parse(svar[0]?.verdi).fom).format(NORSK_DATOFORMAT)} – ${dayjs(
-                JSON.parse(svar[0]?.verdi).tom,
-            ).format(NORSK_DATOFORMAT)}`;
+            return `${somNorskDato(JSON.parse(svar[0]?.verdi).fom)} – ${somNorskDato(JSON.parse(svar[0]?.verdi).tom)}`;
         case Svartype.Perioder:
             return svar
                 .map((it) => {
                     if (!it.verdi) return;
                     const periode = JSON.parse(it.verdi);
-                    return `${dayjs(periode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(periode.tom).format(
-                        NORSK_DATOFORMAT,
-                    )}`;
+                    return `${somNorskDato(periode.fom)} – ${somNorskDato(periode.tom)}`;
                 })
                 .join(', ')
                 .replace(/,(?=[^,]*$)/, ' og');

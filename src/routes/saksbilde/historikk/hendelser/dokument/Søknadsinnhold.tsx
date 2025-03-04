@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { DokumenthendelseObject } from '@typer/historikk';
-import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
+import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_MED_KLOKKESLETT, somNorskDato } from '@utils/date';
 
 import { DokumentFragment } from './DokumentFragment';
 import { DokumentLoader } from './DokumentLoader';
@@ -31,9 +31,7 @@ export const Søknadsinnhold = ({ dokumentId, fødselsnummer }: SøknadsinnholdP
                         søknad.soknadsperioder.length > 0 &&
                         søknad.soknadsperioder.map((søknadsperiode) => (
                             <DokumentFragment
-                                overskrift={`${dayjs(søknadsperiode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(
-                                    søknadsperiode.tom,
-                                ).format(NORSK_DATOFORMAT)}`}
+                                overskrift={`${somNorskDato(søknadsperiode.fom)} – ${somNorskDato(søknadsperiode.tom)}`}
                                 key={`søknadsperiode${søknadsperiode.fom}`}
                             >
                                 {søknadsperiode.grad || søknadsperiode.sykmeldingsgrad ? (
@@ -51,7 +49,7 @@ export const Søknadsinnhold = ({ dokumentId, fødselsnummer }: SøknadsinnholdP
                         ))}
                     {søknad.arbeidGjenopptatt && (
                         <DokumentFragment overskrift="Arbeid gjenopptatt">
-                            {dayjs(søknad.arbeidGjenopptatt).format(NORSK_DATOFORMAT)}
+                            {somNorskDato(søknad.arbeidGjenopptatt)}
                         </DokumentFragment>
                     )}
                     {søknad.sykmeldingSkrevet && (
@@ -62,7 +60,7 @@ export const Søknadsinnhold = ({ dokumentId, fødselsnummer }: SøknadsinnholdP
                     {(søknad.egenmeldingsdagerFraSykmelding?.length ?? 0) > 0 && (
                         <DokumentFragment overskrift="Egenmeldingsdager fra sykmelding">
                             {søknad.egenmeldingsdagerFraSykmelding
-                                ?.map((it) => dayjs(it).format(NORSK_DATOFORMAT))
+                                ?.map((it) => somNorskDato(it))
                                 .sort((a, b) =>
                                     dayjs(a, NORSK_DATOFORMAT).isAfter(dayjs(b, NORSK_DATOFORMAT)) ? 1 : -1,
                                 )

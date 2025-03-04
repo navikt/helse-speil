@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import React from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
@@ -6,7 +5,7 @@ import { HStack, HelpText, Radio, RadioGroup, Table } from '@navikt/ds-react';
 
 import styles from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgrad.module.scss';
 import { DatePeriod } from '@typer/shared';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
+import { somNorskDato } from '@utils/date';
 
 interface Props {
     delperiode: DatePeriod;
@@ -29,8 +28,7 @@ export const Delperiode = ({
 }: Props) => (
     <Table.Row key={delperiode.fom} className={styles.zebrarad}>
         <Table.DataCell scope="col">
-            {dayjs(delperiode.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)} –{' '}
-            {dayjs(delperiode.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
+            {somNorskDato(delperiode.fom)} – {somNorskDato(delperiode.tom)}
         </Table.DataCell>
         <Table.DataCell>
             <HStack align="center" gap="3">

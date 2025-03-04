@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
@@ -7,7 +6,7 @@ import { AnonymizableTextWithEllipsis } from '@components/anonymizable/Anonymiza
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { getSkjønnsfastsettelseTypeTekst } from '@saksbilde/historikk/hendelser/SykepengegrunnlagSkjønnsfastsatthendelse';
 import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/SkjønnsfastsettingHeader';
-import { NORSK_DATOFORMAT, getFormattedDateString } from '@utils/date';
+import { getFormattedDateString, somNorskDato } from '@utils/date';
 import { capitalizeArbeidsgiver, somPenger } from '@utils/locale';
 
 import styles from './Endringslogg.module.css';
@@ -54,7 +53,7 @@ export const EndringsloggSykepengegrunnlagskjønnsfastsetting = ({
                         .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
                         .map((endring, i) => (
                             <Table.Row key={i}>
-                                <Table.DataCell>{dayjs(endring.timestamp).format(NORSK_DATOFORMAT)}</Table.DataCell>
+                                <Table.DataCell>{somNorskDato(endring.timestamp)}</Table.DataCell>
                                 <Table.DataCell>
                                     <AnonymizableTextWithEllipsis>
                                         {capitalizeArbeidsgiver(endring.arbeidsgivernavn)}

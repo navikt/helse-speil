@@ -12,7 +12,7 @@ import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponente
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { InntektoverstyringhendelseObject } from '@typer/historikk';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT, getFormattedDateString } from '@utils/date';
+import { ISO_DATOFORMAT, NORSK_DATOFORMAT, getFormattedDateString, somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import styles from './Inntektoverstyringhendelse.module.css';
@@ -118,12 +118,8 @@ export const Inntektoverstyringhendelse = ({
                                             className={styles.gridfullwidth}
                                             key={`${refusjonsopplysning?.fom}${index}`}
                                         >
-                                            {dayjs(refusjonsopplysning.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}-
-                                            {dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).isValid()
-                                                ? (dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).format(
-                                                      NORSK_DATOFORMAT,
-                                                  ) ?? '')
-                                                : ' '}
+                                            {somNorskDato(refusjonsopplysning.fom)}-
+                                            {somNorskDato(refusjonsopplysning?.tom ?? undefined) ?? ' '}
                                             {': '}
                                             {refusjonsopplysning.belop}
                                         </BodyShort>

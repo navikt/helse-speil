@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { RefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonSkjema/RefusjonSkjema';
@@ -6,7 +5,7 @@ import { render, screen } from '@test-utils';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { Refusjonsopplysning } from '@typer/overstyring';
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { somNorskDato } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
 describe('Refusjonskjema', () => {
@@ -58,9 +57,7 @@ describe('Refusjonskjema', () => {
     it('skal rendre skjema hvis det finnes refusjoner', async () => {
         render(<TestRefusjonSkjema fraRefusjonsopplysninger={en_refusjonsopplysning} />);
         expect(await screen.findAllByTestId('refusjonsopplysningrad')).toHaveLength(1);
-        expect(screen.queryByLabelText('Fra og med dato')).toHaveValue(
-            dayjs(en_refusjonsopplysning[0]?.fom).format(NORSK_DATOFORMAT),
-        );
+        expect(screen.queryByLabelText('Fra og med dato')).toHaveValue(somNorskDato(en_refusjonsopplysning[0]?.fom));
         expect(screen.queryByLabelText('Til og med dato')).toHaveValue('');
         expect(screen.queryByLabelText('Månedlig refusjon')).toHaveValue(
             toKronerOgØre(en_refusjonsopplysning[0]?.beløp as number),

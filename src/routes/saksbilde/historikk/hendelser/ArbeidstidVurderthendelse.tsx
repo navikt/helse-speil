@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -8,7 +7,7 @@ import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponente
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { MinimumSykdomsgradhendelseObject } from '@typer/historikk';
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { somNorskDato } from '@utils/date';
 
 type ArbeidstidVurderthendelseProps = Omit<MinimumSykdomsgradhendelseObject, 'type' | 'id'>;
 
@@ -28,10 +27,7 @@ export const ArbeidstidVurderthendelse = ({
             <HistorikkSection tittel="Innvilgede perioder">
                 <BodyShort>
                     {minimumSykdomsgrad.perioderVurdertOk
-                        .map(
-                            (periode) =>
-                                `${dayjs(periode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(periode.tom).format(NORSK_DATOFORMAT)}`,
-                        )
+                        .map((periode) => `${somNorskDato(periode.fom)} – ${somNorskDato(periode.tom)}`)
                         .join(', ')
                         .replace(/,(?=[^,]*$)/, ' og')}
                 </BodyShort>
@@ -41,10 +37,7 @@ export const ArbeidstidVurderthendelse = ({
             <HistorikkSection tittel="Avslåtte perioder">
                 <BodyShort>
                     {minimumSykdomsgrad.perioderVurdertIkkeOk
-                        .map(
-                            (periode) =>
-                                `${dayjs(periode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(periode.tom).format(NORSK_DATOFORMAT)}`,
-                        )
+                        .map((periode) => `${somNorskDato(periode.fom)} – ${somNorskDato(periode.tom)}`)
                         .join(', ')
                         .replace(/,(?=[^,]*$)/, ' og')}
                 </BodyShort>

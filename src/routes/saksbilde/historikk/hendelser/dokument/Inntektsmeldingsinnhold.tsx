@@ -9,7 +9,7 @@ import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonM
 import { PersonFragment } from '@io/graphql';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { DokumenthendelseObject } from '@typer/historikk';
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
 import { tilTelefonNummer, toKronerOgØre } from '@utils/locale';
 
 import { BestemmendeFraværsdag } from './BestemmendeFraværsdag';
@@ -71,8 +71,8 @@ export const Inntektsmeldingsinnhold = ({
                                             ?.map(
                                                 (it) =>
                                                     it.fom &&
-                                                    `${dayjs(it.fom).format(NORSK_DATOFORMAT)} – 
-                                                ${it.tom && dayjs(it.tom).format(NORSK_DATOFORMAT)}`,
+                                                    `${somNorskDato(it.fom)} – 
+                                                ${it.tom && somNorskDato(it.tom)}`,
                                             )
                                             .join(', ')
                                             .replace(/,(?=[^,]*$)/, ' og')}
@@ -93,7 +93,7 @@ export const Inntektsmeldingsinnhold = ({
                                 <>
                                     <BodyShort size="small">Ble kjent:</BodyShort>
                                     <BodyShort size="small">
-                                        {dayjs(inntektsmelding.inntektEndringAarsak.bleKjent).format(NORSK_DATOFORMAT)}
+                                        {somNorskDato(inntektsmelding.inntektEndringAarsak.bleKjent)}
                                     </BodyShort>
                                 </>
                             )}
@@ -107,8 +107,7 @@ export const Inntektsmeldingsinnhold = ({
                             </BodyShort>
                             {inntektsmelding.arbeidsgiverperioder?.map((it) => (
                                 <BodyShort size="small" key={`agperioder${it.fom}-${it.tom}`}>
-                                    {it.fom && dayjs(it.fom).format(NORSK_DATOFORMAT)} –{' '}
-                                    {it.tom && dayjs(it.tom).format(NORSK_DATOFORMAT)}
+                                    {it.fom && somNorskDato(it.fom)} – {it.tom && somNorskDato(it.tom)}
                                 </BodyShort>
                             ))}
                         </div>
@@ -168,8 +167,7 @@ export const Inntektsmeldingsinnhold = ({
                             </BodyShort>
                             {inntektsmelding.ferieperioder?.map((it) => (
                                 <BodyShort size="small" key={`ferieperioder${it.fom}`}>
-                                    {it.fom && dayjs(it.fom).format(NORSK_DATOFORMAT)} –{' '}
-                                    {it.tom && dayjs(it.tom).format(NORSK_DATOFORMAT)}
+                                    {it.fom && somNorskDato(it.fom)} – {it.tom && somNorskDato(it.tom)}
                                 </BodyShort>
                             ))}
                         </div>
@@ -187,9 +185,7 @@ export const Inntektsmeldingsinnhold = ({
                                         </DokumentFragment>
                                     )}
                                     {it.fom && (
-                                        <DokumentFragment overskrift="Fom">
-                                            {dayjs(it.fom).format(NORSK_DATOFORMAT)}
-                                        </DokumentFragment>
+                                        <DokumentFragment overskrift="Fom">{somNorskDato(it.fom)}</DokumentFragment>
                                     )}
                                     {it.beloepPrMnd != null && (
                                         <DokumentFragment overskrift="Beløp per måned">
@@ -213,9 +209,7 @@ export const Inntektsmeldingsinnhold = ({
                                         </DokumentFragment>
                                     )}
                                     {it.fom && (
-                                        <DokumentFragment overskrift="Fom">
-                                            {dayjs(it.fom).format(NORSK_DATOFORMAT)}
-                                        </DokumentFragment>
+                                        <DokumentFragment overskrift="Fom">{somNorskDato(it.fom)}</DokumentFragment>
                                     )}
                                     {it.beloepPrMnd != null && (
                                         <DokumentFragment overskrift="Beløp per måned">

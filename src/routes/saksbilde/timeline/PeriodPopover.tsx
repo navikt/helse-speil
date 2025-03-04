@@ -11,7 +11,7 @@ import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import { BeregnetPeriodeFragment, NotatType, PersonFragment, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
 import { DatePeriod, DateString, PeriodState } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 import { getPeriodStateText } from '@utils/mapping';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isTilkommenInntekt } from '@utils/typeguards';
@@ -53,8 +53,8 @@ const getDayTypesRender = (dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagt
     if (periods.length === 1) {
         const period = periods[0];
         return period?.fom === period?.tom
-            ? dayjs(period?.fom).format(NORSK_DATOFORMAT)
-            : `${dayjs(period?.fom).format(NORSK_DATOFORMAT)} - ${dayjs(period?.tom).format(NORSK_DATOFORMAT)}`;
+            ? somNorskDato(period?.fom)
+            : `${somNorskDato(period?.fom)} - ${somNorskDato(period?.tom)}`;
     }
     const antallDager = periods.reduce(
         (count, period) => count + dayjs(period.tom).diff(dayjs(period.fom), 'day') + 1,
@@ -223,8 +223,8 @@ interface PeriodPopoverProps extends Omit<PopoverProps, 'children'> {
 }
 
 export const PeriodPopover = ({ period, state, person, ...popoverProps }: PeriodPopoverProps): ReactElement => {
-    const fom = dayjs(period.fom).format(NORSK_DATOFORMAT);
-    const tom = dayjs(period.tom).format(NORSK_DATOFORMAT);
+    const fom = somNorskDato(period.fom) ?? '-';
+    const tom = somNorskDato(period.tom) ?? '-';
 
     return (
         <Popover {...popoverProps}>

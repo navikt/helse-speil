@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { Alert, Box, Heading, VStack } from '@navikt/ds-react';
@@ -15,7 +14,7 @@ import {
 } from '@io/graphql';
 import { TilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/TilkommenAG';
 import { findArbeidsgiverWithNyttInntektsforholdPeriode } from '@state/arbeidsgiver';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
+import { somNorskDato } from '@utils/date';
 
 type TilkommenInntektProps = {
     person: PersonFragment;
@@ -37,8 +36,7 @@ const TilkommenInntektContainer = ({ person, aktivPeriode }: TilkommenInntektPro
         <Box paddingBlock="8 6">
             <Box paddingInline="4">
                 <Heading size="small" spacing>
-                    Tilkommen inntekt {dayjs(tilkomnePerioder[0]?.fom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)} –
-                    {dayjs(tilkomnePerioder[0]?.tom, ISO_DATOFORMAT).format(NORSK_DATOFORMAT)}
+                    Tilkommen inntekt {somNorskDato(tilkomnePerioder[0]?.fom)} –{somNorskDato(tilkomnePerioder[0]?.tom)}
                 </Heading>
             </Box>
             <VStack gap="8">
