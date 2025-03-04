@@ -19,7 +19,13 @@ type UberegnetPeriodeViewProps = {
 export const UberegnetPeriodeView = ({ person, activePeriod }: UberegnetPeriodeViewProps) => {
     const tab = last(usePathname().split('/'));
     const harTilkommenInntekt = harOverlappendeTilkommenInntekt(person, activePeriod.fom);
-    useNavigateOnMount(tab === 'tilkommen-inntekt' && !harTilkommenInntekt ? Fane.Utbetaling : undefined);
+    useNavigateOnMount(
+        tab === 'tilkommen-inntekt' && !harTilkommenInntekt
+            ? Fane.Utbetaling
+            : tab !== 'tilkommen-inntekt' && tab !== 'dagoversikt'
+              ? Fane.Utbetaling
+              : undefined,
+    );
 
     return (
         <Box overflowX="scroll">
