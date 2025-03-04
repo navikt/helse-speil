@@ -35,7 +35,7 @@ spec:
     timeout: 1
   replicas:
     cpuThresholdPercentage: 90
-    max: 4
+    max: 10
     min: 2
   resources:
     limits:
