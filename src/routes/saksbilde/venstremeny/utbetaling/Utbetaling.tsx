@@ -11,13 +11,10 @@ import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
-    Dag,
     Maybe,
     OpprettAbonnementDocument,
     Periodetilstand,
     PersonFragment,
-    Utbetalingsdagtype,
-    VedtakUtfall,
 } from '@io/graphql';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useCalculatingValue } from '@state/calculating';
@@ -101,16 +98,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const grupper = useBrukerGrupper();
     const calculating = useCalculatingValue();
 
-    const tidslinjeUtenAGPogHelg = getTidslinjeUtenAGPogHelg(period);
-    const avvisteDager = getAvvisteDager(tidslinjeUtenAGPogHelg);
-
-    const utfall =
-        avvisteDager.length === 0
-            ? VedtakUtfall.Innvilgelse
-            : tidslinjeUtenAGPogHelg.length === avvisteDager.length
-              ? VedtakUtfall.Avslag
-              : VedtakUtfall.DelvisInnvilgelse;
-
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
         ventEllerHopp();
@@ -171,7 +158,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                                 erTilkommenOgHarIkkeTilgang
                             }
                             onSuccess={onSendTilGodkjenning}
-                            utfall={utfall}
                             vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
                         >
                             Send til godkjenning
@@ -192,7 +178,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                                 erTilkommenOgHarIkkeTilgang
                             }
                             onSuccess={onGodkjennUtbetaling}
-                            utfall={utfall}
                             vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
                         >
                             {erBeslutteroppgaveOgHarTilgang
@@ -229,18 +214,3 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
         </Box>
     );
 };
-
-const getTidslinjeUtenAGPogHelg = (periode: BeregnetPeriodeFragment) =>
-    periode.tidslinje.filter(
-        (dag) =>
-            ![Utbetalingsdagtype.Navhelgdag, Utbetalingsdagtype.Arbeidsgiverperiodedag].includes(
-                dag.utbetalingsdagtype,
-            ),
-    );
-
-const getAvvisteDager = (tidslinjeUtenAGPogHelg: Dag[]) =>
-    tidslinjeUtenAGPogHelg.filter((dag) =>
-        [Utbetalingsdagtype.AvvistDag, Utbetalingsdagtype.ForeldetDag, Utbetalingsdagtype.Feriedag].includes(
-            dag.utbetalingsdagtype,
-        ),
-    );

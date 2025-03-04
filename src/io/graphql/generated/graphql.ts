@@ -5551,7 +5551,6 @@ export type SendIReturMutation = { __typename: 'Mutation'; sendIRetur: boolean }
 
 export type SendTilGodkjenningV2MutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
-    vedtakUtfall: VedtakUtfall;
     vedtakBegrunnelse?: InputMaybe<Scalars['String']['input']>;
 }>;
 
@@ -5585,7 +5584,6 @@ export type SettVarselStatusMutation = {
 
 export type FattVedtakMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
-    utfall: VedtakUtfall;
     begrunnelse?: InputMaybe<Scalars['String']['input']>;
 }>;
 
@@ -13018,14 +13016,6 @@ export const SendTilGodkjenningV2Document = {
                 },
                 {
                     kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'vedtakUtfall' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'VedtakUtfall' } },
-                    },
-                },
-                {
-                    kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'vedtakBegrunnelse' } },
                     type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
                 },
@@ -13041,11 +13031,6 @@ export const SendTilGodkjenningV2Document = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'oppgavereferanse' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'vedtakUtfall' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'vedtakUtfall' } },
                             },
                             {
                                 kind: 'Argument',
@@ -13162,14 +13147,6 @@ export const FattVedtakDocument = {
                 },
                 {
                     kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'utfall' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'VedtakUtfall' } },
-                    },
-                },
-                {
-                    kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
                     type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
                 },
@@ -13185,11 +13162,6 @@ export const FattVedtakDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'oppgavereferanse' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'utfall' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'utfall' } },
                             },
                             {
                                 kind: 'Argument',
