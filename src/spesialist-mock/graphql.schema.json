@@ -6216,13 +6216,9 @@
                                 "name": "utfall",
                                 "description": null,
                                 "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "ENUM",
-                                        "name": "VedtakUtfall",
-                                        "ofType": null
-                                    }
+                                    "kind": "ENUM",
+                                    "name": "VedtakUtfall",
+                                    "ofType": null
                                 },
                                 "defaultValue": null,
                                 "isDeprecated": false,
@@ -6982,13 +6978,9 @@
                                 "name": "vedtakUtfall",
                                 "description": null,
                                 "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "ENUM",
-                                        "name": "VedtakUtfall",
-                                        "ofType": null
-                                    }
+                                    "kind": "ENUM",
+                                    "name": "VedtakUtfall",
+                                    "ofType": null
                                 },
                                 "defaultValue": null,
                                 "isDeprecated": false,
