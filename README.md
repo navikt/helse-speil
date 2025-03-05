@@ -35,7 +35,7 @@ Lokal utvikling bruker nextjs dev server, denne kan spinnes opp med følgende ko
 npm run dev
 ```
 
-Appen er nå tilgjengelig på http://localhost:1234.
+Appen vil være tilgjengelig på http://localhost:1234.
 
 Default i lokal utvikling er at Apollo går mot spesialist-mock på /api/spesialist.
 
@@ -62,7 +62,9 @@ npm run build
 
 ## Hente og oppdaterte GraphQL-typer
 
-Speil henter schema fra spesialist i dev. For å kunne hente snakke med spesialist må man først koble til naisdevice.
+Schema hentes fra spesialist på lokal maskin. Før man kjører skriptet for å generere GraphQL-typer, må man starte
+spesialist på lokal maskin (se etter fila LocalApp.kt). `generate-graphql` henter først et token fra spesialist og gjør
+deretter et autentisert introspection-kall.
 
 For å generere DocumentNodes som brukes i apollo queries og mutations må man først skrive en GraphQL spørring
 i [GraphQL mappen](src/io/graphql).
