@@ -666,7 +666,6 @@ export type MutationEndrePaVentArgs = {
 export type MutationFattVedtakArgs = {
     begrunnelse?: InputMaybe<Scalars['String']['input']>;
     oppgavereferanse: Scalars['String']['input'];
-    utfall?: InputMaybe<VedtakUtfall>;
 };
 
 export type MutationFeilregistrerKommentarArgs = {
@@ -751,7 +750,6 @@ export type MutationSendIReturArgs = {
 export type MutationSendTilGodkjenningV2Args = {
     oppgavereferanse: Scalars['String']['input'];
     vedtakBegrunnelse?: InputMaybe<Scalars['String']['input']>;
-    vedtakUtfall?: InputMaybe<VedtakUtfall>;
 };
 
 export type MutationSendTilInfotrygdArgs = {

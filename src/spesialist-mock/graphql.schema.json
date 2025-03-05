@@ -6211,18 +6211,6 @@
                                 "defaultValue": null,
                                 "isDeprecated": false,
                                 "deprecationReason": null
-                            },
-                            {
-                                "name": "utfall",
-                                "description": null,
-                                "type": {
-                                    "kind": "ENUM",
-                                    "name": "VedtakUtfall",
-                                    "ofType": null
-                                },
-                                "defaultValue": null,
-                                "isDeprecated": false,
-                                "deprecationReason": null
                             }
                         ],
                         "type": {
@@ -6968,18 +6956,6 @@
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "String",
-                                    "ofType": null
-                                },
-                                "defaultValue": null,
-                                "isDeprecated": false,
-                                "deprecationReason": null
-                            },
-                            {
-                                "name": "vedtakUtfall",
-                                "description": null,
-                                "type": {
-                                    "kind": "ENUM",
-                                    "name": "VedtakUtfall",
                                     "ofType": null
                                 },
                                 "defaultValue": null,
