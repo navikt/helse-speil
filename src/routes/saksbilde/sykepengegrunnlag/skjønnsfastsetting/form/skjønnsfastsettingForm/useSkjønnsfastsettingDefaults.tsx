@@ -24,7 +24,7 @@ export const useSkjønnsfastsettingDefaults = (
     defaults: SkjønnsfastsettingFormFields;
 } => {
     const arbeidsgiver = useCurrentArbeidsgiver(person);
-    const skjønnsfastsettelseFormState = useSkjønnsfastsettelseFormState();
+    const skjønnsfastsettelseFormState = useSkjønnsfastsettelseFormState().get(period.skjaeringstidspunkt);
 
     if (!arbeidsgiver)
         return {

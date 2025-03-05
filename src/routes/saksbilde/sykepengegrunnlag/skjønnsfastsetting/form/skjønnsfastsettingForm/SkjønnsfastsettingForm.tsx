@@ -101,10 +101,15 @@ export const SkjønnsfastsettingForm = ({
 
     useEffect(() => {
         if (JSON.stringify(prevValues.current) !== JSON.stringify(watchedValues)) {
-            setSkjønnsfastsettelseFormState(watchedValues[0], watchedValues[1], watchedValues[2]);
+            setSkjønnsfastsettelseFormState(
+                periode.skjaeringstidspunkt,
+                watchedValues[0],
+                watchedValues[1],
+                watchedValues[2],
+            );
             prevValues.current = watchedValues;
         }
-    }, [watchedValues, setSkjønnsfastsettelseFormState]);
+    }, [watchedValues, periode.skjaeringstidspunkt, setSkjønnsfastsettelseFormState]);
 
     const valgtMal = maler.find((it) => it.arsak === valgtÅrsak);
 

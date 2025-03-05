@@ -1,33 +1,25 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 
-import { Maybe } from '@io/graphql';
 import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 
-const skjønnsfastsettelseFormState = atom<Maybe<SkjønnsfastsettingFormFields>>(null);
+const skjønnsfastsettelseFormState = atom<Map<string, SkjønnsfastsettingFormFields>>(new Map());
 
 export const useSkjønnsfastsettelseFormState = () => useAtomValue(skjønnsfastsettelseFormState);
 
 export const useSetSkjønnsfastsettelseFormState = () => {
     const setState = useSetAtom(skjønnsfastsettelseFormState);
-    return (årsak: string, begrunnelseFritekst: string, type?: Skjønnsfastsettingstype) => {
+    return (skjæringstidspunkt: string, årsak: string, begrunnelseFritekst: string, type?: Skjønnsfastsettingstype) => {
         setState((prevState) => {
-            if (prevState) {
-                return {
-                    ...prevState,
-                    type: type,
-                    årsak: årsak,
-                    begrunnelseFritekst: begrunnelseFritekst,
-                } as SkjønnsfastsettingFormFields;
-            } else {
-                return {
-                    ...defaultState,
-                    type: type,
-                    årsak: årsak,
-                    begrunnelseFritekst: begrunnelseFritekst,
-                } as SkjønnsfastsettingFormFields;
-            }
+            const newState = new Map(prevState);
+            newState.set(skjæringstidspunkt, {
+                ...(prevState.get(skjæringstidspunkt) ?? defaultState),
+                type: type,
+                årsak: årsak,
+                begrunnelseFritekst: begrunnelseFritekst,
+            } as SkjønnsfastsettingFormFields);
+            return newState;
         });
     };
 };
@@ -35,7 +27,7 @@ export const useSetSkjønnsfastsettelseFormState = () => {
 export const useResetSkjønnsfastsettelseFormState = () => {
     const setState = useSetAtom(skjønnsfastsettelseFormState);
     useEffect(() => {
-        setState(null);
+        setState(new Map());
     }, [setState]);
 };
 
