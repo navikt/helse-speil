@@ -1,16 +1,22 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { atomFamily } from 'jotai/utils';
 import { useEffect } from 'react';
 
 import { Maybe } from '@io/graphql';
 import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 
-const skjønnsfastsettelseFormState = atom<Maybe<SkjønnsfastsettingFormFields>>(null);
+const skjemaFamily = atomFamily(
+    // _ er skjæringstidspunkt som brukes som key til skjemaFamily
+    (_: string) => atom<Maybe<SkjønnsfastsettingFormFields>>(null),
+    (a, b) => a === b,
+);
 
-export const useSkjønnsfastsettelseFormState = () => useAtomValue(skjønnsfastsettelseFormState);
+export const useSkjønnsfastsettelseFormState = (skjæringstidspunkt: string) =>
+    useAtomValue(skjemaFamily(skjæringstidspunkt));
 
-export const useSetSkjønnsfastsettelseFormState = () => {
-    const setState = useSetAtom(skjønnsfastsettelseFormState);
+export const useSetSkjønnsfastsettelseFormState = (skjæringstispunkt: string) => {
+    const setState = useSetAtom(skjemaFamily(skjæringstispunkt));
     return (årsak: string, begrunnelseFritekst: string, type?: Skjønnsfastsettingstype) => {
         setState((prevState) => {
             if (prevState) {
@@ -33,10 +39,10 @@ export const useSetSkjønnsfastsettelseFormState = () => {
 };
 
 export const useResetSkjønnsfastsettelseFormState = () => {
-    const setState = useSetAtom(skjønnsfastsettelseFormState);
     useEffect(() => {
-        setState(null);
-    }, [setState]);
+        skjemaFamily.setShouldRemove(() => true);
+        skjemaFamily.setShouldRemove(null);
+    }, []);
 };
 
 const defaultState: SkjønnsfastsettingFormFields = {

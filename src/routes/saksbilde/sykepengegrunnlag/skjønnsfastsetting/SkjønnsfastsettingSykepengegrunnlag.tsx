@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
 import {
@@ -53,6 +53,14 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     useEffect(() => {
         setEndretSykepengegrunnlag(null);
     }, [editing]);
+
+    const skjæringstidspunktRef = useRef(periode.skjaeringstidspunkt);
+    useEffect(() => {
+        if (periode.skjaeringstidspunkt !== skjæringstidspunktRef.current) {
+            setEditing(false);
+            skjæringstidspunktRef.current = periode.skjaeringstidspunkt;
+        }
+    }, [periode.skjaeringstidspunkt]);
 
     return (
         <div className={classNames(styles.formWrapper, editing && styles.redigerer)}>

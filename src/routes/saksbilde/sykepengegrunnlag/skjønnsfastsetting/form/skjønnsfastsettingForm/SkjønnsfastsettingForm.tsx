@@ -69,7 +69,7 @@ export const SkjønnsfastsettingForm = ({
     );
     const erBeslutteroppgave = isBeregnetPeriode(periode) && (periode.totrinnsvurdering?.erBeslutteroppgave ?? false);
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
-    const setSkjønnsfastsettelseFormState = useSetSkjønnsfastsettelseFormState();
+    const setSkjønnsfastsettelseFormState = useSetSkjønnsfastsettelseFormState(periode.skjaeringstidspunkt);
     const avrundetSammenligningsgrunnlag = avrundetToDesimaler(sammenligningsgrunnlag);
     const cancelEditing = () => {
         setEditing(false);
