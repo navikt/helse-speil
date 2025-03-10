@@ -1,16 +1,13 @@
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { Arbeidsgiverinntekt, Maybe, PersonFragment } from '@io/graphql';
-import {
-    ArbeidsgiverForm,
-    Skjønnsfastsettingstype,
-} from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';
 import { toKronerOgØre } from '@utils/locale';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
+import { SkjønnsfastsettingFormFields, SkjønnsfastsettingFormFieldsArbeidsgiver } from './SkjønnsfastsettingForm';
 
 interface InitierendeVedtaksperiodeForArbeidsgiver {
     arbeidsgiver: string;
@@ -58,34 +55,37 @@ export const skjønnsfastsettingFormToDto = (
         fødselsnummer: person.fodselsnummer,
         aktørId: person.aktorId,
         skjæringstidspunkt: period.skjaeringstidspunkt,
-        arbeidsgivere: form.arbeidsgivere.map(({ årlig, organisasjonsnummer }: ArbeidsgiverForm) => ({
-            organisasjonsnummer: organisasjonsnummer,
-            årlig: årlig,
-            fraÅrlig: inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer)?.omregnetArsinntekt?.belop ?? 0,
-            årsak: form.årsak,
-            type:
-                form.type === undefined
-                    ? SkjønnsfastsettingstypeDTO.ANNET
-                    : form.type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT
-                      ? SkjønnsfastsettingstypeDTO.RAPPORTERT_ÅRSINNTEKT
-                      : form.type === Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT
-                        ? SkjønnsfastsettingstypeDTO.OMREGNET_ÅRSINNTEKT
-                        : SkjønnsfastsettingstypeDTO.ANNET,
-            begrunnelseMal: malFraSanity?.begrunnelse
-                .replace('${omregnetÅrsinntekt}', toKronerOgØre(omregnetÅrsinntekt))
-                .replace('${omregnetMånedsinntekt}', toKronerOgØre(omregnetÅrsinntekt / 12))
-                .replace('${sammenligningsgrunnlag}', toKronerOgØre(sammenligningsgrunnlag)),
-            begrunnelseFritekst: form.begrunnelseFritekst,
-            lovhjemmel: { ...malFraSanity.lovhjemmel },
-            begrunnelseKonklusjon: malFraSanity?.konklusjon.replace(
-                '${skjønnsfastsattÅrsinntekt}',
-                toKronerOgØre(skjønnsfastsatt),
-            ),
-            initierendeVedtaksperiodeId:
-                førsteVilkårsprøvdePeriodePåSkjæringstidspunkt.filter(
-                    (it) => it.arbeidsgiver === organisasjonsnummer,
-                )[0]?.initierendeVedtaksperiodeId ?? null,
-        })),
+        arbeidsgivere: form.arbeidsgivere.map(
+            ({ årlig, organisasjonsnummer }: SkjønnsfastsettingFormFieldsArbeidsgiver) => ({
+                organisasjonsnummer: organisasjonsnummer,
+                årlig: årlig,
+                fraÅrlig:
+                    inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer)?.omregnetArsinntekt?.belop ?? 0,
+                årsak: form.årsak,
+                type:
+                    form.type === undefined
+                        ? SkjønnsfastsettingstypeDTO.ANNET
+                        : form.type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT
+                          ? SkjønnsfastsettingstypeDTO.RAPPORTERT_ÅRSINNTEKT
+                          : form.type === Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT
+                            ? SkjønnsfastsettingstypeDTO.OMREGNET_ÅRSINNTEKT
+                            : SkjønnsfastsettingstypeDTO.ANNET,
+                begrunnelseMal: malFraSanity?.begrunnelse
+                    .replace('${omregnetÅrsinntekt}', toKronerOgØre(omregnetÅrsinntekt))
+                    .replace('${omregnetMånedsinntekt}', toKronerOgØre(omregnetÅrsinntekt / 12))
+                    .replace('${sammenligningsgrunnlag}', toKronerOgØre(sammenligningsgrunnlag)),
+                begrunnelseFritekst: form.begrunnelseFritekst,
+                lovhjemmel: { ...malFraSanity.lovhjemmel },
+                begrunnelseKonklusjon: malFraSanity?.konklusjon.replace(
+                    '${skjønnsfastsattÅrsinntekt}',
+                    toKronerOgØre(skjønnsfastsatt),
+                ),
+                initierendeVedtaksperiodeId:
+                    førsteVilkårsprøvdePeriodePåSkjæringstidspunkt.filter(
+                        (it) => it.arbeidsgiver === organisasjonsnummer,
+                    )[0]?.initierendeVedtaksperiodeId ?? null,
+            }),
+        ),
         vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(person.arbeidsgivere, period),
     };
 };

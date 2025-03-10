@@ -25,11 +25,6 @@ export enum Skjønnsfastsettingstype {
     ANNET = 'ANNET',
 }
 
-export interface ArbeidsgiverForm {
-    organisasjonsnummer: string;
-    årlig: number;
-}
-
 export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();

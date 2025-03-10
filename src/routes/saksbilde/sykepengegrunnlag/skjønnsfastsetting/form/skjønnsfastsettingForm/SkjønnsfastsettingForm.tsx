@@ -23,7 +23,6 @@ import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjønnsfa
 import { SkjønnsfastsettingÅrsak } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingÅrsak';
 import { SkjønnsfastsettingArbeidsgivere } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/arbeidsgivere/SkjønnsfastsettingArbeidsgivere';
 import {
-    ArbeidsgiverForm,
     Skjønnsfastsettingstype,
     usePostSkjønnsfastsattSykepengegrunnlag,
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
@@ -35,30 +34,6 @@ import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
 import styles from './SkjønnsfastsettingForm.module.css';
 
 const skjemaFamily = atomFamily((_skjæringstidspunkt: string) => atom<Maybe<SkjønnsfastsettingFormFields>>(null));
-
-export const useSkjønnsfastsettelseFormState = (skjæringstidspunkt: string) =>
-    useAtomValue(skjemaFamily(skjæringstidspunkt));
-
-export const useSetSkjønnsfastsettelseFormState = (skjæringstidspunkt: string) => {
-    const setState = useSetAtom(skjemaFamily(skjæringstidspunkt));
-    return (årsak: string, begrunnelseFritekst: string, type?: Skjønnsfastsettingstype) => {
-        setState((prevState) => {
-            return {
-                ...(prevState ?? defaultState),
-                type: type,
-                årsak: årsak,
-                begrunnelseFritekst: begrunnelseFritekst,
-            } as SkjønnsfastsettingFormFields;
-        });
-    };
-};
-
-const defaultState: SkjønnsfastsettingFormFields = {
-    begrunnelseFritekst: '',
-    type: undefined,
-    årsak: '',
-    arbeidsgivere: [],
-};
 
 export const useAktiveArbeidsgivere = (
     person: PersonFragment,
@@ -86,23 +61,15 @@ function useFormDefaults(
     aktiveArbeidsgivereInntekter: Arbeidsgiverinntekt[],
     forrigeSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null,
 ): SkjønnsfastsettingFormFields {
-    const skjønnsfastsettelseFormState = useSkjønnsfastsettelseFormState(period.skjaeringstidspunkt);
+    const skjønnsfastsettelseFormState = useAtomValue(skjemaFamily(period.skjaeringstidspunkt));
     if (skjønnsfastsettelseFormState) {
-        return {
-            begrunnelseFritekst: skjønnsfastsettelseFormState.begrunnelseFritekst,
-            type: skjønnsfastsettelseFormState.type,
-            årsak: skjønnsfastsettelseFormState.årsak,
-            arbeidsgivere: aktiveArbeidsgivereInntekter.map((inntekt) => ({
-                organisasjonsnummer: inntekt.arbeidsgiver,
-                årlig: 0,
-            })),
-        };
+        return skjønnsfastsettelseFormState;
     } else {
         if (forrigeSkjønnsfastsettelse && !forrigeSkjønnsfastsettelse.ferdigstilt) {
             return {
                 begrunnelseFritekst: forrigeSkjønnsfastsettelse.skjonnsfastsatt.begrunnelseFritekst ?? '',
-                type: mapType(forrigeSkjønnsfastsettelse.skjonnsfastsatt.type) ?? '',
-                årsak: forrigeSkjønnsfastsettelse.skjonnsfastsatt.arsak ?? '',
+                type: mapType(forrigeSkjønnsfastsettelse.skjonnsfastsatt.type),
+                årsak: forrigeSkjønnsfastsettelse.skjonnsfastsatt.arsak,
                 arbeidsgivere: aktiveArbeidsgivereInntekter.map((inntekt) => ({
                     organisasjonsnummer: inntekt.arbeidsgiver,
                     årlig: 0,
@@ -111,7 +78,7 @@ function useFormDefaults(
         } else {
             return {
                 begrunnelseFritekst: '',
-                type: undefined,
+                type: null,
                 årsak: '',
                 arbeidsgivere: aktiveArbeidsgivereInntekter.map((inntekt) => ({
                     organisasjonsnummer: inntekt.arbeidsgiver,
@@ -135,10 +102,15 @@ const mapType = (type: Maybe<Skjonnsfastsettingstype> = Skjonnsfastsettingstype.
 };
 
 export interface SkjønnsfastsettingFormFields {
-    arbeidsgivere: ArbeidsgiverForm[];
+    arbeidsgivere: SkjønnsfastsettingFormFieldsArbeidsgiver[];
     årsak: string;
-    type?: Skjønnsfastsettingstype;
+    type: Skjønnsfastsettingstype | null;
     begrunnelseFritekst: string;
+}
+
+export interface SkjønnsfastsettingFormFieldsArbeidsgiver {
+    organisasjonsnummer: string;
+    årlig: number;
 }
 
 interface SkjønnsfastsettingFormProps {
@@ -177,7 +149,6 @@ export const SkjønnsfastsettingForm = ({
     );
     const erBeslutteroppgave = isBeregnetPeriode(periode) && (periode.totrinnsvurdering?.erBeslutteroppgave ?? false);
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
-    const setSkjønnsfastsettelseFormState = useSetSkjønnsfastsettelseFormState(periode.skjaeringstidspunkt);
     const avrundetSammenligningsgrunnlag = avrundetToDesimaler(sammenligningsgrunnlag);
     const cancelEditing = () => {
         setEditing(false);
@@ -203,16 +174,16 @@ export const SkjønnsfastsettingForm = ({
         control: control,
     });
 
-    const watchedValues = watch(['årsak', 'begrunnelseFritekst', 'type']);
+    const watchedFormFields = watch();
+    const prevFormFields = useRef(watchedFormFields);
 
-    const prevValues = useRef(watchedValues);
-
+    const setFormFields = useSetAtom(skjemaFamily(periode.skjaeringstidspunkt));
     useEffect(() => {
-        if (JSON.stringify(prevValues.current) !== JSON.stringify(watchedValues)) {
-            setSkjønnsfastsettelseFormState(watchedValues[0], watchedValues[1], watchedValues[2]);
-            prevValues.current = watchedValues;
+        if (JSON.stringify(prevFormFields.current) !== JSON.stringify(watchedFormFields)) {
+            setFormFields(watchedFormFields);
+            prevFormFields.current = watchedFormFields;
         }
-    }, [watchedValues, setSkjønnsfastsettelseFormState]);
+    }, [watchedFormFields, setFormFields]);
 
     const valgtMal = maler.find((it) => it.arsak === valgtÅrsak);
 
@@ -220,7 +191,7 @@ export const SkjønnsfastsettingForm = ({
 
     const visFeilOppsummering = harFeil && Object.entries(formState.errors).length > 0;
     const sykepengegrunnlagEndring = watch('arbeidsgivere')?.reduce(
-        (a: number, b: ArbeidsgiverForm) => +a + +b.årlig,
+        (a: number, b: SkjønnsfastsettingFormFieldsArbeidsgiver) => +a + +b.årlig,
         0.0,
     );
 
@@ -324,7 +295,7 @@ const valgtInntekt = (
     inntekt: Arbeidsgiverinntekt,
     antallAktiveArbeidsgivere: number,
     totaltSammenligningsgrunnlag: number,
-    type?: Skjønnsfastsettingstype,
+    type: Skjønnsfastsettingstype | null,
 ): number => {
     switch (type) {
         case Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT:

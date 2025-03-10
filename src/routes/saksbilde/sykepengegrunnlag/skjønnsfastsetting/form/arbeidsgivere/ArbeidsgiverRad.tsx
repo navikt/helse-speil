@@ -12,7 +12,7 @@ interface ArbeidsgiverRadProps {
     arbeidsgiverNavn?: string;
     organisasjonsnummer: string;
     årsinntekt: number;
-    type?: Skjønnsfastsettingstype;
+    type: Skjønnsfastsettingstype | null;
     årligField: UseFormRegisterReturn;
     orgnummerField: UseFormRegisterReturn;
     antallArbeidsgivere: number;
