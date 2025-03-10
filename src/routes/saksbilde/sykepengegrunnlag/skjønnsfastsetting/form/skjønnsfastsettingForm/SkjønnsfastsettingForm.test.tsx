@@ -82,6 +82,7 @@ describe('SkjønnsfastsettingForm', () => {
                 onEndretSykepengegrunnlag={jest.fn}
                 setEditing={jest.fn()}
                 maler={maler}
+                sisteSkjønnsfastsettelse={null}
             />,
         );
         expect(await screen.findByText(maler[0]?.arsak as string)).toBeInTheDocument();
@@ -99,6 +100,7 @@ describe('SkjønnsfastsettingForm', () => {
                 onEndretSykepengegrunnlag={jest.fn}
                 setEditing={jest.fn()}
                 maler={maler}
+                sisteSkjønnsfastsettelse={null}
             />,
         );
 
@@ -122,6 +124,7 @@ describe('SkjønnsfastsettingForm', () => {
                 onEndretSykepengegrunnlag={jest.fn}
                 setEditing={jest.fn()}
                 maler={maler}
+                sisteSkjønnsfastsettelse={null}
             />,
         );
 
@@ -170,6 +173,7 @@ describe('SkjønnsfastsettingForm', () => {
                 onEndretSykepengegrunnlag={jest.fn}
                 setEditing={jest.fn()}
                 maler={maler}
+                sisteSkjønnsfastsettelse={null}
             />,
         );
 

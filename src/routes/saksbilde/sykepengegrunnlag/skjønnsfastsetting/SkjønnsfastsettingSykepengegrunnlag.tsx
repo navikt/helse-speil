@@ -12,8 +12,12 @@ import {
     PersonFragment,
     Sykepengegrunnlagsgrense,
 } from '@io/graphql';
-import { SkjønnsfastsettingForm } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
-import { useSkjønnsfastsettingDefaults } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/useSkjønnsfastsettingDefaults';
+import {
+    SkjønnsfastsettingForm,
+    useAktiveArbeidsgivere,
+} from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
 import { SkjønnsfastsettingSammendrag } from './SkjønnsfastsettingSammendrag';
@@ -49,14 +53,23 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editing, setEditing] = useAtom(editingFamily(periode.skjaeringstidspunkt));
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
-    const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(person, periode, inntekter);
+    const aktiveArbeidsgivereMedOmregnetÅrsinntekt = useAktiveArbeidsgivere(person, periode, inntekter);
     const skalVise828andreLedd = avviksprosent > 25;
 
-    const { maler, error } = useSkjønnsfastsettelsesMaler(skalVise828andreLedd, (aktiveArbeidsgivere?.length ?? 0) > 1);
+    const { maler, error } = useSkjønnsfastsettelsesMaler(
+        skalVise828andreLedd,
+        (aktiveArbeidsgivereMedOmregnetÅrsinntekt?.length ?? 0) > 1,
+    );
 
     useEffect(() => {
         setEndretSykepengegrunnlag(null);
     }, [editing]);
+
+    const sisteSkjønnsfastsettelse =
+        useCurrentArbeidsgiver(person)
+            ?.overstyringer.filter(isSykepengegrunnlagskjønnsfastsetting)
+            .sort((a, b) => (a.timestamp > b.timestamp ? 1 : -1))
+            .pop() ?? null;
 
     return (
         <div className={classNames(styles.formWrapper, editing && styles.redigerer)}>
@@ -71,8 +84,8 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                 malerError={error?.message ? 'Mangler tekster for skjønnsfastsetting' : undefined}
                 organisasjonsnummer={organisasjonsnummer}
             />
-            {!editing && skjønnsmessigFastsattÅrlig !== null && (
-                <SkjønnsfastsettingSammendrag arbeidsgivere={person.arbeidsgivere} />
+            {!editing && skjønnsmessigFastsattÅrlig !== null && sisteSkjønnsfastsettelse && (
+                <SkjønnsfastsettingSammendrag sisteSkjønnsfastsetting={sisteSkjønnsfastsettelse} />
             )}
             {editing && maler && omregnetÅrsinntekt != null && sammenligningsgrunnlag != null && (
                 <SkjønnsfastsettingForm
@@ -85,6 +98,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                     onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
                     setEditing={setEditing}
                     maler={maler}
+                    sisteSkjønnsfastsettelse={sisteSkjønnsfastsettelse}
                 />
             )}
         </div>
