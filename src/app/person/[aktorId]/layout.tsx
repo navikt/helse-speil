@@ -1,6 +1,8 @@
 'use client';
 
+import { Provider } from 'jotai';
 import dynamic from 'next/dynamic';
+import { useParams } from 'next/navigation';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
@@ -27,6 +29,8 @@ const Historikk = dynamic(() => import('@saksbilde/historikk').then((mod) => mod
 });
 
 export default function Layout({ children }: PropsWithChildren): ReactElement {
+    const { aktorId } = useParams<{ aktorId?: string }>();
+
     useRefreshPersonVedOpptegnelse();
     usePollEtterOpptegnelser();
     useVarselOmSakErTildeltAnnenSaksbehandler();
@@ -35,18 +39,20 @@ export default function Layout({ children }: PropsWithChildren): ReactElement {
     useRefetchDriftsmeldinger();
 
     return (
-        <div className={styles.Saksbilde}>
-            <InfovarselOmStans />
-            <PersonHeader />
-            <Timeline />
-            <AmplitudeProvider>
-                <VenterPåEndringProvider>
-                    <Venstremeny />
-                    <Saksbilde>{children}</Saksbilde>
-                    <Historikk />
-                    <EmojiTilbakemeldingMedPeriode />
-                </VenterPåEndringProvider>
-            </AmplitudeProvider>
-        </div>
+        <Provider key={aktorId}>
+            <div className={styles.Saksbilde}>
+                <InfovarselOmStans />
+                <PersonHeader />
+                <Timeline />
+                <AmplitudeProvider>
+                    <VenterPåEndringProvider>
+                        <Venstremeny />
+                        <Saksbilde>{children}</Saksbilde>
+                        <Historikk />
+                        <EmojiTilbakemeldingMedPeriode />
+                    </VenterPåEndringProvider>
+                </AmplitudeProvider>
+            </div>
+        </Provider>
     );
 }

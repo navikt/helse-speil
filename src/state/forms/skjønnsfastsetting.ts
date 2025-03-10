@@ -1,6 +1,5 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { atomFamily } from 'jotai/utils';
-import { useEffect } from 'react';
 
 import { Maybe } from '@io/graphql';
 import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
@@ -32,13 +31,6 @@ export const useSetSkjønnsfastsettelseFormState = (skjæringstidspunkt: string)
             }
         });
     };
-};
-
-export const useResetSkjønnsfastsettelseFormState = () => {
-    useEffect(() => {
-        skjemaFamily.setShouldRemove(() => true);
-        skjemaFamily.setShouldRemove(null);
-    }, []);
 };
 
 const defaultState: SkjønnsfastsettingFormFields = {
