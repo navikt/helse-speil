@@ -6,17 +6,13 @@ import { Maybe } from '@io/graphql';
 import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 
-const skjemaFamily = atomFamily(
-    // _ er skjæringstidspunkt som brukes som key til skjemaFamily
-    (_: string) => atom<Maybe<SkjønnsfastsettingFormFields>>(null),
-    (a, b) => a === b,
-);
+const skjemaFamily = atomFamily((_skjæringstidspunkt: string) => atom<Maybe<SkjønnsfastsettingFormFields>>(null));
 
 export const useSkjønnsfastsettelseFormState = (skjæringstidspunkt: string) =>
     useAtomValue(skjemaFamily(skjæringstidspunkt));
 
-export const useSetSkjønnsfastsettelseFormState = (skjæringstispunkt: string) => {
-    const setState = useSetAtom(skjemaFamily(skjæringstispunkt));
+export const useSetSkjønnsfastsettelseFormState = (skjæringstidspunkt: string) => {
+    const setState = useSetAtom(skjemaFamily(skjæringstidspunkt));
     return (årsak: string, begrunnelseFritekst: string, type?: Skjønnsfastsettingstype) => {
         setState((prevState) => {
             if (prevState) {
