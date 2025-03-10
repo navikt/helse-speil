@@ -1,5 +1,7 @@
 import classNames from 'classnames';
-import React, { useEffect, useRef, useState } from 'react';
+import { atom, useAtom } from 'jotai/index';
+import { atomFamily } from 'jotai/utils';
+import React, { useEffect, useState } from 'react';
 
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
 import {
@@ -17,6 +19,8 @@ import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
 import { SkjønnsfastsettingSammendrag } from './SkjønnsfastsettingSammendrag';
 
 import styles from './SkjønnsfastsettingSykepengegrunnlag.module.css';
+
+const editingFamily = atomFamily((_skjæringstidspunkt: string) => atom<boolean>(false));
 
 interface SkjønnsfastsettingSykepengegrunnlagProps {
     person: PersonFragment;
@@ -43,7 +47,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     avviksprosent,
     organisasjonsnummer,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
-    const [editing, setEditing] = useState(false);
+    const [editing, setEditing] = useAtom(editingFamily(periode.skjaeringstidspunkt));
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
     const { aktiveArbeidsgivere } = useSkjønnsfastsettingDefaults(person, periode, inntekter);
     const skalVise828andreLedd = avviksprosent > 25;
@@ -53,14 +57,6 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     useEffect(() => {
         setEndretSykepengegrunnlag(null);
     }, [editing]);
-
-    const skjæringstidspunktRef = useRef(periode.skjaeringstidspunkt);
-    useEffect(() => {
-        if (periode.skjaeringstidspunkt !== skjæringstidspunktRef.current) {
-            setEditing(false);
-            skjæringstidspunktRef.current = periode.skjaeringstidspunkt;
-        }
-    }, [periode.skjaeringstidspunkt]);
 
     return (
         <div className={classNames(styles.formWrapper, editing && styles.redigerer)}>
