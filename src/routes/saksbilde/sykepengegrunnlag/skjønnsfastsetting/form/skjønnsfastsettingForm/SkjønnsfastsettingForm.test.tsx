@@ -1,6 +1,10 @@
+import { createStore } from 'jotai/index';
+import React from 'react';
+
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { SkjønnsfastsettingForm } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { usePostSkjønnsfastsattSykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { PersonStoreContext } from '@state/contexts/personStore';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
 import { enGenerasjon } from '@test-data/generasjon';
@@ -80,7 +84,7 @@ describe('SkjønnsfastsettingForm', () => {
     });
 
     it('viser årsaker fra maler', async () => {
-        render(
+        renderWithProvider(
             <SkjønnsfastsettingForm
                 person={person}
                 periode={periode}
@@ -98,7 +102,7 @@ describe('SkjønnsfastsettingForm', () => {
         expect(await screen.findByText(maler[1]?.arsak as string)).toBeInTheDocument();
     });
     it('viser skjønnsfastsettingstyper ved valg av 25 % avvik som årsak', async () => {
-        render(
+        renderWithProvider(
             <SkjønnsfastsettingForm
                 person={person}
                 periode={periode}
@@ -122,7 +126,7 @@ describe('SkjønnsfastsettingForm', () => {
     it('skal ha validering av input uten fordeling', async () => {
         const user = userEvent.setup();
 
-        render(
+        renderWithProvider(
             <SkjønnsfastsettingForm
                 person={person}
                 periode={periode}
@@ -162,7 +166,7 @@ describe('SkjønnsfastsettingForm', () => {
     it('skal ikke ta med deaktiverte arbeidsforhold i skjønnsfastsettingen', async () => {
         const user = userEvent.setup();
 
-        render(
+        renderWithProvider(
             <SkjønnsfastsettingForm
                 person={person}
                 periode={periode}
@@ -196,7 +200,7 @@ describe('SkjønnsfastsettingForm', () => {
             postSkjønnsfastsetting: () => {},
         });
 
-        render(
+        renderWithProvider(
             <SkjønnsfastsettingForm
                 person={person}
                 periode={periode}
@@ -231,3 +235,6 @@ describe('SkjønnsfastsettingForm', () => {
         expect(actual).not.toBeInTheDocument();
     });
 });
+
+export const renderWithProvider = (ui: React.ReactNode) =>
+    render(<PersonStoreContext.Provider value={createStore()}>{ui}</PersonStoreContext.Provider>);

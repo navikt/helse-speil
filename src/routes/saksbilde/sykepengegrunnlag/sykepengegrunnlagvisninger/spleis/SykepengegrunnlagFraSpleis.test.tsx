@@ -1,6 +1,8 @@
 import fetchMock from 'jest-fetch-mock';
+import { createStore } from 'jotai/index';
 import React from 'react';
 
+import { PersonStoreContext } from '@/state/contexts/personStore';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { useIsAnonymous } from '@state/anonymization';
 import {
@@ -59,7 +61,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         (useVilkårsgrunnlag as jest.Mock).mockReturnValue(vilkårsgrunnlag);
         (useIsAnonymous as jest.Mock).mockReturnValue(false);
 
-        render(
+        renderWithProvider(
             <SykepengegrunnlagFraSpleis
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 organisasjonsnummer={organisasjonsnummer}
@@ -105,7 +107,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
             skjønnsfastsettingsendringer: [],
         });
 
-        render(
+        renderWithProvider(
             <SykepengegrunnlagFraSpleis
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 organisasjonsnummer={organisasjonsnummer}
@@ -142,7 +144,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
             skjønnsfastsettingsendringer: [],
         });
 
-        render(
+        renderWithProvider(
             <SykepengegrunnlagFraSpleis
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 organisasjonsnummer={organisasjonsnummer}
@@ -158,3 +160,6 @@ describe('SykepengegrunnlagFraSpleis', () => {
         expect(screen.getAllByText(arbeidsgiver.navn)).toHaveLength(3);
     });
 });
+
+export const renderWithProvider = (ui: React.ReactNode) =>
+    render(<PersonStoreContext.Provider value={createStore()}>{ui}</PersonStoreContext.Provider>);
