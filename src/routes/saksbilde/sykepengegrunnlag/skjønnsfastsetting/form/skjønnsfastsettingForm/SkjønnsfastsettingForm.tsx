@@ -1,5 +1,3 @@
-import { atom, useAtomValue, useSetAtom } from 'jotai/index';
-import { atomFamily } from 'jotai/utils';
 import React, { ReactElement, useEffect, useRef } from 'react';
 import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatch } from 'react-hook-form';
 
@@ -18,6 +16,10 @@ import {
     Sykepengegrunnlagsgrense,
     Sykepengegrunnlagskjonnsfastsetting,
 } from '@io/graphql';
+import {
+    useAtomValueSkjemaForPersonOgSkjæringstidspunkt,
+    useSetAtomSkjemaForPersonOgSkjæringstidspunkt,
+} from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/atoms';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingÅrsak';
@@ -32,15 +34,6 @@ import { isBeregnetPeriode } from '@utils/typeguards';
 import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
 
 import styles from './SkjønnsfastsettingForm.module.css';
-
-const skjemaFamily = atomFamily((_skjæringstidspunkt: string) => atom<Maybe<SkjønnsfastsettingFormFields>>(null));
-
-export const useResetSkjønnsfastsettelseFormState = () => {
-    useEffect(() => {
-        skjemaFamily.setShouldRemove(() => true);
-        skjemaFamily.setShouldRemove(null);
-    }, []);
-};
 
 export const useAktiveArbeidsgivere = (
     person: PersonFragment,
@@ -68,7 +61,7 @@ function useFormDefaults(
     aktiveArbeidsgivereInntekter: Arbeidsgiverinntekt[],
     forrigeSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null,
 ): SkjønnsfastsettingFormFields {
-    const skjønnsfastsettelseFormState = useAtomValue(skjemaFamily(period.skjaeringstidspunkt));
+    const skjønnsfastsettelseFormState = useAtomValueSkjemaForPersonOgSkjæringstidspunkt(period.skjaeringstidspunkt);
     if (skjønnsfastsettelseFormState) {
         return skjønnsfastsettelseFormState;
     } else {
@@ -184,7 +177,7 @@ export const SkjønnsfastsettingForm = ({
     const watchedFormFields = watch();
     const prevFormFields = useRef(watchedFormFields);
 
-    const setFormFields = useSetAtom(skjemaFamily(periode.skjaeringstidspunkt));
+    const setFormFields = useSetAtomSkjemaForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
     useEffect(() => {
         if (JSON.stringify(prevFormFields.current) !== JSON.stringify(watchedFormFields)) {
             setFormFields(watchedFormFields);

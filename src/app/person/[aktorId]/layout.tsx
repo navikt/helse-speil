@@ -1,7 +1,9 @@
 'use client';
 
+import { createStore } from 'jotai/index';
 import dynamic from 'next/dynamic';
-import React, { PropsWithChildren, ReactElement } from 'react';
+import { useParams } from 'next/navigation';
+import React, { PropsWithChildren, ReactElement, useState } from 'react';
 
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
 import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
@@ -18,6 +20,7 @@ import { InfovarselOmStans } from '@saksbilde/infovarselOmStans/InfovarselOmStan
 import { PersonHeader } from '@saksbilde/personHeader';
 import { Timeline } from '@saksbilde/timeline';
 import { Venstremeny } from '@saksbilde/venstremeny/Venstremeny';
+import { PersonStoreContext } from '@state/contexts/personStore';
 
 import styles from './layout.module.css';
 
@@ -27,6 +30,8 @@ const Historikk = dynamic(() => import('@saksbilde/historikk').then((mod) => mod
 });
 
 export default function Layout({ children }: PropsWithChildren): ReactElement {
+    const { aktorId } = useParams<{ aktorId?: string }>();
+
     useRefreshPersonVedOpptegnelse();
     usePollEtterOpptegnelser();
     useVarselOmSakErTildeltAnnenSaksbehandler();
@@ -34,19 +39,27 @@ export default function Layout({ children }: PropsWithChildren): ReactElement {
     useResetOpenedDocuments();
     useRefetchDriftsmeldinger();
 
-    return (
-        <div className={styles.Saksbilde}>
-            <InfovarselOmStans />
-            <PersonHeader />
-            <Timeline />
-            <AmplitudeProvider>
-                <VenterPåEndringProvider>
-                    <Venstremeny />
-                    <Saksbilde>{children}</Saksbilde>
-                    <Historikk />
-                    <EmojiTilbakemeldingMedPeriode />
-                </VenterPåEndringProvider>
-            </AmplitudeProvider>
-        </div>
-    );
+    return <AktorScopedLayout key={aktorId}>{children}</AktorScopedLayout>;
 }
+
+const AktorScopedLayout = ({ children }: PropsWithChildren): ReactElement => {
+    const [personStore] = useState(createStore());
+
+    return (
+        <PersonStoreContext.Provider value={personStore}>
+            <div className={styles.Saksbilde}>
+                <InfovarselOmStans />
+                <PersonHeader />
+                <Timeline />
+                <AmplitudeProvider>
+                    <VenterPåEndringProvider>
+                        <Venstremeny />
+                        <Saksbilde>{children}</Saksbilde>
+                        <Historikk />
+                        <EmojiTilbakemeldingMedPeriode />
+                    </VenterPåEndringProvider>
+                </AmplitudeProvider>
+            </div>
+        </PersonStoreContext.Provider>
+    );
+};

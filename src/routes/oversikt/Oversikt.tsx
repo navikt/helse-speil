@@ -15,7 +15,6 @@ import { BehandlingsstatistikkView } from '@oversikt/behandlingsstatistikk/Behan
 import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@oversikt/table/BehandletIdagTable';
 import { OppgaverTable } from '@oversikt/table/oppgaverTable/OppgaverTable';
-import { useResetSkjønnsfastsettelseFormState } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { useOppgaveFeed } from '@state/oppgaver';
 
 import { IngenOppgaver } from './IngenOppgaver';
@@ -49,7 +48,6 @@ export const Oversikt = (): ReactElement => {
     useKeyboardShortcuts();
     useFjernPersonFraApolloCache();
     useRefetchDriftsmeldinger();
-    useResetSkjønnsfastsettelseFormState();
 
     return (
         <main className={styles.Oversikt}>

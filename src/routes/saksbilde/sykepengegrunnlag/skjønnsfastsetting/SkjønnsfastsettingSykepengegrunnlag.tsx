@@ -1,6 +1,4 @@
 import classNames from 'classnames';
-import { atom, useAtom } from 'jotai/index';
-import { atomFamily } from 'jotai/utils';
 import React, { useEffect, useState } from 'react';
 
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
@@ -12,6 +10,7 @@ import {
     PersonFragment,
     Sykepengegrunnlagsgrense,
 } from '@io/graphql';
+import { useAtomEditingForPersonOgSkjæringstidspunkt } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/atoms';
 import {
     SkjønnsfastsettingForm,
     useAktiveArbeidsgivere,
@@ -23,8 +22,6 @@ import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
 import { SkjønnsfastsettingSammendrag } from './SkjønnsfastsettingSammendrag';
 
 import styles from './SkjønnsfastsettingSykepengegrunnlag.module.css';
-
-const editingFamily = atomFamily((_skjæringstidspunkt: string) => atom<boolean>(false));
 
 interface SkjønnsfastsettingSykepengegrunnlagProps {
     person: PersonFragment;
@@ -51,7 +48,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     avviksprosent,
     organisasjonsnummer,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
-    const [editing, setEditing] = useAtom(editingFamily(periode.skjaeringstidspunkt));
+    const [editing, setEditing] = useAtomEditingForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
     const aktiveArbeidsgivereMedOmregnetÅrsinntekt = useAktiveArbeidsgivere(person, periode, inntekter);
     const skalVise828andreLedd = avviksprosent > 25;
