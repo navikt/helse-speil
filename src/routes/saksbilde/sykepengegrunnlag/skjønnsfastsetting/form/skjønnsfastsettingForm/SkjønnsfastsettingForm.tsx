@@ -170,7 +170,9 @@ export const SkjønnsfastsettingForm = ({
     const aktiveArbeidsgivereInntekter = inntekter.filter((inntekt) =>
         aktiveArbeidsgivere.some(
             (arbeidsgiver) =>
-                arbeidsgiver.organisasjonsnummer === inntekt.arbeidsgiver && inntekt.omregnetArsinntekt !== null,
+                arbeidsgiver.organisasjonsnummer === inntekt.arbeidsgiver &&
+                inntekt.omregnetArsinntekt !== null &&
+                !inntekt.deaktivert,
         ),
     );
     const erBeslutteroppgave = isBeregnetPeriode(periode) && (periode.totrinnsvurdering?.erBeslutteroppgave ?? false);

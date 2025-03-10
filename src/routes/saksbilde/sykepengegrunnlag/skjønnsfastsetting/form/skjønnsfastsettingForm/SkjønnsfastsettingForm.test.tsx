@@ -24,11 +24,20 @@ describe('SkjønnsfastsettingForm', () => {
         organisasjonsnummer: '123456789',
         navn: 'Arbeidsgiver to',
     });
+    const arbeidsgiver3 = enArbeidsgiver({
+        generasjoner: [],
+        organisasjonsnummer: '123456710',
+        navn: 'Arbeidsgiver tre',
+    });
     const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis().medInntekter([
         enArbeidsgiverinntekt({ arbeidsgiver: arbeidsgiver.organisasjonsnummer }),
         enArbeidsgiverinntekt({ arbeidsgiver: arbeidsgiver2.organisasjonsnummer }),
+        enArbeidsgiverinntekt({ arbeidsgiver: arbeidsgiver3.organisasjonsnummer, deaktivert: true }),
     ]);
-    const person = enPerson({ vilkarsgrunnlag: [vilkårsgrunnlag], arbeidsgivere: [arbeidsgiver, arbeidsgiver2] });
+    const person = enPerson({
+        vilkarsgrunnlag: [vilkårsgrunnlag],
+        arbeidsgivere: [arbeidsgiver, arbeidsgiver2, arbeidsgiver3],
+    });
 
     const malMed25Avvik = {
         _id: '2',
@@ -149,6 +158,31 @@ describe('SkjønnsfastsettingForm', () => {
         await user.click(screen.getByText('Lagre'));
 
         expect(screen.queryByLabelText('Skjemaet inneholder følgende feil:')).not.toBeInTheDocument();
+    });
+    it('skal ikke ta med deaktiverte arbeidsforhold i skjønnsfastsettingen', async () => {
+        const user = userEvent.setup();
+
+        render(
+            <SkjønnsfastsettingForm
+                person={person}
+                periode={periode}
+                inntekter={vilkårsgrunnlag.inntekter}
+                omregnetÅrsinntekt={vilkårsgrunnlag.omregnetArsinntekt}
+                sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag ?? 0}
+                sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
+                onEndretSykepengegrunnlag={jest.fn}
+                setEditing={jest.fn()}
+                maler={maler}
+                sisteSkjønnsfastsettelse={null}
+            />,
+        );
+
+        await user.click(screen.getByText(malMed25Avvik.arsak));
+        await user.click(screen.getByText('Skjønnsfastsette til omregnet årsinntekt'));
+
+        expect(await screen.findByText(arbeidsgiver.navn)).toBeInTheDocument();
+        expect(await screen.findByText(arbeidsgiver2.navn)).toBeInTheDocument();
+        expect(screen.queryByText(arbeidsgiver3.navn)).not.toBeInTheDocument();
     });
 
     it('skal ha validering av at inntekt fordeles ved skjønnsfastsettelse til rapportert', async () => {
