@@ -35,6 +35,13 @@ import styles from './SkjønnsfastsettingForm.module.css';
 
 const skjemaFamily = atomFamily((_skjæringstidspunkt: string) => atom<Maybe<SkjønnsfastsettingFormFields>>(null));
 
+export const useResetSkjønnsfastsettelseFormState = () => {
+    useEffect(() => {
+        skjemaFamily.setShouldRemove(() => true);
+        skjemaFamily.setShouldRemove(null);
+    }, []);
+};
+
 export const useAktiveArbeidsgivere = (
     person: PersonFragment,
     period: BeregnetPeriodeFragment | GhostPeriodeFragment,
