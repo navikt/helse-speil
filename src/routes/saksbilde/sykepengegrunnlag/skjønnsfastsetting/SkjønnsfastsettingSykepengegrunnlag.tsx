@@ -69,7 +69,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
             .pop() ?? null;
 
     return (
-        <div className={classNames(styles.formWrapper, editing && styles.redigerer)}>
+        <div key={periode.skjaeringstidspunkt} className={classNames(styles.formWrapper, editing && styles.redigerer)}>
             <SkjønnsfastsettingHeader
                 person={person}
                 sykepengegrunnlag={sykepengegrunnlag}
