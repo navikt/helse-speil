@@ -57,19 +57,22 @@ function useFormDefaults(
     skjønnsfastsettelseFormState: Maybe<SkjønnsfastsettingFormFields>,
     aktiveArbeidsgivereInntekter: Arbeidsgiverinntekt[],
     forrigeSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null,
+    avrundetSammenligningsgrunnlag: number,
 ): SkjønnsfastsettingFormFields {
     if (skjønnsfastsettelseFormState) {
         return skjønnsfastsettelseFormState;
     } else {
         if (forrigeSkjønnsfastsettelse && !forrigeSkjønnsfastsettelse.ferdigstilt) {
+            const type = mapType(forrigeSkjønnsfastsettelse.skjonnsfastsatt.type);
             return {
                 begrunnelseFritekst: forrigeSkjønnsfastsettelse.skjonnsfastsatt.begrunnelseFritekst ?? '',
-                type: mapType(forrigeSkjønnsfastsettelse.skjonnsfastsatt.type),
+                type: type,
                 årsak: forrigeSkjønnsfastsettelse.skjonnsfastsatt.arsak,
-                arbeidsgivere: aktiveArbeidsgivereInntekter.map((inntekt) => ({
-                    organisasjonsnummer: inntekt.arbeidsgiver,
-                    årlig: 0,
-                })),
+                arbeidsgivere: initielleInntektsutfyllinger(
+                    aktiveArbeidsgivereInntekter,
+                    avrundetSammenligningsgrunnlag,
+                    type,
+                ),
             };
         } else {
             return {
@@ -122,6 +125,38 @@ interface SkjønnsfastsettingFormProps {
     sisteSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null;
 }
 
+const initielleInntektsutfyllinger = (
+    aktiveArbeidsgivereInntekter: Arbeidsgiverinntekt[],
+    avrundetSammenligningsgrunnlag: number,
+    valgtType: Skjønnsfastsettingstype | null,
+) =>
+    aktiveArbeidsgivereInntekter?.map((inntekt) => ({
+        organisasjonsnummer: inntekt.arbeidsgiver,
+        årlig: initiellInntektsutfylling(
+            inntekt,
+            aktiveArbeidsgivereInntekter.length,
+            avrundetSammenligningsgrunnlag,
+            valgtType,
+        ),
+    })) ?? [];
+
+const initiellInntektsutfylling = (
+    inntekt: Arbeidsgiverinntekt,
+    antallAktiveArbeidsgivere: number,
+    totaltSammenligningsgrunnlag: number,
+    type: Skjønnsfastsettingstype | null,
+): number => {
+    switch (type) {
+        case Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT:
+            return avrundetToDesimaler(inntekt.omregnetArsinntekt?.belop ?? 0);
+        case Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT:
+            return antallAktiveArbeidsgivere > 1 ? 0 : avrundetToDesimaler(totaltSammenligningsgrunnlag);
+        case Skjønnsfastsettingstype.ANNET:
+        default:
+            return 0;
+    }
+};
+
 export const SkjønnsfastsettingForm = ({
     person,
     periode,
@@ -163,6 +198,7 @@ export const SkjønnsfastsettingForm = ({
             skjønnsfastsettelseFormState,
             aktiveArbeidsgivereInntekter,
             sisteSkjønnsfastsettelse,
+            avrundetSammenligningsgrunnlag,
         ),
     });
 
@@ -172,6 +208,7 @@ export const SkjønnsfastsettingForm = ({
         name: 'type',
         control: control,
     });
+    const prevValgtType = useRef(valgtType);
 
     const valgtÅrsak = useWatch({
         name: 'årsak',
@@ -207,24 +244,14 @@ export const SkjønnsfastsettingForm = ({
     }, [onEndretSykepengegrunnlag, sykepengegrunnlagEndring]);
 
     useEffect(() => {
-        setValue(
-            'arbeidsgivere',
-            aktiveArbeidsgivereInntekter?.map((inntekt) => ({
-                organisasjonsnummer: inntekt.arbeidsgiver,
-                årlig: valgtInntekt(
-                    inntekt,
-                    aktiveArbeidsgivereInntekter.length,
-                    avrundetSammenligningsgrunnlag,
-                    valgtType,
-                ),
-            })) ?? [],
-        );
-        /* eslint-disable-next-line react-hooks/exhaustive-deps --
-         * Siden vi har designet formset som vi har må vi hacke valuen her.
-         * Ideelt burde dette redesignes for å kunne sette value når formet
-         * blir satt opp.
-         **/
-    }, [valgtType, avrundetSammenligningsgrunnlag, setValue]);
+        if (prevValgtType.current !== valgtType) {
+            setValue(
+                'arbeidsgivere',
+                initielleInntektsutfyllinger(aktiveArbeidsgivereInntekter, avrundetSammenligningsgrunnlag, valgtType),
+            );
+            prevValgtType.current = valgtType;
+        }
+    }, [valgtType, avrundetSammenligningsgrunnlag, setValue, aktiveArbeidsgivereInntekter]);
 
     if (!aktiveArbeidsgivere || !aktiveArbeidsgivereInntekter) return null;
 
@@ -293,23 +320,6 @@ export const SkjønnsfastsettingForm = ({
 interface RefMedId extends CustomElement<FieldValues> {
     id?: string;
 }
-
-const valgtInntekt = (
-    inntekt: Arbeidsgiverinntekt,
-    antallAktiveArbeidsgivere: number,
-    totaltSammenligningsgrunnlag: number,
-    type: Skjønnsfastsettingstype | null,
-): number => {
-    switch (type) {
-        case Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT:
-            return avrundetToDesimaler(inntekt.omregnetArsinntekt?.belop ?? 0);
-        case Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT:
-            return antallAktiveArbeidsgivere > 1 ? 0 : avrundetToDesimaler(totaltSammenligningsgrunnlag);
-        case Skjønnsfastsettingstype.ANNET:
-        default:
-            return 0;
-    }
-};
 
 const formErrorsTilFeilliste = (errors: FieldErrors<SkjønnsfastsettingFormFields>): Skjemafeil[] =>
     Object.entries(errors).map(([id, error]) => ({
