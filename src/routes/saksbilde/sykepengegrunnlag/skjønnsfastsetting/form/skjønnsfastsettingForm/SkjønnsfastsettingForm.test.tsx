@@ -96,8 +96,8 @@ describe('SkjønnsfastsettingForm', () => {
                 closeAndResetForm={jest.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
-                skjønnsfastsettelseFormState={null}
-                setFormFields={jest.fn}
+                formValues={null}
+                setFormValues={jest.fn}
             />,
         );
         expect(await screen.findByText(maler[0]?.arsak as string)).toBeInTheDocument();
@@ -116,8 +116,8 @@ describe('SkjønnsfastsettingForm', () => {
                 closeAndResetForm={jest.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
-                skjønnsfastsettelseFormState={null}
-                setFormFields={jest.fn}
+                formValues={null}
+                setFormValues={jest.fn}
             />,
         );
 
@@ -142,8 +142,8 @@ describe('SkjønnsfastsettingForm', () => {
                 closeAndResetForm={jest.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
-                skjønnsfastsettelseFormState={null}
-                setFormFields={jest.fn}
+                formValues={null}
+                setFormValues={jest.fn}
             />,
         );
 
@@ -184,8 +184,8 @@ describe('SkjønnsfastsettingForm', () => {
                 closeAndResetForm={jest.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
-                skjønnsfastsettelseFormState={null}
-                setFormFields={jest.fn}
+                formValues={null}
+                setFormValues={jest.fn}
             />,
         );
 
@@ -220,8 +220,8 @@ describe('SkjønnsfastsettingForm', () => {
                 closeAndResetForm={jest.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
-                skjønnsfastsettelseFormState={null}
-                setFormFields={jest.fn}
+                formValues={null}
+                setFormValues={jest.fn}
             />,
         );
 

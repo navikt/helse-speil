@@ -122,8 +122,8 @@ interface SkjønnsfastsettingFormProps {
     closeAndResetForm: () => void;
     maler: SkjønnsfastsettingMal[];
     sisteSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null;
-    skjønnsfastsettelseFormState: Maybe<SkjønnsfastsettingFormFields>;
-    setFormFields: (skjønnsfastsettingFormFields: SkjønnsfastsettingFormFields) => void;
+    formValues: Maybe<SkjønnsfastsettingFormFields>;
+    setFormValues: (skjønnsfastsettingFormFields: SkjønnsfastsettingFormFields) => void;
 }
 
 const initielleInntektsutfyllinger = (
@@ -169,8 +169,8 @@ export const SkjønnsfastsettingForm = ({
     closeAndResetForm,
     maler,
     sisteSkjønnsfastsettelse,
-    skjønnsfastsettelseFormState,
-    setFormFields,
+    formValues,
+    setFormValues,
 }: SkjønnsfastsettingFormProps): Maybe<ReactElement> => {
     const aktiveArbeidsgivere = useAktiveArbeidsgivere(person, periode, inntekter);
     const aktiveArbeidsgivereInntekter = inntekter.filter((inntekt) =>
@@ -191,7 +191,7 @@ export const SkjønnsfastsettingForm = ({
         shouldFocusError: false,
         mode: 'onBlur',
         defaultValues: useFormDefaults(
-            skjønnsfastsettelseFormState,
+            formValues,
             aktiveArbeidsgivereInntekter,
             sisteSkjønnsfastsettelse,
             avrundetSammenligningsgrunnlag,
@@ -216,10 +216,10 @@ export const SkjønnsfastsettingForm = ({
 
     useEffect(() => {
         if (JSON.stringify(prevFormFields.current) !== JSON.stringify(watchedFormFields)) {
-            setFormFields(watchedFormFields);
+            setFormValues(watchedFormFields);
             prevFormFields.current = watchedFormFields;
         }
-    }, [watchedFormFields, setFormFields]);
+    }, [watchedFormFields, setFormValues]);
 
     const valgtMal = maler.find((it) => it.arsak === valgtÅrsak);
 

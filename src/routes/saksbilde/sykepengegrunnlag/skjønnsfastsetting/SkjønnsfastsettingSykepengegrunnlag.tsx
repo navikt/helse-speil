@@ -52,9 +52,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     organisasjonsnummer,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editing, setEditing] = useAtomEditingForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
-    const [skjønnsfastsettelseFormState, setFormFields] = useAtomSkjemaForPersonOgSkjæringstidspunkt(
-        periode.skjaeringstidspunkt,
-    );
+    const [formValues, setFormValues] = useAtomSkjemaForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
     const aktiveArbeidsgivereMedOmregnetÅrsinntekt = useAktiveArbeidsgivere(person, periode, inntekter);
     const skalVise828andreLedd = avviksprosent > 25;
@@ -66,7 +64,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
 
     const closeAndResetForm = () => {
         setEditing(false);
-        setFormFields(null);
+        setFormValues(null);
     };
 
     useEffect(() => {
@@ -108,8 +106,8 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                     closeAndResetForm={closeAndResetForm}
                     maler={maler}
                     sisteSkjønnsfastsettelse={sisteSkjønnsfastsettelse}
-                    skjønnsfastsettelseFormState={skjønnsfastsettelseFormState}
-                    setFormFields={setFormFields}
+                    formValues={formValues}
+                    setFormValues={setFormValues}
                 />
             )}
         </div>
