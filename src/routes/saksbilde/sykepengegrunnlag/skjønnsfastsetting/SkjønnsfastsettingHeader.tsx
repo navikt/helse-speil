@@ -30,6 +30,7 @@ interface SkjønnsfastsettingHeaderProps {
     maler: SkjønnsfastsettingMal[] | undefined;
     malerError: string | undefined;
     organisasjonsnummer: string;
+    closeAndResetForm: () => void;
 }
 
 export const SkjønnsfastsettingHeader = ({
@@ -41,6 +42,7 @@ export const SkjønnsfastsettingHeader = ({
     setEditing,
     maler,
     malerError,
+    closeAndResetForm,
 }: SkjønnsfastsettingHeaderProps) => {
     const aktivPeriode = useActivePeriod(person);
     const harMaler = maler && maler.length > 0;
@@ -102,7 +104,7 @@ export const SkjønnsfastsettingHeader = ({
                     </Button>
                 ) : (
                     <Button
-                        onClick={() => setEditing(false)}
+                        onClick={closeAndResetForm}
                         size="xsmall"
                         variant="tertiary"
                         icon={<XMarkIcon />}

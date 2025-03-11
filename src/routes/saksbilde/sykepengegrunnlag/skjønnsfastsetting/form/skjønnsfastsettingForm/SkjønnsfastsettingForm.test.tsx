@@ -93,9 +93,11 @@ describe('SkjønnsfastsettingForm', () => {
                 sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag ?? 0}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 onEndretSykepengegrunnlag={jest.fn}
-                setEditing={jest.fn()}
+                closeAndResetForm={jest.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
+                skjønnsfastsettelseFormState={null}
+                setFormFields={jest.fn}
             />,
         );
         expect(await screen.findByText(maler[0]?.arsak as string)).toBeInTheDocument();
@@ -111,9 +113,11 @@ describe('SkjønnsfastsettingForm', () => {
                 sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag ?? 0}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 onEndretSykepengegrunnlag={jest.fn}
-                setEditing={jest.fn()}
+                closeAndResetForm={jest.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
+                skjønnsfastsettelseFormState={null}
+                setFormFields={jest.fn}
             />,
         );
 
@@ -135,9 +139,11 @@ describe('SkjønnsfastsettingForm', () => {
                 sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag ?? 0}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 onEndretSykepengegrunnlag={jest.fn}
-                setEditing={jest.fn()}
+                closeAndResetForm={jest.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
+                skjønnsfastsettelseFormState={null}
+                setFormFields={jest.fn}
             />,
         );
 
@@ -175,9 +181,11 @@ describe('SkjønnsfastsettingForm', () => {
                 sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag ?? 0}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 onEndretSykepengegrunnlag={jest.fn}
-                setEditing={jest.fn()}
+                closeAndResetForm={jest.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
+                skjønnsfastsettelseFormState={null}
+                setFormFields={jest.fn}
             />,
         );
 
@@ -209,9 +217,11 @@ describe('SkjønnsfastsettingForm', () => {
                 sammenligningsgrunnlag={100000}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 onEndretSykepengegrunnlag={jest.fn}
-                setEditing={jest.fn()}
+                closeAndResetForm={jest.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
+                skjønnsfastsettelseFormState={null}
+                setFormFields={jest.fn}
             />,
         );
 

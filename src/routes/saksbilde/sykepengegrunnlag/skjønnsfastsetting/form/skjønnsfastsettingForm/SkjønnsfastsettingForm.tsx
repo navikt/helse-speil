@@ -16,7 +16,6 @@ import {
     Sykepengegrunnlagsgrense,
     Sykepengegrunnlagskjonnsfastsetting,
 } from '@io/graphql';
-import { useAtomSkjemaForPersonOgSkjæringstidspunkt } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/atoms';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingÅrsak';
@@ -120,9 +119,11 @@ interface SkjønnsfastsettingFormProps {
     sammenligningsgrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     onEndretSykepengegrunnlag: (endretSykepengegrunnlag: Maybe<number>) => void;
-    setEditing: (state: boolean) => void;
+    closeAndResetForm: () => void;
     maler: SkjønnsfastsettingMal[];
     sisteSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null;
+    skjønnsfastsettelseFormState: Maybe<SkjønnsfastsettingFormFields>;
+    setFormFields: (skjønnsfastsettingFormFields: SkjønnsfastsettingFormFields) => void;
 }
 
 const initielleInntektsutfyllinger = (
@@ -165,9 +166,11 @@ export const SkjønnsfastsettingForm = ({
     sammenligningsgrunnlag,
     sykepengegrunnlagsgrense,
     onEndretSykepengegrunnlag,
-    setEditing,
+    closeAndResetForm,
     maler,
     sisteSkjønnsfastsettelse,
+    skjønnsfastsettelseFormState,
+    setFormFields,
 }: SkjønnsfastsettingFormProps): Maybe<ReactElement> => {
     const aktiveArbeidsgivere = useAktiveArbeidsgivere(person, periode, inntekter);
     const aktiveArbeidsgivereInntekter = inntekter.filter((inntekt) =>
@@ -181,15 +184,8 @@ export const SkjønnsfastsettingForm = ({
     const erBeslutteroppgave = isBeregnetPeriode(periode) && (periode.totrinnsvurdering?.erBeslutteroppgave ?? false);
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const avrundetSammenligningsgrunnlag = avrundetToDesimaler(sammenligningsgrunnlag);
-    const cancelEditing = () => {
-        setEditing(false);
-    };
     const { isLoading, error, postSkjønnsfastsetting, timedOut, setTimedOut } =
-        usePostSkjønnsfastsattSykepengegrunnlag(cancelEditing);
-
-    const [skjønnsfastsettelseFormState, setFormFields] = useAtomSkjemaForPersonOgSkjæringstidspunkt(
-        periode.skjaeringstidspunkt,
-    );
+        usePostSkjønnsfastsattSykepengegrunnlag(closeAndResetForm);
 
     const form = useForm<SkjønnsfastsettingFormFields>({
         shouldFocusError: false,
@@ -303,7 +299,7 @@ export const SkjønnsfastsettingForm = ({
                                 ) : (
                                     <HelpText>Kan ikke overstyre en beslutteroppgave</HelpText>
                                 )}
-                                <Button size="small" variant="tertiary" type="button" onClick={cancelEditing}>
+                                <Button size="small" variant="tertiary" type="button" onClick={closeAndResetForm}>
                                     Avbryt
                                 </Button>
                             </HStack>

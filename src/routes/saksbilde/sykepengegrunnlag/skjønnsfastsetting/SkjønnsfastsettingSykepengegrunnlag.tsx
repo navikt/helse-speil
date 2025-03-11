@@ -10,7 +10,10 @@ import {
     PersonFragment,
     Sykepengegrunnlagsgrense,
 } from '@io/graphql';
-import { useAtomEditingForPersonOgSkjæringstidspunkt } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/atoms';
+import {
+    useAtomEditingForPersonOgSkjæringstidspunkt,
+    useAtomSkjemaForPersonOgSkjæringstidspunkt,
+} from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/atoms';
 import {
     SkjønnsfastsettingForm,
     useAktiveArbeidsgivere,
@@ -49,6 +52,9 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     organisasjonsnummer,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editing, setEditing] = useAtomEditingForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
+    const [skjønnsfastsettelseFormState, setFormFields] = useAtomSkjemaForPersonOgSkjæringstidspunkt(
+        periode.skjaeringstidspunkt,
+    );
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
     const aktiveArbeidsgivereMedOmregnetÅrsinntekt = useAktiveArbeidsgivere(person, periode, inntekter);
     const skalVise828andreLedd = avviksprosent > 25;
@@ -57,6 +63,11 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
         skalVise828andreLedd,
         (aktiveArbeidsgivereMedOmregnetÅrsinntekt?.length ?? 0) > 1,
     );
+
+    const closeAndResetForm = () => {
+        setEditing(false);
+        setFormFields(null);
+    };
 
     useEffect(() => {
         setEndretSykepengegrunnlag(null);
@@ -80,6 +91,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                 maler={maler}
                 malerError={error?.message ? 'Mangler tekster for skjønnsfastsetting' : undefined}
                 organisasjonsnummer={organisasjonsnummer}
+                closeAndResetForm={closeAndResetForm}
             />
             {!editing && skjønnsmessigFastsattÅrlig !== null && sisteSkjønnsfastsettelse && (
                 <SkjønnsfastsettingSammendrag sisteSkjønnsfastsetting={sisteSkjønnsfastsettelse} />
@@ -93,9 +105,11 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                     sammenligningsgrunnlag={sammenligningsgrunnlag}
                     sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                     onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
-                    setEditing={setEditing}
+                    closeAndResetForm={closeAndResetForm}
                     maler={maler}
                     sisteSkjønnsfastsettelse={sisteSkjønnsfastsettelse}
+                    skjønnsfastsettelseFormState={skjønnsfastsettelseFormState}
+                    setFormFields={setFormFields}
                 />
             )}
         </div>
