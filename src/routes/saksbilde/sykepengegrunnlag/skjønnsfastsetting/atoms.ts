@@ -1,4 +1,4 @@
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai/index';
+import { atom, useAtom } from 'jotai/index';
 import { atomFamily } from 'jotai/utils';
 
 import { Maybe } from '@io/graphql';
@@ -11,14 +11,6 @@ export const useAtomSkjemaForPersonOgSkjæringstidspunkt = (skjaeringstidspunkt:
     useAtom(skjemaFamily(skjaeringstidspunkt), {
         store: usePersonStore(),
     });
-
-export const useAtomValueSkjemaForPersonOgSkjæringstidspunkt = (skjaeringstidspunkt: string) =>
-    useAtomValue(skjemaFamily(skjaeringstidspunkt), {
-        store: usePersonStore(),
-    });
-
-export const useSetAtomSkjemaForPersonOgSkjæringstidspunkt = (skjaeringstidspunkt: string) =>
-    useSetAtom(skjemaFamily(skjaeringstidspunkt), { store: usePersonStore() });
 
 const editingFamily = atomFamily((_skjæringstidspunkt: string) => atom<boolean>(false));
 

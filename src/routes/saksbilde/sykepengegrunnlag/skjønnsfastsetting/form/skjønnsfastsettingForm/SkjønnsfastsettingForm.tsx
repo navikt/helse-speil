@@ -16,10 +16,7 @@ import {
     Sykepengegrunnlagsgrense,
     Sykepengegrunnlagskjonnsfastsetting,
 } from '@io/graphql';
-import {
-    useAtomValueSkjemaForPersonOgSkjæringstidspunkt,
-    useSetAtomSkjemaForPersonOgSkjæringstidspunkt,
-} from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/atoms';
+import { useAtomSkjemaForPersonOgSkjæringstidspunkt } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/atoms';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingÅrsak';
@@ -57,11 +54,10 @@ export const useAktiveArbeidsgivere = (
         );
 
 function useFormDefaults(
-    period: BeregnetPeriodeFragment | GhostPeriodeFragment,
+    skjønnsfastsettelseFormState: Maybe<SkjønnsfastsettingFormFields>,
     aktiveArbeidsgivereInntekter: Arbeidsgiverinntekt[],
     forrigeSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null,
 ): SkjønnsfastsettingFormFields {
-    const skjønnsfastsettelseFormState = useAtomValueSkjemaForPersonOgSkjæringstidspunkt(period.skjaeringstidspunkt);
     if (skjønnsfastsettelseFormState) {
         return skjønnsfastsettelseFormState;
     } else {
@@ -156,10 +152,18 @@ export const SkjønnsfastsettingForm = ({
     const { isLoading, error, postSkjønnsfastsetting, timedOut, setTimedOut } =
         usePostSkjønnsfastsattSykepengegrunnlag(cancelEditing);
 
+    const [skjønnsfastsettelseFormState, setFormFields] = useAtomSkjemaForPersonOgSkjæringstidspunkt(
+        periode.skjaeringstidspunkt,
+    );
+
     const form = useForm<SkjønnsfastsettingFormFields>({
         shouldFocusError: false,
         mode: 'onBlur',
-        defaultValues: useFormDefaults(periode, aktiveArbeidsgivereInntekter, sisteSkjønnsfastsettelse),
+        defaultValues: useFormDefaults(
+            skjønnsfastsettelseFormState,
+            aktiveArbeidsgivereInntekter,
+            sisteSkjønnsfastsettelse,
+        ),
     });
 
     const { control, formState, setValue, getValues, handleSubmit, watch } = form;
@@ -177,7 +181,6 @@ export const SkjønnsfastsettingForm = ({
     const watchedFormFields = watch();
     const prevFormFields = useRef(watchedFormFields);
 
-    const setFormFields = useSetAtomSkjemaForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
     useEffect(() => {
         if (JSON.stringify(prevFormFields.current) !== JSON.stringify(watchedFormFields)) {
             setFormFields(watchedFormFields);
