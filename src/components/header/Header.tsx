@@ -26,7 +26,7 @@ export const Header = () => {
     return (
         <InternalHeader className={cx(styles.header, { localhostHeader: erLokal, devHeader: erDev })}>
             <InternalHeader.Title as={Link} href="/" className={styles.Link}>
-                NAV Sykepenger
+                Nav Sykepenger
             </InternalHeader.Title>
             <Personsøk />
             <EasterEgg />
