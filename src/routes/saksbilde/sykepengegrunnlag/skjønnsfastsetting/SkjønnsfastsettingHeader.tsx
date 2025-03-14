@@ -52,8 +52,10 @@ export const SkjønnsfastsettingHeader = ({
     const skjønnsfastsettingEndringer: SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn[] =
         person.arbeidsgivere.flatMap((arbeidsgiver) =>
             arbeidsgiver.overstyringer
-                .filter((it) => dayjs(aktivPeriode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
                 .filter(isSykepengegrunnlagskjønnsfastsetting)
+                .filter((overstyring) =>
+                    dayjs(overstyring.skjonnsfastsatt.skjaeringstidspunkt).isSame(aktivPeriode.skjaeringstidspunkt),
+                )
                 .map((overstyring) => ({
                     ...overstyring,
                     arbeidsgivernavn: arbeidsgiver.navn,
