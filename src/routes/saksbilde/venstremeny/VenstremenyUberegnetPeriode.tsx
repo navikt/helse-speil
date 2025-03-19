@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { ArbeidsgiverFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
+import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
 
 import { PeriodeCard } from './PeriodeCard';
 
@@ -21,6 +22,7 @@ export const VenstremenyUberegnetPeriode = ({
     return (
         <section className={styles.Venstremeny}>
             <PeriodeCard.Uberegnet periode={activePeriod} arbeidsgiver={currentArbeidsgiver} />
+            <HarVurderbareVarsler person={currentPerson} />
             <HarBeslutteroppgaver person={currentPerson} />
         </section>
     );
