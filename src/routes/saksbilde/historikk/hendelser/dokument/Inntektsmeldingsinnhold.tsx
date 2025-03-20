@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { BodyShort, HStack } from '@navikt/ds-react';
@@ -7,9 +6,10 @@ import { AnonymizableContainer } from '@components/anonymizable/AnonymizableCont
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { PersonFragment } from '@io/graphql';
+import { EndringÅrsak } from '@saksbilde/historikk/hendelser/dokument/EndringÅrsak';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { DokumenthendelseObject } from '@typer/historikk';
-import { NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
+import { somNorskDato } from '@utils/date';
 import { tilTelefonNummer, toKronerOgØre } from '@utils/locale';
 
 import { BestemmendeFraværsdag } from './BestemmendeFraværsdag';
@@ -56,49 +56,7 @@ export const Inntektsmeldingsinnhold = ({
                             <AnonymizableContainer as="span">{inntektsmelding.arbeidsforholdId}</AnonymizableContainer>
                         </DokumentFragment>
                     )}
-                    {inntektsmelding.inntektEndringAarsak && (
-                        <div className={styles.inntektEndringAarsak}>
-                            <BodyShort weight="semibold" size="small" className={styles.fullBredde}>
-                                Endringsårsak
-                            </BodyShort>
-                            <BodyShort size="small">Årsak:</BodyShort>
-                            <BodyShort size="small">{inntektsmelding.inntektEndringAarsak.aarsak}</BodyShort>
-                            {inntektsmelding.inntektEndringAarsak.perioder && (
-                                <>
-                                    <BodyShort size="small">Perioder: </BodyShort>
-                                    <BodyShort size="small">
-                                        {inntektsmelding.inntektEndringAarsak?.perioder
-                                            ?.map(
-                                                (it) =>
-                                                    it.fom &&
-                                                    `${somNorskDato(it.fom)} – 
-                                                ${it.tom && somNorskDato(it.tom)}`,
-                                            )
-                                            .join(', ')
-                                            .replace(/,(?=[^,]*$)/, ' og')}
-                                    </BodyShort>
-                                </>
-                            )}
-                            {inntektsmelding.inntektEndringAarsak.gjelderFra && (
-                                <>
-                                    <BodyShort size="small">Gjelder fra:</BodyShort>
-                                    <BodyShort size="small">
-                                        {dayjs(inntektsmelding.inntektEndringAarsak.gjelderFra).format(
-                                            NORSK_DATOFORMAT,
-                                        )}
-                                    </BodyShort>
-                                </>
-                            )}
-                            {inntektsmelding.inntektEndringAarsak.bleKjent && (
-                                <>
-                                    <BodyShort size="small">Ble kjent:</BodyShort>
-                                    <BodyShort size="small">
-                                        {somNorskDato(inntektsmelding.inntektEndringAarsak.bleKjent)}
-                                    </BodyShort>
-                                </>
-                            )}
-                        </div>
-                    )}
+                    <EndringÅrsak årsak={inntektsmelding.inntektEndringAarsak} />
                     <BestemmendeFraværsdag førsteFraværsdag={inntektsmelding?.foersteFravaersdag ?? null} />
                     {(inntektsmelding.arbeidsgiverperioder?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
