@@ -110,6 +110,8 @@ jobs:
     name: Deploy to dev
     needs: [build-dev, test-and-lint]
     runs-on: ubuntu-latest
+    permissions:
+      id-token: 'write'
     environment:
       name: dev
       url: https://speil.ansatt.dev.nav.no
@@ -125,6 +127,8 @@ jobs:
     name: Deploy to experimental dev
     needs: [build-experimental-dev, test-and-lint]
     runs-on: ubuntu-latest
+    permissions:
+      id-token: 'write'
     environment:
       name: dev-next
       url: https://speil-next.intern.dev.nav.no
@@ -140,6 +144,8 @@ jobs:
     name: Deploy to prod
     needs: [build-production, test-and-lint]
     runs-on: ubuntu-latest
+    permissions:
+      id-token: 'write'
     if: github.ref == 'refs/heads/master'
     environment:
       name: production
