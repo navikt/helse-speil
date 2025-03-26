@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const SkjønnsfastsettingÅrsak = ({ maler }: Props) => {
-    const { formState, register, setValue, resetField, getValues } = useFormContext();
+    const { formState, register, setValue, getValues } = useFormContext();
     const årsaker = maler?.flatMap((it) => it.arsak) ?? [];
     const { ref, ...årsakValidation } = register('årsak', { required: 'Du må velge en årsak' });
 
@@ -22,7 +22,7 @@ export const SkjønnsfastsettingÅrsak = ({ maler }: Props) => {
     };
 
     const onEndre = () => {
-        resetField('årsak');
+        setValue('årsak', '');
     };
 
     const valgtÅrsak = getValues('årsak');
@@ -37,7 +37,7 @@ export const SkjønnsfastsettingÅrsak = ({ maler }: Props) => {
                     <HStack gap="2">
                         Årsak til skjønnsfastsettelse
                         {valgtÅrsak && (
-                            <Button size="xsmall" variant="tertiary" onClick={onEndre}>
+                            <Button type="button" size="xsmall" variant="tertiary" onClick={onEndre}>
                                 Endre
                             </Button>
                         )}
