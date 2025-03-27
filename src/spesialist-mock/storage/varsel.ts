@@ -43,12 +43,7 @@ export class VarselMock {
         if (varselMedEndring?.vurdering && [Varselstatus.Vurdert].includes(varselMedEndring.vurdering.status)) {
             return new GraphQLError(
                 `Varsel med varselkode=${varselkode}, generasjonId=${generasjonIdString} har ikke status AKTIV`,
-                null,
-                null,
-                null,
-                null,
-                null,
-                { code: 409 },
+                { extensions: { code: 409 } },
             );
         }
 
@@ -98,12 +93,7 @@ export class VarselMock {
         if (varselMedEndring?.vurdering && [Varselstatus.Godkjent].includes(varselMedEndring.vurdering.status)) {
             return new GraphQLError(
                 `Varsel med varselkode=${varselkode}, generasjonId=${generasjonIdString} har ikke status GODKJENT`,
-                null,
-                null,
-                null,
-                null,
-                null,
-                { code: 409 },
+                { extensions: { code: 409 } },
             );
         }
 
