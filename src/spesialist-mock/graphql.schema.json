@@ -3196,18 +3196,6 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "inntektEndringAarsak",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "InntektEndringAarsak",
-                            "ofType": null
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "inntektEndringAarsaker",
                         "description": null,
                         "args": [],
