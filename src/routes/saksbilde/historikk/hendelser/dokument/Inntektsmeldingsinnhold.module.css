@@ -1,14 +1,7 @@
-.dokument {
-    display: grid;
-    column-gap: 8px;
-    grid-template-columns: 83px auto;
-}
-
 .dokument p {
     font-size: var(--a-font-size-large);
     line-height: var(--a-font-line-height-large);
     word-break: break-word;
-    grid-column: 1 / span 2;
 }
 
 .dokument > p:nth-of-type(even) {
@@ -24,30 +17,17 @@
 }
 
 .liste {
-    grid-column: 1 / span 2;
-    flex: 0 0 100%;
     padding-bottom: 0.5rem;
-    padding-top: 0;
-    padding-left: 0;
 }
 
-.inntektEndringAarsak {
-    grid-column: 1 / span 2;
+.inntektEndringAarsakDetaljer {
     display: grid;
-    grid-template-columns: 70px auto;
+    grid-template-columns: minmax(80px, max-content) auto;
     padding-bottom: 0.5rem;
-}
-
-.inntektEndringAarsak p {
-    grid-column: initial;
-}
-
-p.fullBredde {
-    grid-column: 1 / span 2;
+    padding-left: 0.5rem;
 }
 
 .arbeidsgiver {
-    grid-column: 1 / span 2;
     margin-bottom: 0.5rem;
     align-items: center;
 }

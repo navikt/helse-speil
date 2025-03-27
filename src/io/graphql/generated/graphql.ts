@@ -317,6 +317,7 @@ export type DokumentInntektsmelding = {
     innsenderFulltNavn: Maybe<Scalars['String']['output']>;
     innsenderTelefon: Maybe<Scalars['String']['output']>;
     inntektEndringAarsak: Maybe<InntektEndringAarsak>;
+    inntektEndringAarsaker: Maybe<Array<InntektEndringAarsak>>;
     naerRelasjon: Maybe<Scalars['Boolean']['output']>;
     opphoerAvNaturalytelser: Maybe<Array<OpphoerAvNaturalytelse>>;
     refusjon: Maybe<Refusjon>;
@@ -1851,13 +1852,13 @@ export type FetchInntektsmeldingQuery = {
         }> | null;
         arbeidsgiverperioder: Array<{ __typename: 'IMPeriode'; fom: string | null; tom: string | null }> | null;
         ferieperioder: Array<{ __typename: 'IMPeriode'; fom: string | null; tom: string | null }> | null;
-        inntektEndringAarsak: {
+        inntektEndringAarsaker: Array<{
             __typename: 'InntektEndringAarsak';
             aarsak: string;
             gjelderFra: string | null;
             bleKjent: string | null;
             perioder: Array<{ __typename: 'IMPeriode'; fom: string | null; tom: string | null }> | null;
-        } | null;
+        }> | null;
         avsenderSystem: { __typename: 'AvsenderSystem'; navn: string | null } | null;
     } | null;
 };
@@ -10167,7 +10168,7 @@ export const FetchInntektsmeldingDocument = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'innsenderTelefon' } },
                                 {
                                     kind: 'Field',
-                                    name: { kind: 'Name', value: 'inntektEndringAarsak' },
+                                    name: { kind: 'Name', value: 'inntektEndringAarsaker' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [

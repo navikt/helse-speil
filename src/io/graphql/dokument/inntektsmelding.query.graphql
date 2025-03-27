@@ -17,7 +17,7 @@ query FetchInntektsmelding($fnr: String!, $dokumentId: String!) {
         naerRelasjon,
         innsenderFulltNavn,
         innsenderTelefon,
-        inntektEndringAarsak {
+        inntektEndringAarsaker {
             aarsak,
             perioder {
                 fom, tom

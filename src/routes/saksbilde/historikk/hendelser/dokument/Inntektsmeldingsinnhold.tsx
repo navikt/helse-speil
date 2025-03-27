@@ -6,7 +6,7 @@ import { AnonymizableContainer } from '@components/anonymizable/AnonymizableCont
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { PersonFragment } from '@io/graphql';
-import { EndringÅrsak } from '@saksbilde/historikk/hendelser/dokument/EndringÅrsak';
+import { Endringsårsaker } from '@saksbilde/historikk/hendelser/dokument/Endringsårsaker';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { DokumenthendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
@@ -35,7 +35,7 @@ export const Inntektsmeldingsinnhold = ({
     const arbeidsgiverNavn = useArbeidsgiver(person, inntektsmelding?.virksomhetsnummer ?? '')?.navn;
 
     return (
-        <div>
+        <>
             {inntektsmelding && (
                 <div className={styles.dokument}>
                     {arbeidsgiverNavn && (
@@ -56,7 +56,7 @@ export const Inntektsmeldingsinnhold = ({
                             <AnonymizableContainer as="span">{inntektsmelding.arbeidsforholdId}</AnonymizableContainer>
                         </DokumentFragment>
                     )}
-                    <EndringÅrsak årsak={inntektsmelding.inntektEndringAarsak} />
+                    <Endringsårsaker årsaker={inntektsmelding.inntektEndringAarsaker} />
                     <BestemmendeFraværsdag førsteFraværsdag={inntektsmelding?.foersteFravaersdag ?? null} />
                     {(inntektsmelding.arbeidsgiverperioder?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
@@ -206,7 +206,7 @@ export const Inntektsmeldingsinnhold = ({
             )}
             {inntektsmeldingssrespons.loading && <DokumentLoader />}
             {inntektsmeldingssrespons.error && <div>{inntektsmeldingssrespons.error.message}</div>}
-        </div>
+        </>
     );
 };
 

@@ -8,27 +8,39 @@ import { NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
 
 import styles from './Inntektsmeldingsinnhold.module.css';
 
-type EndringÅrsakProps = {
-    årsak: Maybe<InntektEndringAarsak>;
+type EndringsårsakerProps = {
+    årsaker: Maybe<Array<InntektEndringAarsak>>;
 };
 
-export const EndringÅrsak = ({ årsak }: EndringÅrsakProps): Maybe<ReactElement> => {
-    if (årsak == null) return null;
+export const Endringsårsaker = ({ årsaker }: EndringsårsakerProps): ReactElement | null => {
+    if (årsaker == null || årsaker.length == 0) return null;
 
     return (
+        <div>
+            <BodyShort weight="semibold" size="small">
+                Endringsårsaker
+            </BodyShort>
+            <>
+                {årsaker?.map((årsak, index) => (
+                    // bruker index som key fordi årsakene kan være identiske
+                    <Endringsårsak key={index} årsak={årsak} />
+                ))}
+            </>
+        </div>
+    );
+};
+
+const Endringsårsak = ({ årsak }: { årsak: InntektEndringAarsak }): Maybe<ReactElement> => {
+    return (
         <>
-            <div className={styles.inntektEndringAarsak}>
-                <BodyShort weight="semibold" size="small" className={styles.fullBredde}>
-                    Endringsårsak
-                </BodyShort>
-                <BodyShort size="small">Årsak:</BodyShort>
-                <BodyShort size="small">{årsak.aarsak}</BodyShort>
+            <BodyShort size="small">• {årsak.aarsak}</BodyShort>
+            <div className={styles.inntektEndringAarsakDetaljer}>
                 {årsak.perioder && (
                     <>
                         <BodyShort size="small">Perioder: </BodyShort>
                         <BodyShort size="small">
                             {årsak.perioder
-                                ?.map((it) => it.fom && `${somNorskDato(it.fom)} – ${it.tom && somNorskDato(it.tom)}`)
+                                .map((it) => it.fom && `${somNorskDato(it.fom)} – ${it.tom && somNorskDato(it.tom)}`)
                                 .join(', ')
                                 .replace(/,(?=[^,]*$)/, ' og')}
                         </BodyShort>
