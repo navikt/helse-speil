@@ -1,7 +1,12 @@
+import { GraphQLError } from 'graphql/index';
+
 import { DokumentInntektsmelding, Soknad, Soknadstype, Svartype } from '../schemaTypes';
 
 export class DokumentMock {
-    static getMockedSoknad = (): Soknad => {
+    static getMockedSoknad = (): Soknad | GraphQLError => {
+        if (Math.random() > 0.9)
+            return new GraphQLError(`Noe gikk galt, vennligst prøv igjen.`, { extensions: { code: 417 } });
+
         return {
             type: Soknadstype.Arbeidstaker,
             arbeidGjenopptatt: '2023-09-29',
@@ -182,7 +187,10 @@ export class DokumentMock {
         };
     };
 
-    static getMockedInntektsmelding = (): DokumentInntektsmelding => {
+    static getMockedInntektsmelding = (): DokumentInntektsmelding | GraphQLError => {
+        if (Math.random() > 0.9)
+            return new GraphQLError(`Noe gikk galt, vennligst prøv igjen.`, { extensions: { code: 417 } });
+
         return {
             arbeidsforholdId: '123431242',
             virksomhetsnummer: '967170232',
