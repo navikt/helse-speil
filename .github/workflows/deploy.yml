@@ -47,8 +47,6 @@ jobs:
           app: ${{ env.APP }}
           team: ${{ env.TEAM }}
           env: dev
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
     outputs:
       image: ${{ steps.cdn-n-image.outputs.image }}
 
@@ -74,8 +72,6 @@ jobs:
           app: ${{ env.APP }}
           team: ${{ env.TEAM }}
           env: next
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
     outputs:
       image: ${{ steps.cdn-n-image.outputs.image }}
 
@@ -101,8 +97,6 @@ jobs:
           app: ${{ env.APP }}
           team: ${{ env.TEAM }}
           env: prod
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
     outputs:
       image: ${{ steps.cdn-n-image.outputs.image }}
 

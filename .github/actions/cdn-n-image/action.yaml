@@ -11,12 +11,6 @@ inputs:
   env:
     required: true
     description: GAR prefix
-  identity_provider:
-    required: true
-    description: for GAR
-  project_id:
-    required: true
-    description: for GAR
 
 outputs:
   image:
@@ -32,13 +26,9 @@ runs:
         team: ${{ inputs.team }}
         source: .next/static
         destination: '/${{ inputs.app }}/_next'
-        identity_provider: ${{ inputs.identity_provider }}
-        project_id: ${{ inputs.project_id }}
     - uses: nais/docker-build-push@v0
       name: Build and push image
       id: docker-build-push
       with:
         team: ${{ inputs.team }}
-        identity_provider: ${{ inputs.identity_provider }}
-        project_id: ${{ inputs.project_id }}
         image_suffix: ${{ inputs.env }}
