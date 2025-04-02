@@ -55,7 +55,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     const [formValues, setFormValues] = useAtomSkjemaForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
     const aktiveArbeidsgivereMedOmregnetÅrsinntekt = useAktiveArbeidsgivere(person, periode, inntekter);
-    const skalVise828andreLedd = avviksprosent > 25 || avviksprosent < -25;
+    const skalVise828andreLedd = Math.abs(avviksprosent) > 25;
 
     const { maler, error } = useSkjønnsfastsettelsesMaler(
         skalVise828andreLedd,
