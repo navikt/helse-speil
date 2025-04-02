@@ -152,12 +152,11 @@ const UtbetalingUberegnetPeriode = ({
         overstyringer: dagoverstyringer,
         antallAGPDagerBruktFørPerioden: antallAGPDagerBruktFørPerioden,
     });
-    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
     if (!person) return null;
 
     const skjæringstidspunktHarPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
 
-    return !skjæringstidspunktHarPeriodeTilBeslutter && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning ? (
+    return !skjæringstidspunktHarPeriodeTilBeslutter ? (
         <OverstyrbarUtbetaling person={person} arbeidsgiver={arbeidsgiver} dager={dager} periode={periode} />
     ) : (
         <ReadonlyUtbetaling
