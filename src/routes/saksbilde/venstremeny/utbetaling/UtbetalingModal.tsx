@@ -6,7 +6,7 @@ import { AnonymizableTextWithEllipsis } from '@components/anonymizable/Anonymiza
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Personinfo, Utbetaling, Utbetalingstatus } from '@io/graphql';
-import { somPenger } from '@utils/locale';
+import { capitalizeArbeidsgiver, somPenger } from '@utils/locale';
 
 import { BackendFeil } from './Utbetaling';
 
@@ -84,7 +84,7 @@ const TilUtbetaling = ({ utbetaling, arbeidsgiver, personinfo }: TilUtbetalingPr
         </div>
         <div className={styles.Row}>
             <ArbeidsgiverikonMedTooltip />
-            <AnonymizableTextWithEllipsis>{arbeidsgiver}</AnonymizableTextWithEllipsis>
+            <AnonymizableTextWithEllipsis>{capitalizeArbeidsgiver(arbeidsgiver)}</AnonymizableTextWithEllipsis>
             <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
         </div>
         <div className={styles.Row}>
