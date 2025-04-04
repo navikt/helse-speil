@@ -14,15 +14,14 @@ import styles from '../../table.module.css';
 interface TilGodkjenningTableProps {
     oppgaver: OppgaveTilBehandling[];
     sort: SortState;
-    setSort: (state: SortState) => void;
 }
 
-export const TilGodkjenningTable = ({ oppgaver, sort, setSort }: TilGodkjenningTableProps): ReactElement => {
+export const TilGodkjenningTable = ({ oppgaver, sort }: TilGodkjenningTableProps): ReactElement => {
     const updateSort = useUpdateSort();
     return (
         <Table
             sort={sort}
-            onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, setSort, sortKey as SortKey)}
+            onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, sortKey as SortKey)}
             className={styles.Table}
             aria-label="Saker som er klare for behandling"
             zebraStripes

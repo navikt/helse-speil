@@ -3,10 +3,10 @@ import React, { ReactElement } from 'react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
 import { TabType, useAktivTab } from '@oversikt/tabState';
+import { useSorteringState } from '@oversikt/table/state/sortation';
 
 import { Pagination } from '../Pagination';
 import { useFilters, useSetMultipleFilters, useToggleFilter } from '../state/filter';
-import { useSetSortering, useSorteringState } from '../state/sortation';
 import { FilterChips } from './FilterChips';
 import { MineSakerTable } from './mineSaker/MineSakerTable';
 import { PåVentTable } from './påVent/PåVentTable';
@@ -37,7 +37,6 @@ export const OppgaverTable = React.memo(
         const tab = useAktivTab();
         const { activeFilters } = useFilters();
         const sort = useSorteringState();
-        const setSort = useSetSortering();
         const toggleFilter = useToggleFilter();
         const setMultipleFilters = useSetMultipleFilters();
 
@@ -50,11 +49,9 @@ export const OppgaverTable = React.memo(
                 />
                 <div className={styles.Content}>
                     <div className={styles.Scrollable}>
-                        {tab === TabType.TilGodkjenning && (
-                            <TilGodkjenningTable oppgaver={oppgaver} sort={sort} setSort={setSort} />
-                        )}
-                        {tab === TabType.Mine && <MineSakerTable oppgaver={oppgaver} sort={sort} setSort={setSort} />}
-                        {tab === TabType.Ventende && <PåVentTable oppgaver={oppgaver} sort={sort} setSort={setSort} />}
+                        {tab === TabType.TilGodkjenning && <TilGodkjenningTable oppgaver={oppgaver} sort={sort} />}
+                        {tab === TabType.Mine && <MineSakerTable oppgaver={oppgaver} sort={sort} />}
+                        {tab === TabType.Ventende && <PåVentTable oppgaver={oppgaver} sort={sort} />}
                     </div>
                 </div>
                 <Pagination

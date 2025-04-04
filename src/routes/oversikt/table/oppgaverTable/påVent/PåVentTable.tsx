@@ -14,15 +14,14 @@ import styles from '../../table.module.css';
 interface PåVentTableProps {
     oppgaver: OppgaveTilBehandling[];
     sort: SortState;
-    setSort: (state: SortState) => void;
 }
 
-export const PåVentTable = ({ oppgaver, sort, setSort }: PåVentTableProps): ReactElement => {
+export const PåVentTable = ({ oppgaver, sort }: PåVentTableProps): ReactElement => {
     const updateSort = useUpdateSort();
     return (
         <Table
             sort={sort}
-            onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, setSort, sortKey as SortKey)}
+            onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, sortKey as SortKey)}
             className={styles.Table}
             aria-label="Saker som er tildelt meg og satt på vent"
             zebraStripes

@@ -45,22 +45,17 @@ const sortering = atom(
 );
 
 export const useSorteringState = () => useAtomValue(sortering);
-export const useSetSortering = () => {
-    const setSortering = useSetAtom(sortering);
-    return (sortering: SortState) => {
-        setSortering(sortering);
-    };
-};
 
 export const useUpdateSort = () => {
     const setSorteringEndret = useSetAtom(sorteringEndret);
-    return (sort: SortState, setSort: (state: SortState) => void, sortKey: SortKey) => {
+    const setSortering = useSetAtom(sortering);
+    return (sort: SortState, sortKey: SortKey) => {
         const sortState = {
             orderBy: sortKey,
             direction: sort.direction === 'descending' ? 'ascending' : 'descending',
         } as SortState;
 
-        setSort(sortState);
+        setSortering(sortState);
         setSorteringEndret(true);
     };
 };
