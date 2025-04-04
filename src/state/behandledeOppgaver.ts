@@ -1,28 +1,25 @@
-import { useEffect, useState } from 'react';
-
 import { ApolloError, useQuery } from '@apollo/client';
 import { BehandledeOppgaverFeedDocument, BehandletOppgave } from '@io/graphql';
+import { limit, offset, useCurrentPageValue } from '@oversikt/table/state/pagination';
+import { FetchMoreArgs } from '@state/oppgaver';
 
 interface BehandledeOppgaverResponse {
     oppgaver?: BehandletOppgave[];
     error?: ApolloError;
     loading: boolean;
     antallOppgaver: number;
-    numberOfPages: number;
-    currentPage: number;
-    limit: number;
-    setPage: (newPage: number) => void;
+    fetchMore: ({ variables }: FetchMoreArgs) => void;
 }
 
 export const useBehandledeOppgaverFeed = (): BehandledeOppgaverResponse => {
-    const [offset, setOffset] = useState(0);
-    const limit = 14;
+    const currentPage = useCurrentPageValue();
 
     const { data, error, loading, fetchMore } = useQuery(BehandledeOppgaverFeedDocument, {
         variables: {
-            offset: 0,
+            offset: offset(currentPage),
             limit: limit,
         },
+        notifyOnNetworkStatusChange: true,
         initialFetchPolicy: 'network-only',
         nextFetchPolicy: 'cache-first',
         onError: () => {
@@ -30,28 +27,11 @@ export const useBehandledeOppgaverFeed = (): BehandledeOppgaverResponse => {
         },
     });
 
-    useEffect(() => {
-        void fetchMore({
-            variables: {
-                offset,
-            },
-        });
-    }, [offset, fetchMore]);
-
-    const antallOppgaver = data?.behandledeOppgaverFeed.totaltAntallOppgaver ?? 0;
-    const numberOfPages = Math.max(Math.ceil(antallOppgaver / limit), 1);
-    const currentPage = Math.max(Math.ceil((offset + 1) / limit), 1);
-
     return {
         oppgaver: data?.behandledeOppgaverFeed.oppgaver,
+        antallOppgaver: data?.behandledeOppgaverFeed.totaltAntallOppgaver ?? 0,
         error,
         loading,
-        antallOppgaver,
-        numberOfPages,
-        limit,
-        currentPage: currentPage > numberOfPages ? 1 : currentPage,
-        setPage: (newPage) => {
-            setOffset(limit * (newPage - 1));
-        },
+        fetchMore,
     };
 };

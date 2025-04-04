@@ -21,13 +21,10 @@ describe('Oversikt', () => {
         (useDriftsmelding as jest.Mock).mockReturnValue({ driftsmelding: null });
         (useOppgaveFeed as jest.Mock).mockReturnValue({
             oppgaver,
+            antallOppgaver: 1,
             error: undefined,
             loading: false,
-            antallOppgaver: 1,
-            numberOfPages: 1,
-            limit: 14,
-            currentPage: 1,
-            setPage: () => {},
+            fetchMore: () => {},
         });
 
         const { container } = render(<Oversikt />, {

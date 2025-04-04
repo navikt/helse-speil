@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -14,21 +14,10 @@ import {
     OppgavesorteringInput,
     Sorteringsnokkel,
 } from '@io/graphql';
-import { TabType, useAktivTab, useSetTabIkkeEndret, useTabEndret } from '@oversikt/tabState';
-import {
-    Filter,
-    FilterStatus,
-    Oppgaveoversiktkolonne,
-    useFilterEndret,
-    useFilters,
-    useSetFilterIkkeEndret,
-} from '@oversikt/table/state/filter';
-import {
-    SortKey,
-    useSetSorteringIkkeEndret,
-    useSorteringEndret,
-    useSorteringState,
-} from '@oversikt/table/state/sortation';
+import { TabType, useAktivTab } from '@oversikt/tabState';
+import { Filter, FilterStatus, Oppgaveoversiktkolonne, useFilters } from '@oversikt/table/state/filter';
+import { limit, offset, useCurrentPageValue } from '@oversikt/table/state/pagination';
+import { SortKey, useSorteringValue } from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
 import { kanSeTilkommenInntekt } from '@utils/featureToggles';
 
@@ -38,37 +27,35 @@ export interface ApolloResponse<T> {
     loading: boolean;
 }
 
-export interface OppgaveFeedResponse {
+export type FetchMoreArgs = {
+    variables: {
+        offset: number;
+    };
+};
+
+interface OppgaveFeedResponse {
     oppgaver?: OppgaveTilBehandling[];
     error?: ApolloError;
     loading: boolean;
     antallOppgaver: number;
-    numberOfPages: number;
-    currentPage: number;
-    limit: number;
-    setPage: (newPage: number) => void;
+    fetchMore: ({ variables }: FetchMoreArgs) => void;
 }
 
 export const useOppgaveFeed = (): OppgaveFeedResponse => {
-    const limit = 14;
-
-    const [offset, setOffset] = useState(0);
-
+    const currentPage = useCurrentPageValue();
     const sortering = useSortering();
     const filtrering = useFiltrering();
 
-    const harTabFilterEllerSorteringsendringer = useHarTabFilterEllerSorteringsendringer();
-    const setHarIkkeTabFilterEllerSorteringsendringer = useSetHarIkkeTabFilterEllerSorteringsendringer();
-
-    const originalFiltreringRef = useRef(filtrering);
-    const originalSorteringRef = useRef(sortering);
+    const initialLoad = useRef(true);
+    const previousFiltreringRef = useRef(filtrering);
+    const previousSorteringRef = useRef(sortering);
 
     const { data, error, loading, fetchMore, refetch } = useQuery(OppgaveFeedDocument, {
         variables: {
-            offset: 0,
+            offset: offset(currentPage),
             limit: limit,
-            filtrering: originalFiltreringRef.current,
-            sortering: originalSorteringRef.current,
+            filtrering: filtrering,
+            sortering: sortering,
         },
         notifyOnNetworkStatusChange: true,
         initialFetchPolicy: 'network-only',
@@ -79,63 +66,30 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
     });
 
     useEffect(() => {
-        void fetchMore({
-            variables: {
-                offset,
-            },
-        });
-    }, [fetchMore, offset]);
-
-    const doRefetch = useCallback(() => {
-        void refetch({
-            offset,
-            filtrering: filtrering,
-            sortering: sortering,
-        });
-    }, [filtrering, offset, refetch, sortering]);
-
-    useEffect(() => {
-        if (harTabFilterEllerSorteringsendringer) {
-            setOffset(0);
-            doRefetch();
-            setHarIkkeTabFilterEllerSorteringsendringer();
+        if (initialLoad.current) {
+            initialLoad.current = false;
+            return;
         }
-    }, [setOffset, harTabFilterEllerSorteringsendringer, setHarIkkeTabFilterEllerSorteringsendringer, doRefetch]);
 
-    const antallOppgaver = data?.oppgaveFeed.totaltAntallOppgaver ?? 0;
-    const numberOfPages = Math.max(Math.ceil(antallOppgaver / limit), 1);
-    const currentPage = Math.max(Math.ceil((offset + 1) / limit), 1);
+        if (
+            JSON.stringify(filtrering) !== JSON.stringify(previousFiltreringRef.current) ||
+            JSON.stringify(sortering) !== JSON.stringify(previousSorteringRef.current)
+        ) {
+            previousFiltreringRef.current = filtrering;
+            previousSorteringRef.current = sortering;
+            void refetch({
+                filtrering: filtrering,
+                sortering: sortering,
+            });
+        }
+    }, [refetch, sortering, filtrering]);
 
     return {
         oppgaver: data?.oppgaveFeed.oppgaver,
+        antallOppgaver: data?.oppgaveFeed.totaltAntallOppgaver ?? 0,
         error,
         loading,
-        antallOppgaver,
-        numberOfPages,
-        limit,
-        currentPage: currentPage > numberOfPages ? 1 : currentPage,
-        setPage: (newPage) => {
-            setOffset(limit * (newPage - 1));
-        },
-    };
-};
-
-const useHarTabFilterEllerSorteringsendringer = () => {
-    const filterErEndret = useFilterEndret();
-    const sorteringErEndret = useSorteringEndret();
-    const tabErEndret = useTabEndret();
-
-    return filterErEndret || sorteringErEndret || tabErEndret;
-};
-
-const useSetHarIkkeTabFilterEllerSorteringsendringer = () => {
-    const setFilterIkkeEndret = useSetFilterIkkeEndret();
-    const setSorteringIkkeEndret = useSetSorteringIkkeEndret();
-    const setTabIkkeEndret = useSetTabIkkeEndret();
-    return () => {
-        setFilterIkkeEndret();
-        setSorteringIkkeEndret();
-        setTabIkkeEndret();
+        fetchMore,
     };
 };
 
@@ -149,7 +103,7 @@ const useFiltrering = () => {
 };
 
 const useSortering = () => {
-    const sort = useSorteringState();
+    const sort = useSorteringValue();
     return sortering(sort);
 };
 

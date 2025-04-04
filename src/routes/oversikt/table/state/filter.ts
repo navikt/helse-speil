@@ -1,4 +1,4 @@
-import { WritableAtom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { WritableAtom, atom, useAtom, useAtomValue } from 'jotai';
 import { SetStateAction } from 'react';
 
 import { Egenskap } from '@io/graphql';
@@ -252,14 +252,6 @@ const filtersState = atom(
     },
 );
 
-export const useFilterEndret = () => useAtomValue(filterEndretState);
-export const useSetFilterIkkeEndret = () => {
-    const setFilterEndret = useSetAtom(filterEndretState);
-    return () => setFilterEndret(false);
-};
-
-const filterEndretState = atom(false);
-
 export const useFilters = () => ({
     allFilters: useAtomValue(filtersState),
     activeFilters: useAtomValue(filtersState).filter((filter) => filter.status !== FilterStatus.OFF),
@@ -267,18 +259,14 @@ export const useFilters = () => ({
 
 export const useSetMultipleFilters = () => {
     const [filters, setFilters] = useAtom(filtersState);
-    const setFilterEndret = useSetAtom(filterEndretState);
     return (filterStatus: FilterStatus, ...keys: string[]) => {
         setFilters(filters.map((it) => (keys.includes(it.key) ? { ...it, status: filterStatus } : it)));
-        setFilterEndret(true);
     };
 };
 
 export const useToggleFilter = () => {
     const [filters, setFilters] = useAtom(filtersState);
-    const setFilterEndret = useSetAtom(filterEndretState);
     return (key: string, status: FilterStatus) => {
         setFilters(filters.map((it) => (it.key === key ? { ...it, status } : it)));
-        setFilterEndret(true);
     };
 };

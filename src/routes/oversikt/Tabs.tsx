@@ -4,11 +4,9 @@ import React, { ReactElement, useEffect, useRef } from 'react';
 import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 import { HStack, Skeleton } from '@navikt/ds-react';
 
-import { useAntallOppgaver } from '@state/oppgaver';
-
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 import { useFiltermenyWidth, useShowFiltermeny, useToggleFiltermeny } from './filtermeny/state';
-import { TabType, useSwitchTab } from './tabState';
+import { TabType, useTabState } from './tabState';
 
 import styles from './Tabs.module.scss';
 
@@ -19,7 +17,7 @@ interface OppgaveTabProps {
 }
 
 const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps): ReactElement => {
-    const [aktivTab, setAktivTab] = useSwitchTab();
+    const [aktivTab, setAktivTab] = useTabState();
 
     return (
         <button
@@ -36,15 +34,17 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps): ReactElemen
 
 const AlleSakerTab = (): ReactElement => <OppgaveTab tag={TabType.TilGodkjenning} label="Til godkjenning" />;
 
-const MineSakerTab = (): ReactElement => {
-    const { antallMineSaker } = useAntallOppgaver();
-    return <OppgaveTab tag={TabType.Mine} label="Mine saker" numberOfTasks={antallMineSaker} />;
+type SakerTabProps = {
+    antall: number;
 };
 
-const VentendeSakerTab = (): ReactElement => {
-    const { antallPåVent } = useAntallOppgaver();
-    return <OppgaveTab tag={TabType.Ventende} label="På vent" numberOfTasks={antallPåVent} />;
-};
+const MineSakerTab = ({ antall }: SakerTabProps): ReactElement => (
+    <OppgaveTab tag={TabType.Mine} label="Mine saker" numberOfTasks={antall} />
+);
+
+const VentendeSakerTab = ({ antall }: SakerTabProps): ReactElement => (
+    <OppgaveTab tag={TabType.Ventende} label="På vent" numberOfTasks={antall} />
+);
 
 const BehandletIdagTab = (): ReactElement => <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet i dag" />;
 
@@ -100,14 +100,19 @@ const StatistikkButton = (): ReactElement => {
     );
 };
 
-export const Tabs = (): ReactElement => {
+type TabProps = {
+    antallMineSaker: number;
+    antallPåVent: number;
+};
+
+export const Tabs = ({ antallMineSaker, antallPåVent }: TabProps): ReactElement => {
     return (
         <div className={styles.tabs}>
             <FilterButton />
             <span role="tablist">
                 <AlleSakerTab />
-                <MineSakerTab />
-                <VentendeSakerTab />
+                <MineSakerTab antall={antallMineSaker} />
+                <VentendeSakerTab antall={antallPåVent} />
                 <BehandletIdagTab />
             </span>
             <StatistikkButton />

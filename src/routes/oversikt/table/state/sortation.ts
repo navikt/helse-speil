@@ -28,35 +28,23 @@ const sorteringPerTab = atomWithLocalStorage<SorteringPerTab>('sorteringPerTab',
     [TabType.BehandletIdag]: defaultSortation,
 });
 
-const sorteringEndret = atom(false);
-
-export const useSorteringEndret = () => useAtomValue(sorteringEndret);
-export const useSetSorteringIkkeEndret = () => {
-    const setEndret = useSetAtom(sorteringEndret);
-    return () => {
-        setEndret(false);
-    };
-};
-
 const sortering = atom(
     (get) => get(sorteringPerTab)[get(tabState)],
     (get, set, newValue: SortState) =>
         set(sorteringPerTab, (prevState) => ({ ...prevState, [get(tabState)]: newValue })),
 );
 
-export const useSorteringState = () => useAtomValue(sortering);
+export const useSorteringValue = () => useAtomValue(sortering);
 
-export const useUpdateSort = () => {
-    const setSorteringEndret = useSetAtom(sorteringEndret);
+export const useSetSortering = () => {
     const setSortering = useSetAtom(sortering);
     return (sort: SortState, sortKey: SortKey) => {
-        const sortState = {
+        const sortState: SortState = {
             orderBy: sortKey,
             direction: sort.direction === 'descending' ? 'ascending' : 'descending',
-        } as SortState;
+        };
 
         setSortering(sortState);
-        setSorteringEndret(true);
     };
 };
 

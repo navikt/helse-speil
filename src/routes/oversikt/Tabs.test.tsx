@@ -1,14 +1,10 @@
 import { axe } from 'jest-axe';
 import React from 'react';
 
-import { useAntallOppgaver, useOppgaveFeed } from '@state/oppgaver';
-import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { render } from '@test-utils';
 import { screen, within } from '@testing-library/react';
 
 import { Tabs } from './Tabs';
-
-jest.mock('@state/oppgaver');
 
 describe('Tabs', () => {
     afterEach(() => {
@@ -16,12 +12,7 @@ describe('Tabs', () => {
     });
 
     it('rendrer uten violations', async () => {
-        const oppgaver = [enOppgaveForOversikten()];
-
-        (useOppgaveFeed as jest.Mock).mockReturnValue(oppgaver);
-        (useAntallOppgaver as jest.Mock).mockReturnValue({ antallMineSaker: 0, antallPåVent: 0 });
-
-        const { container } = render(<Tabs />);
+        const { container } = render(<Tabs antallMineSaker={0} antallPåVent={0} />);
 
         const result = await axe(container);
 
@@ -29,9 +20,7 @@ describe('Tabs', () => {
     });
 
     it('rendrer antall oppgaver', async () => {
-        (useAntallOppgaver as jest.Mock).mockReturnValue({ antallMineSaker: 2, antallPåVent: 1 });
-
-        render(<Tabs />);
+        render(<Tabs antallMineSaker={2} antallPåVent={1} />);
 
         const mineSaker = screen.getByText('Mine saker');
         expect(within(mineSaker).getByText('(2)')).toBeVisible();

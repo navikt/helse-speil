@@ -1,27 +1,27 @@
 import { axe } from 'jest-axe';
 import React from 'react';
 
+import { useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { render } from '@test-utils';
 import { screen } from '@testing-library/react';
 
 import { OppgaverTable } from './OppgaverTable';
 
+jest.mock('@state/oppgaver');
 describe('OppgaverTable', () => {
     it('rendres uten violations', async () => {
         const oppgaver = [enOppgaveForOversikten()];
 
-        const { container } = render(
-            <OppgaverTable
-                antallOppgaver={1}
-                numberOfPages={1}
-                currentPage={1}
-                limit={14}
-                setPage={() => {}}
-                oppgaver={oppgaver}
-                loading={false}
-            />,
-        );
+        (useOppgaveFeed as jest.Mock).mockReturnValue({
+            oppgaver,
+            antallOppgaver: 1,
+            error: undefined,
+            loading: false,
+            fetchMore: () => {},
+        });
+
+        const { container } = render(<OppgaverTable antallMineSaker={1} antallPåVent={1} />);
 
         expect(await screen.findByText('Saksbehandler')).toBeInTheDocument();
 
@@ -33,17 +33,15 @@ describe('OppgaverTable', () => {
     it('rendrer alle headere', () => {
         const oppgaver = [enOppgaveForOversikten()];
 
-        render(
-            <OppgaverTable
-                antallOppgaver={1}
-                numberOfPages={1}
-                currentPage={1}
-                limit={14}
-                setPage={() => {}}
-                oppgaver={oppgaver}
-                loading={false}
-            />,
-        );
+        (useOppgaveFeed as jest.Mock).mockReturnValue({
+            oppgaver,
+            antallOppgaver: 1,
+            error: undefined,
+            loading: false,
+            fetchMore: () => {},
+        });
+
+        render(<OppgaverTable antallMineSaker={1} antallPåVent={1} />);
 
         expect(screen.getByText('Saksbehandler')).toBeVisible();
         expect(screen.getByText('Opprettet')).toBeVisible();

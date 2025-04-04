@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { SortState, Table } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
-import { SortKey, useUpdateSort } from '@oversikt/table/state/sortation';
+import { SortKey, useSetSortering } from '@oversikt/table/state/sortation';
 
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { TilGodkjenningOppgaveRow } from './TilGodkjenningOppgaveRow';
@@ -17,11 +17,11 @@ interface TilGodkjenningTableProps {
 }
 
 export const TilGodkjenningTable = ({ oppgaver, sort }: TilGodkjenningTableProps): ReactElement => {
-    const updateSort = useUpdateSort();
+    const setSortering = useSetSortering();
     return (
         <Table
             sort={sort}
-            onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, sortKey as SortKey)}
+            onSortChange={(sortKey: string | undefined) => sortKey && setSortering(sort, sortKey as SortKey)}
             className={styles.Table}
             aria-label="Saker som er klare for behandling"
             zebraStripes

@@ -1,7 +1,9 @@
+import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { useLoadingToast } from '@hooks/useLoadingToast';
 import { HeaderCell } from '@oversikt/table/oppgaverTable/HeaderCell';
 import { useBehandledeOppgaverFeed } from '@state/behandledeOppgaver';
 
@@ -17,22 +19,25 @@ import { SøkerCell } from './cells/SøkerCell';
 import styles from './table.module.css';
 
 export const BehandletIdagTable = (): ReactElement => {
-    const behandledeOppgaverFeed = useBehandledeOppgaverFeed();
+    const { oppgaver, antallOppgaver, error, loading, fetchMore } = useBehandledeOppgaverFeed();
+    const harIkkeHentetOppgaverForGjeldendeQuery = oppgaver === undefined && loading;
 
-    if (behandledeOppgaverFeed.oppgaver !== undefined && behandledeOppgaverFeed.oppgaver.length === 0) {
+    useLoadingToast({ isLoading: harIkkeHentetOppgaverForGjeldendeQuery, message: 'Henter oppgaver' });
+
+    if (oppgaver !== undefined && antallOppgaver === 0) {
         return <IngenOppgaver />;
     }
 
-    if (behandledeOppgaverFeed.loading) {
+    if (harIkkeHentetOppgaverForGjeldendeQuery) {
         return <OppgaverTableSkeleton />;
     }
 
-    if (behandledeOppgaverFeed.error) {
+    if (error) {
         return <OppgaverTableError />;
     }
 
     return (
-        <div className={styles.TableContainer}>
+        <div className={classNames(styles.TableContainer, loading && styles.Loading)}>
             <div className={styles.Content}>
                 <div className={styles.Scrollable}>
                     <Table className={styles.Table} aria-label="Oppgaver behandlet av meg i dag" zebraStripes>
@@ -45,7 +50,7 @@ export const BehandletIdagTable = (): ReactElement => {
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                            {behandledeOppgaverFeed.oppgaver?.map((oppgave) => (
+                            {oppgaver?.map((oppgave) => (
                                 <LinkRow aktørId={oppgave.aktorId} key={oppgave.id}>
                                     <SaksbehandlerIdentCell name={oppgave.saksbehandler} style={{ width: 180 }} />
                                     <SaksbehandlerIdentCell name={oppgave.beslutter} />
@@ -64,11 +69,8 @@ export const BehandletIdagTable = (): ReactElement => {
                 </div>
             </div>
             <Pagination
-                numberOfEntries={behandledeOppgaverFeed.antallOppgaver}
-                numberOfPages={behandledeOppgaverFeed.numberOfPages}
-                currentPage={behandledeOppgaverFeed.currentPage}
-                limit={behandledeOppgaverFeed.limit}
-                setPage={behandledeOppgaverFeed.setPage}
+                antallOppgaver={antallOppgaver}
+                fetchMore={(offset: number) => void fetchMore({ variables: { offset } })}
             />
         </div>
     );

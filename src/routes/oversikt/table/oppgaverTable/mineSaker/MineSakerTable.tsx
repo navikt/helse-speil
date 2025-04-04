@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { SortState, Table } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
-import { SortKey, useUpdateSort } from '@oversikt/table/state/sortation';
+import { SortKey, useSetSortering } from '@oversikt/table/state/sortation';
 
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { MineSakerOppgaveRow } from './MineSakerOppgaveRow';
@@ -17,11 +17,11 @@ interface MineSakerTableProps {
 }
 
 export const MineSakerTable = ({ oppgaver, sort }: MineSakerTableProps): ReactElement => {
-    const updateSort = useUpdateSort();
+    const setSortering = useSetSortering();
     return (
         <Table
             sort={sort}
-            onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, sortKey as SortKey)}
+            onSortChange={(sortKey: string | undefined) => sortKey && setSortering(sort, sortKey as SortKey)}
             className={styles.Table}
             aria-label="Saker som er tildelt meg"
             zebraStripes
