@@ -65,7 +65,20 @@ export const useUpdateSort = () => {
     };
 };
 
-const dateSortKey = atomWithLocalStorage<SortKey>('dateSortKey', SortKey.Opprettet);
+type DateSortKeyPerTab = { [key in TabType]: SortKey };
+
+const dateSortKeyPerTab = atomWithLocalStorage<DateSortKeyPerTab>('dateSortKeyPerTab', {
+    [TabType.TilGodkjenning]: SortKey.Opprettet,
+    [TabType.Mine]: SortKey.Opprettet,
+    [TabType.Ventende]: SortKey.Opprettet,
+    [TabType.BehandletIdag]: SortKey.Opprettet,
+});
+
+const dateSortKey = atom(
+    (get) => get(dateSortKeyPerTab)[get(tabState)],
+    (get, set, newValue: SortKey) =>
+        set(dateSortKeyPerTab, (prevState) => ({ ...prevState, [get(tabState)]: newValue })),
+);
 export const useDateSortState = () => useAtom(dateSortKey);
 export const useDateSortValue = () => useAtomValue(dateSortKey);
 
