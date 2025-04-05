@@ -297,7 +297,7 @@ const FellesPåVentModal = ({
                     onChange={(values) => setTildelSaksbehandler(values.length > 0)}
                     value={tildelSaksbehandler ? ['tildel_saksbehandler'] : []}
                 >
-                    <Checkbox defaultChecked className={styles.tildeling} value="tildel_saksbehandler">
+                    <Checkbox className={styles.tildeling} value="tildel_saksbehandler">
                         {opprinneligTildeltSaksbehandler ? 'Behold tildeling' : 'Tildel meg'}
                     </Checkbox>
                 </CheckboxGroup>
