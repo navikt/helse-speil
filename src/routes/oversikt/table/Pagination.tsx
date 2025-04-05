@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 import { Pagination as NavPagination } from '@navikt/ds-react';
 
@@ -15,9 +15,11 @@ export const Pagination = ({ antallOppgaver, fetchMore }: PaginationProps): Reac
     const [currentPage, setCurrentPage] = useCurrentPageState();
     const numberOfPages = Math.ceil(antallOppgaver / limit) || 1;
 
-    if (currentPage > numberOfPages) {
-        setCurrentPage(numberOfPages);
-    }
+    useEffect(() => {
+        if (currentPage > numberOfPages) {
+            setCurrentPage(numberOfPages);
+        }
+    }, [setCurrentPage, currentPage, numberOfPages]);
 
     return (
         <div className={styles.Pagination}>
