@@ -21,6 +21,12 @@ export const Pagination = ({ antallOppgaver, fetchMore }: PaginationProps): Reac
         }
     }, [setCurrentPage, currentPage, numberOfPages]);
 
+    const firstOnPage = (currentPage - 1) * limit + 1;
+    const isLastPage = currentPage === numberOfPages;
+    const remainder = antallOppgaver % limit;
+    const itemsOnPage = isLastPage && remainder !== 0 ? remainder : limit;
+    const lastOnPage = firstOnPage + itemsOnPage - 1;
+
     return (
         <div className={styles.Pagination}>
             <NavPagination
@@ -35,11 +41,7 @@ export const Pagination = ({ antallOppgaver, fetchMore }: PaginationProps): Reac
             />
             {antallOppgaver > 0 && (
                 <p>
-                    Viser {currentPage * limit - (limit - 1)} til{' '}
-                    {currentPage === numberOfPages && antallOppgaver % limit !== 0
-                        ? currentPage * limit - (limit - (antallOppgaver % limit))
-                        : currentPage * limit}{' '}
-                    av {antallOppgaver} oppgaver
+                    Viser {firstOnPage} til {lastOnPage} av {antallOppgaver} oppgaver
                 </p>
             )}
         </div>
