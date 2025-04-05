@@ -14,9 +14,9 @@ export type Filter = {
 };
 
 export enum FilterStatus {
-    ON = 'ON',
+    PLUS = 'PLUS',
+    MINUS = 'MINUS',
     OFF = 'OFF',
-    OUT = 'OUT',
 }
 
 export enum Oppgaveoversiktkolonne {

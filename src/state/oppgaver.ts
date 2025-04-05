@@ -127,9 +127,11 @@ export class TildelingAlert extends InfoAlert {
 }
 
 const tildeltFiltrering = (activeFilters: Filter[]) => {
-    if (activeFilters.some((filter) => filter.key === 'TILDELTE_SAKER' && filter.status === FilterStatus.ON)) {
+    if (activeFilters.some((filter) => filter.key === 'TILDELTE_SAKER' && filter.status === FilterStatus.PLUS)) {
         return true;
-    } else if (activeFilters.some((filter) => filter.key === 'TILDELTE_SAKER' && filter.status === FilterStatus.OUT)) {
+    } else if (
+        activeFilters.some((filter) => filter.key === 'TILDELTE_SAKER' && filter.status === FilterStatus.MINUS)
+    ) {
         return false;
     } else {
         return null;
@@ -162,7 +164,8 @@ const filtrering = (
 ): FiltreringInput => {
     const ekskluderteEgenskaper = hackInnInfotrygdforlengelse(activeFilters)
         .filter(
-            (filter) => Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.OUT,
+            (filter) =>
+                Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.MINUS,
         )
         .map((filter) => ({
             egenskap: filter.key as Egenskap,
@@ -179,7 +182,7 @@ const filtrering = (
         egenskaper: hackInnInfotrygdforlengelse(activeFilters)
             .filter(
                 (filter) =>
-                    Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.ON,
+                    Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.PLUS,
             )
             .map((filter) => ({
                 egenskap: filter.key as Egenskap,

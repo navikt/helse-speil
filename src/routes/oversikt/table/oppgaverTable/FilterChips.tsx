@@ -19,7 +19,7 @@ export const FilterChips = ({ activeFilters, toggleFilter, setMultipleFilters }:
             <Chips className={classNames(styles.filterChips)}>
                 {activeFilters.map((filter) => (
                     <Chips.Removable
-                        className={classNames(filter.status === FilterStatus.OUT && styles.filteredOut)}
+                        className={classNames(filter.status === FilterStatus.MINUS && styles.filteredOut)}
                         key={filter.key}
                         onClick={() => toggleFilter(filter.key, FilterStatus.OFF)}
                     >

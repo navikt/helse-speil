@@ -15,18 +15,18 @@ export const AvOgPåKnapper = ({ filter }: AvOgPåKnapperProps): ReactElement =>
     const toggleFilter = useToggleFilter();
 
     const toggleFilterOn = () => {
-        if (filter.status === FilterStatus.ON) {
+        if (filter.status === FilterStatus.PLUS) {
             toggleFilter(filter.key, FilterStatus.OFF);
         } else {
-            toggleFilter(filter.key, FilterStatus.ON);
+            toggleFilter(filter.key, FilterStatus.PLUS);
         }
     };
 
     const toggleFilterOut = () => {
-        if (filter.status === FilterStatus.OUT) {
+        if (filter.status === FilterStatus.MINUS) {
             toggleFilter(filter.key, FilterStatus.OFF);
         } else {
-            toggleFilter(filter.key, FilterStatus.OUT);
+            toggleFilter(filter.key, FilterStatus.MINUS);
         }
     };
 
@@ -46,7 +46,7 @@ type PlussKnappProps = {
 
 const PlussKnapp = ({ filterStatus, toggleFilterOn }: PlussKnappProps): ReactElement => (
     <Button
-        variant={filterStatus === FilterStatus.ON ? 'primary' : 'secondary'}
+        variant={filterStatus === FilterStatus.PLUS ? 'primary' : 'secondary'}
         size="xsmall"
         icon={<PlusIcon title="Filtrer" />}
         onClick={toggleFilterOn}
@@ -60,7 +60,7 @@ type MinusKnappProps = {
 
 const MinusKnapp = ({ filterStatus, toggleFilterOut }: MinusKnappProps): ReactElement => (
     <Button
-        variant={filterStatus === FilterStatus.OUT ? 'danger' : 'secondary'}
+        variant={filterStatus === FilterStatus.MINUS ? 'danger' : 'secondary'}
         size="xsmall"
         icon={<MinusIcon title="Filtrer bort" />}
         onClick={toggleFilterOut}
