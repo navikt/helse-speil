@@ -2,7 +2,6 @@ import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 
 import { SortState } from '@navikt/ds-react';
 
-import { Maybe, OppgaveTilBehandling } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
 import { atomWithLocalStorage } from '@state/jotai';
 
@@ -64,15 +63,3 @@ const dateSortKey = atom(
 );
 export const useDateSortState = () => useAtom(dateSortKey);
 export const useDateSortValue = () => useAtomValue(dateSortKey);
-
-export const getVisningsDato = (oppgave: OppgaveTilBehandling, sorteringsnøkkel: SortKey): Maybe<string> => {
-    switch (sorteringsnøkkel) {
-        case SortKey.SøknadMottatt:
-            return oppgave.opprinneligSoknadsdato;
-        case SortKey.Tidsfrist:
-            return oppgave?.tidsfrist ?? null;
-        case SortKey.Opprettet:
-        default:
-            return oppgave.opprettet;
-    }
-};

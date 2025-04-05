@@ -8,7 +8,6 @@ import { EgenskaperTagsCell } from '@oversikt/table/cells/EgenskaperTagsCell';
 import { SøkerCell } from '@oversikt/table/cells/SøkerCell';
 import { OptionsCell } from '@oversikt/table/cells/options/OptionsCell';
 import { PåVentCell } from '@oversikt/table/cells/påvent/PåVentCell';
-import { SortKey, getVisningsDato, useDateSortValue } from '@oversikt/table/state/sortation';
 import { ISO_DATOFORMAT } from '@utils/date';
 
 interface PåVentOppgaveRowProps {
@@ -16,19 +15,15 @@ interface PåVentOppgaveRowProps {
 }
 
 export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps): ReactElement => {
-    const sorteringsnøkkel = useDateSortValue();
-
     const utgåttFrist: boolean =
-        oppgave.tidsfrist != null && dayjs(oppgave.tidsfrist, ISO_DATOFORMAT).isSameOrBefore(dayjs());
+        oppgave.paVentInfo?.tidsfrist != null &&
+        dayjs(oppgave.paVentInfo?.tidsfrist, ISO_DATOFORMAT).isSameOrBefore(dayjs());
 
     return (
         <LinkRow aktørId={oppgave.aktorId}>
             <SøkerCell name={oppgave.navn} />
             <EgenskaperTagsCell egenskaper={oppgave.egenskaper} />
-            <DatoCell
-                date={getVisningsDato(oppgave, sorteringsnøkkel)}
-                erUtgåttDato={sorteringsnøkkel === SortKey.Tidsfrist && utgåttFrist}
-            />
+            <DatoCell oppgave={oppgave} utgåttFrist={utgåttFrist} />
             <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
             <PåVentCell navn={oppgave.navn} påVentInfo={oppgave.paVentInfo} utgåttFrist={utgåttFrist} />
         </LinkRow>
