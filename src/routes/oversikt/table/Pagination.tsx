@@ -16,7 +16,7 @@ export const Pagination = ({ antallOppgaver, fetchMore }: PaginationProps): Reac
     const numberOfPages = Math.ceil(antallOppgaver / limit) || 1;
 
     if (currentPage > numberOfPages) {
-        setCurrentPage(currentPage - 1);
+        setCurrentPage(numberOfPages);
     }
 
     return (
