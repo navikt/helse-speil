@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { MutableRefObject, useEffect, useRef } from 'react';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -16,7 +16,7 @@ import {
 } from '@io/graphql';
 import { TabType, useAktivTab } from '@oversikt/tabState';
 import { Filter, FilterStatus, Oppgaveoversiktkolonne, useFilters } from '@oversikt/table/state/filter';
-import { limit, offset, useCurrentPageValue } from '@oversikt/table/state/pagination';
+import { limit, offset, useCurrentPageState } from '@oversikt/table/state/pagination';
 import { SortKey, useSorteringValue } from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
 import { kanSeTilkommenInntekt } from '@utils/featureToggles';
@@ -33,6 +33,12 @@ export type FetchMoreArgs = {
     };
 };
 
+type RefetchArgs = {
+    offset?: number;
+    filtrering: FiltreringInput;
+    sortering: OppgavesorteringInput[];
+};
+
 interface OppgaveFeedResponse {
     oppgaver?: OppgaveTilBehandling[];
     error?: ApolloError;
@@ -42,7 +48,7 @@ interface OppgaveFeedResponse {
 }
 
 export const useOppgaveFeed = (): OppgaveFeedResponse => {
-    const currentPage = useCurrentPageValue();
+    const [currentPage, setCurrentPage] = useCurrentPageState();
     const sortering = useSortering();
     const filtrering = useFiltrering();
 
@@ -70,19 +76,8 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
             initialLoad.current = false;
             return;
         }
-
-        if (
-            JSON.stringify(filtrering) !== JSON.stringify(previousFiltreringRef.current) ||
-            JSON.stringify(sortering) !== JSON.stringify(previousSorteringRef.current)
-        ) {
-            previousFiltreringRef.current = filtrering;
-            previousSorteringRef.current = sortering;
-            void refetch({
-                filtrering: filtrering,
-                sortering: sortering,
-            });
-        }
-    }, [refetch, sortering, filtrering]);
+        doRefetch(filtrering, previousFiltreringRef, sortering, previousSorteringRef, refetch, () => setCurrentPage(1));
+    }, [refetch, setCurrentPage, sortering, filtrering]);
 
     return {
         oppgaver: data?.oppgaveFeed.oppgaver,
@@ -92,6 +87,34 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
         fetchMore,
     };
 };
+
+function doRefetch(
+    filtrering: FiltreringInput,
+    prevFiltreringRef: MutableRefObject<FiltreringInput>,
+    sortering: OppgavesorteringInput[],
+    prevSorteringRef: MutableRefObject<OppgavesorteringInput[]>,
+    refetch: (args: RefetchArgs) => void,
+    setFirstPage: () => void,
+) {
+    const filtreringEndret = JSON.stringify(filtrering) !== JSON.stringify(prevFiltreringRef.current);
+    const sorteringEndret = JSON.stringify(sortering) !== JSON.stringify(prevSorteringRef.current);
+
+    if (!filtreringEndret && !sorteringEndret) return;
+
+    const tabEndret =
+        filtrering.egneSaker !== prevFiltreringRef.current.egneSaker ||
+        filtrering.egneSakerPaVent !== prevFiltreringRef.current.egneSakerPaVent;
+
+    if (tabEndret) {
+        void refetch({ filtrering, sortering });
+    } else {
+        setFirstPage();
+        void refetch({ offset: 0, filtrering, sortering });
+    }
+
+    prevFiltreringRef.current = filtrering;
+    prevSorteringRef.current = sortering;
+}
 
 const useFiltrering = () => {
     const aktivTab = useAktivTab();
