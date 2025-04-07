@@ -8,7 +8,7 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
 import { FattVedtakDocument, Personinfo, Utbetaling } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
-import { apolloErrorCode } from '@utils/error';
+import { apolloErrorCode, apolloExtensionValue } from '@utils/error';
 
 import { BackendFeil } from './Utbetaling';
 import { UtbetalingModal } from './UtbetalingModal';
@@ -103,10 +103,19 @@ export const GodkjenningButton = ({
     );
 };
 
-const somBackendfeil = (error: ApolloError): BackendFeil => ({
-    message: errorMessages.get(error.message) || 'Feil under fatting av vedtak',
-    statusCode: apolloErrorCode(error),
-});
+type SpesialistErrorCode = {
+    message: string;
+};
+
+const somBackendfeil = (error: ApolloError): BackendFeil => {
+    // Dette er hvordan spesialist returnerer feilmeldinger per 7. april 2025
+    const errorCode = apolloExtensionValue<SpesialistErrorCode>(error, 'exception')?.message;
+
+    return {
+        message: errorMessages.get(errorCode || error.message) || 'Feil under fatting av vedtak',
+        statusCode: apolloErrorCode(error),
+    };
+};
 
 const errorMessages = new Map<string, string>([
     ['mangler_vurdering_av_varsler', 'Det mangler vurdering av varsler i en eller flere perioder'],
