@@ -249,12 +249,17 @@ const finnSorteringsNøkkel = (sortKey: SortKey) => {
     }
 };
 
-const sortering = (sort: SortState | undefined): OppgavesorteringInput[] =>
-    sort?.orderBy === undefined
-        ? []
-        : [
+const sortering = (sort: SortState): OppgavesorteringInput[] => [
+    {
+        nokkel: finnSorteringsNøkkel(sort.orderBy as SortKey),
+        stigende: sort.direction === 'ascending',
+    },
+    ...((sort.orderBy as SortKey) !== SortKey.Opprettet
+        ? [
               {
-                  nokkel: finnSorteringsNøkkel(sort?.orderBy as SortKey),
-                  stigende: sort?.direction === 'ascending',
+                  nokkel: Sorteringsnokkel.Opprettet,
+                  stigende: false,
               },
-          ];
+          ]
+        : []),
+];
