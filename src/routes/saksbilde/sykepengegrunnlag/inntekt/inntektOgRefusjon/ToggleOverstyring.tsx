@@ -14,7 +14,7 @@ import {
 } from '@state/arbeidsgiver';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { ActivePeriod } from '@typer/shared';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { isGhostPeriode } from '@utils/typeguards';
 
 interface ToggleOverstyringProps {
     person: PersonFragment;
@@ -44,8 +44,7 @@ export const ToggleOverstyring = ({
     const erRevurdering =
         useUtbetalingForSkjæringstidspunkt(periode.skjaeringstidspunkt, person)?.status === Utbetalingstatus.Utbetalt;
 
-    const kanOverstyres =
-        vilkårsgrunnlagId != null && ((isBeregnetPeriode(periode) && kanRevurderes) || ghostInntektKanOverstyres);
+    const kanOverstyres = vilkårsgrunnlagId != null && (kanRevurderes || ghostInntektKanOverstyres);
 
     if (!isGhostPeriode(periode) && !isInCurrentGeneration(periode, arbeidsgiver)) return null;
 

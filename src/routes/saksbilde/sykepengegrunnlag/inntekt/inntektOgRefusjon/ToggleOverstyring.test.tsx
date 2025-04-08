@@ -122,25 +122,5 @@ describe('ToggleOverstyring', () => {
                 screen.getByText('Perioden kan ikke overstyres fordi den mangler vilkårsgrunnlag'),
             ).toBeInTheDocument();
         });
-        it('perioden er uberegnet har vilkårsgrunnlag id', () => {
-            const uberegnetPeriode = enUberegnetPeriode();
-            const generasjon = enGenerasjon({ perioder: [uberegnetPeriode] });
-            const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon] });
-            const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
-            (useActivePeriod as jest.Mock).mockReturnValue(uberegnetPeriode);
-            render(
-                <ToggleOverstyring
-                    person={person}
-                    arbeidsgiver={arbeidsgiver}
-                    periode={uberegnetPeriode}
-                    vilkårsgrunnlagId={'vilkårsgrunnlagId'}
-                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                    erDeaktivert={false}
-                    editing={false}
-                    setEditing={jest.fn()}
-                />,
-            );
-            expect(screen.getByText('Det er ikke mulig å endre inntekt i denne perioden')).toBeInTheDocument();
-        });
     });
 });

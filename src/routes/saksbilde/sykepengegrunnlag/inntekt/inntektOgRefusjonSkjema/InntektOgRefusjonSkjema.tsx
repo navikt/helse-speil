@@ -189,7 +189,7 @@ export const InntektOgRefusjonSkjema = ({
                         harEndringer={harEndringer}
                         feilmelding={form.formState.errors.manedsbelop?.message}
                     />
-                    {metadata.fraRefusjonsopplysninger.length > 0 && (
+                    {!isGhostPeriode(period) && (
                         <RefusjonSkjema
                             fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}
                             lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger}
@@ -313,7 +313,7 @@ const refusjonsvalidator =
             },
         );
 
-        const manglerRefusjonsopplysninger: boolean = refusjonsopplysninger.length === 0;
+        const manglerRefusjonsopplysninger: boolean = !refusjonsopplysninger || refusjonsopplysninger.length === 0;
 
         if (sisteTomErFørPeriodensTom)
             setError('refusjonsopplysninger', {

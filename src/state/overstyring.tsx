@@ -120,7 +120,7 @@ export const useOverstyrtInntektMetadata = (
     const activePeriod = useActivePeriod(person);
     const inntektsmeldinghendelser = useInntektsmeldinghendelser(arbeidsgiver);
     const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, activePeriod);
-    const uberegnetAGfinnesIVilkårsgrunnlaget = vilkårsgrunnlagAktivPeriode?.arbeidsgiverrefusjoner.find(
+    const uberegnetAGfinnesIVilkårsgrunnlaget = vilkårsgrunnlagAktivPeriode?.inntekter.find(
         (it) => it.arbeidsgiver === arbeidsgiver.organisasjonsnummer,
     );
 

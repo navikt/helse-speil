@@ -39,7 +39,7 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<Rea
 
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeForSkjæringstidspunktForArbeidsgiver);
     const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, aktivPeriode);
-    const uberegnetAGfinnesIVilkårsgrunnlaget = vilkårsgrunnlagAktivPeriode?.arbeidsgiverrefusjoner.find(
+    const uberegnetAGfinnesIVilkårsgrunnlaget = vilkårsgrunnlagAktivPeriode?.inntekter.find(
         (it) => it.arbeidsgiver === arbeidsgiver?.organisasjonsnummer,
     );
 
