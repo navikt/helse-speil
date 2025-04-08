@@ -59,10 +59,10 @@ export const UtbetalingModal = ({
             <Button variant="tertiary" type="button" onClick={onClose}>
                 Avbryt
             </Button>
-            {error && (
-                <ErrorMessage className={styles.Feilmelding}>{error.message ?? 'En feil har oppstått.'}</ErrorMessage>
-            )}
         </Modal.Footer>
+        {error && (
+            <ErrorMessage className={styles.Feilmelding}>{error.message ?? 'En feil har oppstått.'}</ErrorMessage>
+        )}
     </Modal>
 );
 
