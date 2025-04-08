@@ -67,17 +67,11 @@ const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: Maybe<
 const ukjentTilstand = (state: PeriodState): Maybe<VarselObject> =>
     state === 'ukjent' ? { grad: 'error', melding: 'Kunne ikke lese informasjon om sakens tilstand.' } : null;
 
-const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: DateString): boolean => {
-    return (
-        typeof tom === 'string' &&
-        overstyringer.some((it) => isDagoverstyring(it) && dayjs(it.dager[0]?.dato).isSameOrBefore(tom))
-    );
-};
-
 const beslutteroppgave = (
     harTotrinnsvurdering: boolean,
-    åpneEndringerPåPerson?: Maybe<Array<Overstyring>>,
+    varsler: Array<VarselDto>,
     harDagOverstyringer = false,
+    åpneEndringerPåPerson?: Maybe<Array<Overstyring>>,
     activePeriodTom?: string,
     navnPåDeaktiverteGhostArbeidsgivere?: string,
 ): Maybe<{ grad: string; melding: string }> => {
@@ -136,12 +130,27 @@ const beslutteroppgave = (
         årsaker.push('Vurdering av minimum sykdomsgrad');
     }
 
+    if (varsler.some((varsel) => varsel.kode === 'RV_IV_10')) {
+        årsaker.push('Brukerutbetaling og refusjon på grunn av manglende inntektsmelding');
+    }
+
+    if (varsler.some((varsel) => varsel.kode === 'RV_MV_1')) {
+        årsaker.push('Lovvalg og medlemskapsvurdering');
+    }
+
     if (årsaker.length > 0) {
         const overstyringÅrsaker = årsaker.join(', ').replace(/,(?=[^,]*$)/, ' og');
         return { grad: 'info', melding: `Kontroller: ${overstyringÅrsaker}` };
     }
 
     return null;
+};
+
+const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: DateString): boolean => {
+    return (
+        typeof tom === 'string' &&
+        overstyringer.some((it) => isDagoverstyring(it) && dayjs(it.dager[0]?.dato).isSameOrBefore(tom))
+    );
 };
 
 interface SaksbildevarslerProps {
@@ -179,8 +188,9 @@ export const Saksbildevarsler = ({
         vedtaksperiodeVenter(periodState),
         beslutteroppgave(
             harTotrinnsvurdering,
-            åpneEndringerPåPerson,
+            varsler ?? [],
             harDagOverstyringer,
+            åpneEndringerPåPerson,
             activePeriodTom,
             navnPåDeaktiverteGhostArbeidsgivere,
         ),
