@@ -53,7 +53,7 @@ export const GodkjenningButton = ({
     ...buttonProps
 }: GodkjenningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
-    const [fattVedtakMutation, { error, loading }] = useMutation(FattVedtakDocument);
+    const [fattVedtakMutation, { error, loading, reset: resetFattVedtakMutation }] = useMutation(FattVedtakDocument);
     useKeyboard([{ key: Key.F6, action: () => !disabled && setShowModal(true), ignoreIfModifiers: false }]);
 
     const amplitude = useContext(AmplitudeContext);
@@ -92,7 +92,10 @@ export const GodkjenningButton = ({
                     utbetaling={utbetaling}
                     arbeidsgiverNavn={arbeidsgiverNavn}
                     personinfo={personinfo}
-                    onClose={() => setShowModal(false)}
+                    onClose={() => {
+                        resetFattVedtakMutation();
+                        setShowModal(false);
+                    }}
                     onApprove={godkjennUtbetaling}
                     error={error && somBackendfeil(error)}
                     isSending={loading}
