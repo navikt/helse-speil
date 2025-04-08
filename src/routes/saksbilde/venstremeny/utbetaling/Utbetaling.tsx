@@ -3,19 +3,11 @@ import React, { ReactElement, useEffect, useState } from 'react';
 
 import { BodyShort, Box, HStack, Loader } from '@navikt/ds-react';
 
-import { useMutation } from '@apollo/client';
 import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
-import {
-    ArbeidsgiverFragment,
-    BeregnetPeriodeFragment,
-    Maybe,
-    OpprettAbonnementDocument,
-    Periodetilstand,
-    PersonFragment,
-} from '@io/graphql';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useCalculatingValue } from '@state/calculating';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
@@ -50,16 +42,10 @@ const hasOppgave = (period: BeregnetPeriodeFragment): boolean =>
 const useOnGodkjenn = (period: BeregnetPeriodeFragment, person: PersonFragment): (() => void) => {
     const router = useRouter();
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
-    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
     return () => {
         if (skalPolleEtterNestePeriode(person) || (isBeregnetPeriode(period) && isRevurdering(period.utbetaling))) {
-            void opprettAbonnement({
-                variables: { personidentifikator: person.aktorId },
-                onCompleted: () => {
-                    setOpptegnelsePollingTime(1000);
-                },
-            });
+            setOpptegnelsePollingTime(1000);
         } else {
             router.push('/');
         }

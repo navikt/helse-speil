@@ -4,7 +4,6 @@ import { useMutation } from '@apollo/client';
 import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
 import {
     ArbeidsforholdOverstyringHandlingInput,
-    OpprettAbonnementDocument,
     OverstyrArbeidsforholdMutationDocument,
     OverstyringArbeidsforholdInput,
     PersonFragment,
@@ -57,7 +56,6 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkule
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { error, loading }] = useMutation(OverstyrArbeidsforholdMutationDocument);
-    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
     useHåndterOpptegnelser((opptegnelse) => {
         if (calculating && opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE') {
@@ -97,12 +95,7 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkule
                     if (aktørId) {
                         setCalculating(true);
                         addToast(kalkulererToast({}));
-                        void opprettAbonnement({
-                            variables: { personidentifikator: aktørId },
-                            onCompleted: () => {
-                                setPollingRate(1000);
-                            },
-                        });
+                        setPollingRate(1000);
                     }
                 },
             });

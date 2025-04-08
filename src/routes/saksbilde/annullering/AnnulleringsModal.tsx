@@ -7,7 +7,7 @@ import { useMutation } from '@apollo/client';
 import { Arsak } from '@external/sanity';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { AmplitudeContext } from '@io/amplitude';
-import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument, PersonFragment } from '@io/graphql';
+import { AnnullerDocument, AnnulleringDataInput, PersonFragment } from '@io/graphql';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
@@ -38,7 +38,6 @@ export const AnnulleringsModal = ({
 }: AnnulleringsModalProps): ReactElement => {
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
     const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
-    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
     const amplitude = useContext(AmplitudeContext);
     const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
 
@@ -85,10 +84,7 @@ export const AnnulleringsModal = ({
                 variables: { annullering },
                 onCompleted: () => {
                     amplitude.logAnnullert(annullering.begrunnelser);
-                    void opprettAbonnement({
-                        variables: { personidentifikator: annullering.aktorId },
-                        onCompleted: () => setOpptegnelsePollingTime(1000),
-                    });
+                    setOpptegnelsePollingTime(1000);
                     onClose();
                 },
             });

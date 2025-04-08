@@ -3,13 +3,15 @@
 import { createStore } from 'jotai/index';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
-import React, { PropsWithChildren, ReactElement, useState } from 'react';
+import React, { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
 
+import { useMutation } from '@apollo/client';
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
 import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { AmplitudeProvider } from '@io/amplitude';
+import { OpprettAbonnementDocument } from '@io/graphql';
 import { usePollEtterOpptegnelser } from '@io/graphql/polling';
 import { Saksbilde } from '@saksbilde/Saksbilde';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
@@ -31,6 +33,13 @@ const Historikk = dynamic(() => import('@saksbilde/historikk').then((mod) => mod
 
 export default function Layout({ children }: PropsWithChildren): ReactElement {
     const { aktorId } = useParams<{ aktorId?: string }>();
+    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
+
+    useEffect(() => {
+        if (aktorId) {
+            void opprettAbonnement({ variables: { personidentifikator: aktorId } });
+        }
+    }, [aktorId, opprettAbonnement]);
 
     useRefreshPersonVedOpptegnelse();
     usePollEtterOpptegnelser();

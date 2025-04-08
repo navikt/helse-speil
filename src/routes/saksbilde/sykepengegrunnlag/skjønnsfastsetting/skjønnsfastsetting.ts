@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
 import {
-    OpprettAbonnementDocument,
     SkjonnsfastsettelseArbeidsgiverInput,
     SkjonnsfastsettelseInput,
     SkjonnsfastsettelseMutationDocument,
@@ -33,7 +32,6 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { error, loading }] = useMutation(SkjonnsfastsettelseMutationDocument);
-    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
     useHåndterOpptegnelser((opptegnelse) => {
         if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
@@ -92,12 +90,7 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
                 onCompleted: () => {
                     setCalculating(true);
                     addToast(kalkulererToast({}));
-                    void opprettAbonnement({
-                        variables: { personidentifikator: skjønnsfastsattSykepengegrunnlag.aktørId },
-                        onCompleted: () => {
-                            setPollingRate(1000);
-                        },
-                    });
+                    setPollingRate(1000);
                 },
             });
         },

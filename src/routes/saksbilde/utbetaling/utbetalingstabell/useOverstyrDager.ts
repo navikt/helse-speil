@@ -5,7 +5,6 @@ import { FetchResult, useMutation } from '@apollo/client';
 import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
 import {
     ArbeidsgiverFragment,
-    OpprettAbonnementDocument,
     OverstyrDagerMutationDocument,
     OverstyrDagerMutationMutation,
     PersonFragment,
@@ -40,7 +39,6 @@ export const useOverstyrDager = (
     const removeToast = useRemoveToast();
     const setPollingRate = useSetOpptegnelserPollingRate();
     const [overstyrMutation, { error: overstyringError }] = useMutation(OverstyrDagerMutationDocument);
-    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
     const [calculating, setCalculating] = useCalculatingState();
     const [timedOut, setTimedOut] = useState(false);
     const [done, setDone] = useState(false);
@@ -84,12 +82,7 @@ export const useOverstyrDager = (
                 addToast(kalkulererToast({}));
                 setCalculating(true);
                 callback?.();
-                void opprettAbonnement({
-                    variables: { personidentifikator: person.aktorId },
-                    onCompleted: () => {
-                        setPollingRate(1000);
-                    },
-                });
+                setPollingRate(1000);
             },
         }).catch(() => Promise.resolve());
     return {

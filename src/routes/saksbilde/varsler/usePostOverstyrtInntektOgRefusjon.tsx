@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { FetchResult, useMutation } from '@apollo/client';
 import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
 import {
-    OpprettAbonnementDocument,
     OverstyrInntektOgRefusjonMutationDocument,
     OverstyrInntektOgRefusjonMutationMutation,
     OverstyringArbeidsgiverInput,
@@ -36,7 +35,6 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
     const [ferdigOpptegnelse, setFerdigOpptegnelse] = useState(false);
 
     const [overstyrMutation, { loading, error }] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
-    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
     useHåndterOpptegnelser((opptegnelse) => {
         if (erOpptegnelseForNyOppgave(opptegnelse) && !ferdigOpptegnelse && calculating) {
@@ -108,12 +106,7 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
             onCompleted: () => {
                 setCalculating(true);
                 addToast(kalkulererToast({}));
-                opprettAbonnement({
-                    variables: { personidentifikator: overstyrtInntekt.aktørId },
-                    onCompleted: () => {
-                        setPollingRate(1000);
-                    },
-                });
+                setPollingRate(1000);
             },
         }).catch(() => Promise.resolve());
 

@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { OppdaterPersonDocument, OpprettAbonnementDocument, PersonFragment } from '@io/graphql';
+import { OppdaterPersonDocument, PersonFragment } from '@io/graphql';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
@@ -30,7 +30,6 @@ export const useOppdaterPersondata = (person: PersonFragment): [forespørPersono
     const removeVarsel = useRemoveVarsel();
     const [polling, setPolling] = useState(false);
     const [oppdaterPerson] = useMutation(OppdaterPersonDocument);
-    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
     useHåndterOpptegnelser((opptegnelse) => {
         if (polling) {
@@ -47,10 +46,7 @@ export const useOppdaterPersondata = (person: PersonFragment): [forespørPersono
     const forespørPersonoppdatering = async (): Promise<void> => {
         addToast({ key: oppdatererPersondataToastKey, message: oppdatererPersondataMessage() });
         removeVarsel(PersonoppdateringAlert.key);
-        await opprettAbonnement({
-            variables: { personidentifikator: person.aktorId },
-            onCompleted: () => setPollingRate(500),
-        });
+        setPollingRate(500);
         void oppdaterPerson({
             variables: { fodselsnummer: person.fodselsnummer },
             onCompleted: () => setPolling(true),

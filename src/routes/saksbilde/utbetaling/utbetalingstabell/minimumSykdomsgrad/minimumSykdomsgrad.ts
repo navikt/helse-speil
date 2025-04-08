@@ -10,7 +10,6 @@ import {
     ArbeidsgiverInput,
     MinimumSykdomsgradInput,
     MinimumSykdomsgradMutationDocument,
-    OpprettAbonnementDocument,
     PeriodeFragment,
     PersonFragment,
 } from '@io/graphql';
@@ -32,7 +31,6 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { error, loading }] = useMutation(MinimumSykdomsgradMutationDocument);
-    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
     const fjernNotat = useFjernNotat();
 
     useHåndterOpptegnelser((opptegnelse) => {
@@ -72,12 +70,7 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
                 onCompleted: () => {
                     setCalculating(true);
                     addToast(kalkulererToast({}));
-                    void opprettAbonnement({
-                        variables: { personidentifikator: minimumSykdomsgrad.aktørId },
-                        onCompleted: () => {
-                            setPollingRate(1000);
-                        },
-                    });
+                    setPollingRate(1000);
                     fjernNotat(minimumSykdomsgrad.initierendeVedtaksperiodeId);
                 },
             });
