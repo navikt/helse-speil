@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Maybe } from '@io/graphql';
 
 interface UseFocusOutsideOptions {
-    ref: React.RefObject<HTMLElement>;
+    ref: React.RefObject<Maybe<HTMLElement>>;
     onInteractOutside: () => void;
     active?: boolean;
 }

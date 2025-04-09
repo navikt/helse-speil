@@ -1,7 +1,7 @@
 import React from 'react';
 
-import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render } from '@test-utils';
+import { screen } from '@testing-library/react';
 
 import { ErrorBoundary } from './ErrorBoundary';
 
@@ -17,19 +17,23 @@ const ThrowsError = () => {
 
 describe('ErrorBoundary', () => {
     test('fanger exceptions og rendrer fallback (ReactNode)', () => {
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
         render(
             <ErrorBoundary fallback={<span>Dette er en fallback</span>}>
                 <ThrowsError />
             </ErrorBoundary>,
         );
         expect(screen.getByText('Dette er en fallback')).toBeVisible();
+        consoleErrorSpy.mockRestore();
     });
     test('fanger exceptions og rendrer fallback (function)', () => {
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
         render(
             <ErrorBoundary fallback={(error) => <span>{error.message}</span>}>
                 <ThrowsError />
             </ErrorBoundary>,
         );
         expect(screen.getByText('Dette er en error')).toBeVisible();
+        consoleErrorSpy.mockRestore();
     });
 });

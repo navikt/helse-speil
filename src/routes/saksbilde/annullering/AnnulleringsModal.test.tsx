@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { useArsaker } from '@external/sanity';
-import { AnnullerDocument, OpprettAbonnementDocument } from '@io/graphql';
+import { AnnullerDocument, AnnulleringArsakInput } from '@io/graphql';
 import { enPerson } from '@test-data/person';
-import { createMock, render, screen, waitFor, within } from '@test-utils';
+import { createMock, render, screen, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
 import { AnnulleringsModal } from './AnnulleringsModal';
@@ -26,7 +26,7 @@ const defaultProps = {
     linjer: [{ fom: '2022-01-01', tom: '2022-01-31', totalbelop: 30000 }],
 };
 
-const createMocks = (annulerDone?: jest.Mock) => [
+const createMocks = (annullerDone?: jest.Mock, arsaker: AnnulleringArsakInput[] = [], begrunnelser: string[] = []) => [
     createMock({
         request: {
             query: AnnullerDocument,
@@ -39,38 +39,19 @@ const createMocks = (annulerDone?: jest.Mock) => [
                     utbetalingId: 'EN-UTBETALINGID',
                     arbeidsgiverFagsystemId: 'EN-FAGSYSTEMID',
                     personFagsystemId: 'EN-FAGSYSTEMID',
-                    begrunnelser: ['Ferie'],
-                    arsaker: [
-                        {
-                            _key: 'key01',
-                            arsak: 'Ferie',
-                        },
-                    ],
+                    begrunnelser,
+                    arsaker,
                     kommentar: undefined,
                 },
             },
         },
         result: () => {
-            annulerDone?.();
+            annullerDone?.();
             return {
                 data: {
                     annuller: true,
                 },
             };
-        },
-    }),
-    createMock({
-        request: {
-            query: OpprettAbonnementDocument,
-            variables: {
-                personidentifikator: '12345678910',
-            },
-        },
-        result: {
-            data: {
-                __typename: 'Mutation',
-                opprettAbonnement: true,
-            },
         },
     }),
 ];
@@ -105,7 +86,9 @@ describe('Annulleringsmodal', () => {
     });
 
     test('viser feilmelding ved manglende kommentar', async () => {
-        render(<AnnulleringsModal {...defaultProps} />, { mocks: createMocks() });
+        render(<AnnulleringsModal {...defaultProps} />, {
+            mocks: createMocks(undefined, [{ _key: 'key02', arsak: 'Annet' }], ['Annet']),
+        });
 
         const kanIkkeRevurderesSection = within(
             screen.getByRole('group', {
@@ -122,11 +105,13 @@ describe('Annulleringsmodal', () => {
     test('gjør annulleringsmutation på annuller', async () => {
         const annulleringMutationDone = jest.fn();
 
-        render(<AnnulleringsModal {...defaultProps} />, { mocks: createMocks(annulleringMutationDone) });
+        render(<AnnulleringsModal {...defaultProps} />, {
+            mocks: createMocks(annulleringMutationDone, [{ _key: 'key01', arsak: 'Ferie' }], ['Ferie']),
+        });
 
         await userEvent.click(screen.getByRole('checkbox', { name: 'Ferie' }));
         await userEvent.click(screen.getByRole('button', { name: 'Annuller' }));
 
-        await waitFor(() => expect(annulleringMutationDone).toHaveBeenCalled());
+        expect(annulleringMutationDone).toHaveBeenCalled();
     });
 });
