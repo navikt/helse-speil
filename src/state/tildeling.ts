@@ -14,6 +14,7 @@ import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { InfoAlert, apolloErrorCode, apolloExtensionValue } from '@utils/error';
+import { isNotNullOrUndefined } from '@utils/typeguards';
 
 class TildelingAlert extends InfoAlert {
     name = 'tildeling';
@@ -120,10 +121,12 @@ const oppdaterTildelingICache = (
             tildeling: (value) => tildeling(value),
         },
     });
-    cache.modify({
-        id: cache.identify({ __typename: 'Person', fodselsnummer: fødselsnummer }),
-        fields: {
-            tildeling: (value) => tildeling(value),
-        },
-    });
+    if (isNotNullOrUndefined(fødselsnummer)) {
+        cache.modify({
+            id: cache.identify({ __typename: 'Person', fodselsnummer: fødselsnummer }),
+            fields: {
+                tildeling: (value) => tildeling(value),
+            },
+        });
+    }
 };
