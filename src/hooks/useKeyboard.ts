@@ -7,6 +7,7 @@ export interface Action {
     modifier?: string;
     visningstekst?: string;
     visningssnarvei?: string[];
+    utviklerOnly?: boolean;
 }
 
 export enum Key {
@@ -38,6 +39,8 @@ export enum Key {
     O = 'KeyO',
     R = 'KeyR',
     S = 'KeyS',
+    V = 'KeyV',
+    P = 'KeyP',
 }
 
 const shouldDisableKeyboard = (): boolean =>

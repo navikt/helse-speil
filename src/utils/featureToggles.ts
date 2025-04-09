@@ -37,7 +37,7 @@ const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdForTbd);
 
 export const kanFrigiAndresOppgaver = (ident: string) => kanFrigiSaker(ident) || harTilgangTilAlt(ident) || erUtvikling;
 
-export const graphqlplayground = (grupper: string[]) => erUtvikling || erPåTeamBømlo(grupper);
+export const erUtviklingEllerErPåTeamBømlo = (grupper: string[]) => erUtvikling || erPåTeamBømlo(grupper);
 
 export const harBeslutterrolle = (grupper: string[]): boolean => grupper.includes(groupIdForBesluttere);
 

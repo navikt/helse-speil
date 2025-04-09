@@ -17,3 +17,7 @@
 .snarvei > span:first-child {
     padding-right: 0.25rem;
 }
+
+.utviklersnacks {
+    margin-top: var(--a-spacing-4);
+}

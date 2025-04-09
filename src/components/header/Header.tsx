@@ -14,14 +14,14 @@ import { EasterEgg } from '@components/header/EasterEgg';
 import { Personsøk } from '@components/header/Personsøk';
 import { Nyheter } from '@components/header/nyheter/Nyheter';
 import { ToggleMenyButton } from '@components/header/toggleMeny/ToggleMenyButton';
-import { graphqlplayground } from '@utils/featureToggles';
+import { erUtviklingEllerErPåTeamBømlo } from '@utils/featureToggles';
 
 import styles from './Header.module.css';
 
 const cx = classNames.bind(styles);
 
 export const Header = () => {
-    const enablePlayground = graphqlplayground(useBrukerGrupper());
+    const enablePlayground = erUtviklingEllerErPåTeamBømlo(useBrukerGrupper());
 
     return (
         <InternalHeader className={cx(styles.header, { localhostHeader: erLokal, devHeader: erDev })}>

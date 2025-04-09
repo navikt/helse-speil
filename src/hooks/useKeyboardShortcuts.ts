@@ -1,10 +1,13 @@
+import { useBrukerGrupper } from '@auth/brukerContext';
 import { hoppTilModia, redirigerTilArbeidOgInntektUrl } from '@components/SystemMenu';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
 import { Maybe } from '@io/graphql';
+import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddToast } from '@state/toasts';
-import { isPerson } from '@utils/typeguards';
+import { erUtviklingEllerErPåTeamBømlo } from '@utils/featureToggles';
+import { isBeregnetPeriode, isNotNullOrUndefined, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
 const useCurrentFødselsnummer = (): Maybe<string> => {
     const { loading, data } = useFetchPersonQuery();
@@ -33,6 +36,52 @@ const useCopyFødselsnummer = (): (() => void) => {
             addToast({
                 key: 'fødselsnummerIkkeKopiert',
                 message: 'Fødselsnummer ble ikke kopiert',
+                timeToLiveMs: 3000,
+            });
+        }
+    };
+};
+
+const useCopyVedtaksperiodeId = (): (() => void) => {
+    const { loading, data } = useFetchPersonQuery();
+    const person = !loading && isNotNullOrUndefined(data) && isPerson(data.person) ? data.person : null;
+    const periode = useActivePeriod(person);
+    const addToast = useAddToast();
+
+    return () => {
+        if (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) {
+            void copyString(periode.vedtaksperiodeId, false);
+            addToast({
+                key: 'kopierVedtaksperiodeIdToastKey',
+                message: 'VedtaksperiodeId er kopiert',
+                timeToLiveMs: 3000,
+            });
+        } else {
+            addToast({
+                key: 'vedtaksperiodeIdIkkeKopiert',
+                message: 'Aktiv periode har ikke vedtaksperiodeId',
+                timeToLiveMs: 3000,
+            });
+        }
+    };
+};
+
+const useCopyPersondata = (): (() => void) => {
+    const { loading, data } = useFetchPersonQuery();
+    const addToast = useAddToast();
+
+    return () => {
+        if (!loading && isNotNullOrUndefined(data)) {
+            void copyString(JSON.stringify({ data }, null, 2), true);
+            addToast({
+                key: 'kopierPersondataToastKey',
+                message: 'Persondata er kopiert',
+                timeToLiveMs: 3000,
+            });
+        } else {
+            addToast({
+                key: 'persondataIkkeKopiert',
+                message: 'Klarte ikke å kopiere persondata',
                 timeToLiveMs: 3000,
             });
         }
@@ -92,10 +141,13 @@ const useOpenDemosiderForVedtak = (): (() => void) => {
 
 export const useKeyboardActions = (): Action[] => {
     const { navigateToNext, navigateToPrevious } = useNavigation();
+    const erUtvikler = erUtviklingEllerErPåTeamBømlo(useBrukerGrupper());
     const clickPrevious = () => navigateToPrevious?.();
     const clickNext = () => navigateToNext?.();
     const fødselsnummer = useCurrentFødselsnummer();
     const copyFødselsnummer = useCopyFødselsnummer();
+    const copyVedtaksperiodeId = useCopyVedtaksperiodeId();
+    const copyPersondata = useCopyPersondata();
     const copyAktørId = useCopyAktørId();
     const openForeldrepenger = useOpenForeldrepenger();
     const openGosys = useOpenGosys();
@@ -318,6 +370,28 @@ export const useKeyboardActions = (): Action[] => {
             ignoreIfModifiers: false,
             modifier: Key.Shift,
         },
+        ...(erUtvikler
+            ? [
+                  {
+                      key: Key.V,
+                      visningstekst: 'Kopier vedtaksperiodeId',
+                      visningssnarvei: ['ALT', 'V'],
+                      action: copyVedtaksperiodeId,
+                      ignoreIfModifiers: false,
+                      modifier: Key.Alt,
+                      utviklerOnly: true,
+                  },
+                  {
+                      key: Key.P,
+                      visningstekst: 'Kopier persondata',
+                      visningssnarvei: ['ALT', 'P'],
+                      action: copyPersondata,
+                      ignoreIfModifiers: false,
+                      modifier: Key.Alt,
+                      utviklerOnly: true,
+                  },
+              ]
+            : []),
     ];
 };
 
