@@ -53,8 +53,8 @@ const useCopyVedtaksperiodeId = (): (() => void) => {
             void copyString(periode.vedtaksperiodeId, false);
             addToast({
                 key: 'kopierVedtaksperiodeIdToastKey',
-                message: 'VedtaksperiodeId er kopiert',
-                timeToLiveMs: 3000,
+                message: `VedtaksperiodeId "${periode.vedtaksperiodeId}" er kopiert`,
+                timeToLiveMs: 5000,
             });
         } else {
             addToast({
