@@ -194,7 +194,7 @@ const filters = [
     },
     {
         key: Egenskap.EnArbeidsgiver,
-        label: 'En arbeidsgiver',
+        label: 'Én arbeidsgiver',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
