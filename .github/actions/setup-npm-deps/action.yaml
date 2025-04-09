@@ -15,6 +15,7 @@ runs:
         cache: 'npm'
         cache-dependency-path: 'package-lock.json'
     - shell: bash
-      run: npm ci --ignore-scripts
+#      Burde fjerne --legacy-peer-deps her, når graphiql støtter React 19
+      run: npm ci --ignore-scripts --legacy-peer-deps
       env:
         NPM_AUTH_TOKEN: ${{ inputs.NPM_AUTH_TOKEN }}
