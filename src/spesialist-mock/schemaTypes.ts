@@ -238,6 +238,8 @@ export type BeregnetPeriode = Periode & {
     hendelser: Array<Hendelse>;
     historikkinnslag: Array<Historikkinnslag>;
     id: Scalars['UUID']['output'];
+    /** Andre inntekter, f.eks tilkommen inntekt */
+    inntekter: Array<Inntekt>;
     inntektstype: Inntektstype;
     maksdato: Scalars['LocalDate']['output'];
     notater: Array<Notat>;
@@ -403,6 +405,11 @@ export type FjernetFraPaVent = Historikkinnslag & {
     type: PeriodehistorikkType;
 };
 
+export type FjernetInntektInput = {
+    organisasjonsnummer: Scalars['String']['input'];
+    perioder: Array<PeriodeUtenBelopInput>;
+};
+
 export type Generasjon = {
     __typename?: 'Generasjon';
     id: Scalars['UUID']['output'];
@@ -473,6 +480,13 @@ export type Infotrygdutbetaling = {
     organisasjonsnummer: Scalars['String']['output'];
     tom: Scalars['String']['output'];
     typetekst: Scalars['String']['output'];
+};
+
+export type Inntekt = {
+    __typename?: 'Inntekt';
+    /** En id som identifiserer inntektskilden, f.eks. organisasjonsnummer */
+    inntektskilde: Scalars['String']['output'];
+    periodiserteInntekter: Array<PeriodisertInntekt>;
 };
 
 export type InntektEndringAarsak = {
@@ -644,6 +658,7 @@ export type Mutation = {
     overstyrArbeidsforhold: Scalars['Boolean']['output'];
     overstyrDager: Scalars['Boolean']['output'];
     overstyrInntektOgRefusjon: Scalars['Boolean']['output'];
+    overstyrTilkommenInntekt: Scalars['Boolean']['output'];
     sendIRetur: Scalars['Boolean']['output'];
     sendTilGodkjenningV2: Scalars['Boolean']['output'];
     sendTilInfotrygd: Scalars['Boolean']['output'];
@@ -742,6 +757,10 @@ export type MutationOverstyrInntektOgRefusjonArgs = {
     overstyring: InntektOgRefusjonOverstyringInput;
 };
 
+export type MutationOverstyrTilkommenInntektArgs = {
+    overstyring: TilkommenInntektOverstyringInput;
+};
+
 export type MutationSendIReturArgs = {
     notatTekst: Scalars['String']['input'];
     oppgavereferanse: Scalars['String']['input'];
@@ -816,6 +835,11 @@ export enum NotatType {
     PaaVent = 'PaaVent',
     Retur = 'Retur',
 }
+
+export type NyEllerEndretInntektInput = {
+    organisasjonsnummer: Scalars['String']['input'];
+    perioder: Array<PeriodeMedBelopInput>;
+};
 
 export type NyttInntektsforholdPeriode = {
     __typename?: 'NyttInntektsforholdPeriode';
@@ -1051,6 +1075,17 @@ export type PeriodeInput = {
     tom: Scalars['LocalDate']['input'];
 };
 
+export type PeriodeMedBelopInput = {
+    fom: Scalars['LocalDate']['input'];
+    periodeBelop: Scalars['Float']['input'];
+    tom: Scalars['LocalDate']['input'];
+};
+
+export type PeriodeUtenBelopInput = {
+    fom: Scalars['LocalDate']['input'];
+    tom: Scalars['LocalDate']['input'];
+};
+
 export enum Periodehandling {
     Avvise = 'AVVISE',
     Utbetale = 'UTBETALE',
@@ -1100,6 +1135,13 @@ export type Periodevilkar = {
     sykepengedager: Sykepengedager;
 };
 
+export type PeriodisertInntekt = {
+    __typename?: 'PeriodisertInntekt';
+    dagligBelop: Scalars['Float']['output'];
+    fom: Scalars['LocalDate']['output'];
+    tom: Scalars['LocalDate']['output'];
+};
+
 export type Person = {
     __typename?: 'Person';
     aktorId: Scalars['String']['output'];
@@ -1139,6 +1181,7 @@ export type Query = {
     __typename?: 'Query';
     antallOppgaver: AntallOppgaver;
     behandledeOppgaverFeed: BehandledeOppgaver;
+    behandledeOppgaverFeedV2: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentInntektsmelding?: Maybe<DokumentInntektsmelding>;
     hentSoknad?: Maybe<Soknad>;
@@ -1150,6 +1193,13 @@ export type Query = {
 export type QueryBehandledeOppgaverFeedArgs = {
     limit: Scalars['Int']['input'];
     offset: Scalars['Int']['input'];
+};
+
+export type QueryBehandledeOppgaverFeedV2Args = {
+    fom: Scalars['LocalDate']['input'];
+    limit: Scalars['Int']['input'];
+    offset: Scalars['Int']['input'];
+    tom: Scalars['LocalDate']['input'];
 };
 
 export type QueryHentInntektsmeldingArgs = {
@@ -1530,6 +1580,15 @@ export type Tildeling = {
     epost: Scalars['String']['output'];
     navn: Scalars['String']['output'];
     oid: Scalars['UUID']['output'];
+};
+
+export type TilkommenInntektOverstyringInput = {
+    aktorId: Scalars['String']['input'];
+    begrunnelse: Scalars['String']['input'];
+    fjernet: Array<FjernetInntektInput>;
+    fodselsnummer: Scalars['String']['input'];
+    lagtTilEllerEndret: Array<NyEllerEndretInntektInput>;
+    vedtaksperiodeId: Scalars['UUID']['input'];
 };
 
 export type TilleggsinfoForInntektskilde = {
