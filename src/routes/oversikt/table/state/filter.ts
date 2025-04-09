@@ -229,9 +229,17 @@ export function hydrateFilters(
 
         const filtersForThisTab: Filter[] = JSON.parse(filtersFromStorage)[tab];
 
-        return defaultFilters.map(
-            (defaultFilter) => filtersForThisTab.find((filter) => defaultFilter.key === filter.key) || defaultFilter,
-        );
+        return defaultFilters.map((defaultFilter) => {
+            const stored = filtersForThisTab.find((f) => f.key === defaultFilter.key);
+
+            if (!stored) return defaultFilter;
+
+            return {
+                ...stored,
+                label: stored.label !== defaultFilter.label ? defaultFilter.label : stored.label,
+                column: stored.column !== defaultFilter.column ? defaultFilter.column : stored.column,
+            };
+        });
     };
 
     return [
