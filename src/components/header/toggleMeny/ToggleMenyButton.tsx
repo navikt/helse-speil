@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 
-import { ToggleMeny } from '@components/header/toggleMeny/ToggleMeny';
+import { InternalHeader } from '@navikt/ds-react';
 
-import styles from './ToggleMenyButton.module.css';
+import { ToggleMeny } from '@components/header/toggleMeny/ToggleMeny';
 
 export const ToggleMenyButton = () => {
     const [showModal, setShowModal] = useState(false);
     return (
-        <div className={styles.Button}>
-            <p onClick={() => setShowModal(!showModal)}>Toggles</p>
+        <>
+            <InternalHeader.Button onClick={() => setShowModal(!showModal)}>Toggles</InternalHeader.Button>
             {showModal && <ToggleMeny onClose={() => setShowModal(false)} showModal={showModal} />}
-        </div>
+        </>
     );
 };
