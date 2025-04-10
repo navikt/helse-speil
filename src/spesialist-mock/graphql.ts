@@ -130,7 +130,11 @@ const getResolvers = (): IResolvers => ({
             valgtPerson = person;
             return person;
         },
-        behandledeOppgaverFeed: async (_, { offset, limit }: { offset: number; limit: number }) => {
+        behandledeOppgaverFeedV2: async (
+            _,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            { offset, limit, fom, tom }: { offset: number; limit: number; fom: string; tom: string },
+        ) => {
             return behandledeOppgaverliste(offset, limit);
         },
         behandlingsstatistikk: async () => {

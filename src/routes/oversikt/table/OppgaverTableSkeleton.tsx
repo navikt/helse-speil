@@ -1,11 +1,11 @@
 import React, { ReactElement } from 'react';
 
-import { HStack, Skeleton, Table } from '@navikt/ds-react';
+import { HStack, Skeleton, Table, VStack } from '@navikt/ds-react';
 
 import styles from './table.module.css';
 
 export const OppgaverTableSkeleton = (): ReactElement => (
-    <div className={styles.TableContainer}>
+    <VStack marginBlock="4">
         <FilterChipsSkeleton />
         <div className={styles.Content}>
             <div className={styles.Scrollable}>
@@ -22,6 +22,28 @@ export const OppgaverTableSkeleton = (): ReactElement => (
                         <BodyRowSkeleton />
                         <BodyRowSkeleton />
                         <BodyRowSkeleton />
+                    </Table.Body>
+                </Table>
+            </div>
+        </div>
+    </VStack>
+);
+
+export const BehandledeOppgaverTableSkeleton = (): ReactElement => (
+    <div className={styles.TableContainer}>
+        <div className={styles.Content}>
+            <div className={styles.Scrollable}>
+                <Table className={styles.Table} zebraStripes>
+                    <Table.Header>
+                        <BehandletOppgaveHeaderSkeleton />
+                    </Table.Header>
+                    <Table.Body>
+                        <BehandletOppgaveRowSkeleton saksbehandler={true} beslutter={true} />
+                        <BehandletOppgaveRowSkeleton saksbehandler={true} beslutter={false} />
+                        <BehandletOppgaveRowSkeleton saksbehandler={true} beslutter={true} />
+                        <BehandletOppgaveRowSkeleton saksbehandler={true} beslutter={true} />
+                        <BehandletOppgaveRowSkeleton saksbehandler={true} beslutter={false} />
+                        <BehandletOppgaveRowSkeleton saksbehandler={true} beslutter={false} />
                     </Table.Body>
                 </Table>
             </div>
@@ -82,5 +104,40 @@ const BodyRowSkeleton = (): ReactElement => (
             <Skeleton variant="circle" width={24} height={24} />
         </Table.DataCell>
         <Table.DataCell />
+    </Table.Row>
+);
+
+const BehandletOppgaveRowSkeleton = ({
+    saksbehandler,
+    beslutter,
+}: {
+    saksbehandler: boolean;
+    beslutter: boolean;
+}): ReactElement => (
+    <Table.Row className={styles.bodyrowskeleton}>
+        <Table.DataCell style={{ width: 140 }}>{saksbehandler && <Skeleton width={90} height={32} />}</Table.DataCell>
+        <Table.DataCell>{beslutter && <Skeleton width={90} height={32} />}</Table.DataCell>
+        <Table.DataCell style={{ width: 140 }}>
+            <Skeleton width={180} height={32} />
+        </Table.DataCell>
+        <Table.DataCell style={{ paddingRight: 0 }}>
+            <Skeleton width={90} height={32} />
+        </Table.DataCell>
+    </Table.Row>
+);
+const BehandletOppgaveHeaderSkeleton = (): ReactElement => (
+    <Table.Row>
+        <Table.HeaderCell>
+            <Skeleton width={110} height={40} />
+        </Table.HeaderCell>
+        <Table.HeaderCell>
+            <Skeleton width={80} height={40} />
+        </Table.HeaderCell>
+        <Table.HeaderCell>
+            <Skeleton width={80} height={40} />
+        </Table.HeaderCell>
+        <Table.HeaderCell>
+            <Skeleton width={90} height={40} />
+        </Table.HeaderCell>
     </Table.Row>
 );

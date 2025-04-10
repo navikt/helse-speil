@@ -1,10 +1,7 @@
-import dayjs from 'dayjs';
-
 import { ApolloError, useQuery } from '@apollo/client';
 import { BehandledeOppgaverFeedDocument, BehandletOppgave } from '@io/graphql';
 import { limit, offset, useCurrentPageValue } from '@oversikt/table/state/pagination';
 import { FetchMoreArgs } from '@state/oppgaver';
-import { ISO_DATOFORMAT } from '@utils/date';
 
 interface BehandledeOppgaverResponse {
     oppgaver?: BehandletOppgave[];
@@ -12,17 +9,18 @@ interface BehandledeOppgaverResponse {
     loading: boolean;
     antallOppgaver: number;
     fetchMore: ({ variables }: FetchMoreArgs) => void;
+    refetch: (fom?: string, tom?: string) => void;
 }
 
-export const useBehandledeOppgaverFeed = (): BehandledeOppgaverResponse => {
+export const useBehandledeOppgaverFeed = (fom: string, tom: string): BehandledeOppgaverResponse => {
     const currentPage = useCurrentPageValue();
 
-    const { data, error, loading, fetchMore } = useQuery(BehandledeOppgaverFeedDocument, {
+    const { data, error, loading, fetchMore, refetch, previousData } = useQuery(BehandledeOppgaverFeedDocument, {
         variables: {
             offset: offset(currentPage),
             limit: limit,
-            fom: dayjs().format(ISO_DATOFORMAT),
-            tom: dayjs().format(ISO_DATOFORMAT),
+            fom: fom,
+            tom: tom,
         },
         notifyOnNetworkStatusChange: true,
         initialFetchPolicy: 'network-only',
@@ -33,10 +31,14 @@ export const useBehandledeOppgaverFeed = (): BehandledeOppgaverResponse => {
     });
 
     return {
-        oppgaver: data?.behandledeOppgaverFeedV2.oppgaver,
-        antallOppgaver: data?.behandledeOppgaverFeedV2.totaltAntallOppgaver ?? 0,
+        oppgaver: data?.behandledeOppgaverFeedV2.oppgaver ?? previousData?.behandledeOppgaverFeedV2.oppgaver,
+        antallOppgaver:
+            data?.behandledeOppgaverFeedV2.totaltAntallOppgaver ??
+            previousData?.behandledeOppgaverFeedV2.totaltAntallOppgaver ??
+            0,
         error,
         loading,
         fetchMore,
+        refetch: (fom, tom) => refetch({ fom, tom }),
     };
 };

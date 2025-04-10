@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
+import { VStack } from '@navikt/ds-react';
+
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { IngenOppgaver } from '@oversikt/IngenOppgaver';
 import { TabType, useAktivTab } from '@oversikt/tabState';
@@ -53,7 +55,7 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent }: OppgaverTableP
     }
 
     return (
-        <div className={classNames(styles.TableContainer, loading && styles.Loading)}>
+        <VStack marginBlock="4" className={classNames(loading && styles.Loading)}>
             <FilterChips
                 activeFilters={activeFilters}
                 setMultipleFilters={setMultipleFilters}
@@ -72,6 +74,6 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent }: OppgaverTableP
                 antallOppgaver={antallOppgaver}
                 fetchMore={(offset: number) => void fetchMore({ variables: { offset } })}
             />
-        </div>
+        </VStack>
     );
 };
