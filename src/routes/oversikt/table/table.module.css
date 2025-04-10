@@ -1,7 +1,6 @@
 .TableContainer {
-    display: flex;
-    flex-direction: column;
     height: 100%;
+    overflow: auto;
 }
 
 .Table thead td:has(select) {

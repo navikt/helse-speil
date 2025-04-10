@@ -61,7 +61,7 @@ export const BehandletIdagTable = (): ReactElement => {
     }
 
     return (
-        <VStack>
+        <VStack height="100%">
             <HStack wrap gap="8" marginBlock="4 6">
                 <DatePicker {...fomDatePicker.datepickerProps}>
                     <DatePicker.Input
@@ -84,7 +84,7 @@ export const BehandletIdagTable = (): ReactElement => {
                 {harIkkeHentetOppgaverForGjeldendeQuery ? (
                     <BehandledeOppgaverTableSkeleton />
                 ) : (
-                    <div className={classNames(styles.TableContainer, loading && styles.Loading)}>
+                    <VStack className={classNames(styles.TableContainer, loading && styles.Loading)}>
                         <div className={styles.Content}>
                             <div className={styles.Scrollble}>
                                 <Table
@@ -126,7 +126,7 @@ export const BehandletIdagTable = (): ReactElement => {
                             antallOppgaver={antallOppgaver}
                             fetchMore={(offset: number) => void fetchMore({ variables: { offset } })}
                         />
-                    </div>
+                    </VStack>
                 )}
             </>
         </VStack>
