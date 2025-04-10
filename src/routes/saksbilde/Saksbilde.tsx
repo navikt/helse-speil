@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { Maybe, PersonFragment } from '@io/graphql';
 import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
@@ -14,11 +14,7 @@ import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import styles from './saksbilder/SharedViews.module.css';
 
-interface SaksbildeProps {
-    children?: React.ReactNode;
-}
-
-export const Saksbilde = ({ children }: SaksbildeProps) => {
+export const Saksbilde = ({ children }: PropsWithChildren) => {
     const { loading, data, error } = useFetchPersonQuery();
 
     const person: Maybe<PersonFragment> = data?.person ?? null;
@@ -54,7 +50,7 @@ export const Saksbilde = ({ children }: SaksbildeProps) => {
             )}
             <SaksbildeVarsel person={person} periode={aktivPeriode} />
             <SaksbildeMenu person={person} activePeriod={aktivPeriode} />
-            {children}
+            <>{children}</>
         </div>
     );
 };

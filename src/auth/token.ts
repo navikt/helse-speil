@@ -30,7 +30,7 @@ export async function getTokenPayload(): Promise<TokenPayload> {
         };
     }
 
-    const token = hentWonderwallToken(headers());
+    const token = hentWonderwallToken(await headers());
     if (!token) {
         // Wonderwall sin autoLogin: true gjør denne casen egentlig umulig
         redirect('/oauth2/login');

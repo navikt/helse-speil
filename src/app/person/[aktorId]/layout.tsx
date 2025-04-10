@@ -2,8 +2,7 @@
 
 import { createStore } from 'jotai/index';
 import dynamic from 'next/dynamic';
-import { useParams } from 'next/navigation';
-import React, { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
+import React, { PropsWithChildren, ReactElement, use, useEffect, useState } from 'react';
 
 import { useMutation } from '@apollo/client';
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
@@ -31,8 +30,12 @@ const Historikk = dynamic(() => import('@saksbilde/historikk').then((mod) => mod
     loading: () => <HistorikkSkeleton />,
 });
 
-export default function Layout({ children }: PropsWithChildren): ReactElement {
-    const { aktorId } = useParams<{ aktorId?: string }>();
+type LayoutProps = {
+    params: Promise<{ aktorId: string }>;
+};
+
+export default function Layout({ children, params }: PropsWithChildren<LayoutProps>): ReactElement {
+    const { aktorId } = use(params);
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
     useEffect(() => {

@@ -1,4 +1,3 @@
-import process from 'process';
 import { ZodError, z } from 'zod';
 
 export type PublicEnv = z.infer<typeof browserEnvSchema>;
