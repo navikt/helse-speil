@@ -35,6 +35,8 @@ ReactDOM.preload('https://cdn.nav.no/aksel/fonts/SourceSans3-normal.woff2', {
 export default async function RootLayout({ children }: Readonly<PropsWithChildren>): Promise<ReactElement> {
     const payload = await getTokenPayload();
 
+    console.log(browserEnv);
+
     return (
         <html lang="en">
             <Providers

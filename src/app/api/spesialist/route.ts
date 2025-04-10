@@ -4,11 +4,15 @@ import { notFound } from 'next/navigation';
 import { erDev, erProd } from '@/env';
 import { buildSchema } from '@spesialist-mock/graphql';
 
-let yogaRequestHandler: ((req: Request, ctx: object) => Response | Promise<Response>) | null;
+interface NextContext {
+    params: Promise<Record<string, string>>;
+}
+
+let yogaRequestHandler: ((req: Request, ctx: NextContext) => Response | Promise<Response>) | null;
 
 function getRequestHandler() {
     if (yogaRequestHandler == null) {
-        const { handleRequest } = createYoga({
+        const { handleRequest } = createYoga<NextContext>({
             schema: buildSchema(),
             graphqlEndpoint: '/api/spesialist',
             fetchAPI: { Response },
@@ -20,7 +24,7 @@ function getRequestHandler() {
     return yogaRequestHandler;
 }
 
-function handleRequest(req: Request, ctx: object) {
+function handleRequest(req: Request, ctx: NextContext) {
     if (erProd || erDev) {
         notFound();
     }

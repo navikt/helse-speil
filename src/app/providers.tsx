@@ -15,6 +15,7 @@ import { useHydrateAtoms } from 'jotai/utils';
 import { usePathname } from 'next/navigation';
 import { PropsWithChildren, ReactElement, ReactNode, useEffect, useState } from 'react';
 
+import { browserEnv } from '@/env';
 import { ApolloProvider } from '@apollo/client';
 import { createApolloClient } from '@app/apollo/apolloClient';
 import { Bruker, BrukerContext } from '@auth/brukerContext';
@@ -43,6 +44,8 @@ type Props = {
 
 export const Providers = ({ children, bruker }: PropsWithChildren<Props>): ReactElement => {
     const [apolloClient] = useState(() => createApolloClient());
+
+    console.log('client browserEnv: ', browserEnv);
 
     return (
         <ApolloProvider client={apolloClient}>

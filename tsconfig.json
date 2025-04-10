@@ -41,7 +41,8 @@
             "@test-data/*": ["./src/test/data/*"],
             "@typer/*": ["./src/types/*"],
             "@utils/*": ["./src/utils/*"]
-        }
+        },
+        "target": "ES2017"
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
     "exclude": ["node_modules"]

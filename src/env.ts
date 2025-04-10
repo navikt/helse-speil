@@ -29,6 +29,10 @@ export const serverEnvSchema = z.object({
  *
  * They MUST be provided during the build step.
  */
+console.log('process.env: ', process.env.NEXT_PUBLIC_RUNTIME_ENV);
+// if (process.env.NEXT_PUBLIC_RUNTIME_ENV === undefined) {
+//     debugger;
+// }
 export const browserEnv = browserEnvSchema.parse({
     NEXT_PUBLIC_RUNTIME_ENV: process.env.NEXT_PUBLIC_RUNTIME_ENV,
     NEXT_PUBLIC_ASSET_PREFIX: process.env.NEXT_PUBLIC_ASSET_PREFIX,
