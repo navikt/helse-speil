@@ -12,6 +12,7 @@ import {
     PeriodeFragment,
     PersonFragment,
 } from '@io/graphql';
+import { KopierAgNavn } from '@saksbilde/timeline/KopierAgNavn';
 import { TimelinePeriod } from '@typer/timeline';
 
 import { Periods } from './Periods';
@@ -48,6 +49,7 @@ export const TimelineRow = ({
                 className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}
             >
                 <AnonymizableTextWithEllipsis>{name}</AnonymizableTextWithEllipsis>
+                <KopierAgNavn navn={name} />
             </ArbeidsgiverikonMedTooltip>
             <div className={styles.Periods}>
                 <Periods

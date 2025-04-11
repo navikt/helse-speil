@@ -4,6 +4,7 @@ import React, { ReactElement, useState } from 'react';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { PersonFragment } from '@io/graphql';
+import { KopierAgNavn } from '@saksbilde/timeline/KopierAgNavn';
 import { ArbeidsgiverGenerasjon } from '@typer/shared';
 
 import { Periods } from './Periods';
@@ -36,6 +37,7 @@ export const ExpandableTimelineRow = ({
                 onClick={() => setIsExpanded((prevState) => !prevState)}
             >
                 <AnonymizableTextWithEllipsis>{name}</AnonymizableTextWithEllipsis>
+                <KopierAgNavn navn={name} />
             </ArbeidsgiverikonMedTooltip>
             <div className={classNames(styles.Periods)}>
                 {generations[0] && (

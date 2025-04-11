@@ -35,8 +35,8 @@
     flex-shrink: 0;
 }
 
-.Name > p {
-    white-space: nowrap;
+.Name > button {
+    margin-left: -0.5em;
 }
 
 .Expandable {
