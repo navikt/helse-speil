@@ -55,7 +55,7 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent }: OppgaverTableP
     }
 
     return (
-        <VStack marginBlock="4" className={classNames(styles.TableContainer, loading && styles.Loading)}>
+        <VStack paddingBlock="4 0" className={classNames(styles.TableContainer, loading && styles.Loading)}>
             <FilterChips
                 activeFilters={activeFilters}
                 setMultipleFilters={setMultipleFilters}

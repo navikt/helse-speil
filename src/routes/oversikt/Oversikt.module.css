@@ -4,7 +4,6 @@
     position: relative;
     flex: 1;
     overflow-x: hidden;
-    height: 100%;
 }
 
 .Content {
@@ -18,6 +17,7 @@
 .fullHeight {
     display: flex;
     overflow: hidden;
+    height: 100%;
 }
 
 .Alert {
