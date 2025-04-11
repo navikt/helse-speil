@@ -35,7 +35,7 @@ describe('Personlinje', () => {
                 })}
             />,
         );
-        expect(screen.getByText('Høiby, Marius Borg', { exact: false })).toBeVisible();
+        expect(screen.getByText('Marius Borg Høiby', { exact: false })).toBeVisible();
         expect(screen.getByText('123456 78910')).toBeVisible();
         expect(screen.getByText('Aktør-ID: 123456789')).toBeVisible();
         expect(screen.getByText('Boenhet: 123 (Huttiheiti)')).toBeVisible();
