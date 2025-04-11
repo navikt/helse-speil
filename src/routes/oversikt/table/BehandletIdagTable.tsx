@@ -115,7 +115,7 @@ export const BehandletIdagTable = (): ReactElement => {
                                                         mellomnavn: oppgave.personnavn.mellomnavn ?? null,
                                                     }}
                                                 />
-                                                <BehandletTimestampCell time={oppgave.ferdigstiltTidspunkt} />
+                                                <BehandletTimestampCell dato={oppgave.ferdigstiltTidspunkt} />
                                             </LinkRow>
                                         ))}
                                     </Table.Body>
