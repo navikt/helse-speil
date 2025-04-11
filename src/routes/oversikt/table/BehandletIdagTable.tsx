@@ -9,7 +9,6 @@ import { HeaderCell } from '@oversikt/table/oppgaverTable/HeaderCell';
 import { useBehandledeOppgaverFeed } from '@state/behandledeOppgaver';
 import { ISO_DATOFORMAT, somDate, somNorskDato } from '@utils/date';
 
-import { IngenOppgaver } from '../IngenOppgaver';
 import { LinkRow } from './LinkRow';
 import { OppgaverTableError } from './OppgaverTableError';
 import { BehandledeOppgaverTableSkeleton } from './OppgaverTableSkeleton';
@@ -51,10 +50,6 @@ export const BehandletIdagTable = (): ReactElement => {
     });
 
     useLoadingToast({ isLoading: harIkkeHentetOppgaverForGjeldendeQuery, message: 'Henter oppgaver' });
-
-    if (oppgaver !== undefined && antallOppgaver === 0) {
-        return <IngenOppgaver />;
-    }
 
     if (error) {
         return <OppgaverTableError />;
