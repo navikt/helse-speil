@@ -1,21 +1,20 @@
 import React, { ReactElement } from 'react';
 
-import { KjønnsnøytraltIkon } from '@components/ikoner/KjønnsnøytraltIkon';
-import { Kvinneikon } from '@components/ikoner/Kvinneikon';
-import { Manneikon } from '@components/ikoner/Manneikon';
+import { FigureCombinationIcon, FigureInwardIcon, FigureOutwardIcon } from '@navikt/aksel-icons';
+
 import { Kjonn, Maybe } from '@io/graphql';
 
 interface GenderIconProps extends React.SVGAttributes<SVGElement> {
     gender?: Maybe<Kjonn>;
 }
 
-export const GenderIcon = ({ gender, ...svgProps }: GenderIconProps): ReactElement => {
-    switch (gender?.toLowerCase()) {
-        case 'kvinne':
-            return <Kvinneikon alt="Kvinne" {...svgProps} />;
-        case 'mann':
-            return <Manneikon alt="Mann" {...svgProps} />;
-        default:
-            return <KjønnsnøytraltIkon alt="Ukjent" {...svgProps} />;
-    }
+const genderComponents = {
+    Kvinne: FigureOutwardIcon,
+    Mann: FigureInwardIcon,
+    Ukjent: FigureCombinationIcon,
+};
+
+export const GenderIcon = ({ gender }: GenderIconProps): ReactElement => {
+    const Component = genderComponents[gender ?? 'Ukjent'];
+    return <Component fontSize="1.5em" />;
 };
