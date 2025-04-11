@@ -1,4 +1,4 @@
-@import '@navikt/ds-css' layer(aksel);
+@import '@navikt/ds-css';
 
 #root {
     display: flex;
