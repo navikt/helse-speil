@@ -19,7 +19,7 @@ export const EasterEgg = (): ReactElement => (
 );
 
 const Påskepynt = (): Maybe<ReactElement> =>
-    dayjs() < dayjs('2024-04-02', ISO_DATOFORMAT) ? (
+    dayjs() < dayjs('2025-04-22', ISO_DATOFORMAT) ? (
         <Image style={{ margin: '-4px 0 -5px 1.5rem' }} priority={true} alt="Påskepynt" src={påskegurken} />
     ) : null;
 
