@@ -99,18 +99,21 @@ const ArbeidsgiverRowView = ({
     return (
         <>
             <ArbeidsgiverikonMedTooltip className={styles.iconContainer} />
+            <AnonymizableContainer>
+                <BodyShort>{capitalizeArbeidsgiver(navn)}</BodyShort>
+            </AnonymizableContainer>
+            <div />
+            <OrganisasjonsnummerRow organisasjonsnummer={organisasjonsnummer} />
+            <div />
             <Accordion>
                 <Accordion.Item open={open} className={styles.arbeidsgiverRow}>
                     <Accordion.Header
                         className={classNames(styles.header, erAnonymisert && styles.anonymisert)}
                         onClick={() => setOpen((prevState) => !prevState)}
                     >
-                        <AnonymizableContainer>
-                            <BodyShort>{capitalizeArbeidsgiver(navn)}</BodyShort>
-                        </AnonymizableContainer>
+                        Arbeidsforhold
                     </Accordion.Header>
                     <Accordion.Content className={styles.content}>
-                        <OrganisasjonsnummerRow organisasjonsnummer={organisasjonsnummer} />
                         <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} erAnonymisert={erAnonymisert} />
                     </Accordion.Content>
                     {månedsbeløp !== undefined && <MånedsbeløpRow månedsbeløp={månedsbeløp} />}
