@@ -4,7 +4,6 @@ import React, { ReactElement, useState } from 'react';
 import { Accordion, BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { Arbeidsforhold } from '@io/graphql';
@@ -14,17 +13,24 @@ import { capitalize, capitalizeArbeidsgiver, somPenger } from '@utils/locale';
 
 import styles from './ArbeidsgiverRow.module.scss';
 
-interface OrganisasjonsnummerRowProps {
-    organisasjonsnummer: string;
-}
-
-const OrganisasjonsnummerRow = ({ organisasjonsnummer }: OrganisasjonsnummerRowProps): ReactElement => (
-    <HStack>
+const Organisasjonsnummer = ({ organisasjonsnummer }: { organisasjonsnummer: string }): ReactElement => (
+    <HStack className={styles.organisasjonsnummer}>
         <AnonymizableText>{organisasjonsnummer}</AnonymizableText>
         <Tooltip content="Kopier organisasjonsnummer">
             <CopyButton copyText={organisasjonsnummer} size="xsmall" />
         </Tooltip>
     </HStack>
+);
+
+const Arbeidsgivernavn = ({ navn }: { navn: string }): ReactElement => (
+    <div className={styles.arbeidsgivernavn}>
+        <div>
+            <AnonymizableText>{navn}</AnonymizableText>
+            <Tooltip content="Kopier arbeidsgivernavn">
+                <CopyButton copyText={navn} size="xsmall" />
+            </Tooltip>
+        </div>
+    </div>
 );
 
 interface ArbeidsforholdRowProps {
@@ -99,11 +105,9 @@ const ArbeidsgiverRowView = ({
     return (
         <>
             <ArbeidsgiverikonMedTooltip className={styles.iconContainer} />
-            <AnonymizableContainer>
-                <BodyShort>{capitalizeArbeidsgiver(navn)}</BodyShort>
-            </AnonymizableContainer>
+            <Arbeidsgivernavn navn={capitalizeArbeidsgiver(navn)} />
             <div />
-            <OrganisasjonsnummerRow organisasjonsnummer={organisasjonsnummer} />
+            <Organisasjonsnummer organisasjonsnummer={organisasjonsnummer} />
             <div />
             <Accordion>
                 <Accordion.Item open={open} className={styles.arbeidsgiverRow}>
