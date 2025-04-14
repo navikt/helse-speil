@@ -79,7 +79,7 @@
 .arbeidsgivernavn {
   display: flex;
 
-  & :first-child {
+  div > :first-child {
     margin-right: 0.4rem;
   }
   div * {
