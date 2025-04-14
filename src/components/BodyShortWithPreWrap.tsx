@@ -1,13 +1,13 @@
-import { ReactElement, forwardRef } from 'react';
+import { ComponentPropsWithRef, ReactElement } from 'react';
 
-import { BodyLongProps, BodyShort } from '@navikt/ds-react';
+import { BodyShort, BodyShortProps } from '@navikt/ds-react';
 
-export const BodyShortWithPreWrap = forwardRef<HTMLParagraphElement, BodyLongProps>(
-    ({ children, ...props }, ref): ReactElement => {
-        return (
-            <BodyShort style={{ whiteSpace: 'pre-wrap' }} ref={ref} {...props}>
-                {children}
-            </BodyShort>
-        );
-    },
-);
+interface BodyShortWithPreWrapProps extends ComponentPropsWithRef<'p'>, Omit<BodyShortProps, 'children'> {}
+
+export const BodyShortWithPreWrap = ({ children, ref, ...props }: BodyShortWithPreWrapProps): ReactElement => {
+    return (
+        <BodyShort style={{ whiteSpace: 'pre-wrap' }} {...props}>
+            {children}
+        </BodyShort>
+    );
+};
