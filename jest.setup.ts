@@ -6,8 +6,11 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import 'jest-axe/extend-expect';
 import * as mockRouter from 'next-router-mock';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
+
+import '@testing-library/jest-dom';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -17,9 +20,6 @@ dayjs.extend(isSameOrBefore);
 dayjs.extend(isoWeek);
 dayjs.extend(customParseFormat);
 dayjs.locale('nb');
-
-require('jest-axe/extend-expect');
-require('@testing-library/jest-dom');
 
 mockRouter.default.useParser(
     createDynamicRouteParser([
