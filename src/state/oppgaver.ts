@@ -66,9 +66,6 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
         notifyOnNetworkStatusChange: true,
         initialFetchPolicy: 'network-only',
         nextFetchPolicy: 'cache-first',
-        onError: () => {
-            throw Error('Kunne ikke hente saker. Prøv igjen senere.');
-        },
     });
 
     useEffect(() => {
@@ -134,9 +131,6 @@ export const useAntallOppgaver = () => {
     const { data } = useQuery(AntallOppgaverDocument, {
         initialFetchPolicy: 'network-only',
         nextFetchPolicy: 'cache-first',
-        onError: () => {
-            throw Error('Kunne ikke antall for Mine saker og På vent. Prøv igjen senere.');
-        },
     });
 
     return {

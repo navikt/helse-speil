@@ -25,9 +25,6 @@ export const useBehandledeOppgaverFeed = (fom: string, tom: string): BehandledeO
         notifyOnNetworkStatusChange: true,
         initialFetchPolicy: 'network-only',
         nextFetchPolicy: 'cache-first',
-        onError: () => {
-            throw Error('Kunne ikke hente saker. Prøv igjen senere.');
-        },
     });
 
     return {

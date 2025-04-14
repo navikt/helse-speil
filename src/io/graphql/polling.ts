@@ -13,9 +13,6 @@ export const usePollEtterOpptegnelser = () => {
             sekvensId,
         },
         pollInterval: 0, // Ikke start pollingen ennå, fordi vi ikke trenger å hente opptegnelser når vi nettopp har hentet personen
-        onError: (error) => {
-            console.error(error);
-        },
     });
     // Start pollingen manuelt, da gjør apollo første kall *etter* pollInterval, i stedet for at kallet til opptegnelser
     // går *samtidig* som personen hentes når man går inn på saksbildet, som ikke gir noen funksjonell mening.
