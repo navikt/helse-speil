@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -90,9 +90,9 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
 
 function doRefetch(
     filtrering: FiltreringInput,
-    prevFiltreringRef: MutableRefObject<FiltreringInput>,
+    prevFiltreringRef: RefObject<FiltreringInput>,
     sortering: OppgavesorteringInput[],
-    prevSorteringRef: MutableRefObject<OppgavesorteringInput[]>,
+    prevSorteringRef: RefObject<OppgavesorteringInput[]>,
     refetch: (args: RefetchArgs) => void,
     setFirstPage: () => void,
 ) {
