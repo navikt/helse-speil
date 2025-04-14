@@ -1,3 +1,5 @@
+import './globals.css';
+
 import type { Metadata } from 'next';
 import React, { PropsWithChildren, ReactElement } from 'react';
 import ReactDOM from 'react-dom';
@@ -10,8 +12,6 @@ import { Toasts } from '@components/Toasts';
 import { Varsler } from '@components/Varsler';
 import { Driftsmeldinger } from '@components/driftsmeldinger/Driftsmeldinger';
 import { Header } from '@components/header/Header';
-
-import './globals.css';
 
 export const metadata: Metadata = {
     title: `Speil ${erLokal ? ' - localhost' : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev' ? ' - dev' : ''}`,

@@ -4,6 +4,8 @@
     "printWidth": 120,
     "plugins": ["@trivago/prettier-plugin-sort-imports"],
     "importOrder": [
+        "^./globals.css$",
+        "<THIRD_PARTY_MODULES>",
         "^@navikt\\/(.*)$",
         "^(@(.*)|@(.*)\\/(.*))$",
         "^([.]{1,2}\\/)+[æøåÆØÅa-zA-Z]+((\\/[æøåÆØÅa-zA-Z]+)+)?$",
