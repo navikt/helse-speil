@@ -8,6 +8,7 @@ import { IngenOppgaver } from '@oversikt/IngenOppgaver';
 import { TabType, useAktivTab } from '@oversikt/tabState';
 import { OppgaverTableError } from '@oversikt/table/OppgaverTableError';
 import { OppgaverTableSkeleton } from '@oversikt/table/OppgaverTableSkeleton';
+import { useCurrentPageValue } from '@oversikt/table/state/pagination';
 import { useSorteringValue } from '@oversikt/table/state/sortation';
 import { useOppgaveFeed } from '@state/oppgaver';
 
@@ -28,6 +29,7 @@ type OppgaverTableProps = {
 export const OppgaverTable = ({ antallMineSaker, antallPåVent }: OppgaverTableProps): ReactElement => {
     const { oppgaver, antallOppgaver, error, loading, fetchMore } = useOppgaveFeed();
     const { activeFilters } = useFilters();
+    const currentPage = useCurrentPageValue();
     const aktivTab = useAktivTab();
     const sort = useSorteringValue();
     const toggleFilter = useToggleFilter();
@@ -41,7 +43,10 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent }: OppgaverTableP
         oppgaver !== undefined &&
         ((aktivTab === TabType.Mine && antallMineSaker === 0) ||
             (aktivTab === TabType.Ventende && antallPåVent === 0) ||
-            (aktivTab === TabType.TilGodkjenning && antallOppgaver === 0 && activeFilters.length === 0))
+            (aktivTab === TabType.TilGodkjenning &&
+                antallOppgaver === 0 &&
+                activeFilters.length === 0 &&
+                currentPage === 1))
     ) {
         return <IngenOppgaver />;
     }

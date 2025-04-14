@@ -23,12 +23,14 @@ import { oppgaver } from './oppgaver';
 export const behandledeOppgaverliste = (offset: number, limit: number): BehandledeOppgaver => {
     const behandledeOppgaverliste = behandledeOppgaver.concat(tilfeldigeBehandledeOppgaver);
 
+    const oppgaverEtterOffset =
+        offset === 0 ? behandledeOppgaverliste.slice(0, limit) : behandledeOppgaverliste.slice(offset).slice(0, limit);
+
     return {
-        oppgaver:
-            offset === 0
-                ? behandledeOppgaverliste.slice(0, limit)
-                : behandledeOppgaverliste.slice(offset).slice(0, limit),
-        totaltAntallOppgaver: behandledeOppgaverliste.length,
+        oppgaver: oppgaverEtterOffset,
+        // Dette er sånn spesialist fungerer pt dessverre. Skulle egentlig hatt antallet filtrerte oppgaver
+        // før offset er applied, selvom det er 0 oppgaver på den siste siden
+        totaltAntallOppgaver: oppgaverEtterOffset.length > 0 ? behandledeOppgaverliste.length : 0,
     } as BehandledeOppgaver;
 };
 
@@ -42,9 +44,14 @@ export const oppgaveliste = (
     const filtrertListe = filtrer(oppgaveliste, filtrering);
     const sortertListe = sorter(filtrertListe, sortering);
 
+    const oppgaverEtterOffset =
+        offset === 0 ? sortertListe.slice(0, limit) : sortertListe.slice(offset).slice(0, limit);
+
     return {
-        oppgaver: offset === 0 ? sortertListe.slice(0, limit) : sortertListe.slice(offset).slice(0, limit),
-        totaltAntallOppgaver: sortertListe.length,
+        oppgaver: oppgaverEtterOffset,
+        // Dette er sånn spesialist fungerer pt dessverre. Skulle egentlig hatt antallet filtrerte oppgaver
+        // før offset er applied, selvom det er 0 oppgaver på den siste siden
+        totaltAntallOppgaver: oppgaverEtterOffset.length > 0 ? sortertListe.length : 0,
     } as OppgaverTilBehandling;
 };
 

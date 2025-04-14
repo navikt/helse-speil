@@ -4,4 +4,4 @@ export const sleep = (ms: number) =>
     });
 
 export const antallTilfeldigeOppgaver = 0;
-export const antallTilfeldigeBehandledeOppgaver = 20;
+export const antallTilfeldigeBehandledeOppgaver = 0;
