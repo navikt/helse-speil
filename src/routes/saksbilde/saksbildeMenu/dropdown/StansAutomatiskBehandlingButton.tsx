@@ -5,10 +5,10 @@ import { Dropdown } from '@navikt/ds-react';
 import { StansAutomatiskBehandlingModal } from '@saksbilde/stansAutomatiskBehandling/StansAutomatiskBehandlingModal';
 
 interface StansAutomatiskBehandlingButtonProps {
-    aktørId: string;
+    fødselsnummer: string;
 }
 
-export function StansAutomatiskBehandlingButton({ aktørId }: StansAutomatiskBehandlingButtonProps): ReactElement {
+export function StansAutomatiskBehandlingButton({ fødselsnummer }: StansAutomatiskBehandlingButtonProps): ReactElement {
     const [showModal, setShowModal] = useState(false);
     return (
         <>
@@ -17,7 +17,7 @@ export function StansAutomatiskBehandlingButton({ aktørId }: StansAutomatiskBeh
             </Dropdown.Menu.List.Item>
             {showModal && (
                 <StansAutomatiskBehandlingModal
-                    aktørId={aktørId}
+                    fødselsnummer={fødselsnummer}
                     onClose={() => setShowModal(false)}
                     showModal={showModal}
                 />

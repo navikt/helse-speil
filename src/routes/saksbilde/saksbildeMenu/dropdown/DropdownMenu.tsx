@@ -54,7 +54,7 @@ const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps): Maybe
                 </>
             )}
             <Dropdown.Menu.List>
-                {erUtvikling && <StansAutomatiskBehandlingButton aktørId={person.aktorId} />}
+                {erUtvikling && <StansAutomatiskBehandlingButton fødselsnummer={person.fodselsnummer} />}
                 <OppdaterPersondataButton person={person} />
                 {isBeregnetPeriode(activePeriod) && isArbeidsgiver(arbeidsgiver) && (
                     <AnnullerButton person={person} periode={activePeriod} arbeidsgiver={arbeidsgiver} />

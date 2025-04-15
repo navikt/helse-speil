@@ -8,13 +8,13 @@ import { stansAutomatiskBehandlingSchema } from '@/form-schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 interface StansAutomatiskBehandlingModalProps {
-    aktørId: string;
+    fødselsnummer: string;
     onClose: () => void;
     showModal: boolean;
 }
 
 export function StansAutomatiskBehandlingModal({
-    aktørId,
+    fødselsnummer,
     showModal,
     onClose,
 }: StansAutomatiskBehandlingModalProps): ReactElement {
@@ -27,7 +27,7 @@ export function StansAutomatiskBehandlingModal({
 
     function onSubmit(values: z.infer<typeof stansAutomatiskBehandlingSchema>) {
         // TODO send mutation til Speil
-        console.log('aktørId: ', aktørId);
+        console.log('fødselsnummer: ', fødselsnummer);
         console.log('begrunnelse: ', values.begrunnelse);
         onClose();
     }
