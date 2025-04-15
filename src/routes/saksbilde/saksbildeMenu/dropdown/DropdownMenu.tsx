@@ -3,9 +3,11 @@ import React, { ReactElement, useRef, useState } from 'react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { Dropdown } from '@navikt/ds-react';
 
+import { erUtvikling } from '@/env';
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Maybe, PersonFragment } from '@io/graphql';
+import { StansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/dropdown/StansAutomatiskBehandlingButton';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { ActivePeriod } from '@typer/shared';
@@ -52,6 +54,7 @@ const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps): Maybe
                 </>
             )}
             <Dropdown.Menu.List>
+                {erUtvikling && <StansAutomatiskBehandlingButton aktørId={person.aktorId} />}
                 <OppdaterPersondataButton person={person} />
                 {isBeregnetPeriode(activePeriod) && isArbeidsgiver(arbeidsgiver) && (
                     <AnnullerButton person={person} periode={activePeriod} arbeidsgiver={arbeidsgiver} />
