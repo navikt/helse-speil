@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { DatePicker, HStack, Table, VStack, useDatepicker } from '@navikt/ds-react';
 
@@ -8,7 +8,7 @@ import { useLoadingToast } from '@hooks/useLoadingToast';
 import { HeaderCell } from '@oversikt/table/oppgaverTable/HeaderCell';
 import { IngenMatchendeFiltre } from '@oversikt/table/oppgaverTable/IngenMatchendeFiltre';
 import { useBehandledeOppgaverFeed } from '@state/behandledeOppgaver';
-import { ISO_DATOFORMAT, somDate } from '@utils/date';
+import { ISO_DATOFORMAT, somDate, somNorskDato } from '@utils/date';
 
 import { LinkRow } from './LinkRow';
 import { OppgaverTableError } from './OppgaverTableError';
