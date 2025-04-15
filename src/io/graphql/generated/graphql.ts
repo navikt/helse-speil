@@ -5774,6 +5774,22 @@ export type SkjonnsfastsettelseMutationMutationVariables = Exact<{
 
 export type SkjonnsfastsettelseMutationMutation = { __typename: 'Mutation'; skjonnsfastsettSykepengegrunnlag: boolean };
 
+export type OpphevStansAutomatiskBehandlingMutationVariables = Exact<{
+    fodselsnummer: Scalars['String']['input'];
+}>;
+
+export type OpphevStansAutomatiskBehandlingMutation = {
+    __typename: 'Mutation';
+    opphevStansAutomatiskBehandling: boolean;
+};
+
+export type StansAutomatiskBehandlingMutationVariables = Exact<{
+    fodselsnummer: Scalars['String']['input'];
+    begrunnelse: Scalars['String']['input'];
+}>;
+
+export type StansAutomatiskBehandlingMutation = { __typename: 'Mutation'; stansAutomatiskBehandling: boolean };
+
 export type FjernTildelingMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input'];
 }>;
@@ -13254,6 +13270,82 @@ export const SkjonnsfastsettelseMutationDocument = {
         },
     ],
 } as unknown as DocumentNode<SkjonnsfastsettelseMutationMutation, SkjonnsfastsettelseMutationMutationVariables>;
+export const OpphevStansAutomatiskBehandlingDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'OpphevStansAutomatiskBehandling' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'opphevStansAutomatiskBehandling' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'fodselsnummer' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<OpphevStansAutomatiskBehandlingMutation, OpphevStansAutomatiskBehandlingMutationVariables>;
+export const StansAutomatiskBehandlingDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'StansAutomatiskBehandling' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'stansAutomatiskBehandling' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'fodselsnummer' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'begrunnelse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<StansAutomatiskBehandlingMutation, StansAutomatiskBehandlingMutationVariables>;
 export const FjernTildelingDocument = {
     kind: 'Document',
     definitions: [

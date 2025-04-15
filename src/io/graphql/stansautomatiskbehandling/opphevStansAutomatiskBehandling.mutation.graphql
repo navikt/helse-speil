@@ -1,0 +1,3 @@
+mutation OpphevStansAutomatiskBehandling($fodselsnummer: String!) {
+    opphevStansAutomatiskBehandling(fodselsnummer: $fodselsnummer)
+}

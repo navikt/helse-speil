@@ -43,10 +43,12 @@ import {
     MutationLeggTilKommentarArgs,
     MutationLeggTilNotatArgs,
     MutationOpphevStansArgs,
+    MutationOpphevStansAutomatiskBehandlingArgs,
     MutationOpprettTildelingArgs,
     MutationSendIReturArgs,
     MutationSendTilGodkjenningV2Args,
     MutationSettVarselstatusArgs,
+    MutationStansAutomatiskBehandlingArgs,
     Notat,
     NotatType,
     OppgavesorteringInput,
@@ -372,6 +374,22 @@ const getResolvers = (): IResolvers => ({
             const oppgaveId = finnOppgaveId();
             if (oppgaveId) NotatMock.addNotat(oppgaveId, { tekst: begrunnelse, type: NotatType.OpphevStans });
             OpphevStansMock.addUnntattFraAutomatiskGodkjenning(fodselsnummer, { erUnntatt: false });
+            return true;
+        },
+        stansAutomatiskBehandling: async (_, { fodselsnummer, begrunnelse }: MutationStansAutomatiskBehandlingArgs) => {
+            console.log(fodselsnummer);
+            HistorikkinnslagMock.addHistorikkinnslag('d7d208c3-a9a1-4c03-885f-aeffa4475a49', {
+                type: PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler,
+                notattekst: begrunnelse,
+                dialogRef: DialogMock.addDialog(),
+            });
+            return true;
+        },
+        opphevStansAutomatiskBehandling: async (_, { fodselsnummer }: MutationOpphevStansAutomatiskBehandlingArgs) => {
+            console.log(fodselsnummer);
+            HistorikkinnslagMock.addHistorikkinnslag('d7d208c3-a9a1-4c03-885f-aeffa4475a49', {
+                type: PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler,
+            });
             return true;
         },
     },

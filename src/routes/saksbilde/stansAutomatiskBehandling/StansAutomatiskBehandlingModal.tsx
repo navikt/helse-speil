@@ -2,10 +2,13 @@ import React, { ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button, Heading, Modal, Textarea } from '@navikt/ds-react';
+import { BodyShort, Button, Heading, Modal, Textarea } from '@navikt/ds-react';
 
 import { stansAutomatiskBehandlingSchema } from '@/form-schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useStansAutomatiskBehandling } from '@hooks/stansAutomatiskBehandling';
+
+import styles from './StansAutomatiskBehandlingModal.module.css';
 
 interface StansAutomatiskBehandlingModalProps {
     fødselsnummer: string;
@@ -18,6 +21,7 @@ export function StansAutomatiskBehandlingModal({
     showModal,
     onClose,
 }: StansAutomatiskBehandlingModalProps): ReactElement {
+    const [stansAutomatiskBehandling, { error }] = useStansAutomatiskBehandling();
     const form = useForm<z.infer<typeof stansAutomatiskBehandlingSchema>>({
         resolver: zodResolver(stansAutomatiskBehandlingSchema),
         defaultValues: {
@@ -26,10 +30,7 @@ export function StansAutomatiskBehandlingModal({
     });
 
     function onSubmit(values: z.infer<typeof stansAutomatiskBehandlingSchema>) {
-        // TODO send mutation til Speil
-        console.log('fødselsnummer: ', fødselsnummer);
-        console.log('begrunnelse: ', values.begrunnelse);
-        onClose();
+        void stansAutomatiskBehandling(fødselsnummer, values.begrunnelse, onClose);
     }
 
     return (
@@ -77,11 +78,11 @@ export function StansAutomatiskBehandlingModal({
                 <Button variant="tertiary" type="button" onClick={onClose}>
                     Avbryt
                 </Button>
-                {/*{error && (*/}
-                {/*    <BodyShort className={styles.feilmelding}>*/}
-                {/*        Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.*/}
-                {/*    </BodyShort>*/}
-                {/*)}*/}
+                {error && (
+                    <BodyShort className={styles.feilmelding}>
+                        Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.
+                    </BodyShort>
+                )}
             </Modal.Footer>
         </Modal>
     );
