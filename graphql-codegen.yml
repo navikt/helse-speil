@@ -10,6 +10,7 @@ config:
     LocalDate: 'string'
     LocalDateTime: 'string'
     YearMonth: 'string'
+    BigDecimal: 'string'
 generates:
   ./src/io/graphql/generated/graphql.ts:
     plugins:

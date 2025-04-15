@@ -310,6 +310,12 @@ fragment beregnetPeriode on BeregnetPeriode {
                 ...kommentar
             }
         }
+        ... on StansAutomatiskBehandlingSaksbehandler {
+            notattekst
+            kommentarer {
+                ...kommentar
+            }
+        }
     }
     maksdato
     periodevilkar {

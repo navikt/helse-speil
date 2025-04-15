@@ -18,7 +18,9 @@ import { InntektHentetFraAordningenhendelse } from '@saksbilde/historikk/hendels
 import { InntektsmeldingMottatthendelse } from '@saksbilde/historikk/hendelser/InntektsmeldingMottatthendelse';
 import { LagtPåVentHendelse } from '@saksbilde/historikk/hendelser/LagtPåVentHendelse';
 import { MeldingOmVedtakhendelse } from '@saksbilde/historikk/hendelser/MeldingOmVedtakhendelse';
+import { OpphevStansAutomatiskBehandlingSaksbehandlerHendelse } from '@saksbilde/historikk/hendelser/OpphevStansAutomatiskBehandlingSaksbehandlerHendelse';
 import { StansAutomatiskBehandlingHendelse } from '@saksbilde/historikk/hendelser/StansAutomatiskBehandlingHendelse';
+import { StansAutomatiskBehandlingSaksbehandlerHendelse } from '@saksbilde/historikk/hendelser/StansAutomatiskBehandlingSaksbehandlerHendelse';
 import { SykmeldingMottatthendelse } from '@saksbilde/historikk/hendelser/SykmeldingMottatthendelse';
 import { SøknadMottatthendelse } from '@saksbilde/historikk/hendelser/SøknadMottatthendelse';
 import { TotrinnsvurderingAttestertHendelse } from '@saksbilde/historikk/hendelser/TotrinnsvurderingAttestertHendelse';
@@ -172,6 +174,8 @@ const HistorikkWithContent = (): ReactElement => {
                                                             timestamp={it.timestamp}
                                                         />
                                                     );
+                                                default:
+                                                    return null;
                                             }
                                         }
                                         case 'Notat': {
@@ -223,6 +227,9 @@ const historikkhendelseComponents = {
     [PeriodehistorikkType.VedtaksperiodeReberegnet]: VedtaksperiodeReberegnetHendelse,
     [PeriodehistorikkType.StansAutomatiskBehandling]: StansAutomatiskBehandlingHendelse,
     [PeriodehistorikkType.TotrinnsvurderingRetur]: TotrinnsvurderingReturHendelse,
+    [PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler]: StansAutomatiskBehandlingSaksbehandlerHendelse,
+    [PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler]:
+        OpphevStansAutomatiskBehandlingSaksbehandlerHendelse,
 };
 
 const HistorikkError = (): ReactElement => {

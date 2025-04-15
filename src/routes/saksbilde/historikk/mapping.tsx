@@ -23,6 +23,7 @@ import {
     SoknadArbeidsledig,
     SoknadFrilans,
     SoknadNav,
+    StansAutomatiskBehandlingSaksbehandler,
     Sykepengegrunnlagskjonnsfastsetting,
     Sykmelding,
     TotrinnsvurderingRetur,
@@ -223,25 +224,48 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
 };
 
 const årsaker = (
-    historikkelement: LagtPaVent | FjernetFraPaVent | EndrePaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
+    historikkelement:
+        | LagtPaVent
+        | FjernetFraPaVent
+        | EndrePaVent
+        | TotrinnsvurderingRetur
+        | StansAutomatiskBehandlingSaksbehandler
+        | PeriodeHistorikkElementNy,
 ): string[] =>
     historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'EndrePaVent'
         ? historikkelement.arsaker
         : [];
 
 const frist = (
-    historikkelement: LagtPaVent | EndrePaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
+    historikkelement:
+        | LagtPaVent
+        | EndrePaVent
+        | FjernetFraPaVent
+        | TotrinnsvurderingRetur
+        | StansAutomatiskBehandlingSaksbehandler
+        | PeriodeHistorikkElementNy,
 ): Maybe<string> =>
     historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'EndrePaVent'
         ? historikkelement.frist
         : null;
 
 const notattekst = (
-    historikkelement: LagtPaVent | EndrePaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
+    historikkelement:
+        | LagtPaVent
+        | EndrePaVent
+        | FjernetFraPaVent
+        | TotrinnsvurderingRetur
+        | StansAutomatiskBehandlingSaksbehandler
+        | PeriodeHistorikkElementNy,
 ): Maybe<string> => {
     const automatiskReturTekst = 'Perioden er automatisk reberegnet etter at den ble sendt til beslutter.';
-    if (historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'EndrePaVent')
+    if (
+        historikkelement.__typename === 'LagtPaVent' ||
+        historikkelement.__typename === 'EndrePaVent' ||
+        historikkelement.__typename === 'StansAutomatiskBehandlingSaksbehandler'
+    ) {
         return historikkelement.notattekst;
+    }
     if (historikkelement.__typename === 'TotrinnsvurderingRetur') {
         return historikkelement.notattekst !== null ? historikkelement.notattekst : automatiskReturTekst;
     }
@@ -249,11 +273,18 @@ const notattekst = (
 };
 
 const kommentarer = (
-    historikkelement: LagtPaVent | EndrePaVent | FjernetFraPaVent | TotrinnsvurderingRetur | PeriodeHistorikkElementNy,
+    historikkelement:
+        | LagtPaVent
+        | EndrePaVent
+        | FjernetFraPaVent
+        | TotrinnsvurderingRetur
+        | StansAutomatiskBehandlingSaksbehandler
+        | PeriodeHistorikkElementNy,
 ): Kommentar[] =>
     historikkelement.__typename === 'LagtPaVent' ||
     historikkelement.__typename === 'EndrePaVent' ||
-    historikkelement.__typename === 'TotrinnsvurderingRetur'
+    historikkelement.__typename === 'TotrinnsvurderingRetur' ||
+    historikkelement.__typename === 'StansAutomatiskBehandlingSaksbehandler'
         ? historikkelement.kommentarer
         : [];
 

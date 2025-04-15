@@ -437,6 +437,8 @@ const getResolvers = (): IResolvers => ({
                     return 'FjernetFraPaVent';
                 case 'TOTRINNSVURDERING_RETUR':
                     return 'TotrinnsvurderingRetur';
+                case 'STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER':
+                    return 'StansAutomatiskBehandlingSaksbehandler';
                 default:
                     return 'PeriodeHistorikkElementNy';
             }
