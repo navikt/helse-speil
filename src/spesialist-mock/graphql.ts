@@ -1,5 +1,12 @@
 import spesialistSchema from './graphql.schema.json';
 import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import isBetween from 'dayjs/plugin/isBetween';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isoWeek from 'dayjs/plugin/isoWeek';
+import minMax from 'dayjs/plugin/minMax';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import fs from 'fs';
 import { GraphQLError, GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
 import path from 'path';
@@ -53,6 +60,15 @@ import { OpphevStansMock } from './storage/opphevstans';
 import { PaVentMock } from './storage/påvent';
 import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
+
+dayjs.extend(relativeTime);
+dayjs.extend(minMax);
+dayjs.extend(isBetween);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
+dayjs.extend(isoWeek);
+dayjs.extend(customParseFormat);
+dayjs.locale('nb');
 
 const leggTilLagretData = (person: Person): void => {
     let tildeling = person.tildeling;
@@ -132,10 +148,9 @@ const getResolvers = (): IResolvers => ({
         },
         behandledeOppgaverFeedV2: async (
             _,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             { offset, limit, fom, tom }: { offset: number; limit: number; fom: string; tom: string },
         ) => {
-            return behandledeOppgaverliste(offset, limit);
+            return behandledeOppgaverliste(offset, limit, fom, tom);
         },
         behandlingsstatistikk: async () => {
             return behandlingsstatistikk;
