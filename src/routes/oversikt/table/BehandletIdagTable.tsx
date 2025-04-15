@@ -1,13 +1,14 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 
 import { DatePicker, HStack, Table, VStack, useDatepicker } from '@navikt/ds-react';
 
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { HeaderCell } from '@oversikt/table/oppgaverTable/HeaderCell';
+import { IngenMatchendeFiltre } from '@oversikt/table/oppgaverTable/IngenMatchendeFiltre';
 import { useBehandledeOppgaverFeed } from '@state/behandledeOppgaver';
-import { ISO_DATOFORMAT, somDate, somNorskDato } from '@utils/date';
+import { ISO_DATOFORMAT, somDate } from '@utils/date';
 
 import { LinkRow } from './LinkRow';
 import { OppgaverTableError } from './OppgaverTableError';
@@ -96,23 +97,27 @@ export const BehandletIdagTable = (): ReactElement => {
                                         </Table.Row>
                                     </Table.Header>
                                     <Table.Body>
-                                        {oppgaver?.map((oppgave) => (
-                                            <LinkRow aktørId={oppgave.aktorId} key={oppgave.id}>
-                                                <SaksbehandlerIdentCell
-                                                    name={oppgave.saksbehandler}
-                                                    style={{ width: 180 }}
-                                                />
-                                                <SaksbehandlerIdentCell name={oppgave.beslutter} />
-                                                <SøkerCell
-                                                    name={{
-                                                        fornavn: oppgave.personnavn.fornavn,
-                                                        etternavn: oppgave.personnavn.etternavn,
-                                                        mellomnavn: oppgave.personnavn.mellomnavn ?? null,
-                                                    }}
-                                                />
-                                                <BehandletTimestampCell dato={oppgave.ferdigstiltTidspunkt} />
-                                            </LinkRow>
-                                        ))}
+                                        {oppgaver && oppgaver.length > 0 ? (
+                                            oppgaver.map((oppgave) => (
+                                                <LinkRow aktørId={oppgave.aktorId} key={oppgave.id}>
+                                                    <SaksbehandlerIdentCell
+                                                        name={oppgave.saksbehandler}
+                                                        style={{ width: 180 }}
+                                                    />
+                                                    <SaksbehandlerIdentCell name={oppgave.beslutter} />
+                                                    <SøkerCell
+                                                        name={{
+                                                            fornavn: oppgave.personnavn.fornavn,
+                                                            etternavn: oppgave.personnavn.etternavn,
+                                                            mellomnavn: oppgave.personnavn.mellomnavn ?? null,
+                                                        }}
+                                                    />
+                                                    <BehandletTimestampCell dato={oppgave.ferdigstiltTidspunkt} />
+                                                </LinkRow>
+                                            ))
+                                        ) : (
+                                            <IngenMatchendeFiltre />
+                                        )}
                                     </Table.Body>
                                 </Table>
                             </div>
