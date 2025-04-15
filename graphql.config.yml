@@ -1,0 +1,2 @@
+# forteller *.graphql filene våre hvor de finner schema, så man får code completion i de filene
+schema: graphql.schema.json
