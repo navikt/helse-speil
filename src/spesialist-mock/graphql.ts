@@ -17,7 +17,9 @@ import type { IResolvers } from '@graphql-tools/utils';
 import { Maybe } from '@io/graphql';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
+import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
 import { Oppgave, UUID } from '@typer/spesialist-mock';
+import { isNotNullOrUndefined } from '@utils/typeguards';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { behandledeOppgaverliste, oppgaveliste } from './data/oppgaveoversikt';
@@ -107,10 +109,14 @@ const leggTilLagretData = (person: Person): void => {
     const lagretUnntattFraAutomatiskGodkjenning = OpphevStansMock.getUnntattFraAutomatiskGodkjenning(
         person.fodselsnummer,
     );
-
-    if (lagretUnntattFraAutomatiskGodkjenning)
+    if (lagretUnntattFraAutomatiskGodkjenning) {
         person.personinfo.unntattFraAutomatisering = lagretUnntattFraAutomatiskGodkjenning;
+    }
 
+    const lagretStansAvSaksbehandler = StansAutomatiskBehandlingMock.getStansAutomatiskBehandling(person.fodselsnummer);
+    if (lagretStansAvSaksbehandler) {
+        person.personinfo.automatiskBehandlingStansetAvSaksbehandler = lagretStansAvSaksbehandler;
+    }
     person.tildeling = tildeling;
 };
 
@@ -377,19 +383,25 @@ const getResolvers = (): IResolvers => ({
             return true;
         },
         stansAutomatiskBehandling: async (_, { fodselsnummer, begrunnelse }: MutationStansAutomatiskBehandlingArgs) => {
-            console.log(fodselsnummer);
-            HistorikkinnslagMock.addHistorikkinnslag('d7d208c3-a9a1-4c03-885f-aeffa4475a49', {
-                type: PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler,
-                notattekst: begrunnelse,
-                dialogRef: DialogMock.addDialog(),
-            });
+            const oppgaveId = finnOppgaveId();
+            StansAutomatiskBehandlingMock.stansAutomatiskBehandling(fodselsnummer, true);
+            if (oppgaveId) {
+                HistorikkinnslagMock.addHistorikkinnslag(oppgaveId, {
+                    type: PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler,
+                    notattekst: begrunnelse,
+                    dialogRef: DialogMock.addDialog(),
+                });
+            }
             return true;
         },
         opphevStansAutomatiskBehandling: async (_, { fodselsnummer }: MutationOpphevStansAutomatiskBehandlingArgs) => {
-            console.log(fodselsnummer);
-            HistorikkinnslagMock.addHistorikkinnslag('d7d208c3-a9a1-4c03-885f-aeffa4475a49', {
-                type: PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler,
-            });
+            const oppgaveId = finnOppgaveId();
+            StansAutomatiskBehandlingMock.stansAutomatiskBehandling(fodselsnummer, false);
+            if (oppgaveId) {
+                HistorikkinnslagMock.addHistorikkinnslag(oppgaveId, {
+                    type: PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler,
+                });
+            }
             return true;
         },
     },
@@ -464,12 +476,13 @@ const getResolvers = (): IResolvers => ({
     },
 });
 
-const finnOppgaveId = () => {
-    if (!valgtPerson) return;
-
-    return valgtPerson.arbeidsgivere
+const finnOppgaveId = (): Maybe<string> => {
+    if (!valgtPerson) return null;
+    const periode = valgtPerson.arbeidsgivere
         .flatMap((a) => a.generasjoner.flatMap((g) => g.perioder))
-        .find((periode) => (periode as BeregnetPeriode).oppgave)?.id;
+        .find((periode) => isNotNullOrUndefined((periode as BeregnetPeriode).oppgave));
+
+    return (periode as BeregnetPeriode)?.oppgave?.id ?? null;
 };
 
 // Henter notater fra testpersonene og putter dem inn i NotatMock, slik at de er synlige på oversikten også
