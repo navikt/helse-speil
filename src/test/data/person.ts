@@ -41,6 +41,7 @@ export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (ove
             },
             fodselsdato: '1986-02-06',
             reservasjon: null,
+            automatiskBehandlingStansetAvSaksbehandler: false,
         },
         enhet: {
             __typename: 'Enhet',

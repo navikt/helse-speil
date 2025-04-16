@@ -1187,6 +1187,7 @@ export type Person = {
 export type Personinfo = {
     __typename?: 'Personinfo';
     adressebeskyttelse: Adressebeskyttelse;
+    automatiskBehandlingStansetAvSaksbehandler?: Maybe<Scalars['Boolean']['output']>;
     etternavn: Scalars['String']['output'];
     fodselsdato: Scalars['LocalDate']['output'];
     fornavn: Scalars['String']['output'];

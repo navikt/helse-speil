@@ -1189,6 +1189,7 @@ export type Person = {
 export type Personinfo = {
     __typename: 'Personinfo';
     adressebeskyttelse: Adressebeskyttelse;
+    automatiskBehandlingStansetAvSaksbehandler: Maybe<Scalars['Boolean']['output']>;
     etternavn: Scalars['String']['output'];
     fodselsdato: Scalars['LocalDate']['output'];
     fornavn: Scalars['String']['output'];
@@ -4059,6 +4060,7 @@ export type PersonFragment = {
         fodselsdato: string;
         kjonn: Kjonn;
         fullmakt: boolean | null;
+        automatiskBehandlingStansetAvSaksbehandler: boolean | null;
         reservasjon: { __typename: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
         unntattFraAutomatisering: {
             __typename: 'UnntattFraAutomatiskGodkjenning';
@@ -4905,6 +4907,7 @@ export type FetchPersonQuery = {
             fodselsdato: string;
             kjonn: Kjonn;
             fullmakt: boolean | null;
+            automatiskBehandlingStansetAvSaksbehandler: boolean | null;
             reservasjon: { __typename: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
             unntattFraAutomatisering: {
                 __typename: 'UnntattFraAutomatiskGodkjenning';
@@ -8771,6 +8774,10 @@ export const PersonFragmentDoc = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                         ],
                                     },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'automatiskBehandlingStansetAvSaksbehandler' },
                                 },
                             ],
                         },
@@ -12911,6 +12918,10 @@ export const FetchPersonDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                         ],
                                     },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'automatiskBehandlingStansetAvSaksbehandler' },
                                 },
                             ],
                         },

@@ -30,6 +30,7 @@ describe('Personlinje', () => {
                         },
                         fodselsdato: '1986-02-06',
                         reservasjon: null,
+                        automatiskBehandlingStansetAvSaksbehandler: false,
                     },
                     dodsdato: null,
                 })}

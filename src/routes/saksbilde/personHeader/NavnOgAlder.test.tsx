@@ -44,4 +44,5 @@ const defaultPersoninfo: Personinfo = {
     },
     fodselsdato: '1976-02-06',
     reservasjon: null,
+    automatiskBehandlingStansetAvSaksbehandler: false,
 };

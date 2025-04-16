@@ -527,6 +527,7 @@ fragment person on Person {
             arsaker
             tidspunkt
         }
+        automatiskBehandlingStansetAvSaksbehandler
     }
     tildeling {
         navn
