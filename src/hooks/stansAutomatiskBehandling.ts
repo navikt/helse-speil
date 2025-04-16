@@ -6,7 +6,6 @@ import {
     StansAutomatiskBehandlingDocument,
     StansAutomatiskBehandlingMutation,
 } from '@io/graphql';
-import { useAddToast } from '@state/toasts';
 
 type StansAutomatiskBehandlingResult = [
     (fødselsnummer: string, begrunnelse: string) => Promise<FetchResult<StansAutomatiskBehandlingMutation>>,
@@ -31,11 +30,12 @@ export function useStansAutomatiskBehandling(): StansAutomatiskBehandlingResult 
     return [stansAutomatiskBehandling, data];
 }
 
-export function useOpphevStansAutomatiskBehandling(): [
+type OpphevStansAutomatiskBehandlingResult = [
     (fødselsnummer: string) => Promise<FetchResult<OpphevStansAutomatiskBehandlingMutation>>,
     MutationResult<OpphevStansAutomatiskBehandlingMutation>,
-] {
-    const addToast = useAddToast();
+];
+
+export function useOpphevStansAutomatiskBehandling(): OpphevStansAutomatiskBehandlingResult {
     const [opphevStansAutomatiskBehandlingMutation, data] = useMutation(OpphevStansAutomatiskBehandlingDocument, {
         refetchQueries: [FetchPersonDocument],
     });
@@ -45,13 +45,7 @@ export function useOpphevStansAutomatiskBehandling(): [
             variables: {
                 fodselsnummer: fødselsnummer,
             },
-            onCompleted: () => {
-                addToast({
-                    key: 'opphevStansAutomatiskBehandling',
-                    message: 'Stans av automatisk behandling opphevet',
-                    timeToLiveMs: 3000,
-                });
-            },
+            awaitRefetchQueries: true,
         });
     }
 
