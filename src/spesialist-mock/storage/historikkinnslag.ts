@@ -9,6 +9,7 @@ import {
     Maybe,
     PeriodeHistorikkElementNy,
     PeriodehistorikkType,
+    StansAutomatiskBehandlingSaksbehandler,
     TotrinnsvurderingRetur,
 } from '@spesialist-mock/schemaTypes';
 import { findVedtaksperiodeId } from '@spesialist-mock/storage/notat';
@@ -19,8 +20,13 @@ export type HistorikkinnslagUnion =
     | EndrePaVent
     | FjernetFraPaVent
     | TotrinnsvurderingRetur
+    | StansAutomatiskBehandlingSaksbehandler
     | PeriodeHistorikkElementNy;
-export type HistorikkinnslagMedKommentarer = LagtPaVent | EndrePaVent | TotrinnsvurderingRetur;
+export type HistorikkinnslagMedKommentarer =
+    | LagtPaVent
+    | EndrePaVent
+    | TotrinnsvurderingRetur
+    | StansAutomatiskBehandlingSaksbehandler;
 
 export class HistorikkinnslagMock {
     private static historikkinnslagMap: Map<UUID, Array<HistorikkinnslagUnion>> = new Map();

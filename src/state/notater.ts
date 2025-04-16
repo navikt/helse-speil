@@ -90,7 +90,12 @@ export const useLeggTilKommentar = (
     };
 };
 
-type KommentertElementType = 'LagtPaVent' | 'EndrePaVent' | 'TotrinnsvurderingRetur' | 'Notat';
+type KommentertElementType =
+    | 'LagtPaVent'
+    | 'EndrePaVent'
+    | 'TotrinnsvurderingRetur'
+    | 'StansAutomatiskBehandlingSaksbehandler'
+    | 'Notat';
 
 interface KommentertElement {
     id: number;
@@ -105,6 +110,8 @@ export const finnKommentertElementType = (historikktype?: PeriodehistorikkType):
             return 'EndrePaVent';
         case PeriodehistorikkType.TotrinnsvurderingRetur:
             return 'TotrinnsvurderingRetur';
+        case PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler:
+            return 'StansAutomatiskBehandlingSaksbehandler';
         default:
             return 'Notat';
     }

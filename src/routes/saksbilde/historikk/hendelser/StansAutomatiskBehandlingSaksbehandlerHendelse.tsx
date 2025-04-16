@@ -44,7 +44,7 @@ export function StansAutomatiskBehandlingSaksbehandlerHendelse({
                 kommentarer={kommentarer}
                 dialogRef={dialogRef ?? undefined}
                 historikkinnslagId={historikkinnslagId}
-                historikktype={PeriodehistorikkType.TotrinnsvurderingRetur}
+                historikktype={PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler}
             />
         </Historikkhendelse>
     );
