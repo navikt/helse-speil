@@ -5,6 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Kjonn, PersonFragment } from '@io/graphql';
 import { AktørId } from '@saksbilde/personHeader/AktørId';
+import { AutomatiskBehandlingStansetTag } from '@saksbilde/personHeader/AutomatiskBehandlingStansetTag';
 import { FullmaktTag } from '@saksbilde/personHeader/FullmaktTag';
 
 import { AdressebeskyttelseTag } from './AdressebeskyttelseTag';
@@ -44,6 +45,9 @@ export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWit
                 <FullmaktTag person={person} />
                 <UtlandTag person={person} />
                 <DødsdatoTag dødsdato={person.dodsdato} />
+                <AutomatiskBehandlingStansetTag
+                    erStanset={person.personinfo.automatiskBehandlingStansetAvSaksbehandler ?? false}
+                />
             </div>
         </div>
     );

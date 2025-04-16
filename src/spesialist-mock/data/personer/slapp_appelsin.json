@@ -20,7 +20,8 @@
                     "erUnntatt": false,
                     "arsaker": [],
                     "tidspunkt": null
-                }
+                },
+                "automatiskBehandlingStansetAvSaksbehandler": false
             },
             "tildeling": null,
             "versjon": 44,

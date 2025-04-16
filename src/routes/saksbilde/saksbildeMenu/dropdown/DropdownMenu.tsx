@@ -7,6 +7,7 @@ import { erUtvikling } from '@/env';
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Maybe, PersonFragment } from '@io/graphql';
+import { OpphevStansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/dropdown/OpphevStansAutomatiskBehandlingButton';
 import { StansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/dropdown/StansAutomatiskBehandlingButton';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -36,6 +37,9 @@ const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps): Maybe
 
     const personIsAssignedUser = (person?.tildeling && person?.tildeling?.oid === user.oid) ?? false;
 
+    const automatiskBehandlingStansetAvSaksbehandler =
+        person.personinfo.automatiskBehandlingStansetAvSaksbehandler ?? false;
+
     return (
         <Dropdown.Menu placement="bottom-start" className={styles.dropdown}>
             {isBeregnetPeriode(activePeriod) && activePeriod.oppgave?.id && !readOnly && (
@@ -54,7 +58,12 @@ const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps): Maybe
                 </>
             )}
             <Dropdown.Menu.List>
-                {erUtvikling && <StansAutomatiskBehandlingButton fødselsnummer={person.fodselsnummer} />}
+                {erUtvikling &&
+                    (automatiskBehandlingStansetAvSaksbehandler ? (
+                        <OpphevStansAutomatiskBehandlingButton fødselsnummer={person.fodselsnummer} />
+                    ) : (
+                        <StansAutomatiskBehandlingButton fødselsnummer={person.fodselsnummer} />
+                    ))}
                 <OppdaterPersondataButton person={person} />
                 {isBeregnetPeriode(activePeriod) && isArbeidsgiver(arbeidsgiver) && (
                     <AnnullerButton person={person} periode={activePeriod} arbeidsgiver={arbeidsgiver} />

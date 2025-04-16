@@ -49,6 +49,7 @@ export function useOpphevStansAutomatiskBehandling(): [
     (fødselsnummer: string) => Promise<FetchResult<OpphevStansAutomatiskBehandlingMutation>>,
     MutationResult<OpphevStansAutomatiskBehandlingMutation>,
 ] {
+    const addToast = useAddToast();
     const [opphevStansAutomatiskBehandlingMutation, data] = useMutation(OpphevStansAutomatiskBehandlingDocument, {
         refetchQueries: [FetchPersonDocument],
     });
@@ -61,6 +62,13 @@ export function useOpphevStansAutomatiskBehandling(): [
             optimisticResponse: {
                 __typename: 'Mutation',
                 opphevStansAutomatiskBehandling: true,
+            },
+            onCompleted: () => {
+                addToast({
+                    key: 'opphevStansAutomatiskBehandling',
+                    message: 'Stans av automatisk behandling opphevet',
+                    timeToLiveMs: 3000,
+                });
             },
         });
     }
