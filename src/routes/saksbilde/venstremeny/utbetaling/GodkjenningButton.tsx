@@ -8,7 +8,7 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
 import { FattVedtakDocument, Personinfo, Utbetaling } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
-import { apolloErrorCode, apolloExtensionValue } from '@utils/error';
+import { apolloExtensionValue } from '@utils/error';
 
 import { BackendFeil } from './Utbetaling';
 import { UtbetalingModal } from './UtbetalingModal';
@@ -116,7 +116,6 @@ const somBackendfeil = (error: ApolloError): BackendFeil => {
 
     return {
         message: errorMessages.get(errorCode || error.message) || 'Feil under fatting av vedtak',
-        statusCode: apolloErrorCode(error),
     };
 };
 

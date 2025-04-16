@@ -59,7 +59,6 @@ const useOnAvvis = (): (() => void) => {
 
 export type BackendFeil = {
     message: string;
-    statusCode?: number;
 };
 
 interface UtbetalingProps {

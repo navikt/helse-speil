@@ -117,6 +117,5 @@ const somBackendfeil = (error: ApolloError): BackendFeil => {
                 : error.message === 'mangler_vurdering_av_varsler'
                   ? 'Mangler vurdering av varsler'
                   : 'Kunne ikke sende saken til godkjenning',
-        statusCode: errorCode,
     };
 };
