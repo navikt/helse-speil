@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import React, { ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -7,6 +8,7 @@ import { BodyShort, Button, Heading, Modal, Textarea } from '@navikt/ds-react';
 import { stansAutomatiskBehandlingSchema } from '@/form-schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useStansAutomatiskBehandling } from '@hooks/stansAutomatiskBehandling';
+import { useAddToast } from '@state/toasts';
 
 import styles from './StansAutomatiskBehandlingModal.module.css';
 
@@ -21,6 +23,7 @@ export function StansAutomatiskBehandlingModal({
     showModal,
     onClose,
 }: StansAutomatiskBehandlingModalProps): ReactElement {
+    const addToast = useAddToast();
     const [stansAutomatiskBehandling, { error }] = useStansAutomatiskBehandling();
     const form = useForm<z.infer<typeof stansAutomatiskBehandlingSchema>>({
         resolver: zodResolver(stansAutomatiskBehandlingSchema),
@@ -29,8 +32,16 @@ export function StansAutomatiskBehandlingModal({
         },
     });
 
-    function onSubmit(values: z.infer<typeof stansAutomatiskBehandlingSchema>) {
-        void stansAutomatiskBehandling(fødselsnummer, values.begrunnelse, onClose);
+    async function onSubmit(values: z.infer<typeof stansAutomatiskBehandlingSchema>) {
+        await stansAutomatiskBehandling(fødselsnummer, values.begrunnelse).then(() => {
+            onClose();
+            addToast({
+                key: nanoid(),
+                message: 'Automatisk behandling stanset',
+                variant: 'success',
+                timeToLiveMs: 5000,
+            });
+        });
     }
 
     return (
@@ -75,7 +86,7 @@ export function StansAutomatiskBehandlingModal({
                 >
                     Stans automatisk behandling
                 </Button>
-                <Button variant="tertiary" type="button" onClick={onClose}>
+                <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting} onClick={onClose}>
                     Avbryt
                 </Button>
                 {error && (

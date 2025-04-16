@@ -8,37 +8,23 @@ import {
 } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 
-export function useStansAutomatiskBehandling(): [
-    (
-        fødselsnummer: string,
-        begrunnelse: string,
-        closeModal: () => void,
-    ) => Promise<FetchResult<StansAutomatiskBehandlingMutation>>,
+type StansAutomatiskBehandlingResult = [
+    (fødselsnummer: string, begrunnelse: string) => Promise<FetchResult<StansAutomatiskBehandlingMutation>>,
     MutationResult<StansAutomatiskBehandlingMutation>,
-] {
-    const addToast = useAddToast();
+];
+
+export function useStansAutomatiskBehandling(): StansAutomatiskBehandlingResult {
     const [stansAutomatiskBehandlingMutation, data] = useMutation(StansAutomatiskBehandlingDocument, {
         refetchQueries: [FetchPersonDocument],
     });
 
-    async function stansAutomatiskBehandling(fødselsnummer: string, begrunnelse: string, closeModal: () => void) {
+    async function stansAutomatiskBehandling(fødselsnummer: string, begrunnelse: string) {
         return stansAutomatiskBehandlingMutation({
             variables: {
                 fodselsnummer: fødselsnummer,
                 begrunnelse: begrunnelse,
             },
-            optimisticResponse: {
-                __typename: 'Mutation',
-                stansAutomatiskBehandling: true,
-            },
-            onCompleted: () => {
-                closeModal();
-                addToast({
-                    key: 'stansAutomatiskBehandling',
-                    message: 'Automatisk behandling stanset',
-                    timeToLiveMs: 3000,
-                });
-            },
+            awaitRefetchQueries: true,
         });
     }
 
@@ -58,10 +44,6 @@ export function useOpphevStansAutomatiskBehandling(): [
         return opphevStansAutomatiskBehandlingMutation({
             variables: {
                 fodselsnummer: fødselsnummer,
-            },
-            optimisticResponse: {
-                __typename: 'Mutation',
-                opphevStansAutomatiskBehandling: true,
             },
             onCompleted: () => {
                 addToast({
