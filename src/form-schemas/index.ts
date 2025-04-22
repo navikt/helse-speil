@@ -9,7 +9,7 @@ export const stansAutomatiskBehandlingSchema = z.object({
         .max(1000, { message: 'Begrunnelsen kan maks være 1000 tegn.' }),
 });
 
-export const tilkommenInntektSchema = (
+export const lagTilkommenInntektSchema = (
     skjæringstidspunkt: DateString,
     eksisterendePerioder: { fom: DateString; tom: DateString }[],
 ) =>
@@ -35,6 +35,7 @@ export const tilkommenInntektSchema = (
                 .refine((value) => value > skjæringstidspunkt, 'Datoen må være etter skjæringstidspunktet'),
             tom: z.string().date('Datoen er ikke gyldig'),
             periodebeløp: z.number().nonnegative('Inntekt for perioden må være et positivt tall'),
+            notat: z.string().min(1, { message: 'Notat til beslutter er påkrevd' }),
         })
         .refine(({ fom, tom }) => fom <= tom, {
             message: 'Periode f.o.m. må være før t.o.m.',
