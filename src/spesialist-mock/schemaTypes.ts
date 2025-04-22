@@ -609,6 +609,11 @@ export type LagtPaVent = Historikkinnslag & {
     type: PeriodehistorikkType;
 };
 
+export type LeggTilTilkommenInntektResponse = {
+    __typename?: 'LeggTilTilkommenInntektResponse';
+    tilkommenInntektId: Scalars['UUID']['output'];
+};
+
 export type LovhjemmelInput = {
     bokstav?: InputMaybe<Scalars['String']['input']>;
     ledd?: InputMaybe<Scalars['String']['input']>;
@@ -660,21 +665,21 @@ export type Mutation = {
     leggPaVent?: Maybe<PaVent>;
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
-    leggTilTilkommenInntekt: Scalars['Boolean']['output'];
-    minimumSykdomsgrad: Scalars['Boolean']['output'];
+    leggTilTilkommenInntekt: LeggTilTilkommenInntektResponse;
+    minimumSykdomsgrad?: Maybe<Scalars['Boolean']['output']>;
     oppdaterPerson: Scalars['Boolean']['output'];
     opphevStans: Scalars['Boolean']['output'];
     opphevStansAutomatiskBehandling: Scalars['Boolean']['output'];
     opprettAbonnement: Scalars['Boolean']['output'];
     opprettTildeling?: Maybe<Tildeling>;
-    overstyrArbeidsforhold: Scalars['Boolean']['output'];
-    overstyrDager: Scalars['Boolean']['output'];
-    overstyrInntektOgRefusjon: Scalars['Boolean']['output'];
-    sendIRetur: Scalars['Boolean']['output'];
-    sendTilGodkjenningV2: Scalars['Boolean']['output'];
+    overstyrArbeidsforhold?: Maybe<Scalars['Boolean']['output']>;
+    overstyrDager?: Maybe<Scalars['Boolean']['output']>;
+    overstyrInntektOgRefusjon?: Maybe<Scalars['Boolean']['output']>;
+    sendIRetur?: Maybe<Scalars['Boolean']['output']>;
+    sendTilGodkjenningV2?: Maybe<Scalars['Boolean']['output']>;
     sendTilInfotrygd: Scalars['Boolean']['output'];
     settVarselstatus?: Maybe<VarselDto>;
-    skjonnsfastsettSykepengegrunnlag: Scalars['Boolean']['output'];
+    skjonnsfastsettSykepengegrunnlag?: Maybe<Scalars['Boolean']['output']>;
     stansAutomatiskBehandling: Scalars['Boolean']['output'];
 };
 
@@ -1178,7 +1183,6 @@ export type Person = {
     infotrygdutbetalinger?: Maybe<Array<Infotrygdutbetaling>>;
     personinfo: Personinfo;
     tildeling?: Maybe<Tildeling>;
-    tilkomneInntektskilder: Array<TilkommenInntektskilde>;
     tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>;
     versjon: Scalars['Int']['output'];
     vilkarsgrunnlag: Array<Vilkarsgrunnlag>;
@@ -1216,6 +1220,7 @@ export type Query = {
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     person?: Maybe<Person>;
+    tilkomneInntektskilder: Array<TilkommenInntektskilde>;
 };
 
 export type QueryBehandledeOppgaverFeedArgs = {
@@ -1254,6 +1259,10 @@ export type QueryOpptegnelserArgs = {
 export type QueryPersonArgs = {
     aktorId?: InputMaybe<Scalars['String']['input']>;
     fnr?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type QueryTilkomneInntektskilderArgs = {
+    aktorId: Scalars['String']['input'];
 };
 
 export type Refusjon = {
