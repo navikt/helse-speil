@@ -12,7 +12,7 @@ import {
     PersonFragment,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import { TilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/TilkommenAG';
+import { TilkommenAGOld } from '@saksbilde/tilkommenInntekt/tilkommenOld/TilkommenAGOld';
 import { findArbeidsgiverWithNyttInntektsforholdPeriode } from '@state/arbeidsgiver';
 import { somNorskDato } from '@utils/date';
 
@@ -45,7 +45,7 @@ const TilkommenInntektContainer = ({ person, aktivPeriode }: TilkommenInntektPro
 
                     if (!arbeidsgiver) return null;
 
-                    return <TilkommenAG key={ag.id} person={person} periode={ag} arbeidsgiver={arbeidsgiver} />;
+                    return <TilkommenAGOld key={ag.id} person={person} periode={ag} arbeidsgiver={arbeidsgiver} />;
                 }) ?? null}
             </VStack>
         </Box>
@@ -58,7 +58,7 @@ const TilkommenInntektError = (): ReactElement => (
     </Alert>
 );
 
-export const TilkommenInntekt = ({ person, aktivPeriode }: TilkommenInntektProps): ReactElement => (
+export const TilkommenInntektOld = ({ person, aktivPeriode }: TilkommenInntektProps): ReactElement => (
     <ErrorBoundary fallback={<TilkommenInntektError />}>
         <TilkommenInntektContainer person={person} aktivPeriode={aktivPeriode} />
     </ErrorBoundary>

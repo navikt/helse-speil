@@ -5,12 +5,12 @@ import { BodyShort, Box, HGrid, HStack, HelpText, VStack } from '@navikt/ds-reac
 import { Endringstrekant } from '@components/Endringstrekant';
 import { ArbeidsgiverFragment, NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
 import { EndringsloggButton } from '@saksbilde/sykepengegrunnlag/inntekt/EndringsloggButton';
-import { EditableTilkommenAG } from '@saksbilde/tilkommenInntekt/tilkommen/EditableTilkommenAG';
-import { TilkommenAGHeader } from '@saksbilde/tilkommenInntekt/tilkommen/TilkommenAGHeader';
+import { EditableTilkommenAGOld } from '@saksbilde/tilkommenInntekt/tilkommenOld/EditableTilkommenAGOld';
+import { TilkommenAGHeaderOld } from '@saksbilde/tilkommenInntekt/tilkommenOld/TilkommenAGHeaderOld';
 import { useArbeidsgiver, useEndringerForPeriode, useLokaltMånedsbeløp } from '@state/arbeidsgiver';
 import { somPenger } from '@utils/locale';
 
-import styles from './TilkommenAG.module.scss';
+import styles from './TilkommenAGOld.module.scss';
 
 interface TilkommenAGProps {
     person: PersonFragment;
@@ -18,7 +18,7 @@ interface TilkommenAGProps {
     arbeidsgiver: ArbeidsgiverFragment;
 }
 
-export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps) => {
+export const TilkommenAGOld = ({ person, periode, arbeidsgiver }: TilkommenAGProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(arbeidsgiver.organisasjonsnummer, periode.skjaeringstidspunkt);
@@ -28,7 +28,7 @@ export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps)
     return (
         <VStack>
             <Box
-                background="surface-subtle"
+                background={'surface-subtle'}
                 borderWidth="0 0 0 3"
                 style={{ borderColor: editing ? 'var(--a-border-action)' : 'transparent' }}
                 paddingBlock="4"
@@ -38,7 +38,7 @@ export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps)
                 minWidth="390px"
                 maxWidth={editing ? undefined : '730px'}
             >
-                <TilkommenAGHeader
+                <TilkommenAGHeaderOld
                     person={person}
                     arbeidsgiver={arbeidsgiver}
                     periode={periode}
@@ -48,7 +48,7 @@ export const TilkommenAG = ({ person, periode, arbeidsgiver }: TilkommenAGProps)
 
                 <Box marginInline="7 0" minWidth="390px" maxWidth="730px">
                     {editing ? (
-                        <EditableTilkommenAG
+                        <EditableTilkommenAGOld
                             person={person}
                             arbeidsgiver={arbeidsgiver}
                             periode={periode}

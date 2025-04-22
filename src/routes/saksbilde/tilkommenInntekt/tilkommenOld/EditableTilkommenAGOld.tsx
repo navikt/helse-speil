@@ -32,7 +32,7 @@ interface EditableTilkommenAGProps {
     onEndre: (erEndret: boolean) => void;
 }
 
-export const EditableTilkommenAG = ({
+export const EditableTilkommenAGOld = ({
     person,
     arbeidsgiver,
     periode,

@@ -20,7 +20,13 @@ interface TilkommenAGHeaderProps {
     setEditing: (state: boolean) => void;
 }
 
-export const TilkommenAGHeader = ({ person, arbeidsgiver, periode, editing, setEditing }: TilkommenAGHeaderProps) => {
+export const TilkommenAGHeaderOld = ({
+    person,
+    arbeidsgiver,
+    periode,
+    editing,
+    setEditing,
+}: TilkommenAGHeaderProps) => {
     const harBeslutteroppgave = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
     const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     const harPeriodeTilGodkjenningTidligereEnnTilkommenPeriode = dayjs(periodeTilGodkjenning?.tom).isBefore(

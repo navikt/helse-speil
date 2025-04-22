@@ -8,7 +8,7 @@ import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
-import { TilkommenInntekt } from '@saksbilde/tilkommenInntekt/TilkommenInntekt';
+import { TilkommenInntektOld } from '@saksbilde/tilkommenInntekt/TilkommenInntektOld';
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 import { harOverlappendeTilkommenInntekt } from '@saksbilde/utils';
 import { Inngangsvilkår } from '@saksbilde/vilkår/Inngangsvilkår';
@@ -30,7 +30,7 @@ export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps
             {decodeURI(tab ?? '') === 'inngangsvilkår' && <Inngangsvilkår person={person} periode={period} />}
             {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag person={person} periode={period} />}
             {tab === 'vurderingsmomenter' && <Vurderingsmomenter periode={period} />}
-            {tab === 'tilkommen-inntekt' && <TilkommenInntekt person={person} aktivPeriode={period} />}
+            {tab === 'tilkommen-inntekt' && <TilkommenInntektOld person={person} aktivPeriode={period} />}
         </Box>
     );
 };
