@@ -8,11 +8,11 @@ import { useKeyboardActions } from '@hooks/useKeyboardShortcuts';
 import styles from './TastaturModal.module.css';
 
 type TastaturModalProps = {
-    onClose: () => void;
+    closeModal: () => void;
     showModal: boolean;
 };
 
-export const TastaturModal = ({ onClose, showModal }: TastaturModalProps): ReactElement => {
+export const TastaturModal = ({ closeModal, showModal }: TastaturModalProps): ReactElement => {
     const tastatursnarveier: Action[] = useKeyboardActions();
     const [utviklerOnlySnarveier, snarveier] = tastatursnarveier.reduce<[Action[], Action[]]>(
         ([a, b], snarvei) => (snarvei.utviklerOnly ? [[...a, snarvei], b] : [a, [...b, snarvei]]),
@@ -20,7 +20,7 @@ export const TastaturModal = ({ onClose, showModal }: TastaturModalProps): React
     );
 
     return (
-        <Modal aria-label="Tastatursnarveier modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
+        <Modal aria-label="Tastatursnarveier modal" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
             <Modal.Header>
                 <Heading level="1" size="medium">
                     Tastatursnarveier

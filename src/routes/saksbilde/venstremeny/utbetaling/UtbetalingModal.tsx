@@ -16,7 +16,7 @@ type UtbetalingModalProps = {
     showModal: boolean;
     isSending: boolean;
     onApprove: () => void;
-    onClose: () => void;
+    closeModal: () => void;
     error: BackendFeil | undefined;
     totrinnsvurdering: boolean;
     utbetaling?: Utbetaling;
@@ -28,14 +28,14 @@ export const UtbetalingModal = ({
     showModal,
     isSending,
     onApprove,
-    onClose,
+    closeModal,
     error,
     totrinnsvurdering,
     utbetaling,
     arbeidsgiverNavn,
     personinfo,
 }: UtbetalingModalProps): ReactElement => (
-    <Modal aria-label="Legg på vent modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
+    <Modal aria-label="Legg på vent modal" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
         <Modal.Header>
             <Heading level="1" size="medium">
                 Er du sikker?
@@ -56,7 +56,7 @@ export const UtbetalingModal = ({
             <Button variant="primary" type="button" autoFocus loading={isSending} onClick={onApprove}>
                 Ja
             </Button>
-            <Button variant="tertiary" type="button" onClick={onClose}>
+            <Button variant="tertiary" type="button" onClick={closeModal}>
                 Avbryt
             </Button>
         </Modal.Footer>

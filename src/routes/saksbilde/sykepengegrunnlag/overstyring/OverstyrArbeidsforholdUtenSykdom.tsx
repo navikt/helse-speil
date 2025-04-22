@@ -158,7 +158,7 @@ const OverstyrArbeidsforholdSkjema = ({
                         </Button>
                     </HStack>
                     {error && <ErrorMessage>{error}</ErrorMessage>}
-                    {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
+                    {timedOut && <TimeoutModal showModal={timedOut} closeModal={() => setTimedOut(false)} />}
                 </div>
             </form>
         </FormProvider>

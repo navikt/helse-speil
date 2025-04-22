@@ -92,7 +92,7 @@ export const GodkjenningButton = ({
                     utbetaling={utbetaling}
                     arbeidsgiverNavn={arbeidsgiverNavn}
                     personinfo={personinfo}
-                    onClose={() => {
+                    closeModal={() => {
                         resetFattVedtakMutation();
                         setShowModal(false);
                     }}

@@ -31,7 +31,7 @@ const AnnullerButtonWithContent = ({
             <Dropdown.Menu.List.Item onClick={() => setShowModal(true)}>Annuller</Dropdown.Menu.List.Item>
             {showModal && (
                 <AnnulleringsModal
-                    onClose={() => setShowModal(false)}
+                    closeModal={() => setShowModal(false)}
                     showModal={showModal}
                     organisasjonsnummer={organisasjonsnummer}
                     vedtaksperiodeId={vedtaksperiodeId}

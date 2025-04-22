@@ -59,7 +59,7 @@ const PåVentKnapp = ({ navn, utgåttFrist, påVentInfo }: PåVentKnappProps): M
             </Tooltip>
             {showModal && (
                 <PåVentListeModal
-                    onClose={() => setShowModal(false)}
+                    closeModal={() => setShowModal(false)}
                     showModal={showModal}
                     påVentInfo={påVentInfo}
                     navn={navn}

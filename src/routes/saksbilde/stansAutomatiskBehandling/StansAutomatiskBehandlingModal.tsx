@@ -14,14 +14,14 @@ import styles from './StansAutomatiskBehandlingModal.module.css';
 
 interface StansAutomatiskBehandlingModalProps {
     fødselsnummer: string;
-    onClose: () => void;
+    closeModal: () => void;
     showModal: boolean;
 }
 
 export function StansAutomatiskBehandlingModal({
     fødselsnummer,
     showModal,
-    onClose,
+    closeModal,
 }: StansAutomatiskBehandlingModalProps): ReactElement {
     const addToast = useAddToast();
     const [stansAutomatiskBehandling, { error }] = useStansAutomatiskBehandling();
@@ -34,7 +34,7 @@ export function StansAutomatiskBehandlingModal({
 
     async function onSubmit(values: z.infer<typeof stansAutomatiskBehandlingSchema>) {
         await stansAutomatiskBehandling(fødselsnummer, values.begrunnelse).then(() => {
-            onClose();
+            closeModal();
             addToast({
                 key: nanoid(),
                 message: 'Automatisk behandling stanset',
@@ -50,7 +50,7 @@ export function StansAutomatiskBehandlingModal({
             portal
             closeOnBackdropClick
             open={showModal}
-            onClose={onClose}
+            onClose={closeModal}
             width="850px"
         >
             <Modal.Header>
@@ -86,7 +86,7 @@ export function StansAutomatiskBehandlingModal({
                 >
                     Stans automatisk behandling
                 </Button>
-                <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting} onClick={onClose}>
+                <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting} onClick={closeModal}>
                     Avbryt
                 </Button>
                 {error && (

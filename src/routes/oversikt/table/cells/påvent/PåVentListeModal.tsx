@@ -10,17 +10,23 @@ import { getFormatertNavn } from '@utils/string';
 import styles from './PåVentListeModal.module.scss';
 
 type PåVentListeModalProps = {
-    onClose: () => void;
+    closeModal: () => void;
     showModal: boolean;
     navn: Personnavn;
     påVentInfo: PaVentInfo;
 };
 
-export const PåVentListeModal = ({ onClose, showModal, navn, påVentInfo }: PåVentListeModalProps): ReactElement => {
+export const PåVentListeModal = ({ closeModal, showModal, navn, påVentInfo }: PåVentListeModalProps): ReactElement => {
     const søkernavn = getFormatertNavn(navn);
 
     return (
-        <Modal aria-label="Legg på vent notater modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
+        <Modal
+            aria-label="Legg på vent notater modal"
+            portal
+            closeOnBackdropClick
+            open={showModal}
+            onClose={closeModal}
+        >
             <Modal.Header>
                 <Heading level="1" size="medium" className={styles.tittel}>
                     Lagt på vent

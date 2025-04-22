@@ -68,7 +68,7 @@ export const LeggPåVentModal = ({
             utgangspunktNotattekst={null}
             utgangspunktFrist={null}
             utgangspunktTildeling={utgangspunktTildeling}
-            onClose={onClose}
+            closeModal={onClose}
             submitKnappTekst="Legg på vent"
             onSubmit={onSubmit}
             submitInProgress={leggPåVentLoading}
@@ -128,7 +128,7 @@ export const EndrePåVentModal = ({
             utgangspunktNotattekst={utgangspunktNotattekst}
             utgangspunktFrist={utgangspunktFrist}
             utgangspunktTildeling={utgangspunktTildeling}
-            onClose={onClose}
+            closeModal={onClose}
             submitKnappTekst="Endre"
             onSubmit={onSubmit}
             submitInProgress={endrePåVentLoading}
@@ -151,7 +151,7 @@ interface FellesPåVentModalProps {
         tildelSaksbehandler: boolean,
     ) => Promise<SubmitResult>;
     submitInProgress: boolean;
-    onClose: () => void;
+    closeModal: () => void;
 }
 
 const FellesPåVentModal = ({
@@ -164,7 +164,7 @@ const FellesPåVentModal = ({
     submitKnappTekst,
     onSubmit,
     submitInProgress,
-    onClose,
+    closeModal,
 }: FellesPåVentModalProps): ReactElement => {
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
     const router = useRouter();
@@ -246,13 +246,13 @@ const FellesPåVentModal = ({
         } else {
             setErrorMessage(result.message);
         }
-        onClose();
+        closeModal();
     };
 
     const årsakAnnetErValgt = (valgteÅrsaker: Array<string>) => valgteÅrsaker.includes('Annet');
 
     return (
-        <Modal aria-label="På vent-modal" portal closeOnBackdropClick open={true} onClose={onClose}>
+        <Modal aria-label="På vent-modal" portal closeOnBackdropClick open={true} onClose={closeModal}>
             <Modal.Header>
                 <Heading level="1" size="medium" className={styles.tittel}>
                     {tittel}
@@ -307,7 +307,7 @@ const FellesPåVentModal = ({
                 <Button variant="primary" type="button" loading={submitInProgress} onClick={submit}>
                     {submitKnappTekst}
                 </Button>
-                <Button variant="tertiary" type="button" onClick={onClose}>
+                <Button variant="tertiary" type="button" onClick={closeModal}>
                     Avbryt
                 </Button>
                 {errorMessage && <ErrorMessage className={styles.errormessage}>{errorMessage}</ErrorMessage>}

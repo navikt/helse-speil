@@ -12,14 +12,14 @@ import { capitalizeArbeidsgiver, somPenger } from '@utils/locale';
 import styles from './Endringslogg.module.css';
 
 type EndringsloggSykepengegrunnlagskjønnsfastsettingProps = {
-    onClose: () => void;
+    closeModal: () => void;
     showModal: boolean;
     endringer: SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn[];
 };
 
 export const EndringsloggSykepengegrunnlagskjønnsfastsetting = ({
     endringer,
-    onClose,
+    closeModal,
     showModal,
 }: EndringsloggSykepengegrunnlagskjønnsfastsettingProps): ReactElement => (
     <Modal
@@ -28,7 +28,7 @@ export const EndringsloggSykepengegrunnlagskjønnsfastsetting = ({
         portal
         closeOnBackdropClick
         open={showModal}
-        onClose={onClose}
+        onClose={closeModal}
     >
         <Modal.Header>
             <Heading level="1" size="medium">

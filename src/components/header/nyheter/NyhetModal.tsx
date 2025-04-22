@@ -12,19 +12,19 @@ import { PortableText } from '@portabletext/react';
 import styles from './NyhetModal.module.scss';
 
 interface NyhetModalProps {
-    onClose: () => void;
+    closeModal: () => void;
     showModal: boolean;
     nyhetModal: NyhetModalType;
 }
 
-export const NyhetModal = ({ onClose, showModal, nyhetModal }: NyhetModalProps): ReactElement => {
+export const NyhetModal = ({ closeModal, showModal, nyhetModal }: NyhetModalProps): ReactElement => {
     const slides = [nyhetModal.modalSlide1, nyhetModal.modalSlide2, nyhetModal.modalSlide3].filter(
         (slide) => slide !== null,
     );
     const [slideIndex, setSlideIndex] = useState(0);
 
     return (
-        <Modal aria-label="Nyhet modal" width="800px" portal closeOnBackdropClick open={showModal} onClose={onClose}>
+        <Modal aria-label="Nyhet modal" width="800px" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
             <Modal.Header>
                 <Heading level="1" size="medium">
                     {nyhetModal.modalOverskrift}

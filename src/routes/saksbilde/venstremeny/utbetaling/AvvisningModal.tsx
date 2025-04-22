@@ -36,12 +36,12 @@ type Avvisningsskjema = {
 };
 
 type AvvisningModalProps = {
-    onClose: () => void;
+    closeModal: () => void;
     showModal: boolean;
     activePeriod: BeregnetPeriodeFragment;
 };
 
-export const AvvisningModal = ({ onClose, showModal, activePeriod }: AvvisningModalProps): ReactElement => {
+export const AvvisningModal = ({ closeModal, showModal, activePeriod }: AvvisningModalProps): ReactElement => {
     const router = useRouter();
     const form = useForm();
     const [sendTilInfotrygdMutation, { error, loading }] = useMutation(TilInfoTrygdDocument);
@@ -88,7 +88,7 @@ export const AvvisningModal = ({ onClose, showModal, activePeriod }: AvvisningMo
             onCompleted: () => {
                 amplitude.logOppgaveForkastet([skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar]);
                 addInfotrygdtoast();
-                onClose();
+                closeModal();
                 router.push('/');
             },
         });
@@ -102,7 +102,7 @@ export const AvvisningModal = ({ onClose, showModal, activePeriod }: AvvisningMo
             : undefined;
 
     return (
-        <Modal aria-label="Avvisning modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
+        <Modal aria-label="Avvisning modal" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
             <Modal.Header>
                 <Heading level="1" size="medium">
                     Kan ikke behandles her
@@ -119,7 +119,7 @@ export const AvvisningModal = ({ onClose, showModal, activePeriod }: AvvisningMo
                 <Button variant="primary" type="submit" form="avvisning-modal-skjema" loading={loading}>
                     Kan ikke behandles her
                 </Button>
-                <Button variant="tertiary" type="button" onClick={onClose}>
+                <Button variant="tertiary" type="button" onClick={closeModal}>
                     Avbryt
                 </Button>
                 {errorMessage && <ErrorMessage className={styles.feilmelding}>{errorMessage}</ErrorMessage>}

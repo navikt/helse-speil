@@ -16,7 +16,7 @@ import { Annulleringsinformasjon } from './Annulleringsinformasjon';
 import styles from './Annulleringsmodal.module.scss';
 
 type AnnulleringsModalProps = {
-    onClose: () => void;
+    closeModal: () => void;
     showModal: boolean;
     organisasjonsnummer: string;
     vedtaksperiodeId: string;
@@ -27,7 +27,7 @@ type AnnulleringsModalProps = {
 };
 
 export const AnnulleringsModal = ({
-    onClose,
+    closeModal,
     showModal,
     organisasjonsnummer,
     vedtaksperiodeId,
@@ -85,7 +85,7 @@ export const AnnulleringsModal = ({
                 onCompleted: () => {
                     amplitude.logAnnullert(annullering.begrunnelser);
                     setOpptegnelsePollingTime(1000);
-                    onClose();
+                    closeModal();
                 },
             });
         }
@@ -101,7 +101,7 @@ export const AnnulleringsModal = ({
             portal
             closeOnBackdropClick
             open={showModal}
-            onClose={onClose}
+            onClose={closeModal}
             width="850px"
         >
             <Modal.Header>
@@ -135,7 +135,7 @@ export const AnnulleringsModal = ({
                 <Button variant="primary" type="submit" form="annullerings-modal-form" loading={loading}>
                     Annuller
                 </Button>
-                <Button variant="tertiary" type="button" onClick={onClose}>
+                <Button variant="tertiary" type="button" onClick={closeModal}>
                     Avbryt
                 </Button>
                 {error && (

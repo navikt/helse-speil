@@ -9,7 +9,7 @@ export const ToggleMenyButton = () => {
     return (
         <>
             <InternalHeader.Button onClick={() => setShowModal(!showModal)}>Toggles</InternalHeader.Button>
-            {showModal && <ToggleMeny onClose={() => setShowModal(false)} showModal={showModal} />}
+            {showModal && <ToggleMeny closeModal={() => setShowModal(false)} showModal={showModal} />}
         </>
     );
 };

@@ -10,19 +10,19 @@ import { somPenger } from '@utils/locale';
 import styles from './Endringslogg.module.css';
 
 type EndringsloggInntektProps = {
-    onClose: () => void;
+    closeModal: () => void;
     showModal: boolean;
     endringer: Array<Inntektoverstyring>;
 };
 
-export const EndringsloggInntekt = ({ endringer, onClose, showModal }: EndringsloggInntektProps): ReactElement => (
+export const EndringsloggInntekt = ({ endringer, closeModal, showModal }: EndringsloggInntektProps): ReactElement => (
     <Modal
         aria-label="Endringslogg modal"
         width="1200px"
         portal
         closeOnBackdropClick
         open={showModal}
-        onClose={onClose}
+        onClose={closeModal}
     >
         <Modal.Header>
             <Heading level="1" size="medium">

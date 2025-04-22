@@ -46,7 +46,7 @@ export const AvvisningButton = ({
             ) : (
                 showModal && (
                     <AvvisningModal
-                        onClose={() => setShowModal(false)}
+                        closeModal={() => setShowModal(false)}
                         showModal={showModal}
                         activePeriod={activePeriod}
                     />

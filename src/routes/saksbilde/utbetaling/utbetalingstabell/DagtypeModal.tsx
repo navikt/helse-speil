@@ -5,12 +5,12 @@ import { BodyShort, Heading, Modal } from '@navikt/ds-react';
 import styles from './DagtypeModal.module.css';
 
 type TastaturModalProps = {
-    onClose: () => void;
     showModal: boolean;
+    closeModal: () => void;
 };
 
-export const DagtypeModal = ({ onClose, showModal }: TastaturModalProps): ReactElement => (
-    <Modal aria-label="Dagtype modal" portal closeOnBackdropClick open={showModal} onClose={onClose}>
+export const DagtypeModal = ({ showModal, closeModal }: TastaturModalProps): ReactElement => (
+    <Modal aria-label="Dagtype modal" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
         <Modal.Header>
             <Heading level="1" size="medium">
                 Dagtyper

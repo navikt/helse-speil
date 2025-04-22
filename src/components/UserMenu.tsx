@@ -59,7 +59,7 @@ export const UserMenu = (): ReactElement => {
                 </Dropdown.Menu>
             </Dropdown>
             {visTastatursnarveier && (
-                <TastaturModal onClose={() => setVisTastatursnarveier(false)} showModal={visTastatursnarveier} />
+                <TastaturModal closeModal={() => setVisTastatursnarveier(false)} showModal={visTastatursnarveier} />
             )}
         </>
     );

@@ -5,16 +5,16 @@ import { BodyShort, Button, Heading, Modal } from '@navikt/ds-react';
 
 type TimeoutModalProps = {
     showModal: boolean;
-    onClose: () => void;
+    closeModal: () => void;
 };
 
-export const TimeoutModal = ({ showModal, onClose }: TimeoutModalProps): ReactElement => (
+export const TimeoutModal = ({ showModal, closeModal }: TimeoutModalProps): ReactElement => (
     <Modal
         aria-label="Kalkuleringen tar tid modal"
         portal
         closeOnBackdropClick
         open={showModal}
-        onClose={onClose}
+        onClose={closeModal}
         width="450px"
     >
         <Modal.Header>
@@ -29,7 +29,7 @@ export const TimeoutModal = ({ showModal, onClose }: TimeoutModalProps): ReactEl
             <Button as={NextLink} variant="secondary" href="/">
                 Tilbake til oversikten
             </Button>
-            <Button variant="tertiary" type="button" onClick={onClose}>
+            <Button variant="tertiary" type="button" onClick={closeModal}>
                 Det er greit
             </Button>
         </Modal.Footer>

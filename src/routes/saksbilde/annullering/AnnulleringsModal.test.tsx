@@ -11,7 +11,7 @@ import { AnnulleringsModal } from './AnnulleringsModal';
 jest.mock('@external/sanity');
 
 const defaultProps = {
-    onClose: () => null,
+    closeModal: () => null,
     showModal: true,
     person: enPerson({
         fodselsnummer: '12345678910',

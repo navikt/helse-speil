@@ -347,8 +347,10 @@ export const OverstyrbarUtbetaling = ({
                     </>
                 )}
             </div>
-            {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
-            {visDagtypeModal && <DagtypeModal onClose={() => setVisDagtypeModal(false)} showModal={visDagtypeModal} />}
+            {timedOut && <TimeoutModal showModal={timedOut} closeModal={() => setTimedOut(false)} />}
+            {visDagtypeModal && (
+                <DagtypeModal closeModal={() => setVisDagtypeModal(false)} showModal={visDagtypeModal} />
+            )}
         </article>
     );
 };

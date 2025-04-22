@@ -18,7 +18,7 @@ export function StansAutomatiskBehandlingButton({ fødselsnummer }: StansAutomat
             {showModal && (
                 <StansAutomatiskBehandlingModal
                     fødselsnummer={fødselsnummer}
-                    onClose={() => setShowModal(false)}
+                    closeModal={() => setShowModal(false)}
                     showModal={showModal}
                 />
             )}

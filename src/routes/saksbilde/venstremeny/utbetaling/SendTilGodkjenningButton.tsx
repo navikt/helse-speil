@@ -96,7 +96,7 @@ export const SendTilGodkjenningButton = ({
                     utbetaling={utbetaling}
                     arbeidsgiverNavn={arbeidsgiverNavn}
                     personinfo={personinfo}
-                    onClose={() => setShowModal(false)}
+                    closeModal={() => setShowModal(false)}
                     onApprove={sendTilGodkjenning}
                     error={error && somBackendfeil(error)}
                     isSending={loading}

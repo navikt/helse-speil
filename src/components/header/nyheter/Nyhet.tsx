@@ -51,7 +51,7 @@ export const Nyhet = ({ nyhet }: NyhetProps) => {
             {skalViseModal(showModal, nyhet, nyhetIderForLukkedeTvungeneModaler) && (
                 <NyhetModal
                     nyhetModal={nyhet.modal}
-                    onClose={() => {
+                    closeModal={() => {
                         setShowModal(false);
                         if (nyhet.modal.tvungenModal) {
                             lagreTvungenModalLukket(nyhet._id);

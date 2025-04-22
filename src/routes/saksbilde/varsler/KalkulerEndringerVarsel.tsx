@@ -56,7 +56,7 @@ export const KalkulerEndringerVarsel = ({
                 </HStack>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
             </Alert>
-            {timedOut && <TimeoutModal showModal={timedOut} onClose={() => setTimedOut(false)} />}
+            {timedOut && <TimeoutModal showModal={timedOut} closeModal={() => setTimedOut(false)} />}
             {showModal && (
                 <SlettLokaleEndringerModal
                     heading="Er du sikker på at du vil forkaste endringene?"
@@ -65,7 +65,7 @@ export const KalkulerEndringerVarsel = ({
                         slettLokaleOverstyringer();
                         setShowModal(false);
                     }}
-                    onClose={() => setShowModal(false)}
+                    closeModal={() => setShowModal(false)}
                 >
                     <BodyShort>
                         Ved å trykke <span style={{ fontWeight: 'bold' }}>Ja</span> vil endringene ikke bli lagret.

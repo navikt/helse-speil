@@ -42,7 +42,7 @@ export const EndringsloggSkjønnsfastsettingButton = ({
             {visEndringslogg && (
                 <EndringsloggSykepengegrunnlagskjønnsfastsetting
                     endringer={endringer}
-                    onClose={() => setVisEndringslogg(false)}
+                    closeModal={() => setVisEndringslogg(false)}
                     showModal={visEndringslogg}
                 />
             )}

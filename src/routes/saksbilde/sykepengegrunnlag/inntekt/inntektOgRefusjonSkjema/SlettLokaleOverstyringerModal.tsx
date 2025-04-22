@@ -27,7 +27,7 @@ export const SlettLokaleOverstyringerModal = ({
         heading="Er du sikker på at du vil fortsette?"
         showModal={showModal}
         onApprove={onApprove}
-        onClose={onClose}
+        closeModal={onClose}
     >
         <BodyShort>
             Ved å trykke ja lagrer du disse nye endringene for skjæringstidspunkt:{' '}
