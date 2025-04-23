@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import { DateString } from '@typer/shared';
 
+export type StansAutomatiskBehandlingSchema = z.infer<typeof stansAutomatiskBehandlingSchema>;
 export const stansAutomatiskBehandlingSchema = z.object({
     begrunnelse: z
         .string()

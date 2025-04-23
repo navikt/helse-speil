@@ -1,11 +1,10 @@
 import { nanoid } from 'nanoid';
 import React, { ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { BodyShort, Button, Heading, Modal, Textarea } from '@navikt/ds-react';
 
-import { stansAutomatiskBehandlingSchema } from '@/form-schemas';
+import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useStansAutomatiskBehandling } from '@hooks/stansAutomatiskBehandling';
 import { useAddToast } from '@state/toasts';
@@ -25,14 +24,14 @@ export function StansAutomatiskBehandlingModal({
 }: StansAutomatiskBehandlingModalProps): ReactElement {
     const addToast = useAddToast();
     const [stansAutomatiskBehandling, { error }] = useStansAutomatiskBehandling();
-    const form = useForm<z.infer<typeof stansAutomatiskBehandlingSchema>>({
+    const form = useForm<StansAutomatiskBehandlingSchema>({
         resolver: zodResolver(stansAutomatiskBehandlingSchema),
         defaultValues: {
             begrunnelse: '',
         },
     });
 
-    async function onSubmit(values: z.infer<typeof stansAutomatiskBehandlingSchema>) {
+    async function onSubmit(values: StansAutomatiskBehandlingSchema) {
         await stansAutomatiskBehandling(fødselsnummer, values.begrunnelse).then(() => {
             closeModal();
             addToast({
