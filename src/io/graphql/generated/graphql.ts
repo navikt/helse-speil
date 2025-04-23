@@ -780,6 +780,7 @@ export type MutationOpphevStansArgs = {
 };
 
 export type MutationOpphevStansAutomatiskBehandlingArgs = {
+    begrunnelse: Scalars['String']['input'];
     fodselsnummer: Scalars['String']['input'];
 };
 
@@ -958,6 +959,17 @@ export enum Oppgavetype {
     UtbetalingTilArbeidsgiver = 'UTBETALING_TIL_ARBEIDSGIVER',
     UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
 }
+
+export type OpphevStansAutomatiskBehandlingSaksbehandler = Historikkinnslag & {
+    __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
+    dialogRef: Maybe<Scalars['Int']['output']>;
+    id: Scalars['Int']['output'];
+    kommentarer: Array<Kommentar>;
+    notattekst: Maybe<Scalars['String']['output']>;
+    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['LocalDateTime']['output'];
+    type: PeriodehistorikkType;
+};
 
 export type OpphoerAvNaturalytelse = {
     __typename: 'OpphoerAvNaturalytelse';
@@ -2646,6 +2658,23 @@ export type ArbeidsgiverFragment = {
                             }>;
                         }
                       | {
+                            __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
+                            notattekst: string | null;
+                            id: number;
+                            type: PeriodehistorikkType;
+                            timestamp: string;
+                            saksbehandlerIdent: string | null;
+                            dialogRef: number | null;
+                            kommentarer: Array<{
+                                __typename: 'Kommentar';
+                                id: number;
+                                tekst: string;
+                                opprettet: string;
+                                saksbehandlerident: string;
+                                feilregistrert_tidspunkt: string | null;
+                            }>;
+                        }
+                      | {
                             __typename: 'PeriodeHistorikkElementNy';
                             id: number;
                             type: PeriodehistorikkType;
@@ -3562,6 +3591,23 @@ export type BeregnetPeriodeFragment = {
               }>;
           }
         | {
+              __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
+              notattekst: string | null;
+              id: number;
+              type: PeriodehistorikkType;
+              timestamp: string;
+              saksbehandlerIdent: string | null;
+              dialogRef: number | null;
+              kommentarer: Array<{
+                  __typename: 'Kommentar';
+                  id: number;
+                  tekst: string;
+                  opprettet: string;
+                  saksbehandlerident: string;
+                  feilregistrert_tidspunkt: string | null;
+              }>;
+          }
+        | {
               __typename: 'PeriodeHistorikkElementNy';
               id: number;
               type: PeriodehistorikkType;
@@ -4319,6 +4365,23 @@ export type PersonFragment = {
                                 __typename: 'LagtPaVent';
                                 frist: string | null;
                                 arsaker: Array<string>;
+                                notattekst: string | null;
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
+                            }
+                          | {
+                                __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
                                 notattekst: string | null;
                                 id: number;
                                 type: PeriodehistorikkType;
@@ -5190,6 +5253,23 @@ export type FetchPersonQuery = {
                                     }>;
                                 }
                               | {
+                                    __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
+                                    notattekst: string | null;
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
+                                }
+                              | {
                                     __typename: 'PeriodeHistorikkElementNy';
                                     id: number;
                                     type: PeriodehistorikkType;
@@ -5794,6 +5874,7 @@ export type SkjonnsfastsettelseMutationMutation = {
 
 export type OpphevStansAutomatiskBehandlingMutationVariables = Exact<{
     fodselsnummer: Scalars['String']['input'];
+    begrunnelse: Scalars['String']['input'];
 }>;
 
 export type OpphevStansAutomatiskBehandlingMutation = {
@@ -5824,6 +5905,118 @@ export type OpprettTildelingMutation = {
 };
 
 export type TildelingFragment = { __typename: 'Tildeling'; navn: string; oid: string; epost: string };
+
+export type HentTilkommenInntektQueryVariables = Exact<{
+    aktorId: Scalars['String']['input'];
+}>;
+
+export type HentTilkommenInntektQuery = {
+    __typename: 'Query';
+    tilkomneInntektskilder: Array<{
+        __typename: 'TilkommenInntektskilde';
+        organisasjonsnummer: string;
+        inntekter: Array<{
+            __typename: 'TilkommenInntekt';
+            tilkommenInntektId: string;
+            periodebelop: string;
+            dager: Array<string>;
+            fjernet: boolean;
+            periode: { __typename: 'DatoPeriode'; fom: string; tom: string };
+            events: Array<
+                | {
+                      __typename: 'TilkommenInntektEndretEvent';
+                      endringer: {
+                          __typename: 'TilkommenInntektEventEndringer';
+                          organisasjonsnummer: {
+                              __typename: 'TilkommenInntektEventStringEndring';
+                              fra: string;
+                              til: string;
+                          } | null;
+                          periode: {
+                              __typename: 'TilkommenInntektEventDatoPeriodeEndring';
+                              fra: { __typename: 'DatoPeriode'; fom: string; tom: string };
+                              til: { __typename: 'DatoPeriode'; fom: string; tom: string };
+                          } | null;
+                          periodebelop: {
+                              __typename: 'TilkommenInntektEventBigDecimalEndring';
+                              fra: string;
+                              til: string;
+                          } | null;
+                          dager: {
+                              __typename: 'TilkommenInntektEventListLocalDateEndring';
+                              fra: Array<string>;
+                              til: Array<string>;
+                          } | null;
+                      };
+                      metadata: {
+                          __typename: 'TilkommenInntektEventMetadata';
+                          sekvensnummer: number;
+                          tidspunkt: string;
+                          utfortAvSaksbehandlerIdent: string;
+                          notatTilBeslutter: string;
+                      };
+                  }
+                | {
+                      __typename: 'TilkommenInntektFjernetEvent';
+                      metadata: {
+                          __typename: 'TilkommenInntektEventMetadata';
+                          sekvensnummer: number;
+                          tidspunkt: string;
+                          utfortAvSaksbehandlerIdent: string;
+                          notatTilBeslutter: string;
+                      };
+                  }
+                | {
+                      __typename: 'TilkommenInntektGjenopprettetEvent';
+                      endringer: {
+                          __typename: 'TilkommenInntektEventEndringer';
+                          organisasjonsnummer: {
+                              __typename: 'TilkommenInntektEventStringEndring';
+                              fra: string;
+                              til: string;
+                          } | null;
+                          periode: {
+                              __typename: 'TilkommenInntektEventDatoPeriodeEndring';
+                              fra: { __typename: 'DatoPeriode'; fom: string; tom: string };
+                              til: { __typename: 'DatoPeriode'; fom: string; tom: string };
+                          } | null;
+                          periodebelop: {
+                              __typename: 'TilkommenInntektEventBigDecimalEndring';
+                              fra: string;
+                              til: string;
+                          } | null;
+                          dager: {
+                              __typename: 'TilkommenInntektEventListLocalDateEndring';
+                              fra: Array<string>;
+                              til: Array<string>;
+                          } | null;
+                      };
+                      metadata: {
+                          __typename: 'TilkommenInntektEventMetadata';
+                          sekvensnummer: number;
+                          tidspunkt: string;
+                          utfortAvSaksbehandlerIdent: string;
+                          notatTilBeslutter: string;
+                      };
+                  }
+                | {
+                      __typename: 'TilkommenInntektOpprettetEvent';
+                      organisasjonsnummer: string;
+                      periodebelop: string;
+                      dager: Array<string>;
+                      periode: { __typename: 'DatoPeriode'; fom: string; tom: string };
+                      metadata: {
+                          __typename: 'TilkommenInntektEventMetadata';
+                          sekvensnummer: number;
+                          tidspunkt: string;
+                          utfortAvSaksbehandlerIdent: string;
+                          notatTilBeslutter: string;
+                      };
+                  }
+            >;
+        }>;
+    }>;
+};
 
 export type SendIReturMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
@@ -6885,6 +7078,32 @@ export const BeregnetPeriodeFragmentDoc = {
                                     typeCondition: {
                                         kind: 'NamedType',
                                         name: { kind: 'Name', value: 'StansAutomatiskBehandlingSaksbehandler' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'OpphevStansAutomatiskBehandlingSaksbehandler' },
                                     },
                                     selectionSet: {
                                         kind: 'SelectionSet',
@@ -8298,6 +8517,32 @@ export const ArbeidsgiverFragmentDoc = {
                                         ],
                                     },
                                 },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'OpphevStansAutomatiskBehandlingSaksbehandler' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -9351,6 +9596,32 @@ export const PersonFragmentDoc = {
                                     typeCondition: {
                                         kind: 'NamedType',
                                         name: { kind: 'Name', value: 'StansAutomatiskBehandlingSaksbehandler' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'OpphevStansAutomatiskBehandlingSaksbehandler' },
                                     },
                                     selectionSet: {
                                         kind: 'SelectionSet',
@@ -12328,6 +12599,32 @@ export const FetchPersonDocument = {
                                         ],
                                     },
                                 },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'OpphevStansAutomatiskBehandlingSaksbehandler' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -13309,6 +13606,11 @@ export const OpphevStansAutomatiskBehandlingDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -13321,6 +13623,11 @@ export const OpphevStansAutomatiskBehandlingDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'fodselsnummer' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'begrunnelse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
                             },
                         ],
                     },
@@ -13455,6 +13762,494 @@ export const OpprettTildelingDocument = {
         },
     ],
 } as unknown as DocumentNode<OpprettTildelingMutation, OpprettTildelingMutationVariables>;
+export const HentTilkommenInntektDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'HentTilkommenInntekt' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'aktorId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tilkomneInntektskilder' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'aktorId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'aktorId' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'inntekter' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tilkommenInntektId' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'periode' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'periodebelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'dager' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fjernet' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'events' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'metadata' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'sekvensnummer' },
+                                                                    },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'tidspunkt' },
+                                                                    },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: {
+                                                                            kind: 'Name',
+                                                                            value: 'utfortAvSaksbehandlerIdent',
+                                                                        },
+                                                                    },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: {
+                                                                            kind: 'Name',
+                                                                            value: 'notatTilBeslutter',
+                                                                        },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'InlineFragment',
+                                                            typeCondition: {
+                                                                kind: 'NamedType',
+                                                                name: {
+                                                                    kind: 'Name',
+                                                                    value: 'TilkommenInntektOpprettetEvent',
+                                                                },
+                                                            },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: {
+                                                                            kind: 'Name',
+                                                                            value: 'organisasjonsnummer',
+                                                                        },
+                                                                    },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'periode' },
+                                                                        selectionSet: {
+                                                                            kind: 'SelectionSet',
+                                                                            selections: [
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'fom',
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'tom',
+                                                                                    },
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'periodebelop' },
+                                                                    },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'dager' },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'InlineFragment',
+                                                            typeCondition: {
+                                                                kind: 'NamedType',
+                                                                name: {
+                                                                    kind: 'Name',
+                                                                    value: 'TilkommenInntektEndretEvent',
+                                                                },
+                                                            },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'endringer' },
+                                                                        selectionSet: {
+                                                                            kind: 'SelectionSet',
+                                                                            selections: [
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'organisasjonsnummer',
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'fra',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'til',
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'periode',
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'fra',
+                                                                                                },
+                                                                                                selectionSet: {
+                                                                                                    kind: 'SelectionSet',
+                                                                                                    selections: [
+                                                                                                        {
+                                                                                                            kind: 'Field',
+                                                                                                            name: {
+                                                                                                                kind: 'Name',
+                                                                                                                value: 'fom',
+                                                                                                            },
+                                                                                                        },
+                                                                                                        {
+                                                                                                            kind: 'Field',
+                                                                                                            name: {
+                                                                                                                kind: 'Name',
+                                                                                                                value: 'tom',
+                                                                                                            },
+                                                                                                        },
+                                                                                                    ],
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'til',
+                                                                                                },
+                                                                                                selectionSet: {
+                                                                                                    kind: 'SelectionSet',
+                                                                                                    selections: [
+                                                                                                        {
+                                                                                                            kind: 'Field',
+                                                                                                            name: {
+                                                                                                                kind: 'Name',
+                                                                                                                value: 'fom',
+                                                                                                            },
+                                                                                                        },
+                                                                                                        {
+                                                                                                            kind: 'Field',
+                                                                                                            name: {
+                                                                                                                kind: 'Name',
+                                                                                                                value: 'tom',
+                                                                                                            },
+                                                                                                        },
+                                                                                                    ],
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'periodebelop',
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'fra',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'til',
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'dager',
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'fra',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'til',
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'InlineFragment',
+                                                            typeCondition: {
+                                                                kind: 'NamedType',
+                                                                name: {
+                                                                    kind: 'Name',
+                                                                    value: 'TilkommenInntektGjenopprettetEvent',
+                                                                },
+                                                            },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'endringer' },
+                                                                        selectionSet: {
+                                                                            kind: 'SelectionSet',
+                                                                            selections: [
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'organisasjonsnummer',
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'fra',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'til',
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'periode',
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'fra',
+                                                                                                },
+                                                                                                selectionSet: {
+                                                                                                    kind: 'SelectionSet',
+                                                                                                    selections: [
+                                                                                                        {
+                                                                                                            kind: 'Field',
+                                                                                                            name: {
+                                                                                                                kind: 'Name',
+                                                                                                                value: 'fom',
+                                                                                                            },
+                                                                                                        },
+                                                                                                        {
+                                                                                                            kind: 'Field',
+                                                                                                            name: {
+                                                                                                                kind: 'Name',
+                                                                                                                value: 'tom',
+                                                                                                            },
+                                                                                                        },
+                                                                                                    ],
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'til',
+                                                                                                },
+                                                                                                selectionSet: {
+                                                                                                    kind: 'SelectionSet',
+                                                                                                    selections: [
+                                                                                                        {
+                                                                                                            kind: 'Field',
+                                                                                                            name: {
+                                                                                                                kind: 'Name',
+                                                                                                                value: 'fom',
+                                                                                                            },
+                                                                                                        },
+                                                                                                        {
+                                                                                                            kind: 'Field',
+                                                                                                            name: {
+                                                                                                                kind: 'Name',
+                                                                                                                value: 'tom',
+                                                                                                            },
+                                                                                                        },
+                                                                                                    ],
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'periodebelop',
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'fra',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'til',
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'dager',
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'fra',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'til',
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<HentTilkommenInntektQuery, HentTilkommenInntektQueryVariables>;
 export const SendIReturDocument = {
     kind: 'Document',
     definitions: [

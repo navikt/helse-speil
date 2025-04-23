@@ -31,7 +31,7 @@ export function useStansAutomatiskBehandling(): StansAutomatiskBehandlingResult 
 }
 
 type OpphevStansAutomatiskBehandlingResult = [
-    (fødselsnummer: string) => Promise<FetchResult<OpphevStansAutomatiskBehandlingMutation>>,
+    (fødselsnummer: string, begrunnelse: string) => Promise<FetchResult<OpphevStansAutomatiskBehandlingMutation>>,
     MutationResult<OpphevStansAutomatiskBehandlingMutation>,
 ];
 
@@ -40,10 +40,11 @@ export function useOpphevStansAutomatiskBehandling(): OpphevStansAutomatiskBehan
         refetchQueries: [FetchPersonDocument],
     });
 
-    async function opphevStansAutomatiskBehandling(fødselsnummer: string) {
+    async function opphevStansAutomatiskBehandling(fødselsnummer: string, begrunnelse: string) {
         return opphevStansAutomatiskBehandlingMutation({
             variables: {
                 fodselsnummer: fødselsnummer,
+                begrunnelse: begrunnelse,
             },
             awaitRefetchQueries: true,
         });

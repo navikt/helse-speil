@@ -95,6 +95,7 @@ type KommentertElementType =
     | 'EndrePaVent'
     | 'TotrinnsvurderingRetur'
     | 'StansAutomatiskBehandlingSaksbehandler'
+    | 'OpphevStansAutomatiskBehandlingSaksbehandler'
     | 'Notat';
 
 interface KommentertElement {
@@ -112,6 +113,8 @@ export const finnKommentertElementType = (historikktype?: PeriodehistorikkType):
             return 'TotrinnsvurderingRetur';
         case PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler:
             return 'StansAutomatiskBehandlingSaksbehandler';
+        case PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler:
+            return 'OpphevStansAutomatiskBehandlingSaksbehandler';
         default:
             return 'Notat';
     }

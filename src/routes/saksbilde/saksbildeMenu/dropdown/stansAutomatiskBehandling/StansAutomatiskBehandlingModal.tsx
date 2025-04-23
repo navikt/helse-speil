@@ -1,48 +1,32 @@
-import { nanoid } from 'nanoid';
 import React, { ReactElement } from 'react';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { Controller, FormProvider, UseFormReturn } from 'react-hook-form';
 
 import { BodyShort, Button, Heading, Modal, Textarea } from '@navikt/ds-react';
 
-import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useStansAutomatiskBehandling } from '@hooks/stansAutomatiskBehandling';
-import { useAddToast } from '@state/toasts';
+import { StansAutomatiskBehandlingSchema } from '@/form-schemas';
+import { ApolloError } from '@apollo/client';
 
 import styles from './StansAutomatiskBehandlingModal.module.css';
 
 interface StansAutomatiskBehandlingModalProps {
-    fødselsnummer: string;
     closeModal: () => void;
     showModal: boolean;
+    onSubmit: (values: StansAutomatiskBehandlingSchema) => Promise<void>;
+    form: UseFormReturn<StansAutomatiskBehandlingSchema>;
+    error?: ApolloError;
+    heading: string;
+    buttonText: string;
 }
 
 export function StansAutomatiskBehandlingModal({
-    fødselsnummer,
     showModal,
     closeModal,
+    onSubmit,
+    form,
+    error,
+    heading,
+    buttonText,
 }: StansAutomatiskBehandlingModalProps): ReactElement {
-    const addToast = useAddToast();
-    const [stansAutomatiskBehandling, { error }] = useStansAutomatiskBehandling();
-    const form = useForm<StansAutomatiskBehandlingSchema>({
-        resolver: zodResolver(stansAutomatiskBehandlingSchema),
-        defaultValues: {
-            begrunnelse: '',
-        },
-    });
-
-    async function onSubmit(values: StansAutomatiskBehandlingSchema) {
-        await stansAutomatiskBehandling(fødselsnummer, values.begrunnelse).then(() => {
-            closeModal();
-            addToast({
-                key: nanoid(),
-                message: 'Automatisk behandling stanset',
-                variant: 'success',
-                timeToLiveMs: 5000,
-            });
-        });
-    }
-
     return (
         <Modal
             aria-label="Stansautomatiskbehandlingmodal"
@@ -54,7 +38,7 @@ export function StansAutomatiskBehandlingModal({
         >
             <Modal.Header>
                 <Heading level="1" size="medium">
-                    Stans automatisk behandling av sykepenger
+                    {heading}
                 </Heading>
             </Modal.Header>
             <Modal.Body>
@@ -83,7 +67,7 @@ export function StansAutomatiskBehandlingModal({
                     form="stans-automatisk-behandling-modal-form"
                     loading={form.formState.isSubmitting}
                 >
-                    Stans automatisk behandling
+                    {buttonText}
                 </Button>
                 <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting} onClick={closeModal}>
                     Avbryt

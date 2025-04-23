@@ -6,7 +6,7 @@ export type StansAutomatiskBehandlingSchema = z.infer<typeof stansAutomatiskBeha
 export const stansAutomatiskBehandlingSchema = z.object({
     begrunnelse: z
         .string()
-        .min(1, { message: 'Fyll inn begrunnelse for stans av automatisk behandling.' })
+        .min(1, { message: 'Fyll inn begrunnelse.' })
         .max(1000, { message: 'Begrunnelsen kan maks være 1000 tegn.' }),
 });
 

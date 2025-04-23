@@ -7,6 +7,7 @@ import {
     Kommentar,
     LagtPaVent,
     Maybe,
+    OpphevStansAutomatiskBehandlingSaksbehandler,
     PeriodeHistorikkElementNy,
     PeriodehistorikkType,
     StansAutomatiskBehandlingSaksbehandler,
@@ -21,12 +22,14 @@ export type HistorikkinnslagUnion =
     | FjernetFraPaVent
     | TotrinnsvurderingRetur
     | StansAutomatiskBehandlingSaksbehandler
+    | OpphevStansAutomatiskBehandlingSaksbehandler
     | PeriodeHistorikkElementNy;
 export type HistorikkinnslagMedKommentarer =
     | LagtPaVent
     | EndrePaVent
     | TotrinnsvurderingRetur
-    | StansAutomatiskBehandlingSaksbehandler;
+    | StansAutomatiskBehandlingSaksbehandler
+    | OpphevStansAutomatiskBehandlingSaksbehandler;
 
 export class HistorikkinnslagMock {
     private static historikkinnslagMap: Map<UUID, Array<HistorikkinnslagUnion>> = new Map();

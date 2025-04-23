@@ -394,12 +394,17 @@ const getResolvers = (): IResolvers => ({
             }
             return true;
         },
-        opphevStansAutomatiskBehandling: async (_, { fodselsnummer }: MutationOpphevStansAutomatiskBehandlingArgs) => {
+        opphevStansAutomatiskBehandling: async (
+            _,
+            { fodselsnummer, begrunnelse }: MutationOpphevStansAutomatiskBehandlingArgs,
+        ) => {
             const oppgaveId = finnOppgaveId();
             StansAutomatiskBehandlingMock.stansAutomatiskBehandling(fodselsnummer, false);
             if (oppgaveId) {
                 HistorikkinnslagMock.addHistorikkinnslag(oppgaveId, {
                     type: PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler,
+                    notattekst: begrunnelse,
+                    dialogRef: DialogMock.addDialog(),
                 });
             }
             return true;
@@ -469,6 +474,8 @@ const getResolvers = (): IResolvers => ({
                     return 'TotrinnsvurderingRetur';
                 case 'STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER':
                     return 'StansAutomatiskBehandlingSaksbehandler';
+                case 'OPPHEV_STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER':
+                    return 'OpphevStansAutomatiskBehandlingSaksbehandler';
                 default:
                     return 'PeriodeHistorikkElementNy';
             }

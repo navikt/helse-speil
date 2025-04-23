@@ -85,6 +85,7 @@ const getTypePolicies = (): TypePolicies => {
         EndrePaVent: { keyFields: ['id'] },
         TotrinnsvurderingRetur: { keyFields: ['id'] },
         StansAutomatiskBehandlingSaksbehandler: { keyFields: ['id'] },
+        OpphevStansAutomatiskBehandlingSaksbehandler: { keyFields: ['id'] },
         Person: { keyFields: ['fodselsnummer'], merge: false },
         VarselDTO: { keyFields: ['generasjonId', 'kode'] },
         SoknadArbeidsgiver: { keyFields: ['id'] },

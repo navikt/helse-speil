@@ -15,6 +15,7 @@ import {
     LagtPaVent,
     Maybe,
     NyttInntektsforholdPeriodeFragment,
+    OpphevStansAutomatiskBehandlingSaksbehandler,
     Periode,
     PeriodeHistorikkElementNy,
     PeriodehistorikkType,
@@ -230,6 +231,7 @@ const årsaker = (
         | EndrePaVent
         | TotrinnsvurderingRetur
         | StansAutomatiskBehandlingSaksbehandler
+        | OpphevStansAutomatiskBehandlingSaksbehandler
         | PeriodeHistorikkElementNy,
 ): string[] =>
     historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'EndrePaVent'
@@ -243,6 +245,7 @@ const frist = (
         | FjernetFraPaVent
         | TotrinnsvurderingRetur
         | StansAutomatiskBehandlingSaksbehandler
+        | OpphevStansAutomatiskBehandlingSaksbehandler
         | PeriodeHistorikkElementNy,
 ): Maybe<string> =>
     historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'EndrePaVent'
@@ -256,13 +259,15 @@ const notattekst = (
         | FjernetFraPaVent
         | TotrinnsvurderingRetur
         | StansAutomatiskBehandlingSaksbehandler
+        | OpphevStansAutomatiskBehandlingSaksbehandler
         | PeriodeHistorikkElementNy,
 ): Maybe<string> => {
     const automatiskReturTekst = 'Perioden er automatisk reberegnet etter at den ble sendt til beslutter.';
     if (
         historikkelement.__typename === 'LagtPaVent' ||
         historikkelement.__typename === 'EndrePaVent' ||
-        historikkelement.__typename === 'StansAutomatiskBehandlingSaksbehandler'
+        historikkelement.__typename === 'StansAutomatiskBehandlingSaksbehandler' ||
+        historikkelement.__typename === 'OpphevStansAutomatiskBehandlingSaksbehandler'
     ) {
         return historikkelement.notattekst;
     }
@@ -279,12 +284,14 @@ const kommentarer = (
         | FjernetFraPaVent
         | TotrinnsvurderingRetur
         | StansAutomatiskBehandlingSaksbehandler
+        | OpphevStansAutomatiskBehandlingSaksbehandler
         | PeriodeHistorikkElementNy,
 ): Kommentar[] =>
     historikkelement.__typename === 'LagtPaVent' ||
     historikkelement.__typename === 'EndrePaVent' ||
     historikkelement.__typename === 'TotrinnsvurderingRetur' ||
-    historikkelement.__typename === 'StansAutomatiskBehandlingSaksbehandler'
+    historikkelement.__typename === 'StansAutomatiskBehandlingSaksbehandler' ||
+    historikkelement.__typename === 'OpphevStansAutomatiskBehandlingSaksbehandler'
         ? historikkelement.kommentarer
         : [];
 

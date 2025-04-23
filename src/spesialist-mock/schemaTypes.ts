@@ -778,6 +778,7 @@ export type MutationOpphevStansArgs = {
 };
 
 export type MutationOpphevStansAutomatiskBehandlingArgs = {
+    begrunnelse: Scalars['String']['input'];
     fodselsnummer: Scalars['String']['input'];
 };
 
@@ -956,6 +957,17 @@ export enum Oppgavetype {
     UtbetalingTilArbeidsgiver = 'UTBETALING_TIL_ARBEIDSGIVER',
     UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
 }
+
+export type OpphevStansAutomatiskBehandlingSaksbehandler = Historikkinnslag & {
+    __typename?: 'OpphevStansAutomatiskBehandlingSaksbehandler';
+    dialogRef?: Maybe<Scalars['Int']['output']>;
+    id: Scalars['Int']['output'];
+    kommentarer: Array<Kommentar>;
+    notattekst?: Maybe<Scalars['String']['output']>;
+    saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['LocalDateTime']['output'];
+    type: PeriodehistorikkType;
+};
 
 export type OpphoerAvNaturalytelse = {
     __typename?: 'OpphoerAvNaturalytelse';
