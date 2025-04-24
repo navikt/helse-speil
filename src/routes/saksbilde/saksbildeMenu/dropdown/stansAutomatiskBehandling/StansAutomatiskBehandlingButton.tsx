@@ -5,8 +5,9 @@ import { useForm } from 'react-hook-form';
 import { Dropdown } from '@navikt/ds-react';
 
 import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
+import { useMutation } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useStansAutomatiskBehandling } from '@hooks/stansAutomatiskBehandling';
+import { FetchPersonDocument, StansAutomatiskBehandlingDocument } from '@io/graphql';
 import { StansAutomatiskBehandlingModal } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/StansAutomatiskBehandlingModal';
 import { ToastObject, useAddToast } from '@state/toasts';
 
@@ -16,7 +17,9 @@ interface StansAutomatiskBehandlingButtonProps {
 
 export function StansAutomatiskBehandlingButton({ fødselsnummer }: StansAutomatiskBehandlingButtonProps): ReactElement {
     const [showModal, setShowModal] = useState(false);
-    const [stansAutomatiskBehandling, { error }] = useStansAutomatiskBehandling();
+    const [stansAutomatiskBehandlingMutation, { error }] = useMutation(StansAutomatiskBehandlingDocument, {
+        refetchQueries: [FetchPersonDocument],
+    });
     const addToast = useAddToast();
     const form = useForm<StansAutomatiskBehandlingSchema>({
         resolver: zodResolver(stansAutomatiskBehandlingSchema),
@@ -26,7 +29,13 @@ export function StansAutomatiskBehandlingButton({ fødselsnummer }: StansAutomat
     });
 
     async function onSubmit(values: StansAutomatiskBehandlingSchema) {
-        await stansAutomatiskBehandling(fødselsnummer, values.begrunnelse).then(() => {
+        await stansAutomatiskBehandlingMutation({
+            variables: {
+                fodselsnummer: fødselsnummer,
+                begrunnelse: values.begrunnelse,
+            },
+            awaitRefetchQueries: true,
+        }).then(() => {
             setShowModal(false);
             addToast(stansAutomatiskBehandlingToast);
         });
