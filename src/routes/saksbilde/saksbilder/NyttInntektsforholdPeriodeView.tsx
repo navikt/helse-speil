@@ -7,7 +7,7 @@ import { Box } from '@navikt/ds-react/Box';
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
 import type { NyttInntektsforholdPeriodeFragment, PersonFragment } from '@io/graphql';
-import { TilkommenInntekt } from '@saksbilde/tilkommenInntekt/TilkommenInntekt';
+import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjema';
 import { isTilkommenInntekt } from '@utils/typeguards';
 
 interface NyttInntektsforholdPeriodeViewProps {
@@ -15,7 +15,10 @@ interface NyttInntektsforholdPeriodeViewProps {
     person: PersonFragment;
 }
 
-export const NyttInntektsforholdPeriodeView = ({ activePeriod }: NyttInntektsforholdPeriodeViewProps): ReactElement => {
+export const NyttInntektsforholdPeriodeView = ({
+    activePeriod,
+    person,
+}: NyttInntektsforholdPeriodeViewProps): ReactElement => {
     const tab = last(usePathname().split('/'));
     useNavigateOnMount(isTilkommenInntekt(activePeriod) ? Fane.TilkommenInntekt : Fane.Sykepengegrunnlag);
 
@@ -23,7 +26,7 @@ export const NyttInntektsforholdPeriodeView = ({ activePeriod }: NyttInntektsfor
         <>
             {tab === 'tilkommen-inntekt' && (
                 <Box overflowX="scroll">
-                    <TilkommenInntekt />
+                    <TilkommenInntektSkjema person={person} />
                 </Box>
             )}
         </>

@@ -18,27 +18,58 @@ import {
 import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Maybe } from '@io/graphql';
+import { Maybe, PersonFragment, TilkommenInntektskilde } from '@io/graphql';
 import { TilkommenTable } from '@saksbilde/tilkommenInntekt/TilkommenTable';
 import { ISO_DATOFORMAT } from '@utils/date';
 
-const TilkommenInntektContainer = (): Maybe<ReactElement> => {
-    const vedtaksperioder = [
-        {
-            fom: '2020-01-01',
-            tom: '2020-01-19',
-            skjæringstidspunkt: '2020-01-01',
-        },
-    ];
+interface TilkommenInntektContainerProps {
+    person: PersonFragment;
+    tilkommeneInntektskilder: TilkommenInntektskilde[];
+}
+
+const TilkommenInntektContainer = ({
+    person,
+    tilkommeneInntektskilder,
+}: TilkommenInntektContainerProps): Maybe<ReactElement> => {
+    const vedtaksperioder = person.arbeidsgivere
+        .flatMap((ag) => ag.generasjoner[0]?.perioder)
+        .filter((periode) => periode != null)
+        .map((periode) => ({
+            fom: periode.fom,
+            tom: periode.tom,
+            skjæringstidspunkt: periode.skjaeringstidspunkt,
+        }));
+
+    const sykefraværstilfeller = Object.values(
+        vedtaksperioder.reduce(
+            (acc, periode) => {
+                const key = periode.skjæringstidspunkt;
+                if (!acc[key]) {
+                    acc[key] = { ...periode };
+                } else {
+                    acc[key].fom = acc[key].fom < periode.fom ? acc[key].fom : periode.fom;
+                    acc[key].tom = acc[key].tom > periode.tom ? acc[key].tom : periode.tom;
+                }
+                return acc;
+            },
+            {} as Record<string, { fom: string; tom: string; skjæringstidspunkt: string }>,
+        ),
+    );
 
     const eksisterendePerioder = new Map<string, { fom: string; tom: string }[]>();
-    eksisterendePerioder.set('947064649', [
-        { fom: '2020-02-01', tom: '2020-02-02' },
-        { fom: '2020-03-01', tom: '2020-03-02' },
-    ]);
+
+    tilkommeneInntektskilder.forEach((inntekt) =>
+        eksisterendePerioder.set(
+            inntekt.organisasjonsnummer,
+            inntekt.inntekter.map((inntekt) => ({
+                fom: inntekt.periode.fom,
+                tom: inntekt.periode.tom,
+            })),
+        ),
+    );
 
     const form = useForm<TilkommenInntektSchema>({
-        resolver: zodResolver(lagTilkommenInntektSchema(vedtaksperioder, eksisterendePerioder)),
+        resolver: zodResolver(lagTilkommenInntektSchema(sykefraværstilfeller, eksisterendePerioder)),
         defaultValues: {
             organisasjonsnummer: '',
             fom: '',
@@ -48,7 +79,7 @@ const TilkommenInntektContainer = (): Maybe<ReactElement> => {
         },
     });
 
-    const onSubmit = (values: TilkommenInntektSchema) => {
+    const onSubmit = async (values: TilkommenInntektSchema) => {
         console.log(values);
     };
 
@@ -179,10 +210,14 @@ const TilkommenInntektError = (): ReactElement => (
     </Alert>
 );
 
-export const TilkommenInntekt = (): ReactElement => (
+interface TilkommenInntektSkjemaProps {
+    person: PersonFragment;
+}
+
+export const TilkommenInntektSkjema = ({ person }: TilkommenInntektSkjemaProps): ReactElement => (
     <ErrorBoundary fallback={<TilkommenInntektError />}>
         <HStack>
-            <TilkommenInntektContainer />
+            <TilkommenInntektContainer person={person} tilkommeneInntektskilder={[]} />
             <TilkommenTable />
         </HStack>
     </ErrorBoundary>
