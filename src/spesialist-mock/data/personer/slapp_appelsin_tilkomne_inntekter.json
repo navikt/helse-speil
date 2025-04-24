@@ -1,0 +1,38 @@
+{
+    "data": {
+        "tilkomneInntektskilder": [
+            {
+                "organisasjonsnummer": "987654321",
+                "inntekter": [
+                    {
+                        "tilkommenInntektId": "dd4660ce-2103-11f0-a5e6-7b066f8127aa",
+                        "periode": {
+                            "fom": "2025-04-01",
+                            "tom": "2025-04-13"
+                        },
+                        "periodebelop": 1111.11,
+                        "dager": ["2025-04-13"],
+                        "fjernet": false,
+                        "events": [
+                            {
+                                "metadata": {
+                                    "sekvensnummer": 1,
+                                    "tidspunkt": "2025-04-24T12:34:56.789",
+                                    "utfortAvSaksbehandlerIdent": "a1234567",
+                                    "notatTilBeslutter": "Jeg laget en tilkommen inntekt, jeg"
+                                },
+                                "organisasjonsnummer": "987654321",
+                                "periode": {
+                                    "fom": "2025-04-01",
+                                    "tom": "2025-04-13"
+                                },
+                                "periodebelop": 1111.11,
+                                "dager": ["2025-04-13"]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
