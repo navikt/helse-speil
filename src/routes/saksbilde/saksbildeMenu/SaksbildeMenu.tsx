@@ -1,10 +1,10 @@
+import { usePathname } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { BodyShort, Box, BoxProps, HStack, Skeleton } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { PersonFragment } from '@io/graphql';
-import { harOverlappendeTilkommenInntekt } from '@saksbilde/utils';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -22,16 +22,21 @@ const SaksbildeMenuContainer = ({ person, activePeriod }: SaksbildeMenuProps): R
     const erVilkårsvurdert = erBeregnetPeriode || isGhostPeriode(activePeriod);
     const harRisikofunn =
         erBeregnetPeriode && activePeriod.risikovurdering?.funn && activePeriod.risikovurdering?.funn?.length > 0;
-    const harTilkommenInntekt = harOverlappendeTilkommenInntekt(person, activePeriod.fom);
+    const pathname = usePathname();
+    const erTilkommenInntekt = pathname.includes('/tilkommen-inntekt');
     return (
         <SaksbildeMenuWrapper>
             <HStack>
                 <HStack as="nav" role="tablist">
-                    {erPeriode && <NavLenke to="dagoversikt" tittel="Dagoversikt" />}
-                    {erBeregnetPeriode && <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />}
-                    {erVilkårsvurdert && <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />}
-                    {harRisikofunn && <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />}
-                    {harTilkommenInntekt && <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />}
+                    {!erTilkommenInntekt && (
+                        <>
+                            {erPeriode && <NavLenke to="dagoversikt" tittel="Dagoversikt" />}
+                            {erBeregnetPeriode && <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />}
+                            {erVilkårsvurdert && <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />}
+                            {harRisikofunn && <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />}
+                        </>
+                    )}
+                    {erTilkommenInntekt && <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />}
                 </HStack>
                 <DropdownMenu person={person} activePeriod={activePeriod} />
             </HStack>
@@ -63,7 +68,7 @@ export const SaksbildemenySkeleton = () => (
 );
 
 const SaksbildeMenuError = (): ReactElement => (
-    <SaksbildeMenuWrapper background="surface-danger-subtle">
+    <SaksbildeMenuWrapper background-color="surface-danger-subtle">
         <HStack height="100%" align="center">
             <BodyShort>Det oppstod en feil. Kan ikke vise saksbildemeny.</BodyShort>
         </HStack>

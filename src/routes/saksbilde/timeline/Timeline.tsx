@@ -1,9 +1,12 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
+import NextLink from 'next/link';
 import React, { ReactElement, useEffect } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { PlusIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button } from '@navikt/ds-react';
 
+import { erUtvikling } from '@/env';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
@@ -156,18 +159,34 @@ const TimelineWithContent = ({
                     />
                 )}
             </div>
-            <div className={styles.TimelineControls}>
-                <ScrollButtons
-                    navigateForwards={navigateForwards}
-                    navigateBackwards={navigateBackwards}
-                    canNavigateForwards={canNavigateForwards}
-                    canNavigateBackwards={canNavigateBackwards}
-                />
-                <ZoomLevelPicker
-                    currentZoomLevel={currentZoomLevel}
-                    availableZoomLevels={zoomLevels}
-                    setActiveZoomLevel={setCurrentZoomLevel}
-                />
+            <div className={styles.TimelineButtons}>
+                <div className={styles.LeftButtons}>
+                    {erUtvikling && (
+                        <Button
+                            as={NextLink}
+                            variant="tertiary"
+                            size="small"
+                            style={{ marginLeft: '-0.5rem' }}
+                            icon={<PlusIcon title="Legg til tilkommen inntekt" />}
+                            href={`/person/${person.aktorId}/tilkommen-inntekt`}
+                        >
+                            Legg til tilkommen inntekt/periode
+                        </Button>
+                    )}
+                </div>
+                <div className={styles.TimelineControls}>
+                    <ScrollButtons
+                        navigateForwards={navigateForwards}
+                        navigateBackwards={navigateBackwards}
+                        canNavigateForwards={canNavigateForwards}
+                        canNavigateBackwards={canNavigateBackwards}
+                    />
+                    <ZoomLevelPicker
+                        currentZoomLevel={currentZoomLevel}
+                        availableZoomLevels={zoomLevels}
+                        setActiveZoomLevel={setCurrentZoomLevel}
+                    />
+                </div>
             </div>
         </div>
     );

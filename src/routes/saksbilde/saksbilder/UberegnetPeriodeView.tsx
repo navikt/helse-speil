@@ -7,7 +7,7 @@ import { Box } from '@navikt/ds-react/Box';
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
 import { PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
-import { TilkommenInntektOld } from '@saksbilde/tilkommenInntekt/TilkommenInntektOld';
+import { TilkommenInntekt } from '@saksbilde/tilkommenInntekt/TilkommenInntekt';
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 import { harOverlappendeTilkommenInntekt } from '@saksbilde/utils';
 
@@ -30,7 +30,7 @@ export const UberegnetPeriodeView = ({ person, activePeriod }: UberegnetPeriodeV
     return (
         <Box overflowX="scroll">
             {tab === 'dagoversikt' && <Utbetaling person={person} periode={activePeriod} />}
-            {tab === 'tilkommen-inntekt' && <TilkommenInntektOld person={person} aktivPeriode={activePeriod} />}
+            {tab === 'tilkommen-inntekt' && <TilkommenInntekt />}
         </Box>
     );
 };

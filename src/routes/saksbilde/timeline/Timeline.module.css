@@ -16,12 +16,22 @@
     gap: 24px;
 }
 
-.TimelineControls {
+.TimelineButtons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 16px 0;
+}
+
+.LeftButtons {
     display: flex;
     align-items: center;
+}
+
+.TimelineControls {
+    display: flex;
     gap: 24px;
-    align-self: flex-end;
-    margin: 16px 0;
+    align-items: center;
 }
 
 .Error {
