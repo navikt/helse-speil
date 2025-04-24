@@ -49,7 +49,9 @@ describe('tilkommenIkktekt skjemavalidering', () => {
     });
 
     it('organisasjonsnummer skal ha gyldig kontrollsiffer', () => {
-        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064641'))).toBe('Må være gyldig organisasjonsnummer');
+        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064641'))).toBe(
+            'Organisasjonsnummer må ha gyldig kontrollsiffer',
+        );
     });
 
     it('fom skal være gyldig dato', () => {

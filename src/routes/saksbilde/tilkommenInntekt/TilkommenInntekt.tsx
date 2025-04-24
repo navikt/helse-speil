@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 import { Controller, ControllerRenderProps, FormProvider, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import {
     Alert,
@@ -16,7 +15,7 @@ import {
     useDatepicker,
 } from '@navikt/ds-react';
 
-import { lagTilkommenInntektSchema } from '@/form-schemas';
+import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Maybe } from '@io/graphql';
@@ -38,10 +37,8 @@ const TilkommenInntektContainer = (): Maybe<ReactElement> => {
         { fom: '2020-03-01', tom: '2020-03-02' },
     ]);
 
-    const tilkommenInntektSchema = lagTilkommenInntektSchema(vedtaksperioder, eksisterendePerioder);
-
-    const form = useForm<z.infer<typeof tilkommenInntektSchema>>({
-        resolver: zodResolver(tilkommenInntektSchema),
+    const form = useForm<TilkommenInntektSchema>({
+        resolver: zodResolver(lagTilkommenInntektSchema(vedtaksperioder, eksisterendePerioder)),
         defaultValues: {
             organisasjonsnummer: '',
             fom: '',
@@ -51,7 +48,7 @@ const TilkommenInntektContainer = (): Maybe<ReactElement> => {
         },
     });
 
-    const onSubmit = (values: z.infer<typeof tilkommenInntektSchema>) => {
+    const onSubmit = (values: TilkommenInntektSchema) => {
         console.log(values);
     };
 
@@ -192,8 +189,7 @@ export const TilkommenInntekt = (): ReactElement => (
 );
 
 type ControlledDatePickerProps = {
-    // eslint-disable-next-line
-    field: ControllerRenderProps<any, string>;
+    field: ControllerRenderProps<TilkommenInntektSchema>;
     error?: string;
     label: string;
 };
