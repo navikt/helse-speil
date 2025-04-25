@@ -11,7 +11,6 @@ export const stansAutomatiskBehandlingSchema = z.object({
 });
 
 export type TilkommenInntektSchema = z.infer<ReturnType<typeof lagTilkommenInntektSchema>>;
-
 export const lagTilkommenInntektSchema = (
     vedtaksperioder: { fom: DateString; tom: DateString; skjæringstidspunkt: DateString }[],
     eksisterendePerioder: Map<string, { fom: DateString; tom: DateString }[]>,

@@ -35,3 +35,5 @@ export const erEtter = (dato: DateString, tidligst: DateString) =>
     dayjs(dato, ISO_DATOFORMAT, true).isAfter(dayjs(tidligst, ISO_DATOFORMAT, true));
 export const erFør = (dato: DateString, senest: DateString) =>
     dayjs(dato, ISO_DATOFORMAT, true).isBefore(dayjs(senest, ISO_DATOFORMAT, true));
+
+export const erGyldigDato = (dato: DateString): boolean => dayjs(dato, ISO_DATOFORMAT, true).isValid();

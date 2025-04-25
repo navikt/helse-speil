@@ -20,81 +20,23 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Maybe, PersonFragment, TilkommenInntektskilde } from '@io/graphql';
 import { TilkommenTable } from '@saksbilde/tilkommenInntekt/TilkommenTable';
-import { ISO_DATOFORMAT } from '@utils/date';
+import { DateString } from '@typer/shared';
+import { ISO_DATOFORMAT, erGyldigDato } from '@utils/date';
 
 interface TilkommenInntektContainerProps {
-    person: PersonFragment;
-    tilkommeneInntektskilder: TilkommenInntektskilde[];
+    form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
+    dagerTilFordeling: number;
 }
 
 const TilkommenInntektContainer = ({
-    person,
-    tilkommeneInntektskilder,
+    form,
+    dagerTilFordeling,
 }: TilkommenInntektContainerProps): Maybe<ReactElement> => {
-    const vedtaksperioder = person.arbeidsgivere
-        .flatMap((ag) => ag.generasjoner[0]?.perioder)
-        .filter((periode) => periode != null)
-        .map((periode) => ({
-            fom: periode.fom,
-            tom: periode.tom,
-            skjæringstidspunkt: periode.skjaeringstidspunkt,
-        }));
-
-    const sykefraværstilfeller = Object.values(
-        vedtaksperioder.reduce(
-            (acc, periode) => {
-                const key = periode.skjæringstidspunkt;
-                if (!acc[key]) {
-                    acc[key] = { ...periode };
-                } else {
-                    acc[key].fom = acc[key].fom < periode.fom ? acc[key].fom : periode.fom;
-                    acc[key].tom = acc[key].tom > periode.tom ? acc[key].tom : periode.tom;
-                }
-                return acc;
-            },
-            {} as Record<string, { fom: string; tom: string; skjæringstidspunkt: string }>,
-        ),
-    );
-
-    const eksisterendePerioder = new Map<string, { fom: string; tom: string }[]>();
-
-    tilkommeneInntektskilder.forEach((inntekt) =>
-        eksisterendePerioder.set(
-            inntekt.organisasjonsnummer,
-            inntekt.inntekter.map((inntekt) => ({
-                fom: inntekt.periode.fom,
-                tom: inntekt.periode.tom,
-            })),
-        ),
-    );
-
-    const form = useForm<TilkommenInntektSchema>({
-        resolver: zodResolver(lagTilkommenInntektSchema(sykefraværstilfeller, eksisterendePerioder)),
-        defaultValues: {
-            organisasjonsnummer: '',
-            fom: '',
-            tom: '',
-            periodebeløp: 0,
-            notat: '',
-        },
-    });
-
     const onSubmit = async (values: TilkommenInntektSchema) => {
         console.log(values);
     };
 
-    const periodebeløp = form.watch('periodebeløp');
-    const fom = form.watch('fom');
-    const tom = form.watch('tom');
-
-    const antallDager = dayjs(tom).diff(dayjs(fom), 'day') + 1; // denne må oppdateres til riktige dager
-
-    const inntektPerDag =
-        antallDager > 0 && periodebeløp && !isNaN(Number(periodebeløp))
-            ? (Number(periodebeløp) / antallDager).toFixed(2)
-            : '';
-
-    console.log(form.formState.errors);
+    const inntektPerDag = form.watch('periodebeløp') / dagerTilFordeling;
 
     return (
         <FormProvider {...form}>
@@ -171,7 +113,7 @@ const TilkommenInntektContainer = ({
                                 size="small"
                                 readOnly
                                 style={{ width: 'var(--a-spacing-24)' }}
-                                value={inntektPerDag}
+                                value={Number.isSafeInteger(inntektPerDag) ? inntektPerDag : undefined}
                             />
                         </HStack>
                         <Box maxWidth="380px">
@@ -212,16 +154,82 @@ const TilkommenInntektError = (): ReactElement => (
 
 interface TilkommenInntektSkjemaProps {
     person: PersonFragment;
+    tilkommeneInntektskilder?: TilkommenInntektskilde[];
 }
 
-export const TilkommenInntektSkjema = ({ person }: TilkommenInntektSkjemaProps): ReactElement => (
-    <ErrorBoundary fallback={<TilkommenInntektError />}>
-        <HStack>
-            <TilkommenInntektContainer person={person} tilkommeneInntektskilder={[]} />
-            <TilkommenTable />
-        </HStack>
-    </ErrorBoundary>
-);
+export const TilkommenInntektSkjema = ({
+    person,
+    tilkommeneInntektskilder = [],
+}: TilkommenInntektSkjemaProps): ReactElement => {
+    const [dagerÅFordelePå, setdagerÅFordelePå] = React.useState<DateString[]>([]);
+
+    const vedtaksperioder = person.arbeidsgivere
+        .flatMap((ag) => ag.generasjoner[0]?.perioder)
+        .filter((periode) => periode != null)
+        .map((periode) => ({
+            fom: periode.fom,
+            tom: periode.tom,
+            skjæringstidspunkt: periode.skjaeringstidspunkt,
+        }));
+
+    const sykefraværstilfeller = Object.values(
+        vedtaksperioder.reduce(
+            (acc, periode) => {
+                const key = periode.skjæringstidspunkt;
+                if (!acc[key]) {
+                    acc[key] = { ...periode };
+                } else {
+                    acc[key].fom = acc[key].fom < periode.fom ? acc[key].fom : periode.fom;
+                    acc[key].tom = acc[key].tom > periode.tom ? acc[key].tom : periode.tom;
+                }
+                return acc;
+            },
+            {} as Record<string, { fom: string; tom: string; skjæringstidspunkt: string }>,
+        ),
+    );
+
+    const eksisterendePerioder = new Map<string, { fom: string; tom: string }[]>();
+
+    tilkommeneInntektskilder.forEach((inntektskilde) =>
+        eksisterendePerioder.set(
+            inntektskilde.organisasjonsnummer,
+            inntektskilde.inntekter.map((inntekt) => ({
+                fom: inntekt.periode.fom,
+                tom: inntekt.periode.tom,
+            })),
+        ),
+    );
+
+    const form = useForm<TilkommenInntektSchema>({
+        resolver: zodResolver(lagTilkommenInntektSchema(sykefraværstilfeller, eksisterendePerioder)),
+        defaultValues: {
+            organisasjonsnummer: '',
+            fom: '',
+            tom: '',
+            periodebeløp: 0,
+            notat: '',
+        },
+    });
+
+    const fom = form.watch('fom');
+    const tom = form.watch('tom');
+
+    return (
+        <ErrorBoundary fallback={<TilkommenInntektError />}>
+            <HStack>
+                <TilkommenInntektContainer form={form} dagerTilFordeling={dagerÅFordelePå.length} />
+                {erGyldigDato(fom) && erGyldigDato(tom) && (
+                    <TilkommenTable
+                        arbeidsgivere={person.arbeidsgivere}
+                        fom={fom}
+                        tom={tom}
+                        setdagerÅFordelePå={setdagerÅFordelePå}
+                    />
+                )}
+            </HStack>
+        </ErrorBoundary>
+    );
+};
 
 type ControlledDatePickerProps = {
     field: ControllerRenderProps<TilkommenInntektSchema>;

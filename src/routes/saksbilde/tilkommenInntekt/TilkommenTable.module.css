@@ -1,0 +1,8 @@
+.tabelBody {
+    background-color: var(--a-bg-default);
+}
+
+.helg {
+    background: var(--a-bg-subtle)
+        repeating-linear-gradient(123deg, var(--a-gray-300), var(--a-gray-300) 1px, transparent 1px, transparent 9px);
+}
