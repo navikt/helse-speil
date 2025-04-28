@@ -168,13 +168,13 @@ const TilkommenInntektError = (): ReactElement => (
 interface TilkommenInntektSkjemaProps {
     person: PersonFragment;
     periode: PeriodeFragment | GhostPeriodeFragment | NyttInntektsforholdPeriodeFragment;
-    tilkommeneInntektskilder?: TilkommenInntektskilde[];
+    tilkommeneInntektskilder: TilkommenInntektskilde[];
 }
 
 export const TilkommenInntektSkjema = ({
     person,
     periode,
-    tilkommeneInntektskilder = [],
+    tilkommeneInntektskilder,
 }: TilkommenInntektSkjemaProps): ReactElement => {
     const [dagerÅFordelePå, setdagerÅFordelePå] = React.useState<DateString[]>([]);
 

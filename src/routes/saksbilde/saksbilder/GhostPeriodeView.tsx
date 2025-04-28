@@ -6,7 +6,7 @@ import { Box } from '@navikt/ds-react/Box';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
-import type { GhostPeriodeFragment, PersonFragment } from '@io/graphql';
+import type { GhostPeriodeFragment, PersonFragment, TilkommenInntektskilde } from '@io/graphql';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjema';
 import { isTilkommenInntekt } from '@utils/typeguards';
@@ -14,9 +14,14 @@ import { isTilkommenInntekt } from '@utils/typeguards';
 interface GhostPeriodeViewProps {
     activePeriod: GhostPeriodeFragment;
     person: PersonFragment;
+    tilkommeneInntektskilder: TilkommenInntektskilde[];
 }
 
-export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps): ReactElement => {
+export const GhostPeriodeView = ({
+    activePeriod,
+    person,
+    tilkommeneInntektskilder,
+}: GhostPeriodeViewProps): ReactElement => {
     const tab = last(usePathname().split('/'));
     useNavigateOnMount(isTilkommenInntekt(activePeriod) ? Fane.TilkommenInntekt : Fane.Sykepengegrunnlag);
 
@@ -29,7 +34,11 @@ export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps
             )}
             {tab === 'tilkommen-inntekt' && (
                 <Box overflowX="scroll">
-                    <TilkommenInntektSkjema person={person} periode={activePeriod} />
+                    <TilkommenInntektSkjema
+                        person={person}
+                        periode={activePeriod}
+                        tilkommeneInntektskilder={tilkommeneInntektskilder}
+                    />
                 </Box>
             )}
         </>

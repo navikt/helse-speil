@@ -6,7 +6,7 @@ import { Box } from '@navikt/ds-react/Box';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
-import { PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
+import { PersonFragment, TilkommenInntektskilde, UberegnetPeriodeFragment } from '@io/graphql';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjema';
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 import { harOverlappendeTilkommenInntekt } from '@saksbilde/utils';
@@ -14,9 +14,10 @@ import { harOverlappendeTilkommenInntekt } from '@saksbilde/utils';
 type UberegnetPeriodeViewProps = {
     person: PersonFragment;
     activePeriod: UberegnetPeriodeFragment;
+    tilkommeneInntektskilder: TilkommenInntektskilde[];
 };
 
-export const UberegnetPeriodeView = ({ person, activePeriod }: UberegnetPeriodeViewProps) => {
+export const UberegnetPeriodeView = ({ person, activePeriod, tilkommeneInntektskilder }: UberegnetPeriodeViewProps) => {
     const tab = last(usePathname().split('/'));
     const harTilkommenInntekt = harOverlappendeTilkommenInntekt(person, activePeriod.fom);
     useNavigateOnMount(
@@ -30,7 +31,13 @@ export const UberegnetPeriodeView = ({ person, activePeriod }: UberegnetPeriodeV
     return (
         <Box overflowX="scroll">
             {tab === 'dagoversikt' && <Utbetaling person={person} periode={activePeriod} />}
-            {tab === 'tilkommen-inntekt' && <TilkommenInntektSkjema person={person} periode={activePeriod} />}
+            {tab === 'tilkommen-inntekt' && (
+                <TilkommenInntektSkjema
+                    person={person}
+                    periode={activePeriod}
+                    tilkommeneInntektskilder={tilkommeneInntektskilder}
+                />
+            )}
         </Box>
     );
 };
