@@ -53,11 +53,11 @@ export const useActiveTilkommenInntektId = (): Maybe<string> => {
 export const useActivePeriodWithPerson = (person: PersonFragment): Maybe<ActivePeriod> => {
     const activePeriodId = useAtomValue(activePeriodIdState);
 
-    if (activePeriodId?.type !== 'Periode') return null;
+    if (activePeriodId !== null && activePeriodId?.type !== 'Periode') return null;
 
     const periodToSelect = person ? findPeriodToSelect(person) : null;
 
-    return findPeriod(activePeriodId.id, person) ?? periodToSelect;
+    return findPeriod(activePeriodId?.id ?? null, person) ?? periodToSelect;
 };
 
 export const useSelectPeriod = () => {
