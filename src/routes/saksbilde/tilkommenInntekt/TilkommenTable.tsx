@@ -39,7 +39,7 @@ export const TilkommenTable = ({
                     legend="Velg hvilke dager som ikke skal graderes"
                     onChange={(valgte: DateString[]) => setDagerSomSkalEkskluderes(valgte)}
                 >
-                    <Table>
+                    <Table size="small">
                         <Table.Header>
                             <Table.Row>
                                 <Table.DataCell>Dato</Table.DataCell>
@@ -55,7 +55,9 @@ export const TilkommenTable = ({
                                         {erHelg(dag.dato) ? (
                                             somNorskDato(dag.dato)
                                         ) : (
-                                            <Checkbox value={dag.dato}>{somNorskDato(dag.dato)}</Checkbox>
+                                            <Checkbox size="small" value={dag.dato} className={styles.checkbox}>
+                                                {somNorskDato(dag.dato)}
+                                            </Checkbox>
                                         )}
                                     </Table.DataCell>
                                     {dag.arbeidsgivere.map((arbeidsgiver) => (

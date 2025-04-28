@@ -6,3 +6,7 @@
     background: var(--a-bg-subtle)
         repeating-linear-gradient(123deg, var(--a-gray-300), var(--a-gray-300) 1px, transparent 1px, transparent 9px);
 }
+
+.checkbox span {
+    font-size: var(--a-font-size-large);
+}
