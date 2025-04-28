@@ -11,7 +11,7 @@ import { KopierAgNavn } from '@saksbilde/timeline/KopierAgNavn';
 import { TilkommenInntektPeriods } from '@saksbilde/timeline/TilkommenInntektPeriods';
 import { useIsAnonymous } from '@state/anonymization';
 
-import styles from './TimelineRow.module.css';
+import styles from './TilkommenInntektTimelineRow.module.css';
 
 export interface TilkommenInntektTimelineRowProps {
     start: Dayjs;
@@ -31,7 +31,7 @@ export const TilkommenInntektTimelineRow = ({
         <div className={styles.TimelineRow}>
             <Tooltip content={name && !erAnonymisert ? name : 'Arbeidsgiver'}>
                 <div className={classNames(styles.Name, styles.anonymisert)}>
-                    <PlusCircleIcon />
+                    <PlusCircleIcon className={styles.arbeidsgiverIkon} />
                     <AnonymizableTextWithEllipsis>{name}</AnonymizableTextWithEllipsis>
                     <KopierAgNavn navn={name} />
                 </div>

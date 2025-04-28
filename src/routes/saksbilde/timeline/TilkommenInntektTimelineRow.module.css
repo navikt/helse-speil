@@ -1,0 +1,46 @@
+.TimelineRow {
+    --carret-width: 8px;
+    --expandable-button-gap: 12px;
+    --carret-padding: 6px;
+    position: relative;
+    display: flex;
+    min-height: 24px;
+    gap: 16px;
+}
+
+.Periods {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #f8f8f8;
+    flex: 1;
+    gap: 0.25rem;
+}
+
+.Name {
+    width: var(--row-name-width);
+    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden;
+}
+
+.Name > svg {
+    flex-shrink: 0;
+}
+
+.Name > button {
+    margin-left: -0.5em;
+}
+
+.anonymisert:hover {
+    text-decoration: none;
+}
+
+.arbeidsgiverIkon {
+    margin-left: -1.5px;
+    margin-right: -1.5px;
+    width: 20px;
+    height: 20px;
+}
