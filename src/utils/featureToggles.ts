@@ -21,6 +21,7 @@ const coaches = [
     'S157539',
     'S165568',
     'G155258',
+    'H160235',
     ...enhetsledere,
 ];
 
