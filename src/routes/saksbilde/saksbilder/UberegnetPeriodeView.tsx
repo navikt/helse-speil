@@ -30,7 +30,7 @@ export const UberegnetPeriodeView = ({ person, activePeriod }: UberegnetPeriodeV
     return (
         <Box overflowX="scroll">
             {tab === 'dagoversikt' && <Utbetaling person={person} periode={activePeriod} />}
-            {tab === 'tilkommen-inntekt' && <TilkommenInntektSkjema person={person} />}
+            {tab === 'tilkommen-inntekt' && <TilkommenInntektSkjema person={person} periode={activePeriod} />}
         </Box>
     );
 };

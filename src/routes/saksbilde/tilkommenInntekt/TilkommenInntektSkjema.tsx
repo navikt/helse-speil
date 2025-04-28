@@ -18,7 +18,14 @@ import {
 import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Maybe, PersonFragment, TilkommenInntektskilde } from '@io/graphql';
+import {
+    GhostPeriodeFragment,
+    Maybe,
+    type NyttInntektsforholdPeriodeFragment,
+    PeriodeFragment,
+    PersonFragment,
+    TilkommenInntektskilde,
+} from '@io/graphql';
 import { TilkommenTable } from '@saksbilde/tilkommenInntekt/TilkommenTable';
 import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, erGyldigDato } from '@utils/date';
@@ -26,11 +33,15 @@ import { ISO_DATOFORMAT, erGyldigDato } from '@utils/date';
 interface TilkommenInntektContainerProps {
     form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
     dagerTilFordeling: number;
+    defaultFom: Date;
+    defaultTom: Date;
 }
 
 const TilkommenInntektContainer = ({
     form,
     dagerTilFordeling,
+    defaultFom,
+    defaultTom,
 }: TilkommenInntektContainerProps): Maybe<ReactElement> => {
     const onSubmit = async (values: TilkommenInntektSchema) => {
         console.log(values);
@@ -79,6 +90,7 @@ const TilkommenInntektContainer = ({
                                         field={field}
                                         label="Periode f.o.m"
                                         error={fieldState.error?.message}
+                                        defaultMonth={defaultFom}
                                     />
                                 )}
                             />
@@ -90,6 +102,7 @@ const TilkommenInntektContainer = ({
                                         field={field}
                                         label="Periode t.o.m"
                                         error={fieldState.error?.message}
+                                        defaultMonth={defaultTom}
                                     />
                                 )}
                             />
@@ -154,14 +167,19 @@ const TilkommenInntektError = (): ReactElement => (
 
 interface TilkommenInntektSkjemaProps {
     person: PersonFragment;
+    periode: PeriodeFragment | GhostPeriodeFragment | NyttInntektsforholdPeriodeFragment;
     tilkommeneInntektskilder?: TilkommenInntektskilde[];
 }
 
 export const TilkommenInntektSkjema = ({
     person,
+    periode,
     tilkommeneInntektskilder = [],
 }: TilkommenInntektSkjemaProps): ReactElement => {
     const [dagerÅFordelePå, setdagerÅFordelePå] = React.useState<DateString[]>([]);
+
+    const defaultFom = dayjs(periode.fom).toDate();
+    const defaultTom = dayjs(periode.tom).toDate();
 
     const vedtaksperioder = person.arbeidsgivere
         .flatMap((ag) => ag.generasjoner[0]?.perioder)
@@ -217,7 +235,12 @@ export const TilkommenInntektSkjema = ({
     return (
         <ErrorBoundary fallback={<TilkommenInntektError />}>
             <HStack>
-                <TilkommenInntektContainer form={form} dagerTilFordeling={dagerÅFordelePå.length} />
+                <TilkommenInntektContainer
+                    form={form}
+                    dagerTilFordeling={dagerÅFordelePå.length}
+                    defaultFom={defaultFom}
+                    defaultTom={defaultTom}
+                />
                 {erGyldigDato(fom) && erGyldigDato(tom) && (
                     <TilkommenTable
                         arbeidsgivere={person.arbeidsgivere}
@@ -235,11 +258,12 @@ type ControlledDatePickerProps = {
     field: ControllerRenderProps<TilkommenInntektSchema>;
     error?: string;
     label: string;
+    defaultMonth: Date;
 };
 
-export const ControlledDatePicker = ({ field, error, label }: ControlledDatePickerProps) => {
+export const ControlledDatePicker = ({ field, error, label, defaultMonth }: ControlledDatePickerProps) => {
     const { datepickerProps, inputProps } = useDatepicker({
-        defaultSelected: field.value ? dayjs(field.value, ISO_DATOFORMAT).toDate() : undefined,
+        defaultMonth: defaultMonth,
         onDateChange: (date) => {
             field.onChange(date ? dayjs(date).format(ISO_DATOFORMAT) : '');
         },

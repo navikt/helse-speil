@@ -26,7 +26,7 @@ export const NyttInntektsforholdPeriodeView = ({
         <>
             {tab === 'tilkommen-inntekt' && (
                 <Box overflowX="scroll">
-                    <TilkommenInntektSkjema person={person} />
+                    <TilkommenInntektSkjema person={person} periode={activePeriod} />
                 </Box>
             )}
         </>
