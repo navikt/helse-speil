@@ -6,6 +6,7 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
+import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { TilkommenInntekt } from '@io/graphql';
 import { KopierAgNavn } from '@saksbilde/timeline/KopierAgNavn';
 import { TilkommenInntektPeriods } from '@saksbilde/timeline/TilkommenInntektPeriods';
@@ -16,24 +17,28 @@ import styles from './TilkommenInntektTimelineRow.module.css';
 export interface TilkommenInntektTimelineRowProps {
     start: Dayjs;
     end: Dayjs;
-    name: string;
+    organisasjonsnummer: string;
     tilkomneInntekter: Array<TilkommenInntekt>;
 }
 
 export const TilkommenInntektTimelineRow = ({
     start,
     end,
-    name,
+    organisasjonsnummer,
     tilkomneInntekter,
 }: TilkommenInntektTimelineRowProps): ReactElement => {
+    const { data: organisasjonQueryData } = useOrganisasjonQuery(organisasjonsnummer);
     const erAnonymisert = useIsAnonymous();
+
+    const organisasjonNavn = organisasjonQueryData?.organisasjon?.navn ?? organisasjonsnummer;
+
     return (
         <div className={styles.TimelineRow}>
-            <Tooltip content={name && !erAnonymisert ? name : 'Arbeidsgiver'}>
+            <Tooltip content={organisasjonNavn && !erAnonymisert ? organisasjonNavn : 'Arbeidsgiver'}>
                 <div className={classNames(styles.Name, styles.anonymisert)}>
                     <PlusCircleIcon className={styles.arbeidsgiverIkon} />
-                    <AnonymizableTextWithEllipsis>{name}</AnonymizableTextWithEllipsis>
-                    <KopierAgNavn navn={name} />
+                    <AnonymizableTextWithEllipsis>{organisasjonNavn}</AnonymizableTextWithEllipsis>
+                    <KopierAgNavn navn={organisasjonNavn} />
                 </div>
             </Tooltip>
 

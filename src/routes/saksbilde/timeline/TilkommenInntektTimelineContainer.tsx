@@ -41,7 +41,7 @@ export const TilkommenInntektTimelineContainer = ({
                         key={tilkommenInntektskilde.organisasjonsnummer}
                         start={start}
                         end={end}
-                        name={tilkommenInntektskilde.organisasjonsnummer}
+                        organisasjonsnummer={tilkommenInntektskilde.organisasjonsnummer}
                         tilkomneInntekter={tilkommenInntektskilde.inntekter}
                     ></TilkommenInntektTimelineRow>
                 );

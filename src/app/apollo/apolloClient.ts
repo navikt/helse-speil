@@ -94,6 +94,7 @@ const getTypePolicies = (): TypePolicies => {
         Utbetaling: { keyFields: ['id'] },
         UberegnetPeriode: { keyFields: ['behandlingId'] },
         BeregnetPeriode: { keyFields: ['behandlingId'] },
+        Organisasjon: { keyFields: ['organisasjonsnummer'] },
     };
 };
 
@@ -102,6 +103,7 @@ export const restLink = new RestLink({
     endpoints: {
         sanity: 'https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production',
         flexjar: '/api/flexjar',
+        sparkelAareg: '/api/sparkel-aareg',
     },
 });
 
