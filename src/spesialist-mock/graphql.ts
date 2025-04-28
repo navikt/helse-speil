@@ -173,9 +173,7 @@ const getResolvers = (): IResolvers => ({
             return person;
         },
         tilkomneInntektskilder: async (_, { aktorId }: { aktorId: string }) => {
-            const tilkomneInntektskilder = hentTilkomneInntektdata()[aktorId];
-            if (!tilkomneInntektskilder) return new NotFoundError(aktorId);
-            return tilkomneInntektskilder;
+            return hentTilkomneInntektdata()[aktorId] ?? [];
         },
         behandledeOppgaverFeedV2: async (
             _,
