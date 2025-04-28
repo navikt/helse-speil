@@ -5,6 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { TilkommenInntektTimelineRow } from '@saksbilde/timeline/TilkommenInntektTimelineRow';
 import styles from '@saksbilde/timeline/Timeline.module.css';
+import { TimelineRowSkeleton } from '@saksbilde/timeline/TimelineRow';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 
 interface TilkommenInntektTimelineContainerProps {
@@ -19,7 +20,7 @@ export const TilkommenInntektTimelineContainer = ({
     const { loading, data, error } = useHentTilkommenInntektQuery();
 
     if (loading) {
-        return <BodyShort>loading</BodyShort>;
+        return <TimelineRowSkeleton />;
     }
 
     if (error) {
