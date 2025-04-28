@@ -5,16 +5,21 @@ import { ActivePeriod } from '@typer/shared';
 import { raise } from '@utils/ts';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-const activePeriodIdState = atom<Maybe<string>>(null);
+type ActivePeriodeIdState = {
+    id: string;
+    type: 'Periode' | 'TilkommenInntekt';
+};
+
+const activePeriodIdState = atom<Maybe<ActivePeriodeIdState>>(null);
 
 export const useSetActivePeriodId = (person: PersonFragment) => {
     const [activePeriodId, setActivePeriodId] = useAtom(activePeriodIdState);
 
     return (periodeId: string) => {
-        if (activePeriodId === periodeId) return;
+        if (activePeriodId?.type === 'Periode' && activePeriodId?.id === periodeId) return;
         const periode = findPeriod(periodeId, person ?? raise('Kan ikke aktivere periode uten person'));
         if (!periode) return;
-        setActivePeriodId(periode.id);
+        setActivePeriodId({ id: periode.id, type: 'Periode' });
     };
 };
 
@@ -23,14 +28,36 @@ export const useActivePeriod = (person: Maybe<PersonFragment>): Maybe<ActivePeri
 
     if (!person) return null;
 
-    return findPeriod(activePeriodId, person) ?? findPeriodToSelect(person);
+    if (activePeriodId !== null && activePeriodId?.type !== 'Periode') return null;
+
+    return findPeriod(activePeriodId?.id ?? null, person) ?? findPeriodToSelect(person);
+};
+
+export const useSetActiveTilkommenInntektId = () => {
+    const [activePeriodId, setActivePeriodId] = useAtom(activePeriodIdState);
+
+    return (tilkommenInntektId: string) => {
+        if (activePeriodId?.type === 'TilkommenInntekt' && activePeriodId?.id === tilkommenInntektId) return;
+        setActivePeriodId({ id: tilkommenInntektId, type: 'TilkommenInntekt' });
+    };
+};
+
+export const useActiveTilkommenInntektId = (): Maybe<string> => {
+    const activePeriodId = useAtomValue(activePeriodIdState);
+
+    if (activePeriodId?.type !== 'TilkommenInntekt') return null;
+
+    return activePeriodId.id;
 };
 
 export const useActivePeriodWithPerson = (person: PersonFragment): Maybe<ActivePeriod> => {
     const activePeriodId = useAtomValue(activePeriodIdState);
+
+    if (activePeriodId?.type !== 'Periode') return null;
+
     const periodToSelect = person ? findPeriodToSelect(person) : null;
 
-    return findPeriod(activePeriodId, person) ?? periodToSelect;
+    return findPeriod(activePeriodId.id, person) ?? periodToSelect;
 };
 
 export const useSelectPeriod = () => {
@@ -38,7 +65,7 @@ export const useSelectPeriod = () => {
     return (person: PersonFragment) => {
         const periodToSelect = findPeriodToSelect(person);
         if (periodToSelect) {
-            setActivePeriodId(periodToSelect.id);
+            setActivePeriodId({ id: periodToSelect.id, type: 'Periode' });
         }
     };
 };

@@ -1,11 +1,11 @@
 import classNames from 'classnames';
-import { atom, useAtom } from 'jotai/index';
 import React, { ReactElement, useRef } from 'react';
 
 import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Maybe, TilkommenInntekt } from '@io/graphql';
+import { TilkommenInntekt } from '@io/graphql';
+import { useActiveTilkommenInntektId, useSetActiveTilkommenInntektId } from '@state/periode';
 import { DatePeriod } from '@typer/shared';
 import { somNorskDato } from '@utils/date';
 
@@ -35,15 +35,9 @@ const TilkommenPopover = ({ fom, tom }: DatePeriod): ReactElement => {
     );
 };
 
-const activeTilkommenInntektIdState = atom<Maybe<string>>(null);
-
 export const TilkommenInntektPeriod = ({ tilkommenInntekt, ...buttonProps }: PeriodProps): ReactElement => {
-    const [activeTilkommenInntektId, setActiveTilkommenInntektIdState] = useAtom(activeTilkommenInntektIdState);
-
-    const setActiveTilkommenInntektId = (tilkommenInntektId: string) => {
-        if (activeTilkommenInntektId === tilkommenInntektId) return;
-        setActiveTilkommenInntektIdState(tilkommenInntektId);
-    };
+    const activeTilkommenInntektId = useActiveTilkommenInntektId();
+    const setActiveTilkommenInntektId = useSetActiveTilkommenInntektId();
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
