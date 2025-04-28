@@ -14,7 +14,7 @@ import { IconPermisjon } from '@saksbilde/table/icons/IconPermisjon';
 import { IconSyk } from '@saksbilde/table/icons/IconSyk';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
-import { erHelg } from './helgUtils';
+import { erHelgDagtype } from './helgUtils';
 
 import styles from './DagtypeCell.module.css';
 
@@ -84,7 +84,7 @@ const dekorerTekstOverstyrtDag = (tabelldag?: Utbetalingstabelldag): Maybe<strin
     if (!tabelldag) {
         return null;
     }
-    const visningstekst = erHelg(tabelldag.dag.speilDagtype) ? 'Helg' : tabelldag.dag.visningstekst;
+    const visningstekst = erHelgDagtype(tabelldag.dag.speilDagtype) ? 'Helg' : tabelldag.dag.visningstekst;
 
     if (erTypeSomIkkeSkalDekoreres(tabelldag)) {
         return visningstekst;

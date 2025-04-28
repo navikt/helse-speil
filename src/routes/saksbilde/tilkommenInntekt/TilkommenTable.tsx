@@ -1,12 +1,11 @@
 import cn from 'classnames';
-import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { Box, Checkbox, CheckboxGroup, Table, VStack } from '@navikt/ds-react';
 
 import { Arbeidsgiver, Utbetalingsdagtype } from '@io/graphql';
 import { DateString } from '@typer/shared';
-import { somNorskDato } from '@utils/date';
+import { erHelg, somNorskDato } from '@utils/date';
 
 import styles from './TilkommenTable.module.css';
 
@@ -14,10 +13,15 @@ interface TilkommenTableProps {
     arbeidsgivere: Arbeidsgiver[];
     fom: DateString;
     tom: DateString;
-    setdagerÅFordelePå: (datoer: DateString[]) => void;
+    setDagerSomSkalEkskluderes: (datoer: DateString[]) => void;
 }
 
-export const TilkommenTable = ({ arbeidsgivere, fom, tom, setdagerÅFordelePå }: TilkommenTableProps): ReactElement => {
+export const TilkommenTable = ({
+    arbeidsgivere,
+    fom,
+    tom,
+    setDagerSomSkalEkskluderes,
+}: TilkommenTableProps): ReactElement => {
     const arbeidsgiverdager = tabellArbeidsdager(arbeidsgivere).filter((dag) => dag.dato >= fom && dag.dato <= tom);
 
     return (
@@ -33,7 +37,7 @@ export const TilkommenTable = ({ arbeidsgivere, fom, tom, setdagerÅFordelePå }
             >
                 <CheckboxGroup
                     legend="Velg hvilke dager som ikke skal graderes"
-                    onChange={(valgte: DateString[]) => setdagerÅFordelePå(valgte)}
+                    onChange={(valgte: DateString[]) => setDagerSomSkalEkskluderes(valgte)}
                 >
                     <Table>
                         <Table.Header>
@@ -109,5 +113,3 @@ const tabellArbeidsdager = (arbeidsgivere: Arbeidsgiver[]): TabellArbeidsdag[] =
 
     return Array.from(gruppertPåDato.entries().map(([dato, arbeidsgivere]) => ({ dato, arbeidsgivere })));
 };
-
-const erHelg = (dato: DateString): boolean => dayjs(dato).day() == 6 || dayjs(dato).day() == 0;

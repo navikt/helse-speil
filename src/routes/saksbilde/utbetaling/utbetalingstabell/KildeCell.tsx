@@ -9,7 +9,7 @@ import { EndringsloggButton } from '@saksbilde/sykepengegrunnlag/inntekt/Endring
 import { CellContent } from '@saksbilde/table/CellContent';
 import { OverstyringerPrDag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
-import { erHelg } from './helgUtils';
+import { erHelgDagtype } from './helgUtils';
 
 import styles from './KildeCell.module.css';
 
@@ -55,7 +55,7 @@ export const KildeCell = ({ type, kilde, overstyringer, ...rest }: KildeCellProp
     return (
         <Table.DataCell {...rest}>
             <CellContent className={styles.container}>
-                {!erHelg(type) && <KildeTypeIcon kilde={kilde} overstyringer={overstyringer} />}
+                {!erHelgDagtype(type) && <KildeTypeIcon kilde={kilde} overstyringer={overstyringer} />}
             </CellContent>
         </Table.DataCell>
     );

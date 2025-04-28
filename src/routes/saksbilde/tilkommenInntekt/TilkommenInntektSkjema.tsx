@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 import { Controller, ControllerRenderProps, FormProvider, useForm } from 'react-hook-form';
 
@@ -28,7 +28,7 @@ import {
 } from '@io/graphql';
 import { TilkommenTable } from '@saksbilde/tilkommenInntekt/TilkommenTable';
 import { DateString } from '@typer/shared';
-import { ISO_DATOFORMAT, erGyldigDato } from '@utils/date';
+import { ISO_DATOFORMAT, erGyldigDato, erHelg } from '@utils/date';
 
 interface TilkommenInntektContainerProps {
     form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
@@ -126,7 +126,7 @@ const TilkommenInntektContainer = ({
                                 size="small"
                                 readOnly
                                 style={{ width: 'var(--a-spacing-24)' }}
-                                value={Number.isSafeInteger(inntektPerDag) ? inntektPerDag : undefined}
+                                value={inntektPerDag}
                             />
                         </HStack>
                         <Box maxWidth="380px">
@@ -176,7 +176,7 @@ export const TilkommenInntektSkjema = ({
     periode,
     tilkommeneInntektskilder,
 }: TilkommenInntektSkjemaProps): ReactElement => {
-    const [dagerÅFordelePå, setdagerÅFordelePå] = React.useState<DateString[]>([]);
+    const [dagerSomSkalEkskluderes, setdagerSomSkalEkskluderes] = React.useState<DateString[]>([]);
 
     const defaultFom = dayjs(periode.fom).toDate();
     const defaultTom = dayjs(periode.tom).toDate();
@@ -232,12 +232,24 @@ export const TilkommenInntektSkjema = ({
     const fom = form.watch('fom');
     const tom = form.watch('tom');
 
+    const datoIntervall: Dayjs[] = [];
+    let gjeldendeDag = dayjs(fom);
+
+    while (gjeldendeDag.isSameOrBefore(dayjs(tom))) {
+        datoIntervall.push(gjeldendeDag);
+        gjeldendeDag = gjeldendeDag.add(1, 'day');
+    }
+
+    const dagerTilGradering = filtrerDager(datoIntervall, dagerSomSkalEkskluderes);
+
     return (
         <ErrorBoundary fallback={<TilkommenInntektError />}>
+            <div>{dagerTilGradering.map((day) => day.format(ISO_DATOFORMAT) + ', ')}</div>
+            <div>{dagerSomSkalEkskluderes.map((day) => day + ', ')}</div>
             <HStack>
                 <TilkommenInntektContainer
                     form={form}
-                    dagerTilFordeling={dagerÅFordelePå.length}
+                    dagerTilFordeling={dagerTilGradering.length}
                     defaultFom={defaultFom}
                     defaultTom={defaultTom}
                 />
@@ -246,7 +258,7 @@ export const TilkommenInntektSkjema = ({
                         arbeidsgivere={person.arbeidsgivere}
                         fom={fom}
                         tom={tom}
-                        setdagerÅFordelePå={setdagerÅFordelePå}
+                        setDagerSomSkalEkskluderes={setdagerSomSkalEkskluderes}
                     />
                 )}
             </HStack>
@@ -275,3 +287,8 @@ export const ControlledDatePicker = ({ field, error, label, defaultMonth }: Cont
         </DatePicker>
     );
 };
+
+const filtrerDager = (datoIntervall: Dayjs[], dagerSomSkalEkskluderes: DateString[]) =>
+    datoIntervall
+        .filter((dag) => !erHelg(dag.format(ISO_DATOFORMAT)))
+        .filter((dag) => !(dag.format(ISO_DATOFORMAT) in dagerSomSkalEkskluderes));

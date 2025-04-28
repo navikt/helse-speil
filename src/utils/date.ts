@@ -37,3 +37,5 @@ export const erFør = (dato: DateString, senest: DateString) =>
     dayjs(dato, ISO_DATOFORMAT, true).isBefore(dayjs(senest, ISO_DATOFORMAT, true));
 
 export const erGyldigDato = (dato: DateString): boolean => dayjs(dato, ISO_DATOFORMAT, true).isValid();
+
+export const erHelg = (dato: DateString): boolean => dayjs(dato).day() == 6 || dayjs(dato).day() == 0;
