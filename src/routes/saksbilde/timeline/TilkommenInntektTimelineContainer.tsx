@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
@@ -24,7 +25,11 @@ export const TilkommenInntektTimelineContainer = ({
     }
 
     if (error) {
-        return <BodyShort>{error.message}</BodyShort>;
+        return (
+            <div className={classNames(styles.Timeline, styles.Error)}>
+                <BodyShort>Det har skjedd en feil. Kan ikke vise tilkomne inntekter for denne saken.</BodyShort>
+            </div>
+        );
     }
     const tilkomneInntektskilder = data!.tilkomneInntektskilder;
 
