@@ -1,4 +1,5 @@
 {
+    "aktorId": "2564094783926",
     "data": {
         "tilkomneInntektskilder": [
             {
@@ -7,14 +8,15 @@
                     {
                         "tilkommenInntektId": "dd4660ce-2103-11f0-a5e6-7b066f8127aa",
                         "periode": {
-                            "fom": "2025-04-01",
-                            "tom": "2025-04-13"
+                            "fom": "2022-08-02",
+                            "tom": "2022-08-13"
                         },
                         "periodebelop": 1111.11,
-                        "dager": ["2025-04-13"],
+                        "dager": ["2022-08-13"],
                         "fjernet": false,
                         "events": [
                             {
+                                "__typename": "TilkommenInntektOpprettetEvent",
                                 "metadata": {
                                     "sekvensnummer": 1,
                                     "tidspunkt": "2025-04-24T12:34:56.789",
@@ -23,11 +25,44 @@
                                 },
                                 "organisasjonsnummer": "987654321",
                                 "periode": {
-                                    "fom": "2025-04-01",
-                                    "tom": "2025-04-13"
+                                    "fom": "2022-08-02",
+                                    "tom": "2022-08-13"
                                 },
                                 "periodebelop": 1111.11,
-                                "dager": ["2025-04-13"]
+                                "dager": ["2022-08-13"]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "organisasjonsnummer": "123456789",
+                "inntekter": [
+                    {
+                        "tilkommenInntektId": "dd4660ce-2103-11f0-a5e6-7b066f8127ab",
+                        "periode": {
+                            "fom": "2022-08-02",
+                            "tom": "2022-08-13"
+                        },
+                        "periodebelop": 1111.11,
+                        "dager": ["2022-08-13"],
+                        "fjernet": false,
+                        "events": [
+                            {
+                                "__typename": "TilkommenInntektOpprettetEvent",
+                                "metadata": {
+                                    "sekvensnummer": 1,
+                                    "tidspunkt": "2025-04-24T12:34:56.789",
+                                    "utfortAvSaksbehandlerIdent": "a1234567",
+                                    "notatTilBeslutter": "Jeg laget en tilkommen inntekt, jeg"
+                                },
+                                "organisasjonsnummer": "987654321",
+                                "periode": {
+                                    "fom": "2022-08-02",
+                                    "tom": "2022-08-13"
+                                },
+                                "periodebelop": 1111.11,
+                                "dager": ["2022-08-13"]
                             }
                         ]
                     }

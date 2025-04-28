@@ -56,6 +56,7 @@ import {
     OppgavesorteringInput,
     PeriodehistorikkType,
     Person,
+    TilkommenInntektskilde,
 } from './schemaTypes';
 import { DokumentMock } from './storage/dokument';
 import { NotatMock } from './storage/notat';
@@ -140,6 +141,23 @@ const fetchPersondata = (): Record<string, Person> => {
     }, {});
 };
 
+const hentTilkomneInntektdata = (): Record<string, TilkommenInntektskilde[]> => {
+    const url = path.join(cwd(), 'src/spesialist-mock/data/tilkommenInntekt');
+    const filenames = fs.readdirSync(url);
+    const tilkommenInntektMockFiler = filenames.map((filename) => {
+        const raw = fs.readFileSync(path.join(url, filename), { encoding: 'utf-8' });
+        return JSON.parse(raw);
+    });
+
+    return tilkommenInntektMockFiler.reduce(
+        (data: Record<string, TilkommenInntektskilde[]>, tilkommenInntektMockFil) => {
+            data[tilkommenInntektMockFil.aktorId] = tilkommenInntektMockFil.data.tilkomneInntektskilder;
+            return data;
+        },
+        {},
+    );
+};
+
 let valgtPerson: Person | undefined;
 
 const getResolvers = (): IResolvers => ({
@@ -153,6 +171,11 @@ const getResolvers = (): IResolvers => ({
             if (!person) return new NotFoundError(fnr ?? aktorId ?? '');
             valgtPerson = person;
             return person;
+        },
+        tilkomneInntektskilder: async (_, { aktorId }: { aktorId: string }) => {
+            const tilkomneInntektskilder = hentTilkomneInntektdata()[aktorId];
+            if (!tilkomneInntektskilder) return new NotFoundError(aktorId);
+            return tilkomneInntektskilder;
         },
         behandledeOppgaverFeedV2: async (
             _,

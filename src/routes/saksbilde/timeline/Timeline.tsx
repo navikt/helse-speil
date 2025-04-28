@@ -11,6 +11,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { ArbeidsgiverFragment, Infotrygdutbetaling, Maybe, PersonFragment } from '@io/graphql';
+import { TilkommenInntektTimelineContainer } from '@saksbilde/timeline/TilkommenInntektTimelineContainer';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
@@ -149,6 +150,7 @@ const TimelineWithContent = ({
                             />
                         );
                     })}
+                {erUtvikling && <TilkommenInntektTimelineContainer start={start} end={end} />}
                 {infotrygdPeriods.length > 0 && (
                     <InfotrygdRow
                         start={start}
