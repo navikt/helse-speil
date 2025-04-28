@@ -126,7 +126,13 @@ const TilkommenInntektContainer = ({
                                 size="small"
                                 readOnly
                                 style={{ width: 'var(--a-spacing-24)' }}
-                                value={inntektPerDag}
+                                value={
+                                    Number.isNaN(inntektPerDag)
+                                        ? ''
+                                        : Number.isSafeInteger(inntektPerDag)
+                                          ? inntektPerDag
+                                          : inntektPerDag.toFixed(1)
+                                }
                             />
                         </HStack>
                         <Box maxWidth="380px">
@@ -288,7 +294,8 @@ export const ControlledDatePicker = ({ field, error, label, defaultMonth }: Cont
     );
 };
 
-const filtrerDager = (datoIntervall: Dayjs[], dagerSomSkalEkskluderes: DateString[]) =>
-    datoIntervall
+const filtrerDager = (datoIntervall: Dayjs[], dagerSomSkalEkskluderes: DateString[]) => {
+    return datoIntervall
         .filter((dag) => !erHelg(dag.format(ISO_DATOFORMAT)))
-        .filter((dag) => !(dag.format(ISO_DATOFORMAT) in dagerSomSkalEkskluderes));
+        .filter((dag) => !dagerSomSkalEkskluderes.includes(dag.format(ISO_DATOFORMAT)));
+};
