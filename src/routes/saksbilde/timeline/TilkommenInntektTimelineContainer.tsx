@@ -4,6 +4,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { TilkommenInntektTimelineRow } from '@saksbilde/timeline/TilkommenInntektTimelineRow';
+import styles from '@saksbilde/timeline/Timeline.module.css';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 
 interface TilkommenInntektTimelineContainerProps {
@@ -27,7 +28,7 @@ export const TilkommenInntektTimelineContainer = ({
     const tilkomneInntektskilder = data!.tilkomneInntektskilder;
 
     return (
-        <div>
+        <div className={styles.Rows}>
             {tilkomneInntektskilder.map((tilkommenInntektskilde) => {
                 return (
                     <TilkommenInntektTimelineRow
