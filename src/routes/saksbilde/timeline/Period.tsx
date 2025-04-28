@@ -19,7 +19,7 @@ import { InfoPin } from './InfoPin';
 import { PeriodPopover } from './PeriodPopover';
 import { useIsWiderThan } from './hooks/useIsWiderThan';
 import { usePopoverAnchor } from './hooks/usePopoverAnchor';
-import { BlankIcon, CheckIcon, CrossIcon, PlusIcon, TaskIcon, WaitingIcon } from './icons';
+import { BlankIcon, CheckIcon, CrossIcon, TaskIcon, TilkommenInntektIkon, WaitingIcon } from './icons';
 import { UvurderteVarslerIcon } from './icons/UvurderteVarslerIcon';
 
 import styles from './Period.module.css';
@@ -92,7 +92,7 @@ const getIcon = (periodCategory: Maybe<PeriodCategory>): ReactNode => {
             return <WaitingIcon />;
         }
         case 'plus': {
-            return <PlusIcon />;
+            return <TilkommenInntektIkon />;
         }
         default: {
             return <BlankIcon />;

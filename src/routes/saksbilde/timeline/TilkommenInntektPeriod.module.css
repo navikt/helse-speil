@@ -1,0 +1,50 @@
+.tilkommenInntekt {
+    --period-background-color: #e0d8e9;
+    --period-hover-color: #c9bbd9;
+    --period-border-color: #8269a2;
+    --period-icon-color: #634689;
+    box-sizing: border-box;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    height: 24px;
+    border-radius: 24px;
+    border: 1px solid var(--period-border-color);
+    background: var(--period-background-color);
+    outline: none;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.tilkommenInntekt.active,
+.tilkommenInntekt:active,
+.tilkommenInntekt:focus-visible {
+    box-shadow: 0 0 0 2px var(--a-border-focus);
+    border-color: var(--a-border-focus);
+    z-index: 20;
+}
+
+.tilkommenInntekt:hover,
+.tilkommenInntekt:active {
+    background: var(--period-hover-color);
+}
+
+.tilkommenInntekt > svg {
+    flex-shrink: 0;
+}
+
+.fjernetIkon {
+    margin-left: 8px;
+    width: 18px;
+    height: 18px;
+}
+
+.vanligIkon {
+    margin-left: 5px;
+    width: 21px;
+    height: 21px;
+    color: var(--period-icon-color);
+}

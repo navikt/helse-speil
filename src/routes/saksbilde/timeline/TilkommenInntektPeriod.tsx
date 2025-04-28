@@ -5,35 +5,19 @@ import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { TilkommenInntekt } from '@io/graphql';
+import { TilkommenInntektIkon } from '@saksbilde/timeline/icons';
 import { useActiveTilkommenInntektId, useSetActiveTilkommenInntektId } from '@state/periode';
-import { DatePeriod } from '@typer/shared';
 import { somNorskDato } from '@utils/date';
 
 import { useIsWiderThan } from './hooks/useIsWiderThan';
 import { usePopoverAnchor } from './hooks/usePopoverAnchor';
-import { PlusIcon } from './icons';
+import { FjernetTilkommenInntektIkon } from './icons/FjernetTilkommenInntektIkon';
 
-import styles from './Period.module.css';
-
-const getClassNames = (isActive?: boolean) => {
-    return classNames(styles.Period, styles['plus'], isActive && styles.active, styles.tilkommen);
-};
+import styles from './TilkommenInntektPeriod.module.css';
 
 interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     tilkommenInntekt: TilkommenInntekt;
 }
-
-const TilkommenPopover = ({ fom, tom }: DatePeriod): ReactElement => {
-    return (
-        <>
-            <BodyShort size="small">Tilkommen inntekt</BodyShort>
-            <BodyShort size="small">Periode:</BodyShort>
-            <BodyShort size="small">
-                {fom} - {tom}
-            </BodyShort>
-        </>
-    );
-};
 
 export const TilkommenInntektPeriod = ({ tilkommenInntekt, ...buttonProps }: PeriodProps): ReactElement => {
     const activeTilkommenInntektId = useActiveTilkommenInntektId();
@@ -53,7 +37,7 @@ export const TilkommenInntektPeriod = ({ tilkommenInntekt, ...buttonProps }: Per
     return (
         <>
             <button
-                className={getClassNames(isActive)}
+                className={classNames(styles.tilkommenInntekt, isActive && styles.active)}
                 {...buttonProps}
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
@@ -61,12 +45,24 @@ export const TilkommenInntektPeriod = ({ tilkommenInntekt, ...buttonProps }: Per
                 ref={button}
                 aria-label="Gå til tilkommen inntekt"
             >
-                {iconIsVisible && <PlusIcon />}
+                {iconIsVisible &&
+                    (tilkommenInntekt.fjernet ? (
+                        <FjernetTilkommenInntektIkon className={styles.fjernetIkon} />
+                    ) : (
+                        <TilkommenInntektIkon className={styles.vanligIkon} />
+                    ))}
             </button>
             <Popover {...popoverProps}>
                 <Popover.Content className={styles.RouteContainer}>
                     <ErrorBoundary fallback={<div />}>
-                        <TilkommenPopover fom={fom} tom={tom} />
+                        <BodyShort size="small">
+                            Tilkommen inntekt
+                            {tilkommenInntekt.fjernet ? ' (fjernet)' : ''}
+                        </BodyShort>
+                        <BodyShort size="small">Periode:</BodyShort>
+                        <BodyShort size="small">
+                            {fom} - {tom}
+                        </BodyShort>
                     </ErrorBoundary>
                 </Popover.Content>
             </Popover>
