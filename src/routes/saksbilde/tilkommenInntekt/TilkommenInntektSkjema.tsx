@@ -1,48 +1,25 @@
-import dayjs, { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
-import { Controller, ControllerRenderProps, FormProvider, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 
-import {
-    Alert,
-    Box,
-    Button,
-    DatePicker,
-    HStack,
-    Heading,
-    TextField,
-    Textarea,
-    VStack,
-    useDatepicker,
-} from '@navikt/ds-react';
+import { Box, Button, HStack, Heading, TextField, Textarea, VStack } from '@navikt/ds-react';
 
-import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
-import { ErrorBoundary } from '@components/ErrorBoundary';
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-    GhostPeriodeFragment,
-    Maybe,
-    type NyttInntektsforholdPeriodeFragment,
-    PeriodeFragment,
-    PersonFragment,
-    TilkommenInntektskilde,
-} from '@io/graphql';
-import { TilkommenTable } from '@saksbilde/tilkommenInntekt/TilkommenTable';
-import { DateString } from '@typer/shared';
-import { ISO_DATOFORMAT, erGyldigDato, erHelg } from '@utils/date';
+import { TilkommenInntektSchema } from '@/form-schemas';
+import { Maybe } from '@io/graphql';
+import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/ControlledDatePicker';
 
-interface TilkommenInntektContainerProps {
+interface TilkommenInntektSkjemaProps {
     form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
     dagerTilFordeling: number;
     defaultFom: Date;
     defaultTom: Date;
 }
 
-const TilkommenInntektContainer = ({
+export const TilkommenInntektSkjema = ({
     form,
     dagerTilFordeling,
     defaultFom,
     defaultTom,
-}: TilkommenInntektContainerProps): Maybe<ReactElement> => {
+}: TilkommenInntektSkjemaProps): Maybe<ReactElement> => {
     const onSubmit = async (values: TilkommenInntektSchema) => {
         console.log(values);
     };
@@ -163,139 +140,4 @@ const TilkommenInntektContainer = ({
             </form>
         </FormProvider>
     );
-};
-
-const TilkommenInntektError = (): ReactElement => (
-    <Alert variant="error" size="small">
-        Noe gikk galt. Kan ikke vise tilkommen inntekt for denne perioden.
-    </Alert>
-);
-
-interface TilkommenInntektSkjemaProps {
-    person: PersonFragment;
-    periode: PeriodeFragment | GhostPeriodeFragment | NyttInntektsforholdPeriodeFragment;
-    tilkommeneInntektskilder: TilkommenInntektskilde[];
-}
-
-export const TilkommenInntektSkjema = ({
-    person,
-    periode,
-    tilkommeneInntektskilder,
-}: TilkommenInntektSkjemaProps): ReactElement => {
-    const [dagerSomSkalEkskluderes, setdagerSomSkalEkskluderes] = React.useState<DateString[]>([]);
-
-    const defaultFom = dayjs(periode.fom).toDate();
-    const defaultTom = dayjs(periode.tom).toDate();
-
-    const vedtaksperioder = person.arbeidsgivere
-        .flatMap((ag) => ag.generasjoner[0]?.perioder)
-        .filter((periode) => periode != null)
-        .map((periode) => ({
-            fom: periode.fom,
-            tom: periode.tom,
-            skjæringstidspunkt: periode.skjaeringstidspunkt,
-        }));
-
-    const sykefraværstilfeller = Object.values(
-        vedtaksperioder.reduce(
-            (acc, periode) => {
-                const key = periode.skjæringstidspunkt;
-                if (!acc[key]) {
-                    acc[key] = { ...periode };
-                } else {
-                    acc[key].fom = acc[key].fom < periode.fom ? acc[key].fom : periode.fom;
-                    acc[key].tom = acc[key].tom > periode.tom ? acc[key].tom : periode.tom;
-                }
-                return acc;
-            },
-            {} as Record<string, { fom: string; tom: string; skjæringstidspunkt: string }>,
-        ),
-    );
-
-    const eksisterendePerioder = new Map<string, { fom: string; tom: string }[]>();
-
-    tilkommeneInntektskilder.forEach((inntektskilde) =>
-        eksisterendePerioder.set(
-            inntektskilde.organisasjonsnummer,
-            inntektskilde.inntekter.map((inntekt) => ({
-                fom: inntekt.periode.fom,
-                tom: inntekt.periode.tom,
-            })),
-        ),
-    );
-
-    const form = useForm<TilkommenInntektSchema>({
-        resolver: zodResolver(lagTilkommenInntektSchema(sykefraværstilfeller, eksisterendePerioder)),
-        defaultValues: {
-            organisasjonsnummer: '',
-            fom: '',
-            tom: '',
-            periodebeløp: 0,
-            notat: '',
-        },
-    });
-
-    const fom = form.watch('fom');
-    const tom = form.watch('tom');
-
-    const datoIntervall: Dayjs[] = [];
-    let gjeldendeDag = dayjs(fom);
-
-    while (gjeldendeDag.isSameOrBefore(dayjs(tom))) {
-        datoIntervall.push(gjeldendeDag);
-        gjeldendeDag = gjeldendeDag.add(1, 'day');
-    }
-
-    const dagerTilGradering = filtrerDager(datoIntervall, dagerSomSkalEkskluderes);
-
-    return (
-        <ErrorBoundary fallback={<TilkommenInntektError />}>
-            <div>{dagerTilGradering.map((day) => day.format(ISO_DATOFORMAT) + ', ')}</div>
-            <div>{dagerSomSkalEkskluderes.map((day) => day + ', ')}</div>
-            <HStack>
-                <TilkommenInntektContainer
-                    form={form}
-                    dagerTilFordeling={dagerTilGradering.length}
-                    defaultFom={defaultFom}
-                    defaultTom={defaultTom}
-                />
-                {erGyldigDato(fom) && erGyldigDato(tom) && (
-                    <TilkommenTable
-                        arbeidsgivere={person.arbeidsgivere}
-                        fom={fom}
-                        tom={tom}
-                        setDagerSomSkalEkskluderes={setdagerSomSkalEkskluderes}
-                    />
-                )}
-            </HStack>
-        </ErrorBoundary>
-    );
-};
-
-type ControlledDatePickerProps = {
-    field: ControllerRenderProps<TilkommenInntektSchema>;
-    error?: string;
-    label: string;
-    defaultMonth: Date;
-};
-
-export const ControlledDatePicker = ({ field, error, label, defaultMonth }: ControlledDatePickerProps) => {
-    const { datepickerProps, inputProps } = useDatepicker({
-        defaultMonth: defaultMonth,
-        onDateChange: (date) => {
-            field.onChange(date ? dayjs(date).format(ISO_DATOFORMAT) : '');
-        },
-    });
-
-    return (
-        <DatePicker {...datepickerProps}>
-            <DatePicker.Input {...inputProps} label={label} error={error} size="small" name={field.name} />
-        </DatePicker>
-    );
-};
-
-const filtrerDager = (datoIntervall: Dayjs[], dagerSomSkalEkskluderes: DateString[]) => {
-    return datoIntervall
-        .filter((dag) => !erHelg(dag.format(ISO_DATOFORMAT)))
-        .filter((dag) => !dagerSomSkalEkskluderes.includes(dag.format(ISO_DATOFORMAT)));
 };

@@ -9,19 +9,19 @@ import { erHelg, somNorskDato } from '@utils/date';
 
 import styles from './TilkommenTable.module.css';
 
-interface TilkommenTableProps {
+interface TilkommenInntektTableProps {
     arbeidsgivere: Arbeidsgiver[];
     fom: DateString;
     tom: DateString;
     setDagerSomSkalEkskluderes: (datoer: DateString[]) => void;
 }
 
-export const TilkommenTable = ({
+export const TilkommenInntektTable = ({
     arbeidsgivere,
     fom,
     tom,
     setDagerSomSkalEkskluderes,
-}: TilkommenTableProps): ReactElement => {
+}: TilkommenInntektTableProps): ReactElement => {
     const arbeidsgiverdager = tabellArbeidsdager(arbeidsgivere).filter((dag) => dag.dato >= fom && dag.dato <= tom);
 
     return (
