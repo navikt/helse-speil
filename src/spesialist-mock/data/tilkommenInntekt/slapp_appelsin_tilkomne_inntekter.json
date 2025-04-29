@@ -32,16 +32,21 @@
                                 "dager": ["2022-08-13"]
                             }
                         ]
-                    },
+                    }
+                ]
+            },
+            {
+                "organisasjonsnummer": "543216789",
+                "inntekter": [
                     {
                         "tilkommenInntektId": "83cb5f0c-2416-11f0-9aec-a313ab9215cf",
                         "periode": {
-                            "fom": "2022-08-14",
-                            "tom": "2022-08-20"
+                            "fom": "2022-08-16",
+                            "tom": "2022-08-21"
                         },
-                        "periodebelop": 1111.11,
-                        "dager": ["2022-08-17"],
-                        "fjernet": true,
+                        "periodebelop": 3322.22,
+                        "dager": ["2022-08-16"],
+                        "fjernet": false,
                         "events": [
                             {
                                 "__typename": "TilkommenInntektOpprettetEvent",
@@ -57,15 +62,81 @@
                                     "tom": "2022-08-20"
                                 },
                                 "periodebelop": 1111.11,
-                                "dager": ["2022-08-17"]
+                                "dager": ["2022-08-17", "2022-08-18"]
+                            },
+                            {
+                                "__typename": "TilkommenInntektEndretEvent",
+                                "metadata": {
+                                    "sekvensnummer": 2,
+                                    "tidspunkt": "2025-04-24T12:34:56.789",
+                                    "utfortAvSaksbehandlerIdent": "a1234567",
+                                    "notatTilBeslutter": "Jeg endret en tilkommen inntekt, jeg"
+                                },
+                                "endringer": {
+                                    "organisasjonsnummer": {
+                                        "fra": "987654321",
+                                        "til": "000000000"
+                                    },
+                                    "periode": {
+                                        "fra": {
+                                            "fom": "2022-08-14",
+                                            "tom": "2022-08-20"
+                                        },
+                                        "til": {
+                                            "fom": "2022-08-15",
+                                            "tom": "2022-08-21"
+                                        }
+                                    },
+                                    "periodebelop": {
+                                        "fra": 1111.11,
+                                        "til": 2222.22
+                                    },
+                                    "dager": {
+                                        "fra": ["2022-08-17", "2022-08-18"],
+                                        "til": ["2022-08-16", "2022-08-18"]
+                                    }
+                                }
                             },
                             {
                                 "__typename": "TilkommenInntektFjernetEvent",
                                 "metadata": {
-                                    "sekvensnummer": 2,
-                                    "tidspunkt": "2025-04-24T13:34:56.789",
+                                    "sekvensnummer": 3,
+                                    "tidspunkt": "2025-04-24T12:34:56.789",
                                     "utfortAvSaksbehandlerIdent": "a1234567",
                                     "notatTilBeslutter": "Sletter denne igjen"
+                                }
+                            },
+                            {
+                                "__typename": "TilkommenInntektGjenopprettetEvent",
+                                "metadata": {
+                                    "sekvensnummer": 4,
+                                    "tidspunkt": "2025-04-24T12:34:56.789",
+                                    "utfortAvSaksbehandlerIdent": "a1234567",
+                                    "notatTilBeslutter": "Denne er gjenopprettet av oss"
+                                },
+                                "endringer": {
+                                    "organisasjonsnummer": {
+                                        "fra": "000000000",
+                                        "til": "543216789"
+                                    },
+                                    "periode": {
+                                        "fra": {
+                                            "fom": "2022-08-15",
+                                            "tom": "2022-08-21"
+                                        },
+                                        "til": {
+                                            "fom": "2022-08-16",
+                                            "tom": "2022-08-21"
+                                        }
+                                    },
+                                    "periodebelop": {
+                                        "fra": 2222.22,
+                                        "til": 3322.22
+                                    },
+                                    "dager": {
+                                        "fra": ["2022-08-16", "2022-08-18"],
+                                        "til": ["2022-08-16"]
+                                    }
                                 }
                             }
                         ]

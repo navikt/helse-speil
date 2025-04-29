@@ -6,6 +6,10 @@ import {
     OverstyrtMinimumSykdomsgrad,
     PeriodehistorikkType,
     SkjonnsfastsattSykepengegrunnlag,
+    TilkommenInntektEndretEvent,
+    TilkommenInntektFjernetEvent,
+    TilkommenInntektGjenopprettetEvent,
+    TilkommenInntektOpprettetEvent,
     Utbetalingtype,
     VedtakUtfall,
 } from '@io/graphql';
@@ -26,7 +30,8 @@ export type Hendelsetype =
     | 'Utbetaling'
     | 'Historikk'
     | 'VedtakBegrunnelse'
-    | 'Annullering';
+    | 'Annullering'
+    | 'TilkommenInntekt';
 
 export type ArbeidsgiverSkjønnHendelse = {
     navn: string;
@@ -153,6 +158,17 @@ export type AnnulleringhendelseObject = BaseHendelseObject & {
     saksbehandler: string;
 };
 
+export type TilkommenInntektHendelseObject = BaseHendelseObject & {
+    type: 'TilkommenInntekt';
+    event:
+        | TilkommenInntektOpprettetEvent
+        | TilkommenInntektEndretEvent
+        | TilkommenInntektFjernetEvent
+        | TilkommenInntektGjenopprettetEvent;
+    timestamp: DateString;
+    saksbehandler: string;
+};
+
 export type HendelseObject =
     | DagoverstyringhendelseObject
     | ArbeidsforholdoverstyringhendelseObject
@@ -165,4 +181,5 @@ export type HendelseObject =
     | UtbetalinghendelseObject
     | HistorikkhendelseObject
     | VedtakBegrunnelseObject
-    | AnnulleringhendelseObject;
+    | AnnulleringhendelseObject
+    | TilkommenInntektHendelseObject;

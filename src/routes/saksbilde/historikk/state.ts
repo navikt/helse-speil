@@ -7,6 +7,7 @@ import {
     Maybe,
     NyttInntektsforholdPeriodeFragment,
     PersonFragment,
+    TilkommenInntektskilde,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
 import {
@@ -16,8 +17,8 @@ import {
 } from '@state/arbeidsgiver';
 import { atomWithSessionStorage } from '@state/jotai';
 import { toNotat } from '@state/notater';
-import { useActivePeriod } from '@state/periode';
-import { Filtertype, HendelseObject, Hendelsetype } from '@typer/historikk';
+import { useActivePeriod, useActiveTilkommenInntektId } from '@state/periode';
+import { Filtertype, HendelseObject, Hendelsetype, TilkommenInntektHendelseObject } from '@typer/historikk';
 import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
 
 import {
@@ -147,8 +148,29 @@ const getHendelserForUberegnetPeriode = (
     ].sort(byTimestamp);
 };
 
-const useHistorikk = (person: Maybe<PersonFragment>): HendelseObject[] => {
+const useHistorikk = (
+    person: Maybe<PersonFragment>,
+    tilkomneInntektskilder: Maybe<TilkommenInntektskilde[]>,
+): HendelseObject[] => {
     const activePeriod = useActivePeriod(person);
+    const activeTilkommenInntektId = useActiveTilkommenInntektId();
+
+    if (activeTilkommenInntektId) {
+        const activeTilkommenInntekt = tilkomneInntektskilder
+            ?.flatMap((tilkommenInntektskilde) => tilkommenInntektskilde.inntekter)
+            .find((tilkommenInntekt) => tilkommenInntekt.tilkommenInntektId === activeTilkommenInntektId);
+        if (activeTilkommenInntekt) {
+            return activeTilkommenInntekt.events
+                .toSorted((a, b) => b.metadata.sekvensnummer - a.metadata.sekvensnummer)
+                .map((event) => ({
+                    id: activeTilkommenInntekt.tilkommenInntektId + event.metadata.sekvensnummer,
+                    type: 'TilkommenInntekt',
+                    event: event,
+                    timestamp: event.metadata.tidspunkt,
+                    saksbehandler: event.metadata.utfortAvSaksbehandlerIdent,
+                })) as TilkommenInntektHendelseObject[];
+        }
+    }
 
     if (!person) {
         return [];
@@ -189,6 +211,7 @@ const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
         'Notat',
         'VedtakBegrunnelse',
         'Annullering',
+        'TilkommenInntekt',
     ],
     Dokument: ['Dokument'],
     Notat: ['Notat'],
@@ -206,9 +229,12 @@ const showHistorikkState = atomWithSessionStorage('showHistorikkState', true);
 
 export const useShowHistorikkState = () => useAtom(showHistorikkState);
 
-export const useFilteredHistorikk = (person: Maybe<PersonFragment>): Array<HendelseObject> => {
+export const useFilteredHistorikk = (
+    person: Maybe<PersonFragment>,
+    tilkomneInntektskilder: Maybe<TilkommenInntektskilde[]>,
+): Array<HendelseObject> => {
     const filter = useAtomValue(filterState);
-    const historikk = useHistorikk(person);
+    const historikk = useHistorikk(person, tilkomneInntektskilder);
 
     return historikk.filter((hendelse) => filterMap[filter].includes(hendelse.type));
 };
