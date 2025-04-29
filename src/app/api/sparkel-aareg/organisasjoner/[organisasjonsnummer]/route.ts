@@ -30,7 +30,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ organisa
             throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
         }
 
-        return await fetch(`${getServerEnv().SPESIALIST_BASEURL}/organisasjoner/${organisasjonsnummer}`, {
+        return await fetch(`${getServerEnv().SPARKEL_AAREG_BASEURL}/organisasjoner/${organisasjonsnummer}`, {
             method: 'get',
             headers: {
                 Authorization: `Bearer ${oboResult.token}`,
