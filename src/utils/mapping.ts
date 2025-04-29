@@ -8,13 +8,7 @@ import {
     Utbetalingtype,
 } from '@io/graphql';
 import { DatePeriod, InfotrygdPeriod, PeriodState } from '@typer/shared';
-import {
-    isBeregnetPeriode,
-    isGhostPeriode,
-    isInfotrygdPeriod,
-    isTilkommenInntekt,
-    isUberegnetPeriode,
-} from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
 const hasBeenAssessedAutomatically = (period: BeregnetPeriodeFragment): boolean =>
     period.utbetaling.vurdering?.automatisk ?? false;
@@ -58,7 +52,6 @@ export const getUberegnetPeriodState = (period: UberegnetPeriodeFragment): Perio
 
 export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodState => {
     if (!period) return 'ukjent';
-    if (isTilkommenInntekt(period)) return 'tilkommenInntekt';
     if (isGhostPeriode(period)) return getGhostPeriodState(period);
     if (isInfotrygdPeriod(period)) return getInfotrygdPeriodState(period);
     if (isUberegnetPeriode(period)) return getUberegnetPeriodState(period);

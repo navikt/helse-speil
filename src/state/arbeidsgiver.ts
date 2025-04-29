@@ -10,7 +10,6 @@ import {
     Hendelse,
     Inntektoverstyring,
     Maybe,
-    NyttInntektsforholdPeriodeFragment,
     OverstyringFragment,
     PersonFragment,
     UberegnetPeriodeFragment,
@@ -30,9 +29,6 @@ import {
     isDagoverstyring,
     isGhostPeriode,
     isInntektoverstyring,
-    isNotTilkommenInntektoverstyring,
-    isTilkommenInntekt,
-    isTilkommenInntektoverstyring,
     isUberegnetPeriode,
 } from '@utils/typeguards';
 
@@ -43,17 +39,6 @@ export const findArbeidsgiverWithGhostPeriode = (
     return (
         arbeidsgivere.find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((periode) => periode.id === period.id)) ??
         null
-    );
-};
-
-export const findArbeidsgiverWithNyttInntektsforholdPeriode = (
-    period: NyttInntektsforholdPeriodeFragment,
-    arbeidsgivere: Array<ArbeidsgiverFragment>,
-): Maybe<ArbeidsgiverFragment> => {
-    return (
-        arbeidsgivere.find((arbeidsgiver) =>
-            arbeidsgiver.nyeInntektsforholdPerioder.find((periode) => periode.id === period.id),
-        ) ?? null
     );
 };
 
@@ -83,8 +68,6 @@ export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<Arb
         return findArbeidsgiverWithPeriode(activePeriod, person.arbeidsgivere);
     } else if (isGhostPeriode(activePeriod)) {
         return findArbeidsgiverWithGhostPeriode(activePeriod, person.arbeidsgivere);
-    } else if (isTilkommenInntekt(activePeriod)) {
-        return findArbeidsgiverWithNyttInntektsforholdPeriode(activePeriod, person.arbeidsgivere);
     }
 
     return null;
@@ -282,7 +265,6 @@ export const useVurderingForSkjæringstidspunkt = (
 
 type UseEndringerForPeriodeResult = {
     inntektsendringer: Inntektoverstyring[];
-    tilkommenInntektsendringer: Inntektoverstyring[];
     arbeidsforholdendringer: Arbeidsforholdoverstyring[];
     dagendringer: Dagoverstyring[];
 };
@@ -296,7 +278,6 @@ export const useEndringerForPeriode = (
     if (!endringer || !periode) {
         return {
             inntektsendringer: [],
-            tilkommenInntektsendringer: [],
             arbeidsforholdendringer: [],
             dagendringer: [],
         };
@@ -309,17 +290,10 @@ export const useEndringerForPeriode = (
 
         const inntekter = endringer
             .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
-            .filter(isInntektoverstyring)
-            .filter(isNotTilkommenInntektoverstyring);
-
-        const tilkommenInntekter = endringer
-            .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
-            .filter(isInntektoverstyring)
-            .filter(isTilkommenInntektoverstyring);
+            .filter(isInntektoverstyring);
 
         return {
             inntektsendringer: inntekter,
-            tilkommenInntektsendringer: tilkommenInntekter,
             arbeidsforholdendringer: arbeidsforhold,
             dagendringer: [],
         };
@@ -327,13 +301,7 @@ export const useEndringerForPeriode = (
 
     const inntekter = endringer
         .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
-        .filter(isInntektoverstyring)
-        .filter(isNotTilkommenInntektoverstyring);
-
-    const tilkommenInntekter = endringer
-        .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
-        .filter(isInntektoverstyring)
-        .filter(isTilkommenInntektoverstyring);
+        .filter(isInntektoverstyring);
 
     const arbeidsforhold = endringer
         .filter((it) => dayjs((periode as BeregnetPeriodeFragment).skjaeringstidspunkt).isSameOrBefore(it.timestamp))
@@ -345,7 +313,6 @@ export const useEndringerForPeriode = (
 
     return {
         inntektsendringer: inntekter,
-        tilkommenInntektsendringer: tilkommenInntekter,
         arbeidsforholdendringer: arbeidsforhold,
         dagendringer: dager,
     };

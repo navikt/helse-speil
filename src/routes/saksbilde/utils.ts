@@ -1,13 +1,8 @@
 import * as R from 'remeda';
 
-import { ArbeidsgiverFragment, PeriodeFragment, PersonFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, PeriodeFragment } from '@io/graphql';
 import { ActivePeriod } from '@typer/shared';
-import { isBeregnetPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
-
-export const harOverlappendeTilkommenInntekt = (person: PersonFragment, fom: string) =>
-    person.arbeidsgivere.flatMap((ag) =>
-        ag.nyeInntektsforholdPerioder.filter((it) => isTilkommenInntekt(it) && it.fom === fom),
-    ).length > 0;
+import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export const finnInitierendeVedtaksperiodeIdFraOverlappendePeriode = (
     arbeidsgivere: ArbeidsgiverFragment[],

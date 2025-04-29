@@ -14,16 +14,9 @@ export enum Fane {
     Inngangsvilkår,
     Sykepengegrunnlag,
     Vurderingsmomenter,
-    TilkommenInntekt,
 }
 
-const locations = [
-    '/dagoversikt',
-    '/inngangsvilkår',
-    '/sykepengegrunnlag',
-    '/vurderingsmomenter',
-    '/tilkommen-inntekt',
-];
+const locations = ['/dagoversikt', '/inngangsvilkår', '/sykepengegrunnlag', '/vurderingsmomenter'];
 
 const locationFromCurrentPath = (path: string, locations: string[]): number => {
     const currentPathName = path.split('/')[3];

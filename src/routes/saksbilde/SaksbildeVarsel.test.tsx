@@ -4,12 +4,7 @@ import { useInntektOgRefusjon } from '@state/overstyring';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enGenerasjon } from '@test-data/generasjon';
 import { enOppgave } from '@test-data/oppgave';
-import {
-    enBeregnetPeriode,
-    enGhostPeriode,
-    enNyttInntektsforholdPeriode,
-    enUberegnetPeriode,
-} from '@test-data/periode';
+import { enBeregnetPeriode, enGhostPeriode, enUberegnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { render, screen } from '@test-utils';
 
@@ -87,34 +82,6 @@ describe('SaksbildeVarsel', () => {
         const arbeidsgiver = enArbeidsgiver();
         const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
         const periode = enGhostPeriode();
-
-        (useInntektOgRefusjon as jest.Mock).mockReturnValue({
-            aktørId: person.aktorId,
-            fødselsnummer: person.fodselsnummer,
-            skjæringstidspunkt: periode.skjaeringstidspunkt,
-            arbeidsgivere: [
-                {
-                    organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-                    månedligInntekt: 100000,
-                    fraMånedligInntekt: 0,
-                    refusjonsopplysninger: [],
-                    fraRefusjonsopplysninger: [],
-                    forklaring: 'forklar',
-                    begrunnelse: 'begrunnelse',
-                },
-            ],
-        });
-
-        render(<SaksbildeVarsel person={person} periode={periode} />);
-
-        expect(
-            screen.getByText('Endringene for sykepengegrunnlag må kalkuleres før du sender saken til godkjenning.'),
-        ).toBeInTheDocument();
-    });
-    it('skal rendre eget varsel for tilkommen inntekt periode', () => {
-        const arbeidsgiver = enArbeidsgiver();
-        const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
-        const periode = enNyttInntektsforholdPeriode();
 
         (useInntektOgRefusjon as jest.Mock).mockReturnValue({
             aktørId: person.aktorId,

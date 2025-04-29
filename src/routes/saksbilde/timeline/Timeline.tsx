@@ -116,12 +116,7 @@ const TimelineWithContent = ({
             <Labels start={start} end={end} />
             <div className={styles.Rows}>
                 {arbeidsgivere
-                    .filter(
-                        (it) =>
-                            it.generasjoner.length > 0 ||
-                            it.ghostPerioder.length > 0 ||
-                            it.nyeInntektsforholdPerioder.length > 0,
-                    )
+                    .filter((it) => it.generasjoner.length > 0 || it.ghostPerioder.length > 0)
                     .map((arbeidsgiver, i) => {
                         return arbeidsgiver.generasjoner.length > 1 ? (
                             <ExpandableTimelineRow
@@ -131,7 +126,6 @@ const TimelineWithContent = ({
                                 name={capitalizeArbeidsgiver(arbeidsgiver.navn)}
                                 generations={arbeidsgiver.generasjoner}
                                 ghostPeriods={arbeidsgiver.ghostPerioder}
-                                nyeInntektsforholdPeriods={arbeidsgiver.nyeInntektsforholdPerioder}
                                 activePeriod={activePeriod}
                                 person={person}
                             />
@@ -143,7 +137,6 @@ const TimelineWithContent = ({
                                 name={capitalizeArbeidsgiver(arbeidsgiver.navn)}
                                 periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
                                 ghostPeriods={arbeidsgiver.ghostPerioder}
-                                nyeInntektsforholdPeriods={arbeidsgiver.nyeInntektsforholdPerioder}
                                 activePeriod={activePeriod}
                                 alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
                                 person={person}

@@ -92,13 +92,6 @@
     --period-icon-color: var(--a-gray-600);
 }
 
-.Period.tilkommen {
-    --period-background-color: #e0d8e9;
-    --period-hover-color: #c9bbd9;
-    --period-border-color: #8269a2;
-    --period-icon-color: #634689;
-}
-
 .Period.waiting {
     --period-background-color: var(--a-lightblue-50);
     --period-hover-color: var(--a-lightblue-100);

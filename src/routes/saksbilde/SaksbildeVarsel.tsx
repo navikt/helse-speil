@@ -24,7 +24,6 @@ import {
     isBeregnetPeriode,
     isGhostPeriode,
     isSpleisVilkarsgrunnlag,
-    isTilkommenInntekt,
     isUberegnetPeriode,
 } from '@utils/typeguards';
 
@@ -54,13 +53,13 @@ export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
         throw Error(`Mangler skjæringstidspunkt for periode med id: ${periode.id}. Ta kontakt med en utvikler.`);
     }
 
-    if (!isTilkommenInntekt(periode) && !periode.vilkarsgrunnlagId) {
+    if (!periode.vilkarsgrunnlagId) {
         throw Error(`Mangler vilkårsgrunnlag for periode med id: ${periode.id}. Ta kontakt med en utvikler.`);
     }
 
     if (isBeregnetPeriode(periode)) {
         return <BeregnetSaksbildevarsler periode={periode as BeregnetPeriodeFragment} person={person} />;
-    } else if (isGhostPeriode(periode) || isTilkommenInntekt(periode)) {
+    } else if (isGhostPeriode(periode)) {
         return (
             <Saksbildevarsler
                 periodState={getPeriodState(periode)}

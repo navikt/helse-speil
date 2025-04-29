@@ -14,7 +14,6 @@ import {
     Kommentar,
     LagtPaVent,
     Maybe,
-    NyttInntektsforholdPeriodeFragment,
     OpphevStansAutomatiskBehandlingSaksbehandler,
     Periode,
     PeriodeHistorikkElementNy,
@@ -511,7 +510,7 @@ export const getInntektoverstyringerForGhost = (
 };
 
 export const getArbeidsforholdoverstyringhendelser = (
-    period: BeregnetPeriodeFragment | GhostPeriodeFragment | NyttInntektsforholdPeriodeFragment,
+    period: BeregnetPeriodeFragment | GhostPeriodeFragment,
     arbeidsgiver: ArbeidsgiverFragment,
 ): Array<ArbeidsforholdoverstyringhendelseObject> => {
     return arbeidsgiver.overstyringer

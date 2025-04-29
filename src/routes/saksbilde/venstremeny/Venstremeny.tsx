@@ -5,11 +5,10 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Maybe } from '@io/graphql';
-import { VenstremenyNyttInntektsforholdPeriode } from '@saksbilde/venstremeny/VenstremenyNyttInntektsforholdPeriode';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
@@ -35,15 +34,6 @@ const VenstremenyContainer = (): Maybe<ReactElement> => {
 
     if (isGhostPeriode(activePeriod)) {
         return <VenstremenyGhostPeriode activePeriod={activePeriod} currentArbeidsgiver={currentArbeidsgiver} />;
-    }
-
-    if (isTilkommenInntekt(activePeriod)) {
-        return (
-            <VenstremenyNyttInntektsforholdPeriode
-                activePeriod={activePeriod}
-                currentArbeidsgiver={currentArbeidsgiver}
-            />
-        );
     }
 
     if (isBeregnetPeriode(activePeriod)) {

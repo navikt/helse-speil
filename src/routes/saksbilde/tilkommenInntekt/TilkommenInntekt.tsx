@@ -7,13 +7,7 @@ import { Alert, HStack } from '@navikt/ds-react';
 import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-    GhostPeriodeFragment,
-    type NyttInntektsforholdPeriodeFragment,
-    PeriodeFragment,
-    PersonFragment,
-    TilkommenInntektskilde,
-} from '@io/graphql';
+import { GhostPeriodeFragment, PeriodeFragment, PersonFragment, TilkommenInntektskilde } from '@io/graphql';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjema';
 import { TilkommenInntektTable } from '@saksbilde/tilkommenInntekt/TilkommenInntektTable';
 import {
@@ -27,7 +21,7 @@ import { erGyldigDato } from '@utils/date';
 
 interface TilkommenInntektProps {
     person: PersonFragment;
-    periode: PeriodeFragment | GhostPeriodeFragment | NyttInntektsforholdPeriodeFragment;
+    periode: PeriodeFragment | GhostPeriodeFragment;
     tilkommeneInntektskilder: TilkommenInntektskilde[];
 }
 

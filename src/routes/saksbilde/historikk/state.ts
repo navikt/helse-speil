@@ -5,21 +5,16 @@ import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
     Maybe,
-    NyttInntektsforholdPeriodeFragment,
     PersonFragment,
     TilkommenInntektskilde,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import {
-    findArbeidsgiverWithGhostPeriode,
-    findArbeidsgiverWithNyttInntektsforholdPeriode,
-    findArbeidsgiverWithPeriode,
-} from '@state/arbeidsgiver';
+import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/arbeidsgiver';
 import { atomWithSessionStorage } from '@state/jotai';
 import { toNotat } from '@state/notater';
 import { useActivePeriod, useActiveTilkommenInntektId } from '@state/periode';
 import { Filtertype, HendelseObject, Hendelsetype, TilkommenInntektHendelseObject } from '@typer/historikk';
-import { isBeregnetPeriode, isGhostPeriode, isTilkommenInntekt, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import {
     getAnnetArbeidsforholdoverstyringhendelser,
@@ -112,19 +107,6 @@ const getHendelserForGhostPeriode = (period: GhostPeriodeFragment, person: Perso
     );
 };
 
-const getHendelserForNyttInntektsforholdPeriode = (
-    period: NyttInntektsforholdPeriodeFragment,
-    person: PersonFragment,
-): Array<HendelseObject> => {
-    const arbeidsgiver = findArbeidsgiverWithNyttInntektsforholdPeriode(period, person.arbeidsgivere);
-    const arbeidsforholdoverstyringer = arbeidsgiver ? getArbeidsforholdoverstyringhendelser(period, arbeidsgiver) : [];
-    const inntektoverstyringer = arbeidsgiver
-        ? getInntektoverstyringerForGhost(period.skjaeringstidspunkt, arbeidsgiver, person)
-        : [];
-
-    return [...arbeidsforholdoverstyringer, ...inntektoverstyringer].sort(byTimestamp);
-};
-
 const getHendelserForUberegnetPeriode = (
     period: UberegnetPeriodeFragment,
     person: PersonFragment,
@@ -182,10 +164,6 @@ const useHistorikk = (
 
     if (isGhostPeriode(activePeriod)) {
         return getHendelserForGhostPeriode(activePeriod, person);
-    }
-
-    if (isTilkommenInntekt(activePeriod)) {
-        return getHendelserForNyttInntektsforholdPeriode(activePeriod, person);
     }
 
     if (isUberegnetPeriode(activePeriod)) {

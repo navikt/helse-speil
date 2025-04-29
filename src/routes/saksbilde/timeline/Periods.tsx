@@ -1,24 +1,11 @@
 import dayjs, { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import {
-    GhostPeriodeFragment,
-    Maybe,
-    NyttInntektsforholdPeriodeFragment,
-    PeriodeFragment,
-    Periodetilstand,
-    PersonFragment,
-} from '@io/graphql';
+import { GhostPeriodeFragment, Maybe, PeriodeFragment, Periodetilstand, PersonFragment } from '@io/graphql';
 import { isNotReady } from '@state/selectors/period';
 import { DatePeriod, InfotrygdPeriod } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
-import {
-    isBeregnetPeriode,
-    isGhostPeriode,
-    isInfotrygdPeriod,
-    isTilkommenInntekt,
-    isUberegnetPeriode,
-} from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
 import { Period } from './Period';
 import { usePeriodStyling } from './hooks/usePeriodStyling';
@@ -38,8 +25,7 @@ const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
             (isBeregnetPeriode(it) && it.periodetilstand !== Periodetilstand.TilInfotrygd) ||
             isUberegnetPeriode(it) ||
             isInfotrygdPeriod(it) ||
-            (isGhostPeriode(it) && !it.deaktivert) ||
-            isTilkommenInntekt(it),
+            (isGhostPeriode(it) && !it.deaktivert),
     );
 
 const isActive = (activePeriod: Maybe<TimelinePeriod>, currentPeriod: Maybe<TimelinePeriod>): boolean => {
@@ -48,8 +34,6 @@ const isActive = (activePeriod: Maybe<TimelinePeriod>, currentPeriod: Maybe<Time
     } else if (isBeregnetPeriode(activePeriod) && isBeregnetPeriode(currentPeriod)) {
         return activePeriod.id === currentPeriod.id;
     } else if (isUberegnetPeriode(activePeriod) && isUberegnetPeriode(currentPeriod)) {
-        return activePeriod.id === currentPeriod.id;
-    } else if (isTilkommenInntekt(activePeriod) && isTilkommenInntekt(currentPeriod)) {
         return activePeriod.id === currentPeriod.id;
     } else {
         return false;
@@ -60,12 +44,9 @@ const mergePeriods = (
     fromSpleis: Array<PeriodeFragment>,
     fromInfotrygd: Array<InfotrygdPeriod>,
     ghostPeriods: Array<GhostPeriodeFragment>,
-    nyeInntektsforholdPeriods: Array<NyttInntektsforholdPeriodeFragment>,
 ): Array<TimelinePeriod> => {
     const periodsFromSpleis = filterReadyPeriods(fromSpleis);
-    return [...periodsFromSpleis, ...fromInfotrygd, ...ghostPeriods, ...nyeInntektsforholdPeriods].sort(
-        byFomDescending,
-    );
+    return [...periodsFromSpleis, ...fromInfotrygd, ...ghostPeriods].sort(byFomDescending);
 };
 
 interface PeriodsProps {
@@ -75,7 +56,6 @@ interface PeriodsProps {
     activePeriod: Maybe<TimelinePeriod>;
     infotrygdPeriods?: Array<InfotrygdPeriod>;
     ghostPeriods?: Array<GhostPeriodeFragment>;
-    nyeInntektsforholdPeriods?: Array<NyttInntektsforholdPeriodeFragment>;
     notCurrent?: boolean;
     person: PersonFragment;
 }
@@ -86,12 +66,11 @@ export const Periods = ({
     periods,
     infotrygdPeriods = [],
     ghostPeriods = [],
-    nyeInntektsforholdPeriods = [],
     notCurrent,
     activePeriod,
     person,
 }: PeriodsProps): ReactElement => {
-    const allPeriods = mergePeriods(periods, infotrygdPeriods, ghostPeriods, nyeInntektsforholdPeriods);
+    const allPeriods = mergePeriods(periods, infotrygdPeriods, ghostPeriods);
     const validPeriods = filterValidPeriods(allPeriods);
     const populatedPeriods = usePopulateNeighbours(validPeriods);
     const visiblePeriods = useVisiblePeriods(end, start, populatedPeriods);

@@ -3,14 +3,14 @@ import React, { ReactElement } from 'react';
 
 import { Box, Checkbox, CheckboxGroup, Table, VStack } from '@navikt/ds-react';
 
-import { Arbeidsgiver, Utbetalingsdagtype } from '@io/graphql';
+import { ArbeidsgiverFragment, Utbetalingsdagtype } from '@io/graphql';
 import { DateString } from '@typer/shared';
 import { erHelg, somNorskDato } from '@utils/date';
 
 import styles from './TilkommenTable.module.css';
 
 interface TilkommenInntektTableProps {
-    arbeidsgivere: Arbeidsgiver[];
+    arbeidsgivere: ArbeidsgiverFragment[];
     fom: DateString;
     tom: DateString;
     setDagerSomSkalEkskluderes: (datoer: DateString[]) => void;
@@ -83,7 +83,7 @@ interface TabellArbeidsdag {
     }[];
 }
 
-const tabellArbeidsdager = (arbeidsgivere: Arbeidsgiver[]): TabellArbeidsdag[] => {
+const tabellArbeidsdager = (arbeidsgivere: ArbeidsgiverFragment[]): TabellArbeidsdag[] => {
     const gruppertPåDato = new Map<DateString, { navn: string; dagtype: Utbetalingsdagtype }[]>();
     const gruppertPåArbeidsgiver: {
         navn: string;

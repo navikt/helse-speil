@@ -9,7 +9,6 @@ import { Fane } from '@hooks/useNavigation';
 import { PersonFragment, TilkommenInntektskilde, UberegnetPeriodeFragment } from '@io/graphql';
 import { TilkommenInntekt } from '@saksbilde/tilkommenInntekt/TilkommenInntekt';
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
-import { harOverlappendeTilkommenInntekt } from '@saksbilde/utils';
 
 type UberegnetPeriodeViewProps = {
     person: PersonFragment;
@@ -19,14 +18,7 @@ type UberegnetPeriodeViewProps = {
 
 export const UberegnetPeriodeView = ({ person, activePeriod, tilkommeneInntektskilder }: UberegnetPeriodeViewProps) => {
     const tab = last(usePathname().split('/'));
-    const harTilkommenInntekt = harOverlappendeTilkommenInntekt(person, activePeriod.fom);
-    useNavigateOnMount(
-        tab === 'tilkommen-inntekt' && !harTilkommenInntekt
-            ? Fane.Utbetaling
-            : tab !== 'tilkommen-inntekt' && tab !== 'dagoversikt'
-              ? Fane.Utbetaling
-              : undefined,
-    );
+    useNavigateOnMount(tab !== 'tilkommen-inntekt' && tab !== 'dagoversikt' ? Fane.Utbetaling : undefined);
 
     return (
         <Box overflowX="scroll">

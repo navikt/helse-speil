@@ -9,7 +9,6 @@ import { Fane } from '@hooks/useNavigation';
 import type { GhostPeriodeFragment, PersonFragment, TilkommenInntektskilde } from '@io/graphql';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
 import { TilkommenInntekt } from '@saksbilde/tilkommenInntekt/TilkommenInntekt';
-import { isTilkommenInntekt } from '@utils/typeguards';
 
 interface GhostPeriodeViewProps {
     activePeriod: GhostPeriodeFragment;
@@ -23,7 +22,7 @@ export const GhostPeriodeView = ({
     tilkommeneInntektskilder,
 }: GhostPeriodeViewProps): ReactElement => {
     const tab = last(usePathname().split('/'));
-    useNavigateOnMount(isTilkommenInntekt(activePeriod) ? Fane.TilkommenInntekt : Fane.Sykepengegrunnlag);
+    useNavigateOnMount(Fane.Sykepengegrunnlag);
 
     return (
         <>

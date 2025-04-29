@@ -2,7 +2,6 @@ import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
-    NyttInntektsforholdPeriodeFragment,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
 
@@ -48,14 +47,9 @@ export type PeriodState =
     | 'infotrygdUtbetalt'
     | 'infotrygdFerie'
     | 'infotrygdUkjent'
-    | 'tilSkjønnsfastsettelse'
-    | 'tilkommenInntekt';
+    | 'tilSkjønnsfastsettelse';
 
-export type ActivePeriod =
-    | BeregnetPeriodeFragment
-    | UberegnetPeriodeFragment
-    | GhostPeriodeFragment
-    | NyttInntektsforholdPeriodeFragment;
+export type ActivePeriod = BeregnetPeriodeFragment | UberegnetPeriodeFragment | GhostPeriodeFragment;
 
 export type ArbeidsgiverGenerasjon = ArbeidsgiverFragment['generasjoner'][0];
 

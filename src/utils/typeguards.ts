@@ -7,7 +7,6 @@ import {
     Inntektoverstyring,
     Maybe,
     MinimumSykdomsgradOverstyring,
-    NyttInntektsforholdPeriodeFragment,
     Overstyring,
     Person,
     PersonFragment,
@@ -34,9 +33,6 @@ export const isGhostPeriode = (period?: Maybe<TimelinePeriod>): period is GhostP
 export const isUberegnetPeriode = (period?: Maybe<TimelinePeriod>): period is UberegnetPeriodeFragment =>
     (period as UberegnetPeriodeFragment)?.__typename === 'UberegnetPeriode';
 
-export const isTilkommenInntekt = (period?: Maybe<TimelinePeriod>): period is NyttInntektsforholdPeriodeFragment =>
-    (period as NyttInntektsforholdPeriodeFragment)?.__typename === 'NyttInntektsforholdPeriode';
-
 export const isSpleisVilkarsgrunnlag = (
     vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>,
 ): vilkårsgrunnlag is VilkarsgrunnlagSpleis => vilkårsgrunnlag?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;
@@ -62,12 +58,6 @@ export const isInntektoverstyring = (overstyring?: Maybe<Overstyring>): overstyr
 export const isInntektoverstyringer = (
     overstyringer?: Maybe<Array<Overstyring>>,
 ): overstyringer is Array<Inntektoverstyring> => overstyringer?.every(isInntektoverstyring) ?? false;
-
-export const isTilkommenInntektoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Inntektoverstyring =>
-    (overstyring as Inntektoverstyring)?.inntekt.begrunnelse === 'tilkommen';
-
-export const isNotTilkommenInntektoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Inntektoverstyring =>
-    (overstyring as Inntektoverstyring)?.inntekt.begrunnelse !== 'tilkommen';
 
 export const isArbeidsforholdoverstyring = (
     overstyring?: Maybe<Overstyring>,

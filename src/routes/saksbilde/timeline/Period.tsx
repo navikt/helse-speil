@@ -7,13 +7,7 @@ import { useSetActivePeriodId } from '@state/periode';
 import { PeriodState } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
 import { getPeriodState } from '@utils/mapping';
-import {
-    isBeregnetPeriode,
-    isGhostPeriode,
-    isInfotrygdPeriod,
-    isTilkommenInntekt,
-    isUberegnetPeriode,
-} from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
 import { InfoPin } from './InfoPin';
 import { PeriodPopover } from './PeriodPopover';
@@ -65,8 +59,6 @@ const getPeriodCategory = (periodState: PeriodState): Maybe<PeriodCategory> => {
             return 'neutral';
         case 'forkastetIngenUtbetaling':
             return 'neutralError';
-        case 'tilkommenInntekt':
-            return 'plus';
         case 'infotrygdUkjent':
         case 'ukjent':
         default: {
@@ -112,7 +104,6 @@ const getClassNames = (period: TimelinePeriod, notCurrent?: boolean, isActive?: 
         notCurrent && styles.old,
         isInfotrygdPeriod(period) && styles.legacy,
         isGhostPeriode(period) && styles.blank,
-        isTilkommenInntekt(period) && styles.tilkommen,
     );
 };
 
@@ -140,12 +131,7 @@ export const Period = ({
 
     const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         buttonProps.onClick?.(event);
-        if (
-            isBeregnetPeriode(period) ||
-            isUberegnetPeriode(period) ||
-            isGhostPeriode(period) ||
-            isTilkommenInntekt(period)
-        ) {
+        if (isBeregnetPeriode(period) || isUberegnetPeriode(period) || isGhostPeriode(period)) {
             setActivePeriodId(period.id);
         }
     };

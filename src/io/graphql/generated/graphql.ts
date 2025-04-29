@@ -2550,16 +2550,6 @@ export type ArbeidsgiverFragment = {
         tom: string;
         organisasjonsnummer: string;
     }>;
-    nyeInntektsforholdPerioder: Array<{
-        __typename: 'NyttInntektsforholdPeriode';
-        id: string;
-        fom: string;
-        tom: string;
-        organisasjonsnummer: string;
-        skjaeringstidspunkt: string;
-        dagligBelop: number;
-        manedligBelop: number;
-    }>;
     generasjoner: Array<{
         __typename: 'Generasjon';
         id: string;
@@ -3365,17 +3355,6 @@ export type GhostPeriodeFragment = {
     fom: string;
     tom: string;
     organisasjonsnummer: string;
-};
-
-export type NyttInntektsforholdPeriodeFragment = {
-    __typename: 'NyttInntektsforholdPeriode';
-    id: string;
-    fom: string;
-    tom: string;
-    organisasjonsnummer: string;
-    skjaeringstidspunkt: string;
-    dagligBelop: number;
-    manedligBelop: number;
 };
 
 export type UberegnetPeriodeFragment = {
@@ -4273,16 +4252,6 @@ export type PersonFragment = {
             tom: string;
             organisasjonsnummer: string;
         }>;
-        nyeInntektsforholdPerioder: Array<{
-            __typename: 'NyttInntektsforholdPeriode';
-            id: string;
-            fom: string;
-            tom: string;
-            organisasjonsnummer: string;
-            skjaeringstidspunkt: string;
-            dagligBelop: number;
-            manedligBelop: number;
-        }>;
         generasjoner: Array<{
             __typename: 'Generasjon';
             id: string;
@@ -5144,16 +5113,6 @@ export type FetchPersonQuery = {
                 fom: string;
                 tom: string;
                 organisasjonsnummer: string;
-            }>;
-            nyeInntektsforholdPerioder: Array<{
-                __typename: 'NyttInntektsforholdPeriode';
-                id: string;
-                fom: string;
-                tom: string;
-                organisasjonsnummer: string;
-                skjaeringstidspunkt: string;
-                dagligBelop: number;
-                manedligBelop: number;
             }>;
             generasjoner: Array<{
                 __typename: 'Generasjon';
@@ -6293,28 +6252,6 @@ export const GhostPeriodeFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<GhostPeriodeFragment, unknown>;
-export const NyttInntektsforholdPeriodeFragmentDoc = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NyttInntektsforholdPeriode' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'dagligBelop' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'manedligBelop' } },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<NyttInntektsforholdPeriodeFragment, unknown>;
 export const KommentarFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -7897,16 +7834,6 @@ export const ArbeidsgiverFragmentDoc = {
                     },
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'nyeInntektsforholdPerioder' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' } },
-                            ],
-                        },
-                    },
-                    {
-                        kind: 'Field',
                         name: { kind: 'Name', value: 'generasjoner' },
                         selectionSet: {
                             kind: 'SelectionSet',
@@ -8332,23 +8259,6 @@ export const ArbeidsgiverFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NyttInntektsforholdPeriode' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'dagligBelop' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'manedligBelop' } },
                 ],
             },
         },
@@ -9102,23 +9012,6 @@ export const PersonFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NyttInntektsforholdPeriode' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'dagligBelop' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'manedligBelop' } },
                 ],
             },
         },
@@ -10219,16 +10112,6 @@ export const PersonFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ghostPeriode' } }],
-                        },
-                    },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'nyeInntektsforholdPerioder' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' } },
-                            ],
                         },
                     },
                     {
@@ -12089,23 +11972,6 @@ export const FetchPersonDocument = {
         },
         {
             kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NyttInntektsforholdPeriode' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'dagligBelop' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'manedligBelop' } },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'kommentar' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
             selectionSet: {
@@ -13053,16 +12919,6 @@ export const FetchPersonDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ghostPeriode' } }],
-                        },
-                    },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'nyeInntektsforholdPerioder' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'nyttInntektsforholdPeriode' } },
-                            ],
                         },
                     },
                     {
