@@ -118,7 +118,6 @@ export type Arbeidsgiver = {
     ghostPerioder: Array<GhostPeriode>;
     inntekterFraAordningen: Array<ArbeidsgiverInntekterFraAOrdningen>;
     navn: Scalars['String']['output'];
-    nyeInntektsforholdPerioder: Array<NyttInntektsforholdPeriode>;
     organisasjonsnummer: Scalars['String']['output'];
     overstyringer: Array<Overstyring>;
 };
@@ -883,17 +882,6 @@ export enum NotatType {
     PaaVent = 'PaaVent',
     Retur = 'Retur',
 }
-
-export type NyttInntektsforholdPeriode = {
-    __typename: 'NyttInntektsforholdPeriode';
-    dagligBelop: Scalars['Float']['output'];
-    fom: Scalars['LocalDate']['output'];
-    id: Scalars['UUID']['output'];
-    manedligBelop: Scalars['Float']['output'];
-    organisasjonsnummer: Scalars['String']['output'];
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    tom: Scalars['LocalDate']['output'];
-};
 
 export type OmregnetArsinntekt = {
     __typename: 'OmregnetArsinntekt';

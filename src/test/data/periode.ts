@@ -5,7 +5,6 @@ import {
     GhostPeriodeFragment,
     Inntektstype,
     Kildetype,
-    NyttInntektsforholdPeriode,
     OppgaveForPeriodevisning,
     Periodetilstand,
     Periodetype,
@@ -165,18 +164,5 @@ export const enGhostPeriode: OverridableConstructor<GhostPeriodeFragment> = (ove
     organisasjonsnummer: '987654321',
     skjaeringstidspunkt: '2020-01-01',
     vilkarsgrunnlagId: nanoid(),
-    ...overrides,
-});
-
-export const enNyttInntektsforholdPeriode: OverridableConstructor<NyttInntektsforholdPeriode> = (overrides) => ({
-    __typename: 'NyttInntektsforholdPeriode',
-    id: nanoid(),
-    fom: '2020-01-01',
-    tom: '2020-01-30',
-    organisasjonsnummer: '987654321',
-    skjaeringstidspunkt: '2020-01-01',
-    vilkarsgrunnlagId: nanoid(),
-    dagligBelop: 100.0,
-    manedligBelop: 3000.0,
     ...overrides,
 });
