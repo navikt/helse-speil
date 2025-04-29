@@ -23,7 +23,7 @@ import {
     utledSykefraværstilfeller,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { DateString } from '@typer/shared';
-import { ISO_DATOFORMAT, erGyldigDato } from '@utils/date';
+import { erGyldigDato } from '@utils/date';
 
 interface TilkommenInntektProps {
     person: PersonFragment;
@@ -61,8 +61,6 @@ export const TilkommenInntekt = ({
 
     return (
         <ErrorBoundary fallback={<TilkommenInntektError />}>
-            <div>{dagerTilGradering.map((day) => day.format(ISO_DATOFORMAT) + ', ')}</div>
-            <div>{dagerSomSkalEkskluderes.map((day) => day + ', ')}</div>
             <HStack>
                 <TilkommenInntektSkjema
                     form={form}
