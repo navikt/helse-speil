@@ -99,7 +99,6 @@
                         }
                     ],
                     "ghostPerioder": [],
-                    "nyeInntektsforholdPerioder": [],
                     "generasjoner": [
                         {
                             "id": "58b59c75-ffb1-45a5-b8e3-6ce2c0833752",
@@ -773,7 +772,6 @@
                         }
                     ],
                     "ghostPerioder": [],
-                    "nyeInntektsforholdPerioder": [],
                     "generasjoner": [],
                     "overstyringer": [],
                     "inntekterFraAordningen": []
