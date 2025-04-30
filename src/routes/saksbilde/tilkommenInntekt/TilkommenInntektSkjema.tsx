@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
-import { Box, Button, HStack, Heading, TextField, Textarea, VStack } from '@navikt/ds-react';
+import { ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
+import { Box, Button, ErrorMessage, HStack, Heading, TextField, Textarea, VStack } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { Maybe } from '@io/graphql';
@@ -26,6 +27,10 @@ export const TilkommenInntektSkjema = ({
 
     const inntektPerDag = form.watch('periodebeløp') / dagerTilFordeling;
 
+    const datofeil: string[] = [form.formState.errors.fom?.message, form.formState.errors.tom?.message].filter(
+        (feil) => feil !== undefined,
+    );
+
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -49,6 +54,7 @@ export const TilkommenInntektSkjema = ({
                                 render={({ field, fieldState }) => (
                                     <TextField
                                         {...field}
+                                        style={{ width: '140px' }}
                                         error={fieldState.error?.message}
                                         label="Organisasjonsnummer"
                                         size="small"
@@ -58,32 +64,44 @@ export const TilkommenInntektSkjema = ({
                                 )}
                             />
                         </HStack>
-                        <HStack wrap gap="6" marginBlock="4 4">
-                            <Controller
-                                name="fom"
-                                control={form.control}
-                                render={({ field, fieldState }) => (
-                                    <ControlledDatePicker
-                                        field={field}
-                                        label="Periode f.o.m"
-                                        error={fieldState.error?.message}
-                                        defaultMonth={defaultFom}
-                                    />
-                                )}
-                            />
-                            <Controller
-                                name="tom"
-                                control={form.control}
-                                render={({ field, fieldState }) => (
-                                    <ControlledDatePicker
-                                        field={field}
-                                        label="Periode t.o.m"
-                                        error={fieldState.error?.message}
-                                        defaultMonth={defaultTom}
-                                    />
-                                )}
-                            />
-                        </HStack>
+                        <VStack marginBlock="4 4">
+                            <HStack wrap={false} gap="6" marginBlock="0 2">
+                                <Controller
+                                    name="fom"
+                                    control={form.control}
+                                    render={({ field, fieldState }) => (
+                                        <ControlledDatePicker
+                                            field={field}
+                                            label="Periode f.o.m"
+                                            error={fieldState.error?.message}
+                                            defaultMonth={defaultFom}
+                                        />
+                                    )}
+                                />
+                                <Controller
+                                    name="tom"
+                                    control={form.control}
+                                    render={({ field, fieldState }) => (
+                                        <ControlledDatePicker
+                                            field={field}
+                                            label="Periode t.o.m"
+                                            error={fieldState.error?.message}
+                                            defaultMonth={defaultTom}
+                                        />
+                                    )}
+                                />
+                            </HStack>
+                            {datofeil.length > 0 &&
+                                datofeil.map((feil) => (
+                                    <HStack key={feil} align="center" gap="1">
+                                        <ExclamationmarkTriangleFillIcon
+                                            fontSize="0.75rem"
+                                            color="var(--a-surface-danger)"
+                                        />
+                                        <ErrorMessage size="small">{feil}</ErrorMessage>
+                                    </HStack>
+                                ))}
+                        </VStack>
                         <HStack wrap gap="6" marginBlock="4 4">
                             <Controller
                                 control={form.control}

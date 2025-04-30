@@ -24,7 +24,13 @@ export const ControlledDatePicker = ({ field, error, label, defaultMonth }: Cont
 
     return (
         <DatePicker {...datepickerProps}>
-            <DatePicker.Input {...inputProps} label={label} error={error} size="small" name={field.name} />
+            <DatePicker.Input
+                {...inputProps}
+                label={label}
+                error={error !== undefined}
+                size="small"
+                name={field.name}
+            />
         </DatePicker>
     );
 };

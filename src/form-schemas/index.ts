@@ -30,8 +30,8 @@ export const lagTilkommenInntektSchema = (
                 .refine((value) => !isNaN(Number(value)), 'Organisasjonsnummer må være et tall')
                 .refine((value) => value.length === 9, 'Organisasjonsnummer må være 9 siffer')
                 .refine(validerKontrollsiffer, 'Organisasjonsnummer må ha gyldig kontrollsiffer'),
-            fom: z.string().date('Datoen er ikke gyldig'),
-            tom: z.string().date('Datoen er ikke gyldig'),
+            fom: z.string().min(1, { message: 'F.o.m. er påkrevd' }).date('F.o.m. er ikke gyldig dato'),
+            tom: z.string().min(1, { message: 'T.o.m. er påkrevd' }).date('T.o.m. er ikke gyldig dato'),
             periodebeløp: z.number().nonnegative('Inntekt for perioden må være et positivt tall'),
             notat: z.string().min(1, { message: 'Notat til beslutter er påkrevd' }),
         })
