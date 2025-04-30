@@ -55,7 +55,7 @@ export const TilkommenInntekt = ({
 
     return (
         <ErrorBoundary fallback={<TilkommenInntektError />}>
-            <HStack>
+            <HStack wrap={false}>
                 <TilkommenInntektSkjema
                     form={form}
                     dagerTilFordeling={dagerTilGradering.length}
