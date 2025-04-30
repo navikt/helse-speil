@@ -10,3 +10,40 @@
 .checkbox span {
     font-size: var(--a-font-size-large);
 }
+
+.dagtypeContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-left: 0.25rem;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.valgteDatoer {
+    text-decoration: line-through;
+    background: var(--a-surface-action-subtle-hover);
+}
+
+.tabellTittel {
+    padding-left: var(--a-spacing-4);
+}
+
+.tabelBody .datoKolonne,
+.tabellHeader .datoKolonne {
+    padding-left: var(--a-spacing-4);
+}
+
+.tabell td {
+    border: var(--a-border-divider) 1px solid;
+    border-top: none;
+    border-left: none;
+}
+
+.arbeidsgiverNavn {
+    font-weight: bold;
+}

@@ -30,7 +30,7 @@ export const TilkommenInntektSkjema = ({
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <VStack paddingBlock="8 6" paddingInline="2 0">
-                    <Heading size="small" spacing>
+                    <Heading level="2" size="small" spacing>
                         Legg til tilkommen inntekt
                     </Heading>
                     <Box
