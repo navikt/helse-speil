@@ -37,7 +37,7 @@ export const TilkommenInntektTable = ({
 
     return (
         <VStack paddingBlock="18 6">
-            <Box background={'surface-subtle'} borderWidth="0 0 0 1" borderColor="border-default" paddingBlock="4 0">
+            <Box background={'surface-subtle'} borderWidth="0 0 0 2" borderColor="border-default" paddingBlock="4 0">
                 <BodyShort weight="semibold" className={styles.tabellTittel} spacing>
                     Velg hvilke dager som ikke skal graderes
                 </BodyShort>
@@ -102,14 +102,14 @@ export const TilkommenInntektTable = ({
                                 </Table.DataCell>
                                 {dag.arbeidsgivere.map((arbeidsgiver) => (
                                     <Table.DataCell key={dag.dato + arbeidsgiver.navn}>
-                                        <div className={styles.dagtypeContainer}>
+                                        <HStack gap="1" align="center" paddingInline="1 0">
                                             <div className={styles.icon}>
                                                 {getTypeIcon(arbeidsgiver.dagtype, erHelg(dag.dato))}
                                             </div>
                                             <BodyShort>
                                                 {dekorerTekst(arbeidsgiver.dagtype, erHelg(dag.dato))}
                                             </BodyShort>
-                                        </div>
+                                        </HStack>
                                     </Table.DataCell>
                                 ))}
                             </Table.Row>

@@ -11,14 +11,8 @@
     font-size: var(--a-font-size-large);
 }
 
-.dagtypeContainer {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding-left: 0.25rem;
-}
-
 .icon {
+    width: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
