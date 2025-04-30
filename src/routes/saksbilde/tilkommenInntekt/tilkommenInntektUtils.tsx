@@ -1,0 +1,150 @@
+import dayjs, { Dayjs } from 'dayjs';
+import { ReactElement } from 'react';
+
+import { ArbeidsgiverFragment, PersonFragment, TilkommenInntektskilde, Utbetalingsdagtype } from '@io/graphql';
+import { IconArbeidsdag } from '@saksbilde/table/icons/IconArbeidsdag';
+import { IconFailure } from '@saksbilde/table/icons/IconFailure';
+import { IconFerie } from '@saksbilde/table/icons/IconFerie';
+import { IconSyk } from '@saksbilde/table/icons/IconSyk';
+import { DateString } from '@typer/shared';
+import { ISO_DATOFORMAT, erHelg } from '@utils/date';
+
+export function utledSykefraværstilfeller(person: PersonFragment) {
+    const vedtaksperioder = person.arbeidsgivere
+        .flatMap((ag) => ag.generasjoner[0]?.perioder)
+        .filter((periode) => periode != null)
+        .map((periode) => ({
+            fom: periode.fom,
+            tom: periode.tom,
+            skjæringstidspunkt: periode.skjaeringstidspunkt,
+        }));
+
+    return Object.values(
+        vedtaksperioder.reduce(
+            (acc, periode) => {
+                const key = periode.skjæringstidspunkt;
+                if (!acc[key]) {
+                    acc[key] = { ...periode };
+                } else {
+                    acc[key].fom = acc[key].fom < periode.fom ? acc[key].fom : periode.fom;
+                    acc[key].tom = acc[key].tom > periode.tom ? acc[key].tom : periode.tom;
+                }
+                return acc;
+            },
+            {} as Record<string, { fom: string; tom: string; skjæringstidspunkt: string }>,
+        ),
+    );
+}
+
+export function lagEksisterendePerioder(tilkommeneInntektskilder: TilkommenInntektskilde[]) {
+    const map = new Map<string, { fom: string; tom: string }[]>();
+    tilkommeneInntektskilder.forEach((inntektskilde) =>
+        map.set(
+            inntektskilde.organisasjonsnummer,
+            inntektskilde.inntekter.map((inntekt) => ({
+                fom: inntekt.periode.fom,
+                tom: inntekt.periode.tom,
+            })),
+        ),
+    );
+    return map;
+}
+
+export function lagDatoIntervall(fom: string, tom: string): Dayjs[] {
+    const datoIntervall: Dayjs[] = [];
+    let gjeldendeDag = dayjs(fom);
+
+    while (gjeldendeDag.isSameOrBefore(dayjs(tom))) {
+        datoIntervall.push(gjeldendeDag);
+        gjeldendeDag = gjeldendeDag.add(1, 'day');
+    }
+
+    return datoIntervall;
+}
+
+export const filtrerDager = (datoIntervall: Dayjs[], dagerSomSkalEkskluderes: DateString[]) => {
+    return datoIntervall
+        .filter((dag) => !erHelg(dag.format(ISO_DATOFORMAT)))
+        .filter((dag) => !dagerSomSkalEkskluderes.includes(dag.format(ISO_DATOFORMAT)));
+};
+
+interface TabellArbeidsdag {
+    dato: DateString;
+    arbeidsgivere: {
+        navn: string;
+        dagtype: Utbetalingsdagtype;
+    }[];
+}
+
+export const tabellArbeidsdager = (arbeidsgivere: ArbeidsgiverFragment[]): TabellArbeidsdag[] => {
+    const gruppertPåDato = new Map<DateString, { navn: string; dagtype: Utbetalingsdagtype }[]>();
+    const gruppertPåArbeidsgiver: {
+        navn: string;
+        dager: { dato: DateString; dagtype: Utbetalingsdagtype }[];
+    }[] = arbeidsgivere.map((arbeidsgiver) => ({
+        navn: arbeidsgiver.navn,
+        dager:
+            arbeidsgiver.generasjoner[0]?.perioder
+                .flatMap((periode) =>
+                    periode.tidslinje.map((linje) => ({
+                        dato: linje.dato,
+                        dagtype: linje.utbetalingsdagtype,
+                    })),
+                )
+                .filter((dag) => dag != null) ?? [],
+    }));
+
+    gruppertPåArbeidsgiver.forEach(({ navn, dager }) => {
+        dager.forEach(({ dato, dagtype }) => {
+            if (!gruppertPåDato.has(dato)) {
+                gruppertPåDato.set(dato, []);
+            }
+            gruppertPåDato.get(dato)?.push({
+                navn: navn,
+                dagtype: dagtype,
+            });
+        });
+    });
+
+    return Array.from(gruppertPåDato.entries().map(([dato, arbeidsgivere]) => ({ dato, arbeidsgivere })));
+};
+export const dekorerTekst = (dagtype: Utbetalingsdagtype, erHelg: boolean): string => {
+    switch (dagtype) {
+        case Utbetalingsdagtype.AvvistDag:
+        case Utbetalingsdagtype.ForeldetDag:
+            return 'Avslått';
+        case Utbetalingsdagtype.Arbeidsgiverperiodedag:
+            return erHelg ? 'Helg (AGP)' : 'Syk (AGP)';
+        case Utbetalingsdagtype.Helgedag:
+        case Utbetalingsdagtype.Navhelgdag:
+            return 'Helg';
+        case Utbetalingsdagtype.Feriedag:
+            return 'Ferie';
+        case Utbetalingsdagtype.Navdag:
+            return 'Syk';
+        case Utbetalingsdagtype.Arbeidsdag:
+            return 'Arbeid';
+        case Utbetalingsdagtype.UkjentDag:
+        default:
+            return 'Ukjent';
+    }
+};
+export const getTypeIcon = (dagtype: Utbetalingsdagtype, erHelg: boolean): ReactElement | null => {
+    switch (dagtype) {
+        case Utbetalingsdagtype.AvvistDag:
+        case Utbetalingsdagtype.ForeldetDag:
+            return <IconFailure />;
+        case Utbetalingsdagtype.Navdag:
+        case Utbetalingsdagtype.Arbeidsgiverperiodedag:
+            return erHelg ? null : <IconSyk />;
+        case Utbetalingsdagtype.Feriedag:
+            return <IconFerie />;
+        case Utbetalingsdagtype.Arbeidsdag:
+            return <IconArbeidsdag />;
+        case Utbetalingsdagtype.Helgedag:
+        case Utbetalingsdagtype.Navhelgdag:
+        case Utbetalingsdagtype.UkjentDag:
+        default:
+            return null;
+    }
+};
