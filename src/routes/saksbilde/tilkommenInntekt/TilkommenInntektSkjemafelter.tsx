@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form';
 
@@ -31,6 +32,8 @@ export const TilkommenInntektSkjemafelter = ({
     defaultFom,
     defaultTom,
 }: TilkommenInntektSkjemaProps): Maybe<ReactElement> => {
+    const router = useRouter();
+
     const onSubmit = async (values: TilkommenInntektSchema) => {
         console.log(values);
     };
@@ -169,7 +172,7 @@ export const TilkommenInntektSkjemafelter = ({
                             <Button size="small" variant="secondary" type="submit">
                                 Lagre
                             </Button>
-                            <Button size="small" variant="tertiary" type="button">
+                            <Button size="small" variant="tertiary" type="button" onClick={() => router.back()}>
                                 Avbryt
                             </Button>
                         </HStack>
