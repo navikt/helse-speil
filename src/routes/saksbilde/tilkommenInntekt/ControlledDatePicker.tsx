@@ -12,9 +12,10 @@ type ControlledDatePickerProps = {
     error?: string;
     label: string;
     defaultMonth: Date;
+    id: string;
 };
 
-export const ControlledDatePicker = ({ field, error, label, defaultMonth }: ControlledDatePickerProps) => {
+export const ControlledDatePicker = ({ field, error, label, defaultMonth, id }: ControlledDatePickerProps) => {
     const { datepickerProps, inputProps } = useDatepicker({
         defaultMonth: defaultMonth,
         onDateChange: (date) => {
@@ -30,6 +31,7 @@ export const ControlledDatePicker = ({ field, error, label, defaultMonth }: Cont
                 error={error !== undefined}
                 size="small"
                 name={field.name}
+                id={id}
             />
         </DatePicker>
     );

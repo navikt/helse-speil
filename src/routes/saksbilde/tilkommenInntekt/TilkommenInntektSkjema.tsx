@@ -1,8 +1,18 @@
 import React, { ReactElement } from 'react';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form';
 
 import { ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
-import { Box, Button, ErrorMessage, HStack, Heading, TextField, Textarea, VStack } from '@navikt/ds-react';
+import {
+    Box,
+    Button,
+    ErrorMessage,
+    ErrorSummary,
+    HStack,
+    Heading,
+    TextField,
+    Textarea,
+    VStack,
+} from '@navikt/ds-react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { Maybe } from '@io/graphql';
@@ -60,6 +70,7 @@ export const TilkommenInntektSkjema = ({
                                         size="small"
                                         type="text"
                                         inputMode="numeric"
+                                        id="organisasjonsnummer"
                                     />
                                 )}
                             />
@@ -75,6 +86,7 @@ export const TilkommenInntektSkjema = ({
                                             label="Periode f.o.m"
                                             error={fieldState.error?.message}
                                             defaultMonth={defaultFom}
+                                            id="fom"
                                         />
                                     )}
                                 />
@@ -87,6 +99,7 @@ export const TilkommenInntektSkjema = ({
                                             label="Periode t.o.m"
                                             error={fieldState.error?.message}
                                             defaultMonth={defaultTom}
+                                            id="tom"
                                         />
                                     )}
                                 />
@@ -113,6 +126,7 @@ export const TilkommenInntektSkjema = ({
                                         label="Inntekt for perioden"
                                         size="small"
                                         style={{ width: 'var(--a-spacing-24)' }}
+                                        id="periodebeløp"
                                     />
                                 )}
                             />
@@ -122,7 +136,7 @@ export const TilkommenInntektSkjema = ({
                                 readOnly
                                 style={{ width: 'var(--a-spacing-24)' }}
                                 value={
-                                    Number.isNaN(inntektPerDag)
+                                    Number.isNaN(inntektPerDag) || !Number.isFinite(inntektPerDag)
                                         ? ''
                                         : Number.isSafeInteger(inntektPerDag)
                                           ? inntektPerDag
@@ -141,10 +155,16 @@ export const TilkommenInntektSkjema = ({
                                         label="Notat til beslutter"
                                         description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
                                         size="small"
+                                        id="notat"
                                     />
                                 )}
                             />
                         </Box>
+                        {Object.values(form.formState.errors).length > 0 && (
+                            <Box marginBlock="4 6">
+                                <TilkommenInntektFeiloppsummering errors={form.formState.errors} />
+                            </Box>
+                        )}
                         <HStack gap="2" marginBlock="4 4">
                             <Button size="small" variant="secondary" type="submit">
                                 Lagre
@@ -159,3 +179,21 @@ export const TilkommenInntektSkjema = ({
         </FormProvider>
     );
 };
+
+interface TilkommenInntektFeiloppsummeringProps {
+    errors: FieldErrors<TilkommenInntektSchema>;
+}
+
+const TilkommenInntektFeiloppsummering = ({ errors }: TilkommenInntektFeiloppsummeringProps) => (
+    <ErrorSummary size="small">
+        {errors.organisasjonsnummer?.message && (
+            <ErrorSummary.Item href="#organisasjonsnummer">{errors.organisasjonsnummer?.message}</ErrorSummary.Item>
+        )}
+        {errors.fom?.message && <ErrorSummary.Item href="#fom">{errors.fom?.message}</ErrorSummary.Item>}
+        {errors.tom?.message && <ErrorSummary.Item href="#tom">{errors.tom?.message}</ErrorSummary.Item>}
+        {errors.periodebeløp?.message && (
+            <ErrorSummary.Item href="#periodebeløp">{errors.periodebeløp?.message}</ErrorSummary.Item>
+        )}
+        {errors.notat?.message && <ErrorSummary.Item href="#notat">{errors.notat?.message}</ErrorSummary.Item>}
+    </ErrorSummary>
+);

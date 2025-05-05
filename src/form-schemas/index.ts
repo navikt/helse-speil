@@ -32,7 +32,7 @@ export const lagTilkommenInntektSchema = (
                 .refine(validerKontrollsiffer, 'Organisasjonsnummer må ha gyldig kontrollsiffer'),
             fom: z.string().min(1, { message: 'F.o.m. er påkrevd' }).date('F.o.m. er ikke gyldig dato'),
             tom: z.string().min(1, { message: 'T.o.m. er påkrevd' }).date('T.o.m. er ikke gyldig dato'),
-            periodebeløp: z.number().nonnegative('Inntekt for perioden må være et positivt tall'),
+            periodebeløp: z.coerce.number().nonnegative('Inntekt for perioden må være et positivt tall'),
             notat: z.string().min(1, { message: 'Notat til beslutter er påkrevd' }),
         })
         .refine(({ fom, tom }) => fom <= tom, {
