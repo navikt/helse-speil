@@ -25,7 +25,7 @@ interface TilkommenInntektSkjemaProps {
     defaultTom: Date;
 }
 
-export const TilkommenInntektSkjema = ({
+export const TilkommenInntektSkjemafelter = ({
     form,
     dagerTilFordeling,
     defaultFom,

@@ -8,8 +8,8 @@ import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schema
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GhostPeriodeFragment, PeriodeFragment, PersonFragment, TilkommenInntektskilde } from '@io/graphql';
-import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjema';
-import { TilkommenInntektTable } from '@saksbilde/tilkommenInntekt/TilkommenInntektTable';
+import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjemaTabell';
+import { TilkommenInntektSkjemafelter } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjemafelter';
 import {
     filtrerDager,
     lagDatoIntervall,
@@ -56,14 +56,14 @@ export const TilkommenInntekt = ({
     return (
         <ErrorBoundary fallback={<TilkommenInntektError />}>
             <HStack wrap={false}>
-                <TilkommenInntektSkjema
+                <TilkommenInntektSkjemafelter
                     form={form}
                     dagerTilFordeling={dagerTilGradering.length}
                     defaultFom={defaultFom}
                     defaultTom={defaultTom}
                 />
                 {erGyldigDato(fom) && erGyldigDato(tom) && (
-                    <TilkommenInntektTable
+                    <TilkommenInntektSkjemaTabell
                         arbeidsgivere={person.arbeidsgivere}
                         fom={fom}
                         tom={tom}

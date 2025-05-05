@@ -19,7 +19,7 @@ interface TilkommenInntektTableProps {
     setDagerSomSkalEkskluderes: (datoer: DateString[]) => void;
 }
 
-export const TilkommenInntektTable = ({
+export const TilkommenInntektSkjemaTabell = ({
     arbeidsgivere,
     fom,
     tom,
