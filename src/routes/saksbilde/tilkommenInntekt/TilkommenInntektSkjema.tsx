@@ -25,7 +25,7 @@ interface TilkommenInntektProps {
     tilkommeneInntektskilder: TilkommenInntektskilde[];
 }
 
-export const TilkommenInntekt = ({
+export const TilkommenInntektSkjema = ({
     person,
     periode,
     tilkommeneInntektskilder,

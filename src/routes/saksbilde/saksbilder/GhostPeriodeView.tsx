@@ -8,7 +8,7 @@ import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
 import type { GhostPeriodeFragment, PersonFragment, TilkommenInntektskilde } from '@io/graphql';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
-import { TilkommenInntekt } from '@saksbilde/tilkommenInntekt/TilkommenInntekt';
+import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjema';
 
 interface GhostPeriodeViewProps {
     activePeriod: GhostPeriodeFragment;
@@ -33,7 +33,7 @@ export const GhostPeriodeView = ({
             )}
             {tab === 'tilkommen-inntekt' && (
                 <Box overflowX="scroll">
-                    <TilkommenInntekt
+                    <TilkommenInntektSkjema
                         person={person}
                         periode={activePeriod}
                         tilkommeneInntektskilder={tilkommeneInntektskilder}
