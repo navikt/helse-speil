@@ -12,8 +12,8 @@ export enum Handling {
 type Handlingdata = { path: string; method: string };
 
 const handlinger: { [key in Handling]: Handlingdata } = {
-    [Handling.velgBrukerIModia]: { path: '/api/context', method: 'post' },
-    [Handling.nullstillBruker]: { path: '/api/context/aktivbruker', method: 'delete' },
+    [Handling.velgBrukerIModia]: { path: '/api/context', method: 'POST' },
+    [Handling.nullstillBruker]: { path: '/api/context/aktivbruker', method: 'DELETE' },
 };
 
 export const kallModia = async (handling: Handling, wonderwallToken: string, data?: string): Promise<Response> => {

@@ -31,7 +31,7 @@ export const redirigerTilArbeidOgInntektUrl = async (url: string, fødselsnummer
 
 const settModiaContext = async (fødselsnummer: string) => {
     const response = await fetch(`/api/modia/velgBruker`, {
-        method: 'post',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -43,7 +43,7 @@ const settModiaContext = async (fødselsnummer: string) => {
     if (!response.ok) throw Error('Setting av context feilet');
 };
 const nullstillModiaContext = async () => {
-    const response = await fetch(`/api/modia/aktivBruker`, { method: 'delete' });
+    const response = await fetch(`/api/modia/aktivBruker`, { method: 'DELETE' });
     if (!response.ok) throw Error('Nullstilling av context feilet');
 };
 
