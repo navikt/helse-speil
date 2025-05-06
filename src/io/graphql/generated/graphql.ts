@@ -1223,6 +1223,7 @@ export type Query = {
     opptegnelser: Array<Opptegnelse>;
     person: Maybe<Person>;
     tilkomneInntektskilder: Array<TilkommenInntektskilde>;
+    tilkomneInntektskilderV2: Array<TilkommenInntektskilde>;
 };
 
 export type QueryBehandledeOppgaverFeedArgs = {
@@ -1265,6 +1266,10 @@ export type QueryPersonArgs = {
 
 export type QueryTilkomneInntektskilderArgs = {
     aktorId: Scalars['String']['input'];
+};
+
+export type QueryTilkomneInntektskilderV2Args = {
+    fodselsnummer: Scalars['String']['input'];
 };
 
 export type Refusjon = {
