@@ -55,7 +55,9 @@ describe('tilkommenIkktekt skjemavalidering', () => {
     });
 
     it('fom skal være gyldig dato', () => {
-        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '2020-31-02'))).toBe('Datoen er ikke gyldig');
+        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '2020-31-02'))).toBe(
+            'F.o.m. er ikke gyldig dato',
+        );
     });
 
     it('fom skal være tidligst en dag etter skjæringstidspunkt', () => {
@@ -66,7 +68,7 @@ describe('tilkommenIkktekt skjemavalidering', () => {
 
     it('tom skal være gyldig dato', () => {
         expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '2020-01-02', '2020-01-99'))).toBe(
-            'Datoen er ikke gyldig',
+            'T.o.m. er ikke gyldig dato',
         );
     });
 
