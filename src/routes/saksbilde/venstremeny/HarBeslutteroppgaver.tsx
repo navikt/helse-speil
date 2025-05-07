@@ -23,6 +23,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): May
                 arbeidsgivernavn: arbeidsgiver.navn,
                 perioder:
                     arbeidsgiver.generasjoner[0]?.perioder
+                        .filter((periode) => !periode.erForkastet)
                         .filter((periode) =>
                             arbeidsgiver.overstyringer
                                 .filter((overstyring) => !overstyring.ferdigstilt)
