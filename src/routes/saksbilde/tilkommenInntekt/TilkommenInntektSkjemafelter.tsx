@@ -21,6 +21,7 @@ import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/ControlledDate
 
 interface TilkommenInntektSkjemaProps {
     form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
+    handleSubmit: (values: TilkommenInntektSchema) => Promise<void>;
     dagerTilFordeling: number;
     defaultFom: Date;
     defaultTom: Date;
@@ -28,15 +29,12 @@ interface TilkommenInntektSkjemaProps {
 
 export const TilkommenInntektSkjemafelter = ({
     form,
+    handleSubmit,
     dagerTilFordeling,
     defaultFom,
     defaultTom,
 }: TilkommenInntektSkjemaProps): Maybe<ReactElement> => {
     const router = useRouter();
-
-    const onSubmit = async (values: TilkommenInntektSchema) => {
-        console.log(values);
-    };
 
     const inntektPerDag = form.watch('periodebeløp') / dagerTilFordeling;
 
@@ -46,7 +44,7 @@ export const TilkommenInntektSkjemafelter = ({
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(handleSubmit)}>
                 <VStack paddingBlock="8 6" paddingInline="2 0">
                     <Heading level="2" size="small" spacing>
                         Legg til tilkommen inntekt

@@ -5,9 +5,16 @@ import { useForm } from 'react-hook-form';
 import { Alert, HStack } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
+import { useMutation } from '@apollo/client';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { GhostPeriodeFragment, PeriodeFragment, PersonFragment, TilkommenInntektskilde } from '@io/graphql';
+import {
+    GhostPeriodeFragment,
+    LeggTilTilkommenInntektDocument,
+    PeriodeFragment,
+    PersonFragment,
+    TilkommenInntektskilde,
+} from '@io/graphql';
 import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjemaTabell';
 import { TilkommenInntektSkjemafelter } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjemafelter';
 import {
@@ -17,7 +24,7 @@ import {
     utledSykefraværstilfeller,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { DateString } from '@typer/shared';
-import { erGyldigDato } from '@utils/date';
+import { ISO_DATOFORMAT, erGyldigDato } from '@utils/date';
 
 interface TilkommenInntektProps {
     person: PersonFragment;
@@ -31,6 +38,7 @@ export const TilkommenInntektSkjema = ({
     tilkommeneInntektskilder,
 }: TilkommenInntektProps): ReactElement => {
     const [dagerSomSkalEkskluderes, setdagerSomSkalEkskluderes] = React.useState<DateString[]>([]);
+    const [leggTilTilkommenInntekt] = useMutation(LeggTilTilkommenInntektDocument);
 
     const sykefraværstilfeller = utledSykefraværstilfeller(person);
     const eksisterendePerioder = lagEksisterendePerioder(tilkommeneInntektskilder);
@@ -44,20 +52,39 @@ export const TilkommenInntektSkjema = ({
             notat: '',
         },
     });
+    const defaultFom = dayjs(periode.fom).toDate();
+    const defaultTom = dayjs(periode.tom).toDate();
+
     const fom = form.watch('fom');
     const tom = form.watch('tom');
     const datoIntervall = lagDatoIntervall(fom, tom);
 
-    const defaultFom = dayjs(periode.fom).toDate();
-    const defaultTom = dayjs(periode.tom).toDate();
-
     const dagerTilGradering = filtrerDager(datoIntervall, dagerSomSkalEkskluderes);
 
+    const handleSubmit = async (values: TilkommenInntektSchema) => {
+        const dager = dagerTilGradering.map((dag) => dag.format(ISO_DATOFORMAT));
+        await leggTilTilkommenInntekt({
+            variables: {
+                fodselsnummer: person.fodselsnummer,
+                notatTilBeslutter: values.notat,
+                tilkommenInntekt: {
+                    periode: {
+                        fom: values.fom,
+                        tom: values.tom,
+                    },
+                    organisasjonsnummer: values.organisasjonsnummer,
+                    periodebelop: values.periodebeløp.toString(),
+                    dager: dager,
+                },
+            },
+        });
+    };
     return (
         <ErrorBoundary fallback={<TilkommenInntektError />}>
             <HStack wrap={false}>
                 <TilkommenInntektSkjemafelter
                     form={form}
+                    handleSubmit={handleSubmit}
                     dagerTilFordeling={dagerTilGradering.length}
                     defaultFom={defaultFom}
                     defaultTom={defaultTom}

@@ -14,10 +14,11 @@ import { cwd } from 'process';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
-import { Maybe } from '@io/graphql';
+import { Maybe, MutationLeggTilTilkommenInntektArgs } from '@io/graphql';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
+import { TilkommenInntektMock } from '@spesialist-mock/storage/tilkommeninntekt';
 import { Oppgave, UUID } from '@typer/spesialist-mock';
 import { isNotNullOrUndefined } from '@utils/typeguards';
 
@@ -56,7 +57,6 @@ import {
     OppgavesorteringInput,
     PeriodehistorikkType,
     Person,
-    TilkommenInntektskilde,
 } from './schemaTypes';
 import { DokumentMock } from './storage/dokument';
 import { NotatMock } from './storage/notat';
@@ -141,23 +141,6 @@ const fetchPersondata = (): Record<string, Person> => {
     }, {});
 };
 
-const hentTilkomneInntektdata = (): Record<string, TilkommenInntektskilde[]> => {
-    const url = path.join(cwd(), 'src/spesialist-mock/data/tilkommenInntekt');
-    const filenames = fs.readdirSync(url);
-    const tilkommenInntektMockFiler = filenames.map((filename) => {
-        const raw = fs.readFileSync(path.join(url, filename), { encoding: 'utf-8' });
-        return JSON.parse(raw);
-    });
-
-    return tilkommenInntektMockFiler.reduce(
-        (data: Record<string, TilkommenInntektskilde[]>, tilkommenInntektMockFil) => {
-            data[tilkommenInntektMockFil.fodselsnummer] = tilkommenInntektMockFil.data.tilkomneInntektskilder;
-            return data;
-        },
-        {},
-    );
-};
-
 let valgtPerson: Person | undefined;
 
 const getResolvers = (): IResolvers => ({
@@ -173,7 +156,7 @@ const getResolvers = (): IResolvers => ({
             return person;
         },
         tilkomneInntektskilderV2: async (_, { fodselsnummer }: { fodselsnummer: string }) => {
-            return hentTilkomneInntektdata()[fodselsnummer] ?? [];
+            return TilkommenInntektMock.getTilkomneInntektskilder(fodselsnummer);
         },
         behandledeOppgaverFeedV2: async (
             _,
@@ -224,6 +207,12 @@ const getResolvers = (): IResolvers => ({
         },
     },
     Mutation: {
+        leggTilTilkommenInntekt: (
+            _,
+            { fodselsnummer, notatTilBeslutter, verdier }: MutationLeggTilTilkommenInntektArgs,
+        ) => {
+            return TilkommenInntektMock.addTilkommenInntekt(fodselsnummer, notatTilBeslutter, verdier);
+        },
         leggTilNotat: (_, { type, vedtaksperiodeId, tekst }: MutationLeggTilNotatArgs) => {
             return NotatMock.addNotat(vedtaksperiodeId, {
                 tekst: tekst,
