@@ -151,7 +151,7 @@ const hentTilkomneInntektdata = (): Record<string, TilkommenInntektskilde[]> => 
 
     return tilkommenInntektMockFiler.reduce(
         (data: Record<string, TilkommenInntektskilde[]>, tilkommenInntektMockFil) => {
-            data[tilkommenInntektMockFil.aktorId] = tilkommenInntektMockFil.data.tilkomneInntektskilder;
+            data[tilkommenInntektMockFil.fodselsnummer] = tilkommenInntektMockFil.data.tilkomneInntektskilder;
             return data;
         },
         {},
@@ -172,8 +172,8 @@ const getResolvers = (): IResolvers => ({
             valgtPerson = person;
             return person;
         },
-        tilkomneInntektskilder: async (_, { aktorId }: { aktorId: string }) => {
-            return hentTilkomneInntektdata()[aktorId] ?? [];
+        tilkomneInntektskilderV2: async (_, { fodselsnummer }: { fodselsnummer: string }) => {
+            return hentTilkomneInntektdata()[fodselsnummer] ?? [];
         },
         behandledeOppgaverFeedV2: async (
             _,

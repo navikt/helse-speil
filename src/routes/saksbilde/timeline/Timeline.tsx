@@ -143,7 +143,9 @@ const TimelineWithContent = ({
                             />
                         );
                     })}
-                {erUtvikling && <TilkommenInntektTimelineContainer start={start} end={end} />}
+                {erUtvikling && (
+                    <TilkommenInntektTimelineContainer start={start} end={end} fødselsnummer={person.fodselsnummer} />
+                )}
                 {infotrygdPeriods.length > 0 && (
                     <InfotrygdRow
                         start={start}

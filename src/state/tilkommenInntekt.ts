@@ -1,22 +1,18 @@
-import { useParams } from 'next/navigation';
-
 import { QueryResult, useQuery } from '@apollo/client';
 import {
-    HentTilkommenInntektDocument,
-    HentTilkommenInntektQuery,
-    HentTilkommenInntektQueryVariables,
+    HentTilkommenInntektV2Document,
+    HentTilkommenInntektV2Query,
+    HentTilkommenInntektV2QueryVariables,
 } from '@io/graphql';
 
-export const useHentTilkommenInntektQuery = (): QueryResult<
-    HentTilkommenInntektQuery,
-    HentTilkommenInntektQueryVariables
-> => {
-    const { aktorId } = useParams<{ aktorId: string }>();
-
-    return useQuery(HentTilkommenInntektDocument, {
+export const useHentTilkommenInntektQuery = (
+    fødselsnummer?: string,
+): QueryResult<HentTilkommenInntektV2Query, HentTilkommenInntektV2QueryVariables> => {
+    return useQuery(HentTilkommenInntektV2Document, {
         fetchPolicy: 'cache-first',
         variables: {
-            aktorId: aktorId,
+            fodselsnummer: fødselsnummer!,
         },
+        skip: !fødselsnummer,
     });
 };

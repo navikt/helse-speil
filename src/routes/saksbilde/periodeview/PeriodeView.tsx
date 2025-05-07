@@ -13,10 +13,9 @@ import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/ty
 
 export function PeriodeView(): Maybe<ReactElement> {
     const { data } = useFetchPersonQuery();
-    const { data: tilkommenInntektData } = useHentTilkommenInntektQuery();
-
     const person = data?.person ?? null;
-    const tilkommeneInntektskilder = tilkommenInntektData?.tilkomneInntektskilder ?? [];
+    const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(person?.fodselsnummer);
+    const tilkommeneInntektskilder = tilkommenInntektData?.tilkomneInntektskilderV2 ?? [];
     const activePeriod = useActivePeriod(person);
 
     if (!activePeriod || !person) {

@@ -65,9 +65,11 @@ const getHistorikkTitle = (type: Filtertype): string => {
 
 const HistorikkWithContent = (): ReactElement => {
     const { loading, data } = useFetchPersonQuery();
-    const { loading: tilkommenInntektLoading, data: tilkommenInntektData } = useHentTilkommenInntektQuery();
     const person = data?.person ?? null;
-    const historikk = useFilteredHistorikk(person, tilkommenInntektData?.tilkomneInntektskilder ?? null);
+    const { loading: tilkommenInntektLoading, data: tilkommenInntektData } = useHentTilkommenInntektQuery(
+        person?.fodselsnummer,
+    );
+    const historikk = useFilteredHistorikk(person, tilkommenInntektData?.tilkomneInntektskilderV2 ?? null);
     const [filter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showHøyremeny, _] = useShowHøyremenyState();

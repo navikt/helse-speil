@@ -12,13 +12,15 @@ import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 interface TilkommenInntektTimelineContainerProps {
     start: dayjs.Dayjs;
     end: dayjs.Dayjs;
+    fødselsnummer: string;
 }
 
 export const TilkommenInntektTimelineContainer = ({
     start,
     end,
+    fødselsnummer,
 }: TilkommenInntektTimelineContainerProps): ReactElement => {
-    const { loading, data, error } = useHentTilkommenInntektQuery();
+    const { loading, data, error } = useHentTilkommenInntektQuery(fødselsnummer);
 
     if (loading) {
         return <TimelineRowSkeleton />;
@@ -31,7 +33,7 @@ export const TilkommenInntektTimelineContainer = ({
             </div>
         );
     }
-    const tilkomneInntektskilder = data!.tilkomneInntektskilder;
+    const tilkomneInntektskilder = data!.tilkomneInntektskilderV2;
 
     return (
         <div className={styles.Rows}>
