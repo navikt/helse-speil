@@ -2,7 +2,6 @@ import { useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form';
 
-import { ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
 import {
     BodyShort,
     Box,
@@ -45,6 +44,8 @@ export const TilkommenInntektSkjemafelter = ({
         (feil) => feil !== undefined,
     );
 
+    const organisasjonsnummerFeil = form.formState.errors.organisasjonsnummer?.message;
+
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
@@ -61,27 +62,38 @@ export const TilkommenInntektSkjemafelter = ({
                         minWidth={'390px'}
                         maxWidth={'630px'}
                     >
-                        <HStack>
-                            <Controller
-                                control={form.control}
-                                name="organisasjonsnummer"
-                                render={({ field, fieldState }) => (
-                                    <TextField
-                                        {...field}
-                                        style={{ width: '140px' }}
-                                        error={fieldState.error?.message}
-                                        label="Organisasjonsnummer"
-                                        size="small"
-                                        type="text"
-                                        inputMode="numeric"
-                                        id="organisasjonsnummer"
-                                    />
-                                )}
-                            />
-                            <BodyShort>{organisasjonsnavn}</BodyShort>
-                        </HStack>
-                        <VStack marginBlock="4 4">
-                            <HStack wrap={false} gap="6" marginBlock="0 2">
+                        <VStack marginBlock="4 4" gap="2">
+                            <HStack align="end" gap="3">
+                                <Controller
+                                    control={form.control}
+                                    name="organisasjonsnummer"
+                                    render={({ field, fieldState }) => (
+                                        <TextField
+                                            {...field}
+                                            style={{ width: '140px' }}
+                                            error={fieldState.error?.message != undefined}
+                                            label="Organisasjonsnummer"
+                                            size="small"
+                                            type="text"
+                                            inputMode="numeric"
+                                            id="organisasjonsnummer"
+                                        />
+                                    )}
+                                />
+                                <BodyShort style={{ marginBottom: 'var(--a-spacing-1)' }}>
+                                    {organisasjonsnavn}
+                                </BodyShort>
+                            </HStack>
+                            {organisasjonsnummerFeil != undefined && (
+                                <HStack align="center" gap="1">
+                                    <ErrorMessage showIcon size="small">
+                                        {organisasjonsnummerFeil}
+                                    </ErrorMessage>
+                                </HStack>
+                            )}
+                        </VStack>
+                        <VStack marginBlock="4 4" gap="2">
+                            <HStack wrap={false} gap="6">
                                 <Controller
                                     name="fom"
                                     control={form.control}
@@ -111,13 +123,9 @@ export const TilkommenInntektSkjemafelter = ({
                             </HStack>
                             {datofeil.length > 0 &&
                                 datofeil.map((feil) => (
-                                    <HStack key={feil} align="center" gap="1">
-                                        <ExclamationmarkTriangleFillIcon
-                                            fontSize="0.75rem"
-                                            color="var(--a-surface-danger)"
-                                        />
-                                        <ErrorMessage size="small">{feil}</ErrorMessage>
-                                    </HStack>
+                                    <ErrorMessage key={feil} showIcon size="small">
+                                        {feil}
+                                    </ErrorMessage>
                                 ))}
                         </VStack>
                         <HStack wrap gap="6" marginBlock="4 4">
@@ -132,6 +140,7 @@ export const TilkommenInntektSkjemafelter = ({
                                         size="small"
                                         style={{ width: 'var(--a-spacing-24)' }}
                                         id="periodebeløp"
+                                        onFocus={(e) => e.target.select()}
                                     />
                                 )}
                             />
