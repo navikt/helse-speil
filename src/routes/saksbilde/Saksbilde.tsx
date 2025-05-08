@@ -6,9 +6,10 @@ import { Verktøylinje } from '@saksbilde/Verktøylinje';
 import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
 import { PeriodeViewError } from '@saksbilde/saksbilder/PeriodeViewError';
 import { PeriodeViewSkeleton } from '@saksbilde/saksbilder/PeriodeViewSkeleton';
+import { TilkommenInntektVisning } from '@saksbilde/tilkommenInntekt/TilkommenInntektVisning';
 import { harPeriodeDagerMedUnder20ProsentTotalGrad } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
 import { finnInitierendeVedtaksperiodeIdFraOverlappendePeriode } from '@saksbilde/utils';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriod, useActiveTilkommenInntektId } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -19,12 +20,28 @@ export const Saksbilde = ({ children }: PropsWithChildren) => {
 
     const person: Maybe<PersonFragment> = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
+    const aktivTilkommenInntektId = useActiveTilkommenInntektId();
 
     if (loading) {
         return <PeriodeViewSkeleton />;
     }
 
-    if (error || !aktivPeriode || !person) {
+    if (error || !person) {
+        return <PeriodeViewError />;
+    }
+
+    if (aktivTilkommenInntektId) {
+        return (
+            <div className={styles.Content}>
+                <TilkommenInntektVisning
+                    fødselsnummer={person.fodselsnummer}
+                    tilkommenInntektId={aktivTilkommenInntektId}
+                />
+            </div>
+        );
+    }
+
+    if (!aktivPeriode) {
         return <PeriodeViewError />;
     }
 
