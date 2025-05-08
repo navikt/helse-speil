@@ -14,10 +14,15 @@ export type Scalars = {
     Boolean: { input: boolean; output: boolean };
     Int: { input: number; output: number };
     Float: { input: number; output: number };
+    /** class java.math.BigDecimal */
     BigDecimal: { input: string; output: string };
+    /** class java.time.LocalDate */
     LocalDate: { input: string; output: string };
+    /** class java.time.LocalDateTime */
     LocalDateTime: { input: string; output: string };
+    /** class java.util.UUID */
     UUID: { input: string; output: string };
+    /** class java.time.YearMonth */
     YearMonth: { input: string; output: string };
 };
 
@@ -985,6 +990,12 @@ export enum Opptegnelsetype {
     UtbetalingAnnulleringOk = 'UTBETALING_ANNULLERING_OK',
 }
 
+export type Organisasjon = {
+    __typename: 'Organisasjon';
+    navn: Maybe<Scalars['String']['output']>;
+    organisasjonsnummer: Scalars['String']['output'];
+};
+
 export type Overstyring = {
     ferdigstilt: Scalars['Boolean']['output'];
     hendelseId: Scalars['UUID']['output'];
@@ -1221,6 +1232,7 @@ export type Query = {
     hentSoknad: Maybe<Soknad>;
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
+    organisasjon: Maybe<Organisasjon>;
     person: Maybe<Person>;
     tilkomneInntektskilder: Array<TilkommenInntektskilde>;
     tilkomneInntektskilderV2: Array<TilkommenInntektskilde>;
@@ -1257,6 +1269,10 @@ export type QueryOppgaveFeedArgs = {
 
 export type QueryOpptegnelserArgs = {
     sekvensId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type QueryOrganisasjonArgs = {
+    organisasjonsnummer: Scalars['String']['input'];
 };
 
 export type QueryPersonArgs = {
@@ -2340,6 +2356,15 @@ export type OpptegnelserQuery = {
         sekvensnummer: number;
         payload: string;
     }>;
+};
+
+export type HentOrganisasjonQueryVariables = Exact<{
+    organisasjonsnummer: Scalars['String']['input'];
+}>;
+
+export type HentOrganisasjonQuery = {
+    __typename: 'Query';
+    organisasjon: { __typename: 'Organisasjon'; organisasjonsnummer: string; navn: string | null } | null;
 };
 
 export type OverstyrArbeidsforholdMutationMutationVariables = Exact<{
@@ -11614,6 +11639,78 @@ export const OpptegnelserDocument = {
         },
     ],
 } as unknown as DocumentNode<OpptegnelserQuery, OpptegnelserQueryVariables>;
+export const HentOrganisasjonDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'HentOrganisasjon' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'organisasjon' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'organisasjonsnummer' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                            },
+                        ],
+                        directives: [
+                            {
+                                kind: 'Directive',
+                                name: { kind: 'Name', value: 'rest' },
+                                arguments: [
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'type' },
+                                        value: { kind: 'StringValue', value: 'Organisasjon', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'endpoint' },
+                                        value: { kind: 'StringValue', value: 'sparkelAareg', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'path' },
+                                        value: {
+                                            kind: 'StringValue',
+                                            value: '/organisasjoner/{args.organisasjonsnummer}',
+                                            block: false,
+                                        },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'method' },
+                                        value: { kind: 'StringValue', value: 'GET', block: false },
+                                    },
+                                ],
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<HentOrganisasjonQuery, HentOrganisasjonQueryVariables>;
 export const OverstyrArbeidsforholdMutationDocument = {
     kind: 'Document',
     definitions: [

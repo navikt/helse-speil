@@ -1,8 +1,9 @@
 overwrite: true
 schema:
-  'http://localhost:8080/graphql':
-    headers:
-      Authorization: "Bearer ${BEARER_TOKEN}"
+  - 'http://localhost:8080/graphql':
+      headers:
+        Authorization: "Bearer ${BEARER_TOKEN}"
+  - './src/io/graphql/organisasjonQuery.graphql'
 documents: 'src/io/graphql/**/*.graphql'
 config:
   scalars:

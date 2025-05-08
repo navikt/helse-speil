@@ -8976,6 +8976,46 @@
                 "possibleTypes": null
             },
             {
+                "kind": "OBJECT",
+                "name": "Organisasjon",
+                "description": null,
+                "isOneOf": null,
+                "fields": [
+                    {
+                        "name": "navn",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "organisasjonsnummer",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
                 "kind": "INTERFACE",
                 "name": "Overstyring",
                 "description": null,
@@ -11616,6 +11656,35 @@
                                     }
                                 }
                             }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "organisasjon",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "organisasjonsnummer",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null,
+                                "isDeprecated": false,
+                                "deprecationReason": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "Organisasjon",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -19053,13 +19122,13 @@
         "directives": [
             {
                 "name": "deprecated",
-                "description": "Marks the field, argument, input field or enum value as deprecated",
+                "description": "Marks an element of a GraphQL schema as no longer supported.",
                 "isRepeatable": false,
                 "locations": ["ARGUMENT_DEFINITION", "ENUM_VALUE", "FIELD_DEFINITION", "INPUT_FIELD_DEFINITION"],
                 "args": [
                     {
                         "name": "reason",
-                        "description": "The reason for the deprecation",
+                        "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax, as specified by [CommonMark](https://commonmark.org/).",
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",
@@ -19073,7 +19142,7 @@
             },
             {
                 "name": "include",
-                "description": "Directs the executor to include this field or fragment only when the `if` argument is true",
+                "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
                 "isRepeatable": false,
                 "locations": ["FIELD", "FRAGMENT_SPREAD", "INLINE_FRAGMENT"],
                 "args": [
@@ -19097,7 +19166,7 @@
             },
             {
                 "name": "oneOf",
-                "description": "Indicates an Input Object is a OneOf Input Object.",
+                "description": "Indicates exactly one field must be supplied and this field must not be `null`.",
                 "isRepeatable": false,
                 "locations": ["INPUT_OBJECT"],
                 "args": []
@@ -19128,13 +19197,13 @@
             },
             {
                 "name": "specifiedBy",
-                "description": "Exposes a URL that specifies the behaviour of this scalar.",
+                "description": "Exposes a URL that specifies the behavior of this scalar.",
                 "isRepeatable": false,
                 "locations": ["SCALAR"],
                 "args": [
                     {
                         "name": "url",
-                        "description": "The URL that specifies the behaviour of this scalar.",
+                        "description": "The URL that specifies the behavior of this scalar.",
                         "type": {
                             "kind": "NON_NULL",
                             "name": null,

@@ -1,0 +1,12 @@
+query HentOrganisasjon($organisasjonsnummer: String!) {
+    organisasjon(organisasjonsnummer: $organisasjonsnummer)
+    @rest(
+        type: "Organisasjon"
+        endpoint: "sparkelAareg"
+        path: "/organisasjoner/{args.organisasjonsnummer}"
+        method: "GET"
+    ) {
+        organisasjonsnummer
+        navn
+    }
+}

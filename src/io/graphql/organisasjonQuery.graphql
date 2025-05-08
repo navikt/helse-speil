@@ -1,0 +1,8 @@
+type Organisasjon {
+    organisasjonsnummer: String!
+    navn: String
+}
+
+extend type Query {
+    organisasjon(organisasjonsnummer: String!): Organisasjon
+}

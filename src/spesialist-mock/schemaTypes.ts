@@ -12,10 +12,15 @@ export type Scalars = {
     Boolean: { input: boolean; output: boolean };
     Int: { input: number; output: number };
     Float: { input: number; output: number };
+    /** class java.math.BigDecimal */
     BigDecimal: { input: string; output: string };
+    /** class java.time.LocalDate */
     LocalDate: { input: string; output: string };
+    /** class java.time.LocalDateTime */
     LocalDateTime: { input: string; output: string };
+    /** class java.util.UUID */
     UUID: { input: string; output: string };
+    /** class java.time.YearMonth */
     YearMonth: { input: string; output: string };
 };
 
@@ -983,6 +988,12 @@ export enum Opptegnelsetype {
     UtbetalingAnnulleringOk = 'UTBETALING_ANNULLERING_OK',
 }
 
+export type Organisasjon = {
+    __typename?: 'Organisasjon';
+    navn?: Maybe<Scalars['String']['output']>;
+    organisasjonsnummer: Scalars['String']['output'];
+};
+
 export type Overstyring = {
     ferdigstilt: Scalars['Boolean']['output'];
     hendelseId: Scalars['UUID']['output'];
@@ -1219,6 +1230,7 @@ export type Query = {
     hentSoknad?: Maybe<Soknad>;
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
+    organisasjon?: Maybe<Organisasjon>;
     person?: Maybe<Person>;
     tilkomneInntektskilder: Array<TilkommenInntektskilde>;
     tilkomneInntektskilderV2: Array<TilkommenInntektskilde>;
@@ -1255,6 +1267,10 @@ export type QueryOppgaveFeedArgs = {
 
 export type QueryOpptegnelserArgs = {
     sekvensId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type QueryOrganisasjonArgs = {
+    organisasjonsnummer: Scalars['String']['input'];
 };
 
 export type QueryPersonArgs = {

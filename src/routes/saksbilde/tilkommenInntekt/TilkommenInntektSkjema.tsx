@@ -72,7 +72,7 @@ export const TilkommenInntektSkjema = ({
     const organisasjonsnummer = form.watch('organisasjonsnummer');
     const { data: orgData } = useOrganisasjonQuery(organisasjonsnummer);
     useEffect(() => {
-        setOrganisasjonsnavn(orgData?.organisasjon?.navn);
+        setOrganisasjonsnavn(orgData?.organisasjon?.navn ?? undefined);
     }, [orgData]);
 
     const dagerTilGradering = filtrerDager(datoIntervall, dagerSomSkalEkskluderes);
