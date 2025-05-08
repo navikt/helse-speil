@@ -4,6 +4,7 @@ import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form'
 
 import { ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
 import {
+    BodyShort,
     Box,
     Button,
     ErrorMessage,
@@ -25,6 +26,7 @@ interface TilkommenInntektSkjemaProps {
     dagerTilFordeling: number;
     defaultFom: Date;
     defaultTom: Date;
+    organisasjonsnavn?: string;
 }
 
 export const TilkommenInntektSkjemafelter = ({
@@ -33,6 +35,7 @@ export const TilkommenInntektSkjemafelter = ({
     dagerTilFordeling,
     defaultFom,
     defaultTom,
+    organisasjonsnavn,
 }: TilkommenInntektSkjemaProps): Maybe<ReactElement> => {
     const router = useRouter();
 
@@ -75,6 +78,7 @@ export const TilkommenInntektSkjemafelter = ({
                                     />
                                 )}
                             />
+                            <BodyShort>{organisasjonsnavn}</BodyShort>
                         </HStack>
                         <VStack marginBlock="4 4">
                             <HStack wrap={false} gap="6" marginBlock="0 2">

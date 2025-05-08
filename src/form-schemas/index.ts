@@ -14,6 +14,7 @@ export type TilkommenInntektSchema = z.infer<ReturnType<typeof lagTilkommenInnte
 export const lagTilkommenInntektSchema = (
     vedtaksperioder: { fom: DateString; tom: DateString; skjæringstidspunkt: DateString }[],
     eksisterendePerioder: Map<string, { fom: DateString; tom: DateString }[]>,
+    organisasjonEksisterer: () => boolean,
 ) => {
     const validerKontrollsiffer = (organisasjonsnummer: string) => {
         const vekttall = [3, 2, 7, 6, 5, 4, 3, 2];
@@ -26,10 +27,12 @@ export const lagTilkommenInntektSchema = (
     return z
         .object({
             organisasjonsnummer: z
-                .string({ required_error: 'Organisasjonsnummer er påkrevd' })
+                .string()
+                .min(1, { message: 'Organisasjonsnummer er påkrevd' })
                 .refine((value) => !isNaN(Number(value)), 'Organisasjonsnummer må være et tall')
                 .refine((value) => value.length === 9, 'Organisasjonsnummer må være 9 siffer')
-                .refine(validerKontrollsiffer, 'Organisasjonsnummer må ha gyldig kontrollsiffer'),
+                .refine(validerKontrollsiffer, 'Organisasjonsnummer må ha gyldig kontrollsiffer')
+                .refine(organisasjonEksisterer, 'Organisasjon må eksistere i enhetsregisteret'),
             fom: z.string().min(1, { message: 'F.o.m. er påkrevd' }).date('F.o.m. er ikke gyldig dato'),
             tom: z.string().min(1, { message: 'T.o.m. er påkrevd' }).date('T.o.m. er ikke gyldig dato'),
             periodebeløp: z.coerce.number().nonnegative('Inntekt for perioden må være et positivt tall'),

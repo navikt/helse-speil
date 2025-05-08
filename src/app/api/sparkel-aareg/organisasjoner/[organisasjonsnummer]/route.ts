@@ -12,13 +12,15 @@ export async function GET(req: Request, { params }: { params: Promise<{ organisa
     if (erLokal) {
         logger.info(`Mocker sparkel-aareg lokalt`);
 
-        return Response.json(
-            {
-                organisasjonsnummer: organisasjonsnummer,
-                navn: stubNavn[parseInt(organisasjonsnummer) % stubNavn.length],
-            },
-            { status: 200 },
-        );
+        return organisasjonsnummer === '839942907'
+            ? Response.json({}, { status: 404 })
+            : Response.json(
+                  {
+                      organisasjonsnummer: organisasjonsnummer,
+                      navn: stubNavn[parseInt(organisasjonsnummer) % stubNavn.length],
+                  },
+                  { status: 200 },
+              );
     } else {
         const wonderwallToken = hentWonderwallToken(req);
         if (!wonderwallToken) {

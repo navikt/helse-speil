@@ -21,7 +21,11 @@ const validerTilkommenInntektSkjema = (
             skjæringstidspunkt: '2020-01-01',
         },
     ];
-    return lagTilkommenInntektSchema(vedtaksperioder, eksisterendePerioder).safeParse({
+    return lagTilkommenInntektSchema(
+        vedtaksperioder,
+        eksisterendePerioder,
+        () => '947064649' === organisasjonsnummer,
+    ).safeParse({
         organisasjonsnummer: organisasjonsnummer,
         fom: fom,
         tom: tom,
@@ -51,6 +55,12 @@ describe('tilkommenIkktekt skjemavalidering', () => {
     it('organisasjonsnummer skal ha gyldig kontrollsiffer', () => {
         expect(hentFeilmelding(validerTilkommenInntektSkjema('947064641'))).toBe(
             'Organisasjonsnummer må ha gyldig kontrollsiffer',
+        );
+    });
+
+    it('organisasjon må finnes i enhetsregisteret', () => {
+        expect(hentFeilmelding(validerTilkommenInntektSkjema('123456785'))).toBe(
+            'Organisasjon må eksistere i enhetsregisteret',
         );
     });
 

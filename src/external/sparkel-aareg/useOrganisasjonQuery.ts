@@ -31,5 +31,6 @@ export const useOrganisasjonQuery = (organisasjonsnummer: string) =>
             variables: {
                 organisasjonsnummer: organisasjonsnummer,
             },
+            skip: organisasjonsnummer.length !== 9 || isNaN(Number(organisasjonsnummer)),
         },
     );
