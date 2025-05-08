@@ -24,6 +24,8 @@ import {
     lagEksisterendePerioder,
     utledSykefraværstilfeller,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
+import { useSetActiveTilkommenInntektId } from '@state/periode';
+import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, erGyldigDato } from '@utils/date';
 
@@ -40,8 +42,10 @@ export const TilkommenInntektSkjema = ({
 }: TilkommenInntektProps): ReactElement => {
     const [dagerSomSkalEkskluderes, setdagerSomSkalEkskluderes] = React.useState<DateString[]>([]);
     const [leggTilTilkommenInntekt] = useMutation(LeggTilTilkommenInntektDocument);
+    const { refetch } = useHentTilkommenInntektQuery(person.fodselsnummer);
 
     const [organisasjonsnavn, setOrganisasjonsnavn] = useState<string | undefined>(undefined);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const organisasjonEksisterer = () => {
         return organisasjonsnavn !== undefined;
@@ -76,9 +80,11 @@ export const TilkommenInntektSkjema = ({
     }, [orgData]);
 
     const dagerTilGradering = filtrerDager(datoIntervall, dagerSomSkalEkskluderes);
+    const setActiveTilkommenInntektId = useSetActiveTilkommenInntektId();
 
     const handleSubmit = async (values: TilkommenInntektSchema) => {
         const dager = dagerTilGradering.map((dag) => dag.format(ISO_DATOFORMAT));
+        setLoading(true);
         await leggTilTilkommenInntekt({
             variables: {
                 fodselsnummer: person.fodselsnummer,
@@ -93,6 +99,12 @@ export const TilkommenInntektSkjema = ({
                     dager: dager,
                 },
             },
+            onCompleted: (data) => {
+                refetch().then(() => {
+                    setActiveTilkommenInntektId(data.leggTilTilkommenInntekt.tilkommenInntektId);
+                    setLoading(false);
+                });
+            },
         });
     };
     return (
@@ -105,6 +117,7 @@ export const TilkommenInntektSkjema = ({
                     defaultFom={defaultFom}
                     defaultTom={defaultTom}
                     organisasjonsnavn={organisasjonsnavn}
+                    loading={loading}
                 />
                 {erGyldigDato(fom) && erGyldigDato(tom) && (
                     <TilkommenInntektSkjemaTabell

@@ -26,6 +26,7 @@ interface TilkommenInntektSkjemaProps {
     defaultFom: Date;
     defaultTom: Date;
     organisasjonsnavn?: string;
+    loading: boolean;
 }
 
 export const TilkommenInntektSkjemafelter = ({
@@ -35,6 +36,7 @@ export const TilkommenInntektSkjemafelter = ({
     defaultFom,
     defaultTom,
     organisasjonsnavn,
+    loading,
 }: TilkommenInntektSkjemaProps): Maybe<ReactElement> => {
     const router = useRouter();
 
@@ -180,10 +182,16 @@ export const TilkommenInntektSkjemafelter = ({
                             </Box>
                         )}
                         <HStack gap="2" marginBlock="4 4">
-                            <Button size="small" variant="secondary" type="submit">
+                            <Button size="small" variant="secondary" type="submit" loading={loading}>
                                 Lagre
                             </Button>
-                            <Button size="small" variant="tertiary" type="button" onClick={() => router.back()}>
+                            <Button
+                                size="small"
+                                variant="tertiary"
+                                type="button"
+                                onClick={() => router.back()}
+                                disabled={loading}
+                            >
                                 Avbryt
                             </Button>
                         </HStack>

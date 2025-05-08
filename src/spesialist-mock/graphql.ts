@@ -22,6 +22,7 @@ import { TilkommenInntektMock } from '@spesialist-mock/storage/tilkommeninntekt'
 import { Oppgave, UUID } from '@typer/spesialist-mock';
 import { isNotNullOrUndefined } from '@utils/typeguards';
 
+import { sleep } from './constants';
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { behandledeOppgaverliste, oppgaveliste } from './data/oppgaveoversikt';
 import {
@@ -207,10 +208,11 @@ const getResolvers = (): IResolvers => ({
         },
     },
     Mutation: {
-        leggTilTilkommenInntekt: (
+        leggTilTilkommenInntekt: async (
             _,
             { fodselsnummer, notatTilBeslutter, verdier }: MutationLeggTilTilkommenInntektArgs,
         ) => {
+            await sleep(2000);
             return TilkommenInntektMock.addTilkommenInntekt(fodselsnummer, notatTilBeslutter, verdier);
         },
         leggTilNotat: (_, { type, vedtaksperiodeId, tekst }: MutationLeggTilNotatArgs) => {
