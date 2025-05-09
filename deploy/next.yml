@@ -18,6 +18,9 @@ spec:
         - application: modiacontextholder
           namespace: personoversikt
           cluster: dev-gcp
+        - application: sparkel-aareg
+          namespace: tbd
+          cluster: dev-gcp
   image: {{image}}
   port: 3000
   ingresses:
