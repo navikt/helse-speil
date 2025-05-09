@@ -12,7 +12,7 @@
                             "tom": "2022-08-13"
                         },
                         "periodebelop": 1111.11,
-                        "dager": ["2022-08-13"],
+                        "dager": ["2022-08-10"],
                         "fjernet": false,
                         "events": [
                             {
@@ -153,7 +153,7 @@
                             "tom": "2022-08-13"
                         },
                         "periodebelop": 1111.11,
-                        "dager": ["2022-08-13"],
+                        "dager": ["2022-08-10"],
                         "fjernet": false,
                         "events": [
                             {

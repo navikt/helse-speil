@@ -2,6 +2,7 @@ import React from 'react';
 
 import { BodyShort, VStack } from '@navikt/ds-react';
 
+import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import {
     TilkommenInntektEndretEvent,
     TilkommenInntektFjernetEvent,
@@ -11,6 +12,7 @@ import {
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { somNorskDato } from '@utils/date';
+import { somPenger } from '@utils/locale';
 
 import styles from './TilkommenInntektHendelse.module.css';
 
@@ -31,7 +33,7 @@ export const TilkommenInntektOpprettetHendelse = ({ event }: TilkommenInntektOpp
         <>
             <VStack>
                 <BodyShort weight="semibold">Organisasjonsnummer</BodyShort>
-                <BodyShort>{event.organisasjonsnummer}</BodyShort>
+                <AnonymizableTextWithEllipsis>{event.organisasjonsnummer}</AnonymizableTextWithEllipsis>
             </VStack>
             <VStack>
                 <BodyShort weight="semibold">Periode f.o.m. - t.o.m.</BodyShort>
@@ -41,7 +43,7 @@ export const TilkommenInntektOpprettetHendelse = ({ event }: TilkommenInntektOpp
             </VStack>
             <VStack>
                 <BodyShort weight="semibold">Inntekt for perioden</BodyShort>
-                <BodyShort>{event.periodebelop}</BodyShort>
+                <BodyShort>{somPenger(Number(event.periodebelop))}</BodyShort>
             </VStack>
             <VStack>
                 <BodyShort weight="semibold">Dager som skal graderes</BodyShort>
@@ -67,8 +69,12 @@ export const TilkommenInntektEndretHendelse = ({ event }: TilkommenInntektEndret
             {event.endringer.organisasjonsnummer && (
                 <VStack>
                     <BodyShort weight="semibold">Organisasjonsnummer</BodyShort>
-                    <BodyShort className={styles.linethrough}>{event.endringer.organisasjonsnummer.fra}</BodyShort>
-                    <BodyShort>{event.endringer.organisasjonsnummer.til}</BodyShort>
+                    <AnonymizableTextWithEllipsis className={styles.linethrough}>
+                        {event.endringer.organisasjonsnummer.fra}
+                    </AnonymizableTextWithEllipsis>
+                    <AnonymizableTextWithEllipsis>
+                        {event.endringer.organisasjonsnummer.til}
+                    </AnonymizableTextWithEllipsis>
                 </VStack>
             )}
             {event.endringer.periode && (
@@ -87,8 +93,10 @@ export const TilkommenInntektEndretHendelse = ({ event }: TilkommenInntektEndret
             {event.endringer.periodebelop && (
                 <VStack>
                     <BodyShort weight="semibold">Inntekt for perioden</BodyShort>
-                    <BodyShort className={styles.linethrough}>{event.endringer.periodebelop.fra}</BodyShort>
-                    <BodyShort>{event.endringer.periodebelop.til}</BodyShort>
+                    <BodyShort className={styles.linethrough}>
+                        {somPenger(Number(event.endringer.periodebelop.fra))}
+                    </BodyShort>
+                    <BodyShort>{somPenger(Number(event.endringer.periodebelop.til))}</BodyShort>
                 </VStack>
             )}
             {event.endringer.dager && (

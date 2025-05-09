@@ -42,6 +42,11 @@
     border-left: none;
 }
 
+.tabell th {
+    border: var(--a-border-divider) 1px solid;
+    border-left: none;
+}
+
 .arbeidsgiverNavn {
     font-weight: bold;
 }

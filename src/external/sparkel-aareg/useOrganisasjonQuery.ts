@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/client';
 import { HentOrganisasjonDocument } from '@io/graphql';
 
-export const useOrganisasjonQuery = (organisasjonsnummer: string) =>
+export const useOrganisasjonQuery = (organisasjonsnummer?: string) =>
     useQuery(HentOrganisasjonDocument, {
         variables: {
-            organisasjonsnummer: organisasjonsnummer,
+            organisasjonsnummer: organisasjonsnummer!,
         },
-        skip: organisasjonsnummer.length !== 9 || isNaN(Number(organisasjonsnummer)),
+        skip:
+            organisasjonsnummer === undefined || organisasjonsnummer.length !== 9 || isNaN(Number(organisasjonsnummer)),
     });
