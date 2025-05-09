@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { ReactElement, ReactNode, useRef } from 'react';
 
 import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
@@ -126,6 +127,8 @@ export const Period = ({
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
     const harUvurderteVarsler = useUvurderteVarslerPåPeriode(period, person);
+    const pathname = usePathname();
+    const router = useRouter();
 
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
 
@@ -133,6 +136,10 @@ export const Period = ({
         buttonProps.onClick?.(event);
         if (isBeregnetPeriode(period) || isUberegnetPeriode(period) || isGhostPeriode(period)) {
             setActivePeriodId(period.id);
+            const erPåTilkommenInntektSide = pathname.includes('/tilkommeninntekt/');
+            if (erPåTilkommenInntektSide) {
+                router.push(`/person/${person.aktorId}/dagoversikt`);
+            }
         }
     };
 
