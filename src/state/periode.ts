@@ -1,5 +1,5 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 
 import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
 import { ActivePeriod } from '@typer/shared';
@@ -21,9 +21,10 @@ export const useSetActivePeriodId = (person: PersonFragment) => {
 
 export const useActivePeriod = (person: Maybe<PersonFragment>): Maybe<ActivePeriod> => {
     const activePeriodId = useAtomValue(activePeriodIdState);
-    const tilkommenInntektId = useActiveTilkommenInntektId();
+    const pathname = usePathname();
+    const erPåTilkommenInntektSide = pathname.includes('/tilkommeninntekt/');
 
-    if (tilkommenInntektId || !person) return null;
+    if (erPåTilkommenInntektSide || !person) return null;
 
     return findPeriod(activePeriodId, person) ?? findPeriodToSelect(person);
 };
