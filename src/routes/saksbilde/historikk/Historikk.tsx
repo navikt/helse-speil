@@ -23,14 +23,12 @@ import { StansAutomatiskBehandlingHendelse } from '@saksbilde/historikk/hendelse
 import { StansAutomatiskBehandlingSaksbehandlerHendelse } from '@saksbilde/historikk/hendelser/StansAutomatiskBehandlingSaksbehandlerHendelse';
 import { SykmeldingMottatthendelse } from '@saksbilde/historikk/hendelser/SykmeldingMottatthendelse';
 import { SøknadMottatthendelse } from '@saksbilde/historikk/hendelser/SøknadMottatthendelse';
-import { TilkommenInntektHendelse } from '@saksbilde/historikk/hendelser/TilkommenInntektHendelse';
 import { TotrinnsvurderingAttestertHendelse } from '@saksbilde/historikk/hendelser/TotrinnsvurderingAttestertHendelse';
 import { TotrinnsvurderingReturHendelse } from '@saksbilde/historikk/hendelser/TotrinnsvurderingReturHendelse';
 import { TotrinnsvurderingTilGodkjenningHendelse } from '@saksbilde/historikk/hendelser/TotrinnsvurderingTilGodkjenningHendelse';
 import { VedtaksperiodeReberegnetHendelse } from '@saksbilde/historikk/hendelser/VedtaksperiodeReberegnetHendelse';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
 import { useFetchPersonQuery } from '@state/person';
-import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { Filtertype, HendelseObject, HistorikkhendelseObject } from '@typer/historikk';
 
 import { Notat } from '../notat/Notat';
@@ -66,10 +64,7 @@ const getHistorikkTitle = (type: Filtertype): string => {
 const HistorikkWithContent = (): ReactElement => {
     const { loading, data } = useFetchPersonQuery();
     const person = data?.person ?? null;
-    const { loading: tilkommenInntektLoading, data: tilkommenInntektData } = useHentTilkommenInntektQuery(
-        person?.fodselsnummer,
-    );
-    const historikk = useFilteredHistorikk(person, tilkommenInntektData?.tilkomneInntektskilderV2 ?? null);
+    const historikk = useFilteredHistorikk(person);
     const [filter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showHøyremeny, _] = useShowHøyremenyState();
@@ -83,7 +78,7 @@ const HistorikkWithContent = (): ReactElement => {
         },
     ]);
 
-    if (loading || tilkommenInntektLoading) return <HistorikkSkeleton />;
+    if (loading) return <HistorikkSkeleton />;
 
     return (
         <div className={styles['historikk-container']}>
@@ -124,9 +119,6 @@ const HistorikkWithContent = (): ReactElement => {
                                         }
                                         case 'Inntektoverstyring': {
                                             return <Inntektoverstyringhendelse key={`${it.id}-${index}`} {...it} />;
-                                        }
-                                        case 'TilkommenInntekt': {
-                                            return <TilkommenInntektHendelse key={it.id} hendelse={it} />;
                                         }
                                         case 'Sykepengegrunnlagskjonnsfastsetting': {
                                             return (

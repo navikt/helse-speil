@@ -10,13 +10,16 @@ import {
 } from '@io/graphql';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
-import { TilkommenInntektHendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
 
 import styles from './TilkommenInntektHendelse.module.css';
 
 interface TilkommenInntektHendelseProps {
-    hendelse: TilkommenInntektHendelseObject;
+    event:
+        | TilkommenInntektOpprettetEvent
+        | TilkommenInntektEndretEvent
+        | TilkommenInntektFjernetEvent
+        | TilkommenInntektGjenopprettetEvent;
 }
 
 interface TilkommenInntektOpprettetHendelseProps {
@@ -159,16 +162,16 @@ function foreløpigNavn(
     }
 }
 
-export const TilkommenInntektHendelse = ({ hendelse }: TilkommenInntektHendelseProps) => {
+export const TilkommenInntektHendelse = ({ event }: TilkommenInntektHendelseProps) => {
     return (
         <Historikkhendelse
             icon={<HistorikkKildeSaksbehandlerIkon />}
-            title={tittel(hendelse.event)}
-            timestamp={hendelse.timestamp}
-            saksbehandler={hendelse.saksbehandler ?? undefined}
+            title={tittel(event)}
+            timestamp={event.metadata.tidspunkt}
+            saksbehandler={event.metadata.utfortAvSaksbehandlerIdent}
             aktiv={false}
         >
-            {foreløpigNavn(hendelse.event)}
+            {foreløpigNavn(event)}
         </Historikkhendelse>
     );
 };

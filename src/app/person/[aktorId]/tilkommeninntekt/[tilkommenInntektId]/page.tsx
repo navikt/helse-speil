@@ -1,10 +1,16 @@
 'use client';
 
-import React, { ReactElement } from 'react';
+import React, { ReactElement, use } from 'react';
 
 import { Maybe } from '@io/graphql';
-import { PeriodeView } from '@saksbilde/periodeview/PeriodeView';
+import { TilkommenInntektVisning } from '@saksbilde/tilkommenInntekt/TilkommenInntektVisning';
 
-export default function Page(): Maybe<ReactElement> {
-    return <PeriodeView />;
+type TilkommenInntektPageProps = {
+    params: Promise<{ tilkommenInntektId: string }>;
+};
+
+export default function Page({ params }: TilkommenInntektPageProps): Maybe<ReactElement> {
+    const { tilkommenInntektId } = use(params);
+
+    return <TilkommenInntektVisning tilkommenInntektId={tilkommenInntektId} />;
 }

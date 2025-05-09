@@ -1,6 +1,6 @@
 'use client';
 
-import { createStore } from 'jotai/index';
+import { createStore } from 'jotai';
 import React, { PropsWithChildren, ReactElement, use, useEffect, useState } from 'react';
 
 import { useMutation } from '@apollo/client';
