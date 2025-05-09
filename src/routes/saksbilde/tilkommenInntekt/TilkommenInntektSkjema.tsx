@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -9,13 +8,7 @@ import { useMutation } from '@apollo/client';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-    GhostPeriodeFragment,
-    LeggTilTilkommenInntektDocument,
-    PeriodeFragment,
-    PersonFragment,
-    TilkommenInntektskilde,
-} from '@io/graphql';
+import { LeggTilTilkommenInntektDocument, PersonFragment, TilkommenInntektskilde } from '@io/graphql';
 import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjemaTabell';
 import { TilkommenInntektSkjemafelter } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjemafelter';
 import {
@@ -31,15 +24,10 @@ import { ISO_DATOFORMAT, erGyldigDato } from '@utils/date';
 
 interface TilkommenInntektProps {
     person: PersonFragment;
-    periode: PeriodeFragment | GhostPeriodeFragment;
     tilkommeneInntektskilder: TilkommenInntektskilde[];
 }
 
-export const TilkommenInntektSkjema = ({
-    person,
-    periode,
-    tilkommeneInntektskilder,
-}: TilkommenInntektProps): ReactElement => {
+export const TilkommenInntektSkjema = ({ person, tilkommeneInntektskilder }: TilkommenInntektProps): ReactElement => {
     const [dagerSomSkalEkskluderes, setdagerSomSkalEkskluderes] = React.useState<DateString[]>([]);
     const [leggTilTilkommenInntekt] = useMutation(LeggTilTilkommenInntektDocument);
     const { refetch } = useHentTilkommenInntektQuery(person.fodselsnummer);
@@ -66,9 +54,6 @@ export const TilkommenInntektSkjema = ({
             notat: '',
         },
     });
-    const defaultFom = dayjs(periode.fom).toDate();
-    const defaultTom = dayjs(periode.tom).toDate();
-
     const fom = form.watch('fom');
     const tom = form.watch('tom');
     const datoIntervall = lagDatoIntervall(fom, tom);
@@ -114,8 +99,6 @@ export const TilkommenInntektSkjema = ({
                     form={form}
                     handleSubmit={handleSubmit}
                     dagerTilFordeling={dagerTilGradering.length}
-                    defaultFom={defaultFom}
-                    defaultTom={defaultTom}
                     organisasjonsnavn={organisasjonsnavn}
                     loading={loading}
                 />

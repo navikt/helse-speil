@@ -23,8 +23,6 @@ interface TilkommenInntektSkjemaProps {
     form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
     handleSubmit: (values: TilkommenInntektSchema) => Promise<void>;
     dagerTilFordeling: number;
-    defaultFom: Date;
-    defaultTom: Date;
     organisasjonsnavn?: string;
     loading: boolean;
 }
@@ -33,8 +31,6 @@ export const TilkommenInntektSkjemafelter = ({
     form,
     handleSubmit,
     dagerTilFordeling,
-    defaultFom,
-    defaultTom,
     organisasjonsnavn,
     loading,
 }: TilkommenInntektSkjemaProps): Maybe<ReactElement> => {
@@ -104,7 +100,7 @@ export const TilkommenInntektSkjemafelter = ({
                                             field={field}
                                             label="Periode f.o.m"
                                             error={fieldState.error?.message}
-                                            defaultMonth={defaultFom}
+                                            defaultMonth={new Date()}
                                             id="fom"
                                         />
                                     )}
@@ -117,7 +113,7 @@ export const TilkommenInntektSkjemafelter = ({
                                             field={field}
                                             label="Periode t.o.m"
                                             error={fieldState.error?.message}
-                                            defaultMonth={defaultTom}
+                                            defaultMonth={new Date()}
                                             id="tom"
                                         />
                                     )}

@@ -6,21 +6,15 @@ import { Box } from '@navikt/ds-react/Box';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
-import type { GhostPeriodeFragment, PersonFragment, TilkommenInntektskilde } from '@io/graphql';
+import type { GhostPeriodeFragment, PersonFragment } from '@io/graphql';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
-import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjema';
 
 interface GhostPeriodeViewProps {
     activePeriod: GhostPeriodeFragment;
     person: PersonFragment;
-    tilkommeneInntektskilder: TilkommenInntektskilde[];
 }
 
-export const GhostPeriodeView = ({
-    activePeriod,
-    person,
-    tilkommeneInntektskilder,
-}: GhostPeriodeViewProps): ReactElement => {
+export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps): ReactElement => {
     const tab = last(usePathname().split('/'));
     useNavigateOnMount(Fane.Sykepengegrunnlag);
 
@@ -29,15 +23,6 @@ export const GhostPeriodeView = ({
             {tab === 'sykepengegrunnlag' && (
                 <Box overflowX="scroll">
                     <Sykepengegrunnlag person={person} periode={activePeriod} />
-                </Box>
-            )}
-            {tab === 'tilkommen-inntekt' && (
-                <Box overflowX="scroll">
-                    <TilkommenInntektSkjema
-                        person={person}
-                        periode={activePeriod}
-                        tilkommeneInntektskilder={tilkommeneInntektskilder}
-                    />
                 </Box>
             )}
         </>

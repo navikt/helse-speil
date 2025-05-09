@@ -6,30 +6,19 @@ import { Box } from '@navikt/ds-react/Box';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Fane } from '@hooks/useNavigation';
-import { PersonFragment, TilkommenInntektskilde, UberegnetPeriodeFragment } from '@io/graphql';
-import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjema';
+import { PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 
 type UberegnetPeriodeViewProps = {
     person: PersonFragment;
     activePeriod: UberegnetPeriodeFragment;
-    tilkommeneInntektskilder: TilkommenInntektskilde[];
 };
 
-export const UberegnetPeriodeView = ({ person, activePeriod, tilkommeneInntektskilder }: UberegnetPeriodeViewProps) => {
+export const UberegnetPeriodeView = ({ person, activePeriod }: UberegnetPeriodeViewProps) => {
     const tab = last(usePathname().split('/'));
-    useNavigateOnMount(tab !== 'tilkommen-inntekt' && tab !== 'dagoversikt' ? Fane.Utbetaling : undefined);
+    useNavigateOnMount(tab !== 'dagoversikt' ? Fane.Utbetaling : undefined);
 
     return (
-        <Box overflowX="scroll">
-            {tab === 'dagoversikt' && <Utbetaling person={person} periode={activePeriod} />}
-            {tab === 'tilkommen-inntekt' && (
-                <TilkommenInntektSkjema
-                    person={person}
-                    periode={activePeriod}
-                    tilkommeneInntektskilder={tilkommeneInntektskilder}
-                />
-            )}
-        </Box>
+        <Box overflowX="scroll">{tab === 'dagoversikt' && <Utbetaling person={person} periode={activePeriod} />}</Box>
     );
 };

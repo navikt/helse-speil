@@ -1,71 +1,56 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useParams, useRouter } from 'next/navigation';
 
 import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
 import { ActivePeriod } from '@typer/shared';
 import { raise } from '@utils/ts';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-type ActivePeriodeIdState = {
-    id: string;
-    type: 'Periode' | 'TilkommenInntekt';
-};
-
-const activePeriodIdState = atom<Maybe<ActivePeriodeIdState>>(null);
+const activePeriodIdState = atom<Maybe<string>>(null);
 
 export const useSetActivePeriodId = (person: PersonFragment) => {
     const [activePeriodId, setActivePeriodId] = useAtom(activePeriodIdState);
 
     return (periodeId: string) => {
-        if (activePeriodId?.type === 'Periode' && activePeriodId?.id === periodeId) return;
+        if (activePeriodId === periodeId) return;
         const periode = findPeriod(periodeId, person ?? raise('Kan ikke aktivere periode uten person'));
         if (!periode) return;
-        setActivePeriodId({ id: periode.id, type: 'Periode' });
+        setActivePeriodId(periode.id);
     };
 };
 
 export const useActivePeriod = (person: Maybe<PersonFragment>): Maybe<ActivePeriod> => {
     const activePeriodId = useAtomValue(activePeriodIdState);
+    const tilkommenInntektId = useActiveTilkommenInntektId();
 
-    if (!person) return null;
+    if (tilkommenInntektId || !person) return null;
 
-    if (activePeriodId !== null && activePeriodId?.type !== 'Periode') return null;
-
-    return findPeriod(activePeriodId?.id ?? null, person) ?? findPeriodToSelect(person);
+    return findPeriod(activePeriodId, person) ?? findPeriodToSelect(person);
 };
 
 export const useSetActiveTilkommenInntektId = () => {
-    const [activePeriodId, setActivePeriodId] = useAtom(activePeriodIdState);
+    const { aktorId } = useParams<{ aktorId?: string }>();
+    const router = useRouter();
 
     return (tilkommenInntektId: string) => {
-        if (activePeriodId?.type === 'TilkommenInntekt' && activePeriodId?.id === tilkommenInntektId) return;
-        setActivePeriodId({ id: tilkommenInntektId, type: 'TilkommenInntekt' });
+        router.push(`/person/${aktorId}/tilkommeninntekt/${tilkommenInntektId}`);
     };
 };
 
 export const useActiveTilkommenInntektId = (): Maybe<string> => {
-    const activePeriodId = useAtomValue(activePeriodIdState);
+    const { tilkommenInntektId } = useParams<{ tilkommenInntektId?: string }>();
 
-    if (activePeriodId?.type !== 'TilkommenInntekt') return null;
-
-    return activePeriodId.id;
+    return tilkommenInntektId !== undefined ? tilkommenInntektId : null;
 };
 
-export const useActivePeriodWithPerson = (person: PersonFragment): Maybe<ActivePeriod> => {
-    const activePeriodId = useAtomValue(activePeriodIdState);
-
-    if (activePeriodId !== null && activePeriodId?.type !== 'Periode') return null;
-
-    const periodToSelect = person ? findPeriodToSelect(person) : null;
-
-    return findPeriod(activePeriodId?.id ?? null, person) ?? periodToSelect;
-};
+export const useActivePeriodWithPerson = (person: PersonFragment): Maybe<ActivePeriod> => useActivePeriod(person);
 
 export const useSelectPeriod = () => {
     const setActivePeriodId = useSetAtom(activePeriodIdState);
     return (person: PersonFragment) => {
         const periodToSelect = findPeriodToSelect(person);
         if (periodToSelect) {
-            setActivePeriodId({ id: periodToSelect.id, type: 'Periode' });
+            setActivePeriodId(periodToSelect.id);
         }
     };
 };

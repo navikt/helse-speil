@@ -1,7 +1,6 @@
 'use client';
 
 import { createStore } from 'jotai/index';
-import dynamic from 'next/dynamic';
 import React, { PropsWithChildren, ReactElement, use, useEffect, useState } from 'react';
 
 import { useMutation } from '@apollo/client';
@@ -12,23 +11,14 @@ import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSak
 import { AmplitudeProvider } from '@io/amplitude';
 import { OpprettAbonnementDocument } from '@io/graphql';
 import { usePollEtterOpptegnelser } from '@io/graphql/polling';
-import { Saksbilde } from '@saksbilde/Saksbilde';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
-import { EmojiTilbakemeldingMedPeriode } from '@saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
 import { useResetOpenedDocuments } from '@saksbilde/historikk/hendelser/dokument/dokument';
-import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
 import { InfovarselOmStans } from '@saksbilde/infovarselOmStans/InfovarselOmStans';
 import { PersonHeader } from '@saksbilde/personHeader';
 import { Timeline } from '@saksbilde/timeline';
-import { Venstremeny } from '@saksbilde/venstremeny/Venstremeny';
 import { PersonStoreContext } from '@state/contexts/personStore';
 
 import styles from './layout.module.css';
-
-const Historikk = dynamic(() => import('@saksbilde/historikk').then((mod) => mod.Historikk), {
-    ssr: false,
-    loading: () => <HistorikkSkeleton />,
-});
 
 type LayoutProps = {
     params: Promise<{ aktorId: string }>;
@@ -64,12 +54,7 @@ const AktorScopedLayout = ({ children }: PropsWithChildren): ReactElement => {
                 <PersonHeader />
                 <Timeline />
                 <AmplitudeProvider>
-                    <VenterPåEndringProvider>
-                        <Venstremeny />
-                        <Saksbilde>{children}</Saksbilde>
-                        <Historikk />
-                        <EmojiTilbakemeldingMedPeriode />
-                    </VenterPåEndringProvider>
+                    <VenterPåEndringProvider>{children}</VenterPåEndringProvider>
                 </AmplitudeProvider>
             </div>
         </PersonStoreContext.Provider>

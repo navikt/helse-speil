@@ -165,7 +165,7 @@ const TimelineWithContent = ({
                             size="small"
                             style={{ marginLeft: '-0.5rem' }}
                             icon={<PlusIcon title="Legg til tilkommen inntekt" />}
-                            href={`/person/${person.aktorId}/tilkommen-inntekt`}
+                            href={`/person/${person.aktorId}/tilkommeninntekt/ny`}
                         >
                             Legg til tilkommen inntekt/periode
                         </Button>
