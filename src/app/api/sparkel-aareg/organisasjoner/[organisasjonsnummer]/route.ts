@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { erLokal, getServerEnv } from '@/env';
+import { erUtvikling, getServerEnv } from '@/env';
 import { logger } from '@/logger';
+import { stubnavnForOrganisasjonsnummer } from '@app/api/sparkel-aareg/organisasjoner/[organisasjonsnummer]/stubnavn';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
 
 export const dynamic = 'force-dynamic';
@@ -9,15 +10,15 @@ export const dynamic = 'force-dynamic';
 export async function GET(req: Request, { params }: { params: Promise<{ organisasjonsnummer: string }> }) {
     const { organisasjonsnummer } = await params;
 
-    if (erLokal) {
-        logger.info(`Mocker sparkel-aareg lokalt`);
+    if (erUtvikling) {
+        logger.info(`Mocker sparkel-aareg lokalt / i dev`);
 
         return organisasjonsnummer === '839942907'
             ? Response.json({}, { status: 404 })
             : Response.json(
                   {
                       organisasjonsnummer: organisasjonsnummer,
-                      navn: stubNavn[parseInt(organisasjonsnummer) % stubNavn.length],
+                      navn: stubnavnForOrganisasjonsnummer(organisasjonsnummer),
                   },
                   { status: 200 },
               );
@@ -42,26 +43,3 @@ export async function GET(req: Request, { params }: { params: Promise<{ organisa
         });
     }
 }
-
-const stubNavn = [
-    'Amundsen og Sønner',
-    'Johansen og Sønner',
-    'Olsen, Arnesen og Jensen',
-    'Østli Gruppen',
-    'Vedvik, Wold og Larsen',
-    'Berntsen, Torgersen og Andresen',
-    'Kleven, Torp og Røed',
-    'Johnsen-Glosli',
-    'Tangen ASA',
-    'Moen, Karlsen og Gran',
-    'Nordskaug-Nielsen',
-    'Mathisen ASA',
-    'Nordby-Nielsen',
-    'Aalerud, Olstad og Berg',
-    'Olsen Gruppen',
-    'Aasen-Aalerud',
-    'Eriksen-Krogh',
-    'Lie BA',
-    'Karlsen AS',
-    'Skuterud-Carlsen',
-];
