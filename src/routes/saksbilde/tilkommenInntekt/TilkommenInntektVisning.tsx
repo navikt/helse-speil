@@ -2,7 +2,7 @@ import cn from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
 import { PlusCircleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, CopyButton, HStack, Table, Textarea, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, CopyButton, HStack, Heading, Table, Textarea, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
 import { FjernTilkommenInntektDocument, Maybe } from '@/io/graphql';
@@ -19,7 +19,7 @@ import {
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { useFetchPersonQuery } from '@state/person';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
-import { erHelg, somNorskDato } from '@utils/date';
+import { erHelg, getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { capitalizeArbeidsgiver, somPenger } from '@utils/locale';
 
 interface TilkommenInntektVisningProps {
@@ -76,6 +76,9 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
         tilkommenInntekt.ekskluderteUkedager,
     );
 
+    const fjernetEvent = tilkommenInntekt.events.findLast(
+        (event) => event.__typename == 'TilkommenInntektFjernetEvent',
+    );
     const handleFjern = async () => {
         setShowFjernTextArea(false);
         setShowFjernModal(false);
@@ -148,6 +151,19 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                                     </BodyShort>
                                 </VStack>
                             </HStack>
+                            {tilkommenInntekt.fjernet && (
+                                <Alert variant="info">
+                                    <Heading size="xsmall" level="4">
+                                        Perioden er fjernet
+                                    </Heading>
+                                    <BodyShort>
+                                        Fjernet av: {fjernetEvent?.metadata?.utfortAvSaksbehandlerIdent}
+                                    </BodyShort>
+                                    <BodyShort>
+                                        Tidspunkt: {getFormattedDatetimeString(fjernetEvent?.metadata?.tidspunkt)}
+                                    </BodyShort>
+                                </Alert>
+                            )}
                             {!tilkommenInntekt.fjernet && !showFjernTextArea && (
                                 <Button
                                     variant="tertiary"
