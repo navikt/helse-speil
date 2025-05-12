@@ -4,7 +4,7 @@ import path from 'path';
 import { cwd } from 'process';
 import { v4 } from 'uuid';
 
-import { LeggTilTilkommenInntektResponse, TilkommenInntektInput } from '@io/graphql';
+import { LeggTilTilkommenInntektResponse, TilkommenInntektFjernetEvent, TilkommenInntektInput } from '@io/graphql';
 import { TilkommenInntektOpprettetEvent, TilkommenInntektskilde } from '@spesialist-mock/schemaTypes';
 
 export class TilkommenInntektMock {
@@ -28,6 +28,29 @@ export class TilkommenInntektMock {
 
     static getTilkomneInntektskilder = (fødselsnummer: string): Array<TilkommenInntektskilde> => {
         return TilkommenInntektMock.tilkomneInntektskilder.get(fødselsnummer) ?? [];
+    };
+
+    static fjernTilkommenInntekt = (notatTilBeslutter: string, tilkommenInntektId: string): void => {
+        TilkommenInntektMock.tilkomneInntektskilder
+            .values()
+            .flatMap((liste) => liste)
+            .flatMap((tilkommenInntektskilde) => tilkommenInntektskilde.inntekter)
+            .filter((inntekt) => inntekt.tilkommenInntektId === tilkommenInntektId)
+            .forEach((inntekt) => {
+                const høyesteSekvensnummer = Math.max(...inntekt.events.map((it) => it.metadata.sekvensnummer));
+                const event: TilkommenInntektFjernetEvent = {
+                    __typename: 'TilkommenInntektFjernetEvent',
+                    metadata: {
+                        __typename: 'TilkommenInntektEventMetadata',
+                        notatTilBeslutter: notatTilBeslutter,
+                        sekvensnummer: høyesteSekvensnummer + 1,
+                        tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+                        utfortAvSaksbehandlerIdent: 'a1234567',
+                    },
+                };
+                inntekt.events.push(event);
+                inntekt.fjernet = true;
+            });
     };
 
     static addTilkommenInntekt = (

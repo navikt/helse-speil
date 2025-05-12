@@ -5,7 +5,8 @@ import { PlusCircleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, CopyButton, HStack, Table, Textarea, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
-import { Maybe } from '@/io/graphql';
+import { FjernTilkommenInntektDocument, Maybe } from '@/io/graphql';
+import { useMutation } from '@apollo/client';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { FjernTilkommenInntektModal } from '@saksbilde/tilkommenInntekt/FjernTilkommenInntektModal';
@@ -28,7 +29,11 @@ interface TilkommenInntektVisningProps {
 export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntektVisningProps): Maybe<ReactElement> => {
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
-    const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(person?.fodselsnummer);
+    const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
+        person?.fodselsnummer,
+    );
+    const [fjernTilkommenInntekt] = useMutation(FjernTilkommenInntektDocument);
+    const [fjerningBegrunnelse, setFjerningBegrunnelse] = useState<string>('');
     const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektData?.tilkomneInntektskilderV2
         ?.flatMap((tilkommenInntektskilde) =>
             tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
@@ -71,6 +76,17 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
         tilkommenInntekt.ekskluderteUkedager,
     );
 
+    const handleFjern = async () => {
+        setShowFjernTextArea(false);
+        setShowFjernModal(false);
+        await fjernTilkommenInntekt({
+            variables: {
+                notatTilBeslutter: fjerningBegrunnelse,
+                tilkommenInntektId: tilkommenInntektId,
+            },
+            onCompleted: () => tilkommenInntektRefetch(),
+        });
+    };
     return (
         <>
             <Box overflowX="scroll">
@@ -132,7 +148,7 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                                     </BodyShort>
                                 </VStack>
                             </HStack>
-                            {!showFjernTextArea && (
+                            {!tilkommenInntekt.fjernet && !showFjernTextArea && (
                                 <Button
                                     variant="tertiary"
                                     size="small"
@@ -142,7 +158,7 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                                     Fjern periode
                                 </Button>
                             )}
-                            {showFjernTextArea && (
+                            {!tilkommenInntekt.fjernet && showFjernTextArea && (
                                 <VStack>
                                     <HStack>
                                         <BodyShort>Fjern periode</BodyShort>
@@ -157,6 +173,8 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                                     <Textarea
                                         label="Begrunn hvorfor perioden fjernes"
                                         description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
+                                        value={fjerningBegrunnelse}
+                                        onChange={(event) => setFjerningBegrunnelse(event.target.value)}
                                     />
                                     <HStack>
                                         <Button
@@ -239,10 +257,7 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
             {showFjernModal && (
                 <FjernTilkommenInntektModal
                     tilkommenInntekt={tilkommenInntekt}
-                    onConfirm={() => {
-                        setShowFjernTextArea(false);
-                        setShowFjernModal(false);
-                    }}
+                    onConfirm={handleFjern}
                     onCancel={() => setShowFjernModal(false)}
                 />
             )}
