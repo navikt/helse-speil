@@ -58,14 +58,14 @@ export class TilkommenInntektMock {
                 tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
                 utfortAvSaksbehandlerIdent: 'a1234567',
             },
-            dager: verdier.dager,
+            ekskluderteUkedager: verdier.ekskluderteUkedager,
             organisasjonsnummer: verdier.organisasjonsnummer,
             periode: verdier.periode,
             periodebelop: verdier.periodebelop,
         };
         tilkommenInntektskilde.inntekter.push({
             __typename: 'TilkommenInntekt',
-            dager: verdier.dager,
+            ekskluderteUkedager: verdier.ekskluderteUkedager,
             events: [event],
             fjernet: false,
             periode: verdier.periode,

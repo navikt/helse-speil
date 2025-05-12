@@ -16,14 +16,14 @@ interface TilkommenInntektTableProps {
     arbeidsgivere: ArbeidsgiverFragment[];
     fom: DateString;
     tom: DateString;
-    setDagerSomSkalEkskluderes: (datoer: DateString[]) => void;
+    setEkskluderteUkedager: (datoer: DateString[]) => void;
 }
 
 export const TilkommenInntektSkjemaTabell = ({
     arbeidsgivere,
     fom,
     tom,
-    setDagerSomSkalEkskluderes,
+    setEkskluderteUkedager,
 }: TilkommenInntektTableProps): ReactElement => {
     const [valgteDatoer, setValgteDatoer] = useState<DateString[]>([]);
     const arbeidsgiverdager = tabellArbeidsdager(arbeidsgivere).filter((dag) => dag.dato >= fom && dag.dato <= tom);
@@ -39,8 +39,8 @@ export const TilkommenInntektSkjemaTabell = ({
         setValgteDatoer((prev) => (prev.includes(dato) ? prev.filter((value) => value !== dato) : [...prev, dato]));
 
     useEffect(() => {
-        setDagerSomSkalEkskluderes(valgteDatoer);
-    }, [valgteDatoer, setDagerSomSkalEkskluderes]);
+        setEkskluderteUkedager(valgteDatoer);
+    }, [valgteDatoer, setEkskluderteUkedager]);
 
     return (
         <Box

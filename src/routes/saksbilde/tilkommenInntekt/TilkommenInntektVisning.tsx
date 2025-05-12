@@ -10,7 +10,12 @@ import { AnonymizableTextWithEllipsis } from '@components/anonymizable/Anonymiza
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { FjernTilkommenInntektModal } from '@saksbilde/tilkommenInntekt/FjernTilkommenInntektModal';
 import styles from '@saksbilde/tilkommenInntekt/TilkommenTable.module.css';
-import { dekorerTekst, getTypeIcon, tabellArbeidsdager } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
+import {
+    beregnInntektPerDag,
+    dekorerTekst,
+    getTypeIcon,
+    tabellArbeidsdager,
+} from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { useFetchPersonQuery } from '@state/person';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { erHelg, somNorskDato } from '@utils/date';
@@ -59,7 +64,12 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
             return acc;
         }
     }, []);
-    const inntektPerDag = Number(tilkommenInntekt.periodebelop) / tilkommenInntekt.dager.length;
+    const inntektPerDag = beregnInntektPerDag(
+        Number(tilkommenInntekt.periodebelop),
+        fom,
+        tom,
+        tilkommenInntekt.ekskluderteUkedager,
+    );
 
     return (
         <>
@@ -200,8 +210,7 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                                         key={dag.dato + 'row'}
                                         className={cn(
                                             erHelg(dag.dato) && styles.helg,
-                                            !tilkommenInntekt.dager.includes(dag.dato) &&
-                                                !erHelg(dag.dato) &&
+                                            tilkommenInntekt.ekskluderteUkedager.includes(dag.dato) &&
                                                 styles.valgteDatoer,
                                         )}
                                     >

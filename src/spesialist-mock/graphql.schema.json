@@ -15216,7 +15216,7 @@
                 "isOneOf": null,
                 "fields": [
                     {
-                        "name": "dager",
+                        "name": "ekskluderteUkedager",
                         "description": null,
                         "args": [],
                         "type": {
@@ -15527,7 +15527,7 @@
                 "isOneOf": null,
                 "fields": [
                     {
-                        "name": "dager",
+                        "name": "ekskluderteUkedager",
                         "description": null,
                         "args": [],
                         "type": {
@@ -15852,7 +15852,7 @@
                 "fields": null,
                 "inputFields": [
                     {
-                        "name": "dager",
+                        "name": "ekskluderteUkedager",
                         "description": null,
                         "type": {
                             "kind": "NON_NULL",
@@ -15935,7 +15935,7 @@
                 "isOneOf": null,
                 "fields": [
                     {
-                        "name": "dager",
+                        "name": "ekskluderteUkedager",
                         "description": null,
                         "args": [],
                         "type": {

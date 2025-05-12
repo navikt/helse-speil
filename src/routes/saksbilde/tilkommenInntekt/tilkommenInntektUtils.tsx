@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { ReactElement } from 'react';
 
 import { ArbeidsgiverFragment, PersonFragment, TilkommenInntektskilde, Utbetalingsdagtype } from '@io/graphql';
@@ -50,23 +50,25 @@ export function lagEksisterendePerioder(tilkommeneInntektskilder: TilkommenInnte
     return map;
 }
 
-export function lagDatoIntervall(fom: string, tom: string): Dayjs[] {
-    const datoIntervall: Dayjs[] = [];
-    let gjeldendeDag = dayjs(fom);
+export function beregnInntektPerDag(
+    periodebeløp: number,
+    fom: DateString,
+    tom: DateString,
+    ekskluderteUkedager: DateString[],
+) {
+    let antallDagerTilGradering = 0;
 
-    while (gjeldendeDag.isSameOrBefore(dayjs(tom))) {
-        datoIntervall.push(gjeldendeDag);
-        gjeldendeDag = gjeldendeDag.add(1, 'day');
+    let dag = dayjs(fom);
+    while (dag.isSameOrBefore(dayjs(tom))) {
+        const dato = dag.format(ISO_DATOFORMAT);
+        if (!erHelg(dato) && !ekskluderteUkedager.includes(dato)) {
+            antallDagerTilGradering++;
+        }
+        dag = dag.add(1, 'day');
     }
 
-    return datoIntervall;
+    return periodebeløp / antallDagerTilGradering;
 }
-
-export const filtrerDager = (datoIntervall: Dayjs[], dagerSomSkalEkskluderes: DateString[]) => {
-    return datoIntervall
-        .filter((dag) => !erHelg(dag.format(ISO_DATOFORMAT)))
-        .filter((dag) => !dagerSomSkalEkskluderes.includes(dag.format(ISO_DATOFORMAT)));
-};
 
 interface TabellArbeidsdag {
     dato: DateString;

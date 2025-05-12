@@ -12,15 +12,14 @@ import { LeggTilTilkommenInntektDocument, PersonFragment, TilkommenInntektskilde
 import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjemaTabell';
 import { TilkommenInntektSkjemafelter } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjemafelter';
 import {
-    filtrerDager,
-    lagDatoIntervall,
+    beregnInntektPerDag,
     lagEksisterendePerioder,
     utledSykefraværstilfeller,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { useSetActiveTilkommenInntektId } from '@state/periode';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { DateString } from '@typer/shared';
-import { ISO_DATOFORMAT, erGyldigDato } from '@utils/date';
+import { erGyldigDato } from '@utils/date';
 
 interface TilkommenInntektProps {
     person: PersonFragment;
@@ -28,7 +27,7 @@ interface TilkommenInntektProps {
 }
 
 export const TilkommenInntektSkjema = ({ person, tilkommeneInntektskilder }: TilkommenInntektProps): ReactElement => {
-    const [dagerSomSkalEkskluderes, setdagerSomSkalEkskluderes] = React.useState<DateString[]>([]);
+    const [ekskluderteUkedager, setEkskluderteUkedager] = React.useState<DateString[]>([]);
     const [leggTilTilkommenInntekt] = useMutation(LeggTilTilkommenInntektDocument);
     const { refetch } = useHentTilkommenInntektQuery(person.fodselsnummer);
 
@@ -54,9 +53,10 @@ export const TilkommenInntektSkjema = ({ person, tilkommeneInntektskilder }: Til
             notat: '',
         },
     });
+    const periodebeløp = form.watch('periodebeløp');
     const fom = form.watch('fom');
     const tom = form.watch('tom');
-    const datoIntervall = lagDatoIntervall(fom, tom);
+    const inntektPerDag = beregnInntektPerDag(periodebeløp, fom, tom, ekskluderteUkedager);
 
     const organisasjonsnummer = form.watch('organisasjonsnummer');
     const { data: orgData } = useOrganisasjonQuery(organisasjonsnummer);
@@ -64,11 +64,9 @@ export const TilkommenInntektSkjema = ({ person, tilkommeneInntektskilder }: Til
         setOrganisasjonsnavn(orgData?.organisasjon?.navn ?? undefined);
     }, [orgData]);
 
-    const dagerTilGradering = filtrerDager(datoIntervall, dagerSomSkalEkskluderes);
     const setActiveTilkommenInntektId = useSetActiveTilkommenInntektId();
 
     const handleSubmit = async (values: TilkommenInntektSchema) => {
-        const dager = dagerTilGradering.map((dag) => dag.format(ISO_DATOFORMAT));
         setLoading(true);
         await leggTilTilkommenInntekt({
             variables: {
@@ -81,7 +79,7 @@ export const TilkommenInntektSkjema = ({ person, tilkommeneInntektskilder }: Til
                     },
                     organisasjonsnummer: values.organisasjonsnummer,
                     periodebelop: values.periodebeløp.toString(),
-                    dager: dager,
+                    ekskluderteUkedager: ekskluderteUkedager,
                 },
             },
             onCompleted: (data) => {
@@ -98,7 +96,7 @@ export const TilkommenInntektSkjema = ({ person, tilkommeneInntektskilder }: Til
                 <TilkommenInntektSkjemafelter
                     form={form}
                     handleSubmit={handleSubmit}
-                    dagerTilFordeling={dagerTilGradering.length}
+                    inntektPerDag={inntektPerDag}
                     organisasjonsnavn={organisasjonsnavn}
                     loading={loading}
                 />
@@ -107,7 +105,7 @@ export const TilkommenInntektSkjema = ({ person, tilkommeneInntektskilder }: Til
                         arbeidsgivere={person.arbeidsgivere}
                         fom={fom}
                         tom={tom}
-                        setDagerSomSkalEkskluderes={setdagerSomSkalEkskluderes}
+                        setEkskluderteUkedager={setEkskluderteUkedager}
                     />
                 )}
             </HStack>

@@ -1655,7 +1655,7 @@ export type Tildeling = {
 
 export type TilkommenInntekt = {
     __typename: 'TilkommenInntekt';
-    dager: Array<Scalars['LocalDate']['output']>;
+    ekskluderteUkedager: Array<Scalars['LocalDate']['output']>;
     events: Array<TilkommenInntektEvent>;
     fjernet: Scalars['Boolean']['output'];
     periode: DatoPeriode;
@@ -1687,7 +1687,7 @@ export type TilkommenInntektEventDatoPeriodeEndring = {
 
 export type TilkommenInntektEventEndringer = {
     __typename: 'TilkommenInntektEventEndringer';
-    dager: Maybe<TilkommenInntektEventListLocalDateEndring>;
+    ekskluderteUkedager: Maybe<TilkommenInntektEventListLocalDateEndring>;
     organisasjonsnummer: Maybe<TilkommenInntektEventStringEndring>;
     periode: Maybe<TilkommenInntektEventDatoPeriodeEndring>;
     periodebelop: Maybe<TilkommenInntektEventBigDecimalEndring>;
@@ -1725,7 +1725,7 @@ export type TilkommenInntektGjenopprettetEvent = TilkommenInntektEvent & {
 };
 
 export type TilkommenInntektInput = {
-    dager: Array<Scalars['LocalDate']['input']>;
+    ekskluderteUkedager: Array<Scalars['LocalDate']['input']>;
     organisasjonsnummer: Scalars['String']['input'];
     periode: DatoPeriodeInput;
     periodebelop: Scalars['BigDecimal']['input'];
@@ -1733,7 +1733,7 @@ export type TilkommenInntektInput = {
 
 export type TilkommenInntektOpprettetEvent = TilkommenInntektEvent & {
     __typename: 'TilkommenInntektOpprettetEvent';
-    dager: Array<Scalars['LocalDate']['output']>;
+    ekskluderteUkedager: Array<Scalars['LocalDate']['output']>;
     metadata: TilkommenInntektEventMetadata;
     organisasjonsnummer: Scalars['String']['output'];
     periode: DatoPeriode;
@@ -5907,7 +5907,7 @@ export type HentTilkommenInntektV2Query = {
             __typename: 'TilkommenInntekt';
             tilkommenInntektId: string;
             periodebelop: string;
-            dager: Array<string>;
+            ekskluderteUkedager: Array<string>;
             fjernet: boolean;
             periode: { __typename: 'DatoPeriode'; fom: string; tom: string };
             events: Array<
@@ -5930,7 +5930,7 @@ export type HentTilkommenInntektV2Query = {
                               fra: string;
                               til: string;
                           } | null;
-                          dager: {
+                          ekskluderteUkedager: {
                               __typename: 'TilkommenInntektEventListLocalDateEndring';
                               fra: Array<string>;
                               til: Array<string>;
@@ -5973,7 +5973,7 @@ export type HentTilkommenInntektV2Query = {
                               fra: string;
                               til: string;
                           } | null;
-                          dager: {
+                          ekskluderteUkedager: {
                               __typename: 'TilkommenInntektEventListLocalDateEndring';
                               fra: Array<string>;
                               til: Array<string>;
@@ -5991,7 +5991,7 @@ export type HentTilkommenInntektV2Query = {
                       __typename: 'TilkommenInntektOpprettetEvent';
                       organisasjonsnummer: string;
                       periodebelop: string;
-                      dager: Array<string>;
+                      ekskluderteUkedager: Array<string>;
                       periode: { __typename: 'DatoPeriode'; fom: string; tom: string };
                       metadata: {
                           __typename: 'TilkommenInntektEventMetadata';
@@ -13829,7 +13829,7 @@ export const HentTilkommenInntektV2Document = {
                                                 },
                                             },
                                             { kind: 'Field', name: { kind: 'Name', value: 'periodebelop' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'dager' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ekskluderteUkedager' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'fjernet' } },
                                             {
                                                 kind: 'Field',
@@ -13916,7 +13916,10 @@ export const HentTilkommenInntektV2Document = {
                                                                     },
                                                                     {
                                                                         kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'dager' },
+                                                                        name: {
+                                                                            kind: 'Name',
+                                                                            value: 'ekskluderteUkedager',
+                                                                        },
                                                                     },
                                                                 ],
                                                             },
@@ -14059,7 +14062,7 @@ export const HentTilkommenInntektV2Document = {
                                                                                     kind: 'Field',
                                                                                     name: {
                                                                                         kind: 'Name',
-                                                                                        value: 'dager',
+                                                                                        value: 'ekskluderteUkedager',
                                                                                     },
                                                                                     selectionSet: {
                                                                                         kind: 'SelectionSet',
@@ -14225,7 +14228,7 @@ export const HentTilkommenInntektV2Document = {
                                                                                     kind: 'Field',
                                                                                     name: {
                                                                                         kind: 'Name',
-                                                                                        value: 'dager',
+                                                                                        value: 'ekskluderteUkedager',
                                                                                     },
                                                                                     selectionSet: {
                                                                                         kind: 'SelectionSet',

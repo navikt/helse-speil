@@ -46,8 +46,8 @@ export const TilkommenInntektOpprettetHendelse = ({ event }: TilkommenInntektOpp
                 <BodyShort>{somPenger(Number(event.periodebelop))}</BodyShort>
             </VStack>
             <VStack>
-                <BodyShort weight="semibold">Dager som skal graderes</BodyShort>
-                {event.dager.map((dag) => (
+                <BodyShort weight="semibold">Dager som ikke skal graderes</BodyShort>
+                {event.ekskluderteUkedager.map((dag) => (
                     <BodyShort key={dag}>{somNorskDato(dag)}</BodyShort>
                 ))}
             </VStack>
@@ -99,15 +99,15 @@ export const TilkommenInntektEndretHendelse = ({ event }: TilkommenInntektEndret
                     <BodyShort>{somPenger(Number(event.endringer.periodebelop.til))}</BodyShort>
                 </VStack>
             )}
-            {event.endringer.dager && (
+            {event.endringer.ekskluderteUkedager && (
                 <VStack>
-                    <BodyShort weight="semibold">Dager som skal graderes</BodyShort>
-                    {event.endringer.dager.fra.map((dag) => (
+                    <BodyShort weight="semibold">Dager som ikke skal graderes</BodyShort>
+                    {event.endringer.ekskluderteUkedager.fra.map((dag) => (
                         <BodyShort key={dag} className={styles.linethrough}>
                             {somNorskDato(dag)}
                         </BodyShort>
                     ))}
-                    {event.endringer.dager.til.map((dag) => (
+                    {event.endringer.ekskluderteUkedager.til.map((dag) => (
                         <BodyShort key={dag}>{somNorskDato(dag)}</BodyShort>
                     ))}
                 </VStack>

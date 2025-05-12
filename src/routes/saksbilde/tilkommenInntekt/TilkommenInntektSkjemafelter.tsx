@@ -22,7 +22,7 @@ import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/ControlledDate
 interface TilkommenInntektSkjemaProps {
     form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
     handleSubmit: (values: TilkommenInntektSchema) => Promise<void>;
-    dagerTilFordeling: number;
+    inntektPerDag: number;
     organisasjonsnavn?: string;
     loading: boolean;
 }
@@ -30,13 +30,11 @@ interface TilkommenInntektSkjemaProps {
 export const TilkommenInntektSkjemafelter = ({
     form,
     handleSubmit,
-    dagerTilFordeling,
+    inntektPerDag,
     organisasjonsnavn,
     loading,
 }: TilkommenInntektSkjemaProps): Maybe<ReactElement> => {
     const router = useRouter();
-
-    const inntektPerDag = form.watch('periodebeløp') / dagerTilFordeling;
 
     const datofeil: string[] = [form.formState.errors.fom?.message, form.formState.errors.tom?.message].filter(
         (feil) => feil !== undefined,

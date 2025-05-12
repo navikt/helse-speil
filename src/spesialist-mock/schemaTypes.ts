@@ -1653,7 +1653,7 @@ export type Tildeling = {
 
 export type TilkommenInntekt = {
     __typename?: 'TilkommenInntekt';
-    dager: Array<Scalars['LocalDate']['output']>;
+    ekskluderteUkedager: Array<Scalars['LocalDate']['output']>;
     events: Array<TilkommenInntektEvent>;
     fjernet: Scalars['Boolean']['output'];
     periode: DatoPeriode;
@@ -1685,7 +1685,7 @@ export type TilkommenInntektEventDatoPeriodeEndring = {
 
 export type TilkommenInntektEventEndringer = {
     __typename?: 'TilkommenInntektEventEndringer';
-    dager?: Maybe<TilkommenInntektEventListLocalDateEndring>;
+    ekskluderteUkedager?: Maybe<TilkommenInntektEventListLocalDateEndring>;
     organisasjonsnummer?: Maybe<TilkommenInntektEventStringEndring>;
     periode?: Maybe<TilkommenInntektEventDatoPeriodeEndring>;
     periodebelop?: Maybe<TilkommenInntektEventBigDecimalEndring>;
@@ -1723,7 +1723,7 @@ export type TilkommenInntektGjenopprettetEvent = TilkommenInntektEvent & {
 };
 
 export type TilkommenInntektInput = {
-    dager: Array<Scalars['LocalDate']['input']>;
+    ekskluderteUkedager: Array<Scalars['LocalDate']['input']>;
     organisasjonsnummer: Scalars['String']['input'];
     periode: DatoPeriodeInput;
     periodebelop: Scalars['BigDecimal']['input'];
@@ -1731,7 +1731,7 @@ export type TilkommenInntektInput = {
 
 export type TilkommenInntektOpprettetEvent = TilkommenInntektEvent & {
     __typename?: 'TilkommenInntektOpprettetEvent';
-    dager: Array<Scalars['LocalDate']['output']>;
+    ekskluderteUkedager: Array<Scalars['LocalDate']['output']>;
     metadata: TilkommenInntektEventMetadata;
     organisasjonsnummer: Scalars['String']['output'];
     periode: DatoPeriode;
