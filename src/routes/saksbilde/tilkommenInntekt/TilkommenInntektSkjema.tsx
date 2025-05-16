@@ -1,110 +1,104 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Alert, HStack } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
-import { useMutation } from '@apollo/client';
+import { DateString } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LeggTilTilkommenInntektDocument, PersonFragment, TilkommenInntektskilde } from '@io/graphql';
+import { PersonFragment } from '@io/graphql';
 import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjemaTabell';
 import { TilkommenInntektSkjemafelter } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjemafelter';
 import {
     beregnInntektPerDag,
-    lagEksisterendePerioder,
-    utledSykefraværstilfeller,
+    tilPerioderPerOrganisasjonsnummer,
+    utledSykefraværstilfelleperioder,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
-import { useSetActiveTilkommenInntektId } from '@state/periode';
-import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
-import { DateString } from '@typer/shared';
-import { erGyldigDato } from '@utils/date';
+import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
+import { erGyldigNorskDato, norskDatoTilIsoDato, somNorskDato } from '@utils/date';
 
 interface TilkommenInntektProps {
     person: PersonFragment;
-    tilkommeneInntektskilder: TilkommenInntektskilde[];
+    andreTilkomneInntekter: TilkommenInntektMedOrganisasjonsnummer[];
+    heading: string;
+    startOrganisasjonsnummer: string;
+    startFom: DateString;
+    startTom: DateString;
+    startPeriodebeløp: number;
+    ekskluderteUkedager: DateString[];
+    setEkskluderteUkedager: Dispatch<SetStateAction<DateString[]>>;
+    isSubmitting: boolean;
+    handleSubmit: (values: TilkommenInntektSchema) => Promise<void>;
 }
 
-export const TilkommenInntektSkjema = ({ person, tilkommeneInntektskilder }: TilkommenInntektProps): ReactElement => {
-    const [ekskluderteUkedager, setEkskluderteUkedager] = React.useState<DateString[]>([]);
-    const [leggTilTilkommenInntekt] = useMutation(LeggTilTilkommenInntektDocument);
-    const { refetch } = useHentTilkommenInntektQuery(person.fodselsnummer);
-
+export const TilkommenInntektSkjema = ({
+    person,
+    andreTilkomneInntekter,
+    heading,
+    startOrganisasjonsnummer,
+    startFom,
+    startTom,
+    startPeriodebeløp,
+    ekskluderteUkedager,
+    setEkskluderteUkedager,
+    isSubmitting,
+    handleSubmit,
+}: TilkommenInntektProps): ReactElement => {
     const [organisasjonsnavn, setOrganisasjonsnavn] = useState<string | undefined>(undefined);
-    const [loading, setLoading] = useState<boolean>(false);
-
     const organisasjonEksisterer = () => {
         return organisasjonsnavn !== undefined;
     };
 
-    const sykefraværstilfeller = utledSykefraværstilfeller(person);
-    const eksisterendePerioder = lagEksisterendePerioder(tilkommeneInntektskilder);
-    const form = useForm<TilkommenInntektSchema>({
+    const sykefraværstilfelleperioder = utledSykefraværstilfelleperioder(person);
+    const eksisterendePerioder = tilPerioderPerOrganisasjonsnummer(andreTilkomneInntekter);
+
+    const form = useForm({
         resolver: zodResolver(
-            lagTilkommenInntektSchema(sykefraværstilfeller, eksisterendePerioder, organisasjonEksisterer),
+            lagTilkommenInntektSchema(sykefraværstilfelleperioder, eksisterendePerioder, organisasjonEksisterer),
         ),
         reValidateMode: 'onBlur',
         defaultValues: {
-            organisasjonsnummer: '',
-            fom: '',
-            tom: '',
-            periodebeløp: 0,
+            organisasjonsnummer: startOrganisasjonsnummer,
+            fom: somNorskDato(startFom) ?? '',
+            tom: somNorskDato(startTom) ?? '',
+            periodebeløp: startPeriodebeløp,
             notat: '',
         },
     });
-    const periodebeløp = form.watch('periodebeløp');
+    const organisasjonsnummer = form.watch('organisasjonsnummer');
     const fom = form.watch('fom');
     const tom = form.watch('tom');
-    const inntektPerDag = beregnInntektPerDag(periodebeløp, fom, tom, ekskluderteUkedager);
+    const periodebeløp = form.watch('periodebeløp');
+    const erGyldigPeriode =
+        erGyldigNorskDato(fom) && erGyldigNorskDato(tom) && norskDatoTilIsoDato(fom) <= norskDatoTilIsoDato(tom);
+    const inntektPerDag = erGyldigPeriode
+        ? beregnInntektPerDag(periodebeløp, norskDatoTilIsoDato(fom), norskDatoTilIsoDato(tom), ekskluderteUkedager)
+        : undefined;
 
-    const organisasjonsnummer = form.watch('organisasjonsnummer');
     const { data: orgData } = useOrganisasjonQuery(organisasjonsnummer);
     useEffect(() => {
         setOrganisasjonsnavn(orgData?.organisasjon?.navn ?? undefined);
     }, [orgData]);
 
-    const setActiveTilkommenInntektId = useSetActiveTilkommenInntektId();
-
-    const handleSubmit = async (values: TilkommenInntektSchema) => {
-        setLoading(true);
-        await leggTilTilkommenInntekt({
-            variables: {
-                fodselsnummer: person.fodselsnummer,
-                notatTilBeslutter: values.notat,
-                tilkommenInntekt: {
-                    periode: {
-                        fom: values.fom,
-                        tom: values.tom,
-                    },
-                    organisasjonsnummer: values.organisasjonsnummer,
-                    periodebelop: values.periodebeløp.toString(),
-                    ekskluderteUkedager: ekskluderteUkedager,
-                },
-            },
-            onCompleted: (data) => {
-                refetch().then(() => {
-                    setActiveTilkommenInntektId(data.leggTilTilkommenInntekt.tilkommenInntektId);
-                    setLoading(false);
-                });
-            },
-        });
-    };
     return (
         <ErrorBoundary fallback={<TilkommenInntektError />}>
             <HStack wrap={false}>
                 <TilkommenInntektSkjemafelter
                     form={form}
+                    heading={heading}
                     handleSubmit={handleSubmit}
                     inntektPerDag={inntektPerDag}
                     organisasjonsnavn={organisasjonsnavn}
-                    loading={loading}
+                    sykefraværstilfelleperioder={sykefraværstilfelleperioder}
+                    loading={isSubmitting}
                 />
-                {erGyldigDato(fom) && erGyldigDato(tom) && (
+                {erGyldigPeriode && (
                     <TilkommenInntektSkjemaTabell
                         arbeidsgivere={person.arbeidsgivere}
-                        fom={fom}
-                        tom={tom}
+                        periode={{ fom: norskDatoTilIsoDato(fom), tom: norskDatoTilIsoDato(tom) }}
+                        ekskluderteUkedager={ekskluderteUkedager}
                         setEkskluderteUkedager={setEkskluderteUkedager}
                     />
                 )}

@@ -1,32 +1,31 @@
 import cn from 'classnames';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { Dispatch, ReactElement, SetStateAction, useEffect } from 'react';
 
 import { BodyShort, Box, Checkbox, HStack, Table } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverFragment } from '@io/graphql';
 import { dekorerTekst, getTypeIcon, tabellArbeidsdager } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
-import { DateString } from '@typer/shared';
-import { erHelg, somNorskDato } from '@utils/date';
+import { DatePeriod, DateString } from '@typer/shared';
+import { erHelg, erIPeriode, somNorskDato } from '@utils/date';
 import { capitalizeArbeidsgiver } from '@utils/locale';
 
 import styles from './TilkommenTable.module.css';
 
 interface TilkommenInntektTableProps {
     arbeidsgivere: ArbeidsgiverFragment[];
-    fom: DateString;
-    tom: DateString;
-    setEkskluderteUkedager: (datoer: DateString[]) => void;
+    periode: DatePeriod;
+    ekskluderteUkedager: DateString[];
+    setEkskluderteUkedager: Dispatch<SetStateAction<DateString[]>>;
 }
 
 export const TilkommenInntektSkjemaTabell = ({
     arbeidsgivere,
-    fom,
-    tom,
+    periode,
+    ekskluderteUkedager,
     setEkskluderteUkedager,
 }: TilkommenInntektTableProps): ReactElement => {
-    const [valgteDatoer, setValgteDatoer] = useState<DateString[]>([]);
-    const arbeidsgiverdager = tabellArbeidsdager(arbeidsgivere).filter((dag) => dag.dato >= fom && dag.dato <= tom);
+    const arbeidsgiverdager = tabellArbeidsdager(arbeidsgivere).filter((dag) => erIPeriode(dag.dato, periode));
     const arbeidsgiverrad = arbeidsgiverdager.reduce((acc: string[], arbeidsgierdag) => {
         if (arbeidsgierdag.arbeidsgivere.length > acc.length) {
             return arbeidsgierdag.arbeidsgivere.map((dag) => dag.navn);
@@ -35,12 +34,15 @@ export const TilkommenInntektSkjemaTabell = ({
         }
     }, []);
     const valgbareArbeidsdager = arbeidsgiverdager.filter((dag) => !erHelg(dag.dato));
-    const toggleValgtDato = (dato: DateString) =>
-        setValgteDatoer((prev) => (prev.includes(dato) ? prev.filter((value) => value !== dato) : [...prev, dato]));
+    const toggleValgtdato = (dato: DateString) => {
+        setEkskluderteUkedager((prev) =>
+            prev.includes(dato) ? prev.filter((value) => value !== dato) : [...prev, dato],
+        );
+    };
 
     useEffect(() => {
-        setEkskluderteUkedager(valgteDatoer);
-    }, [valgteDatoer, setEkskluderteUkedager]);
+        setEkskluderteUkedager(ekskluderteUkedager);
+    }, [ekskluderteUkedager, setEkskluderteUkedager]);
 
     return (
         <Box
@@ -61,15 +63,16 @@ export const TilkommenInntektSkjemaTabell = ({
                         <Table.HeaderCell className={styles.datoKolonne}>
                             <HStack gap="2" align="center" wrap={false}>
                                 <Checkbox
-                                    checked={valgbareArbeidsdager.length === valgteDatoer.length}
+                                    checked={valgbareArbeidsdager.length === ekskluderteUkedager.length}
                                     indeterminate={
-                                        valgteDatoer.length > 0 && valgteDatoer.length !== valgbareArbeidsdager.length
+                                        ekskluderteUkedager.length > 0 &&
+                                        ekskluderteUkedager.length !== valgbareArbeidsdager.length
                                     }
                                     onChange={() => {
-                                        if (valgteDatoer.length > 0) {
-                                            setValgteDatoer([]);
+                                        if (ekskluderteUkedager.length > 0) {
+                                            setEkskluderteUkedager([]);
                                         } else {
-                                            setValgteDatoer(valgbareArbeidsdager.map((dag) => dag.dato));
+                                            setEkskluderteUkedager(valgbareArbeidsdager.map((dag) => dag.dato));
                                         }
                                     }}
                                     hideLabel
@@ -90,43 +93,42 @@ export const TilkommenInntektSkjemaTabell = ({
                     </Table.Row>
                 </Table.Header>
                 <Table.Body className={styles.tabelBody}>
-                    {arbeidsgiverdager.map((dag) => (
-                        <Table.Row
-                            key={dag.dato + 'row'}
-                            className={cn(
-                                erHelg(dag.dato) && styles.helg,
-                                valgteDatoer.includes(dag.dato) && styles.valgteDatoer,
-                            )}
-                        >
-                            <Table.DataCell>
-                                <HStack align="center" paddingInline="2 0" wrap={false}>
-                                    {!erHelg(dag.dato) && (
-                                        <Checkbox
-                                            checked={valgteDatoer.includes(dag.dato)}
-                                            onChange={() => toggleValgtDato(dag.dato)}
-                                            aria-labelledby={`id-${dag.dato}`}
-                                            size="small"
-                                        >
-                                            {' '}
-                                        </Checkbox>
-                                    )}
-                                    <span id={`id-${dag.dato}`}>{somNorskDato(dag.dato)}</span>
-                                </HStack>
-                            </Table.DataCell>
-                            {dag.arbeidsgivere.map((arbeidsgiver) => (
-                                <Table.DataCell key={dag.dato + arbeidsgiver.navn}>
-                                    <HStack gap="1" align="center" paddingInline="1 0" wrap={false}>
-                                        <div className={styles.icon}>
-                                            {getTypeIcon(arbeidsgiver.dagtype, erHelg(dag.dato))}
-                                        </div>
-                                        <BodyShort style={{ whiteSpace: 'nowrap' }}>
-                                            {dekorerTekst(arbeidsgiver.dagtype, erHelg(dag.dato))}
-                                        </BodyShort>
+                    {arbeidsgiverdager.map((dag) => {
+                        const helg = erHelg(dag.dato);
+                        const valgt = ekskluderteUkedager.includes(dag.dato);
+                        return (
+                            <Table.Row
+                                key={dag.dato + 'row'}
+                                className={cn(helg && styles.helg, valgt && styles.valgteDatoer)}
+                            >
+                                <Table.DataCell>
+                                    <HStack align="center" paddingInline="2 0" wrap={false}>
+                                        {!helg && (
+                                            <Checkbox
+                                                checked={valgt}
+                                                onChange={() => toggleValgtdato(dag.dato)}
+                                                aria-labelledby={`id-${dag.dato}`}
+                                                size="small"
+                                            >
+                                                {' '}
+                                            </Checkbox>
+                                        )}
+                                        <span id={`id-${dag.dato}`}>{somNorskDato(dag.dato)}</span>
                                     </HStack>
                                 </Table.DataCell>
-                            ))}
-                        </Table.Row>
-                    ))}
+                                {dag.arbeidsgivere.map((arbeidsgiver) => (
+                                    <Table.DataCell key={dag.dato + arbeidsgiver.navn}>
+                                        <HStack gap="1" align="center" paddingInline="1 0" wrap={false}>
+                                            <div className={styles.icon}>{getTypeIcon(arbeidsgiver.dagtype, helg)}</div>
+                                            <BodyShort style={{ whiteSpace: 'nowrap' }}>
+                                                {dekorerTekst(arbeidsgiver.dagtype, helg)}
+                                            </BodyShort>
+                                        </HStack>
+                                    </Table.DataCell>
+                                ))}
+                            </Table.Row>
+                        );
+                    })}
                 </Table.Body>
             </Table>
         </Box>

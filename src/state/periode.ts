@@ -1,5 +1,5 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { useParams, usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
 import { ActivePeriod } from '@typer/shared';
@@ -27,21 +27,6 @@ export const useActivePeriod = (person: Maybe<PersonFragment>): Maybe<ActivePeri
     if (erPåTilkommenInntektSide || !person) return null;
 
     return findPeriod(activePeriodId, person) ?? findPeriodToSelect(person);
-};
-
-export const useSetActiveTilkommenInntektId = () => {
-    const { aktorId } = useParams<{ aktorId?: string }>();
-    const router = useRouter();
-
-    return (tilkommenInntektId: string) => {
-        router.push(`/person/${aktorId}/tilkommeninntekt/${tilkommenInntektId}`);
-    };
-};
-
-export const useActiveTilkommenInntektId = (): Maybe<string> => {
-    const { tilkommenInntektId } = useParams<{ tilkommenInntektId?: string }>();
-
-    return tilkommenInntektId !== undefined ? tilkommenInntektId : null;
 };
 
 export const useActivePeriodWithPerson = (person: PersonFragment): Maybe<ActivePeriod> => useActivePeriod(person);

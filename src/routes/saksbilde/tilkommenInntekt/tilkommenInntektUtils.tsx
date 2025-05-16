@@ -1,15 +1,15 @@
-import dayjs from 'dayjs';
 import { ReactElement } from 'react';
 
-import { ArbeidsgiverFragment, PersonFragment, TilkommenInntektskilde, Utbetalingsdagtype } from '@io/graphql';
+import { ArbeidsgiverFragment, PersonFragment, Utbetalingsdagtype } from '@io/graphql';
 import { IconArbeidsdag } from '@saksbilde/table/icons/IconArbeidsdag';
 import { IconFailure } from '@saksbilde/table/icons/IconFailure';
 import { IconFerie } from '@saksbilde/table/icons/IconFerie';
 import { IconSyk } from '@saksbilde/table/icons/IconSyk';
-import { DateString } from '@typer/shared';
-import { ISO_DATOFORMAT, erHelg } from '@utils/date';
+import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
+import { DatePeriod, DateString } from '@typer/shared';
+import { erHelg, plussEnDag } from '@utils/date';
 
-export function utledSykefraværstilfeller(person: PersonFragment) {
+export function utledSykefraværstilfelleperioder(person: PersonFragment): DatePeriod[] {
     const vedtaksperioder = person.arbeidsgivere
         .flatMap((ag) => ag.generasjoner[0]?.perioder)
         .filter((periode) => periode != null)
@@ -24,29 +24,29 @@ export function utledSykefraværstilfeller(person: PersonFragment) {
             (acc, periode) => {
                 const key = periode.skjæringstidspunkt;
                 if (!acc[key]) {
-                    acc[key] = { ...periode };
+                    acc[key] = { fom: periode.fom, tom: periode.tom };
                 } else {
-                    acc[key].fom = acc[key].fom < periode.fom ? acc[key].fom : periode.fom;
-                    acc[key].tom = acc[key].tom > periode.tom ? acc[key].tom : periode.tom;
+                    if (periode.fom < acc[key].fom) {
+                        acc[key].fom = periode.fom;
+                    }
+                    if (periode.tom > acc[key].tom) {
+                        acc[key].tom = periode.tom;
+                    }
                 }
                 return acc;
             },
-            {} as Record<string, { fom: string; tom: string; skjæringstidspunkt: string }>,
+            {} as Record<string, DatePeriod>,
         ),
     );
 }
 
-export function lagEksisterendePerioder(tilkommeneInntektskilder: TilkommenInntektskilde[]) {
-    const map = new Map<string, { fom: string; tom: string }[]>();
-    tilkommeneInntektskilder.forEach((inntektskilde) =>
-        map.set(
-            inntektskilde.organisasjonsnummer,
-            inntektskilde.inntekter.map((inntekt) => ({
-                fom: inntekt.periode.fom,
-                tom: inntekt.periode.tom,
-            })),
-        ),
-    );
+export function tilPerioderPerOrganisasjonsnummer(tilkomneInntekter: TilkommenInntektMedOrganisasjonsnummer[]) {
+    const map = new Map<string, DatePeriod[]>();
+    tilkomneInntekter.forEach((tilkommenInntekt) => {
+        const liste = map.get(tilkommenInntekt.organisasjonsnummer) ?? [];
+        liste.push({ fom: tilkommenInntekt.periode.fom, tom: tilkommenInntekt.periode.tom });
+        map.set(tilkommenInntekt.organisasjonsnummer, liste);
+    });
     return map;
 }
 
@@ -58,13 +58,12 @@ export function beregnInntektPerDag(
 ) {
     let antallDagerTilGradering = 0;
 
-    let dag = dayjs(fom);
-    while (dag.isSameOrBefore(dayjs(tom))) {
-        const dato = dag.format(ISO_DATOFORMAT);
-        if (!erHelg(dato) && !ekskluderteUkedager.includes(dato)) {
+    let dag = fom;
+    while (dag <= tom) {
+        if (!erHelg(dag) && !ekskluderteUkedager.includes(dag)) {
             antallDagerTilGradering++;
         }
-        dag = dag.add(1, 'day');
+        dag = plussEnDag(dag);
     }
 
     return periodebeløp / antallDagerTilGradering;
@@ -108,7 +107,9 @@ export const tabellArbeidsdager = (arbeidsgivere: ArbeidsgiverFragment[]): Tabel
         });
     });
 
-    return Array.from(gruppertPåDato.entries().map(([dato, arbeidsgivere]) => ({ dato, arbeidsgivere })));
+    return Array.from(
+        gruppertPåDato.entries().map(([dato, arbeidsgivere]) => ({ dato: dato, arbeidsgivere: arbeidsgivere })),
+    );
 };
 export const dekorerTekst = (dagtype: Utbetalingsdagtype, erHelg: boolean): string => {
     switch (dagtype) {

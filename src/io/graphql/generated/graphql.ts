@@ -5884,6 +5884,14 @@ export type OpprettTildelingMutation = {
 
 export type TildelingFragment = { __typename: 'Tildeling'; navn: string; oid: string; epost: string };
 
+export type EndreTilkommenInntektMutationVariables = Exact<{
+    endretTil: TilkommenInntektInput;
+    notatTilBeslutter: Scalars['String']['input'];
+    tilkommenInntektId: Scalars['UUID']['input'];
+}>;
+
+export type EndreTilkommenInntektMutation = { __typename: 'Mutation'; endreTilkommenInntekt: boolean };
+
 export type FjernTilkommenInntektMutationVariables = Exact<{
     notatTilBeslutter: Scalars['String']['input'];
     tilkommenInntektId: Scalars['UUID']['input'];
@@ -13727,6 +13735,62 @@ export const OpprettTildelingDocument = {
         },
     ],
 } as unknown as DocumentNode<OpprettTildelingMutation, OpprettTildelingMutationVariables>;
+export const EndreTilkommenInntektDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'EndreTilkommenInntekt' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'endretTil' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'TilkommenInntektInput' } },
+                    },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatTilBeslutter' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'tilkommenInntektId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endreTilkommenInntekt' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'endretTil' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'endretTil' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'notatTilBeslutter' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'notatTilBeslutter' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'tilkommenInntektId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'tilkommenInntektId' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<EndreTilkommenInntektMutation, EndreTilkommenInntektMutationVariables>;
 export const FjernTilkommenInntektDocument = {
     kind: 'Document',
     definitions: [

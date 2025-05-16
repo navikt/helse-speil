@@ -4,8 +4,8 @@ import { lagTilkommenInntektSchema } from '@/form-schemas/index';
 
 const validerTilkommenInntektSkjema = (
     organisasjonsnummer: unknown = '947064649',
-    fom: unknown = '2020-01-02',
-    tom: unknown = '2020-01-02',
+    fom: unknown = '02.01.2020',
+    tom: unknown = '02.01.2020',
     periodebeløp: unknown = 1000,
     notat: unknown = 'Dette er et notat',
 ) => {
@@ -14,15 +14,15 @@ const validerTilkommenInntektSkjema = (
         { fom: '2020-02-01', tom: '2020-02-02' },
         { fom: '2020-03-01', tom: '2020-03-02' },
     ]);
-    const vedtaksperioder = [
+    const sykefraværstilfelleperioder = [
         {
             fom: '2020-01-01',
-            tom: '2020-01-19',
+            tom: '2020-02-19',
             skjæringstidspunkt: '2020-01-01',
         },
     ];
     return lagTilkommenInntektSchema(
-        vedtaksperioder,
+        sykefraværstilfelleperioder,
         eksisterendePerioder,
         () => '947064649' === organisasjonsnummer,
     ).safeParse({
@@ -65,49 +65,49 @@ describe('tilkommenIkktekt skjemavalidering', () => {
     });
 
     it('fom skal være gyldig dato', () => {
-        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '2020-31-02'))).toBe(
-            'F.o.m. er ikke gyldig dato',
+        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '02.31.2020'))).toBe(
+            'Fra og med-datoen er ikke en gyldig norsk dato',
         );
     });
 
     it('fom skal være tidligst en dag etter skjæringstidspunkt', () => {
-        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '2020-01-01'))).toBe(
-            'Datoen må være etter skjæringstidspunktet',
+        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '01.01.2020'))).toBe(
+            'Fra og med-dato må være etter skjæringstidspunktet',
         );
     });
 
     it('tom skal være gyldig dato', () => {
-        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '2020-01-02', '2020-01-99'))).toBe(
-            'T.o.m. er ikke gyldig dato',
+        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '02.01.2020', '99.01.2020'))).toBe(
+            'Til og med-datoen er ikke en gyldig norsk dato',
         );
     });
 
     it('fom skal være før tom', () => {
-        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '2020-01-02', '2020-01-01'))).toBe(
-            'Periode f.o.m. må være før t.o.m.',
+        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '02.01.2020', '01.01.2020'))).toBe(
+            'Fra og med-dato må være før eller lik til og med-dato',
         );
     });
 
     it('periode skal ikke overlappe med eksisterende perioder', () => {
-        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '2020-01-02', '2020-02-02'))).toBe(
-            'Oppgitt periode overlapper med eksisterende perioder',
+        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '02.01.2020', '02.02.2020'))).toBe(
+            'Oppgitt periode overlapper med en annen periode for arbeidsgiveren',
         );
     });
 
     it('periode skal være innenfor et sykefraværstilfelle', () => {
-        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '2020-01-02', '2020-01-20'))).toBe(
-            'Oppgitt periode skal være innenfor et sykefraværstilfelle',
+        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '02.01.2020', '20.02.2020'))).toBe(
+            'Oppgitt periode må være innenfor et sykefraværstilfelle',
         );
     });
 
     it('periodebeløp skal være et positivt tall', () => {
-        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '2020-01-02', '2020-01-03', -1000))).toBe(
+        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '02.01.2020', '03.01.2020', -1000))).toBe(
             'Inntekt for perioden må være et positivt tall',
         );
     });
 
     it('notat må fylles ut', () => {
-        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '2020-01-02', '2020-01-03', 1000, ''))).toBe(
+        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '02.01.2020', '03.01.2020', 1000, ''))).toBe(
             'Notat til beslutter er påkrevd',
         );
     });

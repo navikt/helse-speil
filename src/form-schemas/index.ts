@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-import { DateString } from '@typer/shared';
+import { DatePeriod } from '@typer/shared';
+import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, perioderOverlapper } from '@utils/date';
 
 export type StansAutomatiskBehandlingSchema = z.infer<typeof stansAutomatiskBehandlingSchema>;
 export const stansAutomatiskBehandlingSchema = z.object({
@@ -11,9 +12,10 @@ export const stansAutomatiskBehandlingSchema = z.object({
 });
 
 export type TilkommenInntektSchema = z.infer<ReturnType<typeof lagTilkommenInntektSchema>>;
+
 export const lagTilkommenInntektSchema = (
-    vedtaksperioder: { fom: DateString; tom: DateString; skjæringstidspunkt: DateString }[],
-    eksisterendePerioder: Map<string, { fom: DateString; tom: DateString }[]>,
+    sykefraværstilfelleperioder: DatePeriod[],
+    andreTilkomneInntektPerioder: Map<string, DatePeriod[]>,
     organisasjonEksisterer: () => boolean,
 ) => {
     const validerKontrollsiffer = (organisasjonsnummer: string) => {
@@ -33,34 +35,51 @@ export const lagTilkommenInntektSchema = (
                 .refine((value) => value.length === 9, 'Organisasjonsnummer må være 9 siffer')
                 .refine(validerKontrollsiffer, 'Organisasjonsnummer må ha gyldig kontrollsiffer')
                 .refine(organisasjonEksisterer, 'Organisasjon må eksistere i enhetsregisteret'),
-            fom: z.string().min(1, { message: 'F.o.m. er påkrevd' }).date('F.o.m. er ikke gyldig dato'),
-            tom: z.string().min(1, { message: 'T.o.m. er påkrevd' }).date('T.o.m. er ikke gyldig dato'),
+            fom: z
+                .string()
+                .min(1, { message: 'Fra og med-dato er påkrevd' })
+                .refine((value) => erGyldigNorskDato(value), 'Fra og med-datoen er ikke en gyldig norsk dato'),
+            tom: z
+                .string()
+                .min(1, { message: 'Til og med-dato er påkrevd' })
+                .refine((value) => erGyldigNorskDato(value), 'Til og med-datoen er ikke en gyldig norsk dato'),
             periodebeløp: z.coerce.number().nonnegative('Inntekt for perioden må være et positivt tall'),
             notat: z.string().min(1, { message: 'Notat til beslutter er påkrevd' }),
         })
-        .refine(({ fom, tom }) => fom <= tom, {
-            message: 'Periode f.o.m. må være før t.o.m.',
+        .refine(({ fom, tom }) => norskDatoTilIsoDato(fom) <= norskDatoTilIsoDato(tom), {
+            message: 'Fra og med-dato må være før eller lik til og med-dato',
             path: ['fom'],
         })
+        .superRefine(({ fom, tom }, ctx) => {
+            const fomIso = norskDatoTilIsoDato(fom);
+            const tomIso = norskDatoTilIsoDato(tom);
+            const sykefraværstilfelleperiode = sykefraværstilfelleperioder.find(
+                (sykefraværstilfelleperiode) =>
+                    erIPeriode(fomIso, sykefraværstilfelleperiode) && erIPeriode(tomIso, sykefraværstilfelleperiode),
+            );
+            if (sykefraværstilfelleperiode === undefined) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ['fom'],
+                    message: 'Oppgitt periode må være innenfor et sykefraværstilfelle',
+                });
+            } else if (fomIso === sykefraværstilfelleperiode.fom) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ['fom'],
+                    message: 'Fra og med-dato må være etter skjæringstidspunktet',
+                });
+            }
+        })
         .refine(
-            ({ organisasjonsnummer, fom, tom }) =>
-                !eksisterendePerioder
+            ({ organisasjonsnummer, fom, tom }) => {
+                const periode: DatePeriod = { fom: norskDatoTilIsoDato(fom), tom: norskDatoTilIsoDato(tom) };
+                return !andreTilkomneInntektPerioder
                     .get(organisasjonsnummer)
-                    ?.some((eksisterendePeriode) => eksisterendePeriode.fom <= tom && eksisterendePeriode.tom >= fom),
-            {
-                message: 'Oppgitt periode overlapper med eksisterende perioder',
-                path: ['fom'],
+                    ?.some((annenPeriode) => perioderOverlapper(periode, annenPeriode));
             },
-        )
-        .refine(({ fom }) => vedtaksperioder.some((periode) => fom > periode.skjæringstidspunkt), {
-            message: 'Datoen må være etter skjæringstidspunktet',
-            path: ['fom'],
-        })
-        .refine(
-            ({ fom, tom }) =>
-                vedtaksperioder.some((vedtaksperiode) => fom >= vedtaksperiode.fom && tom <= vedtaksperiode.tom),
             {
-                message: 'Oppgitt periode skal være innenfor et sykefraværstilfelle',
+                message: 'Oppgitt periode overlapper med en annen periode for arbeidsgiveren',
                 path: ['fom'],
             },
         );

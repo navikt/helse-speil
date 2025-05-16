@@ -1,7 +1,8 @@
 import cn from 'classnames';
+import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
-import { PlusCircleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
+import { PersonPencilIcon, PlusCircleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, Button, CopyButton, HStack, Heading, Table, Textarea, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
@@ -19,7 +20,7 @@ import {
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { useFetchPersonQuery } from '@state/person';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
-import { erHelg, getFormattedDatetimeString, somNorskDato } from '@utils/date';
+import { erHelg, erIPeriode, getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { capitalizeArbeidsgiver, somPenger } from '@utils/locale';
 
 interface TilkommenInntektVisningProps {
@@ -32,6 +33,7 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
     const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
         person?.fodselsnummer,
     );
+    const router = useRouter();
     const [fjernTilkommenInntekt] = useMutation(FjernTilkommenInntektDocument);
     const [fjerningBegrunnelse, setFjerningBegrunnelse] = useState<string>('');
     const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektData?.tilkomneInntektskilderV2
@@ -55,13 +57,12 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
 
     if (!tilkommenInntekt || !organisasjonsnummer) return null;
 
-    const fom = tilkommenInntekt.periode.fom;
-    const tom = tilkommenInntekt.periode.tom;
-
     const organisasjonsnavn = orgData?.organisasjon?.navn;
 
     const arbeidsgivere = person?.arbeidsgivere ?? [];
-    const arbeidsgiverdager = tabellArbeidsdager(arbeidsgivere).filter((dag) => dag.dato >= fom && dag.dato <= tom);
+    const arbeidsgiverdager = tabellArbeidsdager(arbeidsgivere).filter((dag) =>
+        erIPeriode(dag.dato, tilkommenInntekt.periode),
+    );
     const arbeidsgiverrad = arbeidsgiverdager.reduce((acc: string[], arbeidsgierdag) => {
         if (arbeidsgierdag.arbeidsgivere.length > acc.length) {
             return arbeidsgierdag.arbeidsgivere.map((dag) => dag.navn);
@@ -71,8 +72,8 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
     }, []);
     const inntektPerDag = beregnInntektPerDag(
         Number(tilkommenInntekt.periodebelop),
-        fom,
-        tom,
+        tilkommenInntekt.periode.fom,
+        tilkommenInntekt.periode.tom,
         tilkommenInntekt.ekskluderteUkedager,
     );
 
@@ -92,6 +93,16 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
     };
     return (
         <>
+            {!tilkommenInntekt.fjernet && (
+                <Button
+                    variant="tertiary"
+                    size="small"
+                    icon={<PersonPencilIcon />}
+                    onClick={() => router.push(tilkommenInntektId + '/endre')}
+                >
+                    Endre
+                </Button>
+            )}
             <Box overflowX="scroll">
                 <HStack wrap={false}>
                     <VStack paddingBlock="8 6" paddingInline="2 0">
@@ -129,11 +140,11 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                                 <HStack wrap={false} gap="24">
                                     <VStack>
                                         <BodyShort weight="semibold">Periode f.o.m.</BodyShort>
-                                        <BodyShort>{somNorskDato(fom)}</BodyShort>
+                                        <BodyShort>{somNorskDato(tilkommenInntekt.periode.fom)}</BodyShort>
                                     </VStack>
                                     <VStack>
                                         <BodyShort weight="semibold">Periode t.o.m.</BodyShort>
-                                        <BodyShort>{somNorskDato(tom)}</BodyShort>
+                                        <BodyShort>{somNorskDato(tilkommenInntekt.periode.tom)}</BodyShort>
                                     </VStack>
                                 </HStack>
                             </VStack>
@@ -239,32 +250,32 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body className={styles.tabelBody}>
-                                {arbeidsgiverdager.map((dag) => (
-                                    <Table.Row
-                                        key={dag.dato + 'row'}
-                                        className={cn(
-                                            erHelg(dag.dato) && styles.helg,
-                                            tilkommenInntekt.ekskluderteUkedager.includes(dag.dato) &&
-                                                styles.valgteDatoer,
-                                        )}
-                                    >
-                                        <Table.DataCell>
-                                            <span id={`id-${dag.dato}`}>{somNorskDato(dag.dato)}</span>
-                                        </Table.DataCell>
-                                        {dag.arbeidsgivere.map((arbeidsgiver) => (
-                                            <Table.DataCell key={dag.dato + arbeidsgiver.navn}>
-                                                <HStack gap="1" align="center" paddingInline="1 0" wrap={false}>
-                                                    <div className={styles.icon}>
-                                                        {getTypeIcon(arbeidsgiver.dagtype, erHelg(dag.dato))}
-                                                    </div>
-                                                    <BodyShort style={{ whiteSpace: 'nowrap' }}>
-                                                        {dekorerTekst(arbeidsgiver.dagtype, erHelg(dag.dato))}
-                                                    </BodyShort>
-                                                </HStack>
+                                {arbeidsgiverdager.map((dag) => {
+                                    const helg = erHelg(dag.dato);
+                                    const valgt = tilkommenInntekt.ekskluderteUkedager.includes(dag.dato);
+                                    return (
+                                        <Table.Row
+                                            key={dag.dato + 'row'}
+                                            className={cn(helg && styles.helg, valgt && styles.valgteDatoer)}
+                                        >
+                                            <Table.DataCell>
+                                                <span id={`id-${dag.dato}`}>{somNorskDato(dag.dato)}</span>
                                             </Table.DataCell>
-                                        ))}
-                                    </Table.Row>
-                                ))}
+                                            {dag.arbeidsgivere.map((arbeidsgiver) => (
+                                                <Table.DataCell key={dag.dato + arbeidsgiver.navn}>
+                                                    <HStack gap="1" align="center" paddingInline="1 0" wrap={false}>
+                                                        <div className={styles.icon}>
+                                                            {getTypeIcon(arbeidsgiver.dagtype, helg)}
+                                                        </div>
+                                                        <BodyShort style={{ whiteSpace: 'nowrap' }}>
+                                                            {dekorerTekst(arbeidsgiver.dagtype, helg)}
+                                                        </BodyShort>
+                                                    </HStack>
+                                                </Table.DataCell>
+                                            ))}
+                                        </Table.Row>
+                                    );
+                                })}
                             </Table.Body>
                         </Table>
                     </Box>

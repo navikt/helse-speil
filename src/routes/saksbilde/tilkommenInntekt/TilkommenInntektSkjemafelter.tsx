@@ -18,20 +18,26 @@ import {
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { Maybe } from '@io/graphql';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/ControlledDatePicker';
+import { DatePeriod } from '@typer/shared';
+import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag } from '@utils/date';
 
 interface TilkommenInntektSkjemaProps {
     form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
+    heading: string;
     handleSubmit: (values: TilkommenInntektSchema) => Promise<void>;
-    inntektPerDag: number;
+    inntektPerDag?: number;
     organisasjonsnavn?: string;
+    sykefraværstilfelleperioder: DatePeriod[];
     loading: boolean;
 }
 
 export const TilkommenInntektSkjemafelter = ({
     form,
+    heading,
     handleSubmit,
     inntektPerDag,
     organisasjonsnavn,
+    sykefraværstilfelleperioder,
     loading,
 }: TilkommenInntektSkjemaProps): Maybe<ReactElement> => {
     const router = useRouter();
@@ -40,6 +46,29 @@ export const TilkommenInntektSkjemafelter = ({
         (feil) => feil !== undefined,
     );
 
+    const fom = form.watch('fom');
+    const tom = form.watch('tom');
+
+    const erGyldigFom = (dato: string) => {
+        const isoDato = norskDatoTilIsoDato(dato);
+        return (
+            sykefraværstilfelleperioder.some((periode) =>
+                erIPeriode(isoDato, { fom: plussEnDag(periode.fom), tom: periode.tom }),
+            ) &&
+            (!erGyldigNorskDato(tom) || isoDato <= norskDatoTilIsoDato(tom))
+        );
+    };
+
+    const erGyldigTom = (dato: string) => {
+        const isoDato = norskDatoTilIsoDato(dato);
+        return (
+            sykefraværstilfelleperioder.some((periode) =>
+                erIPeriode(isoDato, { fom: plussEnDag(periode.fom), tom: periode.tom }),
+            ) &&
+            (!erGyldigNorskDato(fom) || isoDato >= norskDatoTilIsoDato(fom))
+        );
+    };
+
     const organisasjonsnummerFeil = form.formState.errors.organisasjonsnummer?.message;
 
     return (
@@ -47,7 +76,7 @@ export const TilkommenInntektSkjemafelter = ({
             <form onSubmit={form.handleSubmit(handleSubmit)}>
                 <VStack paddingBlock="8 6" paddingInline="2 0">
                     <Heading level="2" size="small" spacing>
-                        Legg til tilkommen inntekt
+                        {heading}
                     </Heading>
                     <Box
                         background={'surface-subtle'}
@@ -98,7 +127,8 @@ export const TilkommenInntektSkjemafelter = ({
                                             field={field}
                                             label="Periode f.o.m"
                                             error={fieldState.error?.message}
-                                            defaultMonth={new Date()}
+                                            gyldigePerioder={sykefraværstilfelleperioder}
+                                            erGyldigDato={erGyldigFom}
                                             id="fom"
                                         />
                                     )}
@@ -111,7 +141,8 @@ export const TilkommenInntektSkjemafelter = ({
                                             field={field}
                                             label="Periode t.o.m"
                                             error={fieldState.error?.message}
-                                            defaultMonth={new Date()}
+                                            gyldigePerioder={sykefraværstilfelleperioder}
+                                            erGyldigDato={erGyldigTom}
                                             id="tom"
                                         />
                                     )}
@@ -146,11 +177,13 @@ export const TilkommenInntektSkjemafelter = ({
                                 readOnly
                                 style={{ width: 'var(--a-spacing-24)' }}
                                 value={
-                                    Number.isNaN(inntektPerDag) || !Number.isFinite(inntektPerDag)
+                                    inntektPerDag === undefined ||
+                                    Number.isNaN(inntektPerDag) ||
+                                    !Number.isFinite(inntektPerDag)
                                         ? ''
                                         : Number.isSafeInteger(inntektPerDag)
                                           ? inntektPerDag
-                                          : inntektPerDag.toFixed(1)
+                                          : inntektPerDag.toFixed(2)
                                 }
                             />
                         </HStack>

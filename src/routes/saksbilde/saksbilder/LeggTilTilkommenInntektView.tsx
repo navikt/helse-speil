@@ -1,27 +1,75 @@
 'use client';
 
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 
-import { Box } from '@navikt/ds-react/Box';
-
-import { Maybe } from '@io/graphql';
+import { TilkommenInntektSchema } from '@/form-schemas';
+import { useMutation } from '@apollo/client';
+import { LeggTilTilkommenInntektDocument, Maybe } from '@io/graphql';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
-import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { useNavigerTilTilkommenInntekt } from '@state/routing';
+import { TilkommenInntektMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { DateString } from '@typer/shared';
+import { norskDatoTilIsoDato } from '@utils/date';
 
 export const LeggTilTilkommenInntektView = (): Maybe<ReactElement> => {
-    const { data } = useFetchPersonQuery();
-    const person = data?.person ?? null;
-    const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(person?.fodselsnummer);
-    const tilkomneInntektskilder = tilkommenInntektData?.tilkomneInntektskilderV2;
+    const { data: personData } = useFetchPersonQuery();
+    const person = personData?.person ?? null;
+    const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
+        person?.fodselsnummer,
+    );
+    const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =
+        tilkommenInntektData?.tilkomneInntektskilderV2?.flatMap((tilkommenInntektskilde) =>
+            tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
+                organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,
+                ...tilkommenInntekt,
+            })),
+        );
+    const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
+    const [leggTilTilkommenInntekt] = useMutation(LeggTilTilkommenInntektDocument);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [ekskluderteUkedager, setEkskluderteUkedager] = useState<DateString[]>([]);
 
-    if (!person || !tilkomneInntektskilder) {
+    if (!person || !tilkomneInntekterMedOrganisasjonsnummer) {
         return null;
     }
 
+    const handleSubmit = async (values: TilkommenInntektSchema) => {
+        setIsSubmitting(true);
+        await leggTilTilkommenInntekt({
+            variables: {
+                fodselsnummer: person.fodselsnummer,
+                notatTilBeslutter: values.notat,
+                tilkommenInntekt: {
+                    periode: {
+                        fom: norskDatoTilIsoDato(values.fom),
+                        tom: norskDatoTilIsoDato(values.tom),
+                    },
+                    organisasjonsnummer: values.organisasjonsnummer,
+                    periodebelop: values.periodebeløp.toString(),
+                    ekskluderteUkedager: ekskluderteUkedager,
+                },
+            },
+            onCompleted: (data) => {
+                tilkommenInntektRefetch().then(() => {
+                    navigerTilTilkommenInntekt(data.leggTilTilkommenInntekt.tilkommenInntektId);
+                });
+            },
+        });
+    };
     return (
-        <Box overflowX="scroll">
-            <TilkommenInntektSkjema person={person} tilkommeneInntektskilder={tilkomneInntektskilder} />
-        </Box>
+        <TilkommenInntektSkjema
+            person={person}
+            andreTilkomneInntekter={tilkomneInntekterMedOrganisasjonsnummer}
+            heading="Legg til tilkommen inntekt"
+            startOrganisasjonsnummer=""
+            startFom=""
+            startTom=""
+            startPeriodebeløp={0}
+            ekskluderteUkedager={ekskluderteUkedager}
+            setEkskluderteUkedager={setEkskluderteUkedager}
+            isSubmitting={isSubmitting}
+            handleSubmit={handleSubmit}
+        />
     );
 };

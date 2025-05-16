@@ -14,7 +14,12 @@ import { cwd } from 'process';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
-import { Maybe, MutationFjernTilkommenInntektArgs, MutationLeggTilTilkommenInntektArgs } from '@io/graphql';
+import {
+    Maybe,
+    MutationEndreTilkommenInntektArgs,
+    MutationFjernTilkommenInntektArgs,
+    MutationLeggTilTilkommenInntektArgs,
+} from '@io/graphql';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
@@ -214,6 +219,14 @@ const getResolvers = (): IResolvers => ({
         ) => {
             await sleep(2000);
             return TilkommenInntektMock.addTilkommenInntekt(fodselsnummer, notatTilBeslutter, verdier);
+        },
+        endreTilkommenInntekt: async (
+            _,
+            { endretTil, notatTilBeslutter, tilkommenInntektId }: MutationEndreTilkommenInntektArgs,
+        ) => {
+            await sleep(2000);
+            TilkommenInntektMock.endreTilkommenInntekt(endretTil, notatTilBeslutter, tilkommenInntektId);
+            return true;
         },
         fjernTilkommenInntekt: async (
             _,

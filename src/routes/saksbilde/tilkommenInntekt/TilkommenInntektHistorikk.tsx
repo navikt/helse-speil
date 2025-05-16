@@ -11,8 +11,8 @@ import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSideme
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { TilkommenInntektHendelse } from '@saksbilde/historikk/hendelser/TilkommenInntektHendelse';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
-import { useActiveTilkommenInntektId } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
+import { useTilkommenInntektIdFraUrl } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 
 import { useShowHistorikkState, useShowHøyremenyState } from '../historikk/state';
@@ -25,7 +25,7 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
     const { loading: hentTilkommenInntektLoading, data: hentTilkommenInntektData } = useHentTilkommenInntektQuery(
         person?.fodselsnummer,
     );
-    const tilkommenInntektId = useActiveTilkommenInntektId();
+    const tilkommenInntektId = useTilkommenInntektIdFraUrl();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showHøyremeny, _] = useShowHøyremenyState();
 

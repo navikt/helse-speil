@@ -6,7 +6,7 @@ import { BodyShort, Popover } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { TilkommenInntekt } from '@io/graphql';
 import { TilkommenInntektIkon } from '@saksbilde/timeline/icons';
-import { useActiveTilkommenInntektId, useSetActiveTilkommenInntektId } from '@state/periode';
+import { useNavigerTilTilkommenInntekt, useTilkommenInntektIdFraUrl } from '@state/routing';
 import { somNorskDato } from '@utils/date';
 
 import { useIsWiderThan } from './hooks/useIsWiderThan';
@@ -20,8 +20,8 @@ interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const TilkommenInntektPeriod = ({ tilkommenInntekt, ...buttonProps }: PeriodProps): ReactElement => {
-    const activeTilkommenInntektId = useActiveTilkommenInntektId();
-    const setActiveTilkommenInntektId = useSetActiveTilkommenInntektId();
+    const activeTilkommenInntektId = useTilkommenInntektIdFraUrl();
+    const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
@@ -31,7 +31,7 @@ export const TilkommenInntektPeriod = ({ tilkommenInntekt, ...buttonProps }: Per
 
     const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         buttonProps.onClick?.(event);
-        setActiveTilkommenInntektId(tilkommenInntekt.tilkommenInntektId);
+        navigerTilTilkommenInntekt(tilkommenInntekt.tilkommenInntektId);
     };
 
     return (

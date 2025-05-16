@@ -3,6 +3,7 @@ import {
     HentTilkommenInntektV2Document,
     HentTilkommenInntektV2Query,
     HentTilkommenInntektV2QueryVariables,
+    TilkommenInntekt,
 } from '@io/graphql';
 
 export const useHentTilkommenInntektQuery = (
@@ -15,4 +16,8 @@ export const useHentTilkommenInntektQuery = (
         },
         skip: !fødselsnummer,
     });
+};
+
+export type TilkommenInntektMedOrganisasjonsnummer = TilkommenInntekt & {
+    organisasjonsnummer: string;
 };
