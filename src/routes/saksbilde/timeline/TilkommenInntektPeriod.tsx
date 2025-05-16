@@ -5,13 +5,12 @@ import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { TilkommenInntekt } from '@io/graphql';
-import { TilkommenInntektIkon } from '@saksbilde/timeline/icons';
+import { FjernetTilkommenInntektIkon, TilkommenInntektIkon } from '@saksbilde/timeline/icons';
 import { useNavigerTilTilkommenInntekt, useTilkommenInntektIdFraUrl } from '@state/routing';
 import { somNorskDato } from '@utils/date';
 
 import { useIsWiderThan } from './hooks/useIsWiderThan';
 import { usePopoverAnchor } from './hooks/usePopoverAnchor';
-import { FjernetTilkommenInntektIkon } from './icons/FjernetTilkommenInntektIkon';
 
 import styles from './TilkommenInntektPeriod.module.css';
 
