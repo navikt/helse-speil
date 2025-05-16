@@ -54,7 +54,7 @@ describe('tilkommenIkktekt skjemavalidering', () => {
 
     it('organisasjonsnummer skal ha gyldig kontrollsiffer', () => {
         expect(hentFeilmelding(validerTilkommenInntektSkjema('947064641'))).toBe(
-            'Organisasjonsnummer må ha gyldig kontrollsiffer',
+            'Organisasjonsnummeret er ikke gyldig',
         );
     });
 
