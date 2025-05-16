@@ -3,7 +3,7 @@
     "data": {
         "tilkomneInntektskilder": [
             {
-                "organisasjonsnummer": "987654321",
+                "organisasjonsnummer": "901010102",
                 "inntekter": [
                     {
                         "tilkommenInntektId": "dd4660ce-2103-11f0-a5e6-7b066f8127aa",
@@ -36,7 +36,7 @@
                 ]
             },
             {
-                "organisasjonsnummer": "543216789",
+                "organisasjonsnummer": "902020209",
                 "inntekter": [
                     {
                         "tilkommenInntektId": "83cb5f0c-2416-11f0-9aec-a313ab9215cf",
@@ -144,7 +144,7 @@
                 ]
             },
             {
-                "organisasjonsnummer": "123456789",
+                "organisasjonsnummer": "903030305",
                 "inntekter": [
                     {
                         "tilkommenInntektId": "dd4660ce-2103-11f0-a5e6-7b066f8127ab",

@@ -162,7 +162,7 @@ const getResolvers = (): IResolvers => ({
             return person;
         },
         tilkomneInntektskilderV2: async (_, { fodselsnummer }: { fodselsnummer: string }) => {
-            return TilkommenInntektMock.getTilkomneInntektskilder(fodselsnummer);
+            return TilkommenInntektMock.tilkomneInntektskilderV2(fodselsnummer);
         },
         behandledeOppgaverFeedV2: async (
             _,
@@ -218,31 +218,28 @@ const getResolvers = (): IResolvers => ({
             { fodselsnummer, notatTilBeslutter, verdier }: MutationLeggTilTilkommenInntektArgs,
         ) => {
             await sleep(2000);
-            return TilkommenInntektMock.addTilkommenInntekt(fodselsnummer, notatTilBeslutter, verdier);
+            return TilkommenInntektMock.leggTilTilkommenInntekt(fodselsnummer, notatTilBeslutter, verdier);
         },
         endreTilkommenInntekt: async (
             _,
             { endretTil, notatTilBeslutter, tilkommenInntektId }: MutationEndreTilkommenInntektArgs,
         ) => {
             await sleep(2000);
-            TilkommenInntektMock.endreTilkommenInntekt(endretTil, notatTilBeslutter, tilkommenInntektId);
-            return true;
+            return TilkommenInntektMock.endreTilkommenInntekt(endretTil, notatTilBeslutter, tilkommenInntektId);
         },
         fjernTilkommenInntekt: async (
             _,
             { notatTilBeslutter, tilkommenInntektId }: MutationFjernTilkommenInntektArgs,
         ) => {
             await sleep(2000);
-            TilkommenInntektMock.fjernTilkommenInntekt(notatTilBeslutter, tilkommenInntektId);
-            return true;
+            return TilkommenInntektMock.fjernTilkommenInntekt(notatTilBeslutter, tilkommenInntektId);
         },
         gjenopprettTilkommenInntekt: async (
             _,
             { endretTil, notatTilBeslutter, tilkommenInntektId }: MutationEndreTilkommenInntektArgs,
         ) => {
             await sleep(2000);
-            TilkommenInntektMock.gjenopprettTilkommenInntekt(endretTil, notatTilBeslutter, tilkommenInntektId);
-            return true;
+            return TilkommenInntektMock.gjenopprettTilkommenInntekt(endretTil, notatTilBeslutter, tilkommenInntektId);
         },
         leggTilNotat: (_, { type, vedtaksperiodeId, tekst }: MutationLeggTilNotatArgs) => {
             return NotatMock.addNotat(vedtaksperiodeId, {

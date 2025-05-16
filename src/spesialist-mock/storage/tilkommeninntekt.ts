@@ -8,7 +8,9 @@ import {
     LeggTilTilkommenInntektResponse,
     TilkommenInntekt,
     TilkommenInntektEndretEvent,
+    TilkommenInntektEvent,
     TilkommenInntektEventEndringer,
+    TilkommenInntektEventMetadata,
     TilkommenInntektFjernetEvent,
     TilkommenInntektGjenopprettetEvent,
     TilkommenInntektInput,
@@ -17,7 +19,7 @@ import {
 } from '@spesialist-mock/schemaTypes';
 
 export class TilkommenInntektMock {
-    private static tilkomneInntektskilder: Map<string, Array<TilkommenInntektskilde>> = new Map();
+    private static inntektskilder: Map<string, Array<TilkommenInntektskilde>> = new Map();
 
     static {
         const url = path.join(cwd(), 'src/spesialist-mock/data/tilkommenInntekt');
@@ -28,185 +30,201 @@ export class TilkommenInntektMock {
         });
 
         tilkommenInntektMockFiler.forEach((tilkommenInntektMockFil) => {
-            TilkommenInntektMock.tilkomneInntektskilder.set(
+            TilkommenInntektMock.inntektskilder.set(
                 tilkommenInntektMockFil.fodselsnummer,
                 tilkommenInntektMockFil.data.tilkomneInntektskilder,
             );
         });
     }
 
-    static getTilkomneInntektskilder = (fødselsnummer: string): Array<TilkommenInntektskilde> => {
-        return TilkommenInntektMock.tilkomneInntektskilder.get(fødselsnummer) ?? [];
-    };
-
-    static fjernTilkommenInntekt = (notatTilBeslutter: string, tilkommenInntektId: string): void => {
-        TilkommenInntektMock.tilkomneInntektskilder
-            .values()
-            .flatMap((liste) => liste)
-            .flatMap((tilkommenInntektskilde) => tilkommenInntektskilde.inntekter)
-            .filter((inntekt) => inntekt.tilkommenInntektId === tilkommenInntektId)
-            .forEach((inntekt) => {
-                const høyesteSekvensnummer = Math.max(...inntekt.events.map((it) => it.metadata.sekvensnummer));
-                const event: TilkommenInntektFjernetEvent = {
-                    __typename: 'TilkommenInntektFjernetEvent',
-                    metadata: {
-                        __typename: 'TilkommenInntektEventMetadata',
-                        notatTilBeslutter: notatTilBeslutter,
-                        sekvensnummer: høyesteSekvensnummer + 1,
-                        tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-                        utfortAvSaksbehandlerIdent: 'a1234567',
-                    },
-                };
-                inntekt.events.push(event);
-                inntekt.fjernet = true;
-            });
-    };
-
-    static addTilkommenInntekt = (
+    static leggTilTilkommenInntekt = (
         fødselsnummer: string,
         notatTilBeslutter: string,
         verdier: TilkommenInntektInput,
     ): LeggTilTilkommenInntektResponse => {
         const nyTilkommenInntektId = v4();
-        const tilkomneInntektskilder = TilkommenInntektMock.getTilkomneInntektskilder(fødselsnummer);
-        const eksisterende = tilkomneInntektskilder.find(
-            (eksisterendeInntektskilde: TilkommenInntektskilde) =>
-                eksisterendeInntektskilde.organisasjonsnummer == verdier.organisasjonsnummer,
+        const tilkommenInntektskilde = TilkommenInntektMock.finnEllerLeggTilInntektskilde(
+            verdier.organisasjonsnummer,
+            TilkommenInntektMock.inntektskilder.get(fødselsnummer) ?? [],
         );
-        const tilkommenInntektskilde = eksisterende ?? {
-            __typename: 'TilkommenInntektskilde',
-            organisasjonsnummer: verdier.organisasjonsnummer,
-            inntekter: [],
-        };
-        if (!eksisterende) {
-            tilkomneInntektskilder.push(tilkommenInntektskilde);
-        }
-        const event: TilkommenInntektOpprettetEvent = {
-            __typename: 'TilkommenInntektOpprettetEvent',
-            metadata: {
-                __typename: 'TilkommenInntektEventMetadata',
-                notatTilBeslutter: notatTilBeslutter,
-                sekvensnummer: 1,
-                tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-                utfortAvSaksbehandlerIdent: 'a1234567',
-            },
-            ekskluderteUkedager: verdier.ekskluderteUkedager,
-            organisasjonsnummer: verdier.organisasjonsnummer,
-            periode: verdier.periode,
-            periodebelop: verdier.periodebelop,
-        };
-        tilkommenInntektskilde.inntekter.push({
+        const inntekt: TilkommenInntekt = {
             __typename: 'TilkommenInntekt',
             ekskluderteUkedager: verdier.ekskluderteUkedager,
-            events: [event],
+            events: [
+                {
+                    __typename: 'TilkommenInntektOpprettetEvent',
+                    metadata: TilkommenInntektMock.byggEventMetadata(notatTilBeslutter, []),
+                    ekskluderteUkedager: verdier.ekskluderteUkedager,
+                    organisasjonsnummer: verdier.organisasjonsnummer,
+                    periode: verdier.periode,
+                    periodebelop: verdier.periodebelop,
+                } as TilkommenInntektOpprettetEvent,
+            ],
             fjernet: false,
             periode: verdier.periode,
             periodebelop: verdier.periodebelop,
             tilkommenInntektId: nyTilkommenInntektId,
-        });
+        };
+        tilkommenInntektskilde.inntekter.push(inntekt);
+
         return { __typename: 'LeggTilTilkommenInntektResponse', tilkommenInntektId: nyTilkommenInntektId };
+    };
+
+    static tilkomneInntektskilderV2 = (fødselsnummer: string): Array<TilkommenInntektskilde> => {
+        return TilkommenInntektMock.inntektskilder.get(fødselsnummer) ?? [];
     };
 
     static endreTilkommenInntekt = (
         endretTil: TilkommenInntektInput,
         notatTilBeslutter: string,
         tilkommenInntektId: string,
-    ): void => {
-        const inntektMedOrganisasjonsnummer = TilkommenInntektMock.tilkomneInntektskilder
-            .values()
-            .flatMap((liste) => liste)
-            .flatMap((tilkommenInntektskilde) =>
-                tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
-                    organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,
-                    tilkommenInntekt: tilkommenInntekt,
-                })),
-            )
-            .find(
-                (inntektMedOrganisasjonsnummer) =>
-                    inntektMedOrganisasjonsnummer.tilkommenInntekt.tilkommenInntektId === tilkommenInntektId,
-            );
-        if (inntektMedOrganisasjonsnummer === undefined) return;
-        const { organisasjonsnummer, tilkommenInntekt } = inntektMedOrganisasjonsnummer;
-        const høyesteSekvensnummer = Math.max(...tilkommenInntekt.events.map((it) => it.metadata.sekvensnummer));
-        const event: TilkommenInntektEndretEvent = {
+    ): boolean => {
+        const tilkommenInntektMedKontekst = TilkommenInntektMock.finnTilkommenInntektMedKontekst(tilkommenInntektId);
+        if (tilkommenInntektMedKontekst === undefined) return false;
+        const { inntekt, inntektskilde, inntektskilder } = tilkommenInntektMedKontekst;
+
+        inntekt.events.push({
             __typename: 'TilkommenInntektEndretEvent',
-            metadata: {
-                __typename: 'TilkommenInntektEventMetadata',
-                notatTilBeslutter: notatTilBeslutter,
-                sekvensnummer: høyesteSekvensnummer + 1,
-                tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-                utfortAvSaksbehandlerIdent: 'a1234567',
-            },
-            endringer: this.tilEventEndringer(tilkommenInntekt, endretTil, organisasjonsnummer),
-        };
-        tilkommenInntekt.events.push(event);
-        tilkommenInntekt.periode.fom = endretTil.periode.fom;
-        tilkommenInntekt.periode.tom = endretTil.periode.tom;
-        tilkommenInntekt.periodebelop = endretTil.periodebelop;
-        tilkommenInntekt.ekskluderteUkedager = endretTil.ekskluderteUkedager;
-        if (endretTil.organisasjonsnummer !== organisasjonsnummer) {
-            // Flytt til annen inntektskilde
-        }
+            metadata: TilkommenInntektMock.byggEventMetadata(notatTilBeslutter, inntekt.events),
+            endringer: TilkommenInntektMock.tilEventEndringer(inntekt, inntektskilde.organisasjonsnummer, endretTil),
+        } as TilkommenInntektEndretEvent);
+
+        TilkommenInntektMock.utførEndring(inntekt, inntektskilde, inntektskilder, endretTil);
+
+        return true;
+    };
+
+    static fjernTilkommenInntekt = (notatTilBeslutter: string, tilkommenInntektId: string): boolean => {
+        const tilkommenInntektMedKontekst = TilkommenInntektMock.finnTilkommenInntektMedKontekst(tilkommenInntektId);
+        if (tilkommenInntektMedKontekst === undefined) return false;
+        const { inntekt } = tilkommenInntektMedKontekst;
+
+        inntekt.events.push({
+            __typename: 'TilkommenInntektFjernetEvent',
+            metadata: TilkommenInntektMock.byggEventMetadata(notatTilBeslutter, inntekt.events),
+        } as TilkommenInntektFjernetEvent);
+
+        inntekt.fjernet = true;
+
+        return true;
     };
 
     static gjenopprettTilkommenInntekt = (
         endretTil: TilkommenInntektInput,
         notatTilBeslutter: string,
         tilkommenInntektId: string,
-    ): void => {
-        const inntektMedOrganisasjonsnummer = TilkommenInntektMock.tilkomneInntektskilder
+    ): boolean => {
+        const tilkommenInntektMedKontekst = TilkommenInntektMock.finnTilkommenInntektMedKontekst(tilkommenInntektId);
+        if (tilkommenInntektMedKontekst === undefined) return false;
+        const { inntekt, inntektskilde, inntektskilder } = tilkommenInntektMedKontekst;
+
+        inntekt.events.push({
+            __typename: 'TilkommenInntektGjenopprettetEvent',
+            metadata: TilkommenInntektMock.byggEventMetadata(notatTilBeslutter, inntekt.events),
+            endringer: TilkommenInntektMock.tilEventEndringer(inntekt, inntektskilde.organisasjonsnummer, endretTil),
+        } as TilkommenInntektGjenopprettetEvent);
+
+        TilkommenInntektMock.utførEndring(inntekt, inntektskilde, inntektskilder, endretTil);
+        inntekt.fjernet = false;
+
+        return true;
+    };
+
+    private static finnEllerLeggTilInntektskilde(
+        organisasjonsnummer: string,
+        inntektskilder: TilkommenInntektskilde[],
+    ) {
+        const eksisterende = inntektskilder.find(
+            (eksisterendeInntektskilde: TilkommenInntektskilde) =>
+                eksisterendeInntektskilde.organisasjonsnummer == organisasjonsnummer,
+        );
+        const inntektskilde = eksisterende ?? {
+            __typename: 'TilkommenInntektskilde',
+            organisasjonsnummer: organisasjonsnummer,
+            inntekter: [],
+        };
+        if (!eksisterende) {
+            inntektskilder.push(inntektskilde);
+        }
+        return inntektskilde;
+    }
+
+    private static finnTilkommenInntektMedKontekst(tilkommenInntektId: string) {
+        return TilkommenInntektMock.inntektskilder
             .values()
-            .flatMap((liste) => liste)
-            .flatMap((tilkommenInntektskilde) =>
-                tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
-                    organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,
-                    tilkommenInntekt: tilkommenInntekt,
+            .flatMap((inntektskilder) =>
+                inntektskilder.map((inntektskilde) => {
+                    return {
+                        inntektskilde: inntektskilde,
+                        inntektskilder: inntektskilder,
+                    };
+                }),
+            )
+            .flatMap(({ inntektskilde, inntektskilder }) =>
+                inntektskilde.inntekter.map((inntekt) => ({
+                    inntekt: inntekt,
+                    inntektskilde: inntektskilde,
+                    inntektskilder: inntektskilder,
                 })),
             )
-            .find(
-                (inntektMedOrganisasjonsnummer) =>
-                    inntektMedOrganisasjonsnummer.tilkommenInntekt.tilkommenInntektId === tilkommenInntektId,
-            );
-        if (inntektMedOrganisasjonsnummer === undefined) return;
-        const { organisasjonsnummer, tilkommenInntekt } = inntektMedOrganisasjonsnummer;
-        const høyesteSekvensnummer = Math.max(...tilkommenInntekt.events.map((it) => it.metadata.sekvensnummer));
-        const event: TilkommenInntektGjenopprettetEvent = {
-            __typename: 'TilkommenInntektGjenopprettetEvent',
-            metadata: {
-                __typename: 'TilkommenInntektEventMetadata',
-                notatTilBeslutter: notatTilBeslutter,
-                sekvensnummer: høyesteSekvensnummer + 1,
-                tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-                utfortAvSaksbehandlerIdent: 'a1234567',
-            },
-            endringer: this.tilEventEndringer(tilkommenInntekt, endretTil, organisasjonsnummer),
-        };
-        tilkommenInntekt.events.push(event);
-        tilkommenInntekt.periode.fom = endretTil.periode.fom;
-        tilkommenInntekt.periode.tom = endretTil.periode.tom;
-        tilkommenInntekt.periodebelop = endretTil.periodebelop;
-        tilkommenInntekt.ekskluderteUkedager = endretTil.ekskluderteUkedager;
-        if (endretTil.organisasjonsnummer !== organisasjonsnummer) {
-            // Flytt til annen inntektskilde
+            .find(({ inntekt }) => inntekt.tilkommenInntektId === tilkommenInntektId);
+    }
+
+    private static utførEndring(
+        inntekt: TilkommenInntekt,
+        inntektskilde: TilkommenInntektskilde,
+        inntektskilder: TilkommenInntektskilde[],
+        endretTil: TilkommenInntektInput,
+    ) {
+        inntekt.periode.fom = endretTil.periode.fom;
+        inntekt.periode.tom = endretTil.periode.tom;
+        inntekt.periodebelop = endretTil.periodebelop;
+        inntekt.ekskluderteUkedager = endretTil.ekskluderteUkedager;
+        if (endretTil.organisasjonsnummer !== inntektskilde.organisasjonsnummer) {
+            inntektskilde.inntekter.splice(inntektskilde.inntekter.indexOf(inntekt), 1);
+            if (inntektskilde.inntekter.length === 0) {
+                inntektskilder.splice(inntektskilder.indexOf(inntektskilde), 1);
+            }
+            TilkommenInntektMock.finnEllerLeggTilInntektskilde(
+                endretTil.organisasjonsnummer,
+                inntektskilder,
+            ).inntekter.push(inntekt);
         }
-        tilkommenInntekt.fjernet = false;
-    };
+    }
+
+    private static byggEventMetadata(
+        notatTilBeslutter: string,
+        eksisterendeEvents: TilkommenInntektEvent[],
+    ): TilkommenInntektEventMetadata {
+        return {
+            __typename: 'TilkommenInntektEventMetadata',
+            notatTilBeslutter: notatTilBeslutter,
+            sekvensnummer:
+                eksisterendeEvents.length == 0
+                    ? 1
+                    : Math.max(...eksisterendeEvents.map((it) => it.metadata.sekvensnummer)) + 1,
+            tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+            utfortAvSaksbehandlerIdent: 'a1234567',
+        };
+    }
 
     private static tilEventEndringer(
         tilkommenInntekt: TilkommenInntekt,
-        endretTil: TilkommenInntektInput,
         organisasjonsnummer: string,
+        endretTil: TilkommenInntektInput,
     ): TilkommenInntektEventEndringer {
         return {
             __typename: 'TilkommenInntektEventEndringer',
-            ekskluderteUkedager:
-                tilkommenInntekt.ekskluderteUkedager !== endretTil.ekskluderteUkedager
-                    ? {
-                          __typename: 'TilkommenInntektEventListLocalDateEndring',
-                          fra: tilkommenInntekt.ekskluderteUkedager,
-                          til: endretTil.ekskluderteUkedager,
-                      }
-                    : null,
+            ekskluderteUkedager: !TilkommenInntektMock.erLikeSett(
+                tilkommenInntekt.ekskluderteUkedager,
+                endretTil.ekskluderteUkedager,
+            )
+                ? {
+                      __typename: 'TilkommenInntektEventListLocalDateEndring',
+                      fra: tilkommenInntekt.ekskluderteUkedager,
+                      til: endretTil.ekskluderteUkedager,
+                  }
+                : null,
             organisasjonsnummer:
                 organisasjonsnummer !== endretTil.organisasjonsnummer
                     ? {
@@ -233,7 +251,7 @@ export class TilkommenInntektMock {
                       }
                     : null,
             periodebelop:
-                tilkommenInntekt.periodebelop !== endretTil.periodebelop
+                Number(tilkommenInntekt.periodebelop) !== Number(endretTil.periodebelop)
                     ? {
                           __typename: 'TilkommenInntektEventBigDecimalEndring',
                           fra: tilkommenInntekt.periodebelop,
@@ -241,5 +259,11 @@ export class TilkommenInntektMock {
                       }
                     : null,
         };
+    }
+
+    private static erLikeSett(a: string[], b: string[]) {
+        const setA = new Set(a);
+        const setB = new Set(b);
+        return setA.size === setB.size && setA.values().every((value) => setB.has(value));
     }
 }
