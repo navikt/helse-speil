@@ -126,7 +126,7 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                             maxWidth={'630px'}
                         >
                             <VStack marginBlock="4 4" gap="2">
-                                <HStack align="end" gap="2">
+                                <HStack align="center" gap="2">
                                     <PlusCircleIcon />
                                     <AnonymizableTextWithEllipsis weight="semibold">
                                         {organisasjonsnavn}
