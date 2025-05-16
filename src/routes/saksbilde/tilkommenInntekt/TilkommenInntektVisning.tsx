@@ -3,7 +3,18 @@ import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { PersonPencilIcon, PlusCircleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
-import { Alert, BodyShort, Button, CopyButton, HStack, Heading, Table, Textarea, VStack } from '@navikt/ds-react';
+import {
+    Alert,
+    BodyShort,
+    Button,
+    CopyButton,
+    HGrid,
+    HStack,
+    Heading,
+    Table,
+    Textarea,
+    VStack,
+} from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
 import { FjernTilkommenInntektDocument, Maybe } from '@/io/graphql';
@@ -113,19 +124,18 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                     Endre
                 </Button>
             )}
-            <Box overflowX="scroll">
-                <HStack wrap={false}>
-                    <VStack paddingBlock="8 6" paddingInline="2 0">
-                        <Box
-                            background={'surface-subtle'}
-                            borderWidth="0 0 0 3"
-                            style={{ borderColor: 'transparent' }}
-                            paddingBlock="12 10"
-                            paddingInline="12 10"
-                            minWidth={'390px'}
-                            maxWidth={'630px'}
-                        >
-                            <VStack marginBlock="4 4" gap="2">
+            <HStack wrap={false}>
+                <VStack paddingBlock="8 6" paddingInline="2 0">
+                    <Box
+                        background={'surface-subtle'}
+                        borderWidth="0 0 0 3"
+                        style={{ borderColor: 'transparent' }}
+                        paddingBlock="4 5"
+                        paddingInline="6"
+                        minWidth={'630px'}
+                    >
+                        <VStack paddingInline="3" gap="6">
+                            <VStack gap="2">
                                 <HStack align="center" gap="2">
                                     <PlusCircleIcon />
                                     <AnonymizableTextWithEllipsis weight="semibold">
@@ -146,19 +156,15 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                                     </HStack>
                                 </HStack>
                             </VStack>
-                            <VStack marginBlock="4 4" gap="2">
-                                <HStack wrap={false} gap="24">
-                                    <VStack>
-                                        <BodyShort weight="semibold">Periode f.o.m.</BodyShort>
-                                        <BodyShort>{somNorskDato(tilkommenInntekt.periode.fom)}</BodyShort>
-                                    </VStack>
-                                    <VStack>
-                                        <BodyShort weight="semibold">Periode t.o.m.</BodyShort>
-                                        <BodyShort>{somNorskDato(tilkommenInntekt.periode.tom)}</BodyShort>
-                                    </VStack>
-                                </HStack>
-                            </VStack>
-                            <HStack wrap gap="12" marginBlock="4 4">
+                            <HGrid columns={2} paddingInline="6" gap="2" width="450px">
+                                <VStack>
+                                    <BodyShort weight="semibold">Periode f.o.m.</BodyShort>
+                                    <BodyShort>{somNorskDato(tilkommenInntekt.periode.fom)}</BodyShort>
+                                </VStack>
+                                <VStack>
+                                    <BodyShort weight="semibold">Periode t.o.m.</BodyShort>
+                                    <BodyShort>{somNorskDato(tilkommenInntekt.periode.tom)}</BodyShort>
+                                </VStack>
                                 <VStack>
                                     <BodyShort weight="semibold">Inntekt for perioden</BodyShort>
                                     <BodyShort>{somPenger(Number(tilkommenInntekt.periodebelop))}</BodyShort>
@@ -171,7 +177,7 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                                             : somPenger(inntektPerDag)}
                                     </BodyShort>
                                 </VStack>
-                            </HStack>
+                            </HGrid>
                             {tilkommenInntekt.fjernet && (
                                 <Alert variant="info">
                                     <Heading size="xsmall" level="4">
@@ -233,64 +239,64 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                                     </HStack>
                                 </VStack>
                             )}
-                        </Box>
-                    </VStack>
-                    <Box
-                        borderWidth="0 0 0 2"
-                        borderColor="border-default"
-                        paddingBlock="2 0"
-                        marginBlock="0 6"
-                        width="max-content"
-                        overflow="auto"
-                    >
-                        <BodyShort weight="semibold" className={styles.tabellTittel} spacing>
-                            Dagoversikt
-                        </BodyShort>
-                        <Table size="small" className={styles.tabell}>
-                            <Table.Header className={styles.tabellHeader}>
-                                <Table.Row>
-                                    <Table.HeaderCell className={styles.datoKolonne}>Dato</Table.HeaderCell>
-                                    {arbeidsgiverrad.map((arbeidsgiver) => (
-                                        <Table.HeaderCell key={arbeidsgiver}>
-                                            <AnonymizableTextWithEllipsis className={styles.arbeidsgiverNavn}>
-                                                {capitalizeArbeidsgiver(arbeidsgiver)}
-                                            </AnonymizableTextWithEllipsis>
-                                        </Table.HeaderCell>
-                                    ))}
-                                </Table.Row>
-                            </Table.Header>
-                            <Table.Body className={styles.tabelBody}>
-                                {arbeidsgiverdager.map((dag) => {
-                                    const helg = erHelg(dag.dato);
-                                    const valgt = tilkommenInntekt.ekskluderteUkedager.includes(dag.dato);
-                                    return (
-                                        <Table.Row
-                                            key={dag.dato + 'row'}
-                                            className={cn(helg && styles.helg, valgt && styles.valgteDatoer)}
-                                        >
-                                            <Table.DataCell>
-                                                <span id={`id-${dag.dato}`}>{somNorskDato(dag.dato)}</span>
-                                            </Table.DataCell>
-                                            {dag.arbeidsgivere.map((arbeidsgiver) => (
-                                                <Table.DataCell key={dag.dato + arbeidsgiver.navn}>
-                                                    <HStack gap="1" align="center" paddingInline="1 0" wrap={false}>
-                                                        <div className={styles.icon}>
-                                                            {getTypeIcon(arbeidsgiver.dagtype, helg)}
-                                                        </div>
-                                                        <BodyShort style={{ whiteSpace: 'nowrap' }}>
-                                                            {dekorerTekst(arbeidsgiver.dagtype, helg)}
-                                                        </BodyShort>
-                                                    </HStack>
-                                                </Table.DataCell>
-                                            ))}
-                                        </Table.Row>
-                                    );
-                                })}
-                            </Table.Body>
-                        </Table>
+                        </VStack>
                     </Box>
-                </HStack>
-            </Box>
+                </VStack>
+                <Box
+                    borderWidth="0 0 0 2"
+                    borderColor="border-default"
+                    paddingBlock="2 0"
+                    marginBlock="0 6"
+                    width="max-content"
+                    overflow="auto"
+                >
+                    <BodyShort weight="semibold" className={styles.tabellTittel} spacing>
+                        Dagoversikt
+                    </BodyShort>
+                    <Table size="small" className={styles.tabell}>
+                        <Table.Header className={styles.tabellHeader}>
+                            <Table.Row>
+                                <Table.HeaderCell className={styles.datoKolonne}>Dato</Table.HeaderCell>
+                                {arbeidsgiverrad.map((arbeidsgiver) => (
+                                    <Table.HeaderCell key={arbeidsgiver}>
+                                        <AnonymizableTextWithEllipsis className={styles.arbeidsgiverNavn}>
+                                            {capitalizeArbeidsgiver(arbeidsgiver)}
+                                        </AnonymizableTextWithEllipsis>
+                                    </Table.HeaderCell>
+                                ))}
+                            </Table.Row>
+                        </Table.Header>
+                        <Table.Body className={styles.tabelBody}>
+                            {arbeidsgiverdager.map((dag) => {
+                                const helg = erHelg(dag.dato);
+                                const valgt = tilkommenInntekt.ekskluderteUkedager.includes(dag.dato);
+                                return (
+                                    <Table.Row
+                                        key={dag.dato + 'row'}
+                                        className={cn(helg && styles.helg, valgt && styles.valgteDatoer)}
+                                    >
+                                        <Table.DataCell>
+                                            <span id={`id-${dag.dato}`}>{somNorskDato(dag.dato)}</span>
+                                        </Table.DataCell>
+                                        {dag.arbeidsgivere.map((arbeidsgiver) => (
+                                            <Table.DataCell key={dag.dato + arbeidsgiver.navn}>
+                                                <HStack gap="1" align="center" paddingInline="1 0" wrap={false}>
+                                                    <div className={styles.icon}>
+                                                        {getTypeIcon(arbeidsgiver.dagtype, helg)}
+                                                    </div>
+                                                    <BodyShort style={{ whiteSpace: 'nowrap' }}>
+                                                        {dekorerTekst(arbeidsgiver.dagtype, helg)}
+                                                    </BodyShort>
+                                                </HStack>
+                                            </Table.DataCell>
+                                        ))}
+                                    </Table.Row>
+                                );
+                            })}
+                        </Table.Body>
+                    </Table>
+                </Box>
+            </HStack>
             {showFjernModal && (
                 <FjernTilkommenInntektModal
                     tilkommenInntekt={tilkommenInntekt}
