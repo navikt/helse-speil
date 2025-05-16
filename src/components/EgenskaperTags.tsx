@@ -57,6 +57,8 @@ const tilTekst = (egenskap: Egenskap) => {
             return 'Gosys';
         case Egenskap.Tilkommen:
             return 'Tilkommen';
+        case Egenskap.Grunnbelopsregulering:
+            return 'Grunnbeløpsregulering';
         default:
             return egenskap.toString();
     }

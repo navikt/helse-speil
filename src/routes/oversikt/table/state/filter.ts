@@ -193,6 +193,12 @@ const filters = [
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
+        key: Egenskap.Grunnbelopsregulering,
+        label: 'Grunnbeløpsregulering',
+        status: FilterStatus.OFF,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
+    },
+    {
         key: Egenskap.EnArbeidsgiver,
         label: 'Én arbeidsgiver',
         status: FilterStatus.OFF,
