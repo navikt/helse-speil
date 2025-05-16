@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { organisasjonsnummerHarRiktigKontrollsiffer } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { DatePeriod } from '@typer/shared';
 import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, perioderOverlapper } from '@utils/date';
 
@@ -18,14 +19,6 @@ export const lagTilkommenInntektSchema = (
     andreTilkomneInntektPerioder: Map<string, DatePeriod[]>,
     organisasjonEksisterer: () => boolean,
 ) => {
-    const validerKontrollsiffer = (organisasjonsnummer: string) => {
-        const vekttall = [3, 2, 7, 6, 5, 4, 3, 2];
-        const felt = organisasjonsnummer.split('').map(Number).slice(0, -1);
-        const produkter = felt.map((tall, index) => tall * (vekttall[index] ?? 0));
-        const sum = produkter.reduce((a, b) => a + b, 0);
-        const kontrollsiffer = 11 - (sum % 11);
-        return kontrollsiffer === Number(organisasjonsnummer) % 10;
-    };
     return z
         .object({
             organisasjonsnummer: z
@@ -33,7 +26,7 @@ export const lagTilkommenInntektSchema = (
                 .min(1, { message: 'Organisasjonsnummer er påkrevd' })
                 .refine((value) => !isNaN(Number(value)), 'Organisasjonsnummer må være et tall')
                 .refine((value) => value.length === 9, 'Organisasjonsnummer må være 9 siffer')
-                .refine(validerKontrollsiffer, 'Organisasjonsnummer må ha gyldig kontrollsiffer')
+                .refine(organisasjonsnummerHarRiktigKontrollsiffer, 'Organisasjonsnummeret er ikke gyldig')
                 .refine(organisasjonEksisterer, 'Organisasjon må eksistere i enhetsregisteret'),
             fom: z
                 .string()
