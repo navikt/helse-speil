@@ -1,10 +1,10 @@
-import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, ReactElement, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Alert, HStack } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
-import { DateString } from '@/types/shared';
+import { DatePeriod, DateString } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,7 +17,7 @@ import {
     utledSykefraværstilfelleperioder,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
-import { erGyldigNorskDato, norskDatoTilIsoDato, somNorskDato } from '@utils/date';
+import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, somNorskDato } from '@utils/date';
 
 interface TilkommenInntektProps {
     person: PersonFragment;
@@ -68,19 +68,38 @@ export const TilkommenInntektSkjema = ({
         },
     });
     const organisasjonsnummer = form.watch('organisasjonsnummer');
-    const fom = form.watch('fom');
-    const tom = form.watch('tom');
-    const periodebeløp = form.watch('periodebeløp');
-    const erGyldigPeriode =
-        erGyldigNorskDato(fom) && erGyldigNorskDato(tom) && norskDatoTilIsoDato(fom) <= norskDatoTilIsoDato(tom);
-    const inntektPerDag = erGyldigPeriode
-        ? beregnInntektPerDag(periodebeløp, norskDatoTilIsoDato(fom), norskDatoTilIsoDato(tom), ekskluderteUkedager)
-        : undefined;
-
     const { data: orgData } = useOrganisasjonQuery(organisasjonsnummer);
     useEffect(() => {
         setOrganisasjonsnavn(orgData?.organisasjon?.navn ?? undefined);
     }, [orgData]);
+
+    const fom = form.watch('fom');
+    const tom = form.watch('tom');
+    const gyldigPeriode: DatePeriod | undefined = useMemo(() => {
+        if (erGyldigNorskDato(fom) && erGyldigNorskDato(tom)) {
+            const isoFom = norskDatoTilIsoDato(fom);
+            const isoTom = norskDatoTilIsoDato(tom);
+            if (isoFom <= isoTom) {
+                return { fom: isoFom, tom: isoTom };
+            }
+        }
+        return undefined;
+    }, [fom, tom]);
+    useEffect(() => {
+        if (gyldigPeriode !== undefined) {
+            if (ekskluderteUkedager.some((ekskludertUkedag) => !erIPeriode(ekskludertUkedag, gyldigPeriode))) {
+                setEkskluderteUkedager(
+                    ekskluderteUkedager.filter((ekskludertUkedag) => erIPeriode(ekskludertUkedag, gyldigPeriode)),
+                );
+            }
+        }
+    }, [gyldigPeriode, ekskluderteUkedager, setEkskluderteUkedager]);
+
+    const periodebeløp = form.watch('periodebeløp');
+    const inntektPerDag =
+        gyldigPeriode !== undefined
+            ? beregnInntektPerDag(periodebeløp, gyldigPeriode.fom, gyldigPeriode.tom, ekskluderteUkedager)
+            : undefined;
 
     return (
         <ErrorBoundary fallback={<TilkommenInntektError />}>
@@ -94,13 +113,15 @@ export const TilkommenInntektSkjema = ({
                     sykefraværstilfelleperioder={sykefraværstilfelleperioder}
                     loading={isSubmitting}
                 />
-                {erGyldigPeriode && (
+                {gyldigPeriode !== undefined ? (
                     <TilkommenInntektSkjemaTabell
                         arbeidsgivere={person.arbeidsgivere}
-                        periode={{ fom: norskDatoTilIsoDato(fom), tom: norskDatoTilIsoDato(tom) }}
+                        periode={gyldigPeriode}
                         ekskluderteUkedager={ekskluderteUkedager}
                         setEkskluderteUkedager={setEkskluderteUkedager}
                     />
+                ) : (
+                    <></>
                 )}
             </HStack>
         </ErrorBoundary>
