@@ -5899,6 +5899,14 @@ export type FjernTilkommenInntektMutationVariables = Exact<{
 
 export type FjernTilkommenInntektMutation = { __typename: 'Mutation'; fjernTilkommenInntekt: boolean };
 
+export type GjenopprettTilkommenInntektMutationVariables = Exact<{
+    endretTil: TilkommenInntektInput;
+    notatTilBeslutter: Scalars['String']['input'];
+    tilkommenInntektId: Scalars['UUID']['input'];
+}>;
+
+export type GjenopprettTilkommenInntektMutation = { __typename: 'Mutation'; gjenopprettTilkommenInntekt: boolean };
+
 export type LeggTilTilkommenInntektMutationVariables = Exact<{
     fodselsnummer: Scalars['String']['input'];
     notatTilBeslutter: Scalars['String']['input'];
@@ -13834,6 +13842,62 @@ export const FjernTilkommenInntektDocument = {
         },
     ],
 } as unknown as DocumentNode<FjernTilkommenInntektMutation, FjernTilkommenInntektMutationVariables>;
+export const GjenopprettTilkommenInntektDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'GjenopprettTilkommenInntekt' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'endretTil' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'TilkommenInntektInput' } },
+                    },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatTilBeslutter' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'tilkommenInntektId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'gjenopprettTilkommenInntekt' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'endretTil' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'endretTil' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'notatTilBeslutter' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'notatTilBeslutter' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'tilkommenInntektId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'tilkommenInntektId' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GjenopprettTilkommenInntektMutation, GjenopprettTilkommenInntektMutationVariables>;
 export const LeggTilTilkommenInntektDocument = {
     kind: 'Document',
     definitions: [

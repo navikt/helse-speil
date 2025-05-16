@@ -6,11 +6,15 @@ import { v4 } from 'uuid';
 
 import {
     LeggTilTilkommenInntektResponse,
+    TilkommenInntekt,
     TilkommenInntektEndretEvent,
+    TilkommenInntektEventEndringer,
     TilkommenInntektFjernetEvent,
+    TilkommenInntektGjenopprettetEvent,
     TilkommenInntektInput,
-} from '@io/graphql';
-import { TilkommenInntektOpprettetEvent, TilkommenInntektskilde } from '@spesialist-mock/schemaTypes';
+    TilkommenInntektOpprettetEvent,
+    TilkommenInntektskilde,
+} from '@spesialist-mock/schemaTypes';
 
 export class TilkommenInntektMock {
     private static tilkomneInntektskilder: Map<string, Array<TilkommenInntektskilde>> = new Map();
@@ -133,50 +137,7 @@ export class TilkommenInntektMock {
                 tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
                 utfortAvSaksbehandlerIdent: 'a1234567',
             },
-            endringer: {
-                __typename: 'TilkommenInntektEventEndringer',
-                ekskluderteUkedager:
-                    tilkommenInntekt.ekskluderteUkedager !== endretTil.ekskluderteUkedager
-                        ? {
-                              __typename: 'TilkommenInntektEventListLocalDateEndring',
-                              fra: tilkommenInntekt.ekskluderteUkedager,
-                              til: endretTil.ekskluderteUkedager,
-                          }
-                        : null,
-                organisasjonsnummer:
-                    organisasjonsnummer !== endretTil.organisasjonsnummer
-                        ? {
-                              __typename: 'TilkommenInntektEventStringEndring',
-                              fra: organisasjonsnummer,
-                              til: endretTil.organisasjonsnummer,
-                          }
-                        : null,
-                periode:
-                    tilkommenInntekt.periode.fom !== endretTil.periode.fom ||
-                    tilkommenInntekt.periode.tom !== endretTil.periode.tom
-                        ? {
-                              __typename: 'TilkommenInntektEventDatoPeriodeEndring',
-                              fra: {
-                                  __typename: 'DatoPeriode',
-                                  fom: tilkommenInntekt.periode.fom,
-                                  tom: tilkommenInntekt.periode.tom,
-                              },
-                              til: {
-                                  __typename: 'DatoPeriode',
-                                  fom: endretTil.periode.fom,
-                                  tom: endretTil.periode.tom,
-                              },
-                          }
-                        : null,
-                periodebelop:
-                    tilkommenInntekt.periodebelop !== endretTil.periodebelop
-                        ? {
-                              __typename: 'TilkommenInntektEventBigDecimalEndring',
-                              fra: tilkommenInntekt.periodebelop,
-                              til: endretTil.periodebelop,
-                          }
-                        : null,
-            },
+            endringer: this.tilEventEndringer(tilkommenInntekt, endretTil, organisasjonsnummer),
         };
         tilkommenInntekt.events.push(event);
         tilkommenInntekt.periode.fom = endretTil.periode.fom;
@@ -187,4 +148,98 @@ export class TilkommenInntektMock {
             // Flytt til annen inntektskilde
         }
     };
+
+    static gjenopprettTilkommenInntekt = (
+        endretTil: TilkommenInntektInput,
+        notatTilBeslutter: string,
+        tilkommenInntektId: string,
+    ): void => {
+        const inntektMedOrganisasjonsnummer = TilkommenInntektMock.tilkomneInntektskilder
+            .values()
+            .flatMap((liste) => liste)
+            .flatMap((tilkommenInntektskilde) =>
+                tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
+                    organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,
+                    tilkommenInntekt: tilkommenInntekt,
+                })),
+            )
+            .find(
+                (inntektMedOrganisasjonsnummer) =>
+                    inntektMedOrganisasjonsnummer.tilkommenInntekt.tilkommenInntektId === tilkommenInntektId,
+            );
+        if (inntektMedOrganisasjonsnummer === undefined) return;
+        const { organisasjonsnummer, tilkommenInntekt } = inntektMedOrganisasjonsnummer;
+        const høyesteSekvensnummer = Math.max(...tilkommenInntekt.events.map((it) => it.metadata.sekvensnummer));
+        const event: TilkommenInntektGjenopprettetEvent = {
+            __typename: 'TilkommenInntektGjenopprettetEvent',
+            metadata: {
+                __typename: 'TilkommenInntektEventMetadata',
+                notatTilBeslutter: notatTilBeslutter,
+                sekvensnummer: høyesteSekvensnummer + 1,
+                tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+                utfortAvSaksbehandlerIdent: 'a1234567',
+            },
+            endringer: this.tilEventEndringer(tilkommenInntekt, endretTil, organisasjonsnummer),
+        };
+        tilkommenInntekt.events.push(event);
+        tilkommenInntekt.periode.fom = endretTil.periode.fom;
+        tilkommenInntekt.periode.tom = endretTil.periode.tom;
+        tilkommenInntekt.periodebelop = endretTil.periodebelop;
+        tilkommenInntekt.ekskluderteUkedager = endretTil.ekskluderteUkedager;
+        if (endretTil.organisasjonsnummer !== organisasjonsnummer) {
+            // Flytt til annen inntektskilde
+        }
+        tilkommenInntekt.fjernet = false;
+    };
+
+    private static tilEventEndringer(
+        tilkommenInntekt: TilkommenInntekt,
+        endretTil: TilkommenInntektInput,
+        organisasjonsnummer: string,
+    ): TilkommenInntektEventEndringer {
+        return {
+            __typename: 'TilkommenInntektEventEndringer',
+            ekskluderteUkedager:
+                tilkommenInntekt.ekskluderteUkedager !== endretTil.ekskluderteUkedager
+                    ? {
+                          __typename: 'TilkommenInntektEventListLocalDateEndring',
+                          fra: tilkommenInntekt.ekskluderteUkedager,
+                          til: endretTil.ekskluderteUkedager,
+                      }
+                    : null,
+            organisasjonsnummer:
+                organisasjonsnummer !== endretTil.organisasjonsnummer
+                    ? {
+                          __typename: 'TilkommenInntektEventStringEndring',
+                          fra: organisasjonsnummer,
+                          til: endretTil.organisasjonsnummer,
+                      }
+                    : null,
+            periode:
+                tilkommenInntekt.periode.fom !== endretTil.periode.fom ||
+                tilkommenInntekt.periode.tom !== endretTil.periode.tom
+                    ? {
+                          __typename: 'TilkommenInntektEventDatoPeriodeEndring',
+                          fra: {
+                              __typename: 'DatoPeriode',
+                              fom: tilkommenInntekt.periode.fom,
+                              tom: tilkommenInntekt.periode.tom,
+                          },
+                          til: {
+                              __typename: 'DatoPeriode',
+                              fom: endretTil.periode.fom,
+                              tom: endretTil.periode.tom,
+                          },
+                      }
+                    : null,
+            periodebelop:
+                tilkommenInntekt.periodebelop !== endretTil.periodebelop
+                    ? {
+                          __typename: 'TilkommenInntektEventBigDecimalEndring',
+                          fra: tilkommenInntekt.periodebelop,
+                          til: endretTil.periodebelop,
+                      }
+                    : null,
+        };
+    }
 }

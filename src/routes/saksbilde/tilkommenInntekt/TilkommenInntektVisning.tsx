@@ -93,6 +93,16 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
     };
     return (
         <>
+            {tilkommenInntekt.fjernet && (
+                <Button
+                    variant="tertiary"
+                    size="small"
+                    icon={<PersonPencilIcon />}
+                    onClick={() => router.push(tilkommenInntektId + '/gjenopprett')}
+                >
+                    Gjenopprett
+                </Button>
+            )}
             {!tilkommenInntekt.fjernet && (
                 <Button
                     variant="tertiary"

@@ -236,6 +236,14 @@ const getResolvers = (): IResolvers => ({
             TilkommenInntektMock.fjernTilkommenInntekt(notatTilBeslutter, tilkommenInntektId);
             return true;
         },
+        gjenopprettTilkommenInntekt: async (
+            _,
+            { endretTil, notatTilBeslutter, tilkommenInntektId }: MutationEndreTilkommenInntektArgs,
+        ) => {
+            await sleep(2000);
+            TilkommenInntektMock.gjenopprettTilkommenInntekt(endretTil, notatTilBeslutter, tilkommenInntektId);
+            return true;
+        },
         leggTilNotat: (_, { type, vedtaksperiodeId, tekst }: MutationLeggTilNotatArgs) => {
             return NotatMock.addNotat(vedtaksperiodeId, {
                 tekst: tekst,
