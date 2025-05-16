@@ -2,8 +2,8 @@ import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Tooltip } from '@navikt/ds-react';
+import { ExclamationmarkTriangleIcon, PlusCircleIcon } from '@navikt/aksel-icons';
+import { Skeleton, Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
@@ -27,18 +27,37 @@ export const TilkommenInntektTimelineRow = ({
     organisasjonsnummer,
     tilkomneInntekter,
 }: TilkommenInntektTimelineRowProps): ReactElement => {
-    const { data: organisasjonQueryData } = useOrganisasjonQuery(organisasjonsnummer);
+    const { loading: organisasjonLoading, data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
     const erAnonymisert = useIsAnonymous();
 
-    const organisasjonNavn = organisasjonQueryData?.organisasjon?.navn ?? organisasjonsnummer;
+    const organisasjonNavn = organisasjonData?.organisasjon?.navn;
+
+    const tooltipText = organisasjonLoading
+        ? 'Henter navn fra enhetsregisteret...'
+        : organisasjonNavn == undefined
+          ? 'En feil oppsto ved henting av navn fra enhetsregisteret'
+          : erAnonymisert
+            ? 'Arbeidsgiver'
+            : organisasjonNavn;
 
     return (
         <div className={styles.TimelineRow}>
-            <Tooltip content={organisasjonNavn && !erAnonymisert ? organisasjonNavn : 'Arbeidsgiver'}>
-                <div className={classNames(styles.Name, styles.anonymisert)}>
+            <Tooltip content={tooltipText}>
+                <div className={classNames(styles.Name)}>
                     <PlusCircleIcon className={styles.arbeidsgiverIkon} />
-                    <AnonymizableTextWithEllipsis>{organisasjonNavn}</AnonymizableTextWithEllipsis>
-                    <KopierAgNavn navn={organisasjonNavn} />
+                    {organisasjonLoading ? (
+                        <Skeleton width="8rem" />
+                    ) : organisasjonNavn == undefined ? (
+                        <>
+                            <AnonymizableTextWithEllipsis>{organisasjonsnummer}</AnonymizableTextWithEllipsis>
+                            <ExclamationmarkTriangleIcon color="red" />
+                        </>
+                    ) : (
+                        <>
+                            <AnonymizableTextWithEllipsis>{organisasjonNavn}</AnonymizableTextWithEllipsis>
+                            <KopierAgNavn navn={organisasjonNavn} />
+                        </>
+                    )}
                 </div>
             </Tooltip>
 

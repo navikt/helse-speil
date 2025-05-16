@@ -68,10 +68,14 @@ export const TilkommenInntektSkjema = ({
         },
     });
     const organisasjonsnummer = form.watch('organisasjonsnummer');
-    const { data: orgData } = useOrganisasjonQuery(organisasjonsnummer);
+    const {
+        loading: organisasjonLoading,
+        data: organisasjonData,
+        error: organisasjonError,
+    } = useOrganisasjonQuery(organisasjonsnummer);
     useEffect(() => {
-        setOrganisasjonsnavn(orgData?.organisasjon?.navn ?? undefined);
-    }, [orgData]);
+        setOrganisasjonsnavn(organisasjonData?.organisasjon?.navn ?? undefined);
+    }, [organisasjonData]);
 
     const fom = form.watch('fom');
     const tom = form.watch('tom');
@@ -109,7 +113,9 @@ export const TilkommenInntektSkjema = ({
                     heading={heading}
                     handleSubmit={handleSubmit}
                     inntektPerDag={inntektPerDag}
+                    organisasjonLoading={organisasjonLoading}
                     organisasjonsnavn={organisasjonsnavn}
+                    organisasjonHasError={organisasjonError !== undefined}
                     sykefraværstilfelleperioder={sykefraværstilfelleperioder}
                     loading={isSubmitting}
                 />

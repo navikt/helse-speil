@@ -3,19 +3,20 @@ import React, { ReactElement } from 'react';
 import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form';
 
 import {
-    BodyShort,
     Box,
     Button,
     ErrorMessage,
     ErrorSummary,
     HStack,
     Heading,
+    Skeleton,
     TextField,
     Textarea,
     VStack,
 } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
+import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Maybe } from '@io/graphql';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/ControlledDatePicker';
 import { DatePeriod } from '@typer/shared';
@@ -26,7 +27,9 @@ interface TilkommenInntektSkjemaProps {
     heading: string;
     handleSubmit: (values: TilkommenInntektSchema) => Promise<void>;
     inntektPerDag?: number;
+    organisasjonLoading: boolean;
     organisasjonsnavn?: string;
+    organisasjonHasError: boolean;
     sykefraværstilfelleperioder: DatePeriod[];
     loading: boolean;
 }
@@ -36,7 +39,9 @@ export const TilkommenInntektSkjemafelter = ({
     heading,
     handleSubmit,
     inntektPerDag,
+    organisasjonLoading,
     organisasjonsnavn,
+    organisasjonHasError,
     sykefraværstilfelleperioder,
     loading,
 }: TilkommenInntektSkjemaProps): Maybe<ReactElement> => {
@@ -105,9 +110,15 @@ export const TilkommenInntektSkjemafelter = ({
                                         />
                                     )}
                                 />
-                                <BodyShort style={{ marginBottom: 'var(--a-spacing-1)' }}>
-                                    {organisasjonsnavn}
-                                </BodyShort>
+                                <div style={{ marginBottom: 'var(--a-spacing-1)' }}>
+                                    {organisasjonLoading ? (
+                                        <Skeleton width="8rem" />
+                                    ) : organisasjonHasError ? (
+                                        <ErrorMessage>Feil ved navnoppslag</ErrorMessage>
+                                    ) : (
+                                        <AnonymizableTextWithEllipsis>{organisasjonsnavn}</AnonymizableTextWithEllipsis>
+                                    )}
+                                </div>
                             </HStack>
                             {organisasjonsnummerFeil != undefined && (
                                 <HStack align="center" gap="1">

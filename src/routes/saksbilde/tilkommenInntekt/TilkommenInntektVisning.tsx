@@ -8,9 +8,11 @@ import {
     BodyShort,
     Button,
     CopyButton,
+    ErrorMessage,
     HGrid,
     HStack,
     Heading,
+    Skeleton,
     Table,
     Textarea,
     VStack,
@@ -61,14 +63,12 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
 
     const organisasjonsnummer = tilkommenInntektMedOrganisasjonsnummer?.organisasjonsnummer;
     const tilkommenInntekt = tilkommenInntektMedOrganisasjonsnummer?.tilkommenInntekt;
-    const { data: orgData } = useOrganisasjonQuery(organisasjonsnummer);
+    const { loading: organisasjonLoading, data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
 
     const [showFjernModal, setShowFjernModal] = useState(false);
     const [showFjernTextArea, setShowFjernTextArea] = useState(false);
 
     if (!tilkommenInntekt || !organisasjonsnummer) return null;
-
-    const organisasjonsnavn = orgData?.organisasjon?.navn;
 
     const arbeidsgivere = person?.arbeidsgivere ?? [];
     const arbeidsgiverdager = tabellArbeidsdager(arbeidsgivere).filter((dag) =>
@@ -138,9 +138,15 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                             <VStack gap="2">
                                 <HStack align="center" gap="2">
                                     <PlusCircleIcon />
-                                    <AnonymizableTextWithEllipsis weight="semibold">
-                                        {organisasjonsnavn}
-                                    </AnonymizableTextWithEllipsis>
+                                    {organisasjonLoading ? (
+                                        <Skeleton width="8rem" />
+                                    ) : organisasjonData?.organisasjon?.navn === undefined ? (
+                                        <ErrorMessage>Feil ved navnoppslag</ErrorMessage>
+                                    ) : (
+                                        <AnonymizableTextWithEllipsis weight="semibold">
+                                            {organisasjonData.organisasjon.navn}
+                                        </AnonymizableTextWithEllipsis>
+                                    )}
                                     <HStack>
                                         <BodyShort weight="semibold">(</BodyShort>
                                         <AnonymizableTextWithEllipsis weight="semibold">
