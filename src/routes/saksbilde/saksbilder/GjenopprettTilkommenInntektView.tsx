@@ -8,7 +8,11 @@ import { GjenopprettTilkommenInntektDocument, Maybe, PersonFragment } from '@io/
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
-import { TilkommenInntektMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import {
+    TilkommenInntektMedOrganisasjonsnummer,
+    tilTilkomneInntekterMedOrganisasjonsnummer,
+    useHentTilkommenInntektQuery,
+} from '@state/tilkommenInntekt';
 import { DateString } from '@typer/shared';
 import { norskDatoTilIsoDato } from '@utils/date';
 
@@ -77,18 +81,19 @@ export const GjenopprettTilkommenInntektView = ({
     const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(person?.fodselsnummer);
 
     const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =
-        tilkommenInntektData?.tilkomneInntektskilderV2?.flatMap((tilkommenInntektskilde) =>
-            tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
-                organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,
-                ...tilkommenInntekt,
-            })),
-        );
+        tilkommenInntektData?.tilkomneInntektskilderV2 !== undefined
+            ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData.tilkomneInntektskilderV2)
+            : undefined;
     const tilkommenInntektMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer | undefined =
         tilkomneInntekterMedOrganisasjonsnummer?.find(
             (inntektMedOrganisasjonsnummer) => inntektMedOrganisasjonsnummer.tilkommenInntektId === tilkommenInntektId,
         );
 
-    if (!person || !tilkomneInntekterMedOrganisasjonsnummer || !tilkommenInntektMedOrganisasjonsnummer) {
+    if (
+        !person ||
+        tilkomneInntekterMedOrganisasjonsnummer === undefined ||
+        tilkommenInntektMedOrganisasjonsnummer === undefined
+    ) {
         return null;
     }
 

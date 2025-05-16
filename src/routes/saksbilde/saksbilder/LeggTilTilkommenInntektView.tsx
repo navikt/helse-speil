@@ -8,7 +8,11 @@ import { LeggTilTilkommenInntektDocument, Maybe } from '@io/graphql';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
-import { TilkommenInntektMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import {
+    TilkommenInntektMedOrganisasjonsnummer,
+    tilTilkomneInntekterMedOrganisasjonsnummer,
+    useHentTilkommenInntektQuery,
+} from '@state/tilkommenInntekt';
 import { DateString } from '@typer/shared';
 import { norskDatoTilIsoDato } from '@utils/date';
 
@@ -19,18 +23,15 @@ export const LeggTilTilkommenInntektView = (): Maybe<ReactElement> => {
         person?.fodselsnummer,
     );
     const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =
-        tilkommenInntektData?.tilkomneInntektskilderV2?.flatMap((tilkommenInntektskilde) =>
-            tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
-                organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,
-                ...tilkommenInntekt,
-            })),
-        );
+        tilkommenInntektData?.tilkomneInntektskilderV2 !== undefined
+            ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData.tilkomneInntektskilderV2)
+            : undefined;
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const [leggTilTilkommenInntekt] = useMutation(LeggTilTilkommenInntektDocument);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [ekskluderteUkedager, setEkskluderteUkedager] = useState<DateString[]>([]);
 
-    if (!person || !tilkomneInntekterMedOrganisasjonsnummer) {
+    if (!person || tilkomneInntekterMedOrganisasjonsnummer === undefined) {
         return null;
     }
 
