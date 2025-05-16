@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactElement, SetStateAction, useEffect, useMemo, useState } from 'react';
+import React, { Dispatch, ReactElement, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Alert, HStack } from '@navikt/ds-react';
@@ -17,7 +17,7 @@ import {
     utledSykefraværstilfelleperioder,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
-import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, somNorskDato } from '@utils/date';
+import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag, somNorskDato } from '@utils/date';
 
 interface TilkommenInntektProps {
     person: PersonFragment;
@@ -79,16 +79,46 @@ export const TilkommenInntektSkjema = ({
 
     const fom = form.watch('fom');
     const tom = form.watch('tom');
-    const gyldigPeriode: DatePeriod | undefined = useMemo(() => {
-        if (erGyldigNorskDato(fom) && erGyldigNorskDato(tom)) {
-            const isoFom = norskDatoTilIsoDato(fom);
-            const isoTom = norskDatoTilIsoDato(tom);
-            if (isoFom <= isoTom) {
-                return { fom: isoFom, tom: isoTom };
-            }
-        }
-        return undefined;
-    }, [fom, tom]);
+
+    const erGyldigFom = useCallback(
+        (fom: string) => {
+            if (!erGyldigNorskDato(fom)) return false;
+            const isoDato = norskDatoTilIsoDato(fom);
+            return (
+                sykefraværstilfelleperioder.some((periode) =>
+                    erIPeriode(isoDato, { fom: plussEnDag(periode.fom), tom: periode.tom }),
+                ) &&
+                (!erGyldigNorskDato(tom) || isoDato <= norskDatoTilIsoDato(tom))
+            );
+        },
+        [tom, sykefraværstilfelleperioder],
+    );
+
+    const erGyldigTom = useCallback(
+        (tom: string) => {
+            if (!erGyldigNorskDato(tom)) return false;
+            const isoDato = norskDatoTilIsoDato(tom);
+            return (
+                sykefraværstilfelleperioder.some((periode) =>
+                    erIPeriode(isoDato, { fom: plussEnDag(periode.fom), tom: periode.tom }),
+                ) &&
+                (!erGyldigNorskDato(fom) || isoDato >= norskDatoTilIsoDato(fom))
+            );
+        },
+        [fom, sykefraværstilfelleperioder],
+    );
+
+    const gyldigPeriode: DatePeriod | undefined = useMemo(
+        () =>
+            erGyldigFom(fom) && erGyldigTom(tom)
+                ? {
+                      fom: norskDatoTilIsoDato(fom),
+                      tom: norskDatoTilIsoDato(tom),
+                  }
+                : undefined,
+        [fom, tom, erGyldigFom, erGyldigTom],
+    );
+
     useEffect(() => {
         if (gyldigPeriode !== undefined) {
             if (ekskluderteUkedager.some((ekskludertUkedag) => !erIPeriode(ekskludertUkedag, gyldigPeriode))) {
@@ -116,6 +146,8 @@ export const TilkommenInntektSkjema = ({
                     organisasjonLoading={organisasjonLoading}
                     organisasjonsnavn={organisasjonsnavn}
                     organisasjonHasError={organisasjonError !== undefined}
+                    erGyldigFom={erGyldigFom}
+                    erGyldigTom={erGyldigTom}
                     sykefraværstilfelleperioder={sykefraværstilfelleperioder}
                     loading={isSubmitting}
                 />

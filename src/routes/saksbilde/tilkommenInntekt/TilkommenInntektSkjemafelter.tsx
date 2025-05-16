@@ -20,7 +20,6 @@ import { AnonymizableTextWithEllipsis } from '@components/anonymizable/Anonymiza
 import { Maybe } from '@io/graphql';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/ControlledDatePicker';
 import { DatePeriod } from '@typer/shared';
-import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag } from '@utils/date';
 
 interface TilkommenInntektSkjemaProps {
     form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
@@ -30,6 +29,8 @@ interface TilkommenInntektSkjemaProps {
     organisasjonLoading: boolean;
     organisasjonsnavn?: string;
     organisasjonHasError: boolean;
+    erGyldigFom: (fom: string) => boolean;
+    erGyldigTom: (tom: string) => boolean;
     sykefraværstilfelleperioder: DatePeriod[];
     loading: boolean;
 }
@@ -42,6 +43,8 @@ export const TilkommenInntektSkjemafelter = ({
     organisasjonLoading,
     organisasjonsnavn,
     organisasjonHasError,
+    erGyldigFom,
+    erGyldigTom,
     sykefraværstilfelleperioder,
     loading,
 }: TilkommenInntektSkjemaProps): Maybe<ReactElement> => {
@@ -50,29 +53,6 @@ export const TilkommenInntektSkjemafelter = ({
     const datofeil: string[] = [form.formState.errors.fom?.message, form.formState.errors.tom?.message].filter(
         (feil) => feil !== undefined,
     );
-
-    const fom = form.watch('fom');
-    const tom = form.watch('tom');
-
-    const erGyldigFom = (dato: string) => {
-        const isoDato = norskDatoTilIsoDato(dato);
-        return (
-            sykefraværstilfelleperioder.some((periode) =>
-                erIPeriode(isoDato, { fom: plussEnDag(periode.fom), tom: periode.tom }),
-            ) &&
-            (!erGyldigNorskDato(tom) || isoDato <= norskDatoTilIsoDato(tom))
-        );
-    };
-
-    const erGyldigTom = (dato: string) => {
-        const isoDato = norskDatoTilIsoDato(dato);
-        return (
-            sykefraværstilfelleperioder.some((periode) =>
-                erIPeriode(isoDato, { fom: plussEnDag(periode.fom), tom: periode.tom }),
-            ) &&
-            (!erGyldigNorskDato(fom) || isoDato >= norskDatoTilIsoDato(fom))
-        );
-    };
 
     const organisasjonsnummerFeil = form.formState.errors.organisasjonsnummer?.message;
 
