@@ -132,13 +132,13 @@ function tittel(
 ) {
     switch (event.__typename) {
         case 'TilkommenInntektOpprettetEvent':
-            return 'Tilkommen inntekt lagt til';
+            return 'Tilk. inntekt lagt til';
         case 'TilkommenInntektEndretEvent':
             return 'Tilk. inntekt endret';
         case 'TilkommenInntektFjernetEvent':
-            return 'Periode for tilkommen inntekt fjernet';
+            return 'Tilk. inntekt fjernet';
         case 'TilkommenInntektGjenopprettetEvent':
-            return 'Tilkommen inntekt gjenopprettet';
+            return 'Tilk. inntekt gjenopprettet';
     }
 }
 
