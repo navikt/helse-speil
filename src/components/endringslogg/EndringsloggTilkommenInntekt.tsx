@@ -70,7 +70,6 @@ export const EndringsloggTilkommenInntekt = ({
                                     | TilkommenInntektFjernetEvent
                                     | TilkommenInntektGjenopprettetEvent,
                         )
-                        .filter((event) => event.__typename !== 'TilkommenInntektFjernetEvent')
                         .map((event, i) => (
                             <Table.Row key={i}>
                                 <Table.DataCell>{somNorskDato(event.metadata.tidspunkt)}</Table.DataCell>
@@ -79,13 +78,17 @@ export const EndringsloggTilkommenInntekt = ({
                                         ? 'Lagt til'
                                         : event.__typename === 'TilkommenInntektEndretEvent'
                                           ? 'Endret'
-                                          : 'Gjenopprettet'}
+                                          : event.__typename === 'TilkommenInntektGjenopprettetEvent'
+                                            ? 'Gjenopprettet'
+                                            : 'Fjernet'}
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     {event.__typename === 'TilkommenInntektOpprettetEvent' ? (
                                         <AnonymizableTextWithEllipsis>
                                             {event.organisasjonsnummer}
                                         </AnonymizableTextWithEllipsis>
+                                    ) : event.__typename === 'TilkommenInntektFjernetEvent' ? (
+                                        <></>
                                     ) : (
                                         event.endringer.organisasjonsnummer && (
                                             <>
@@ -104,6 +107,8 @@ export const EndringsloggTilkommenInntekt = ({
                                         <BodyShort>
                                             {somNorskDato(event.periode.fom)} - {somNorskDato(event.periode.tom)}
                                         </BodyShort>
+                                    ) : event.__typename === 'TilkommenInntektFjernetEvent' ? (
+                                        <></>
                                     ) : (
                                         event.endringer.periode && (
                                             <>
@@ -122,6 +127,8 @@ export const EndringsloggTilkommenInntekt = ({
                                 <Table.DataCell>
                                     {event.__typename === 'TilkommenInntektOpprettetEvent' ? (
                                         <BodyShort>{somPenger(Number(event.periodebelop))}</BodyShort>
+                                    ) : event.__typename === 'TilkommenInntektFjernetEvent' ? (
+                                        <></>
                                     ) : (
                                         event.endringer.periodebelop && (
                                             <>
@@ -142,6 +149,8 @@ export const EndringsloggTilkommenInntekt = ({
                                                 <BodyShort key={dag}>{somNorskDato(dag)}</BodyShort>
                                             ))}
                                         </>
+                                    ) : event.__typename === 'TilkommenInntektFjernetEvent' ? (
+                                        <></>
                                     ) : (
                                         event.endringer.ekskluderteUkedager && (
                                             <>
