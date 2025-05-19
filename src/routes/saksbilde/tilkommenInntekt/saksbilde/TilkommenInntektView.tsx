@@ -23,7 +23,7 @@ interface TilkommenInntektVisningProps {
     tilkommenInntektId: string;
 }
 
-export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntektVisningProps): Maybe<ReactElement> => {
+export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVisningProps): Maybe<ReactElement> => {
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
     const router = useRouter();

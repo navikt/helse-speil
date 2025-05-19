@@ -3,7 +3,7 @@
 import React, { ReactElement, use } from 'react';
 
 import { Maybe } from '@io/graphql';
-import { TilkommenInntektVisning } from '@saksbilde/tilkommenInntekt/saksbilde/TilkommenInntektVisning';
+import { TilkommenInntektView } from '@saksbilde/tilkommenInntekt/saksbilde/TilkommenInntektView';
 
 type TilkommenInntektPageProps = {
     params: Promise<{ tilkommenInntektId: string }>;
@@ -12,5 +12,5 @@ type TilkommenInntektPageProps = {
 export default function Page({ params }: TilkommenInntektPageProps): Maybe<ReactElement> {
     const { tilkommenInntektId } = use(params);
 
-    return <TilkommenInntektVisning tilkommenInntektId={tilkommenInntektId} />;
+    return <TilkommenInntektView tilkommenInntektId={tilkommenInntektId} />;
 }
