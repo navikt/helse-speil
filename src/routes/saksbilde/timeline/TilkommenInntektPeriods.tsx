@@ -1,17 +1,12 @@
 import { Dayjs } from 'dayjs';
-import React, { ReactElement, useMemo } from 'react';
+import React, { ReactElement } from 'react';
 
 import { TilkommenInntekt } from '@io/graphql';
 import { TilkommenInntektPeriod } from '@saksbilde/timeline/TilkommenInntektPeriod';
-import { useTilkommenInntektPeriodStyling } from '@saksbilde/timeline/hooks/useTilkommenInntektPeriodStyling';
+import { usePeriodStyling } from '@saksbilde/timeline/hooks/usePeriodStyling';
+import { usePopulateNeighbours } from '@saksbilde/timeline/hooks/usePopulateNeighbours';
 
 import styles from './Periods.module.css';
-
-const useVisiblePeriods = (end: Dayjs, start: Dayjs, periods: Array<TilkommenInntekt>): Array<TilkommenInntekt> =>
-    useMemo(
-        () => periods.filter((it) => end.isSameOrAfter(it.periode.fom) && start.isSameOrBefore(it.periode.tom)),
-        [end, start, periods],
-    );
 
 interface PeriodsProps {
     start: Dayjs;
@@ -20,13 +15,19 @@ interface PeriodsProps {
 }
 
 export const TilkommenInntektPeriods = ({ start, end, tilkomneInntekter }: PeriodsProps): ReactElement => {
-    const visiblePeriods = useVisiblePeriods(end, start, tilkomneInntekter);
-    const positions = useTilkommenInntektPeriodStyling(start, end, visiblePeriods);
+    const visibleTilkomneInntekter = tilkomneInntekter.filter(
+        (it) => end.isSameOrAfter(it.periode.fom) && start.isSameOrBefore(it.periode.tom),
+    );
+    const positions = usePeriodStyling(
+        start,
+        end,
+        usePopulateNeighbours(visibleTilkomneInntekter.map((it) => it.periode)),
+    );
 
     return (
         <div className={styles.Periods}>
-            {visiblePeriods.map((period, i) => (
-                <TilkommenInntektPeriod key={i} tilkommenInntekt={period} style={positions.get(i) ?? {}} />
+            {visibleTilkomneInntekter.map((tilkommenInntekt, i) => (
+                <TilkommenInntektPeriod key={i} tilkommenInntekt={tilkommenInntekt} style={positions.get(i) ?? {}} />
             ))}
         </div>
     );
