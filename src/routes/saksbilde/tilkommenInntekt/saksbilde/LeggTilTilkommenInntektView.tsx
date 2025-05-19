@@ -2,7 +2,7 @@
 
 import React, { ReactElement, useState } from 'react';
 
-import { Box, HStack, Heading, VStack } from '@navikt/ds-react';
+import { HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
@@ -67,20 +67,18 @@ export const LeggTilTilkommenInntektView = (): Maybe<ReactElement> => {
                     Legg til tilkommen inntekt
                 </Heading>
             </HStack>
-            <Box borderWidth="0 0 0 3" borderColor="border-action">
-                <TilkommenInntektSkjema
-                    person={person}
-                    andreTilkomneInntekter={tilkomneInntekterMedOrganisasjonsnummer}
-                    startOrganisasjonsnummer=""
-                    startFom=""
-                    startTom=""
-                    startPeriodebeløp={0}
-                    ekskluderteUkedager={ekskluderteUkedager}
-                    setEkskluderteUkedager={setEkskluderteUkedager}
-                    isSubmitting={isSubmitting}
-                    handleSubmit={handleSubmit}
-                />
-            </Box>
+            <TilkommenInntektSkjema
+                person={person}
+                andreTilkomneInntekter={tilkomneInntekterMedOrganisasjonsnummer}
+                startOrganisasjonsnummer=""
+                startFom=""
+                startTom=""
+                startPeriodebeløp={0}
+                ekskluderteUkedager={ekskluderteUkedager}
+                setEkskluderteUkedager={setEkskluderteUkedager}
+                isSubmitting={isSubmitting}
+                handleSubmit={handleSubmit}
+            />
         </VStack>
     );
 };

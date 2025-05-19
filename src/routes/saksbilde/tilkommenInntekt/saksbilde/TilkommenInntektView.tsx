@@ -1,8 +1,9 @@
+import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
-import { PersonPencilIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, HGrid, HStack, VStack } from '@navikt/ds-react';
+import { ArrowUndoIcon, PersonPencilIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, HGrid, HStack, Link, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
 import { useMutation } from '@apollo/client';
@@ -74,16 +75,6 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
     return (
         <>
             <HStack paddingBlock="6 4" paddingInline="2">
-                {tilkommenInntekt.fjernet && (
-                    <Button
-                        variant="secondary"
-                        size="small"
-                        icon={<PersonPencilIcon />}
-                        onClick={() => router.push(tilkommenInntektId + '/gjenopprett')}
-                    >
-                        Gjenopprett
-                    </Button>
-                )}
                 {!tilkommenInntekt.fjernet && (
                     <Button
                         variant="secondary"
@@ -115,31 +106,35 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                                     />
                                     <EndringsloggTilkommenInntektButton tilkommenInntekt={tilkommenInntekt} />
                                 </HStack>
-                                <HGrid columns={2} gap="2" width="450px" paddingInline="7">
-                                    <VStack>
-                                        <BodyShort weight="semibold">Periode f.o.m.</BodyShort>
-                                        <BodyShort>{somNorskDato(tilkommenInntekt.periode.fom)}</BodyShort>
-                                    </VStack>
-                                    <VStack>
-                                        <BodyShort weight="semibold">Periode t.o.m.</BodyShort>
-                                        <BodyShort>{somNorskDato(tilkommenInntekt.periode.tom)}</BodyShort>
-                                    </VStack>
-                                    <VStack>
-                                        <BodyShort weight="semibold">Inntekt for perioden</BodyShort>
-                                        <BodyShort>{somPenger(Number(tilkommenInntekt.periodebelop))}</BodyShort>
-                                    </VStack>
-                                    <VStack>
-                                        <BodyShort weight="semibold">Inntekt per dag</BodyShort>
-                                        <BodyShort>
-                                            {Number.isNaN(inntektPerDag) || !Number.isFinite(inntektPerDag)
-                                                ? ''
-                                                : somPenger(inntektPerDag)}
-                                        </BodyShort>
-                                    </VStack>
-                                </HGrid>
-                                {tilkommenInntekt.fjernet && (
-                                    <TilkommenInntektFjernetAlert tilkommenInntektEvents={tilkommenInntekt.events} />
-                                )}
+                                <VStack paddingInline="7" gap="4">
+                                    <HGrid columns={2} gap="2" width="450px">
+                                        <VStack>
+                                            <BodyShort weight="semibold">Periode f.o.m.</BodyShort>
+                                            <BodyShort>{somNorskDato(tilkommenInntekt.periode.fom)}</BodyShort>
+                                        </VStack>
+                                        <VStack>
+                                            <BodyShort weight="semibold">Periode t.o.m.</BodyShort>
+                                            <BodyShort>{somNorskDato(tilkommenInntekt.periode.tom)}</BodyShort>
+                                        </VStack>
+                                        <VStack>
+                                            <BodyShort weight="semibold">Inntekt for perioden</BodyShort>
+                                            <BodyShort>{somPenger(Number(tilkommenInntekt.periodebelop))}</BodyShort>
+                                        </VStack>
+                                        <VStack>
+                                            <BodyShort weight="semibold">Inntekt per dag</BodyShort>
+                                            <BodyShort>
+                                                {Number.isNaN(inntektPerDag) || !Number.isFinite(inntektPerDag)
+                                                    ? ''
+                                                    : somPenger(inntektPerDag)}
+                                            </BodyShort>
+                                        </VStack>
+                                    </HGrid>
+                                    {tilkommenInntekt.fjernet && (
+                                        <TilkommenInntektFjernetAlert
+                                            tilkommenInntektEvents={tilkommenInntekt.events}
+                                        />
+                                    )}
+                                </VStack>
                             </VStack>
                             {!tilkommenInntekt.fjernet && !showFjernTextArea && (
                                 <Button
@@ -158,6 +153,14 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                                     visFjernModal={() => setShowFjernModal(true)}
                                     skjulFjernPeriode={() => setShowFjernTextArea(false)}
                                 />
+                            )}
+                            {tilkommenInntekt.fjernet && (
+                                <Box paddingInline="2">
+                                    <Link as={NextLink} href={`${tilkommenInntektId}/gjenopprett`}>
+                                        <ArrowUndoIcon />
+                                        Legg til perioden likevel
+                                    </Link>
+                                </Box>
                             )}
                         </VStack>
                     </Box>

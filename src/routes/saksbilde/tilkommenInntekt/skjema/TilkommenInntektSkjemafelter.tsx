@@ -59,7 +59,7 @@ export const TilkommenInntektSkjemafelter = ({
                 <Box
                     background={'surface-subtle'}
                     paddingInline="10"
-                    paddingBlock="0 2"
+                    paddingBlock="4"
                     minWidth="390px"
                     maxWidth="630px"
                     borderWidth="0 0 0 3"
@@ -101,7 +101,7 @@ export const TilkommenInntektSkjemafelter = ({
                             </HStack>
                         )}
                     </VStack>
-                    <VStack marginBlock="4 4" gap="2">
+                    <VStack marginBlock="4" gap="2">
                         <HStack wrap={false} gap="6">
                             <Controller
                                 name="fom"
@@ -139,7 +139,7 @@ export const TilkommenInntektSkjemafelter = ({
                                 </ErrorMessage>
                             ))}
                     </VStack>
-                    <HStack wrap gap="6" marginBlock="4 4">
+                    <HStack wrap gap="6" marginBlock="4">
                         <Controller
                             control={form.control}
                             name="periodebeløp"
@@ -192,7 +192,7 @@ export const TilkommenInntektSkjemafelter = ({
                             <TilkommenInntektFeiloppsummering errors={form.formState.errors} />
                         </Box>
                     )}
-                    <HStack gap="2" marginBlock="4 4">
+                    <HStack gap="2" marginBlock="4">
                         <Button size="small" variant="secondary" type="submit" loading={loading}>
                             Lagre
                         </Button>
