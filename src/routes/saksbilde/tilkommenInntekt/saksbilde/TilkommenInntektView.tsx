@@ -8,6 +8,7 @@ import { Box } from '@navikt/ds-react/Box';
 import { useMutation } from '@apollo/client';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { FjernTilkommenInntektDocument, Maybe } from '@io/graphql';
+import { EndringsloggTilkommenInntektButton } from '@saksbilde/tilkommenInntekt/EndringsloggTilkommenInntektButton';
 import { beregnInntektPerDag, tabellArbeidsdager } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { FjernTilkommenInntektModal } from '@saksbilde/tilkommenInntekt/visning/FjernTilkommenInntektModal';
 import { TilkommenInntektArbeidsgivernavn } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektArbeidsgivernavn';
@@ -107,11 +108,14 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                     >
                         <VStack gap="4" align="start">
                             <VStack gap="4" paddingInline="2">
-                                <TilkommenInntektArbeidsgivernavn
-                                    organisasjonsnummer={organisasjonsnummer}
-                                    organisasjonLoading={organisasjonLoading}
-                                    organisasjonsnavn={organisasjonData?.organisasjon?.navn ?? undefined}
-                                />
+                                <HStack align="center">
+                                    <TilkommenInntektArbeidsgivernavn
+                                        organisasjonsnummer={organisasjonsnummer}
+                                        organisasjonLoading={organisasjonLoading}
+                                        organisasjonsnavn={organisasjonData?.organisasjon?.navn ?? undefined}
+                                    />
+                                    <EndringsloggTilkommenInntektButton tilkommenInntekt={tilkommenInntekt} />
+                                </HStack>
                                 <HGrid columns={2} gap="2" width="450px" paddingInline="7">
                                     <VStack>
                                         <BodyShort weight="semibold">Periode f.o.m.</BodyShort>
