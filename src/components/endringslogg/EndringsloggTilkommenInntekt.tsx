@@ -11,6 +11,7 @@ import {
     TilkommenInntektGjenopprettetEvent,
     TilkommenInntektOpprettetEvent,
 } from '@io/graphql';
+import { tilSorterteDagerMedEndringstype } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
@@ -57,13 +58,7 @@ export const EndringsloggTilkommenInntekt = ({
                     {tilkommenInntekt.events
                         .toSorted((a, b) => b.metadata.sekvensnummer - a.metadata.sekvensnummer)
                         .map(
-                            (
-                                event,
-                            ):
-                                | TilkommenInntektOpprettetEvent
-                                | TilkommenInntektEndretEvent
-                                | TilkommenInntektFjernetEvent
-                                | TilkommenInntektGjenopprettetEvent =>
+                            (event) =>
                                 event as
                                     | TilkommenInntektOpprettetEvent
                                     | TilkommenInntektEndretEvent
@@ -73,126 +68,7 @@ export const EndringsloggTilkommenInntekt = ({
                         .map((event, i) => (
                             <Table.Row key={i}>
                                 <Table.DataCell>{somNorskDato(event.metadata.tidspunkt)}</Table.DataCell>
-                                <Table.DataCell>
-                                    {event.__typename === 'TilkommenInntektOpprettetEvent'
-                                        ? 'Lagt til'
-                                        : event.__typename === 'TilkommenInntektEndretEvent'
-                                          ? 'Endret'
-                                          : event.__typename === 'TilkommenInntektGjenopprettetEvent'
-                                            ? 'Gjenopprettet'
-                                            : 'Fjernet'}
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    {event.__typename === 'TilkommenInntektOpprettetEvent' ? (
-                                        <AnonymizableTextWithEllipsis>
-                                            {event.organisasjonsnummer}
-                                        </AnonymizableTextWithEllipsis>
-                                    ) : event.__typename === 'TilkommenInntektFjernetEvent' ? (
-                                        <></>
-                                    ) : (
-                                        event.endringer.organisasjonsnummer && (
-                                            <>
-                                                <AnonymizableTextWithEllipsis className={styles.PreviousValue}>
-                                                    {event.endringer.organisasjonsnummer.fra}
-                                                </AnonymizableTextWithEllipsis>
-                                                <AnonymizableTextWithEllipsis>
-                                                    {event.endringer.organisasjonsnummer.til}
-                                                </AnonymizableTextWithEllipsis>
-                                            </>
-                                        )
-                                    )}
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    {event.__typename === 'TilkommenInntektOpprettetEvent' ? (
-                                        <BodyShort>
-                                            {somNorskDato(event.periode.fom)} - {somNorskDato(event.periode.tom)}
-                                        </BodyShort>
-                                    ) : event.__typename === 'TilkommenInntektFjernetEvent' ? (
-                                        <></>
-                                    ) : (
-                                        event.endringer.periode && (
-                                            <>
-                                                <BodyShort className={styles.PreviousValue}>
-                                                    {somNorskDato(event.endringer.periode.fra.fom)} -{' '}
-                                                    {somNorskDato(event.endringer.periode.fra.tom)}
-                                                </BodyShort>
-                                                <BodyShort>
-                                                    {somNorskDato(event.endringer.periode.til.fom)} -{' '}
-                                                    {somNorskDato(event.endringer.periode.til.tom)}
-                                                </BodyShort>
-                                            </>
-                                        )
-                                    )}
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    {event.__typename === 'TilkommenInntektOpprettetEvent' ? (
-                                        <BodyShort>{somPenger(Number(event.periodebelop))}</BodyShort>
-                                    ) : event.__typename === 'TilkommenInntektFjernetEvent' ? (
-                                        <></>
-                                    ) : (
-                                        event.endringer.periodebelop && (
-                                            <>
-                                                <BodyShort className={styles.PreviousValue}>
-                                                    {somPenger(Number(event.endringer.periodebelop.fra))}
-                                                </BodyShort>
-                                                <BodyShort>
-                                                    {somPenger(Number(event.endringer.periodebelop.til))}
-                                                </BodyShort>
-                                            </>
-                                        )
-                                    )}
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    {event.__typename === 'TilkommenInntektOpprettetEvent' ? (
-                                        <>
-                                            {event.ekskluderteUkedager.map((dag) => (
-                                                <BodyShort key={dag}>{somNorskDato(dag)}</BodyShort>
-                                            ))}
-                                        </>
-                                    ) : event.__typename === 'TilkommenInntektFjernetEvent' ? (
-                                        <></>
-                                    ) : (
-                                        event.endringer.ekskluderteUkedager && (
-                                            <>
-                                                {event.endringer.ekskluderteUkedager.fra
-                                                    .filter(
-                                                        (dag) =>
-                                                            !event.endringer.ekskluderteUkedager!.til.includes(dag),
-                                                    )
-                                                    .map((dag) => ({ dag: dag, handling: 'fjernet' }))
-                                                    .concat(
-                                                        event.endringer.ekskluderteUkedager.fra
-                                                            .filter((dag) =>
-                                                                event.endringer.ekskluderteUkedager!.til.includes(dag),
-                                                            )
-                                                            .map((dag) => ({ dag: dag, handling: 'beholdt' })),
-                                                    )
-                                                    .concat(
-                                                        event.endringer.ekskluderteUkedager.til
-                                                            .filter(
-                                                                (dag) =>
-                                                                    !event.endringer.ekskluderteUkedager!.fra.includes(
-                                                                        dag,
-                                                                    ),
-                                                            )
-                                                            .map((dag) => ({ dag: dag, handling: 'lagt til' })),
-                                                    )
-                                                    .sort((a, b) => a.dag.localeCompare(b.dag))
-                                                    .map(({ dag, handling }) => (
-                                                        <BodyShort
-                                                            key={dag}
-                                                            className={cn(
-                                                                handling === 'fjernet' && styles.PreviousValue,
-                                                            )}
-                                                            textColor={handling === 'lagt til' ? 'default' : 'subtle'}
-                                                        >
-                                                            {somNorskDato(dag)}
-                                                        </BodyShort>
-                                                    ))}
-                                            </>
-                                        )
-                                    )}
-                                </Table.DataCell>
+                                <EventCeller event={event} />
                                 <Table.DataCell>{event.metadata.utfortAvSaksbehandlerIdent}</Table.DataCell>
                             </Table.Row>
                         ))}
@@ -200,4 +76,137 @@ export const EndringsloggTilkommenInntekt = ({
             </Table>
         </Modal.Body>
     </Modal>
+);
+
+const EventCeller = ({
+    event,
+}: {
+    event:
+        | TilkommenInntektOpprettetEvent
+        | TilkommenInntektEndretEvent
+        | TilkommenInntektFjernetEvent
+        | TilkommenInntektGjenopprettetEvent;
+}): ReactElement => {
+    switch (event.__typename) {
+        case 'TilkommenInntektOpprettetEvent':
+            return (
+                <>
+                    <Table.DataCell>Lagt til</Table.DataCell>
+                    <OpprettetEventCeller event={event} />
+                </>
+            );
+        case 'TilkommenInntektEndretEvent':
+            return (
+                <>
+                    <Table.DataCell>Endret</Table.DataCell>
+                    <EndretEllerGjenopprettetEventCeller event={event} />
+                </>
+            );
+        case 'TilkommenInntektFjernetEvent':
+            return (
+                <>
+                    <Table.DataCell>Fjernet</Table.DataCell>
+                    <FjernetEventCeller />
+                </>
+            );
+        case 'TilkommenInntektGjenopprettetEvent':
+            return (
+                <>
+                    <Table.DataCell>Gjenopprettet</Table.DataCell>
+                    <EndretEllerGjenopprettetEventCeller event={event} />
+                </>
+            );
+    }
+};
+
+const OpprettetEventCeller = ({ event }: { event: TilkommenInntektOpprettetEvent }): ReactElement => (
+    <>
+        <Table.DataCell>
+            <AnonymizableTextWithEllipsis>{event.organisasjonsnummer}</AnonymizableTextWithEllipsis>
+        </Table.DataCell>
+        <Table.DataCell>
+            <BodyShort>
+                {somNorskDato(event.periode.fom)} - {somNorskDato(event.periode.tom)}
+            </BodyShort>
+        </Table.DataCell>
+        <Table.DataCell>
+            <BodyShort>{somPenger(Number(event.periodebelop))}</BodyShort>
+        </Table.DataCell>
+        <Table.DataCell>
+            {event.ekskluderteUkedager.map((dag) => (
+                <BodyShort key={dag}>{somNorskDato(dag)}</BodyShort>
+            ))}
+        </Table.DataCell>
+    </>
+);
+
+const EndretEllerGjenopprettetEventCeller = ({
+    event,
+}: {
+    event: TilkommenInntektEndretEvent | TilkommenInntektGjenopprettetEvent;
+}): ReactElement => (
+    <>
+        <Table.DataCell>
+            {event.endringer.organisasjonsnummer && (
+                <>
+                    <AnonymizableTextWithEllipsis className={styles.PreviousValue}>
+                        {event.endringer.organisasjonsnummer.fra}
+                    </AnonymizableTextWithEllipsis>
+                    <AnonymizableTextWithEllipsis>
+                        {event.endringer.organisasjonsnummer.til}
+                    </AnonymizableTextWithEllipsis>
+                </>
+            )}
+        </Table.DataCell>
+        <Table.DataCell>
+            {event.endringer.periode && (
+                <>
+                    <BodyShort className={styles.PreviousValue}>
+                        {somNorskDato(event.endringer.periode.fra.fom)} -{' '}
+                        {somNorskDato(event.endringer.periode.fra.tom)}
+                    </BodyShort>
+                    <BodyShort>
+                        {somNorskDato(event.endringer.periode.til.fom)} -{' '}
+                        {somNorskDato(event.endringer.periode.til.tom)}
+                    </BodyShort>
+                </>
+            )}
+        </Table.DataCell>
+        <Table.DataCell>
+            {event.endringer.periodebelop && (
+                <>
+                    <BodyShort className={styles.PreviousValue}>
+                        {somPenger(Number(event.endringer.periodebelop.fra))}
+                    </BodyShort>
+                    <BodyShort>{somPenger(Number(event.endringer.periodebelop.til))}</BodyShort>
+                </>
+            )}
+        </Table.DataCell>
+        <Table.DataCell>
+            {event.endringer.ekskluderteUkedager && (
+                <>
+                    {tilSorterteDagerMedEndringstype(event.endringer.ekskluderteUkedager).map(
+                        ({ dag, endringstype }) => (
+                            <BodyShort
+                                key={dag}
+                                className={cn(endringstype === 'fjernet' && styles.PreviousValue)}
+                                textColor={endringstype === 'lagt til' ? 'default' : 'subtle'}
+                            >
+                                {somNorskDato(dag)}
+                            </BodyShort>
+                        ),
+                    )}
+                </>
+            )}
+        </Table.DataCell>
+    </>
+);
+
+const FjernetEventCeller = (): ReactElement => (
+    <>
+        <Table.DataCell></Table.DataCell>
+        <Table.DataCell></Table.DataCell>
+        <Table.DataCell></Table.DataCell>
+        <Table.DataCell></Table.DataCell>
+    </>
 );

@@ -4,8 +4,10 @@ import {
     HentTilkommenInntektV2Query,
     HentTilkommenInntektV2QueryVariables,
     TilkommenInntekt,
+    TilkommenInntektEventListLocalDateEndring,
     TilkommenInntektskilde,
 } from '@io/graphql';
+import { DateString } from '@typer/shared';
 
 export const useHentTilkommenInntektQuery = (
     fødselsnummer?: string,
@@ -54,3 +56,26 @@ export const useTilkommenInntektMedOrganisasjonsnummer = (tilkommenInntektId: st
         tilkommenInntektRefetch: refetch,
     };
 };
+
+export type DagMedEndringstype = {
+    dag: DateString;
+    endringstype: 'lagt til' | 'fjernet' | 'beholdt';
+};
+
+export const tilSorterteDagerMedEndringstype = (
+    ekskluderteUkedager: TilkommenInntektEventListLocalDateEndring,
+): DagMedEndringstype[] =>
+    ekskluderteUkedager.fra
+        .filter((dag) => !ekskluderteUkedager!.til.includes(dag))
+        .map((dag): DagMedEndringstype => ({ dag: dag, endringstype: 'fjernet' }))
+        .concat(
+            ekskluderteUkedager.fra
+                .filter((dag) => ekskluderteUkedager!.til.includes(dag))
+                .map((dag): DagMedEndringstype => ({ dag: dag, endringstype: 'beholdt' })),
+        )
+        .concat(
+            ekskluderteUkedager.til
+                .filter((dag) => !ekskluderteUkedager!.fra.includes(dag))
+                .map((dag): DagMedEndringstype => ({ dag: dag, endringstype: 'lagt til' })),
+        )
+        .sort((a, b) => a.dag.localeCompare(b.dag));

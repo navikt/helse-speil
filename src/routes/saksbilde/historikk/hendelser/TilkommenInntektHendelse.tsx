@@ -12,6 +12,7 @@ import {
 } from '@io/graphql';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
+import { tilSorterteDagerMedEndringstype } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
@@ -84,29 +85,15 @@ export const TilkommenInntektEndretEllerGjenopprettetHendelse = ({
         {event.endringer.ekskluderteUkedager && (
             <VStack>
                 <BodyShort weight="semibold">Dager som ikke skal graderes</BodyShort>
-                {event.endringer.ekskluderteUkedager.fra
-                    .filter((dag) => !event.endringer.ekskluderteUkedager!.til.includes(dag))
-                    .map((dag) => ({ dag: dag, handling: 'fjernet' }))
-                    .concat(
-                        event.endringer.ekskluderteUkedager.fra
-                            .filter((dag) => event.endringer.ekskluderteUkedager!.til.includes(dag))
-                            .map((dag) => ({ dag: dag, handling: 'beholdt' })),
-                    )
-                    .concat(
-                        event.endringer.ekskluderteUkedager.til
-                            .filter((dag) => !event.endringer.ekskluderteUkedager!.fra.includes(dag))
-                            .map((dag) => ({ dag: dag, handling: 'lagt til' })),
-                    )
-                    .sort((a, b) => a.dag.localeCompare(b.dag))
-                    .map(({ dag, handling }) => (
-                        <BodyShort
-                            key={dag}
-                            className={cn(handling === 'fjernet' && styles.linethrough)}
-                            textColor={handling === 'lagt til' ? 'default' : 'subtle'}
-                        >
-                            {somNorskDato(dag)}
-                        </BodyShort>
-                    ))}
+                {tilSorterteDagerMedEndringstype(event.endringer.ekskluderteUkedager).map(({ dag, endringstype }) => (
+                    <BodyShort
+                        key={dag}
+                        className={cn(endringstype === 'fjernet' && styles.linethrough)}
+                        textColor={endringstype === 'lagt til' ? 'default' : 'subtle'}
+                    >
+                        {somNorskDato(dag)}
+                    </BodyShort>
+                ))}
             </VStack>
         )}
         <VStack>
