@@ -4,19 +4,19 @@ import { useForm } from 'react-hook-form';
 import { Alert, HStack } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
-import { DatePeriod, DateString } from '@/types/shared';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PersonFragment } from '@io/graphql';
-import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjemaTabell';
-import { TilkommenInntektSkjemafelter } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjemafelter';
+import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjemaTabell';
+import { TilkommenInntektSkjemafelter } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjemafelter';
 import {
     beregnInntektPerDag,
     tilPerioderPerOrganisasjonsnummer,
     utledSykefraværstilfelleperioder,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
+import { DatePeriod, DateString } from '@typer/shared';
 import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag, somNorskDato } from '@utils/date';
 
 interface TilkommenInntektProps {

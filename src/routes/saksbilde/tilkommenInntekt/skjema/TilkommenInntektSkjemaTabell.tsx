@@ -10,7 +10,7 @@ import { DatePeriod, DateString } from '@typer/shared';
 import { erHelg, erIPeriode, somNorskDato } from '@utils/date';
 import { capitalizeArbeidsgiver } from '@utils/locale';
 
-import styles from './TilkommenTable.module.css';
+import styles from '../TilkommenTable.module.css';
 
 interface TilkommenInntektTableProps {
     arbeidsgivere: ArbeidsgiverFragment[];

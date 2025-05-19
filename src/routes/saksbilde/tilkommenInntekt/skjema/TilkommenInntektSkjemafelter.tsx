@@ -18,7 +18,7 @@ import {
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Maybe } from '@io/graphql';
-import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/ControlledDatePicker';
+import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
 import { DatePeriod } from '@typer/shared';
 
 interface TilkommenInntektSkjemaProps {

@@ -5,7 +5,7 @@ import React, { ReactElement, useState } from 'react';
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
 import { EndreTilkommenInntektDocument, Maybe, PersonFragment } from '@io/graphql';
-import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/TilkommenInntektSkjema';
+import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
 import {

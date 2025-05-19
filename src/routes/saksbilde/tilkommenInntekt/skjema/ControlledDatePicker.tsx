@@ -4,7 +4,7 @@ import { ControllerRenderProps } from 'react-hook-form';
 import { DatePicker, useDatepicker } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
-import { DatePeriod, DateString } from '@/types/shared';
+import { DatePeriod, DateString } from '@typer/shared';
 import { dateTilNorskDato, erGyldigNorskDato, norskDatoTilDate, plussEnDag, somDate } from '@utils/date';
 
 type ControlledDatePickerProps = {
