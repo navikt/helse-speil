@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { PersonPencilIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
-import { Alert, BodyShort, Button, HGrid, HStack, Heading, Textarea, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, HGrid, HStack, Heading, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
 import { FjernTilkommenInntektDocument, Maybe } from '@/io/graphql';
@@ -11,6 +11,7 @@ import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQue
 import { FjernTilkommenInntektModal } from '@saksbilde/tilkommenInntekt/FjernTilkommenInntektModal';
 import { TilkommenInntektArbeidsgivernavn } from '@saksbilde/tilkommenInntekt/TilkommenInntektArbeidsgivernavn';
 import { TilkommenInntektDagoversikt } from '@saksbilde/tilkommenInntekt/TilkommenInntektDagoversikt';
+import { TilkommenInntektFjernPeriode } from '@saksbilde/tilkommenInntekt/TilkommenInntektFjernPeriode';
 import { beregnInntektPerDag, tabellArbeidsdager } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { useFetchPersonQuery } from '@state/person';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
@@ -170,44 +171,12 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                                 </Button>
                             )}
                             {!tilkommenInntekt.fjernet && showFjernTextArea && (
-                                <VStack>
-                                    <HStack>
-                                        <Heading size="xsmall" level="4">
-                                            Fjern periode
-                                        </Heading>
-                                        <Button
-                                            variant="tertiary"
-                                            size="small"
-                                            onClick={() => setShowFjernTextArea(false)}
-                                        >
-                                            Avbryt
-                                        </Button>
-                                    </HStack>
-                                    <Textarea
-                                        label="Begrunn hvorfor perioden fjernes"
-                                        description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
-                                        value={fjerningBegrunnelse}
-                                        onChange={(event) => setFjerningBegrunnelse(event.target.value)}
-                                    />
-                                    <HStack>
-                                        <Button
-                                            variant="primary"
-                                            size="small"
-                                            onClick={() => {
-                                                setShowFjernModal(true);
-                                            }}
-                                        >
-                                            Lagre
-                                        </Button>
-                                        <Button
-                                            variant="tertiary"
-                                            size="small"
-                                            onClick={() => setShowFjernTextArea(false)}
-                                        >
-                                            Avbryt
-                                        </Button>
-                                    </HStack>
-                                </VStack>
+                                <TilkommenInntektFjernPeriode
+                                    fjerningBegrunnelse={fjerningBegrunnelse}
+                                    setFjerningBegrunnelse={setFjerningBegrunnelse}
+                                    visFjernModal={() => setShowFjernModal(true)}
+                                    skjulFjernPeriode={() => setShowFjernTextArea(false)}
+                                />
                             )}
                         </VStack>
                     </Box>
