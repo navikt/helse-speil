@@ -72,33 +72,36 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
     };
     return (
         <>
-            {tilkommenInntekt.fjernet && (
-                <Button
-                    variant="tertiary"
-                    size="small"
-                    icon={<PersonPencilIcon />}
-                    onClick={() => router.push(tilkommenInntektId + '/gjenopprett')}
-                >
-                    Gjenopprett
-                </Button>
-            )}
-            {!tilkommenInntekt.fjernet && (
-                <Button
-                    variant="tertiary"
-                    size="small"
-                    icon={<PersonPencilIcon />}
-                    onClick={() => router.push(tilkommenInntektId + '/endre')}
-                >
-                    Endre
-                </Button>
-            )}
+            <HStack paddingBlock="6 4" paddingInline="2">
+                {tilkommenInntekt.fjernet && (
+                    <Button
+                        variant="tertiary"
+                        size="small"
+                        icon={<PersonPencilIcon />}
+                        onClick={() => router.push(tilkommenInntektId + '/gjenopprett')}
+                    >
+                        Gjenopprett
+                    </Button>
+                )}
+                {!tilkommenInntekt.fjernet && (
+                    <Button
+                        variant="tertiary"
+                        size="small"
+                        icon={<PersonPencilIcon />}
+                        onClick={() => router.push(tilkommenInntektId + '/endre')}
+                    >
+                        Endre
+                    </Button>
+                )}
+            </HStack>
             <HStack wrap={false}>
-                <VStack paddingBlock="8 6" paddingInline="0 0">
+                <VStack>
                     <Box
                         background={'surface-subtle'}
                         borderWidth="0 0 0 3"
                         style={{ borderColor: 'transparent' }}
                         paddingBlock="4 5"
+                        marginInline="2 0"
                         paddingInline="6"
                         minWidth={'630px'}
                     >
