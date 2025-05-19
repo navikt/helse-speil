@@ -210,7 +210,9 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                             {!tilkommenInntekt.fjernet && showFjernTextArea && (
                                 <VStack>
                                     <HStack>
-                                        <BodyShort>Fjern periode</BodyShort>
+                                        <Heading size="xsmall" level="4">
+                                            Fjern periode
+                                        </Heading>
                                         <Button
                                             variant="tertiary"
                                             size="small"
