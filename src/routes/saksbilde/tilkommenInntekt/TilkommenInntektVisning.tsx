@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { PersonPencilIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
-import { Alert, BodyShort, Button, HGrid, HStack, Heading, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, HGrid, HStack, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
 import { FjernTilkommenInntektDocument, Maybe } from '@/io/graphql';
@@ -12,10 +12,11 @@ import { FjernTilkommenInntektModal } from '@saksbilde/tilkommenInntekt/FjernTil
 import { TilkommenInntektArbeidsgivernavn } from '@saksbilde/tilkommenInntekt/TilkommenInntektArbeidsgivernavn';
 import { TilkommenInntektDagoversikt } from '@saksbilde/tilkommenInntekt/TilkommenInntektDagoversikt';
 import { TilkommenInntektFjernPeriode } from '@saksbilde/tilkommenInntekt/TilkommenInntektFjernPeriode';
+import { TilkommenInntektFjernetAlert } from '@saksbilde/tilkommenInntekt/TilkommenInntektFjernetAlert';
 import { beregnInntektPerDag, tabellArbeidsdager } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { useFetchPersonQuery } from '@state/person';
 import { useTilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
-import { erIPeriode, getFormattedDatetimeString, somNorskDato } from '@utils/date';
+import { erIPeriode, somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 interface TilkommenInntektVisningProps {
@@ -58,9 +59,6 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
         tilkommenInntekt.ekskluderteUkedager,
     );
 
-    const fjernetEvent = tilkommenInntekt.events.findLast(
-        (event) => event.__typename == 'TilkommenInntektFjernetEvent',
-    );
     const handleFjern = async () => {
         setShowFjernTextArea(false);
         setShowFjernModal(false);
@@ -133,20 +131,10 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                                         </BodyShort>
                                     </VStack>
                                 </HGrid>
+                                {tilkommenInntekt.fjernet && (
+                                    <TilkommenInntektFjernetAlert tilkommenInntektEvents={tilkommenInntekt.events} />
+                                )}
                             </VStack>
-                            {tilkommenInntekt.fjernet && (
-                                <Alert variant="info">
-                                    <Heading size="xsmall" level="4">
-                                        Perioden er fjernet
-                                    </Heading>
-                                    <BodyShort>
-                                        Fjernet av: {fjernetEvent?.metadata?.utfortAvSaksbehandlerIdent}
-                                    </BodyShort>
-                                    <BodyShort>
-                                        Tidspunkt: {getFormattedDatetimeString(fjernetEvent?.metadata?.tidspunkt)}
-                                    </BodyShort>
-                                </Alert>
-                            )}
                             {!tilkommenInntekt.fjernet && !showFjernTextArea && (
                                 <Button
                                     variant="tertiary"
