@@ -2,21 +2,8 @@ import cn from 'classnames';
 import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
-import { PersonPencilIcon, PlusCircleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
-import {
-    Alert,
-    BodyShort,
-    Button,
-    CopyButton,
-    ErrorMessage,
-    HGrid,
-    HStack,
-    Heading,
-    Skeleton,
-    Table,
-    Textarea,
-    VStack,
-} from '@navikt/ds-react';
+import { PersonPencilIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
+import { Alert, BodyShort, Button, HGrid, HStack, Heading, Table, Textarea, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
 import { FjernTilkommenInntektDocument, Maybe } from '@/io/graphql';
@@ -24,6 +11,7 @@ import { useMutation } from '@apollo/client';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { FjernTilkommenInntektModal } from '@saksbilde/tilkommenInntekt/FjernTilkommenInntektModal';
+import { TilkommenInntektArbeidsgivernavn } from '@saksbilde/tilkommenInntekt/TilkommenInntektArbeidsgivernavn';
 import styles from '@saksbilde/tilkommenInntekt/TilkommenTable.module.css';
 import {
     beregnInntektPerDag,
@@ -136,31 +124,11 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                     >
                         <VStack gap="4" align="start">
                             <VStack gap="4" paddingInline="2">
-                                <HStack align="center" gap="2">
-                                    <PlusCircleIcon fontSize="1.3rem" />
-                                    {organisasjonLoading ? (
-                                        <Skeleton width="8rem" />
-                                    ) : organisasjonData?.organisasjon?.navn === undefined ? (
-                                        <ErrorMessage>Feil ved navnoppslag</ErrorMessage>
-                                    ) : (
-                                        <AnonymizableTextWithEllipsis weight="semibold">
-                                            {organisasjonData.organisasjon.navn}
-                                        </AnonymizableTextWithEllipsis>
-                                    )}
-                                    <HStack>
-                                        <BodyShort weight="semibold">(</BodyShort>
-                                        <AnonymizableTextWithEllipsis weight="semibold">
-                                            {organisasjonsnummer}
-                                        </AnonymizableTextWithEllipsis>
-                                        <CopyButton
-                                            copyText={organisasjonsnummer}
-                                            size="xsmall"
-                                            title="Kopier organisasjonsnummer"
-                                            onClick={(event) => event.stopPropagation()}
-                                        />
-                                        <BodyShort weight="semibold">)</BodyShort>
-                                    </HStack>
-                                </HStack>
+                                <TilkommenInntektArbeidsgivernavn
+                                    organisasjonsnummer={organisasjonsnummer}
+                                    organisasjonLoading={organisasjonLoading}
+                                    organisasjonsnavn={organisasjonData?.organisasjon?.navn ?? undefined}
+                                />
                                 <HGrid columns={2} gap="2" width="450px" paddingInline="7">
                                     <VStack>
                                         <BodyShort weight="semibold">Periode f.o.m.</BodyShort>
