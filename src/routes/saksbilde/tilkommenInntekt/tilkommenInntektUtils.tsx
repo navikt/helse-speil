@@ -69,7 +69,7 @@ export function beregnInntektPerDag(
     return periodebeløp / antallDagerTilGradering;
 }
 
-interface TabellArbeidsdag {
+export interface TabellArbeidsdag {
     dato: DateString;
     arbeidsgivere: {
         navn: string;
