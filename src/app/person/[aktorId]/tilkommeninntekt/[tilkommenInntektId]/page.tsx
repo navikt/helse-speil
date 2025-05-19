@@ -3,7 +3,7 @@
 import React, { ReactElement, use } from 'react';
 
 import { Maybe } from '@io/graphql';
-import { TilkommenInntektVisning } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektVisning';
+import { TilkommenInntektVisning } from '@saksbilde/tilkommenInntekt/saksbilde/TilkommenInntektVisning';
 
 type TilkommenInntektPageProps = {
     params: Promise<{ tilkommenInntektId: string }>;
