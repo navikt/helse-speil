@@ -76,7 +76,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
             <HStack paddingBlock="6 4" paddingInline="2">
                 {tilkommenInntekt.fjernet && (
                     <Button
-                        variant="tertiary"
+                        variant="secondary"
                         size="small"
                         icon={<PersonPencilIcon />}
                         onClick={() => router.push(tilkommenInntektId + '/gjenopprett')}
@@ -86,8 +86,8 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                 )}
                 {!tilkommenInntekt.fjernet && (
                     <Button
-                        variant="tertiary"
-                        size="small"
+                        variant="secondary"
+                        size="xsmall"
                         icon={<PersonPencilIcon />}
                         onClick={() => router.push(tilkommenInntektId + '/endre')}
                     >
@@ -102,7 +102,6 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                         borderWidth="0 0 0 3"
                         style={{ borderColor: 'transparent' }}
                         paddingBlock="4 5"
-                        marginInline="2 0"
                         paddingInline="6"
                         minWidth={'630px'}
                     >

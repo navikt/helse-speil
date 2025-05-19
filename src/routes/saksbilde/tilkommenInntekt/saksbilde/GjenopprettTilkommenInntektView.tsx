@@ -58,7 +58,6 @@ const GjenopprettTilkommenInntektSkjema = ({
         <TilkommenInntektSkjema
             person={person}
             andreTilkomneInntekter={andreTilkomneInntekter}
-            heading="Gjenopprett tilkommen inntekt"
             startOrganisasjonsnummer={tilkommenInntekt.organisasjonsnummer}
             startFom={tilkommenInntekt.periode.fom}
             startTom={tilkommenInntekt.periode.tom}

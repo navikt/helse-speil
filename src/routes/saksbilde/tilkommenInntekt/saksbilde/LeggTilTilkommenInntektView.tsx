@@ -2,6 +2,8 @@
 
 import React, { ReactElement, useState } from 'react';
 
+import { Box, HStack, Heading, VStack } from '@navikt/ds-react';
+
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
 import { LeggTilTilkommenInntektDocument, Maybe } from '@io/graphql';
@@ -59,18 +61,26 @@ export const LeggTilTilkommenInntektView = (): Maybe<ReactElement> => {
         });
     };
     return (
-        <TilkommenInntektSkjema
-            person={person}
-            andreTilkomneInntekter={tilkomneInntekterMedOrganisasjonsnummer}
-            heading="Legg til tilkommen inntekt"
-            startOrganisasjonsnummer=""
-            startFom=""
-            startTom=""
-            startPeriodebeløp={0}
-            ekskluderteUkedager={ekskluderteUkedager}
-            setEkskluderteUkedager={setEkskluderteUkedager}
-            isSubmitting={isSubmitting}
-            handleSubmit={handleSubmit}
-        />
+        <VStack paddingBlock="6 4">
+            <HStack paddingInline="2">
+                <Heading level="2" size="small" spacing>
+                    Legg til tilkommen inntekt
+                </Heading>
+            </HStack>
+            <Box borderWidth="0 0 0 3" borderColor="border-action">
+                <TilkommenInntektSkjema
+                    person={person}
+                    andreTilkomneInntekter={tilkomneInntekterMedOrganisasjonsnummer}
+                    startOrganisasjonsnummer=""
+                    startFom=""
+                    startTom=""
+                    startPeriodebeløp={0}
+                    ekskluderteUkedager={ekskluderteUkedager}
+                    setEkskluderteUkedager={setEkskluderteUkedager}
+                    isSubmitting={isSubmitting}
+                    handleSubmit={handleSubmit}
+                />
+            </Box>
+        </VStack>
     );
 };

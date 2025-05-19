@@ -22,7 +22,6 @@ import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag, somNors
 interface TilkommenInntektProps {
     person: PersonFragment;
     andreTilkomneInntekter: TilkommenInntektMedOrganisasjonsnummer[];
-    heading: string;
     startOrganisasjonsnummer: string;
     startFom: DateString;
     startTom: DateString;
@@ -36,7 +35,6 @@ interface TilkommenInntektProps {
 export const TilkommenInntektSkjema = ({
     person,
     andreTilkomneInntekter,
-    heading,
     startOrganisasjonsnummer,
     startFom,
     startTom,
@@ -140,7 +138,6 @@ export const TilkommenInntektSkjema = ({
             <HStack wrap={false}>
                 <TilkommenInntektSkjemafelter
                     form={form}
-                    heading={heading}
                     handleSubmit={handleSubmit}
                     inntektPerDag={inntektPerDag}
                     organisasjonLoading={organisasjonLoading}
