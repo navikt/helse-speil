@@ -15,9 +15,9 @@ import { useFetchPersonQuery } from '@state/person';
 import { useTilkommenInntektIdFraUrl } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 
-import { useShowHistorikkState, useShowHøyremenyState } from '../historikk/state';
+import { useShowHistorikkState, useShowHøyremenyState } from '../../historikk/state';
 
-import styles from '../historikk/Historikk.module.css';
+import styles from '../../historikk/Historikk.module.css';
 
 const TilkommenInntektHistorikkWithContent = (): ReactElement => {
     const { loading: fetchPersonLoading, data: fetchPersonData } = useFetchPersonQuery();
