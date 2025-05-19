@@ -30,3 +30,27 @@ export const tilTilkomneInntekterMedOrganisasjonsnummer = (inntektskilder: Tilko
             ...tilkommenInntekt,
         })),
     );
+
+export const useTilkommenInntektMedOrganisasjonsnummer = (tilkommenInntektId: string, fødselsnummer?: string) => {
+    const { data: tilkommenInntektData, refetch } = useHentTilkommenInntektQuery(fødselsnummer);
+    const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektData?.tilkomneInntektskilderV2
+        ?.flatMap((tilkommenInntektskilde) =>
+            tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
+                organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,
+                tilkommenInntekt: tilkommenInntekt,
+            })),
+        )
+        .find(
+            (inntektMedOrganisasjonsnummer) =>
+                inntektMedOrganisasjonsnummer.tilkommenInntekt.tilkommenInntektId === tilkommenInntektId,
+        );
+
+    const organisasjonsnummer = tilkommenInntektMedOrganisasjonsnummer?.organisasjonsnummer;
+    const tilkommenInntekt = tilkommenInntektMedOrganisasjonsnummer?.tilkommenInntekt;
+
+    return {
+        organisasjonsnummer,
+        tilkommenInntekt,
+        tilkommenInntektRefetch: refetch,
+    };
+};

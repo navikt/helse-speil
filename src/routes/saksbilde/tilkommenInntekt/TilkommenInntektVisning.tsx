@@ -14,7 +14,7 @@ import { TilkommenInntektDagoversikt } from '@saksbilde/tilkommenInntekt/Tilkomm
 import { TilkommenInntektFjernPeriode } from '@saksbilde/tilkommenInntekt/TilkommenInntektFjernPeriode';
 import { beregnInntektPerDag, tabellArbeidsdager } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { useFetchPersonQuery } from '@state/person';
-import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { useTilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { erIPeriode, getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
@@ -25,26 +25,13 @@ interface TilkommenInntektVisningProps {
 export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntektVisningProps): Maybe<ReactElement> => {
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
-    const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
-        person?.fodselsnummer,
-    );
     const router = useRouter();
     const [fjernTilkommenInntekt] = useMutation(FjernTilkommenInntektDocument);
     const [fjerningBegrunnelse, setFjerningBegrunnelse] = useState<string>('');
-    const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektData?.tilkomneInntektskilderV2
-        ?.flatMap((tilkommenInntektskilde) =>
-            tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
-                organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,
-                tilkommenInntekt: tilkommenInntekt,
-            })),
-        )
-        .find(
-            (inntektMedOrganisasjonsnummer) =>
-                inntektMedOrganisasjonsnummer.tilkommenInntekt.tilkommenInntektId === tilkommenInntektId,
-        );
 
-    const organisasjonsnummer = tilkommenInntektMedOrganisasjonsnummer?.organisasjonsnummer;
-    const tilkommenInntekt = tilkommenInntektMedOrganisasjonsnummer?.tilkommenInntekt;
+    const { organisasjonsnummer, tilkommenInntekt, tilkommenInntektRefetch } =
+        useTilkommenInntektMedOrganisasjonsnummer(tilkommenInntektId, person?.fodselsnummer);
+
     const { loading: organisasjonLoading, data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
 
     const [showFjernModal, setShowFjernModal] = useState(false);
@@ -52,10 +39,10 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
 
     if (!tilkommenInntekt || !organisasjonsnummer) return null;
 
-    const arbeidsgivere = person?.arbeidsgivere ?? [];
-    const arbeidsgiverdager = tabellArbeidsdager(arbeidsgivere).filter((dag) =>
+    const arbeidsgiverdager = tabellArbeidsdager(person?.arbeidsgivere ?? []).filter((dag) =>
         erIPeriode(dag.dato, tilkommenInntekt.periode),
     );
+
     const arbeidsgiverrad = arbeidsgiverdager.reduce((acc: string[], arbeidsgierdag) => {
         if (arbeidsgierdag.arbeidsgivere.length > acc.length) {
             return arbeidsgierdag.arbeidsgivere.map((dag) => dag.navn);
