@@ -125,7 +125,7 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                 </Button>
             )}
             <HStack wrap={false}>
-                <VStack paddingBlock="8 6" paddingInline="2 0">
+                <VStack paddingBlock="8 6" paddingInline="0 0">
                     <Box
                         background={'surface-subtle'}
                         borderWidth="0 0 0 3"
@@ -134,10 +134,10 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                         paddingInline="6"
                         minWidth={'630px'}
                     >
-                        <VStack paddingInline="3" gap="6">
-                            <VStack gap="2">
+                        <VStack gap="4" align="start">
+                            <VStack gap="4" paddingInline="2">
                                 <HStack align="center" gap="2">
-                                    <PlusCircleIcon />
+                                    <PlusCircleIcon fontSize="1.3rem" />
                                     {organisasjonLoading ? (
                                         <Skeleton width="8rem" />
                                     ) : organisasjonData?.organisasjon?.navn === undefined ? (
@@ -161,29 +161,29 @@ export const TilkommenInntektVisning = ({ tilkommenInntektId }: TilkommenInntekt
                                         <BodyShort weight="semibold">)</BodyShort>
                                     </HStack>
                                 </HStack>
+                                <HGrid columns={2} gap="2" width="450px" paddingInline="7">
+                                    <VStack>
+                                        <BodyShort weight="semibold">Periode f.o.m.</BodyShort>
+                                        <BodyShort>{somNorskDato(tilkommenInntekt.periode.fom)}</BodyShort>
+                                    </VStack>
+                                    <VStack>
+                                        <BodyShort weight="semibold">Periode t.o.m.</BodyShort>
+                                        <BodyShort>{somNorskDato(tilkommenInntekt.periode.tom)}</BodyShort>
+                                    </VStack>
+                                    <VStack>
+                                        <BodyShort weight="semibold">Inntekt for perioden</BodyShort>
+                                        <BodyShort>{somPenger(Number(tilkommenInntekt.periodebelop))}</BodyShort>
+                                    </VStack>
+                                    <VStack>
+                                        <BodyShort weight="semibold">Inntekt per dag</BodyShort>
+                                        <BodyShort>
+                                            {Number.isNaN(inntektPerDag) || !Number.isFinite(inntektPerDag)
+                                                ? ''
+                                                : somPenger(inntektPerDag)}
+                                        </BodyShort>
+                                    </VStack>
+                                </HGrid>
                             </VStack>
-                            <HGrid columns={2} paddingInline="6" gap="2" width="450px">
-                                <VStack>
-                                    <BodyShort weight="semibold">Periode f.o.m.</BodyShort>
-                                    <BodyShort>{somNorskDato(tilkommenInntekt.periode.fom)}</BodyShort>
-                                </VStack>
-                                <VStack>
-                                    <BodyShort weight="semibold">Periode t.o.m.</BodyShort>
-                                    <BodyShort>{somNorskDato(tilkommenInntekt.periode.tom)}</BodyShort>
-                                </VStack>
-                                <VStack>
-                                    <BodyShort weight="semibold">Inntekt for perioden</BodyShort>
-                                    <BodyShort>{somPenger(Number(tilkommenInntekt.periodebelop))}</BodyShort>
-                                </VStack>
-                                <VStack>
-                                    <BodyShort weight="semibold">Inntekt per dag</BodyShort>
-                                    <BodyShort>
-                                        {Number.isNaN(inntektPerDag) || !Number.isFinite(inntektPerDag)
-                                            ? ''
-                                            : somPenger(inntektPerDag)}
-                                    </BodyShort>
-                                </VStack>
-                            </HGrid>
                             {tilkommenInntekt.fjernet && (
                                 <Alert variant="info">
                                     <Heading size="xsmall" level="4">
