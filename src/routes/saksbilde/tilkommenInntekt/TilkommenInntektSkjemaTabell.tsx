@@ -52,6 +52,7 @@ export const TilkommenInntektSkjemaTabell = ({
             paddingBlock="4 0"
             marginBlock="18 6"
             width="max-content"
+            minWidth="320px"
             overflow="auto"
         >
             <BodyShort weight="semibold" className={styles.tabellTittel} spacing>

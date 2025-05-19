@@ -10,7 +10,9 @@ export const TilkommenInntektSaksbilde = ({ children }: PropsWithChildren) => {
     return (
         <div className={styles.Content}>
             <TilkommenInntektSaksbildeMenu />
-            <Box overflowX="scroll">{children}</Box>
+            <Box overflowX="auto" height="100%">
+                {children}
+            </Box>
         </div>
     );
 };
