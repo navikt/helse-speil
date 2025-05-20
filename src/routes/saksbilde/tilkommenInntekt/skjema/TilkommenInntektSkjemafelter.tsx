@@ -61,8 +61,7 @@ export const TilkommenInntektSkjemafelter = ({
                     background={'surface-subtle'}
                     paddingInline="10"
                     paddingBlock="4"
-                    minWidth="390px"
-                    maxWidth="630px"
+                    width="460px"
                     borderWidth="0 0 0 3"
                     borderColor="border-action"
                 >

@@ -80,7 +80,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                         style={{ borderColor: 'transparent' }}
                         paddingBlock="4 5"
                         paddingInline="6"
-                        minWidth={'630px'}
+                        width="460px"
                     >
                         <VStack gap="4" align="start">
                             <VStack gap="4" paddingInline="2">
