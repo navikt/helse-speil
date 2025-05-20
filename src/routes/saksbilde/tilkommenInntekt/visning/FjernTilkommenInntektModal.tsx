@@ -20,6 +20,7 @@ export const FjernTilkommenInntektModal = ({
 }: FjernTilkommenInntektModalProps): ReactElement => {
     const [fjerningBegrunnelse, setFjerningBegrunnelse] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | undefined>(undefined);
     const [fjernTilkommenInntekt] = useMutation(FjernTilkommenInntektDocument);
 
     const { tilkommenInntektRefetch } = useTilkommenInntektMedOrganisasjonsnummer(
@@ -28,18 +29,28 @@ export const FjernTilkommenInntektModal = ({
     );
 
     const handleFjern = async () => {
-        setLoading(true);
-        await fjernTilkommenInntekt({
-            variables: {
-                notatTilBeslutter: fjerningBegrunnelse,
-                tilkommenInntektId: tilkommenInntekt.tilkommenInntektId,
-            },
-            onCompleted: () => tilkommenInntektRefetch().then(() => onClose()),
-        });
+        if (fjerningBegrunnelse.trim().length === 0) {
+            setError('Begrunnelse må fylles ut');
+        } else {
+            setError(undefined);
+            setLoading(true);
+            await fjernTilkommenInntekt({
+                variables: {
+                    notatTilBeslutter: fjerningBegrunnelse,
+                    tilkommenInntektId: tilkommenInntekt.tilkommenInntektId,
+                },
+                onCompleted: () => tilkommenInntektRefetch().then(() => onClose()),
+            });
+        }
     };
 
     return (
-        <Modal header={{ heading: 'Fjern periode' }} open={true} onClose={onClose}>
+        <Modal
+            header={{ heading: 'Fjern periode', closeButton: !loading }}
+            closeOnBackdropClick={!loading}
+            open={true}
+            onClose={onClose}
+        >
             <Modal.Body>
                 <VStack gap="4">
                     <BodyLong>
@@ -50,6 +61,7 @@ export const FjernTilkommenInntektModal = ({
                         label="Begrunn hvorfor perioden fjernes"
                         description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
                         value={fjerningBegrunnelse}
+                        error={error}
                         onChange={(event) => setFjerningBegrunnelse(event.target.value)}
                     />
                 </VStack>
