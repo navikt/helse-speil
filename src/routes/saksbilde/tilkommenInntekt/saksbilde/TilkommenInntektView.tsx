@@ -133,9 +133,9 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                                 </Button>
                             )}
                             {tilkommenInntekt.fjernet && (
-                                <Box paddingInline="2">
+                                <Box paddingInline="4">
                                     <Link as={NextLink} href={`${tilkommenInntektId}/gjenopprett`}>
-                                        <ArrowUndoIcon />
+                                        <ArrowUndoIcon fontSize="1.3rem" />
                                         Legg til perioden likevel
                                     </Link>
                                 </Box>
