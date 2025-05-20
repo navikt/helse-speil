@@ -243,8 +243,6 @@ export type BeregnetPeriode = Periode & {
     hendelser: Array<Hendelse>;
     historikkinnslag: Array<Historikkinnslag>;
     id: Scalars['UUID']['output'];
-    /** Andre inntekter, f.eks tilkommen inntekt */
-    inntekter: Array<Inntekt>;
     inntektstype: Inntektstype;
     maksdato: Scalars['LocalDate']['output'];
     notater: Array<Notat>;
@@ -492,13 +490,6 @@ export type Infotrygdutbetaling = {
     organisasjonsnummer: Scalars['String']['output'];
     tom: Scalars['String']['output'];
     typetekst: Scalars['String']['output'];
-};
-
-export type Inntekt = {
-    __typename?: 'Inntekt';
-    /** En id som identifiserer inntektskilden, f.eks. organisasjonsnummer */
-    inntektskilde: Scalars['String']['output'];
-    periodiserteInntekter: Array<PeriodisertInntekt>;
 };
 
 export type InntektEndringAarsak = {
@@ -1176,13 +1167,6 @@ export type Periodevilkar = {
     __typename?: 'Periodevilkar';
     alder: Alder;
     sykepengedager: Sykepengedager;
-};
-
-export type PeriodisertInntekt = {
-    __typename?: 'PeriodisertInntekt';
-    dagligBelop: Scalars['Float']['output'];
-    fom: Scalars['LocalDate']['output'];
-    tom: Scalars['LocalDate']['output'];
 };
 
 export type Person = {
