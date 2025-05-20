@@ -198,7 +198,7 @@ export const TilkommenInntektSkjemafelter = ({
                         </Box>
                     )}
                     <HStack gap="2" marginBlock="4">
-                        <Button size="small" variant="secondary" type="submit" loading={loading}>
+                        <Button size="small" variant="primary" type="submit" loading={loading}>
                             Lagre
                         </Button>
                         <Button
