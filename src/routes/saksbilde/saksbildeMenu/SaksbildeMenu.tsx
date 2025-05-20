@@ -1,4 +1,3 @@
-import { usePathname } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { BodyShort, Box, BoxProps, HStack, Skeleton } from '@navikt/ds-react';
@@ -9,7 +8,7 @@ import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { NavLenke, NavLenkeSkeleton } from './NavLenke';
-import { DropdownMenu } from './dropdown/DropdownMenu';
+import { DropdownMenu, DropdownMenuContent } from './dropdown/DropdownMenu';
 
 type SaksbildeMenuProps = {
     person: PersonFragment;
@@ -22,23 +21,18 @@ const SaksbildeMenuContainer = ({ person, activePeriod }: SaksbildeMenuProps): R
     const erVilkårsvurdert = erBeregnetPeriode || isGhostPeriode(activePeriod);
     const harRisikofunn =
         erBeregnetPeriode && activePeriod.risikovurdering?.funn && activePeriod.risikovurdering?.funn?.length > 0;
-    const pathname = usePathname();
-    const erTilkommenInntekt = pathname.includes('/tilkommen-inntekt');
     return (
         <SaksbildeMenuWrapper>
             <HStack>
                 <HStack as="nav" role="tablist">
-                    {!erTilkommenInntekt && (
-                        <>
-                            {erPeriode && <NavLenke to="dagoversikt" tittel="Dagoversikt" />}
-                            {erBeregnetPeriode && <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />}
-                            {erVilkårsvurdert && <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />}
-                            {harRisikofunn && <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />}
-                        </>
-                    )}
-                    {erTilkommenInntekt && <NavLenke to="tilkommen-inntekt" tittel="Tilkommen inntekt" />}
+                    {erPeriode && <NavLenke to="dagoversikt" tittel="Dagoversikt" />}
+                    {erBeregnetPeriode && <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />}
+                    {erVilkårsvurdert && <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />}
+                    {harRisikofunn && <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />}
                 </HStack>
-                <DropdownMenu person={person} activePeriod={activePeriod} />
+                <DropdownMenu>
+                    <DropdownMenuContent person={person} activePeriod={activePeriod} />
+                </DropdownMenu>
             </HStack>
         </SaksbildeMenuWrapper>
     );

@@ -6,6 +6,8 @@ import { BodyShort, Box, BoxProps, HStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import navLenkeStyles from '@saksbilde/saksbildeMenu/NavLenke.module.css';
+import { DropdownMenu, TilkommenInntektDropdownMenuContent } from '@saksbilde/saksbildeMenu/dropdown/DropdownMenu';
+import { useFetchPersonQuery } from '@state/person';
 
 const TilkommenInntektSaksbildeMenuWrapper = (props: BoxProps) => (
     <Box
@@ -26,20 +28,26 @@ const TilkommenInntektSaksbildeMenuError = (): ReactElement => (
     </TilkommenInntektSaksbildeMenuWrapper>
 );
 
-export const TilkommenInntektSaksbildeMenu = (): ReactElement => (
-    <ErrorBoundary fallback={<TilkommenInntektSaksbildeMenuError />}>
-        <TilkommenInntektSaksbildeMenuWrapper>
-            <HStack>
-                <HStack as="nav" role="tablist">
-                    <Link
-                        className={classNames(navLenkeStyles.NavLink, navLenkeStyles.ActiveLink)}
-                        href={'#'}
-                        title={'Tilkommen inntekt'}
-                    >
-                        Tilkommen inntekt
-                    </Link>
+export const TilkommenInntektSaksbildeMenu = (): ReactElement => {
+    const { data: personData } = useFetchPersonQuery();
+    return (
+        <ErrorBoundary fallback={<TilkommenInntektSaksbildeMenuError />}>
+            <TilkommenInntektSaksbildeMenuWrapper>
+                <HStack>
+                    <HStack as="nav" role="tablist">
+                        <Link
+                            className={classNames(navLenkeStyles.NavLink, navLenkeStyles.ActiveLink)}
+                            href={'#'}
+                            title={'Tilkommen inntekt'}
+                        >
+                            Tilkommen inntekt
+                        </Link>
+                        <DropdownMenu>
+                            <TilkommenInntektDropdownMenuContent person={personData?.person ?? undefined} />
+                        </DropdownMenu>
+                    </HStack>
                 </HStack>
-            </HStack>
-        </TilkommenInntektSaksbildeMenuWrapper>
-    </ErrorBoundary>
-);
+            </TilkommenInntektSaksbildeMenuWrapper>
+        </ErrorBoundary>
+    );
+};

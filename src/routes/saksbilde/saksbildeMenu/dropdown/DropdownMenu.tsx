@@ -1,4 +1,4 @@
-import React, { ReactElement, useRef, useState } from 'react';
+import React, { PropsWithChildren, ReactElement, useRef, useState } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { Dropdown } from '@navikt/ds-react';
@@ -25,7 +25,7 @@ type DropdownMenuProps = {
     activePeriod: ActivePeriod;
 };
 
-const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps): Maybe<ReactElement> => {
+export const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps): ReactElement | null => {
     const user = useInnloggetSaksbehandler();
     const readOnly = useIsReadOnlyOppgave(person);
     const arbeidsgiver = useCurrentArbeidsgiver(person);
@@ -71,7 +71,33 @@ const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps): Maybe
     );
 };
 
-export const DropdownMenu = ({ person, activePeriod }: DropdownMenuProps): ReactElement => {
+export const TilkommenInntektDropdownMenuContent = ({
+    person,
+}: {
+    person?: Maybe<PersonFragment>;
+}): ReactElement | null => {
+    if (!isPerson(person)) {
+        return null;
+    }
+
+    const automatiskBehandlingStansetAvSaksbehandler =
+        person.personinfo.automatiskBehandlingStansetAvSaksbehandler ?? false;
+
+    return (
+        <Dropdown.Menu placement="bottom-start" className={styles.dropdown}>
+            <Dropdown.Menu.List>
+                {automatiskBehandlingStansetAvSaksbehandler ? (
+                    <OpphevStansAutomatiskBehandlingButton fødselsnummer={person.fodselsnummer} />
+                ) : (
+                    <StansAutomatiskBehandlingButton fødselsnummer={person.fodselsnummer} />
+                )}
+                <OppdaterPersondataButton person={person} />
+            </Dropdown.Menu.List>
+        </Dropdown.Menu>
+    );
+};
+
+export const DropdownMenu = ({ children }: PropsWithChildren): ReactElement => {
     const [open, setOpen] = useState(false);
     const content = useRef<HTMLSpanElement>(null);
 
@@ -100,7 +126,7 @@ export const DropdownMenu = ({ person, activePeriod }: DropdownMenuProps): React
                         <ChevronDownIcon title="åpne" fontSize="1.25rem" />
                     )}
                 </Dropdown.Toggle>
-                <DropdownMenuContent person={person} activePeriod={activePeriod} />
+                {children}
             </Dropdown>
         </span>
     );
