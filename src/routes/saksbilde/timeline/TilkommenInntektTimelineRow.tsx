@@ -11,6 +11,7 @@ import { TilkommenInntekt } from '@io/graphql';
 import { KopierAgNavn } from '@saksbilde/timeline/KopierAgNavn';
 import { TilkommenInntektPeriods } from '@saksbilde/timeline/TilkommenInntektPeriods';
 import { useIsAnonymous } from '@state/anonymization';
+import { capitalizeArbeidsgiver } from '@utils/locale';
 
 import styles from './TilkommenInntektTimelineRow.module.css';
 
@@ -30,11 +31,14 @@ export const TilkommenInntektTimelineRow = ({
     const { loading: organisasjonLoading, data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
     const erAnonymisert = useIsAnonymous();
 
-    const organisasjonNavn = organisasjonData?.organisasjon?.navn;
+    const organisasjonNavn =
+        organisasjonData?.organisasjon?.navn != undefined
+            ? capitalizeArbeidsgiver(organisasjonData.organisasjon.navn)
+            : undefined;
 
     const tooltipText = organisasjonLoading
         ? 'Henter navn fra enhetsregisteret...'
-        : organisasjonNavn == undefined
+        : organisasjonNavn === undefined
           ? 'En feil oppsto ved henting av navn fra enhetsregisteret'
           : erAnonymisert
             ? 'Arbeidsgiver'
@@ -47,7 +51,7 @@ export const TilkommenInntektTimelineRow = ({
                     <PlusCircleIcon className={styles.arbeidsgiverIkon} />
                     {organisasjonLoading ? (
                         <Skeleton width="8rem" />
-                    ) : organisasjonNavn == undefined ? (
+                    ) : organisasjonNavn === undefined ? (
                         <>
                             <AnonymizableTextWithEllipsis>{organisasjonsnummer}</AnonymizableTextWithEllipsis>
                             <ExclamationmarkTriangleIcon color="red" />
