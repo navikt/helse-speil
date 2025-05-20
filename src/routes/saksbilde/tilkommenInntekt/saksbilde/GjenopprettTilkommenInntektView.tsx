@@ -1,6 +1,10 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
+
+import { XMarkIcon } from '@navikt/aksel-icons';
+import { Box, Button, HStack } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
@@ -30,6 +34,7 @@ const GjenopprettTilkommenInntektSkjema = ({
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [ekskluderteUkedager, setEkskluderteUkedager] = useState<DateString[]>(tilkommenInntekt.ekskluderteUkedager);
     const { refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(person.fodselsnummer);
+    const router = useRouter();
 
     const handleSubmit = async (values: TilkommenInntektSchema) => {
         setIsSubmitting(true);
@@ -55,18 +60,34 @@ const GjenopprettTilkommenInntektSkjema = ({
         });
     };
     return (
-        <TilkommenInntektSkjema
-            person={person}
-            andreTilkomneInntekter={andreTilkomneInntekter}
-            startOrganisasjonsnummer={tilkommenInntekt.organisasjonsnummer}
-            startFom={tilkommenInntekt.periode.fom}
-            startTom={tilkommenInntekt.periode.tom}
-            startPeriodebeløp={Number(tilkommenInntekt.periodebelop)}
-            ekskluderteUkedager={ekskluderteUkedager}
-            setEkskluderteUkedager={setEkskluderteUkedager}
-            isSubmitting={isSubmitting}
-            handleSubmit={handleSubmit}
-        />
+        <Box marginBlock="4" width="max-content">
+            <Box background={'surface-subtle'} borderWidth="0 0 0 3" borderColor="border-action">
+                <HStack style={{ paddingLeft: '5px' }} paddingBlock="2 4">
+                    <Button
+                        icon={<XMarkIcon />}
+                        size="xsmall"
+                        variant="tertiary"
+                        type="button"
+                        onClick={() => router.back()}
+                        disabled={isSubmitting}
+                    >
+                        Avbryt
+                    </Button>
+                </HStack>
+            </Box>
+            <TilkommenInntektSkjema
+                person={person}
+                andreTilkomneInntekter={andreTilkomneInntekter}
+                startOrganisasjonsnummer={tilkommenInntekt.organisasjonsnummer}
+                startFom={tilkommenInntekt.periode.fom}
+                startTom={tilkommenInntekt.periode.tom}
+                startPeriodebeløp={Number(tilkommenInntekt.periodebelop)}
+                ekskluderteUkedager={ekskluderteUkedager}
+                setEkskluderteUkedager={setEkskluderteUkedager}
+                isSubmitting={isSubmitting}
+                handleSubmit={handleSubmit}
+            />
+        </Box>
     );
 };
 

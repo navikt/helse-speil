@@ -37,7 +37,7 @@ export const EndreTilkommenInntektSkjema = ({
     return (
         <Box marginBlock="4" width="max-content">
             <Box background={'surface-subtle'} borderWidth="0 0 0 3" borderColor="border-action">
-                <HStack style={{ paddingLeft: '5px' }} paddingBlock="2 0">
+                <HStack style={{ paddingLeft: '5px' }} paddingBlock="2 4">
                     <Button
                         icon={<XMarkIcon />}
                         size="xsmall"
