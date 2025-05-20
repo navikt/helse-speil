@@ -1,4 +1,7 @@
 export function stubnavnForOrganisasjonsnummer(organisasjonsnummer: string) {
+    const statisk = statiske[organisasjonsnummer];
+    if (statisk) return statisk;
+
     const startIndex = parseInt(
         organisasjonsnummer.charAt(0) + organisasjonsnummer.charAt(8) + organisasjonsnummer.charAt(2),
     );
@@ -16,6 +19,23 @@ export function stubnavnForOrganisasjonsnummer(organisasjonsnummer: string) {
 
     return valgtStart + valgtMidt + valgtSlutt;
 }
+
+const statiske: Record<string, string> = {
+    '947064649': 'SJOKKERENDE ELEKTRIKER',
+    '839942907': 'HÅRREISENDE FRISØR',
+    '805824352': 'VEGANSK SLAKTERI',
+    '873080582': '"TRYG FORSIKRING, AVD OSLO"',
+    '967170232': 'SNILL TORPEDO',
+    '896929119': 'SAUEFABRIKK',
+    '907670201': 'KLONELABBEN',
+    '811306312': 'AURLAND OG STONGFJORDEN',
+    '811307602': 'Papir- og pappvareproduksjon el.',
+    '910532251': 'OMSORGSFULL NY TIGER AS',
+    '810007982': 'Transportmiddelproduksjon el.',
+    '909297246': 'SIVILISERT ALTERNATIV TIGER AS',
+    '910519336': 'SLAKK LYDIG TIGER AS',
+    '963743254': 'BESK KAFFE',
+};
 
 const start: string[] = [
     'Fe',
