@@ -22,7 +22,7 @@ interface Props {
 export const TilkommenInntektFjernetAlert = ({ tilkommenInntektEvents }: Props) => {
     const fjernetEvent = tilkommenInntektEvents.findLast((event) => event.__typename == 'TilkommenInntektFjernetEvent');
     return (
-        <Alert variant="info">
+        <Alert variant="info" size="small" style={{ width: '340px' }}>
             <Heading size="xsmall" level="4">
                 Perioden er fjernet
             </Heading>
