@@ -32,10 +32,6 @@
     padding-left: var(--a-spacing-4);
 }
 
-.tabell {
-    overflow-x: scroll;
-}
-
 .tabell td {
     border: var(--a-border-divider) 1px solid;
     border-top: none;

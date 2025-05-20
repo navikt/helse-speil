@@ -135,7 +135,7 @@ export const TilkommenInntektSkjema = ({
 
     return (
         <ErrorBoundary fallback={<TilkommenInntektError />}>
-            <HStack wrap={false} overflow="auto">
+            <HStack wrap={false}>
                 <TilkommenInntektSkjemafelter
                     form={form}
                     handleSubmit={handleSubmit}

@@ -59,7 +59,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
     );
 
     return (
-        <Box overflow="auto">
+        <>
             <HStack paddingBlock="6 4" paddingInline="2">
                 {!tilkommenInntekt.fjernet && (
                     <Button
@@ -156,6 +156,6 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                     onClose={() => setShowFjernModal(false)}
                 />
             )}
-        </Box>
+        </>
     );
 };
