@@ -6,15 +6,13 @@ import { ArrowUndoIcon, PersonPencilIcon, XMarkOctagonIcon } from '@navikt/aksel
 import { BodyShort, Button, HGrid, HStack, Link, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
-import { useMutation } from '@apollo/client';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
-import { FjernTilkommenInntektDocument, Maybe } from '@io/graphql';
+import { Maybe } from '@io/graphql';
 import { EndringsloggTilkommenInntektButton } from '@saksbilde/tilkommenInntekt/EndringsloggTilkommenInntektButton';
 import { beregnInntektPerDag, tabellArbeidsdager } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { FjernTilkommenInntektModal } from '@saksbilde/tilkommenInntekt/visning/FjernTilkommenInntektModal';
 import { TilkommenInntektArbeidsgivernavn } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektArbeidsgivernavn';
 import { TilkommenInntektDagoversikt } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektDagoversikt';
-import { TilkommenInntektFjernPeriode } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektFjernPeriode';
 import { TilkommenInntektFjernetAlert } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektFjernetAlert';
 import { useFetchPersonQuery } from '@state/person';
 import { useTilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
@@ -29,16 +27,15 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
     const router = useRouter();
-    const [fjernTilkommenInntekt] = useMutation(FjernTilkommenInntektDocument);
-    const [fjerningBegrunnelse, setFjerningBegrunnelse] = useState<string>('');
 
-    const { organisasjonsnummer, tilkommenInntekt, tilkommenInntektRefetch } =
-        useTilkommenInntektMedOrganisasjonsnummer(tilkommenInntektId, person?.fodselsnummer);
+    const { organisasjonsnummer, tilkommenInntekt } = useTilkommenInntektMedOrganisasjonsnummer(
+        tilkommenInntektId,
+        person?.fodselsnummer,
+    );
 
     const { loading: organisasjonLoading, data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
 
     const [showFjernModal, setShowFjernModal] = useState(false);
-    const [showFjernTextArea, setShowFjernTextArea] = useState(false);
 
     if (!tilkommenInntekt || !organisasjonsnummer) return null;
 
@@ -61,17 +58,6 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
         tilkommenInntekt.ekskluderteUkedager,
     );
 
-    const handleFjern = async () => {
-        setShowFjernTextArea(false);
-        setShowFjernModal(false);
-        await fjernTilkommenInntekt({
-            variables: {
-                notatTilBeslutter: fjerningBegrunnelse,
-                tilkommenInntektId: tilkommenInntektId,
-            },
-            onCompleted: () => tilkommenInntektRefetch(),
-        });
-    };
     return (
         <>
             <HStack paddingBlock="6 4" paddingInline="2">
@@ -136,23 +122,15 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                                     )}
                                 </VStack>
                             </VStack>
-                            {!tilkommenInntekt.fjernet && !showFjernTextArea && (
+                            {!tilkommenInntekt.fjernet && (
                                 <Button
                                     variant="tertiary"
                                     size="small"
                                     icon={<XMarkOctagonIcon />}
-                                    onClick={() => setShowFjernTextArea(true)}
+                                    onClick={() => setShowFjernModal(true)}
                                 >
                                     Fjern periode
                                 </Button>
-                            )}
-                            {!tilkommenInntekt.fjernet && showFjernTextArea && (
-                                <TilkommenInntektFjernPeriode
-                                    fjerningBegrunnelse={fjerningBegrunnelse}
-                                    setFjerningBegrunnelse={setFjerningBegrunnelse}
-                                    visFjernModal={() => setShowFjernModal(true)}
-                                    skjulFjernPeriode={() => setShowFjernTextArea(false)}
-                                />
                             )}
                             {tilkommenInntekt.fjernet && (
                                 <Box paddingInline="2">
@@ -174,8 +152,8 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
             {showFjernModal && (
                 <FjernTilkommenInntektModal
                     tilkommenInntekt={tilkommenInntekt}
-                    onConfirm={handleFjern}
-                    onCancel={() => setShowFjernModal(false)}
+                    fødselsnummer={person?.fodselsnummer}
+                    onClose={() => setShowFjernModal(false)}
                 />
             )}
         </>
