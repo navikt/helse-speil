@@ -89,12 +89,12 @@ export const TilkommenInntektSkjemafelter = ({
                                     <Skeleton width="8rem" />
                                 ) : organisasjonHasError ? (
                                     <ErrorMessage>Feil ved navnoppslag</ErrorMessage>
-                                ) : organisasjonsnavn === undefined ? (
-                                    <ErrorMessage>Organisasjon ikke funnet</ErrorMessage>
-                                ) : (
+                                ) : organisasjonsnavn !== undefined ? (
                                     <AnonymizableTextWithEllipsis>
                                         {capitalizeArbeidsgiver(organisasjonsnavn)}
                                     </AnonymizableTextWithEllipsis>
+                                ) : (
+                                    <></>
                                 )}
                             </div>
                         </HStack>
