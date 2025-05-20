@@ -16,14 +16,7 @@ interface Props {
 }
 
 export const TilkommenInntektDagoversikt = ({ arbeidsgiverrad, ekskluderteUkedager, arbeidsgiverdager }: Props) => (
-    <Box
-        borderWidth="0 0 0 2"
-        borderColor="border-default"
-        paddingBlock="2 0"
-        marginBlock="0 6"
-        width="max-content"
-        overflow="auto"
-    >
+    <Box borderWidth="0 0 0 2" borderColor="border-default" paddingBlock="2 0" marginBlock="0 6" width="max-content">
         <BodyShort weight="semibold" className={styles.tabellTittel} spacing>
             Dagoversikt
         </BodyShort>

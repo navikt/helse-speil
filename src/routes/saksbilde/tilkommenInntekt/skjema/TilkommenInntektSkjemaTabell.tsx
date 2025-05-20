@@ -52,7 +52,6 @@ export const TilkommenInntektSkjemaTabell = ({
             paddingBlock="2 0"
             width="max-content"
             minWidth="320px"
-            overflow="auto"
         >
             <BodyShort weight="semibold" className={styles.tabellTittel} spacing>
                 Velg hvilke dager som ikke skal graderes
