@@ -19,6 +19,7 @@ import { AnonymizableTextWithEllipsis } from '@components/anonymizable/Anonymiza
 import { Maybe } from '@io/graphql';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
 import { DatePeriod } from '@typer/shared';
+import { capitalizeArbeidsgiver } from '@utils/locale';
 
 interface TilkommenInntektSkjemaProps {
     form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
@@ -88,8 +89,12 @@ export const TilkommenInntektSkjemafelter = ({
                                     <Skeleton width="8rem" />
                                 ) : organisasjonHasError ? (
                                     <ErrorMessage>Feil ved navnoppslag</ErrorMessage>
+                                ) : organisasjonsnavn === undefined ? (
+                                    <ErrorMessage>Organisasjon ikke funnet</ErrorMessage>
                                 ) : (
-                                    <AnonymizableTextWithEllipsis>{organisasjonsnavn}</AnonymizableTextWithEllipsis>
+                                    <AnonymizableTextWithEllipsis>
+                                        {capitalizeArbeidsgiver(organisasjonsnavn)}
+                                    </AnonymizableTextWithEllipsis>
                                 )}
                             </div>
                         </HStack>

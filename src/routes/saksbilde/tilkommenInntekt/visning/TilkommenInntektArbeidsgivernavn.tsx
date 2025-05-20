@@ -4,6 +4,7 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { BodyShort, CopyButton, ErrorMessage, HStack, Skeleton } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
+import { capitalizeArbeidsgiver } from '@utils/locale';
 
 interface Props {
     organisasjonsnummer: string;
@@ -23,7 +24,9 @@ export const TilkommenInntektArbeidsgivernavn = ({
         ) : organisasjonsnavn === undefined ? (
             <ErrorMessage>Feil ved navnoppslag</ErrorMessage>
         ) : (
-            <AnonymizableTextWithEllipsis weight="semibold">{organisasjonsnavn}</AnonymizableTextWithEllipsis>
+            <AnonymizableTextWithEllipsis weight="semibold">
+                {capitalizeArbeidsgiver(organisasjonsnavn)}
+            </AnonymizableTextWithEllipsis>
         )}
         <HStack>
             <BodyShort weight="semibold">(</BodyShort>
