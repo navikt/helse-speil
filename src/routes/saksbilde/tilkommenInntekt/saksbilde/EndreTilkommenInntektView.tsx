@@ -5,7 +5,7 @@ import React, { ReactElement, useState } from 'react';
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
 import { EndreTilkommenInntektDocument, Maybe } from '@io/graphql';
-import { EndreTilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/saksbilde/EndreTilkommenInntektSkjema';
+import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
 import {
@@ -75,13 +75,15 @@ export const EndreTilkommenInntektView = ({
     };
 
     return (
-        <EndreTilkommenInntektSkjema
-            key={tilkommenInntektId}
-            tilkommenInntekt={tilkommenInntektMedOrganisasjonsnummer}
+        <TilkommenInntektSkjema
+            person={person}
             andreTilkomneInntekter={tilkomneInntekterMedOrganisasjonsnummer.filter(
                 (inntekt) => inntekt !== tilkommenInntektMedOrganisasjonsnummer,
             )}
-            person={person}
+            startOrganisasjonsnummer={tilkommenInntektMedOrganisasjonsnummer.organisasjonsnummer}
+            startFom={tilkommenInntektMedOrganisasjonsnummer.periode.fom}
+            startTom={tilkommenInntektMedOrganisasjonsnummer.periode.tom}
+            startPeriodebeløp={Number(tilkommenInntektMedOrganisasjonsnummer.periodebelop)}
             ekskluderteUkedager={ekskluderteUkedager}
             setEkskluderteUkedager={setEkskluderteUkedager}
             submit={submit}

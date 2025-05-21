@@ -1,48 +1,53 @@
-.tabelBody {
-    background-color: var(--a-bg-default);
-}
-
-.helg {
-    background: var(--a-bg-subtle)
-        repeating-linear-gradient(123deg, var(--a-gray-300), var(--a-gray-300) 1px, transparent 1px, transparent 9px);
-}
-
-.checkbox span {
-    font-size: var(--a-font-size-large);
-}
-
 .icon {
-    width: 24px;
+    width: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+.redigering .helg {
+    background: var(--a-bg-subtle)
+        repeating-linear-gradient(123deg, var(--a-gray-300), var(--a-gray-300) 1px, transparent 1px, transparent 9px);
+}
+
+.visning .helg {
+    background: var(--a-bg-default)
+        repeating-linear-gradient(123deg, var(--a-gray-300), var(--a-gray-300) 1px, transparent 1px, transparent 9px);
+}
+
 .valgteDatoer {
     text-decoration: line-through;
-    background: var(--a-surface-action-subtle-hover);
 }
 
-.tabellTittel {
-    padding-left: var(--a-spacing-4);
+.redigering .valgteDatoer {
+    background: var(--a-surface-selected);
 }
 
-.tabelBody .datoKolonne,
-.tabellHeader .datoKolonne {
-    padding-left: var(--a-spacing-4);
-}
-
-.tabell td {
-    border: var(--a-border-divider) 1px solid;
-    border-top: none;
-    border-left: none;
+.visning .valgteDatoer {
+    background: var(--a-surface-neutral-moderate);
 }
 
 .tabell th {
-    border: var(--a-border-divider) 1px solid;
-    border-left: none;
+    border-bottom: var(--a-border-strong) 1px solid !important;
+    border-right: var(--a-border-divider) 1px solid;
 }
 
-.arbeidsgiverNavn {
-    font-weight: bold;
+.tabell th:last-of-type {
+    border-right: none;
+}
+
+.tabell td {
+    border-right: var(--a-border-divider) 1px solid;
+}
+
+.tabell td:last-of-type {
+    border-right: none;
+}
+
+.tabell tr:not(:last-of-type) td {
+    border-bottom: var(--a-border-divider) 1px solid;
+}
+
+.tabell tr:last-of-type td {
+    border-bottom: none;
 }

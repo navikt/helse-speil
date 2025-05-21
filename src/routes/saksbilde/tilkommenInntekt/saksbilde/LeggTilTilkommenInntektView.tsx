@@ -2,8 +2,6 @@
 
 import React, { ReactElement, useState } from 'react';
 
-import { HStack, Heading, VStack } from '@navikt/ds-react';
-
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
 import { LeggTilTilkommenInntektDocument, Maybe } from '@io/graphql';
@@ -21,6 +19,8 @@ import { norskDatoTilIsoDato } from '@utils/date';
 export const LeggTilTilkommenInntektView = (): Maybe<ReactElement> => {
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
+    const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
+
     const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
         person?.fodselsnummer,
     );
@@ -28,17 +28,16 @@ export const LeggTilTilkommenInntektView = (): Maybe<ReactElement> => {
         tilkommenInntektData?.tilkomneInntektskilderV2 !== undefined
             ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData.tilkomneInntektskilderV2)
             : undefined;
-    const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
+
     const [leggTilTilkommenInntekt] = useMutation(LeggTilTilkommenInntektDocument);
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
     const [ekskluderteUkedager, setEkskluderteUkedager] = useState<DateString[]>([]);
 
     if (!person || tilkomneInntekterMedOrganisasjonsnummer === undefined) {
         return null;
     }
 
-    const handleSubmit = async (values: TilkommenInntektSchema) => {
-        setIsSubmitting(true);
+    const submit = async (values: TilkommenInntektSchema) => {
         await leggTilTilkommenInntekt({
             variables: {
                 fodselsnummer: person.fodselsnummer,
@@ -61,24 +60,16 @@ export const LeggTilTilkommenInntektView = (): Maybe<ReactElement> => {
         });
     };
     return (
-        <VStack paddingBlock="6 4">
-            <HStack paddingInline="2">
-                <Heading level="2" size="small" spacing>
-                    Legg til tilkommen inntekt
-                </Heading>
-            </HStack>
-            <TilkommenInntektSkjema
-                person={person}
-                andreTilkomneInntekter={tilkomneInntekterMedOrganisasjonsnummer}
-                startOrganisasjonsnummer=""
-                startFom=""
-                startTom=""
-                startPeriodebeløp={0}
-                ekskluderteUkedager={ekskluderteUkedager}
-                setEkskluderteUkedager={setEkskluderteUkedager}
-                isSubmitting={isSubmitting}
-                handleSubmit={handleSubmit}
-            />
-        </VStack>
+        <TilkommenInntektSkjema
+            person={person}
+            andreTilkomneInntekter={tilkomneInntekterMedOrganisasjonsnummer}
+            startOrganisasjonsnummer=""
+            startFom=""
+            startTom=""
+            startPeriodebeløp={0}
+            ekskluderteUkedager={ekskluderteUkedager}
+            setEkskluderteUkedager={setEkskluderteUkedager}
+            submit={submit}
+        />
     );
 };

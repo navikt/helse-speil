@@ -16,24 +16,26 @@ interface Props {
 }
 
 export const TilkommenInntektDagoversikt = ({ arbeidsgiverrad, ekskluderteUkedager, arbeidsgiverdager }: Props) => (
-    <Box borderWidth="0 0 0 2" borderColor="border-default" paddingBlock="2 0" marginBlock="0 6" width="max-content">
-        <BodyShort weight="semibold" className={styles.tabellTittel} spacing>
-            Dagoversikt
-        </BodyShort>
-        <Table size="small" className={styles.tabell}>
-            <Table.Header className={styles.tabellHeader}>
+    <Box borderWidth="1 1 1 1" borderColor="border-strong" width="max-content" height="max-content" minWidth="300px">
+        <Box background="surface-subtle" borderWidth="0 0 1 0" borderColor="border-strong">
+            <HStack align="center" padding="2">
+                <BodyShort weight="semibold">Dagoversikt</BodyShort>
+            </HStack>
+        </Box>
+        <Table size="small" className={cn(styles.tabell, styles.visning)}>
+            <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell className={styles.datoKolonne}>Dato</Table.HeaderCell>
+                    <Table.HeaderCell>Dato</Table.HeaderCell>
                     {arbeidsgiverrad.map((arbeidsgiver) => (
                         <Table.HeaderCell key={arbeidsgiver}>
-                            <AnonymizableTextWithEllipsis className={styles.arbeidsgiverNavn}>
+                            <AnonymizableTextWithEllipsis weight="semibold">
                                 {capitalizeArbeidsgiver(arbeidsgiver)}
                             </AnonymizableTextWithEllipsis>
                         </Table.HeaderCell>
                     ))}
                 </Table.Row>
             </Table.Header>
-            <Table.Body className={styles.tabelBody}>
+            <Table.Body>
                 {arbeidsgiverdager.map((dag) => {
                     const helg = erHelg(dag.dato);
                     const valgt = ekskluderteUkedager.includes(dag.dato);
@@ -47,11 +49,9 @@ export const TilkommenInntektDagoversikt = ({ arbeidsgiverrad, ekskluderteUkedag
                             </Table.DataCell>
                             {dag.arbeidsgivere.map((arbeidsgiver) => (
                                 <Table.DataCell key={dag.dato + arbeidsgiver.navn}>
-                                    <HStack gap="1" align="center" paddingInline="1 0" wrap={false}>
+                                    <HStack gap="2" wrap={false}>
                                         <div className={styles.icon}>{getTypeIcon(arbeidsgiver.dagtype, helg)}</div>
-                                        <BodyShort style={{ whiteSpace: 'nowrap' }}>
-                                            {dekorerTekst(arbeidsgiver.dagtype, helg)}
-                                        </BodyShort>
+                                        <BodyShort>{dekorerTekst(arbeidsgiver.dagtype, helg)}</BodyShort>
                                     </HStack>
                                 </Table.DataCell>
                             ))}

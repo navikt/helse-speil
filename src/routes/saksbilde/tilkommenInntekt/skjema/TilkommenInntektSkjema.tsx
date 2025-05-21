@@ -1,7 +1,9 @@
+import { useRouter } from 'next/navigation';
 import React, { Dispatch, ReactElement, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Alert, HStack } from '@navikt/ds-react';
+import { XMarkIcon } from '@navikt/aksel-icons';
+import { Alert, Box, Button, HStack, VStack } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
 import { ErrorBoundary } from '@components/ErrorBoundary';
@@ -28,8 +30,7 @@ interface TilkommenInntektProps {
     startPeriodebeløp: number;
     ekskluderteUkedager: DateString[];
     setEkskluderteUkedager: Dispatch<SetStateAction<DateString[]>>;
-    isSubmitting: boolean;
-    handleSubmit: (values: TilkommenInntektSchema) => Promise<void>;
+    submit: (values: TilkommenInntektSchema) => Promise<void>;
 }
 
 export const TilkommenInntektSkjema = ({
@@ -41,9 +42,15 @@ export const TilkommenInntektSkjema = ({
     startPeriodebeløp,
     ekskluderteUkedager,
     setEkskluderteUkedager,
-    isSubmitting,
-    handleSubmit,
+    submit,
 }: TilkommenInntektProps): ReactElement => {
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+    const handleSubmit = async (values: TilkommenInntektSchema) => {
+        setIsSubmitting(true);
+        await submit(values);
+    };
+
     const [organisasjonsnavn, setOrganisasjonsnavn] = useState<string | undefined>(undefined);
     const organisasjonEksisterer = () => {
         return organisasjonsnavn !== undefined;
@@ -51,6 +58,8 @@ export const TilkommenInntektSkjema = ({
 
     const sykefraværstilfelleperioder = utledSykefraværstilfelleperioder(person);
     const eksisterendePerioder = tilPerioderPerOrganisasjonsnummer(andreTilkomneInntekter);
+
+    const router = useRouter();
 
     const form = useForm({
         resolver: zodResolver(
@@ -135,30 +144,61 @@ export const TilkommenInntektSkjema = ({
 
     return (
         <ErrorBoundary fallback={<TilkommenInntektError />}>
-            <HStack wrap={false}>
-                <TilkommenInntektSkjemafelter
-                    form={form}
-                    handleSubmit={handleSubmit}
-                    inntektPerDag={inntektPerDag}
-                    organisasjonLoading={organisasjonLoading}
-                    organisasjonsnavn={organisasjonsnavn}
-                    organisasjonHasError={organisasjonError !== undefined}
-                    erGyldigFom={erGyldigFom}
-                    erGyldigTom={erGyldigTom}
-                    sykefraværstilfelleperioder={sykefraværstilfelleperioder}
-                    loading={isSubmitting}
-                />
-                {gyldigPeriode !== undefined ? (
-                    <TilkommenInntektSkjemaTabell
-                        arbeidsgivere={person.arbeidsgivere}
-                        periode={gyldigPeriode}
-                        ekskluderteUkedager={ekskluderteUkedager}
-                        setEkskluderteUkedager={setEkskluderteUkedager}
-                    />
-                ) : (
-                    <></>
-                )}
-            </HStack>
+            <Box marginBlock="4" width="max-content">
+                <HStack wrap={false}>
+                    <VStack>
+                        <Box
+                            background="surface-subtle"
+                            borderWidth="0 0 0 3"
+                            borderColor="border-action"
+                            height="2.5rem"
+                        >
+                            <HStack style={{ paddingLeft: '5px' }} paddingBlock="2 4">
+                                <Button
+                                    icon={<XMarkIcon />}
+                                    size="xsmall"
+                                    variant="tertiary"
+                                    type="button"
+                                    onClick={() => router.back()}
+                                    disabled={isSubmitting}
+                                >
+                                    Avbryt
+                                </Button>
+                            </HStack>
+                        </Box>
+                        <TilkommenInntektSkjemafelter
+                            form={form}
+                            handleSubmit={handleSubmit}
+                            inntektPerDag={inntektPerDag}
+                            organisasjonLoading={organisasjonLoading}
+                            organisasjonsnavn={organisasjonsnavn}
+                            organisasjonHasError={organisasjonError !== undefined}
+                            erGyldigFom={erGyldigFom}
+                            erGyldigTom={erGyldigTom}
+                            sykefraværstilfelleperioder={sykefraværstilfelleperioder}
+                            loading={isSubmitting}
+                        />
+                    </VStack>
+                    {gyldigPeriode !== undefined ? (
+                        <VStack>
+                            <Box
+                                background="surface-subtle"
+                                borderWidth="0 0 0 1"
+                                borderColor="border-strong"
+                                height="2.5rem"
+                            ></Box>
+                            <TilkommenInntektSkjemaTabell
+                                arbeidsgivere={person.arbeidsgivere}
+                                periode={gyldigPeriode}
+                                ekskluderteUkedager={ekskluderteUkedager}
+                                setEkskluderteUkedager={setEkskluderteUkedager}
+                            />
+                        </VStack>
+                    ) : (
+                        <></>
+                    )}
+                </HStack>
+            </Box>
         </ErrorBoundary>
     );
 };
