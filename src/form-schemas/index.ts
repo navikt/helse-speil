@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { organisasjonsnummerHarRiktigKontrollsiffer } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { DatePeriod } from '@typer/shared';
-import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, perioderOverlapper } from '@utils/date';
+import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, perioderOverlapper, tilUkedager } from '@utils/date';
 
 export type StansAutomatiskBehandlingSchema = z.infer<typeof stansAutomatiskBehandlingSchema>;
 export const stansAutomatiskBehandlingSchema = z.object({
@@ -38,6 +38,7 @@ export const lagTilkommenInntektSchema = (
                 .refine((value) => erGyldigNorskDato(value), 'Til og med-datoen er ikke en gyldig norsk dato'),
             periodebeløp: z.coerce.number().nonnegative('Inntekt for perioden må være et positivt tall'),
             notat: z.string().min(1, { message: 'Notat til beslutter er påkrevd' }),
+            ekskluderteUkedager: z.string().date().array(),
         })
         .refine(({ fom, tom }) => norskDatoTilIsoDato(fom) <= norskDatoTilIsoDato(tom), {
             message: 'Fra og med-dato må være før eller lik til og med-dato',
@@ -74,6 +75,17 @@ export const lagTilkommenInntektSchema = (
             {
                 message: 'Oppgitt periode overlapper med en annen periode for arbeidsgiveren',
                 path: ['fom'],
+            },
+        )
+        .refine(
+            ({ ekskluderteUkedager, fom, tom }) => {
+                const periode: DatePeriod = { fom: norskDatoTilIsoDato(fom), tom: norskDatoTilIsoDato(tom) };
+                const ukedager = tilUkedager(periode);
+                return ukedager.some((ukedag) => !ekskluderteUkedager.includes(ukedag));
+            },
+            {
+                message: 'Kan ikke velge bort alle dager i perioden',
+                path: ['ekskluderteUkedager'],
             },
         );
 };

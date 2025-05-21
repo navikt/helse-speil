@@ -45,3 +45,18 @@ export const norskDatoTilIsoDato = (norskDato: string): DateString =>
 
 export const perioderOverlapper = (periode: DatePeriod, annenPeriode: DatePeriod) =>
     periode.fom <= annenPeriode.tom && periode.tom >= annenPeriode.fom;
+
+export const tilDatoer = (periode: DatePeriod) => {
+    const datoer: DateString[] = [];
+    const dayjsFom = dayjs(periode.fom);
+    const dayjsTom = dayjs(periode.tom);
+    for (let djs = dayjsFom; djs.isSameOrBefore(dayjsTom); djs = djs.add(1, 'day')) {
+        const dato = djs.format(ISO_DATOFORMAT);
+        datoer.push(dato);
+    }
+    return datoer;
+};
+
+export const tilUkedager = (periode: DatePeriod) => {
+    return tilDatoer(periode).filter((dato) => !erHelg(dato));
+};

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
@@ -13,7 +13,6 @@ import {
     tilTilkomneInntekterMedOrganisasjonsnummer,
     useHentTilkommenInntektQuery,
 } from '@state/tilkommenInntekt';
-import { DateString } from '@typer/shared';
 import { norskDatoTilIsoDato } from '@utils/date';
 
 export const GjenopprettTilkommenInntektView = ({
@@ -39,10 +38,6 @@ export const GjenopprettTilkommenInntektView = ({
 
     const [gjenopprettTilkommenInntekt] = useMutation(GjenopprettTilkommenInntektDocument);
 
-    const [ekskluderteUkedager, setEkskluderteUkedager] = useState<DateString[]>(
-        tilkommenInntektMedOrganisasjonsnummer?.ekskluderteUkedager ?? [],
-    );
-
     if (
         !person ||
         tilkomneInntekterMedOrganisasjonsnummer === undefined ||
@@ -61,7 +56,7 @@ export const GjenopprettTilkommenInntektView = ({
                     },
                     organisasjonsnummer: values.organisasjonsnummer,
                     periodebelop: values.periodebeløp.toString(),
-                    ekskluderteUkedager: ekskluderteUkedager,
+                    ekskluderteUkedager: values.ekskluderteUkedager,
                 },
                 notatTilBeslutter: values.notat,
                 tilkommenInntektId: tilkommenInntektMedOrganisasjonsnummer.tilkommenInntektId,
@@ -84,8 +79,7 @@ export const GjenopprettTilkommenInntektView = ({
             startFom={tilkommenInntektMedOrganisasjonsnummer.periode.fom}
             startTom={tilkommenInntektMedOrganisasjonsnummer.periode.tom}
             startPeriodebeløp={Number(tilkommenInntektMedOrganisasjonsnummer.periodebelop)}
-            ekskluderteUkedager={ekskluderteUkedager}
-            setEkskluderteUkedager={setEkskluderteUkedager}
+            startEkskluderteUkedager={tilkommenInntektMedOrganisasjonsnummer.ekskluderteUkedager}
             submit={submit}
         />
     );

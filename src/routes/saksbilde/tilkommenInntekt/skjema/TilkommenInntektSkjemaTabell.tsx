@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { Dispatch, ReactElement, SetStateAction, useEffect } from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort, Box, Checkbox, HStack, Table } from '@navikt/ds-react';
 
@@ -7,7 +7,7 @@ import { AnonymizableTextWithEllipsis } from '@components/anonymizable/Anonymiza
 import { ArbeidsgiverFragment } from '@io/graphql';
 import { dekorerTekst, getTypeIcon, tabellArbeidsdager } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { DatePeriod, DateString } from '@typer/shared';
-import { erHelg, erIPeriode, somNorskDato } from '@utils/date';
+import { erHelg, erIPeriode, somNorskDato, tilUkedager } from '@utils/date';
 import { capitalizeArbeidsgiver } from '@utils/locale';
 
 import styles from '../TilkommenTable.module.css';
@@ -15,13 +15,15 @@ import styles from '../TilkommenTable.module.css';
 interface TilkommenInntektTableProps {
     arbeidsgivere: ArbeidsgiverFragment[];
     periode: DatePeriod;
+    error: boolean;
     ekskluderteUkedager: DateString[];
-    setEkskluderteUkedager: Dispatch<SetStateAction<DateString[]>>;
+    setEkskluderteUkedager: (ekskluderteUkedager: DateString[]) => void;
 }
 
 export const TilkommenInntektSkjemaTabell = ({
     arbeidsgivere,
     periode,
+    error,
     ekskluderteUkedager,
     setEkskluderteUkedager,
 }: TilkommenInntektTableProps): ReactElement => {
@@ -33,17 +35,7 @@ export const TilkommenInntektSkjemaTabell = ({
             return acc;
         }
     }, []);
-    const valgbareArbeidsdager = arbeidsgiverdager.filter((dag) => !erHelg(dag.dato));
-    const toggleValgtdato = (dato: DateString) => {
-        setEkskluderteUkedager((prev) =>
-            prev.includes(dato) ? prev.filter((value) => value !== dato) : [...prev, dato],
-        );
-    };
-
-    useEffect(() => {
-        setEkskluderteUkedager(ekskluderteUkedager);
-    }, [ekskluderteUkedager, setEkskluderteUkedager]);
-
+    const valgbareDatoer = tilUkedager(periode);
     return (
         <Box width="max-content" height="max-content" minWidth="300px">
             <Box background="surface-subtle" borderWidth="0 0 0 1" borderColor="border-strong">
@@ -51,23 +43,23 @@ export const TilkommenInntektSkjemaTabell = ({
                     <BodyShort weight="semibold">Velg hvilke dager som ikke skal tas med</BodyShort>
                 </HStack>
             </Box>
-            <Box borderWidth="1 1 1 1" borderColor="border-strong">
+            <Box borderWidth={error ? '2' : '1'} borderColor={error ? 'border-danger' : 'border-strong'}>
                 <Table size="small" className={cn(styles.tabell, styles.redigering)}>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>
                                 <HStack gap="2" align="center" wrap={false}>
                                     <Checkbox
-                                        checked={valgbareArbeidsdager.length === ekskluderteUkedager.length}
+                                        checked={valgbareDatoer.length === ekskluderteUkedager.length}
                                         indeterminate={
                                             ekskluderteUkedager.length > 0 &&
-                                            ekskluderteUkedager.length !== valgbareArbeidsdager.length
+                                            ekskluderteUkedager.length !== valgbareDatoer.length
                                         }
                                         onChange={() => {
                                             if (ekskluderteUkedager.length > 0) {
                                                 setEkskluderteUkedager([]);
                                             } else {
-                                                setEkskluderteUkedager(valgbareArbeidsdager.map((dag) => dag.dato));
+                                                setEkskluderteUkedager(valgbareDatoer);
                                             }
                                         }}
                                         hideLabel
@@ -101,7 +93,15 @@ export const TilkommenInntektSkjemaTabell = ({
                                             <Checkbox
                                                 checked={valgt}
                                                 disabled={helg}
-                                                onChange={() => toggleValgtdato(dag.dato)}
+                                                onChange={(event) => {
+                                                    if (event.target.checked) {
+                                                        setEkskluderteUkedager([...ekskluderteUkedager, dag.dato]);
+                                                    } else {
+                                                        setEkskluderteUkedager(
+                                                            ekskluderteUkedager.filter((ukedag) => ukedag !== dag.dato),
+                                                        );
+                                                    }
+                                                }}
                                                 aria-labelledby={`id-${dag.dato}`}
                                                 hideLabel={true}
                                                 size="small"

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
-import React, { Dispatch, ReactElement, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
 import { XMarkIcon } from '@navikt/aksel-icons';
 import { Alert, Box, Button, HStack, VStack } from '@navikt/ds-react';
@@ -28,8 +28,7 @@ interface TilkommenInntektProps {
     startFom: DateString;
     startTom: DateString;
     startPeriodebeløp: number;
-    ekskluderteUkedager: DateString[];
-    setEkskluderteUkedager: Dispatch<SetStateAction<DateString[]>>;
+    startEkskluderteUkedager: DateString[];
     submit: (values: TilkommenInntektSchema) => Promise<void>;
 }
 
@@ -40,8 +39,7 @@ export const TilkommenInntektSkjema = ({
     startFom,
     startTom,
     startPeriodebeløp,
-    ekskluderteUkedager,
-    setEkskluderteUkedager,
+    startEkskluderteUkedager,
     submit,
 }: TilkommenInntektProps): ReactElement => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -72,6 +70,7 @@ export const TilkommenInntektSkjema = ({
             tom: somNorskDato(startTom) ?? '',
             periodebeløp: startPeriodebeløp,
             notat: '',
+            ekskluderteUkedager: startEkskluderteUkedager,
         },
     });
     const organisasjonsnummer = form.watch('organisasjonsnummer');
@@ -126,21 +125,23 @@ export const TilkommenInntektSkjema = ({
         [fom, tom, erGyldigFom, erGyldigTom],
     );
 
+    const { setValue } = form;
+
+    const ekskluderteUkedager = form.watch('ekskluderteUkedager');
     useEffect(() => {
         if (gyldigPeriode !== undefined) {
             if (ekskluderteUkedager.some((ekskludertUkedag) => !erIPeriode(ekskludertUkedag, gyldigPeriode))) {
-                setEkskluderteUkedager(
+                setValue(
+                    'ekskluderteUkedager',
                     ekskluderteUkedager.filter((ekskludertUkedag) => erIPeriode(ekskludertUkedag, gyldigPeriode)),
                 );
             }
         }
-    }, [gyldigPeriode, ekskluderteUkedager, setEkskluderteUkedager]);
+    }, [gyldigPeriode, ekskluderteUkedager, setValue]);
 
     const periodebeløp = form.watch('periodebeløp');
     const inntektPerDag =
-        gyldigPeriode !== undefined
-            ? beregnInntektPerDag(periodebeløp, gyldigPeriode.fom, gyldigPeriode.tom, ekskluderteUkedager)
-            : undefined;
+        gyldigPeriode !== undefined ? beregnInntektPerDag(periodebeløp, gyldigPeriode, ekskluderteUkedager) : undefined;
 
     return (
         <ErrorBoundary fallback={<TilkommenInntektError />}>
@@ -187,11 +188,21 @@ export const TilkommenInntektSkjema = ({
                                 borderColor="border-strong"
                                 height="2.5rem"
                             ></Box>
-                            <TilkommenInntektSkjemaTabell
-                                arbeidsgivere={person.arbeidsgivere}
-                                periode={gyldigPeriode}
-                                ekskluderteUkedager={ekskluderteUkedager}
-                                setEkskluderteUkedager={setEkskluderteUkedager}
+                            <Controller
+                                control={form.control}
+                                name="ekskluderteUkedager"
+                                render={({ field, fieldState }) => (
+                                    <TilkommenInntektSkjemaTabell
+                                        arbeidsgivere={person.arbeidsgivere}
+                                        periode={gyldigPeriode}
+                                        error={fieldState.error !== undefined}
+                                        ekskluderteUkedager={field.value}
+                                        setEkskluderteUkedager={(ekskluderteUkedager) => {
+                                            field.onChange(ekskluderteUkedager);
+                                            field.onBlur();
+                                        }}
+                                    />
+                                )}
                             />
                         </VStack>
                     ) : (

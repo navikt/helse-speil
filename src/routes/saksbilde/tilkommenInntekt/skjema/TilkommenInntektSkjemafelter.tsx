@@ -231,5 +231,8 @@ const TilkommenInntektFeiloppsummering = ({ errors }: TilkommenInntektFeiloppsum
             <ErrorSummary.Item href="#periodebeløp">{errors.periodebeløp?.message}</ErrorSummary.Item>
         )}
         {errors.notat?.message && <ErrorSummary.Item href="#notat">{errors.notat?.message}</ErrorSummary.Item>}
+        {errors.ekskluderteUkedager?.message && (
+            <ErrorSummary.Item href="#ekskluderteUkedager">{errors.ekskluderteUkedager?.message}</ErrorSummary.Item>
+        )}
     </ErrorSummary>
 );

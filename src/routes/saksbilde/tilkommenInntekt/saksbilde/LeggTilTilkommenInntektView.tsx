@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
@@ -13,7 +13,6 @@ import {
     tilTilkomneInntekterMedOrganisasjonsnummer,
     useHentTilkommenInntektQuery,
 } from '@state/tilkommenInntekt';
-import { DateString } from '@typer/shared';
 import { norskDatoTilIsoDato } from '@utils/date';
 
 export const LeggTilTilkommenInntektView = (): Maybe<ReactElement> => {
@@ -31,8 +30,6 @@ export const LeggTilTilkommenInntektView = (): Maybe<ReactElement> => {
 
     const [leggTilTilkommenInntekt] = useMutation(LeggTilTilkommenInntektDocument);
 
-    const [ekskluderteUkedager, setEkskluderteUkedager] = useState<DateString[]>([]);
-
     if (!person || tilkomneInntekterMedOrganisasjonsnummer === undefined) {
         return null;
     }
@@ -49,7 +46,7 @@ export const LeggTilTilkommenInntektView = (): Maybe<ReactElement> => {
                     },
                     organisasjonsnummer: values.organisasjonsnummer,
                     periodebelop: values.periodebeløp.toString(),
-                    ekskluderteUkedager: ekskluderteUkedager,
+                    ekskluderteUkedager: values.ekskluderteUkedager,
                 },
             },
             onCompleted: (data) => {
@@ -67,8 +64,7 @@ export const LeggTilTilkommenInntektView = (): Maybe<ReactElement> => {
             startFom=""
             startTom=""
             startPeriodebeløp={0}
-            ekskluderteUkedager={ekskluderteUkedager}
-            setEkskluderteUkedager={setEkskluderteUkedager}
+            startEkskluderteUkedager={[]}
             submit={submit}
         />
     );

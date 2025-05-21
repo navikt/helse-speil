@@ -7,7 +7,7 @@ import { IconFerie } from '@saksbilde/table/icons/IconFerie';
 import { IconSyk } from '@saksbilde/table/icons/IconSyk';
 import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { DatePeriod, DateString } from '@typer/shared';
-import { erHelg, plussEnDag } from '@utils/date';
+import { tilUkedager } from '@utils/date';
 
 export function utledSykefraværstilfelleperioder(person: PersonFragment): DatePeriod[] {
     const vedtaksperioder = person.arbeidsgivere
@@ -50,21 +50,8 @@ export function tilPerioderPerOrganisasjonsnummer(tilkomneInntekter: TilkommenIn
     return map;
 }
 
-export function beregnInntektPerDag(
-    periodebeløp: number,
-    fom: DateString,
-    tom: DateString,
-    ekskluderteUkedager: DateString[],
-) {
-    let antallDagerTilGradering = 0;
-
-    let dag = fom;
-    while (dag <= tom) {
-        if (!erHelg(dag) && !ekskluderteUkedager.includes(dag)) {
-            antallDagerTilGradering++;
-        }
-        dag = plussEnDag(dag);
-    }
+export function beregnInntektPerDag(periodebeløp: number, periode: DatePeriod, ekskluderteUkedager: DateString[]) {
+    const antallDagerTilGradering = tilUkedager(periode).filter((dato) => !ekskluderteUkedager.includes(dato)).length;
 
     return periodebeløp / antallDagerTilGradering;
 }

@@ -53,8 +53,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
 
     const inntektPerDag = beregnInntektPerDag(
         Number(tilkommenInntekt.periodebelop),
-        tilkommenInntekt.periode.fom,
-        tilkommenInntekt.periode.tom,
+        tilkommenInntekt.periode,
         tilkommenInntekt.ekskluderteUkedager,
     );
 
