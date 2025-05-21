@@ -8,6 +8,7 @@ const validerTilkommenInntektSkjema = (
     tom: unknown = '02.01.2020',
     periodebeløp: unknown = 1000,
     notat: unknown = 'Dette er et notat',
+    ekskluderteUkedager: unknown = [],
 ) => {
     const eksisterendePerioder = new Map();
     eksisterendePerioder.set('947064649', [
@@ -31,6 +32,7 @@ const validerTilkommenInntektSkjema = (
         tom: tom,
         periodebeløp: periodebeløp,
         notat: notat,
+        ekskluderteUkedager: ekskluderteUkedager,
     });
 };
 
