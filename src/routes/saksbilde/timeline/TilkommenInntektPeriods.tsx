@@ -15,9 +15,9 @@ interface PeriodsProps {
 }
 
 export const TilkommenInntektPeriods = ({ start, end, tilkomneInntekter }: PeriodsProps): ReactElement => {
-    const visibleTilkomneInntekter = tilkomneInntekter.filter(
-        (it) => end.isSameOrAfter(it.periode.fom) && start.isSameOrBefore(it.periode.tom),
-    );
+    const visibleTilkomneInntekter = tilkomneInntekter
+        .filter((it) => end.isSameOrAfter(it.periode.fom) && start.isSameOrBefore(it.periode.tom))
+        .sort((a, b) => b.periode.fom.localeCompare(a.periode.fom));
     const positions = usePeriodStyling(
         start,
         end,
