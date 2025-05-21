@@ -1,4 +1,3 @@
-import { useRouter } from 'next/navigation';
 import React, { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -30,6 +29,7 @@ interface TilkommenInntektProps {
     startPeriodebeløp: number;
     startEkskluderteUkedager: DateString[];
     submit: (values: TilkommenInntektSchema) => Promise<void>;
+    cancel: () => void;
 }
 
 export const TilkommenInntektSkjema = ({
@@ -41,6 +41,7 @@ export const TilkommenInntektSkjema = ({
     startPeriodebeløp,
     startEkskluderteUkedager,
     submit,
+    cancel,
 }: TilkommenInntektProps): ReactElement => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -56,8 +57,6 @@ export const TilkommenInntektSkjema = ({
 
     const sykefraværstilfelleperioder = utledSykefraværstilfelleperioder(person);
     const eksisterendePerioder = tilPerioderPerOrganisasjonsnummer(andreTilkomneInntekter);
-
-    const router = useRouter();
 
     const form = useForm({
         resolver: zodResolver(
@@ -160,7 +159,7 @@ export const TilkommenInntektSkjema = ({
                                     size="xsmall"
                                     variant="tertiary"
                                     type="button"
-                                    onClick={() => router.back()}
+                                    onClick={cancel}
                                     disabled={isSubmitting}
                                 >
                                     Avbryt

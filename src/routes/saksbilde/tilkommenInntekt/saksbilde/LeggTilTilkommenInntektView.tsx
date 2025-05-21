@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
@@ -19,6 +20,7 @@ export const LeggTilTilkommenInntektView = (): Maybe<ReactElement> => {
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
+    const router = useRouter();
 
     const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
         person?.fodselsnummer,
@@ -66,6 +68,7 @@ export const LeggTilTilkommenInntektView = (): Maybe<ReactElement> => {
             startPeriodebeløp={0}
             startEkskluderteUkedager={[]}
             submit={submit}
+            cancel={() => router.back()}
         />
     );
 };

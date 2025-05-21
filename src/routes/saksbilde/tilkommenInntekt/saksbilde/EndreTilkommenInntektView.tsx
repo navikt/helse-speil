@@ -81,6 +81,7 @@ export const EndreTilkommenInntektView = ({
             startPeriodebeløp={Number(tilkommenInntektMedOrganisasjonsnummer.periodebelop)}
             startEkskluderteUkedager={tilkommenInntektMedOrganisasjonsnummer.ekskluderteUkedager}
             submit={submit}
+            cancel={() => navigerTilTilkommenInntekt(tilkommenInntektId)}
         />
     );
 };
