@@ -54,6 +54,9 @@ spec:
     autoInstrumentation:
       enabled: true
       runtime: nodejs
+    logging:
+      destinations:
+        - id: elastic
   azure:
     sidecar:
       enabled: true
