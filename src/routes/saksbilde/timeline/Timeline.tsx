@@ -220,6 +220,7 @@ const TimelineSkeleton = (): ReactElement => {
             <LabelsSkeleton />
             <div className={styles.Rows}>
                 <TimelineRowSkeleton />
+                {erUtvikling && <TimelineRowSkeleton />}
             </div>
             <div className={styles.TimelineButtons}>
                 <div className={styles.LeftButtons}>
