@@ -4,7 +4,7 @@ import NextLink from 'next/link';
 import React, { ReactElement, useEffect } from 'react';
 
 import { PlusIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button } from '@navikt/ds-react';
+import { BodyShort, Button, Skeleton } from '@navikt/ds-react';
 
 import { erUtvikling } from '@/env';
 import { ErrorBoundary } from '@components/ErrorBoundary';
@@ -221,14 +221,19 @@ const TimelineSkeleton = (): ReactElement => {
             <div className={styles.Rows}>
                 <TimelineRowSkeleton />
             </div>
-            <div className={styles.TimelineControls}>
-                <ScrollButtons
-                    navigateForwards={() => null}
-                    navigateBackwards={() => null}
-                    canNavigateForwards={false}
-                    canNavigateBackwards={false}
-                />
-                <LoadingShimmer className={styles.LoadingZoomLevelPicker} />
+            <div className={styles.TimelineButtons}>
+                <div className={styles.LeftButtons}>
+                    {erUtvikling && <Skeleton variant="rectangle" width="250px" />}
+                </div>
+                <div className={styles.TimelineControls}>
+                    <ScrollButtons
+                        navigateForwards={() => null}
+                        navigateBackwards={() => null}
+                        canNavigateForwards={false}
+                        canNavigateBackwards={false}
+                    />
+                    <LoadingShimmer className={styles.LoadingZoomLevelPicker} />
+                </div>
             </div>
         </div>
     );
