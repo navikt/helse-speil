@@ -102,9 +102,15 @@ describe('tilkommenIkktekt skjemavalidering', () => {
         );
     });
 
-    it('periodebeløp skal være et positivt tall', () => {
+    it('periodebeløp kan ikke være negativt', () => {
         expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '02.01.2020', '03.01.2020', -1000))).toBe(
-            'Inntekt for perioden må være et positivt tall',
+            'Inntekt for perioden må være minimum 1 kr',
+        );
+    });
+
+    it('periodebeløp kan ikke være 0', () => {
+        expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '02.01.2020', '03.01.2020', 0))).toBe(
+            'Inntekt for perioden må være minimum 1 kr',
         );
     });
 
