@@ -7,7 +7,7 @@ import { IconFerie } from '@saksbilde/table/icons/IconFerie';
 import { IconSyk } from '@saksbilde/table/icons/IconSyk';
 import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { DatePeriod, DateString } from '@typer/shared';
-import { tilUkedager } from '@utils/date';
+import { tilDatoer, tilUkedager } from '@utils/date';
 
 export function utledSykefraværstilfelleperioder(person: PersonFragment): DatePeriod[] {
     const vedtaksperioder = person.arbeidsgivere
@@ -56,48 +56,59 @@ export function beregnInntektPerDag(periodebeløp: number, periode: DatePeriod, 
     return periodebeløp / antallDagerTilGradering;
 }
 
-export interface TabellArbeidsdag {
+export type DagtypeKolonneDefinisjon = {
+    organisasjonsnummer: string;
+    navn: string;
+};
+
+export type DagtypeRad = {
     dato: DateString;
-    arbeidsgivere: {
-        navn: string;
-        dagtype: Utbetalingsdagtype;
-    }[];
-}
+    dagtypePerOrganisasjonsnummer: Map<string, Utbetalingsdagtype>;
+};
 
-export const tabellArbeidsdager = (arbeidsgivere: ArbeidsgiverFragment[]): TabellArbeidsdag[] => {
-    const gruppertPåDato = new Map<DateString, { navn: string; dagtype: Utbetalingsdagtype }[]>();
-    const gruppertPåArbeidsgiver: {
-        navn: string;
-        dager: { dato: DateString; dagtype: Utbetalingsdagtype }[];
-    }[] = arbeidsgivere.map((arbeidsgiver) => ({
-        navn: arbeidsgiver.navn,
-        dager:
-            arbeidsgiver.generasjoner[0]?.perioder
-                .flatMap((periode) =>
-                    periode.tidslinje.map((linje) => ({
-                        dato: linje.dato,
-                        dagtype: linje.utbetalingsdagtype,
-                    })),
-                )
-                .filter((dag) => dag != null) ?? [],
-    }));
+export type DagtypeTabell = {
+    kolonneDefinisjoner: DagtypeKolonneDefinisjon[];
+    rader: DagtypeRad[];
+};
 
-    gruppertPåArbeidsgiver.forEach(({ navn, dager }) => {
-        dager.forEach(({ dato, dagtype }) => {
-            if (!gruppertPåDato.has(dato)) {
-                gruppertPåDato.set(dato, []);
-            }
-            gruppertPåDato.get(dato)?.push({
-                navn: navn,
-                dagtype: dagtype,
+export const tilDagtypeTabell = (periode: DatePeriod, arbeidsgivere: ArbeidsgiverFragment[]): DagtypeTabell => {
+    const datoer = tilDatoer(periode);
+
+    const kolonneDefinisjoner: DagtypeKolonneDefinisjon[] = [];
+    const datoOrganisasjonsnummerDagtypeMap = new Map<DateString, Map<string, Utbetalingsdagtype>>();
+    datoer.forEach((dato) => datoOrganisasjonsnummerDagtypeMap.set(dato, new Map<string, Utbetalingsdagtype>()));
+
+    arbeidsgivere.forEach((arbeidsgiver) => {
+        const utbetalingsdager =
+            arbeidsgiver.generasjoner[0]?.perioder.flatMap((p) => {
+                return p.tidslinje
+                    .filter((dag) => datoer.includes(dag.dato))
+                    .map((dag) => {
+                        return { dato: dag.dato, dagtype: dag.utbetalingsdagtype };
+                    });
+            }) ?? [];
+        if (utbetalingsdager.length > 0) {
+            kolonneDefinisjoner.push({
+                organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+                navn: arbeidsgiver.navn,
             });
-        });
+            utbetalingsdager.forEach((dag) =>
+                datoOrganisasjonsnummerDagtypeMap.get(dag.dato)!.set(arbeidsgiver.organisasjonsnummer, dag.dagtype),
+            );
+        }
     });
 
-    return Array.from(
-        gruppertPåDato.entries().map(([dato, arbeidsgivere]) => ({ dato: dato, arbeidsgivere: arbeidsgivere })),
-    );
+    return {
+        kolonneDefinisjoner: kolonneDefinisjoner,
+        rader: Array.from(datoOrganisasjonsnummerDagtypeMap.entries()).map(
+            ([dato, dagtypePerOrganisasjonsnummer]): DagtypeRad => ({
+                dato: dato,
+                dagtypePerOrganisasjonsnummer: dagtypePerOrganisasjonsnummer,
+            }),
+        ),
+    };
 };
+
 export const dekorerTekst = (dagtype: Utbetalingsdagtype, erHelg: boolean): string => {
     switch (dagtype) {
         case Utbetalingsdagtype.AvvistDag:

@@ -6,9 +6,9 @@ import { BodyShort, Box, HStack, Table } from '@navikt/ds-react';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverFragment } from '@io/graphql';
 import styles from '@saksbilde/tilkommenInntekt/TilkommenTable.module.css';
-import { dekorerTekst, getTypeIcon, tabellArbeidsdager } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
+import { dekorerTekst, getTypeIcon, tilDagtypeTabell } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { DatePeriod, DateString } from '@typer/shared';
-import { erHelg, erIPeriode, somNorskDato, tilDatoer } from '@utils/date';
+import { erHelg, somNorskDato } from '@utils/date';
 import { capitalizeArbeidsgiver } from '@utils/locale';
 
 interface Props {
@@ -18,15 +18,7 @@ interface Props {
 }
 
 export const TilkommenInntektDagoversikt = ({ arbeidsgivere, periode, ekskluderteUkedager }: Props) => {
-    const arbeidsgiverdager = tabellArbeidsdager(arbeidsgivere).filter((dag) => erIPeriode(dag.dato, periode));
-    const arbeidsgiverrad = arbeidsgiverdager.reduce((acc: string[], arbeidsgierdag) => {
-        if (arbeidsgierdag.arbeidsgivere.length > acc.length) {
-            return arbeidsgierdag.arbeidsgivere.map((dag) => dag.navn);
-        } else {
-            return acc;
-        }
-    }, []);
-    const datoer = tilDatoer(periode);
+    const { kolonneDefinisjoner, rader } = tilDagtypeTabell(periode, arbeidsgivere);
 
     return (
         <Box
@@ -45,18 +37,17 @@ export const TilkommenInntektDagoversikt = ({ arbeidsgivere, periode, ekskludert
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Dato</Table.HeaderCell>
-                        {arbeidsgiverrad.map((arbeidsgiver) => (
-                            <Table.HeaderCell key={arbeidsgiver}>
+                        {kolonneDefinisjoner.map((arbeidsgiver) => (
+                            <Table.HeaderCell key={arbeidsgiver.organisasjonsnummer}>
                                 <AnonymizableTextWithEllipsis weight="semibold">
-                                    {capitalizeArbeidsgiver(arbeidsgiver)}
+                                    {capitalizeArbeidsgiver(arbeidsgiver.navn)}
                                 </AnonymizableTextWithEllipsis>
                             </Table.HeaderCell>
                         ))}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {datoer.map((dato) => {
-                        const dag = arbeidsgiverdager.find((dag) => dag.dato === dato)!;
+                    {rader.map(({ dato, dagtypePerOrganisasjonsnummer }) => {
                         const helg = erHelg(dato);
                         const valgt = ekskluderteUkedager.includes(dato);
                         return (
@@ -67,14 +58,21 @@ export const TilkommenInntektDagoversikt = ({ arbeidsgivere, periode, ekskludert
                                 <Table.DataCell>
                                     <span id={`id-${dato}`}>{somNorskDato(dato)}</span>
                                 </Table.DataCell>
-                                {dag.arbeidsgivere.map((arbeidsgiver) => (
-                                    <Table.DataCell key={dato + arbeidsgiver.navn}>
-                                        <HStack gap="2" wrap={false}>
-                                            <div className={styles.icon}>{getTypeIcon(arbeidsgiver.dagtype, helg)}</div>
-                                            <BodyShort>{dekorerTekst(arbeidsgiver.dagtype, helg)}</BodyShort>
-                                        </HStack>
-                                    </Table.DataCell>
-                                ))}
+                                {kolonneDefinisjoner.map((arbeidsgiver) => {
+                                    const dagtype = dagtypePerOrganisasjonsnummer.get(arbeidsgiver.organisasjonsnummer);
+                                    return (
+                                        <Table.DataCell key={dato + arbeidsgiver.organisasjonsnummer}>
+                                            <HStack gap="2" wrap={false}>
+                                                {dagtype && (
+                                                    <>
+                                                        <div className={styles.icon}>{getTypeIcon(dagtype, helg)}</div>
+                                                        <BodyShort>{dekorerTekst(dagtype, helg)}</BodyShort>
+                                                    </>
+                                                )}
+                                            </HStack>
+                                        </Table.DataCell>
+                                    );
+                                })}
                             </Table.Row>
                         );
                     })}

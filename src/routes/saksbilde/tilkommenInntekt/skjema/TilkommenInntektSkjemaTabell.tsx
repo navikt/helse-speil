@@ -5,9 +5,9 @@ import { BodyShort, Box, Checkbox, HStack, Table } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { ArbeidsgiverFragment } from '@io/graphql';
-import { dekorerTekst, getTypeIcon, tabellArbeidsdager } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
+import { dekorerTekst, getTypeIcon, tilDagtypeTabell } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { DatePeriod, DateString } from '@typer/shared';
-import { erHelg, erIPeriode, somNorskDato, tilDatoer, tilUkedager } from '@utils/date';
+import { erHelg, somNorskDato } from '@utils/date';
 import { capitalizeArbeidsgiver } from '@utils/locale';
 
 import styles from '../TilkommenTable.module.css';
@@ -27,16 +27,8 @@ export const TilkommenInntektSkjemaTabell = ({
     ekskluderteUkedager,
     setEkskluderteUkedager,
 }: TilkommenInntektTableProps): ReactElement => {
-    const arbeidsgiverdager = tabellArbeidsdager(arbeidsgivere).filter((dag) => erIPeriode(dag.dato, periode));
-    const arbeidsgiverrad = arbeidsgiverdager.reduce((acc: string[], arbeidsgierdag) => {
-        if (arbeidsgierdag.arbeidsgivere.length > acc.length) {
-            return arbeidsgierdag.arbeidsgivere.map((dag) => dag.navn);
-        } else {
-            return acc;
-        }
-    }, []);
-    const datoer = tilDatoer(periode);
-    const valgbareDatoer = tilUkedager(periode);
+    const { kolonneDefinisjoner, rader } = tilDagtypeTabell(periode, arbeidsgivere);
+    const alleUkedager = rader.map((rad) => rad.dato).filter((dato) => !erHelg(dato));
 
     return (
         <Box width="max-content" height="max-content" minWidth="300px">
@@ -52,16 +44,16 @@ export const TilkommenInntektSkjemaTabell = ({
                             <Table.HeaderCell>
                                 <HStack gap="2" align="center" wrap={false}>
                                     <Checkbox
-                                        checked={valgbareDatoer.length === ekskluderteUkedager.length}
+                                        checked={alleUkedager.length === ekskluderteUkedager.length}
                                         indeterminate={
                                             ekskluderteUkedager.length > 0 &&
-                                            ekskluderteUkedager.length !== valgbareDatoer.length
+                                            ekskluderteUkedager.length !== alleUkedager.length
                                         }
                                         onChange={() => {
                                             if (ekskluderteUkedager.length > 0) {
                                                 setEkskluderteUkedager([]);
                                             } else {
-                                                setEkskluderteUkedager(valgbareDatoer);
+                                                setEkskluderteUkedager(alleUkedager);
                                             }
                                         }}
                                         hideLabel
@@ -72,18 +64,17 @@ export const TilkommenInntektSkjemaTabell = ({
                                     <BodyShort weight="semibold">Dato</BodyShort>
                                 </HStack>
                             </Table.HeaderCell>
-                            {arbeidsgiverrad.map((arbeidsgiver) => (
-                                <Table.HeaderCell key={arbeidsgiver}>
+                            {kolonneDefinisjoner.map((arbeidsgiver) => (
+                                <Table.HeaderCell key={arbeidsgiver.organisasjonsnummer}>
                                     <AnonymizableTextWithEllipsis weight="semibold">
-                                        {capitalizeArbeidsgiver(arbeidsgiver)}
+                                        {capitalizeArbeidsgiver(arbeidsgiver.navn)}
                                     </AnonymizableTextWithEllipsis>
                                 </Table.HeaderCell>
                             ))}
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {datoer.map((dato) => {
-                            const dag = arbeidsgiverdager.find((dag) => dag.dato === dato)!;
+                        {rader.map(({ dato, dagtypePerOrganisasjonsnummer }) => {
                             const helg = erHelg(dato);
                             const valgt = ekskluderteUkedager.includes(dato);
                             return (
@@ -101,7 +92,9 @@ export const TilkommenInntektSkjemaTabell = ({
                                                         setEkskluderteUkedager([...ekskluderteUkedager, dato]);
                                                     } else {
                                                         setEkskluderteUkedager(
-                                                            ekskluderteUkedager.filter((ukedag) => ukedag !== dato),
+                                                            ekskluderteUkedager.filter(
+                                                                (ekskludertUkedag) => ekskludertUkedag !== dato,
+                                                            ),
                                                         );
                                                     }
                                                 }}
@@ -114,18 +107,27 @@ export const TilkommenInntektSkjemaTabell = ({
                                             <BodyShort id={`id-${dato}`}>{somNorskDato(dato)}</BodyShort>
                                         </HStack>
                                     </Table.DataCell>
-                                    {dag.arbeidsgivere.map((arbeidsgiver) => (
-                                        <Table.DataCell key={dato + arbeidsgiver.navn}>
-                                            <HStack gap="1" align="center" paddingInline="1 0" wrap={false}>
-                                                <div className={styles.icon}>
-                                                    {getTypeIcon(arbeidsgiver.dagtype, helg)}
-                                                </div>
-                                                <BodyShort style={{ whiteSpace: 'nowrap' }}>
-                                                    {dekorerTekst(arbeidsgiver.dagtype, helg)}
-                                                </BodyShort>
-                                            </HStack>
-                                        </Table.DataCell>
-                                    ))}
+                                    {kolonneDefinisjoner.map((arbeidsgiver) => {
+                                        const dagtype = dagtypePerOrganisasjonsnummer.get(
+                                            arbeidsgiver.organisasjonsnummer,
+                                        );
+                                        return (
+                                            <Table.DataCell key={dato + arbeidsgiver.organisasjonsnummer}>
+                                                <HStack gap="1" align="center" paddingInline="1 0" wrap={false}>
+                                                    {dagtype && (
+                                                        <>
+                                                            <div className={styles.icon}>
+                                                                {getTypeIcon(dagtype, helg)}
+                                                            </div>
+                                                            <BodyShort style={{ whiteSpace: 'nowrap' }}>
+                                                                {dekorerTekst(dagtype, helg)}
+                                                            </BodyShort>
+                                                        </>
+                                                    )}
+                                                </HStack>
+                                            </Table.DataCell>
+                                        );
+                                    })}
                                 </Table.Row>
                             );
                         })}
