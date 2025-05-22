@@ -1,11 +1,9 @@
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { Alert } from '@navikt/ds-react';
 
 import { TilkommenInntektTimelineRow } from '@saksbilde/timeline/TilkommenInntektTimelineRow';
-import styles from '@saksbilde/timeline/Timeline.module.css';
 import { TimelineRowSkeleton } from '@saksbilde/timeline/TimelineRow';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 
@@ -15,7 +13,7 @@ interface TilkommenInntektTimelineContainerProps {
     fødselsnummer: string;
 }
 
-export const TilkommenInntektTimelineContainer = ({
+export const TilkommenInntektTimelineRows = ({
     start,
     end,
     fødselsnummer,
@@ -27,16 +25,12 @@ export const TilkommenInntektTimelineContainer = ({
     }
 
     if (error) {
-        return (
-            <div className={classNames(styles.Timeline, styles.Error)}>
-                <BodyShort>Det har skjedd en feil. Kan ikke vise tilkomne inntekter for denne saken.</BodyShort>
-            </div>
-        );
+        return <Alert variant="error">Det har skjedd en feil. Kan ikke vise tilkomne inntekter for denne saken.</Alert>;
     }
     const tilkomneInntektskilder = data!.tilkomneInntektskilderV2;
 
     return (
-        <div className={styles.Rows}>
+        <>
             {tilkomneInntektskilder.map((tilkommenInntektskilde) => {
                 return (
                     <TilkommenInntektTimelineRow
@@ -45,9 +39,9 @@ export const TilkommenInntektTimelineContainer = ({
                         end={end}
                         organisasjonsnummer={tilkommenInntektskilde.organisasjonsnummer}
                         tilkomneInntekter={tilkommenInntektskilde.inntekter}
-                    ></TilkommenInntektTimelineRow>
+                    />
                 );
             })}
-        </div>
+        </>
     );
 };
