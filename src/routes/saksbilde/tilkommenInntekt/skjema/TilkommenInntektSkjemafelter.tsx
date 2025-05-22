@@ -54,6 +54,8 @@ export const TilkommenInntektSkjemafelter = ({
 
     const organisasjonsnummerFeil = form.formState.errors.organisasjonsnummer?.message;
 
+    const periodebeløpFeil = form.formState.errors.periodebeløp?.message;
+
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
@@ -143,38 +145,47 @@ export const TilkommenInntektSkjemafelter = ({
                                 </ErrorMessage>
                             ))}
                     </VStack>
-                    <HStack wrap gap="6" marginBlock="4">
-                        <Controller
-                            control={form.control}
-                            name="periodebeløp"
-                            render={({ field, fieldState }) => (
-                                <TextField
-                                    {...field}
-                                    error={fieldState.error?.message}
-                                    label="Inntekt for perioden"
-                                    size="small"
-                                    style={{ width: 'var(--a-spacing-24)' }}
-                                    id="periodebeløp"
-                                    onFocus={(e) => e.target.select()}
-                                />
-                            )}
-                        />
-                        <TextField
-                            label="Inntekt per dag"
-                            size="small"
-                            readOnly
-                            style={{ width: 'var(--a-spacing-24)' }}
-                            value={
-                                inntektPerDag === undefined ||
-                                Number.isNaN(inntektPerDag) ||
-                                !Number.isFinite(inntektPerDag)
-                                    ? ''
-                                    : Number.isSafeInteger(inntektPerDag)
-                                      ? inntektPerDag
-                                      : inntektPerDag.toFixed(2)
-                            }
-                        />
-                    </HStack>
+                    <VStack marginBlock="4" gap="2">
+                        <HStack gap="6">
+                            <Controller
+                                control={form.control}
+                                name="periodebeløp"
+                                render={({ field, fieldState }) => (
+                                    <TextField
+                                        {...field}
+                                        error={fieldState.error?.message != undefined}
+                                        label="Inntekt for perioden"
+                                        size="small"
+                                        style={{ width: 'var(--a-spacing-24)' }}
+                                        id="periodebeløp"
+                                        onFocus={(e) => e.target.select()}
+                                    />
+                                )}
+                            />
+                            <TextField
+                                label="Inntekt per dag"
+                                size="small"
+                                readOnly
+                                style={{ width: 'var(--a-spacing-24)' }}
+                                value={
+                                    inntektPerDag === undefined ||
+                                    Number.isNaN(inntektPerDag) ||
+                                    !Number.isFinite(inntektPerDag)
+                                        ? ''
+                                        : Number.isSafeInteger(inntektPerDag)
+                                          ? inntektPerDag
+                                          : inntektPerDag.toFixed(2)
+                                }
+                            />
+                        </HStack>
+                        {periodebeløpFeil != undefined && (
+                            <HStack align="center" gap="1">
+                                <ErrorMessage showIcon size="small">
+                                    {periodebeløpFeil}
+                                </ErrorMessage>
+                            </HStack>
+                        )}
+                    </VStack>
                     <Box maxWidth="380px">
                         <Controller
                             control={form.control}
