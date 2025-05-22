@@ -126,7 +126,7 @@ export const Period = ({
     const setActivePeriodId = useSetActivePeriodId(person);
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
-    const harUvurderteVarsler = useUvurderteVarslerPåPeriode(period, person);
+    const harUvurderteVarsler = useUvurderteVarslerPåPeriode(period);
     const pathname = usePathname();
     const router = useRouter();
 
