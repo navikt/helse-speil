@@ -69,7 +69,7 @@ export const TilkommenInntektSkjemafelter = ({
                     borderColor="border-action"
                 >
                     <VStack gap="2">
-                        <HStack align="end" gap="3">
+                        <HGrid columns={2} width="75%" align="end">
                             <Controller
                                 control={form.control}
                                 name="organisasjonsnummer"
@@ -99,7 +99,7 @@ export const TilkommenInntektSkjemafelter = ({
                                     <></>
                                 )}
                             </div>
-                        </HStack>
+                        </HGrid>
                         {organisasjonsnummerFeil != undefined && (
                             <HStack align="center" gap="1">
                                 <ErrorMessage showIcon size="small">
