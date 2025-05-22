@@ -43,7 +43,10 @@ export const ControlledDatePicker = ({
         fromDate: somDate(tidligsteFom),
         toDate: somDate(senesteTom),
         required: true,
-        onDateChange: (date) => field.onChange(date ? dateTilNorskDato(date) : ''),
+        onDateChange: (date) => {
+            field.onChange(date ? dateTilNorskDato(date) : '');
+            field.onBlur();
+        },
     });
     return (
         <DatePicker {...datepickerProps} dropdownCaption>
