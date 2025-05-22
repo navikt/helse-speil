@@ -9,14 +9,14 @@ import { Box } from '@navikt/ds-react/Box';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { Maybe } from '@io/graphql';
 import { EndringsloggTilkommenInntektButton } from '@saksbilde/tilkommenInntekt/EndringsloggTilkommenInntektButton';
-import { beregnInntektPerDag, tabellArbeidsdager } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
+import { beregnInntektPerDag } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { FjernTilkommenInntektModal } from '@saksbilde/tilkommenInntekt/visning/FjernTilkommenInntektModal';
 import { TilkommenInntektArbeidsgivernavn } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektArbeidsgivernavn';
 import { TilkommenInntektDagoversikt } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektDagoversikt';
 import { TilkommenInntektFjernetAlert } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektFjernetAlert';
 import { useFetchPersonQuery } from '@state/person';
 import { useTilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
-import { erIPeriode, somNorskDato } from '@utils/date';
+import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 interface TilkommenInntektVisningProps {
@@ -37,19 +37,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
 
     const [showFjernModal, setShowFjernModal] = useState(false);
 
-    if (!tilkommenInntekt || !organisasjonsnummer) return null;
-
-    const arbeidsgiverdager = tabellArbeidsdager(person?.arbeidsgivere ?? []).filter((dag) =>
-        erIPeriode(dag.dato, tilkommenInntekt.periode),
-    );
-
-    const arbeidsgiverrad = arbeidsgiverdager.reduce((acc: string[], arbeidsgierdag) => {
-        if (arbeidsgierdag.arbeidsgivere.length > acc.length) {
-            return arbeidsgierdag.arbeidsgivere.map((dag) => dag.navn);
-        } else {
-            return acc;
-        }
-    }, []);
+    if (!tilkommenInntekt || !organisasjonsnummer || !person) return null;
 
     const inntektPerDag = beregnInntektPerDag(
         Number(tilkommenInntekt.periodebelop),
@@ -150,9 +138,9 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                     <VStack>
                         <Box height="2.5rem" />
                         <TilkommenInntektDagoversikt
-                            arbeidsgiverrad={arbeidsgiverrad}
+                            arbeidsgivere={person.arbeidsgivere}
+                            periode={tilkommenInntekt.periode}
                             ekskluderteUkedager={tilkommenInntekt.ekskluderteUkedager}
-                            arbeidsgiverdager={arbeidsgiverdager}
                         />
                     </VStack>
                 </HStack>

@@ -7,7 +7,7 @@ import { AnonymizableTextWithEllipsis } from '@components/anonymizable/Anonymiza
 import { ArbeidsgiverFragment } from '@io/graphql';
 import { dekorerTekst, getTypeIcon, tabellArbeidsdager } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { DatePeriod, DateString } from '@typer/shared';
-import { erHelg, erIPeriode, somNorskDato, tilUkedager } from '@utils/date';
+import { erHelg, erIPeriode, somNorskDato, tilDatoer, tilUkedager } from '@utils/date';
 import { capitalizeArbeidsgiver } from '@utils/locale';
 
 import styles from '../TilkommenTable.module.css';
@@ -35,7 +35,9 @@ export const TilkommenInntektSkjemaTabell = ({
             return acc;
         }
     }, []);
+    const datoer = tilDatoer(periode);
     const valgbareDatoer = tilUkedager(periode);
+
     return (
         <Box width="max-content" height="max-content" minWidth="300px">
             <Box background="surface-subtle" borderWidth="0 0 0 1" borderColor="border-strong">
@@ -80,12 +82,13 @@ export const TilkommenInntektSkjemaTabell = ({
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {arbeidsgiverdager.map((dag) => {
-                            const helg = erHelg(dag.dato);
-                            const valgt = ekskluderteUkedager.includes(dag.dato);
+                        {datoer.map((dato) => {
+                            const dag = arbeidsgiverdager.find((dag) => dag.dato === dato)!;
+                            const helg = erHelg(dato);
+                            const valgt = ekskluderteUkedager.includes(dato);
                             return (
                                 <Table.Row
-                                    key={dag.dato + 'row'}
+                                    key={dato + 'row'}
                                     className={cn(helg && styles.helg, valgt && styles.valgteDatoer)}
                                 >
                                     <Table.DataCell>
@@ -95,24 +98,24 @@ export const TilkommenInntektSkjemaTabell = ({
                                                 disabled={helg}
                                                 onChange={(event) => {
                                                     if (event.target.checked) {
-                                                        setEkskluderteUkedager([...ekskluderteUkedager, dag.dato]);
+                                                        setEkskluderteUkedager([...ekskluderteUkedager, dato]);
                                                     } else {
                                                         setEkskluderteUkedager(
-                                                            ekskluderteUkedager.filter((ukedag) => ukedag !== dag.dato),
+                                                            ekskluderteUkedager.filter((ukedag) => ukedag !== dato),
                                                         );
                                                     }
                                                 }}
-                                                aria-labelledby={`id-${dag.dato}`}
+                                                aria-labelledby={`id-${dato}`}
                                                 hideLabel={true}
                                                 size="small"
                                             >
                                                 {''}
                                             </Checkbox>
-                                            <BodyShort id={`id-${dag.dato}`}>{somNorskDato(dag.dato)}</BodyShort>
+                                            <BodyShort id={`id-${dato}`}>{somNorskDato(dato)}</BodyShort>
                                         </HStack>
                                     </Table.DataCell>
                                     {dag.arbeidsgivere.map((arbeidsgiver) => (
-                                        <Table.DataCell key={dag.dato + arbeidsgiver.navn}>
+                                        <Table.DataCell key={dato + arbeidsgiver.navn}>
                                             <HStack gap="1" align="center" paddingInline="1 0" wrap={false}>
                                                 <div className={styles.icon}>
                                                     {getTypeIcon(arbeidsgiver.dagtype, helg)}
