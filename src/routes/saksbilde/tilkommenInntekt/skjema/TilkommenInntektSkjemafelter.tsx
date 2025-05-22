@@ -7,6 +7,7 @@ import {
     Button,
     ErrorMessage,
     ErrorSummary,
+    HGrid,
     HStack,
     Skeleton,
     TextField,
@@ -75,7 +76,7 @@ export const TilkommenInntektSkjemafelter = ({
                                 render={({ field, fieldState }) => (
                                     <TextField
                                         {...field}
-                                        style={{ width: '140px' }}
+                                        style={{ width: '90px' }}
                                         error={fieldState.error?.message != undefined}
                                         label="Organisasjonsnummer"
                                         size="small"
@@ -108,7 +109,7 @@ export const TilkommenInntektSkjemafelter = ({
                         )}
                     </VStack>
                     <VStack marginBlock="4" gap="2">
-                        <HStack wrap={false} gap="6">
+                        <HGrid columns={2} width="75%">
                             <Controller
                                 name="fom"
                                 control={form.control}
@@ -137,7 +138,7 @@ export const TilkommenInntektSkjemafelter = ({
                                     />
                                 )}
                             />
-                        </HStack>
+                        </HGrid>
                         {datofeil.length > 0 &&
                             datofeil.map((feil) => (
                                 <ErrorMessage key={feil} showIcon size="small">
@@ -146,7 +147,7 @@ export const TilkommenInntektSkjemafelter = ({
                             ))}
                     </VStack>
                     <VStack marginBlock="4" gap="2">
-                        <HStack gap="6">
+                        <HGrid columns={2} width="75%">
                             <Controller
                                 control={form.control}
                                 name="periodebeløp"
@@ -156,7 +157,7 @@ export const TilkommenInntektSkjemafelter = ({
                                         error={fieldState.error?.message != undefined}
                                         label="Inntekt for perioden"
                                         size="small"
-                                        style={{ width: 'var(--a-spacing-24)' }}
+                                        style={{ width: '80px' }}
                                         id="periodebeløp"
                                         onFocus={(e) => e.target.select()}
                                     />
@@ -166,7 +167,7 @@ export const TilkommenInntektSkjemafelter = ({
                                 label="Inntekt per dag"
                                 size="small"
                                 readOnly
-                                style={{ width: 'var(--a-spacing-24)' }}
+                                style={{ width: '80px' }}
                                 value={
                                     inntektPerDag === undefined ||
                                     Number.isNaN(inntektPerDag) ||
@@ -177,7 +178,7 @@ export const TilkommenInntektSkjemafelter = ({
                                           : inntektPerDag.toFixed(2)
                                 }
                             />
-                        </HStack>
+                        </HGrid>
                         {periodebeløpFeil != undefined && (
                             <HStack align="center" gap="1">
                                 <ErrorMessage showIcon size="small">

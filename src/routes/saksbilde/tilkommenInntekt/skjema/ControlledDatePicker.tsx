@@ -66,6 +66,7 @@ export const ControlledDatePicker = ({
                 label={label}
                 error={error !== undefined}
                 size="small"
+                style={{ width: '110px' }}
                 id={id}
             />
         </DatePicker>
