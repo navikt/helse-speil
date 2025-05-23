@@ -14,6 +14,7 @@ type ControlledDatePickerProps = {
     gyldigePerioder: DatePeriod[];
     erGyldigDato: (dato: string) => boolean;
     id: string;
+    defaultMonth?: DateString;
 };
 
 const tidligsteDag = (dato: DateString[]) =>
@@ -29,13 +30,14 @@ export const ControlledDatePicker = ({
     gyldigePerioder,
     erGyldigDato,
     id,
+    defaultMonth = undefined,
 }: ControlledDatePickerProps) => {
     const tidligsteFom = tidligsteDag(gyldigePerioder.map((periode) => periode.fom));
     const senesteTom = senesteDag(gyldigePerioder.map((periode) => periode.tom));
     const dagenEtterSenesteFom = plussEnDag(senesteDag(gyldigePerioder.map((periode) => periode.fom)));
     const { datepickerProps, inputProps } = useDatepicker({
         disabled: [(date) => !erGyldigDato(dateTilNorskDato(date))],
-        defaultMonth: somDate(dagenEtterSenesteFom),
+        defaultMonth: somDate(defaultMonth ?? dagenEtterSenesteFom),
         defaultSelected:
             typeof field.value === 'string' && erGyldigNorskDato(field.value)
                 ? norskDatoTilDate(field.value)

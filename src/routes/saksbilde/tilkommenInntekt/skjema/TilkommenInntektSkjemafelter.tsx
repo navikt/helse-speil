@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
-import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form';
+import { Controller, FieldErrors, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import {
     Box,
@@ -56,6 +56,11 @@ export const TilkommenInntektSkjemafelter = ({
     const organisasjonsnummerFeil = form.formState.errors.organisasjonsnummer?.message;
 
     const periodebeløpFeil = form.formState.errors.periodebeløp?.message;
+
+    const fomVerdi = useWatch({
+        name: 'fom',
+        control: form.control,
+    });
 
     return (
         <FormProvider {...form}>
@@ -135,6 +140,7 @@ export const TilkommenInntektSkjemafelter = ({
                                         gyldigePerioder={sykefraværstilfelleperioder}
                                         erGyldigDato={erGyldigTom}
                                         id="tom"
+                                        defaultMonth={fomVerdi === '' ? undefined : fomVerdi}
                                     />
                                 )}
                             />
