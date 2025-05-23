@@ -2,7 +2,6 @@ import React from 'react';
 
 import { fetchPersonMock, opptegnelseMock } from '@apollo-mocks';
 import { useNyheter } from '@external/sanity';
-import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { useKeyboardActions } from '@hooks/useKeyboardShortcuts';
 import { Maybe } from '@io/graphql';
 import { render } from '@test-utils';
@@ -15,7 +14,6 @@ import { Header } from './Header';
 
 jest.mock('@hooks/useKeyboardShortcuts');
 jest.mock('@external/sanity');
-jest.mock('@external/sparkel-aareg/useOrganisasjonQuery');
 
 let cachedVarsel: Maybe<SpeilError> = null;
 
@@ -35,7 +33,6 @@ describe('Header', () => {
     beforeEach(() => {
         (useKeyboardActions as jest.Mock).mockReturnValue(() => Promise.resolve(null));
         (useNyheter as jest.Mock).mockReturnValue({ nyheter: [] });
-        (useOrganisasjonQuery as jest.Mock).mockReturnValue({});
     });
     afterEach(() => {
         jest.clearAllMocks();
