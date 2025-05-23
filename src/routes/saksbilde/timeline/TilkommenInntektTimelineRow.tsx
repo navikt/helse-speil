@@ -2,10 +2,11 @@ import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { ExclamationmarkTriangleIcon, PlusCircleIcon } from '@navikt/aksel-icons';
-import { Skeleton, Tooltip } from '@navikt/ds-react';
+import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
+import { Skeleton } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
+import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { TilkommenInntekt } from '@io/graphql';
 import { KopierAgNavn } from '@saksbilde/timeline/KopierAgNavn';
@@ -46,25 +47,21 @@ export const TilkommenInntektTimelineRow = ({
 
     return (
         <div className={styles.TimelineRow}>
-            <Tooltip content={tooltipText}>
-                <div className={classNames(styles.Name)}>
-                    <PlusCircleIcon className={styles.arbeidsgiverIkon} />
-                    {organisasjonLoading ? (
-                        <Skeleton width="8rem" />
-                    ) : organisasjonNavn === undefined ? (
-                        <>
-                            <AnonymizableTextWithEllipsis>{organisasjonsnummer}</AnonymizableTextWithEllipsis>
-                            <ExclamationmarkTriangleIcon color="red" />
-                        </>
-                    ) : (
-                        <>
-                            <AnonymizableTextWithEllipsis>{organisasjonNavn}</AnonymizableTextWithEllipsis>
-                            <KopierAgNavn navn={organisasjonNavn} />
-                        </>
-                    )}
-                </div>
-            </Tooltip>
-
+            <ArbeidsgiverikonMedTooltip tooltipTekst={tooltipText} className={classNames(styles.Name)}>
+                {organisasjonLoading ? (
+                    <Skeleton width="8rem" />
+                ) : organisasjonNavn === undefined ? (
+                    <>
+                        <AnonymizableTextWithEllipsis>{organisasjonsnummer}</AnonymizableTextWithEllipsis>
+                        <ExclamationmarkTriangleIcon color="red" />
+                    </>
+                ) : (
+                    <>
+                        <AnonymizableTextWithEllipsis>{organisasjonNavn}</AnonymizableTextWithEllipsis>
+                        <KopierAgNavn navn={organisasjonNavn} />
+                    </>
+                )}
+            </ArbeidsgiverikonMedTooltip>
             <div className={styles.Periods}>
                 <TilkommenInntektPeriods start={start} end={end} tilkomneInntekter={tilkomneInntekter} />
             </div>
