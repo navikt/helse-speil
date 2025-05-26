@@ -13,6 +13,7 @@ import { useSetActivePeriodId } from '@state/periode';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
+import { capitalizeArbeidsgiver } from '@utils/locale';
 
 interface HarBeslutteroppgaverProps {
     person: PersonFragment;
@@ -67,7 +68,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): May
                 <List key={informasjon.arbeidsgivernavn} as="ul">
                     {perioderTilKontroll.length > 1 ||
                         (harTilkommenInntektEndring && (
-                            <AnonymizableText>{informasjon.arbeidsgivernavn}</AnonymizableText>
+                            <AnonymizableText>{capitalizeArbeidsgiver(informasjon.arbeidsgivernavn)}</AnonymizableText>
                         ))}
                     {informasjon.perioder.map((periode) => (
                         <List.Item key={periode.id} className={styles.datoliste}>
@@ -119,9 +120,9 @@ const TilkommenInntektArbeidsgivernavn = ({ organisasjonsnummer }: { organisasjo
     const organisasjonsnavn = organisasjonData?.organisasjon?.navn;
     return organisasjonLoading ? (
         <Skeleton width="8rem" />
-    ) : organisasjonsnavn === undefined ? (
+    ) : organisasjonsnavn == undefined ? (
         <ErrorMessage>Feil ved navnoppslag</ErrorMessage>
     ) : (
-        <AnonymizableText>{organisasjonsnavn}</AnonymizableText>
+        <AnonymizableText>{capitalizeArbeidsgiver(organisasjonsnavn)}</AnonymizableText>
     );
 };
