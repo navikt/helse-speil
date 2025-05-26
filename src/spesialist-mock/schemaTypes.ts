@@ -1639,6 +1639,7 @@ export type Tildeling = {
 export type TilkommenInntekt = {
     __typename?: 'TilkommenInntekt';
     ekskluderteUkedager: Array<Scalars['LocalDate']['output']>;
+    erDelAvAktivTotrinnsvurdering: Scalars['Boolean']['output'];
     events: Array<TilkommenInntektEvent>;
     fjernet: Scalars['Boolean']['output'];
     periode: DatoPeriode;

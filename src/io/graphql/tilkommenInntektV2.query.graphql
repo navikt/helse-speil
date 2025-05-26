@@ -10,6 +10,7 @@ query HentTilkommenInntektV2($fodselsnummer: String!) {
             periodebelop
             ekskluderteUkedager
             fjernet
+            erDelAvAktivTotrinnsvurdering
             events {
                 metadata {
                     sekvensnummer

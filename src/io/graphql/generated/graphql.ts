@@ -1641,6 +1641,7 @@ export type Tildeling = {
 export type TilkommenInntekt = {
     __typename: 'TilkommenInntekt';
     ekskluderteUkedager: Array<Scalars['LocalDate']['output']>;
+    erDelAvAktivTotrinnsvurdering: Scalars['Boolean']['output'];
     events: Array<TilkommenInntektEvent>;
     fjernet: Scalars['Boolean']['output'];
     periode: DatoPeriode;
@@ -5917,6 +5918,7 @@ export type HentTilkommenInntektV2Query = {
             periodebelop: string;
             ekskluderteUkedager: Array<string>;
             fjernet: boolean;
+            erDelAvAktivTotrinnsvurdering: boolean;
             periode: { __typename: 'DatoPeriode'; fom: string; tom: string };
             events: Array<
                 | {
@@ -13994,6 +13996,10 @@ export const HentTilkommenInntektV2Document = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'periodebelop' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'ekskluderteUkedager' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'fjernet' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'erDelAvAktivTotrinnsvurdering' },
+                                            },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'events' },

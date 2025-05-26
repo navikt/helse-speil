@@ -50,6 +50,7 @@ export class TilkommenInntektMock {
         const inntekt: TilkommenInntekt = {
             __typename: 'TilkommenInntekt',
             ekskluderteUkedager: verdier.ekskluderteUkedager,
+            erDelAvAktivTotrinnsvurdering: true,
             events: [
                 {
                     __typename: 'TilkommenInntektOpprettetEvent',
