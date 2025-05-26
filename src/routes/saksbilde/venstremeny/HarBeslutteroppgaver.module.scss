@@ -1,0 +1,29 @@
+.tittel {
+    margin-top: 2px;
+}
+
+.lenkeknapp {
+    padding: 0;
+    text-decoration: underline;
+
+    &:hover {
+        text-decoration: none;
+        background: transparent;
+    }
+
+    span {
+        font-weight: normal;
+    }
+}
+
+.periodeListe ul {
+    margin-block: 0;
+}
+
+.periodeListeElement {
+    margin-block-end: var(--a-spacing-1);
+
+    > div {
+        color: var(--a-text-action) !important;
+    }
+}

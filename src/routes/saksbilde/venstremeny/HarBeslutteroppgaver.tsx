@@ -1,19 +1,20 @@
 import React, { ReactElement } from 'react';
 
-import { Alert, Button, ErrorMessage, Heading, List, Skeleton } from '@navikt/ds-react';
+import { Alert, Button, Detail, ErrorMessage, Heading, List, Skeleton, VStack } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { Maybe, PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
-import styles from '@saksbilde/venstremeny/Periodeinformasjon.module.scss';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useSetActivePeriodId } from '@state/periode';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
 import { capitalizeArbeidsgiver } from '@utils/locale';
+
+import styles from './HarBeslutteroppgaver.module.scss';
 
 interface HarBeslutteroppgaverProps {
     person: PersonFragment;
@@ -61,56 +62,67 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): May
 
     return (
         <Alert variant="info">
-            <Heading spacing size="xsmall" level="3" className={styles.tittel}>
-                Perioder til kontroll
-            </Heading>
-            {perioderTilKontroll.map((informasjon) => (
-                <List key={informasjon.arbeidsgivernavn} as="ul">
-                    {perioderTilKontroll.length > 1 ||
-                        (harTilkommenInntektEndring && (
-                            <AnonymizableText>{capitalizeArbeidsgiver(informasjon.arbeidsgivernavn)}</AnonymizableText>
-                        ))}
-                    {informasjon.perioder.map((periode) => (
-                        <List.Item key={periode.id} className={styles.datoliste}>
-                            <Button
-                                className={styles.lenkeknapp}
-                                variant="tertiary"
-                                onClick={() => setActivePeriodId(periode.id)}
-                            >
-                                {somNorskDato(periode.fom)} – {somNorskDato(periode.tom)}
-                            </Button>
-                        </List.Item>
-                    ))}
-                </List>
-            ))}
-            {endredeTilkomneInntektskilder && (
-                <>
+            <VStack gap="4">
+                <VStack>
                     <Heading spacing size="xsmall" level="3" className={styles.tittel}>
-                        Endringer i tilkomne inntekter
+                        Perioder til kontroll
                     </Heading>
-                    {endredeTilkomneInntektskilder.map((inntektskilde) => (
-                        <List key={inntektskilde.organisasjonsnummer} as="ul">
-                            <TilkommenInntektArbeidsgivernavn organisasjonsnummer={inntektskilde.organisasjonsnummer} />
-                            {inntektskilde.inntekter
-                                .filter((tilkommenInntekt) => tilkommenInntekt.erDelAvAktivTotrinnsvurdering)
-                                .map((tilkommenInntekt) => (
-                                    <List.Item key={tilkommenInntekt.tilkommenInntektId} className={styles.datoliste}>
-                                        <Button
-                                            className={styles.lenkeknapp}
-                                            variant="tertiary"
-                                            onClick={() =>
-                                                navigerTilTilkommenInntekt(tilkommenInntekt.tilkommenInntektId)
-                                            }
-                                        >
-                                            {somNorskDato(tilkommenInntekt.periode.fom)} –{' '}
-                                            {somNorskDato(tilkommenInntekt.periode.tom)}
-                                        </Button>
-                                    </List.Item>
+                    {perioderTilKontroll.map((informasjon) => (
+                        <List key={informasjon.arbeidsgivernavn} as="ul" className={styles.periodeListe}>
+                            {perioderTilKontroll.length > 1 ||
+                                (harTilkommenInntektEndring && (
+                                    <AnonymizableText weight="semibold">
+                                        {capitalizeArbeidsgiver(informasjon.arbeidsgivernavn)}
+                                    </AnonymizableText>
                                 ))}
+                            {informasjon.perioder.map((periode) => (
+                                <List.Item key={periode.id} className={styles.periodeListeElement}>
+                                    <Button
+                                        className={styles.lenkeknapp}
+                                        variant="tertiary"
+                                        onClick={() => setActivePeriodId(periode.id)}
+                                    >
+                                        {somNorskDato(periode.fom)} – {somNorskDato(periode.tom)}
+                                    </Button>
+                                </List.Item>
+                            ))}
                         </List>
                     ))}
-                </>
-            )}
+                </VStack>
+                {endredeTilkomneInntektskilder && (
+                    <VStack>
+                        <Detail>Tilkommen inntekt</Detail>
+                        {endredeTilkomneInntektskilder.map((inntektskilde) => (
+                            <React.Fragment key={inntektskilde.organisasjonsnummer}>
+                                <TilkommenInntektArbeidsgivernavn
+                                    organisasjonsnummer={inntektskilde.organisasjonsnummer}
+                                />
+                                <List as="ul" className={styles.periodeListe}>
+                                    {inntektskilde.inntekter
+                                        .filter((tilkommenInntekt) => tilkommenInntekt.erDelAvAktivTotrinnsvurdering)
+                                        .map((tilkommenInntekt) => (
+                                            <List.Item
+                                                key={tilkommenInntekt.tilkommenInntektId}
+                                                className={styles.periodeListeElement}
+                                            >
+                                                <Button
+                                                    className={styles.lenkeknapp}
+                                                    variant="tertiary"
+                                                    onClick={() =>
+                                                        navigerTilTilkommenInntekt(tilkommenInntekt.tilkommenInntektId)
+                                                    }
+                                                >
+                                                    {somNorskDato(tilkommenInntekt.periode.fom)} –{' '}
+                                                    {somNorskDato(tilkommenInntekt.periode.tom)}
+                                                </Button>
+                                            </List.Item>
+                                        ))}
+                                </List>
+                            </React.Fragment>
+                        ))}
+                    </VStack>
+                )}
+            </VStack>
         </Alert>
     );
 };
@@ -123,6 +135,6 @@ const TilkommenInntektArbeidsgivernavn = ({ organisasjonsnummer }: { organisasjo
     ) : organisasjonsnavn == undefined ? (
         <ErrorMessage>Feil ved navnoppslag</ErrorMessage>
     ) : (
-        <AnonymizableText>{capitalizeArbeidsgiver(organisasjonsnavn)}</AnonymizableText>
+        <AnonymizableText weight="semibold">{capitalizeArbeidsgiver(organisasjonsnavn)}</AnonymizableText>
     );
 };
