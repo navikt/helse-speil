@@ -17,7 +17,7 @@ export function stubnavnForOrganisasjonsnummer(organisasjonsnummer: string) {
     );
     const valgtSlutt = slutt[sluttIndex % slutt.length]!;
 
-    return valgtStart + valgtMidt + valgtSlutt;
+    return (valgtStart + valgtMidt + valgtSlutt).toUpperCase();
 }
 
 const statiske: Record<string, string> = {
