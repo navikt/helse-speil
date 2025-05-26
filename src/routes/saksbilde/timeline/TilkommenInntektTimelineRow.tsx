@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { ExclamationmarkTriangleIcon, PlusCircleIcon } from '@navikt/aksel-icons';
+import { ExclamationmarkTriangleIcon, SackKronerIcon } from '@navikt/aksel-icons';
 import { Skeleton, Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
@@ -48,7 +48,7 @@ export const TilkommenInntektTimelineRow = ({
         <div className={styles.TimelineRow}>
             <Tooltip content={tooltipText}>
                 <div className={classNames(styles.Name)}>
-                    <PlusCircleIcon className={styles.arbeidsgiverIkon} />
+                    <SackKronerIcon className={styles.arbeidsgiverIkon} />
                     {organisasjonLoading ? (
                         <Skeleton width="8rem" />
                     ) : organisasjonNavn === undefined ? (

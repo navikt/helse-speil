@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PlusCircleIcon } from '@navikt/aksel-icons';
+import { SackKronerIcon } from '@navikt/aksel-icons';
 import { BodyShort, CopyButton, ErrorMessage, HStack, Skeleton } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
@@ -17,8 +17,8 @@ export const TilkommenInntektArbeidsgivernavn = ({
     organisasjonLoading,
     organisasjonsnavn,
 }: Props) => (
-    <HStack align="center" gap="2">
-        <PlusCircleIcon fontSize="1.3rem" />
+    <HStack align="center" gap="1">
+        <SackKronerIcon fontSize="1.4rem" />
         {organisasjonLoading ? (
             <Skeleton width="8rem" />
         ) : organisasjonsnavn === undefined ? (
