@@ -17,6 +17,7 @@ import styles from '@saksbilde/saksbilder/SharedViews.module.css';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
+import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { ActivePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
 import {
@@ -33,6 +34,12 @@ interface SaksbildeVarselProps {
 }
 
 export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
+    const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(person.fodselsnummer);
+    const harTilkommenInntektEndring =
+        tilkommenInntektData?.tilkomneInntektskilderV2.some((inntektkilde) =>
+            inntektkilde.inntekter.some((tilkommenInntekt) => tilkommenInntekt.erDelAvAktivTotrinnsvurdering),
+        ) ?? false;
+
     if (isAnnullertBeregnetPeriode(periode)) {
         return (
             <Alert variant="info" className={styles.Varsel}>
@@ -46,7 +53,13 @@ export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
             </Alert>
         );
     } else if (isUberegnetPeriode(periode)) {
-        return <UberegnetSaksbildevarsler person={person} periode={periode as UberegnetPeriodeFragment} />;
+        return (
+            <UberegnetSaksbildevarsler
+                person={person}
+                periode={periode as UberegnetPeriodeFragment}
+                harTilkommenInntektEndring={harTilkommenInntektEndring}
+            />
+        );
     }
 
     if (!periode.skjaeringstidspunkt) {
@@ -58,13 +71,20 @@ export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
     }
 
     if (isBeregnetPeriode(periode)) {
-        return <BeregnetSaksbildevarsler periode={periode as BeregnetPeriodeFragment} person={person} />;
+        return (
+            <BeregnetSaksbildevarsler
+                periode={periode as BeregnetPeriodeFragment}
+                person={person}
+                harTilkommenInntektEndring={harTilkommenInntektEndring}
+            />
+        );
     } else if (isGhostPeriode(periode)) {
         return (
             <Saksbildevarsler
                 periodState={getPeriodState(periode)}
                 skjæringstidspunkt={periode.skjaeringstidspunkt}
                 harTotrinnsvurdering={false}
+                harTilkommenInntektEndring={false}
             />
         );
     } else {
@@ -94,6 +114,7 @@ const useNavnPåDeaktiverteGhostArbeidsgivere = (
 interface BeregnetSaksbildevarslerProps {
     person: PersonFragment;
     periode: BeregnetPeriodeFragment;
+    harTilkommenInntektEndring: boolean;
 }
 
 function getÅpneEndringerForPeriode(arbeidsgivere: ArbeidsgiverFragment[], vedtaksperiodeId: string) {
@@ -102,7 +123,7 @@ function getÅpneEndringerForPeriode(arbeidsgivere: ArbeidsgiverFragment[], vedt
         .filter((overstyring) => !overstyring.ferdigstilt && overstyring.vedtaksperiodeId === vedtaksperiodeId);
 }
 
-const BeregnetSaksbildevarsler = ({ person, periode }: BeregnetSaksbildevarslerProps) => {
+const BeregnetSaksbildevarsler = ({ person, periode, harTilkommenInntektEndring }: BeregnetSaksbildevarslerProps) => {
     const erTidligereSaksbehandler = useErTidligereSaksbehandler(person);
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
@@ -125,6 +146,7 @@ const BeregnetSaksbildevarsler = ({ person, periode }: BeregnetSaksbildevarslerP
             skjæringstidspunkt={periode.skjaeringstidspunkt}
             navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
             harTotrinnsvurdering={harTotrinnsvurdering}
+            harTilkommenInntektEndring={harTilkommenInntektEndring}
         />
     );
 };
@@ -132,9 +154,10 @@ const BeregnetSaksbildevarsler = ({ person, periode }: BeregnetSaksbildevarslerP
 interface UberegnetSaksbildevarslerProps {
     person: PersonFragment;
     periode: UberegnetPeriodeFragment;
+    harTilkommenInntektEndring: boolean;
 }
 
-const UberegnetSaksbildevarsler = ({ person, periode }: UberegnetSaksbildevarslerProps) => {
+const UberegnetSaksbildevarsler = ({ person, periode, harTilkommenInntektEndring }: UberegnetSaksbildevarslerProps) => {
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
@@ -152,6 +175,7 @@ const UberegnetSaksbildevarsler = ({ person, periode }: UberegnetSaksbildevarsle
             skjæringstidspunkt={periode.skjaeringstidspunkt}
             navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
             harTotrinnsvurdering={harTotrinnsvurdering}
+            harTilkommenInntektEndring={harTilkommenInntektEndring}
         />
     );
 };

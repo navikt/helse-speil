@@ -13,19 +13,43 @@ describe('Saksbildevarsler', () => {
     (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: null });
 
     test('viser feilvarsel om utbetaling har feilet', () => {
-        render(<Saksbildevarsler periodState="utbetalingFeilet" harTotrinnsvurdering={false} />);
+        render(
+            <Saksbildevarsler
+                periodState="utbetalingFeilet"
+                harTotrinnsvurdering={false}
+                harTilkommenInntektEndring={false}
+            />,
+        );
         expect(screen.getByText('Utbetalingen feilet.')).toBeVisible();
     });
     test('viser varsel om at perioden venter på inntektsmelding', () => {
-        render(<Saksbildevarsler periodState="venterPåInntektsopplysninger" harTotrinnsvurdering={false} />);
+        render(
+            <Saksbildevarsler
+                periodState="venterPåInntektsopplysninger"
+                harTotrinnsvurdering={false}
+                harTilkommenInntektEndring={false}
+            />,
+        );
         expect(screen.getByText('Ikke klar til behandling - venter på inntektsmelding')).toBeVisible();
     });
     test('viser feilvarsel om annullering feilet', () => {
-        render(<Saksbildevarsler periodState="annulleringFeilet" harTotrinnsvurdering={false} />);
+        render(
+            <Saksbildevarsler
+                periodState="annulleringFeilet"
+                harTotrinnsvurdering={false}
+                harTilkommenInntektEndring={false}
+            />,
+        );
         expect(screen.getByText('Annulleringen feilet. Kontakt utviklerteamet.')).toBeVisible();
     });
     test('viser feilvarsel om saken har en aktiv oppgave men mangler oppgavereferanse', () => {
-        render(<Saksbildevarsler periodState="tilGodkjenning" harTotrinnsvurdering={false} />);
+        render(
+            <Saksbildevarsler
+                periodState="tilGodkjenning"
+                harTotrinnsvurdering={false}
+                harTilkommenInntektEndring={false}
+            />,
+        );
         expect(
             screen.getByText(
                 `Denne perioden kan ikke utbetales. Det kan skyldes at den allerede er forsøkt utbetalt, men at det er forsinkelser i systemet.`,
@@ -33,7 +57,9 @@ describe('Saksbildevarsler', () => {
         ).toBeVisible();
     });
     test('viser feilvarsel om vedtaksperioden har en ukjent tilstand', () => {
-        render(<Saksbildevarsler periodState="ukjent" harTotrinnsvurdering={false} />);
+        render(
+            <Saksbildevarsler periodState="ukjent" harTotrinnsvurdering={false} harTilkommenInntektEndring={false} />,
+        );
         expect(screen.getByText('Kunne ikke lese informasjon om sakens tilstand.')).toBeVisible();
     });
     test('viser varsler', () => {
@@ -65,9 +91,22 @@ describe('Saksbildevarsler', () => {
                     },
                 ]}
                 harTotrinnsvurdering={false}
+                harTilkommenInntektEndring={false}
             />,
         );
         expect(screen.getByText('Dette er en aktivitet')).toBeVisible();
         expect(screen.getByText('Dette er også en aktivitet')).toBeVisible();
+    });
+
+    test('viser besluttervarsler for tilkommen inntekt', () => {
+        render(
+            <Saksbildevarsler
+                periodState="utbetalt"
+                varsler={[]}
+                harTotrinnsvurdering={true}
+                harTilkommenInntektEndring={true}
+            />,
+        );
+        expect(screen.getByText('Kontroller: Tilkommen inntekt')).toBeVisible();
     });
 });

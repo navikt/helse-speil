@@ -71,12 +71,13 @@ const beslutteroppgave = (
     harTotrinnsvurdering: boolean,
     varsler: Array<VarselDto>,
     harDagOverstyringer = false,
+    harTilkommenInntektEndring: boolean,
     åpneEndringerPåPerson?: Maybe<Array<Overstyring>>,
     activePeriodTom?: string,
     navnPåDeaktiverteGhostArbeidsgivere?: string,
 ): Maybe<{ grad: string; melding: string }> => {
-    if (!harTotrinnsvurdering || åpneEndringerPåPerson == null) return null;
-    const aktuelleOverstyringer = åpneEndringerPåPerson.filter((overstyring) => !overstyring.ferdigstilt);
+    if (!harTotrinnsvurdering || (åpneEndringerPåPerson == null && !harTilkommenInntektEndring)) return null;
+    const aktuelleOverstyringer = åpneEndringerPåPerson?.filter((overstyring) => !overstyring.ferdigstilt) ?? [];
 
     const årsaker = [];
 
@@ -138,6 +139,10 @@ const beslutteroppgave = (
         årsaker.push('Lovvalg og medlemskapsvurdering');
     }
 
+    if (harTilkommenInntektEndring) {
+        årsaker.push('Tilkommen inntekt');
+    }
+
     if (årsaker.length > 0) {
         const overstyringÅrsaker = årsaker.join(', ').replace(/,(?=[^,]*$)/, ' og');
         return { grad: 'info', melding: `Kontroller: ${overstyringÅrsaker}` };
@@ -165,6 +170,7 @@ interface SaksbildevarslerProps {
     skjæringstidspunkt?: string;
     navnPåDeaktiverteGhostArbeidsgivere?: string;
     harTotrinnsvurdering: boolean;
+    harTilkommenInntektEndring: boolean;
 }
 
 export const Saksbildevarsler = ({
@@ -179,6 +185,7 @@ export const Saksbildevarsler = ({
     skjæringstidspunkt,
     navnPåDeaktiverteGhostArbeidsgivere,
     harTotrinnsvurdering,
+    harTilkommenInntektEndring,
 }: SaksbildevarslerProps) => {
     const [open, setOpen] = useState(true);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
@@ -190,6 +197,7 @@ export const Saksbildevarsler = ({
             harTotrinnsvurdering,
             varsler ?? [],
             harDagOverstyringer,
+            harTilkommenInntektEndring,
             åpneEndringerPåPerson,
             activePeriodTom,
             navnPåDeaktiverteGhostArbeidsgivere,
