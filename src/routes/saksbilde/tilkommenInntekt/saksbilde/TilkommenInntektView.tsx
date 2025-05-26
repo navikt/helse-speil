@@ -6,7 +6,6 @@ import { ArrowUndoIcon, PersonPencilIcon, XMarkOctagonIcon } from '@navikt/aksel
 import { BodyShort, Button, HGrid, HStack, Link, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
-import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { Maybe } from '@io/graphql';
 import { EndringsloggTilkommenInntektButton } from '@saksbilde/tilkommenInntekt/EndringsloggTilkommenInntektButton';
 import { beregnInntektPerDag } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
@@ -32,8 +31,6 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
         tilkommenInntektId,
         person?.fodselsnummer,
     );
-
-    const { loading: organisasjonLoading, data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
 
     const [showFjernModal, setShowFjernModal] = useState(false);
 
@@ -75,11 +72,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                             <VStack gap="4" align="start">
                                 <VStack gap="4" paddingInline="2">
                                     <HStack align="center">
-                                        <TilkommenInntektArbeidsgivernavn
-                                            organisasjonsnummer={organisasjonsnummer}
-                                            organisasjonLoading={organisasjonLoading}
-                                            organisasjonsnavn={organisasjonData?.organisasjon?.navn ?? undefined}
-                                        />
+                                        <TilkommenInntektArbeidsgivernavn organisasjonsnummer={organisasjonsnummer} />
                                         <EndringsloggTilkommenInntektButton tilkommenInntekt={tilkommenInntekt} />
                                     </HStack>
                                     <VStack paddingInline="7" gap="4">

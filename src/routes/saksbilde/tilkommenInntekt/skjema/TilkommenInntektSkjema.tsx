@@ -50,17 +50,15 @@ export const TilkommenInntektSkjema = ({
         await submit(values);
     };
 
-    const [organisasjonsnavn, setOrganisasjonsnavn] = useState<string | undefined>(undefined);
-    const organisasjonEksisterer = () => {
-        return organisasjonsnavn !== undefined;
-    };
+    // Bakomforliggende state som kun benyttes i valideringen
+    const [organisasjonEksisterer, setOrganisasjonEksisterer] = useState<boolean>(false);
 
     const sykefraværstilfelleperioder = utledSykefraværstilfelleperioder(person);
     const eksisterendePerioder = tilPerioderPerOrganisasjonsnummer(andreTilkomneInntekter);
 
     const form = useForm({
         resolver: zodResolver(
-            lagTilkommenInntektSchema(sykefraværstilfelleperioder, eksisterendePerioder, organisasjonEksisterer),
+            lagTilkommenInntektSchema(sykefraværstilfelleperioder, eksisterendePerioder, () => organisasjonEksisterer),
         ),
         reValidateMode: 'onBlur',
         defaultValues: {
@@ -72,14 +70,11 @@ export const TilkommenInntektSkjema = ({
             ekskluderteUkedager: startEkskluderteUkedager,
         },
     });
+
     const organisasjonsnummer = form.watch('organisasjonsnummer');
-    const {
-        loading: organisasjonLoading,
-        data: organisasjonData,
-        error: organisasjonError,
-    } = useOrganisasjonQuery(organisasjonsnummer);
+    const { data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
     useEffect(() => {
-        setOrganisasjonsnavn(organisasjonData?.organisasjon?.navn ?? undefined);
+        setOrganisasjonEksisterer(organisasjonData?.organisasjon?.navn != undefined);
     }, [organisasjonData]);
 
     const fom = form.watch('fom');
@@ -170,9 +165,6 @@ export const TilkommenInntektSkjema = ({
                             form={form}
                             handleSubmit={handleSubmit}
                             inntektPerDag={inntektPerDag}
-                            organisasjonLoading={organisasjonLoading}
-                            organisasjonsnavn={organisasjonsnavn}
-                            organisasjonHasError={organisasjonError !== undefined}
                             erGyldigFom={erGyldigFom}
                             erGyldigTom={erGyldigTom}
                             sykefraværstilfelleperioder={sykefraværstilfelleperioder}

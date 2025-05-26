@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react';
 
-import { Alert, Button, Detail, ErrorMessage, Heading, List, Skeleton, VStack } from '@navikt/ds-react';
+import { Alert, Button, Detail, Heading, List, VStack } from '@navikt/ds-react';
 
+import { Organisasjonsnavn } from '@components/Organisasjonsnavn';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { Maybe, PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
@@ -94,8 +94,9 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): May
                         <Detail>Tilkommen inntekt</Detail>
                         {endredeTilkomneInntektskilder.map((inntektskilde) => (
                             <React.Fragment key={inntektskilde.organisasjonsnummer}>
-                                <TilkommenInntektArbeidsgivernavn
+                                <Organisasjonsnavn
                                     organisasjonsnummer={inntektskilde.organisasjonsnummer}
+                                    weight="semibold"
                                 />
                                 <List as="ul" className={styles.periodeListe}>
                                     {inntektskilde.inntekter
@@ -124,17 +125,5 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): May
                 )}
             </VStack>
         </Alert>
-    );
-};
-
-const TilkommenInntektArbeidsgivernavn = ({ organisasjonsnummer }: { organisasjonsnummer: string }): ReactElement => {
-    const { loading: organisasjonLoading, data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
-    const organisasjonsnavn = organisasjonData?.organisasjon?.navn;
-    return organisasjonLoading ? (
-        <Skeleton width="8rem" />
-    ) : organisasjonsnavn == undefined ? (
-        <ErrorMessage>Feil ved navnoppslag</ErrorMessage>
-    ) : (
-        <AnonymizableText weight="semibold">{capitalizeArbeidsgiver(organisasjonsnavn)}</AnonymizableText>
     );
 };

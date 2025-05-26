@@ -2,16 +2,11 @@ import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { ExclamationmarkTriangleIcon, SackKronerIcon } from '@navikt/aksel-icons';
-import { Skeleton, Tooltip } from '@navikt/ds-react';
+import { SackKronerIcon } from '@navikt/aksel-icons';
 
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
-import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
+import { Organisasjonsnavn } from '@components/Organisasjonsnavn';
 import { TilkommenInntekt } from '@io/graphql';
-import { KopierAgNavn } from '@saksbilde/timeline/KopierAgNavn';
 import { TilkommenInntektPeriods } from '@saksbilde/timeline/TilkommenInntektPeriods';
-import { useIsAnonymous } from '@state/anonymization';
-import { capitalizeArbeidsgiver } from '@utils/locale';
 
 import styles from './TilkommenInntektTimelineRow.module.css';
 
@@ -27,47 +22,15 @@ export const TilkommenInntektTimelineRow = ({
     end,
     organisasjonsnummer,
     tilkomneInntekter,
-}: TilkommenInntektTimelineRowProps): ReactElement => {
-    const { loading: organisasjonLoading, data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
-    const erAnonymisert = useIsAnonymous();
-
-    const organisasjonNavn =
-        organisasjonData?.organisasjon?.navn != undefined
-            ? capitalizeArbeidsgiver(organisasjonData.organisasjon.navn)
-            : undefined;
-
-    const tooltipText = organisasjonLoading
-        ? 'Henter navn fra enhetsregisteret...'
-        : organisasjonNavn === undefined
-          ? 'En feil oppsto ved henting av navn fra enhetsregisteret'
-          : erAnonymisert
-            ? 'Arbeidsgiver'
-            : organisasjonNavn;
-
-    return (
-        <div className={styles.TimelineRow}>
-            <Tooltip content={tooltipText}>
-                <div className={classNames(styles.Name)}>
-                    <SackKronerIcon className={styles.arbeidsgiverIkon} />
-                    {organisasjonLoading ? (
-                        <Skeleton width="8rem" />
-                    ) : organisasjonNavn === undefined ? (
-                        <>
-                            <AnonymizableTextWithEllipsis>{organisasjonsnummer}</AnonymizableTextWithEllipsis>
-                            <ExclamationmarkTriangleIcon color="red" />
-                        </>
-                    ) : (
-                        <>
-                            <AnonymizableTextWithEllipsis>{organisasjonNavn}</AnonymizableTextWithEllipsis>
-                            <KopierAgNavn navn={organisasjonNavn} />
-                        </>
-                    )}
-                </div>
-            </Tooltip>
-
-            <div className={styles.Periods}>
-                <TilkommenInntektPeriods start={start} end={end} tilkomneInntekter={tilkomneInntekter} />
-            </div>
+}: TilkommenInntektTimelineRowProps): ReactElement => (
+    <div className={styles.TimelineRow}>
+        <div className={classNames(styles.Name)}>
+            <SackKronerIcon className={styles.arbeidsgiverIkon} />
+            <Organisasjonsnavn organisasjonsnummer={organisasjonsnummer} showCopyButton />
         </div>
-    );
-};
+
+        <div className={styles.Periods}>
+            <TilkommenInntektPeriods start={start} end={end} tilkomneInntekter={tilkomneInntekter} />
+        </div>
+    </div>
+);

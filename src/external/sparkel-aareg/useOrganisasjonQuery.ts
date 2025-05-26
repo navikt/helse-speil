@@ -6,12 +6,14 @@ export const useOrganisasjonQuery = (organisasjonsnummer?: string) =>
         variables: {
             organisasjonsnummer: organisasjonsnummer!,
         },
-        skip:
-            organisasjonsnummer === undefined ||
-            organisasjonsnummer.length !== 9 ||
-            isNaN(Number(organisasjonsnummer)) ||
-            !organisasjonsnummerHarRiktigKontrollsiffer(organisasjonsnummer),
+        skip: !erGyldigOrganisasjonsnummer(organisasjonsnummer),
     });
+
+export const erGyldigOrganisasjonsnummer = (organisasjonsnummer: string | undefined) =>
+    organisasjonsnummer !== undefined &&
+    !isNaN(Number(organisasjonsnummer)) &&
+    organisasjonsnummer.length === 9 &&
+    organisasjonsnummerHarRiktigKontrollsiffer(organisasjonsnummer);
 
 export const organisasjonsnummerHarRiktigKontrollsiffer = (organisasjonsnummer: string) => {
     const vekttall = [3, 2, 7, 6, 5, 4, 3, 2];

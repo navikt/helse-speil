@@ -1,34 +1,20 @@
 import { useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
-import { Controller, FieldErrors, FormProvider, useForm, useWatch } from 'react-hook-form';
+import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form';
 
-import {
-    Box,
-    Button,
-    ErrorMessage,
-    ErrorSummary,
-    HGrid,
-    HStack,
-    Skeleton,
-    TextField,
-    Textarea,
-    VStack,
-} from '@navikt/ds-react';
+import { Box, Button, ErrorMessage, ErrorSummary, HGrid, HStack, TextField, Textarea, VStack } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
+import { Organisasjonsnavn } from '@components/Organisasjonsnavn';
+import { erGyldigOrganisasjonsnummer } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { Maybe } from '@io/graphql';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
 import { DatePeriod } from '@typer/shared';
-import { capitalizeArbeidsgiver } from '@utils/locale';
 
 interface TilkommenInntektSkjemaProps {
     form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
     handleSubmit: (values: TilkommenInntektSchema) => Promise<void>;
     inntektPerDag?: number;
-    organisasjonLoading: boolean;
-    organisasjonsnavn?: string;
-    organisasjonHasError: boolean;
     erGyldigFom: (fom: string) => boolean;
     erGyldigTom: (tom: string) => boolean;
     sykefraværstilfelleperioder: DatePeriod[];
@@ -39,9 +25,6 @@ export const TilkommenInntektSkjemafelter = ({
     form,
     handleSubmit,
     inntektPerDag,
-    organisasjonLoading,
-    organisasjonsnavn,
-    organisasjonHasError,
     erGyldigFom,
     erGyldigTom,
     sykefraværstilfelleperioder,
@@ -57,10 +40,8 @@ export const TilkommenInntektSkjemafelter = ({
 
     const periodebeløpFeil = form.formState.errors.periodebeløp?.message;
 
-    const fomVerdi = useWatch({
-        name: 'fom',
-        control: form.control,
-    });
+    const fom = form.watch('fom');
+    const organisasjonsnummer = form.watch('organisasjonsnummer');
 
     return (
         <FormProvider {...form}>
@@ -74,7 +55,7 @@ export const TilkommenInntektSkjemafelter = ({
                     borderColor="border-action"
                 >
                     <VStack gap="2">
-                        <HGrid columns={2} width="75%" align="end">
+                        <HStack gap="1" align="end">
                             <Controller
                                 control={form.control}
                                 name="organisasjonsnummer"
@@ -91,20 +72,12 @@ export const TilkommenInntektSkjemafelter = ({
                                     />
                                 )}
                             />
-                            <div style={{ marginBottom: 'var(--a-spacing-1)' }}>
-                                {organisasjonLoading ? (
-                                    <Skeleton width="8rem" />
-                                ) : organisasjonHasError ? (
-                                    <ErrorMessage>Feil ved navnoppslag</ErrorMessage>
-                                ) : organisasjonsnavn !== undefined ? (
-                                    <AnonymizableTextWithEllipsis>
-                                        {capitalizeArbeidsgiver(organisasjonsnavn)}
-                                    </AnonymizableTextWithEllipsis>
-                                ) : (
-                                    <></>
-                                )}
-                            </div>
-                        </HGrid>
+                            {erGyldigOrganisasjonsnummer(organisasjonsnummer) && (
+                                <div style={{ marginBottom: 'var(--a-spacing-1)' }}>
+                                    <Organisasjonsnavn organisasjonsnummer={organisasjonsnummer} />
+                                </div>
+                            )}
+                        </HStack>
                         {organisasjonsnummerFeil != undefined && (
                             <HStack align="center" gap="1">
                                 <ErrorMessage showIcon size="small">
@@ -140,7 +113,7 @@ export const TilkommenInntektSkjemafelter = ({
                                         gyldigePerioder={sykefraværstilfelleperioder}
                                         erGyldigDato={erGyldigTom}
                                         id="tom"
-                                        defaultMonth={fomVerdi === '' ? undefined : fomVerdi}
+                                        defaultMonth={fom === '' ? undefined : fom}
                                     />
                                 )}
                             />
