@@ -9,6 +9,7 @@ import { BodyShort, Button, Skeleton } from '@navikt/ds-react';
 import { erUtvikling } from '@/env';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
+import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { ArbeidsgiverFragment, Infotrygdutbetaling, Maybe, PersonFragment } from '@io/graphql';
 import { TilkommenInntektTimelineRows } from '@saksbilde/timeline/TilkommenInntektTimelineRows';
@@ -102,6 +103,7 @@ const TimelineWithContent = ({
         },
     ]);
 
+    const erBeslutteroppgave = useHarTotrinnsvurdering(person);
     const start = currentZoomLevel.fom.startOf('day');
     const end = currentZoomLevel.tom.endOf('day');
 
@@ -158,7 +160,7 @@ const TimelineWithContent = ({
             </div>
             <div className={styles.TimelineButtons}>
                 <div className={styles.LeftButtons}>
-                    {erUtvikling && (
+                    {erUtvikling && !erBeslutteroppgave && (
                         <Button
                             as={NextLink}
                             variant="tertiary"
