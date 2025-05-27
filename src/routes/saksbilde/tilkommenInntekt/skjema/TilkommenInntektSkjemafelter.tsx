@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form';
 
 import { Box, Button, ErrorMessage, ErrorSummary, HGrid, HStack, TextField, Textarea, VStack } from '@navikt/ds-react';
@@ -10,6 +10,7 @@ import { erGyldigOrganisasjonsnummer } from '@external/sparkel-aareg/useOrganisa
 import { Maybe } from '@io/graphql';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
 import { DatePeriod } from '@typer/shared';
+import { toKronerOgØre } from '@utils/locale';
 
 interface TilkommenInntektSkjemaProps {
     form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
@@ -19,7 +20,17 @@ interface TilkommenInntektSkjemaProps {
     erGyldigTom: (tom: string) => boolean;
     sykefraværstilfelleperioder: DatePeriod[];
     loading: boolean;
+    startPeriodebeløp: number;
 }
+
+const kronerOgØreTilNumber = (value: string) =>
+    Number(
+        value
+            .replaceAll(' ', '')
+            .replaceAll(',', '.')
+            // Når tallet blir formattert av toKronerOgØre får det non braking space i stedet for ' '
+            .replaceAll(String.fromCharCode(160), ''),
+    );
 
 export const TilkommenInntektSkjemafelter = ({
     form,
@@ -29,15 +40,17 @@ export const TilkommenInntektSkjemafelter = ({
     erGyldigTom,
     sykefraværstilfelleperioder,
     loading,
+    startPeriodebeløp,
 }: TilkommenInntektSkjemaProps): Maybe<ReactElement> => {
+    const [periodebeløpVisningsverdi, setPeriodebeløpVisningsverdi] = useState<string>(
+        toKronerOgØre(startPeriodebeløp),
+    );
     const router = useRouter();
 
     const datofeil: string[] = [form.formState.errors.fom?.message, form.formState.errors.tom?.message].filter(
         (feil) => feil !== undefined,
     );
-
     const organisasjonsnummerFeil = form.formState.errors.organisasjonsnummer?.message;
-
     const periodebeløpFeil = form.formState.errors.periodebeløp?.message;
 
     const fom = form.watch('fom');
@@ -133,6 +146,19 @@ export const TilkommenInntektSkjemafelter = ({
                                 render={({ field, fieldState }) => (
                                     <TextField
                                         {...field}
+                                        value={periodebeløpVisningsverdi}
+                                        onChange={(event) => {
+                                            const nyttBeløp = kronerOgØreTilNumber(event.target.value);
+                                            setPeriodebeløpVisningsverdi(event.target.value);
+                                            field.onChange(nyttBeløp);
+                                        }}
+                                        onBlur={(event) => {
+                                            const nyttBeløp = kronerOgØreTilNumber(event.target.value);
+                                            setPeriodebeløpVisningsverdi(
+                                                Number.isNaN(nyttBeløp) ? event.target.value : toKronerOgØre(nyttBeløp),
+                                            );
+                                            field.onBlur();
+                                        }}
                                         error={fieldState.error?.message != undefined}
                                         label="Inntekt for perioden"
                                         size="small"
@@ -152,9 +178,7 @@ export const TilkommenInntektSkjemafelter = ({
                                     Number.isNaN(inntektPerDag) ||
                                     !Number.isFinite(inntektPerDag)
                                         ? ''
-                                        : Number.isSafeInteger(inntektPerDag)
-                                          ? inntektPerDag
-                                          : inntektPerDag.toFixed(2)
+                                        : toKronerOgØre(inntektPerDag)
                                 }
                             />
                         </HGrid>

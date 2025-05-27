@@ -169,6 +169,7 @@ export const TilkommenInntektSkjema = ({
                             erGyldigTom={erGyldigTom}
                             sykefraværstilfelleperioder={sykefraværstilfelleperioder}
                             loading={isSubmitting}
+                            startPeriodebeløp={startPeriodebeløp}
                         />
                     </VStack>
                     {gyldigPeriode !== undefined ? (

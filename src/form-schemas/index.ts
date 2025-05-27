@@ -36,7 +36,11 @@ export const lagTilkommenInntektSchema = (
                 .string()
                 .min(1, { message: 'Til og med-dato er påkrevd' })
                 .refine((value) => erGyldigNorskDato(value), 'Til og med-datoen er ikke en gyldig norsk dato'),
-            periodebeløp: z.coerce.number().min(1, 'Inntekt for perioden må være minimum 1 kr'),
+            periodebeløp: z.coerce
+                .number({
+                    invalid_type_error: 'Periodebeløp må være et tall',
+                })
+                .min(1, 'Inntekt for perioden må være minimum 1 kr'),
             notat: z.string().min(1, { message: 'Notat til beslutter er påkrevd' }),
             ekskluderteUkedager: z.string().date().array(),
         })
