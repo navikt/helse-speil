@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { BodyShort, Button, TextField } from '@navikt/ds-react';
@@ -26,12 +26,15 @@ export const EndringForm = ({ markerteDager, onSubmitEndring, openDagtypeModal }
     const [endring, setEndring] = useState<Partial<Utbetalingstabelldag>>(defaultEndring);
 
     const form = useForm();
+    const { trigger } = form;
 
     const minimumGrad = kanLeggeTilTilkommenInntekt()
         ? markerteDager
               .values()
               .reduce((previousValue, currentValue) => Math.max(previousValue, currentValue.grad ?? 0), 0)
         : 0;
+
+    const gradvelgerHasError = form.getFieldState('gradvelger', form.formState).error !== undefined;
 
     const { onChange: onChangeGrad, ...gradvelgervalidation } = form.register('gradvelger', {
         required: kanVelgeGrad(endring.dag?.speilDagtype) && 'Velg grad',
@@ -44,6 +47,12 @@ export const EndringForm = ({ markerteDager, onSubmitEndring, openDagtypeModal }
             message: 'Grad må være 100 eller lavere',
         },
     });
+
+    useEffect(() => {
+        if (gradvelgerHasError) {
+            trigger('gradvelger').catch(console.error);
+        }
+    }, [minimumGrad, trigger, gradvelgerHasError]);
 
     const oppdaterGrad = (event: React.ChangeEvent<HTMLInputElement>) => {
         const grad = Number.parseInt(event.target.value);
