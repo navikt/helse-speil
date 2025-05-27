@@ -89,7 +89,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): May
                         </List>
                     ))}
                 </VStack>
-                {endredeTilkomneInntektskilder && (
+                {harTilkommenInntektEndring && (
                     <VStack>
                         <Detail>Tilkommen inntekt</Detail>
                         {endredeTilkomneInntektskilder.map((inntektskilde) => (
