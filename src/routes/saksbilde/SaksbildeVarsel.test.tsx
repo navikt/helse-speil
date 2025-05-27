@@ -76,7 +76,11 @@ describe('SaksbildeVarsel', () => {
             />,
         );
 
-        expect(screen.getByText('Kontroller: Overstyring av dager')).toBeInTheDocument();
+        const kontrollerElement = screen.getByText('Kontroller:');
+        expect(kontrollerElement).toBeVisible();
+        const overstyringAvDagerElement = screen.getByText('Overstyring av dager');
+        expect(overstyringAvDagerElement).toBeVisible();
+        expect(kontrollerElement.parentElement).toContainElement(overstyringAvDagerElement);
     });
     it('skal rendre eget varsel for ghost periode', () => {
         const arbeidsgiver = enArbeidsgiver();

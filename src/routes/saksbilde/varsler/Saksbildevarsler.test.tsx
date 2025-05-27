@@ -107,6 +107,10 @@ describe('Saksbildevarsler', () => {
                 harTilkommenInntektEndring={true}
             />,
         );
-        expect(screen.getByText('Kontroller: Tilkommen inntekt')).toBeVisible();
+        const kontrollerElement = screen.getByText('Kontroller:');
+        expect(kontrollerElement).toBeVisible();
+        const tilkommenInntektElement = screen.getByText('Tilkommen inntekt');
+        expect(tilkommenInntektElement).toBeVisible();
+        expect(kontrollerElement.parentElement).toContainElement(tilkommenInntektElement);
     });
 });
