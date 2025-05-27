@@ -207,7 +207,11 @@ export const Saksbildevarsler = ({
         manglendeOppgavereferanse(periodState, oppgavereferanse),
     ].filter((it) => it) as VarselObject[];
 
-    const skalViseVarsler = (varsler?.length ?? 0) > 0 || infoVarsler.length > 0 || feilVarsler.length > 0;
+    const skalViseVarsler =
+        (varsler?.length ?? 0) > 0 ||
+        beslutteroppgaveKontrollelementer.length > 0 ||
+        infoVarsler.length > 0 ||
+        feilVarsler.length > 0;
     const skalViseKalkulerEndringerVarsel =
         lokaleInntektoverstyringer &&
         lokaleInntektoverstyringer?.skjæringstidspunkt === skjæringstidspunkt &&
