@@ -75,11 +75,11 @@ const beslutteroppgave = (
     åpneEndringerPåPerson?: Maybe<Array<Overstyring>>,
     activePeriodTom?: string,
     navnPåDeaktiverteGhostArbeidsgivere?: string,
-): Maybe<{ grad: string; melding: string }> => {
+): string[] | null => {
     if (!harTotrinnsvurdering || (åpneEndringerPåPerson == null && !harTilkommenInntektEndring)) return null;
     const aktuelleOverstyringer = åpneEndringerPåPerson?.filter((overstyring) => !overstyring.ferdigstilt) ?? [];
 
-    const årsaker = [];
+    const årsaker: string[] = [];
 
     if (harDagOverstyringer || harRelevanteDagoverstyringer(aktuelleOverstyringer ?? [], activePeriodTom)) {
         årsaker.push('Overstyring av dager');
@@ -143,12 +143,7 @@ const beslutteroppgave = (
         årsaker.push('Tilkommen inntekt');
     }
 
-    if (årsaker.length > 0) {
-        const overstyringÅrsaker = årsaker.join(', ').replace(/,(?=[^,]*$)/, ' og');
-        return { grad: 'info', melding: `Kontroller: ${overstyringÅrsaker}` };
-    }
-
-    return null;
+    return årsaker;
 };
 
 const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: DateString): boolean => {
@@ -190,9 +185,7 @@ export const Saksbildevarsler = ({
     const [open, setOpen] = useState(true);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
 
-    const infoVarsler: VarselObject[] = [
-        sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
-        vedtaksperiodeVenter(periodState),
+    const beslutteroppgaveKontrollelementer: string[] =
         beslutteroppgave(
             harTotrinnsvurdering,
             varsler ?? [],
@@ -201,7 +194,11 @@ export const Saksbildevarsler = ({
             åpneEndringerPåPerson,
             activePeriodTom,
             navnPåDeaktiverteGhostArbeidsgivere,
-        ),
+        ) ?? [];
+
+    const infoVarsler: VarselObject[] = [
+        sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
+        vedtaksperiodeVenter(periodState),
     ].filter((it) => it) as VarselObject[];
 
     const feilVarsler: VarselObject[] = [
@@ -249,6 +246,16 @@ export const Saksbildevarsler = ({
                             {!open ? varselheadertekst : 'Skjul varsler'}
                         </Accordion.Header>
                         <Accordion.Content className={styles.varsler}>
+                            {beslutteroppgaveKontrollelementer.length > 0 && (
+                                <Alert className={styles.Varsel} variant="info" key="beslutteroppgave">
+                                    <BodyShort weight="semibold">Kontroller:</BodyShort>
+                                    <ul style={{ marginBlock: 0, paddingInline: 0, listStylePosition: 'inside' }}>
+                                        {beslutteroppgaveKontrollelementer.map((kontrollelementer, index) => (
+                                            <li key={index}>{kontrollelementer}</li>
+                                        ))}
+                                    </ul>
+                                </Alert>
+                            )}
                             {infoVarsler.map(({ grad, melding }, index) => (
                                 <Alert className={styles.Varsel} variant={grad} key={index}>
                                     <BodyShort>{melding}</BodyShort>
