@@ -11,7 +11,11 @@ type Props = {
 };
 
 export const OppdaterPersondataButton = ({ person }: Props): ReactElement => {
-    const [forespørPersonoppdatering] = useOppdaterPersondata(person);
+    const [forespørPersonoppdatering] = useOppdaterPersondata();
 
-    return <Dropdown.Menu.List.Item onClick={forespørPersonoppdatering}>Oppdater persondata</Dropdown.Menu.List.Item>;
+    return (
+        <Dropdown.Menu.List.Item onClick={() => forespørPersonoppdatering(person.fodselsnummer)}>
+            Oppdater persondata
+        </Dropdown.Menu.List.Item>
+    );
 };

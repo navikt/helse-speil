@@ -5,6 +5,7 @@ import React, { PropsWithChildren, ReactElement, use, useEffect, useState } from
 
 import { useMutation } from '@apollo/client';
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
+import { useOppdaterPersondataEnGang } from '@hooks/useOppdaterPersondataEnGang';
 import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
@@ -35,6 +36,7 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
     }, [aktorId, opprettAbonnement]);
 
     useRefreshPersonVedOpptegnelse();
+    useOppdaterPersondataEnGang();
     usePollEtterOpptegnelser();
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useKeyboardShortcuts();
