@@ -8,8 +8,7 @@ import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { Maybe, PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
-import { useSetActivePeriodId } from '@state/periode';
-import { useNavigerTilTilkommenInntekt } from '@state/routing';
+import { useNavigerTilPeriode, useNavigerTilTilkommenInntekt } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
 import { capitalizeArbeidsgiver } from '@utils/locale';
@@ -21,11 +20,11 @@ interface HarBeslutteroppgaverProps {
 }
 
 export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Maybe<ReactElement> => {
-    const setActivePeriodId = useSetActivePeriodId(person);
     const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
     const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(person.fodselsnummer);
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
+    const navigerTilPeriode = useNavigerTilPeriode();
 
     if (!periodeTilGodkjenning || !harTotrinnsvurdering || !tilkommenInntektData) return null;
 
@@ -80,7 +79,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): May
                                     <Button
                                         className={styles.lenkeknapp}
                                         variant="tertiary"
-                                        onClick={() => setActivePeriodId(periode.id)}
+                                        onClick={() => navigerTilPeriode(periode.id)}
                                     >
                                         {somNorskDato(periode.fom)} – {somNorskDato(periode.tom)}
                                     </Button>

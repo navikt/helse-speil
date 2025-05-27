@@ -19,6 +19,15 @@ export const useSetActivePeriodId = (person: PersonFragment) => {
     };
 };
 
+export const useSetActivePeriodIdUtenPerson = () => {
+    const [activePeriodId, setActivePeriodId] = useAtom(activePeriodIdState);
+
+    return (periodeId: string) => {
+        if (activePeriodId === periodeId) return;
+        setActivePeriodId(periodeId);
+    };
+};
+
 export const useActivePeriod = (person: Maybe<PersonFragment>): Maybe<ActivePeriod> => {
     const activePeriodId = useAtomValue(activePeriodIdState);
     const pathname = usePathname();

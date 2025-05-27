@@ -3,14 +3,12 @@ import React, { ReactElement } from 'react';
 import { Maybe, PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
-import { useSetActivePeriodId } from '@state/periode';
 
 interface HarVurderbareVarslerProps {
     person: PersonFragment;
 }
 
 export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): Maybe<ReactElement> => {
-    const setActivePeriodId = useSetActivePeriodId(person);
     const harPeriodeTilGodkjenning = usePeriodeTilGodkjenning(person);
 
     if (!harPeriodeTilGodkjenning) return null;
@@ -38,7 +36,6 @@ export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): May
         <Periodeinformasjon
             tittel="Perioder med varsler som må vurderes"
             periodeinformasjon={arbeidsgivereMedVurderbareVarsler}
-            setAktivPeriode={setActivePeriodId}
         />
     );
 };

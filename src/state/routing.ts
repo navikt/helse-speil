@@ -1,6 +1,7 @@
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 
 import { Maybe } from '@io/graphql';
+import { useSetActivePeriodIdUtenPerson } from '@state/periode';
 
 export const useNavigerTilTilkommenInntekt = () => {
     const aktorId = useAktørIdFraUrl();
@@ -8,6 +9,21 @@ export const useNavigerTilTilkommenInntekt = () => {
 
     return (tilkommenInntektId: string) => {
         router.push(`/person/${aktorId}/tilkommeninntekt/${tilkommenInntektId}`);
+    };
+};
+
+export const useNavigerTilPeriode = () => {
+    const aktorId = useAktørIdFraUrl();
+    const pathname = usePathname();
+    const router = useRouter();
+    const setActivePeriodId = useSetActivePeriodIdUtenPerson();
+
+    return (periodeId: string) => {
+        setActivePeriodId(periodeId);
+        const erPåTilkommenInntektSide = pathname.includes('/tilkommeninntekt/');
+        if (erPåTilkommenInntektSide) {
+            router.push(`/person/${aktorId}/dagoversikt`);
+        }
     };
 };
 
