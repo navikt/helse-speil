@@ -4,8 +4,8 @@ import dynamic from 'next/dynamic';
 import React, { ReactElement } from 'react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { Tilbakemelding } from '@components/flexjar/Tilbakemeldinger';
 import { Saksbilde } from '@saksbilde/Saksbilde';
-import { EmojiTilbakemeldingMedPeriode } from '@saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
 import { Venstremeny } from '@saksbilde/venstremeny/Venstremeny';
 
@@ -21,7 +21,7 @@ export default function Page(): ReactElement {
             <Saksbilde />
             <Historikk />
             <VisHvisSkrivetilgang>
-                <EmojiTilbakemeldingMedPeriode />
+                <Tilbakemelding.ForSaksbilde />
             </VisHvisSkrivetilgang>
         </>
     );

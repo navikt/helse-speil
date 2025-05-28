@@ -2,10 +2,10 @@
 
 import React, { PropsWithChildren, ReactElement } from 'react';
 
+import { Tilbakemelding } from '@components/flexjar/Tilbakemeldinger';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { AndreYtelserHistorikk } from '@saksbilde/andreYtelser/AndreYtelserHistorikk';
 import { AndreYtelserSaksbilde } from '@saksbilde/andreYtelser/AndreYtelserSaksbilde';
-import { EmojiTilbakemeldingMedPeriode } from '@saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
 import { VenstremenyUtenPeriode } from '@saksbilde/venstremeny/VenstremenyUtenPeriode';
 
 export default function Layout({ children }: PropsWithChildren): ReactElement {
@@ -15,7 +15,7 @@ export default function Layout({ children }: PropsWithChildren): ReactElement {
             <AndreYtelserSaksbilde>{children}</AndreYtelserSaksbilde>
             <AndreYtelserHistorikk />
             <VisHvisSkrivetilgang>
-                <EmojiTilbakemeldingMedPeriode />
+                <Tilbakemelding.ForSaksbilde />
             </VisHvisSkrivetilgang>
         </>
     );
