@@ -3,8 +3,7 @@
 import dynamic from 'next/dynamic';
 import React, { ReactElement } from 'react';
 
-import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
-import { Widget } from '@components/flexjar/Widget';
+import { Tilbakemelding } from '@components/flexjar/Tilbakemeldinger';
 import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
 import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
@@ -55,15 +54,7 @@ export const Oversikt = (): ReactElement => {
                 </section>
                 <BehandlingsstatistikkView />
             </div>
-            <Widget>
-                <EmojiTilbakemelding
-                    feedbackId="speil-generell"
-                    tittel="Hjelp oss å gjøre Speil bedre"
-                    feedbackProps={{
-                        erOppgaveOversikt: true,
-                    }}
-                />
-            </Widget>
+            <Tilbakemelding.ForOversikt />
         </main>
     );
 };

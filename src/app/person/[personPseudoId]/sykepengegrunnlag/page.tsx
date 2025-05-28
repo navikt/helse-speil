@@ -3,8 +3,8 @@
 import dynamic from 'next/dynamic';
 import React, { ReactElement } from 'react';
 
+import { Tilbakemelding } from '@components/flexjar/Tilbakemeldinger';
 import { Saksbilde } from '@saksbilde/Saksbilde';
-import { EmojiTilbakemeldingMedPeriode } from '@saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
 import { PeriodeView } from '@saksbilde/periodeview/PeriodeView';
 import { Venstremeny } from '@saksbilde/venstremeny/Venstremeny';
@@ -22,7 +22,7 @@ export default function Page(): ReactElement | null {
                 <PeriodeView />
             </Saksbilde>
             <Historikk />
-            <EmojiTilbakemeldingMedPeriode />
+            <Tilbakemelding.ForSaksbilde />
         </>
     );
 }
