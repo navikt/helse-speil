@@ -3,7 +3,6 @@ import React, { ReactElement, useEffect, useState } from 'react';
 
 import { BodyShort, Box, HStack, Loader } from '@navikt/ds-react';
 
-import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
@@ -13,7 +12,6 @@ import { useCalculatingValue } from '@state/calculating';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { isRevurdering } from '@state/selectors/utbetaling';
-import { kanSeTilkommenInntekt } from '@utils/featureToggles';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -79,8 +77,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang(person);
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
     const finnesNyereUtbetaltPeriodePåPerson = useFinnesNyereUtbetaltPeriodePåPerson(period, person);
-    const saksbehandlerident = useBrukerIdent();
-    const grupper = useBrukerGrupper();
     const calculating = useCalculatingValue();
 
     const onGodkjennUtbetaling = () => {
@@ -108,9 +104,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const harBrukerutbetaling = period.utbetaling.personNettoBelop !== 0;
     const trengerTotrinnsvurdering =
         isBeregnetPeriode(period) && period.totrinnsvurdering && !period.totrinnsvurdering.erBeslutteroppgave;
-    const erTilkommenOgHarIkkeTilgang =
-        period.egenskaper.some((it) => it.egenskap === 'TILKOMMEN') &&
-        !kanSeTilkommenInntekt(saksbehandlerident, grupper);
 
     return (
         <Box
@@ -139,8 +132,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                                 calculating ||
                                 periodenErSendt ||
                                 harUvurderteVarslerPåUtbetaling ||
-                                lokaleInntektoverstyringer.aktørId !== null ||
-                                erTilkommenOgHarIkkeTilgang
+                                lokaleInntektoverstyringer.aktørId !== null
                             }
                             onSuccess={onSendTilGodkjenning}
                             vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
@@ -159,8 +151,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                                 calculating ||
                                 periodenErSendt ||
                                 harUvurderteVarslerPåUtbetaling ||
-                                lokaleInntektoverstyringer.aktørId !== null ||
-                                erTilkommenOgHarIkkeTilgang
+                                lokaleInntektoverstyringer.aktørId !== null
                             }
                             onSuccess={onGodkjennUtbetaling}
                             vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}

@@ -3,7 +3,6 @@ import { RefObject, useEffect, useRef } from 'react';
 import { SortState } from '@navikt/ds-react';
 
 import { ApolloError, useQuery } from '@apollo/client';
-import { useBrukerGrupper, useBrukerIdent } from '@auth/brukerContext';
 import {
     AntallOppgaverDocument,
     Egenskap,
@@ -19,7 +18,6 @@ import { Filter, FilterStatus, Oppgaveoversiktkolonne, useFilters } from '@overs
 import { limit, offset, useCurrentPageState } from '@oversikt/table/state/pagination';
 import { SortKey, useSorteringValue } from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
-import { kanSeTilkommenInntekt } from '@utils/featureToggles';
 
 export interface ApolloResponse<T> {
     data?: T;
@@ -116,10 +114,8 @@ function doRefetch(
 const useFiltrering = () => {
     const aktivTab = useAktivTab();
     const { activeFilters } = useFilters();
-    const saksbehandlerident = useBrukerIdent();
-    const grupper = useBrukerGrupper();
 
-    return filtrering(activeFilters, aktivTab, saksbehandlerident, grupper);
+    return filtrering(activeFilters, aktivTab);
 };
 
 const useSortering = () => {
@@ -173,12 +169,7 @@ const finnKategori = (kolonne: Oppgaveoversiktkolonne) => {
     }
 };
 
-const filtrering = (
-    activeFilters: Filter[],
-    aktivTab: TabType,
-    saksbehandlerident: string,
-    grupper: string[],
-): FiltreringInput => {
+const filtrering = (activeFilters: Filter[], aktivTab: TabType): FiltreringInput => {
     const ekskluderteEgenskaper = hackInnInfotrygdforlengelse(activeFilters)
         .filter(
             (filter) =>
@@ -188,12 +179,6 @@ const filtrering = (
             egenskap: filter.key as Egenskap,
             kategori: finnKategori(filter.column),
         }));
-
-    if (!kanSeTilkommenInntekt(saksbehandlerident, grupper))
-        ekskluderteEgenskaper.push({
-            egenskap: Egenskap.Tilkommen,
-            kategori: Kategori.Ukategorisert,
-        });
 
     return {
         egenskaper: hackInnInfotrygdforlengelse(activeFilters)

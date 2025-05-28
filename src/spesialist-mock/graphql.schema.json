@@ -3518,12 +3518,6 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "TILKOMMEN",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "UTBETALING_TIL_ARBEIDSGIVER",
                         "description": null,
                         "isDeprecated": false,
