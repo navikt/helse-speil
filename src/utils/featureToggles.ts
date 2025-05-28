@@ -48,4 +48,4 @@ export const kanSeTilkommenInntekt = (ident: string, grupper: string[]): boolean
     erUtvikling || erCoachEllerSuper(ident) || erPåTeamBømlo(grupper);
 export const visTilkommenInntektEndreKnapp: boolean = erUtvikling;
 
-export const kanLeggeTilTilkommenInntekt = (): boolean => erUtvikling;
+export const kanGjøreTilkommenInntektEndringer = (): boolean => erUtvikling;

@@ -17,6 +17,7 @@ import { TilkommenInntektFjernetAlert } from '@saksbilde/tilkommenInntekt/visnin
 import { useFetchPersonQuery } from '@state/person';
 import { useTilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
+import { kanGjøreTilkommenInntektEndringer } from '@utils/featureToggles';
 import { somPenger } from '@utils/locale';
 
 interface TilkommenInntektVisningProps {
@@ -27,7 +28,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
     const router = useRouter();
-    const erBeslutteroppgave = useHarTotrinnsvurdering(person);
+    const erReadOnly = useHarTotrinnsvurdering(person) || !kanGjøreTilkommenInntektEndringer();
 
     const { organisasjonsnummer, tilkommenInntekt } = useTilkommenInntektMedOrganisasjonsnummer(
         tilkommenInntektId,
@@ -51,7 +52,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                     <VStack>
                         <Box height="2.5rem">
                             <HStack style={{ paddingLeft: '5px' }} paddingBlock="2 4">
-                                {!tilkommenInntekt.fjernet && !erBeslutteroppgave && (
+                                {!tilkommenInntekt.fjernet && !erReadOnly && (
                                     <Button
                                         variant="secondary"
                                         size="xsmall"
@@ -109,7 +110,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                                         )}
                                     </VStack>
                                 </VStack>
-                                {!tilkommenInntekt.fjernet && !erBeslutteroppgave && (
+                                {!tilkommenInntekt.fjernet && !erReadOnly && (
                                     <Button
                                         variant="tertiary"
                                         size="small"
@@ -119,7 +120,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                                         Fjern periode
                                     </Button>
                                 )}
-                                {tilkommenInntekt.fjernet && !erBeslutteroppgave && (
+                                {tilkommenInntekt.fjernet && !erReadOnly && (
                                     <Box paddingInline="4">
                                         <Link as={NextLink} href={`${tilkommenInntektId}/gjenopprett`}>
                                             <ArrowUndoIcon fontSize="1.3rem" />

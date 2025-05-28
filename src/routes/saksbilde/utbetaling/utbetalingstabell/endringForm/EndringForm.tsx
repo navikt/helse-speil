@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { BodyShort, Button, TextField } from '@navikt/ds-react';
 
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
+import { kanGjøreTilkommenInntektEndringer } from '@utils/featureToggles';
 
 import { DagtypeSelect } from '../DagtypeSelect';
 import { OverstyrbarDagtype, alleTypeendringer, getDagFromType } from './endringFormUtils';
@@ -28,7 +28,7 @@ export const EndringForm = ({ markerteDager, onSubmitEndring, openDagtypeModal }
     const form = useForm();
     const { trigger } = form;
 
-    const minimumGrad = kanLeggeTilTilkommenInntekt()
+    const minimumGrad = kanGjøreTilkommenInntektEndringer()
         ? markerteDager
               .values()
               .reduce((previousValue, currentValue) => Math.max(previousValue, currentValue.grad ?? 0), 0)

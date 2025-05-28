@@ -16,7 +16,7 @@ import { TilkommenInntektTimelineRows } from '@saksbilde/timeline/TilkommenInnte
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
-import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
+import { kanGjøreTilkommenInntektEndringer } from '@utils/featureToggles';
 import { capitalizeArbeidsgiver } from '@utils/locale';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -146,7 +146,7 @@ const TimelineWithContent = ({
                             />
                         );
                     })}
-                {kanLeggeTilTilkommenInntekt() && (
+                {kanGjøreTilkommenInntektEndringer() && (
                     <TilkommenInntektTimelineRows start={start} end={end} fødselsnummer={person.fodselsnummer} />
                 )}
                 {infotrygdPeriods.length > 0 && (
