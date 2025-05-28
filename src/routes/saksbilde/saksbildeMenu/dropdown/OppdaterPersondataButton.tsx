@@ -15,7 +15,7 @@ export const OppdaterPersondataButton = ({ person }: Props): ReactElement => {
 
     return (
         <Dropdown.Menu.List.Item onClick={() => forespørPersonoppdatering(person.fodselsnummer)}>
-            Oppdater persondata
+            Oppdater Infotrygd-historikk
         </Dropdown.Menu.List.Item>
     );
 };
