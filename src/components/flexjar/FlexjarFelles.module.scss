@@ -17,9 +17,7 @@
 
       .info {
         font-style: italic;
-        p {
-          margin: 0;
-        }
+        line-height: var(--a-font-line-height-large);
       }
     }
 

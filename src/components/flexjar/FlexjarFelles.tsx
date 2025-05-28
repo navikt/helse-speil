@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { BodyShort, Button, Textarea } from '@navikt/ds-react';
+import { BodyLong, BodyShort, Button, Textarea } from '@navikt/ds-react';
 
 import { useOppdaterFlexjarFeedback } from '@external/flexjar/useOppdaterFlexjarFeedback';
 import { useOpprettFlexjarFeedback } from '@external/flexjar/useOpprettFlexjarFeedback';
@@ -120,10 +120,11 @@ export function FlexjarFelles({
                         <BodyShort weight="semibold" className={styles.tittel}>
                             {flexjartittel}
                         </BodyShort>
-                        <BodyShort className={styles.info}>
-                            <p>Tilbakemeldingen din er anonym, og du vil derfor heller ikke få noe svar.</p>
-                            <p>Support for enkeltsaker må meldes til coach.</p>
-                        </BodyShort>
+                        <BodyLong className={styles.info}>
+                            Tilbakemeldingen din er anonym, og du vil derfor heller ikke få noe svar.
+                            <br />
+                            Support for enkeltsaker må meldes til coach.
+                        </BodyLong>
                     </div>
                     <div className={styles.body}>
                         {flexjarsporsmal && (
