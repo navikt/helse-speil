@@ -26,7 +26,7 @@ export const TilkommenInntektTimelineRow = ({
     <div className={styles.TimelineRow}>
         <div className={classNames(styles.Name)}>
             <SackKronerIcon className={styles.arbeidsgiverIkon} />
-            <Organisasjonsnavn organisasjonsnummer={organisasjonsnummer} showCopyButton />
+            <Organisasjonsnavn organisasjonsnummer={organisasjonsnummer} maxWidth="225px" showCopyButton />
         </div>
 
         <div className={styles.Periods}>

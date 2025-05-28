@@ -12,10 +12,12 @@ import { capitalizeArbeidsgiver } from '@utils/locale';
 export const Organisasjonsnavn = ({
     organisasjonsnummer,
     weight,
+    maxWidth,
     showCopyButton,
 }: {
     organisasjonsnummer: string;
     weight?: 'regular' | 'semibold';
+    maxWidth?: string;
     showCopyButton?: boolean;
 }) => {
     const { loading, data } = useOrganisasjonQuery(organisasjonsnummer);
@@ -35,7 +37,7 @@ export const Organisasjonsnavn = ({
         </Tooltip>
     ) : (
         <Tooltip content={isAnonymous ? 'Arbeidsgiver' : navn}>
-            <HStack gap="2">
+            <HStack gap="2" maxWidth={maxWidth} wrap={false}>
                 <AnonymizableTextWithEllipsis weight={weight}>{navn}</AnonymizableTextWithEllipsis>
                 {showCopyButton && <KopierAgNavn navn={navn} />}
             </HStack>
