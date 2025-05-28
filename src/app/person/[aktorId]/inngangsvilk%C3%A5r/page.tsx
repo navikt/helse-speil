@@ -3,9 +3,9 @@
 import dynamic from 'next/dynamic';
 import React, { ReactElement } from 'react';
 
+import { Tilbakemelding } from '@components/flexjar/Tilbakemeldinger';
 import { Maybe } from '@io/graphql';
 import { Saksbilde } from '@saksbilde/Saksbilde';
-import { EmojiTilbakemeldingMedPeriode } from '@saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
 import { PeriodeView } from '@saksbilde/periodeview/PeriodeView';
 import { Venstremeny } from '@saksbilde/venstremeny/Venstremeny';
@@ -23,7 +23,7 @@ export default function Page(): Maybe<ReactElement> {
                 <PeriodeView />
             </Saksbilde>
             <Historikk />
-            <EmojiTilbakemeldingMedPeriode />
+            <Tilbakemelding.ForSaksbilde />
         </>
     );
 }
