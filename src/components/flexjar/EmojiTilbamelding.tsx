@@ -1,4 +1,3 @@
-import styles from './EmojiTilbakemelding.module.scss';
 import React, { useState } from 'react';
 
 import { Maybe } from '@io/graphql';
@@ -7,15 +6,16 @@ import { EmojiButton } from './EmojiButton';
 import { FlexjarFelles } from './FlexjarFelles';
 import { Glad, Lei, Noytral, Sinna, VeldigGlad } from './emojies';
 
+import styles from './EmojiTilbakemelding.module.scss';
+
 interface EmojiTilbakemeldingProps {
     feedbackId: string;
     textRequired?: boolean;
-    sporsmal: string;
     tittel: string;
     feedbackProps: Record<string, string | Array<string> | boolean>;
 }
 
-export const EmojiTilbakemelding = ({ feedbackId, tittel, sporsmal, feedbackProps }: EmojiTilbakemeldingProps) => {
+export const EmojiTilbakemelding = ({ feedbackId, tittel, feedbackProps }: EmojiTilbakemeldingProps) => {
     const [activeState, setActiveState] = useState<Maybe<number | string>>(null);
     const [thanksFeedback, setThanksFeedback] = useState<boolean>(false);
     const feedbackButtonProps = {
@@ -31,7 +31,6 @@ export const EmojiTilbakemelding = ({ feedbackId, tittel, sporsmal, feedbackProp
             thanksFeedback={thanksFeedback}
             setThanksFeedback={setThanksFeedback}
             getPlaceholder={() => 'Fortell oss om opplevelsen din (valgfritt)'}
-            flexjarsporsmal={sporsmal}
             flexjartittel={tittel}
             feedbackProps={feedbackProps}
         >

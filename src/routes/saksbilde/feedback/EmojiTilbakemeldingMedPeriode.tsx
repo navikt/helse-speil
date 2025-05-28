@@ -16,7 +16,6 @@ export const EmojiTilbakemeldingMedPeriode = (): ReactElement => {
             <EmojiTilbakemelding
                 feedbackId="speil-generell"
                 tittel="Hjelp oss å gjøre Speil bedre"
-                sporsmal="Hvordan fungerer Speil for deg?"
                 feedbackProps={{
                     egenskaper: isBeregnetPeriode(aktivPeriode) && aktivPeriode.egenskaper.map((it) => it.egenskap),
                 }}

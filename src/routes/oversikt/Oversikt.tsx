@@ -57,7 +57,6 @@ export const Oversikt = (): ReactElement => {
                 <EmojiTilbakemelding
                     feedbackId="speil-generell"
                     tittel="Hjelp oss å gjøre Speil bedre"
-                    sporsmal="Hvordan fungerer Speil for deg?"
                     feedbackProps={{
                         erOppgaveOversikt: true,
                     }}

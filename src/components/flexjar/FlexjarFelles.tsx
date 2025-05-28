@@ -19,7 +19,7 @@ interface FlexjarFellesProps {
     setThanksFeedback: (b: boolean) => void;
     getPlaceholder: () => string;
     textRequired?: boolean;
-    flexjarsporsmal: string;
+    flexjarsporsmal?: string;
     flexjartittel: string;
     feedbackProps: Record<string, string | undefined | boolean | Array<string>>;
 }
@@ -120,7 +120,10 @@ export function FlexjarFelles({
                         <BodyShort weight="semibold" className={styles.tittel}>
                             {flexjartittel}
                         </BodyShort>
-                        <BodyShort className={styles.info}>Tilbakemeldingen din er anonym</BodyShort>
+                        <BodyShort className={styles.info}>
+                            <p>Tilbakemeldingen din er anonym, og du vil derfor heller ikke få noe svar.</p>
+                            <p>Support for enkeltsaker må meldes til coach.</p>
+                        </BodyShort>
                     </div>
                     <div className={styles.body}>
                         {flexjarsporsmal && (
