@@ -9,7 +9,7 @@ import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { SpeilError } from '@utils/error';
 
-const oppdatererPersondataToastKey = 'updating';
+export const oppdatererPersondataToastKey = 'oppdatererPersondataToastKey';
 
 class PersonoppdateringAlert extends SpeilError {
     static key = 'personoppdatering';
