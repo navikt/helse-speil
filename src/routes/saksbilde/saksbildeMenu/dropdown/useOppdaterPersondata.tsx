@@ -38,7 +38,7 @@ export const useOppdaterPersondata = (): [forespørPersonoppdatering: (fødselsn
             }
 
             removeToast(oppdatererPersondataToastKey);
-            addToast({ key: 'doneUpdating', message: 'Persondata oppdatert', timeToLiveMs: 3000 });
+            addToast({ key: 'doneUpdating', message: 'Infotrygd-historikk oppdatert', timeToLiveMs: 3000 });
             setPolling(false);
         }
     });
