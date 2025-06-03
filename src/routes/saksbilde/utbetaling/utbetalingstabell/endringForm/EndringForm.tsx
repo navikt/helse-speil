@@ -40,7 +40,7 @@ export const EndringForm = ({ markerteDager, onSubmitEndring, openDagtypeModal }
         required: kanVelgeGrad(endring.dag?.speilDagtype) && 'Velg grad',
         min: {
             value: minimumGrad,
-            message: `Grad må være ${minimumGrad} eller høyere`,
+            message: `Grad kan ikke settes lavere enn ${minimumGrad}`,
         },
         max: {
             value: 100,
