@@ -26,7 +26,7 @@ const defaultProps = {
     linjer: [{ fom: '2022-01-01', tom: '2022-01-31', totalbelop: 30000 }],
 };
 
-const createMocks = (annullerDone?: jest.Mock, arsaker: AnnulleringArsakInput[] = [], begrunnelser: string[] = []) => [
+const createMocks = (annullerDone?: jest.Mock, arsaker: AnnulleringArsakInput[] = []) => [
     createMock({
         request: {
             query: AnnullerDocument,
@@ -39,7 +39,6 @@ const createMocks = (annullerDone?: jest.Mock, arsaker: AnnulleringArsakInput[] 
                     utbetalingId: 'EN-UTBETALINGID',
                     arbeidsgiverFagsystemId: 'EN-FAGSYSTEMID',
                     personFagsystemId: 'EN-FAGSYSTEMID',
-                    begrunnelser,
                     arsaker,
                     kommentar: undefined,
                 },
@@ -75,19 +74,19 @@ const createMocks = (annullerDone?: jest.Mock, arsaker: AnnulleringArsakInput[] 
 });
 
 describe('Annulleringsmodal', () => {
-    it('viser feilmelding ved manglende begrunnelse', async () => {
+    it('viser feilmelding ved manglende årsak', async () => {
         render(<AnnulleringsModal {...defaultProps} />, {
             mocks: createMocks(),
         });
 
         await userEvent.click(screen.getByText('Annuller'));
 
-        expect(await screen.findByText('Velg minst én begrunnelse')).toBeInTheDocument();
+        expect(await screen.findByText('Velg minst én årsak')).toBeInTheDocument();
     });
 
     test('viser feilmelding ved manglende kommentar', async () => {
         render(<AnnulleringsModal {...defaultProps} />, {
-            mocks: createMocks(undefined, [{ _key: 'key02', arsak: 'Annet' }], ['Annet']),
+            mocks: createMocks(undefined, [{ _key: 'key02', arsak: 'Annet' }]),
         });
 
         const kanIkkeRevurderesSection = within(
@@ -99,14 +98,14 @@ describe('Annulleringsmodal', () => {
 
         await userEvent.click(screen.getByRole('button', { name: 'Annuller' }));
 
-        expect(screen.getByText('Skriv en kommentar hvis du velger begrunnelsen "annet"')).toBeInTheDocument();
+        expect(screen.getByText('Skriv en kommentar hvis du velger årsaken "annet"')).toBeInTheDocument();
     });
 
     test('gjør annulleringsmutation på annuller', async () => {
         const annulleringMutationDone = jest.fn();
 
         render(<AnnulleringsModal {...defaultProps} />, {
-            mocks: createMocks(annulleringMutationDone, [{ _key: 'key01', arsak: 'Ferie' }], ['Ferie']),
+            mocks: createMocks(annulleringMutationDone, [{ _key: 'key01', arsak: 'Ferie' }]),
         });
 
         await userEvent.click(screen.getByRole('checkbox', { name: 'Ferie' }));

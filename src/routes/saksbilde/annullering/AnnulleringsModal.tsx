@@ -41,15 +41,13 @@ export const AnnulleringsModal = ({
     const amplitude = useContext(AmplitudeContext);
     const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
 
-    const form = useForm({ mode: 'onBlur' });
-    const kommentar = form.watch('kommentar');
-    const arsaker: Arsak[] = ((form.watch('begrunnelser') as string[]) || [])?.map((begrunnelse: string) =>
-        JSON.parse(begrunnelse),
-    );
-    const begrunnelser: string[] = arsaker?.map((årsak) => årsak.arsak);
-    const annenBegrunnelse = arsaker ? arsaker.some((it) => it.arsak === 'Annet') : false;
+    const form = useForm({ mode: 'onBlur', defaultValues: { kommentar: '', arsaker: [] as string[] } });
+    const kommentar = form.watch('kommentar').trim();
+    const arsaker: Arsak[] = form.watch('arsaker').map((årsak: string) => JSON.parse(årsak));
 
-    const harMinstÉnBegrunnelse = () => arsaker?.length > 0;
+    const harValgtAnnet = arsaker.some((it) => it.arsak === 'Annet');
+
+    const harMinstÉnÅrsak = () => arsaker.length > 0;
     const harFeil = () => Object.keys(form.formState.errors).length > 0;
 
     const annullering = (): AnnulleringDataInput => ({
@@ -60,22 +58,21 @@ export const AnnulleringsModal = ({
         utbetalingId,
         arbeidsgiverFagsystemId,
         personFagsystemId,
-        begrunnelser,
         arsaker,
-        kommentar: kommentar ? (kommentar.trim() === '' ? undefined : kommentar.trim()) : undefined,
+        kommentar: kommentar == '' ? undefined : kommentar,
     });
 
     const sendAnnullering = (annullering: AnnulleringDataInput) => {
-        if (annenBegrunnelse && !kommentar) {
+        if (harValgtAnnet && !kommentar) {
             form.setError('kommentar', {
                 type: 'manual',
-                message: 'Skriv en kommentar hvis du velger begrunnelsen "annet"',
+                message: 'Skriv en kommentar hvis du velger årsaken "annet"',
             });
         }
-        if (!harMinstÉnBegrunnelse()) {
-            form.setError('begrunnelser', {
+        if (!harMinstÉnÅrsak()) {
+            form.setError('arsaker', {
                 type: 'manual',
-                message: 'Velg minst én begrunnelse',
+                message: 'Velg minst én årsak',
             });
         }
 
@@ -83,7 +80,7 @@ export const AnnulleringsModal = ({
             void annullerMutation({
                 variables: { annullering },
                 onCompleted: () => {
-                    amplitude.logAnnullert(annullering.begrunnelser);
+                    amplitude.logAnnullert(annullering.arsaker.map((årsak) => årsak.arsak));
                     setOpptegnelsePollingTime(1000);
                     closeModal();
                 },

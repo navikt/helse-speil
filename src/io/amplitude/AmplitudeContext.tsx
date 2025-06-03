@@ -2,10 +2,10 @@ import { createContext } from 'react';
 
 interface AmplitudeContextValue {
     logOppgaveGodkjent: (erBeslutteroppgave: boolean) => void;
-    logOppgaveForkastet: (begrunnelser: string[]) => void;
+    logOppgaveForkastet: (årsaker: string[]) => void;
     logTotrinnsoppgaveReturnert: () => void;
     logTotrinnsoppgaveTilGodkjenning: () => void;
-    logAnnullert: (begrunnelser: string[]) => void;
+    logAnnullert: (årsaker: string[]) => void;
 }
 
 export const AmplitudeContext = createContext<AmplitudeContextValue>({

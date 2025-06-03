@@ -3,21 +3,19 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Alert, Fieldset, Checkbox as NavCheckbox, Skeleton, Textarea, VStack } from '@navikt/ds-react';
 
-import { useArsaker } from '@external/sanity';
+import { Arsak, useArsaker } from '@external/sanity';
 
 import styles from './Annulleringsmodal.module.scss';
 
 export const Annulleringsbegrunnelse = (): ReactElement => {
     const { register, formState, clearErrors, watch } = useFormContext();
-    const begrunnelserWatch: string[] = watch(`begrunnelser`);
+    const arsakerWatch: string[] = watch(`arsaker`);
 
     const { arsaker, loading } = useArsaker('annulleringsarsaker');
 
-    const annet = begrunnelserWatch
-        ? [...begrunnelserWatch]?.map((it) => JSON.parse(it)).some((it) => it.arsak === 'Annet')
-        : false;
+    const harValgtAnnet = arsakerWatch.map((it) => JSON.parse(it) as Arsak).some((it) => it.arsak === 'Annet');
 
-    const { onChange: onChangeBegrunnelser, ...begrunnelserValidation } = register('begrunnelser');
+    const { onChange: onChangeArsaker, ...arsakerValidation } = register('arsaker');
 
     return (
         <div className={styles.annulleringsbegrunnelse}>
@@ -31,20 +29,19 @@ export const Annulleringsbegrunnelse = (): ReactElement => {
             <Fieldset
                 legend="Hvorfor kunne ikke vedtaket revurderes?"
                 className={styles.checkboxcontainer}
-                error={formState.errors.begrunnelser ? (formState.errors.begrunnelser.message as string) : null}
+                error={formState.errors.arsaker ? (formState.errors.arsaker.message as string) : null}
             >
                 {!loading &&
-                    arsaker?.[0]?.arsaker.map((årsak) => {
+                    arsaker[0]?.arsaker.map((årsak) => {
                         return (
                             <NavCheckbox
                                 key={årsak._key}
                                 value={JSON.stringify(årsak)}
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                    void onChangeBegrunnelser(event);
-                                    clearErrors('begrunnelser');
+                                    void onChangeArsaker(event);
                                 }}
-                                {...begrunnelserValidation}
-                                className={styles.begrunnelsecheckbox}
+                                {...arsakerValidation}
+                                className={styles.arsakerCheckbox}
                             >
                                 <p>{årsak.arsak}</p>
                             </NavCheckbox>
@@ -71,7 +68,7 @@ export const Annulleringsbegrunnelse = (): ReactElement => {
                     <Textarea
                         name="kommentar"
                         value={value}
-                        label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
+                        label={`Begrunnelse ${harValgtAnnet ? '' : '(valgfri)'}`}
                         error={formState.errors.kommentar ? (formState.errors.kommentar.message as string) : null}
                         onChange={(event: ChangeEvent) => {
                             clearErrors('kommentar');
