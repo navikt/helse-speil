@@ -31,8 +31,10 @@ export const Annulleringhendelse = ({
                 <BodyShort key={index + årsak}>{årsak}</BodyShort>
             ))}
         </HistorikkSection>
-        <HistorikkSection tittel="Begrunnelse">
-            <BodyShortWithPreWrap>{begrunnelse}</BodyShortWithPreWrap>
-        </HistorikkSection>
+        {begrunnelse != null && (
+            <HistorikkSection tittel="Begrunnelse">
+                <BodyShortWithPreWrap>{begrunnelse}</BodyShortWithPreWrap>
+            </HistorikkSection>
+        )}
     </Historikkhendelse>
 );
