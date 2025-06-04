@@ -9,6 +9,7 @@ import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering'
 import { AmplitudeContext } from '@io/amplitude';
 import { AnnullerDocument, AnnulleringDataInput, PersonFragment } from '@io/graphql';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useAddToast } from '@state/toasts';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
 import { Annulleringsinformasjon } from './Annulleringsinformasjon';
@@ -40,6 +41,7 @@ export const AnnulleringsModal = ({
     const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
     const amplitude = useContext(AmplitudeContext);
     const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
+    const addToast = useAddToast();
 
     const form = useForm({ mode: 'onBlur', defaultValues: { kommentar: '', arsaker: [] as string[] } });
     const kommentar = form.watch('kommentar').trim();
@@ -82,6 +84,11 @@ export const AnnulleringsModal = ({
                 onCompleted: () => {
                     amplitude.logAnnullert(annullering.arsaker.map((årsak) => årsak.arsak));
                     setOpptegnelsePollingTime(1000);
+                    addToast({
+                        message: 'Annulleringen er sendt',
+                        timeToLiveMs: 5000,
+                        key: utbetalingId,
+                    });
                     closeModal();
                 },
             });

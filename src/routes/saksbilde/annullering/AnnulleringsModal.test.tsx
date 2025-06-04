@@ -2,13 +2,16 @@ import React from 'react';
 
 import { useArsaker } from '@external/sanity';
 import { AnnullerDocument, AnnulleringArsakInput } from '@io/graphql';
+import { useAddToast } from '@state/toasts';
 import { enPerson } from '@test-data/person';
 import { createMock, render, screen, within } from '@test-utils';
+import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { AnnulleringsModal } from './AnnulleringsModal';
 
 jest.mock('@external/sanity');
+jest.mock('@state/toasts');
 
 const defaultProps = {
     closeModal: () => null,
@@ -73,6 +76,9 @@ const createMocks = (annullerDone?: jest.Mock, arsaker: AnnulleringArsakInput[] 
     ],
 });
 
+const addToastMock = jest.fn();
+(useAddToast as jest.Mock).mockReturnValue(addToastMock);
+
 describe('Annulleringsmodal', () => {
     it('viser feilmelding ved manglende årsak', async () => {
         render(<AnnulleringsModal {...defaultProps} />, {
@@ -110,6 +116,27 @@ describe('Annulleringsmodal', () => {
 
         await userEvent.click(screen.getByRole('checkbox', { name: 'Ferie' }));
         await userEvent.click(screen.getByRole('button', { name: 'Annuller' }));
+
+        expect(annulleringMutationDone).toHaveBeenCalled();
+    });
+
+    test('viser toast etter at annullering-kallet er gjort', async () => {
+        const annulleringMutationDone = jest.fn();
+
+        render(<AnnulleringsModal {...defaultProps} />, {
+            mocks: createMocks(annulleringMutationDone, [{ _key: 'key01', arsak: 'Ferie' }]),
+        });
+
+        await userEvent.click(screen.getByRole('checkbox', { name: 'Ferie' }));
+        await userEvent.click(screen.getByRole('button', { name: 'Annuller' }));
+
+        await waitFor(() =>
+            expect(addToastMock).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    key: defaultProps.utbetalingId,
+                }),
+            ),
+        );
 
         expect(annulleringMutationDone).toHaveBeenCalled();
     });
