@@ -180,7 +180,7 @@ const UberegnetSaksbildevarsler = ({ person, periode, harTilkommenInntektEndring
     );
 };
 
-const isAnnullertBeregnetPeriode = (activePeriod: ActivePeriod) =>
+export const isAnnullertBeregnetPeriode = (activePeriod: ActivePeriod) =>
     isBeregnetPeriode(activePeriod) && activePeriod.periodetilstand === Periodetilstand.Annullert;
 
 const isTilAnnulleringBeregnetPeriode = (activePeriod: ActivePeriod) =>

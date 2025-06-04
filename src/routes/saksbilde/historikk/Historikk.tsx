@@ -28,6 +28,7 @@ import { TotrinnsvurderingReturHendelse } from '@saksbilde/historikk/hendelser/T
 import { TotrinnsvurderingTilGodkjenningHendelse } from '@saksbilde/historikk/hendelser/TotrinnsvurderingTilGodkjenningHendelse';
 import { VedtaksperiodeReberegnetHendelse } from '@saksbilde/historikk/hendelser/VedtaksperiodeReberegnetHendelse';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
+import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject, HistorikkhendelseObject } from '@typer/historikk';
 
@@ -68,6 +69,7 @@ const HistorikkWithContent = (): ReactElement => {
     const [filter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showHøyremeny, _] = useShowHøyremenyState();
+    const aktivPeriode = useActivePeriod(person);
 
     useKeyboard([
         {
@@ -78,7 +80,7 @@ const HistorikkWithContent = (): ReactElement => {
         },
     ]);
 
-    if (loading) return <HistorikkSkeleton />;
+    if (loading || aktivPeriode == null) return <HistorikkSkeleton />;
 
     return (
         <div className={styles['historikk-container']}>
@@ -191,7 +193,9 @@ const HistorikkWithContent = (): ReactElement => {
                                             return <VedtakBegrunnelsehendelse key={it.id} {...it} />;
                                         }
                                         case 'Annullering': {
-                                            return <Annulleringhendelse key={it.id} {...it} />;
+                                            return (
+                                                <Annulleringhendelse key={it.id} aktivPeriode={aktivPeriode} {...it} />
+                                            );
                                         }
                                         default:
                                             return null;
