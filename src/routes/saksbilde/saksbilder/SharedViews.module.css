@@ -8,10 +8,14 @@
 }
 
 .Error {
-    border-radius: 0;
-    height: max-content;
-    grid-column-start: venstremeny;
-    grid-column-end: høyremeny;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    margin-left: 1.5rem;
+
+    a {
+        margin-top: 0.5rem;
+    }
 }
 
 .Skeleton {
