@@ -80,7 +80,8 @@ const HistorikkWithContent = (): ReactElement => {
         },
     ]);
 
-    if (loading || aktivPeriode == null) return <HistorikkSkeleton />;
+    if (loading) return <HistorikkSkeleton />;
+    else if (aktivPeriode == null) return <></>;
 
     return (
         <div className={styles['historikk-container']}>
