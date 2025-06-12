@@ -84,6 +84,69 @@
                     }
                 }
             ],
+            "vilkarsgrunnlagV2": [
+                {
+                    "__typename": "VilkarsgrunnlagSpleisV2",
+                    "id": "016bf13a-51c4-4a5a-aef2-ef14889732fc",
+                    "sykepengegrunnlag": 360000,
+                    "skjaeringstidspunkt": "2023-03-01",
+                    "inntekter": [
+                        {
+                            "sammenligningsgrunnlag": {
+                                "belop": 600000,
+                                "inntektFraAOrdningen": []
+                            },
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": null,
+                                "belop": 360000,
+                                "manedsbelop": 30000,
+                                "kilde": "SKJONNSMESSIG_FASTSATT"
+                            },
+                            "arbeidsgiver": "896929119",
+                            "deaktivert": false
+                        },
+                        {
+                            "sammenligningsgrunnlag": {
+                                "belop": 666666,
+                                "inntektFraAOrdningen": []
+                            },
+                            "omregnetArsinntekt": null,
+                            "arbeidsgiver": "896929120",
+                            "deaktivert": false
+                        }
+                    ],
+                    "arbeidsgiverrefusjoner": [
+                        {
+                            "arbeidsgiver": "896929119",
+                            "refusjonsopplysninger": [
+                                {
+                                    "fom": "2023-03-01",
+                                    "tom": null,
+                                    "belop": 30000,
+                                    "meldingsreferanseId": "5d90b3a3-4589-4e3c-a6a9-ebeea680f07e"
+                                }
+                            ]
+                        }
+                    ],
+                    "vurderingAvKravOmMedlemskap": "IKKE_VURDERT",
+                    "oppfyllerKravOmMinstelonn": true,
+                    "oppfyllerKravOmOpptjening": true,
+                    "antallOpptjeningsdagerErMinst": 7202,
+                    "grunnbelop": 111477,
+                    "beregningsgrunnlag": 360000,
+                    "avviksvurdering": {
+                        "avviksprosent": 40,
+                        "sammenligningsgrunnlag": 1266666,
+                        "beregningsgrunnlag": 360000
+                    },
+                    "opptjeningFra": "2003-06-12",
+                    "sykepengegrunnlagsgrense": {
+                        "grunnbelop": 111477,
+                        "grense": 668862,
+                        "virkningstidspunkt": "2022-05-01"
+                    }
+                }
+            ],
             "aktorId": "2805594640665",
             "arbeidsgivere": [
                 {

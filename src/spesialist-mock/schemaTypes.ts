@@ -1180,6 +1180,7 @@ export type Person = {
     tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>;
     versjon: Scalars['Int']['output'];
     vilkarsgrunnlag: Array<Vilkarsgrunnlag>;
+    vilkarsgrunnlagV2: Array<VilkarsgrunnlagV2>;
 };
 
 export type Personinfo = {
@@ -1888,6 +1889,13 @@ export type Vilkarsgrunnlag = {
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
 };
 
+export type VilkarsgrunnlagAvviksvurdering = {
+    __typename?: 'VilkarsgrunnlagAvviksvurdering';
+    avviksprosent: Scalars['BigDecimal']['output'];
+    beregningsgrunnlag: Scalars['BigDecimal']['output'];
+    sammenligningsgrunnlag: Scalars['BigDecimal']['output'];
+};
+
 export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
     __typename?: 'VilkarsgrunnlagInfotrygd';
     arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
@@ -1897,6 +1905,16 @@ export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     sykepengegrunnlag: Scalars['Float']['output'];
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
+};
+
+export type VilkarsgrunnlagInfotrygdV2 = VilkarsgrunnlagV2 & {
+    __typename?: 'VilkarsgrunnlagInfotrygdV2';
+    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
+    id: Scalars['UUID']['output'];
+    inntekter: Array<Arbeidsgiverinntekt>;
+    omregnetArsinntekt: Scalars['Float']['output'];
+    skjaeringstidspunkt: Scalars['LocalDate']['output'];
+    sykepengegrunnlag: Scalars['Float']['output'];
 };
 
 export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
@@ -1919,6 +1937,39 @@ export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
 };
+
+export type VilkarsgrunnlagSpleisV2 = VilkarsgrunnlagV2 & {
+    __typename?: 'VilkarsgrunnlagSpleisV2';
+    antallOpptjeningsdagerErMinst: Scalars['Int']['output'];
+    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
+    avviksvurdering?: Maybe<VilkarsgrunnlagAvviksvurdering>;
+    beregningsgrunnlag: Scalars['BigDecimal']['output'];
+    grunnbelop: Scalars['Int']['output'];
+    id: Scalars['UUID']['output'];
+    inntekter: Array<Arbeidsgiverinntekt>;
+    oppfyllerKravOmMinstelonn: Scalars['Boolean']['output'];
+    oppfyllerKravOmOpptjening: Scalars['Boolean']['output'];
+    opptjeningFra: Scalars['LocalDate']['output'];
+    skjaeringstidspunkt: Scalars['LocalDate']['output'];
+    skjonnsmessigFastsattAarlig?: Maybe<Scalars['Float']['output']>;
+    sykepengegrunnlag: Scalars['Float']['output'];
+    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
+    vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering;
+};
+
+export type VilkarsgrunnlagV2 = {
+    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
+    id: Scalars['UUID']['output'];
+    inntekter: Array<Arbeidsgiverinntekt>;
+    skjaeringstidspunkt: Scalars['LocalDate']['output'];
+    sykepengegrunnlag: Scalars['Float']['output'];
+};
+
+export enum VilkarsgrunnlagVurdering {
+    IkkeOppfylt = 'IKKE_OPPFYLT',
+    IkkeVurdert = 'IKKE_VURDERT',
+    Oppfylt = 'OPPFYLT',
+}
 
 export enum Vilkarsgrunnlagtype {
     Infotrygd = 'INFOTRYGD',

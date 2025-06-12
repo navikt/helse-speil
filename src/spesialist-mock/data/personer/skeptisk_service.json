@@ -473,6 +473,450 @@
                     "__typename": "VilkarsgrunnlagSpleis"
                 }
             ],
+            "vilkarsgrunnlagV2": [
+                {
+                    "id": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
+                    "sykepengegrunnlag": 744168,
+                    "skjaeringstidspunkt": "2024-07-01",
+                    "inntekter": [
+                        {
+                            "sammenligningsgrunnlag": {
+                                "belop": 180000,
+                                "inntektFraAOrdningen": [
+                                    {
+                                        "maned": "2023-09",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-12",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-08",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-11",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-07",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-10",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-03",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-06",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-02",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-05",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-01",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-04",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    }
+                                ],
+                                "__typename": "Sammenligningsgrunnlag"
+                            },
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": null,
+                                "belop": 180000,
+                                "manedsbelop": 15000,
+                                "kilde": "INNTEKTSMELDING",
+                                "__typename": "OmregnetArsinntekt"
+                            },
+                            "skjonnsmessigFastsatt": null,
+                            "arbeidsgiver": "907670201",
+                            "deaktivert": false,
+                            "fom": "2024-07-01",
+                            "tom": null,
+                            "__typename": "Arbeidsgiverinntekt"
+                        },
+                        {
+                            "sammenligningsgrunnlag": {
+                                "belop": 600000,
+                                "inntektFraAOrdningen": [
+                                    {
+                                        "maned": "2023-09",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-12",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-08",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-11",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-07",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-10",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-03",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-06",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-02",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-05",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-01",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-04",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    }
+                                ],
+                                "__typename": "Sammenligningsgrunnlag"
+                            },
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": null,
+                                "belop": 600000,
+                                "manedsbelop": 50000,
+                                "kilde": "INNTEKTSMELDING",
+                                "__typename": "OmregnetArsinntekt"
+                            },
+                            "skjonnsmessigFastsatt": null,
+                            "arbeidsgiver": "967170232",
+                            "deaktivert": false,
+                            "fom": "2024-07-01",
+                            "tom": null,
+                            "__typename": "Arbeidsgiverinntekt"
+                        }
+                    ],
+                    "arbeidsgiverrefusjoner": [
+                        {
+                            "arbeidsgiver": "967170232",
+                            "refusjonsopplysninger": [
+                                {
+                                    "fom": "2024-07-01",
+                                    "tom": null,
+                                    "belop": 50000,
+                                    "meldingsreferanseId": "74d17899-7b0d-4f08-985f-18c72ab39ee0",
+                                    "__typename": "Refusjonselement"
+                                }
+                            ],
+                            "__typename": "Arbeidsgiverrefusjon"
+                        },
+                        {
+                            "arbeidsgiver": "907670201",
+                            "refusjonsopplysninger": [
+                                {
+                                    "fom": "2024-07-01",
+                                    "tom": null,
+                                    "belop": 0,
+                                    "meldingsreferanseId": "f3ee628e-0d94-42f7-b55c-3532e47e7448",
+                                    "__typename": "Refusjonselement"
+                                }
+                            ],
+                            "__typename": "Arbeidsgiverrefusjon"
+                        }
+                    ],
+                    "skjonnsmessigFastsattAarlig": null,
+                    "vurderingAvKravOmMedlemskap": "OPPFYLT",
+                    "oppfyllerKravOmMinstelonn": true,
+                    "oppfyllerKravOmOpptjening": true,
+                    "antallOpptjeningsdagerErMinst": 1369,
+                    "grunnbelop": 124028,
+                    "beregningsgrunnlag": 780000,
+                    "avviksvurdering": {
+                        "avviksprosent": 0,
+                        "sammenligningsgrunnlag": 780000,
+                        "beregningsgrunnlag": 780000
+                    },
+                    "opptjeningFra": "2020-10-01",
+                    "sykepengegrunnlagsgrense": {
+                        "grunnbelop": 124028,
+                        "grense": 744168,
+                        "virkningstidspunkt": "2024-05-01",
+                        "__typename": "Sykepengegrunnlagsgrense"
+                    },
+                    "__typename": "VilkarsgrunnlagSpleis"
+                },
+                {
+                    "id": "a26e7daf-1019-4e84-a5c8-97d5e660dc94",
+                    "sykepengegrunnlag": 744168,
+                    "skjaeringstidspunkt": "2024-07-01",
+                    "inntekter": [
+                        {
+                            "sammenligningsgrunnlag": {
+                                "belop": 180000,
+                                "inntektFraAOrdningen": [
+                                    {
+                                        "maned": "2023-09",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-12",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-08",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-11",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-07",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-10",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-03",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-06",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-02",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-05",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-01",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-04",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    }
+                                ],
+                                "__typename": "Sammenligningsgrunnlag"
+                            },
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": [
+                                    {
+                                        "maned": "2024-04",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-05",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-06",
+                                        "sum": 15000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    }
+                                ],
+                                "belop": 180000,
+                                "manedsbelop": 15000,
+                                "kilde": "AORDNINGEN",
+                                "__typename": "OmregnetArsinntekt"
+                            },
+                            "skjonnsmessigFastsatt": null,
+                            "arbeidsgiver": "907670201",
+                            "deaktivert": false,
+                            "fom": "2024-07-01",
+                            "tom": null,
+                            "__typename": "Arbeidsgiverinntekt"
+                        },
+                        {
+                            "sammenligningsgrunnlag": {
+                                "belop": 600000,
+                                "inntektFraAOrdningen": [
+                                    {
+                                        "maned": "2023-09",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-12",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-08",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-11",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-07",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2023-10",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-03",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-06",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-02",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-05",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-01",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    },
+                                    {
+                                        "maned": "2024-04",
+                                        "sum": 50000,
+                                        "__typename": "InntektFraAOrdningen"
+                                    }
+                                ],
+                                "__typename": "Sammenligningsgrunnlag"
+                            },
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": null,
+                                "belop": 600000,
+                                "manedsbelop": 50000,
+                                "kilde": "INNTEKTSMELDING",
+                                "__typename": "OmregnetArsinntekt"
+                            },
+                            "skjonnsmessigFastsatt": null,
+                            "arbeidsgiver": "967170232",
+                            "deaktivert": false,
+                            "fom": "2024-07-01",
+                            "tom": null,
+                            "__typename": "Arbeidsgiverinntekt"
+                        }
+                    ],
+                    "arbeidsgiverrefusjoner": [
+                        {
+                            "arbeidsgiver": "967170232",
+                            "refusjonsopplysninger": [
+                                {
+                                    "fom": "2024-07-01",
+                                    "tom": null,
+                                    "belop": 50000,
+                                    "meldingsreferanseId": "74d17899-7b0d-4f08-985f-18c72ab39ee0",
+                                    "__typename": "Refusjonselement"
+                                }
+                            ],
+                            "__typename": "Arbeidsgiverrefusjon"
+                        },
+                        {
+                            "arbeidsgiver": "907670201",
+                            "refusjonsopplysninger": [],
+                            "__typename": "Arbeidsgiverrefusjon"
+                        }
+                    ],
+                    "skjonnsmessigFastsattAarlig": null,
+                    "vurderingAvKravOmMedlemskap": "OPPFYLT",
+                    "oppfyllerKravOmMinstelonn": true,
+                    "oppfyllerKravOmOpptjening": true,
+                    "antallOpptjeningsdagerErMinst": 1369,
+                    "grunnbelop": 124028,
+                    "beregningsgrunnlag": 780000,
+                    "avviksvurdering": {
+                        "avviksprosent": 0,
+                        "sammenligningsgrunnlag": 780000,
+                        "beregningsgrunnlag": 780000
+                    },
+                    "opptjeningFra": "2020-10-01",
+                    "sykepengegrunnlagsgrense": {
+                        "grunnbelop": 124028,
+                        "grense": 744168,
+                        "virkningstidspunkt": "2024-05-01",
+                        "__typename": "Sykepengegrunnlagsgrense"
+                    },
+                    "__typename": "VilkarsgrunnlagSpleisV2"
+                }
+            ],
             "aktorId": "2117136462117",
             "arbeidsgivere": [
                 {

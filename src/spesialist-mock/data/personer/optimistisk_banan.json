@@ -203,6 +203,138 @@
                     }
                 }
             ],
+            "vilkarsgrunnlagV2": [
+                {
+                    "__typename": "VilkarsgrunnlagInfotrygdV2",
+                    "id": "941720f7-825f-4d0f-bf01-13d539a353db",
+                    "sykepengegrunnlag": 453348,
+                    "skjaeringstidspunkt": "2020-12-09",
+                    "omregnetArsinntekt": 453348,
+                    "inntekter": [
+                        {
+                            "sammenligningsgrunnlag": null,
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": null,
+                                "belop": 453348,
+                                "manedsbelop": 37779,
+                                "kilde": "INFOTRYGD"
+                            },
+                            "arbeidsgiver": "815493000",
+                            "deaktivert": false
+                        }
+                    ],
+                    "arbeidsgiverrefusjoner": [
+                        {
+                            "arbeidsgiver": "815493000",
+                            "refusjonsopplysninger": []
+                        }
+                    ]
+                },
+                {
+                    "__typename": "VilkarsgrunnlagSpleisV2",
+                    "id": "ed12b836-8d84-4273-90f1-39027f3e02f5",
+                    "sykepengegrunnlag": 469836,
+                    "skjaeringstidspunkt": "2022-08-08",
+                    "inntekter": [
+                        {
+                            "sammenligningsgrunnlag": {
+                                "belop": 481218.8,
+                                "inntektFraAOrdningen": []
+                            },
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": null,
+                                "belop": 469836,
+                                "manedsbelop": 39153,
+                                "kilde": "INNTEKTSMELDING"
+                            },
+                            "arbeidsgiver": "815493000",
+                            "deaktivert": false
+                        }
+                    ],
+                    "arbeidsgiverrefusjoner": [
+                        {
+                            "arbeidsgiver": "815493000",
+                            "refusjonsopplysninger": [
+                                {
+                                    "fom": "2022-08-08",
+                                    "tom": null,
+                                    "belop": 39153,
+                                    "meldingsreferanseId": "1a6a1247-d084-4f37-b5fa-dbe1528cd2db"
+                                }
+                            ]
+                        }
+                    ],
+                    "vurderingAvKravOmMedlemskap": "OPPFYLT",
+                    "oppfyllerKravOmMinstelonn": true,
+                    "oppfyllerKravOmOpptjening": true,
+                    "antallOpptjeningsdagerErMinst": 3422,
+                    "grunnbelop": 111477,
+                    "beregningsgrunnlag": 469836,
+                    "avviksvurdering": {
+                        "avviksprosent": 2.365410495184309,
+                        "sammenligningsgrunnlag": 481218.8,
+                        "beregningsgrunnlag": 469836
+                    },
+                    "opptjeningFra": "2013-03-26",
+                    "sykepengegrunnlagsgrense": {
+                        "grunnbelop": 111477,
+                        "grense": 668862,
+                        "virkningstidspunkt": "2022-05-01"
+                    }
+                },
+                {
+                    "__typename": "VilkarsgrunnlagSpleisV2",
+                    "id": "ff435c10-9a0f-4936-b2e6-24275aea6dd8",
+                    "sykepengegrunnlag": 491964,
+                    "skjaeringstidspunkt": "2022-08-08",
+                    "inntekter": [
+                        {
+                            "sammenligningsgrunnlag": {
+                                "belop": 481218.8,
+                                "inntektFraAOrdningen": []
+                            },
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": null,
+                                "belop": 491964,
+                                "manedsbelop": 40997,
+                                "kilde": "SAKSBEHANDLER"
+                            },
+                            "arbeidsgiver": "815493000",
+                            "deaktivert": false
+                        }
+                    ],
+                    "arbeidsgiverrefusjoner": [
+                        {
+                            "arbeidsgiver": "815493000",
+                            "refusjonsopplysninger": [
+                                {
+                                    "fom": "2022-08-08",
+                                    "tom": null,
+                                    "belop": 40997,
+                                    "meldingsreferanseId": "258b4112-83b6-4ccd-9e13-f8538ae3a89e"
+                                }
+                            ]
+                        }
+                    ],
+                    "vurderingAvKravOmMedlemskap": "OPPFYLT",
+                    "oppfyllerKravOmMinstelonn": true,
+                    "oppfyllerKravOmOpptjening": true,
+                    "antallOpptjeningsdagerErMinst": 3422,
+                    "grunnbelop": 111477,
+                    "beregningsgrunnlag": 491964,
+                    "avviksvurdering": {
+                        "avviksprosent": 2.2329135935670035,
+                        "sammenligningsgrunnlag": 481218.8,
+                        "beregningsgrunnlag": 491964
+                    },
+                    "opptjeningFra": "2013-03-26",
+                    "sykepengegrunnlagsgrense": {
+                        "grunnbelop": 111477,
+                        "grense": 668862,
+                        "virkningstidspunkt": "2022-05-01"
+                    }
+                }
+            ],
             "aktorId": "1000001337420",
             "arbeidsgivere": [
                 {

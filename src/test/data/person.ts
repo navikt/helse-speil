@@ -50,6 +50,7 @@ export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (ove
         },
         versjon: 1,
         vilkarsgrunnlag: [],
+        vilkarsgrunnlagV2: [],
         tilleggsinfoForInntektskilder: [tilleggsinfoFraEnInntektskilde()],
         ...overrides,
         medArbeidsgivere(arbeidsgivere: Array<ArbeidsgiverFragment>): PersonFragment & Extensions {

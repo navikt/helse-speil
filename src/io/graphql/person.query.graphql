@@ -212,6 +212,71 @@ fragment vilkarsgrunnlag on Vilkarsgrunnlag {
     }
 }
 
+fragment vilkarsgrunnlagV2 on VilkarsgrunnlagV2 {
+    id
+    sykepengegrunnlag
+    skjaeringstidspunkt
+    inntekter {
+        sammenligningsgrunnlag {
+            belop
+            inntektFraAOrdningen {
+                maned
+                sum
+            }
+        }
+        omregnetArsinntekt {
+            inntektFraAOrdningen {
+                maned
+                sum
+            }
+            belop
+            manedsbelop
+            kilde
+        }
+        skjonnsmessigFastsatt {
+            inntektFraAOrdningen {
+                maned
+                sum
+            }
+            belop
+            manedsbelop
+            kilde
+        }
+        arbeidsgiver
+        deaktivert
+        fom
+        tom
+    }
+    arbeidsgiverrefusjoner {
+        arbeidsgiver
+        refusjonsopplysninger {
+            fom
+            tom
+            belop
+            meldingsreferanseId
+        }
+    }
+    ... on VilkarsgrunnlagSpleisV2 {
+        skjonnsmessigFastsattAarlig
+        vurderingAvKravOmMedlemskap
+        oppfyllerKravOmMinstelonn
+        oppfyllerKravOmOpptjening
+        antallOpptjeningsdagerErMinst
+        grunnbelop
+        opptjeningFra
+        sykepengegrunnlagsgrense {
+            grunnbelop
+            grense
+            virkningstidspunkt
+        }
+        avviksvurdering {
+            avviksprosent
+            beregningsgrunnlag
+            sammenligningsgrunnlag
+        }
+    }
+}
+
 fragment notat on Notat {
     id
     dialogRef
@@ -530,6 +595,9 @@ fragment person on Person {
     versjon
     vilkarsgrunnlag {
         ...vilkarsgrunnlag
+    }
+    vilkarsgrunnlagV2 {
+        ...vilkarsgrunnlagV2
     }
     aktorId
     arbeidsgivere {

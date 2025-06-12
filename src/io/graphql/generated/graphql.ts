@@ -1182,6 +1182,7 @@ export type Person = {
     tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>;
     versjon: Scalars['Int']['output'];
     vilkarsgrunnlag: Array<Vilkarsgrunnlag>;
+    vilkarsgrunnlagV2: Array<VilkarsgrunnlagV2>;
 };
 
 export type Personinfo = {
@@ -1890,6 +1891,13 @@ export type Vilkarsgrunnlag = {
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
 };
 
+export type VilkarsgrunnlagAvviksvurdering = {
+    __typename: 'VilkarsgrunnlagAvviksvurdering';
+    avviksprosent: Scalars['BigDecimal']['output'];
+    beregningsgrunnlag: Scalars['BigDecimal']['output'];
+    sammenligningsgrunnlag: Scalars['BigDecimal']['output'];
+};
+
 export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
     __typename: 'VilkarsgrunnlagInfotrygd';
     arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
@@ -1899,6 +1907,16 @@ export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     sykepengegrunnlag: Scalars['Float']['output'];
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
+};
+
+export type VilkarsgrunnlagInfotrygdV2 = VilkarsgrunnlagV2 & {
+    __typename: 'VilkarsgrunnlagInfotrygdV2';
+    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
+    id: Scalars['UUID']['output'];
+    inntekter: Array<Arbeidsgiverinntekt>;
+    omregnetArsinntekt: Scalars['Float']['output'];
+    skjaeringstidspunkt: Scalars['LocalDate']['output'];
+    sykepengegrunnlag: Scalars['Float']['output'];
 };
 
 export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
@@ -1921,6 +1939,39 @@ export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
 };
+
+export type VilkarsgrunnlagSpleisV2 = VilkarsgrunnlagV2 & {
+    __typename: 'VilkarsgrunnlagSpleisV2';
+    antallOpptjeningsdagerErMinst: Scalars['Int']['output'];
+    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
+    avviksvurdering: Maybe<VilkarsgrunnlagAvviksvurdering>;
+    beregningsgrunnlag: Scalars['BigDecimal']['output'];
+    grunnbelop: Scalars['Int']['output'];
+    id: Scalars['UUID']['output'];
+    inntekter: Array<Arbeidsgiverinntekt>;
+    oppfyllerKravOmMinstelonn: Scalars['Boolean']['output'];
+    oppfyllerKravOmOpptjening: Scalars['Boolean']['output'];
+    opptjeningFra: Scalars['LocalDate']['output'];
+    skjaeringstidspunkt: Scalars['LocalDate']['output'];
+    skjonnsmessigFastsattAarlig: Maybe<Scalars['Float']['output']>;
+    sykepengegrunnlag: Scalars['Float']['output'];
+    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
+    vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering;
+};
+
+export type VilkarsgrunnlagV2 = {
+    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
+    id: Scalars['UUID']['output'];
+    inntekter: Array<Arbeidsgiverinntekt>;
+    skjaeringstidspunkt: Scalars['LocalDate']['output'];
+    sykepengegrunnlag: Scalars['Float']['output'];
+};
+
+export enum VilkarsgrunnlagVurdering {
+    IkkeOppfylt = 'IKKE_OPPFYLT',
+    IkkeVurdert = 'IKKE_VURDERT',
+    Oppfylt = 'OPPFYLT',
+}
 
 export enum Vilkarsgrunnlagtype {
     Infotrygd = 'INFOTRYGD',
@@ -3316,6 +3367,117 @@ export type VilkarsgrunnlagFragment =
     | Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment
     | Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment;
 
+export type VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment = {
+    __typename: 'VilkarsgrunnlagInfotrygdV2';
+    id: string;
+    sykepengegrunnlag: number;
+    skjaeringstidspunkt: string;
+    inntekter: Array<{
+        __typename: 'Arbeidsgiverinntekt';
+        arbeidsgiver: string;
+        deaktivert: boolean | null;
+        fom: string | null;
+        tom: string | null;
+        sammenligningsgrunnlag: {
+            __typename: 'Sammenligningsgrunnlag';
+            belop: number;
+            inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }>;
+        } | null;
+        omregnetArsinntekt: {
+            __typename: 'OmregnetArsinntekt';
+            belop: number;
+            manedsbelop: number;
+            kilde: Inntektskilde;
+            inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
+        } | null;
+        skjonnsmessigFastsatt: {
+            __typename: 'OmregnetArsinntekt';
+            belop: number;
+            manedsbelop: number;
+            kilde: Inntektskilde;
+            inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
+        } | null;
+    }>;
+    arbeidsgiverrefusjoner: Array<{
+        __typename: 'Arbeidsgiverrefusjon';
+        arbeidsgiver: string;
+        refusjonsopplysninger: Array<{
+            __typename: 'Refusjonselement';
+            fom: string;
+            tom: string | null;
+            belop: number;
+            meldingsreferanseId: string;
+        }>;
+    }>;
+};
+
+export type VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment = {
+    __typename: 'VilkarsgrunnlagSpleisV2';
+    skjonnsmessigFastsattAarlig: number | null;
+    vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering;
+    oppfyllerKravOmMinstelonn: boolean;
+    oppfyllerKravOmOpptjening: boolean;
+    antallOpptjeningsdagerErMinst: number;
+    grunnbelop: number;
+    opptjeningFra: string;
+    id: string;
+    sykepengegrunnlag: number;
+    skjaeringstidspunkt: string;
+    sykepengegrunnlagsgrense: {
+        __typename: 'Sykepengegrunnlagsgrense';
+        grunnbelop: number;
+        grense: number;
+        virkningstidspunkt: string;
+    };
+    avviksvurdering: {
+        __typename: 'VilkarsgrunnlagAvviksvurdering';
+        avviksprosent: string;
+        beregningsgrunnlag: string;
+        sammenligningsgrunnlag: string;
+    } | null;
+    inntekter: Array<{
+        __typename: 'Arbeidsgiverinntekt';
+        arbeidsgiver: string;
+        deaktivert: boolean | null;
+        fom: string | null;
+        tom: string | null;
+        sammenligningsgrunnlag: {
+            __typename: 'Sammenligningsgrunnlag';
+            belop: number;
+            inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }>;
+        } | null;
+        omregnetArsinntekt: {
+            __typename: 'OmregnetArsinntekt';
+            belop: number;
+            manedsbelop: number;
+            kilde: Inntektskilde;
+            inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
+        } | null;
+        skjonnsmessigFastsatt: {
+            __typename: 'OmregnetArsinntekt';
+            belop: number;
+            manedsbelop: number;
+            kilde: Inntektskilde;
+            inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
+        } | null;
+    }>;
+    arbeidsgiverrefusjoner: Array<{
+        __typename: 'Arbeidsgiverrefusjon';
+        arbeidsgiver: string;
+        refusjonsopplysninger: Array<{
+            __typename: 'Refusjonselement';
+            fom: string;
+            tom: string | null;
+            belop: number;
+            meldingsreferanseId: string;
+        }>;
+    }>;
+};
+
+export type VilkarsgrunnlagV2Fragment =
+    | VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment
+    | VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment;
+
 export type NotatFragment = {
     __typename: 'Notat';
     id: number;
@@ -4232,6 +4394,129 @@ export type PersonFragment = {
               }>;
           }
     >;
+    vilkarsgrunnlagV2: Array<
+        | {
+              __typename: 'VilkarsgrunnlagInfotrygdV2';
+              id: string;
+              sykepengegrunnlag: number;
+              skjaeringstidspunkt: string;
+              inntekter: Array<{
+                  __typename: 'Arbeidsgiverinntekt';
+                  arbeidsgiver: string;
+                  deaktivert: boolean | null;
+                  fom: string | null;
+                  tom: string | null;
+                  sammenligningsgrunnlag: {
+                      __typename: 'Sammenligningsgrunnlag';
+                      belop: number;
+                      inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }>;
+                  } | null;
+                  omregnetArsinntekt: {
+                      __typename: 'OmregnetArsinntekt';
+                      belop: number;
+                      manedsbelop: number;
+                      kilde: Inntektskilde;
+                      inntektFraAOrdningen: Array<{
+                          __typename: 'InntektFraAOrdningen';
+                          maned: string;
+                          sum: number;
+                      }> | null;
+                  } | null;
+                  skjonnsmessigFastsatt: {
+                      __typename: 'OmregnetArsinntekt';
+                      belop: number;
+                      manedsbelop: number;
+                      kilde: Inntektskilde;
+                      inntektFraAOrdningen: Array<{
+                          __typename: 'InntektFraAOrdningen';
+                          maned: string;
+                          sum: number;
+                      }> | null;
+                  } | null;
+              }>;
+              arbeidsgiverrefusjoner: Array<{
+                  __typename: 'Arbeidsgiverrefusjon';
+                  arbeidsgiver: string;
+                  refusjonsopplysninger: Array<{
+                      __typename: 'Refusjonselement';
+                      fom: string;
+                      tom: string | null;
+                      belop: number;
+                      meldingsreferanseId: string;
+                  }>;
+              }>;
+          }
+        | {
+              __typename: 'VilkarsgrunnlagSpleisV2';
+              skjonnsmessigFastsattAarlig: number | null;
+              vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering;
+              oppfyllerKravOmMinstelonn: boolean;
+              oppfyllerKravOmOpptjening: boolean;
+              antallOpptjeningsdagerErMinst: number;
+              grunnbelop: number;
+              opptjeningFra: string;
+              id: string;
+              sykepengegrunnlag: number;
+              skjaeringstidspunkt: string;
+              sykepengegrunnlagsgrense: {
+                  __typename: 'Sykepengegrunnlagsgrense';
+                  grunnbelop: number;
+                  grense: number;
+                  virkningstidspunkt: string;
+              };
+              avviksvurdering: {
+                  __typename: 'VilkarsgrunnlagAvviksvurdering';
+                  avviksprosent: string;
+                  beregningsgrunnlag: string;
+                  sammenligningsgrunnlag: string;
+              } | null;
+              inntekter: Array<{
+                  __typename: 'Arbeidsgiverinntekt';
+                  arbeidsgiver: string;
+                  deaktivert: boolean | null;
+                  fom: string | null;
+                  tom: string | null;
+                  sammenligningsgrunnlag: {
+                      __typename: 'Sammenligningsgrunnlag';
+                      belop: number;
+                      inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }>;
+                  } | null;
+                  omregnetArsinntekt: {
+                      __typename: 'OmregnetArsinntekt';
+                      belop: number;
+                      manedsbelop: number;
+                      kilde: Inntektskilde;
+                      inntektFraAOrdningen: Array<{
+                          __typename: 'InntektFraAOrdningen';
+                          maned: string;
+                          sum: number;
+                      }> | null;
+                  } | null;
+                  skjonnsmessigFastsatt: {
+                      __typename: 'OmregnetArsinntekt';
+                      belop: number;
+                      manedsbelop: number;
+                      kilde: Inntektskilde;
+                      inntektFraAOrdningen: Array<{
+                          __typename: 'InntektFraAOrdningen';
+                          maned: string;
+                          sum: number;
+                      }> | null;
+                  } | null;
+              }>;
+              arbeidsgiverrefusjoner: Array<{
+                  __typename: 'Arbeidsgiverrefusjon';
+                  arbeidsgiver: string;
+                  refusjonsopplysninger: Array<{
+                      __typename: 'Refusjonselement';
+                      fom: string;
+                      tom: string | null;
+                      belop: number;
+                      meldingsreferanseId: string;
+                  }>;
+              }>;
+          }
+    >;
     arbeidsgivere: Array<{
         __typename: 'Arbeidsgiver';
         bransjer: Array<string>;
@@ -5043,6 +5328,137 @@ export type FetchPersonQuery = {
                       grense: number;
                       virkningstidspunkt: string;
                   };
+                  inntekter: Array<{
+                      __typename: 'Arbeidsgiverinntekt';
+                      arbeidsgiver: string;
+                      deaktivert: boolean | null;
+                      fom: string | null;
+                      tom: string | null;
+                      sammenligningsgrunnlag: {
+                          __typename: 'Sammenligningsgrunnlag';
+                          belop: number;
+                          inntektFraAOrdningen: Array<{
+                              __typename: 'InntektFraAOrdningen';
+                              maned: string;
+                              sum: number;
+                          }>;
+                      } | null;
+                      omregnetArsinntekt: {
+                          __typename: 'OmregnetArsinntekt';
+                          belop: number;
+                          manedsbelop: number;
+                          kilde: Inntektskilde;
+                          inntektFraAOrdningen: Array<{
+                              __typename: 'InntektFraAOrdningen';
+                              maned: string;
+                              sum: number;
+                          }> | null;
+                      } | null;
+                      skjonnsmessigFastsatt: {
+                          __typename: 'OmregnetArsinntekt';
+                          belop: number;
+                          manedsbelop: number;
+                          kilde: Inntektskilde;
+                          inntektFraAOrdningen: Array<{
+                              __typename: 'InntektFraAOrdningen';
+                              maned: string;
+                              sum: number;
+                          }> | null;
+                      } | null;
+                  }>;
+                  arbeidsgiverrefusjoner: Array<{
+                      __typename: 'Arbeidsgiverrefusjon';
+                      arbeidsgiver: string;
+                      refusjonsopplysninger: Array<{
+                          __typename: 'Refusjonselement';
+                          fom: string;
+                          tom: string | null;
+                          belop: number;
+                          meldingsreferanseId: string;
+                      }>;
+                  }>;
+              }
+        >;
+        vilkarsgrunnlagV2: Array<
+            | {
+                  __typename: 'VilkarsgrunnlagInfotrygdV2';
+                  id: string;
+                  sykepengegrunnlag: number;
+                  skjaeringstidspunkt: string;
+                  inntekter: Array<{
+                      __typename: 'Arbeidsgiverinntekt';
+                      arbeidsgiver: string;
+                      deaktivert: boolean | null;
+                      fom: string | null;
+                      tom: string | null;
+                      sammenligningsgrunnlag: {
+                          __typename: 'Sammenligningsgrunnlag';
+                          belop: number;
+                          inntektFraAOrdningen: Array<{
+                              __typename: 'InntektFraAOrdningen';
+                              maned: string;
+                              sum: number;
+                          }>;
+                      } | null;
+                      omregnetArsinntekt: {
+                          __typename: 'OmregnetArsinntekt';
+                          belop: number;
+                          manedsbelop: number;
+                          kilde: Inntektskilde;
+                          inntektFraAOrdningen: Array<{
+                              __typename: 'InntektFraAOrdningen';
+                              maned: string;
+                              sum: number;
+                          }> | null;
+                      } | null;
+                      skjonnsmessigFastsatt: {
+                          __typename: 'OmregnetArsinntekt';
+                          belop: number;
+                          manedsbelop: number;
+                          kilde: Inntektskilde;
+                          inntektFraAOrdningen: Array<{
+                              __typename: 'InntektFraAOrdningen';
+                              maned: string;
+                              sum: number;
+                          }> | null;
+                      } | null;
+                  }>;
+                  arbeidsgiverrefusjoner: Array<{
+                      __typename: 'Arbeidsgiverrefusjon';
+                      arbeidsgiver: string;
+                      refusjonsopplysninger: Array<{
+                          __typename: 'Refusjonselement';
+                          fom: string;
+                          tom: string | null;
+                          belop: number;
+                          meldingsreferanseId: string;
+                      }>;
+                  }>;
+              }
+            | {
+                  __typename: 'VilkarsgrunnlagSpleisV2';
+                  skjonnsmessigFastsattAarlig: number | null;
+                  vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering;
+                  oppfyllerKravOmMinstelonn: boolean;
+                  oppfyllerKravOmOpptjening: boolean;
+                  antallOpptjeningsdagerErMinst: number;
+                  grunnbelop: number;
+                  opptjeningFra: string;
+                  id: string;
+                  sykepengegrunnlag: number;
+                  skjaeringstidspunkt: string;
+                  sykepengegrunnlagsgrense: {
+                      __typename: 'Sykepengegrunnlagsgrense';
+                      grunnbelop: number;
+                      grense: number;
+                      virkningstidspunkt: string;
+                  };
+                  avviksvurdering: {
+                      __typename: 'VilkarsgrunnlagAvviksvurdering';
+                      avviksprosent: string;
+                      beregningsgrunnlag: string;
+                      sammenligningsgrunnlag: string;
+                  } | null;
                   inntekter: Array<{
                       __typename: 'Arbeidsgiverinntekt';
                       arbeidsgiver: string;
@@ -6267,6 +6683,167 @@ export const VilkarsgrunnlagFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<VilkarsgrunnlagFragment, unknown>;
+export const VilkarsgrunnlagV2FragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'vilkarsgrunnlagV2' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'VilkarsgrunnlagV2' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykepengegrunnlag' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'inntekter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sammenligningsgrunnlag' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'inntektFraAOrdningen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'omregnetArsinntekt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'inntektFraAOrdningen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kilde' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'skjonnsmessigFastsatt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'inntektFraAOrdningen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kilde' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsgiverrefusjoner' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'refusjonsopplysninger' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'meldingsreferanseId' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'VilkarsgrunnlagSpleisV2' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'skjonnsmessigFastsattAarlig' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'vurderingAvKravOmMedlemskap' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmMinstelonn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmOpptjening' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'antallOpptjeningsdagerErMinst' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opptjeningFra' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sykepengegrunnlagsgrense' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grense' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'virkningstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'avviksvurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'avviksprosent' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beregningsgrunnlag' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sammenligningsgrunnlag' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<VilkarsgrunnlagV2Fragment, unknown>;
 export const GhostPeriodeFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -9010,6 +9587,16 @@ export const PersonFragmentDoc = {
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'vilkarsgrunnlag' } }],
                         },
                     },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'vilkarsgrunnlagV2' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'vilkarsgrunnlagV2' } },
+                            ],
+                        },
+                    },
                     { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
                     {
                         kind: 'Field',
@@ -10111,6 +10698,162 @@ export const PersonFragmentDoc = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'grense' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'virkningstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'vilkarsgrunnlagV2' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'VilkarsgrunnlagV2' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykepengegrunnlag' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'inntekter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sammenligningsgrunnlag' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'inntektFraAOrdningen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'omregnetArsinntekt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'inntektFraAOrdningen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kilde' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'skjonnsmessigFastsatt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'inntektFraAOrdningen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kilde' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsgiverrefusjoner' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'refusjonsopplysninger' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'meldingsreferanseId' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'VilkarsgrunnlagSpleisV2' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'skjonnsmessigFastsattAarlig' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'vurderingAvKravOmMedlemskap' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmMinstelonn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmOpptjening' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'antallOpptjeningsdagerErMinst' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opptjeningFra' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sykepengegrunnlagsgrense' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grense' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'virkningstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'avviksvurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'avviksprosent' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beregningsgrunnlag' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sammenligningsgrunnlag' } },
                                         ],
                                     },
                                 },
@@ -12064,6 +12807,162 @@ export const FetchPersonDocument = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'vilkarsgrunnlagV2' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'VilkarsgrunnlagV2' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykepengegrunnlag' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'inntekter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sammenligningsgrunnlag' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'inntektFraAOrdningen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'omregnetArsinntekt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'inntektFraAOrdningen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kilde' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'skjonnsmessigFastsatt' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'inntektFraAOrdningen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedsbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kilde' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsgiverrefusjoner' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'refusjonsopplysninger' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'meldingsreferanseId' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'VilkarsgrunnlagSpleisV2' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'skjonnsmessigFastsattAarlig' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'vurderingAvKravOmMedlemskap' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmMinstelonn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmOpptjening' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'antallOpptjeningsdagerErMinst' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opptjeningFra' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sykepengegrunnlagsgrense' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grense' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'virkningstidspunkt' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'avviksvurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'avviksprosent' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beregningsgrunnlag' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sammenligningsgrunnlag' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'ghostPeriode' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'GhostPeriode' } },
             selectionSet: {
@@ -13222,6 +14121,16 @@ export const FetchPersonDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'vilkarsgrunnlag' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'vilkarsgrunnlagV2' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'vilkarsgrunnlagV2' } },
+                            ],
                         },
                     },
                     { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
