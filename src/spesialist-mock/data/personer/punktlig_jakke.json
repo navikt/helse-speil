@@ -133,11 +133,11 @@
                     "oppfyllerKravOmOpptjening": true,
                     "antallOpptjeningsdagerErMinst": 7202,
                     "grunnbelop": 111477,
-                    "beregningsgrunnlag": 360000,
+                    "beregningsgrunnlag": "360000",
                     "avviksvurdering": {
-                        "avviksprosent": 40,
-                        "sammenligningsgrunnlag": 1266666,
-                        "beregningsgrunnlag": 360000
+                        "avviksprosent": "40",
+                        "sammenligningsgrunnlag": "1266666",
+                        "beregningsgrunnlag": "360000"
                     },
                     "opptjeningFra": "2003-06-12",
                     "sykepengegrunnlagsgrense": {

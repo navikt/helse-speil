@@ -1,12 +1,18 @@
 import dayjs, { Dayjs } from 'dayjs';
 
-import { Arbeidsgiverinntekt, Maybe, PersonFragment, Vilkarsgrunnlag } from '@io/graphql';
+import {
+    Arbeidsgiverinntekt,
+    Maybe,
+    PersonFragment,
+    VilkarsgrunnlagInfotrygdV2,
+    VilkarsgrunnlagSpleisV2,
+} from '@io/graphql';
 import { getRequiredTimestamp, isGodkjent } from '@state/selectors/utbetaling';
 import { DateString } from '@typer/shared';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const getRequiredInntekt = (
-    vilkårsgrunnlag: Vilkarsgrunnlag,
+    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
     organisasjonsnummer: string,
 ): Arbeidsgiverinntekt =>
     vilkårsgrunnlag.inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer) ??
@@ -14,11 +20,17 @@ export const getRequiredInntekt = (
         throw Error('Fant ikke inntekt');
     })();
 
-export const getVilkårsgrunnlag = (person: PersonFragment, grunnlagId?: Maybe<string>): Maybe<Vilkarsgrunnlag> => {
-    return person.vilkarsgrunnlag.find(({ id }) => id === grunnlagId) ?? null;
+export const getVilkårsgrunnlag = (
+    person: PersonFragment,
+    grunnlagId?: Maybe<string>,
+): Maybe<VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2> => {
+    return person.vilkarsgrunnlagV2.find(({ id }) => id === grunnlagId) ?? null;
 };
 
-export const getRequiredVilkårsgrunnlag = (person: PersonFragment, grunnlagId?: Maybe<string>): Vilkarsgrunnlag => {
+export const getRequiredVilkårsgrunnlag = (
+    person: PersonFragment,
+    grunnlagId?: Maybe<string>,
+): VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2 => {
     return (
         getVilkårsgrunnlag(person, grunnlagId) ??
         (() => {

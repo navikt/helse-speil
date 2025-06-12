@@ -5,7 +5,7 @@ import {
     InntektFraAOrdningen,
     Inntektskilde,
     OmregnetArsinntekt,
-    VilkarsgrunnlagFragment,
+    VilkarsgrunnlagV2Fragment,
 } from '@io/graphql';
 import { DateString, OverridableConstructor } from '@typer/shared';
 
@@ -52,7 +52,7 @@ type ArbeidsgiverinntektExtensions = {
 };
 
 export const enArbeidsgiverinntekt: OverridableConstructor<
-    VilkarsgrunnlagFragment['inntekter'][0],
+    VilkarsgrunnlagV2Fragment['inntekter'][0],
     ArbeidsgiverinntektExtensions
 > = (overrides) => ({
     __typename: 'Arbeidsgiverinntekt',

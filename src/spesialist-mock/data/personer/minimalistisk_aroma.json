@@ -331,11 +331,11 @@
                     "oppfyllerKravOmOpptjening": true,
                     "antallOpptjeningsdagerErMinst": 2088,
                     "grunnbelop": 111477,
-                    "beregningsgrunnlag": 1560000,
+                    "beregningsgrunnlag": "1560000",
                     "avviksvurdering": {
-                        "avviksprosent": 0,
-                        "sammenligningsgrunnlag": 1560000,
-                        "beregningsgrunnlag": 1560000
+                        "avviksprosent": "0",
+                        "sammenligningsgrunnlag": "1560000",
+                        "beregningsgrunnlag": "1560000"
                     },
                     "opptjeningFra": "2017-05-15",
                     "sykepengegrunnlagsgrense": {
@@ -408,11 +408,11 @@
                     "oppfyllerKravOmOpptjening": true,
                     "antallOpptjeningsdagerErMinst": 2088,
                     "grunnbelop": 111477,
-                    "beregningsgrunnlag": 1560012,
+                    "beregningsgrunnlag": "1560012",
                     "avviksvurdering": {
-                        "avviksprosent": 0.0007692307692307692,
-                        "sammenligningsgrunnlag": 1560000,
-                        "beregningsgrunnlag": 1560012
+                        "avviksprosent": "0.0007692307692307692",
+                        "sammenligningsgrunnlag": "1560000",
+                        "beregningsgrunnlag": "1560012"
                     },
                     "opptjeningFra": "2017-05-15",
                     "sykepengegrunnlagsgrense": {
@@ -491,11 +491,11 @@
                     "oppfyllerKravOmOpptjening": true,
                     "antallOpptjeningsdagerErMinst": 2088,
                     "grunnbelop": 111477,
-                    "beregningsgrunnlag": 1560012,
+                    "beregningsgrunnlag": "1560012",
                     "avviksvurdering": {
-                        "avviksprosent": 0.0007692307692307692,
-                        "sammenligningsgrunnlag": 1560000,
-                        "beregningsgrunnlag": 1560012
+                        "avviksprosent": "0.0007692307692307692",
+                        "sammenligningsgrunnlag": "1560000",
+                        "beregningsgrunnlag": "1560012"
                     },
                     "opptjeningFra": "2017-05-15",
                     "sykepengegrunnlagsgrense": {

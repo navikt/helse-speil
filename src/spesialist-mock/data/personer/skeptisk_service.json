@@ -676,11 +676,11 @@
                     "oppfyllerKravOmOpptjening": true,
                     "antallOpptjeningsdagerErMinst": 1369,
                     "grunnbelop": 124028,
-                    "beregningsgrunnlag": 780000,
+                    "beregningsgrunnlag": "780000",
                     "avviksvurdering": {
-                        "avviksprosent": 0,
-                        "sammenligningsgrunnlag": 780000,
-                        "beregningsgrunnlag": 780000
+                        "avviksprosent": "0",
+                        "sammenligningsgrunnlag": "780000",
+                        "beregningsgrunnlag": "780000"
                     },
                     "opptjeningFra": "2020-10-01",
                     "sykepengegrunnlagsgrense": {
@@ -901,11 +901,11 @@
                     "oppfyllerKravOmOpptjening": true,
                     "antallOpptjeningsdagerErMinst": 1369,
                     "grunnbelop": 124028,
-                    "beregningsgrunnlag": 780000,
+                    "beregningsgrunnlag": "780000",
                     "avviksvurdering": {
-                        "avviksprosent": 0,
-                        "sammenligningsgrunnlag": 780000,
-                        "beregningsgrunnlag": 780000
+                        "avviksprosent": "0",
+                        "sammenligningsgrunnlag": "780000",
+                        "beregningsgrunnlag": "780000"
                     },
                     "opptjeningFra": "2020-10-01",
                     "sykepengegrunnlagsgrense": {

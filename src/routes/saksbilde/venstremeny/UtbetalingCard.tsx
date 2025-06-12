@@ -4,7 +4,15 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus, Vilkarsgrunnlag } from '@io/graphql';
+import {
+    Maybe,
+    Personinfo,
+    Simulering,
+    Utbetaling,
+    Utbetalingstatus,
+    VilkarsgrunnlagInfotrygdV2,
+    VilkarsgrunnlagSpleisV2,
+} from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
 import { BeløpTilUtbetaling } from './BeløpTilUtbetaling';
@@ -13,7 +21,7 @@ import { CardTitle } from './CardTitle';
 import styles from './UtbetalingCard.module.css';
 
 interface UtbetalingCardProps {
-    vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>;
+    vilkårsgrunnlag?: Maybe<VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2>;
     antallUtbetalingsdager: number;
     utbetaling: Utbetaling;
     arbeidsgiver: string;

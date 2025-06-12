@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
-import { PersonFragment, VilkarsgrunnlagInfotrygd } from '@io/graphql';
+import { PersonFragment, VilkarsgrunnlagInfotrygdV2 } from '@io/graphql';
 import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { getRequiredInntekt } from '@state/utils';
@@ -12,7 +12,7 @@ import styles from './SykepengegrunnlagFraInfotrygd.module.css';
 
 interface SykepengegrunnlagFraInfogtrygdProps {
     person: PersonFragment;
-    vilkårsgrunnlag: VilkarsgrunnlagInfotrygd;
+    vilkårsgrunnlag: VilkarsgrunnlagInfotrygdV2;
     organisasjonsnummer: string;
 }
 

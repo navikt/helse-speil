@@ -1,5 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
+import { Alert } from '@navikt/ds-react';
+
 import {
     ArbeidsgiverFragment,
     Arbeidsgiverinntekt,
@@ -8,6 +10,7 @@ import {
     Maybe,
     PersonFragment,
     Sykepengegrunnlagsgrense,
+    VilkarsgrunnlagAvviksvurdering,
 } from '@io/graphql';
 import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 
@@ -19,10 +22,8 @@ import styles from './SykepengegrunnlagPanel.module.css';
 
 interface SykepengegrunnlagPanelProps {
     inntekter: Arbeidsgiverinntekt[];
-    omregnetÅrsinntekt?: Maybe<number>;
-    sammenligningsgrunnlag?: Maybe<number>;
     skjønnsmessigFastsattÅrlig?: Maybe<number>;
-    avviksprosent?: Maybe<number>;
+    avviksvurdering: Maybe<VilkarsgrunnlagAvviksvurdering>;
     sykepengegrunnlag: number;
     setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
     aktivInntektskilde?: Arbeidsgiverinntekt;
@@ -50,9 +51,7 @@ const getSorterteInntekter = (
 
 export const SykepengegrunnlagPanel = ({
     inntekter,
-    omregnetÅrsinntekt,
-    sammenligningsgrunnlag,
-    avviksprosent,
+    avviksvurdering,
     sykepengegrunnlag,
     setAktivInntektskilde,
     aktivInntektskilde,
@@ -64,36 +63,42 @@ export const SykepengegrunnlagPanel = ({
 }: SykepengegrunnlagPanelProps) => {
     return (
         <div className={styles.wrapper}>
-            <InntektsgrunnlagTable
-                person={person}
-                inntekter={getSorterteInntekter(inntekter, person.arbeidsgivere)}
-                setAktivInntektskilde={setAktivInntektskilde}
-                aktivInntektskilde={aktivInntektskilde}
-                omregnetÅrsinntekt={omregnetÅrsinntekt}
-                skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
-                sammenligningsgrunnlag={sammenligningsgrunnlag}
-            />
-            <InntektsgrunnlagoppsummeringTable
-                omregnetÅrsinntekt={omregnetÅrsinntekt}
-                sammenligningsgrunnlag={sammenligningsgrunnlag}
-                avviksprosent={avviksprosent}
-            />
-            <SkjønnsfastsettingSykepengegrunnlag
-                person={person}
-                periode={periode}
-                sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
-                sykepengegrunnlag={sykepengegrunnlag}
-                omregnetÅrsinntekt={omregnetÅrsinntekt}
-                sammenligningsgrunnlag={sammenligningsgrunnlag}
-                skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
-                inntekter={getSorterteInntekter(inntekter, person.arbeidsgivere)}
-                avviksprosent={avviksprosent ?? 0}
-                organisasjonsnummer={organisasjonsnummer}
-            />
-            <SykepengegrunnlagsgrenseView
-                sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
-                omregnetÅrsinntekt={omregnetÅrsinntekt}
-            />
+            {avviksvurdering !== null ? (
+                <>
+                    <InntektsgrunnlagTable
+                        person={person}
+                        inntekter={getSorterteInntekter(inntekter, person.arbeidsgivere)}
+                        setAktivInntektskilde={setAktivInntektskilde}
+                        aktivInntektskilde={aktivInntektskilde}
+                        omregnetÅrsinntekt={Number(avviksvurdering.beregningsgrunnlag)}
+                        skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
+                        sammenligningsgrunnlag={Number(avviksvurdering.sammenligningsgrunnlag)}
+                    />
+                    <InntektsgrunnlagoppsummeringTable
+                        omregnetÅrsinntekt={Number(avviksvurdering.beregningsgrunnlag)}
+                        sammenligningsgrunnlag={Number(avviksvurdering.sammenligningsgrunnlag)}
+                        avviksprosent={Number(avviksvurdering.avviksprosent)}
+                    />
+                    <SkjønnsfastsettingSykepengegrunnlag
+                        person={person}
+                        periode={periode}
+                        sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
+                        sykepengegrunnlag={sykepengegrunnlag}
+                        omregnetÅrsinntekt={Number(avviksvurdering.beregningsgrunnlag)}
+                        sammenligningsgrunnlag={Number(avviksvurdering.sammenligningsgrunnlag)}
+                        skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
+                        inntekter={getSorterteInntekter(inntekter, person.arbeidsgivere)}
+                        avviksprosent={Number(avviksvurdering.avviksprosent)}
+                        organisasjonsnummer={organisasjonsnummer}
+                    />
+                    <SykepengegrunnlagsgrenseView
+                        sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
+                        omregnetÅrsinntekt={Number(avviksvurdering.beregningsgrunnlag)}
+                    />
+                </>
+            ) : (
+                <Alert variant="warning">Avviksvudering er ikke utført enda. Prøv igjen senere.</Alert>
+            )}
         </div>
     );
 };

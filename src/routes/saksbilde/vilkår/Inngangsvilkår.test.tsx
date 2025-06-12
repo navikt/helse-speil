@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { VilkarsgrunnlagSpleis, Vilkarsgrunnlagtype, Vurdering } from '@io/graphql';
+import { VilkarsgrunnlagInfotrygdV2, VilkarsgrunnlagSpleisV2, VilkarsgrunnlagVurdering, Vurdering } from '@io/graphql';
 import '@testing-library/jest-dom';
 import { render, screen, within } from '@testing-library/react';
 
@@ -8,23 +8,27 @@ import { InngangsvilkårWithContent } from './Inngangsvilkår';
 
 const getVilkårsgrunnlagSpleis = (
     // TODO: Erstatte global type med query type
-    overrides?: Partial<VilkarsgrunnlagSpleis>,
-): VilkarsgrunnlagSpleis => ({
-    __typename: 'VilkarsgrunnlagSpleis',
+    overrides?: Partial<VilkarsgrunnlagSpleisV2>,
+): VilkarsgrunnlagSpleisV2 => ({
+    __typename: 'VilkarsgrunnlagSpleisV2',
     id: 'en-id',
     antallOpptjeningsdagerErMinst: 100,
     arbeidsgiverrefusjoner: [],
     grunnbelop: 100000,
     inntekter: [],
-    omregnetArsinntekt: 1234567,
-    oppfyllerKravOmMedlemskap: true,
+    vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering.Oppfylt,
     oppfyllerKravOmMinstelonn: true,
     oppfyllerKravOmOpptjening: true,
     opptjeningFra: '2000-01-01',
-    sammenligningsgrunnlag: 1234567,
     skjaeringstidspunkt: '2022-01-01',
     sykepengegrunnlag: 1234567,
-    avviksprosent: null,
+    beregningsgrunnlag: '1234567',
+    avviksvurdering: {
+        __typename: 'VilkarsgrunnlagAvviksvurdering',
+        avviksprosent: '0',
+        beregningsgrunnlag: '1234567',
+        sammenligningsgrunnlag: '1234567',
+    },
     skjonnsmessigFastsattAarlig: null,
     sykepengegrunnlagsgrense: {
         __typename: 'Sykepengegrunnlagsgrense',
@@ -32,8 +36,17 @@ const getVilkårsgrunnlagSpleis = (
         grense: 6 * 106399,
         virkningstidspunkt: '2021-05-01',
     },
-    vilkarsgrunnlagtype: Vilkarsgrunnlagtype.Spleis,
     ...overrides,
+});
+
+const getVilkårsgrunnlagInfotrygd = (): VilkarsgrunnlagInfotrygdV2 => ({
+    __typename: 'VilkarsgrunnlagInfotrygdV2',
+    id: 'en-id',
+    arbeidsgiverrefusjoner: [],
+    inntekter: [],
+    skjaeringstidspunkt: '2022-01-01',
+    sykepengegrunnlag: 1234567,
+    omregnetArsinntekt: 1234567,
 });
 
 const getVurdering = (overrides?: Partial<Vurdering>): Vurdering => ({
@@ -121,7 +134,7 @@ describe('Inngangsvilkår', () => {
         render(
             <InngangsvilkårWithContent
                 periodeFom="2022-01-01"
-                vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ vilkarsgrunnlagtype: Vilkarsgrunnlagtype.Infotrygd })}
+                vilkårsgrunnlag={getVilkårsgrunnlagInfotrygd()}
                 fødselsdato="1900-01-01"
             />,
         );

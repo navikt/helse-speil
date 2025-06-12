@@ -64,6 +64,14 @@ const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: Maybe<
           }
         : null;
 
+const manglendeAvviksvurdering = (manglerAvviksvurdering: boolean): Maybe<VarselObject> =>
+    manglerAvviksvurdering
+        ? {
+              grad: 'error',
+              melding: `Systemet er ikke ferdig med avviksvurdering. Perioden kan ikke behandles enda.`,
+          }
+        : null;
+
 const ukjentTilstand = (state: PeriodState): Maybe<VarselObject> =>
     state === 'ukjent' ? { grad: 'error', melding: 'Kunne ikke lese informasjon om sakens tilstand.' } : null;
 
@@ -166,6 +174,7 @@ interface SaksbildevarslerProps {
     navnPåDeaktiverteGhostArbeidsgivere?: string;
     harTotrinnsvurdering: boolean;
     harTilkommenInntektEndring: boolean;
+    manglerAvviksvurdering: boolean;
 }
 
 export const Saksbildevarsler = ({
@@ -181,6 +190,7 @@ export const Saksbildevarsler = ({
     navnPåDeaktiverteGhostArbeidsgivere,
     harTotrinnsvurdering,
     harTilkommenInntektEndring,
+    manglerAvviksvurdering,
 }: SaksbildevarslerProps) => {
     const [open, setOpen] = useState(true);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
@@ -205,6 +215,7 @@ export const Saksbildevarsler = ({
         tilstandfeil(periodState),
         ukjentTilstand(periodState),
         manglendeOppgavereferanse(periodState, oppgavereferanse),
+        manglendeAvviksvurdering(manglerAvviksvurdering),
     ].filter((it) => it) as VarselObject[];
 
     const skalViseVarsler =

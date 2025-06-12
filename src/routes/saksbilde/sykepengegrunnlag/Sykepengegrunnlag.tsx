@@ -5,7 +5,6 @@ import { Alert } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { BeregnetPeriodeFragment, GhostPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { isInfotrygdVilkarsgrunnlag, isSpleisVilkarsgrunnlag } from '@utils/typeguards';
 
 import { SykepengegrunnlagFraInfogtrygd } from './sykepengegrunnlagvisninger/infotrygd/SykepengegrunnlagFraInfotrygd';
 import { SykepengegrunnlagFraSpleis } from './sykepengegrunnlagvisninger/spleis/SykepengegrunnlagFraSpleis';
@@ -22,27 +21,28 @@ const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps)
 
     if (!arbeidsgiver) return null;
 
-    if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag)) {
-        return (
-            <SykepengegrunnlagFraSpleis
-                vilkårsgrunnlag={vilkårsgrunnlag}
-                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                data-testid="ubehandlet-sykepengegrunnlag"
-                person={person}
-                periode={periode}
-            />
-        );
-    } else if (isInfotrygdVilkarsgrunnlag(vilkårsgrunnlag)) {
-        return (
-            <SykepengegrunnlagFraInfogtrygd
-                person={person}
-                vilkårsgrunnlag={vilkårsgrunnlag}
-                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-            />
-        );
+    switch (vilkårsgrunnlag?.__typename) {
+        case 'VilkarsgrunnlagSpleisV2':
+            return (
+                <SykepengegrunnlagFraSpleis
+                    vilkårsgrunnlag={vilkårsgrunnlag}
+                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                    data-testid="ubehandlet-sykepengegrunnlag"
+                    person={person}
+                    periode={periode}
+                />
+            );
+        case 'VilkarsgrunnlagInfotrygdV2':
+            return (
+                <SykepengegrunnlagFraInfogtrygd
+                    person={person}
+                    vilkårsgrunnlag={vilkårsgrunnlag}
+                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                />
+            );
+        case undefined:
+            return null;
     }
-
-    return null;
 };
 
 const SykepengegrunnlagError = (): ReactElement => (

@@ -3,7 +3,13 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import { Maybe, Vilkarsgrunnlag, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
+import {
+    Maybe,
+    VilkarsgrunnlagInfotrygdV2,
+    VilkarsgrunnlagSpleisV2,
+    VilkarsgrunnlagVurdering,
+    Vurdering,
+} from '@io/graphql';
 import { DateString } from '@typer/shared';
 import { Vilkårdata, Vilkårstype } from '@typer/vilkår';
 
@@ -12,27 +18,27 @@ import { Opptjeningstid, Sykepengegrunnlag } from './vilkårsgrupper/Vilkårsgru
 
 const VilkårManglerData = (): ReactElement => <BodyShort>Mangler data om vilkåret</BodyShort>;
 
-const opptjeningstid = (skjæringstidspunkt: DateString, vilkår: Vilkarsgrunnlag): Vilkårdata => {
-    switch (vilkår.vilkarsgrunnlagtype) {
-        case 'SPLEIS': {
-            const spleisVilkår = vilkår as VilkarsgrunnlagSpleis;
+const opptjeningstid = (
+    skjæringstidspunkt: DateString,
+    vilkår: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
+): Vilkårdata => {
+    switch (vilkår.__typename) {
+        case 'VilkarsgrunnlagSpleisV2': {
             return {
                 type: Vilkårstype.Opptjeningstid,
-                oppfylt: spleisVilkår.oppfyllerKravOmOpptjening,
+                oppfylt: vilkår.oppfyllerKravOmOpptjening,
                 tittel: 'Opptjeningstid',
                 paragraf: <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>,
                 komponent: (
                     <Opptjeningstid
                         skjæringstidspunkt={skjæringstidspunkt}
-                        opptjeningFra={spleisVilkår.opptjeningFra}
-                        antallOpptjeningsdagerErMinst={spleisVilkår.antallOpptjeningsdagerErMinst}
+                        opptjeningFra={vilkår.opptjeningFra}
+                        antallOpptjeningsdagerErMinst={vilkår.antallOpptjeningsdagerErMinst}
                     />
                 ),
             };
         }
-        case 'INFOTRYGD':
-        case 'UKJENT':
-        default:
+        case 'VilkarsgrunnlagInfotrygdV2':
             return {
                 type: Vilkårstype.Opptjeningstid,
                 tittel: 'Opptjeningstid',
@@ -43,14 +49,16 @@ const opptjeningstid = (skjæringstidspunkt: DateString, vilkår: Vilkarsgrunnla
     }
 };
 
-const sykepengegrunnlag = (alderVedSkjæringstidspunkt: number, vilkår: Vilkarsgrunnlag): Vilkårdata => {
+const sykepengegrunnlag = (
+    alderVedSkjæringstidspunkt: number,
+    vilkår: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
+): Vilkårdata => {
     const harEndretParagraf = alderVedSkjæringstidspunkt < 70 && alderVedSkjæringstidspunkt >= 67;
-    switch (vilkår.vilkarsgrunnlagtype) {
-        case 'SPLEIS': {
-            const spleisVilkår = vilkår as VilkarsgrunnlagSpleis;
+    switch (vilkår.__typename) {
+        case 'VilkarsgrunnlagSpleisV2': {
             return {
                 type: Vilkårstype.Sykepengegrunnlag,
-                oppfylt: spleisVilkår.oppfyllerKravOmMinstelonn,
+                oppfylt: vilkår.oppfyllerKravOmMinstelonn,
                 tittel: 'Krav til minste sykepengegrunnlag',
                 paragraf: harEndretParagraf ? (
                     <EndretParagrafContainer />
@@ -59,16 +67,14 @@ const sykepengegrunnlag = (alderVedSkjæringstidspunkt: number, vilkår: Vilkars
                 ),
                 komponent: (
                     <Sykepengegrunnlag
-                        sykepengegrunnlag={spleisVilkår.sykepengegrunnlag}
-                        grunnbeløp={spleisVilkår.grunnbelop}
+                        sykepengegrunnlag={vilkår.sykepengegrunnlag}
+                        grunnbeløp={vilkår.grunnbelop}
                         alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
                     />
                 ),
             };
         }
-        case 'INFOTRYGD':
-        case 'UKJENT':
-        default: {
+        case 'VilkarsgrunnlagInfotrygdV2': {
             return {
                 type: Vilkårstype.Sykepengegrunnlag,
                 tittel: 'Krav til minste sykepengegrunnlag',
@@ -80,19 +86,27 @@ const sykepengegrunnlag = (alderVedSkjæringstidspunkt: number, vilkår: Vilkars
     }
 };
 
-const medlemskap = (vilkårsgrunnlag: Vilkarsgrunnlag): Vilkårdata => {
-    switch (vilkårsgrunnlag.vilkarsgrunnlagtype) {
-        case 'SPLEIS': {
+const medlemskap = (vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2): Vilkårdata => {
+    switch (vilkårsgrunnlag.__typename) {
+        case 'VilkarsgrunnlagSpleisV2': {
+            const vurdering = (vilkarsgrunnlagVurdering: VilkarsgrunnlagVurdering): boolean | null => {
+                switch (vilkarsgrunnlagVurdering) {
+                    case VilkarsgrunnlagVurdering.Oppfylt:
+                        return true;
+                    case VilkarsgrunnlagVurdering.IkkeOppfylt:
+                        return false;
+                    case VilkarsgrunnlagVurdering.IkkeVurdert:
+                        return null;
+                }
+            };
             return {
                 type: Vilkårstype.Medlemskap,
-                oppfylt: (vilkårsgrunnlag as VilkarsgrunnlagSpleis).oppfyllerKravOmMedlemskap ?? null,
+                oppfylt: vurdering(vilkårsgrunnlag.vurderingAvKravOmMedlemskap),
                 tittel: 'Lovvalg og medlemskap',
                 komponent: null,
             };
         }
-        case 'INFOTRYGD':
-        case 'UKJENT':
-        default: {
+        case 'VilkarsgrunnlagInfotrygdV2': {
             return {
                 type: Vilkårstype.Medlemskap,
                 oppfylt: true,
@@ -112,11 +126,11 @@ export interface KategoriserteVilkår {
 }
 
 export const kategoriserteInngangsvilkår = (
-    vilkårsgrunnlag: Vilkarsgrunnlag,
+    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
     alderVedSkjæringstidspunkt: number,
     vurdering?: Maybe<Vurdering>,
 ): KategoriserteVilkår => {
-    const vurdertIInfotrygd = vilkårsgrunnlag.vilkarsgrunnlagtype === 'INFOTRYGD';
+    const vurdertIInfotrygd = vilkårsgrunnlag.__typename === 'VilkarsgrunnlagInfotrygdV2';
     const vurdertISpleis = !vurdertIInfotrygd && vurdering;
     const ikkeVurdert = !vurdertIInfotrygd && !vurdertISpleis;
 

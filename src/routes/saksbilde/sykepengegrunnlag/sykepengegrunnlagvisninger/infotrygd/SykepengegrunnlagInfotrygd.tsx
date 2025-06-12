@@ -5,14 +5,14 @@ import { BodyShort, Table } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygd } from '@io/graphql';
+import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygdV2 } from '@io/graphql';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
 import styles from './SykepengegrunnlagFraInfotrygd.module.css';
 
 interface SykepengegrunnlagInfotrygdProps {
-    vilkårsgrunnlag: VilkarsgrunnlagInfotrygd;
+    vilkårsgrunnlag: VilkarsgrunnlagInfotrygdV2;
     organisasjonsnummer: string;
     arbeidsgivernavn?: string;
 }

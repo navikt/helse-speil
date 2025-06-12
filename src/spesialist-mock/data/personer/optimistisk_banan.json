@@ -269,11 +269,11 @@
                     "oppfyllerKravOmOpptjening": true,
                     "antallOpptjeningsdagerErMinst": 3422,
                     "grunnbelop": 111477,
-                    "beregningsgrunnlag": 469836,
+                    "beregningsgrunnlag": "469836",
                     "avviksvurdering": {
-                        "avviksprosent": 2.365410495184309,
-                        "sammenligningsgrunnlag": 481218.8,
-                        "beregningsgrunnlag": 469836
+                        "avviksprosent": "2.365410495184309",
+                        "sammenligningsgrunnlag": "481218.8",
+                        "beregningsgrunnlag": "469836"
                     },
                     "opptjeningFra": "2013-03-26",
                     "sykepengegrunnlagsgrense": {
@@ -321,11 +321,11 @@
                     "oppfyllerKravOmOpptjening": true,
                     "antallOpptjeningsdagerErMinst": 3422,
                     "grunnbelop": 111477,
-                    "beregningsgrunnlag": 491964,
+                    "beregningsgrunnlag": "491964",
                     "avviksvurdering": {
-                        "avviksprosent": 2.2329135935670035,
-                        "sammenligningsgrunnlag": 481218.8,
-                        "beregningsgrunnlag": 491964
+                        "avviksprosent": "2.2329135935670035",
+                        "sammenligningsgrunnlag": "481218.8",
+                        "beregningsgrunnlag": "491964"
                     },
                     "opptjeningFra": "2013-03-26",
                     "sykepengegrunnlagsgrense": {

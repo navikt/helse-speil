@@ -12,7 +12,7 @@ import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
 describe('getRequiredVilkårsgrunnlag', () => {
     it('returnerer vilkårsgrunnlaget for gitt id hvis den finnes', () => {
         const grunnlag = etVilkårsgrunnlagFraSpleis();
-        const person = enPerson({ vilkarsgrunnlag: [grunnlag] }) as unknown as PersonFragment;
+        const person = enPerson({ vilkarsgrunnlagV2: [grunnlag] }) as unknown as PersonFragment;
 
         expect(getRequiredVilkårsgrunnlag(person, grunnlag.id)).toEqual(grunnlag);
     });

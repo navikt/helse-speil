@@ -8,7 +8,7 @@ import {
     OmregnetArsinntekt,
     OverstyringFragment,
     PersonFragment,
-    VilkarsgrunnlagSpleis,
+    VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
 import { useEndringerForPeriode, useLokaleRefusjonsopplysninger, useLokaltMånedsbeløp } from '@state/arbeidsgiver';
 import { getVilkårsgrunnlag } from '@state/utils';
@@ -60,7 +60,10 @@ export const InntektOgRefusjonVisning = ({
     const erGhostperiode = isGhostPeriode(periode);
     const erInntektskildeAordningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
     const skalVise12mnd828 =
-        ((getVilkårsgrunnlag(person, vilkårsgrunnlagId) as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) > 25;
+        Number(
+            (getVilkårsgrunnlag(person, vilkårsgrunnlagId) as VilkarsgrunnlagSpleisV2)?.avviksvurdering
+                ?.avviksprosent ?? 0,
+        ) > 25;
 
     function finnInntektFraAOrdningen(): InntektFraAOrdningen[] | undefined {
         if (

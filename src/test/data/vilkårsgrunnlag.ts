@@ -2,8 +2,9 @@ import { nanoid } from 'nanoid';
 
 import {
     Arbeidsgiverinntekt,
-    Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment,
-    Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment,
+    VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment,
+    VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment,
+    VilkarsgrunnlagVurdering,
     Vilkarsgrunnlagtype,
 } from '@io/graphql';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
@@ -12,26 +13,30 @@ import { OverridableConstructor } from '@typer/shared';
 type VilkarsgrunnlagSpleisExtensions = {
     medInntekter: (
         inntekter: Array<Arbeidsgiverinntekt>,
-    ) => Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment & VilkarsgrunnlagSpleisExtensions;
+    ) => VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment & VilkarsgrunnlagSpleisExtensions;
 };
 
 export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
-    Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment,
+    VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment,
     VilkarsgrunnlagSpleisExtensions
 > = (overrides) => ({
-    __typename: 'VilkarsgrunnlagSpleis',
+    __typename: 'VilkarsgrunnlagSpleisV2',
     id: nanoid(),
     antallOpptjeningsdagerErMinst: 1234,
     arbeidsgiverrefusjoner: [],
-    avviksprosent: 0,
+    avviksvurdering: {
+        __typename: 'VilkarsgrunnlagAvviksvurdering',
+        avviksprosent: '0',
+        beregningsgrunnlag: '600000',
+        sammenligningsgrunnlag: '600000',
+    },
+    beregningsgrunnlag: '600000',
     grunnbelop: 100000,
     inntekter: [enArbeidsgiverinntekt()],
-    omregnetArsinntekt: 600000,
-    oppfyllerKravOmMedlemskap: true,
+    vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering.Oppfylt,
     oppfyllerKravOmMinstelonn: true,
     oppfyllerKravOmOpptjening: true,
     opptjeningFra: '2000-01-01',
-    sammenligningsgrunnlag: 600000,
     skjaeringstidspunkt: '2020-01-01',
     sykepengegrunnlag: 600000,
     skjonnsmessigFastsattAarlig: null,
@@ -50,9 +55,9 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
 });
 
 export const etVilkårsgrunnlagFraInfotrygd: OverridableConstructor<
-    Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment
+    VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment
 > = (overrides) => ({
-    __typename: 'VilkarsgrunnlagInfotrygd',
+    __typename: 'VilkarsgrunnlagInfotrygdV2',
     id: nanoid(),
     inntekter: [enArbeidsgiverinntekt()],
     omregnetArsinntekt: 600000,

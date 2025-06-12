@@ -7,7 +7,7 @@ import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
     PersonFragment,
-    VilkarsgrunnlagSpleis,
+    VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
 import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
 import { SykepengegrunnlagPanel } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/SykepengegrunnlagPanel';
@@ -16,7 +16,7 @@ import { getRequiredInntekt } from '@state/utils';
 import styles from './SykepengegrunnlagFraSpleis.module.css';
 
 interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement> {
-    vilkårsgrunnlag: VilkarsgrunnlagSpleis;
+    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2;
     organisasjonsnummer: string;
     person: PersonFragment;
     periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
@@ -41,9 +41,7 @@ export const SykepengegrunnlagFraSpleis = ({
             <SykepengegrunnlagPanel
                 inntekter={vilkårsgrunnlag.inntekter}
                 periode={periode}
-                omregnetÅrsinntekt={vilkårsgrunnlag.omregnetArsinntekt}
-                sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag}
-                avviksprosent={vilkårsgrunnlag.avviksprosent}
+                avviksvurdering={vilkårsgrunnlag.avviksvurdering}
                 sykepengegrunnlag={vilkårsgrunnlag.sykepengegrunnlag}
                 setAktivInntektskilde={setAktivInntektskilde}
                 aktivInntektskilde={aktivInntektskilde}

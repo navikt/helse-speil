@@ -1,4 +1,4 @@
-import { Inntektskilde, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { Inntektskilde, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
 import { useCurrentArbeidsgiver, usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
@@ -20,7 +20,7 @@ export const useSkalViseAvviksvarselSomFeil = () => {
 
     return (
         aktivPeriode?.skjaeringstidspunkt === periodeTilGodkjenning?.skjaeringstidspunkt &&
-        ((vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) >= 25 &&
+        Number((vilkårsgrunnlag as VilkarsgrunnlagSpleisV2)?.avviksvurdering?.avviksprosent ?? 0) >= 25 &&
         getPeriodState(periodeTilGodkjenning) !== 'tilSkjønnsfastsettelse' &&
         !harBlittSkjønnsmessigFastsatt
     );

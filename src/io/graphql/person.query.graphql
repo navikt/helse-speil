@@ -148,71 +148,8 @@ fragment arbeidsgiver on Arbeidsgiver {
     }
 }
 
-fragment vilkarsgrunnlag on Vilkarsgrunnlag {
-    id
-    sykepengegrunnlag
-    skjaeringstidspunkt
-    omregnetArsinntekt
-    inntekter {
-        sammenligningsgrunnlag {
-            belop
-            inntektFraAOrdningen {
-                maned
-                sum
-            }
-        }
-        omregnetArsinntekt {
-            inntektFraAOrdningen {
-                maned
-                sum
-            }
-            belop
-            manedsbelop
-            kilde
-        }
-        skjonnsmessigFastsatt {
-            inntektFraAOrdningen {
-                maned
-                sum
-            }
-            belop
-            manedsbelop
-            kilde
-        }
-        arbeidsgiver
-        deaktivert
-        fom
-        tom
-    }
-    arbeidsgiverrefusjoner {
-        arbeidsgiver
-        refusjonsopplysninger {
-            fom
-            tom
-            belop
-            meldingsreferanseId
-        }
-    }
-    vilkarsgrunnlagtype
-    ... on VilkarsgrunnlagSpleis {
-        sammenligningsgrunnlag
-        skjonnsmessigFastsattAarlig
-        oppfyllerKravOmMinstelonn
-        oppfyllerKravOmMedlemskap
-        oppfyllerKravOmOpptjening
-        antallOpptjeningsdagerErMinst
-        grunnbelop
-        avviksprosent
-        opptjeningFra
-        sykepengegrunnlagsgrense {
-            grunnbelop
-            grense
-            virkningstidspunkt
-        }
-    }
-}
-
 fragment vilkarsgrunnlagV2 on VilkarsgrunnlagV2 {
+    __typename
     id
     sykepengegrunnlag
     skjaeringstidspunkt
@@ -269,11 +206,15 @@ fragment vilkarsgrunnlagV2 on VilkarsgrunnlagV2 {
             grense
             virkningstidspunkt
         }
+        beregningsgrunnlag
         avviksvurdering {
             avviksprosent
             beregningsgrunnlag
             sammenligningsgrunnlag
         }
+    }
+    ... on VilkarsgrunnlagInfotrygdV2 {
+        omregnetArsinntekt
     }
 }
 
@@ -593,9 +534,6 @@ fragment person on Person {
         oid
     }
     versjon
-    vilkarsgrunnlag {
-        ...vilkarsgrunnlag
-    }
     vilkarsgrunnlagV2 {
         ...vilkarsgrunnlagV2
     }

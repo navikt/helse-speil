@@ -132,7 +132,7 @@ export const useOverstyrtInntektMetadata = (
         throw Error('Mangler data for å kunne overstyre inntekt.');
     }
 
-    const vilkårsgrunnlagRefusjonsopplysninger: Arbeidsgiverrefusjon | undefined = person.vilkarsgrunnlag
+    const vilkårsgrunnlagRefusjonsopplysninger: Arbeidsgiverrefusjon | undefined = person.vilkarsgrunnlagV2
         .filter((it) =>
             !isUberegnetPeriode(period)
                 ? it.id === period?.vilkarsgrunnlagId

@@ -16,5 +16,5 @@ export const possibleTypes: Record<string, string[]> = {
         'MinimumSykdomsgradOverstyring',
     ],
     Periode: ['BeregnetPeriode', 'UberegnetPeriode'],
-    Vilkarsgrunnlag: ['VilkarsgrunnlagInfotrygd', 'VilkarsgrunnlagSpleis'],
+    VilkarsgrunnlagV2: ['VilkarsgrunnlagInfotrygdV2', 'VilkarsgrunnlagSpleisV2'],
 };

@@ -4,7 +4,14 @@ import React, { ReactElement } from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { BeregnetPeriodeFragment, Maybe, PersonFragment, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
+import {
+    BeregnetPeriodeFragment,
+    Maybe,
+    PersonFragment,
+    VilkarsgrunnlagInfotrygdV2,
+    VilkarsgrunnlagSpleisV2,
+    Vurdering,
+} from '@io/graphql';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { Vilkårdata } from '@typer/vilkår';
@@ -23,7 +30,7 @@ const harVilkår = (vilkår?: Array<Vilkårdata>): vilkår is Array<Vilkårdata>
 
 interface InngangsvilkårWithContentProps {
     periodeFom: DateString;
-    vilkårsgrunnlag: Vilkarsgrunnlag;
+    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
     fødselsdato: DateString;
     vurdering?: Maybe<Vurdering>;
 }

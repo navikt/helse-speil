@@ -12,10 +12,6 @@ import {
     PersonFragment,
     Sykepengegrunnlagskjonnsfastsetting,
     UberegnetPeriodeFragment,
-    Vilkarsgrunnlag,
-    VilkarsgrunnlagInfotrygd,
-    VilkarsgrunnlagSpleis,
-    Vilkarsgrunnlagtype,
 } from '@io/graphql';
 import { InfotrygdPeriod } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
@@ -32,15 +28,6 @@ export const isGhostPeriode = (period?: Maybe<TimelinePeriod>): period is GhostP
 
 export const isUberegnetPeriode = (period?: Maybe<TimelinePeriod>): period is UberegnetPeriodeFragment =>
     (period as UberegnetPeriodeFragment)?.__typename === 'UberegnetPeriode';
-
-export const isSpleisVilkarsgrunnlag = (
-    vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>,
-): vilkårsgrunnlag is VilkarsgrunnlagSpleis => vilkårsgrunnlag?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;
-
-export const isInfotrygdVilkarsgrunnlag = (
-    vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>,
-): vilkårsgrunnlag is VilkarsgrunnlagInfotrygd =>
-    vilkårsgrunnlag?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Infotrygd;
 
 export const isDagoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Dagoverstyring =>
     (overstyring as Dagoverstyring)?.__typename === 'Dagoverstyring';

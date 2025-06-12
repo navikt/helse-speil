@@ -4,7 +4,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { Alert, Box } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Arbeidsgiverinntekt, Inntektskilde, Maybe, PersonFragment, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { Arbeidsgiverinntekt, Inntektskilde, Maybe, PersonFragment, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import {
     useArbeidsgiver,
@@ -71,7 +71,7 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<Rea
     const refusjon = mapOgSorterRefusjoner(inntektsmeldinghendelser, arbeidsgiverrefusjon?.refusjonsopplysninger ?? []);
 
     const inntekterForSammenligningsgrunnlag =
-        ((vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent ?? 0) > 25
+        Number((vilkårsgrunnlag as VilkarsgrunnlagSpleisV2)?.avviksvurdering?.avviksprosent ?? 0) > 25
             ? inntekt.sammenligningsgrunnlag?.inntektFraAOrdningen
             : [];
 

@@ -1,4 +1,4 @@
-import { createStore } from 'jotai/index';
+import { createStore } from 'jotai';
 import React from 'react';
 
 import { SkjønnsfastsettingMal } from '@external/sanity';
@@ -39,7 +39,7 @@ describe('SkjønnsfastsettingForm', () => {
         enArbeidsgiverinntekt({ arbeidsgiver: arbeidsgiver3.organisasjonsnummer, deaktivert: true }),
     ]);
     const person = enPerson({
-        vilkarsgrunnlag: [vilkårsgrunnlag],
+        vilkarsgrunnlagV2: [vilkårsgrunnlag],
         arbeidsgivere: [arbeidsgiver, arbeidsgiver2, arbeidsgiver3],
     });
 
@@ -89,8 +89,8 @@ describe('SkjønnsfastsettingForm', () => {
                 person={person}
                 periode={periode}
                 inntekter={vilkårsgrunnlag.inntekter}
-                omregnetÅrsinntekt={vilkårsgrunnlag.omregnetArsinntekt}
-                sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag ?? 0}
+                omregnetÅrsinntekt={Number(vilkårsgrunnlag.avviksvurdering!.beregningsgrunnlag)}
+                sammenligningsgrunnlag={Number(vilkårsgrunnlag.avviksvurdering!.sammenligningsgrunnlag)}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 onEndretSykepengegrunnlag={jest.fn}
                 closeAndResetForm={jest.fn()}
@@ -109,8 +109,8 @@ describe('SkjønnsfastsettingForm', () => {
                 person={person}
                 periode={periode}
                 inntekter={vilkårsgrunnlag.inntekter}
-                omregnetÅrsinntekt={vilkårsgrunnlag.omregnetArsinntekt}
-                sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag ?? 0}
+                omregnetÅrsinntekt={Number(vilkårsgrunnlag.avviksvurdering!.beregningsgrunnlag)}
+                sammenligningsgrunnlag={Number(vilkårsgrunnlag.avviksvurdering!.sammenligningsgrunnlag)}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 onEndretSykepengegrunnlag={jest.fn}
                 closeAndResetForm={jest.fn()}
@@ -135,8 +135,8 @@ describe('SkjønnsfastsettingForm', () => {
                 person={person}
                 periode={periode}
                 inntekter={vilkårsgrunnlag.inntekter}
-                omregnetÅrsinntekt={vilkårsgrunnlag.omregnetArsinntekt}
-                sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag ?? 0}
+                omregnetÅrsinntekt={Number(vilkårsgrunnlag.avviksvurdering!.beregningsgrunnlag)}
+                sammenligningsgrunnlag={Number(vilkårsgrunnlag.avviksvurdering!.sammenligningsgrunnlag)}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 onEndretSykepengegrunnlag={jest.fn}
                 closeAndResetForm={jest.fn()}
@@ -177,8 +177,8 @@ describe('SkjønnsfastsettingForm', () => {
                 person={person}
                 periode={periode}
                 inntekter={vilkårsgrunnlag.inntekter}
-                omregnetÅrsinntekt={vilkårsgrunnlag.omregnetArsinntekt}
-                sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag ?? 0}
+                omregnetÅrsinntekt={Number(vilkårsgrunnlag.avviksvurdering!.beregningsgrunnlag)}
+                sammenligningsgrunnlag={Number(vilkårsgrunnlag.avviksvurdering!.sammenligningsgrunnlag)}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 onEndretSykepengegrunnlag={jest.fn}
                 closeAndResetForm={jest.fn()}
@@ -213,7 +213,7 @@ describe('SkjønnsfastsettingForm', () => {
                 person={person}
                 periode={periode}
                 inntekter={vilkårsgrunnlag.inntekter}
-                omregnetÅrsinntekt={vilkårsgrunnlag.omregnetArsinntekt}
+                omregnetÅrsinntekt={Number(vilkårsgrunnlag.avviksvurdering!.beregningsgrunnlag)}
                 sammenligningsgrunnlag={100000}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 onEndretSykepengegrunnlag={jest.fn}
