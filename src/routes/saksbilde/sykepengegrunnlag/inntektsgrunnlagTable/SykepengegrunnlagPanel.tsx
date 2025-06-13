@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
-import { Alert } from '@navikt/ds-react';
+import { Alert, Box } from '@navikt/ds-react';
 
 import {
     ArbeidsgiverFragment,
@@ -97,7 +97,11 @@ export const SykepengegrunnlagPanel = ({
                     />
                 </>
             ) : (
-                <Alert variant="warning">Avviksvudering er ikke utført enda. Prøv igjen senere.</Alert>
+                <Box width="655px" padding="4">
+                    <Alert variant="warning">
+                        Avviksvurdering er enda ikke utført av systemet. Sykepengegrunnlag kan ikke vises.
+                    </Alert>
+                </Box>
             )}
         </div>
     );
