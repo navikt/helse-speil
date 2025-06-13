@@ -18,7 +18,6 @@ describe('Saksbildevarsler', () => {
                 periodState="utbetalingFeilet"
                 harTotrinnsvurdering={false}
                 harTilkommenInntektEndring={false}
-                manglerAvviksvurdering={false}
             />,
         );
         expect(screen.getByText('Utbetalingen feilet.')).toBeVisible();
@@ -29,7 +28,6 @@ describe('Saksbildevarsler', () => {
                 periodState="venterPåInntektsopplysninger"
                 harTotrinnsvurdering={false}
                 harTilkommenInntektEndring={false}
-                manglerAvviksvurdering={false}
             />,
         );
         expect(screen.getByText('Ikke klar til behandling - venter på inntektsmelding')).toBeVisible();
@@ -40,7 +38,6 @@ describe('Saksbildevarsler', () => {
                 periodState="annulleringFeilet"
                 harTotrinnsvurdering={false}
                 harTilkommenInntektEndring={false}
-                manglerAvviksvurdering={false}
             />,
         );
         expect(screen.getByText('Annulleringen feilet. Kontakt utviklerteamet.')).toBeVisible();
@@ -51,7 +48,6 @@ describe('Saksbildevarsler', () => {
                 periodState="tilGodkjenning"
                 harTotrinnsvurdering={false}
                 harTilkommenInntektEndring={false}
-                manglerAvviksvurdering={false}
             />,
         );
         expect(
@@ -62,27 +58,9 @@ describe('Saksbildevarsler', () => {
     });
     test('viser feilvarsel om vedtaksperioden har en ukjent tilstand', () => {
         render(
-            <Saksbildevarsler
-                periodState="ukjent"
-                harTotrinnsvurdering={false}
-                harTilkommenInntektEndring={false}
-                manglerAvviksvurdering={false}
-            />,
+            <Saksbildevarsler periodState="ukjent" harTotrinnsvurdering={false} harTilkommenInntektEndring={false} />,
         );
         expect(screen.getByText('Kunne ikke lese informasjon om sakens tilstand.')).toBeVisible();
-    });
-    test('viser feilvarsel om at avviksvurdering mangler for periode', () => {
-        render(
-            <Saksbildevarsler
-                periodState="tilGodkjenning"
-                harTotrinnsvurdering={false}
-                harTilkommenInntektEndring={false}
-                manglerAvviksvurdering={true}
-            />,
-        );
-        expect(
-            screen.getByText('Systemet er ikke ferdig med avviksvurdering. Perioden kan ikke behandles enda.'),
-        ).toBeVisible();
     });
     test('viser varsler', () => {
         render(
@@ -114,7 +92,6 @@ describe('Saksbildevarsler', () => {
                 ]}
                 harTotrinnsvurdering={false}
                 harTilkommenInntektEndring={false}
-                manglerAvviksvurdering={false}
             />,
         );
         expect(screen.getByText('Dette er en aktivitet')).toBeVisible();
@@ -128,7 +105,6 @@ describe('Saksbildevarsler', () => {
                 varsler={[]}
                 harTotrinnsvurdering={true}
                 harTilkommenInntektEndring={true}
-                manglerAvviksvurdering={false}
             />,
         );
         const kontrollerElement = screen.getByText('Kontroller:');

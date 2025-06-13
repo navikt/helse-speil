@@ -79,7 +79,6 @@ export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
                 skjæringstidspunkt={periode.skjaeringstidspunkt}
                 harTotrinnsvurdering={false}
                 harTilkommenInntektEndring={false}
-                manglerAvviksvurdering={false}
             />
         );
     } else {
@@ -128,14 +127,6 @@ const BeregnetSaksbildevarsler = ({ person, periode, harTilkommenInntektEndring 
         periode.vedtaksperiodeId,
     );
 
-    const vilkarsgrunnlag = person.vilkarsgrunnlagV2.find(
-        (vilkarsgrunnlag) => vilkarsgrunnlag.id === periode.vilkarsgrunnlagId,
-    );
-    const manglerAvviksvurdering =
-        vilkarsgrunnlag !== undefined &&
-        vilkarsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2' &&
-        vilkarsgrunnlag.avviksvurdering === null;
-
     return (
         <Saksbildevarsler
             periodState={getPeriodState(periode)}
@@ -150,7 +141,6 @@ const BeregnetSaksbildevarsler = ({ person, periode, harTilkommenInntektEndring 
             navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
             harTotrinnsvurdering={harTotrinnsvurdering}
             harTilkommenInntektEndring={harTilkommenInntektEndring}
-            manglerAvviksvurdering={manglerAvviksvurdering}
         />
     );
 };
@@ -180,7 +170,6 @@ const UberegnetSaksbildevarsler = ({ person, periode, harTilkommenInntektEndring
             navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
             harTotrinnsvurdering={harTotrinnsvurdering}
             harTilkommenInntektEndring={harTilkommenInntektEndring}
-            manglerAvviksvurdering={false}
         />
     );
 };
