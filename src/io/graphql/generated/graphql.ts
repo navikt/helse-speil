@@ -250,6 +250,7 @@ export type BeregnetPeriode = Periode & {
     oppgave: Maybe<OppgaveForPeriodevisning>;
     opprettet: Scalars['LocalDateTime']['output'];
     paVent: Maybe<PaVent>;
+    pensjonsgivendeInntekter: Array<PensjonsgivendeInntekt>;
     periodetilstand: Periodetilstand;
     periodetype: Periodetype;
     periodevilkar: Periodevilkar;
@@ -1087,6 +1088,12 @@ export type PaVentInfo = {
     tidsfrist: Scalars['LocalDate']['output'];
 };
 
+export type PensjonsgivendeInntekt = {
+    __typename: 'PensjonsgivendeInntekt';
+    arligBelop: Scalars['BigDecimal']['output'];
+    inntektsar: Scalars['Int']['output'];
+};
+
 export type Periode = {
     behandlingId: Scalars['UUID']['output'];
     erForkastet: Scalars['Boolean']['output'];
@@ -1181,7 +1188,6 @@ export type Person = {
     tildeling: Maybe<Tildeling>;
     tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>;
     versjon: Scalars['Int']['output'];
-    vilkarsgrunnlag: Array<Vilkarsgrunnlag>;
     vilkarsgrunnlagV2: Array<VilkarsgrunnlagV2>;
 };
 
@@ -1881,32 +1887,11 @@ export enum VedtakUtfall {
     Innvilgelse = 'INNVILGELSE',
 }
 
-export type Vilkarsgrunnlag = {
-    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
-    id: Scalars['UUID']['output'];
-    inntekter: Array<Arbeidsgiverinntekt>;
-    omregnetArsinntekt: Scalars['Float']['output'];
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    sykepengegrunnlag: Scalars['Float']['output'];
-    vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
-};
-
 export type VilkarsgrunnlagAvviksvurdering = {
     __typename: 'VilkarsgrunnlagAvviksvurdering';
     avviksprosent: Scalars['BigDecimal']['output'];
     beregningsgrunnlag: Scalars['BigDecimal']['output'];
     sammenligningsgrunnlag: Scalars['BigDecimal']['output'];
-};
-
-export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
-    __typename: 'VilkarsgrunnlagInfotrygd';
-    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
-    id: Scalars['UUID']['output'];
-    inntekter: Array<Arbeidsgiverinntekt>;
-    omregnetArsinntekt: Scalars['Float']['output'];
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    sykepengegrunnlag: Scalars['Float']['output'];
-    vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
 };
 
 export type VilkarsgrunnlagInfotrygdV2 = VilkarsgrunnlagV2 & {
@@ -1917,27 +1902,6 @@ export type VilkarsgrunnlagInfotrygdV2 = VilkarsgrunnlagV2 & {
     omregnetArsinntekt: Scalars['Float']['output'];
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     sykepengegrunnlag: Scalars['Float']['output'];
-};
-
-export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
-    __typename: 'VilkarsgrunnlagSpleis';
-    antallOpptjeningsdagerErMinst: Scalars['Int']['output'];
-    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
-    avviksprosent: Maybe<Scalars['Float']['output']>;
-    grunnbelop: Scalars['Int']['output'];
-    id: Scalars['UUID']['output'];
-    inntekter: Array<Arbeidsgiverinntekt>;
-    omregnetArsinntekt: Scalars['Float']['output'];
-    oppfyllerKravOmMedlemskap: Maybe<Scalars['Boolean']['output']>;
-    oppfyllerKravOmMinstelonn: Scalars['Boolean']['output'];
-    oppfyllerKravOmOpptjening: Scalars['Boolean']['output'];
-    opptjeningFra: Scalars['LocalDate']['output'];
-    sammenligningsgrunnlag: Maybe<Scalars['Float']['output']>;
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    skjonnsmessigFastsattAarlig: Maybe<Scalars['Float']['output']>;
-    sykepengegrunnlag: Scalars['Float']['output'];
-    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
-    vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
 };
 
 export type VilkarsgrunnlagSpleisV2 = VilkarsgrunnlagV2 & {
@@ -1971,12 +1935,6 @@ export enum VilkarsgrunnlagVurdering {
     IkkeOppfylt = 'IKKE_OPPFYLT',
     IkkeVurdert = 'IKKE_VURDERT',
     Oppfylt = 'OPPFYLT',
-}
-
-export enum Vilkarsgrunnlagtype {
-    Infotrygd = 'INFOTRYGD',
-    Spleis = 'SPLEIS',
-    Ukjent = 'UKJENT',
 }
 
 export enum Visningskriterium {
@@ -2910,6 +2868,11 @@ export type ArbeidsgiverFragment = {
                       arsaker: Array<string>;
                       begrunnelse: string | null;
                   } | null;
+                  pensjonsgivendeInntekter: Array<{
+                      __typename: 'PensjonsgivendeInntekt';
+                      arligBelop: string;
+                      inntektsar: number;
+                  }>;
                   tidslinje: Array<{
                       __typename: 'Dag';
                       dato: string;
@@ -3834,6 +3797,7 @@ export type BeregnetPeriodeFragment = {
         arsaker: Array<string>;
         begrunnelse: string | null;
     } | null;
+    pensjonsgivendeInntekter: Array<{ __typename: 'PensjonsgivendeInntekt'; arligBelop: string; inntektsar: number }>;
     tidslinje: Array<{
         __typename: 'Dag';
         dato: string;
@@ -4624,6 +4588,11 @@ export type PersonFragment = {
                           arsaker: Array<string>;
                           begrunnelse: string | null;
                       } | null;
+                      pensjonsgivendeInntekter: Array<{
+                          __typename: 'PensjonsgivendeInntekt';
+                          arligBelop: string;
+                          inntektsar: number;
+                      }>;
                       tidslinje: Array<{
                           __typename: 'Dag';
                           dato: string;
@@ -5488,6 +5457,11 @@ export type FetchPersonQuery = {
                               arsaker: Array<string>;
                               begrunnelse: string | null;
                           } | null;
+                          pensjonsgivendeInntekter: Array<{
+                              __typename: 'PensjonsgivendeInntekt';
+                              arligBelop: string;
+                              inntektsar: number;
+                          }>;
                           tidslinje: Array<{
                               __typename: 'Dag';
                               dato: string;
@@ -7381,6 +7355,17 @@ export const BeregnetPeriodeFragmentDoc = {
                             ],
                         },
                     },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pensjonsgivendeInntekter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'arligBelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'inntektsar' } },
+                            ],
+                        },
+                    },
                     { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
                 ],
             },
@@ -8772,6 +8757,17 @@ export const ArbeidsgiverFragmentDoc = {
                             ],
                         },
                     },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pensjonsgivendeInntekter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'arligBelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'inntektsar' } },
+                            ],
+                        },
+                    },
                     { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
                 ],
             },
@@ -9854,6 +9850,17 @@ export const PersonFragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pensjonsgivendeInntekter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'arligBelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'inntektsar' } },
                             ],
                         },
                     },
@@ -12923,6 +12930,17 @@ export const FetchPersonDocument = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pensjonsgivendeInntekter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'arligBelop' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'inntektsar' } },
                             ],
                         },
                     },

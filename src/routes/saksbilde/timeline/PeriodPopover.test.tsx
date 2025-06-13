@@ -84,6 +84,7 @@ const getFetchedBeregnetPeriode = (
         oppgave: null,
         forbrukteSykedager: null,
         risikovurdering: null,
+        pensjonsgivendeInntekter: [],
     };
 };
 

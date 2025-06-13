@@ -75,6 +75,7 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
         paVent: null,
         totrinnsvurdering: null,
         vilkarsgrunnlagId: null,
+        pensjonsgivendeInntekter: [],
     };
 };
 

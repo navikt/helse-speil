@@ -400,6 +400,10 @@ fragment beregnetPeriode on BeregnetPeriode {
         arsaker
         begrunnelse
     }
+    pensjonsgivendeInntekter {
+        arligBelop
+        inntektsar
+    }
     ...periode
 }
 

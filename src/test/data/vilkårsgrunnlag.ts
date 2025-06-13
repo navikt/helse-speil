@@ -5,7 +5,6 @@ import {
     VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment,
     VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment,
     VilkarsgrunnlagVurdering,
-    Vilkarsgrunnlagtype,
 } from '@io/graphql';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
 import { OverridableConstructor } from '@typer/shared';
@@ -46,7 +45,6 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
         grunnbelop: 100000,
         virkningstidspunkt: '2020-01-01',
     },
-    vilkarsgrunnlagtype: Vilkarsgrunnlagtype.Spleis,
     ...overrides,
     medInntekter(inntekter) {
         this.inntekter = inntekter;
@@ -64,7 +62,6 @@ export const etVilkårsgrunnlagFraInfotrygd: OverridableConstructor<
     sammenligningsgrunnlag: 600000,
     skjaeringstidspunkt: '2020-01-01',
     sykepengegrunnlag: 600000,
-    vilkarsgrunnlagtype: Vilkarsgrunnlagtype.Infotrygd,
     arbeidsgiverrefusjoner: [],
     ...overrides,
 });
