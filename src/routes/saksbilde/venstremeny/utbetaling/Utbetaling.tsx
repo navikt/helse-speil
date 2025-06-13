@@ -105,14 +105,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
     const trengerTotrinnsvurdering =
         isBeregnetPeriode(period) && period.totrinnsvurdering && !period.totrinnsvurdering.erBeslutteroppgave;
 
-    const vilkarsgrunnlag = person.vilkarsgrunnlagV2.find(
-        (vilkarsgrunnlag) => vilkarsgrunnlag.id === period.vilkarsgrunnlagId,
-    );
-    const manglerAvviksvurdering =
-        vilkarsgrunnlag !== undefined &&
-        vilkarsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2' &&
-        vilkarsgrunnlag.avviksvurdering === null;
-
     return (
         <Box
             background={vedtakBegrunnelseTekst !== '' ? 'bg-subtle' : 'surface-transparent'}
@@ -140,8 +132,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                                 calculating ||
                                 periodenErSendt ||
                                 harUvurderteVarslerPåUtbetaling ||
-                                lokaleInntektoverstyringer.aktørId !== null ||
-                                manglerAvviksvurdering
+                                lokaleInntektoverstyringer.aktørId !== null
                             }
                             onSuccess={onSendTilGodkjenning}
                             vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
@@ -160,8 +151,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                                 calculating ||
                                 periodenErSendt ||
                                 harUvurderteVarslerPåUtbetaling ||
-                                lokaleInntektoverstyringer.aktørId !== null ||
-                                manglerAvviksvurdering
+                                lokaleInntektoverstyringer.aktørId !== null
                             }
                             onSuccess={onGodkjennUtbetaling}
                             vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
