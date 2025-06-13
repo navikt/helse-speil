@@ -453,9 +453,9 @@ const getResolvers = (): IResolvers => ({
             return periode.beregningId ? 'BeregnetPeriode' : 'UberegnetPeriode';
         },
     },
-    Vilkarsgrunnlag: {
+    VilkarsgrunnlagV2: {
         __resolveType: (grunnlag: { grunnbelop?: number }) => {
-            return typeof grunnlag.grunnbelop === 'number' ? 'VilkarsgrunnlagSpleis' : 'VilkarsgrunnlagInfotrygd';
+            return typeof grunnlag.grunnbelop === 'number' ? 'VilkarsgrunnlagSpleisV2' : 'VilkarsgrunnlagInfotrygdV2';
         },
     },
     Hendelse: {
