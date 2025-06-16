@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+import dayjs from 'dayjs';
 
 import { Maybe } from '@io/graphql';
 
@@ -34,6 +35,7 @@ const genererTilfeldigeBehandledeOppgaver = (antall: number) => {
         oppgaver.push(tilfeldigBehandletOppgave(startId++));
         n++;
     }
+    oppgaver.sort((a, b) => dayjs(a.ferdigstiltTidspunkt).diff(dayjs(b.ferdigstiltTidspunkt)));
     return oppgaver;
 };
 
@@ -92,7 +94,11 @@ const tilfeldigBehandletOppgave = (oppgaveId: number): BehandletOppgave =>
         periodetype: tilfeldigElementFraEnum(Periodetype),
         antallArbeidsforhold: tilfeldigElementFraEnum(AntallArbeidsforhold),
         ferdigstiltAv: Math.random() > 0.2 ? 'Utvikler, Lokal' : 'Saksbehandler, Annen',
-        ferdigstiltTidspunkt: new Date(Date.now() - Math.random() * 10000000).toISOString(),
+        ferdigstiltTidspunkt: dayjs()
+            .subtract(Math.random() * 3, 'day')
+            .set('hour', 6 + Math.random() * 9)
+            .set('minute', Math.random() * 59)
+            .toISOString(),
         personnavn: {
             fornavn: tilfeldigFornavn(),
             mellomnavn: tilfeldigMellomnavn(),
