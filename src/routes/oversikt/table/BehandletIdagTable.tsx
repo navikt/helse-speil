@@ -7,6 +7,7 @@ import { DatePicker, HStack, Table, VStack, useDatepicker } from '@navikt/ds-rea
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { HeaderCell } from '@oversikt/table/oppgaverTable/HeaderCell';
 import { IngenMatchendeFiltre } from '@oversikt/table/oppgaverTable/IngenMatchendeFiltre';
+import { useCurrentPageState } from '@oversikt/table/state/pagination';
 import { useBehandledeOppgaverFeed } from '@state/behandledeOppgaver';
 
 import { LinkRow } from './LinkRow';
@@ -21,12 +22,14 @@ import styles from './table.module.css';
 
 export const BehandletIdagTable = (): ReactElement => {
     const { oppgaver, antallOppgaver, error, loading, fetchMore, refetch } = useBehandledeOppgaverFeed();
+    const [_, setCurrentPage] = useCurrentPageState();
 
     const harIkkeHentetOppgaverForGjeldendeQuery = oppgaver === undefined && loading;
 
     const fomDatePicker = useDatepicker({
         defaultSelected: new Date(),
         onDateChange: (dato) => {
+            setCurrentPage(1);
             refetch(dayjs(dato), dayjs(tomDatePicker.selectedDay));
         },
     });
@@ -34,6 +37,7 @@ export const BehandletIdagTable = (): ReactElement => {
     const tomDatePicker = useDatepicker({
         defaultSelected: new Date(),
         onDateChange: (dato) => {
+            setCurrentPage(1);
             refetch(dayjs(fomDatePicker.selectedDay), dayjs(dato));
         },
     });
