@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 import { ApolloError, useQuery } from '@apollo/client';
 import { BehandledeOppgaverFeedDocument, BehandletOppgave } from '@io/graphql';
@@ -12,7 +12,7 @@ interface BehandledeOppgaverResponse {
     loading: boolean;
     antallOppgaver: number;
     fetchMore: ({ variables }: FetchMoreArgs) => void;
-    refetch: (fom?: string, tom?: string) => void;
+    refetch: (fom: Dayjs, tom: Dayjs) => void;
 }
 
 export const useBehandledeOppgaverFeed = (): BehandledeOppgaverResponse => {
@@ -37,6 +37,6 @@ export const useBehandledeOppgaverFeed = (): BehandledeOppgaverResponse => {
         error,
         loading,
         fetchMore,
-        refetch: (fom, tom) => refetch({ fom, tom }),
+        refetch: (fom, tom) => refetch({ fom: fom.format(ISO_DATOFORMAT), tom: tom.format(ISO_DATOFORMAT) }),
     };
 };

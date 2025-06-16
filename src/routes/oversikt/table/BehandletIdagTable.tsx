@@ -8,7 +8,6 @@ import { useLoadingToast } from '@hooks/useLoadingToast';
 import { HeaderCell } from '@oversikt/table/oppgaverTable/HeaderCell';
 import { IngenMatchendeFiltre } from '@oversikt/table/oppgaverTable/IngenMatchendeFiltre';
 import { useBehandledeOppgaverFeed } from '@state/behandledeOppgaver';
-import { ISO_DATOFORMAT } from '@utils/date';
 
 import { LinkRow } from './LinkRow';
 import { OppgaverTableError } from './OppgaverTableError';
@@ -28,14 +27,14 @@ export const BehandletIdagTable = (): ReactElement => {
     const fomDatePicker = useDatepicker({
         defaultSelected: new Date(),
         onDateChange: (dato) => {
-            refetch(dayjs(dato).format(ISO_DATOFORMAT), dayjs(tomDatePicker.selectedDay).format(ISO_DATOFORMAT));
+            refetch(dayjs(dato), dayjs(tomDatePicker.selectedDay));
         },
     });
 
     const tomDatePicker = useDatepicker({
         defaultSelected: new Date(),
         onDateChange: (dato) => {
-            refetch(dayjs(fomDatePicker.selectedDay).format(ISO_DATOFORMAT), dayjs(dato).format(ISO_DATOFORMAT));
+            refetch(dayjs(fomDatePicker.selectedDay), dayjs(dato));
         },
     });
 
