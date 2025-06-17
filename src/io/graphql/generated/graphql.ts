@@ -1216,7 +1216,6 @@ export type Query = {
     __typename: 'Query';
     antallOppgaver: AntallOppgaver;
     behandledeOppgaverFeed: BehandledeOppgaver;
-    behandledeOppgaverFeedV2: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentInntektsmelding: Maybe<DokumentInntektsmelding>;
     hentSoknad: Maybe<Soknad>;
@@ -1229,11 +1228,6 @@ export type Query = {
 };
 
 export type QueryBehandledeOppgaverFeedArgs = {
-    limit: Scalars['Int']['input'];
-    offset: Scalars['Int']['input'];
-};
-
-export type QueryBehandledeOppgaverFeedV2Args = {
     fom: Scalars['LocalDate']['input'];
     limit: Scalars['Int']['input'];
     offset: Scalars['Int']['input'];
@@ -1974,7 +1968,7 @@ export type BehandledeOppgaverFeedQueryVariables = Exact<{
 
 export type BehandledeOppgaverFeedQuery = {
     __typename: 'Query';
-    behandledeOppgaverFeedV2: {
+    behandledeOppgaverFeed: {
         __typename: 'BehandledeOppgaver';
         totaltAntallOppgaver: number;
         oppgaver: Array<{
@@ -10493,7 +10487,7 @@ export const BehandledeOppgaverFeedDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'behandledeOppgaverFeedV2' },
+                        name: { kind: 'Name', value: 'behandledeOppgaverFeed' },
                         arguments: [
                             {
                                 kind: 'Argument',

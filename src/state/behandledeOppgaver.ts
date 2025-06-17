@@ -29,10 +29,10 @@ export const useBehandledeOppgaverFeed = (): BehandledeOppgaverResponse => {
     });
 
     return {
-        oppgaver: data?.behandledeOppgaverFeedV2.oppgaver ?? previousData?.behandledeOppgaverFeedV2.oppgaver,
+        oppgaver: data?.behandledeOppgaverFeed.oppgaver ?? previousData?.behandledeOppgaverFeed.oppgaver,
         antallOppgaver:
-            data?.behandledeOppgaverFeedV2.totaltAntallOppgaver ??
-            previousData?.behandledeOppgaverFeedV2.totaltAntallOppgaver ??
+            data?.behandledeOppgaverFeed.totaltAntallOppgaver ??
+            previousData?.behandledeOppgaverFeed.totaltAntallOppgaver ??
             0,
         error,
         loading,

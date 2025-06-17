@@ -1214,7 +1214,6 @@ export type Query = {
     __typename?: 'Query';
     antallOppgaver: AntallOppgaver;
     behandledeOppgaverFeed: BehandledeOppgaver;
-    behandledeOppgaverFeedV2: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentInntektsmelding?: Maybe<DokumentInntektsmelding>;
     hentSoknad?: Maybe<Soknad>;
@@ -1227,11 +1226,6 @@ export type Query = {
 };
 
 export type QueryBehandledeOppgaverFeedArgs = {
-    limit: Scalars['Int']['input'];
-    offset: Scalars['Int']['input'];
-};
-
-export type QueryBehandledeOppgaverFeedV2Args = {
     fom: Scalars['LocalDate']['input'];
     limit: Scalars['Int']['input'];
     offset: Scalars['Int']['input'];

@@ -164,7 +164,7 @@ const getResolvers = (): IResolvers => ({
         tilkomneInntektskilderV2: async (_, { fodselsnummer }: { fodselsnummer: string }) => {
             return TilkommenInntektMock.tilkomneInntektskilderV2(fodselsnummer);
         },
-        behandledeOppgaverFeedV2: async (
+        behandledeOppgaverFeed: async (
             _,
             { offset, limit, fom, tom }: { offset: number; limit: number; fom: string; tom: string },
         ) => {

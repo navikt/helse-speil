@@ -65,7 +65,7 @@ const getTypePolicies = (): TypePolicies => {
                         };
                     },
                 },
-                behandledeOppgaverFeedV2: {
+                behandledeOppgaverFeed: {
                     keyArgs: [],
                     merge(_, incoming) {
                         const incomingOppgaver = incoming.oppgaver;

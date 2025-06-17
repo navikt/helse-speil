@@ -1,5 +1,5 @@
 query BehandledeOppgaverFeed($offset: Int!, $limit: Int!, $fom: LocalDate!, $tom: LocalDate!) {
-    behandledeOppgaverFeedV2(offset: $offset, limit: $limit, fom: $fom, tom: $tom) {
+    behandledeOppgaverFeed(offset: $offset, limit: $limit, fom: $fom, tom: $tom) {
         oppgaver {
             id
             aktorId
