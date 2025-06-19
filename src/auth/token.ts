@@ -1,7 +1,7 @@
 import { IncomingMessage } from 'http';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { ZodError, z } from 'zod';
+import { ZodError, z } from 'zod/v4';
 
 import { getToken, requestAzureOboToken, validateAzureToken } from '@navikt/oasis';
 
@@ -62,7 +62,7 @@ export async function getTokenPayload(): Promise<TokenPayload> {
         if (e instanceof ZodError) {
             logger.sikker.error(
                 `Klarte ikke å parse payloaden fra tokenet til ${validationResult.payload.preferred_username}\n\n${`The following envs are missing: ${
-                    e.errors
+                    e.issues
                         .filter((it) => it.message === 'Required')
                         .map((it) => it.path.join('.'))
                         .join(', ') || 'None are missing, but zod is not happy. Look at cause'

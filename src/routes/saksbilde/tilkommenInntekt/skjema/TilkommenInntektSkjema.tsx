@@ -19,6 +19,7 @@ import {
 import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag, somNorskDato } from '@utils/date';
+import { isNumber } from '@utils/typeguards';
 
 interface TilkommenInntektProps {
     person: PersonFragment;
@@ -135,7 +136,9 @@ export const TilkommenInntektSkjema = ({
 
     const periodebeløp = form.watch('periodebeløp');
     const inntektPerDag =
-        gyldigPeriode !== undefined ? beregnInntektPerDag(periodebeløp, gyldigPeriode, ekskluderteUkedager) : undefined;
+        gyldigPeriode !== undefined
+            ? beregnInntektPerDag(isNumber(periodebeløp) ? periodebeløp : 0, gyldigPeriode, ekskluderteUkedager)
+            : undefined;
 
     return (
         <ErrorBoundary fallback={<TilkommenInntektError />}>

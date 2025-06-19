@@ -1,4 +1,4 @@
-import { SafeParseReturnType } from 'zod';
+import { ZodError } from 'zod/v4';
 
 import { lagTilkommenInntektSchema } from '@/form-schemas/index';
 
@@ -36,7 +36,7 @@ const validerTilkommenInntektSkjema = (
     });
 };
 
-const hentFeilmelding = (result: SafeParseReturnType<unknown, unknown>) => result.error?.errors[0]?.['message'];
+const hentFeilmelding = (result: { success: boolean; error?: ZodError }) => result.error?.issues[0]?.message;
 
 describe('tilkommenIkktekt skjemavalidering', () => {
     it('skal validere gyldig skjema', () => {

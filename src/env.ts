@@ -1,4 +1,4 @@
-import { ZodError, z } from 'zod';
+import { ZodError, z } from 'zod/v4';
 
 export type PublicEnv = z.infer<typeof browserEnvSchema>;
 export const browserEnvSchema = z.object({
@@ -65,7 +65,7 @@ export function getServerEnv(): ServerEnv & PublicEnv {
         if (e instanceof ZodError) {
             throw new Error(
                 `The following envs are missing: ${
-                    e.errors
+                    e.issues
                         .filter((it) => it.message === 'Required')
                         .map((it) => it.path.join('.'))
                         .join(', ') || 'None are missing, but zod is not happy. Look at cause'

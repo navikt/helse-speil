@@ -76,3 +76,7 @@ export const isArbeidsgiver = (arbeidsgiver?: Maybe<ArbeidsgiverFragment>): arbe
 export function isNotNullOrUndefined<T>(value: T): value is NonNullable<T> {
     return value != null;
 }
+
+export const isNumber = (aNumber: unknown): aNumber is number => {
+    return aNumber !== undefined && aNumber !== null && typeof aNumber === 'number';
+};
