@@ -11,7 +11,7 @@ import { capitalizeArbeidsgiver } from '@utils/locale';
 
 import styles from './Organisasjonsnavn.module.css';
 
-export const Organisasjonsnavn = ({
+const Organisasjonsnavn = ({
     organisasjonsnummer,
     weight,
     maxWidth,

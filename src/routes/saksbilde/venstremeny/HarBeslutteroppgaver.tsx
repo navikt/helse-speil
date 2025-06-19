@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { Alert, Button, Detail, Heading, List, VStack } from '@navikt/ds-react';
 
-import { Organisasjonsnavn } from '@components/Organisasjonsnavn';
+import { Arbeidsgivernavn } from '@components/Organisasjonsnavn';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { Maybe, PersonFragment } from '@io/graphql';
@@ -93,10 +93,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): May
                         <Detail>Tilkommen inntekt</Detail>
                         {endredeTilkomneInntektskilder.map((inntektskilde) => (
                             <React.Fragment key={inntektskilde.organisasjonsnummer}>
-                                <Organisasjonsnavn
-                                    organisasjonsnummer={inntektskilde.organisasjonsnummer}
-                                    weight="semibold"
-                                />
+                                <Arbeidsgivernavn identifikator={inntektskilde.organisasjonsnummer} weight="semibold" />
                                 <List as="ul" className={styles.periodeListe}>
                                     {inntektskilde.inntekter
                                         .filter((tilkommenInntekt) => tilkommenInntekt.erDelAvAktivTotrinnsvurdering)

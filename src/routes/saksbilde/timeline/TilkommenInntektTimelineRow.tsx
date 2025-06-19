@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 
 import { SackKronerIcon } from '@navikt/aksel-icons';
 
-import { Organisasjonsnavn } from '@components/Organisasjonsnavn';
+import { Arbeidsgivernavn } from '@components/Organisasjonsnavn';
 import { TilkommenInntekt } from '@io/graphql';
 import { TilkommenInntektPeriods } from '@saksbilde/timeline/TilkommenInntektPeriods';
 
@@ -26,7 +26,7 @@ export const TilkommenInntektTimelineRow = ({
     <div className={styles.TimelineRow}>
         <div className={classNames(styles.Name)}>
             <SackKronerIcon className={styles.arbeidsgiverIkon} />
-            <Organisasjonsnavn organisasjonsnummer={organisasjonsnummer} maxWidth="225px" showCopyButton />
+            <Arbeidsgivernavn identifikator={organisasjonsnummer} maxWidth="225px" showCopyButton />
         </div>
 
         <div className={styles.Periods}>
