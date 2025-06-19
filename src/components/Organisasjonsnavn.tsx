@@ -9,6 +9,8 @@ import { KopierAgNavn } from '@saksbilde/timeline/KopierAgNavn';
 import { useIsAnonymous } from '@state/anonymization';
 import { capitalizeArbeidsgiver } from '@utils/locale';
 
+import styles from './Organisasjonsnavn.module.css';
+
 export const Organisasjonsnavn = ({
     organisasjonsnummer,
     weight,
@@ -21,8 +23,7 @@ export const Organisasjonsnavn = ({
     showCopyButton?: boolean;
 }) => {
     const { loading, data } = useOrganisasjonQuery(organisasjonsnummer);
-    const isAnonymous = useIsAnonymous();
-    const navn = data?.organisasjon?.navn ? capitalizeArbeidsgiver(data.organisasjon.navn) : undefined;
+    const navn = data?.organisasjon?.navn ?? undefined;
 
     return loading ? (
         <Tooltip content="Henter navn fra enhetsregisteret...">
@@ -36,10 +37,58 @@ export const Organisasjonsnavn = ({
             </HStack>
         </Tooltip>
     ) : (
-        <Tooltip content={isAnonymous ? 'Arbeidsgiver' : navn}>
-            <HStack gap="2" maxWidth={maxWidth} wrap={false}>
-                <AnonymizableTextWithEllipsis weight={weight}>{navn}</AnonymizableTextWithEllipsis>
-                {showCopyButton && <KopierAgNavn navn={navn} />}
+        <ArbeidsgivernavnKjent navn={navn} weight={weight} maxWidth={maxWidth} showCopyButton={showCopyButton} />
+    );
+};
+
+export const Arbeidsgivernavn = ({
+    identifikator,
+    navn,
+    weight,
+    maxWidth,
+    showCopyButton,
+}: {
+    identifikator: string;
+    navn?: string;
+    weight?: 'regular' | 'semibold';
+    maxWidth?: string;
+    showCopyButton?: boolean;
+}) => {
+    if (identifikator === 'SELVSTENDIG') {
+        return <ArbeidsgivernavnKjent navn="Selvstendig næring" weight={weight} maxWidth={maxWidth} />;
+    } else if (navn !== undefined && navn !== 'navn er utilgjengelig') {
+        return (
+            <ArbeidsgivernavnKjent navn={navn} weight={weight} maxWidth={maxWidth} showCopyButton={showCopyButton} />
+        );
+    }
+    return (
+        <Organisasjonsnavn
+            organisasjonsnummer={identifikator}
+            weight={weight}
+            maxWidth={maxWidth}
+            showCopyButton={showCopyButton}
+        />
+    );
+};
+
+const ArbeidsgivernavnKjent = ({
+    navn,
+    weight,
+    maxWidth,
+    showCopyButton,
+}: {
+    navn: string;
+    weight?: 'regular' | 'semibold';
+    maxWidth?: string;
+    showCopyButton?: boolean;
+}) => {
+    const isAnonymous = useIsAnonymous();
+    const navnCapitalized = capitalizeArbeidsgiver(navn);
+    return (
+        <Tooltip content={isAnonymous ? 'Arbeidsgiver' : navnCapitalized}>
+            <HStack gap="2" maxWidth={maxWidth} wrap={false} className={styles.anonymisert}>
+                <AnonymizableTextWithEllipsis weight={weight}>{navnCapitalized}</AnonymizableTextWithEllipsis>
+                {showCopyButton && <KopierAgNavn navn={navnCapitalized} />}
             </HStack>
         </Tooltip>
     );

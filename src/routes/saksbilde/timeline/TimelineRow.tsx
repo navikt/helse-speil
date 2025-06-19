@@ -3,10 +3,9 @@ import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
-import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
+import { Arbeidsgivernavn } from '@components/Organisasjonsnavn';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { GhostPeriodeFragment, Maybe, PeriodeFragment, PersonFragment } from '@io/graphql';
-import { KopierAgNavn } from '@saksbilde/timeline/KopierAgNavn';
 import { TimelinePeriod } from '@typer/timeline';
 
 import { Periods } from './Periods';
@@ -17,6 +16,7 @@ export interface TimelineRowProps {
     start: Dayjs;
     end: Dayjs;
     name: string;
+    arbeidsgiverIdentifikator: string;
     periods: Array<PeriodeFragment>;
     activePeriod: Maybe<TimelinePeriod>;
     ghostPeriods?: Array<GhostPeriodeFragment>;
@@ -28,6 +28,7 @@ export const TimelineRow = ({
     start,
     end,
     name,
+    arbeidsgiverIdentifikator,
     periods,
     ghostPeriods,
     activePeriod,
@@ -36,13 +37,10 @@ export const TimelineRow = ({
 }: TimelineRowProps): ReactElement => {
     return (
         <div className={styles.TimelineRow}>
-            <ArbeidsgiverikonMedTooltip
-                tooltipTekst={name}
-                className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}
-            >
-                <AnonymizableTextWithEllipsis>{name}</AnonymizableTextWithEllipsis>
-                <KopierAgNavn navn={name} />
-            </ArbeidsgiverikonMedTooltip>
+            <div className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
+                <Arbeidsgiverikon alt="Arbeidsgiver" />
+                <Arbeidsgivernavn identifikator={arbeidsgiverIdentifikator} navn={name} showCopyButton />
+            </div>
             <div className={styles.Periods}>
                 <Periods
                     periods={periods}
