@@ -4,6 +4,7 @@ import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { BeregnetPeriodeFragment, GhostPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
+import { SykepengegrunnlagSelvstendig } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/SykepengegrunnlagSelvstendig';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 
 import { SykepengegrunnlagFraInfogtrygd } from './sykepengegrunnlagvisninger/infotrygd/SykepengegrunnlagFraInfotrygd';
@@ -23,7 +24,9 @@ const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps)
 
     switch (vilkårsgrunnlag?.__typename) {
         case 'VilkarsgrunnlagSpleisV2':
-            return (
+            return arbeidsgiver.organisasjonsnummer === 'SELVSTENDIG' ? (
+                <SykepengegrunnlagSelvstendig vilkårsgrunnlag={vilkårsgrunnlag} />
+            ) : (
                 <SykepengegrunnlagFraSpleis
                     vilkårsgrunnlag={vilkårsgrunnlag}
                     organisasjonsnummer={arbeidsgiver.organisasjonsnummer}

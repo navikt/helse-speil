@@ -1,0 +1,12 @@
+.Table td,
+.Table th {
+    border: none;
+}
+
+.SelvstendigNaeringRow {
+    background-color: var(--a-surface-selected);
+}
+
+.TotalRow {
+    border-top: 1px solid var(--a-text-default);
+}

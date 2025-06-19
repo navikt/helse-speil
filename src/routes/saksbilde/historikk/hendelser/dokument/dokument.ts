@@ -9,6 +9,7 @@ export type Kildetype =
     | 'Sykmelding'
     | 'Soknad'
     | 'Saksbehandler'
+    | 'Skatteetaten'
     | 'Ukjent';
 
 export const getKildetype = (dokumenttype: DokumenthendelseObject['dokumenttype']): Kildetype => {

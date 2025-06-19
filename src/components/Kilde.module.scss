@@ -51,4 +51,9 @@
       height: 12px !important;
     }
   }
+
+  &__skatteetaten {
+    background-color: var(--a-red-100);
+    border-color: var(--a-red-500);
+  }
 }

@@ -34,6 +34,8 @@ const finnCSSklasse = (type: KildeikonType) => {
         case 'Saksbehandler':
         case Inntektskilde.SkjonnsmessigFastsatt:
             return 'saksbehandler';
+        case 'Skatteetaten':
+            return 'skatteetaten';
         default:
             return '';
     }
@@ -61,6 +63,8 @@ const getKildeTypeTooltip = (kilde: KildeikonType): string => {
             return 'A-inntekt';
         case Inntektskilde.SkjonnsmessigFastsatt:
             return 'Skjønnsmessig fastsatt';
+        case 'Skatteetaten':
+            return 'Skatteetaten';
         default:
             return 'Ukjent';
     }
