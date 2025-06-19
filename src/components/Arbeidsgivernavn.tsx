@@ -110,9 +110,7 @@ const ArbeidsgivernavnKjent = ({
     );
 };
 
-export const capitalizeArbeidsgiver = (value: string) => {
-    if (value === 'navn er utilgjengelig') return value.charAt(0).toUpperCase() + value.slice(1);
-    return capitalizeName(value)
+export const capitalizeArbeidsgiver = (value: string) =>
+    capitalizeName(value)
         .replace(/\b(?:As|Asa|Sa|Da|Ba|Se|Fkf|Iks|Kf|Sf|Nuf)\b/, (t) => t.toUpperCase())
         .replaceAll(/\b(?:Og|I)\b/g, (t) => t.toLowerCase());
-};
