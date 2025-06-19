@@ -28,11 +28,16 @@ export const Arbeidsgivernavn = ({
         return <ArbeidsgivernavnKjent navn="Selvstendig næring" weight={weight} maxWidth={maxWidth} />;
     } else if (navn !== undefined && navn !== 'navn er utilgjengelig') {
         return (
-            <ArbeidsgivernavnKjent navn={navn} weight={weight} maxWidth={maxWidth} showCopyButton={showCopyButton} />
+            <ArbeidsgivernavnKjent
+                navn={capitalizeArbeidsgiver(navn)}
+                weight={weight}
+                maxWidth={maxWidth}
+                showCopyButton={showCopyButton}
+            />
         );
     }
     return (
-        <ArbeidsgivernavnUkjent
+        <ArbeidsgivernavnOppslag
             organisasjonsnummer={identifikator}
             weight={weight}
             maxWidth={maxWidth}
@@ -41,7 +46,7 @@ export const Arbeidsgivernavn = ({
     );
 };
 
-const ArbeidsgivernavnUkjent = ({
+const ArbeidsgivernavnOppslag = ({
     organisasjonsnummer,
     weight,
     maxWidth,
@@ -67,7 +72,12 @@ const ArbeidsgivernavnUkjent = ({
             </HStack>
         </Tooltip>
     ) : (
-        <ArbeidsgivernavnKjent navn={navn} weight={weight} maxWidth={maxWidth} showCopyButton={showCopyButton} />
+        <ArbeidsgivernavnKjent
+            navn={capitalizeArbeidsgiver(navn)}
+            weight={weight}
+            maxWidth={maxWidth}
+            showCopyButton={showCopyButton}
+        />
     );
 };
 
@@ -83,12 +93,11 @@ const ArbeidsgivernavnKjent = ({
     showCopyButton?: boolean;
 }) => {
     const isAnonymous = useIsAnonymous();
-    const navnCapitalized = capitalizeArbeidsgiver(navn);
     return (
-        <Tooltip content={isAnonymous ? 'Arbeidsgiver' : navnCapitalized}>
+        <Tooltip content={isAnonymous ? 'Arbeidsgiver' : navn}>
             <HStack gap="2" maxWidth={maxWidth} wrap={false} className={styles.anonymisert}>
-                <AnonymizableTextWithEllipsis weight={weight}>{navnCapitalized}</AnonymizableTextWithEllipsis>
-                {showCopyButton && <KopierAgNavn navn={navnCapitalized} />}
+                <AnonymizableTextWithEllipsis weight={weight}>{navn}</AnonymizableTextWithEllipsis>
+                {showCopyButton && <KopierAgNavn navn={navn} />}
             </HStack>
         </Tooltip>
     );
