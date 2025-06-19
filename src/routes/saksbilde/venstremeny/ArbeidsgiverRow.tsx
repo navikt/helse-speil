@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { Accordion, BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
@@ -89,13 +89,17 @@ const ArbeidsgiverRowView = ({
                 <Arbeidsgiverikon />
             </div>
             <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={navn} showCopyButton />
-            <div />
-            <HStack>
-                <AnonymizableText>{organisasjonsnummer}</AnonymizableText>
-                <Tooltip content="Kopier organisasjonsnummer">
-                    <CopyButton copyText={organisasjonsnummer} size="xsmall" />
-                </Tooltip>
-            </HStack>
+            {!erSelvstendigNæringsdrivende(organisasjonsnummer) && (
+                <>
+                    <div />
+                    <HStack>
+                        <AnonymizableText>{organisasjonsnummer}</AnonymizableText>
+                        <Tooltip content="Kopier organisasjonsnummer">
+                            <CopyButton copyText={organisasjonsnummer} size="xsmall" />
+                        </Tooltip>
+                    </HStack>
+                </>
+            )}
             <div />
             <Accordion>
                 <Accordion.Item open={open} className={styles.arbeidsgiverRow}>

@@ -22,7 +22,7 @@ export const Arbeidsgivernavn = ({
     maxWidth?: string;
     showCopyButton?: boolean;
 } & Omit<BodyShortProps, 'children'>) => {
-    if (identifikator === 'SELVSTENDIG') {
+    if (erSelvstendigNæringsdrivende(identifikator)) {
         return <ArbeidsgivernavnKjent navn="Selvstendig næring" maxWidth={maxWidth} {...bodyShortProps} />;
     } else if (
         navn !== undefined &&
@@ -109,6 +109,8 @@ const ArbeidsgivernavnKjent = ({
         </Tooltip>
     );
 };
+
+export const erSelvstendigNæringsdrivende = (identifikator: string) => identifikator === 'SELVSTENDIG';
 
 export const capitalizeArbeidsgiver = (value: string) =>
     capitalizeName(value)

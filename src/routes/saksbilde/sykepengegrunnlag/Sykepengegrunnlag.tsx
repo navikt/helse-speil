@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
+import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { BeregnetPeriodeFragment, GhostPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
 import { SykepengegrunnlagSelvstendig } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/SykepengegrunnlagSelvstendig';
@@ -25,7 +26,7 @@ const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps)
 
     switch (vilkårsgrunnlag?.__typename) {
         case 'VilkarsgrunnlagSpleisV2':
-            if (arbeidsgiver.organisasjonsnummer !== 'SELVSTENDIG') {
+            if (!erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer)) {
                 return (
                     <SykepengegrunnlagFraSpleis
                         vilkårsgrunnlag={vilkårsgrunnlag}
