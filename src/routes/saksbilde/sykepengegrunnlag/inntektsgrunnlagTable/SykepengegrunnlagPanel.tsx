@@ -98,8 +98,10 @@ export const SykepengegrunnlagPanel = ({
                 </>
             ) : (
                 <Box width="655px" padding="4">
-                    <Alert variant="warning">
-                        Avviksvurdering er enda ikke utført av systemet. Sykepengegrunnlag kan ikke vises.
+                    <Alert inline variant="info">
+                        Avviksvurdering er ennå ikke utført av systemet.
+                        <br />
+                        Sykepengegrunnlaget kan ikke vises.
                     </Alert>
                 </Box>
             )}
