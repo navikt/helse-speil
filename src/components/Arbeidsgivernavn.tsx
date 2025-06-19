@@ -1,13 +1,12 @@
 import React from 'react';
 
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
-import { BodyShortProps, HStack, Skeleton, Tooltip } from '@navikt/ds-react';
+import { BodyShortProps, CopyButton, HStack, Skeleton, Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
-import { KopierAgNavn } from '@saksbilde/timeline/KopierAgNavn';
 import { useIsAnonymous } from '@state/anonymization';
-import { capitalizeArbeidsgiver } from '@utils/locale';
+import { capitalizeName } from '@utils/locale';
 
 import styles from './Arbeidsgivernavn.module.css';
 
@@ -98,8 +97,22 @@ const ArbeidsgivernavnKjent = ({
         <Tooltip content={isAnonymous ? 'Arbeidsgiver' : navn}>
             <HStack gap="2" maxWidth={maxWidth} wrap={false} className={styles.anonymisert}>
                 <AnonymizableTextWithEllipsis {...bodyShortProps}>{navn}</AnonymizableTextWithEllipsis>
-                {showCopyButton && <KopierAgNavn navn={navn} />}
+                {showCopyButton && (
+                    <CopyButton
+                        copyText={navn}
+                        size="xsmall"
+                        title="Kopier arbeidsgivernavn"
+                        onClick={(event) => event.stopPropagation()}
+                    />
+                )}
             </HStack>
         </Tooltip>
     );
+};
+
+export const capitalizeArbeidsgiver = (value: string) => {
+    if (value === 'navn er utilgjengelig') return value.charAt(0).toUpperCase() + value.slice(1);
+    return capitalizeName(value)
+        .replace(/\b(?:As|Asa|Sa|Da|Ba|Se|Fkf|Iks|Kf|Sf|Nuf)\b/, (t) => t.toUpperCase())
+        .replaceAll(/\b(?:Og|I)\b/g, (t) => t.toLowerCase());
 };
