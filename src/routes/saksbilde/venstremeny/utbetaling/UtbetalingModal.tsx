@@ -2,9 +2,10 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Button, ErrorMessage, HStack, Heading, Modal, Spacer } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { SelvstendigNæringsdrivendeIkon } from '@components/ikoner/SelvstendigNæringsdrivendeIkon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Personinfo, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { capitalize, somPenger } from '@utils/locale';
@@ -98,7 +99,11 @@ const TilUtbetaling = ({
             </BodyShort>
         </HStack>
         <HStack align="center" gap="4" className={styles.Row}>
-            <Arbeidsgiverikon />
+            {erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator) ? (
+                <SelvstendigNæringsdrivendeIkon />
+            ) : (
+                <Arbeidsgiverikon />
+            )}
             <Arbeidsgivernavn identifikator={arbeidsgiverIdentifikator} navn={arbeidsgiverNavn} />
             <Spacer />
             <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>

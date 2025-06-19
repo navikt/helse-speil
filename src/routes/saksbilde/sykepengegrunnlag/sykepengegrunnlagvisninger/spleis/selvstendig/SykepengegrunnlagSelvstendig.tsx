@@ -1,9 +1,9 @@
 import React, { HTMLAttributes } from 'react';
 
-import { PersonSuitIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Detail, HStack, VStack } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
+import { SelvstendigNæringsdrivendeIkon } from '@components/ikoner/SelvstendigNæringsdrivendeIkon';
 import { BeregnetPeriodeFragment, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
 import { SykepengegrunnlagSelvstendigPanel } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/SykepengegrunnlagSelvstendigPanel';
 import { somPenger } from '@utils/locale';
@@ -32,7 +32,7 @@ export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag, beregnetPeriode
             >
                 <VStack gap="8">
                     <HStack align="center" gap="2">
-                        <PersonSuitIcon width="20" height="20" />
+                        <SelvstendigNæringsdrivendeIkon />
                         <BodyShort weight="semibold">Selvstendig næring</BodyShort>
                     </HStack>
                     <Box width="65%">

@@ -1,8 +1,9 @@
 import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { SelvstendigNæringsdrivendeIkon } from '@components/ikoner/SelvstendigNæringsdrivendeIkon';
 import { PersonFragment } from '@io/graphql';
 import { ArbeidsgiverGenerasjon } from '@typer/shared';
 
@@ -34,7 +35,11 @@ export const ExpandableTimelineRow = ({
                 className={classNames(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
                 onClick={() => setIsExpanded((prevState) => !prevState)}
             >
-                <Arbeidsgiverikon alt="Arbeidsgiver" />
+                {erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator) ? (
+                    <SelvstendigNæringsdrivendeIkon />
+                ) : (
+                    <Arbeidsgiverikon />
+                )}
                 <Arbeidsgivernavn identifikator={arbeidsgiverIdentifikator} navn={name} showCopyButton />
             </div>
             <div className={classNames(styles.Periods)}>

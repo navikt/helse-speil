@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { PersonSuitIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Detail, HStack, Table, VStack } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { LovdataLenke } from '@components/LovdataLenke';
+import { SelvstendigNæringsdrivendeIkon } from '@components/ikoner/SelvstendigNæringsdrivendeIkon';
 import { Sykepengegrunnlagsgrense } from '@io/graphql';
 import { somDato } from '@utils/date';
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
@@ -46,7 +46,7 @@ export const SykepengegrunnlagSelvstendigPanel = ({
                     <Table.Row shadeOnHover={false} className={styles.SelvstendigNaeringRow}>
                         <Table.DataCell>
                             <HStack align="center" gap="2">
-                                <PersonSuitIcon width="20" height="20" />
+                                <SelvstendigNæringsdrivendeIkon />
                                 Selvstendig næring
                             </HStack>
                         </Table.DataCell>
