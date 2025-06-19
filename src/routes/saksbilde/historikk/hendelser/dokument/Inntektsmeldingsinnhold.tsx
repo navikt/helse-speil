@@ -2,9 +2,8 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, HStack } from '@navikt/ds-react';
 
-import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
-import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { PersonFragment } from '@io/graphql';
 import { Endringsårsaker } from '@saksbilde/historikk/hendelser/dokument/Endringsårsaker';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
@@ -13,7 +12,7 @@ import { somNorskDato } from '@utils/date';
 import { tilTelefonNummer, toKronerOgØre } from '@utils/locale';
 
 import { BestemmendeFraværsdag } from './BestemmendeFraværsdag';
-import { DokumentFragment } from './DokumentFragment';
+import { DokumentFragment, DokumentFragmentAnonymisert } from './DokumentFragment';
 import { DokumentLoader } from './DokumentLoader';
 import { useQueryInntektsmelding } from './queries';
 
@@ -32,29 +31,32 @@ export const Inntektsmeldingsinnhold = ({
 }: InntektsmeldinginnholdProps): ReactElement => {
     const inntektsmeldingssrespons = useQueryInntektsmelding(fødselsnummer, dokumentId ?? '');
     const inntektsmelding = inntektsmeldingssrespons.data;
-    const arbeidsgiverNavn = useArbeidsgiver(person, inntektsmelding?.virksomhetsnummer ?? '')?.navn;
+    const virksomhetsnummer = inntektsmelding?.virksomhetsnummer;
+    const arbeidsgivernavn = useArbeidsgiver(person, virksomhetsnummer ?? '')?.navn;
 
     return (
         <>
             {inntektsmelding && (
                 <div className={styles.dokument}>
-                    {arbeidsgiverNavn && (
-                        <HStack gap="3" className={styles.arbeidsgiver}>
-                            <ArbeidsgiverikonMedTooltip />
-                            <AnonymizableTextWithEllipsis className={styles.arbeidsgivernavn}>
-                                {arbeidsgiverNavn}
-                            </AnonymizableTextWithEllipsis>
+                    {virksomhetsnummer && (
+                        <HStack gap="3" align="center" className={styles.arbeidsgiver}>
+                            <Arbeidsgiverikon />
+                            <Arbeidsgivernavn
+                                identifikator={virksomhetsnummer}
+                                navn={arbeidsgivernavn}
+                                maxWidth="72%"
+                            />
                         </HStack>
                     )}
-                    {inntektsmelding.virksomhetsnummer && (
-                        <DokumentFragment overskrift="Virksomhetsnummer">
-                            <AnonymizableContainer as="span">{inntektsmelding.virksomhetsnummer}</AnonymizableContainer>
-                        </DokumentFragment>
+                    {virksomhetsnummer && (
+                        <DokumentFragmentAnonymisert overskrift="Virksomhetsnummer">
+                            {virksomhetsnummer}
+                        </DokumentFragmentAnonymisert>
                     )}
                     {inntektsmelding.arbeidsforholdId && (
-                        <DokumentFragment overskrift="ArbeidsforholdId">
-                            <AnonymizableContainer as="span">{inntektsmelding.arbeidsforholdId}</AnonymizableContainer>
-                        </DokumentFragment>
+                        <DokumentFragmentAnonymisert overskrift="ArbeidsforholdId">
+                            {inntektsmelding.arbeidsforholdId}
+                        </DokumentFragmentAnonymisert>
                     )}
                     <Endringsårsaker årsaker={inntektsmelding.inntektEndringAarsaker} />
                     <BestemmendeFraværsdag førsteFraværsdag={inntektsmelding?.foersteFravaersdag ?? null} />
@@ -184,18 +186,14 @@ export const Inntektsmeldingsinnhold = ({
                         </DokumentFragment>
                     )}
                     {inntektsmelding.innsenderFulltNavn && (
-                        <DokumentFragment overskrift="Innsender fullt navn">
-                            <AnonymizableContainer as="span">
-                                {inntektsmelding.innsenderFulltNavn}
-                            </AnonymizableContainer>
-                        </DokumentFragment>
+                        <DokumentFragmentAnonymisert overskrift="Innsender fullt navn">
+                            {inntektsmelding.innsenderFulltNavn}
+                        </DokumentFragmentAnonymisert>
                     )}
                     {inntektsmelding.innsenderTelefon && (
-                        <DokumentFragment overskrift="Innsender telefon">
-                            <AnonymizableContainer as="span">
-                                {tilTelefonNummer(inntektsmelding.innsenderTelefon)}
-                            </AnonymizableContainer>
-                        </DokumentFragment>
+                        <DokumentFragmentAnonymisert overskrift="Innsender telefon">
+                            {tilTelefonNummer(inntektsmelding.innsenderTelefon)}
+                        </DokumentFragmentAnonymisert>
                     )}
                     {inntektsmelding.avsenderSystem && (
                         <DokumentFragment overskrift="Avsendersystem">

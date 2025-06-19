@@ -16,6 +16,7 @@ export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): May
     const arbeidsgivereMedVurderbareVarsler = person.arbeidsgivere
         .map(
             (arbeidsgiver): Periodeinformasjon => ({
+                arbeidsgiverIdentifikator: arbeidsgiver.organisasjonsnummer,
                 arbeidsgivernavn: arbeidsgiver.navn,
                 perioder: arbeidsgiver.generasjoner
                     .flatMap((generasjon) =>

@@ -6,18 +6,8 @@
     gap: 0.25rem;
 }
 
-.Row {
-    display: flex;
-    align-items: center;
-    gap: var(--margin);
-}
-
 .Row > svg {
     width: var(--icon-width);
-}
-
-.Row > p:first-of-type {
-    flex: 1;
 }
 
 .SimuleringButton {

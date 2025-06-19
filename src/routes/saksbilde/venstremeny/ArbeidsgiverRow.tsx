@@ -3,35 +3,16 @@ import React, { ReactElement, useState } from 'react';
 
 import { Accordion, BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
-import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Arbeidsforhold } from '@io/graphql';
 import { useIsAnonymous } from '@state/anonymization';
 import { somNorskDato } from '@utils/date';
-import { capitalize, capitalizeArbeidsgiver, somPenger } from '@utils/locale';
+import { capitalize, somPenger } from '@utils/locale';
 
 import styles from './ArbeidsgiverRow.module.scss';
-
-const Organisasjonsnummer = ({ organisasjonsnummer }: { organisasjonsnummer: string }): ReactElement => (
-    <HStack className={styles.organisasjonsnummer}>
-        <AnonymizableText>{organisasjonsnummer}</AnonymizableText>
-        <Tooltip content="Kopier organisasjonsnummer">
-            <CopyButton copyText={organisasjonsnummer} size="xsmall" />
-        </Tooltip>
-    </HStack>
-);
-
-const Arbeidsgivernavn = ({ navn }: { navn: string }): ReactElement => (
-    <div className={styles.arbeidsgivernavn}>
-        <div>
-            <AnonymizableText>{navn}</AnonymizableText>
-            <Tooltip content="Kopier arbeidsgivernavn">
-                <CopyButton copyText={navn} size="xsmall" />
-            </Tooltip>
-        </div>
-    </div>
-);
 
 interface ArbeidsforholdRowProps {
     arbeidsforhold: Array<Arbeidsforhold>;
@@ -104,10 +85,17 @@ const ArbeidsgiverRowView = ({
 
     return (
         <>
-            <ArbeidsgiverikonMedTooltip className={styles.iconContainer} />
-            <Arbeidsgivernavn navn={capitalizeArbeidsgiver(navn)} />
+            <div className={styles.iconContainer}>
+                <Arbeidsgiverikon />
+            </div>
+            <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={navn} showCopyButton />
             <div />
-            <Organisasjonsnummer organisasjonsnummer={organisasjonsnummer} />
+            <HStack>
+                <AnonymizableText>{organisasjonsnummer}</AnonymizableText>
+                <Tooltip content="Kopier organisasjonsnummer">
+                    <CopyButton copyText={organisasjonsnummer} size="xsmall" />
+                </Tooltip>
+            </HStack>
             <div />
             <Accordion>
                 <Accordion.Item open={open} className={styles.arbeidsgiverRow}>

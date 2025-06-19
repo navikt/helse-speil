@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { Alert, Button, Heading, List } from '@navikt/ds-react';
 
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { Maybe } from '@io/graphql';
 import { useNavigerTilPeriode } from '@state/routing';
 import { DateString } from '@typer/shared';
@@ -11,6 +11,7 @@ import { somNorskDato } from '@utils/date';
 import styles from './Periodeinformasjon.module.scss';
 
 export interface Periodeinformasjon {
+    arbeidsgiverIdentifikator: string;
     arbeidsgivernavn: string;
     perioder: {
         id: string;
@@ -35,7 +36,10 @@ export const Periodeinformasjon = ({ tittel, periodeinformasjon }: Periodeinform
             {periodeinformasjon.map((informasjon) => (
                 <List key={informasjon.arbeidsgivernavn} as="ul">
                     {periodeinformasjon.length > 1 && (
-                        <AnonymizableText>{informasjon.arbeidsgivernavn}</AnonymizableText>
+                        <Arbeidsgivernavn
+                            identifikator={informasjon.arbeidsgiverIdentifikator}
+                            navn={informasjon.arbeidsgivernavn}
+                        />
                     )}
                     {informasjon.perioder.map((periode) => (
                         <List.Item key={periode.id} className={styles.datoliste}>

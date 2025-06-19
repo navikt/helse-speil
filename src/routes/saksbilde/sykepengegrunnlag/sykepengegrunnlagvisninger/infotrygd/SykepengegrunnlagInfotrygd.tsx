@@ -3,8 +3,8 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Table } from '@navikt/ds-react';
 
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { Kilde } from '@components/Kilde';
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygdV2 } from '@io/graphql';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
@@ -85,11 +85,7 @@ const InfotrygdInntekt = ({ aktivtOrgnummer, arbeidsgivernavn, inntekt }: Infotr
         className={classNames(styles.arbeidsgiverrad, aktivtOrgnummer === inntekt.arbeidsgiver && styles.ergjeldende)}
     >
         <Table.DataCell>
-            <AnonymizableText>
-                {arbeidsgivernavn?.toLowerCase() === 'ikke tilgjengelig'
-                    ? inntekt.arbeidsgiver
-                    : `${arbeidsgivernavn} (${inntekt.arbeidsgiver})`}
-            </AnonymizableText>
+            <Arbeidsgivernavn identifikator={inntekt.arbeidsgiver} navn={arbeidsgivernavn} />
         </Table.DataCell>
         <Table.DataCell>
             <div className={styles.inntekt}>

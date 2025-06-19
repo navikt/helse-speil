@@ -33,6 +33,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     disabled: boolean;
     onSuccess?: () => void;
     utbetaling: Utbetaling;
+    arbeidsgiverIdentifikator: string;
     arbeidsgiverNavn: string;
     personinfo: Personinfo;
     vedtakBegrunnelseTekst: string;
@@ -46,6 +47,7 @@ export const GodkjenningButton = ({
     disabled = false,
     onSuccess,
     utbetaling,
+    arbeidsgiverIdentifikator,
     arbeidsgiverNavn,
     personinfo,
     vedtakBegrunnelseTekst,
@@ -90,6 +92,7 @@ export const GodkjenningButton = ({
                 <UtbetalingModal
                     showModal={showModal}
                     utbetaling={utbetaling}
+                    arbeidsgiverIdentifikator={arbeidsgiverIdentifikator}
                     arbeidsgiverNavn={arbeidsgiverNavn}
                     personinfo={personinfo}
                     closeModal={() => {

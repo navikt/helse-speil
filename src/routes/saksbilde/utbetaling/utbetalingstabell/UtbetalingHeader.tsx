@@ -3,13 +3,15 @@ import React, { ReactElement } from 'react';
 import { PersonPencilIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Heading, HelpText } from '@navikt/ds-react';
 
-import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { Maybe } from '@io/graphql';
-import { capitalizeArbeidsgiver } from '@utils/locale';
+
+import styles from './UtbetalingHeader.module.css';
 
 interface UtbetalingHeaderProps {
     periodeErForkastet: boolean;
     toggleOverstyring: () => void;
+    arbeidsgiverIdentifikator: string;
     arbeidsgiverNavn: string;
     erRevurdering: boolean;
 }
@@ -17,14 +19,20 @@ interface UtbetalingHeaderProps {
 export const UtbetalingHeader = ({
     periodeErForkastet,
     toggleOverstyring,
+    arbeidsgiverIdentifikator,
     arbeidsgiverNavn,
     erRevurdering,
 }: UtbetalingHeaderProps): Maybe<ReactElement> => (
-    <HStack align="center" gap="1">
+    <HStack align="center" gap="2">
         <Heading size="xsmall" level="1">
-            Dagoversikt{' '}
-            <AnonymizableContainer as="span">{capitalizeArbeidsgiver(arbeidsgiverNavn)}</AnonymizableContainer>
+            Dagoversikt
         </Heading>
+        <Arbeidsgivernavn
+            identifikator={arbeidsgiverIdentifikator}
+            navn={arbeidsgiverNavn}
+            weight="semibold"
+            className={styles.mediumFontSize}
+        />
         {periodeErForkastet ? (
             <HelpText>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</HelpText>
         ) : (

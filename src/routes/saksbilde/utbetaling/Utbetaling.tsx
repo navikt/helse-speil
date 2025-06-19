@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react';
 
 import { Alert, Box, HStack, Heading, HelpText } from '@navikt/ds-react';
 
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
@@ -14,6 +14,7 @@ import {
     UberegnetPeriodeFragment,
     Utbetalingsdagtype,
 } from '@io/graphql';
+import styles from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader.module.css';
 import {
     useCurrentArbeidsgiver,
     useDagoverstyringer,
@@ -23,7 +24,6 @@ import { useActivePeriod } from '@state/periode';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { capitalizeArbeidsgiver } from '@utils/locale';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 import { isBeregnetPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -48,10 +48,18 @@ interface ReadonlyUtbetalingProps {
     tom: DateString;
     dager: Map<string, Utbetalingstabelldag>;
     person: PersonFragment;
+    arbeidsgiverIdentifikator: string;
     arbeidsgiverNavn: string;
 }
 
-const ReadonlyUtbetaling = ({ fom, tom, dager, person, arbeidsgiverNavn }: ReadonlyUtbetalingProps): ReactElement => {
+const ReadonlyUtbetaling = ({
+    fom,
+    tom,
+    dager,
+    person,
+    arbeidsgiverIdentifikator,
+    arbeidsgiverNavn,
+}: ReadonlyUtbetalingProps): ReactElement => {
     const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const periodeErISisteGenerasjon = useIsInCurrentGeneration(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
@@ -60,11 +68,16 @@ const ReadonlyUtbetaling = ({ fom, tom, dager, person, arbeidsgiverNavn }: Reado
 
     return (
         <Box paddingBlock="8 16" paddingInline="6" position="relative">
-            <HStack align="center" gap="1">
+            <HStack align="center" gap="2">
                 <Heading size="xsmall" level="1">
-                    Dagoversikt{' '}
-                    <AnonymizableContainer as="span">{capitalizeArbeidsgiver(arbeidsgiverNavn)}</AnonymizableContainer>
+                    Dagoversikt
                 </Heading>
+                <Arbeidsgivernavn
+                    identifikator={arbeidsgiverIdentifikator}
+                    navn={arbeidsgiverNavn}
+                    weight="semibold"
+                    className={styles.mediumFontSize}
+                />
                 {!(hasLatestSkjæringstidspunkt || erAktivPeriodeLikEllerFørPeriodeTilGodkjenning) && (
                     <HelpText>
                         {harTidligereSkjæringstidspunktOgISisteGenerasjon
@@ -117,6 +130,7 @@ const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingB
             tom={period.tom}
             dager={dager}
             person={person}
+            arbeidsgiverIdentifikator={arbeidsgiver.organisasjonsnummer}
             arbeidsgiverNavn={arbeidsgiver.navn}
         />
     );
@@ -164,6 +178,7 @@ const UtbetalingUberegnetPeriode = ({
             tom={periode.tom}
             dager={dager}
             person={person}
+            arbeidsgiverIdentifikator={arbeidsgiver.organisasjonsnummer}
             arbeidsgiverNavn={arbeidsgiver.navn}
         />
     );

@@ -3,13 +3,12 @@ import React from 'react';
 
 import { BodyShort, Box, HStack, Table } from '@navikt/ds-react';
 
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { ArbeidsgiverFragment } from '@io/graphql';
 import styles from '@saksbilde/tilkommenInntekt/TilkommenTable.module.css';
 import { dekorerTekst, getTypeIcon, tilDagtypeTabell } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erHelg, somNorskDato } from '@utils/date';
-import { capitalizeArbeidsgiver } from '@utils/locale';
 
 interface Props {
     arbeidsgivere: ArbeidsgiverFragment[];
@@ -39,9 +38,11 @@ export const TilkommenInntektDagoversikt = ({ arbeidsgivere, periode, ekskludert
                         <Table.HeaderCell>Dato</Table.HeaderCell>
                         {kolonneDefinisjoner.map((arbeidsgiver) => (
                             <Table.HeaderCell key={arbeidsgiver.organisasjonsnummer}>
-                                <AnonymizableTextWithEllipsis weight="semibold">
-                                    {capitalizeArbeidsgiver(arbeidsgiver.navn)}
-                                </AnonymizableTextWithEllipsis>
+                                <Arbeidsgivernavn
+                                    identifikator={arbeidsgiver.organisasjonsnummer}
+                                    navn={arbeidsgiver.navn}
+                                    weight="semibold"
+                                />
                             </Table.HeaderCell>
                         ))}
                     </Table.Row>

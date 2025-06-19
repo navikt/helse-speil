@@ -24,7 +24,8 @@ interface UtbetalingCardProps {
     vilkårsgrunnlag?: Maybe<VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2>;
     antallUtbetalingsdager: number;
     utbetaling: Utbetaling;
-    arbeidsgiver: string;
+    arbeidsgiverIdentifikator: string;
+    arbeidsgiverNavn: string;
     personinfo: Personinfo;
     arbeidsgiversimulering?: Maybe<Simulering>;
     personsimulering?: Maybe<Simulering>;
@@ -37,7 +38,8 @@ const UtbetalingCardBeregnet = ({
     vilkårsgrunnlag,
     antallUtbetalingsdager,
     utbetaling,
-    arbeidsgiver,
+    arbeidsgiverIdentifikator,
+    arbeidsgiverNavn,
     personinfo,
     arbeidsgiversimulering,
     personsimulering,
@@ -61,7 +63,8 @@ const UtbetalingCardBeregnet = ({
         )}
         <BeløpTilUtbetaling
             utbetaling={utbetaling}
-            arbeidsgiver={arbeidsgiver}
+            arbeidsgiverIdentifikator={arbeidsgiverIdentifikator}
+            arbeidsgiverNavn={arbeidsgiverNavn}
             personinfo={personinfo}
             arbeidsgiversimulering={arbeidsgiversimulering}
             personsimulering={personsimulering}

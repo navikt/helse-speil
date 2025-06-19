@@ -2,10 +2,11 @@ import React from 'react';
 
 import { BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Inntektskilde } from '@io/graphql';
-import { Arbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/Arbeidsgivernavn';
 
 interface InntektOgRefusjonHeaderProps {
     arbeidsgivernavn: string;
@@ -19,18 +20,15 @@ export const InntektOgRefusjonHeader = ({
     kilde,
 }: InntektOgRefusjonHeaderProps) => (
     <HStack marginBlock="5 6" gap="3" align="center">
-        <Arbeidsgivernavn arbeidsgivernavn={arbeidsgivernavn} organisasjonsnummer={organisasjonsnummer} />
+        <Arbeidsgiverikon />
+        <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={arbeidsgivernavn} />
         <HStack align="center">
-            <BodyShort weight="semibold" size="large">
-                (
-            </BodyShort>
-            <AnonymizableText weight="semibold">{organisasjonsnummer}</AnonymizableText>
-            <Tooltip content="Kopier organiasasjonsnummer">
+            <BodyShort>(</BodyShort>
+            <AnonymizableText>{organisasjonsnummer}</AnonymizableText>
+            <Tooltip content="Kopier organisasjonsnummer">
                 <CopyButton copyText={organisasjonsnummer} size="small" />
             </Tooltip>
-            <BodyShort weight="semibold" size="large">
-                )
-            </BodyShort>
+            <BodyShort>)</BodyShort>
         </HStack>
         {kilde === Inntektskilde.Aordningen ? (
             <Kilde type={Inntektskilde.Aordningen}>AO</Kilde>

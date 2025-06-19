@@ -2,8 +2,8 @@ import React, { Fragment, ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Maybe, Skjonnsfastsettingstype } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
@@ -66,7 +66,7 @@ export const SykepengegrunnlagSkjønnsfastsatthendelse = ({
         <HistorikkSection tittel="Årsinntekt">
             {arbeidsgivere.map((ag, index) => (
                 <Fragment key={`ag-${index}`}>
-                    <AnonymizableText>{ag.navn}</AnonymizableText>
+                    <Arbeidsgivernavn identifikator={ag.identifikator} navn={ag.navn} />
                     <BodyShort>
                         {ag.fraÅrlig !== ag.årlig && <span className={styles.fromvalue}>{somPenger(ag.fraÅrlig)}</span>}
                         {somPenger(ag.årlig)}

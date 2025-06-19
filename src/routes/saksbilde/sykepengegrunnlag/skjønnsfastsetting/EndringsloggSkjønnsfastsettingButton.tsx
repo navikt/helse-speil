@@ -6,12 +6,12 @@ import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { Kilde } from '@components/Kilde';
 import { EndringsloggSykepengegrunnlagskjønnsfastsetting } from '@components/endringslogg/EndringsloggSykepengegrunnlagskjønnsfastsetting';
 import { Maybe } from '@io/graphql';
-import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/SkjønnsfastsettingHeader';
+import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/SkjønnsfastsettingHeader';
 
 import styles from '../inntekt/EndringsloggButton.module.css';
 
 interface EndringsloggSkjønnsfastsettingButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-    endringer: SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn[];
+    endringer: SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo[];
 }
 
 export const EndringsloggSkjønnsfastsettingButton = ({

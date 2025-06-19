@@ -75,19 +75,3 @@
 .content {
   padding: 0;
 }
-
-.arbeidsgivernavn {
-  display: flex;
-
-  div > :first-child {
-    margin-right: 0.4rem;
-  }
-  div * {
-    display: inline;
-    vertical-align: middle;
-  }
-}
-
-.organisasjonsnummer {
-  gap: 0.4rem;
-}

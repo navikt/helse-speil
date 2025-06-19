@@ -30,6 +30,7 @@ export type Hendelsetype =
     | 'TilkommenInntekt';
 
 export type ArbeidsgiverSkjønnHendelse = {
+    identifikator: string;
     navn: string;
     årlig: number;
     fraÅrlig: number;

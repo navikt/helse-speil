@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { Alert, Button, Detail, Heading, List, VStack } from '@navikt/ds-react';
 
 import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { Maybe, PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
@@ -11,7 +10,6 @@ import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useNavigerTilPeriode, useNavigerTilTilkommenInntekt } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
-import { capitalizeArbeidsgiver } from '@utils/locale';
 
 import styles from './HarBeslutteroppgaver.module.scss';
 
@@ -37,6 +35,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): May
     const perioderTilKontroll = person.arbeidsgivere
         .map(
             (arbeidsgiver): Periodeinformasjon => ({
+                arbeidsgiverIdentifikator: arbeidsgiver.organisasjonsnummer,
                 arbeidsgivernavn: arbeidsgiver.navn,
                 perioder:
                     arbeidsgiver.generasjoner[0]?.perioder
@@ -70,9 +69,11 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): May
                         <List key={informasjon.arbeidsgivernavn} as="ul" className={styles.periodeListe}>
                             {perioderTilKontroll.length > 1 ||
                                 (harTilkommenInntektEndring && (
-                                    <AnonymizableText weight="semibold">
-                                        {capitalizeArbeidsgiver(informasjon.arbeidsgivernavn)}
-                                    </AnonymizableText>
+                                    <Arbeidsgivernavn
+                                        identifikator={informasjon.arbeidsgiverIdentifikator}
+                                        navn={informasjon.arbeidsgivernavn}
+                                        weight="semibold"
+                                    />
                                 ))}
                             {informasjon.perioder.map((periode) => (
                                 <List.Item key={periode.id} className={styles.periodeListeElement}>

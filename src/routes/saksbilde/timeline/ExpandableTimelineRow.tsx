@@ -1,10 +1,9 @@
 import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
-import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { PersonFragment } from '@io/graphql';
-import { KopierAgNavn } from '@saksbilde/timeline/KopierAgNavn';
 import { ArbeidsgiverGenerasjon } from '@typer/shared';
 
 import { Periods } from './Periods';
@@ -21,6 +20,7 @@ export const ExpandableTimelineRow = ({
     start,
     end,
     name,
+    arbeidsgiverIdentifikator,
     generations,
     ghostPeriods,
     activePeriod,
@@ -30,14 +30,13 @@ export const ExpandableTimelineRow = ({
 
     return (
         <div className={styles.TimelineRow}>
-            <ArbeidsgiverikonMedTooltip
-                tooltipTekst={name}
+            <div
                 className={classNames(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
                 onClick={() => setIsExpanded((prevState) => !prevState)}
             >
-                <AnonymizableTextWithEllipsis>{name}</AnonymizableTextWithEllipsis>
-                <KopierAgNavn navn={name} />
-            </ArbeidsgiverikonMedTooltip>
+                <Arbeidsgiverikon alt="Arbeidsgiver" />
+                <Arbeidsgivernavn identifikator={arbeidsgiverIdentifikator} navn={name} showCopyButton />
+            </div>
             <div className={classNames(styles.Periods)}>
                 {generations[0] && (
                     <Periods

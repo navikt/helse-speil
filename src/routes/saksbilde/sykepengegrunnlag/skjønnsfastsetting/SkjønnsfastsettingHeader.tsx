@@ -49,7 +49,7 @@ export const SkjønnsfastsettingHeader = ({
 
     if (!person || !aktivPeriode) return <></>;
 
-    const skjønnsfastsettingEndringer: SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn[] =
+    const skjønnsfastsettingEndringer: SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo[] =
         person.arbeidsgivere.flatMap((arbeidsgiver) =>
             arbeidsgiver.overstyringer
                 .filter(isSykepengegrunnlagskjønnsfastsetting)
@@ -58,6 +58,7 @@ export const SkjønnsfastsettingHeader = ({
                 )
                 .map((overstyring) => ({
                     ...overstyring,
+                    arbeidsgiverIdentifikator: arbeidsgiver.organisasjonsnummer,
                     arbeidsgivernavn: arbeidsgiver.navn,
                 })),
         );
@@ -121,6 +122,7 @@ export const SkjønnsfastsettingHeader = ({
     );
 };
 
-export interface SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn extends Sykepengegrunnlagskjonnsfastsetting {
+export interface SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo extends Sykepengegrunnlagskjonnsfastsetting {
+    arbeidsgiverIdentifikator: string;
     arbeidsgivernavn: string;
 }

@@ -26,12 +26,12 @@ describe('SkjønnsfastsettingForm', () => {
     const arbeidsgiver2 = enArbeidsgiver({
         generasjoner: [generasjon2],
         organisasjonsnummer: '123456789',
-        navn: 'Arbeidsgiver to',
+        navn: 'Arbeidsgiver To',
     });
     const arbeidsgiver3 = enArbeidsgiver({
         generasjoner: [],
         organisasjonsnummer: '123456710',
-        navn: 'Arbeidsgiver tre',
+        navn: 'Arbeidsgiver Tre',
     });
     const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis().medInntekter([
         enArbeidsgiverinntekt({ arbeidsgiver: arbeidsgiver.organisasjonsnummer }),

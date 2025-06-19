@@ -285,6 +285,7 @@ export const OverstyrbarUtbetaling = ({
                         isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Forkastet
                     }
                     toggleOverstyring={toggleOverstyring}
+                    arbeidsgiverIdentifikator={arbeidsgiver.organisasjonsnummer}
                     arbeidsgiverNavn={arbeidsgiver.navn}
                     erRevurdering={erRevurdering}
                 />

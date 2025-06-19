@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import React, { ReactElement, useMemo } from 'react';
 
-import { Table } from '@navikt/ds-react';
+import { HStack, Table } from '@navikt/ds-react';
 
-import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
-import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
 import { Maybe, PersonFragment } from '@io/graphql';
 import { Row } from '@saksbilde/table/Row';
 import { DateString } from '@typer/shared';
@@ -77,14 +77,16 @@ export const Utbetalingstabell = ({
                                 Total grad
                             </Table.ColumnHeader>
                             <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
-                                <ArbeidsgiverikonMedTooltip className={styles.headerContent}>
+                                <HStack align="center" gap="2" wrap={false}>
+                                    <Arbeidsgiverikon />
                                     Refusjon
-                                </ArbeidsgiverikonMedTooltip>
+                                </HStack>
                             </Table.ColumnHeader>
                             <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
-                                <SykmeldtikonMedTooltip className={styles.headerContent}>
+                                <HStack align="center" gap="2" wrap={false}>
+                                    <Sykmeldtikon />
                                     Utbetaling
-                                </SykmeldtikonMedTooltip>
+                                </HStack>
                             </Table.ColumnHeader>
                             <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 Dager igjen

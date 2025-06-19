@@ -24,13 +24,6 @@
     overflow-y: hidden;
 }
 
-.headerContent {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    box-sizing: border-box;
-}
-
 .header {
     padding: 0 1rem 0.75rem 1rem;
     white-space: nowrap;

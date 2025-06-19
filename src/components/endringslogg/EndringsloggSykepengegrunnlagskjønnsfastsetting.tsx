@@ -2,19 +2,19 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
 
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { getSkjønnsfastsettelseTypeTekst } from '@saksbilde/historikk/hendelser/SykepengegrunnlagSkjønnsfastsatthendelse';
-import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/SkjønnsfastsettingHeader';
+import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/SkjønnsfastsettingHeader';
 import { getFormattedDateString, somNorskDato } from '@utils/date';
-import { capitalizeArbeidsgiver, somPenger } from '@utils/locale';
+import { somPenger } from '@utils/locale';
 
 import styles from './Endringslogg.module.css';
 
 type EndringsloggSykepengegrunnlagskjønnsfastsettingProps = {
     closeModal: () => void;
     showModal: boolean;
-    endringer: SykepengegrunnlagskjonnsfastsettingMedArbeidsgivernavn[];
+    endringer: SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo[];
 };
 
 export const EndringsloggSykepengegrunnlagskjønnsfastsetting = ({
@@ -55,9 +55,10 @@ export const EndringsloggSykepengegrunnlagskjønnsfastsetting = ({
                             <Table.Row key={i}>
                                 <Table.DataCell>{somNorskDato(endring.timestamp)}</Table.DataCell>
                                 <Table.DataCell>
-                                    <AnonymizableTextWithEllipsis>
-                                        {capitalizeArbeidsgiver(endring.arbeidsgivernavn)}
-                                    </AnonymizableTextWithEllipsis>
+                                    <Arbeidsgivernavn
+                                        identifikator={endring.arbeidsgiverIdentifikator}
+                                        navn={endring.arbeidsgivernavn}
+                                    />
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     <span className={styles.PreviousValue}>

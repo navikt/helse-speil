@@ -29,3 +29,7 @@
 .button:hover {
     background: var(--a-surface-action-subtle-hover);
 }
+
+.mediumFontSize {
+    font-size: 18px;
+}

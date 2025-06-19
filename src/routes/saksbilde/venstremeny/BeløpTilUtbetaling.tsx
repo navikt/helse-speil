@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, HStack, Spacer } from '@navikt/ds-react';
 
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
-import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
-import { capitalize, capitalizeArbeidsgiver, somPenger } from '@utils/locale';
+import { capitalize, somPenger } from '@utils/locale';
 
 import { OpenSimuleringButton } from './utbetaling/simulering/OpenSimuleringButton';
 
@@ -14,7 +15,8 @@ import styles from './BeløpTilUtbetaling.module.css';
 
 type BeløpTilUtbetalingProps = {
     utbetaling: Utbetaling;
-    arbeidsgiver: string;
+    arbeidsgiverIdentifikator: string;
+    arbeidsgiverNavn: string;
     personinfo: Personinfo;
     arbeidsgiversimulering?: Maybe<Simulering>;
     personsimulering?: Maybe<Simulering>;
@@ -24,7 +26,8 @@ type BeløpTilUtbetalingProps = {
 
 export const BeløpTilUtbetaling = ({
     utbetaling,
-    arbeidsgiver,
+    arbeidsgiverIdentifikator,
+    arbeidsgiverNavn,
     personinfo,
     personsimulering,
     arbeidsgiversimulering,
@@ -32,19 +35,21 @@ export const BeløpTilUtbetaling = ({
     periodeArbeidsgiverNettoBeløp,
 }: BeløpTilUtbetalingProps) => (
     <div className={styles.TilUtbetaling}>
-        <div className={styles.Row}>
+        <HStack align="center" gap="4" className={styles.Row}>
             <BodyShort weight="semibold">
                 {utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt for perioden' : 'Beløp for perioden'}
             </BodyShort>
+            <Spacer />
             <BodyShort weight="semibold">
                 {somPenger(periodePersonNettoBeløp + periodeArbeidsgiverNettoBeløp)}
             </BodyShort>
-        </div>
-        <div className={styles.Row}>
-            <ArbeidsgiverikonMedTooltip />
-            <AnonymizableTextWithEllipsis>{capitalizeArbeidsgiver(arbeidsgiver)}</AnonymizableTextWithEllipsis>
+        </HStack>
+        <HStack align="center" gap="4" className={styles.Row}>
+            <Arbeidsgiverikon />
+            <Arbeidsgivernavn identifikator={arbeidsgiverIdentifikator} navn={arbeidsgiverNavn} />
+            <Spacer />
             <BodyShort>{somPenger(periodeArbeidsgiverNettoBeløp)}</BodyShort>
-        </div>
+        </HStack>
         {arbeidsgiversimulering && isSimulering(arbeidsgiversimulering) && (
             <OpenSimuleringButton
                 simulering={arbeidsgiversimulering}
@@ -52,11 +57,12 @@ export const BeløpTilUtbetaling = ({
                 className={styles.SimuleringButton}
             />
         )}
-        <div className={styles.Row}>
+        <HStack align="center" gap="4" className={styles.Row}>
             <SykmeldtikonMedTooltip />
             <AnonymizableTextWithEllipsis>{capitalize(getFormattedName(personinfo))}</AnonymizableTextWithEllipsis>
+            <Spacer />
             <BodyShort>{somPenger(periodePersonNettoBeløp)}</BodyShort>
-        </div>
+        </HStack>
         {personsimulering && isSimulering(personsimulering) && (
             <OpenSimuleringButton
                 simulering={personsimulering}

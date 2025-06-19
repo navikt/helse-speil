@@ -1,9 +1,12 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, HStack, Tooltip } from '@navikt/ds-react';
 
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { Kilde } from '@components/Kilde';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { Errorikon } from '@components/ikoner/Errorikon';
 import {
     Inntektskilde,
     Maybe,
@@ -16,7 +19,6 @@ import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
-import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
 import { EndringsloggButton } from '../inntekt/EndringsloggButton';
 import { TableCell } from './TableCell';
 
@@ -55,11 +57,23 @@ export const Inntektssammenligning = ({
             onClick={onSetAktivInntektskilde}
         >
             <td>
-                <Arbeidsgivernavn
-                    arbeidsgivernavn={arbeidsgivernavn}
-                    organisasjonsnummer={organisasjonsnummer}
-                    arbeidsforholdDeaktivert={!!arbeidsforholdErDeaktivert}
-                />
+                <HStack
+                    gap="3"
+                    align="center"
+                    maxWidth="228px"
+                    className={classNames(!!arbeidsforholdErDeaktivert && styles.arbeidsgivernavnDeaktivert)}
+                >
+                    {!!arbeidsforholdErDeaktivert ? (
+                        <Tooltip content="Arbeidsforhold er deaktivert">
+                            <HStack align="center">
+                                <Errorikon />
+                            </HStack>
+                        </Tooltip>
+                    ) : (
+                        <Arbeidsgiverikon />
+                    )}
+                    <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={arbeidsgivernavn} />
+                </HStack>
             </td>
             <TableCell
                 content={

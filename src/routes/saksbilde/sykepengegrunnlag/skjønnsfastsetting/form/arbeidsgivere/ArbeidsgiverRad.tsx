@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
-import { Table, TextField } from '@navikt/ds-react';
+import { HStack, Table, TextField } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@saksbilde/sykepengegrunnlag/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { toKronerOgØre } from '@utils/locale';
@@ -35,7 +36,10 @@ export const ArbeidsgiverRad = ({
     return (
         <Table.Row className={styles.arbeidsgiver}>
             <Table.DataCell>
-                <Arbeidsgivernavn arbeidsgivernavn={arbeidsgiverNavn} organisasjonsnummer={organisasjonsnummer} />
+                <HStack gap="3" align="center" maxWidth="228px">
+                    <Arbeidsgiverikon />
+                    <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={arbeidsgiverNavn} />
+                </HStack>
             </Table.DataCell>
             <Table.DataCell>
                 <TextField

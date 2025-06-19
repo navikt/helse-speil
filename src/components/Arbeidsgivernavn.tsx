@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
-import { HStack, Skeleton, Tooltip } from '@navikt/ds-react';
+import { BodyShortProps, HStack, Skeleton, Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
@@ -14,49 +14,51 @@ import styles from './Arbeidsgivernavn.module.css';
 export const Arbeidsgivernavn = ({
     identifikator,
     navn,
-    weight,
     maxWidth,
     showCopyButton,
+    ...bodyShortProps
 }: {
     identifikator: string;
     navn?: string;
-    weight?: 'regular' | 'semibold';
     maxWidth?: string;
     showCopyButton?: boolean;
-}) => {
+} & Omit<BodyShortProps, 'children'>) => {
     if (identifikator === 'SELVSTENDIG') {
-        return <ArbeidsgivernavnKjent navn="Selvstendig næring" weight={weight} maxWidth={maxWidth} />;
-    } else if (navn !== undefined && navn !== 'navn er utilgjengelig') {
+        return <ArbeidsgivernavnKjent navn="Selvstendig næring" maxWidth={maxWidth} {...bodyShortProps} />;
+    } else if (
+        navn !== undefined &&
+        navn.toLowerCase() !== 'navn er utilgjengelig' &&
+        navn.toLowerCase() !== 'ikke tilgjengelig'
+    ) {
         return (
             <ArbeidsgivernavnKjent
                 navn={capitalizeArbeidsgiver(navn)}
-                weight={weight}
                 maxWidth={maxWidth}
                 showCopyButton={showCopyButton}
+                {...bodyShortProps}
             />
         );
     }
     return (
         <ArbeidsgivernavnOppslag
             organisasjonsnummer={identifikator}
-            weight={weight}
             maxWidth={maxWidth}
             showCopyButton={showCopyButton}
+            {...bodyShortProps}
         />
     );
 };
 
 const ArbeidsgivernavnOppslag = ({
     organisasjonsnummer,
-    weight,
     maxWidth,
     showCopyButton,
+    ...bodyShortProps
 }: {
     organisasjonsnummer: string;
-    weight?: 'regular' | 'semibold';
     maxWidth?: string;
     showCopyButton?: boolean;
-}) => {
+} & Omit<BodyShortProps, 'children'>) => {
     const { loading, data } = useOrganisasjonQuery(organisasjonsnummer);
     const navn = data?.organisasjon?.navn ?? undefined;
 
@@ -67,36 +69,35 @@ const ArbeidsgivernavnOppslag = ({
     ) : navn === undefined ? (
         <Tooltip content="Klarte ikke finne ikke navn på organisasjonen i enhetsregisteret">
             <HStack align="center">
-                <AnonymizableTextWithEllipsis weight={weight}>{organisasjonsnummer}</AnonymizableTextWithEllipsis>
+                <AnonymizableTextWithEllipsis {...bodyShortProps}>{organisasjonsnummer}</AnonymizableTextWithEllipsis>
                 <ExclamationmarkTriangleIcon color="red" />
             </HStack>
         </Tooltip>
     ) : (
         <ArbeidsgivernavnKjent
             navn={capitalizeArbeidsgiver(navn)}
-            weight={weight}
             maxWidth={maxWidth}
             showCopyButton={showCopyButton}
+            {...bodyShortProps}
         />
     );
 };
 
 const ArbeidsgivernavnKjent = ({
     navn,
-    weight,
     maxWidth,
     showCopyButton,
+    ...bodyShortProps
 }: {
     navn: string;
-    weight?: 'regular' | 'semibold';
     maxWidth?: string;
     showCopyButton?: boolean;
-}) => {
+} & Omit<BodyShortProps, 'children'>) => {
     const isAnonymous = useIsAnonymous();
     return (
         <Tooltip content={isAnonymous ? 'Arbeidsgiver' : navn}>
             <HStack gap="2" maxWidth={maxWidth} wrap={false} className={styles.anonymisert}>
-                <AnonymizableTextWithEllipsis weight={weight}>{navn}</AnonymizableTextWithEllipsis>
+                <AnonymizableTextWithEllipsis {...bodyShortProps}>{navn}</AnonymizableTextWithEllipsis>
                 {showCopyButton && <KopierAgNavn navn={navn} />}
             </HStack>
         </Tooltip>

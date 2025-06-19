@@ -38,7 +38,7 @@ export const TimelineRow = ({
     return (
         <div className={styles.TimelineRow}>
             <div className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
-                <Arbeidsgiverikon alt="Arbeidsgiver" />
+                <Arbeidsgiverikon />
                 <Arbeidsgivernavn identifikator={arbeidsgiverIdentifikator} navn={name} showCopyButton />
             </div>
             <div className={styles.Periods}>

@@ -125,6 +125,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                         <SendTilGodkjenningButton
                             size="small"
                             utbetaling={period.utbetaling}
+                            arbeidsgiverIdentifikator={arbeidsgiver.organisasjonsnummer}
                             arbeidsgiverNavn={arbeidsgiver.navn}
                             personinfo={person.personinfo}
                             oppgavereferanse={period.oppgave?.id ?? ''}
@@ -143,6 +144,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
                         <GodkjenningButton
                             size="small"
                             utbetaling={period.utbetaling}
+                            arbeidsgiverIdentifikator={arbeidsgiver.organisasjonsnummer}
                             arbeidsgiverNavn={arbeidsgiver.navn}
                             personinfo={person.personinfo}
                             oppgavereferanse={period.oppgave?.id ?? ''}

@@ -649,6 +649,7 @@ const getArbeidsgivereÅrsinntekt = (
 
         if (skjønnsfastsatt !== undefined) {
             liste.push({
+                identifikator: ag.organisasjonsnummer,
                 navn: ag.navn,
                 årlig: skjønnsfastsatt?.arlig ?? 0,
                 fraÅrlig: skjønnsfastsatt?.fraArlig ?? 0,
