@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { Alert, Button, Detail, Heading, List, VStack } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Organisasjonsnavn';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { Maybe, PersonFragment } from '@io/graphql';

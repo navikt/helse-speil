@@ -3,7 +3,7 @@ import React from 'react';
 import { SackKronerIcon } from '@navikt/aksel-icons';
 import { BodyShort, CopyButton, HStack } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Organisasjonsnavn';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 
 export const TilkommenInntektArbeidsgivernavn = ({ organisasjonsnummer }: { organisasjonsnummer: string }) => (

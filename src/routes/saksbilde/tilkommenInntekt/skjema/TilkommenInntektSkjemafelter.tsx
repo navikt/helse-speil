@@ -5,7 +5,7 @@ import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form'
 import { Box, Button, ErrorMessage, ErrorSummary, HGrid, HStack, TextField, Textarea, VStack } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
-import { Arbeidsgivernavn } from '@components/Organisasjonsnavn';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { erGyldigOrganisasjonsnummer } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { Maybe } from '@io/graphql';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';

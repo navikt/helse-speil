@@ -2,8 +2,8 @@ import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { Arbeidsgivernavn } from '@components/Organisasjonsnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { GhostPeriodeFragment, Maybe, PeriodeFragment, PersonFragment } from '@io/graphql';
 import { TimelinePeriod } from '@typer/timeline';

@@ -9,9 +9,39 @@ import { KopierAgNavn } from '@saksbilde/timeline/KopierAgNavn';
 import { useIsAnonymous } from '@state/anonymization';
 import { capitalizeArbeidsgiver } from '@utils/locale';
 
-import styles from './Organisasjonsnavn.module.css';
+import styles from './Arbeidsgivernavn.module.css';
 
-const Organisasjonsnavn = ({
+export const Arbeidsgivernavn = ({
+    identifikator,
+    navn,
+    weight,
+    maxWidth,
+    showCopyButton,
+}: {
+    identifikator: string;
+    navn?: string;
+    weight?: 'regular' | 'semibold';
+    maxWidth?: string;
+    showCopyButton?: boolean;
+}) => {
+    if (identifikator === 'SELVSTENDIG') {
+        return <ArbeidsgivernavnKjent navn="Selvstendig næring" weight={weight} maxWidth={maxWidth} />;
+    } else if (navn !== undefined && navn !== 'navn er utilgjengelig') {
+        return (
+            <ArbeidsgivernavnKjent navn={navn} weight={weight} maxWidth={maxWidth} showCopyButton={showCopyButton} />
+        );
+    }
+    return (
+        <ArbeidsgivernavnUkjent
+            organisasjonsnummer={identifikator}
+            weight={weight}
+            maxWidth={maxWidth}
+            showCopyButton={showCopyButton}
+        />
+    );
+};
+
+const ArbeidsgivernavnUkjent = ({
     organisasjonsnummer,
     weight,
     maxWidth,
@@ -38,36 +68,6 @@ const Organisasjonsnavn = ({
         </Tooltip>
     ) : (
         <ArbeidsgivernavnKjent navn={navn} weight={weight} maxWidth={maxWidth} showCopyButton={showCopyButton} />
-    );
-};
-
-export const Arbeidsgivernavn = ({
-    identifikator,
-    navn,
-    weight,
-    maxWidth,
-    showCopyButton,
-}: {
-    identifikator: string;
-    navn?: string;
-    weight?: 'regular' | 'semibold';
-    maxWidth?: string;
-    showCopyButton?: boolean;
-}) => {
-    if (identifikator === 'SELVSTENDIG') {
-        return <ArbeidsgivernavnKjent navn="Selvstendig næring" weight={weight} maxWidth={maxWidth} />;
-    } else if (navn !== undefined && navn !== 'navn er utilgjengelig') {
-        return (
-            <ArbeidsgivernavnKjent navn={navn} weight={weight} maxWidth={maxWidth} showCopyButton={showCopyButton} />
-        );
-    }
-    return (
-        <Organisasjonsnavn
-            organisasjonsnummer={identifikator}
-            weight={weight}
-            maxWidth={maxWidth}
-            showCopyButton={showCopyButton}
-        />
     );
 };
 
