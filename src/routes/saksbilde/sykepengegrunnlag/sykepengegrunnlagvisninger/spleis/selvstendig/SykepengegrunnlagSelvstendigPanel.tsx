@@ -31,13 +31,13 @@ export const SykepengegrunnlagSelvstendigPanel = ({
                     </Table.Row>
                     <Table.Row>
                         <Table.HeaderCell>
-                            <Detail textColor="subtle">
-                                <BodyShort weight="regular">Inntektskilde</BodyShort>
+                            <Detail textColor="subtle" weight="regular">
+                                Inntektskilde
                             </Detail>
                         </Table.HeaderCell>
                         <Table.HeaderCell>
-                            <Detail textColor="subtle">
-                                <BodyShort weight="regular">Ferdiglignet inntekt</BodyShort>
+                            <Detail textColor="subtle" weight="regular">
+                                Ferdiglignet inntekt
                             </Detail>
                         </Table.HeaderCell>
                     </Table.Row>
