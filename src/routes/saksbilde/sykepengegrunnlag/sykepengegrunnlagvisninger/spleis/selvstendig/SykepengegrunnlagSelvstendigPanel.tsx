@@ -22,75 +22,73 @@ export const SykepengegrunnlagSelvstendigPanel = ({
 }: SykepengegrunnlagSelvstendigPanel) => {
     const beregningsgrunnlagNumber = Number(beregningsgrunnlag);
     return (
-        <Box width="655px" paddingBlock="4" paddingInline="4 0">
-            <VStack gap="16">
-                <Table className={styles.Table}>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell />
-                            <Table.HeaderCell>Pensjonsgivende årsinntekt</Table.HeaderCell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.HeaderCell>
-                                <Detail textColor="subtle">
-                                    <BodyShort weight="regular">Inntektskilde</BodyShort>
-                                </Detail>
-                            </Table.HeaderCell>
-                            <Table.HeaderCell>
-                                <Detail textColor="subtle">
-                                    <BodyShort weight="regular">Ferdiglignet inntekt</BodyShort>
-                                </Detail>
-                            </Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        <Table.Row shadeOnHover={false} className={styles.SelvstendigNaeringRow}>
-                            <Table.DataCell>
-                                <HStack align="center" gap="2">
-                                    <PersonSuitIcon width="20" height="20" />
-                                    Selvstendig næring
-                                </HStack>
-                            </Table.DataCell>
-                            <Table.DataCell>
-                                <HStack align="center" gap="2">
-                                    {somPenger(beregningsgrunnlagNumber)}
-                                    <Kilde type="Skatteetaten">SE</Kilde>
-                                </HStack>
-                            </Table.DataCell>
-                        </Table.Row>
-                        <Table.Row shadeOnHover={false} className={styles.TotalRow}>
-                            <Table.DataCell>
-                                <BodyShort weight="semibold">Total</BodyShort>
-                            </Table.DataCell>
-                            <Table.DataCell>
-                                <BodyShort weight="semibold">{somPenger(beregningsgrunnlagNumber)}</BodyShort>
-                            </Table.DataCell>
-                        </Table.Row>
-                    </Table.Body>
-                </Table>
-                <VStack>
-                    <Box background="surface-subtle" borderRadius="xlarge" padding="4" marginInline="0 4">
-                        <HStack gap="32">
-                            <BodyShort weight="semibold">Sykepengegrunnlag</BodyShort>
+        <VStack gap="16">
+            <Table className={styles.Table}>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell />
+                        <Table.HeaderCell>Pensjonsgivende årsinntekt</Table.HeaderCell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.HeaderCell>
+                            <Detail textColor="subtle">
+                                <BodyShort weight="regular">Inntektskilde</BodyShort>
+                            </Detail>
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
+                            <Detail textColor="subtle">
+                                <BodyShort weight="regular">Ferdiglignet inntekt</BodyShort>
+                            </Detail>
+                        </Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    <Table.Row shadeOnHover={false} className={styles.SelvstendigNaeringRow}>
+                        <Table.DataCell>
                             <HStack align="center" gap="2">
-                                <BodyShort>{somPenger(Number(beregningsgrunnlag))}</BodyShort>
+                                <PersonSuitIcon width="20" height="20" />
+                                Selvstendig næring
+                            </HStack>
+                        </Table.DataCell>
+                        <Table.DataCell>
+                            <HStack align="center" gap="2">
+                                {somPenger(beregningsgrunnlagNumber)}
                                 <Kilde type="Skatteetaten">SE</Kilde>
                             </HStack>
+                        </Table.DataCell>
+                    </Table.Row>
+                    <Table.Row shadeOnHover={false} className={styles.TotalRow}>
+                        <Table.DataCell>
+                            <BodyShort weight="semibold">Total</BodyShort>
+                        </Table.DataCell>
+                        <Table.DataCell>
+                            <BodyShort weight="semibold">{somPenger(beregningsgrunnlagNumber)}</BodyShort>
+                        </Table.DataCell>
+                    </Table.Row>
+                </Table.Body>
+            </Table>
+            <VStack>
+                <Box background="surface-subtle" borderRadius="xlarge" padding="4" marginInline="0 4">
+                    <HStack gap="32">
+                        <BodyShort weight="semibold">Sykepengegrunnlag</BodyShort>
+                        <HStack align="center" gap="2">
+                            <BodyShort>{somPenger(Number(beregningsgrunnlag))}</BodyShort>
+                            <Kilde type="Skatteetaten">SE</Kilde>
                         </HStack>
-                    </Box>
-                    {beregningsgrunnlagNumber > sykepengegrunnlagsgrense.grense && (
-                        <Detail className={styles.Detail}>
-                            {`Sykepengegrunnlaget er begrenset til 6G: ${somPengerUtenDesimaler(sykepengegrunnlagsgrense.grense)}`}
-                            <LovdataLenke paragraf="8-10">§ 8-10</LovdataLenke>
-                        </Detail>
-                    )}
+                    </HStack>
+                </Box>
+                {beregningsgrunnlagNumber > sykepengegrunnlagsgrense.grense && (
                     <Detail className={styles.Detail}>
-                        {`Grunnbeløp (G) ved skjæringstidspunkt: ${somPengerUtenDesimaler(sykepengegrunnlagsgrense.grunnbelop)}`}
-                        <br />({getFormattedDate(sykepengegrunnlagsgrense.virkningstidspunkt)})
+                        {`Sykepengegrunnlaget er begrenset til 6G: ${somPengerUtenDesimaler(sykepengegrunnlagsgrense.grense)}`}
+                        <LovdataLenke paragraf="8-10">§ 8-10</LovdataLenke>
                     </Detail>
-                </VStack>
+                )}
+                <Detail className={styles.Detail}>
+                    {`Grunnbeløp (G) ved skjæringstidspunkt: ${somPengerUtenDesimaler(sykepengegrunnlagsgrense.grunnbelop)}`}
+                    <br />({getFormattedDate(sykepengegrunnlagsgrense.virkningstidspunkt)})
+                </Detail>
             </VStack>
-        </Box>
+        </VStack>
     );
 };
 

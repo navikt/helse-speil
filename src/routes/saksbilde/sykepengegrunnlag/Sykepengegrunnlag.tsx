@@ -6,6 +6,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { BeregnetPeriodeFragment, GhostPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
 import { SykepengegrunnlagSelvstendig } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/SykepengegrunnlagSelvstendig';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { SykepengegrunnlagFraInfogtrygd } from './sykepengegrunnlagvisninger/infotrygd/SykepengegrunnlagFraInfotrygd';
 import { SykepengegrunnlagFraSpleis } from './sykepengegrunnlagvisninger/spleis/SykepengegrunnlagFraSpleis';
@@ -24,17 +25,20 @@ const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps)
 
     switch (vilkårsgrunnlag?.__typename) {
         case 'VilkarsgrunnlagSpleisV2':
-            return arbeidsgiver.organisasjonsnummer === 'SELVSTENDIG' ? (
-                <SykepengegrunnlagSelvstendig vilkårsgrunnlag={vilkårsgrunnlag} />
-            ) : (
-                <SykepengegrunnlagFraSpleis
-                    vilkårsgrunnlag={vilkårsgrunnlag}
-                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                    data-testid="ubehandlet-sykepengegrunnlag"
-                    person={person}
-                    periode={periode}
-                />
-            );
+            if (arbeidsgiver.organisasjonsnummer !== 'SELVSTENDIG') {
+                return (
+                    <SykepengegrunnlagFraSpleis
+                        vilkårsgrunnlag={vilkårsgrunnlag}
+                        organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                        data-testid="ubehandlet-sykepengegrunnlag"
+                        person={person}
+                        periode={periode}
+                    />
+                );
+            } else if (isBeregnetPeriode(periode)) {
+                return <SykepengegrunnlagSelvstendig vilkårsgrunnlag={vilkårsgrunnlag} beregnetPeriode={periode} />;
+            }
+            return null;
         case 'VilkarsgrunnlagInfotrygdV2':
             return (
                 <SykepengegrunnlagFraInfogtrygd

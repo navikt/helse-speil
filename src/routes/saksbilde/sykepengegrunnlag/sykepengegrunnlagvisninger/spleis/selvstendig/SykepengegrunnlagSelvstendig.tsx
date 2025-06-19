@@ -1,24 +1,56 @@
 import React, { HTMLAttributes } from 'react';
 
-import { BodyShort, HStack } from '@navikt/ds-react';
+import { PersonSuitIcon } from '@navikt/aksel-icons';
+import { BodyShort, Box, Detail, HStack, VStack } from '@navikt/ds-react';
 
-import { VilkarsgrunnlagSpleisV2 } from '@io/graphql';
-import styles from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/SykepengegrunnlagFraSpleis.module.css';
+import { Kilde } from '@components/Kilde';
+import { BeregnetPeriodeFragment, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
 import { SykepengegrunnlagSelvstendigPanel } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/SykepengegrunnlagSelvstendigPanel';
+import { somPenger } from '@utils/locale';
 
 interface SykepengegrunnlagProps extends HTMLAttributes<HTMLDivElement> {
     vilkårsgrunnlag: VilkarsgrunnlagSpleisV2;
+    beregnetPeriode: BeregnetPeriodeFragment;
 }
 
-export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag }: SykepengegrunnlagProps) => {
+export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag, beregnetPeriode }: SykepengegrunnlagProps) => {
     return (
-        <HStack justify="start" wrap={false}>
-            <SykepengegrunnlagSelvstendigPanel
-                beregningsgrunnlag={vilkårsgrunnlag.beregningsgrunnlag}
-                sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
-            />
-            <span className={styles.strek} />
-            <BodyShort>&nbsp;</BodyShort>
+        <HStack>
+            <Box width="50%" paddingBlock="4" paddingInline="4 0">
+                <SykepengegrunnlagSelvstendigPanel
+                    beregningsgrunnlag={vilkårsgrunnlag.beregningsgrunnlag}
+                    sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
+                />
+            </Box>
+            <Box
+                borderWidth="0 0 0 3"
+                borderColor="border-on-inverted"
+                background="surface-selected"
+                width="50%"
+                paddingBlock="16 4"
+                paddingInline="4"
+            >
+                <VStack gap="8">
+                    <HStack align="center" gap="2">
+                        <PersonSuitIcon width="20" height="20" />
+                        <BodyShort weight="semibold">Selvstendig næring</BodyShort>
+                    </HStack>
+                    <Box width="65%">
+                        <HStack align="center" gap="2">
+                            <Detail>FERDIGLIGNET INNTEKT SISTE 3 ÅR</Detail>
+                            <Kilde type="Skatteetaten">SE</Kilde>
+                        </HStack>
+                        {beregnetPeriode.pensjonsgivendeInntekter
+                            .toSorted((a, b) => b.inntektsar - a.inntektsar)
+                            .map((inntekt) => (
+                                <HStack key={inntekt.inntektsar} justify="space-between" paddingInline="2 0">
+                                    <BodyShort weight="semibold">{inntekt.inntektsar}</BodyShort>
+                                    <BodyShort>{somPenger(Number(inntekt.arligBelop))}</BodyShort>
+                                </HStack>
+                            ))}
+                    </Box>
+                </VStack>
+            </Box>
         </HStack>
     );
 };
