@@ -2956,7 +2956,16 @@ export type ArbeidsgiverFragment = {
                             id: string;
                             type: Hendelsetype;
                         }
-                      | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+                      | {
+                            __typename: 'SoknadSelvstendig';
+                            fom: string;
+                            tom: string;
+                            rapportertDato: string;
+                            sendtNav: string;
+                            eksternDokumentId: string | null;
+                            id: string;
+                            type: Hendelsetype;
+                        }
                       | {
                             __typename: 'Sykmelding';
                             fom: string;
@@ -3091,7 +3100,16 @@ export type ArbeidsgiverFragment = {
                             id: string;
                             type: Hendelsetype;
                         }
-                      | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+                      | {
+                            __typename: 'SoknadSelvstendig';
+                            fom: string;
+                            tom: string;
+                            rapportertDato: string;
+                            sendtNav: string;
+                            eksternDokumentId: string | null;
+                            id: string;
+                            type: Hendelsetype;
+                        }
                       | {
                             __typename: 'Sykmelding';
                             fom: string;
@@ -3488,7 +3506,16 @@ export type UberegnetPeriodeFragment = {
               id: string;
               type: Hendelsetype;
           }
-        | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+        | {
+              __typename: 'SoknadSelvstendig';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
         | { __typename: 'Sykmelding'; fom: string; tom: string; rapportertDato: string; id: string; type: Hendelsetype }
     >;
 };
@@ -3876,7 +3903,16 @@ export type BeregnetPeriodeFragment = {
               id: string;
               type: Hendelsetype;
           }
-        | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+        | {
+              __typename: 'SoknadSelvstendig';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
         | { __typename: 'Sykmelding'; fom: string; tom: string; rapportertDato: string; id: string; type: Hendelsetype }
     >;
 };
@@ -3977,7 +4013,16 @@ export type Periode_BeregnetPeriode_Fragment = {
               id: string;
               type: Hendelsetype;
           }
-        | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+        | {
+              __typename: 'SoknadSelvstendig';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
         | { __typename: 'Sykmelding'; fom: string; tom: string; rapportertDato: string; id: string; type: Hendelsetype }
     >;
 };
@@ -4078,7 +4123,16 @@ export type Periode_UberegnetPeriode_Fragment = {
               id: string;
               type: Hendelsetype;
           }
-        | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+        | {
+              __typename: 'SoknadSelvstendig';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              sendtNav: string;
+              eksternDokumentId: string | null;
+              id: string;
+              type: Hendelsetype;
+          }
         | { __typename: 'Sykmelding'; fom: string; tom: string; rapportertDato: string; id: string; type: Hendelsetype }
     >;
 };
@@ -4676,7 +4730,16 @@ export type PersonFragment = {
                                 id: string;
                                 type: Hendelsetype;
                             }
-                          | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+                          | {
+                                __typename: 'SoknadSelvstendig';
+                                fom: string;
+                                tom: string;
+                                rapportertDato: string;
+                                sendtNav: string;
+                                eksternDokumentId: string | null;
+                                id: string;
+                                type: Hendelsetype;
+                            }
                           | {
                                 __typename: 'Sykmelding';
                                 fom: string;
@@ -4811,7 +4874,16 @@ export type PersonFragment = {
                                 id: string;
                                 type: Hendelsetype;
                             }
-                          | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+                          | {
+                                __typename: 'SoknadSelvstendig';
+                                fom: string;
+                                tom: string;
+                                rapportertDato: string;
+                                sendtNav: string;
+                                eksternDokumentId: string | null;
+                                id: string;
+                                type: Hendelsetype;
+                            }
                           | {
                                 __typename: 'Sykmelding';
                                 fom: string;
@@ -5545,7 +5617,16 @@ export type FetchPersonQuery = {
                                     id: string;
                                     type: Hendelsetype;
                                 }
-                              | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+                              | {
+                                    __typename: 'SoknadSelvstendig';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtNav: string;
+                                    eksternDokumentId: string | null;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
                               | {
                                     __typename: 'Sykmelding';
                                     fom: string;
@@ -5680,7 +5761,16 @@ export type FetchPersonQuery = {
                                     id: string;
                                     type: Hendelsetype;
                                 }
-                              | { __typename: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
+                              | {
+                                    __typename: 'SoknadSelvstendig';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtNav: string;
+                                    eksternDokumentId: string | null;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
                               | {
                                     __typename: 'Sykmelding';
                                     fom: string;
@@ -6603,6 +6693,23 @@ export const PeriodeFragmentDoc = {
                                         selections: [{ kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } }],
                                     },
                                 },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadSelvstendig' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -6872,6 +6979,23 @@ export const UberegnetPeriodeFragmentDoc = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [{ kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } }],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadSelvstendig' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
                                     },
                                 },
                             ],
@@ -7688,6 +7812,23 @@ export const BeregnetPeriodeFragmentDoc = {
                                         selections: [{ kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } }],
                                     },
                                 },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadSelvstendig' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -8247,6 +8388,23 @@ export const ArbeidsgiverFragmentDoc = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [{ kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } }],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadSelvstendig' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
                                     },
                                 },
                             ],
@@ -9360,6 +9518,23 @@ export const PersonFragmentDoc = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [{ kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } }],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadSelvstendig' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
                                     },
                                 },
                             ],
@@ -12440,6 +12615,23 @@ export const FetchPersonDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [{ kind: 'Field', name: { kind: 'Name', value: 'mottattDato' } }],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'SoknadSelvstendig' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rapportertDato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'eksternDokumentId' } },
+                                        ],
                                     },
                                 },
                             ],

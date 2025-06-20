@@ -90,6 +90,7 @@ const getTypePolicies = (): TypePolicies => {
         VarselDTO: { keyFields: ['generasjonId', 'kode'] },
         SoknadArbeidsgiver: { keyFields: ['id'] },
         SoknadNav: { keyFields: ['id'] },
+        SoknadSelvstendig: { keyFields: ['id'] },
         Inntektsmelding: { keyFields: ['id'] },
         Utbetaling: { keyFields: ['id'] },
         UberegnetPeriode: { keyFields: ['behandlingId'] },

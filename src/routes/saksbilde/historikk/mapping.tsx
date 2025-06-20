@@ -23,6 +23,7 @@ import {
     SoknadArbeidsledig,
     SoknadFrilans,
     SoknadNav,
+    SoknadSelvstendig,
     StansAutomatiskBehandlingSaksbehandler,
     Sykepengegrunnlagskjonnsfastsetting,
     Sykmelding,
@@ -88,6 +89,10 @@ const isSøknadFrilans = (hendelse: Hendelse): hendelse is SoknadFrilans => {
     return hendelse.type === 'SENDT_SOKNAD_FRILANS';
 };
 
+const isSøknadSelvstendig = (hendelse: Hendelse): hendelse is SoknadSelvstendig => {
+    return hendelse.type === 'SENDT_SOKNAD_SELVSTENDIG';
+};
+
 const isDokument = (
     hendelse: Hendelse,
 ): hendelse is
@@ -97,6 +102,7 @@ const isDokument = (
     | SoknadArbeidsgiver
     | SoknadArbeidsledig
     | SoknadFrilans
+    | SoknadSelvstendig
     | InntektHentetFraAOrdningen => {
     return (
         isInntektsmelding(hendelse) ||
@@ -105,7 +111,8 @@ const isDokument = (
         isInntektHentetFraAordningen(hendelse) ||
         isSøknadArbeidsgiver(hendelse) ||
         isSøknadArbeidsledig(hendelse) ||
-        isSøknadFrilans(hendelse)
+        isSøknadFrilans(hendelse) ||
+        isSøknadSelvstendig(hendelse)
     );
 };
 
@@ -113,7 +120,6 @@ export const getDokumenter = (period: Periode | GhostPeriodeFragment): Array<Hen
     if (!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) {
         return [];
     }
-
     return period.hendelser.filter(isDokument).map((hendelse) => {
         if (isInntektsmelding(hendelse)) {
             return {
