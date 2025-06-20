@@ -21,7 +21,7 @@ export const InntektOgRefusjonHeader = ({
 }: InntektOgRefusjonHeaderProps) => (
     <HStack marginBlock="5 6" gap="3" align="center">
         <Arbeidsgiverikon />
-        <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={arbeidsgivernavn} />
+        <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={arbeidsgivernavn} maxWidth="190px" />
         <HStack align="center">
             <BodyShort>(</BodyShort>
             <AnonymizableText>{organisasjonsnummer}</AnonymizableText>

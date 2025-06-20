@@ -40,7 +40,12 @@ export const ExpandableTimelineRow = ({
                 ) : (
                     <Arbeidsgiverikon />
                 )}
-                <Arbeidsgivernavn identifikator={arbeidsgiverIdentifikator} navn={name} showCopyButton />
+                <Arbeidsgivernavn
+                    identifikator={arbeidsgiverIdentifikator}
+                    navn={name}
+                    showCopyButton
+                    maxWidth="200px"
+                />
             </div>
             <div className={classNames(styles.Periods)}>
                 {generations[0] && (

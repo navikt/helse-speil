@@ -72,7 +72,7 @@ export const Inntektssammenligning = ({
                     ) : (
                         <Arbeidsgiverikon />
                     )}
-                    <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={arbeidsgivernavn} />
+                    <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={arbeidsgivernavn} maxWidth="130px" />
                 </HStack>
             </td>
             <TableCell

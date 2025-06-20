@@ -23,7 +23,7 @@ export const UtbetalingHeader = ({
     arbeidsgiverNavn,
     erRevurdering,
 }: UtbetalingHeaderProps): Maybe<ReactElement> => (
-    <HStack align="center" gap="2">
+    <HStack align="center" gap="1">
         <Heading size="xsmall" level="1">
             Dagoversikt
         </Heading>

@@ -93,7 +93,7 @@ const ArbeidsgiverRowView = ({
                     <Arbeidsgiverikon />
                 )}
             </div>
-            <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={navn} showCopyButton />
+            <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={navn} maxWidth="300px" showCopyButton />
             {!erSelvstendigNæringsdrivende(organisasjonsnummer) && (
                 <>
                     <div />

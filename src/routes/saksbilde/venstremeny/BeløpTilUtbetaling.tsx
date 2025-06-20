@@ -51,7 +51,7 @@ export const BeløpTilUtbetaling = ({
             ) : (
                 <Arbeidsgiverikon />
             )}
-            <Arbeidsgivernavn identifikator={arbeidsgiverIdentifikator} navn={arbeidsgiverNavn} />
+            <Arbeidsgivernavn identifikator={arbeidsgiverIdentifikator} navn={arbeidsgiverNavn} maxWidth="200px" />
             <Spacer />
             <BodyShort>{somPenger(periodeArbeidsgiverNettoBeløp)}</BodyShort>
         </HStack>
