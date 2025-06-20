@@ -150,7 +150,6 @@
             "aktorId": "2805594640665",
             "arbeidsgivere": [
                 {
-                    "bransjer": [],
                     "navn": "SAUEFABRIKK",
                     "organisasjonsnummer": "896929119",
                     "arbeidsforhold": [
@@ -824,7 +823,6 @@
                     ]
                 },
                 {
-                    "bransjer": [],
                     "navn": "HEST",
                     "organisasjonsnummer": "896929120",
                     "arbeidsforhold": [

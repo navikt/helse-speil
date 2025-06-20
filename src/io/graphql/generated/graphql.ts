@@ -117,7 +117,6 @@ export type Arbeidsforholdoverstyring = Overstyring & {
 export type Arbeidsgiver = {
     __typename: 'Arbeidsgiver';
     arbeidsforhold: Array<Arbeidsforhold>;
-    bransjer: Array<Scalars['String']['output']>;
     generasjoner: Array<Generasjon>;
     ghostPerioder: Array<GhostPeriode>;
     inntekterFraAordningen: Array<ArbeidsgiverInntekterFraAOrdningen>;
@@ -2535,7 +2534,6 @@ export type TilleggsinfoForInntektskildeFragment = {
 
 export type ArbeidsgiverFragment = {
     __typename: 'Arbeidsgiver';
-    bransjer: Array<string>;
     navn: string;
     organisasjonsnummer: string;
     arbeidsforhold: Array<{
@@ -4301,7 +4299,6 @@ export type PersonFragment = {
     >;
     arbeidsgivere: Array<{
         __typename: 'Arbeidsgiver';
-        bransjer: Array<string>;
         navn: string;
         organisasjonsnummer: string;
         arbeidsforhold: Array<{
@@ -5188,7 +5185,6 @@ export type FetchPersonQuery = {
         >;
         arbeidsgivere: Array<{
             __typename: 'Arbeidsgiver';
-            bransjer: Array<string>;
             navn: string;
             organisasjonsnummer: string;
             arbeidsforhold: Array<{
@@ -8043,7 +8039,6 @@ export const ArbeidsgiverFragmentDoc = {
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'bransjer' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
                     {
@@ -10404,7 +10399,6 @@ export const PersonFragmentDoc = {
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'bransjer' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
                     {
@@ -13332,7 +13326,6 @@ export const FetchPersonDocument = {
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'bransjer' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
                     {

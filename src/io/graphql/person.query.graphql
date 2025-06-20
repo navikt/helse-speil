@@ -113,7 +113,6 @@ fragment tilleggsinfoForInntektskilde on TilleggsinfoForInntektskilde {
 }
 
 fragment arbeidsgiver on Arbeidsgiver {
-    bransjer
     navn
     organisasjonsnummer
     arbeidsforhold {

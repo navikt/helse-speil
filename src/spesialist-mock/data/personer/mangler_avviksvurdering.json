@@ -122,7 +122,6 @@
             "arbeidsgivere": [
                 {
                     "__typename": "Arbeidsgiver",
-                    "bransjer": [],
                     "navn": "PENGELØS SPAREBANK",
                     "organisasjonsnummer": "972674818",
                     "arbeidsforhold": [],
@@ -817,7 +816,6 @@
                 },
                 {
                     "__typename": "Arbeidsgiver",
-                    "bransjer": [],
                     "navn": "SAUEFABRIKK",
                     "organisasjonsnummer": "896929119",
                     "arbeidsforhold": [],

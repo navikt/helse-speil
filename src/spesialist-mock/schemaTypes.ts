@@ -115,7 +115,6 @@ export type Arbeidsforholdoverstyring = Overstyring & {
 export type Arbeidsgiver = {
     __typename?: 'Arbeidsgiver';
     arbeidsforhold: Array<Arbeidsforhold>;
-    bransjer: Array<Scalars['String']['output']>;
     generasjoner: Array<Generasjon>;
     ghostPerioder: Array<GhostPeriode>;
     inntekterFraAordningen: Array<ArbeidsgiverInntekterFraAOrdningen>;

@@ -107,7 +107,6 @@ const getArbeidsgiver = (
     return {
         __typename: 'Arbeidsgiver',
         arbeidsforhold: [],
-        bransjer: [],
         generasjoner: generasjoner,
         ghostPerioder: [],
         navn: 'EN_ARBEIDSGIVER',

@@ -21,7 +21,6 @@ export const enArbeidsgiver: OverridableConstructor<ArbeidsgiverFragment, Extens
     navn: 'Sjokkerende Elektriker',
     organisasjonsnummer: '987654321',
     arbeidsforhold: [],
-    bransjer: [],
     generasjoner: [enGenerasjon()],
     ghostPerioder: [enGhostPeriode()],
     overstyringer: [],

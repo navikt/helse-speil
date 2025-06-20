@@ -920,7 +920,6 @@
             "aktorId": "2117136462117",
             "arbeidsgivere": [
                 {
-                    "bransjer": [],
                     "navn": "SNILL TORPEDO",
                     "organisasjonsnummer": "967170232",
                     "arbeidsforhold": [
@@ -5148,7 +5147,6 @@
                     "__typename": "Arbeidsgiver"
                 },
                 {
-                    "bransjer": [],
                     "navn": "KLONELABBEN",
                     "organisasjonsnummer": "907670201",
                     "arbeidsforhold": [
