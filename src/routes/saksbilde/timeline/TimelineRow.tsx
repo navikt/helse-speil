@@ -44,7 +44,12 @@ export const TimelineRow = ({
                 ) : (
                     <Arbeidsgiverikon />
                 )}
-                <Arbeidsgivernavn identifikator={arbeidsgiverIdentifikator} navn={name} showCopyButton />
+                <Arbeidsgivernavn
+                    identifikator={arbeidsgiverIdentifikator}
+                    navn={name}
+                    maxWidth="200px"
+                    showCopyButton
+                />
             </div>
             <div className={styles.Periods}>
                 <Periods
