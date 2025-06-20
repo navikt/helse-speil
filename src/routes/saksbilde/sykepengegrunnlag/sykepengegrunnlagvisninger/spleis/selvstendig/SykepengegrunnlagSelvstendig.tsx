@@ -19,6 +19,7 @@ export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag, beregnetPeriode
             <Box width="50%" paddingBlock="4" paddingInline="4 0">
                 <SykepengegrunnlagSelvstendigPanel
                     beregningsgrunnlag={vilkårsgrunnlag.beregningsgrunnlag}
+                    sykepengegrunnlag={vilkårsgrunnlag.sykepengegrunnlag}
                     sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 />
             </Box>

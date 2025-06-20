@@ -13,11 +13,13 @@ import styles from './SykepengegrunnlagSelvstendigPanel.module.css';
 
 interface SykepengegrunnlagSelvstendigPanel {
     beregningsgrunnlag: string;
+    sykepengegrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
 }
 
 export const SykepengegrunnlagSelvstendigPanel = ({
     beregningsgrunnlag,
+    sykepengegrunnlag,
     sykepengegrunnlagsgrense,
 }: SykepengegrunnlagSelvstendigPanel) => {
     const beregningsgrunnlagNumber = Number(beregningsgrunnlag);
@@ -72,7 +74,7 @@ export const SykepengegrunnlagSelvstendigPanel = ({
                     <HStack gap="32">
                         <BodyShort weight="semibold">Sykepengegrunnlag</BodyShort>
                         <HStack align="center" gap="2">
-                            <BodyShort>{somPenger(Number(beregningsgrunnlag))}</BodyShort>
+                            <BodyShort>{somPenger(sykepengegrunnlag)}</BodyShort>
                             <Kilde type="Skatteetaten">SE</Kilde>
                         </HStack>
                     </HStack>
