@@ -62,13 +62,6 @@ export const lagTilkommenInntektSchema = (
                     input: ctx.value.fom,
                     continue: true,
                 });
-            } else if (fomIso === sykefraværstilfelleperiode.fom) {
-                ctx.issues.push({
-                    code: 'custom',
-                    message: 'Fra og med-dato må være etter skjæringstidspunktet',
-                    input: ctx.value.fom,
-                    continue: true,
-                });
             }
         })
         .refine(

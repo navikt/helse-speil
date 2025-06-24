@@ -87,7 +87,7 @@ export const TilkommenInntektSkjema = ({
             const isoDato = norskDatoTilIsoDato(fom);
             return (
                 sykefraværstilfelleperioder.some((periode) =>
-                    erIPeriode(isoDato, { fom: plussEnDag(periode.fom), tom: periode.tom }),
+                    erIPeriode(isoDato, { fom: periode.fom, tom: periode.tom }),
                 ) &&
                 (!erGyldigNorskDato(tom) || isoDato <= norskDatoTilIsoDato(tom))
             );
