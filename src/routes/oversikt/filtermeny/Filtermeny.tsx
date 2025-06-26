@@ -5,6 +5,7 @@ import { range } from 'remeda';
 import { HStack, Skeleton } from '@navikt/ds-react';
 
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
+import { kanSeSelvstendigNæringsdrivende } from '@utils/featureToggles';
 
 import { TabType, useAktivTab } from '../tabState';
 import { Filter, Oppgaveoversiktkolonne } from '../table/state/filter';
@@ -63,10 +64,23 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
                     filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.EGENSKAPER)}
                     text="Egenskaper"
                 />
-                <FilterList
-                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD)}
-                    text="Inntekskilde"
-                />
+                {kanSeSelvstendigNæringsdrivende ? (
+                    <>
+                        <FilterList
+                            filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.INNTEKTSFORHOLD)}
+                            text="Inntektsforhold"
+                        />
+                        <FilterList
+                            filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD)}
+                            text="Antall inntektsforhold"
+                        />
+                    </>
+                ) : (
+                    <FilterList
+                        filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD)}
+                        text="Inntektskilde"
+                    />
+                )}
             </section>
         </JusterbarSidemeny>
     );

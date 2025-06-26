@@ -4,7 +4,7 @@ import { SetStateAction } from 'react';
 import { Egenskap } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
 import { atomWithLocalStorage } from '@state/jotai';
-import { kanFiltrerePåGosysEgenskap } from '@utils/featureToggles';
+import { kanFiltrerePåGosysEgenskap, kanSeSelvstendigNæringsdrivende } from '@utils/featureToggles';
 
 export type Filter = {
     key: string | Egenskap;
@@ -28,6 +28,7 @@ export enum Oppgaveoversiktkolonne {
     MOTTAKER = 'MOTTAKER',
     EGENSKAPER = 'EGENSKAPER',
     ANTALLARBEIDSFORHOLD = 'ANTALLARBEIDSFORHOLD',
+    INNTEKTSFORHOLD = 'INNTEKTSFORHOLD',
 }
 
 type FiltersPerTab = {
@@ -194,15 +195,27 @@ const filters = [
     },
     {
         key: Egenskap.EnArbeidsgiver,
-        label: 'Én arbeidsgiver',
+        label: kanSeSelvstendigNæringsdrivende ? 'Ett inntektsforhold' : 'Én arbeidsgiver',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
     {
         key: Egenskap.FlereArbeidsgivere,
-        label: 'Flere arbeidsgivere',
+        label: kanSeSelvstendigNæringsdrivende ? 'Flere inntektsforhold' : 'Flere arbeidsgivere',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
+    },
+    {
+        key: Egenskap.SelvstendigNaeringsdrivende,
+        label: 'Selvstendig',
+        status: FilterStatus.OFF,
+        column: Oppgaveoversiktkolonne.INNTEKTSFORHOLD,
+    },
+    {
+        key: Egenskap.Arbeidstaker,
+        label: 'Arbeidstaker',
+        status: FilterStatus.OFF,
+        column: Oppgaveoversiktkolonne.INNTEKTSFORHOLD,
     },
 ];
 

@@ -45,3 +45,5 @@ export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
     erCoachEllerSuper(ident) || erFunksjoneltAnsvarligIPoHelse(ident) || erPåTeamBømlo(grupper) || erLokal;
 
 export const kanGjøreTilkommenInntektEndringer = (): boolean => erUtvikling;
+
+export const kanSeSelvstendigNæringsdrivende: boolean = erUtvikling;

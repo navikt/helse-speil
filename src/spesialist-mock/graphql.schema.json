@@ -3338,6 +3338,12 @@
                 "interfaces": null,
                 "enumValues": [
                     {
+                        "name": "ARBEIDSTAKER",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "BESLUTTER",
                         "description": null,
                         "isDeprecated": false,
@@ -3453,6 +3459,12 @@
                     },
                     {
                         "name": "RISK_QA",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "SELVSTENDIG_NAERINGSDRIVENDE",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -5304,6 +5316,12 @@
                 "inputFields": null,
                 "interfaces": null,
                 "enumValues": [
+                    {
+                        "name": "Inntektsforhold",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
                     {
                         "name": "Inntektskilde",
                         "description": null,

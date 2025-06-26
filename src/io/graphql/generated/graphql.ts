@@ -339,6 +339,7 @@ export type DokumentInntektsmelding = {
 };
 
 export enum Egenskap {
+    Arbeidstaker = 'ARBEIDSTAKER',
     Beslutter = 'BESLUTTER',
     DelvisRefusjon = 'DELVIS_REFUSJON',
     EgenAnsatt = 'EGEN_ANSATT',
@@ -359,6 +360,7 @@ export enum Egenskap {
     Retur = 'RETUR',
     Revurdering = 'REVURDERING',
     RiskQa = 'RISK_QA',
+    SelvstendigNaeringsdrivende = 'SELVSTENDIG_NAERINGSDRIVENDE',
     Skjonnsfastsettelse = 'SKJONNSFASTSETTELSE',
     Soknad = 'SOKNAD',
     Spesialsak = 'SPESIALSAK',
@@ -555,6 +557,7 @@ export enum Inntektstype {
 }
 
 export enum Kategori {
+    Inntektsforhold = 'Inntektsforhold',
     Inntektskilde = 'Inntektskilde',
     Mottaker = 'Mottaker',
     Oppgavetype = 'Oppgavetype',
