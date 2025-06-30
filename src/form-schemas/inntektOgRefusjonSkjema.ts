@@ -64,7 +64,6 @@ export const lagInntektOgRefusjonSchema = (sykefraværstilfelle: DatePeriod) =>
                     return hei.every((periode, index, arr) => {
                         if (index === 0) return true;
                         const forrigePeriode = arr[index - 1];
-                        console.log();
                         return forrigePeriode !== undefined && erEtter(periode.fom, forrigePeriode.tom);
                     });
                 },
