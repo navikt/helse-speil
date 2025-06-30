@@ -55,6 +55,11 @@ describe('InntektOgRefusjonSkjema', () => {
             ),
         ).toBe('Fra og med dato må være før til og med dato');
     });
+    it('skal feile om det ikke finnes refusjonsperioder', () => {
+        expect(hentFeilmelding(validereInntektOgRefusjonSkjema(10000, []))).toBe(
+            'Det må oppgis minst én refusjonsperiode',
+        );
+    });
     it('skal feile om refusjonsperioder ikke dekker sykefraværstilfellet', () => {
         expect(
             hentFeilmelding(

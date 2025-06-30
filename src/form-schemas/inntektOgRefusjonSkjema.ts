@@ -51,6 +51,7 @@ export const lagInntektOgRefusjonSchema = (sykefraværstilfelle: DatePeriod) =>
                         },
                     ),
             )
+            .min(1, 'Det må oppgis minst én refusjonsperiode')
             .refine(
                 (perioder) => {
                     const hei = perioder
