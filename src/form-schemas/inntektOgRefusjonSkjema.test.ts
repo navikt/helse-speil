@@ -10,7 +10,7 @@ const validereInntektOgRefusjonSkjema = (
     begrunnelse: unknown = 'Annen kilde til endring',
     notat: unknown = 'Dette er et notat',
 ) => {
-    return lagInntektOgRefusjonSchema(sykefraværstilfelle).safeParse({
+    return lagInntektOgRefusjonSchema(sykefraværstilfelle, ['Annen kilde til endring']).safeParse({
         månedsbeløp: månedsbeløp,
         refusjonsperioder: refusjonsperioder,
         begrunnelse: begrunnelse,

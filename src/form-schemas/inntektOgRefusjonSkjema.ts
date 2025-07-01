@@ -5,7 +5,7 @@ import { DatePeriod, DateString } from '@typer/shared';
 import { NORSK_DATOFORMAT, erEtter, erFør, norskDatoTilIsoDato, plussEnDag } from '@utils/date';
 
 export type InntektOgRefusjonSchema = z.infer<typeof lagInntektOgRefusjonSchema>;
-export const lagInntektOgRefusjonSchema = (sykefraværstilfelle: DatePeriod) =>
+export const lagInntektOgRefusjonSchema = (sykefraværstilfelle: DatePeriod, begrunnelser: string[]) =>
     z.object({
         månedsbeløp: z
             .number({
@@ -14,7 +14,8 @@ export const lagInntektOgRefusjonSchema = (sykefraværstilfelle: DatePeriod) =>
                         ? 'Månedsbeløp er påkrevd'
                         : 'Månedsbeløp må være et tall',
             })
-            .positive('Månedsbeløp må være større enn 0'),
+            .positive('Månedsbeløp må være større enn 0')
+            .max(10000000, 'Systemet håndterer ikke månedsbeløp over 10 millioner'),
         refusjonsperioder: z
             .array(
                 z
@@ -98,19 +99,10 @@ export const lagInntektOgRefusjonSchema = (sykefraværstilfelle: DatePeriod) =>
                 },
                 { error: 'Oppgitte refusjonsperioder må dekke hele sykefraværstilfellet' },
             ),
-        begrunnelse: z.enum(
-            [
-                'Korrigert inntekt i inntektsmelding',
-                'Tariffendring i inntektsmelding',
-                'Innrapportert feil inntekt til A-ordningen',
-                'Endring/opphør av refusjon',
-                'Annen kilde til endring',
-            ],
-            {
-                error: (issue) =>
-                    issue.input === '' || issue.input == null ? 'Begrunnelse er påkrevd' : 'Ugyldig begrunnelse',
-            },
-        ),
+        begrunnelse: z.enum(begrunnelser, {
+            error: (issue) =>
+                issue.input === '' || issue.input == null ? 'Begrunnelse er påkrevd' : 'Ugyldig begrunnelse',
+        }),
         notat: z.string('Notat må være en tekst').min(1, 'Notat er påkrevd'),
     });
 
