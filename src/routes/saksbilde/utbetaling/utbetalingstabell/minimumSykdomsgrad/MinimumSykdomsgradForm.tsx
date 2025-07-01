@@ -15,7 +15,6 @@ import { BodyShort, Box, Button, ErrorMessage, HStack, Heading, Table, Textarea,
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { ArbeidsgiverFragment, Maybe, PersonFragment } from '@io/graphql';
-import { InntektFormFields } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
 import { DelperiodeWrapper } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/DelperiodeWrapper';
 import { overlapper } from '@state/selectors/period';
 import { MinimumSykdomsgradPeriode } from '@typer/overstyring';
@@ -24,6 +23,11 @@ import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { useGetNotatTekst, usePostOverstyringMinimumSykdomsgrad, useReplaceNotat } from './minimumSykdomsgrad';
 
 import styles from './MinimumSykdomsgrad.module.scss';
+
+interface MinimumSykdomsgradFormFields {
+    merEnn20periode: Record<string, 'Ja' | 'Nei'>;
+    begrunnelse: string;
+}
 
 interface MinimumSykdomsgradFormProps {
     person: PersonFragment;
@@ -45,7 +49,7 @@ export const MinimumSykdomsgradForm = ({
     const { isLoading, error, postMinimumSykdomsgrad, timedOut, setTimedOut } = usePostOverstyringMinimumSykdomsgrad(
         () => setOverstyrerMinimumSykdomsgrad(false),
     );
-    const form = useForm();
+    const form = useForm<MinimumSykdomsgradFormFields>();
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
 
     const submitForm = () => {
@@ -141,12 +145,13 @@ interface RefMedId extends CustomElement<FieldValues> {
     id?: string;
 }
 
-const formErrorsTilFeilliste = (errors: FieldErrors<InntektFormFields>): Skjemafeil[] =>
+const formErrorsTilFeilliste = (errors: FieldErrors<MinimumSykdomsgradFormFields>): Skjemafeil[] =>
     Object.entries(errors)
         .map(([id, error]) => ({
             id: (error?.ref as RefMedId)?.id ?? id,
             melding:
-                error.message ?? (Object.entries(error).length > 0 ? 'Du må gi en vurdering i alle periodene' : id),
+                error.message?.toString() ??
+                (Object.entries(error).length > 0 ? 'Du må gi en vurdering i alle periodene' : id),
         }))
         .flat();
 
