@@ -8,7 +8,7 @@ import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SelvstendigNæringsdrivendeIkon } from '@components/ikoner/SelvstendigNæringsdrivendeIkon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
-import { capitalize, somPenger } from '@utils/locale';
+import { capitalizeName, somPenger } from '@utils/locale';
 
 import { OpenSimuleringButton } from './utbetaling/simulering/OpenSimuleringButton';
 
@@ -64,7 +64,7 @@ export const BeløpTilUtbetaling = ({
         )}
         <HStack align="center" gap="4" className={styles.Row}>
             <SykmeldtikonMedTooltip />
-            <AnonymizableTextWithEllipsis>{capitalize(getFormattedName(personinfo))}</AnonymizableTextWithEllipsis>
+            <AnonymizableTextWithEllipsis>{capitalizeName(getFormattedName(personinfo))}</AnonymizableTextWithEllipsis>
             <Spacer />
             <BodyShort>{somPenger(periodePersonNettoBeløp)}</BodyShort>
         </HStack>
