@@ -30,6 +30,7 @@ export const capitalizeName = (value: string) =>
         })
         .join(' ');
 
+// Denne fungerer dårlig for navn, Øyvind blir ØYvind. Bruk capitalizeName!
 export const capitalize = (value: string): string =>
     value.replace(/\w\S*/g, (t) => t.charAt(0).toUpperCase() + t.substring(1).toLowerCase());
 
