@@ -24,11 +24,8 @@ export function utledSykefraværstilfelleperioder(person: PersonFragment): DateP
             (acc, periode) => {
                 const key = periode.skjæringstidspunkt;
                 if (!acc[key]) {
-                    acc[key] = { fom: periode.fom, tom: periode.tom };
+                    acc[key] = { fom: periode.skjæringstidspunkt, tom: periode.tom };
                 } else {
-                    if (periode.fom < acc[key].fom) {
-                        acc[key].fom = periode.fom;
-                    }
                     if (periode.tom > acc[key].tom) {
                         acc[key].tom = periode.tom;
                     }
