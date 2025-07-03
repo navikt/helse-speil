@@ -43,6 +43,9 @@ export class TilkommenInntektMock {
         verdier: TilkommenInntektInput,
     ): LeggTilTilkommenInntektResponse => {
         const nyTilkommenInntektId = v4();
+        if (TilkommenInntektMock.inntektskilder.get(fødselsnummer) === undefined) {
+            TilkommenInntektMock.inntektskilder.set(fødselsnummer, []);
+        }
         const tilkommenInntektskilde = TilkommenInntektMock.finnEllerLeggTilInntektskilde(
             verdier.organisasjonsnummer,
             TilkommenInntektMock.inntektskilder.get(fødselsnummer) ?? [],
