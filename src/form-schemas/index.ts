@@ -59,6 +59,7 @@ export const lagTilkommenInntektSchema = (
                 ctx.issues.push({
                     code: 'custom',
                     message: 'Oppgitt periode må være innenfor et sykefraværstilfelle',
+                    path: ['fom'],
                     input: ctx.value.fom,
                     continue: true,
                 });
