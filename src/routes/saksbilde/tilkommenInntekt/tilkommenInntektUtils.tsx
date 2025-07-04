@@ -1,13 +1,11 @@
-import { ReactElement } from 'react';
-
-import { ArbeidsgiverFragment, PersonFragment, Utbetalingsdagtype } from '@io/graphql';
-import { IconArbeidsdag } from '@saksbilde/table/icons/IconArbeidsdag';
-import { IconFailure } from '@saksbilde/table/icons/IconFailure';
-import { IconFerie } from '@saksbilde/table/icons/IconFerie';
-import { IconSyk } from '@saksbilde/table/icons/IconSyk';
+import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
+import { useTabelldagerMap } from '@saksbilde/utbetaling/utbetalingstabell/useTabelldagerMap';
+import { useDagoverstyringer } from '@state/arbeidsgiver';
 import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { DatePeriod, DateString } from '@typer/shared';
-import { tilDatoer, tilUkedager } from '@utils/date';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { somDato, tilDatoer, tilUkedager } from '@utils/date';
+import { getAntallAGPDagerBruktFørPerioden } from '@utils/periode';
 
 export function utledSykefraværstilfelleperioder(person: PersonFragment): DatePeriod[] {
     const vedtaksperioder = person.arbeidsgivere
@@ -60,7 +58,7 @@ export type DagtypeKolonneDefinisjon = {
 
 export type DagtypeRad = {
     dato: DateString;
-    dagtypePerOrganisasjonsnummer: Map<string, Utbetalingsdagtype>;
+    dagtypePerOrganisasjonsnummer: Map<string, Utbetalingstabelldag>;
 };
 
 export type DagtypeTabell = {
@@ -72,25 +70,48 @@ export const tilDagtypeTabell = (periode: DatePeriod, arbeidsgivere: Arbeidsgive
     const datoer = tilDatoer(periode);
 
     const kolonneDefinisjoner: DagtypeKolonneDefinisjon[] = [];
-    const datoOrganisasjonsnummerDagtypeMap = new Map<DateString, Map<string, Utbetalingsdagtype>>();
-    datoer.forEach((dato) => datoOrganisasjonsnummerDagtypeMap.set(dato, new Map<string, Utbetalingsdagtype>()));
+    const datoOrganisasjonsnummerDagtypeMap = new Map<DateString, Map<string, Utbetalingstabelldag>>();
+    datoer.forEach((dato) => datoOrganisasjonsnummerDagtypeMap.set(dato, new Map<string, Utbetalingstabelldag>()));
+    const dayjsTom = somDato(periode.tom);
+    const dayjsFom = somDato(periode.fom);
 
     arbeidsgivere.forEach((arbeidsgiver) => {
-        const utbetalingsdager =
-            arbeidsgiver.generasjoner[0]?.perioder.flatMap((p) => {
-                return p.tidslinje
-                    .filter((dag) => datoer.includes(dag.dato))
-                    .map((dag) => {
-                        return { dato: dag.dato, dagtype: dag.utbetalingsdagtype };
-                    });
-            }) ?? [];
-        if (utbetalingsdager.length > 0) {
+        const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
+
+        const perioder =
+            arbeidsgiver.generasjoner[0]?.perioder?.filter(
+                (it) => dayjsTom.isSameOrAfter(it.fom) && dayjsFom.isSameOrBefore(it.tom),
+            ) ?? [];
+
+        const tabelldagerMaps = perioder.map((period) => {
+            if (period.__typename === 'BeregnetPeriode') {
+                return useTabelldagerMap({
+                    tidslinje: period.tidslinje,
+                    gjenståendeDager: period.gjenstaendeSykedager,
+                    overstyringer: dagoverstyringer,
+                    maksdato: period.maksdato,
+                });
+            } else {
+                return useTabelldagerMap({
+                    tidslinje: period.tidslinje,
+                    overstyringer: dagoverstyringer,
+                    antallAGPDagerBruktFørPerioden: getAntallAGPDagerBruktFørPerioden(arbeidsgiver, period),
+                });
+            }
+        });
+
+        const alleTabelldagerMap = new Map<string, Utbetalingstabelldag>();
+        tabelldagerMaps.forEach((currentValue) => {
+            return currentValue.forEach((value, key) => alleTabelldagerMap.set(key, value));
+        });
+
+        if (alleTabelldagerMap.size > 0) {
             kolonneDefinisjoner.push({
                 organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
                 navn: arbeidsgiver.navn,
             });
-            utbetalingsdager.forEach((dag) =>
-                datoOrganisasjonsnummerDagtypeMap.get(dag.dato)!.set(arbeidsgiver.organisasjonsnummer, dag.dagtype),
+            alleTabelldagerMap.forEach((value, key) =>
+                datoOrganisasjonsnummerDagtypeMap.get(key)?.set(arbeidsgiver.organisasjonsnummer, value),
             );
         }
     });
@@ -104,45 +125,4 @@ export const tilDagtypeTabell = (periode: DatePeriod, arbeidsgivere: Arbeidsgive
             }),
         ),
     };
-};
-
-export const dekorerTekst = (dagtype: Utbetalingsdagtype, erHelg: boolean): string => {
-    switch (dagtype) {
-        case Utbetalingsdagtype.AvvistDag:
-        case Utbetalingsdagtype.ForeldetDag:
-            return 'Avslått';
-        case Utbetalingsdagtype.Arbeidsgiverperiodedag:
-            return erHelg ? 'Helg (AGP)' : 'Syk (AGP)';
-        case Utbetalingsdagtype.Helgedag:
-        case Utbetalingsdagtype.Navhelgdag:
-            return 'Helg';
-        case Utbetalingsdagtype.Feriedag:
-            return 'Ferie';
-        case Utbetalingsdagtype.Navdag:
-            return 'Syk';
-        case Utbetalingsdagtype.Arbeidsdag:
-            return 'Arbeid';
-        case Utbetalingsdagtype.UkjentDag:
-        default:
-            return 'Ukjent';
-    }
-};
-export const getTypeIcon = (dagtype: Utbetalingsdagtype, erHelg: boolean): ReactElement | null => {
-    switch (dagtype) {
-        case Utbetalingsdagtype.AvvistDag:
-        case Utbetalingsdagtype.ForeldetDag:
-            return <IconFailure />;
-        case Utbetalingsdagtype.Navdag:
-        case Utbetalingsdagtype.Arbeidsgiverperiodedag:
-            return erHelg ? null : <IconSyk />;
-        case Utbetalingsdagtype.Feriedag:
-            return <IconFerie />;
-        case Utbetalingsdagtype.Arbeidsdag:
-            return <IconArbeidsdag />;
-        case Utbetalingsdagtype.Helgedag:
-        case Utbetalingsdagtype.Navhelgdag:
-        case Utbetalingsdagtype.UkjentDag:
-        default:
-            return null;
-    }
 };

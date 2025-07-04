@@ -5,7 +5,8 @@ import { BodyShort, Box, Checkbox, HStack, Table } from '@navikt/ds-react';
 
 import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { ArbeidsgiverFragment } from '@io/graphql';
-import { dekorerTekst, getTypeIcon, tilDagtypeTabell } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
+import { tilDagtypeTabell } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
+import { DagtypeCell } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeCell';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erHelg, somNorskDato } from '@utils/date';
 
@@ -112,21 +113,13 @@ export const TilkommenInntektSkjemaTabell = ({
                                         const dagtype = dagtypePerOrganisasjonsnummer.get(
                                             arbeidsgiver.organisasjonsnummer,
                                         );
-                                        return (
-                                            <Table.DataCell key={dato + arbeidsgiver.organisasjonsnummer}>
-                                                <HStack gap="1" align="center" paddingInline="1 0" wrap={false}>
-                                                    {dagtype && (
-                                                        <>
-                                                            <div className={styles.icon}>
-                                                                {getTypeIcon(dagtype, helg)}
-                                                            </div>
-                                                            <BodyShort style={{ whiteSpace: 'nowrap' }}>
-                                                                {dekorerTekst(dagtype, helg)}
-                                                            </BodyShort>
-                                                        </>
-                                                    )}
-                                                </HStack>
-                                            </Table.DataCell>
+                                        return dagtype ? (
+                                            <DagtypeCell
+                                                tabelldag={dagtype}
+                                                key={dato + arbeidsgiver.organisasjonsnummer}
+                                            />
+                                        ) : (
+                                            <Table.DataCell key={dato + arbeidsgiver.organisasjonsnummer} />
                                         );
                                     })}
                                 </Table.Row>

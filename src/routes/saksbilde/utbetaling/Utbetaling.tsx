@@ -12,7 +12,6 @@ import {
     Maybe,
     PersonFragment,
     UberegnetPeriodeFragment,
-    Utbetalingsdagtype,
 } from '@io/graphql';
 import styles from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader.module.css';
 import {
@@ -25,6 +24,7 @@ import { isInCurrentGeneration } from '@state/selectors/period';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
+import { getAntallAGPDagerBruktFørPerioden } from '@utils/periode';
 import { isBeregnetPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
 import { harPeriodeTilBeslutterFor } from '../sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
@@ -150,17 +150,7 @@ const UtbetalingUberegnetPeriode = ({
     arbeidsgiver,
 }: UtbetalingUberegnetPeriodeProps): Maybe<ReactElement> => {
     const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
-    const antallAGPDagerBruktFørPerioden = arbeidsgiver.generasjoner[0]?.perioder
-        .filter((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt)
-        .filter((it) => it.fom < periode.fom)
-        .reverse()
-        .flatMap((it) => it.tidslinje)
-        .filter(
-            (dag) =>
-                dag.utbetalingsdagtype === 'ARBEIDSGIVERPERIODEDAG' ||
-                (['SYKEDAG', 'SYK_HELGEDAG'].includes(dag.sykdomsdagtype) &&
-                    dag.utbetalingsdagtype === Utbetalingsdagtype.UkjentDag),
-        ).length;
+    const antallAGPDagerBruktFørPerioden = getAntallAGPDagerBruktFørPerioden(arbeidsgiver, periode);
     const dager: Map<string, Utbetalingstabelldag> = useTabelldagerMap({
         tidslinje: periode.tidslinje,
         overstyringer: dagoverstyringer,

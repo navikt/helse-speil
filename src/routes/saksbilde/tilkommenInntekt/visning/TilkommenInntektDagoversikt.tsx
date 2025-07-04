@@ -6,7 +6,8 @@ import { BodyShort, Box, HStack, Table } from '@navikt/ds-react';
 import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { ArbeidsgiverFragment } from '@io/graphql';
 import styles from '@saksbilde/tilkommenInntekt/TilkommenTable.module.css';
-import { dekorerTekst, getTypeIcon, tilDagtypeTabell } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
+import { tilDagtypeTabell } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
+import { DagtypeCell } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeCell';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erHelg, somNorskDato } from '@utils/date';
 
@@ -61,17 +62,13 @@ export const TilkommenInntektDagoversikt = ({ arbeidsgivere, periode, ekskludert
                                 </Table.DataCell>
                                 {kolonneDefinisjoner.map((arbeidsgiver) => {
                                     const dagtype = dagtypePerOrganisasjonsnummer.get(arbeidsgiver.organisasjonsnummer);
-                                    return (
-                                        <Table.DataCell key={dato + arbeidsgiver.organisasjonsnummer}>
-                                            <HStack gap="2" wrap={false}>
-                                                {dagtype && (
-                                                    <>
-                                                        <div className={styles.icon}>{getTypeIcon(dagtype, helg)}</div>
-                                                        <BodyShort>{dekorerTekst(dagtype, helg)}</BodyShort>
-                                                    </>
-                                                )}
-                                            </HStack>
-                                        </Table.DataCell>
+                                    return dagtype ? (
+                                        <DagtypeCell
+                                            tabelldag={dagtype}
+                                            key={dato + arbeidsgiver.organisasjonsnummer}
+                                        />
+                                    ) : (
+                                        <Table.DataCell key={dato + arbeidsgiver.organisasjonsnummer} />
                                     );
                                 })}
                             </Table.Row>
