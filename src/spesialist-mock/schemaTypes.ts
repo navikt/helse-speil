@@ -1218,11 +1218,13 @@ export type Query = {
     behandledeOppgaverFeed: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentInntektsmelding?: Maybe<DokumentInntektsmelding>;
+    hentSaksbehandlere: Array<Saksbehandler>;
     hentSoknad?: Maybe<Soknad>;
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     organisasjon?: Maybe<Organisasjon>;
     person?: Maybe<Person>;
+    tildelteOppgaverFeed: OppgaverTilBehandling;
     tilkomneInntektskilder: Array<TilkommenInntektskilde>;
     tilkomneInntektskilderV2: Array<TilkommenInntektskilde>;
 };
@@ -1262,6 +1264,12 @@ export type QueryOrganisasjonArgs = {
 export type QueryPersonArgs = {
     aktorId?: InputMaybe<Scalars['String']['input']>;
     fnr?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type QueryTildelteOppgaverFeedArgs = {
+    limit: Scalars['Int']['input'];
+    offset: Scalars['Int']['input'];
+    oppslattSaksbehandler: SaksbehandlerInput;
 };
 
 export type QueryTilkomneInntektskilderArgs = {
@@ -1309,6 +1317,11 @@ export type Saksbehandler = {
     __typename?: 'Saksbehandler';
     ident?: Maybe<Scalars['String']['output']>;
     navn: Scalars['String']['output'];
+};
+
+export type SaksbehandlerInput = {
+    ident?: InputMaybe<Scalars['String']['input']>;
+    navn: Scalars['String']['input'];
 };
 
 export type Sammenligningsgrunnlag = {
