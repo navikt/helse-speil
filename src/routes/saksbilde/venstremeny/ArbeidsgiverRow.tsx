@@ -11,7 +11,7 @@ import { SelvstendigNæringsdrivendeIkon } from '@components/ikoner/SelvstendigN
 import { Arbeidsforhold } from '@io/graphql';
 import { useIsAnonymous } from '@state/anonymization';
 import { somNorskDato } from '@utils/date';
-import { capitalize, somPenger } from '@utils/locale';
+import { capitalizeName, somPenger } from '@utils/locale';
 
 import styles from './ArbeidsgiverRow.module.scss';
 
@@ -24,7 +24,7 @@ const ArbeidsforholdRow = ({ arbeidsforhold, erAnonymisert }: ArbeidsforholdRowP
     return (
         <>
             {arbeidsforhold.map((arbeidsforhold, i) => {
-                const stillingstittel = capitalize(arbeidsforhold.stillingstittel);
+                const stillingstittel = capitalizeName(arbeidsforhold.stillingstittel);
                 const fom = somNorskDato(arbeidsforhold.startdato);
                 const tom = arbeidsforhold.sluttdato && somNorskDato(arbeidsforhold.sluttdato);
 
@@ -39,7 +39,7 @@ const ArbeidsforholdRow = ({ arbeidsforhold, erAnonymisert }: ArbeidsforholdRowP
                         >
                             <div className={styles.arbeidsforhold}>
                                 <AnonymizableTextWithEllipsis>
-                                    {`${capitalize(stillingstittel)}`}
+                                    {`${capitalizeName(stillingstittel)}`}
                                 </AnonymizableTextWithEllipsis>
                                 <AnonymizableText>{`, ${arbeidsforhold.stillingsprosent} %`}</AnonymizableText>
                             </div>
