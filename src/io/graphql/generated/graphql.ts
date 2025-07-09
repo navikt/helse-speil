@@ -2187,6 +2187,13 @@ export type FetchSoknadQuery = {
     } | null;
 };
 
+export type HentSaksbehandlereQueryVariables = Exact<{ [key: string]: never }>;
+
+export type HentSaksbehandlereQuery = {
+    __typename: 'Query';
+    hentSaksbehandlere: Array<{ __typename: 'Saksbehandler'; ident: string | null; navn: string }>;
+};
+
 export type FeilregistrerKommentarMutationMutationVariables = Exact<{
     id: Scalars['Int']['input'];
 }>;
@@ -5993,6 +6000,53 @@ export type OpprettTildelingMutation = {
 };
 
 export type TildelingFragment = { __typename: 'Tildeling'; navn: string; oid: string; epost: string };
+
+export type TildelteOppgaverFeedQueryVariables = Exact<{
+    limit: Scalars['Int']['input'];
+    offset: Scalars['Int']['input'];
+    oppslattSaksbehandler: SaksbehandlerInput;
+}>;
+
+export type TildelteOppgaverFeedQuery = {
+    __typename: 'Query';
+    tildelteOppgaverFeed: {
+        __typename: 'OppgaverTilBehandling';
+        totaltAntallOppgaver: number;
+        oppgaver: Array<{
+            __typename: 'OppgaveTilBehandling';
+            aktorId: string;
+            id: string;
+            opprettet: string;
+            opprinneligSoknadsdato: string;
+            tidsfrist: string | null;
+            vedtaksperiodeId: string;
+            oppgavetype: Oppgavetype;
+            periodetype: Periodetype;
+            mottaker: Mottaker;
+            antallArbeidsforhold: AntallArbeidsforhold;
+            egenskaper: Array<{ __typename: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
+            navn: { __typename: 'Personnavn'; fornavn: string; etternavn: string; mellomnavn: string | null };
+            paVentInfo: {
+                __typename: 'PaVentInfo';
+                tidsfrist: string;
+                opprettet: string;
+                saksbehandler: string;
+                dialogRef: number;
+                arsaker: Array<string>;
+                tekst: string | null;
+                kommentarer: Array<{
+                    __typename: 'Kommentar';
+                    id: number;
+                    opprettet: string;
+                    saksbehandlerident: string;
+                    tekst: string;
+                    feilregistrert_tidspunkt: string | null;
+                }>;
+            } | null;
+            tildeling: { __typename: 'Tildeling'; epost: string; navn: string; oid: string } | null;
+        }>;
+    };
+};
 
 export type EndreTilkommenInntektMutationVariables = Exact<{
     endretTil: TilkommenInntektInput;
@@ -11357,6 +11411,32 @@ export const FetchSoknadDocument = {
         },
     ],
 } as unknown as DocumentNode<FetchSoknadQuery, FetchSoknadQueryVariables>;
+export const HentSaksbehandlereDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'HentSaksbehandlere' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hentSaksbehandlere' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<HentSaksbehandlereQuery, HentSaksbehandlereQueryVariables>;
 export const FeilregistrerKommentarMutationDocument = {
     kind: 'Document',
     definitions: [
@@ -14064,6 +14144,175 @@ export const OpprettTildelingDocument = {
         },
     ],
 } as unknown as DocumentNode<OpprettTildelingMutation, OpprettTildelingMutationVariables>;
+export const TildelteOppgaverFeedDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'TildelteOppgaverFeed' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppslattSaksbehandler' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'SaksbehandlerInput' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tildelteOppgaverFeed' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'limit' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'offset' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppslattSaksbehandler' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppslattSaksbehandler' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'oppgaver' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'egenskaper' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'egenskap' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'navn' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'opprinneligSoknadsdato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsfrist' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'paVentInfo' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tidsfrist' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'saksbehandler' },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'kommentarer' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'id' },
+                                                                    },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'opprettet' },
+                                                                    },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: {
+                                                                            kind: 'Name',
+                                                                            value: 'saksbehandlerident',
+                                                                        },
+                                                                    },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'tekst' },
+                                                                    },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: {
+                                                                            kind: 'Name',
+                                                                            value: 'feilregistrert_tidspunkt',
+                                                                        },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'tildeling' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'oppgavetype' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'antallArbeidsforhold' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'totaltAntallOppgaver' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<TildelteOppgaverFeedQuery, TildelteOppgaverFeedQueryVariables>;
 export const EndreTilkommenInntektDocument = {
     kind: 'Document',
     definitions: [
