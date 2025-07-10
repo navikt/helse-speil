@@ -2,7 +2,7 @@ import { axe } from 'jest-axe';
 import React from 'react';
 
 import { useDriftsmelding } from '@external/sanity';
-import { HentBehandlingsstatistikkDocument } from '@io/graphql';
+import { HentBehandlingsstatistikkDocument, HentSaksbehandlereDocument } from '@io/graphql';
 import { useAntallOppgaver, useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { createMock, render, screen } from '@test-utils';
@@ -66,6 +66,15 @@ const mocks = [
                     utbetalingTilArbeidsgiver: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
                     utbetalingTilSykmeldt: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
                 },
+            },
+        },
+    }),
+    createMock({
+        request: { query: HentSaksbehandlereDocument },
+        result: {
+            data: {
+                __typename: 'Query',
+                hentSaksbehandlere: [],
             },
         },
     }),
