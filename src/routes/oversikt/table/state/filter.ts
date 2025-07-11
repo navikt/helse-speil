@@ -1,7 +1,8 @@
 import { WritableAtom, atom, useAtom, useAtomValue } from 'jotai';
+import { atomWithReset } from 'jotai/utils';
 import { SetStateAction } from 'react';
 
-import { Egenskap } from '@io/graphql';
+import { Egenskap, Saksbehandler } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
 import { atomWithLocalStorage } from '@state/jotai';
 import { kanFiltrerePåGosysEgenskap, kanSeSelvstendigNæringsdrivende } from '@utils/featureToggles';
@@ -289,3 +290,5 @@ export const useToggleFilter = () => {
         setFilters(filters.map((it) => (it.key === key ? { ...it, status } : it)));
     };
 };
+
+export const valgtSaksbehandlerAtom = atomWithReset<Saksbehandler | null>(null);
