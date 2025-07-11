@@ -50,31 +50,6 @@ jobs:
     outputs:
       image: ${{ steps.cdn-n-image.outputs.image }}
 
-  build-experimental-dev:
-    if: startsWith(github.ref, 'refs/heads/next/')
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-npm-deps
-        name: Installer deps
-        with:
-          NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-      - run: cp envs/.env.dev .env.production
-      - run: npm run build
-      - uses: ./.github/actions/cdn-n-image
-        name: Last opp til CDN og bygg docker image
-        id: cdn-n-image
-        with:
-          app: ${{ env.APP }}
-          team: ${{ env.TEAM }}
-          env: next
-    outputs:
-      image: ${{ steps.cdn-n-image.outputs.image }}
-
   build-production:
     if: github.ref == 'refs/heads/master'
     permissions:
