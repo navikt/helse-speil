@@ -240,7 +240,6 @@ const filtersPerTab = atomWithLocalStorage<FiltersPerTab>('filtersPerTab', {
 export function hydrateFilters(
     grupper: string[],
     ident: string,
-    valgtSaksbehandler?: Saksbehandler,
 ): [WritableAtom<FiltersPerTab, [SetStateAction<FiltersPerTab>], void>, FiltersPerTab] {
     // Denne er plassert inne i hydrate-funksjonen for å unngå at den blir kalt ifm. server-side rendering
     const hentFiltreForTab = (tab: TabType, defaultFilters: Filter[]): Filter[] => {
@@ -265,9 +264,7 @@ export function hydrateFilters(
     return [
         filtersPerTab,
         {
-            [TabType.TilGodkjenning]: valgtSaksbehandler
-                ? []
-                : hentFiltreForTab(TabType.TilGodkjenning, getDefaultFilters(grupper, ident)),
+            [TabType.TilGodkjenning]: hentFiltreForTab(TabType.TilGodkjenning, getDefaultFilters(grupper, ident)),
             [TabType.Mine]: hentFiltreForTab(TabType.Mine, getDefaultFilters(grupper, ident)),
             [TabType.Ventende]: hentFiltreForTab(TabType.Ventende, getDefaultFilters(grupper, ident)),
             [TabType.BehandletIdag]: [],
