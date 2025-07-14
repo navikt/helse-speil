@@ -21,6 +21,7 @@ export enum FilterStatus {
 }
 
 export enum Oppgaveoversiktkolonne {
+    SAKSBEHANDLER = 'SAKSBEHANDLER',
     TILDELING = 'TILDELING',
     PÅVENT = 'PÅVENT',
     STATUS = 'STATUS',
@@ -37,6 +38,12 @@ type FiltersPerTab = {
 };
 
 const filters = [
+    {
+        key: 'SAKSBEHANDLER',
+        label: 'Saksbehandler',
+        status: FilterStatus.OFF,
+        column: Oppgaveoversiktkolonne.SAKSBEHANDLER,
+    },
     {
         key: 'TILDELTE_SAKER',
         label: 'Tildelte saker',
@@ -286,8 +293,18 @@ export const useSetMultipleFilters = () => {
 
 export const useToggleFilter = () => {
     const [filters, setFilters] = useAtom(filtersState);
-    return (key: string, status: FilterStatus) => {
-        setFilters(filters.map((it) => (it.key === key ? { ...it, status } : it)));
+    return (key: string, status: FilterStatus, label?: string) => {
+        setFilters(
+            filters.map((filter) =>
+                filter.key === key
+                    ? {
+                          ...filter,
+                          ...(label ? { label } : {}),
+                          status,
+                      }
+                    : filter,
+            ),
+        );
     };
 };
 

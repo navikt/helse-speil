@@ -8,28 +8,37 @@ import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
 
 import { useQuery } from '@apollo/client';
 import { HentSaksbehandlereDocument, Saksbehandler } from '@io/graphql';
-import { valgtSaksbehandlerAtom } from '@oversikt/table/state/filter';
+import { FilterStatus, useFilters, useToggleFilter, valgtSaksbehandlerAtom } from '@oversikt/table/state/filter';
 
 import styles from './SøkefeltSaksbehandlere.module.css';
 
 export const SøkefeltSaksbehandlere = () => {
     const [valgtSaksbehandler, setValgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
     const resetValgtSaksbehandler = useResetAtom(valgtSaksbehandlerAtom);
+    const toggleFilter = useToggleFilter();
+    const { activeFilters } = useFilters();
     const saksbehandlere = useQuery(HentSaksbehandlereDocument, {
         nextFetchPolicy: 'cache-first',
     });
     const [selected, setSelected] = useState<ComboboxOption[] | undefined>(
         valgtSaksbehandler !== null ? [lagComboboxOption(valgtSaksbehandler)] : undefined,
     );
+
     useEffect(
         () => (valgtSaksbehandler ? setSelected([lagComboboxOption(valgtSaksbehandler)]) : setSelected([])),
         [valgtSaksbehandler],
     );
 
+    useEffect(() => {
+        if (!activeFilters.map((filter) => filter.key.toLowerCase()).includes('saksbehandler')) {
+            resetValgtSaksbehandler();
+        }
+    }, [activeFilters, resetValgtSaksbehandler]);
+
     const saksbehandlereOptions =
         saksbehandlere.data?.hentSaksbehandlere.map((saksbehandler) => {
             return {
-                label: `${saksbehandler.navn} - ${saksbehandler.ident}`,
+                label: lagOppslåttSaksbehandlerVisningsnavn(saksbehandler),
                 value: JSON.stringify(saksbehandler),
             };
         }) ?? [];
@@ -44,8 +53,15 @@ export const SøkefeltSaksbehandlere = () => {
             onToggleSelected={(option, isSelected) => {
                 if (!isSelected) {
                     resetValgtSaksbehandler();
+                    toggleFilter('SAKSBEHANDLER', FilterStatus.OFF);
                 } else {
-                    setValgtSaksbehandler(lagSaksbehandler(option));
+                    const saksbehandler = lagSaksbehandler(option);
+                    setValgtSaksbehandler(saksbehandler);
+                    toggleFilter(
+                        'SAKSBEHANDLER',
+                        FilterStatus.PLUS,
+                        lagOppslåttSaksbehandlerVisningsnavn(saksbehandler),
+                    );
                 }
             }}
         />
@@ -54,7 +70,7 @@ export const SøkefeltSaksbehandlere = () => {
 
 function lagComboboxOption(saksbehandler: Saksbehandler): ComboboxOption {
     return {
-        label: `${saksbehandler.navn} - ${saksbehandler.ident}`,
+        label: lagOppslåttSaksbehandlerVisningsnavn(saksbehandler),
         value: JSON.stringify(saksbehandler),
     };
 }
@@ -64,4 +80,8 @@ function lagSaksbehandler(saksbehandler: string): Saksbehandler {
         __typename: 'Saksbehandler',
         ...JSON.parse(saksbehandler),
     };
+}
+
+function lagOppslåttSaksbehandlerVisningsnavn(saksbehandler: Saksbehandler) {
+    return `${saksbehandler.navn} - ${saksbehandler.ident}`;
 }
