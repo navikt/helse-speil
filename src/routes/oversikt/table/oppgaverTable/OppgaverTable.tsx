@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
-import { VStack } from '@navikt/ds-react';
+import { SortState, VStack } from '@navikt/ds-react';
 
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { IngenOppgaver } from '@oversikt/IngenOppgaver';
@@ -9,7 +9,6 @@ import { TabType, useAktivTab } from '@oversikt/tabState';
 import { OppgaverTableError } from '@oversikt/table/OppgaverTableError';
 import { OppgaverTableSkeleton } from '@oversikt/table/OppgaverTableSkeleton';
 import { useCurrentPageValue } from '@oversikt/table/state/pagination';
-import { useSorteringValue } from '@oversikt/table/state/sortation';
 import { useOppgaveFeed } from '@state/oppgaver';
 
 import { Pagination } from '../Pagination';
@@ -24,14 +23,14 @@ import styles from '../table.module.css';
 type OppgaverTableProps = {
     antallMineSaker: number;
     antallPåVent: number;
+    sort: SortState;
 };
 
-export const OppgaverTable = ({ antallMineSaker, antallPåVent }: OppgaverTableProps): ReactElement => {
+export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: OppgaverTableProps): ReactElement => {
     const { oppgaver, antallOppgaver, error, loading, fetchMore } = useOppgaveFeed();
     const { activeFilters } = useFilters();
     const currentPage = useCurrentPageValue();
     const aktivTab = useAktivTab();
-    const sort = useSorteringValue();
     const toggleFilter = useToggleFilter();
     const setMultipleFilters = useSetMultipleFilters();
 

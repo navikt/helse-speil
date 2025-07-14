@@ -1,5 +1,6 @@
 'use client';
 
+import { useAtom } from 'jotai/index';
 import dynamic from 'next/dynamic';
 import React, { ReactElement } from 'react';
 
@@ -11,12 +12,14 @@ import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { BehandlingsstatistikkView } from '@oversikt/behandlingsstatistikk/BehandlingsstatistikkView';
 import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@oversikt/table/BehandletIdagTable';
+import { TildelteOppgaverTable } from '@oversikt/table/TildelteOppgaverTable';
 import { OppgaverTable } from '@oversikt/table/oppgaverTable/OppgaverTable';
+import { useSorteringValue } from '@oversikt/table/state/sortation';
 import { useAntallOppgaver } from '@state/oppgaver';
 
 import { TabsSkeleton } from './Tabs';
 import { TabType, useAktivTab } from './tabState';
-import { useFilters } from './table/state/filter';
+import { useFilters, valgtSaksbehandlerAtom } from './table/state/filter';
 
 import styles from './Oversikt.module.css';
 
@@ -34,6 +37,8 @@ export const Oversikt = (): ReactElement => {
     const { antallMineSaker, antallPåVent } = useAntallOppgaver();
     const aktivTab = useAktivTab();
     const { allFilters } = useFilters();
+    const sort = useSorteringValue();
+    const [valgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
 
     useKeyboardShortcuts();
     useFjernPersonFraApolloCache();
@@ -45,10 +50,12 @@ export const Oversikt = (): ReactElement => {
             <div className={styles.fullHeight}>
                 <Filtermeny filters={allFilters} />
                 <section className={styles.Content}>
-                    {aktivTab === TabType.BehandletIdag ? (
+                    {valgtSaksbehandler ? (
+                        <TildelteOppgaverTable sort={sort} />
+                    ) : aktivTab === TabType.BehandletIdag ? (
                         <BehandletIdagTable />
                     ) : (
-                        <OppgaverTable antallMineSaker={antallMineSaker} antallPåVent={antallPåVent} />
+                        <OppgaverTable antallMineSaker={antallMineSaker} antallPåVent={antallPåVent} sort={sort} />
                     )}
                 </section>
                 <BehandlingsstatistikkView />
