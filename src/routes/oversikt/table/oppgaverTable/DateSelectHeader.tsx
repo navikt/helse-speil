@@ -32,7 +32,7 @@ const tilDatoKeyTekst = (key: string): string => {
         case 'søknadMottatt':
             return 'Søknad mottatt';
         case 'tidsfrist':
-            return 'Tidsfrist';
+            return 'Oppfølgingsdato';
         case 'opprettet':
         default:
             return 'Opprettet dato';
@@ -43,7 +43,7 @@ export const tilDatoHeaderTekst = (key: SortKey): string => {
         case SortKey.SøknadMottatt:
             return 'Mottatt';
         case SortKey.Tidsfrist:
-            return 'Tidsfrist';
+            return 'Oppfølgingsdato';
         case SortKey.Opprettet:
         default:
             return 'Opprettet';

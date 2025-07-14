@@ -45,7 +45,7 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
         >
             <ÅrsakListe årsaker={hendelse.årsaker} />
             <HStack gap="1">
-                <BodyShort>Frist:</BodyShort>
+                <BodyShort>Oppfølgningsdato:</BodyShort>
                 <BodyShort weight="semibold">{somNorskDato(hendelse.frist ?? undefined)}</BodyShort>
             </HStack>
             {!!hendelse.notattekst && (

@@ -25,7 +25,12 @@ export const Frist = ({ fristDato, setFristDato, error, setError }: FristProps):
 
     return (
         <DatePicker {...datepickerProps}>
-            <DatePicker.Input {...inputProps} label="Tidsfrist" error={error} />
+            <DatePicker.Input
+                {...inputProps}
+                label="Oppfølgingsdato"
+                description="Datoen du tror oppgaven kan behandles videre"
+                error={error}
+            />
         </DatePicker>
     );
 };
