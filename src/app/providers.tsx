@@ -11,6 +11,7 @@ import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import type { WritableAtom } from 'jotai';
 import { Provider } from 'jotai';
+import { useAtom } from 'jotai/index';
 import { useHydrateAtoms } from 'jotai/utils';
 import { usePathname } from 'next/navigation';
 import { PropsWithChildren, ReactElement, ReactNode, useEffect, useState } from 'react';
@@ -20,8 +21,9 @@ import { createApolloClient } from '@app/apollo/apolloClient';
 import { Bruker, BrukerContext } from '@auth/brukerContext';
 import { AnonymiseringProvider } from '@components/anonymizable/AnonymizationProvider';
 import { useLoadingToast } from '@hooks/useLoadingToast';
+import { Saksbehandler } from '@io/graphql';
 import { initInstrumentation } from '@observability/faro';
-import { hydrateFilters } from '@oversikt/table/state/filter';
+import { hydrateFilters, valgtSaksbehandlerAtom } from '@oversikt/table/state/filter';
 import { useFetchPersonQuery } from '@state/person';
 import { hydrateKanFrigiOppgaverState, hydrateTotrinnsvurderingState } from '@state/toggles';
 import { useSetVarsler } from '@state/varsler';
@@ -43,11 +45,12 @@ type Props = {
 
 export const Providers = ({ children, bruker }: PropsWithChildren<Props>): ReactElement => {
     const [apolloClient] = useState(() => createApolloClient());
+    const [valgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
 
     return (
         <ApolloProvider client={apolloClient}>
             <Provider>
-                <AtomsHydrator atomValues={getAtomValues(bruker)}>
+                <AtomsHydrator atomValues={getAtomValues(bruker, valgtSaksbehandler ?? undefined)}>
                     <SyncAlerts>
                         <AnonymiseringProvider>
                             <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
@@ -59,12 +62,12 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
     );
 };
 
-function getAtomValues(bruker: Bruker) {
+function getAtomValues(bruker: Bruker, valgtSaksbehandler?: Saksbehandler) {
     return typeof window !== 'undefined'
         ? [
               hydrateKanFrigiOppgaverState(bruker.ident),
               hydrateTotrinnsvurderingState(bruker.grupper),
-              hydrateFilters(bruker.grupper, bruker.ident),
+              hydrateFilters(bruker.grupper, bruker.ident, valgtSaksbehandler),
           ]
         : [];
 }
