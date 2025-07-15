@@ -25,7 +25,7 @@ interface OptionsButtonProps {
 export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const erTildeltInnloggetBruker = erLike(oppgave.tildeling?.oid, innloggetSaksbehandler.oid);
-    const erTildelt = oppgave.tildeling?.oid === null;
+    const erTildelt = oppgave.tildeling?.oid !== undefined;
     const kanFrigiAndresOppgaver = useKanFrigiOppgaver();
     const skalViseAvmeldingsknapp = erTildeltInnloggetBruker || (oppgave.tildeling && kanFrigiAndresOppgaver);
     const erPåVent = oppgave.egenskaper.filter((it) => it.egenskap === Egenskap.PaVent).length !== 0;
