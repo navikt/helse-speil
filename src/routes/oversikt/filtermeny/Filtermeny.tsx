@@ -4,9 +4,10 @@ import { range } from 'remeda';
 
 import { HStack, Skeleton } from '@navikt/ds-react';
 
-import { erUtvikling } from '@/env';
+import { useInnloggetSaksbehandler } from '@/state/authentication';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { SøkefeltSaksbehandlere } from '@oversikt/filtermeny/SøkefeltSaksbehandlere';
+import { kanSøkeOppTildelteOppgaver } from '@utils/featureToggles';
 import { kanSeSelvstendigNæringsdrivende } from '@utils/featureToggles';
 
 import { TabType, useAktivTab } from '../tabState';
@@ -24,6 +25,7 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
     const showFiltermeny = useShowFiltermeny();
     const settBredde = useSetFiltermenyWidth();
     const aktivTab = useAktivTab();
+    const saksbehandler = useInnloggetSaksbehandler();
 
     return (
         <JusterbarSidemeny
@@ -34,7 +36,7 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
             onChangeBredde={(width) => settBredde(width)}
         >
             <section className={classNames(styles.filtermeny)}>
-                {erUtvikling && <SøkefeltSaksbehandlere />}
+                {kanSøkeOppTildelteOppgaver(saksbehandler.ident ?? '') && <SøkefeltSaksbehandlere />}
                 {aktivTab === TabType.TilGodkjenning && (
                     <FilterList
                         filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.TILDELING)}
