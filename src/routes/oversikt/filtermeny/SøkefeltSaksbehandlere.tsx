@@ -36,12 +36,14 @@ export const SøkefeltSaksbehandlere = () => {
     }, [activeFilters, resetValgtSaksbehandler]);
 
     const saksbehandlereOptions =
-        saksbehandlere.data?.hentSaksbehandlere.map((saksbehandler) => {
-            return {
-                label: lagOppslåttSaksbehandlerVisningsnavn(saksbehandler),
-                value: JSON.stringify(saksbehandler),
-            };
-        }) ?? [];
+        saksbehandlere.data?.hentSaksbehandlere
+            .map((saksbehandler) => {
+                return {
+                    label: lagOppslåttSaksbehandlerVisningsnavn(saksbehandler),
+                    value: JSON.stringify(saksbehandler),
+                };
+            })
+            .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
 
     return (
         <UNSAFE_Combobox
