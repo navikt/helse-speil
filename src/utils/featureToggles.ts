@@ -35,7 +35,7 @@ const erFunksjoneltAnsvarligIPoHelse = (ident: string) => ['S114950'].includes(i
 
 const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdForTbd);
 
-export const kanSøkeOppTildelteOppgaver = (ident: string) => supersaksbehandlere.includes(ident) || erUtvikling;
+export const kanSøkeOppTildelteOppgaver = (ident: string) => supersaksbehandlere.includes(ident) || erCoach(ident) || erUtvikling;
 
 export const kanFrigiAndresOppgaver = (ident: string) => kanFrigiSaker(ident) || harTilgangTilAlt(ident) || erUtvikling;
 
