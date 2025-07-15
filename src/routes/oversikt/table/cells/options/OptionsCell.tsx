@@ -45,10 +45,9 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
                     </Button>
                     <Dropdown.Menu>
                         <Dropdown.Menu.List>
-                            {!erTildeltInnloggetBruker ||
-                                (!erTildelt && (
-                                    <TildelMenuButton oppgavereferanse={oppgave.id} tildeling={oppgave.tildeling} />
-                                ))}
+                            {!erTildeltInnloggetBruker && !erTildelt && (
+                                <TildelMenuButton oppgavereferanse={oppgave.id} tildeling={oppgave.tildeling} />
+                            )}
                             <PåVentMenuButton
                                 oppgavereferanse={oppgave.id}
                                 tildeling={oppgave?.tildeling ?? null}
