@@ -6,9 +6,17 @@ import { AsyncMenuButton } from './AsyncMenuButton';
 
 interface MeldAvMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     oppgavereferanse: string;
+    erTildeltInnloggetBruker: boolean;
 }
 
-export const MeldAvMenuButton = ({ oppgavereferanse }: MeldAvMenuButtonProps): ReactElement => {
+export const MeldAvMenuButton = ({
+    oppgavereferanse,
+    erTildeltInnloggetBruker,
+}: MeldAvMenuButtonProps): ReactElement => {
     const [fjernTildeling] = useFjernTildeling();
-    return <AsyncMenuButton asyncOperation={() => fjernTildeling(oppgavereferanse)}>Meld av</AsyncMenuButton>;
+    return (
+        <AsyncMenuButton asyncOperation={() => fjernTildeling(oppgavereferanse)}>
+            {erTildeltInnloggetBruker ? 'Meld av' : 'Frigi oppgave'}
+        </AsyncMenuButton>
+    );
 };

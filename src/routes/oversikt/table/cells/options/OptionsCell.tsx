@@ -54,7 +54,12 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
                                 navn={navn}
                                 erPåVent={erPåVent}
                             />
-                            {skalViseAvmeldingsknapp && <MeldAvMenuButton oppgavereferanse={oppgave.id} />}
+                            {skalViseAvmeldingsknapp && (
+                                <MeldAvMenuButton
+                                    oppgavereferanse={oppgave.id}
+                                    erTildeltInnloggetBruker={erTildeltInnloggetBruker}
+                                />
+                            )}
                         </Dropdown.Menu.List>
                     </Dropdown.Menu>
                 </Dropdown>
