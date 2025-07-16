@@ -1,4 +1,3 @@
-import { atom, useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import React, { ReactElement, useEffect, useState } from 'react';
 
@@ -10,7 +9,6 @@ import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useCalculatingValue } from '@state/calculating';
-import { usePersonStore } from '@state/contexts/personStore';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { isRevurdering } from '@state/selectors/utbetaling';
@@ -67,18 +65,12 @@ interface UtbetalingProps {
     arbeidsgiver: ArbeidsgiverFragment;
 }
 
-const vedtaksbegrunnelseAtom = atom<string>('initalValue');
-
 export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): Maybe<ReactElement> => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const lagretVedtakBegrunnelseTekst =
-        period.vedtakBegrunnelser[0] != undefined ? (period.vedtakBegrunnelser[0].begrunnelse as string).trim() : '';
-    const [vedtakBegrunnelseTekst, setVedtakBegrunnelseTekst] = useAtom(vedtaksbegrunnelseAtom, {
-        store: usePersonStore(),
-    });
-
-    const rensetVedtakBegrunnelseTekst =
-        vedtakBegrunnelseTekst !== 'initalValue' ? vedtakBegrunnelseTekst.trim() : lagretVedtakBegrunnelseTekst.trim();
+        period.vedtakBegrunnelser[0] != undefined ? (period.vedtakBegrunnelser[0].begrunnelse as string) : '';
+    const [vedtakBegrunnelseTekst, setVedtakBegrunnelseTekst] = useState(lagretVedtakBegrunnelseTekst);
+    const rensetVedtakBegrunnelseTekst = vedtakBegrunnelseTekst.trim();
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
     const ventEllerHopp = useOnGodkjenn(period, person);
     const router = useRouter();
@@ -115,14 +107,14 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): M
 
     return (
         <Box
-            background={rensetVedtakBegrunnelseTekst !== '' ? 'bg-subtle' : 'surface-transparent'}
+            background={vedtakBegrunnelseTekst !== '' ? 'bg-subtle' : 'surface-transparent'}
             paddingBlock="0 4"
             paddingInline="4 4"
             style={{ margin: '0 -1rem' }}
         >
             <IndividuellBegrunnelse
-                defaultÅpen={rensetVedtakBegrunnelseTekst !== ''}
-                vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
+                defaultÅpen={lagretVedtakBegrunnelseTekst !== ''}
+                vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 periode={period}
                 person={person}
