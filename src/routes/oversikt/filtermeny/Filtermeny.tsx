@@ -16,6 +16,7 @@ import { FilterList } from './FilterList';
 import { useSetFiltermenyWidth, useShowFiltermeny } from './state';
 
 import styles from './Filtermeny.module.css';
+import { useBrukerGrupper } from '@/auth/brukerContext';
 
 interface FilterMenyProps {
     filters: Filter[];
@@ -40,7 +41,7 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
             onChangeBredde={(width) => settBredde(width)}
         >
             <section className={classNames(styles.filtermeny)}>
-                {kanSøkeOppTildelteOppgaver(saksbehandler.ident ?? '') && aktivTab === TabType.TilGodkjenning && (
+                {kanSøkeOppTildelteOppgaver(saksbehandler.ident ?? '', useBrukerGrupper()) && aktivTab === TabType.TilGodkjenning && (
                     <SøkefeltSaksbehandlere />
                 )}
                 {aktivTab === TabType.TilGodkjenning && (
