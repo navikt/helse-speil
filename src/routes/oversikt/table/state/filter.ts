@@ -1,10 +1,9 @@
 import { WritableAtom, atom, useAtom, useAtomValue } from 'jotai';
-import { atomWithReset } from 'jotai/utils';
 import { SetStateAction } from 'react';
 
 import { Egenskap, Saksbehandler } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
-import { atomWithLocalStorage } from '@state/jotai';
+import { atomWithLocalStorage, atomWithSessionStorage } from '@state/jotai';
 import { kanFiltrerePåGosysEgenskap, kanSeSelvstendigNæringsdrivende } from '@utils/featureToggles';
 
 export type Filter = {
@@ -40,7 +39,7 @@ type FiltersPerTab = {
 const filters = [
     {
         key: 'SAKSBEHANDLER',
-        label: 'Saksbehandler',
+        label: '',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.SAKSBEHANDLER,
     },
@@ -255,7 +254,12 @@ export function hydrateFilters(
 
             return {
                 ...stored,
-                label: stored.label !== defaultFilter.label ? defaultFilter.label : stored.label,
+                label:
+                    stored.key === 'SAKSBEHANDLER'
+                        ? stored.label
+                        : stored.label !== defaultFilter.label
+                          ? defaultFilter.label
+                          : stored.label,
                 column: stored.column !== defaultFilter.column ? defaultFilter.column : stored.column,
             };
         });
@@ -308,4 +312,4 @@ export const useToggleFilter = () => {
     };
 };
 
-export const valgtSaksbehandlerAtom = atomWithReset<Saksbehandler | null>(null);
+export const valgtSaksbehandlerAtom = atomWithSessionStorage<Saksbehandler | null>('valgtSaksbehandler', null);

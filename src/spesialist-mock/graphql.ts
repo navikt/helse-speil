@@ -19,6 +19,7 @@ import {
     MutationEndreTilkommenInntektArgs,
     MutationFjernTilkommenInntektArgs,
     MutationLeggTilTilkommenInntektArgs,
+    SaksbehandlerInput,
 } from '@io/graphql';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
@@ -29,7 +30,7 @@ import { isNotNullOrUndefined } from '@utils/typeguards';
 
 import { sleep } from './constants';
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
-import { behandledeOppgaverliste, oppgaveliste } from './data/oppgaveoversikt';
+import { behandledeOppgaverliste, oppgaveliste, tildelteOppgaverliste } from './data/oppgaveoversikt';
 import {
     BeingPreparedError,
     FlereFodselsnumreError,
@@ -210,6 +211,24 @@ const getResolvers = (): IResolvers => ({
         },
         opptegnelser: async (_, { sekvensId }) => {
             return hentOpptegnelser(sekvensId);
+        },
+        hentSaksbehandlere: async () => {
+            return [
+                {
+                    ident: 'A123456',
+                    navn: 'Utvikler, Lokal',
+                },
+            ];
+        },
+        tildelteOppgaverFeed: async (
+            _,
+            {
+                offset,
+                limit,
+                oppslattSaksbehandler,
+            }: { offset: number; limit: number; oppslattSaksbehandler: SaksbehandlerInput },
+        ) => {
+            return tildelteOppgaverliste(offset, limit, oppslattSaksbehandler);
         },
     },
     Mutation: {

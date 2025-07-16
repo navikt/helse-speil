@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+import { SaksbehandlerInput } from '@io/graphql';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 
 import {
@@ -41,6 +42,24 @@ export const behandledeOppgaverliste = (
         // før offset er applied, selvom det er 0 oppgaver på den siste siden
         totaltAntallOppgaver: oppgaverEtterOffset.length > 0 ? filtrertList.length : 0,
     } as BehandledeOppgaver;
+};
+
+export const tildelteOppgaverliste = (
+    offset: number,
+    limit: number,
+    oppslåttSaksbehandler: SaksbehandlerInput,
+): OppgaverTilBehandling => {
+    const oppgaverMedTildeling = syncMock(oppgaver)
+        .concat(tilfeldigeOppgaver)
+        .filter((oppgave) => oppgave.tildeling?.navn === oppslåttSaksbehandler.navn);
+
+    const oppgaverEtterOffset =
+        offset === 0 ? oppgaverMedTildeling.slice(0, limit) : oppgaverMedTildeling.slice(offset).slice(0, limit);
+
+    return {
+        oppgaver: oppgaverEtterOffset,
+        totaltAntallOppgaver: oppgaverEtterOffset.length > 0 ? oppgaverMedTildeling.length : 0,
+    } as OppgaverTilBehandling;
 };
 
 export const oppgaveliste = (

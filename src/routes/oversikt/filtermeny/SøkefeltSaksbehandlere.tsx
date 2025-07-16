@@ -94,6 +94,6 @@ function lagOppslåttSaksbehandlerVisningsnavn(saksbehandler: Saksbehandler) {
 }
 
 function lagSelectedSaksbehandlerVisningsnavn(saksbehandler: Saksbehandler) {
-    const etternavn = saksbehandler.navn.split(' ').at(-1);
+    const etternavn = saksbehandler.navn.split(' ').at(0)?.replace(/,/g, '');
     return `${etternavn} - ${saksbehandler.ident}`;
 }
