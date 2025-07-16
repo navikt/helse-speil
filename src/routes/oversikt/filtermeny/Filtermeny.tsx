@@ -40,7 +40,9 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
             onChangeBredde={(width) => settBredde(width)}
         >
             <section className={classNames(styles.filtermeny)}>
-                {kanSøkeOppTildelteOppgaver(saksbehandler.ident ?? '') && <SøkefeltSaksbehandlere />}
+                {kanSøkeOppTildelteOppgaver(saksbehandler.ident ?? '') && aktivTab === TabType.TilGodkjenning && (
+                    <SøkefeltSaksbehandlere />
+                )}
                 {aktivTab === TabType.TilGodkjenning && (
                     <FilterList
                         filters={skjulHvisSaksbehandlerErValgt(
