@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 import { useResetAtom } from 'jotai/utils';
 import React, { useEffect, useState } from 'react';
 
-import { UNSAFE_Combobox } from '@navikt/ds-react';
+import { BodyShort, UNSAFE_Combobox, VStack } from '@navikt/ds-react';
 // @ts-expect-error TS klager på at den ikke finner modulen med combobox-typen selv om den resolver
 import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
 
@@ -46,33 +46,38 @@ export const SøkefeltSaksbehandlere = () => {
             .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
 
     return (
-        <UNSAFE_Combobox
-            options={saksbehandlereOptions}
-            label="Saksbehandler"
-            size="small"
-            className={styles.sokefeltSaksbehandlere}
-            selectedOptions={selected}
-            onToggleSelected={(option, isSelected) => {
-                if (!isSelected) {
-                    resetValgtSaksbehandler();
-                    toggleFilter('SAKSBEHANDLER', FilterStatus.OFF);
-                } else {
-                    const saksbehandler = lagSaksbehandler(option);
-                    setValgtSaksbehandler(saksbehandler);
-                    toggleFilter(
-                        'SAKSBEHANDLER',
-                        FilterStatus.PLUS,
-                        lagOppslåttSaksbehandlerVisningsnavn(saksbehandler),
-                    );
-                }
-            }}
-        />
+        <VStack className={styles.sokefeltSaksbehandlere}>
+            <BodyShort weight="semibold" spacing>
+                Saksbehandler
+            </BodyShort>
+            <UNSAFE_Combobox
+                options={saksbehandlereOptions}
+                label="Saksbehandler"
+                hideLabel
+                size="small"
+                selectedOptions={selected}
+                onToggleSelected={(option, isSelected) => {
+                    if (!isSelected) {
+                        resetValgtSaksbehandler();
+                        toggleFilter('SAKSBEHANDLER', FilterStatus.OFF);
+                    } else {
+                        const saksbehandler = lagSaksbehandler(option);
+                        setValgtSaksbehandler(saksbehandler);
+                        toggleFilter(
+                            'SAKSBEHANDLER',
+                            FilterStatus.PLUS,
+                            lagOppslåttSaksbehandlerVisningsnavn(saksbehandler),
+                        );
+                    }
+                }}
+            />
+        </VStack>
     );
 };
 
 function lagComboboxOption(saksbehandler: Saksbehandler): ComboboxOption {
     return {
-        label: lagOppslåttSaksbehandlerVisningsnavn(saksbehandler),
+        label: lagSelectedSaksbehandlerVisningsnavn(saksbehandler),
         value: JSON.stringify(saksbehandler),
     };
 }
@@ -86,4 +91,9 @@ function lagSaksbehandler(saksbehandler: string): Saksbehandler {
 
 function lagOppslåttSaksbehandlerVisningsnavn(saksbehandler: Saksbehandler) {
     return `${saksbehandler.navn} - ${saksbehandler.ident}`;
+}
+
+function lagSelectedSaksbehandlerVisningsnavn(saksbehandler: Saksbehandler) {
+    const etternavn = saksbehandler.navn.split(' ').at(-1);
+    return `${etternavn} - ${saksbehandler.ident}`;
 }
