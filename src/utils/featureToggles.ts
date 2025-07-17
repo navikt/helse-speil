@@ -5,23 +5,24 @@ const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 
 const supersaksbehandlere = ['N115007', 'K164523', 'A148751', 'S161635'];
 
-const fagkoordinatorer = ['M136300', 'S108267', 'K123956', 'G157538'];
+// Fagkoordinatorer: https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-sykefravarsoppfolging-og-sykepenger/SitePages/Fagnettverk-for-sykepenger.aspx
+const fagkoordinatorer = ['F160464', 'G157538', 'K123956', 'M136300', 'S108267'];
 
+// Avdelingsledere: https://navno.sharepoint.com/:x:/s/enhet-arbeid-og-ytelser/EVg9YaONIHdDsFjGYGnJab0BIgOxx0724elo9dtsOBoAnw?e=kNIbmh
 const avdelingsledere = ['K105348', 'L105454'];
 
 const coaches = [
-    'F131883',
-    'V149621',
-    'S160466',
+    // Er på coachlisten: https://navno.sharepoint.com/sites/44/NAYsykepenger/SitePages/Speilverden.aspx
     'B164848',
-    'K162139',
-    'F160464',
-    'M136300',
-    'F158061',
-    'S157539',
-    'S165568',
+    'F131883',
     'G155258',
     'H160235',
+    'K162139',
+    'S157539',
+    'S165568',
+    'V149621',
+    // Midlertidig coach
+    'F158061',
 ];
 
 // const erSupersaksbehandler = (ident: string) => supersaksbehandlere.includes(ident);
