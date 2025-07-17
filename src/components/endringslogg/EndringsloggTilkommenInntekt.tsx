@@ -12,7 +12,7 @@ import {
     TilkommenInntektOpprettetEvent,
 } from '@io/graphql';
 import { tilSorterteDagerMedEndringstype } from '@state/tilkommenInntekt';
-import { somNorskDato } from '@utils/date';
+import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import styles from './Endringslogg.module.css';
@@ -45,7 +45,7 @@ export const EndringsloggTilkommenInntekt = ({
             <Table zebraStripes>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Dato</Table.HeaderCell>
+                        <Table.HeaderCell>Dato og tidspunkt</Table.HeaderCell>
                         <Table.HeaderCell>Type</Table.HeaderCell>
                         <Table.HeaderCell>Organisasjonsnummer</Table.HeaderCell>
                         <Table.HeaderCell>Periode f.o.m. - t.o.m.</Table.HeaderCell>
@@ -67,7 +67,7 @@ export const EndringsloggTilkommenInntekt = ({
                         )
                         .map((event, i) => (
                             <Table.Row key={i}>
-                                <Table.DataCell>{somNorskDato(event.metadata.tidspunkt)}</Table.DataCell>
+                                <Table.DataCell>{getFormattedDatetimeString(event.metadata.tidspunkt)}</Table.DataCell>
                                 <EventCeller event={event} />
                                 <Table.DataCell>{event.metadata.utfortAvSaksbehandlerIdent}</Table.DataCell>
                             </Table.Row>

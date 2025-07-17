@@ -6,7 +6,7 @@ import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { getSkjønnsfastsettelseTypeTekst } from '@saksbilde/historikk/hendelser/SykepengegrunnlagSkjønnsfastsatthendelse';
 import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/SkjønnsfastsettingHeader';
-import { getFormattedDateString, somNorskDato } from '@utils/date';
+import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import styles from './Endringslogg.module.css';
@@ -39,7 +39,7 @@ export const EndringsloggSykepengegrunnlagskjønnsfastsetting = ({
             <Table zebraStripes>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Dato</Table.HeaderCell>
+                        <Table.HeaderCell>Dato og tidspunkt</Table.HeaderCell>
                         <Table.HeaderCell>Arbeidsgiver</Table.HeaderCell>
                         <Table.HeaderCell>Sykepengegrunnlag</Table.HeaderCell>
                         <Table.HeaderCell>Skjæringstidpunkt</Table.HeaderCell>
@@ -53,7 +53,7 @@ export const EndringsloggSykepengegrunnlagskjønnsfastsetting = ({
                         .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
                         .map((endring, i) => (
                             <Table.Row key={i}>
-                                <Table.DataCell>{somNorskDato(endring.timestamp)}</Table.DataCell>
+                                <Table.DataCell>{getFormattedDatetimeString(endring.timestamp)}</Table.DataCell>
                                 <Table.DataCell>
                                     <Arbeidsgivernavn
                                         identifikator={endring.arbeidsgiverIdentifikator}

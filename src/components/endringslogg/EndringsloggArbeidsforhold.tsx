@@ -4,7 +4,7 @@ import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
 
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { Arbeidsforholdoverstyring } from '@io/graphql';
-import { getFormattedDateString } from '@utils/date';
+import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
 
 import styles from './Endringslogg.module.css';
 
@@ -36,7 +36,7 @@ export const EndringsloggArbeidsforhold = ({
             <Table zebraStripes>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Dato</Table.HeaderCell>
+                        <Table.HeaderCell>Dato og tidspunkt</Table.HeaderCell>
                         <Table.HeaderCell />
                         <Table.HeaderCell>Skjæringstidspunkt</Table.HeaderCell>
                         <Table.HeaderCell>Begrunnelse</Table.HeaderCell>
@@ -49,7 +49,7 @@ export const EndringsloggArbeidsforhold = ({
                         .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
                         .map((endring, i) => (
                             <Table.Row key={i}>
-                                <Table.DataCell>{getFormattedDateString(endring.timestamp)}</Table.DataCell>
+                                <Table.DataCell>{getFormattedDatetimeString(endring.timestamp)}</Table.DataCell>
                                 <Table.DataCell>
                                     {endring.deaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
                                 </Table.DataCell>

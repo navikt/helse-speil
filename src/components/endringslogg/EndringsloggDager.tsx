@@ -4,7 +4,7 @@ import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
 
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { OverstyringerPrDag } from '@typer/utbetalingstabell';
-import { getFormattedDateString } from '@utils/date';
+import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
 
 import styles from './Endringslogg.module.css';
 
@@ -25,7 +25,7 @@ export const EndringsloggDager = ({ endringer, closeModal, showModal }: Endrings
             <Table zebraStripes>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Dato</Table.HeaderCell>
+                        <Table.HeaderCell>Dato og tidspunkt</Table.HeaderCell>
                         <Table.HeaderCell>Dagtype</Table.HeaderCell>
                         <Table.HeaderCell>Grad</Table.HeaderCell>
                         <Table.HeaderCell>Begrunnelse</Table.HeaderCell>
@@ -38,7 +38,7 @@ export const EndringsloggDager = ({ endringer, closeModal, showModal }: Endrings
                         .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
                         .map(({ begrunnelse, saksbehandler, timestamp, grad, fraGrad, dag, dato }, i) => (
                             <Table.Row key={i}>
-                                <Table.DataCell>{getFormattedDateString(dato)}</Table.DataCell>
+                                <Table.DataCell>{getFormattedDatetimeString(dato)}</Table.DataCell>
                                 <Table.DataCell>{dag.speilDagtype}</Table.DataCell>
                                 <Table.DataCell>
                                     <span className={styles.PreviousValue}>
