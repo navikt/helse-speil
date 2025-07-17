@@ -7,7 +7,7 @@ const supersaksbehandlere = ['N115007', 'K164523', 'A148751', 'S161635'];
 
 const fagkoordinatorer = ['M136300', 'S108267', 'K123956', 'G157538'];
 
-const enhetsledere = ['K105348', 'L105454'];
+const avdelingsledere = ['K105348', 'L105454'];
 
 const coaches = [
     'F131883',
@@ -22,30 +22,24 @@ const coaches = [
     'S165568',
     'G155258',
     'H160235',
-    ...enhetsledere,
 ];
 
-export const erCoachEllerSuper = (ident: string) => erCoach(ident) || erSupersaksbehandler(ident);
-const erSupersaksbehandler = (ident: string) => supersaksbehandlere.includes(ident);
-const harTilgangTilAlt = (ident: string) =>
-    [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(ident);
-const erCoach = (ident: string) => coaches.includes(ident);
-const kanFrigiSaker = (ident: string) => ['K162139'].includes(ident);
-const erFunksjoneltAnsvarligIPoHelse = (ident: string) => ['S114950'].includes(ident);
+// const erSupersaksbehandler = (ident: string) => supersaksbehandlere.includes(ident);
+// const erCoach = (ident: string) => coaches.includes(ident);
+// const erFagkoordinator = (ident: string) => fagkoordinatorer.includes(ident);
+// const erAvdelingsleder = (ident: string) => avdelingsledere.includes(ident);
 
+const grupperFraNAY = (ident: string) =>
+    [...coaches, ...avdelingsledere, ...fagkoordinatorer, ...supersaksbehandlere].includes(ident);
 const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdForTbd);
 
-export const kanSøkeOppTildelteOppgaver = (ident: string, grupper: string[]) => supersaksbehandlere.includes(ident) || erCoach(ident) || erPåTeamBømlo(grupper) ||erUtvikling;
-
-export const kanFrigiAndresOppgaver = (ident: string) => kanFrigiSaker(ident) || harTilgangTilAlt(ident) || erUtvikling;
-
-export const erUtviklingEllerErPåTeamBømlo = (grupper: string[]) => erUtvikling || erPåTeamBømlo(grupper);
+export const kanGjøreTilkommenInntektEndringer = (): boolean => erUtvikling;
+export const kanSeSelvstendigNæringsdrivende: boolean = erUtvikling;
+export const kanFrigiAndresOppgaver = (ident: string) => grupperFraNAY(ident) || erUtvikling;
+export const kanBrukeUtviklersnarveier = (grupper: string[]) => erUtvikling || erPåTeamBømlo(grupper);
+export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
+    grupperFraNAY(ident) || erPåTeamBømlo(grupper) || erLokal;
+export const kanSøkeOppTildelteOppgaver = (ident: string, grupper: string[]) =>
+    grupperFraNAY(ident) || erPåTeamBømlo(grupper) || erUtvikling;
 
 export const harBeslutterrolle = (grupper: string[]): boolean => grupper.includes(groupIdForBesluttere);
-
-export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
-    erCoachEllerSuper(ident) || erFunksjoneltAnsvarligIPoHelse(ident) || erPåTeamBømlo(grupper) || erLokal;
-
-export const kanGjøreTilkommenInntektEndringer = (): boolean => erUtvikling;
-
-export const kanSeSelvstendigNæringsdrivende: boolean = erUtvikling;

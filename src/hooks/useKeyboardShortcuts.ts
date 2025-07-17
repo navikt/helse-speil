@@ -6,7 +6,7 @@ import { Maybe } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddToast } from '@state/toasts';
-import { erUtviklingEllerErPåTeamBømlo } from '@utils/featureToggles';
+import { kanBrukeUtviklersnarveier } from '@utils/featureToggles';
 import { isBeregnetPeriode, isNotNullOrUndefined, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
 const useCurrentFødselsnummer = (): Maybe<string> => {
@@ -141,7 +141,7 @@ const useOpenDemosiderForVedtak = (): (() => void) => {
 
 export const useKeyboardActions = (): Action[] => {
     const { navigateToNext, navigateToPrevious } = useNavigation();
-    const erUtvikler = erUtviklingEllerErPåTeamBømlo(useBrukerGrupper());
+    const erUtvikler = kanBrukeUtviklersnarveier(useBrukerGrupper());
     const clickPrevious = () => navigateToPrevious?.();
     const clickNext = () => navigateToNext?.();
     const fødselsnummer = useCurrentFødselsnummer();
