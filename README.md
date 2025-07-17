@@ -29,15 +29,13 @@ export NPM_AUTH_TOKEN=<token>
 
 ## Utvikle lokalt
 
-Lokal utvikling bruker nextjs dev server, denne kan spinnes opp med følgende kommando:
-
-```shell
-npm run dev
-```
-
-Appen vil være tilgjengelig på http://localhost:1234.
+1. Sørg for at du har riktig versjon av node (se package.json), f.eks. med [nvm](https://github.com/nvm-sh/nvm) eller [mise](https://mise.jdx.dev).
+2. Installer prosjektet - `npm install`
+3. Kjør Speil lokalt med next dev server - `npm run dev`
 
 Default i lokal utvikling er at Apollo går mot spesialist-mock på /api/spesialist.
+
+Kjør precommit hooks manuelt - `.husky/pre-commit`
 
 ## Bygge for produksjon lokalt
 
