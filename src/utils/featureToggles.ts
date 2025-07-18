@@ -33,7 +33,8 @@ const coaches = [
 const grupperFraNAY = (ident: string) =>
     [...coaches, ...avdelingsledere, ...fagkoordinatorer, ...supersaksbehandlere].includes(ident);
 const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdForTbd);
-const harTilgangTilAnnulleringsriggISpleis = () => false;
+const harTilgangTilAnnulleringsriggISpleis = (ident: string) =>
+    ['S161635', 'A148751', 'V149621', 'H160235'].includes(ident);
 
 export const kanGjøreTilkommenInntektEndringer = (): boolean => erUtvikling;
 export const kanSeSelvstendigNæringsdrivende: boolean = erUtvikling;
@@ -43,7 +44,7 @@ export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
     grupperFraNAY(ident) || erPåTeamBømlo(grupper) || erLokal;
 export const kanSøkeOppTildelteOppgaver = (ident: string, grupper: string[]) =>
     grupperFraNAY(ident) || erPåTeamBømlo(grupper) || erUtvikling;
-export const kanSeNyAnnulleringsrigg = (grupper: string[]) =>
-    harTilgangTilAnnulleringsriggISpleis() || erPåTeamBømlo(grupper) || erUtvikling;
+export const kanSeNyAnnulleringsrigg = (ident: string, grupper: string[]) =>
+    harTilgangTilAnnulleringsriggISpleis(ident) || erPåTeamBømlo(grupper) || erUtvikling;
 
 export const harBeslutterrolle = (grupper: string[]): boolean => grupper.includes(groupIdForBesluttere);

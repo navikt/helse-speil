@@ -5,6 +5,7 @@ import { ListItem } from '@navikt/ds-react/List';
 
 import { useBrukerGrupper } from '@auth/brukerContext';
 import { BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
+import { useInnloggetSaksbehandler } from '@state/authentication';
 import { somNorskDato } from '@utils/date';
 import { kanSeNyAnnulleringsrigg } from '@utils/featureToggles';
 import { somPenger } from '@utils/locale';
@@ -22,6 +23,7 @@ export const Annulleringsinformasjon = ({
 }): Maybe<ReactElement> => {
     const { totalbeløp, førsteUtbetalingsdag, sisteUtbetalingsdag } = useTotaltUtbetaltForSykefraværstilfellet(person);
     const grupper = useBrukerGrupper();
+    const saksbehandler = useInnloggetSaksbehandler();
 
     if (!førsteUtbetalingsdag && !sisteUtbetalingsdag && !totalbeløp) return null;
 
@@ -34,7 +36,7 @@ export const Annulleringsinformasjon = ({
 
     return (
         <div className={styles.gruppe}>
-            {kanSeNyAnnulleringsrigg(grupper) && (
+            {kanSeNyAnnulleringsrigg(saksbehandler.ident ?? '', grupper) && (
                 <>
                     <BodyShort weight={'semibold'}>Ny rigg:</BodyShort>
                     <BodyShort>Organisasjonsnummer: {unikeOrganisasjonsnummere.join(', ')}</BodyShort>
