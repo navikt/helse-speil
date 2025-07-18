@@ -133,6 +133,7 @@ export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, 
     egenskaper: [],
     annullering: null,
     pensjonsgivendeInntekter: [],
+    annulleringskandidater: [],
 });
 
 export const enUberegnetPeriode: OverridableConstructor<UberegnetPeriodeFragment> = (overrides) => ({

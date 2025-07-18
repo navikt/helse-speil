@@ -65,6 +65,14 @@ export type AnnulleringDataInput = {
     vedtaksperiodeId: Scalars['UUID']['input'];
 };
 
+export type Annulleringskandidat = {
+    __typename?: 'Annulleringskandidat';
+    fom: Scalars['LocalDate']['output'];
+    organisasjonsnummer: Scalars['String']['output'];
+    tom: Scalars['LocalDate']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
+};
+
 export type Antall = {
     __typename?: 'Antall';
     automatisk: Scalars['Int']['output'];
@@ -229,6 +237,7 @@ export type Behandlingsstatistikk = {
 export type BeregnetPeriode = Periode & {
     __typename?: 'BeregnetPeriode';
     annullering?: Maybe<Annullering>;
+    annulleringskandidater: Array<Annulleringskandidat>;
     avslag: Array<Avslag>;
     behandlingId: Scalars['UUID']['output'];
     beregningId: Scalars['UUID']['output'];

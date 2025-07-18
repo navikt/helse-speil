@@ -67,6 +67,14 @@ export type AnnulleringDataInput = {
     vedtaksperiodeId: Scalars['UUID']['input'];
 };
 
+export type Annulleringskandidat = {
+    __typename: 'Annulleringskandidat';
+    fom: Scalars['LocalDate']['output'];
+    organisasjonsnummer: Scalars['String']['output'];
+    tom: Scalars['LocalDate']['output'];
+    vedtaksperiodeId: Scalars['UUID']['output'];
+};
+
 export type Antall = {
     __typename: 'Antall';
     automatisk: Scalars['Int']['output'];
@@ -231,6 +239,7 @@ export type Behandlingsstatistikk = {
 export type BeregnetPeriode = Periode & {
     __typename: 'BeregnetPeriode';
     annullering: Maybe<Annullering>;
+    annulleringskandidater: Array<Annulleringskandidat>;
     avslag: Array<Avslag>;
     behandlingId: Scalars['UUID']['output'];
     beregningId: Scalars['UUID']['output'];
@@ -2888,6 +2897,13 @@ export type ArbeidsgiverFragment = {
                       arligBelop: string;
                       inntektsar: number;
                   }>;
+                  annulleringskandidater: Array<{
+                      __typename: 'Annulleringskandidat';
+                      fom: string;
+                      organisasjonsnummer: string;
+                      tom: string;
+                      vedtaksperiodeId: string;
+                  }>;
                   tidslinje: Array<{
                       __typename: 'Dag';
                       dato: string;
@@ -3840,6 +3856,13 @@ export type BeregnetPeriodeFragment = {
         begrunnelse: string | null;
     } | null;
     pensjonsgivendeInntekter: Array<{ __typename: 'PensjonsgivendeInntekt'; arligBelop: string; inntektsar: number }>;
+    annulleringskandidater: Array<{
+        __typename: 'Annulleringskandidat';
+        fom: string;
+        organisasjonsnummer: string;
+        tom: string;
+        vedtaksperiodeId: string;
+    }>;
     tidslinje: Array<{
         __typename: 'Dag';
         dato: string;
@@ -4660,6 +4683,13 @@ export type PersonFragment = {
                           __typename: 'PensjonsgivendeInntekt';
                           arligBelop: string;
                           inntektsar: number;
+                      }>;
+                      annulleringskandidater: Array<{
+                          __typename: 'Annulleringskandidat';
+                          fom: string;
+                          organisasjonsnummer: string;
+                          tom: string;
+                          vedtaksperiodeId: string;
                       }>;
                       tidslinje: Array<{
                           __typename: 'Dag';
@@ -5546,6 +5576,13 @@ export type FetchPersonQuery = {
                               __typename: 'PensjonsgivendeInntekt';
                               arligBelop: string;
                               inntektsar: number;
+                          }>;
+                          annulleringskandidater: Array<{
+                              __typename: 'Annulleringskandidat';
+                              fom: string;
+                              organisasjonsnummer: string;
+                              tom: string;
+                              vedtaksperiodeId: string;
                           }>;
                           tidslinje: Array<{
                               __typename: 'Dag';
@@ -7550,6 +7587,19 @@ export const BeregnetPeriodeFragmentDoc = {
                             ],
                         },
                     },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'annulleringskandidater' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                            ],
+                        },
+                    },
                     { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
                 ],
             },
@@ -8985,6 +9035,19 @@ export const ArbeidsgiverFragmentDoc = {
                             ],
                         },
                     },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'annulleringskandidater' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                            ],
+                        },
+                    },
                     { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
                 ],
             },
@@ -10095,6 +10158,19 @@ export const PersonFragmentDoc = {
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'arligBelop' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'inntektsar' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'annulleringskandidater' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                             ],
                         },
                     },
@@ -13217,6 +13293,19 @@ export const FetchPersonDocument = {
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'arligBelop' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'inntektsar' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'annulleringskandidater' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                             ],
                         },
                     },
