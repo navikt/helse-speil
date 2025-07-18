@@ -7,7 +7,7 @@ import { useMutation } from '@apollo/client';
 import { Arsak } from '@external/sanity';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { AmplitudeContext } from '@io/amplitude';
-import { AnnullerDocument, AnnulleringDataInput, PersonFragment } from '@io/graphql';
+import { AnnullerDocument, AnnulleringDataInput, BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast } from '@state/toasts';
 
@@ -25,6 +25,7 @@ type AnnulleringsModalProps = {
     arbeidsgiverFagsystemId: string;
     personFagsystemId: string;
     person: PersonFragment;
+    periode: BeregnetPeriodeFragment;
 };
 
 export const AnnulleringsModal = ({
@@ -36,6 +37,7 @@ export const AnnulleringsModal = ({
     arbeidsgiverFagsystemId,
     personFagsystemId,
     person,
+    periode,
 }: AnnulleringsModalProps): ReactElement => {
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
     const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
@@ -124,7 +126,7 @@ export const AnnulleringsModal = ({
                         onSubmit={form.handleSubmit(() => sendAnnullering(annullering()))}
                         id="annullerings-modal-form"
                     >
-                        <Annulleringsinformasjon person={person} />
+                        <Annulleringsinformasjon person={person} periode={periode} />
                         <Annulleringsbegrunnelse />
                         {!erINyesteSkjæringstidspunkt && (
                             <BodyShort className={styles.varseltekst}>

@@ -6,14 +6,7 @@ const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 const supersaksbehandlere = ['N115007', 'K164523', 'A148751', 'S161635'];
 
 // Fagkoordinatorer: https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-sykefravarsoppfolging-og-sykepenger/SitePages/Fagnettverk-for-sykepenger.aspx
-const fagkoordinatorer = [
-    'F160464',
-    'G157538',
-    'H126784',
-    'K123956',
-    'M136300',
-    'S108267'
-];
+const fagkoordinatorer = ['F160464', 'G157538', 'H126784', 'K123956', 'M136300', 'S108267'];
 
 // Avdelingsledere: https://navno.sharepoint.com/:x:/s/enhet-arbeid-og-ytelser/EVg9YaONIHdDsFjGYGnJab0BIgOxx0724elo9dtsOBoAnw?e=kNIbmh
 const avdelingsledere = ['K105348', 'L105454'];
@@ -40,6 +33,7 @@ const coaches = [
 const grupperFraNAY = (ident: string) =>
     [...coaches, ...avdelingsledere, ...fagkoordinatorer, ...supersaksbehandlere].includes(ident);
 const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdForTbd);
+const harTilgangTilAnnulleringsriggISpleis = () => false;
 
 export const kanGjøreTilkommenInntektEndringer = (): boolean => erUtvikling;
 export const kanSeSelvstendigNæringsdrivende: boolean = erUtvikling;
@@ -49,5 +43,7 @@ export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
     grupperFraNAY(ident) || erPåTeamBømlo(grupper) || erLokal;
 export const kanSøkeOppTildelteOppgaver = (ident: string, grupper: string[]) =>
     grupperFraNAY(ident) || erPåTeamBømlo(grupper) || erUtvikling;
+export const kanSeNyAnnulleringsrigg = (grupper: string[]) =>
+    harTilgangTilAnnulleringsriggISpleis() || erPåTeamBømlo(grupper) || erUtvikling;
 
 export const harBeslutterrolle = (grupper: string[]): boolean => grupper.includes(groupIdForBesluttere);

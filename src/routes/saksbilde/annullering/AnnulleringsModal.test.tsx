@@ -3,6 +3,7 @@ import React from 'react';
 import { useArsaker } from '@external/sanity';
 import { AnnullerDocument, AnnulleringArsakInput } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
+import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { createMock, render, screen, within } from '@test-utils';
 import { waitFor } from '@testing-library/react';
@@ -20,6 +21,7 @@ const defaultProps = {
         fodselsnummer: '12345678910',
         aktorId: '12345678910',
     }),
+    periode: enBeregnetPeriode(),
     organisasjonsnummer: '987654321',
     vedtaksperiodeId: 'EN-VEDTAKSPERIODEID',
     utbetalingId: 'EN-UTBETALINGID',
