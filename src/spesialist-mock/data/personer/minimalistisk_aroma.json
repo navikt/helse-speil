@@ -1122,7 +1122,8 @@
                                     "egenskaper": [],
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
-                                    "pensjonsgivendeInntekter": []
+                                    "pensjonsgivendeInntekter": [],
+                                    "annulleringskandidater": []
                                 },
                                 {
                                     "fom": "2023-02-01",
@@ -1481,7 +1482,8 @@
                                     "egenskaper": [],
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
-                                    "pensjonsgivendeInntekter": []
+                                    "pensjonsgivendeInntekter": [],
+                                    "annulleringskandidater": []
                                 }
                             ]
                         },
@@ -1889,7 +1891,8 @@
                                     "egenskaper": [],
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
-                                    "pensjonsgivendeInntekter": []
+                                    "pensjonsgivendeInntekter": [],
+                                    "annulleringskandidater": []
                                 }
                             ]
                         }

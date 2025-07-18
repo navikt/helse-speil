@@ -241,6 +241,7 @@
                                     "vedtakBegrunnelser": [],
                                     "annullering": null,
                                     "pensjonsgivendeInntekter": [],
+                                    "annulleringskandidater": [],
                                     "behandlingId": "9de4e8dd-947f-439f-bf09-2e2c9eca210a",
                                     "fom": "2025-03-01",
                                     "tom": "2025-03-31",

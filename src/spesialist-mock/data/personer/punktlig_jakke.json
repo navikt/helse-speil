@@ -796,7 +796,8 @@
                                     },
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
-                                    "pensjonsgivendeInntekter": []
+                                    "pensjonsgivendeInntekter": [],
+                                    "annulleringskandidater": []
                                 }
                             ]
                         }
