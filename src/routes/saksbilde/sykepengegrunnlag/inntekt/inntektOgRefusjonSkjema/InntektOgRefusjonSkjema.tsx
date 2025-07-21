@@ -134,9 +134,12 @@ export const InntektOgRefusjonSkjema = ({
                     organisasjonsnummer: metadata.organisasjonsnummer,
                     begrunnelse: begrunnelse.forklaring,
                     forklaring: forklaring,
-                    månedligInntekt: stringIsNaN(manedsbelop)
-                        ? omregnetÅrsinntekt.manedsbelop
-                        : Number.parseFloat(manedsbelop),
+                    månedligInntekt:
+                        stringIsNaN(manedsbelop) ||
+                        Math.abs(avrundetToDesimaler(omregnetÅrsinntekt.manedsbelop) - Number.parseFloat(manedsbelop)) <
+                            0.01
+                            ? omregnetÅrsinntekt.manedsbelop
+                            : Number.parseFloat(manedsbelop),
                     fraMånedligInntekt: omregnetÅrsinntekt.manedsbelop,
                     refusjonsopplysninger: refusjonsopplysninger ?? [],
                     fraRefusjonsopplysninger: metadata.fraRefusjonsopplysninger,
