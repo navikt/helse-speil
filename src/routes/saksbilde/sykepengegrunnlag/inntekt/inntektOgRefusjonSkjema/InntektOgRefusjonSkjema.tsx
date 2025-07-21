@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { FormEvent, ReactElement, useEffect, useRef, useState } from 'react';
+import { FormEvent, ReactElement, useEffect, useRef, useState } from 'react';
 import {
     CustomElement,
     FieldErrors,
@@ -276,10 +276,32 @@ const refusjonsvalidator =
                     new Date(b.fom).getTime() - new Date(a.fom).getTime(),
             );
 
-        const harEndretRefusjonsopplysninger =
-            JSON.stringify(refusjonsopplysninger) !== JSON.stringify(fraRefusjonsopplysninger);
+        const endretRefusjonsopplysninger = (
+            refusjonsopplysninger: Refusjonsopplysning[],
+            fraRefusjonsopplysninger: Refusjonsopplysning[],
+        ): boolean => {
+            for (const refusjonsopplysning of refusjonsopplysninger) {
+                const match = fraRefusjonsopplysninger.find(
+                    (fraRefusjon) =>
+                        fraRefusjon.fom === refusjonsopplysning.fom &&
+                        fraRefusjon.tom === refusjonsopplysning.tom &&
+                        Math.abs(fraRefusjon.beløp - refusjonsopplysning.beløp) < 0.01 &&
+                        fraRefusjon.kilde === refusjonsopplysning.kilde,
+                );
+                if (!match) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        const harEndretRefusjonsopplysninger = endretRefusjonsopplysninger(
+            refusjonsopplysninger,
+            fraRefusjonsopplysninger,
+        );
         const harEndretMånedsbeløp =
-            omregnetÅrsinntektBeløp !== Number(values?.manedsbelop) && !stringIsNaN(values?.manedsbelop);
+            Math.abs(avrundetToDesimaler(omregnetÅrsinntektBeløp) - Number(values?.manedsbelop)) > 0.01 &&
+            !stringIsNaN(values?.manedsbelop);
 
         if (!harEndretMånedsbeløp && !harEndretRefusjonsopplysninger) {
             e.preventDefault();
