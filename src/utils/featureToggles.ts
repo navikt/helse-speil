@@ -6,23 +6,54 @@ const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 const supersaksbehandlere = ['N115007', 'K164523', 'A148751', 'S161635'];
 
 // Fagkoordinatorer: https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-sykefravarsoppfolging-og-sykepenger/SitePages/Fagnettverk-for-sykepenger.aspx
-const fagkoordinatorer = ['F160464', 'G157538', 'H126784', 'K123956', 'M136300', 'S108267'];
+const fagkoordinatorer = [
+    'A142467',
+    'B137568',
+    'D123751',
+    'F160464',
+    'G157538',
+    'H126784',
+    'H149897',
+    'J141450',
+    'K123956',
+    'M136300',
+    'S108267',
+];
 
 // Avdelingsledere: https://navno.sharepoint.com/:x:/s/enhet-arbeid-og-ytelser/EVg9YaONIHdDsFjGYGnJab0BIgOxx0724elo9dtsOBoAnw?e=kNIbmh
-const avdelingsledere = ['K105348', 'L105454'];
+const avdelingsledere = [
+    'A147735',
+    'A147735',
+    'A151722',
+    'J120735',
+    'J151721',
+    'K105348',
+    'L105454',
+    'N106601',
+    'N147606',
+    'N172031',
+    'R159363',
+    'S131764',
+    'S135852',
+    'S139986',
+    'S145454',
+    'S171968',
+    'T109457',
+    'T147443',
+    'W110179',
+];
 
+// Coacher: https://navno.sharepoint.com/sites/44/NAYsykepenger/SitePages/Speilverden.aspx
 const coaches = [
-    // Er på coachlisten: https://navno.sharepoint.com/sites/44/NAYsykepenger/SitePages/Speilverden.aspx
     'B164848',
     'F131883',
+    'F158061', // Midlertidig coach
     'G155258',
     'H160235',
     'K162139',
     'S157539',
     'S165568',
     'V149621',
-    // Midlertidig coach
-    'F158061',
 ];
 
 // const erSupersaksbehandler = (ident: string) => supersaksbehandlere.includes(ident);
