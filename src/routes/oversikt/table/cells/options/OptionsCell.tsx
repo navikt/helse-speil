@@ -5,7 +5,6 @@ import { Button, Dropdown, Table } from '@navikt/ds-react';
 
 import { Egenskap, Maybe, OppgaveTilBehandling, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useKanFrigiOppgaver } from '@state/toggles';
 
 import { MeldAvMenuButton } from './MeldAvMenuButton';
 import { PåVentMenuButton } from './PåVentMenuButton';
@@ -26,8 +25,6 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const erTildeltInnloggetBruker = erLike(oppgave.tildeling?.oid, innloggetSaksbehandler.oid);
     const erTildelt = oppgave.tildeling?.oid !== undefined;
-    const kanFrigiAndresOppgaver = useKanFrigiOppgaver();
-    const skalViseAvmeldingsknapp = erTildeltInnloggetBruker || (oppgave.tildeling && kanFrigiAndresOppgaver);
     const erPåVent = oppgave.egenskaper.filter((it) => it.egenskap === Egenskap.PaVent).length !== 0;
 
     return (
@@ -54,12 +51,10 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
                                 navn={navn}
                                 erPåVent={erPåVent}
                             />
-                            {skalViseAvmeldingsknapp && (
-                                <MeldAvMenuButton
-                                    oppgavereferanse={oppgave.id}
-                                    erTildeltInnloggetBruker={erTildeltInnloggetBruker}
-                                />
-                            )}
+                            <MeldAvMenuButton
+                                oppgavereferanse={oppgave.id}
+                                erTildeltInnloggetBruker={erTildeltInnloggetBruker}
+                            />
                         </Dropdown.Menu.List>
                     </Dropdown.Menu>
                 </Dropdown>

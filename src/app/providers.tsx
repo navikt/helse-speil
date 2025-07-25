@@ -23,7 +23,7 @@ import { useLoadingToast } from '@hooks/useLoadingToast';
 import { initInstrumentation } from '@observability/faro';
 import { hydrateFilters } from '@oversikt/table/state/filter';
 import { useFetchPersonQuery } from '@state/person';
-import { hydrateKanFrigiOppgaverState, hydrateTotrinnsvurderingState } from '@state/toggles';
+import { hydrateTotrinnsvurderingState } from '@state/toggles';
 import { useSetVarsler } from '@state/varsler';
 
 dayjs.extend(relativeTime);
@@ -61,11 +61,7 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
 
 function getAtomValues(bruker: Bruker) {
     return typeof window !== 'undefined'
-        ? [
-              hydrateKanFrigiOppgaverState(bruker.ident),
-              hydrateTotrinnsvurderingState(bruker.grupper),
-              hydrateFilters(bruker.grupper, bruker.ident),
-          ]
+        ? [hydrateTotrinnsvurderingState(bruker.grupper), hydrateFilters(bruker.grupper, bruker.ident)]
         : [];
 }
 

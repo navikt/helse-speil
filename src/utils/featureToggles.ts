@@ -69,7 +69,6 @@ const harTilgangTilAnnulleringsriggISpleis = (ident: string) =>
 
 export const kanGjøreTilkommenInntektEndringer = (): boolean => erUtvikling;
 export const kanSeSelvstendigNæringsdrivende: boolean = erUtvikling;
-export const kanFrigiAndresOppgaver = (ident: string) => grupperFraNAY(ident) || erUtvikling;
 export const kanBrukeUtviklersnarveier = (grupper: string[]) => erUtvikling || erPåTeamBømlo(grupper);
 export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
     grupperFraNAY(ident) || erPåTeamBømlo(grupper) || erLokal;

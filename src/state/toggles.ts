@@ -1,10 +1,10 @@
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import type { WritableAtom } from 'jotai/index';
 import type { SetStateAction } from 'react';
 
 import { erUtvikling } from '@/env';
 import { atomWithSessionStorage } from '@state/jotai';
-import { harBeslutterrolle, kanFrigiAndresOppgaver } from '@utils/featureToggles';
+import { harBeslutterrolle } from '@utils/featureToggles';
 
 // Totrinnsvurdering
 export type TotrinnsvurderingState = {
@@ -57,27 +57,4 @@ export const useHarBeslutterrolle = (): boolean => {
 
 export const useKanBeslutteEgneOppgaver = (): boolean => {
     return useTotrinnsvurdering()[0]?.kanBeslutteEgne;
-};
-
-// Tildeling
-const kanFrigiOppgaverState = atomWithSessionStorage('kanFrigiOppgaverState', false);
-
-export function hydrateKanFrigiOppgaverState(
-    ident: string,
-): [WritableAtom<boolean, [SetStateAction<boolean>], void>, boolean] {
-    const sessionStorageState = sessionStorage.getItem('kanFrigiOppgaverState');
-    return [
-        kanFrigiOppgaverState,
-        erUtvikling && sessionStorageState ? JSON.parse(sessionStorageState) : kanFrigiAndresOppgaver(ident),
-    ];
-}
-
-export const useKanFrigiOppgaver = (): boolean => {
-    return useAtomValue(kanFrigiOppgaverState);
-};
-
-export const useToggleKanFrigiOppgaver = (): [value: boolean, toggle: () => void] => {
-    const [kanFrigiOppgaver, setKanFrigiOppgaver] = useAtom(kanFrigiOppgaverState);
-
-    return [kanFrigiOppgaver, () => setKanFrigiOppgaver((prevState) => !prevState)];
 };

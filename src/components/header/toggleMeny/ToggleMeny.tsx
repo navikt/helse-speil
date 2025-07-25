@@ -1,8 +1,6 @@
-import React from 'react';
-
 import { Checkbox, CheckboxGroup, Heading, Modal } from '@navikt/ds-react';
 
-import { TotrinnsvurderingState, useToggleKanFrigiOppgaver, useTotrinnsvurdering } from '@state/toggles';
+import { TotrinnsvurderingState, useTotrinnsvurdering } from '@state/toggles';
 
 import styles from './ToggleMeny.module.css';
 
@@ -13,7 +11,6 @@ type ToggleMenyProps = {
 
 export const ToggleMeny = ({ closeModal, showModal }: ToggleMenyProps) => {
     const [totrinn, toggleTotrinn] = useTotrinnsvurdering();
-    const [kanFrigiOppgaver, toggleKanFrigiOppgaver] = useToggleKanFrigiOppgaver();
 
     return (
         <Modal aria-label="Toggle meny modal" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
@@ -32,12 +29,6 @@ export const ToggleMeny = ({ closeModal, showModal }: ToggleMenyProps) => {
                             Kan beslutte egen beslutteroppgave
                         </Checkbox>
                     </CheckboxGroup>
-
-                    <CheckboxGroup legend="Tildeling" value={kanFrigiOppgaverStateToCheckboxValue(kanFrigiOppgaver)}>
-                        <Checkbox value="kanFrigiOppgaver" onChange={toggleKanFrigiOppgaver}>
-                            Kan frigi andres oppgaver
-                        </Checkbox>
-                    </CheckboxGroup>
                 </form>
             </Modal.Body>
         </Modal>
@@ -50,6 +41,3 @@ const totrinnsvurderingStateToCheckboxValue = (totrinn: TotrinnsvurderingState):
     if (totrinn.kanBeslutteEgne) array.push('kanBeslutteEgne');
     return array;
 };
-
-const kanFrigiOppgaverStateToCheckboxValue = (kanFrigiOppgaver: boolean): string[] =>
-    kanFrigiOppgaver ? ['kanFrigiOppgaver'] : [];
