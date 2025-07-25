@@ -1,6 +1,6 @@
 import { erLokal, erUtvikling } from '@/env';
 
-const groupIdForTbd = 'f787f900-6697-440d-a086-d5bb56e26a9c';
+const groupIdNaisTeamTbd = 'c0227409-2085-4eb2-b487-c4ba270986a3';
 const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 
 const supersaksbehandlere = ['N115007', 'K164523', 'A148751', 'S161635'];
@@ -32,7 +32,7 @@ const coaches = [
 
 const grupperFraNAY = (ident: string) =>
     [...coaches, ...avdelingsledere, ...fagkoordinatorer, ...supersaksbehandlere].includes(ident);
-const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdForTbd);
+const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdNaisTeamTbd);
 const harTilgangTilAnnulleringsriggISpleis = (ident: string) =>
     ['S161635', 'A148751', 'V149621', 'H160235'].includes(ident);
 
