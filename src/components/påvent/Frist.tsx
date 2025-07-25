@@ -16,8 +16,8 @@ export const Frist = ({ fristDato, setFristDato, error, setError }: FristProps):
         onDateChange: (dato: Date | undefined) => setFristDato(dato ?? null),
         fromDate: new Date(),
         onValidate: (val) => {
-            if (val.isEmpty) setError('Frist må være satt');
-            else if (val.isBefore) setError('Frist kan ikke være bakover i tid');
+            if (val.isEmpty) setError('Oppfølgingsdato må være satt');
+            else if (val.isBefore) setError('Oppfølgingsdato kan ikke være bakover i tid');
             else if (!val.isValidDate) setError('Ugyldig dato');
             else setError(null);
         },
