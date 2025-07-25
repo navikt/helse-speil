@@ -4,7 +4,7 @@ import { SetStateAction } from 'react';
 import { Egenskap, Saksbehandler } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
 import { atomWithLocalStorage, atomWithSessionStorage } from '@state/jotai';
-import { kanFiltrerePåGosysEgenskap, kanSeSelvstendigNæringsdrivende } from '@utils/featureToggles';
+import { kanSeSelvstendigNæringsdrivende } from '@utils/featureToggles';
 
 export type Filter = {
     key: string | Egenskap;
@@ -226,8 +226,7 @@ const filters = [
     },
 ];
 
-export const getDefaultFilters = (grupper: string[], ident: string): Filter[] =>
-    filters.filter((filter) => filter.key !== Egenskap.Gosys || kanFiltrerePåGosysEgenskap(ident, grupper));
+export const getDefaultFilters = (): Filter[] => filters.filter((filter) => filter);
 
 const filtersPerTab = atomWithLocalStorage<FiltersPerTab>('filtersPerTab', {
     [TabType.TilGodkjenning]: filters,
@@ -236,10 +235,7 @@ const filtersPerTab = atomWithLocalStorage<FiltersPerTab>('filtersPerTab', {
     [TabType.BehandletIdag]: filters,
 });
 
-export function hydrateFilters(
-    grupper: string[],
-    ident: string,
-): [WritableAtom<FiltersPerTab, [SetStateAction<FiltersPerTab>], void>, FiltersPerTab] {
+export function hydrateFilters(): [WritableAtom<FiltersPerTab, [SetStateAction<FiltersPerTab>], void>, FiltersPerTab] {
     // Denne er plassert inne i hydrate-funksjonen for å unngå at den blir kalt ifm. server-side rendering
     const hentFiltreForTab = (tab: TabType, defaultFilters: Filter[]): Filter[] => {
         const filtersFromStorage = localStorage.getItem('filtersPerTab');
@@ -268,9 +264,9 @@ export function hydrateFilters(
     return [
         filtersPerTab,
         {
-            [TabType.TilGodkjenning]: hentFiltreForTab(TabType.TilGodkjenning, getDefaultFilters(grupper, ident)),
-            [TabType.Mine]: hentFiltreForTab(TabType.Mine, getDefaultFilters(grupper, ident)),
-            [TabType.Ventende]: hentFiltreForTab(TabType.Ventende, getDefaultFilters(grupper, ident)),
+            [TabType.TilGodkjenning]: hentFiltreForTab(TabType.TilGodkjenning, getDefaultFilters()),
+            [TabType.Mine]: hentFiltreForTab(TabType.Mine, getDefaultFilters()),
+            [TabType.Ventende]: hentFiltreForTab(TabType.Ventende, getDefaultFilters()),
             [TabType.BehandletIdag]: [],
         },
     ];

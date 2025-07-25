@@ -60,9 +60,7 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
 };
 
 function getAtomValues(bruker: Bruker) {
-    return typeof window !== 'undefined'
-        ? [hydrateTotrinnsvurderingState(bruker.grupper), hydrateFilters(bruker.grupper, bruker.ident)]
-        : [];
+    return typeof window !== 'undefined' ? [hydrateTotrinnsvurderingState(bruker.grupper), hydrateFilters()] : [];
 }
 
 function AtomsHydrator({

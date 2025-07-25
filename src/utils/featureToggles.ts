@@ -1,4 +1,4 @@
-import { erLokal, erUtvikling } from '@/env';
+import { erUtvikling } from '@/env';
 
 const groupIdNaisTeamTbd = 'c0227409-2085-4eb2-b487-c4ba270986a3';
 const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
@@ -70,8 +70,6 @@ const harTilgangTilAnnulleringsriggISpleis = (ident: string) =>
 export const kanGjøreTilkommenInntektEndringer = (): boolean => erUtvikling;
 export const kanSeSelvstendigNæringsdrivende: boolean = erUtvikling;
 export const kanBrukeUtviklersnarveier = (grupper: string[]) => erUtvikling || erPåTeamBømlo(grupper);
-export const kanFiltrerePåGosysEgenskap = (ident: string, grupper: string[]) =>
-    grupperFraNAY(ident) || erPåTeamBømlo(grupper) || erLokal;
 export const kanSøkeOppTildelteOppgaver = (ident: string, grupper: string[]) =>
     grupperFraNAY(ident) || erPåTeamBømlo(grupper) || erUtvikling;
 export const kanSeNyAnnulleringsrigg = (ident: string, grupper: string[]) =>
