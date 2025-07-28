@@ -1,14 +1,13 @@
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { range } from 'remeda';
 
 import { HStack, Skeleton } from '@navikt/ds-react';
 
-import { useInnloggetSaksbehandler } from '@/state/authentication';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { SøkefeltSaksbehandlere } from '@oversikt/filtermeny/SøkefeltSaksbehandlere';
-import { kanSeSelvstendigNæringsdrivende, kanSøkeOppTildelteOppgaver } from '@utils/featureToggles';
+import { kanSeSelvstendigNæringsdrivende } from '@utils/featureToggles';
 
 import { TabType, useAktivTab } from '../tabState';
 import { Filter, Oppgaveoversiktkolonne, valgtSaksbehandlerAtom } from '../table/state/filter';
@@ -16,7 +15,6 @@ import { FilterList } from './FilterList';
 import { useSetFiltermenyWidth, useShowFiltermeny } from './state';
 
 import styles from './Filtermeny.module.css';
-import { useBrukerGrupper } from '@/auth/brukerContext';
 
 interface FilterMenyProps {
     filters: Filter[];
@@ -26,7 +24,6 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
     const showFiltermeny = useShowFiltermeny();
     const settBredde = useSetFiltermenyWidth();
     const aktivTab = useAktivTab();
-    const saksbehandler = useInnloggetSaksbehandler();
 
     const [valgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
 
@@ -41,9 +38,7 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
             onChangeBredde={(width) => settBredde(width)}
         >
             <section className={classNames(styles.filtermeny)}>
-                {kanSøkeOppTildelteOppgaver(saksbehandler.ident ?? '', useBrukerGrupper()) && aktivTab === TabType.TilGodkjenning && (
-                    <SøkefeltSaksbehandlere />
-                )}
+                {aktivTab === TabType.TilGodkjenning && <SøkefeltSaksbehandlere />}
                 {aktivTab === TabType.TilGodkjenning && (
                     <FilterList
                         filters={skjulHvisSaksbehandlerErValgt(
