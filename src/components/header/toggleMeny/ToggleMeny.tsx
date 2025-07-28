@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Checkbox, CheckboxGroup, Heading, Modal } from '@navikt/ds-react';
 
 import { TotrinnsvurderingState, useTotrinnsvurdering } from '@state/toggles';
