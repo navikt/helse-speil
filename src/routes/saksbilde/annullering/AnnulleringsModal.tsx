@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext } from 'react';
+import { ReactElement } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Alert, BodyShort, Button, Heading, Modal } from '@navikt/ds-react';
@@ -6,7 +6,6 @@ import { Alert, BodyShort, Button, Heading, Modal } from '@navikt/ds-react';
 import { useMutation } from '@apollo/client';
 import { Arsak } from '@external/sanity';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
-import { AmplitudeContext } from '@io/amplitude';
 import { AnnullerDocument, AnnulleringDataInput, BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast } from '@state/toasts';
@@ -41,7 +40,6 @@ export const AnnulleringsModal = ({
 }: AnnulleringsModalProps): ReactElement => {
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
     const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
-    const amplitude = useContext(AmplitudeContext);
     const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const addToast = useAddToast();
 
@@ -84,7 +82,6 @@ export const AnnulleringsModal = ({
             void annullerMutation({
                 variables: { annullering },
                 onCompleted: () => {
-                    amplitude.logAnnullert(annullering.arsaker.map((årsak) => årsak.arsak));
                     setOpptegnelsePollingTime(1000);
                     addToast({
                         message: 'Annulleringen er sendt',

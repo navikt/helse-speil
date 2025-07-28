@@ -1,11 +1,10 @@
 import { nanoid } from 'nanoid';
-import React, { ReactElement, ReactNode, useContext, useState } from 'react';
+import React, { ReactElement, ReactNode, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { AmplitudeContext } from '@io/amplitude';
 import { Personinfo, SendTilGodkjenningV2Document, Utbetaling } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
@@ -53,7 +52,6 @@ export const SendTilGodkjenningButton = ({
     ...buttonProps
 }: SendTilGodkjenningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
-    const amplitude = useContext(AmplitudeContext);
     const addToast = useAddSendtTilGodkjenningtoast();
     const [sendTilGodkjenningMutation, { loading, error }] = useMutation(SendTilGodkjenningV2Document);
 
@@ -72,7 +70,6 @@ export const SendTilGodkjenningButton = ({
                 vedtakBegrunnelse: vedtakBegrunnelseTekst,
             },
             onCompleted: () => {
-                amplitude.logTotrinnsoppgaveTilGodkjenning();
                 addToast();
                 onSuccess?.();
                 setShowModal(false);

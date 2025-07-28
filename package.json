@@ -33,7 +33,6 @@
         ]
     },
     "dependencies": {
-        "@amplitude/analytics-browser": "^2.11.12",
         "@apollo/client": "^3.13.1",
         "@grafana/faro-web-sdk": "^1.15.0",
         "@grafana/faro-web-tracing": "^1.15.0",

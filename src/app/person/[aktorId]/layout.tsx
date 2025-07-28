@@ -9,7 +9,6 @@ import { useOppdaterPersondataEnGang } from '@hooks/useOppdaterPersondataEnGang'
 import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
-import { AmplitudeProvider } from '@io/amplitude';
 import { OpprettAbonnementDocument } from '@io/graphql';
 import { usePollEtterOpptegnelser } from '@io/graphql/polling';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
@@ -55,9 +54,7 @@ const AktorScopedLayout = ({ children }: PropsWithChildren): ReactElement => {
                 <InfovarselOmStans />
                 <PersonHeader />
                 <Timeline />
-                <AmplitudeProvider>
-                    <VenterPåEndringProvider>{children}</VenterPåEndringProvider>
-                </AmplitudeProvider>
+                <VenterPåEndringProvider>{children}</VenterPåEndringProvider>
             </div>
         </PersonStoreContext.Provider>
     );

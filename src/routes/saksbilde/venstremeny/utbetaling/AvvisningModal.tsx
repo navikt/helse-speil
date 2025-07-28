@@ -1,12 +1,11 @@
 import { nanoid } from 'nanoid';
 import { useRouter } from 'next/navigation';
-import React, { ReactElement, useContext } from 'react';
+import React, { ReactElement } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { AmplitudeContext } from '@io/amplitude';
 import { BeregnetPeriodeFragment, TilInfoTrygdDocument } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
@@ -45,7 +44,6 @@ export const AvvisningModal = ({ closeModal, showModal, activePeriod }: Avvisnin
     const router = useRouter();
     const form = useForm();
     const [sendTilInfotrygdMutation, { error, loading }] = useMutation(TilInfoTrygdDocument);
-    const amplitude = useContext(AmplitudeContext);
     const addInfotrygdtoast = useAddInfotrygdtoast();
     const kommentar = form.watch('kommentar');
     const begrunnelser = form.watch(`begrunnelser`);
@@ -76,7 +74,6 @@ export const AvvisningModal = ({ closeModal, showModal, activePeriod }: Avvisnin
 
     const avvisUtbetaling = async (skjema: Avvisningsskjema) => {
         const skjemaBegrunnelser: string[] = skjema.begrunnelser?.map((begrunnelse) => begrunnelse.valueOf()) ?? [];
-        const skjemaKommentar: string[] = skjema.kommentar ? [skjema.kommentar] : [];
 
         await sendTilInfotrygdMutation({
             variables: {
@@ -86,7 +83,6 @@ export const AvvisningModal = ({ closeModal, showModal, activePeriod }: Avvisnin
                 arsak: skjema.årsak.valueOf(),
             },
             onCompleted: () => {
-                amplitude.logOppgaveForkastet([skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar]);
                 addInfotrygdtoast();
                 closeModal();
                 router.push('/');

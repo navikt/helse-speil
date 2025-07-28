@@ -1,10 +1,9 @@
 import { nanoid } from 'nanoid';
-import React, { ReactElement, useContext, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { AmplitudeContext } from '@io/amplitude';
 import { BeregnetPeriodeFragment, Maybe, PersonFragment, SendIReturDocument } from '@io/graphql';
 import { Returnotat } from '@saksbilde/notat/Returnotat';
 import { useAddToast } from '@state/toasts';
@@ -42,7 +41,6 @@ export const ReturButton = ({
     const [error, setError] = useState<string | undefined>();
 
     const addReturtoast = useAddReturtoast();
-    const amplitude = useContext(AmplitudeContext);
     const [sendIReturMutation] = useMutation(SendIReturDocument);
 
     const closeNotat = () => {
@@ -61,7 +59,6 @@ export const ReturButton = ({
             variables: { oppgavereferanse: activePeriod.oppgave?.id ?? '', notatTekst: notattekst },
         })
             .then(() => {
-                amplitude.logTotrinnsoppgaveReturnert();
                 addReturtoast();
                 closeNotat();
                 onSuccess?.();

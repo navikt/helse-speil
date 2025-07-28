@@ -1,11 +1,10 @@
 import { nanoid } from 'nanoid';
-import React, { ReactElement, ReactNode, useContext, useState } from 'react';
+import React, { ReactElement, ReactNode, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { AmplitudeContext } from '@io/amplitude';
 import { FattVedtakDocument, Personinfo, Utbetaling } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 import { apolloExtensionValue } from '@utils/error';
@@ -58,7 +57,6 @@ export const GodkjenningButton = ({
     const [fattVedtakMutation, { error, loading, reset: resetFattVedtakMutation }] = useMutation(FattVedtakDocument);
     useKeyboard([{ key: Key.F6, action: () => !disabled && setShowModal(true), ignoreIfModifiers: false }]);
 
-    const amplitude = useContext(AmplitudeContext);
     const addUtbetalingstoast = useAddUtbetalingstoast();
 
     const godkjennUtbetaling = () => {
@@ -68,7 +66,6 @@ export const GodkjenningButton = ({
                 begrunnelse: vedtakBegrunnelseTekst,
             },
             onCompleted: () => {
-                amplitude.logOppgaveGodkjent(erBeslutteroppgave);
                 addUtbetalingstoast();
                 onSuccess?.();
                 setShowModal(false);
