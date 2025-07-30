@@ -1,5 +1,6 @@
 import { erUtvikling } from '@/env';
 
+const groupIdTbd = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const groupIdNaisTeamTbd = 'c0227409-2085-4eb2-b487-c4ba270986a3';
 const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 
@@ -63,7 +64,8 @@ const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 
 // const grupperFraNAY = (ident: string) =>
 //     [...coacher, ...avdelingsledere, ...fagkoordinatorer, ...supersaksbehandlere].includes(ident);
-const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdNaisTeamTbd);
+
+const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdNaisTeamTbd) || grupper.includes(groupIdTbd);
 const harTilgangTilAnnulleringsriggISpleis = (ident: string) =>
     ['S161635', 'A148751', 'V149621', 'H160235'].includes(ident);
 
