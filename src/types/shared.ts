@@ -47,7 +47,8 @@ export type PeriodState =
     | 'infotrygdUtbetalt'
     | 'infotrygdFerie'
     | 'infotrygdUkjent'
-    | 'tilSkjønnsfastsettelse';
+    | 'tilSkjønnsfastsettelse'
+    | 'avventerAnnullering';
 
 export type ActivePeriod = BeregnetPeriodeFragment | UberegnetPeriodeFragment | GhostPeriodeFragment;
 

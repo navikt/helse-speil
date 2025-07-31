@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { Maybe, Periodetilstand } from '@io/graphql';
 import { BeregnetPeriodeView } from '@saksbilde/saksbilder/BeregnetPeriodeView';

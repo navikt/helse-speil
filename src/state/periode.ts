@@ -93,4 +93,5 @@ const venterTilstander = [
     Periodetilstand.UtbetaltVenterPaEnAnnenPeriode,
     Periodetilstand.AvventerInntektsopplysninger,
     Periodetilstand.ForberederGodkjenning,
+    Periodetilstand.AvventerAnnullering,
 ];

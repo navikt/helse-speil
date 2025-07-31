@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Accordion, Alert, BodyShort } from '@navikt/ds-react';
 
@@ -42,18 +42,27 @@ const tilstandfeil = (state: PeriodState): Maybe<VarselObject> => {
     }
 };
 
-const vedtaksperiodeVenter = (state: PeriodState): Maybe<VarselObject> =>
-    state === 'venter'
-        ? { grad: 'info', melding: 'Ikke klar til behandling - avventer system' }
-        : state === 'venterPåInntektsopplysninger'
-          ? { grad: 'info', melding: 'Ikke klar til behandling - venter på inntektsmelding' }
-          : state === 'venterPåKiling'
-            ? {
-                  grad: 'info',
-                  melding:
-                      'Avventer behandling av en annen periode. Dette kan skyldes at søknad eller inntektsmelding for denne eller en annen arbeidsgiver mangler.',
-              }
-            : null;
+const vedtaksperiodeVenter = (state: PeriodState): Maybe<VarselObject> => {
+    switch (state) {
+        case 'venter':
+            return { grad: 'info', melding: 'Ikke klar til behandling - avventer system' };
+        case 'venterPåInntektsopplysninger':
+            return { grad: 'info', melding: 'Ikke klar til behandling - venter på inntektsmelding' };
+        case 'venterPåKiling':
+            return {
+                grad: 'info',
+                melding:
+                    'Avventer behandling av en annen periode. Dette kan skyldes at søknad eller inntektsmelding for denne eller en annen arbeidsgiver mangler.',
+            };
+        case 'avventerAnnullering':
+            return {
+                grad: 'info',
+                melding: 'Avventer behandling av en annen periode. Denne perioden vil bli annullert.',
+            };
+        default:
+            return null;
+    }
+};
 
 const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: Maybe<string>): Maybe<VarselObject> =>
     state === 'tilGodkjenning' && (typeof oppgavereferanse !== 'string' || oppgavereferanse.length === 0)

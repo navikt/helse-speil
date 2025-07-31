@@ -45,6 +45,8 @@ export const getUberegnetPeriodState = (period: UberegnetPeriodeFragment): Perio
             return 'venterPåKiling';
         case Periodetilstand.Annullert:
             return 'forkastetIngenUtbetaling';
+        case Periodetilstand.AvventerAnnullering:
+            return 'avventerAnnullering';
         default:
             return 'ukjent';
     }
@@ -164,6 +166,8 @@ export const getPeriodStateText = (state: PeriodState): string => {
             return 'Sendt til infotrygd';
         case 'tilSkjønnsfastsettelse':
             return 'Til skjønnsfastsettelse';
+        case 'avventerAnnullering':
+            return 'Avventer annullering';
         default:
             return 'Ukjent';
     }

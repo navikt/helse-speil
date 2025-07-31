@@ -47,7 +47,8 @@ const getPeriodCategory = (periodState: PeriodState): Maybe<PeriodCategory> => {
         case 'venterPåKiling':
         case 'tilAnnullering':
         case 'tilUtbetalingAutomatisk':
-        case 'tilUtbetaling': {
+        case 'tilUtbetaling':
+        case 'avventerAnnullering': {
             return 'waiting';
         }
         case 'infotrygdFerie':
