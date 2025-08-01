@@ -1,12 +1,11 @@
 import React, { ReactElement } from 'react';
 
-import { Maybe } from '@io/graphql';
 import { somNorskDato } from '@utils/date';
 
 import { DokumentFragment } from './DokumentFragment';
 
 type BestemmendeFraværsdagProps = {
-    førsteFraværsdag: Maybe<string>;
+    førsteFraværsdag: string | null;
 };
 
 export const BestemmendeFraværsdag = ({ førsteFraværsdag }: BestemmendeFraværsdagProps): ReactElement | null => {

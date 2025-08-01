@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
-import { Maybe } from '@io/graphql';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
@@ -14,7 +13,7 @@ const dagtypeIsValid = (type: Utbetalingstabelldagtype): boolean =>
 interface TotalGradProps {
     type: Utbetalingstabelldagtype;
     erOverstyrt?: boolean;
-    totalGradering?: Maybe<number>;
+    totalGradering?: number | null;
     erNyDag?: boolean;
 }
 

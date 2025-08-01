@@ -7,7 +7,6 @@ import { getToken, requestAzureOboToken, validateAzureToken } from '@navikt/oasi
 
 import { erLokal } from '@/env';
 import { logger } from '@/logger';
-import { Maybe } from '@io/graphql';
 import { metrics } from '@observability/metrics';
 
 type TokenPayload = z.infer<typeof tokenPayloadSchema>;
@@ -89,7 +88,7 @@ export async function byttTilOboToken(token: string, scope: string): Promise<Ret
     return requestAzureOboToken(token, scope);
 }
 
-export const hentWonderwallToken = (req: Request | IncomingMessage | Headers): Maybe<string> => {
+export const hentWonderwallToken = (req: Request | IncomingMessage | Headers): string | null => {
     if (erLokal) {
         return 'fake-local-wonderwall-token';
     }

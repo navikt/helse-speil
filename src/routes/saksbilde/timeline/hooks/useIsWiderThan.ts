@@ -1,8 +1,6 @@
 import { RefObject, useLayoutEffect, useState } from 'react';
 
-import { Maybe } from '@io/graphql';
-
-export const useIsWiderThan = (container: RefObject<Maybe<HTMLElement>>, targetWidth: 32) => {
+export const useIsWiderThan = (container: RefObject<HTMLElement | null>, targetWidth: 32) => {
     const [isWider, setIsWider] = useState(false);
 
     useLayoutEffect(() => {

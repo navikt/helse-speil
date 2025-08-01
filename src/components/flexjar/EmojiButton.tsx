@@ -3,8 +3,6 @@ import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Maybe } from '@io/graphql';
-
 import styles from './EmojiButton.module.scss';
 
 export interface EmojiButtonProps {
@@ -12,9 +10,9 @@ export interface EmojiButtonProps {
     children: ReactNode;
     text: string;
     className?: string;
-    activeState: Maybe<number | string>;
+    activeState: number | string | null;
     setThanksFeedback: (b: boolean) => void;
-    setActiveState: (s: Maybe<number | string>) => void;
+    setActiveState: (s: number | string | null) => void;
 }
 
 export const EmojiButton = (props: EmojiButtonProps) => {

@@ -5,13 +5,12 @@ import React, { ReactElement } from 'react';
 import { Tag } from '@navikt/ds-react';
 
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import { Maybe } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 
 import styles from './PersonHeader.module.css';
 
 interface DødsdatoTagProps {
-    dødsdato?: Maybe<string>;
+    dødsdato?: string | null;
 }
 
 export const DødsdatoTag = ({ dødsdato }: DødsdatoTagProps): ReactElement | null => {

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { BodyShort, ErrorMessage, HStack } from '@navikt/ds-react';
 
-import { Maybe } from '@io/graphql';
 import { toKronerOgØre } from '@utils/locale';
 
 import { MånedsbeløpInput } from './MånedsbeløpInput';
@@ -12,7 +11,7 @@ import styles from '../InntektOgRefusjonSkjema.module.css';
 interface MånedsbeløpProps {
     månedsbeløp: number;
     kilde: string;
-    lokaltMånedsbeløp: Maybe<number>;
+    lokaltMånedsbeløp: number | null;
     harEndringer: boolean;
     feilmelding?: string;
 }

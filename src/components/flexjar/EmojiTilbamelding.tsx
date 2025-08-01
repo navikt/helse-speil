@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import { Maybe } from '@io/graphql';
-
 import { EmojiButton } from './EmojiButton';
 import { FlexjarFelles } from './FlexjarFelles';
 import { Glad, Lei, Noytral, Sinna, VeldigGlad } from './emojies';
@@ -16,7 +14,7 @@ interface EmojiTilbakemeldingProps {
 }
 
 export const EmojiTilbakemelding = ({ feedbackId, tittel, feedbackProps }: EmojiTilbakemeldingProps) => {
-    const [activeState, setActiveState] = useState<Maybe<number | string>>(null);
+    const [activeState, setActiveState] = useState<number | string | null>(null);
     const [thanksFeedback, setThanksFeedback] = useState<boolean>(false);
     const feedbackButtonProps = {
         activeState,

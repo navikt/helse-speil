@@ -3,12 +3,11 @@ import React, { ReactElement } from 'react';
 import { ExternalLinkIcon, MenuGridIcon } from '@navikt/aksel-icons';
 import { Dropdown, InternalHeader as Header } from '@navikt/ds-react';
 
-import { Maybe } from '@io/graphql';
 import { useFetchPersonQuery } from '@state/person';
 
 import styles from './SystemMenu.module.css';
 
-export const redirigerTilArbeidOgInntektUrl = async (url: string, fødselsnummer: Maybe<string>) => {
+export const redirigerTilArbeidOgInntektUrl = async (url: string, fødselsnummer: string | null) => {
     if (!fødselsnummer) {
         window.open('https://arbeid-og-inntekt.nais.adeo.no');
         return;
@@ -47,7 +46,7 @@ const nullstillModiaContext = async () => {
     if (!response.ok) throw Error('Nullstilling av context feilet');
 };
 
-export const hoppTilModia = async (url: string, fødselsnummer: Maybe<string>) => {
+export const hoppTilModia = async (url: string, fødselsnummer: string | null) => {
     const forbered = () => (fødselsnummer ? settModiaContext(fødselsnummer) : nullstillModiaContext());
     try {
         await forbered();
@@ -93,7 +92,7 @@ const Lenkeinnhold = ({ tekst, snarveibokstav }: LenkeinnholdProps): ReactElemen
     </>
 );
 
-const createLinks = (maybeFnr: Maybe<string>, maybeAktoerId: Maybe<string>): Array<HrefLink | ButtonLink> => [
+const createLinks = (maybeFnr: string | null, maybeAktoerId: string | null): Array<HrefLink | ButtonLink> => [
     {
         tekst: 'A-inntekt',
         action: () =>
@@ -177,8 +176,8 @@ export const SystemMenu = (): ReactElement => {
 
 function SystemMenuLinks(): ReactElement[] {
     const { data } = useFetchPersonQuery();
-    const maybeFnr: Maybe<string> = data?.person?.fodselsnummer ?? null;
-    const maybeAktoerId: Maybe<string> = data?.person?.aktorId ?? null;
+    const maybeFnr: string | null = data?.person?.fodselsnummer ?? null;
+    const maybeAktoerId: string | null = data?.person?.aktorId ?? null;
 
     return createLinks(maybeFnr, maybeAktoerId).map((link) =>
         'href' in link ? (

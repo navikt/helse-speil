@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 
-import { Maybe } from '@io/graphql';
-
 type UsePopoverAnchorResult = {
-    anchorEl: Maybe<HTMLElement>;
+    anchorEl: HTMLElement | null;
     open: boolean;
     onClose: () => void;
     onMouseOver: (event: React.MouseEvent<HTMLElement>) => void;
@@ -11,7 +9,7 @@ type UsePopoverAnchorResult = {
 };
 
 export const usePopoverAnchor = (): UsePopoverAnchorResult => {
-    const [anchor, setAnchor] = useState<Maybe<HTMLElement>>(null);
+    const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
     const assignAnchor = (event: React.MouseEvent<HTMLElement>) => {
         setAnchor(event.currentTarget);

@@ -6,14 +6,13 @@ import { BodyShort } from '@navikt/ds-react';
 import { Kryssikon } from '@components/ikoner/Kryssikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
-import { Maybe } from '@io/graphql';
 import { Vilkårstype } from '@typer/vilkår';
 
 import styles from './Vilkarsgruppetittel.module.css';
 
 interface VilkårsgruppetittelProps {
     type?: Vilkårstype;
-    oppfylt?: Maybe<boolean>;
+    oppfylt?: boolean | null;
     paragraf?: ReactNode;
     className?: string;
 }

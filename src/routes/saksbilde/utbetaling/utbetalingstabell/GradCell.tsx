@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { Table } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
-import { Maybe } from '@io/graphql';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
@@ -12,7 +11,7 @@ import { helgetyper } from './helgUtils';
 const dagtypeIsValid = (type: Utbetalingstabelldagtype): boolean =>
     [...helgetyper, 'Arbeid', 'Ferie', 'Permisjon'].every((it) => it !== type);
 
-const renderGrad = (grad?: Maybe<number>): string | false => typeof grad === 'number' && `${Math.floor(grad)} %`;
+const renderGrad = (grad?: number | null): string | false => typeof grad === 'number' && `${Math.floor(grad)} %`;
 
 interface GradCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     tabelldag: Utbetalingstabelldag;

@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-import { Maybe } from '@io/graphql';
 import { kalkulererToastKey } from '@state/kalkuleringstoasts';
 import { useRemoveToast } from '@state/toasts';
 
@@ -9,7 +8,7 @@ export const useFjernKalkulerToast = (calculating: boolean, setHasTimedOut: () =
 
     useEffect(() => {
         if (calculating) {
-            const timeout: Maybe<NodeJS.Timeout | number> = setTimeout(() => {
+            const timeout: NodeJS.Timeout | number | null = setTimeout(() => {
                 setHasTimedOut();
             }, 15000);
             return () => {

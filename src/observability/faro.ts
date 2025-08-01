@@ -1,10 +1,9 @@
 import { browserEnv } from '@/env';
 import { Faro, getWebInstrumentations, initializeFaro } from '@grafana/faro-web-sdk';
-import { Maybe } from '@io/graphql';
 
 // import { TracingInstrumentation } from '@grafana/faro-web-tracing';
 
-let faro: Maybe<Faro> = null;
+let faro: Faro | null = null;
 
 export function initInstrumentation(): void {
     if (typeof window === 'undefined' || faro !== null) return;
@@ -12,7 +11,7 @@ export function initInstrumentation(): void {
     getFaro();
 }
 
-export function getFaro(): Maybe<Faro> {
+export function getFaro(): Faro | null {
     if (browserEnv.NEXT_PUBLIC_TELEMETRY_URL == null) return null;
 
     if (faro != null) return faro;

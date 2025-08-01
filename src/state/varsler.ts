@@ -2,7 +2,6 @@ import { GraphQLFormattedError } from 'graphql/error';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { useSearchParams } from 'next/navigation';
 
-import { Maybe } from '@io/graphql';
 import {
     BadRequestError,
     FetchError,
@@ -66,7 +65,7 @@ export const useSetVarsler = () => {
 };
 
 const mapError =
-    (oppslagsparameter?: Maybe<string>) =>
+    (oppslagsparameter?: string | null) =>
     (error: GraphQLFormattedError): FetchError => {
         switch (error.extensions?.code) {
             case 400: {

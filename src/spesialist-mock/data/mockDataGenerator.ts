@@ -1,8 +1,6 @@
 import { randomUUID } from 'crypto';
 import dayjs from 'dayjs';
 
-import { Maybe } from '@io/graphql';
-
 import { antallTilfeldigeBehandledeOppgaver, antallTilfeldigeOppgaver } from '../constants';
 import {
     AntallArbeidsforhold,
@@ -163,7 +161,7 @@ const tilfeldigEtternavn = () => {
     return tilfeldigNavn(etternavnListe);
 };
 
-const tilfeldigNavn = (navneliste: Maybe<string>[]) => {
+const tilfeldigNavn = (navneliste: (string | null)[]) => {
     return navneliste[Math.floor(Math.random() * navneliste.length)];
 };
 

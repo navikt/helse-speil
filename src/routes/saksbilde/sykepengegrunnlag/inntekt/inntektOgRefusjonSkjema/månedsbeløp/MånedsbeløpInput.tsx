@@ -3,7 +3,6 @@ import { useFormContext } from 'react-hook-form';
 
 import { HStack, HelpText, TextField } from '@navikt/ds-react';
 
-import { Maybe } from '@io/graphql';
 import { InntektFormFields } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
 import { toKronerOgØre } from '@utils/locale';
 import { avrundetToDesimaler, isNumeric } from '@utils/tall';
@@ -13,7 +12,7 @@ import styles from './ManedsbeløpInput.module.css';
 interface MånedsbeløpInputProps {
     initialMånedsbeløp?: number;
     skalDeaktiveres: boolean;
-    lokaltMånedsbeløp: Maybe<number>;
+    lokaltMånedsbeløp: number | null;
 }
 
 export const MånedsbeløpInput = ({

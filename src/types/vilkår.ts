@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
 
-import { Maybe } from '@io/graphql';
-
 export enum Vilkårstype {
     Opptjeningstid = 'opptjening',
     Sykepengegrunnlag = 'sykepengegrunnlag',
@@ -12,6 +10,6 @@ export interface Vilkårdata {
     type: Vilkårstype;
     tittel: string;
     komponent: ReactNode;
-    oppfylt: Maybe<boolean>;
+    oppfylt: boolean | null;
     paragraf?: ReactNode;
 }

@@ -2,19 +2,18 @@ import { useBrukerGrupper } from '@auth/brukerContext';
 import { hoppTilModia, redirigerTilArbeidOgInntektUrl } from '@components/SystemMenu';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
-import { Maybe } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddToast } from '@state/toasts';
 import { kanBrukeUtviklersnarveier } from '@utils/featureToggles';
 import { isBeregnetPeriode, isNotNullOrUndefined, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
-const useCurrentFødselsnummer = (): Maybe<string> => {
+const useCurrentFødselsnummer = (): string | null => {
     const { loading, data } = useFetchPersonQuery();
     return !loading && data !== undefined && isPerson(data.person) ? data.person.fodselsnummer : null;
 };
 
-const useCurrentAktørId = (): Maybe<string> => {
+const useCurrentAktørId = (): string | null => {
     const { loading, data } = useFetchPersonQuery();
 
     return !loading && data !== undefined && isPerson(data.person) ? data.person.aktorId : null;

@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-import { Maybe } from '@io/graphql';
-
 interface UseFocusOutsideOptions {
-    ref: React.RefObject<Maybe<HTMLElement>>;
+    ref: React.RefObject<HTMLElement | null>;
     onInteractOutside: () => void;
     active?: boolean;
 }
 
 export const useInteractOutside = ({ ref, onInteractOutside, active = true }: UseFocusOutsideOptions) => {
     const [focused, setFocused] = useState(false);
-    const [modalRef, setModalRef] = useState<Maybe<HTMLElement>>(null);
+    const [modalRef, setModalRef] = useState<HTMLElement | null>(null);
 
     const current = ref.current;
 

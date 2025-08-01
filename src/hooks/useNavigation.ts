@@ -1,7 +1,5 @@
 import { useParams, usePathname, useRouter } from 'next/navigation';
 
-import { Maybe } from '@io/graphql';
-
 export interface Navigation {
     aktørId: string | undefined;
     navigateTo: (fane: Fane, aktørId?: string) => void;
@@ -23,7 +21,7 @@ const locationFromCurrentPath = (path: string, locations: string[]): number => {
     return locations.findIndex((location) => location.slice(1) === currentPathName);
 };
 
-const useCurrentAktørId = (): Maybe<string> => {
+const useCurrentAktørId = (): string | null => {
     const { aktorId } = useParams<{ aktorId: string }>();
     return aktorId ?? null;
 };
@@ -40,7 +38,7 @@ export const useNavigation = (): Navigation => {
 
     const canNavigateToPrevious = currentLocation !== 0;
 
-    const navigateTo = (ønsketFane: Fane, aktørId: Maybe<string> = currentAktørId) => {
+    const navigateTo = (ønsketFane: Fane, aktørId: string | null = currentAktørId) => {
         const destination = `/person/${aktørId}${locations[ønsketFane]}`;
         if (destination !== pathname) {
             router.push(destination);

@@ -3,16 +3,15 @@ import React from 'react';
 
 import { BodyShort, Table } from '@navikt/ds-react';
 
-import { Maybe } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 import { avviksprosentVisning } from '@utils/tall';
 
 import styles from './SykepengegrunnlagPanel.module.css';
 
 interface InntektsgrunnlagoppsummeringTableProps {
-    omregnetÅrsinntekt?: Maybe<number>;
-    sammenligningsgrunnlag?: Maybe<number>;
-    avviksprosent?: Maybe<number>;
+    omregnetÅrsinntekt?: number | null;
+    sammenligningsgrunnlag?: number | null;
+    avviksprosent?: number | null;
 }
 
 export const InntektsgrunnlagoppsummeringTable = ({

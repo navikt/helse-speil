@@ -3,7 +3,6 @@ import React from 'react';
 import { fetchPersonMock, opptegnelseMock } from '@apollo-mocks';
 import { useNyheter } from '@external/sanity';
 import { useKeyboardActions } from '@hooks/useKeyboardShortcuts';
-import { Maybe } from '@io/graphql';
 import { render } from '@test-utils';
 import '@testing-library/jest-dom';
 import { fireEvent, screen } from '@testing-library/react';
@@ -15,7 +14,7 @@ import { Header } from './Header';
 jest.mock('@hooks/useKeyboardShortcuts');
 jest.mock('@external/sanity');
 
-let cachedVarsel: Maybe<SpeilError> = null;
+let cachedVarsel: SpeilError | null = null;
 
 jest.mock('@state/varsler', () => ({
     __esModule: true,

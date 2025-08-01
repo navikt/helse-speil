@@ -6,7 +6,6 @@ import { BodyShort, Button, HStack, Heading, Link, VStack } from '@navikt/ds-rea
 
 import { NyhetModal } from '@components/header/nyheter/NyhetModal';
 import { NyhetType } from '@external/sanity';
-import { Maybe } from '@io/graphql';
 import { PortableText, PortableTextComponents } from '@portabletext/react';
 import { getFormattedDateString } from '@utils/date';
 
@@ -64,7 +63,7 @@ export const Nyhet = ({ nyhet }: NyhetProps) => {
     );
 };
 
-const skalViseModal = (showModal: boolean, nyhet: NyhetType, ider: Maybe<string>): boolean => {
+const skalViseModal = (showModal: boolean, nyhet: NyhetType, ider: string | null): boolean => {
     if (showModal) return true;
     if (ider) {
         const idListe: string[] = JSON.parse(ider);
@@ -82,7 +81,7 @@ const lagreTvungenModalLukket = (id: string): void => {
     }
 };
 
-const ryddOppLocalStorage = (nyhet: NyhetType, iderFraLocalStorage: Maybe<string>) => {
+const ryddOppLocalStorage = (nyhet: NyhetType, iderFraLocalStorage: string | null) => {
     if (iderFraLocalStorage && !nyhet.modal.tvungenModal) {
         const idListe: string[] = JSON.parse(iderFraLocalStorage);
         localStorage.setItem(

@@ -2,10 +2,8 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, DataCellProps, Table, Tooltip } from '@navikt/ds-react';
 
-import { Maybe } from '@io/graphql';
-
 interface SaksbehandlerIdentCellProps extends DataCellProps {
-    name?: Maybe<string>;
+    name?: string | null;
 }
 
 export const SaksbehandlerIdentCell = ({ name, ...rest }: SaksbehandlerIdentCellProps): ReactElement => {

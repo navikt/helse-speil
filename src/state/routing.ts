@@ -1,6 +1,5 @@
 import { useParams, usePathname, useRouter } from 'next/navigation';
 
-import { Maybe } from '@io/graphql';
 import { useSetActivePeriodIdUtenPerson } from '@state/periode';
 
 export const useNavigerTilTilkommenInntekt = () => {
@@ -27,13 +26,13 @@ export const useNavigerTilPeriode = () => {
     };
 };
 
-export const useTilkommenInntektIdFraUrl = (): Maybe<string> => {
+export const useTilkommenInntektIdFraUrl = (): string | null => {
     const { tilkommenInntektId } = useParams<{ tilkommenInntektId?: string }>();
 
     return tilkommenInntektId !== undefined ? tilkommenInntektId : null;
 };
 
-export const useAktørIdFraUrl = (): Maybe<string> => {
+export const useAktørIdFraUrl = (): string | null => {
     const { aktorId } = useParams<{ aktorId?: string }>();
 
     return aktorId !== undefined ? aktorId : null;

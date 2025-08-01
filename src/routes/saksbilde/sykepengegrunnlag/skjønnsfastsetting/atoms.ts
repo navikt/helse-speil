@@ -1,11 +1,10 @@
-import { atom, useAtom } from 'jotai/index';
+import { atom, useAtom } from 'jotai';
 import { atomFamily } from 'jotai/utils';
 
-import { Maybe } from '@io/graphql';
 import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { usePersonStore } from '@state/contexts/personStore';
 
-const skjemaFamily = atomFamily((_skjæringstidspunkt: string) => atom<Maybe<SkjønnsfastsettingFormFields>>(null));
+const skjemaFamily = atomFamily((_skjæringstidspunkt: string) => atom<SkjønnsfastsettingFormFields | null>(null));
 
 export const useAtomSkjemaForPersonOgSkjæringstidspunkt = (skjaeringstidspunkt: string) =>
     useAtom(skjemaFamily(skjaeringstidspunkt), {

@@ -1,5 +1,3 @@
-import { Maybe } from '@io/graphql';
-
 export interface Lovhjemmel {
     paragraf: string;
     ledd?: string;
@@ -59,13 +57,13 @@ export interface OverstyrtInntektOgRefusjonArbeidsgiver {
     forklaring: string;
     begrunnelse: string;
     lovhjemmel?: Lovhjemmel;
-    fom?: Maybe<string>;
-    tom?: Maybe<string>;
+    fom?: string | null;
+    tom?: string | null;
 }
 
 export interface Refusjonsopplysning {
     fom: string;
-    tom?: Maybe<string>;
+    tom?: string | null;
     beløp: number;
     kilde: string;
 }
@@ -104,7 +102,7 @@ export interface SkjønnsfastsattArbeidsgiver {
     begrunnelseFritekst?: string;
     begrunnelseKonklusjon?: string;
     lovhjemmel?: Lovhjemmel;
-    initierendeVedtaksperiodeId: Maybe<string>;
+    initierendeVedtaksperiodeId: string | null;
 }
 
 export enum SkjønnsfastsettingstypeDTO {

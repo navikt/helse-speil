@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
-import { Maybe } from '@io/graphql';
 import { DateString } from '@typer/shared';
 
 import styles from './InntektOgRefusjonSkjema.module.css';
@@ -13,7 +12,7 @@ type EditableInntektSlettLokaleOverstyringerModalProps = {
     onApprove: () => void;
     onClose: () => void;
     skjæringstidspunkt: DateString;
-    overstyrtSkjæringstidspunkt: Maybe<DateString>;
+    overstyrtSkjæringstidspunkt: DateString | null;
 };
 
 export const SlettLokaleOverstyringerModal = ({

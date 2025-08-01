@@ -1,10 +1,8 @@
-import { createStore } from 'jotai/index';
+import { createStore } from 'jotai';
 import { createContext, useContext } from 'react';
 
-import { Maybe } from '@io/graphql';
-
 type JotaiStore = ReturnType<typeof createStore>;
-export const PersonStoreContext = createContext<Maybe<JotaiStore>>(null);
+export const PersonStoreContext = createContext<JotaiStore | null>(null);
 
 export const usePersonStore = (): JotaiStore => {
     const context = useContext(PersonStoreContext);

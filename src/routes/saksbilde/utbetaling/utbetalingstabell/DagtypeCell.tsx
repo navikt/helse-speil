@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { BodyShort, Table } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
-import { Maybe } from '@io/graphql';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { IconAndreYtelser } from '@saksbilde/table/icons/IconAndreYtelser';
 import { IconArbeidsdag } from '@saksbilde/table/icons/IconArbeidsdag';
@@ -55,7 +54,7 @@ const getTypeIcon = (tabelldag?: Utbetalingstabelldag): ReactElement | null => {
 const erTypeSomIkkeSkalDekoreres = (tabelldag: Utbetalingstabelldag): boolean =>
     tabelldag.erAGP && ['SykNav', 'Egenmelding'].includes(tabelldag.dag.speilDagtype);
 
-const dekorerTekst = (tabelldag?: Utbetalingstabelldag): Maybe<string> => {
+const dekorerTekst = (tabelldag?: Utbetalingstabelldag): string | null => {
     if (!tabelldag) {
         return null;
     }
@@ -80,7 +79,7 @@ const dekorerTekst = (tabelldag?: Utbetalingstabelldag): Maybe<string> => {
     }
 };
 
-const dekorerTekstOverstyrtDag = (tabelldag?: Utbetalingstabelldag): Maybe<string> => {
+const dekorerTekstOverstyrtDag = (tabelldag?: Utbetalingstabelldag): string | null => {
     if (!tabelldag) {
         return null;
     }

@@ -1,6 +1,5 @@
 import React, { PropsWithChildren, ReactNode, createRef } from 'react';
 
-import { Maybe } from '@io/graphql';
 import { getFaro } from '@observability/faro';
 
 interface ErrorBoundaryState {
@@ -14,7 +13,7 @@ type ErrorBoundaryProps = {
 };
 
 export class ErrorBoundary extends React.Component<PropsWithChildren<ErrorBoundaryProps>, ErrorBoundaryState> {
-    errorMessageRef: React.RefObject<Maybe<HTMLParagraphElement>>;
+    errorMessageRef: React.RefObject<HTMLParagraphElement | null>;
 
     constructor(props: ErrorBoundaryProps) {
         super(props);
