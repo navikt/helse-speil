@@ -39,6 +39,10 @@ export const Annulleringsinformasjon = ({
             {kanSeNyAnnulleringsrigg(saksbehandler.ident ?? '', grupper) && (
                 <>
                     <BodyShort weight={'semibold'}>Ny rigg:</BodyShort>
+                    <BodyLong>
+                        Når en periode annulleres vil overlappende og etterfølgende perioder som det ikke har vært
+                        fattet vedtak på forkastes.
+                    </BodyLong>
                     <BodyShort>Organisasjonsnummer: {unikeOrganisasjonsnummere.join(', ')}</BodyShort>
                     <BodyShort>Utbetalingene for følgende perioder annulleres:</BodyShort>
                     <List as="ul">
