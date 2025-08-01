@@ -25,7 +25,9 @@ export const TilkommenInntektTimelineRows = ({
     }
 
     if (error) {
-        return <Alert variant="error">Det har skjedd en feil. Kan ikke vise tilkomne inntekter for denne saken.</Alert>;
+        return (
+            <Alert variant="error">Det har skjedd en feil. Kan ikke vise tilkomne inntekter for denne personen.</Alert>
+        );
     }
     const tilkomneInntektskilder = data!.tilkomneInntektskilderV2;
 

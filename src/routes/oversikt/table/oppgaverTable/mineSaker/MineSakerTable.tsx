@@ -23,7 +23,7 @@ export const MineSakerTable = ({ oppgaver, sort }: MineSakerTableProps): ReactEl
             sort={sort}
             onSortChange={(sortKey: string | undefined) => sortKey && setSortering(sort, sortKey as SortKey)}
             className={styles.Table}
-            aria-label="Saker som er tildelt meg"
+            aria-label="Oppgaver som er tildelt meg"
             zebraStripes
         >
             <MineSakerTableHeader />

@@ -13,7 +13,7 @@ const useAddReturtoast = () => {
 
     return () => {
         addToast({
-            message: 'Saken er sendt i retur til saksbehandler',
+            message: 'Oppgaven er sendt i retur til saksbehandler',
             timeToLiveMs: 5000,
             key: nanoid(),
             variant: 'success',
@@ -65,7 +65,9 @@ export const ReturButton = ({
             })
             .catch((error) => {
                 setError(
-                    error.statusCode === 401 ? 'Du har blitt logget ut' : 'En feil oppsto, saken kunne ikke returneres',
+                    error.statusCode === 401
+                        ? 'Du har blitt logget ut'
+                        : 'En feil oppsto, oppgaven kunne ikke returneres',
                 );
             });
     };

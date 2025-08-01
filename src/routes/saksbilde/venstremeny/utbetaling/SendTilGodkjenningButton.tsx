@@ -17,7 +17,7 @@ const useAddSendtTilGodkjenningtoast = () => {
 
     return () => {
         addToast({
-            message: 'Saken er sendt til beslutter',
+            message: 'Oppgaven er sendt til beslutter',
             timeToLiveMs: 5000,
             key: nanoid(),
             variant: 'success',
@@ -116,6 +116,6 @@ const somBackendfeil = (error: ApolloError): BackendFeil => {
                 ? 'Denne perioden er allerede behandlet'
                 : error.message === 'mangler_vurdering_av_varsler'
                   ? 'Mangler vurdering av varsler'
-                  : 'Kunne ikke sende saken til godkjenning',
+                  : 'Kunne ikke sende oppgaven til godkjenning',
     };
 };

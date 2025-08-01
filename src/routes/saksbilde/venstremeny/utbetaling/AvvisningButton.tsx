@@ -35,7 +35,7 @@ export const AvvisningButton = ({
                 onClick={() =>
                     kanAvvises?.tillatt
                         ? setShowModal(true)
-                        : setKanIkkeAvvisesMelding('Denne saken er det noe krøll med. Du må annullere saken')
+                        : setKanIkkeAvvisesMelding('Denne oppgaven er det noe krøll med. Du må annullere utbetalingen.')
                 }
                 {...buttonProps}
             >

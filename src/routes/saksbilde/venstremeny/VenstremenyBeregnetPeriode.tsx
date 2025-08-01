@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { Alert, BodyShort, ErrorMessage } from '@navikt/ds-react';
 
@@ -80,7 +80,7 @@ export const VenstremenyBeregnetPeriode = ({
                 gammeltTotalbeløp={forrigeGenerasjonPeriode ? gammeltTotalbeløp : undefined}
             />
             {activePeriod.periodetilstand === Periodetilstand.TilGodkjenning && !utbetaleTilgang.tillatt ? (
-                <ErrorMessage>Du har ikke tilgang til å behandle denne saken</ErrorMessage>
+                <ErrorMessage>Du har ikke tilgang til å behandle denne oppgaven</ErrorMessage>
             ) : (
                 <>
                     <HarVurderbareVarsler person={currentPerson} />

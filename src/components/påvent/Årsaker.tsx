@@ -17,7 +17,7 @@ interface ÅrsakerProps {
 export const Årsaker = ({ årsaker, årsakerLoading, valgteÅrsaker, setValgteÅrsaker, error }: ÅrsakerProps) => {
     return (
         <CheckboxGroup
-            legend="Hvorfor legges saken på vent?"
+            legend="Hvorfor legges oppgaven på vent?"
             hideLegend
             className={styles.checkboxcontainer}
             error={error}

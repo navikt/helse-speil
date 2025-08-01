@@ -21,7 +21,7 @@ export const Annulleringhendelse = ({
 }: AnnulleringhendelseProps): ReactElement => (
     <Historikkhendelse
         icon={<HistorikkXMarkOctagonIkon />}
-        title={isAnnullertBeregnetPeriode(aktivPeriode) ? 'Saken er annullert' : 'Sendt til annullering'}
+        title={isAnnullertBeregnetPeriode(aktivPeriode) ? 'Utbetalingen er annullert' : 'Sendt til annullering'}
         timestamp={timestamp}
         saksbehandler={saksbehandler}
         aktiv={false}

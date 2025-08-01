@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useFetchPersonQuery } from '@state/person';
 import { render } from '@test-utils';
 import '@testing-library/jest-dom';
@@ -42,7 +40,7 @@ describe('Saksbildevarsler', () => {
         );
         expect(screen.getByText('Annulleringen feilet. Kontakt utviklerteamet.')).toBeVisible();
     });
-    test('viser feilvarsel om saken har en aktiv oppgave men mangler oppgavereferanse', () => {
+    test('viser feilvarsel om perioden har en aktiv oppgave men mangler oppgavereferanse', () => {
         render(
             <Saksbildevarsler
                 periodState="tilGodkjenning"
@@ -60,7 +58,7 @@ describe('Saksbildevarsler', () => {
         render(
             <Saksbildevarsler periodState="ukjent" harTotrinnsvurdering={false} harTilkommenInntektEndring={false} />,
         );
-        expect(screen.getByText('Kunne ikke lese informasjon om sakens tilstand.')).toBeVisible();
+        expect(screen.getByText('Kunne ikke lese informasjon om periodens tilstand.')).toBeVisible();
     });
     test('viser varsler', () => {
         render(

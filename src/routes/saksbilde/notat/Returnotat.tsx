@@ -42,8 +42,8 @@ export const Returnotat = ({ onSubmit, setShowNotat, error, person }: Returnotat
         <li className={classNames(styles.notat, styles.retur)}>
             <BodyShort style={{ fontWeight: 600 }}>Returner sak til saksbehandler</BodyShort>
             <BodyShort>
-                Forklar hvorfor saken sendes tilbake på en enkel måte, slik at det er lett å forstå hva som må vurderes
-                og gjøres annerledes.
+                Forklar hvorfor oppgaven sendes tilbake på en enkel måte, slik at det er lett å forstå hva som må
+                vurderes og gjøres annerledes.
                 <br />
                 (Blir ikke forevist den sykmeldte, med mindre hen ber om innsyn)
             </BodyShort>

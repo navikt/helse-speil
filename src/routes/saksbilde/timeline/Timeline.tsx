@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import NextLink from 'next/link';
-import React, { ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 import { PlusIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Skeleton } from '@navikt/ds-react';
@@ -247,7 +247,7 @@ const TimelineSkeleton = (): ReactElement => {
 const TimelineError = (): ReactElement => {
     return (
         <div className={classNames(styles.Timeline, styles.Error)}>
-            <BodyShort>Det har skjedd en feil. Kan ikke vise tidslinjen for denne saken.</BodyShort>
+            <BodyShort>Det har skjedd en feil. Kan ikke vise tidslinjen for denne personen.</BodyShort>
         </div>
     );
 };

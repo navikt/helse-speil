@@ -1,5 +1,4 @@
 import { axe } from 'jest-axe';
-import React from 'react';
 
 import { render } from '@test-utils';
 import { screen, within } from '@testing-library/react';
@@ -22,7 +21,7 @@ describe('Tabs', () => {
     it('rendrer antall oppgaver', async () => {
         render(<Tabs antallMineSaker={2} antallPåVent={1} />);
 
-        const mineSaker = screen.getByText('Mine saker');
+        const mineSaker = screen.getByText('Mine oppgaver');
         expect(within(mineSaker).getByText('(2)')).toBeVisible();
 
         const påVent = screen.getByText('På vent');

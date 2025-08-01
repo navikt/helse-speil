@@ -45,7 +45,7 @@ const filters = [
     },
     {
         key: 'TILDELTE_SAKER',
-        label: 'Tildelte saker',
+        label: 'Tildelte oppgaver',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.TILDELING,
     },

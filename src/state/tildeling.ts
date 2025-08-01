@@ -58,7 +58,7 @@ export const useOpprettTildeling = (): [
         onError: (error) => {
             if (apolloErrorCode(error) === 409) {
                 const tildeling: Maybe<Tildeling> = apolloExtensionValue(error, 'tildeling');
-                leggTilTildelingsvarsel(`${tildeling?.navn} har allerede tatt saken.`);
+                leggTilTildelingsvarsel(`${tildeling?.navn} har allerede tildelt seg oppgaven.`);
             } else {
                 leggTilTildelingsvarsel('Kunne ikke tildele sak.');
             }

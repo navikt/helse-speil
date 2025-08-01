@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ReactElement, useEffect, useRef } from 'react';
+import { ReactElement, useEffect, useRef } from 'react';
 
 import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 import { HStack, Skeleton } from '@navikt/ds-react';
@@ -39,7 +39,7 @@ type SakerTabProps = {
 };
 
 const MineSakerTab = ({ antall }: SakerTabProps): ReactElement => (
-    <OppgaveTab tag={TabType.Mine} label="Mine saker" numberOfTasks={antall} />
+    <OppgaveTab tag={TabType.Mine} label="Mine oppgaver" numberOfTasks={antall} />
 );
 
 const VentendeSakerTab = ({ antall }: SakerTabProps): ReactElement => (

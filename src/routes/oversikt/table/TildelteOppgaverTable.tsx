@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { SortState, Table, VStack } from '@navikt/ds-react';
 
@@ -57,7 +57,7 @@ export const TildelteOppgaverTable = ({ sort }: TildelteOppgaverTableProps): Rea
                             sortKey && setSortering(sort, sortKey as SortKey)
                         }
                         className={styles.Table}
-                        aria-label="Saker som er klare for behandling"
+                        aria-label="Oppgaver som er klare for behandling"
                         zebraStripes
                     >
                         <TilGodkjenningTableHeader />

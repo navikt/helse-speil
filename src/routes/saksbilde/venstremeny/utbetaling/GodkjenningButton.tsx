@@ -121,6 +121,6 @@ const somBackendfeil = (error: ApolloError): BackendFeil => {
 
 const errorMessages = new Map<string, string>([
     ['mangler_vurdering_av_varsler', 'Det mangler vurdering av varsler i en eller flere perioder'],
-    ['ikke_aapen_saksbehandleroppgave', 'Saken er allerede utbetalt'],
+    ['ikke_aapen_saksbehandleroppgave', 'Perioden er allerede utbetalt'],
     ['overlappende_utbetaling_i_infotrygd', 'Det er overlappende utbetaling/registrering i Infotrygd'],
 ]);

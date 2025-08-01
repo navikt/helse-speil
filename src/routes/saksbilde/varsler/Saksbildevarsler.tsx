@@ -27,7 +27,7 @@ export type VarselObject = {
 
 const sendtTilBeslutter = (erBeslutteroppgaveOgErTidligereSaksbehandler: boolean): Maybe<VarselObject> => {
     if (erBeslutteroppgaveOgErTidligereSaksbehandler) {
-        return { grad: 'info', melding: 'Saken er sendt til beslutter' };
+        return { grad: 'info', melding: 'Oppgaven er sendt til beslutter' };
     }
     return null;
 };
@@ -74,7 +74,7 @@ const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: Maybe<
         : null;
 
 const ukjentTilstand = (state: PeriodState): Maybe<VarselObject> =>
-    state === 'ukjent' ? { grad: 'error', melding: 'Kunne ikke lese informasjon om sakens tilstand.' } : null;
+    state === 'ukjent' ? { grad: 'error', melding: 'Kunne ikke lese informasjon om periodens tilstand.' } : null;
 
 const beslutteroppgave = (
     harTotrinnsvurdering: boolean,

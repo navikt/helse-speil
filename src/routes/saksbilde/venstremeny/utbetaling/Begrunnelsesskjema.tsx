@@ -48,7 +48,7 @@ export const Begrunnelsesskjema = ({ activePeriod }: BegrunnelsesskjemaProps): R
         <div className={styles.Begrunnelsesskjema}>
             <Fieldset
                 className={styles.Fieldset}
-                legend="Årsak til at saken ikke kan behandles"
+                legend="Årsak til at oppgaven ikke kan behandles"
                 error={formState.errors.begrunnelser ? (formState.errors.begrunnelser.message as string) : null}
             >
                 {activePeriod.risikovurdering &&
@@ -98,7 +98,7 @@ export const Begrunnelsesskjema = ({ activePeriod }: BegrunnelsesskjemaProps): R
                             clearErrors('kommentar');
                             onChange(event);
                         }}
-                        description={`Gi en kort forklaring på hvorfor du ikke kan behandle saken.\nEksempel: Oppgave om oppfølging.\nMå ikke inneholde personopplysninger.`}
+                        description={`Gi en kort forklaring på hvorfor du ikke kan behandle oppgaven.\nEksempel: Oppgave om oppfølging.\nMå ikke inneholde personopplysninger.`}
                     />
                 )}
             />

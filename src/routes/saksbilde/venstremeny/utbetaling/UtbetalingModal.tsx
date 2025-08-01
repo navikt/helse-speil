@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { BodyShort, Button, ErrorMessage, HStack, Heading, Modal, Spacer } from '@navikt/ds-react';
 
@@ -57,7 +57,7 @@ export const UtbetalingModal = ({
             <BodyShort>
                 Når du trykker ja{' '}
                 {totrinnsvurdering
-                    ? 'sendes saken til beslutter for godkjenning.'
+                    ? 'sendes oppgaven til beslutter for godkjenning.'
                     : 'blir utbetalingen sendt til oppdragsystemet.'}
             </BodyShort>
         </Modal.Body>

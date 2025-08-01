@@ -301,7 +301,7 @@ const FellesPåVentModal = ({
                         {opprinneligTildeltSaksbehandler ? 'Behold tildeling' : 'Tildel meg'}
                     </Checkbox>
                 </CheckboxGroup>
-                {!tildelSaksbehandler && <BodyShort>Uten tildeling vil saken kunne bli automatisert</BodyShort>}
+                {!tildelSaksbehandler && <BodyShort>Uten tildeling vil oppgaven kunne bli automatisert</BodyShort>}
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" type="button" loading={submitInProgress} onClick={submit}>

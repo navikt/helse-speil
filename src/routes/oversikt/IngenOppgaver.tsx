@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import Image from 'next/image';
-import React, { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 
 import { Heading } from '@navikt/ds-react';
 
@@ -31,7 +31,7 @@ export const IngenOppgaver = (): Maybe<ReactElement> => {
             return (
                 <figure className={styles.IngenOppgaver}>
                     <Image alt="Tom brevkasse som smiler" priority={true} src={brevkasse} unoptimized />
-                    <Caption>Du har ingen behandlede saker</Caption>
+                    <Caption>Du har ingen behandlede oppgaver</Caption>
                 </figure>
             );
         }
@@ -53,21 +53,21 @@ export const IngenOppgaver = (): Maybe<ReactElement> => {
                             unoptimized
                         />
                     )}
-                    <Caption>Ooops! Ingen saker å plukke...</Caption>
+                    <Caption>Ooops! Ingen oppgaver å plukke...</Caption>
                 </figure>
             );
         case TabType.Mine:
             return (
                 <figure className={styles.IngenOppgaver}>
                     <Image alt="Tom brevkasse som smiler" priority={true} src={brevkasse} unoptimized />
-                    <Caption>Du har ingen tildelte saker</Caption>
+                    <Caption>Du har ingen tildelte oppgaver</Caption>
                 </figure>
             );
         case TabType.Ventende:
             return (
                 <figure className={styles.IngenOppgaver}>
                     <Image alt="Tom brevkasse som smiler" priority={true} src={brevkasse} unoptimized />
-                    <Caption>Du har ingen saker på vent</Caption>
+                    <Caption>Du har ingen oppgaver på vent</Caption>
                 </figure>
             );
         default:

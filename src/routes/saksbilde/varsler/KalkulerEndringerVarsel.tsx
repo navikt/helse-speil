@@ -30,7 +30,7 @@ export const KalkulerEndringerVarsel = ({
         <>
             <Alert className={styles.Varsel} variant="info">
                 <BodyShort>
-                    Endringene for sykepengegrunnlag må kalkuleres før du sender saken til godkjenning.
+                    Endringene for sykepengegrunnlag må kalkuleres før du sender oppgaven til godkjenning.
                 </BodyShort>
                 <HStack gap="4" align="center" marginBlock="3 0">
                     <Button

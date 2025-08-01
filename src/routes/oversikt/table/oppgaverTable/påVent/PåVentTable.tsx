@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { SortState, Table } from '@navikt/ds-react';
 
@@ -23,7 +23,7 @@ export const PåVentTable = ({ oppgaver, sort }: PåVentTableProps): ReactElemen
             sort={sort}
             onSortChange={(sortKey: string | undefined) => sortKey && setSortering(sort, sortKey as SortKey)}
             className={styles.Table}
-            aria-label="Saker som er tildelt meg og satt på vent"
+            aria-label="Oppgaver som er tildelt meg og satt på vent"
             zebraStripes
         >
             <PåVentTableHeader />

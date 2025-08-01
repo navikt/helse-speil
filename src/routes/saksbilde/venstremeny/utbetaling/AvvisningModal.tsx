@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 import { useRouter } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
@@ -20,7 +20,7 @@ const useAddInfotrygdtoast = () => {
 
     return () => {
         addToast({
-            message: 'Saken er sendt til behandling i Infotrygd',
+            message: 'Oppgaven er sendt til behandling i Infotrygd',
             timeToLiveMs: 5000,
             key: nanoid(),
             variant: 'success',
@@ -93,7 +93,7 @@ export const AvvisningModal = ({ closeModal, showModal, activePeriod }: Avvisnin
     const errorMessage: string | undefined =
         error !== undefined
             ? apolloErrorCode(error) === 409
-                ? 'Saken er allerede avvist'
+                ? 'Oppgaven er allerede avvist'
                 : 'En feil har oppstått'
             : undefined;
 

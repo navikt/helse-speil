@@ -107,7 +107,7 @@ describe('SaksbildeVarsel', () => {
         render(<SaksbildeVarsel person={person} periode={periode} />);
 
         expect(
-            screen.getByText('Endringene for sykepengegrunnlag må kalkuleres før du sender saken til godkjenning.'),
+            screen.getByText('Endringene for sykepengegrunnlag må kalkuleres før du sender oppgaven til godkjenning.'),
         ).toBeInTheDocument();
     });
 });

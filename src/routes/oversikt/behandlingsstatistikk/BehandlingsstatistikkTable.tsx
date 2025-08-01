@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
@@ -111,7 +111,7 @@ export const BehandlingsstatistikkTable = ({
                 <Table.Body>
                     <StatistikkOppsummert tittel="TILGJENGELIG" antall={totaltIdag.tilgjengelig} />
                     <StatistikkOppsummert
-                        tittel="FULLFØRTE SAKER I DAG"
+                        tittel="FULLFØRTE OPPGAVER I DAG"
                         antall={totaltIdag.manuelt + totaltIdag.automatisk + behandlingsstatistikk.antallAnnulleringer}
                     />
                     <StatistikkOppsummert tittel="MANUELT" antall={totaltIdag.manuelt} />
