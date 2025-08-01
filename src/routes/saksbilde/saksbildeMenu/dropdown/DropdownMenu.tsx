@@ -1,11 +1,11 @@
-import React, { PropsWithChildren, ReactElement, useRef, useState } from 'react';
+import { PropsWithChildren, ReactElement, useRef, useState } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { Dropdown } from '@navikt/ds-react';
 
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Maybe, PersonFragment } from '@io/graphql';
+import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
 import { OpphevStansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/OpphevStansAutomatiskBehandlingButton';
 import { StansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/StansAutomatiskBehandlingButton';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
@@ -39,6 +39,8 @@ export const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps)
     const automatiskBehandlingStansetAvSaksbehandler =
         person.personinfo.automatiskBehandlingStansetAvSaksbehandler ?? false;
 
+    const kanAnnulleres = isBeregnetPeriode(activePeriod) && activePeriod.periodetilstand === Periodetilstand.Utbetalt;
+
     return (
         <Dropdown.Menu placement="bottom-start" className={styles.dropdown}>
             {isBeregnetPeriode(activePeriod) && activePeriod.oppgave?.id && !readOnly && (
@@ -63,7 +65,7 @@ export const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps)
                     <StansAutomatiskBehandlingButton fødselsnummer={person.fodselsnummer} />
                 )}
                 <OppdaterPersondataButton person={person} />
-                {isBeregnetPeriode(activePeriod) && isArbeidsgiver(arbeidsgiver) && (
+                {isBeregnetPeriode(activePeriod) && kanAnnulleres && isArbeidsgiver(arbeidsgiver) && (
                     <AnnullerButton person={person} periode={activePeriod} arbeidsgiver={arbeidsgiver} />
                 )}
             </Dropdown.Menu.List>
