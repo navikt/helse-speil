@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
-import { BodyShort, List } from '@navikt/ds-react';
+import { BodyLong, BodyShort, List } from '@navikt/ds-react';
 import { ListItem } from '@navikt/ds-react/List';
 
 import { useBrukerGrupper } from '@auth/brukerContext';
