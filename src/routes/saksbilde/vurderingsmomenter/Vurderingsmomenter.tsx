@@ -73,7 +73,7 @@ interface VurderingsmomenterContainerProps {
     periode: BeregnetPeriodeFragment;
 }
 
-const VurderingsmomenterContainer = ({ periode }: VurderingsmomenterContainerProps): Maybe<ReactElement> =>
+const VurderingsmomenterContainer = ({ periode }: VurderingsmomenterContainerProps): ReactElement | null =>
     periode.risikovurdering ? <VurderingsmomenterWithContent risikovurdering={periode.risikovurdering} /> : null;
 
 const VilkårsmomenterError = (): ReactElement => (

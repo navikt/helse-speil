@@ -4,7 +4,6 @@ import { Alert, BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react
 
 import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
 import { TimeoutModal } from '@components/TimeoutModal';
-import { Maybe } from '@io/graphql';
 import { useCalculatingValue } from '@state/calculating';
 import { OverstyrtInntektOgRefusjon, useSlettLokaleOverstyringer } from '@state/overstyring';
 import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
@@ -19,7 +18,7 @@ interface KalkulerEndringerVarselProps {
 
 export const KalkulerEndringerVarsel = ({
     lokaleInntektoverstyringer,
-}: KalkulerEndringerVarselProps): Maybe<ReactElement> => {
+}: KalkulerEndringerVarselProps): ReactElement | null => {
     const slettLokaleOverstyringer = useSlettLokaleOverstyringer();
     const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntektOgRefusjon();
     const [showModal, setShowModal] = useState(false);

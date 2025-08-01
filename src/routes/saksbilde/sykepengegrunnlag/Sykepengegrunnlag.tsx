@@ -4,7 +4,7 @@ import { Alert } from '@navikt/ds-react';
 
 import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { BeregnetPeriodeFragment, GhostPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment } from '@io/graphql';
 import { SykepengegrunnlagSelvstendig } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/SykepengegrunnlagSelvstendig';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -18,7 +18,7 @@ type SykepengegrunnlagProps = {
     periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
 };
 
-const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps): Maybe<ReactElement> => {
+const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps): ReactElement | null => {
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periode);
     const arbeidsgiver = useCurrentArbeidsgiver(person);
 

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Maybe, PersonFragment } from '@io/graphql';
+import { PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 
@@ -8,7 +8,7 @@ interface HarVurderbareVarslerProps {
     person: PersonFragment;
 }
 
-export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): Maybe<ReactElement> => {
+export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): ReactElement | null => {
     const harPeriodeTilGodkjenning = usePeriodeTilGodkjenning(person);
 
     if (!harPeriodeTilGodkjenning) return null;

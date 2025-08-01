@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Kommentar as GraphQLKommentar, Maybe } from '@io/graphql';
+import { Kommentar as GraphQLKommentar } from '@io/graphql';
 
 import { Kommentar } from './Kommentar';
 
@@ -12,7 +12,7 @@ interface KommentarerProps {
     kommentarer: Array<GraphQLKommentar>;
 }
 
-export const Kommentarer = ({ kommentarer }: KommentarerProps): Maybe<ReactElement> => {
+export const Kommentarer = ({ kommentarer }: KommentarerProps): ReactElement | null => {
     if (kommentarer.length === 0) return null;
 
     return (

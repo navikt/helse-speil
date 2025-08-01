@@ -4,7 +4,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { Alert, Box } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Arbeidsgiverinntekt, Inntektskilde, Maybe, PersonFragment, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
+import { Arbeidsgiverinntekt, Inntektskilde, PersonFragment, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import {
     useArbeidsgiver,
@@ -25,7 +25,7 @@ interface InntektContainerProps {
     inntekt: Arbeidsgiverinntekt;
 }
 
-const InntektContainer = ({ person, inntekt }: InntektContainerProps): Maybe<ReactElement> => {
+const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElement | null => {
     const [editing, setEditing] = useState(false);
 
     const aktivPeriode = useActivePeriod(person);

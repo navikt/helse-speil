@@ -5,7 +5,6 @@ import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 
 import { Kilde } from '@components/Kilde';
 import { EndringsloggSykepengegrunnlagskjønnsfastsetting } from '@components/endringslogg/EndringsloggSykepengegrunnlagskjønnsfastsetting';
-import { Maybe } from '@io/graphql';
 import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/SkjønnsfastsettingHeader';
 
 import styles from '../inntekt/EndringsloggButton.module.css';
@@ -18,7 +17,7 @@ export const EndringsloggSkjønnsfastsettingButton = ({
     endringer,
     className,
     ...buttonProps
-}: EndringsloggSkjønnsfastsettingButtonProps): Maybe<ReactElement> => {
+}: EndringsloggSkjønnsfastsettingButtonProps): ReactElement | null => {
     const [visEndringslogg, setVisEndringslogg] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
 

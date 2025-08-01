@@ -7,7 +7,7 @@ import { BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { LeggTilNotatDocument, Maybe, NotatType, PersonFragment } from '@io/graphql';
+import { LeggTilNotatDocument, NotatType, PersonFragment } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useFjernNotat, useNotater } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
@@ -22,7 +22,7 @@ interface NotatProps {
     person: PersonFragment;
 }
 
-export const Notat = ({ person }: NotatProps): Maybe<ReactElement> => {
+export const Notat = ({ person }: NotatProps): ReactElement | null => {
     const notater = useNotater();
     const fjernNotat = useFjernNotat();
     const aktivPeriode = useActivePeriod(person);

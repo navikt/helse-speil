@@ -12,7 +12,7 @@ interface SisteNotattekstProps {
     påVentInfo: PaVentInfo;
 }
 
-export const SisteNotattekst = ({ påVentInfo }: SisteNotattekstProps): Maybe<ReactElement> => {
+export const SisteNotattekst = ({ påVentInfo }: SisteNotattekstProps): ReactElement | null => {
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
 
     const preview = påVentInfo.arsaker.length > 0 ? påVentInfo.arsaker[0] : påVentInfo.tekst;

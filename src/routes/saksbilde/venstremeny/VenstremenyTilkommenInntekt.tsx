@@ -1,13 +1,12 @@
 import React, { ReactElement } from 'react';
 
-import { Maybe } from '@io/graphql';
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
 import { useFetchPersonQuery } from '@state/person';
 
 import styles from './Venstremeny.module.css';
 
-export const VenstremenyTilkommenInntekt = (): Maybe<ReactElement> => {
+export const VenstremenyTilkommenInntekt = (): ReactElement | null => {
     const { data } = useFetchPersonQuery();
     const currentPerson = data?.person ?? null;
 

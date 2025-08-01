@@ -4,7 +4,7 @@ import { BodyLong, BodyShort, List } from '@navikt/ds-react';
 import { ListItem } from '@navikt/ds-react/List';
 
 import { useBrukerGrupper } from '@auth/brukerContext';
-import { BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { somNorskDato } from '@utils/date';
 import { kanSeNyAnnulleringsrigg } from '@utils/featureToggles';
@@ -20,7 +20,7 @@ export const Annulleringsinformasjon = ({
 }: {
     person: PersonFragment;
     periode: BeregnetPeriodeFragment;
-}): Maybe<ReactElement> => {
+}): ReactElement | null => {
     const { totalbeløp, førsteUtbetalingsdag, sisteUtbetalingsdag } = useTotaltUtbetaltForSykefraværstilfellet(person);
     const grupper = useBrukerGrupper();
     const saksbehandler = useInnloggetSaksbehandler();

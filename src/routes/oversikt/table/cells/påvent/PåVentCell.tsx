@@ -36,7 +36,7 @@ interface PåVentKnappProps {
     påVentInfo: PaVentInfo;
 }
 
-const PåVentKnapp = ({ navn, utgåttFrist, påVentInfo }: PåVentKnappProps): Maybe<ReactElement> => {
+const PåVentKnapp = ({ navn, utgåttFrist, påVentInfo }: PåVentKnappProps): ReactElement | null => {
     const [showModal, setShowModal] = useState(false);
 
     const toggleModal = (event: React.SyntheticEvent) => {

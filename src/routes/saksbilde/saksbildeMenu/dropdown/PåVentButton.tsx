@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { Dropdown, Loader } from '@navikt/ds-react';
 
 import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
-import { Maybe, PersonFragment, Personnavn } from '@io/graphql';
+import { PersonFragment, Personnavn } from '@io/graphql';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useFjernPåVentFraSaksbilde } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
@@ -12,7 +12,7 @@ interface PåVentButtonProps {
     person: PersonFragment;
 }
 
-export const PåVentButton = ({ person }: PåVentButtonProps): Maybe<ReactElement> => {
+export const PåVentButton = ({ person }: PåVentButtonProps): ReactElement | null => {
     const [showModal, setShowModal] = useState(false);
     const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     const [fjernPåVent, { loading, error: fjernPåVentError }] = useFjernPåVentFraSaksbilde(

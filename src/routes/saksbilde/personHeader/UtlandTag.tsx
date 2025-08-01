@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Maybe, PersonFragment } from '@io/graphql';
+import { PersonFragment } from '@io/graphql';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 
 import { TagMedTooltip } from './TagMedTooltip';
@@ -9,7 +9,7 @@ interface UtlandTagProps {
     person: PersonFragment;
 }
 
-export const UtlandTag = ({ person }: UtlandTagProps): Maybe<ReactElement> => {
+export const UtlandTag = ({ person }: UtlandTagProps): ReactElement | null => {
     const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     if (!periodeTilGodkjenning) return null;
 

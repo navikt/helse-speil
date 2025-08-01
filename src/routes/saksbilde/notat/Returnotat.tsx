@@ -4,7 +4,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import { BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
 
-import { Maybe, NotatType, PersonFragment } from '@io/graphql';
+import { NotatType, PersonFragment } from '@io/graphql';
 import { useFjernNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { isGhostPeriode } from '@utils/typeguards';
@@ -20,7 +20,7 @@ interface ReturnotatProps {
     person: PersonFragment;
 }
 
-export const Returnotat = ({ onSubmit, setShowNotat, error, person }: ReturnotatProps): Maybe<ReactElement> => {
+export const Returnotat = ({ onSubmit, setShowNotat, error, person }: ReturnotatProps): ReactElement | null => {
     const fjernNotat = useFjernNotat();
     const aktivPeriode = useActivePeriod(person);
     const form = useForm();

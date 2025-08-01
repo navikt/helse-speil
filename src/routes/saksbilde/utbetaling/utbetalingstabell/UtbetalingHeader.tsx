@@ -4,7 +4,6 @@ import { PersonPencilIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Heading, HelpText } from '@navikt/ds-react';
 
 import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
-import { Maybe } from '@io/graphql';
 
 import styles from './UtbetalingHeader.module.css';
 
@@ -22,7 +21,7 @@ export const UtbetalingHeader = ({
     arbeidsgiverIdentifikator,
     arbeidsgiverNavn,
     erRevurdering,
-}: UtbetalingHeaderProps): Maybe<ReactElement> => (
+}: UtbetalingHeaderProps): ReactElement | null => (
     <HStack align="center" gap="1">
         <Heading size="xsmall" level="1">
             Dagoversikt

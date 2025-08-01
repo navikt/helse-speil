@@ -4,7 +4,7 @@ import React, { ReactElement, useState } from 'react';
 import { Button } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { BeregnetPeriodeFragment, Maybe, PersonFragment, SendIReturDocument } from '@io/graphql';
+import { BeregnetPeriodeFragment, PersonFragment, SendIReturDocument } from '@io/graphql';
 import { Returnotat } from '@saksbilde/notat/Returnotat';
 import { useAddToast } from '@state/toasts';
 
@@ -36,7 +36,7 @@ export const ReturButton = ({
     onSuccess,
     size,
     ...buttonProps
-}: ReturButtonProps): Maybe<ReactElement> => {
+}: ReturButtonProps): ReactElement | null => {
     const [showNotat, setShowNotat] = useState(false);
     const [error, setError] = useState<string | undefined>();
 

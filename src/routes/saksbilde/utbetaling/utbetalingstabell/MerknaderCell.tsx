@@ -14,7 +14,7 @@ interface MerknadProps {
     alderVedSkjæringstidspunkt?: Maybe<number>;
 }
 
-const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): Maybe<ReactElement> => {
+const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): ReactElement | null => {
     switch (begrunnelse) {
         case 'ETTER_DODSDATO':
             return <BodyShort>Personen er død</BodyShort>;
@@ -111,7 +111,7 @@ const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): Ma
 const sisteUtbetalingsdagMerknad = (isMaksdato: boolean): Maybe<string> =>
     isMaksdato ? 'Siste utbetalingsdag for sykepenger' : null;
 
-const foreldetDagMerknad = (isForeldet: boolean): Maybe<ReactElement> =>
+const foreldetDagMerknad = (isForeldet: boolean): ReactElement | null =>
     isForeldet ? (
         <Tooltip content="Foreldet">
             <span className={styles.container} data-testid="Foreldet">

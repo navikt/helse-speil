@@ -30,7 +30,7 @@ export const Endringsårsaker = ({ årsaker }: EndringsårsakerProps): ReactElem
     );
 };
 
-const Endringsårsak = ({ årsak }: { årsak: InntektEndringAarsak }): Maybe<ReactElement> => {
+const Endringsårsak = ({ årsak }: { årsak: InntektEndringAarsak }): ReactElement | null => {
     return (
         <>
             <BodyShort size="small">• {årsak.aarsak}</BodyShort>

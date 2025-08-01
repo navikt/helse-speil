@@ -193,7 +193,7 @@ const TimelineWithContent = ({
     );
 };
 
-const TimelineContainer = (): Maybe<ReactElement> => {
+const TimelineContainer = (): ReactElement | null => {
     const { loading, data } = useFetchPersonQuery();
     const person = data?.person ?? null;
     const activePeriod = useActivePeriod(person);

@@ -7,7 +7,6 @@ import { Heading } from '@navikt/ds-react';
 import agurk from '@assets/ingen-oppgaver-agurk.png';
 import fredagstaco from '@assets/ingen-oppgaver-fredagstaco.png';
 import brevkasse from '@assets/ingen-oppgaver.png';
-import { Maybe } from '@io/graphql';
 
 import { TabType, useAktivTab } from './tabState';
 
@@ -23,7 +22,7 @@ const Caption = ({ children }: PropsWithChildren): ReactElement => {
     );
 };
 
-export const IngenOppgaver = (): Maybe<ReactElement> => {
+export const IngenOppgaver = (): ReactElement | null => {
     const aktivTab = useAktivTab();
 
     switch (aktivTab) {

@@ -6,13 +6,7 @@ import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import {
-    ArbeidsgiverFragment,
-    BeregnetPeriodeFragment,
-    Maybe,
-    PersonFragment,
-    UberegnetPeriodeFragment,
-} from '@io/graphql';
+import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import styles from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader.module.css';
 import {
     useCurrentArbeidsgiver,
@@ -148,7 +142,7 @@ const UtbetalingUberegnetPeriode = ({
     person,
     periode,
     arbeidsgiver,
-}: UtbetalingUberegnetPeriodeProps): Maybe<ReactElement> => {
+}: UtbetalingUberegnetPeriodeProps): ReactElement | null => {
     const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
     const antallAGPDagerBruktFørPerioden = getAntallAGPDagerBruktFørPerioden(arbeidsgiver, periode);
     const dager: Map<string, Utbetalingstabelldag> = useTabelldagerMap({
@@ -179,7 +173,7 @@ type UtbetalingProps = {
     periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment;
 };
 
-const UtbetalingContainer = ({ person, periode }: UtbetalingProps): Maybe<ReactElement> => {
+const UtbetalingContainer = ({ person, periode }: UtbetalingProps): ReactElement | null => {
     const arbeidsgiver = useCurrentArbeidsgiver(person);
 
     if (!isPerson(person) || !arbeidsgiver) {

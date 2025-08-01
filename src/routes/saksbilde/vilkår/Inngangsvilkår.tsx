@@ -83,7 +83,7 @@ interface InngangsvilkårContainerProps {
     periode: BeregnetPeriodeFragment;
 }
 
-const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerProps): Maybe<ReactElement> => (
+const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerProps): ReactElement | null => (
     <InngangsvilkårWithContent
         vurdering={periode.utbetaling.vurdering}
         periodeFom={periode.fom}

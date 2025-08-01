@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { XMarkIcon } from '@navikt/aksel-icons';
 
 import { Kilde } from '@components/Kilde';
-import { Maybe, PersonFragment } from '@io/graphql';
+import { PersonFragment } from '@io/graphql';
 import { Inntektsmeldingsinnhold } from '@saksbilde/historikk/hendelser/dokument/Inntektsmeldingsinnhold';
 import { Søknadsinnhold } from '@saksbilde/historikk/hendelser/dokument/Søknadsinnhold';
 import {
@@ -21,7 +21,7 @@ interface OpenedDokumentProps {
     person: PersonFragment;
 }
 
-export const OpenedDokument = ({ person }: OpenedDokumentProps): Maybe<ReactElement> => {
+export const OpenedDokument = ({ person }: OpenedDokumentProps): ReactElement | null => {
     const fjernÅpnetDokument = useRemoveOpenedDocument();
     const åpnedeDokumenter = useOpenedDocuments();
 

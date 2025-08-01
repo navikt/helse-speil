@@ -2,7 +2,7 @@
 
 import { ReactElement } from 'react';
 
-import { Maybe, Periodetilstand } from '@io/graphql';
+import { Periodetilstand } from '@io/graphql';
 import { BeregnetPeriodeView } from '@saksbilde/saksbilder/BeregnetPeriodeView';
 import { GhostPeriodeView } from '@saksbilde/saksbilder/GhostPeriodeView';
 import { UberegnetPeriodeView } from '@saksbilde/saksbilder/UberegnetPeriodeView';
@@ -10,7 +10,7 @@ import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-export function PeriodeView(): Maybe<ReactElement> {
+export function PeriodeView(): ReactElement | null {
     const { data } = useFetchPersonQuery();
     const person = data?.person ?? null;
     const activePeriod = useActivePeriod(person);

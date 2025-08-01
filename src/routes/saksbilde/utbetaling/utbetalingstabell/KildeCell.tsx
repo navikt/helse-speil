@@ -4,7 +4,7 @@ import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { Table } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { Kildetype, Maybe } from '@io/graphql';
+import { Kildetype } from '@io/graphql';
 import { EndringsloggButton } from '@saksbilde/sykepengegrunnlag/inntekt/EndringsloggButton';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { OverstyringerPrDag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
@@ -18,7 +18,7 @@ interface KildeTypeIconProps {
     overstyringer?: Array<OverstyringerPrDag>;
 }
 
-const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps): Maybe<ReactElement> => {
+const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps): ReactElement | null => {
     switch (kilde) {
         case 'SYKMELDING':
             return <Kilde type={'Sykmelding'}>SM</Kilde>;

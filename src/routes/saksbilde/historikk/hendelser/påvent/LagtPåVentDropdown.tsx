@@ -23,7 +23,7 @@ export const LagtPåVentDropdown = ({
     årsaker,
     notattekst,
     frist,
-}: LagtPåVentDropdownProps): Maybe<ReactElement> => {
+}: LagtPåVentDropdownProps): ReactElement | null => {
     const [showEndreModal, setShowEndreModal] = useState(false);
 
     const oppgaveId = periode.oppgave?.id;

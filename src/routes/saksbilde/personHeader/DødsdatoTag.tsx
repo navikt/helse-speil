@@ -14,7 +14,7 @@ interface DødsdatoTagProps {
     dødsdato?: Maybe<string>;
 }
 
-export const DødsdatoTag = ({ dødsdato }: DødsdatoTagProps): Maybe<ReactElement> => {
+export const DødsdatoTag = ({ dødsdato }: DødsdatoTagProps): ReactElement | null => {
     if (!dødsdato) {
         return null;
     }

@@ -18,7 +18,7 @@ import { erHelgDagtype } from './helgUtils';
 
 import styles from './DagtypeCell.module.css';
 
-const getTypeIcon = (tabelldag?: Utbetalingstabelldag): Maybe<ReactElement> => {
+const getTypeIcon = (tabelldag?: Utbetalingstabelldag): ReactElement | null => {
     if (!tabelldag) return null;
 
     if (tabelldag.erAvvist || tabelldag.erForeldet) {

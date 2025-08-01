@@ -8,7 +8,7 @@ interface ReservasjonTagProps {
     reservasjon?: Maybe<Reservasjon>;
 }
 
-export const ReservasjonTag = ({ reservasjon }: ReservasjonTagProps): Maybe<ReactElement> => {
+export const ReservasjonTag = ({ reservasjon }: ReservasjonTagProps): ReactElement | null => {
     if (reservasjon === null) {
         return (
             <TagMedTooltip

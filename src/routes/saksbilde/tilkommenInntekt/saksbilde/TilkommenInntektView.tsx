@@ -7,7 +7,6 @@ import { BodyShort, Button, HGrid, HStack, Link, VStack } from '@navikt/ds-react
 import { Box } from '@navikt/ds-react/Box';
 
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
-import { Maybe } from '@io/graphql';
 import { EndringsloggTilkommenInntektButton } from '@saksbilde/tilkommenInntekt/EndringsloggTilkommenInntektButton';
 import { beregnInntektPerDag } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { FjernTilkommenInntektModal } from '@saksbilde/tilkommenInntekt/visning/FjernTilkommenInntektModal';
@@ -24,7 +23,7 @@ interface TilkommenInntektVisningProps {
     tilkommenInntektId: string;
 }
 
-export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVisningProps): Maybe<ReactElement> => {
+export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVisningProps): ReactElement | null => {
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
     const router = useRouter();
@@ -65,7 +64,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                             </HStack>
                         </Box>
                         <Box
-                            background="surface-subtle"
+                            background={'surface-subtle'}
                             borderWidth="0 0 0 3"
                             style={{ borderColor: 'transparent' }}
                             paddingBlock="4 5"

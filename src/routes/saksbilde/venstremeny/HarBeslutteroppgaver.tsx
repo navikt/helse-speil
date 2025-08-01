@@ -4,7 +4,7 @@ import { Alert, Button, Detail, Heading, List, VStack } from '@navikt/ds-react';
 
 import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
-import { Maybe, PersonFragment } from '@io/graphql';
+import { PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useNavigerTilPeriode, useNavigerTilTilkommenInntekt } from '@state/routing';
@@ -17,7 +17,7 @@ interface HarBeslutteroppgaverProps {
     person: PersonFragment;
 }
 
-export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Maybe<ReactElement> => {
+export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): ReactElement | null => {
     const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
     const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(person.fodselsnummer);

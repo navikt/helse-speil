@@ -9,7 +9,7 @@ type BestemmendeFraværsdagProps = {
     førsteFraværsdag: Maybe<string>;
 };
 
-export const BestemmendeFraværsdag = ({ førsteFraværsdag }: BestemmendeFraværsdagProps): Maybe<ReactElement> => {
+export const BestemmendeFraværsdag = ({ førsteFraværsdag }: BestemmendeFraværsdagProps): ReactElement | null => {
     if (!førsteFraværsdag) return null;
 
     return <DokumentFragment overskrift="Bestemmende fraværsdag">{somNorskDato(førsteFraværsdag)}</DokumentFragment>;

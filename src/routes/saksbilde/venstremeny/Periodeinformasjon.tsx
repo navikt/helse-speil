@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { Alert, Button, Heading, List } from '@navikt/ds-react';
 
 import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
-import { Maybe } from '@io/graphql';
 import { useNavigerTilPeriode } from '@state/routing';
 import { DateString } from '@typer/shared';
 import { somNorskDato } from '@utils/date';
@@ -25,7 +24,7 @@ interface PeriodeinformasjonProps {
     periodeinformasjon: Periodeinformasjon[];
 }
 
-export const Periodeinformasjon = ({ tittel, periodeinformasjon }: PeriodeinformasjonProps): Maybe<ReactElement> => {
+export const Periodeinformasjon = ({ tittel, periodeinformasjon }: PeriodeinformasjonProps): ReactElement | null => {
     const navigerTilPeriode = useNavigerTilPeriode();
 
     return (

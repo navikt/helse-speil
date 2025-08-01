@@ -7,7 +7,7 @@ import { Kilde } from '@components/Kilde';
 import { EndringsloggArbeidsforhold } from '@components/endringslogg/EndringsloggArbeidsforhold';
 import { EndringsloggDager } from '@components/endringslogg/EndringsloggDager';
 import { EndringsloggInntekt } from '@components/endringslogg/EndringsloggInntekt';
-import { Maybe, OverstyringFragment } from '@io/graphql';
+import { OverstyringFragment } from '@io/graphql';
 import { isArbeidsforholdoverstyringer, isInntektoverstyringer, isOverstyringerPrDag } from '@utils/typeguards';
 
 import styles from './EndringsloggButton.module.css';
@@ -20,7 +20,7 @@ export const EndringsloggButton = <T extends OverstyringFragment>({
     endringer,
     className,
     ...buttonProps
-}: EndringsloggButtonProps<T>): Maybe<ReactElement> => {
+}: EndringsloggButtonProps<T>): ReactElement | null => {
     const [visEndringslogg, setVisEndringslogg] = useState(false);
 
     const buttonRef = useRef<HTMLButtonElement>(null);

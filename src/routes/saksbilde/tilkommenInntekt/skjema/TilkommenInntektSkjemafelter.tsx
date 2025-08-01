@@ -7,7 +7,6 @@ import { Box, Button, ErrorMessage, ErrorSummary, HGrid, HStack, TextField, Text
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { erGyldigOrganisasjonsnummer } from '@external/sparkel-aareg/useOrganisasjonQuery';
-import { Maybe } from '@io/graphql';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
 import { DatePeriod } from '@typer/shared';
 import { toKronerOgØre } from '@utils/locale';
@@ -41,7 +40,7 @@ export const TilkommenInntektSkjemafelter = ({
     sykefraværstilfelleperioder,
     loading,
     startPeriodebeløp,
-}: TilkommenInntektSkjemaProps): Maybe<ReactElement> => {
+}: TilkommenInntektSkjemaProps): ReactElement | null => {
     const [periodebeløpVisningsverdi, setPeriodebeløpVisningsverdi] = useState<string>(
         toKronerOgØre(startPeriodebeløp),
     );

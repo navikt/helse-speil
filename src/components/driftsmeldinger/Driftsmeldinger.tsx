@@ -10,7 +10,6 @@ import { Alert, BodyShort, HStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Driftsmelding as DriftsmeldingType, useDriftsmelding } from '@external/sanity';
-import { Maybe } from '@io/graphql';
 import { getFormattedDatetimeString } from '@utils/date';
 
 import styles from './Driftsmeldinger.module.scss';
@@ -27,7 +26,7 @@ export const Driftsmeldinger = (): ReactElement[] => {
     ));
 };
 
-const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): Maybe<ReactElement> => {
+const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): ReactElement | null => {
     const [vis, kvitterUt] = useVisDriftsmelding(driftsmelding);
     const [åpneDriftsmelding, setÅpneDriftsmelding] = useState(false);
 

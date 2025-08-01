@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
 
-import { Maybe } from '@io/graphql';
 import { TagMedTooltip } from '@saksbilde/personHeader/TagMedTooltip';
 
 interface AutomatiskBehandlingStansetTagProps {
@@ -9,7 +8,7 @@ interface AutomatiskBehandlingStansetTagProps {
 
 export function AutomatiskBehandlingStansetTag({
     erStanset,
-}: AutomatiskBehandlingStansetTagProps): Maybe<ReactElement> {
+}: AutomatiskBehandlingStansetTagProps): ReactElement | null {
     if (!erStanset) return null;
     return (
         <TagMedTooltip

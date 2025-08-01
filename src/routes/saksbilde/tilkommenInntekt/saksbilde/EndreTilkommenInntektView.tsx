@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
-import { EndreTilkommenInntektDocument, Maybe } from '@io/graphql';
+import { EndreTilkommenInntektDocument } from '@io/graphql';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
@@ -19,7 +19,7 @@ export const EndreTilkommenInntektView = ({
     tilkommenInntektId,
 }: {
     tilkommenInntektId: string;
-}): Maybe<ReactElement> => {
+}): ReactElement | null => {
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();

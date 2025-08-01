@@ -1,7 +1,7 @@
 import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { BeregnetPeriodeFragment, Maybe, PersonFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseModal';
 import { IndividuellBegrunnelseContent } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelseContent';
 
@@ -19,7 +19,7 @@ export const IndividuellBegrunnelse = ({
     setVedtakBegrunnelseTekst,
     periode,
     person,
-}: BegrunnelseVedtakProps): Maybe<ReactElement> => {
+}: BegrunnelseVedtakProps): ReactElement | null => {
     const [modalÅpen, setModalÅpen] = useState(false);
 
     const erReadOnly = useIsReadOnlyOppgave(person);

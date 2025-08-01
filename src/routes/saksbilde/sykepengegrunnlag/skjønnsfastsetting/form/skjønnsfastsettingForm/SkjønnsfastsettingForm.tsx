@@ -171,7 +171,7 @@ export const SkjønnsfastsettingForm = ({
     sisteSkjønnsfastsettelse,
     formValues,
     setFormValues,
-}: SkjønnsfastsettingFormProps): Maybe<ReactElement> => {
+}: SkjønnsfastsettingFormProps): ReactElement | null => {
     const aktiveArbeidsgivere = useAktiveArbeidsgivere(person, periode, inntekter);
     const aktiveArbeidsgivereInntekter = inntekter.filter((inntekt) =>
         aktiveArbeidsgivere.some(
