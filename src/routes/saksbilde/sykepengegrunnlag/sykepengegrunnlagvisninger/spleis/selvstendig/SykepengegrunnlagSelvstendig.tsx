@@ -3,7 +3,7 @@ import React, { HTMLAttributes } from 'react';
 import { BodyShort, Box, Detail, HStack, VStack } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { SelvstendigNæringsdrivendeIkon } from '@components/ikoner/SelvstendigNæringsdrivendeIkon';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { BeregnetPeriodeFragment, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
 import { SykepengegrunnlagSelvstendigPanel } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/SykepengegrunnlagSelvstendigPanel';
 import { somPenger } from '@utils/locale';
@@ -33,7 +33,7 @@ export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag, beregnetPeriode
             >
                 <VStack gap="8">
                     <HStack align="center" gap="2">
-                        <SelvstendigNæringsdrivendeIkon />
+                        <Arbeidsgiverikon />
                         <BodyShort weight="semibold">Selvstendig næring</BodyShort>
                     </HStack>
                     <Box width="65%">

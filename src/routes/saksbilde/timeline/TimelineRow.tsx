@@ -2,10 +2,9 @@ import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { SelvstendigNæringsdrivendeIkon } from '@components/ikoner/SelvstendigNæringsdrivendeIkon';
 import { GhostPeriodeFragment, Maybe, PeriodeFragment, PersonFragment } from '@io/graphql';
 import { TimelinePeriod } from '@typer/timeline';
 
@@ -39,11 +38,7 @@ export const TimelineRow = ({
     return (
         <div className={styles.TimelineRow}>
             <div className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
-                {erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator) ? (
-                    <SelvstendigNæringsdrivendeIkon />
-                ) : (
-                    <Arbeidsgiverikon />
-                )}
+                <Arbeidsgiverikon />
                 <Arbeidsgivernavn
                     identifikator={arbeidsgiverIdentifikator}
                     navn={name}

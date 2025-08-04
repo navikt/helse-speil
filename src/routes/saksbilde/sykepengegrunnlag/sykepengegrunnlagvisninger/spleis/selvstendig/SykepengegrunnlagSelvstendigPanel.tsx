@@ -4,7 +4,7 @@ import { BodyShort, Box, Detail, HStack, Table, VStack } from '@navikt/ds-react'
 
 import { Kilde } from '@components/Kilde';
 import { LovdataLenke } from '@components/LovdataLenke';
-import { SelvstendigNæringsdrivendeIkon } from '@components/ikoner/SelvstendigNæringsdrivendeIkon';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Sykepengegrunnlagsgrense } from '@io/graphql';
 import { somDato } from '@utils/date';
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
@@ -48,7 +48,7 @@ export const SykepengegrunnlagSelvstendigPanel = ({
                     <Table.Row shadeOnHover={false} className={styles.SelvstendigNaeringRow}>
                         <Table.DataCell>
                             <HStack align="center" gap="2">
-                                <SelvstendigNæringsdrivendeIkon />
+                                <Arbeidsgiverikon />
                                 Selvstendig næring
                             </HStack>
                         </Table.DataCell>

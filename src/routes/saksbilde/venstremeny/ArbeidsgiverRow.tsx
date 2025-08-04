@@ -7,7 +7,6 @@ import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arb
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { SelvstendigNæringsdrivendeIkon } from '@components/ikoner/SelvstendigNæringsdrivendeIkon';
 import { Arbeidsforhold } from '@io/graphql';
 import { useIsAnonymous } from '@state/anonymization';
 import { somNorskDato } from '@utils/date';
@@ -87,11 +86,7 @@ const ArbeidsgiverRowView = ({
     return (
         <>
             <div className={styles.iconContainer}>
-                {erSelvstendigNæringsdrivende(organisasjonsnummer) ? (
-                    <SelvstendigNæringsdrivendeIkon />
-                ) : (
-                    <Arbeidsgiverikon />
-                )}
+                <Arbeidsgiverikon />
             </div>
             <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={navn} maxWidth="300px" showCopyButton />
             {!erSelvstendigNæringsdrivende(organisasjonsnummer) && (

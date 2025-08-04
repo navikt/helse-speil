@@ -2,10 +2,9 @@ import React from 'react';
 
 import { BodyShort, HStack, Spacer } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { SelvstendigNæringsdrivendeIkon } from '@components/ikoner/SelvstendigNæringsdrivendeIkon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { capitalizeName, somPenger } from '@utils/locale';
@@ -46,11 +45,7 @@ export const BeløpTilUtbetaling = ({
             </BodyShort>
         </HStack>
         <HStack align="center" gap="4" className={styles.Row}>
-            {erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator) ? (
-                <SelvstendigNæringsdrivendeIkon />
-            ) : (
-                <Arbeidsgiverikon />
-            )}
+            <Arbeidsgiverikon />
             <Arbeidsgivernavn identifikator={arbeidsgiverIdentifikator} navn={arbeidsgiverNavn} maxWidth="200px" />
             <Spacer />
             <BodyShort>{somPenger(periodeArbeidsgiverNettoBeløp)}</BodyShort>
