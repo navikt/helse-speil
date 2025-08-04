@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import {
     Maybe,
@@ -52,6 +53,12 @@ const UtbetalingCardBeregnet = ({
         <div className={styles.Grid}>
             <BodyShort>Sykepengegrunnlag</BodyShort>
             <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
+            {erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator) && (
+                <>
+                    <BodyShort>Dekningsgrad</BodyShort>
+                    <BodyShort>80 %</BodyShort>
+                </>
+            )}
             <BodyShort>Utbetalingsdager</BodyShort>
             <BodyShort>{antallUtbetalingsdager}</BodyShort>
         </div>

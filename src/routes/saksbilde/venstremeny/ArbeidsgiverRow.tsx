@@ -98,23 +98,23 @@ const ArbeidsgiverRowView = ({
                             <CopyButton copyText={organisasjonsnummer} size="xsmall" />
                         </Tooltip>
                     </HStack>
+                    <div />
+                    <Accordion>
+                        <Accordion.Item open={open} className={styles.arbeidsgiverRow}>
+                            <Accordion.Header
+                                className={classNames(styles.header, erAnonymisert && styles.anonymisert)}
+                                onClick={() => setOpen((prevState) => !prevState)}
+                            >
+                                Arbeidsforhold
+                            </Accordion.Header>
+                            <Accordion.Content className={styles.content}>
+                                <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} erAnonymisert={erAnonymisert} />
+                            </Accordion.Content>
+                            {månedsbeløp !== undefined && <MånedsbeløpRow månedsbeløp={månedsbeløp} />}
+                        </Accordion.Item>
+                    </Accordion>
                 </>
             )}
-            <div />
-            <Accordion>
-                <Accordion.Item open={open} className={styles.arbeidsgiverRow}>
-                    <Accordion.Header
-                        className={classNames(styles.header, erAnonymisert && styles.anonymisert)}
-                        onClick={() => setOpen((prevState) => !prevState)}
-                    >
-                        Arbeidsforhold
-                    </Accordion.Header>
-                    <Accordion.Content className={styles.content}>
-                        <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} erAnonymisert={erAnonymisert} />
-                    </Accordion.Content>
-                    {månedsbeløp !== undefined && <MånedsbeløpRow månedsbeløp={månedsbeløp} />}
-                </Accordion.Item>
-            </Accordion>
         </>
     );
 };

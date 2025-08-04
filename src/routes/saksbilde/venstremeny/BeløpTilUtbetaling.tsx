@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BodyShort, HStack, Spacer } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
@@ -44,18 +44,26 @@ export const BeløpTilUtbetaling = ({
                 {somPenger(periodePersonNettoBeløp + periodeArbeidsgiverNettoBeløp)}
             </BodyShort>
         </HStack>
-        <HStack align="center" gap="4" className={styles.Row}>
-            <Arbeidsgiverikon />
-            <Arbeidsgivernavn identifikator={arbeidsgiverIdentifikator} navn={arbeidsgiverNavn} maxWidth="200px" />
-            <Spacer />
-            <BodyShort>{somPenger(periodeArbeidsgiverNettoBeløp)}</BodyShort>
-        </HStack>
-        {arbeidsgiversimulering && isSimulering(arbeidsgiversimulering) && (
-            <OpenSimuleringButton
-                simulering={arbeidsgiversimulering}
-                utbetaling={utbetaling}
-                className={styles.SimuleringButton}
-            />
+        {!erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator) && (
+            <>
+                <HStack align="center" gap="4" className={styles.Row}>
+                    <Arbeidsgiverikon />
+                    <Arbeidsgivernavn
+                        identifikator={arbeidsgiverIdentifikator}
+                        navn={arbeidsgiverNavn}
+                        maxWidth="200px"
+                    />
+                    <Spacer />
+                    <BodyShort>{somPenger(periodeArbeidsgiverNettoBeløp)}</BodyShort>
+                </HStack>
+                {arbeidsgiversimulering && isSimulering(arbeidsgiversimulering) && (
+                    <OpenSimuleringButton
+                        simulering={arbeidsgiversimulering}
+                        utbetaling={utbetaling}
+                        className={styles.SimuleringButton}
+                    />
+                )}
+            </>
         )}
         <HStack align="center" gap="4" className={styles.Row}>
             <SykmeldtikonMedTooltip />
