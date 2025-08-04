@@ -39,7 +39,10 @@ export const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps)
     const automatiskBehandlingStansetAvSaksbehandler =
         person.personinfo.automatiskBehandlingStansetAvSaksbehandler ?? false;
 
-    const kanAnnulleres = isBeregnetPeriode(activePeriod) && activePeriod.periodetilstand === Periodetilstand.Utbetalt;
+    const kanAnnulleres =
+        isBeregnetPeriode(activePeriod) &&
+        (activePeriod.periodetilstand === Periodetilstand.IngenUtbetaling ||
+            activePeriod.periodetilstand === Periodetilstand.Utbetalt);
 
     return (
         <Dropdown.Menu placement="bottom-start" className={styles.dropdown}>
