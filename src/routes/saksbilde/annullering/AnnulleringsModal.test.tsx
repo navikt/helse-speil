@@ -46,6 +46,7 @@ const createMocks = (annullerDone?: jest.Mock, arsaker: AnnulleringArsakInput[] 
                     personFagsystemId: 'EN-FAGSYSTEMID',
                     arsaker,
                     kommentar: undefined,
+                    annulleringskandidater: [],
                 },
             },
         },

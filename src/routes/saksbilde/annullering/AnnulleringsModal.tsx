@@ -62,6 +62,7 @@ export const AnnulleringsModal = ({
         personFagsystemId,
         arsaker,
         kommentar: kommentar == '' ? undefined : kommentar,
+        annulleringskandidater: periode.annulleringskandidater.map((kandidat) => kandidat.vedtaksperiodeId),
     });
 
     const sendAnnullering = (annullering: AnnulleringDataInput) => {
