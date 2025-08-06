@@ -46,6 +46,7 @@ export type Annullering = {
     personFagsystemId?: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent: Scalars['String']['output'];
     tidspunkt: Scalars['LocalDateTime']['output'];
+    vedtaksperiodeId?: Maybe<Scalars['UUID']['output']>;
 };
 
 export type AnnulleringArsakInput = {
@@ -55,6 +56,7 @@ export type AnnulleringArsakInput = {
 
 export type AnnulleringDataInput = {
     aktorId: Scalars['String']['input'];
+    annulleringskandidater?: InputMaybe<Array<Scalars['UUID']['input']>>;
     arbeidsgiverFagsystemId: Scalars['String']['input'];
     arsaker: Array<AnnulleringArsakInput>;
     fodselsnummer: Scalars['String']['input'];
