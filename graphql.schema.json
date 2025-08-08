@@ -14803,6 +14803,12 @@
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
+                    },
+                    {
+                        "name": "VENTEPERIODEDAG",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     }
                 ],
                 "possibleTypes": null
@@ -17054,6 +17060,12 @@
                     },
                     {
                         "name": "UKJENT_DAG",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "VENTEPERIODEDAG",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
