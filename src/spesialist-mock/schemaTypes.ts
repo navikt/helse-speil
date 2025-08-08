@@ -1609,6 +1609,7 @@ export enum Sykdomsdagtype {
     SykedagNav = 'SYKEDAG_NAV',
     SykHelgedag = 'SYK_HELGEDAG',
     Ubestemtdag = 'UBESTEMTDAG',
+    Ukjent = 'UKJENT',
 }
 
 export type Sykepengedager = {
