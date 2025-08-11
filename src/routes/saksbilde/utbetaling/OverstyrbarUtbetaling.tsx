@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import React, { ReactElement, Reducer, useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import {
@@ -298,6 +299,7 @@ export const OverstyrbarUtbetaling = ({
                     kanStrekkes={kanStrekkes(periode, arbeidsgiver)}
                     periodeFom={periodeFom.dato}
                     erRevurdering={erRevurdering}
+                    erSelvstendig={erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer)}
                 />
             )}
             <div className={classNames(styles.TableContainer)}>
@@ -333,6 +335,7 @@ export const OverstyrbarUtbetaling = ({
                             markerteDager={markerteDager}
                             onSubmitEndring={onSubmitEndring}
                             openDagtypeModal={() => setVisDagtypeModal(true)}
+                            erSelvstendig={erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer)}
                         />
                         <FormProvider {...form}>
                             <form onSubmit={(event) => event.preventDefault()} autoComplete="off">

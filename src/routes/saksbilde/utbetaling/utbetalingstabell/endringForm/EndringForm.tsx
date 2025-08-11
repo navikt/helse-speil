@@ -19,9 +19,15 @@ interface EndringFormProps {
     markerteDager: Map<string, Utbetalingstabelldag>;
     onSubmitEndring: (endring: Partial<Utbetalingstabelldag>) => void;
     openDagtypeModal: () => void;
+    erSelvstendig: boolean;
 }
 
-export const EndringForm = ({ markerteDager, onSubmitEndring, openDagtypeModal }: EndringFormProps): ReactElement => {
+export const EndringForm = ({
+    markerteDager,
+    onSubmitEndring,
+    openDagtypeModal,
+    erSelvstendig,
+}: EndringFormProps): ReactElement => {
     const defaultEndring = { dag: alleTypeendringer[0], erAvvist: false, erForeldet: false };
     const [endring, setEndring] = useState<Partial<Utbetalingstabelldag>>(defaultEndring);
 
@@ -90,6 +96,7 @@ export const EndringForm = ({ markerteDager, onSubmitEndring, openDagtypeModal }
                                     grad: kanVelgeGrad(type) ? endring.grad : undefined,
                                 })
                             }
+                            erSelvstendig={erSelvstendig}
                         />
                         <TextField
                             className={styles.Gradvelger}

@@ -7,7 +7,8 @@ import styles from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringF
 import {
     OverstyrbarDagtype,
     alleTypeendringer,
-    typeendringer,
+    overstyringsdagtyperArbeidstaker,
+    overstyringsdagtyperSelvstendig,
     typeendringerAndreYtelser,
 } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 
@@ -16,6 +17,7 @@ interface DagtypeSelectProps {
     clearErrors: () => void;
     setType: (type: OverstyrbarDagtype) => void;
     openDagtypeModal: () => void;
+    erSelvstendig: boolean;
 }
 
 export const DagtypeSelect = ({
@@ -23,6 +25,7 @@ export const DagtypeSelect = ({
     clearErrors,
     setType,
     openDagtypeModal,
+    erSelvstendig,
 }: DagtypeSelectProps): ReactElement => {
     const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
         if (alleTypeendringer.map((dag) => dag.speilDagtype).includes(event.target.value as OverstyrbarDagtype)) {
@@ -31,6 +34,7 @@ export const DagtypeSelect = ({
             setType(type);
         }
     };
+    const overstyringsdagtyper = erSelvstendig ? overstyringsdagtyperSelvstendig : overstyringsdagtyperArbeidstaker;
 
     return (
         <>
@@ -47,7 +51,7 @@ export const DagtypeSelect = ({
                 data-testid="dagtypevelger"
             >
                 <>
-                    {typeendringer.map((dag) => (
+                    {overstyringsdagtyper.map((dag) => (
                         <option key={dag.speilDagtype} value={dag.speilDagtype}>
                             {dag.visningstekst}
                         </option>

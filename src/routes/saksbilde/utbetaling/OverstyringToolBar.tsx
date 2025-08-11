@@ -14,6 +14,7 @@ interface OverstyringToolBarProps {
     kanStrekkes: boolean;
     periodeFom: DateString;
     erRevurdering: boolean;
+    erSelvstendig: boolean;
 }
 
 export const OverstyringToolBar = ({
@@ -23,6 +24,7 @@ export const OverstyringToolBar = ({
     kanStrekkes,
     periodeFom,
     erRevurdering,
+    erSelvstendig,
 }: OverstyringToolBarProps) => {
     const [visLeggTilDagerForm, setVisLeggTilDagerForm] = useState(false);
 
@@ -53,6 +55,7 @@ export const OverstyringToolBar = ({
                         onSubmitPølsestrekk={onSubmitPølsestrekk}
                         periodeFom={periodeFom}
                         setVisDagtypeModal={setVisDagtypeModal}
+                        erSelvstendig={erSelvstendig}
                     />
                     <Button size="xsmall" variant="tertiary" onClick={() => setVisLeggTilDagerForm(false)}>
                         Lukk legg til dager

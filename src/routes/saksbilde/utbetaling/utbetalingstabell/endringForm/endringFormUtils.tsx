@@ -16,7 +16,7 @@ import {
     SykedagNav,
 } from '../utbetalingstabelldager';
 
-export const typeendringer: Speildag[] = [
+export const overstyringsdagtyperArbeidstaker: Speildag[] = [
     Sykedag,
     SykedagNav,
     Feriedag,
@@ -25,6 +25,8 @@ export const typeendringer: Speildag[] = [
     Permisjonsdag,
     Arbeidsdag,
 ];
+
+export const overstyringsdagtyperSelvstendig: Speildag[] = [Sykedag, SykedagNav, Arbeidsdag];
 
 export const typeendringerAndreYtelser: Speildag[] = [
     // Vi ble bedt om å fjerne muligheten for å endre til AAP og Dagpenger til å begynne med.
@@ -37,7 +39,7 @@ export const typeendringerAndreYtelser: Speildag[] = [
     Opplæringspengerdag,
 ];
 
-export const alleTypeendringer: Speildag[] = [...typeendringer, ...typeendringerAndreYtelser];
+export const alleTypeendringer: Speildag[] = [...overstyringsdagtyperArbeidstaker, ...typeendringerAndreYtelser];
 
 export const getDagFromType = (type: OverstyrbarDagtype): Speildag => {
     const speilDag = alleTypeendringer.find((dag) => dag.speilDagtype === type);

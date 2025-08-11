@@ -29,10 +29,11 @@ interface LeggTilDagerProps {
     periodeFom: DateString;
     setVisDagtypeModal: () => void;
     onSubmitPølsestrekk: (nyeDager: Map<string, Utbetalingstabelldag>) => void;
+    erSelvstendig: boolean;
 }
 
 export const LeggTilDagerForm = React.memo(
-    ({ periodeFom, setVisDagtypeModal, onSubmitPølsestrekk }: LeggTilDagerProps): ReactElement => {
+    ({ periodeFom, setVisDagtypeModal, onSubmitPølsestrekk, erSelvstendig }: LeggTilDagerProps): ReactElement => {
         const periodeFomMinusEnDag = dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'day');
 
         const defaultEndring = { dag: Sykedag, fom: periodeFomMinusEnDag.format(ISO_DATOFORMAT), grad: undefined };
@@ -136,6 +137,7 @@ export const LeggTilDagerForm = React.memo(
                                 grad: kanVelgeGrad(type) ? endring.grad : undefined,
                             })
                         }
+                        erSelvstendig={erSelvstendig}
                     />
                     <TextField
                         className={styles.Gradvelger}
