@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 
 import { Alert, BodyShort, ErrorMessage } from '@navikt/ds-react';
 
+import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { useForrigeGenerasjonPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import {
@@ -48,7 +49,10 @@ export const VenstremenyBeregnetPeriode = ({
         (it) => it.arbeidsgiver === currentArbeidsgiver.organisasjonsnummer,
     )?.omregnetArsinntekt?.manedsbelop;
 
-    const { personTotalbeløp, arbeidsgiverTotalbeløp } = useTotalbeløp(activePeriod.tidslinje);
+    const { personTotalbeløp, arbeidsgiverTotalbeløp } = useTotalbeløp(
+        erSelvstendigNæringsdrivende(currentArbeidsgiver.organisasjonsnummer),
+        activePeriod.tidslinje,
+    );
 
     const forrigeGenerasjonPeriode: Maybe<Periode> | undefined = useForrigeGenerasjonPeriode(
         currentArbeidsgiver,
@@ -56,7 +60,10 @@ export const VenstremenyBeregnetPeriode = ({
         currentPerson,
     );
 
-    const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigeGenerasjonPeriode?.tidslinje);
+    const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(
+        erSelvstendigNæringsdrivende(currentArbeidsgiver.organisasjonsnummer),
+        forrigeGenerasjonPeriode?.tidslinje,
+    );
     const utbetaleTilgang = finnUtbetaleTilgang(activePeriod);
     const periodState = getPeriodState(activePeriod);
     const utbetalingsvarsler: VarselObject[] = [utbetaling(periodState), tilstandinfo(periodState)].filter(

@@ -47,6 +47,7 @@ export type Utbetalingstabelldag = {
     kilde: Kilde;
     dag: Speildag;
     erAGP: boolean;
+    erVenteperiode: boolean;
     erAvvist: boolean;
     erForeldet: boolean;
     erMaksdato: boolean;
@@ -57,7 +58,6 @@ export type Utbetalingstabelldag = {
     arbeidsgiverbeløp?: Maybe<number>;
     personbeløp?: Maybe<number>;
     begrunnelser?: Maybe<Array<Begrunnelse>>;
-    erHelg?: boolean;
     erNyDag?: boolean;
     fraType?: Utbetalingstabelldagtype;
 };

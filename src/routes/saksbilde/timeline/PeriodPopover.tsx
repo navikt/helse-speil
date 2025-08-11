@@ -79,9 +79,17 @@ interface SpleisPopoverProps extends DatePeriod {
     period: BeregnetPeriodeFragment;
     state: PeriodState;
     person: PersonFragment;
+    erSelvstendigNæringsdrivende: boolean;
 }
 
-export const BeregnetPopover = ({ period, state, fom, tom, person }: SpleisPopoverProps): ReactElement => {
+export const BeregnetPopover = ({
+    period,
+    state,
+    fom,
+    tom,
+    person,
+    erSelvstendigNæringsdrivende,
+}: SpleisPopoverProps): ReactElement => {
     const dayTypes = groupDayTypes(period);
 
     const arbeidsgiverperiode = getDayTypesRender(Utbetalingsdagtype.Arbeidsgiverperiodedag, dayTypes);
@@ -89,9 +97,12 @@ export const BeregnetPopover = ({ period, state, fom, tom, person }: SpleisPopov
     const avslåttperiode = getDayTypesRender(Utbetalingsdagtype.AvvistDag, dayTypes);
     const harGenereltNotat = period.notater.filter((notat) => notat.type === NotatType.Generelt).length > 0;
 
-    const { personTotalbeløp, arbeidsgiverTotalbeløp, totalbeløp } = useTotalbeløp(period.tidslinje);
+    const { personTotalbeløp, arbeidsgiverTotalbeløp, totalbeløp } = useTotalbeløp(
+        erSelvstendigNæringsdrivende,
+        period.tidslinje,
+    );
     const forrigePeriode = useForrigeGenerasjonPeriodeMedPeriode(period, person);
-    const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigePeriode?.tidslinje);
+    const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(erSelvstendigNæringsdrivende, forrigePeriode?.tidslinje);
 
     return (
         <>
@@ -208,9 +219,16 @@ interface PeriodPopoverProps extends Omit<PopoverProps, 'children'> {
     period: TimelinePeriod;
     state: PeriodState;
     person: PersonFragment;
+    erSelvstendigNæringsdrivende: boolean;
 }
 
-export const PeriodPopover = ({ period, state, person, ...popoverProps }: PeriodPopoverProps): ReactElement => {
+export const PeriodPopover = ({
+    period,
+    state,
+    person,
+    erSelvstendigNæringsdrivende,
+    ...popoverProps
+}: PeriodPopoverProps): ReactElement => {
     const fom = somNorskDato(period.fom) ?? '-';
     const tom = somNorskDato(period.tom) ?? '-';
 
@@ -221,7 +239,14 @@ export const PeriodPopover = ({ period, state, person, ...popoverProps }: Period
                     {isInfotrygdPeriod(period) ? (
                         <InfotrygdPopover fom={fom} tom={tom} />
                     ) : isBeregnetPeriode(period) ? (
-                        <BeregnetPopover period={period} state={state} fom={fom} tom={tom} person={person} />
+                        <BeregnetPopover
+                            period={period}
+                            state={state}
+                            fom={fom}
+                            tom={tom}
+                            person={person}
+                            erSelvstendigNæringsdrivende={erSelvstendigNæringsdrivende}
+                        />
                     ) : isGhostPeriode(period) ? (
                         <GhostPopover fom={fom} tom={tom} />
                     ) : (

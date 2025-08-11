@@ -66,6 +66,8 @@ const dekorerTekst = (tabelldag?: Utbetalingstabelldag): string | null => {
         return `${visningstekst} (Avslått)`;
     } else if (erTypeSomIkkeSkalDekoreres(tabelldag)) {
         return visningstekst;
+    } else if (tabelldag.erVenteperiode) {
+        return `${visningstekst} (Ventetid)`;
     } else if (tabelldag.erAGP) {
         return `${visningstekst} (AGP)`;
     } else if (speilDagtype === 'FriskHelg') {
@@ -89,6 +91,8 @@ const dekorerTekstOverstyrtDag = (tabelldag?: Utbetalingstabelldag): string | nu
         return visningstekst;
     } else if (tabelldag.erAGP) {
         return `${visningstekst} (AGP)`;
+    } else if (tabelldag.erVenteperiode) {
+        return `${visningstekst} (Ventetid)`;
     } else if (tabelldag.erForeldet) {
         return `${visningstekst} (Foreldet)`;
     } else {

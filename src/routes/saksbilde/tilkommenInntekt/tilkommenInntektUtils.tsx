@@ -1,3 +1,4 @@
+import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
 import { useTabelldagerMap } from '@saksbilde/utbetaling/utbetalingstabell/useTabelldagerMap';
 import { useDagoverstyringer } from '@state/arbeidsgiver';
@@ -87,6 +88,7 @@ export const tilDagtypeTabell = (periode: DatePeriod, arbeidsgivere: Arbeidsgive
             if (period.__typename === 'BeregnetPeriode') {
                 return useTabelldagerMap({
                     tidslinje: period.tidslinje,
+                    erSelvstendigNæringsdrivende: erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer),
                     gjenståendeDager: period.gjenstaendeSykedager,
                     overstyringer: dagoverstyringer,
                     maksdato: period.maksdato,
@@ -94,6 +96,7 @@ export const tilDagtypeTabell = (periode: DatePeriod, arbeidsgivere: Arbeidsgive
             } else {
                 return useTabelldagerMap({
                     tidslinje: period.tidslinje,
+                    erSelvstendigNæringsdrivende: erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer),
                     overstyringer: dagoverstyringer,
                     antallAGPDagerBruktFørPerioden: getAntallAGPDagerBruktFørPerioden(arbeidsgiver, period),
                 });

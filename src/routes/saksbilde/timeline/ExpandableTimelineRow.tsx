@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { PersonFragment } from '@io/graphql';
 import { ArbeidsgiverGenerasjon } from '@typer/shared';
@@ -51,6 +51,7 @@ export const ExpandableTimelineRow = ({
                         ghostPeriods={ghostPeriods}
                         activePeriod={activePeriod}
                         person={person}
+                        erSelvstendigNæringsdrivende={erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator)}
                     />
                 )}
                 {isExpanded &&
@@ -65,6 +66,7 @@ export const ExpandableTimelineRow = ({
                                 notCurrent
                                 activePeriod={activePeriod}
                                 person={person}
+                                erSelvstendigNæringsdrivende={erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator)}
                             />
                         ))}
             </div>

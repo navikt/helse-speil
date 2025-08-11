@@ -58,6 +58,7 @@ interface PeriodsProps {
     ghostPeriods?: Array<GhostPeriodeFragment>;
     notCurrent?: boolean;
     person: PersonFragment;
+    erSelvstendigNæringsdrivende: boolean;
 }
 
 export const Periods = ({
@@ -69,6 +70,7 @@ export const Periods = ({
     notCurrent,
     activePeriod,
     person,
+    erSelvstendigNæringsdrivende,
 }: PeriodsProps): ReactElement => {
     const allPeriods = mergePeriods(periods, infotrygdPeriods, ghostPeriods);
     const validPeriods = filterValidPeriods(allPeriods);
@@ -86,6 +88,7 @@ export const Periods = ({
                     notCurrent={notCurrent}
                     isActive={isActive(activePeriod, period)}
                     person={person}
+                    erSelvstendigNæringsdrivende={erSelvstendigNæringsdrivende}
                 />
             ))}
         </div>

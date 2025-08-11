@@ -1,9 +1,10 @@
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
-import { Dag, Dagoverstyring, Dagtype, Maybe, OverstyrtDag, Utbetalingsdagtype } from '@io/graphql';
+import { Dag, Dagoverstyring, Dagtype, Maybe, OverstyrtDag, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { erHelg } from '@utils/date';
 
 import {
     AAPdag,
@@ -78,11 +79,16 @@ const getUtbetalingstabelldag = (dag: Dag): Speildag => {
             return AvvistEllerForeldetDag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
     }
 
+    if (dag.sykdomsdagtype === Sykdomsdagtype.Venteperiodedag) {
+        return erHelg(dag.dato) ? Navhelgedag : Sykedag;
+    }
+
     return getSpeildag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
 };
 
 export const createDagerMap = (
     dager: Array<Dag>,
+    erSelvstendigNæringsdrivende: boolean,
     totaltAntallDagerIgjen: Maybe<number>,
     antallAGPDagerBruktFørPerioden?: number,
     maksdato?: DateString,
@@ -101,6 +107,7 @@ export const createDagerMap = (
 
         let erAGP = currentDag.utbetalingsdagtype === 'ARBEIDSGIVERPERIODEDAG';
         if (
+            !erSelvstendigNæringsdrivende &&
             dagnummerAGP < 16 &&
             ['SYKEDAG', 'SYK_HELGEDAG'].includes(currentDag.sykdomsdagtype) &&
             currentDag.utbetalingsdagtype === Utbetalingsdagtype.UkjentDag
@@ -113,6 +120,7 @@ export const createDagerMap = (
             kilde: currentDag.kilde,
             dag: getUtbetalingstabelldag(currentDag),
             erAGP: erAGP,
+            erVenteperiode: currentDag.utbetalingsdagtype === 'VENTEPERIODEDAG',
             erAvvist: currentDag.utbetalingsdagtype === 'AVVIST_DAG',
             erForeldet: currentDag.utbetalingsdagtype === 'FORELDET_DAG',
             erMaksdato: typeof maksdato === 'string' && dayjs(maksdato).isSame(currentDag.dato, 'day'),
@@ -140,6 +148,7 @@ type UseTabelldagerMapOptions = {
     maksdato?: DateString;
     skjæringstidspunkt?: DateString;
     antallAGPDagerBruktFørPerioden?: number;
+    erSelvstendigNæringsdrivende: boolean;
 };
 
 export const useTabelldagerMap = ({
@@ -148,6 +157,7 @@ export const useTabelldagerMap = ({
     overstyringer = [],
     maksdato,
     antallAGPDagerBruktFørPerioden,
+    erSelvstendigNæringsdrivende,
 }: UseTabelldagerMapOptions): Map<string, Utbetalingstabelldag> =>
     useMemo(() => {
         const antallDagerIgjen: Maybe<number> =
@@ -157,6 +167,7 @@ export const useTabelldagerMap = ({
 
         const dager: Map<DateString, Utbetalingstabelldag> = createDagerMap(
             tidslinje,
+            erSelvstendigNæringsdrivende,
             antallDagerIgjen,
             antallAGPDagerBruktFørPerioden,
         );

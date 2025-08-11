@@ -19,6 +19,7 @@ const enUtbetalingstabelldag = (dato: string, overrides?: Partial<Utbetalingstab
     kilde: { __typename: 'Kilde', id: 'Sasdadgf', type: Kildetype.Inntektsmelding },
     dag: Sykedag,
     erAGP: false,
+    erVenteperiode: false,
     erAvvist: false,
     erForeldet: false,
     erMaksdato: false,

@@ -140,6 +140,7 @@ describe('PeriodPopover', () => {
                 fom="2023-01-01"
                 tom="2023-01-01"
                 person={person}
+                erSelvstendigNæringsdrivende={false}
             />,
         );
         expect(screen.queryByText('Arbeidsgiver')).not.toBeInTheDocument();
@@ -153,6 +154,7 @@ describe('PeriodPopover', () => {
                 fom="2023-01-01"
                 tom="2023-01-01"
                 person={person}
+                erSelvstendigNæringsdrivende={false}
             />,
         );
         expect(screen.getByText('Arbeidsgiver')).toBeVisible();
@@ -165,6 +167,7 @@ describe('PeriodPopover', () => {
                 fom="2023-01-01"
                 tom="2023-01-01"
                 person={person}
+                erSelvstendigNæringsdrivende={false}
             />,
         );
         expect(screen.getByText('Sykmeldt')).toBeVisible();
@@ -177,6 +180,7 @@ describe('PeriodPopover', () => {
                 fom="2023-01-01"
                 tom="2023-01-01"
                 person={person}
+                erSelvstendigNæringsdrivende={false}
             />,
         );
         expect(screen.getByText('Arbeidsgiver / Sykmeldt')).toBeVisible();
@@ -190,6 +194,7 @@ describe('PeriodPopover', () => {
                 fom="2023-01-01"
                 tom="2023-01-01"
                 person={person}
+                erSelvstendigNæringsdrivende={false}
             />,
         );
         expect(screen.getByText('Dager igjen:')).toBeVisible();

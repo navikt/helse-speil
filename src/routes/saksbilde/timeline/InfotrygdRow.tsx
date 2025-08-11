@@ -41,6 +41,7 @@ export const InfotrygdRow = ({
                     infotrygdPeriods={periods}
                     activePeriod={null}
                     person={person}
+                    erSelvstendigNæringsdrivende={false}
                 />
             </div>
         </div>

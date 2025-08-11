@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { GhostPeriodeFragment, Maybe, PeriodeFragment, PersonFragment } from '@io/graphql';
@@ -54,6 +54,7 @@ export const TimelineRow = ({
                     ghostPeriods={ghostPeriods}
                     activePeriod={activePeriod}
                     person={person}
+                    erSelvstendigNæringsdrivende={erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator)}
                 />
             </div>
         </div>

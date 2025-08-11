@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Table } from '@navikt/ds-react';
 
-import { Row } from '@saksbilde/table/Row';
+import rowStyles from '@saksbilde/table/Row.module.scss';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { UtbetalingCell } from './UtbetalingCell';
@@ -22,7 +22,7 @@ export const TotalRow = React.memo(({ dager, overstyrer }: TotalRowProps): React
     const personbeløpTotal = getTotalPersonbeløp(utbetalingsdager);
 
     return (
-        <Row className={classNames(styles.TotalRow, overstyrer && styles.overstyrer)}>
+        <Table.Row className={classNames(rowStyles.row, styles.TotalRow, overstyrer && styles.overstyrer)}>
             <Table.DataCell style={{ fontWeight: 'bold' }}>TOTAL</Table.DataCell>
             <Table.DataCell>
                 <BodyShort weight="semibold">{utbetalingsdager.length} dager</BodyShort>
@@ -35,6 +35,6 @@ export const TotalRow = React.memo(({ dager, overstyrer }: TotalRowProps): React
             <Table.DataCell />
             <Table.DataCell />
             {overstyrer && <Table.DataCell />}
-        </Row>
+        </Table.Row>
     );
 });

@@ -34,7 +34,7 @@ export const erEtter = (dato: DateString, tidligst: DateString) =>
     dayjs(dato, ISO_DATOFORMAT, true).isAfter(dayjs(tidligst, ISO_DATOFORMAT, true));
 export const erFør = (dato: DateString, senest: DateString) =>
     dayjs(dato, ISO_DATOFORMAT, true).isBefore(dayjs(senest, ISO_DATOFORMAT, true));
-export const erHelg = (dato: DateString): boolean => dayjs(dato).day() == 6 || dayjs(dato).day() == 0;
+export const erHelg = (dato: DateString): boolean => dayjs(dato, ISO_DATOFORMAT).isoWeekday() > 5;
 
 export const erGyldigNorskDato = (dato: string): boolean => dayjs(dato, NORSK_DATOFORMAT, true).isValid();
 export const dateTilNorskDato = (date: Date): string => dayjs(date).format(NORSK_DATOFORMAT);

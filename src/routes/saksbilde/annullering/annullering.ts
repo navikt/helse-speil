@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
-import { Dag, Maybe, Periode, PersonFragment } from '@io/graphql';
+import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
+import { ArbeidsgiverFragment, Dag, Maybe, Periode, PersonFragment } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -15,9 +16,15 @@ import {
 import { useTabelldagerMap } from '../utbetaling/utbetalingstabell/useTabelldagerMap';
 
 export const useTotaltUtbetaltForSykefraværstilfellet = (person: PersonFragment) => {
-    const tidslinjeForSykefraværstilfellet = useUtbetaltTidslinjeForSykefraværstilfellet(person);
+    const arbeidsgiver = useCurrentArbeidsgiver(person);
+    const tidslinjeForSykefraværstilfellet = useUtbetaltTidslinjeForSykefraværstilfellet(person, arbeidsgiver);
 
-    const dager = useTabelldagerMap({ tidslinje: tidslinjeForSykefraværstilfellet ?? [] });
+    const dager = useTabelldagerMap({
+        tidslinje: tidslinjeForSykefraværstilfellet ?? [],
+        erSelvstendigNæringsdrivende: arbeidsgiver
+            ? erSelvstendigNæringsdrivende(arbeidsgiver?.organisasjonsnummer)
+            : false,
+    });
     const utbetalingsdager = getDagerMedUtbetaling(useMemo(() => Array.from(dager.values()), [dager]));
     const arbeidsgiverTotalbeløp = getTotalArbeidsgiverbeløp(utbetalingsdager);
     const personTotalbeløp = getTotalPersonbeløp(utbetalingsdager);
@@ -29,8 +36,10 @@ export const useTotaltUtbetaltForSykefraværstilfellet = (person: PersonFragment
     };
 };
 
-const useUtbetaltTidslinjeForSykefraværstilfellet = (person: PersonFragment): Maybe<Dag[]> => {
-    const arbeidsgiver = useCurrentArbeidsgiver(person);
+const useUtbetaltTidslinjeForSykefraværstilfellet = (
+    person: PersonFragment,
+    arbeidsgiver: Maybe<ArbeidsgiverFragment>,
+): Maybe<Dag[]> => {
     const skjæringstidspunkt = useActivePeriod(person)?.skjaeringstidspunkt;
 
     if (!arbeidsgiver || !skjæringstidspunkt) return null;

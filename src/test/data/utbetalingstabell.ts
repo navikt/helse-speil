@@ -7,6 +7,7 @@ export const getUtbetalingstabellDag = (overrides?: Partial<Utbetalingstabelldag
     kilde: { __typename: 'Kilde', id: '123', type: Kildetype.Inntektsmelding },
     dag: Sykedag,
     erAGP: false,
+    erVenteperiode: false,
     erAvvist: false,
     erForeldet: false,
     erMaksdato: false,

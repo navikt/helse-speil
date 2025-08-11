@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { Alert, Box, HStack, Heading, HelpText } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
@@ -109,6 +109,7 @@ const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingB
 
     const dager: Map<string, Utbetalingstabelldag> = useTabelldagerMap({
         tidslinje: period.tidslinje,
+        erSelvstendigNæringsdrivende: erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer),
         gjenståendeDager: period.gjenstaendeSykedager,
         overstyringer: dagoverstyringer,
         maksdato: period.maksdato,
@@ -147,6 +148,7 @@ const UtbetalingUberegnetPeriode = ({
     const antallAGPDagerBruktFørPerioden = getAntallAGPDagerBruktFørPerioden(arbeidsgiver, periode);
     const dager: Map<string, Utbetalingstabelldag> = useTabelldagerMap({
         tidslinje: periode.tidslinje,
+        erSelvstendigNæringsdrivende: erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer),
         overstyringer: dagoverstyringer,
         antallAGPDagerBruktFørPerioden: antallAGPDagerBruktFørPerioden,
     });

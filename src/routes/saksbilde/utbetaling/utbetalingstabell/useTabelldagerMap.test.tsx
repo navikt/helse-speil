@@ -34,7 +34,7 @@ const dager: Dag[] = [
 
 describe('createDagerMap', () => {
     it('mapper ut riktig antall dager igjen', () => {
-        const dagerMap = createDagerMap(dager, 6);
+        const dagerMap = createDagerMap(dager, false, 6);
         const utbetalingsdager = Array.from(dagerMap.values()).map((it) => it.dagerIgjen);
         expect(utbetalingsdager).toEqual([5, 5, 4, 4, 4, 3, 2, 1, 0, 0, 0, 0, 0]);
     });
@@ -54,6 +54,7 @@ describe('useTabelldagerMap', () => {
         const { result } = renderHook(() =>
             useTabelldagerMap({
                 tidslinje: dager,
+                erSelvstendigNæringsdrivende: false,
                 gjenståendeDager: 100,
             }),
         );
@@ -93,6 +94,7 @@ describe('useTabelldagerMap', () => {
         const { result } = renderHook(() =>
             useTabelldagerMap({
                 tidslinje: dager,
+                erSelvstendigNæringsdrivende: false,
                 overstyringer: overstyringer,
                 gjenståendeDager: 100,
             }),

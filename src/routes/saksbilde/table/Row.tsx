@@ -1,44 +1,29 @@
 import classNames from 'classnames';
-import React, { ReactElement } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
-
-import { helgetyper } from '../utbetaling/utbetalingstabell/helgUtils';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { erHelg } from '@utils/date';
 
 import styles from './Row.module.scss';
 
-interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
-    erAvvist?: boolean;
-    erAGP?: boolean;
-    type?: Utbetalingstabelldagtype;
-    markertDag?: Utbetalingstabelldag;
-    nyDag?: boolean;
-    erHelg?: boolean;
+interface RowProps extends PropsWithChildren {
+    dag: Utbetalingstabelldag;
+    erMarkert: boolean;
+    erOverstyrt: boolean;
 }
 
-export const Row = ({
-    children,
-    erAvvist = false,
-    erAGP = false,
-    type,
-    markertDag,
-    nyDag = false,
-    erHelg = false,
-    className = '',
-}: RowProps): ReactElement => {
-    const viseHelgStil = (type && [...helgetyper, 'Helg'].includes(type)) || erHelg;
+export const Row = ({ children, dag, erMarkert, erOverstyrt }: RowProps): ReactElement => {
     return (
         <Table.Row
             className={classNames(
                 styles.row,
-                markertDag && styles.markert,
-                viseHelgStil && styles.helg,
-                erAvvist && styles.avvist,
-                erAGP && styles.agp,
-                nyDag && styles.nydag,
-                className,
+                erMarkert && styles.markert,
+                erHelg(dag.dato) && styles.helg,
+                !erOverstyrt && (dag.erAvvist || dag.erForeldet) && styles.avvist,
+                (dag.erAGP || dag.erVenteperiode) && styles.agpEllerVenteperiode,
+                (dag.erNyDag ?? false) && styles.nydag,
             )}
         >
             {children}

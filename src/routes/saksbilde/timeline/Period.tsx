@@ -114,6 +114,7 @@ interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     notCurrent?: boolean;
     isActive?: boolean;
     person: PersonFragment;
+    erSelvstendigNæringsdrivende: boolean;
 }
 
 export const Period = ({
@@ -122,6 +123,7 @@ export const Period = ({
     isActive,
     className,
     person,
+    erSelvstendigNæringsdrivende,
     ...buttonProps
 }: PeriodProps): ReactElement => {
     const setActivePeriodId = useSetActivePeriodId(person);
@@ -162,7 +164,13 @@ export const Period = ({
                 {!notCurrent && <InfoPin period={period} />}
                 {harUvurderteVarsler && <UvurderteVarslerIcon className={styles.uvurderteVarslerIcon} />}
             </button>
-            <PeriodPopover period={period} state={periodState} person={person} {...popoverProps} />
+            <PeriodPopover
+                period={period}
+                state={periodState}
+                person={person}
+                erSelvstendigNæringsdrivende={erSelvstendigNæringsdrivende}
+                {...popoverProps}
+            />
         </>
     );
 };

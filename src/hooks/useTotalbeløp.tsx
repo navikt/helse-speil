@@ -14,8 +14,11 @@ type Totalbeløp = {
     totalbeløp: number;
 };
 
-export const useTotalbeløp = (tidslinje?: Maybe<Dag[]>): Totalbeløp => {
-    const dager = useTabelldagerMap({ tidslinje: tidslinje ?? [] });
+export const useTotalbeløp = (erSelvstendigNæringsdrivede: boolean, tidslinje?: Maybe<Dag[]>): Totalbeløp => {
+    const dager = useTabelldagerMap({
+        tidslinje: tidslinje ?? [],
+        erSelvstendigNæringsdrivende: erSelvstendigNæringsdrivede,
+    });
     const utbetalingsdager = getDagerMedUtbetaling(useMemo(() => Array.from(dager.values()), [dager]));
 
     const arbeidsgiverTotalbeløp = getTotalArbeidsgiverbeløp(utbetalingsdager);
