@@ -56,7 +56,7 @@ export type AnnulleringArsakInput = {
 
 export type AnnulleringDataInput = {
     aktorId: Scalars['String']['input'];
-    annulleringskandidater: Array<Scalars['UUID']['input']>;
+    annulleringskandidater?: InputMaybe<Array<Scalars['UUID']['input']>>;
     arbeidsgiverFagsystemId: Scalars['String']['input'];
     arsaker: Array<AnnulleringArsakInput>;
     fodselsnummer: Scalars['String']['input'];
