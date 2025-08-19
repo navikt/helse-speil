@@ -57,6 +57,10 @@ const tilTekst = (egenskap: Egenskap) => {
             return 'Gosys';
         case Egenskap.Grunnbelopsregulering:
             return 'Grunnbeløpsregulering';
+        case Egenskap.Arbeidstaker:
+            return 'Arbeidstaker';
+        case Egenskap.SelvstendigNaeringsdrivende:
+            return 'Selvstendig næringsdrivende';
         default:
             return egenskap.toString();
     }
@@ -80,7 +84,9 @@ const tilVariant = (kategori: Kategori): TagProps['variant'] =>
             ? 'alt1'
             : kategori === Kategori.Status
               ? 'warning'
-              : 'neutral';
+              : kategori === Kategori.Inntektsforhold
+                ? 'info'
+                : 'neutral';
 
 const getData = (egenskaper: Oppgaveegenskap[]) => {
     return egenskaper
@@ -90,6 +96,7 @@ const getData = (egenskaper: Oppgaveegenskap[]) => {
                 kategori === Kategori.Status ||
                 kategori === Kategori.Periodetype ||
                 kategori === Kategori.Oppgavetype ||
+                kategori === Kategori.Inntektsforhold ||
                 kategori === Kategori.Mottaker,
         )
         .map(({ kategori, egenskap }) => ({
@@ -101,7 +108,8 @@ const getData = (egenskaper: Oppgaveegenskap[]) => {
         .sort((a, b) => {
             let kategoriVerdi = 0;
             if (a.kategori !== b.kategori) {
-                if (a.kategori === Kategori.Status) kategoriVerdi = -1;
+                if (a.kategori === Kategori.Inntektsforhold) kategoriVerdi = -1;
+                else if (b.kategori === Kategori.Inntektsforhold) kategoriVerdi = 1;
                 else if (a.kategori === Kategori.Periodetype && b.kategori !== Kategori.Status) kategoriVerdi = -1;
                 else if (a.kategori === Kategori.Periodetype) kategoriVerdi = 1;
                 else if (a.kategori === Kategori.Ukategorisert) kategoriVerdi = 1;

@@ -28,7 +28,7 @@ export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag, beregnetPeriode
                 borderColor="border-on-inverted"
                 background="surface-selected"
                 width="50%"
-                paddingBlock="16 4"
+                paddingBlock="4 4"
                 paddingInline="4"
             >
                 <VStack gap="8">

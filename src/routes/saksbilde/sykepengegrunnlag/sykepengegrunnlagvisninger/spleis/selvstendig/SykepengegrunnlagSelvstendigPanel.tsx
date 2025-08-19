@@ -2,7 +2,6 @@ import React from 'react';
 
 import { BodyShort, Box, Detail, HStack, Table, VStack } from '@navikt/ds-react';
 
-import { Kilde } from '@components/Kilde';
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Sykepengegrunnlagsgrense } from '@io/graphql';
@@ -55,7 +54,6 @@ export const SykepengegrunnlagSelvstendigPanel = ({
                         <Table.DataCell>
                             <HStack align="center" gap="2">
                                 {somPenger(beregningsgrunnlagNumber)}
-                                <Kilde type="Skatteetaten">SE</Kilde>
                             </HStack>
                         </Table.DataCell>
                     </Table.Row>
@@ -75,7 +73,6 @@ export const SykepengegrunnlagSelvstendigPanel = ({
                         <BodyShort weight="semibold">Sykepengegrunnlag</BodyShort>
                         <HStack align="center" gap="2">
                             <BodyShort>{somPenger(sykepengegrunnlag)}</BodyShort>
-                            <Kilde type="Skatteetaten">SE</Kilde>
                         </HStack>
                     </HStack>
                 </Box>
