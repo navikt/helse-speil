@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { Table } from '@navikt/ds-react';
 
 import { EgenskaperTags } from '@components/EgenskaperTags';
-import { Oppgaveegenskap } from '@io/graphql';
+import { Kategori, Oppgaveegenskap } from '@io/graphql';
 
 import styles from '../table.module.css';
 
@@ -15,7 +15,9 @@ export const EgenskaperTagsCell = ({ egenskaper }: EgenskaperTagsCellProps): Rea
     return (
         <Table.DataCell>
             <span className={styles.flexCell}>
-                <EgenskaperTags egenskaper={egenskaper} />
+                <EgenskaperTags
+                    egenskaper={egenskaper.filter((egenskap) => egenskap.kategori !== Kategori.Inntektsforhold)}
+                />
             </span>
         </Table.DataCell>
     );
