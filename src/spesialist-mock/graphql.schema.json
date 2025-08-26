@@ -14781,7 +14781,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "VENTEPERIODEDAG",
+                        "name": "VENTETIDSDAG",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -17041,7 +17041,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "VENTEPERIODEDAG",
+                        "name": "VENTETIDSDAG",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null

@@ -47,7 +47,7 @@ export type Utbetalingstabelldag = {
     kilde: Kilde;
     dag: Speildag;
     erAGP: boolean;
-    erVenteperiode: boolean;
+    erVentetid: boolean;
     erAvvist: boolean;
     erForeldet: boolean;
     erMaksdato: boolean;

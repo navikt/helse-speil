@@ -1611,7 +1611,7 @@ export enum Sykdomsdagtype {
     SykHelgedag = 'SYK_HELGEDAG',
     Ubestemtdag = 'UBESTEMTDAG',
     Ukjent = 'UKJENT',
-    Venteperiodedag = 'VENTEPERIODEDAG',
+    Ventetidsdag = 'VENTETIDSDAG',
 }
 
 export type Sykepengedager = {
@@ -1834,7 +1834,7 @@ export enum Utbetalingsdagtype {
     Navdag = 'NAVDAG',
     Navhelgdag = 'NAVHELGDAG',
     UkjentDag = 'UKJENT_DAG',
-    Venteperiodedag = 'VENTEPERIODEDAG',
+    Ventetidsdag = 'VENTETIDSDAG',
 }
 
 export type Utbetalingsinfo = {

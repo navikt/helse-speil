@@ -79,7 +79,7 @@ const getUtbetalingstabelldag = (dag: Dag): Speildag => {
             return AvvistEllerForeldetDag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
     }
 
-    if (dag.sykdomsdagtype === Sykdomsdagtype.Venteperiodedag) {
+    if (dag.sykdomsdagtype === Sykdomsdagtype.Ventetidsdag) {
         return erHelg(dag.dato) ? Navhelgedag : Sykedag;
     }
 
@@ -120,7 +120,7 @@ export const createDagerMap = (
             kilde: currentDag.kilde,
             dag: getUtbetalingstabelldag(currentDag),
             erAGP: erAGP,
-            erVenteperiode: currentDag.utbetalingsdagtype === 'VENTEPERIODEDAG',
+            erVentetid: currentDag.utbetalingsdagtype === 'VENTETIDSDAG',
             erAvvist: currentDag.utbetalingsdagtype === 'AVVIST_DAG',
             erForeldet: currentDag.utbetalingsdagtype === 'FORELDET_DAG',
             erMaksdato: typeof maksdato === 'string' && dayjs(maksdato).isSame(currentDag.dato, 'day'),

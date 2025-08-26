@@ -22,7 +22,7 @@ export const Row = ({ children, dag, erMarkert, erOverstyrt }: RowProps): ReactE
                 erMarkert && styles.markert,
                 erHelg(dag.dato) && styles.helg,
                 !erOverstyrt && (dag.erAvvist || dag.erForeldet) && styles.avvist,
-                (dag.erAGP || dag.erVenteperiode) && styles.agpEllerVenteperiode,
+                (dag.erAGP || dag.erVentetid) && styles.agpEllerVentetid,
                 (dag.erNyDag ?? false) && styles.nydag,
             )}
         >

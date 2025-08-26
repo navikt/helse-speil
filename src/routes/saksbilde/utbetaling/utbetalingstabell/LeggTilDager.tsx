@@ -51,7 +51,7 @@ export const LeggTilDagerForm = React.memo(
                     kilde: { type: Kildetype.Saksbehandler } as Kilde,
                     dag: endring.dag,
                     erAGP: false,
-                    erVenteperiode: false,
+                    erVentetid: false,
                     erAvvist: false,
                     erForeldet: false,
                     erMaksdato: false,
