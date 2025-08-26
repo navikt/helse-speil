@@ -1,9 +1,10 @@
 import { useAtom } from 'jotai';
+import { useEffect, useRef } from 'react';
 
 import { ApolloError, useQuery } from '@apollo/client';
 import { OppgaveTilBehandling, TildelteOppgaverFeedDocument } from '@io/graphql';
 import { valgtSaksbehandlerAtom } from '@oversikt/table/state/filter';
-import { limit } from '@oversikt/table/state/pagination';
+import { limit, offset, useCurrentPageState } from '@oversikt/table/state/pagination';
 import { FetchMoreArgs } from '@state/oppgaver';
 
 interface TildelteOppgaverResponse {
@@ -16,10 +17,12 @@ interface TildelteOppgaverResponse {
 
 export const useTildelteOppgaverFeed = (): TildelteOppgaverResponse => {
     const [valgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
+    const [currentPage, setCurrentPage] = useCurrentPageState();
+    const initialLoad = useRef(true);
 
-    const { data, error, loading, fetchMore, previousData } = useQuery(TildelteOppgaverFeedDocument, {
+    const { data, error, loading, fetchMore } = useQuery(TildelteOppgaverFeedDocument, {
         variables: {
-            offset: 0,
+            offset: offset(currentPage),
             limit: limit,
             oppslattSaksbehandler: {
                 ident: valgtSaksbehandler?.ident,
@@ -31,12 +34,17 @@ export const useTildelteOppgaverFeed = (): TildelteOppgaverResponse => {
         nextFetchPolicy: 'cache-first',
     });
 
+    useEffect(() => {
+        if (initialLoad.current) {
+            initialLoad.current = false;
+            return;
+        }
+        setCurrentPage(1);
+    }, [valgtSaksbehandler, setCurrentPage]);
+
     return {
-        oppgaver: data?.tildelteOppgaverFeed.oppgaver ?? previousData?.tildelteOppgaverFeed.oppgaver,
-        antallOppgaver:
-            data?.tildelteOppgaverFeed.totaltAntallOppgaver ??
-            previousData?.tildelteOppgaverFeed.totaltAntallOppgaver ??
-            0,
+        oppgaver: data?.tildelteOppgaverFeed.oppgaver,
+        antallOppgaver: data?.tildelteOppgaverFeed.totaltAntallOppgaver ?? 0,
         error,
         loading,
         fetchMore,
