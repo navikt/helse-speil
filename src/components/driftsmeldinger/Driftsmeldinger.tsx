@@ -30,17 +30,21 @@ const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): ReactElement | nu
     const [vis, kvitterUt] = useVisDriftsmelding(driftsmelding);
     const [åpneDriftsmelding, setÅpneDriftsmelding] = useState(false);
 
+    const løst = driftsmelding.lost === 'true';
+    const warning = driftsmelding.konsekvens === 'treghet' || driftsmelding.konsekvens === 'delvisMulig';
+    const konsekvensmelding = warning ? 'warning' : 'error';
+
     return vis ? (
         <Alert
-            variant={driftsmelding.level}
-            closeButton={driftsmelding.level === 'info' || driftsmelding.level === 'success'}
+            variant={løst ? 'success' : konsekvensmelding}
+            closeButton={løst}
             onClose={() => kvitterUt()}
             onClick={() => setÅpneDriftsmelding(!åpneDriftsmelding)}
             className={styles.driftsmelding}
         >
             <HStack gap="2">
                 <BodyShort className={styles.tittel}>
-                    {driftsmelding.level === 'success' ? `[Løst] ${driftsmelding.tittel}` : driftsmelding.tittel}
+                    {driftsmelding.lost === 'true' ? `[Løst] ${driftsmelding.konsekvens}` : driftsmelding.konsekvens}
                 </BodyShort>
                 <BodyShort className={styles.dato}>
                     ({getFormattedDatetimeString(driftsmelding._updatedAt.toString())})
@@ -54,7 +58,12 @@ const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): ReactElement | nu
                 </span>
             </HStack>
             {åpneDriftsmelding && (
-                <BodyShortWithPreWrap className={styles.melding}>{driftsmelding.melding}</BodyShortWithPreWrap>
+                <BodyShortWithPreWrap className={styles.melding}>
+                    {driftsmelding.arsak + '. '}
+                    {driftsmelding.tiltak + '. '}
+                    {driftsmelding.oppdatering + '. '}
+                    {driftsmelding.cta + '.'}
+                </BodyShortWithPreWrap>
             )}
         </Alert>
     ) : null;

@@ -24,9 +24,12 @@ export interface Driftsmelding {
     _rev: string;
     iProd: 'true' | 'false';
     iDev: 'true' | 'false';
-    level: 'info' | 'warning' | 'error' | 'success';
-    tittel: string;
-    melding: string;
+    lost: 'true' | 'false';
+    konsekvens: string;
+    arsak: string;
+    tiltak: string;
+    oppdatering: string;
+    cta: string;
     _updatedAt: DateString;
     _createdAt: DateString;
 }
@@ -165,7 +168,7 @@ export function useDriftsmelding() {
                 (driftsmelding) =>
                     !(
                         dayjs(driftsmelding._updatedAt).add(30, 'minutes').isBefore(dayjs()) &&
-                        driftsmelding.level === 'success'
+                        driftsmelding.lost === 'true'
                     ),
             ) ?? [];
 
