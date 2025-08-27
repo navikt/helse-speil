@@ -34,6 +34,14 @@ const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): ReactElement | nu
     const warning = driftsmelding.konsekvens === 'treghet' || driftsmelding.konsekvens === 'delvisMulig';
     const konsekvensmelding = warning ? 'warning' : 'error';
 
+    const titler: Record<string, string> = {
+        treghet: 'Treghet i speil',
+        delvisMulig: 'Delvis mulig å saksbehandle i speil',
+        ikkeMulig: 'Ikke mulig å saksbehandle i speil',
+    };
+
+    const tittel = titler[driftsmelding.konsekvens] ?? '';
+
     return vis ? (
         <Alert
             variant={løst ? 'success' : konsekvensmelding}
@@ -44,7 +52,7 @@ const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): ReactElement | nu
         >
             <HStack gap="2">
                 <BodyShort className={styles.tittel}>
-                    {driftsmelding.lost === 'true' ? `[Løst] ${driftsmelding.konsekvens}` : driftsmelding.konsekvens}
+                    {driftsmelding.lost === 'true' ? `[Løst] ${tittel}` : tittel}
                 </BodyShort>
                 <BodyShort className={styles.dato}>
                     ({getFormattedDatetimeString(driftsmelding._updatedAt.toString())})
