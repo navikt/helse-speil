@@ -10,7 +10,6 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 interface OverstyringToolBarProps {
     toggleOverstyring: () => void;
     onSubmitPølsestrekk: (dagerLagtTil: Map<string, Utbetalingstabelldag>) => void;
-    setVisDagtypeModal: () => void;
     kanStrekkes: boolean;
     periodeFom: DateString;
     erRevurdering: boolean;
@@ -20,7 +19,6 @@ interface OverstyringToolBarProps {
 export const OverstyringToolBar = ({
     toggleOverstyring,
     onSubmitPølsestrekk,
-    setVisDagtypeModal,
     kanStrekkes,
     periodeFom,
     erRevurdering,
@@ -54,7 +52,6 @@ export const OverstyringToolBar = ({
                     <LeggTilDagerForm
                         onSubmitPølsestrekk={onSubmitPølsestrekk}
                         periodeFom={periodeFom}
-                        setVisDagtypeModal={setVisDagtypeModal}
                         erSelvstendig={erSelvstendig}
                     />
                     <Button size="xsmall" variant="tertiary" onClick={() => setVisLeggTilDagerForm(false)}>

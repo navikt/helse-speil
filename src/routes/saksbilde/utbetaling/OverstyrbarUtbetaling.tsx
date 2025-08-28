@@ -5,7 +5,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { TimeoutModal } from '@components/TimeoutModal';
-import { Key, useKeyboard } from '@hooks/useKeyboard';
 import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
@@ -15,7 +14,6 @@ import {
 } from '@io/graphql';
 import { kanStrekkes } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
-import { DagtypeModal } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeModal';
 import { UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
 import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -194,7 +192,6 @@ export const OverstyrbarUtbetaling = ({
     const aktuellPeriode = useRef(periode);
     const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
-    const [visDagtypeModal, setVisDagtypeModal] = useState(false);
     const [overstyrer, setOverstyrer] = useState(false);
 
     const { postOverstyring, error, timedOut, setTimedOut, done } = useOverstyrDager(person, arbeidsgiver);
@@ -262,15 +259,6 @@ export const OverstyrbarUtbetaling = ({
         }
     }, [done, dispatch]);
 
-    useKeyboard([
-        {
-            key: Key.D,
-            action: () => overstyrer && setVisDagtypeModal(!visDagtypeModal),
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
-        },
-    ]);
-
     const periodeFom = Array.from(alleDager.values())[0];
     if (periodeFom == undefined) return <></>;
 
@@ -295,7 +283,6 @@ export const OverstyrbarUtbetaling = ({
                 <OverstyringToolBar
                     toggleOverstyring={toggleOverstyring}
                     onSubmitPølsestrekk={onSubmitPølsestrekk}
-                    setVisDagtypeModal={() => setVisDagtypeModal(true)}
                     kanStrekkes={kanStrekkes(periode, arbeidsgiver)}
                     periodeFom={periodeFom.dato}
                     erRevurdering={erRevurdering}
@@ -334,7 +321,6 @@ export const OverstyrbarUtbetaling = ({
                         <EndringForm
                             markerteDager={markerteDager}
                             onSubmitEndring={onSubmitEndring}
-                            openDagtypeModal={() => setVisDagtypeModal(true)}
                             erSelvstendig={erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer)}
                         />
                         <FormProvider {...form}>
@@ -352,9 +338,6 @@ export const OverstyrbarUtbetaling = ({
                 )}
             </div>
             {timedOut && <TimeoutModal showModal={timedOut} closeModal={() => setTimedOut(false)} />}
-            {visDagtypeModal && (
-                <DagtypeModal closeModal={() => setVisDagtypeModal(false)} showModal={visDagtypeModal} />
-            )}
         </article>
     );
 };

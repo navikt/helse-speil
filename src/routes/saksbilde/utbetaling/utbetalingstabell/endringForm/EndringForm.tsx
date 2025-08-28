@@ -18,16 +18,10 @@ const harEndring = (endring: Partial<Utbetalingstabelldag>): boolean =>
 interface EndringFormProps {
     markerteDager: Map<string, Utbetalingstabelldag>;
     onSubmitEndring: (endring: Partial<Utbetalingstabelldag>) => void;
-    openDagtypeModal: () => void;
     erSelvstendig: boolean;
 }
 
-export const EndringForm = ({
-    markerteDager,
-    onSubmitEndring,
-    openDagtypeModal,
-    erSelvstendig,
-}: EndringFormProps): ReactElement => {
+export const EndringForm = ({ markerteDager, onSubmitEndring, erSelvstendig }: EndringFormProps): ReactElement => {
     const defaultEndring = { dag: alleTypeendringer[0], erAvvist: false, erForeldet: false };
     const [endring, setEndring] = useState<Partial<Utbetalingstabelldag>>(defaultEndring);
 
@@ -86,7 +80,6 @@ export const EndringForm = ({
                 <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
                     <div className={styles.Inputs}>
                         <DagtypeSelect
-                            openDagtypeModal={openDagtypeModal}
                             clearErrors={() => form.clearErrors('dagtype')}
                             errorMessage={form.formState.errors?.dagtype?.message?.toString()}
                             setType={(type: OverstyrbarDagtype) =>
