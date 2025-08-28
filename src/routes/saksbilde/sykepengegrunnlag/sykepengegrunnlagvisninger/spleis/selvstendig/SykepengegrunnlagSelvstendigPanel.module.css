@@ -1,10 +1,19 @@
 .Table td,
 .Table th {
+    padding: var(--a-spacing-2) var(--a-spacing-6) var(--a-spacing-2) var(--a-spacing-2);
     border: none;
+}
+
+.Table th {
+    padding-top: 0;
 }
 
 .SelvstendigNaeringRow {
     background-color: var(--a-surface-selected);
+}
+
+.RegularWeightHeader th {
+    font-weight: var(--a-font-weight-regular);
 }
 
 .TotalRow {

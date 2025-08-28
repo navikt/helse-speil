@@ -15,7 +15,7 @@ describe('Sykepengegrunnlagsgrense', () => {
                     grense: 638394,
                     virkningstidspunkt: '2021-05-01',
                 }}
-                omregnetÅrsinntekt={600_000}
+                sykepengegrunnlagFørBegrensning={600_000}
             />,
         );
         expect(screen.queryByText('Grunnbeløp (G) ved skjæringstidspunkt:', { exact: false })).toBeVisible();
@@ -32,7 +32,7 @@ describe('Sykepengegrunnlagsgrense', () => {
                     grense: 638394,
                     virkningstidspunkt: '2021-05-01',
                 }}
-                omregnetÅrsinntekt={650_000}
+                sykepengegrunnlagFørBegrensning={650_000}
             />,
         );
         expect(screen.queryByText('Grunnbeløp (G) ved skjæringstidspunkt:', { exact: false })).toBeVisible();

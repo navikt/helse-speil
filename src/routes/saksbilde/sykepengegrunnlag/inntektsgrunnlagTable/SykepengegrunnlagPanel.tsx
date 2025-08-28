@@ -12,7 +12,6 @@ import {
     Sykepengegrunnlagsgrense,
     VilkarsgrunnlagAvviksvurdering,
 } from '@io/graphql';
-import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 
 import { SkjønnsfastsettingSykepengegrunnlag } from '../skjønnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
@@ -90,10 +89,6 @@ export const SykepengegrunnlagPanel = ({
                         inntekter={getSorterteInntekter(inntekter, person.arbeidsgivere)}
                         avviksprosent={Number(avviksvurdering.avviksprosent)}
                         organisasjonsnummer={organisasjonsnummer}
-                    />
-                    <SykepengegrunnlagsgrenseView
-                        sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
-                        omregnetÅrsinntekt={Number(avviksvurdering.beregningsgrunnlag)}
                     />
                 </>
             ) : (

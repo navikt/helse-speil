@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { BodyShort, Box, Detail, HStack, Table, VStack } from '@navikt/ds-react';
+import { BodyShort, Box, Detail, HStack, HelpText, Table, VStack } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Sykepengegrunnlagsgrense } from '@io/graphql';
-import { somDato } from '@utils/date';
-import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
+import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
+import { somPenger } from '@utils/locale';
 
 import styles from './SykepengegrunnlagSelvstendigPanel.module.css';
 
@@ -28,18 +28,29 @@ export const SykepengegrunnlagSelvstendigPanel = ({
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell />
-                        <Table.HeaderCell>Pensjonsgivende årsinntekt</Table.HeaderCell>
-                    </Table.Row>
-                    <Table.Row>
                         <Table.HeaderCell>
-                            <Detail textColor="subtle" weight="regular">
-                                Inntektskilde
-                            </Detail>
+                            <BodyShort weight="semibold">Pensj. årsinntekt</BodyShort>
+                        </Table.HeaderCell>
+                    </Table.Row>
+                    <Table.Row className={styles.RegularWeightHeader}>
+                        <Table.HeaderCell>
+                            <Detail textColor="subtle">Inntektskilde</Detail>
                         </Table.HeaderCell>
                         <Table.HeaderCell>
-                            <Detail textColor="subtle" weight="regular">
-                                Ferdiglignet inntekt
-                            </Detail>
+                            <HStack gap="space-4" align="center">
+                                <Detail textColor="subtle">Beregnet årsinntekt</Detail>
+                                <HelpText title="Forklaring av begrep">
+                                    <VStack gap="space-8">
+                                        <BodyShort>
+                                            Pensjonsgivende årsinntekt beregnet på grunnlag av gjennomsnittet av den
+                                            pensjonsgivende årsinntekten som er fastsatt for de tre siste årene.
+                                        </BodyShort>
+                                        <Detail>
+                                            Se <LovdataLenke paragraf="8-35">§ 8-35</LovdataLenke> andre ledd.
+                                        </Detail>
+                                    </VStack>
+                                </HelpText>
+                            </HStack>
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -67,28 +78,20 @@ export const SykepengegrunnlagSelvstendigPanel = ({
                     </Table.Row>
                 </Table.Body>
             </Table>
-            <VStack>
+            <VStack gap="space-8">
                 <Box background="surface-subtle" borderRadius="xlarge" padding="4" marginInline="0 4">
-                    <HStack gap="32">
+                    <HStack gap="space-56">
                         <BodyShort weight="semibold">Sykepengegrunnlag</BodyShort>
                         <HStack align="center" gap="2">
                             <BodyShort>{somPenger(sykepengegrunnlag)}</BodyShort>
                         </HStack>
                     </HStack>
                 </Box>
-                {beregningsgrunnlagNumber > sykepengegrunnlagsgrense.grense && (
-                    <Detail className={styles.Detail}>
-                        {`Sykepengegrunnlaget er begrenset til 6G: ${somPengerUtenDesimaler(sykepengegrunnlagsgrense.grense)}`}
-                        <LovdataLenke paragraf="8-10">§ 8-10</LovdataLenke>
-                    </Detail>
-                )}
-                <Detail className={styles.Detail}>
-                    {`Grunnbeløp (G) ved skjæringstidspunkt: ${somPengerUtenDesimaler(sykepengegrunnlagsgrense.grunnbelop)}`}
-                    <br />({getFormattedDate(sykepengegrunnlagsgrense.virkningstidspunkt)})
-                </Detail>
+                <SykepengegrunnlagsgrenseView
+                    sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
+                    sykepengegrunnlagFørBegrensning={beregningsgrunnlagNumber}
+                />
             </VStack>
         </VStack>
     );
 };
-
-const getFormattedDate = (dato: string) => somDato(dato).locale('no').format('DD. MMM YYYY');

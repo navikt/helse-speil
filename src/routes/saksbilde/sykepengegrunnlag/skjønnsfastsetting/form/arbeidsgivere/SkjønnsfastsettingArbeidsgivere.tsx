@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
-import { Detail, Fieldset, Label, Table } from '@navikt/ds-react';
+import { Detail, Fieldset, Label, Table, VStack } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
 import { ArbeidsgiverFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
@@ -64,88 +64,86 @@ export const SkjønnsfastsettingArbeidsgivere = ({
             error={formState.errors.arbeidsgivere?.root?.message}
             className={styles.arbeidsgivere}
         >
-            <Table className={styles.tabell}>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell />
-                        <Table.HeaderCell>
-                            <Label>Årsinntekt</Label>
-                        </Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {fields.map((field, index) => {
-                        const årligField = register(`arbeidsgivere.${index}.årlig`, {
-                            setValueAs: (value) => Number(value.toString().replaceAll(/\s/g, '').replaceAll(',', '.')),
-                        });
-
-                        const orgnummerField = register(`arbeidsgivere.${index}.organisasjonsnummer`, {
-                            value: field.organisasjonsnummer,
-                        });
-
-                        const setÅrligFieldValue = (value: number) => setValue(`arbeidsgivere.${index}.årlig`, value);
-
-                        return (
-                            <ArbeidsgiverRad
-                                key={field.id}
-                                årsinntekt={field.årlig}
-                                arbeidsgiverNavn={getArbeidsgiverNavn(field.organisasjonsnummer)}
-                                organisasjonsnummer={field.organisasjonsnummer}
-                                type={type}
-                                årligField={årligField}
-                                orgnummerField={orgnummerField}
-                                antallArbeidsgivere={antallArbeidsgivere}
-                                setÅrligFieldValue={setÅrligFieldValue}
-                                clearArbeidsgiverErrors={() => clearErrors('arbeidsgivere')}
-                            />
-                        );
-                    })}
-                </Table.Body>
-                <tfoot className={styles.total}>
-                    {type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT && antallArbeidsgivere > 1 && (
+            <VStack>
+                <Table className={styles.tabell}>
+                    <Table.Header>
                         <Table.Row>
-                            <Table.DataCell>Til fordeling</Table.DataCell>
-                            <Table.DataCell className={styles.inntektSum}>{somPenger(tilFordeling)}</Table.DataCell>
+                            <Table.HeaderCell />
+                            <Table.HeaderCell>
+                                <Label>Årsinntekt</Label>
+                            </Table.HeaderCell>
                         </Table.Row>
-                    )}
-                    <Table.Row>
-                        <Table.DataCell>Skjønnsfastsatt årsinntekt</Table.DataCell>
-                        <Table.DataCell className={styles.inntektSum}>
-                            <Label>{somPenger(isNaN(inntektSum) ? 0 : inntektSum)}</Label>
-                        </Table.DataCell>
-                    </Table.Row>
-                    <Table.Row className={styles.sykepengegrunnlag}>
-                        <Table.DataCell>
-                            <Label className={styles.Bold}>Sykepengegrunnlag</Label>
-                        </Table.DataCell>
-                        <Table.DataCell className={styles.inntektSum}>
-                            <Label className={styles.Bold}>
-                                {somPenger(
-                                    isNaN(inntektSum)
-                                        ? 0
-                                        : erBegrensetTil6G
-                                          ? sykepengegrunnlagsgrense.grense
-                                          : inntektSum,
-                                )}
-                            </Label>
-                        </Table.DataCell>
-                    </Table.Row>
-                    {erBegrensetTil6G && (
-                        <Table.Row className={styles.erBegrenset}>
-                            <Table.DataCell>
-                                <Detail className={styles.detail}>
-                                    <span>
-                                        {`Sykepengegrunnlaget er begrenset til 6G: ${somPengerUtenDesimaler(
-                                            sykepengegrunnlagsgrense.grense,
-                                        )}`}
-                                    </span>
-                                    <LovdataLenke paragraf="8-10">§ 8-10</LovdataLenke>
-                                </Detail>
+                    </Table.Header>
+                    <Table.Body>
+                        {fields.map((field, index) => {
+                            const årligField = register(`arbeidsgivere.${index}.årlig`, {
+                                setValueAs: (value) =>
+                                    Number(value.toString().replaceAll(/\s/g, '').replaceAll(',', '.')),
+                            });
+
+                            const orgnummerField = register(`arbeidsgivere.${index}.organisasjonsnummer`, {
+                                value: field.organisasjonsnummer,
+                            });
+
+                            const setÅrligFieldValue = (value: number) =>
+                                setValue(`arbeidsgivere.${index}.årlig`, value);
+
+                            return (
+                                <ArbeidsgiverRad
+                                    key={field.id}
+                                    årsinntekt={field.årlig}
+                                    arbeidsgiverNavn={getArbeidsgiverNavn(field.organisasjonsnummer)}
+                                    organisasjonsnummer={field.organisasjonsnummer}
+                                    type={type}
+                                    årligField={årligField}
+                                    orgnummerField={orgnummerField}
+                                    antallArbeidsgivere={antallArbeidsgivere}
+                                    setÅrligFieldValue={setÅrligFieldValue}
+                                    clearArbeidsgiverErrors={() => clearErrors('arbeidsgivere')}
+                                />
+                            );
+                        })}
+                    </Table.Body>
+                    <tfoot className={styles.total}>
+                        {type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT && antallArbeidsgivere > 1 && (
+                            <Table.Row>
+                                <Table.DataCell>Til fordeling</Table.DataCell>
+                                <Table.DataCell className={styles.inntektSum}>{somPenger(tilFordeling)}</Table.DataCell>
+                            </Table.Row>
+                        )}
+                        <Table.Row>
+                            <Table.DataCell>Skjønnsfastsatt årsinntekt</Table.DataCell>
+                            <Table.DataCell className={styles.inntektSum}>
+                                <Label>{somPenger(isNaN(inntektSum) ? 0 : inntektSum)}</Label>
                             </Table.DataCell>
                         </Table.Row>
-                    )}
-                </tfoot>
-            </Table>
+                        <Table.Row className={styles.sykepengegrunnlag}>
+                            <Table.DataCell>
+                                <Label className={styles.Bold}>Sykepengegrunnlag</Label>
+                            </Table.DataCell>
+                            <Table.DataCell className={styles.inntektSum}>
+                                <Label className={styles.Bold}>
+                                    {somPenger(
+                                        isNaN(inntektSum)
+                                            ? 0
+                                            : erBegrensetTil6G
+                                              ? sykepengegrunnlagsgrense.grense
+                                              : inntektSum,
+                                    )}
+                                </Label>
+                            </Table.DataCell>
+                        </Table.Row>
+                    </tfoot>
+                </Table>
+                {erBegrensetTil6G && (
+                    <Detail className={styles.detail}>
+                        <span>
+                            {`Sykepengegrunnlaget er begrenset til 6G: ${somPengerUtenDesimaler(sykepengegrunnlagsgrense.grense)}`}
+                        </span>
+                        , jf. <LovdataLenke paragraf="8-10">§ 8-10</LovdataLenke>
+                    </Detail>
+                )}
+            </VStack>
         </Fieldset>
     );
 };

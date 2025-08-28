@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
+import { VStack } from '@navikt/ds-react';
+
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
 import {
     Arbeidsgiverinntekt,
@@ -10,6 +12,7 @@ import {
     PersonFragment,
     Sykepengegrunnlagsgrense,
 } from '@io/graphql';
+import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import {
     useAtomEditingForPersonOgSkjæringstidspunkt,
     useAtomSkjemaForPersonOgSkjæringstidspunkt,
@@ -31,7 +34,7 @@ interface SkjønnsfastsettingSykepengegrunnlagProps {
     periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
     sykepengegrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
-    omregnetÅrsinntekt?: Maybe<number>;
+    omregnetÅrsinntekt: number;
     sammenligningsgrunnlag?: Maybe<number>;
     skjønnsmessigFastsattÅrlig?: Maybe<number>;
     inntekter: Arbeidsgiverinntekt[];
@@ -78,38 +81,47 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
             .pop() ?? null;
 
     return (
-        <div key={periode.skjaeringstidspunkt} className={classNames(styles.formWrapper, editing && styles.redigerer)}>
-            <SkjønnsfastsettingHeader
-                person={person}
-                sykepengegrunnlag={sykepengegrunnlag}
-                endretSykepengegrunnlag={endretSykepengegrunnlag}
-                sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
-                editing={editing}
-                setEditing={setEditing}
-                maler={maler}
-                malerError={error?.message ? 'Mangler tekster for skjønnsfastsetting' : undefined}
-                organisasjonsnummer={organisasjonsnummer}
-                closeAndResetForm={closeAndResetForm}
-            />
-            {!editing && skjønnsmessigFastsattÅrlig !== null && sisteSkjønnsfastsettelse && (
-                <SkjønnsfastsettingSammendrag sisteSkjønnsfastsetting={sisteSkjønnsfastsettelse} />
-            )}
-            {editing && maler && omregnetÅrsinntekt != null && sammenligningsgrunnlag != null && (
-                <SkjønnsfastsettingForm
+        <VStack gap="space-8">
+            <div
+                key={periode.skjaeringstidspunkt}
+                className={classNames(styles.formWrapper, editing && styles.redigerer)}
+            >
+                <SkjønnsfastsettingHeader
                     person={person}
-                    periode={periode}
-                    inntekter={inntekter}
-                    omregnetÅrsinntekt={omregnetÅrsinntekt}
-                    sammenligningsgrunnlag={sammenligningsgrunnlag}
+                    sykepengegrunnlag={sykepengegrunnlag}
+                    endretSykepengegrunnlag={endretSykepengegrunnlag}
                     sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
-                    onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
-                    closeAndResetForm={closeAndResetForm}
+                    editing={editing}
+                    setEditing={setEditing}
                     maler={maler}
-                    sisteSkjønnsfastsettelse={sisteSkjønnsfastsettelse}
-                    formValues={formValues}
-                    setFormValues={setFormValues}
+                    malerError={error?.message ? 'Mangler tekster for skjønnsfastsetting' : undefined}
+                    organisasjonsnummer={organisasjonsnummer}
+                    closeAndResetForm={closeAndResetForm}
                 />
-            )}
-        </div>
+                {!editing && skjønnsmessigFastsattÅrlig !== null && sisteSkjønnsfastsettelse && (
+                    <SkjønnsfastsettingSammendrag sisteSkjønnsfastsetting={sisteSkjønnsfastsettelse} />
+                )}
+                {editing && maler && sammenligningsgrunnlag != null && (
+                    <SkjønnsfastsettingForm
+                        person={person}
+                        periode={periode}
+                        inntekter={inntekter}
+                        omregnetÅrsinntekt={omregnetÅrsinntekt}
+                        sammenligningsgrunnlag={sammenligningsgrunnlag}
+                        sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
+                        onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
+                        closeAndResetForm={closeAndResetForm}
+                        maler={maler}
+                        sisteSkjønnsfastsettelse={sisteSkjønnsfastsettelse}
+                        formValues={formValues}
+                        setFormValues={setFormValues}
+                    />
+                )}
+            </div>
+            <SykepengegrunnlagsgrenseView
+                sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
+                sykepengegrunnlagFørBegrensning={omregnetÅrsinntekt}
+            />
+        </VStack>
     );
 };
