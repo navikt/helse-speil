@@ -43,7 +43,7 @@ export const DagtypeSelect = ({
                 size="small"
                 label={
                     <span className={styles.dagtypelabel}>
-                        Dagtype <TilleggsinfoKnapp onClick={openDagtypeModal} />
+                        Dagtype {!erSelvstendig && <TilleggsinfoKnapp onClick={openDagtypeModal} />}
                     </span>
                 }
                 onChange={oppdaterDagtype}
