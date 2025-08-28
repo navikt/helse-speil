@@ -67,7 +67,18 @@ const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 
 const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdNaisTeamTbd) || grupper.includes(groupIdTbd);
 const harTilgangTilAnnulleringsriggISpleis = (ident: string) =>
-    ['S161635', 'A148751', 'V149621', 'H160235'].includes(ident);
+    [
+        'A148751',
+        'B164848',
+        'F131883',
+        'G155258',
+        'H160235',
+        'K162139',
+        'S157539',
+        'S161635',
+        'S165568',
+        'V149621',
+    ].includes(ident);
 
 export const kanGjøreTilkommenInntektEndringer = (): boolean => erUtvikling;
 export const kanSeSelvstendigNæringsdrivende: boolean = erUtvikling;
