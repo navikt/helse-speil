@@ -26,7 +26,7 @@ export const overstyringsdagtyperArbeidstaker: Speildag[] = [
     Arbeidsdag,
 ];
 
-export const overstyringsdagtyperSelvstendig: Speildag[] = [Sykedag, SykedagNav, Arbeidsdag];
+export const overstyringsdagtyperSelvstendig: Speildag[] = [Sykedag, Arbeidsdag];
 
 export const typeendringerAndreYtelser: Speildag[] = [
     // Vi ble bedt om å fjerne muligheten for å endre til AAP og Dagpenger til å begynne med.
