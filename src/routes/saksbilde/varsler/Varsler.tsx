@@ -52,7 +52,10 @@ export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
                     if (varsel.forklaring != null && varsel.handling != null) {
                         const visSomFeil =
                             (varsel.kode === avviksvarsel && skalViseAvviksvarselSomFeil) ||
-                            (varsel.kode === under20Sykdomsgradsvarsel && skalViseUnder20SykdomsgradsvarselSomFeil);
+                            (varsel.kode === under20Sykdomsgradsvarsel &&
+                                skalViseUnder20SykdomsgradsvarselSomFeil &&
+                                type !== 'ferdig-behandlet');
+                        console.log(visSomFeil);
                         return <EkspanderbartVarsel key={index} varsel={varsel} type={visSomFeil ? 'feil' : type} />;
                     } else {
                         return (
