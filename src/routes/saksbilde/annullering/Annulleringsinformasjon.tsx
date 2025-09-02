@@ -41,7 +41,7 @@ export const Annulleringsinformasjon = ({
                     <BodyShort weight={'semibold'}>Ny rigg:</BodyShort>
                     <BodyLong>
                         Når en periode annulleres vil overlappende og etterfølgende perioder som det ikke har vært
-                        fattet vedtak på forkastes.
+                        fattet vedtak på bli tatt ut av Speil.
                     </BodyLong>
                     <BodyShort>Organisasjonsnummer: {unikeOrganisasjonsnummere.join(', ')}</BodyShort>
                     <BodyShort>Utbetalingene for følgende perioder annulleres:</BodyShort>
