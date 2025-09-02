@@ -544,6 +544,22 @@ fragment person on Person {
         }
         automatiskBehandlingStansetAvSaksbehandler
     }
+    selvstendigNaering {
+        generasjoner {
+            id
+            perioder {
+                ... on UberegnetPeriode {
+                    ...uberegnetPeriode
+                }
+                ... on BeregnetPeriode {
+                    ...beregnetPeriode
+                }
+            }
+        }
+        overstyringer {
+            ...overstyring
+        }
+    }
     tildeling {
         navn
         epost

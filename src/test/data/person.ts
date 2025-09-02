@@ -25,6 +25,7 @@ export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (ove
         infotrygdutbetalinger: null,
         tildeling: null,
         arbeidsgivere: [enArbeidsgiver()],
+        selvstendigNaering: null,
         personinfo: {
             __typename: 'Personinfo',
             fornavn: 'Navn',
