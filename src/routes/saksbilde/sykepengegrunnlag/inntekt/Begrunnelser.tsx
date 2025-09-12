@@ -5,7 +5,7 @@ import { Radio, RadioGroup } from '@navikt/ds-react';
 
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 
-const formatterBegrunnelse = (begrunnelse: BegrunnelseForOverstyring): string =>
+export const formatterBegrunnelse = (begrunnelse: BegrunnelseForOverstyring): string =>
     `
     ${begrunnelse?.lovhjemmel?.paragraf ? `§ ${begrunnelse?.lovhjemmel.paragraf}` : ''} 
     ${begrunnelse?.lovhjemmel?.ledd ? `(${begrunnelse?.lovhjemmel.ledd}) ` : ''}

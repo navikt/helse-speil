@@ -1,75 +1,58 @@
 import React, { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { TextField } from '@navikt/ds-react';
 
+import { InntektOgRefusjonSchema } from '@/form-schemas/inntektOgRefusjonSkjema';
 import styles from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonSkjema/RefusjonSkjema.module.scss';
-import { RefusjonFormValues } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/hooks/useRefusjonFormField';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { toKronerOgØre } from '@utils/locale';
-import { isNumeric } from '@utils/tall';
 
 interface RefusjonsBeløpInputProps {
     index: number;
+    form: ReturnType<typeof useForm<InntektOgRefusjonSchema>>;
     refusjonsopplysning: Refusjonsopplysning;
 }
 
-export const RefusjonsBeløpInput = ({ index, refusjonsopplysning }: RefusjonsBeløpInputProps) => {
-    const {
-        register,
-        clearErrors,
-        setValue,
-        formState: {
-            errors: { refusjonsopplysninger },
-        },
-    } = useFormContext<RefusjonFormValues>();
-    const {
-        ref: _,
-        onBlur,
-        ...inputValidation
-    } = register(`refusjonsopplysninger.${index}.beløp`, {
-        required: 'Refusjonsopplysningsbeløp mangler',
-        min: { value: 0, message: 'Refusjonsopplysningsbeløp må være 0 eller større' },
-        validate: {
-            måVæreNumerisk: (value) => isNumeric(value.toString()) || 'Refusjonsbeløp må være et beløp',
-        },
-        setValueAs: (value) => Number(value.toString().replaceAll(' ', '').replaceAll(',', '.')),
-    });
-
+export const RefusjonsBeløpInput = ({ index, form, refusjonsopplysning }: RefusjonsBeløpInputProps) => {
     const [visningsverdi, setVisningsverdi] = useState<string>(toKronerOgØre(refusjonsopplysning.beløp));
 
     return (
-        <>
-            <TextField
-                {...inputValidation}
-                className={styles.BeløpInput}
-                label="Månedlig refusjon"
-                hideLabel
-                size="small"
-                htmlSize={15}
-                value={visningsverdi}
-                onChange={(event) => {
-                    setVisningsverdi(event.target.value);
-                }}
-                onBlur={(event) => {
-                    const nyttBeløp = Number(
-                        event.target.value
-                            .replaceAll(' ', '')
-                            .replaceAll(',', '.')
-                            // Når tallet blir formattert av toKronerOgØre får det non braking space i stedet for ' '
-                            .replaceAll(String.fromCharCode(160), ''),
-                    );
+        <Controller
+            name={`refusjonsperioder.${index}.beløp`}
+            control={form.control}
+            render={({ field, fieldState }) => (
+                <TextField
+                    {...field}
+                    className={styles.BeløpInput}
+                    label="Månedlig refusjon"
+                    hideLabel
+                    size="small"
+                    htmlSize={15}
+                    value={visningsverdi}
+                    onChange={(event) => {
+                        setVisningsverdi(event.target.value);
+                    }}
+                    onBlur={(event) => {
+                        const nyttBeløp = Number(
+                            event.target.value
+                                .replaceAll(' ', '')
+                                .replaceAll(',', '.')
+                                // Når tallet blir formattert av toKronerOgØre får det non braking space i stedet for ' '
+                                .replaceAll(String.fromCharCode(160), ''),
+                        );
 
-                    setVisningsverdi(Number.isNaN(nyttBeløp) ? event.target.value : toKronerOgØre(nyttBeløp));
+                        setVisningsverdi(Number.isNaN(nyttBeløp) ? event.target.value : toKronerOgØre(nyttBeløp));
 
-                    if (nyttBeløp === refusjonsopplysning.beløp || Number.isNaN(nyttBeløp)) return;
+                        if (nyttBeløp === refusjonsopplysning.beløp || Number.isNaN(nyttBeløp)) return;
 
-                    clearErrors(`refusjonsopplysninger.${index}`);
-                    setValue(`refusjonsopplysninger.${index}.beløp`, nyttBeløp);
-                    void onBlur(event);
-                }}
-                error={!!refusjonsopplysninger?.[index]?.beløp?.message}
-            />
-        </>
+                        form.clearErrors(`refusjonsperioder.${index}`);
+                        form.setValue(`refusjonsperioder.${index}.beløp`, nyttBeløp);
+                        // void field.field.onBlur(event);
+                    }}
+                    error={!!fieldState.error?.message}
+                />
+            )}
+        />
     );
 };

@@ -1,32 +1,36 @@
-import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import React, { ReactElement } from 'react';
+import { useController, useFieldArray, useFormContext } from 'react-hook-form';
 
 import { PlusIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, HStack, Label } from '@navikt/ds-react';
+import { BodyShort, Button, DatePicker, ErrorMessage, HStack, Label, useDatepicker } from '@navikt/ds-react';
 
+import { InntektOgRefusjonSchema, RefusjonsperiodeSchema } from '@/form-schemas/inntektOgRefusjonSkjema';
 import { Kildetype } from '@io/graphql';
 import { RefusjonFeiloppsummering } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonFeiloppsumering';
 import { RefusjonKilde } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonKilde';
 import { RefusjonsBeløpInput } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonsBeløpInput';
-import { RefusjonsperiodeInput } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonsperiodeInput';
-import { Refusjonsopplysning } from '@typer/overstyring';
-
-import { RefusjonFormValues, useRefusjonFormField } from '../hooks/useRefusjonFormField';
+import { somDate, somIsoDato } from '@utils/date';
 
 import styles from './RefusjonSkjema.module.scss';
 
 interface RefusjonProps {
-    fraRefusjonsopplysninger: Refusjonsopplysning[];
-    lokaleRefusjonsopplysninger: Refusjonsopplysning[];
+    fraRefusjonsopplysninger: RefusjonsperiodeSchema[];
+    lokaleRefusjonsopplysninger: RefusjonsperiodeSchema[];
+    inntektFom: string | null;
+    inntektTom: string | null;
 }
 
-export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger }: RefusjonProps) => {
-    const initialRefusjonsopplysninger =
-        lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : fraRefusjonsopplysninger;
-
-    const { fields, addRefusjonsopplysning, removeRefusjonsopplysning } =
-        useRefusjonFormField(initialRefusjonsopplysninger);
-    const { formState } = useFormContext<RefusjonFormValues>();
+export const RefusjonSkjema = ({
+    fraRefusjonsopplysninger,
+    lokaleRefusjonsopplysninger,
+    inntektFom,
+    inntektTom,
+}: RefusjonProps) => {
+    const form = useFormContext<InntektOgRefusjonSchema>();
+    const { fields, remove, append } = useFieldArray({
+        name: 'refusjonsperioder',
+        control: form.control,
+    });
 
     return (
         <div id="refusjonsopplysninger">
@@ -47,8 +51,17 @@ export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplys
                             align="center"
                             paddingBlock="2"
                         >
-                            <RefusjonsperiodeInput index={index} refusjonsopplysning={refusjonsopplysning} />
-                            <RefusjonsBeløpInput index={index} refusjonsopplysning={refusjonsopplysning} />
+                            <DateField
+                                name={`refusjonsperioder.${index}.fom`}
+                                label="Fra og med dato"
+                                defaultMonth={somDate(inntektFom ?? undefined)}
+                            />
+                            <DateField
+                                name={`refusjonsperioder.${index}.tom`}
+                                label="Til og med dato"
+                                defaultMonth={somDate(inntektTom ?? undefined)}
+                            />
+                            <RefusjonsBeløpInput form={form} index={index} refusjonsopplysning={refusjonsopplysning} />
                             <RefusjonKilde
                                 kilde={refusjonsopplysning.kilde as Kildetype}
                                 harLokaleOpplysninger={lokaleRefusjonsopplysninger.length > 0}
@@ -57,23 +70,72 @@ export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplys
                                     JSON.stringify(fraRefusjonsopplysninger?.[index])
                                 }
                             />
-                            <Button
-                                type="button"
-                                onClick={removeRefusjonsopplysning(index)}
-                                variant="tertiary"
-                                size="xsmall"
-                            >
+                            <Button type="button" onClick={() => remove(index)} variant="tertiary" size="xsmall">
                                 Slett
                             </Button>
                         </HStack>
-
-                        <RefusjonFeiloppsummering error={formState.errors.refusjonsopplysninger?.[`${index}`]} />
+                        <RefusjonFeiloppsummering error={form.formState.errors.refusjonsperioder?.[`${index}`]} />
                     </React.Fragment>
                 ))}
             </div>
-            <Button type="button" onClick={addRefusjonsopplysning} icon={<PlusIcon />} variant="tertiary" size="xsmall">
+            {form.formState.errors.refusjonsperioder?.message && (
+                <ErrorMessage size="small" showIcon>
+                    {form.formState.errors.refusjonsperioder?.message}
+                </ErrorMessage>
+            )}
+
+            <Button
+                type="button"
+                onClick={() => {
+                    append({
+                        fom: '',
+                        tom: '',
+                        beløp: 0,
+                        kilde: Kildetype.Saksbehandler,
+                    });
+                }}
+                icon={<PlusIcon />}
+                variant="tertiary"
+                size="xsmall"
+            >
                 Legg til
             </Button>
         </div>
+    );
+};
+
+interface DateFieldProps {
+    name: string;
+    label: string;
+    defaultMonth?: Date;
+}
+
+const DateField = ({ name, label, defaultMonth }: DateFieldProps): ReactElement => {
+    const { field, fieldState } = useController({ name });
+
+    const { datepickerProps, inputProps } = useDatepicker({
+        defaultSelected: field.value,
+        defaultMonth: defaultMonth ?? field.value,
+        onDateChange: (date) => {
+            if (!date) {
+                field.onChange(null);
+            } else {
+                field.onChange(somIsoDato(date));
+            }
+        },
+    });
+
+    return (
+        <DatePicker {...datepickerProps}>
+            <DatePicker.Input
+                {...inputProps}
+                id={name.replaceAll('.', '-')}
+                size="small"
+                label={label}
+                onBlur={field.onBlur}
+                error={fieldState.error?.message != undefined}
+                hideLabel
+            />
+        </DatePicker>
     );
 };

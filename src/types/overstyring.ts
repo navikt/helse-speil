@@ -65,7 +65,7 @@ export interface OverstyrtInntektOgRefusjonArbeidsgiver {
 
 export interface Refusjonsopplysning {
     fom: string;
-    tom?: string | null;
+    tom?: string;
     beløp: number;
     kilde: string;
 }
