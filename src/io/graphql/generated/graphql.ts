@@ -48,7 +48,7 @@ export type Annullering = {
     personFagsystemId: Maybe<Scalars['String']['output']>;
     saksbehandlerIdent: Scalars['String']['output'];
     tidspunkt: Scalars['LocalDateTime']['output'];
-    vedtaksperiodeId: Maybe<Scalars['UUID']['output']>;
+    vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
 export type AnnulleringArsakInput = {
@@ -1198,6 +1198,7 @@ export type Person = {
     fodselsnummer: Scalars['String']['output'];
     infotrygdutbetalinger: Maybe<Array<Infotrygdutbetaling>>;
     personinfo: Personinfo;
+    selvstendigNaering: Maybe<SelvstendigNaering>;
     tildeling: Maybe<Tildeling>;
     tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>;
     versjon: Scalars['Int']['output'];
@@ -1341,6 +1342,12 @@ export type Sammenligningsgrunnlag = {
     __typename: 'Sammenligningsgrunnlag';
     belop: Scalars['Float']['output'];
     inntektFraAOrdningen: Array<InntektFraAOrdningen>;
+};
+
+export type SelvstendigNaering = {
+    __typename: 'SelvstendigNaering';
+    generasjoner: Array<Generasjon>;
+    overstyringer: Array<Overstyring>;
 };
 
 export type Simulering = {
