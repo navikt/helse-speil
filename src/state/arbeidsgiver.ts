@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
+import { RefusjonsperiodeSchema } from '@/form-schemas/inntektOgRefusjonSkjema';
 import {
     Arbeidsforholdoverstyring,
     ArbeidsgiverFragment,
@@ -20,7 +21,6 @@ import { useInntektOgRefusjon } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { isGodkjent } from '@state/selectors/utbetaling';
-import { Refusjonsopplysning } from '@typer/overstyring';
 import { ActivePeriod, DateString } from '@typer/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
 import {
@@ -353,7 +353,7 @@ export const useHarDagOverstyringer = (
 export const useLokaleRefusjonsopplysninger = (
     organisasjonsnummer: string,
     skjæringstidspunkt: string,
-): Refusjonsopplysning[] => {
+): RefusjonsperiodeSchema[] => {
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
 
     if (lokaleInntektoverstyringer.skjæringstidspunkt !== skjæringstidspunkt) return [];
@@ -362,7 +362,12 @@ export const useLokaleRefusjonsopplysninger = (
         lokaleInntektoverstyringer.arbeidsgivere
             .filter((it) => it.organisasjonsnummer === organisasjonsnummer)?.[0]
             ?.refusjonsopplysninger?.map((refusjonsopplysning) => {
-                return { ...refusjonsopplysning } as Refusjonsopplysning;
+                return {
+                    fom: refusjonsopplysning.fom,
+                    tom: refusjonsopplysning.tom,
+                    beløp: refusjonsopplysning.beløp,
+                    kilde: refusjonsopplysning.kilde,
+                };
             }) ?? []
     );
 };

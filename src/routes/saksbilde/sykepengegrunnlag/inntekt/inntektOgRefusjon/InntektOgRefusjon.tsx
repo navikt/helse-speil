@@ -80,7 +80,9 @@ export const InntektOgRefusjon = ({
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                 kilde="AINNTEKT"
             />
-            <Label size="small">Beregnet månedsinntekt</Label>
+            <Label size="small" style={{ marginBottom: '1rem' }}>
+                Beregnet månedsinntekt
+            </Label>
             {editing && omregnetÅrsinntekt && (
                 <InntektOgRefusjonSkjema
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
