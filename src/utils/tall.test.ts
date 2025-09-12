@@ -32,17 +32,17 @@ describe('tall', () => {
     });
     describe('prosentvisning', () => {
         it('viser tall som prosent', () => {
-            expect(avviksprosentVisning(25)).toBe('25 %');
+            expect(avviksprosentVisning(25)).toBe('mindre enn eller lik 25 %');
         });
         it('avrunder til heltall', () => {
             expect(avviksprosentVisning(5.5)).toBe('6 %');
             expect(avviksprosentVisning(5.4999)).toBe('5 %');
         });
         it('viser krokodilletegn for høyere enn 25 prosent', () => {
-            expect(avviksprosentVisning(25.0001)).toBe('> 25 %');
+            expect(avviksprosentVisning(25.0001)).toBe('mer enn 25 %');
         });
         it('viser ikke krokodilletegn for eksakt 25 prosent', () => {
-            expect(avviksprosentVisning(25.0)).toBe('25 %');
+            expect(avviksprosentVisning(25.0)).toBe('mindre enn eller lik 25 %');
         });
         it('viser ikke krokodilletegn for høyere eller lik 25.5 prosent', () => {
             expect(avviksprosentVisning(25.5)).toBe('26 %');
