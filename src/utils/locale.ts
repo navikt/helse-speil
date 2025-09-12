@@ -10,6 +10,15 @@ export const toKronerOgØre = (value: string | number, decimals = 2, locale = 'n
         minimumFractionDigits: decimals,
     });
 
+export const kronerOgØreTilNumber = (value: string) =>
+    Number(
+        value
+            .replaceAll(' ', '')
+            .replaceAll(',', '.')
+            // Når tallet blir formattert av toKronerOgØre får det non braking space i stedet for ' '
+            .replaceAll(String.fromCharCode(160), ''),
+    );
+
 export const capitalizeName = (value: string) =>
     value
         .toLowerCase()
