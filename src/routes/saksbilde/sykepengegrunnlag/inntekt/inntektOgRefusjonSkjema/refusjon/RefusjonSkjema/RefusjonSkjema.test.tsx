@@ -8,6 +8,8 @@ import { somNorskDato } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
 describe('Refusjonskjema', () => {
+    const inntekt_fom = '2020-01-01';
+    const inntekt_tom = '2020-02-01';
     const en_refusjonsopplysning: Refusjonsopplysning[] = [
         {
             fom: '2020-01-01',
@@ -41,6 +43,8 @@ describe('Refusjonskjema', () => {
         return (
             <FormProvider {...methods}>
                 <RefusjonSkjema
+                    inntektFom={inntekt_fom}
+                    inntektTom={inntekt_tom}
                     fraRefusjonsopplysninger={fraRefusjonsopplysninger ?? []}
                     lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger ?? []}
                 />
