@@ -12,8 +12,20 @@ interface FeiloppsummeringProps {
 export const RefusjonFeiloppsummering = ({ error }: FeiloppsummeringProps) =>
     error != null ? (
         <>
-            {error?.fom && <ErrorMessage>{error.fom.message}</ErrorMessage>}
-            {error?.tom && <ErrorMessage>{error.tom.message}</ErrorMessage>}
-            {error?.beløp && <ErrorMessage>{error.beløp.message}</ErrorMessage>}
+            {error?.fom && (
+                <ErrorMessage size="small" showIcon>
+                    {error.fom.message}
+                </ErrorMessage>
+            )}
+            {error?.tom && (
+                <ErrorMessage size="small" showIcon>
+                    {error.tom.message}
+                </ErrorMessage>
+            )}
+            {error?.beløp && (
+                <ErrorMessage size="small" showIcon>
+                    {error.beløp.message}
+                </ErrorMessage>
+            )}
         </>
     ) : null;
