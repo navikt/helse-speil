@@ -4,7 +4,6 @@ import { SetStateAction } from 'react';
 import { Egenskap, Saksbehandler } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
 import { atomWithLocalStorage, atomWithSessionStorage } from '@state/jotai';
-import { kanSeSelvstendigNæringsdrivende } from '@utils/featureToggles';
 
 export type Filter = {
     key: string | Egenskap;
@@ -202,13 +201,13 @@ const filters = [
     },
     {
         key: Egenskap.EnArbeidsgiver,
-        label: kanSeSelvstendigNæringsdrivende ? 'Ett inntektsforhold' : 'Én arbeidsgiver',
+        label: 'Ett inntektsforhold',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
     {
         key: Egenskap.FlereArbeidsgivere,
-        label: kanSeSelvstendigNæringsdrivende ? 'Flere inntektsforhold' : 'Flere arbeidsgivere',
+        label: 'Flere inntektsforhold',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },

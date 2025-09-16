@@ -7,7 +7,6 @@ import { HStack, Skeleton } from '@navikt/ds-react';
 
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { SøkefeltSaksbehandlere } from '@oversikt/filtermeny/SøkefeltSaksbehandlere';
-import { kanSeSelvstendigNæringsdrivende } from '@utils/featureToggles';
 
 import { TabType, useAktivTab } from '../tabState';
 import { Filter, Oppgaveoversiktkolonne, valgtSaksbehandlerAtom } from '../table/state/filter';
@@ -85,29 +84,18 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
                     )}
                     text="Egenskaper"
                 />
-                {kanSeSelvstendigNæringsdrivende ? (
-                    <>
-                        <FilterList
-                            filters={skjulHvisSaksbehandlerErValgt(
-                                filters.filter((it) => it.column === Oppgaveoversiktkolonne.INNTEKTSFORHOLD),
-                            )}
-                            text="Inntektsforhold"
-                        />
-                        <FilterList
-                            filters={skjulHvisSaksbehandlerErValgt(
-                                filters.filter((it) => it.column === Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD),
-                            )}
-                            text="Antall inntektsforhold"
-                        />
-                    </>
-                ) : (
-                    <FilterList
-                        filters={skjulHvisSaksbehandlerErValgt(
-                            filters.filter((it) => it.column === Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD),
-                        )}
-                        text="Inntektskilde"
-                    />
-                )}
+                <FilterList
+                    filters={skjulHvisSaksbehandlerErValgt(
+                        filters.filter((it) => it.column === Oppgaveoversiktkolonne.INNTEKTSFORHOLD),
+                    )}
+                    text="Inntektsforhold"
+                />
+                <FilterList
+                    filters={skjulHvisSaksbehandlerErValgt(
+                        filters.filter((it) => it.column === Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD),
+                    )}
+                    text="Antall inntektsforhold"
+                />
             </section>
         </JusterbarSidemeny>
     );
