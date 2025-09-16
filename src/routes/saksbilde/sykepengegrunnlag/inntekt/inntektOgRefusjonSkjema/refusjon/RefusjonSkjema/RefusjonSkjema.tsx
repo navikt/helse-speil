@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { useController, useFieldArray, useForm } from 'react-hook-form';
+import { useController, useFieldArray, useFormContext } from 'react-hook-form';
 
 import { PlusIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, DatePicker, ErrorMessage, HStack, Label, useDatepicker } from '@navikt/ds-react';
@@ -26,7 +26,7 @@ export const RefusjonSkjema = ({
     inntektFom,
     inntektTom,
 }: RefusjonProps) => {
-    const form = useForm<InntektOgRefusjonSchema>();
+    const form = useFormContext<InntektOgRefusjonSchema>();
     const { fields, remove, append } = useFieldArray({
         name: 'refusjonsperioder',
         control: form.control,
@@ -70,15 +70,7 @@ export const RefusjonSkjema = ({
                                     JSON.stringify(fraRefusjonsopplysninger?.[index])
                                 }
                             />
-                            <Button
-                                type="button"
-                                onClick={() => {
-                                    form.trigger('refusjonsperioder');
-                                    remove(index);
-                                }}
-                                variant="tertiary"
-                                size="xsmall"
-                            >
+                            <Button type="button" onClick={() => remove(index)} variant="tertiary" size="xsmall">
                                 Slett
                             </Button>
                         </HStack>
@@ -101,7 +93,6 @@ export const RefusjonSkjema = ({
                         beløp: 0,
                         kilde: Kildetype.Saksbehandler,
                     });
-                    form.trigger('refusjonsperioder');
                 }}
                 icon={<PlusIcon />}
                 variant="tertiary"
