@@ -97,7 +97,7 @@ export const mapOgSorterRefusjoner = (
         .sort((a: Refusjonselement, b: Refusjonselement) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
         .map((it) => ({
             fom: it.fom,
-            tom: it.tom,
+            tom: it.tom ?? undefined,
             beløp: it.belop,
             kilde: hendelseIderForInntektsmelding.includes(it.meldingsreferanseId)
                 ? Kildetype.Inntektsmelding
