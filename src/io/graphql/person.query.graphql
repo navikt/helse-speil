@@ -398,6 +398,7 @@ fragment beregnetPeriode on BeregnetPeriode {
         tidspunkt
         arsaker
         begrunnelse
+        vedtaksperiodeId
     }
     pensjonsgivendeInntekter {
         arligBelop

@@ -2903,6 +2903,7 @@ export type ArbeidsgiverFragment = {
                       tidspunkt: string;
                       arsaker: Array<string>;
                       begrunnelse: string | null;
+                      vedtaksperiodeId: string;
                   } | null;
                   pensjonsgivendeInntekter: Array<{
                       __typename: 'PensjonsgivendeInntekt';
@@ -3866,6 +3867,7 @@ export type BeregnetPeriodeFragment = {
         tidspunkt: string;
         arsaker: Array<string>;
         begrunnelse: string | null;
+        vedtaksperiodeId: string;
     } | null;
     pensjonsgivendeInntekter: Array<{ __typename: 'PensjonsgivendeInntekt'; arligBelop: string; inntektsar: number }>;
     annulleringskandidater: Array<{
@@ -5377,6 +5379,7 @@ export type PersonFragment = {
                           tidspunkt: string;
                           arsaker: Array<string>;
                           begrunnelse: string | null;
+                          vedtaksperiodeId: string;
                       } | null;
                       pensjonsgivendeInntekter: Array<{
                           __typename: 'PensjonsgivendeInntekt';
@@ -6957,6 +6960,7 @@ export type FetchPersonQuery = {
                               tidspunkt: string;
                               arsaker: Array<string>;
                               begrunnelse: string | null;
+                              vedtaksperiodeId: string;
                           } | null;
                           pensjonsgivendeInntekter: Array<{
                               __typename: 'PensjonsgivendeInntekt';
@@ -8763,6 +8767,7 @@ export const BeregnetPeriodeFragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                             ],
                         },
                     },
@@ -10407,6 +10412,7 @@ export const ArbeidsgiverFragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                             ],
                         },
                     },
@@ -11609,6 +11615,7 @@ export const PersonFragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                             ],
                         },
                     },
@@ -14558,6 +14565,7 @@ export const FetchPersonDocument = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                             ],
                         },
                     },
