@@ -68,12 +68,15 @@ export const InntektOgRefusjonSkjema = ({
     );
     const metadata = useOverstyrtInntektMetadata(person, arbeidsgiver, period);
 
+    const fom = sykefraværstilfelle?.[0]?.fom ?? '';
+    const tom = sykefraværstilfelle?.[sykefraværstilfelle.length - 1]?.tom ?? '';
+    console.log('sykefraværstilfelle', fom, tom);
     const form = useForm<InntektOgRefusjonSchema>({
         resolver: zodResolver(
             lagInntektOgRefusjonSchema(
                 {
-                    fom: sykefraværstilfelle?.[0]?.fom ?? '',
-                    tom: sykefraværstilfelle?.[sykefraværstilfelle.length - 1]?.tom ?? '',
+                    fom: fom,
+                    tom: tom,
                 },
                 begrunnelser.map((begrunnelse) => begrunnelse.id),
             ),
@@ -227,12 +230,7 @@ export const InntektOgRefusjonSkjema = ({
                         />
                     )}
                     <HStack gap="2">
-                        <Button
-                            size="small"
-                            variant="secondary"
-                            type="submit"
-                            onClick={() => form.trigger('refusjonsperioder')}
-                        >
+                        <Button size="small" variant="secondary" type="submit">
                             Lagre
                         </Button>
                         <Button size="small" variant="tertiary" type="button" onClick={cancelEditing}>
