@@ -1,9 +1,11 @@
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 
-import { BodyLong, BodyShort, List } from '@navikt/ds-react';
+import { Alert, BodyShort, Box, HStack, List } from '@navikt/ds-react';
 import { ListItem } from '@navikt/ds-react/List';
 
 import { useBrukerGrupper } from '@auth/brukerContext';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { somNorskDato } from '@utils/date';
@@ -17,9 +19,13 @@ import styles from './Annulleringsmodal.module.scss';
 export const Annulleringsinformasjon = ({
     person,
     periode,
+    arbeidsgivernavn,
+    organisasjonsnummer,
 }: {
     person: PersonFragment;
     periode: BeregnetPeriodeFragment;
+    arbeidsgivernavn: string;
+    organisasjonsnummer: string;
 }): ReactElement | null => {
     const { totalbeløp, førsteUtbetalingsdag, sisteUtbetalingsdag } = useTotaltUtbetaltForSykefraværstilfellet(person);
     const grupper = useBrukerGrupper();
@@ -32,27 +38,34 @@ export const Annulleringsinformasjon = ({
         tom: kandidat.tom,
     }));
 
-    const unikeOrganisasjonsnummere = [...new Set(periode.annulleringskandidater.map((o) => o.organisasjonsnummer))];
-
     return (
         <div className={styles.gruppe}>
             {kanSeNyAnnulleringsrigg(saksbehandler.ident ?? '', grupper) && (
                 <>
-                    <BodyShort weight={'semibold'}>Ny rigg:</BodyShort>
-                    <BodyLong>
-                        Når en periode annulleres vil overlappende og etterfølgende perioder som det ikke har vært
-                        fattet vedtak på bli tatt ut av Speil.
-                    </BodyLong>
-                    <BodyShort>Organisasjonsnummer: {unikeOrganisasjonsnummere.join(', ')}</BodyShort>
-                    <BodyShort>Utbetalingene for følgende perioder annulleres:</BodyShort>
-                    <List as="ul">
+                    <Box paddingBlock="0 4">
+                        <Alert variant="info">
+                            Når en periode annulleres, vil overlappende og etterfølgende perioder som det ikke har vært
+                            fattet vedtak på, bli tatt ut av Speil.
+                        </Alert>
+                    </Box>
+                    <HStack gap="2" paddingBlock="2">
+                        <Arbeidsgivernavn
+                            identifikator={organisasjonsnummer}
+                            navn={arbeidsgivernavn}
+                            maxWidth="190px"
+                            weight="semibold"
+                        />
+                        <AnonymizableText weight="semibold">{organisasjonsnummer}</AnonymizableText>
+                    </HStack>
+                    <BodyShort>Utbetalingene for følgende perioder annulleres</BodyShort>
+                    <List as="ul" size="small">
                         {kandidater.map((kandidat) => (
                             <ListItem key={'kandidater'}>
                                 {somNorskDato(kandidat.fom)} - {somNorskDato(kandidat.tom)}
                             </ListItem>
                         ))}
                     </List>
-                    <BodyShort weight={'semibold'}>Gammel rigg:</BodyShort>
+                    <BodyShort weight={'semibold'}>Gammel annullerings-rigg:</BodyShort>
                 </>
             )}
             <BodyShort>Følgende utbetalinger annulleres:</BodyShort>

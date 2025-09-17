@@ -1,7 +1,7 @@
 import React, { ChangeEvent, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Alert, Fieldset, Checkbox as NavCheckbox, Skeleton, Textarea, VStack } from '@navikt/ds-react';
+import { Alert, Box, Fieldset, Heading, Checkbox as NavCheckbox, Skeleton, Textarea, VStack } from '@navikt/ds-react';
 
 import { Arsak, useArsaker } from '@external/sanity';
 
@@ -19,13 +19,14 @@ export const Annulleringsbegrunnelse = (): ReactElement => {
 
     return (
         <div className={styles.annulleringsbegrunnelse}>
-            <h3 className={styles.undertittel}>Årsak til annullering</h3>
-            <Alert inline variant="info" className={styles.warning}>
-                Årsakene og begrunnelsen du fyller ut her finner du ikke igjen i saksbehandlingssystemet etterpå.
-                <br />
-                Informasjonen brukes til å forbedre løsningen.
-            </Alert>
-
+            <Heading size="small">Årsak til annullering</Heading>
+            <Box paddingBlock="4">
+                <Alert variant="info">
+                    Årsakene og begrunnelsen du fyller ut her, finner du ikke igjen i Speil etterpå.
+                    <br />
+                    Informasjonen brukes til å forbedre løsningen.
+                </Alert>
+            </Box>
             <Fieldset
                 legend="Hvorfor kunne ikke vedtaket revurderes?"
                 className={styles.checkboxcontainer}

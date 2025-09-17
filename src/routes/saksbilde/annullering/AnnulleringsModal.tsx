@@ -1,12 +1,13 @@
 import { ReactElement } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Alert, BodyShort, Button, Heading, Modal } from '@navikt/ds-react';
+import { BodyShort, Button, Heading, Modal } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { Arsak } from '@external/sanity';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { AnnullerDocument, AnnulleringDataInput, BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast } from '@state/toasts';
 
@@ -42,6 +43,7 @@ export const AnnulleringsModal = ({
     const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
     const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const addToast = useAddToast();
+    const arbeidsgiver = useCurrentArbeidsgiver(person);
 
     const form = useForm({ mode: 'onBlur', defaultValues: { kommentar: '', arsaker: [] as string[] } });
     const kommentar = form.watch('kommentar').trim();
@@ -108,13 +110,7 @@ export const AnnulleringsModal = ({
             width="850px"
         >
             <Modal.Header>
-                <Alert inline variant="warning" className={styles.warning}>
-                    Hvis du annullerer vil utbetalinger fjernes fra oppdragssystemet og du må behandle saken i
-                    Infotrygd.
-                </Alert>
-                <Heading level="1" size="medium">
-                    Annullering
-                </Heading>
+                <Heading size="medium">Annullering</Heading>
             </Modal.Header>
             <Modal.Body>
                 <FormProvider {...form}>
@@ -123,7 +119,12 @@ export const AnnulleringsModal = ({
                         onSubmit={form.handleSubmit(() => sendAnnullering(annullering()))}
                         id="annullerings-modal-form"
                     >
-                        <Annulleringsinformasjon person={person} periode={periode} />
+                        <Annulleringsinformasjon
+                            person={person}
+                            periode={periode}
+                            arbeidsgivernavn={arbeidsgiver?.navn ?? ''}
+                            organisasjonsnummer={arbeidsgiver?.organisasjonsnummer ?? ''}
+                        />
                         <Annulleringsbegrunnelse />
                         {!erINyesteSkjæringstidspunkt && (
                             <BodyShort className={styles.varseltekst}>
