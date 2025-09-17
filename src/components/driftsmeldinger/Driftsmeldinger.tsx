@@ -54,9 +54,7 @@ const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): ReactElement | nu
                 <BodyShort className={styles.tittel}>
                     {driftsmelding.lost === 'true' ? `[Løst] ${tittel}` : tittel}
                 </BodyShort>
-                <BodyShort className={styles.dato}>
-                    ({getFormattedDatetimeString(driftsmelding._updatedAt.toString())})
-                </BodyShort>
+                <BodyShort className={styles.dato}>{dato(driftsmelding)}</BodyShort>
                 <span className={styles.button}>
                     <ChevronDownIcon
                         title="Vis mer"
@@ -69,8 +67,8 @@ const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): ReactElement | nu
                 <BodyShortWithPreWrap className={styles.melding}>
                     {driftsmelding.arsak + '. '}
                     {driftsmelding.tiltak + '. '}
-                    {driftsmelding.oppdatering + '. '}
-                    {driftsmelding.cta + '.'}
+                    {driftsmelding.oppdatering ? driftsmelding.oppdatering + '. ' : ''}
+                    {driftsmelding.cta ? driftsmelding.cta + '.' : ''}
                 </BodyShortWithPreWrap>
             )}
         </Alert>
@@ -120,3 +118,13 @@ const useVisDriftsmelding = (driftsmelding: DriftsmeldingType): [boolean, () => 
 
     return [visDriftsmelding, oppdaterLocalStorage];
 };
+
+function dato(driftsmelding: DriftsmeldingType): string {
+    const created = driftsmelding._createdAt.toString();
+    const updated = driftsmelding._updatedAt.toString();
+
+    if (updated !== created) {
+        return `(Oppdatert: ${getFormattedDatetimeString(updated)})`;
+    }
+    return `(${getFormattedDatetimeString(created)})`;
+}
