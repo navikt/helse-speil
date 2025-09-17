@@ -7,7 +7,6 @@ import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { somNorskDato } from '@utils/date';
-import { somPenger } from '@utils/locale';
 
 import { useTotaltUtbetaltForSykefraværstilfellet } from './annullering';
 
@@ -59,18 +58,7 @@ export const Annulleringsinformasjon = ({
                         </ListItem>
                     ))}
                 </List>
-                <BodyShort weight={'semibold'}>Gammel annullerings-rigg:</BodyShort>
             </>
-            <BodyShort>Følgende utbetalinger annulleres:</BodyShort>
-            <ul>
-                <li>
-                    <BodyShort>
-                        {førsteUtbetalingsdag !== undefined && somNorskDato(førsteUtbetalingsdag)} -{' '}
-                        {sisteUtbetalingsdag !== undefined && somNorskDato(sisteUtbetalingsdag)}
-                        {totalbeløp ? ` - ${somPenger(totalbeløp)}` : null}
-                    </BodyShort>
-                </li>
-            </ul>
         </div>
     );
 };
