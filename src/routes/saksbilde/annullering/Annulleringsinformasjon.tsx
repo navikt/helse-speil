@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { Alert, BodyShort, Box, HStack, List } from '@navikt/ds-react';
 import { ListItem } from '@navikt/ds-react/List';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { somNorskDato } from '@utils/date';
@@ -48,7 +48,9 @@ export const Annulleringsinformasjon = ({
                         maxWidth="190px"
                         weight="semibold"
                     />
-                    <AnonymizableText weight="semibold">{organisasjonsnummer}</AnonymizableText>
+                    {!erSelvstendigNæringsdrivende(organisasjonsnummer) && (
+                        <AnonymizableText weight="semibold">{organisasjonsnummer}</AnonymizableText>
+                    )}
                 </HStack>
                 <BodyShort>Utbetalingene for følgende perioder annulleres</BodyShort>
                 <List as="ul" size="small">
