@@ -25,8 +25,9 @@ export const Søknadsinnhold = ({ dokumentId, fødselsnummer }: SøknadsinnholdP
             {søknad && (
                 <div className={styles.dokument}>
                     {søknad.type && (
-                        <DokumentFragment overskrift="Type">{søknad.type.replace('_', ' ')}</DokumentFragment>
+                        <DokumentFragment overskrift="Type">{søknad.type.replaceAll('_', ' ')}</DokumentFragment>
                     )}
+
                     {søknad.soknadsperioder &&
                         søknad.soknadsperioder.length > 0 &&
                         søknad.soknadsperioder.map((søknadsperiode) => (
