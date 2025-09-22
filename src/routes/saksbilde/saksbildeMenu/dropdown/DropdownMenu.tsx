@@ -46,7 +46,8 @@ export const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps)
                     isBeregnetPeriode(activePeriod) &&
                     periode.vedtaksperiodeId === activePeriod.vedtaksperiodeId &&
                     (periode.periodetilstand === Periodetilstand.Annullert ||
-                        periode.periodetilstand === Periodetilstand.TilAnnullering),
+                        periode.periodetilstand === Periodetilstand.TilAnnullering ||
+                        periode.periodetilstand === Periodetilstand.AvventerAnnullering),
             ),
         ),
     );
