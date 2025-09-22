@@ -331,6 +331,7 @@ export const OverstyrbarUtbetaling = ({
                                     error={error}
                                     toggleOverstyring={toggleOverstyring}
                                     onSubmit={onSubmitOverstyring}
+                                    erSelvstendig={erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer)}
                                 />
                             </form>
                         </FormProvider>

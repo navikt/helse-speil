@@ -19,6 +19,7 @@ interface OverstyringFormProps {
     error?: string;
     toggleOverstyring: () => void;
     onSubmit: () => void;
+    erSelvstendig: boolean;
 }
 
 export const OverstyringForm = ({
@@ -27,6 +28,7 @@ export const OverstyringForm = ({
     error,
     toggleOverstyring,
     onSubmit,
+    erSelvstendig,
 }: OverstyringFormProps): ReactElement => {
     const { handleSubmit, register, formState, setError, clearErrors } = useFormContext();
     const [oppsummering, setOppsummering] = useState('');
@@ -50,7 +52,7 @@ export const OverstyringForm = ({
             'kanIkkeOverstyreTilEgenmelding',
         ]);
         if (
-            arbeidsdagValidering(overstyrteDager, alleDager, setCustomError) &&
+            arbeidsdagValidering(overstyrteDager, alleDager, setCustomError, erSelvstendig) &&
             arbeidIkkeGjenopptattValidering(overstyrteDager, setCustomError) &&
             andreYtelserValidering(overstyrteDager, alleDager, setCustomError) &&
             sykNavValidering(overstyrteDager, setCustomError) &&

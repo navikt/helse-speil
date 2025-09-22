@@ -44,6 +44,7 @@ describe('OverstyringForm', () => {
                     alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
+                    erSelvstendig={false}
                 />
             </FormWrapper>,
         );
@@ -60,6 +61,7 @@ describe('OverstyringForm', () => {
                     alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
+                    erSelvstendig={false}
                 />
             </FormWrapper>,
         );
@@ -81,6 +83,7 @@ describe('OverstyringForm', () => {
                     alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
+                    erSelvstendig={false}
                 />
             </FormWrapper>,
         );
@@ -102,6 +105,7 @@ describe('OverstyringForm', () => {
                     alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
+                    erSelvstendig={false}
                 />
             </FormWrapper>,
         );
@@ -123,6 +127,7 @@ describe('OverstyringForm', () => {
                     alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
+                    erSelvstendig={false}
                 />
             </FormWrapper>,
         );
@@ -147,6 +152,7 @@ describe('OverstyringForm', () => {
                     alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
+                    erSelvstendig={false}
                 />
             </FormWrapper>,
         );
@@ -171,6 +177,7 @@ describe('OverstyringForm', () => {
                     alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
+                    erSelvstendig={false}
                 />
             </FormWrapper>,
         );
@@ -195,6 +202,7 @@ describe('OverstyringForm', () => {
                     alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
+                    erSelvstendig={false}
                 />
             </FormWrapper>,
         );
@@ -216,6 +224,7 @@ describe('OverstyringForm', () => {
                     alleDager={alleDager}
                     toggleOverstyring={() => null}
                     onSubmit={() => null}
+                    erSelvstendig={false}
                 />
             </FormWrapper>,
         );

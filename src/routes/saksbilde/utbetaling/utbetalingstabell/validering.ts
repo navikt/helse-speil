@@ -37,6 +37,7 @@ export const arbeidsdagValidering = (
     overstyrteDager: Map<string, Utbetalingstabelldag>,
     alleDager: Map<string, Utbetalingstabelldag>,
     setError: (name: string, message: string) => void,
+    erSelvstendig: boolean,
 ): boolean => {
     const overstyrtTilArbeidsdager = Array.from(overstyrteDager.values())
         .filter((overstyrtDag) => overstyrtDag.dag.speilDagtype === 'Arbeid')
@@ -63,10 +64,17 @@ export const arbeidsdagValidering = (
     );
 
     if (dagerSomKanOverstyresTilArbeidsdag.length !== overstyrtTilArbeidsdager.length) {
-        setError(
-            'arbeidsdagerKanIkkeOverstyres',
-            'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til i forkant av perioden, i slutten av perioden, eller endres i arbeidsgiverperioden',
-        );
+        if (erSelvstendig) {
+            setError(
+                'arbeidsdagerKanIkkeOverstyres',
+                'Du kan ikke overstyre fra Syk til Arbeid for denne/disse dagen(e). Du kan overstyre til Arbeid i ventetiden eller i slutten av søknadsperioden, eller du kan legge til Arbeidsdager før søknadsperioden',
+            );
+        } else {
+            setError(
+                'arbeidsdagerKanIkkeOverstyres',
+                'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til i forkant av perioden, i slutten av perioden, eller endres i arbeidsgiverperioden',
+            );
+        }
         return false;
     }
     return true;
