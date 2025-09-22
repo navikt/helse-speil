@@ -67,7 +67,7 @@ export const arbeidsdagValidering = (
         if (erSelvstendig) {
             setError(
                 'arbeidsdagerKanIkkeOverstyres',
-                'Du kan ikke overstyre fra Syk til Arbeid for denne/disse dagen(e). Du kan overstyre til Arbeid i ventetiden eller i slutten av søknadsperioden, eller du kan legge til Arbeidsdager før søknadsperioden',
+                'Du kan ikke overstyre fra Syk til Arbeid for denne/disse dagen(e). Du kan foreløpig kun overstyre til Arbeid i slutten av søknadsperioden',
             );
         } else {
             setError(
