@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react';
 
+import { Tooltip } from '@navikt/ds-react';
+
 import { Endringstrekant } from '@components/Endringstrekant';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
@@ -23,7 +25,13 @@ export const TotalGradCell = ({ type, erOverstyrt, totalGradering, erNyDag = fal
     return (
         <Cell italic={erOverstyrt}>
             {erOverstyrt && !erNyDag && <Endringstrekant />}
-            {showTotalGradering && <CellContent flexEnd>{`${Math.floor(totalGradering)} %`}</CellContent>}
+            {showTotalGradering && (
+                <Tooltip content={`${totalGradering.toFixed(2).replace('.', ',')} %`} placement="right">
+                    <span>
+                        <CellContent flexEnd>{`${Math.floor(totalGradering)} %`}</CellContent>
+                    </span>
+                </Tooltip>
+            )}
         </Cell>
     );
 };
