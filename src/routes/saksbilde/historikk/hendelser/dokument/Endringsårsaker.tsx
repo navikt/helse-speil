@@ -33,7 +33,7 @@ export const Endringsårsaker = ({ årsaker }: EndringsårsakerProps): ReactElem
 const Endringsårsak = ({ årsak }: { årsak: InntektEndringAarsak }): ReactElement | null => {
     return (
         <>
-            <BodyShort size="small">• {årsak.aarsak}</BodyShort>
+            <BodyShort size="small">• {årsakmapper(årsak.aarsak)}</BodyShort>
             <div className={styles.inntektEndringAarsakDetaljer}>
                 {årsak.perioder && (
                     <>
@@ -62,3 +62,17 @@ const Endringsårsak = ({ årsak }: { årsak: InntektEndringAarsak }): ReactElem
         </>
     );
 };
+
+function årsakmapper(aarsak: string) {
+    switch (aarsak) {
+        case 'NyStilling':
+            return 'Ny stilling';
+        case 'NyStillingsprosent':
+            return 'Ny stillingsprosent';
+        case 'Sykefravaer':
+            return 'Sykefravær';
+        case 'VarigLoennsendring':
+            return 'Varig lønnsendring';
+    }
+    return aarsak;
+}
