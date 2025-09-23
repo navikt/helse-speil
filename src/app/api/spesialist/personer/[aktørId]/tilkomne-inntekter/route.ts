@@ -22,7 +22,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ aktørId
             return new Response(null, { status: 401 });
         }
 
-        const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPARKEL_AAREG_SCOPE);
+        const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPESIALIST_SCOPE);
         if (!oboResult.ok) {
             throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
         }
