@@ -9,7 +9,7 @@ import { Endringsårsaker } from '@saksbilde/historikk/hendelser/dokument/Endrin
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { DokumenthendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
-import { tilTelefonNummer, toKronerOgØre } from '@utils/locale';
+import { capitalizeName, tilTelefonNummer, toKronerOgØre } from '@utils/locale';
 
 import { BestemmendeFraværsdag } from './BestemmendeFraværsdag';
 import { DokumentFragment, DokumentFragmentAnonymisert } from './DokumentFragment';
@@ -189,7 +189,7 @@ export const Inntektsmeldingsinnhold = ({
                     )}
                     {inntektsmelding.innsenderFulltNavn && (
                         <DokumentFragmentAnonymisert overskrift="Innsender fullt navn">
-                            {inntektsmelding.innsenderFulltNavn}
+                            {capitalizeName(inntektsmelding.innsenderFulltNavn)}
                         </DokumentFragmentAnonymisert>
                     )}
                     {inntektsmelding.innsenderTelefon && (
