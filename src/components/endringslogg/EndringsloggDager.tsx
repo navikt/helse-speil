@@ -39,7 +39,7 @@ export const EndringsloggDager = ({ endringer, closeModal, showModal }: Endrings
                         .map(({ begrunnelse, saksbehandler, timestamp, grad, fraGrad, dag, dato }, i) => (
                             <Table.Row key={i}>
                                 <Table.DataCell>{getFormattedDateString(dato)}</Table.DataCell>
-                                <Table.DataCell>{dag.speilDagtype}</Table.DataCell>
+                                <Table.DataCell>{dag.visningstekst}</Table.DataCell>
                                 <Table.DataCell>
                                     <span className={styles.PreviousValue}>
                                         {typeof fraGrad === 'number' && fraGrad !== grad && `${fraGrad} %`}
