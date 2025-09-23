@@ -37,7 +37,7 @@ export const RefusjonsperiodeInput = ({
 
     return (
         <HStack wrap gap="2" justify="center">
-            <DatePicker {...fomDatePickerProps}>
+            <DatePicker {...fomDatePickerProps} dropdownCaption>
                 <DatePicker.Input
                     {...fomFieldProps}
                     onBlur={(event) => {
@@ -50,7 +50,7 @@ export const RefusjonsperiodeInput = ({
                     error={!!refusjonsopplysninger?.[`${index}`]?.fom?.message}
                 />
             </DatePicker>
-            <DatePicker {...tomDatePickerProps}>
+            <DatePicker {...tomDatePickerProps} dropdownCaption>
                 <DatePicker.Input
                     {...tomFieldProps}
                     onBlur={(event) => {

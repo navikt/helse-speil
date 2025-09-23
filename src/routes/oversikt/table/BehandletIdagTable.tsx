@@ -55,10 +55,10 @@ export const BehandletIdagTable = (): ReactElement => {
     return (
         <VStack height="100%">
             <HStack wrap gap="8" marginBlock="6 4">
-                <DatePicker {...fomDatePicker.datepickerProps}>
+                <DatePicker {...fomDatePicker.datepickerProps} dropdownCaption>
                     <DatePicker.Input {...fomDatePicker.inputProps} label="Fra og med dato" size="small" />
                 </DatePicker>
-                <DatePicker {...tomDatePicker.datepickerProps}>
+                <DatePicker {...tomDatePicker.datepickerProps} dropdownCaption>
                     <DatePicker.Input {...tomDatePicker.inputProps} label="Til og med dato" size="small" />
                 </DatePicker>
             </HStack>

@@ -24,7 +24,7 @@ export const Frist = ({ fristDato, setFristDato, error, setError }: FristProps):
     });
 
     return (
-        <DatePicker {...datepickerProps}>
+        <DatePicker {...datepickerProps} dropdownCaption>
             <DatePicker.Input
                 {...inputProps}
                 label="Oppfølgingsdato"

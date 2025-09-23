@@ -108,7 +108,7 @@ export const LeggTilDagerForm = React.memo(
         return (
             <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
                 <div className={styles.StrekkePølse}>
-                    <DatePicker {...fromDatepickerProps}>
+                    <DatePicker {...fromDatepickerProps} dropdownCaption>
                         <DatePicker.Input
                             {...fromInputProps}
                             label="Dato f.o.m"
@@ -116,7 +116,7 @@ export const LeggTilDagerForm = React.memo(
                             className={styles.dateinput}
                         />
                     </DatePicker>
-                    <DatePicker {...toDatepickerProps}>
+                    <DatePicker {...toDatepickerProps} dropdownCaption>
                         <DatePicker.Input
                             {...toInputProps}
                             label="Dato t.o.m"
