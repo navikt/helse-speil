@@ -84,7 +84,7 @@ export const OverstyringForm = ({
                 }
                 error={formState.errors.begrunnelse ? (formState.errors.begrunnelse.message as string) : null}
                 data-testid="overstyring-begrunnelse"
-                maxLength={1000}
+                maxLength={2000}
                 {...begrunnelseValidation}
                 onChange={(event) => {
                     void begrunnelseValidation.onChange(event);

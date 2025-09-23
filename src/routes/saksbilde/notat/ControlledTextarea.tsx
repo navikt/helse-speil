@@ -25,8 +25,8 @@ export const ControlledTextarea = ({
         rules: {
             required: 'Notat må fylles ut',
             maxLength: {
-                value: 1000,
-                message: `Det er kun tillatt med 1000 tegn`,
+                value: 2000,
+                message: `Det er kun tillatt med 2000 tegn`,
             },
             validate: {
                 måFyllesUt: () => lagretNotat.length !== 0 || 'Notat må fylles ut',
@@ -51,7 +51,7 @@ export const ControlledTextarea = ({
             label={`${notattype}-notat`}
             hideLabel
             description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
-            maxLength={1000}
+            maxLength={2000}
             autoFocus
             value={lagretNotat}
         />

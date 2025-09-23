@@ -192,8 +192,8 @@ const FellesPåVentModal = ({
             setNotatError('Notat må fylles ut');
             error = true;
         }
-        if (notattekst && notattekst.length > 1000) {
-            setNotatError('Det er kun tillatt med 1000 tegn');
+        if (notattekst && notattekst.length > 2000) {
+            setNotatError('Det er kun tillatt med 2000 tegn');
             error = true;
         }
         if (!error) {

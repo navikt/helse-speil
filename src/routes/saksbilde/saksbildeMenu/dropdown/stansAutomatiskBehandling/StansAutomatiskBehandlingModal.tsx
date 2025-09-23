@@ -53,7 +53,7 @@ export function StansAutomatiskBehandlingModal({
                                     error={fieldState.error?.message}
                                     label="Begrunnelse"
                                     description="Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
-                                    maxLength={1000}
+                                    maxLength={2000}
                                 />
                             )}
                         />
