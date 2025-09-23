@@ -65,7 +65,7 @@ export const Dagoverstyringhendelse = ({
         saksbehandler={saksbehandler}
         aktiv={false}
     >
-        <HistorikkSection tittel="Begrunnelse">
+        <HistorikkSection tittel="Notat til beslutter">
             <BodyShortWithPreWrap>{begrunnelse}</BodyShortWithPreWrap>
         </HistorikkSection>
         <VStack marginBlock="2 2">
