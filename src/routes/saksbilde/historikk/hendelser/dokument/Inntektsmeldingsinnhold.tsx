@@ -79,7 +79,9 @@ export const Inntektsmeldingsinnhold = ({
                     )}
                     {inntektsmelding.begrunnelseForReduksjonEllerIkkeUtbetalt && (
                         <DokumentFragment overskrift="Begrunnelse for reduksjon eller ikke utbetalt">
-                            {inntektsmelding.begrunnelseForReduksjonEllerIkkeUtbetalt}
+                            {begrunnelseForReduksjonEllerIkkeUtbetaltMapper(
+                                inntektsmelding.begrunnelseForReduksjonEllerIkkeUtbetalt,
+                            )}
                         </DokumentFragment>
                     )}
                     {inntektsmelding.beregnetInntekt != null && (
@@ -218,3 +220,37 @@ const tilAvsendersystem = (avsenderSystem: string): string => {
             return avsenderSystem;
     }
 };
+
+function begrunnelseForReduksjonEllerIkkeUtbetaltMapper(begrunnelse: string) {
+    switch (begrunnelse) {
+        case 'ArbeidOpphoert':
+            return 'Arbeid opphørt';
+        case 'BeskjedGittForSent':
+            return 'Beskjed gitt for sent';
+        case 'BetvilerArbeidsufoerhet':
+            return 'Betviler arbeidsuførhet';
+        case 'FerieEllerAvspasering':
+            return 'Ferie eller avspasering';
+        case 'FiskerMedHyre':
+            return 'Fisker med hyre';
+        case 'FravaerUtenGyldigGrunn':
+            return 'Fravær uten gyldig grunn';
+        case 'IkkeFravaer':
+            return 'Ikke fravær';
+        case 'IkkeFullStillingsandel':
+            return 'Ikke full stillingsandel';
+        case 'IkkeLoenn':
+            return 'Ikke lønn';
+        case 'LovligFravaer':
+            return 'Lovlig fravær';
+        case 'ManglerOpptjening':
+            return 'Mangler opptjening';
+        case 'Saerregler':
+            return 'Særregler';
+        case 'StreikEllerLockout':
+            return 'Streik eller lockout';
+        case 'TidligereVirksomhet':
+            return 'Tidligere virksomhet';
+    }
+    return begrunnelse;
+}
