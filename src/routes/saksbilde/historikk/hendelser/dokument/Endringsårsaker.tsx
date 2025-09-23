@@ -71,7 +71,7 @@ function årsakmapper(aarsak: string) {
             return 'Ny stillingsprosent';
         case 'Sykefravaer':
             return 'Sykefravær';
-        case 'VarigLoennsendring':
+        case 'VarigLonnsendring':
             return 'Varig lønnsendring';
     }
     return aarsak;
