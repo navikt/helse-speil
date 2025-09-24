@@ -20,13 +20,13 @@ interface HarBeslutteroppgaverProps {
 export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): ReactElement | null => {
     const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
-    const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(person.fodselsnummer);
+    const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(person.aktorId);
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const navigerTilPeriode = useNavigerTilPeriode();
 
     if (!periodeTilGodkjenning || !harTotrinnsvurdering || !tilkommenInntektData) return null;
 
-    const endredeTilkomneInntektskilder = tilkommenInntektData.tilkomneInntektskilderV2.filter((inntektkilde) =>
+    const endredeTilkomneInntektskilder = tilkommenInntektData.tilkomneInntektskilder.filter((inntektkilde) =>
         inntektkilde.inntekter.some((tilkommenInntekt) => tilkommenInntekt.erDelAvAktivTotrinnsvurdering),
     );
 

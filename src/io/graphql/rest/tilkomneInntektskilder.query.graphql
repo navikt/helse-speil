@@ -1,5 +1,11 @@
-query HentTilkommenInntektV2($fodselsnummer: String!) {
-    tilkomneInntektskilderV2(fodselsnummer: $fodselsnummer) {
+query HentTilkomneInntektskilder($aktorId: String!) {
+    tilkomneInntektskilder(aktorId: $aktorId)
+    @rest(
+        type: "[TilkommenInntektskilde!]!"
+        endpoint: "spesialist"
+        path: "/personer/{args.aktorId}/tilkomne-inntektskilder"
+        method: "GET"
+    ) {
         organisasjonsnummer
         inntekter {
             tilkommenInntektId

@@ -23,11 +23,11 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
     const router = useRouter();
 
     const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
-        person?.fodselsnummer,
+        person?.aktorId,
     );
     const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =
-        tilkommenInntektData?.tilkomneInntektskilderV2 !== undefined
-            ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData.tilkomneInntektskilderV2)
+        tilkommenInntektData?.tilkomneInntektskilder !== undefined
+            ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData.tilkomneInntektskilder)
             : undefined;
 
     const [leggTilTilkommenInntekt] = useMutation(LeggTilTilkommenInntektDocument);

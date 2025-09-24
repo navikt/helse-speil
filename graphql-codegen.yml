@@ -3,7 +3,7 @@ schema:
   - 'http://localhost:8080/graphql':
       headers:
         Authorization: "Bearer ${BEARER_TOKEN}"
-  - './src/io/graphql/organisasjonQuery.graphql'
+  - './src/io/graphql/rest/queries.graphql'
 documents: 'src/io/graphql/**/*.graphql'
 config:
   scalars:

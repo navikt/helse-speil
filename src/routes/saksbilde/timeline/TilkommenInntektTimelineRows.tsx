@@ -10,15 +10,15 @@ import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 interface TilkommenInntektTimelineContainerProps {
     start: dayjs.Dayjs;
     end: dayjs.Dayjs;
-    fødselsnummer: string;
+    aktørId: string;
 }
 
 export const TilkommenInntektTimelineRows = ({
     start,
     end,
-    fødselsnummer,
+    aktørId,
 }: TilkommenInntektTimelineContainerProps): ReactElement => {
-    const { loading, data, error } = useHentTilkommenInntektQuery(fødselsnummer);
+    const { loading, data, error } = useHentTilkommenInntektQuery(aktørId);
 
     if (loading) {
         return <TimelineRowSkeleton />;
@@ -29,7 +29,7 @@ export const TilkommenInntektTimelineRows = ({
             <Alert variant="error">Det har skjedd en feil. Kan ikke vise tilkomne inntekter for denne personen.</Alert>
         );
     }
-    const tilkomneInntektskilder = data!.tilkomneInntektskilderV2;
+    const tilkomneInntektskilder = data!.tilkomneInntektskilder;
 
     return (
         <>

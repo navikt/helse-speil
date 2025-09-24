@@ -1,25 +1,19 @@
-import { QueryResult, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import {
-    HentTilkommenInntektV2Document,
-    HentTilkommenInntektV2Query,
-    HentTilkommenInntektV2QueryVariables,
+    HentTilkomneInntektskilderDocument,
     TilkommenInntekt,
     TilkommenInntektEventListLocalDateEndring,
     TilkommenInntektskilde,
 } from '@io/graphql';
 import { DateString } from '@typer/shared';
 
-export const useHentTilkommenInntektQuery = (
-    fødselsnummer?: string,
-): QueryResult<HentTilkommenInntektV2Query, HentTilkommenInntektV2QueryVariables> => {
-    return useQuery(HentTilkommenInntektV2Document, {
-        fetchPolicy: 'cache-first',
+export const useHentTilkommenInntektQuery = (aktørId?: string) =>
+    useQuery(HentTilkomneInntektskilderDocument, {
         variables: {
-            fodselsnummer: fødselsnummer!,
+            aktorId: aktørId!,
         },
-        skip: !fødselsnummer,
+        skip: !aktørId,
     });
-};
 
 export type TilkommenInntektMedOrganisasjonsnummer = TilkommenInntekt & {
     organisasjonsnummer: string;
@@ -33,9 +27,9 @@ export const tilTilkomneInntekterMedOrganisasjonsnummer = (inntektskilder: Tilko
         })),
     );
 
-export const useTilkommenInntektMedOrganisasjonsnummer = (tilkommenInntektId: string, fødselsnummer?: string) => {
-    const { data: tilkommenInntektData, refetch } = useHentTilkommenInntektQuery(fødselsnummer);
-    const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektData?.tilkomneInntektskilderV2
+export const useTilkommenInntektMedOrganisasjonsnummer = (tilkommenInntektId: string, aktørId?: string) => {
+    const { data: tilkommenInntektData, refetch } = useHentTilkommenInntektQuery(aktørId);
+    const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektData?.tilkomneInntektskilder
         ?.flatMap((tilkommenInntektskilde) =>
             tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
                 organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,

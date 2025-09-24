@@ -148,7 +148,7 @@ const TimelineWithContent = ({
                         );
                     })}
                 {kanGjøreTilkommenInntektEndringer() && (
-                    <TilkommenInntektTimelineRows start={start} end={end} fødselsnummer={person.fodselsnummer} />
+                    <TilkommenInntektTimelineRows start={start} end={end} aktørId={person.aktorId} />
                 )}
                 {infotrygdPeriods.length > 0 && (
                     <InfotrygdRow

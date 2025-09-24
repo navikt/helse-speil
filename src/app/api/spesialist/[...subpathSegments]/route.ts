@@ -21,7 +21,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ subpathS
     if (erLokal) {
         if (subpathSegments[0] == 'personer') {
             const aktørId = subpathSegments[1];
-            if (subpathSegments[2] == 'tilkomne-inntekter') {
+            if (subpathSegments[2] == 'tilkomne-inntektskilder') {
                 logger.info(`Mocker tilkomne inntekter lokalt`);
 
                 return aktørId === '12345'

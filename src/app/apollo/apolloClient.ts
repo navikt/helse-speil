@@ -105,6 +105,7 @@ export const restLink = new RestLink({
         sanity: 'https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production',
         flexjar: '/api/flexjar',
         sparkelAareg: '/api/sparkel-aareg',
+        spesialist: '/api/spesialist',
     },
 });
 
