@@ -68,15 +68,12 @@ export const InntektOgRefusjonSkjema = ({
     );
     const metadata = useOverstyrtInntektMetadata(person, arbeidsgiver, period);
 
-    const fom = sykefraværstilfelle?.[0]?.fom ?? '';
-    const tom = sykefraværstilfelle?.[sykefraværstilfelle.length - 1]?.tom ?? '';
-    console.log('sykefraværstilfelle', fom, tom);
     const form = useForm<InntektOgRefusjonSchema>({
         resolver: zodResolver(
             lagInntektOgRefusjonSchema(
                 {
-                    fom: fom,
-                    tom: tom,
+                    fom: sykefraværstilfelle?.[0]?.fom ?? '',
+                    tom: sykefraværstilfelle?.[sykefraværstilfelle.length - 1]?.tom ?? '',
                 },
                 begrunnelser.map((begrunnelse) => begrunnelse.id),
             ),
@@ -85,10 +82,11 @@ export const InntektOgRefusjonSkjema = ({
             månedsbeløp: omregnetÅrsinntekt.manedsbelop,
             begrunnelse: '',
             notat: '',
-            refusjonsperioder:
+            refusjonsperioder: (
                 (lokaleRefusjonsopplysninger.length > 0
                     ? lokaleRefusjonsopplysninger
-                    : metadata.fraRefusjonsopplysninger) ?? [],
+                    : metadata.fraRefusjonsopplysninger) ?? []
+            ).sort((a, b) => sorter(a.fom, b.fom)),
         },
         reValidateMode: 'onBlur',
         shouldFocusError: false,
@@ -116,8 +114,6 @@ export const InntektOgRefusjonSkjema = ({
     useEffect(() => {
         if (harFeil) feiloppsummeringRef.current?.focus();
     }, [harFeil]);
-
-    console.log(form.formState.errors);
 
     const confirmChanges = () => {
         const { begrunnelse, månedsbeløp, notat, refusjonsperioder } = form.getValues();
