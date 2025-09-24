@@ -6,12 +6,15 @@ import { Button, HStack, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-
 import { InntektOgRefusjonSchema, lagInntektOgRefusjonSchema, sorter } from '@/form-schemas/inntektOgRefusjonSkjema';
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArbeidsgiverFragment, Kildetype, Maybe, InntektFraAOrdningen, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
+import { Arbeidsgiver, Kildetype, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import { formatterBegrunnelse } from '@saksbilde/sykepengegrunnlag/inntekt/Begrunnelser';
 import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/OmregetÅrsinntekt';
 import { SisteTolvMånedersInntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/SisteTolvMånedersInntekt';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
-import { useLokaleRefusjonsopplysninger, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/inntektsforhold/arbeidsgiver';
+import {
+    useLokaleRefusjonsopplysninger,
+    usePeriodForSkjæringstidspunktForArbeidsgiver,
+} from '@state/inntektsforhold/arbeidsgiver';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useInntektOgRefusjon, useLokaleInntektOverstyringer, useOverstyrtInntektMetadata } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
@@ -77,15 +80,12 @@ export const InntektOgRefusjonSkjema = ({
     );
     const metadata = useOverstyrtInntektMetadata(person, arbeidsgiver, period);
 
-    const fom = sykefraværstilfelle?.[0]?.fom ?? '';
-    const tom = sykefraværstilfelle?.[sykefraværstilfelle.length - 1]?.tom ?? '';
-    console.log('sykefraværstilfelle', fom, tom);
     const form = useForm<InntektOgRefusjonSchema>({
         resolver: zodResolver(
             lagInntektOgRefusjonSchema(
                 {
-                    fom: fom,
-                    tom: tom,
+                    fom: sykefraværstilfelle?.[0]?.fom ?? '',
+                    tom: sykefraværstilfelle?.[sykefraværstilfelle.length - 1]?.tom ?? '',
                 },
                 begrunnelser.map((begrunnelse) => begrunnelse.id),
             ),
@@ -94,10 +94,11 @@ export const InntektOgRefusjonSkjema = ({
             månedsbeløp: omregnetÅrsinntekt.manedsbelop,
             begrunnelse: '',
             notat: '',
-            refusjonsperioder:
+            refusjonsperioder: (
                 (lokaleRefusjonsopplysninger.length > 0
                     ? lokaleRefusjonsopplysninger
-                    : metadata.fraRefusjonsopplysninger) ?? [],
+                    : metadata.fraRefusjonsopplysninger) ?? []
+            ).sort((a, b) => sorter(a.fom, b.fom)),
         },
         reValidateMode: 'onBlur',
         shouldFocusError: false,
@@ -125,8 +126,6 @@ export const InntektOgRefusjonSkjema = ({
     useEffect(() => {
         if (harFeil) feiloppsummeringRef.current?.focus();
     }, [harFeil]);
-
-    console.log(form.formState.errors);
 
     const confirmChanges = () => {
         const { begrunnelse, månedsbeløp, notat, refusjonsperioder } = form.getValues();
