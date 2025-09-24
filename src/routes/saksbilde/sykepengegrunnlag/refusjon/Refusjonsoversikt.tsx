@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Box, Label, Table } from '@navikt/ds-react';
 
+import { sorter } from '@/form-schemas/inntektOgRefusjonSkjema';
 import { Refusjonsopplysning } from '@typer/overstyring';
 
 import { Refusjonslinje } from './Refusjonslinje';
@@ -14,7 +15,9 @@ interface RefusjonProps {
 }
 
 export const Refusjonsoversikt = ({ refusjon, lokaleRefusjonsopplysninger }: RefusjonProps): ReactElement => {
-    const refusjonIVisning = lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : refusjon;
+    const refusjonIVisning = (lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : refusjon).sort(
+        (a, b) => sorter(a.fom, b.fom),
+    );
     return (
         <Box marginBlock="6">
             <Label size="small">Refusjon</Label>
