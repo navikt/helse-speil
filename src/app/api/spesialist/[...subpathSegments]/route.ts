@@ -94,6 +94,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ subpath
                 Authorization: `Bearer ${oboResult.token}`,
                 'X-Request-Id': uuidv4(),
                 Accept: 'application/json',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(requestBody),
         });
