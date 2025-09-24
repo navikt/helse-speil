@@ -21,12 +21,10 @@ export async function GET(req: Request, { params }: { params: Promise<{ subpathS
     if (erLokal) {
         if (subpathSegments[0] == 'personer') {
             const aktørId = subpathSegments[1];
-            if (subpathSegments[2] == 'tilkomne-inntektskilder') {
+            if (subpathSegments[2] == 'tilkomne-inntektskilder' && aktørId !== undefined) {
                 logger.info(`Mocker tilkomne inntekter lokalt`);
 
-                return aktørId === '12345'
-                    ? Response.json({}, { status: 404 })
-                    : Response.json(TilkommenInntektMock.tilkomneInntektskilderV2('06028620819'), { status: 200 });
+                return Response.json(TilkommenInntektMock.tilkomneInntektskilder(aktørId));
             }
         }
         return Response.json({ feil: 'Ikke mocket opp lokalt' }, { status: 404 });

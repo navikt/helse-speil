@@ -20,6 +20,7 @@ import {
 
 export class TilkommenInntektMock {
     private static inntektskilder: Map<string, Array<TilkommenInntektskilde>> = new Map();
+    private static aktørIdToFødselsnummerMap: Map<string, string> = new Map();
 
     static {
         const url = path.join(cwd(), 'src/spesialist-mock/data/tilkommenInntekt');
@@ -33,6 +34,10 @@ export class TilkommenInntektMock {
             TilkommenInntektMock.inntektskilder.set(
                 tilkommenInntektMockFil.fodselsnummer,
                 tilkommenInntektMockFil.data.tilkomneInntektskilder,
+            );
+            TilkommenInntektMock.aktørIdToFødselsnummerMap.set(
+                tilkommenInntektMockFil.aktorId,
+                tilkommenInntektMockFil.fodselsnummer,
             );
         });
     }
@@ -74,7 +79,11 @@ export class TilkommenInntektMock {
         return { __typename: 'LeggTilTilkommenInntektResponse', tilkommenInntektId: nyTilkommenInntektId };
     };
 
-    static tilkomneInntektskilderV2 = (fødselsnummer: string): Array<TilkommenInntektskilde> => {
+    static tilkomneInntektskilder = (aktørId: string): Array<TilkommenInntektskilde> => {
+        const fødselsnummer = TilkommenInntektMock.aktørIdToFødselsnummerMap.get(aktørId);
+        if (fødselsnummer === undefined) {
+            return [];
+        }
         return TilkommenInntektMock.inntektskilder.get(fødselsnummer) ?? [];
     };
 

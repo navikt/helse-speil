@@ -162,9 +162,6 @@ const getResolvers = (): IResolvers => ({
             valgtPerson = person;
             return person;
         },
-        tilkomneInntektskilderV2: async (_, { fodselsnummer }: { fodselsnummer: string }) => {
-            return TilkommenInntektMock.tilkomneInntektskilderV2(fodselsnummer);
-        },
         behandledeOppgaverFeed: async (
             _,
             { offset, limit, fom, tom }: { offset: number; limit: number; fom: string; tom: string },
