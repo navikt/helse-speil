@@ -616,6 +616,12 @@ export type LagtPaVent = Historikkinnslag & {
     type: PeriodehistorikkType;
 };
 
+export type LeggTilTilkommenInntektInput = {
+    fodselsnummer: Scalars['String']['input'];
+    notatTilBeslutter: Scalars['String']['input'];
+    verdier: TilkommenInntektInput;
+};
+
 export type LeggTilTilkommenInntektResponse = {
     __typename?: 'LeggTilTilkommenInntektResponse';
     tilkommenInntektId: Scalars['UUID']['output'];
@@ -673,6 +679,7 @@ export type Mutation = {
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
     leggTilTilkommenInntekt: LeggTilTilkommenInntektResponse;
+    leggTilTilkommenInntektREST: LeggTilTilkommenInntektResponse;
     minimumSykdomsgrad?: Maybe<Scalars['Boolean']['output']>;
     oppdaterPerson: Scalars['Boolean']['output'];
     opphevStans: Scalars['Boolean']['output'];
@@ -769,6 +776,10 @@ export type MutationLeggTilTilkommenInntektArgs = {
     fodselsnummer: Scalars['String']['input'];
     notatTilBeslutter: Scalars['String']['input'];
     verdier: TilkommenInntektInput;
+};
+
+export type MutationLeggTilTilkommenInntektRestArgs = {
+    input: LeggTilTilkommenInntektInput;
 };
 
 export type MutationMinimumSykdomsgradArgs = {

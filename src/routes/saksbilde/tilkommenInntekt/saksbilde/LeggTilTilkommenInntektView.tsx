@@ -5,7 +5,7 @@ import React, { ReactElement } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
-import { LeggTilTilkommenInntektDocument } from '@io/graphql';
+import { LeggTilTilkommenInntektRestDocument } from '@io/graphql';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
@@ -30,7 +30,7 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
             ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData.tilkomneInntektskilder)
             : undefined;
 
-    const [leggTilTilkommenInntekt] = useMutation(LeggTilTilkommenInntektDocument);
+    const [leggTilTilkommenInntekt] = useMutation(LeggTilTilkommenInntektRestDocument);
 
     if (!person || tilkomneInntekterMedOrganisasjonsnummer === undefined) {
         return null;
@@ -39,21 +39,23 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
     const submit = async (values: TilkommenInntektSchema) => {
         await leggTilTilkommenInntekt({
             variables: {
-                fodselsnummer: person.fodselsnummer,
-                notatTilBeslutter: values.notat,
-                tilkommenInntekt: {
-                    periode: {
-                        fom: norskDatoTilIsoDato(values.fom),
-                        tom: norskDatoTilIsoDato(values.tom),
+                input: {
+                    fodselsnummer: person.fodselsnummer,
+                    notatTilBeslutter: values.notat,
+                    verdier: {
+                        periode: {
+                            fom: norskDatoTilIsoDato(values.fom),
+                            tom: norskDatoTilIsoDato(values.tom),
+                        },
+                        organisasjonsnummer: values.organisasjonsnummer,
+                        periodebelop: values.periodebeløp.toString(),
+                        ekskluderteUkedager: values.ekskluderteUkedager,
                     },
-                    organisasjonsnummer: values.organisasjonsnummer,
-                    periodebelop: values.periodebeløp.toString(),
-                    ekskluderteUkedager: values.ekskluderteUkedager,
                 },
             },
             onCompleted: (data) => {
                 tilkommenInntektRefetch().then(() => {
-                    navigerTilTilkommenInntekt(data.leggTilTilkommenInntekt.tilkommenInntektId);
+                    navigerTilTilkommenInntekt(data.leggTilTilkommenInntektREST.tilkommenInntektId);
                 });
             },
         });

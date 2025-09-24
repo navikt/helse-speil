@@ -1,5 +1,0 @@
-mutation LeggTilTilkommenInntekt($fodselsnummer: String!, $notatTilBeslutter: String!, $tilkommenInntekt: TilkommenInntektInput!) {
-    leggTilTilkommenInntekt(fodselsnummer: $fodselsnummer, notatTilBeslutter: $notatTilBeslutter, verdier: $tilkommenInntekt) {
-        tilkommenInntektId
-    }
-}

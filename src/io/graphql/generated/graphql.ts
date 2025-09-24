@@ -618,6 +618,12 @@ export type LagtPaVent = Historikkinnslag & {
     type: PeriodehistorikkType;
 };
 
+export type LeggTilTilkommenInntektInput = {
+    fodselsnummer: Scalars['String']['input'];
+    notatTilBeslutter: Scalars['String']['input'];
+    verdier: TilkommenInntektInput;
+};
+
 export type LeggTilTilkommenInntektResponse = {
     __typename: 'LeggTilTilkommenInntektResponse';
     tilkommenInntektId: Scalars['UUID']['output'];
@@ -675,6 +681,7 @@ export type Mutation = {
     leggTilKommentar: Maybe<Kommentar>;
     leggTilNotat: Maybe<Notat>;
     leggTilTilkommenInntekt: LeggTilTilkommenInntektResponse;
+    leggTilTilkommenInntektREST: LeggTilTilkommenInntektResponse;
     minimumSykdomsgrad: Maybe<Scalars['Boolean']['output']>;
     oppdaterPerson: Scalars['Boolean']['output'];
     opphevStans: Scalars['Boolean']['output'];
@@ -771,6 +778,10 @@ export type MutationLeggTilTilkommenInntektArgs = {
     fodselsnummer: Scalars['String']['input'];
     notatTilBeslutter: Scalars['String']['input'];
     verdier: TilkommenInntektInput;
+};
+
+export type MutationLeggTilTilkommenInntektRestArgs = {
+    input: LeggTilTilkommenInntektInput;
 };
 
 export type MutationMinimumSykdomsgradArgs = {
@@ -7387,6 +7398,15 @@ export type HentOrganisasjonQuery = {
     organisasjon: { __typename: 'Organisasjon'; organisasjonsnummer: string; navn: string | null } | null;
 };
 
+export type LeggTilTilkommenInntektRestMutationVariables = Exact<{
+    input: LeggTilTilkommenInntektInput;
+}>;
+
+export type LeggTilTilkommenInntektRestMutation = {
+    __typename: 'Mutation';
+    leggTilTilkommenInntektREST: { __typename: 'LeggTilTilkommenInntektResponse'; tilkommenInntektId: string };
+};
+
 export type HentTilkomneInntektskilderQueryVariables = Exact<{
     aktorId: Scalars['String']['input'];
 }>;
@@ -7612,17 +7632,6 @@ export type GjenopprettTilkommenInntektMutationVariables = Exact<{
 }>;
 
 export type GjenopprettTilkommenInntektMutation = { __typename: 'Mutation'; gjenopprettTilkommenInntekt: boolean };
-
-export type LeggTilTilkommenInntektMutationVariables = Exact<{
-    fodselsnummer: Scalars['String']['input'];
-    notatTilBeslutter: Scalars['String']['input'];
-    tilkommenInntekt: TilkommenInntektInput;
-}>;
-
-export type LeggTilTilkommenInntektMutation = {
-    __typename: 'Mutation';
-    leggTilTilkommenInntekt: { __typename: 'LeggTilTilkommenInntektResponse'; tilkommenInntektId: string };
-};
 
 export type SendIReturMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
@@ -15576,6 +15585,82 @@ export const HentOrganisasjonDocument = {
         },
     ],
 } as unknown as DocumentNode<HentOrganisasjonQuery, HentOrganisasjonQueryVariables>;
+export const LeggTilTilkommenInntektRestDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'LeggTilTilkommenInntektREST' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'LeggTilTilkommenInntektInput' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'leggTilTilkommenInntektREST' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'input' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                            },
+                        ],
+                        directives: [
+                            {
+                                kind: 'Directive',
+                                name: { kind: 'Name', value: 'rest' },
+                                arguments: [
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'type' },
+                                        value: {
+                                            kind: 'StringValue',
+                                            value: 'LeggTilTilkommenInntektResponse!',
+                                            block: false,
+                                        },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'endpoint' },
+                                        value: { kind: 'StringValue', value: 'spesialist', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'path' },
+                                        value: {
+                                            kind: 'StringValue',
+                                            value: '/tidligere-mutations/tilkommen-inntekt/legg-til',
+                                            block: false,
+                                        },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'method' },
+                                        value: { kind: 'StringValue', value: 'POST', block: false },
+                                    },
+                                ],
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'tilkommenInntektId' } }],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<LeggTilTilkommenInntektRestMutation, LeggTilTilkommenInntektRestMutationVariables>;
 export const HentTilkomneInntektskilderDocument = {
     kind: 'Document',
     definitions: [
@@ -16636,66 +16721,6 @@ export const GjenopprettTilkommenInntektDocument = {
         },
     ],
 } as unknown as DocumentNode<GjenopprettTilkommenInntektMutation, GjenopprettTilkommenInntektMutationVariables>;
-export const LeggTilTilkommenInntektDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'LeggTilTilkommenInntekt' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatTilBeslutter' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'tilkommenInntekt' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'TilkommenInntektInput' } },
-                    },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'leggTilTilkommenInntekt' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'fodselsnummer' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'notatTilBeslutter' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'notatTilBeslutter' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'verdier' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'tilkommenInntekt' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'tilkommenInntektId' } }],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<LeggTilTilkommenInntektMutation, LeggTilTilkommenInntektMutationVariables>;
 export const SendIReturDocument = {
     kind: 'Document',
     definitions: [

@@ -1,0 +1,11 @@
+mutation LeggTilTilkommenInntektREST($input: LeggTilTilkommenInntektInput!) {
+    leggTilTilkommenInntektREST(input: $input)
+    @rest(
+        type: "LeggTilTilkommenInntektResponse!"
+        endpoint: "spesialist"
+        path: "/tidligere-mutations/tilkommen-inntekt/legg-til"
+        method: "POST"
+    ) {
+        tilkommenInntektId
+    }
+}

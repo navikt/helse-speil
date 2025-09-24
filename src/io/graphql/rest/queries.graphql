@@ -3,7 +3,17 @@ type Organisasjon {
     navn: String
 }
 
+input LeggTilTilkommenInntektInput {
+    fodselsnummer: String!,
+    notatTilBeslutter: String!,
+    verdier: TilkommenInntektInput!
+}
+
 extend type Query {
     organisasjon(organisasjonsnummer: String!): Organisasjon
     tilkomneInntektskilder(aktorId: String!): [TilkommenInntektskilde!]!
+}
+
+extend type Mutation {
+    leggTilTilkommenInntektREST(input: LeggTilTilkommenInntektInput!): LeggTilTilkommenInntektResponse!
 }

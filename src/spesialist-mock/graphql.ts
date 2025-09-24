@@ -18,7 +18,6 @@ import {
     Maybe,
     MutationEndreTilkommenInntektArgs,
     MutationFjernTilkommenInntektArgs,
-    MutationLeggTilTilkommenInntektArgs,
     SaksbehandlerInput,
 } from '@io/graphql';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
@@ -229,13 +228,6 @@ const getResolvers = (): IResolvers => ({
         },
     },
     Mutation: {
-        leggTilTilkommenInntekt: async (
-            _,
-            { fodselsnummer, notatTilBeslutter, verdier }: MutationLeggTilTilkommenInntektArgs,
-        ) => {
-            await sleep(2000);
-            return TilkommenInntektMock.leggTilTilkommenInntekt(fodselsnummer, notatTilBeslutter, verdier);
-        },
         endreTilkommenInntekt: async (
             _,
             { endretTil, notatTilBeslutter, tilkommenInntektId }: MutationEndreTilkommenInntektArgs,
