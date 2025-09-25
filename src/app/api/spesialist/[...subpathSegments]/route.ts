@@ -1,10 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { erLokal, getServerEnv } from '@/env';
-import { logger } from '@/logger';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
-import { LeggTilTilkommenInntektInput } from '@io/graphql';
-import { sleep } from '@spesialist-mock/constants';
 import { TilkommenInntektMock } from '@spesialist-mock/storage/tilkommeninntekt';
 
 export const dynamic = 'force-dynamic';
@@ -21,15 +18,10 @@ export async function GET(req: Request, { params }: { params: Promise<{ subpathS
     const subpath = subpathSegments.join('/');
 
     if (erLokal) {
-        if (subpathSegments[0] === 'personer') {
-            const aktørId = subpathSegments[1];
-            if (subpathSegments[2] === 'tilkomne-inntektskilder' && aktørId !== undefined) {
-                logger.info(`Mocker tilkomne inntekter lokalt`);
-
-                return Response.json(TilkommenInntektMock.tilkomneInntektskilder(aktørId));
-            }
-        }
-        return Response.json({ feil: 'Ikke mocket opp lokalt' }, { status: 404 });
+        return (
+            (await TilkommenInntektMock.håndterGet(subpathSegments)) ??
+            Response.json({ feil: 'Ikke mocket opp lokalt' }, { status: 404 })
+        );
     } else {
         const wonderwallToken = hentWonderwallToken(req);
         if (!wonderwallToken) {
@@ -65,18 +57,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ subpath
     const subpath = subpathSegments.join('/');
 
     if (erLokal) {
-        if (subpath === 'tidligere-mutations/tilkommen-inntekt/legg-til') {
-            await sleep(2000);
-            const input = requestBody as LeggTilTilkommenInntektInput;
-            return Response.json(
-                TilkommenInntektMock.leggTilTilkommenInntekt(
-                    input.fodselsnummer,
-                    input.notatTilBeslutter,
-                    input.verdier,
-                ),
-            );
-        }
-        return Response.json({ feil: 'Ikke mocket opp lokalt' }, { status: 404 });
+        return (
+            (await TilkommenInntektMock.håndterPost(subpathSegments, requestBody)) ??
+            Response.json({ feil: 'Ikke mocket opp lokalt' }, { status: 404 })
+        );
     } else {
         const wonderwallToken = hentWonderwallToken(req);
         if (!wonderwallToken) {

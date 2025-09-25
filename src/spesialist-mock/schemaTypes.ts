@@ -394,6 +394,11 @@ export type EndrePaVent = Historikkinnslag & {
     type: PeriodehistorikkType;
 };
 
+export type EndreTilkommenInntektInput = {
+    endretTil: TilkommenInntektInput;
+    notatTilBeslutter: Scalars['String']['input'];
+};
+
 export type EndringIRefusjon = {
     __typename?: 'EndringIRefusjon';
     beloep?: Maybe<Scalars['Float']['output']>;
@@ -421,6 +426,10 @@ export type FiltreringInput = {
     tildelt?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type FjernTilkommenInntektInput = {
+    notatTilBeslutter: Scalars['String']['input'];
+};
+
 export type FjernetFraPaVent = Historikkinnslag & {
     __typename?: 'FjernetFraPaVent';
     dialogRef?: Maybe<Scalars['Int']['output']>;
@@ -445,6 +454,11 @@ export type GhostPeriode = {
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     tom: Scalars['LocalDate']['output'];
     vilkarsgrunnlagId?: Maybe<Scalars['UUID']['output']>;
+};
+
+export type GjenopprettTilkommenInntektInput = {
+    endretTil: TilkommenInntektInput;
+    notatTilBeslutter: Scalars['String']['input'];
 };
 
 export type GjenopptakelseNaturalytelse = {
@@ -667,6 +681,7 @@ export type Mutation = {
     annuller: Scalars['Boolean']['output'];
     endrePaVent?: Maybe<PaVent>;
     endreTilkommenInntekt: Scalars['Boolean']['output'];
+    endreTilkommenInntektREST: Scalars['Boolean']['output'];
     fattVedtak: Scalars['Boolean']['output'];
     feilregistrerKommentar?: Maybe<Kommentar>;
     feilregistrerKommentarV2?: Maybe<Kommentar>;
@@ -674,7 +689,9 @@ export type Mutation = {
     fjernPaVent?: Maybe<Scalars['Boolean']['output']>;
     fjernTildeling: Scalars['Boolean']['output'];
     fjernTilkommenInntekt: Scalars['Boolean']['output'];
+    fjernTilkommenInntektREST: Scalars['Boolean']['output'];
     gjenopprettTilkommenInntekt: Scalars['Boolean']['output'];
+    gjenopprettTilkommenInntektREST: Scalars['Boolean']['output'];
     leggPaVent?: Maybe<PaVent>;
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
@@ -715,6 +732,11 @@ export type MutationEndreTilkommenInntektArgs = {
     tilkommenInntektId: Scalars['UUID']['input'];
 };
 
+export type MutationEndreTilkommenInntektRestArgs = {
+    input: EndreTilkommenInntektInput;
+    tilkommenInntektId: Scalars['UUID']['input'];
+};
+
 export type MutationFattVedtakArgs = {
     begrunnelse?: InputMaybe<Scalars['String']['input']>;
     oppgavereferanse: Scalars['String']['input'];
@@ -745,9 +767,19 @@ export type MutationFjernTilkommenInntektArgs = {
     tilkommenInntektId: Scalars['UUID']['input'];
 };
 
+export type MutationFjernTilkommenInntektRestArgs = {
+    input: FjernTilkommenInntektInput;
+    tilkommenInntektId: Scalars['UUID']['input'];
+};
+
 export type MutationGjenopprettTilkommenInntektArgs = {
     endretTil: TilkommenInntektInput;
     notatTilBeslutter: Scalars['String']['input'];
+    tilkommenInntektId: Scalars['UUID']['input'];
+};
+
+export type MutationGjenopprettTilkommenInntektRestArgs = {
+    input: GjenopprettTilkommenInntektInput;
     tilkommenInntektId: Scalars['UUID']['input'];
 };
 

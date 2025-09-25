@@ -3,7 +3,7 @@ mutation LeggTilTilkommenInntektREST($input: LeggTilTilkommenInntektInput!) {
     @rest(
         type: "LeggTilTilkommenInntektResponse!"
         endpoint: "spesialist"
-        path: "/tidligere-mutations/tilkommen-inntekt/legg-til"
+        path: "/tilkomne-inntekter"
         method: "POST"
     ) {
         tilkommenInntektId

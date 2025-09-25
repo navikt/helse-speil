@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
-import { GjenopprettTilkommenInntektDocument } from '@io/graphql';
+import { GjenopprettTilkommenInntektRestDocument } from '@io/graphql';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
@@ -36,7 +36,7 @@ export const GjenopprettTilkommenInntektView = ({
             (inntektMedOrganisasjonsnummer) => inntektMedOrganisasjonsnummer.tilkommenInntektId === tilkommenInntektId,
         );
 
-    const [gjenopprettTilkommenInntekt] = useMutation(GjenopprettTilkommenInntektDocument);
+    const [gjenopprettTilkommenInntekt] = useMutation(GjenopprettTilkommenInntektRestDocument);
 
     if (
         !person ||
@@ -49,17 +49,19 @@ export const GjenopprettTilkommenInntektView = ({
     const submit = async (values: TilkommenInntektSchema) => {
         await gjenopprettTilkommenInntekt({
             variables: {
-                endretTil: {
-                    periode: {
-                        fom: norskDatoTilIsoDato(values.fom),
-                        tom: norskDatoTilIsoDato(values.tom),
-                    },
-                    organisasjonsnummer: values.organisasjonsnummer,
-                    periodebelop: values.periodebeløp.toString(),
-                    ekskluderteUkedager: values.ekskluderteUkedager,
-                },
-                notatTilBeslutter: values.notat,
                 tilkommenInntektId: tilkommenInntektMedOrganisasjonsnummer.tilkommenInntektId,
+                input: {
+                    endretTil: {
+                        periode: {
+                            fom: norskDatoTilIsoDato(values.fom),
+                            tom: norskDatoTilIsoDato(values.tom),
+                        },
+                        organisasjonsnummer: values.organisasjonsnummer,
+                        periodebelop: values.periodebeløp.toString(),
+                        ekskluderteUkedager: values.ekskluderteUkedager,
+                    },
+                    notatTilBeslutter: values.notat,
+                },
             },
             onCompleted: () => {
                 tilkommenInntektRefetch().then(() => {

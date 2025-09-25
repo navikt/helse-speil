@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { BodyLong, Button, Modal, Textarea, VStack } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { FjernTilkommenInntektDocument, TilkommenInntekt } from '@io/graphql';
+import { FjernTilkommenInntektRestDocument, TilkommenInntekt } from '@io/graphql';
 import { useTilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
 
@@ -21,7 +21,7 @@ export const FjernTilkommenInntektModal = ({
     const [fjerningBegrunnelse, setFjerningBegrunnelse] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>(undefined);
-    const [fjernTilkommenInntekt] = useMutation(FjernTilkommenInntektDocument);
+    const [fjernTilkommenInntekt] = useMutation(FjernTilkommenInntektRestDocument);
 
     const { tilkommenInntektRefetch } = useTilkommenInntektMedOrganisasjonsnummer(
         tilkommenInntekt.tilkommenInntektId,
@@ -36,8 +36,10 @@ export const FjernTilkommenInntektModal = ({
             setLoading(true);
             await fjernTilkommenInntekt({
                 variables: {
-                    notatTilBeslutter: fjerningBegrunnelse,
                     tilkommenInntektId: tilkommenInntekt.tilkommenInntektId,
+                    input: {
+                        notatTilBeslutter: fjerningBegrunnelse,
+                    },
                 },
                 onCompleted: () => tilkommenInntektRefetch().then(() => onClose()),
             });

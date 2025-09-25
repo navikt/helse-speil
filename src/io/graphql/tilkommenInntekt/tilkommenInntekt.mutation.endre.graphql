@@ -1,3 +1,0 @@
-mutation EndreTilkommenInntekt($endretTil: TilkommenInntektInput!, $notatTilBeslutter: String!, $tilkommenInntektId: UUID!) {
-    endreTilkommenInntekt(endretTil: $endretTil, notatTilBeslutter: $notatTilBeslutter, tilkommenInntektId: $tilkommenInntektId)
-}
