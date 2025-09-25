@@ -15,12 +15,14 @@ export const Arbeidsgivernavn = ({
     navn,
     maxWidth,
     showCopyButton,
+    visIdentifikatorITooltip = false,
     ...bodyShortProps
 }: {
     identifikator: string;
     navn?: string;
     maxWidth?: string;
     showCopyButton?: boolean;
+    visIdentifikatorITooltip?: boolean;
 } & Omit<BodyShortProps, 'children'>) => {
     if (erSelvstendigNæringsdrivende(identifikator)) {
         return <ArbeidsgivernavnKjent navn="Selvstendig næring" maxWidth={maxWidth} {...bodyShortProps} />;
@@ -34,6 +36,7 @@ export const Arbeidsgivernavn = ({
                 navn={capitalizeArbeidsgiver(navn)}
                 maxWidth={maxWidth}
                 showCopyButton={showCopyButton}
+                identifikator={visIdentifikatorITooltip ? identifikator : undefined}
                 {...bodyShortProps}
             />
         );
@@ -82,19 +85,31 @@ const ArbeidsgivernavnOppslag = ({
     );
 };
 
+function tooltipInnhold(isAnonymous: boolean, navn: string, identifikator?: string) {
+    if (isAnonymous) {
+        return 'Arbeidsgiver';
+    } else if (identifikator) {
+        return `${navn} (${identifikator})`;
+    } else {
+        return navn;
+    }
+}
+
 const ArbeidsgivernavnKjent = ({
     navn,
     maxWidth,
     showCopyButton,
+    identifikator,
     ...bodyShortProps
 }: {
     navn: string;
     maxWidth?: string;
     showCopyButton?: boolean;
+    identifikator?: string;
 } & Omit<BodyShortProps, 'children'>) => {
     const isAnonymous = useIsAnonymous();
     return (
-        <Tooltip content={isAnonymous ? 'Arbeidsgiver' : navn}>
+        <Tooltip content={tooltipInnhold(isAnonymous, navn, identifikator)}>
             <HStack gap="2" maxWidth={maxWidth} wrap={false} className={styles.anonymisert}>
                 <AnonymizableTextWithEllipsis {...bodyShortProps}>{navn}</AnonymizableTextWithEllipsis>
                 {showCopyButton && (
