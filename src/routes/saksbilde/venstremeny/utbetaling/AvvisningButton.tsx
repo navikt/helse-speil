@@ -2,6 +2,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { Button, ErrorMessage } from '@navikt/ds-react';
 
+import { erUtvikling } from '@/env';
 import { BeregnetPeriodeFragment, Handling, Maybe, Periodehandling } from '@io/graphql';
 
 import { AvvisningModal } from './AvvisningModal';
@@ -32,11 +33,18 @@ export const AvvisningButton = ({
                 variant="secondary"
                 size={size}
                 data-testid="avvisning-button"
-                onClick={() =>
-                    kanAvvises?.tillatt
-                        ? setShowModal(true)
-                        : setKanIkkeAvvisesMelding('Denne oppgaven er det noe krøll med. Du må annullere utbetalingen.')
-                }
+                onClick={() => {
+                    if (erUtvikling) {
+                        setShowModal(true);
+                        return;
+                    }
+
+                    if (kanAvvises?.tillatt) {
+                        setShowModal(true);
+                    } else {
+                        setKanIkkeAvvisesMelding('Denne oppgaven er det noe krøll med. Du må annullere utbetalingen.');
+                    }
+                }}
                 {...buttonProps}
             >
                 Kan ikke behandles her
