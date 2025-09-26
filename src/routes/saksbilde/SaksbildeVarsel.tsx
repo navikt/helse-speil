@@ -30,7 +30,7 @@ interface SaksbildeVarselProps {
 export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
     const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(person.aktorId);
     const harTilkommenInntektEndring =
-        tilkommenInntektData?.tilkomneInntektskilder.some((inntektkilde) =>
+        tilkommenInntektData?.restGetTilkomneInntektskilder.some((inntektkilde) =>
             inntektkilde.inntekter.some((tilkommenInntekt) => tilkommenInntekt.erDelAvAktivTotrinnsvurdering),
         ) ?? false;
 

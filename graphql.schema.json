@@ -12094,6 +12094,47 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "restGetTilkomneInntektskilder",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "aktorId",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null,
+                                "isDeprecated": false,
+                                "deprecationReason": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "TilkommenInntektskilde",
+                                        "ofType": null
+                                    }
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "tildelteOppgaverFeed",
                         "description": null,
                         "args": [
@@ -12153,88 +12194,6 @@
                                 "kind": "OBJECT",
                                 "name": "OppgaverTilBehandling",
                                 "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "tilkomneInntektskilder",
-                        "description": null,
-                        "args": [
-                            {
-                                "name": "aktorId",
-                                "description": null,
-                                "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    }
-                                },
-                                "defaultValue": null,
-                                "isDeprecated": false,
-                                "deprecationReason": null
-                            }
-                        ],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "OBJECT",
-                                        "name": "TilkommenInntektskilde",
-                                        "ofType": null
-                                    }
-                                }
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "tilkomneInntektskilderV2",
-                        "description": null,
-                        "args": [
-                            {
-                                "name": "fodselsnummer",
-                                "description": null,
-                                "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    }
-                                },
-                                "defaultValue": null,
-                                "isDeprecated": false,
-                                "deprecationReason": null
-                            }
-                        ],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "OBJECT",
-                                        "name": "TilkommenInntektskilde",
-                                        "ofType": null
-                                    }
-                                }
                             }
                         },
                         "isDeprecated": false,
@@ -15994,94 +15953,6 @@
             },
             {
                 "kind": "OBJECT",
-                "name": "TilkommenInntektEventBigDecimalEndring",
-                "description": null,
-                "isOneOf": null,
-                "fields": [
-                    {
-                        "name": "fra",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "BigDecimal",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "til",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "BigDecimal",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": [],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "OBJECT",
-                "name": "TilkommenInntektEventDatoPeriodeEndring",
-                "description": null,
-                "isOneOf": null,
-                "fields": [
-                    {
-                        "name": "fra",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "OBJECT",
-                                "name": "DatoPeriode",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "til",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "OBJECT",
-                                "name": "DatoPeriode",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": [],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "OBJECT",
                 "name": "TilkommenInntektEventEndringer",
                 "description": null,
                 "isOneOf": null,
@@ -16092,7 +15963,7 @@
                         "args": [],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "TilkommenInntektEventListLocalDateEndring",
+                            "name": "TilkommenInntektEventEndringerListLocalDateEndring",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -16104,7 +15975,7 @@
                         "args": [],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "TilkommenInntektEventStringEndring",
+                            "name": "TilkommenInntektEventEndringerStringEndring",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -16116,7 +15987,7 @@
                         "args": [],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "TilkommenInntektEventDatoPeriodeEndring",
+                            "name": "TilkommenInntektEventEndringerDatoPeriodeEndring",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -16128,7 +15999,7 @@
                         "args": [],
                         "type": {
                             "kind": "OBJECT",
-                            "name": "TilkommenInntektEventBigDecimalEndring",
+                            "name": "TilkommenInntektEventEndringerBigDecimalEndring",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -16142,7 +16013,95 @@
             },
             {
                 "kind": "OBJECT",
-                "name": "TilkommenInntektEventListLocalDateEndring",
+                "name": "TilkommenInntektEventEndringerBigDecimalEndring",
+                "description": null,
+                "isOneOf": null,
+                "fields": [
+                    {
+                        "name": "fra",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "BigDecimal",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "til",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "BigDecimal",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "TilkommenInntektEventEndringerDatoPeriodeEndring",
+                "description": null,
+                "isOneOf": null,
+                "fields": [
+                    {
+                        "name": "fra",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "DatoPeriode",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "til",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "DatoPeriode",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "TilkommenInntektEventEndringerListLocalDateEndring",
                 "description": null,
                 "isOneOf": null,
                 "fields": [
@@ -16189,6 +16148,50 @@
                                         "ofType": null
                                     }
                                 }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "TilkommenInntektEventEndringerStringEndring",
+                "description": null,
+                "isOneOf": null,
+                "fields": [
+                    {
+                        "name": "fra",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "til",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
                             }
                         },
                         "isDeprecated": false,
@@ -16256,50 +16259,6 @@
                     },
                     {
                         "name": "utfortAvSaksbehandlerIdent",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": [],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "OBJECT",
-                "name": "TilkommenInntektEventStringEndring",
-                "description": null,
-                "isOneOf": null,
-                "fields": [
-                    {
-                        "name": "fra",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "til",
                         "description": null,
                         "args": [],
                         "type": {

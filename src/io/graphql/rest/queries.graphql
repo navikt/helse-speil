@@ -25,7 +25,6 @@ input GjenopprettTilkommenInntektInput {
 
 extend type Query {
     organisasjon(organisasjonsnummer: String!): Organisasjon
-    tilkomneInntektskilder(aktorId: String!): [TilkommenInntektskilde!]!
 }
 
 extend type Mutation {

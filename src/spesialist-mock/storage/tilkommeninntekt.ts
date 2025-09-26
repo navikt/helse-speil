@@ -241,7 +241,7 @@ export class TilkommenInntektMock {
                 endretTil.ekskluderteUkedager,
             )
                 ? {
-                      __typename: 'TilkommenInntektEventListLocalDateEndring',
+                      __typename: 'TilkommenInntektEventEndringerListLocalDateEndring',
                       fra: tilkommenInntekt.ekskluderteUkedager,
                       til: endretTil.ekskluderteUkedager,
                   }
@@ -249,7 +249,7 @@ export class TilkommenInntektMock {
             organisasjonsnummer:
                 organisasjonsnummer !== endretTil.organisasjonsnummer
                     ? {
-                          __typename: 'TilkommenInntektEventStringEndring',
+                          __typename: 'TilkommenInntektEventEndringerStringEndring',
                           fra: organisasjonsnummer,
                           til: endretTil.organisasjonsnummer,
                       }
@@ -258,7 +258,7 @@ export class TilkommenInntektMock {
                 tilkommenInntekt.periode.fom !== endretTil.periode.fom ||
                 tilkommenInntekt.periode.tom !== endretTil.periode.tom
                     ? {
-                          __typename: 'TilkommenInntektEventDatoPeriodeEndring',
+                          __typename: 'TilkommenInntektEventEndringerDatoPeriodeEndring',
                           fra: {
                               __typename: 'DatoPeriode',
                               fom: tilkommenInntekt.periode.fom,
@@ -274,7 +274,7 @@ export class TilkommenInntektMock {
             periodebelop:
                 Number(tilkommenInntekt.periodebelop) !== Number(endretTil.periodebelop)
                     ? {
-                          __typename: 'TilkommenInntektEventBigDecimalEndring',
+                          __typename: 'TilkommenInntektEventEndringerBigDecimalEndring',
                           fra: tilkommenInntekt.periodebelop,
                           til: endretTil.periodebelop,
                       }

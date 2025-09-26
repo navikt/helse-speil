@@ -1,40 +1,27 @@
-query HentTilkomneInntektskilder($aktorId: String!) {
-    tilkomneInntektskilder(aktorId: $aktorId)
+query RESTGetTilkomneInntektskilder($aktorId: String!) {
+    restGetTilkomneInntektskilder(aktorId: $aktorId)
     @rest(
         type: "[TilkommenInntektskilde!]!"
         endpoint: "spesialist"
         path: "/personer/{args.aktorId}/tilkomne-inntektskilder"
         method: "GET"
     ) {
-        organisasjonsnummer
         inntekter {
-            tilkommenInntektId
-            periode {
-                fom
-                tom
-            }
-            periodebelop
             ekskluderteUkedager
-            fjernet
             erDelAvAktivTotrinnsvurdering
             events {
                 metadata {
+                    notatTilBeslutter
                     sekvensnummer
                     tidspunkt
                     utfortAvSaksbehandlerIdent
-                    notatTilBeslutter
-                }
-                ... on TilkommenInntektOpprettetEvent {
-                    organisasjonsnummer
-                    periode {
-                        fom
-                        tom
-                    }
-                    periodebelop
-                    ekskluderteUkedager
                 }
                 ... on TilkommenInntektEndretEvent {
                     endringer {
+                        ekskluderteUkedager {
+                            fra
+                            til
+                        }
                         organisasjonsnummer {
                             fra
                             til
@@ -50,10 +37,6 @@ query HentTilkomneInntektskilder($aktorId: String!) {
                             }
                         }
                         periodebelop {
-                            fra
-                            til
-                        }
-                        ekskluderteUkedager {
                             fra
                             til
                         }
@@ -61,6 +44,10 @@ query HentTilkomneInntektskilder($aktorId: String!) {
                 }
                 ... on TilkommenInntektGjenopprettetEvent {
                     endringer {
+                        ekskluderteUkedager {
+                            fra
+                            til
+                        }
                         organisasjonsnummer {
                             fra
                             til
@@ -79,13 +66,26 @@ query HentTilkomneInntektskilder($aktorId: String!) {
                             fra
                             til
                         }
-                        ekskluderteUkedager {
-                            fra
-                            til
-                        }
                     }
                 }
+                ... on TilkommenInntektOpprettetEvent {
+                    ekskluderteUkedager
+                    organisasjonsnummer
+                    periode {
+                        fom
+                        tom
+                    }
+                    periodebelop
+                }
             }
+            fjernet
+            periode {
+                fom
+                tom
+            }
+            periodebelop
+            tilkommenInntektId
         }
+        organisasjonsnummer
     }
 }

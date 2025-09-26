@@ -4,6 +4,7 @@ schema:
       headers:
         Authorization: "Bearer ${BEARER_TOKEN}"
   - './src/io/graphql/rest/queries.graphql'
+  - './src/io/graphql/rest/spesialist/schema.graphql'
 documents: 'src/io/graphql/**/*.graphql'
 config:
   scalars:

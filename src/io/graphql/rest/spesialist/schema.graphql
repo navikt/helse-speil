@@ -1,0 +1,83 @@
+type TilkommenInntektOpprettetEvent implements TilkommenInntektEvent {
+    ekskluderteUkedager: [LocalDate!]!
+    metadata: TilkommenInntektEventMetadata!
+    organisasjonsnummer: String!
+    periode: DatoPeriode!
+    periodebelop: BigDecimal!
+}
+
+type TilkommenInntektGjenopprettetEvent implements TilkommenInntektEvent {
+    endringer: TilkommenInntektEventEndringer!
+    metadata: TilkommenInntektEventMetadata!
+}
+
+type TilkommenInntektFjernetEvent implements TilkommenInntektEvent {
+    metadata: TilkommenInntektEventMetadata!
+}
+
+type TilkommenInntektEventEndringerBigDecimalEndring {
+    fra: BigDecimal!
+    til: BigDecimal!
+}
+
+type DatoPeriode {
+    fom: LocalDate!
+    tom: LocalDate!
+}
+
+type TilkommenInntektEventEndringerDatoPeriodeEndring {
+    fra: DatoPeriode!
+    til: DatoPeriode!
+}
+
+type TilkommenInntektEventEndringerStringEndring {
+    fra: String!
+    til: String!
+}
+
+type TilkommenInntektEventEndringerListLocalDateEndring {
+    fra: [LocalDate!]!
+    til: [LocalDate!]!
+}
+
+type TilkommenInntektEventEndringer {
+    ekskluderteUkedager: TilkommenInntektEventEndringerListLocalDateEndring
+    organisasjonsnummer: TilkommenInntektEventEndringerStringEndring
+    periode: TilkommenInntektEventEndringerDatoPeriodeEndring
+    periodebelop: TilkommenInntektEventEndringerBigDecimalEndring
+}
+
+type TilkommenInntektEndretEvent implements TilkommenInntektEvent {
+    endringer: TilkommenInntektEventEndringer!
+    metadata: TilkommenInntektEventMetadata!
+}
+
+type TilkommenInntektEventMetadata {
+    notatTilBeslutter: String!
+    sekvensnummer: Int!
+    tidspunkt: LocalDateTime!
+    utfortAvSaksbehandlerIdent: String!
+}
+
+interface TilkommenInntektEvent {
+    metadata: TilkommenInntektEventMetadata!
+}
+
+type TilkommenInntekt {
+    ekskluderteUkedager: [LocalDate!]!
+    erDelAvAktivTotrinnsvurdering: Boolean!
+    events: [TilkommenInntektEvent!]!
+    fjernet: Boolean!
+    periode: DatoPeriode!
+    periodebelop: BigDecimal!
+    tilkommenInntektId: UUID!
+}
+
+type TilkommenInntektskilde {
+    inntekter: [TilkommenInntekt!]!
+    organisasjonsnummer: String!
+}
+
+extend type Query {
+    restGetTilkomneInntektskilder(aktorId: String!): [TilkommenInntektskilde!]!
+}

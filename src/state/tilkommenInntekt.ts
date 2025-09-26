@@ -1,14 +1,14 @@
 import { useQuery } from '@apollo/client';
 import {
-    HentTilkomneInntektskilderDocument,
+    RestGetTilkomneInntektskilderDocument,
     TilkommenInntekt,
-    TilkommenInntektEventListLocalDateEndring,
+    TilkommenInntektEventEndringerListLocalDateEndring,
     TilkommenInntektskilde,
 } from '@io/graphql';
 import { DateString } from '@typer/shared';
 
 export const useHentTilkommenInntektQuery = (aktørId?: string) =>
-    useQuery(HentTilkomneInntektskilderDocument, {
+    useQuery(RestGetTilkomneInntektskilderDocument, {
         variables: {
             aktorId: aktørId!,
         },
@@ -29,7 +29,7 @@ export const tilTilkomneInntekterMedOrganisasjonsnummer = (inntektskilder: Tilko
 
 export const useTilkommenInntektMedOrganisasjonsnummer = (tilkommenInntektId: string, aktørId?: string) => {
     const { data: tilkommenInntektData, refetch } = useHentTilkommenInntektQuery(aktørId);
-    const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektData?.tilkomneInntektskilder
+    const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektData?.restGetTilkomneInntektskilder
         ?.flatMap((tilkommenInntektskilde) =>
             tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
                 organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,
@@ -57,7 +57,7 @@ export type DagMedEndringstype = {
 };
 
 export const tilSorterteDagerMedEndringstype = (
-    ekskluderteUkedager: TilkommenInntektEventListLocalDateEndring,
+    ekskluderteUkedager: TilkommenInntektEventEndringerListLocalDateEndring,
 ): DagMedEndringstype[] =>
     ekskluderteUkedager.fra
         .filter((dag) => !ekskluderteUkedager!.til.includes(dag))
