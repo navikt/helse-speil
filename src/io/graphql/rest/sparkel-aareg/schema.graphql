@@ -4,5 +4,5 @@ type Organisasjon {
 }
 
 extend type Query {
-    organisasjon(organisasjonsnummer: String!): Organisasjon
+    restOrganisasjonGet(organisasjonsnummer: String!): Organisasjon
 }

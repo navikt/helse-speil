@@ -62,7 +62,7 @@ const ArbeidsgivernavnOppslag = ({
     showCopyButton?: boolean;
 } & Omit<BodyShortProps, 'children'>) => {
     const { loading, data } = useOrganisasjonQuery(organisasjonsnummer);
-    const navn = data?.organisasjon?.navn ?? undefined;
+    const navn = data?.restOrganisasjonGet?.navn ?? undefined;
 
     return loading ? (
         <Tooltip content="Henter navn fra enhetsregisteret...">

@@ -75,7 +75,7 @@ export const TilkommenInntektSkjema = ({
     const organisasjonsnummer = form.watch('organisasjonsnummer');
     const { data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
     useEffect(() => {
-        setOrganisasjonEksisterer(organisasjonData?.organisasjon?.navn != undefined);
+        setOrganisasjonEksisterer(organisasjonData?.restOrganisasjonGet?.navn != undefined);
     }, [organisasjonData]);
 
     const fom = form.watch('fom');

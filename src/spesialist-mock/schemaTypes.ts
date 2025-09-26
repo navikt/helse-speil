@@ -1240,8 +1240,8 @@ export type Query = {
     hentSoknad?: Maybe<Soknad>;
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
-    organisasjon?: Maybe<Organisasjon>;
     person?: Maybe<Person>;
+    restOrganisasjonGet?: Maybe<Organisasjon>;
     restPersonTilkomneInntektskilderGet: Array<TilkommenInntektskilde>;
     tildelteOppgaverFeed: OppgaverTilBehandling;
 };
@@ -1274,13 +1274,13 @@ export type QueryOpptegnelserArgs = {
     sekvensId?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type QueryOrganisasjonArgs = {
-    organisasjonsnummer: Scalars['String']['input'];
-};
-
 export type QueryPersonArgs = {
     aktorId?: InputMaybe<Scalars['String']['input']>;
     fnr?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type QueryRestOrganisasjonGetArgs = {
+    organisasjonsnummer: Scalars['String']['input'];
 };
 
 export type QueryRestPersonTilkomneInntektskilderGetArgs = {

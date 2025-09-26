@@ -1242,8 +1242,8 @@ export type Query = {
     hentSoknad: Maybe<Soknad>;
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
-    organisasjon: Maybe<Organisasjon>;
     person: Maybe<Person>;
+    restOrganisasjonGet: Maybe<Organisasjon>;
     restPersonTilkomneInntektskilderGet: Array<TilkommenInntektskilde>;
     tildelteOppgaverFeed: OppgaverTilBehandling;
 };
@@ -1276,13 +1276,13 @@ export type QueryOpptegnelserArgs = {
     sekvensId?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type QueryOrganisasjonArgs = {
-    organisasjonsnummer: Scalars['String']['input'];
-};
-
 export type QueryPersonArgs = {
     aktorId?: InputMaybe<Scalars['String']['input']>;
     fnr?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type QueryRestOrganisasjonGetArgs = {
+    organisasjonsnummer: Scalars['String']['input'];
 };
 
 export type QueryRestPersonTilkomneInntektskilderGetArgs = {
@@ -7399,13 +7399,13 @@ export type LeggPaVentMutation = {
 
 export type PaventFragment = { __typename: 'PaVent'; frist: string | null; oid: string };
 
-export type HentOrganisasjonQueryVariables = Exact<{
+export type RestOrganisasjonGetQueryVariables = Exact<{
     organisasjonsnummer: Scalars['String']['input'];
 }>;
 
-export type HentOrganisasjonQuery = {
+export type RestOrganisasjonGetQuery = {
     __typename: 'Query';
-    organisasjon: { __typename: 'Organisasjon'; organisasjonsnummer: string; navn: string | null } | null;
+    restOrganisasjonGet: { __typename: 'Organisasjon'; organisasjonsnummer: string; navn: string | null } | null;
 };
 
 export type RestOpphevStansPostMutationVariables = Exact<{
@@ -15530,13 +15530,13 @@ export const LeggPaVentDocument = {
         },
     ],
 } as unknown as DocumentNode<LeggPaVentMutation, LeggPaVentMutationVariables>;
-export const HentOrganisasjonDocument = {
+export const RestOrganisasjonGetDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'query',
-            name: { kind: 'Name', value: 'HentOrganisasjon' },
+            name: { kind: 'Name', value: 'RESTOrganisasjonGet' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
@@ -15549,7 +15549,7 @@ export const HentOrganisasjonDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'organisasjon' },
+                        name: { kind: 'Name', value: 'restOrganisasjonGet' },
                         arguments: [
                             {
                                 kind: 'Argument',
@@ -15601,7 +15601,7 @@ export const HentOrganisasjonDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<HentOrganisasjonQuery, HentOrganisasjonQueryVariables>;
+} as unknown as DocumentNode<RestOrganisasjonGetQuery, RestOrganisasjonGetQueryVariables>;
 export const RestOpphevStansPostDocument = {
     kind: 'Document',
     definitions: [

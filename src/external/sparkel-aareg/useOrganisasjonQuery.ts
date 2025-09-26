@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client';
-import { HentOrganisasjonDocument } from '@io/graphql';
+import { RestOrganisasjonGetDocument } from '@io/graphql';
 
 export const useOrganisasjonQuery = (organisasjonsnummer?: string) =>
-    useQuery(HentOrganisasjonDocument, {
+    useQuery(RestOrganisasjonGetDocument, {
         variables: {
             organisasjonsnummer: organisasjonsnummer!,
         },
