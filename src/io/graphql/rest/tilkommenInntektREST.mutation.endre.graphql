@@ -1,9 +1,0 @@
-mutation EndreTilkommenInntektREST($tilkommenInntektId: UUID!, $input: EndreTilkommenInntektInput!) {
-    endreTilkommenInntektREST(tilkommenInntektId: $tilkommenInntektId, input: $input)
-    @rest(
-        type: "EndreTilkommenInntektResponse!"
-        endpoint: "spesialist"
-        path: "/tilkomne-inntekter/{args.tilkommenInntektId}/endre"
-        method: "POST"
-    )
-}

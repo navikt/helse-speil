@@ -1,0 +1,9 @@
+mutation RESTTilkommenInntektGjenopprettPost($tilkommenInntektId: UUID!, $input: TilkommenInntektGjenopprettPostRequestBody!) {
+    restTilkommenInntektGjenopprettPost(tilkommenInntektId: $tilkommenInntektId, input: $input)
+    @rest(
+        type: "Boolean!"
+        endpoint: "spesialist"
+        path: "/tilkomne-inntekter/{args.tilkommenInntektId}/gjenopprett"
+        method: "POST"
+    )
+}

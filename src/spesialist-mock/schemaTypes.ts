@@ -394,11 +394,6 @@ export type EndrePaVent = Historikkinnslag & {
     type: PeriodehistorikkType;
 };
 
-export type EndreTilkommenInntektInput = {
-    endretTil: TilkommenInntektInput;
-    notatTilBeslutter: Scalars['String']['input'];
-};
-
 export type EndringIRefusjon = {
     __typename?: 'EndringIRefusjon';
     beloep?: Maybe<Scalars['Float']['output']>;
@@ -426,10 +421,6 @@ export type FiltreringInput = {
     tildelt?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export type FjernTilkommenInntektInput = {
-    notatTilBeslutter: Scalars['String']['input'];
-};
-
 export type FjernetFraPaVent = Historikkinnslag & {
     __typename?: 'FjernetFraPaVent';
     dialogRef?: Maybe<Scalars['Int']['output']>;
@@ -454,11 +445,6 @@ export type GhostPeriode = {
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     tom: Scalars['LocalDate']['output'];
     vilkarsgrunnlagId?: Maybe<Scalars['UUID']['output']>;
-};
-
-export type GjenopprettTilkommenInntektInput = {
-    endretTil: TilkommenInntektInput;
-    notatTilBeslutter: Scalars['String']['input'];
 };
 
 export type GjenopptakelseNaturalytelse = {
@@ -630,12 +616,6 @@ export type LagtPaVent = Historikkinnslag & {
     type: PeriodehistorikkType;
 };
 
-export type LeggTilTilkommenInntektInput = {
-    fodselsnummer: Scalars['String']['input'];
-    notatTilBeslutter: Scalars['String']['input'];
-    verdier: TilkommenInntektInput;
-};
-
 export type LeggTilTilkommenInntektResponse = {
     __typename?: 'LeggTilTilkommenInntektResponse';
     tilkommenInntektId: Scalars['UUID']['output'];
@@ -680,23 +660,15 @@ export type Mutation = {
     __typename?: 'Mutation';
     annuller: Scalars['Boolean']['output'];
     endrePaVent?: Maybe<PaVent>;
-    endreTilkommenInntekt: Scalars['Boolean']['output'];
-    endreTilkommenInntektREST: Scalars['Boolean']['output'];
     fattVedtak: Scalars['Boolean']['output'];
     feilregistrerKommentar?: Maybe<Kommentar>;
     feilregistrerKommentarV2?: Maybe<Kommentar>;
     feilregistrerNotat?: Maybe<Notat>;
     fjernPaVent?: Maybe<Scalars['Boolean']['output']>;
     fjernTildeling: Scalars['Boolean']['output'];
-    fjernTilkommenInntekt: Scalars['Boolean']['output'];
-    fjernTilkommenInntektREST: Scalars['Boolean']['output'];
-    gjenopprettTilkommenInntekt: Scalars['Boolean']['output'];
-    gjenopprettTilkommenInntektREST: Scalars['Boolean']['output'];
     leggPaVent?: Maybe<PaVent>;
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
-    leggTilTilkommenInntekt: LeggTilTilkommenInntektResponse;
-    leggTilTilkommenInntektREST: LeggTilTilkommenInntektResponse;
     minimumSykdomsgrad?: Maybe<Scalars['Boolean']['output']>;
     oppdaterPerson: Scalars['Boolean']['output'];
     opphevStans: Scalars['Boolean']['output'];
@@ -706,6 +678,11 @@ export type Mutation = {
     overstyrArbeidsforhold?: Maybe<Scalars['Boolean']['output']>;
     overstyrDager?: Maybe<Scalars['Boolean']['output']>;
     overstyrInntektOgRefusjon?: Maybe<Scalars['Boolean']['output']>;
+    restOpphevStansPost: Scalars['Boolean']['output'];
+    restTilkommenInntektEndrePost: Scalars['Boolean']['output'];
+    restTilkommenInntektFjernPost: Scalars['Boolean']['output'];
+    restTilkommenInntektGjenopprettPost: Scalars['Boolean']['output'];
+    restTilkomneInntekterPost: LeggTilTilkommenInntektResponse;
     sendIRetur?: Maybe<Scalars['Boolean']['output']>;
     sendTilGodkjenningV2?: Maybe<Scalars['Boolean']['output']>;
     sendTilInfotrygd: Scalars['Boolean']['output'];
@@ -724,17 +701,6 @@ export type MutationEndrePaVentArgs = {
     notatTekst?: InputMaybe<Scalars['String']['input']>;
     oppgaveId: Scalars['String']['input'];
     tildeling: Scalars['Boolean']['input'];
-};
-
-export type MutationEndreTilkommenInntektArgs = {
-    endretTil: TilkommenInntektInput;
-    notatTilBeslutter: Scalars['String']['input'];
-    tilkommenInntektId: Scalars['UUID']['input'];
-};
-
-export type MutationEndreTilkommenInntektRestArgs = {
-    input: EndreTilkommenInntektInput;
-    tilkommenInntektId: Scalars['UUID']['input'];
 };
 
 export type MutationFattVedtakArgs = {
@@ -762,27 +728,6 @@ export type MutationFjernTildelingArgs = {
     oppgaveId: Scalars['String']['input'];
 };
 
-export type MutationFjernTilkommenInntektArgs = {
-    notatTilBeslutter: Scalars['String']['input'];
-    tilkommenInntektId: Scalars['UUID']['input'];
-};
-
-export type MutationFjernTilkommenInntektRestArgs = {
-    input: FjernTilkommenInntektInput;
-    tilkommenInntektId: Scalars['UUID']['input'];
-};
-
-export type MutationGjenopprettTilkommenInntektArgs = {
-    endretTil: TilkommenInntektInput;
-    notatTilBeslutter: Scalars['String']['input'];
-    tilkommenInntektId: Scalars['UUID']['input'];
-};
-
-export type MutationGjenopprettTilkommenInntektRestArgs = {
-    input: GjenopprettTilkommenInntektInput;
-    tilkommenInntektId: Scalars['UUID']['input'];
-};
-
 export type MutationLeggPaVentArgs = {
     arsaker?: InputMaybe<Array<PaVentArsakInput>>;
     frist: Scalars['LocalDate']['input'];
@@ -802,16 +747,6 @@ export type MutationLeggTilNotatArgs = {
     tekst: Scalars['String']['input'];
     type: NotatType;
     vedtaksperiodeId: Scalars['String']['input'];
-};
-
-export type MutationLeggTilTilkommenInntektArgs = {
-    fodselsnummer: Scalars['String']['input'];
-    notatTilBeslutter: Scalars['String']['input'];
-    verdier: TilkommenInntektInput;
-};
-
-export type MutationLeggTilTilkommenInntektRestArgs = {
-    input: LeggTilTilkommenInntektInput;
 };
 
 export type MutationMinimumSykdomsgradArgs = {
@@ -850,6 +785,29 @@ export type MutationOverstyrDagerArgs = {
 
 export type MutationOverstyrInntektOgRefusjonArgs = {
     overstyring: InntektOgRefusjonOverstyringInput;
+};
+
+export type MutationRestOpphevStansPostArgs = {
+    input: OpphevStansPostRequestBody;
+};
+
+export type MutationRestTilkommenInntektEndrePostArgs = {
+    input: TilkommenInntektEndrePostRequestBody;
+    tilkommenInntektId: Scalars['UUID']['input'];
+};
+
+export type MutationRestTilkommenInntektFjernPostArgs = {
+    input: TilkommenInntektFjernPostRequestBody;
+    tilkommenInntektId: Scalars['UUID']['input'];
+};
+
+export type MutationRestTilkommenInntektGjenopprettPostArgs = {
+    input: TilkommenInntektGjenopprettPostRequestBody;
+    tilkommenInntektId: Scalars['UUID']['input'];
+};
+
+export type MutationRestTilkomneInntekterPostArgs = {
+    input: TilkomneInntekterPostRequestBody;
 };
 
 export type MutationSendIReturArgs = {
@@ -1006,6 +964,11 @@ export type OpphevStansAutomatiskBehandlingSaksbehandler = Historikkinnslag & {
     saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
+};
+
+export type OpphevStansPostRequestBody = {
+    begrunnelse: Scalars['String']['input'];
+    fodselsnummer: Scalars['String']['input'];
 };
 
 export type OpphoerAvNaturalytelse = {
@@ -1279,7 +1242,7 @@ export type Query = {
     opptegnelser: Array<Opptegnelse>;
     organisasjon?: Maybe<Organisasjon>;
     person?: Maybe<Person>;
-    restGetTilkomneInntektskilder: Array<TilkommenInntektskilde>;
+    restPersonTilkomneInntektskilderGet: Array<TilkommenInntektskilde>;
     tildelteOppgaverFeed: OppgaverTilBehandling;
 };
 
@@ -1320,7 +1283,7 @@ export type QueryPersonArgs = {
     fnr?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type QueryRestGetTilkomneInntektskilderArgs = {
+export type QueryRestPersonTilkomneInntektskilderGetArgs = {
     aktorId: Scalars['String']['input'];
 };
 
@@ -1719,6 +1682,11 @@ export type TilkommenInntekt = {
     tilkommenInntektId: Scalars['UUID']['output'];
 };
 
+export type TilkommenInntektEndrePostRequestBody = {
+    endretTil: TilkommenInntektInput;
+    notatTilBeslutter: Scalars['String']['input'];
+};
+
 export type TilkommenInntektEndretEvent = TilkommenInntektEvent & {
     __typename?: 'TilkommenInntektEndretEvent';
     endringer: TilkommenInntektEventEndringer;
@@ -1769,9 +1737,18 @@ export type TilkommenInntektEventMetadata = {
     utfortAvSaksbehandlerIdent: Scalars['String']['output'];
 };
 
+export type TilkommenInntektFjernPostRequestBody = {
+    notatTilBeslutter: Scalars['String']['input'];
+};
+
 export type TilkommenInntektFjernetEvent = TilkommenInntektEvent & {
     __typename?: 'TilkommenInntektFjernetEvent';
     metadata: TilkommenInntektEventMetadata;
+};
+
+export type TilkommenInntektGjenopprettPostRequestBody = {
+    endretTil: TilkommenInntektInput;
+    notatTilBeslutter: Scalars['String']['input'];
 };
 
 export type TilkommenInntektGjenopprettetEvent = TilkommenInntektEvent & {
@@ -1800,6 +1777,12 @@ export type TilkommenInntektskilde = {
     __typename?: 'TilkommenInntektskilde';
     inntekter: Array<TilkommenInntekt>;
     organisasjonsnummer: Scalars['String']['output'];
+};
+
+export type TilkomneInntekterPostRequestBody = {
+    fodselsnummer: Scalars['String']['input'];
+    notatTilBeslutter: Scalars['String']['input'];
+    verdier: TilkommenInntektInput;
 };
 
 export type TilleggsinfoForInntektskilde = {

@@ -1,9 +1,0 @@
-mutation GjenopprettTilkommenInntektREST($tilkommenInntektId: UUID!, $input: GjenopprettTilkommenInntektInput!) {
-    gjenopprettTilkommenInntektREST(tilkommenInntektId: $tilkommenInntektId, input: $input)
-    @rest(
-        type: "GjenopprettTilkommenInntektResponse!"
-        endpoint: "spesialist"
-        path: "/tilkomne-inntekter/{args.tilkommenInntektId}/gjenopprett"
-        method: "POST"
-    )
-}

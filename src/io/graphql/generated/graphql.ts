@@ -396,11 +396,6 @@ export type EndrePaVent = Historikkinnslag & {
     type: PeriodehistorikkType;
 };
 
-export type EndreTilkommenInntektInput = {
-    endretTil: TilkommenInntektInput;
-    notatTilBeslutter: Scalars['String']['input'];
-};
-
 export type EndringIRefusjon = {
     __typename: 'EndringIRefusjon';
     beloep: Maybe<Scalars['Float']['output']>;
@@ -428,10 +423,6 @@ export type FiltreringInput = {
     tildelt?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export type FjernTilkommenInntektInput = {
-    notatTilBeslutter: Scalars['String']['input'];
-};
-
 export type FjernetFraPaVent = Historikkinnslag & {
     __typename: 'FjernetFraPaVent';
     dialogRef: Maybe<Scalars['Int']['output']>;
@@ -456,11 +447,6 @@ export type GhostPeriode = {
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     tom: Scalars['LocalDate']['output'];
     vilkarsgrunnlagId: Maybe<Scalars['UUID']['output']>;
-};
-
-export type GjenopprettTilkommenInntektInput = {
-    endretTil: TilkommenInntektInput;
-    notatTilBeslutter: Scalars['String']['input'];
 };
 
 export type GjenopptakelseNaturalytelse = {
@@ -632,12 +618,6 @@ export type LagtPaVent = Historikkinnslag & {
     type: PeriodehistorikkType;
 };
 
-export type LeggTilTilkommenInntektInput = {
-    fodselsnummer: Scalars['String']['input'];
-    notatTilBeslutter: Scalars['String']['input'];
-    verdier: TilkommenInntektInput;
-};
-
 export type LeggTilTilkommenInntektResponse = {
     __typename: 'LeggTilTilkommenInntektResponse';
     tilkommenInntektId: Scalars['UUID']['output'];
@@ -682,23 +662,15 @@ export type Mutation = {
     __typename: 'Mutation';
     annuller: Scalars['Boolean']['output'];
     endrePaVent: Maybe<PaVent>;
-    endreTilkommenInntekt: Scalars['Boolean']['output'];
-    endreTilkommenInntektREST: Scalars['Boolean']['output'];
     fattVedtak: Scalars['Boolean']['output'];
     feilregistrerKommentar: Maybe<Kommentar>;
     feilregistrerKommentarV2: Maybe<Kommentar>;
     feilregistrerNotat: Maybe<Notat>;
     fjernPaVent: Maybe<Scalars['Boolean']['output']>;
     fjernTildeling: Scalars['Boolean']['output'];
-    fjernTilkommenInntekt: Scalars['Boolean']['output'];
-    fjernTilkommenInntektREST: Scalars['Boolean']['output'];
-    gjenopprettTilkommenInntekt: Scalars['Boolean']['output'];
-    gjenopprettTilkommenInntektREST: Scalars['Boolean']['output'];
     leggPaVent: Maybe<PaVent>;
     leggTilKommentar: Maybe<Kommentar>;
     leggTilNotat: Maybe<Notat>;
-    leggTilTilkommenInntekt: LeggTilTilkommenInntektResponse;
-    leggTilTilkommenInntektREST: LeggTilTilkommenInntektResponse;
     minimumSykdomsgrad: Maybe<Scalars['Boolean']['output']>;
     oppdaterPerson: Scalars['Boolean']['output'];
     opphevStans: Scalars['Boolean']['output'];
@@ -708,6 +680,11 @@ export type Mutation = {
     overstyrArbeidsforhold: Maybe<Scalars['Boolean']['output']>;
     overstyrDager: Maybe<Scalars['Boolean']['output']>;
     overstyrInntektOgRefusjon: Maybe<Scalars['Boolean']['output']>;
+    restOpphevStansPost: Scalars['Boolean']['output'];
+    restTilkommenInntektEndrePost: Scalars['Boolean']['output'];
+    restTilkommenInntektFjernPost: Scalars['Boolean']['output'];
+    restTilkommenInntektGjenopprettPost: Scalars['Boolean']['output'];
+    restTilkomneInntekterPost: LeggTilTilkommenInntektResponse;
     sendIRetur: Maybe<Scalars['Boolean']['output']>;
     sendTilGodkjenningV2: Maybe<Scalars['Boolean']['output']>;
     sendTilInfotrygd: Scalars['Boolean']['output'];
@@ -726,17 +703,6 @@ export type MutationEndrePaVentArgs = {
     notatTekst?: InputMaybe<Scalars['String']['input']>;
     oppgaveId: Scalars['String']['input'];
     tildeling: Scalars['Boolean']['input'];
-};
-
-export type MutationEndreTilkommenInntektArgs = {
-    endretTil: TilkommenInntektInput;
-    notatTilBeslutter: Scalars['String']['input'];
-    tilkommenInntektId: Scalars['UUID']['input'];
-};
-
-export type MutationEndreTilkommenInntektRestArgs = {
-    input: EndreTilkommenInntektInput;
-    tilkommenInntektId: Scalars['UUID']['input'];
 };
 
 export type MutationFattVedtakArgs = {
@@ -764,27 +730,6 @@ export type MutationFjernTildelingArgs = {
     oppgaveId: Scalars['String']['input'];
 };
 
-export type MutationFjernTilkommenInntektArgs = {
-    notatTilBeslutter: Scalars['String']['input'];
-    tilkommenInntektId: Scalars['UUID']['input'];
-};
-
-export type MutationFjernTilkommenInntektRestArgs = {
-    input: FjernTilkommenInntektInput;
-    tilkommenInntektId: Scalars['UUID']['input'];
-};
-
-export type MutationGjenopprettTilkommenInntektArgs = {
-    endretTil: TilkommenInntektInput;
-    notatTilBeslutter: Scalars['String']['input'];
-    tilkommenInntektId: Scalars['UUID']['input'];
-};
-
-export type MutationGjenopprettTilkommenInntektRestArgs = {
-    input: GjenopprettTilkommenInntektInput;
-    tilkommenInntektId: Scalars['UUID']['input'];
-};
-
 export type MutationLeggPaVentArgs = {
     arsaker?: InputMaybe<Array<PaVentArsakInput>>;
     frist: Scalars['LocalDate']['input'];
@@ -804,16 +749,6 @@ export type MutationLeggTilNotatArgs = {
     tekst: Scalars['String']['input'];
     type: NotatType;
     vedtaksperiodeId: Scalars['String']['input'];
-};
-
-export type MutationLeggTilTilkommenInntektArgs = {
-    fodselsnummer: Scalars['String']['input'];
-    notatTilBeslutter: Scalars['String']['input'];
-    verdier: TilkommenInntektInput;
-};
-
-export type MutationLeggTilTilkommenInntektRestArgs = {
-    input: LeggTilTilkommenInntektInput;
 };
 
 export type MutationMinimumSykdomsgradArgs = {
@@ -852,6 +787,29 @@ export type MutationOverstyrDagerArgs = {
 
 export type MutationOverstyrInntektOgRefusjonArgs = {
     overstyring: InntektOgRefusjonOverstyringInput;
+};
+
+export type MutationRestOpphevStansPostArgs = {
+    input: OpphevStansPostRequestBody;
+};
+
+export type MutationRestTilkommenInntektEndrePostArgs = {
+    input: TilkommenInntektEndrePostRequestBody;
+    tilkommenInntektId: Scalars['UUID']['input'];
+};
+
+export type MutationRestTilkommenInntektFjernPostArgs = {
+    input: TilkommenInntektFjernPostRequestBody;
+    tilkommenInntektId: Scalars['UUID']['input'];
+};
+
+export type MutationRestTilkommenInntektGjenopprettPostArgs = {
+    input: TilkommenInntektGjenopprettPostRequestBody;
+    tilkommenInntektId: Scalars['UUID']['input'];
+};
+
+export type MutationRestTilkomneInntekterPostArgs = {
+    input: TilkomneInntekterPostRequestBody;
 };
 
 export type MutationSendIReturArgs = {
@@ -1008,6 +966,11 @@ export type OpphevStansAutomatiskBehandlingSaksbehandler = Historikkinnslag & {
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
+};
+
+export type OpphevStansPostRequestBody = {
+    begrunnelse: Scalars['String']['input'];
+    fodselsnummer: Scalars['String']['input'];
 };
 
 export type OpphoerAvNaturalytelse = {
@@ -1281,7 +1244,7 @@ export type Query = {
     opptegnelser: Array<Opptegnelse>;
     organisasjon: Maybe<Organisasjon>;
     person: Maybe<Person>;
-    restGetTilkomneInntektskilder: Array<TilkommenInntektskilde>;
+    restPersonTilkomneInntektskilderGet: Array<TilkommenInntektskilde>;
     tildelteOppgaverFeed: OppgaverTilBehandling;
 };
 
@@ -1322,7 +1285,7 @@ export type QueryPersonArgs = {
     fnr?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type QueryRestGetTilkomneInntektskilderArgs = {
+export type QueryRestPersonTilkomneInntektskilderGetArgs = {
     aktorId: Scalars['String']['input'];
 };
 
@@ -1721,6 +1684,11 @@ export type TilkommenInntekt = {
     tilkommenInntektId: Scalars['UUID']['output'];
 };
 
+export type TilkommenInntektEndrePostRequestBody = {
+    endretTil: TilkommenInntektInput;
+    notatTilBeslutter: Scalars['String']['input'];
+};
+
 export type TilkommenInntektEndretEvent = TilkommenInntektEvent & {
     __typename: 'TilkommenInntektEndretEvent';
     endringer: TilkommenInntektEventEndringer;
@@ -1771,9 +1739,18 @@ export type TilkommenInntektEventMetadata = {
     utfortAvSaksbehandlerIdent: Scalars['String']['output'];
 };
 
+export type TilkommenInntektFjernPostRequestBody = {
+    notatTilBeslutter: Scalars['String']['input'];
+};
+
 export type TilkommenInntektFjernetEvent = TilkommenInntektEvent & {
     __typename: 'TilkommenInntektFjernetEvent';
     metadata: TilkommenInntektEventMetadata;
+};
+
+export type TilkommenInntektGjenopprettPostRequestBody = {
+    endretTil: TilkommenInntektInput;
+    notatTilBeslutter: Scalars['String']['input'];
 };
 
 export type TilkommenInntektGjenopprettetEvent = TilkommenInntektEvent & {
@@ -1802,6 +1779,12 @@ export type TilkommenInntektskilde = {
     __typename: 'TilkommenInntektskilde';
     inntekter: Array<TilkommenInntekt>;
     organisasjonsnummer: Scalars['String']['output'];
+};
+
+export type TilkomneInntekterPostRequestBody = {
+    fodselsnummer: Scalars['String']['input'];
+    notatTilBeslutter: Scalars['String']['input'];
+    verdier: TilkommenInntektInput;
 };
 
 export type TilleggsinfoForInntektskilde = {
@@ -7425,13 +7408,19 @@ export type HentOrganisasjonQuery = {
     organisasjon: { __typename: 'Organisasjon'; organisasjonsnummer: string; navn: string | null } | null;
 };
 
-export type RestGetTilkomneInntektskilderQueryVariables = Exact<{
+export type RestOpphevStansPostMutationVariables = Exact<{
+    input: OpphevStansPostRequestBody;
+}>;
+
+export type RestOpphevStansPostMutation = { __typename: 'Mutation'; restOpphevStansPost: boolean };
+
+export type RestPersonTilkomneInntektskilderGetQueryVariables = Exact<{
     aktorId: Scalars['String']['input'];
 }>;
 
-export type RestGetTilkomneInntektskilderQuery = {
+export type RestPersonTilkomneInntektskilderGetQuery = {
     __typename: 'Query';
-    restGetTilkomneInntektskilder: Array<{
+    restPersonTilkomneInntektskilderGet: Array<{
         __typename: 'TilkommenInntektskilde';
         organisasjonsnummer: string;
         inntekter: Array<{
@@ -7538,37 +7527,37 @@ export type RestGetTilkomneInntektskilderQuery = {
     }>;
 };
 
-export type EndreTilkommenInntektRestMutationVariables = Exact<{
+export type RestTilkommenInntektEndrePostMutationVariables = Exact<{
     tilkommenInntektId: Scalars['UUID']['input'];
-    input: EndreTilkommenInntektInput;
+    input: TilkommenInntektEndrePostRequestBody;
 }>;
 
-export type EndreTilkommenInntektRestMutation = { __typename: 'Mutation'; endreTilkommenInntektREST: boolean };
+export type RestTilkommenInntektEndrePostMutation = { __typename: 'Mutation'; restTilkommenInntektEndrePost: boolean };
 
-export type FjernTilkommenInntektRestMutationVariables = Exact<{
+export type RestTilkommenInntektFjernPostMutationVariables = Exact<{
     tilkommenInntektId: Scalars['UUID']['input'];
-    input: FjernTilkommenInntektInput;
+    input: TilkommenInntektFjernPostRequestBody;
 }>;
 
-export type FjernTilkommenInntektRestMutation = { __typename: 'Mutation'; fjernTilkommenInntektREST: boolean };
+export type RestTilkommenInntektFjernPostMutation = { __typename: 'Mutation'; restTilkommenInntektFjernPost: boolean };
 
-export type GjenopprettTilkommenInntektRestMutationVariables = Exact<{
+export type RestTilkommenInntektGjenopprettPostMutationVariables = Exact<{
     tilkommenInntektId: Scalars['UUID']['input'];
-    input: GjenopprettTilkommenInntektInput;
+    input: TilkommenInntektGjenopprettPostRequestBody;
 }>;
 
-export type GjenopprettTilkommenInntektRestMutation = {
+export type RestTilkommenInntektGjenopprettPostMutation = {
     __typename: 'Mutation';
-    gjenopprettTilkommenInntektREST: boolean;
+    restTilkommenInntektGjenopprettPost: boolean;
 };
 
-export type LeggTilTilkommenInntektRestMutationVariables = Exact<{
-    input: LeggTilTilkommenInntektInput;
+export type RestTilkomneInntekterPostMutationVariables = Exact<{
+    input: TilkomneInntekterPostRequestBody;
 }>;
 
-export type LeggTilTilkommenInntektRestMutation = {
+export type RestTilkomneInntekterPostMutation = {
     __typename: 'Mutation';
-    leggTilTilkommenInntektREST: { __typename: 'LeggTilTilkommenInntektResponse'; tilkommenInntektId: string };
+    restTilkomneInntekterPost: { __typename: 'LeggTilTilkommenInntektResponse'; tilkommenInntektId: string };
 };
 
 export type SkjonnsfastsettelseMutationMutationVariables = Exact<{
@@ -15613,13 +15602,77 @@ export const HentOrganisasjonDocument = {
         },
     ],
 } as unknown as DocumentNode<HentOrganisasjonQuery, HentOrganisasjonQueryVariables>;
-export const RestGetTilkomneInntektskilderDocument = {
+export const RestOpphevStansPostDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'RESTOpphevStansPost' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'OpphevStansPostRequestBody' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'restOpphevStansPost' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'input' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                            },
+                        ],
+                        directives: [
+                            {
+                                kind: 'Directive',
+                                name: { kind: 'Name', value: 'rest' },
+                                arguments: [
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'type' },
+                                        value: { kind: 'StringValue', value: 'Boolean!', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'endpoint' },
+                                        value: { kind: 'StringValue', value: 'spesialist', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'path' },
+                                        value: { kind: 'StringValue', value: '/opphevstans', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'method' },
+                                        value: { kind: 'StringValue', value: 'POST', block: false },
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<RestOpphevStansPostMutation, RestOpphevStansPostMutationVariables>;
+export const RestPersonTilkomneInntektskilderGetDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'query',
-            name: { kind: 'Name', value: 'RESTGetTilkomneInntektskilder' },
+            name: { kind: 'Name', value: 'RESTPersonTilkomneInntektskilderGet' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
@@ -15632,7 +15685,7 @@ export const RestGetTilkomneInntektskilderDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'restGetTilkomneInntektskilder' },
+                        name: { kind: 'Name', value: 'restPersonTilkomneInntektskilderGet' },
                         arguments: [
                             {
                                 kind: 'Argument',
@@ -16143,14 +16196,17 @@ export const RestGetTilkomneInntektskilderDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<RestGetTilkomneInntektskilderQuery, RestGetTilkomneInntektskilderQueryVariables>;
-export const EndreTilkommenInntektRestDocument = {
+} as unknown as DocumentNode<
+    RestPersonTilkomneInntektskilderGetQuery,
+    RestPersonTilkomneInntektskilderGetQueryVariables
+>;
+export const RestTilkommenInntektEndrePostDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'mutation',
-            name: { kind: 'Name', value: 'EndreTilkommenInntektREST' },
+            name: { kind: 'Name', value: 'RESTTilkommenInntektEndrePost' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
@@ -16162,7 +16218,10 @@ export const EndreTilkommenInntektRestDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
                     type: {
                         kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'EndreTilkommenInntektInput' } },
+                        type: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'TilkommenInntektEndrePostRequestBody' },
+                        },
                     },
                 },
             ],
@@ -16171,7 +16230,7 @@ export const EndreTilkommenInntektRestDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'endreTilkommenInntektREST' },
+                        name: { kind: 'Name', value: 'restTilkommenInntektEndrePost' },
                         arguments: [
                             {
                                 kind: 'Argument',
@@ -16192,11 +16251,7 @@ export const EndreTilkommenInntektRestDocument = {
                                     {
                                         kind: 'Argument',
                                         name: { kind: 'Name', value: 'type' },
-                                        value: {
-                                            kind: 'StringValue',
-                                            value: 'EndreTilkommenInntektResponse!',
-                                            block: false,
-                                        },
+                                        value: { kind: 'StringValue', value: 'Boolean!', block: false },
                                     },
                                     {
                                         kind: 'Argument',
@@ -16225,14 +16280,14 @@ export const EndreTilkommenInntektRestDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<EndreTilkommenInntektRestMutation, EndreTilkommenInntektRestMutationVariables>;
-export const FjernTilkommenInntektRestDocument = {
+} as unknown as DocumentNode<RestTilkommenInntektEndrePostMutation, RestTilkommenInntektEndrePostMutationVariables>;
+export const RestTilkommenInntektFjernPostDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'mutation',
-            name: { kind: 'Name', value: 'FjernTilkommenInntektREST' },
+            name: { kind: 'Name', value: 'RESTTilkommenInntektFjernPost' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
@@ -16244,7 +16299,10 @@ export const FjernTilkommenInntektRestDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
                     type: {
                         kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'FjernTilkommenInntektInput' } },
+                        type: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'TilkommenInntektFjernPostRequestBody' },
+                        },
                     },
                 },
             ],
@@ -16253,7 +16311,7 @@ export const FjernTilkommenInntektRestDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'fjernTilkommenInntektREST' },
+                        name: { kind: 'Name', value: 'restTilkommenInntektFjernPost' },
                         arguments: [
                             {
                                 kind: 'Argument',
@@ -16274,11 +16332,7 @@ export const FjernTilkommenInntektRestDocument = {
                                     {
                                         kind: 'Argument',
                                         name: { kind: 'Name', value: 'type' },
-                                        value: {
-                                            kind: 'StringValue',
-                                            value: 'FjernTilkommenInntektResponse!',
-                                            block: false,
-                                        },
+                                        value: { kind: 'StringValue', value: 'Boolean!', block: false },
                                     },
                                     {
                                         kind: 'Argument',
@@ -16307,14 +16361,14 @@ export const FjernTilkommenInntektRestDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<FjernTilkommenInntektRestMutation, FjernTilkommenInntektRestMutationVariables>;
-export const GjenopprettTilkommenInntektRestDocument = {
+} as unknown as DocumentNode<RestTilkommenInntektFjernPostMutation, RestTilkommenInntektFjernPostMutationVariables>;
+export const RestTilkommenInntektGjenopprettPostDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'mutation',
-            name: { kind: 'Name', value: 'GjenopprettTilkommenInntektREST' },
+            name: { kind: 'Name', value: 'RESTTilkommenInntektGjenopprettPost' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
@@ -16326,7 +16380,10 @@ export const GjenopprettTilkommenInntektRestDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
                     type: {
                         kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'GjenopprettTilkommenInntektInput' } },
+                        type: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'TilkommenInntektGjenopprettPostRequestBody' },
+                        },
                     },
                 },
             ],
@@ -16335,7 +16392,7 @@ export const GjenopprettTilkommenInntektRestDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'gjenopprettTilkommenInntektREST' },
+                        name: { kind: 'Name', value: 'restTilkommenInntektGjenopprettPost' },
                         arguments: [
                             {
                                 kind: 'Argument',
@@ -16356,11 +16413,7 @@ export const GjenopprettTilkommenInntektRestDocument = {
                                     {
                                         kind: 'Argument',
                                         name: { kind: 'Name', value: 'type' },
-                                        value: {
-                                            kind: 'StringValue',
-                                            value: 'GjenopprettTilkommenInntektResponse!',
-                                            block: false,
-                                        },
+                                        value: { kind: 'StringValue', value: 'Boolean!', block: false },
                                     },
                                     {
                                         kind: 'Argument',
@@ -16389,21 +16442,24 @@ export const GjenopprettTilkommenInntektRestDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<GjenopprettTilkommenInntektRestMutation, GjenopprettTilkommenInntektRestMutationVariables>;
-export const LeggTilTilkommenInntektRestDocument = {
+} as unknown as DocumentNode<
+    RestTilkommenInntektGjenopprettPostMutation,
+    RestTilkommenInntektGjenopprettPostMutationVariables
+>;
+export const RestTilkomneInntekterPostDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'mutation',
-            name: { kind: 'Name', value: 'LeggTilTilkommenInntektREST' },
+            name: { kind: 'Name', value: 'RESTTilkomneInntekterPost' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
                     type: {
                         kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'LeggTilTilkommenInntektInput' } },
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'TilkomneInntekterPostRequestBody' } },
                     },
                 },
             ],
@@ -16412,7 +16468,7 @@ export const LeggTilTilkommenInntektRestDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'leggTilTilkommenInntektREST' },
+                        name: { kind: 'Name', value: 'restTilkomneInntekterPost' },
                         arguments: [
                             {
                                 kind: 'Argument',
@@ -16461,7 +16517,7 @@ export const LeggTilTilkommenInntektRestDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<LeggTilTilkommenInntektRestMutation, LeggTilTilkommenInntektRestMutationVariables>;
+} as unknown as DocumentNode<RestTilkomneInntekterPostMutation, RestTilkomneInntekterPostMutationVariables>;
 export const SkjonnsfastsettelseMutationDocument = {
     kind: 'Document',
     definitions: [

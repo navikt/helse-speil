@@ -1,5 +1,5 @@
-mutation LeggTilTilkommenInntektREST($input: LeggTilTilkommenInntektInput!) {
-    leggTilTilkommenInntektREST(input: $input)
+mutation RESTTilkomneInntekterPost($input: TilkomneInntekterPostRequestBody!) {
+    restTilkomneInntekterPost(input: $input)
     @rest(
         type: "LeggTilTilkommenInntektResponse!"
         endpoint: "spesialist"

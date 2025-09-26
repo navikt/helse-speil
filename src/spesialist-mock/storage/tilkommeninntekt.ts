@@ -5,25 +5,23 @@ import { cwd } from 'process';
 import { v4 } from 'uuid';
 
 import { logger } from '@/logger';
-import {
-    EndreTilkommenInntektInput,
-    FjernTilkommenInntektInput,
-    GjenopprettTilkommenInntektInput,
-    LeggTilTilkommenInntektInput,
-} from '@io/graphql';
 import { sleep } from '@spesialist-mock/constants';
 import {
     LeggTilTilkommenInntektResponse,
     TilkommenInntekt,
+    TilkommenInntektEndrePostRequestBody,
     TilkommenInntektEndretEvent,
     TilkommenInntektEvent,
     TilkommenInntektEventEndringer,
     TilkommenInntektEventMetadata,
+    TilkommenInntektFjernPostRequestBody,
     TilkommenInntektFjernetEvent,
+    TilkommenInntektGjenopprettPostRequestBody,
     TilkommenInntektGjenopprettetEvent,
     TilkommenInntektInput,
     TilkommenInntektOpprettetEvent,
     TilkommenInntektskilde,
+    TilkomneInntekterPostRequestBody,
 } from '@spesialist-mock/schemaTypes';
 
 export class TilkommenInntektMock {
@@ -304,7 +302,7 @@ export class TilkommenInntektMock {
         if (subpathSegments[0] === 'tilkomne-inntekter') {
             if (subpathSegments.length == 1) {
                 await sleep(2000);
-                const input = requestBody as LeggTilTilkommenInntektInput;
+                const input = requestBody as TilkomneInntekterPostRequestBody;
                 return Response.json(
                     TilkommenInntektMock.leggTilTilkommenInntekt(
                         input.fodselsnummer,
@@ -317,7 +315,7 @@ export class TilkommenInntektMock {
             if (tilkommenInntektId !== undefined) {
                 if (subpathSegments[2] == 'endre') {
                     await sleep(2000);
-                    const input = requestBody as EndreTilkommenInntektInput;
+                    const input = requestBody as TilkommenInntektEndrePostRequestBody;
                     return Response.json(
                         TilkommenInntektMock.endreTilkommenInntekt(
                             input.endretTil,
@@ -328,14 +326,14 @@ export class TilkommenInntektMock {
                 }
                 if (subpathSegments[2] == 'fjern') {
                     await sleep(2000);
-                    const input = requestBody as FjernTilkommenInntektInput;
+                    const input = requestBody as TilkommenInntektFjernPostRequestBody;
                     return Response.json(
                         TilkommenInntektMock.fjernTilkommenInntekt(input.notatTilBeslutter, tilkommenInntektId),
                     );
                 }
                 if (subpathSegments[2] == 'gjenopprett') {
                     await sleep(2000);
-                    const input = requestBody as GjenopprettTilkommenInntektInput;
+                    const input = requestBody as TilkommenInntektGjenopprettPostRequestBody;
                     return Response.json(
                         TilkommenInntektMock.gjenopprettTilkommenInntekt(
                             input.endretTil,

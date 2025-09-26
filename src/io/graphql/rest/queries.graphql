@@ -3,33 +3,6 @@ type Organisasjon {
     navn: String
 }
 
-input LeggTilTilkommenInntektInput {
-    fodselsnummer: String!,
-    notatTilBeslutter: String!,
-    verdier: TilkommenInntektInput!
-}
-
-input EndreTilkommenInntektInput {
-    endretTil: TilkommenInntektInput!,
-    notatTilBeslutter: String!,
-}
-
-input FjernTilkommenInntektInput {
-    notatTilBeslutter: String!,
-}
-
-input GjenopprettTilkommenInntektInput {
-    endretTil: TilkommenInntektInput!,
-    notatTilBeslutter: String!,
-}
-
 extend type Query {
     organisasjon(organisasjonsnummer: String!): Organisasjon
-}
-
-extend type Mutation {
-    leggTilTilkommenInntektREST(input: LeggTilTilkommenInntektInput!): LeggTilTilkommenInntektResponse!
-    endreTilkommenInntektREST(tilkommenInntektId: UUID!, input: EndreTilkommenInntektInput!): Boolean!
-    fjernTilkommenInntektREST(tilkommenInntektId: UUID!, input: FjernTilkommenInntektInput!): Boolean!
-    gjenopprettTilkommenInntektREST(tilkommenInntektId: UUID!, input: GjenopprettTilkommenInntektInput!): Boolean!
 }

@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import {
-    RestGetTilkomneInntektskilderDocument,
+    RestPersonTilkomneInntektskilderGetDocument,
     TilkommenInntekt,
     TilkommenInntektEventEndringerListLocalDateEndring,
     TilkommenInntektskilde,
@@ -8,7 +8,7 @@ import {
 import { DateString } from '@typer/shared';
 
 export const useHentTilkommenInntektQuery = (aktørId?: string) =>
-    useQuery(RestGetTilkomneInntektskilderDocument, {
+    useQuery(RestPersonTilkomneInntektskilderGetDocument, {
         variables: {
             aktorId: aktørId!,
         },
@@ -29,7 +29,7 @@ export const tilTilkomneInntekterMedOrganisasjonsnummer = (inntektskilder: Tilko
 
 export const useTilkommenInntektMedOrganisasjonsnummer = (tilkommenInntektId: string, aktørId?: string) => {
     const { data: tilkommenInntektData, refetch } = useHentTilkommenInntektQuery(aktørId);
-    const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektData?.restGetTilkomneInntektskilder
+    const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektData?.restPersonTilkomneInntektskilderGet
         ?.flatMap((tilkommenInntektskilde) =>
             tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
                 organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,

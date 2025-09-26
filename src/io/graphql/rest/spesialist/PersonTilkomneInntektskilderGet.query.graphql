@@ -1,5 +1,5 @@
-query RESTGetTilkomneInntektskilder($aktorId: String!) {
-    restGetTilkomneInntektskilder(aktorId: $aktorId)
+query RESTPersonTilkomneInntektskilderGet($aktorId: String!) {
+    restPersonTilkomneInntektskilderGet(aktorId: $aktorId)
     @rest(
         type: "[TilkommenInntektskilde!]!"
         endpoint: "spesialist"

@@ -1,9 +1,0 @@
-mutation FjernTilkommenInntektREST($tilkommenInntektId: UUID!, $input: FjernTilkommenInntektInput!) {
-    fjernTilkommenInntektREST(tilkommenInntektId: $tilkommenInntektId, input: $input)
-    @rest(
-        type: "FjernTilkommenInntektResponse!"
-        endpoint: "spesialist"
-        path: "/tilkomne-inntekter/{args.tilkommenInntektId}/fjern"
-        method: "POST"
-    )
-}

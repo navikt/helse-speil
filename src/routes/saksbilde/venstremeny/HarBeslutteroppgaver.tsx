@@ -26,8 +26,9 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
 
     if (!periodeTilGodkjenning || !harTotrinnsvurdering || !tilkommenInntektData) return null;
 
-    const endredeTilkomneInntektskilder = tilkommenInntektData.restGetTilkomneInntektskilder.filter((inntektkilde) =>
-        inntektkilde.inntekter.some((tilkommenInntekt) => tilkommenInntekt.erDelAvAktivTotrinnsvurdering),
+    const endredeTilkomneInntektskilder = tilkommenInntektData.restPersonTilkomneInntektskilderGet.filter(
+        (inntektkilde) =>
+            inntektkilde.inntekter.some((tilkommenInntekt) => tilkommenInntekt.erDelAvAktivTotrinnsvurdering),
     );
 
     const harTilkommenInntektEndring = endredeTilkomneInntektskilder.length > 0;

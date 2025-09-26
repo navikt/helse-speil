@@ -1,23 +1,38 @@
-type TilkommenInntektOpprettetEvent implements TilkommenInntektEvent {
+input DatoPeriodeInput {
+    fom: LocalDate!
+    tom: LocalDate!
+}
+
+input OpphevStansPostRequestBody {
+    begrunnelse: String!
+    fodselsnummer: String!
+}
+
+input TilkommenInntektEndrePostRequestBody {
+    endretTil: TilkommenInntektInput!
+    notatTilBeslutter: String!
+}
+
+input TilkommenInntektFjernPostRequestBody {
+    notatTilBeslutter: String!
+}
+
+input TilkommenInntektGjenopprettPostRequestBody {
+    endretTil: TilkommenInntektInput!
+    notatTilBeslutter: String!
+}
+
+input TilkommenInntektInput {
     ekskluderteUkedager: [LocalDate!]!
-    metadata: TilkommenInntektEventMetadata!
     organisasjonsnummer: String!
-    periode: DatoPeriode!
+    periode: DatoPeriodeInput!
     periodebelop: BigDecimal!
 }
 
-type TilkommenInntektGjenopprettetEvent implements TilkommenInntektEvent {
-    endringer: TilkommenInntektEventEndringer!
-    metadata: TilkommenInntektEventMetadata!
-}
-
-type TilkommenInntektFjernetEvent implements TilkommenInntektEvent {
-    metadata: TilkommenInntektEventMetadata!
-}
-
-type TilkommenInntektEventEndringerBigDecimalEndring {
-    fra: BigDecimal!
-    til: BigDecimal!
+input TilkomneInntekterPostRequestBody {
+    fodselsnummer: String!
+    notatTilBeslutter: String!
+    verdier: TilkommenInntektInput!
 }
 
 type DatoPeriode {
@@ -25,42 +40,8 @@ type DatoPeriode {
     tom: LocalDate!
 }
 
-type TilkommenInntektEventEndringerDatoPeriodeEndring {
-    fra: DatoPeriode!
-    til: DatoPeriode!
-}
-
-type TilkommenInntektEventEndringerStringEndring {
-    fra: String!
-    til: String!
-}
-
-type TilkommenInntektEventEndringerListLocalDateEndring {
-    fra: [LocalDate!]!
-    til: [LocalDate!]!
-}
-
-type TilkommenInntektEventEndringer {
-    ekskluderteUkedager: TilkommenInntektEventEndringerListLocalDateEndring
-    organisasjonsnummer: TilkommenInntektEventEndringerStringEndring
-    periode: TilkommenInntektEventEndringerDatoPeriodeEndring
-    periodebelop: TilkommenInntektEventEndringerBigDecimalEndring
-}
-
-type TilkommenInntektEndretEvent implements TilkommenInntektEvent {
-    endringer: TilkommenInntektEventEndringer!
-    metadata: TilkommenInntektEventMetadata!
-}
-
-type TilkommenInntektEventMetadata {
-    notatTilBeslutter: String!
-    sekvensnummer: Int!
-    tidspunkt: LocalDateTime!
-    utfortAvSaksbehandlerIdent: String!
-}
-
-interface TilkommenInntektEvent {
-    metadata: TilkommenInntektEventMetadata!
+type LeggTilTilkommenInntektResponse {
+    tilkommenInntektId: UUID!
 }
 
 type TilkommenInntekt {
@@ -73,11 +54,79 @@ type TilkommenInntekt {
     tilkommenInntektId: UUID!
 }
 
+type TilkommenInntektEndretEvent implements TilkommenInntektEvent {
+    endringer: TilkommenInntektEventEndringer!
+    metadata: TilkommenInntektEventMetadata!
+}
+
+interface TilkommenInntektEvent {
+    metadata: TilkommenInntektEventMetadata!
+}
+
+type TilkommenInntektEventEndringer {
+    ekskluderteUkedager: TilkommenInntektEventEndringerListLocalDateEndring
+    organisasjonsnummer: TilkommenInntektEventEndringerStringEndring
+    periode: TilkommenInntektEventEndringerDatoPeriodeEndring
+    periodebelop: TilkommenInntektEventEndringerBigDecimalEndring
+}
+
+type TilkommenInntektEventEndringerBigDecimalEndring {
+    fra: BigDecimal!
+    til: BigDecimal!
+}
+
+type TilkommenInntektEventEndringerDatoPeriodeEndring {
+    fra: DatoPeriode!
+    til: DatoPeriode!
+}
+
+type TilkommenInntektEventEndringerListLocalDateEndring {
+    fra: [LocalDate!]!
+    til: [LocalDate!]!
+}
+
+type TilkommenInntektEventEndringerStringEndring {
+    fra: String!
+    til: String!
+}
+
+type TilkommenInntektEventMetadata {
+    notatTilBeslutter: String!
+    sekvensnummer: Int!
+    tidspunkt: LocalDateTime!
+    utfortAvSaksbehandlerIdent: String!
+}
+
+type TilkommenInntektFjernetEvent implements TilkommenInntektEvent {
+    metadata: TilkommenInntektEventMetadata!
+}
+
+type TilkommenInntektGjenopprettetEvent implements TilkommenInntektEvent {
+    endringer: TilkommenInntektEventEndringer!
+    metadata: TilkommenInntektEventMetadata!
+}
+
+type TilkommenInntektOpprettetEvent implements TilkommenInntektEvent {
+    ekskluderteUkedager: [LocalDate!]!
+    metadata: TilkommenInntektEventMetadata!
+    organisasjonsnummer: String!
+    periode: DatoPeriode!
+    periodebelop: BigDecimal!
+}
+
 type TilkommenInntektskilde {
     inntekter: [TilkommenInntekt!]!
     organisasjonsnummer: String!
 }
 
 extend type Query {
-    restGetTilkomneInntektskilder(aktorId: String!): [TilkommenInntektskilde!]!
+    restPersonTilkomneInntektskilderGet(aktorId: String!): [TilkommenInntektskilde!]!
+}
+
+extend type Mutation {
+    restOpphevStansPost(input: OpphevStansPostRequestBody!): Boolean!
+    restTilkommenInntektEndrePost(tilkommenInntektId: UUID!, input: TilkommenInntektEndrePostRequestBody!): Boolean!
+    restTilkommenInntektFjernPost(tilkommenInntektId: UUID!, input: TilkommenInntektFjernPostRequestBody!): Boolean!
+    restTilkommenInntektGjenopprettPost(tilkommenInntektId: UUID!, input: TilkommenInntektGjenopprettPostRequestBody!): Boolean!
+    restTilkomneInntekterPost(input: TilkomneInntekterPostRequestBody!): LeggTilTilkommenInntektResponse!
 }
