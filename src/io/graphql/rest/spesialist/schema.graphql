@@ -1,3 +1,11 @@
+scalar BigDecimal
+
+scalar LocalDate
+
+scalar LocalDateTime
+
+scalar UUID
+
 input DatoPeriodeInput {
     fom: LocalDate!
     tom: LocalDate!
