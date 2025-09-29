@@ -1238,7 +1238,6 @@ export type Query = {
     behandledeOppgaverFeed: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentInntektsmelding: Maybe<DokumentInntektsmelding>;
-    hentSaksbehandlere: Array<Saksbehandler>;
     hentSoknad: Maybe<Soknad>;
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
