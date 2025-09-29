@@ -7,7 +7,7 @@ import { BodyShort, UNSAFE_Combobox, VStack } from '@navikt/ds-react';
 import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
 
 import { useQuery } from '@apollo/client';
-import { HentSaksbehandlereDocument, Saksbehandler } from '@io/graphql';
+import { RestAktiveSaksbehandlereGetDocument, Saksbehandler } from '@io/graphql';
 import { FilterStatus, useFilters, useToggleFilter, valgtSaksbehandlerAtom } from '@oversikt/table/state/filter';
 
 import styles from './SøkefeltSaksbehandlere.module.css';
@@ -17,7 +17,7 @@ export const SøkefeltSaksbehandlere = () => {
     const resetValgtSaksbehandler = useResetAtom(valgtSaksbehandlerAtom);
     const toggleFilter = useToggleFilter();
     const { activeFilters } = useFilters();
-    const saksbehandlere = useQuery(HentSaksbehandlereDocument, {
+    const saksbehandlere = useQuery(RestAktiveSaksbehandlereGetDocument, {
         nextFetchPolicy: 'cache-first',
     });
     const [selected, setSelected] = useState<ComboboxOption[] | undefined>(
@@ -36,7 +36,7 @@ export const SøkefeltSaksbehandlere = () => {
     }, [activeFilters, resetValgtSaksbehandler]);
 
     const saksbehandlereOptions =
-        saksbehandlere.data?.hentSaksbehandlere
+        saksbehandlere.data?.restAktiveSaksbehandlereGet
             .map((saksbehandler) => {
                 return {
                     label: lagOppslåttSaksbehandlerVisningsnavn(saksbehandler),

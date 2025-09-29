@@ -6,6 +6,18 @@ import { TilkommenInntektMock } from '@spesialist-mock/storage/tilkommeninntekt'
 
 export const dynamic = 'force-dynamic';
 
+function mockSaksbehandlere(subpath: string) {
+    if (subpath === 'aktive-saksbehandlere') {
+        return Response.json([
+            {
+                ident: 'A123456',
+                navn: 'Utvikler, Lokal',
+            },
+        ]);
+    }
+    return undefined;
+}
+
 export async function GET(req: Request, { params }: { params: Promise<{ subpathSegments: string[] }> }) {
     const { subpathSegments } = await params;
 
@@ -20,6 +32,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ subpathS
     if (erLokal) {
         return (
             (await TilkommenInntektMock.håndterGet(subpathSegments)) ??
+            mockSaksbehandlere(subpath) ??
             Response.json({ feil: 'Ikke mocket opp lokalt' }, { status: 404 })
         );
     } else {

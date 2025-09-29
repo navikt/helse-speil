@@ -1241,6 +1241,7 @@ export type Query = {
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     person?: Maybe<Person>;
+    restAktiveSaksbehandlereGet: Array<Saksbehandler>;
     restOrganisasjonGet?: Maybe<Organisasjon>;
     restPersonTilkomneInntektskilderGet: Array<TilkommenInntektskilde>;
     tildelteOppgaverFeed: OppgaverTilBehandling;

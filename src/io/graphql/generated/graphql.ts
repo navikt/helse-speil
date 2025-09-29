@@ -1243,6 +1243,7 @@ export type Query = {
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     person: Maybe<Person>;
+    restAktiveSaksbehandlereGet: Array<Saksbehandler>;
     restOrganisasjonGet: Maybe<Organisasjon>;
     restPersonTilkomneInntektskilderGet: Array<TilkommenInntektskilde>;
     tildelteOppgaverFeed: OppgaverTilBehandling;
@@ -2227,13 +2228,6 @@ export type FetchSoknadQuery = {
             svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
         }> | null;
     } | null;
-};
-
-export type HentSaksbehandlereQueryVariables = Exact<{ [key: string]: never }>;
-
-export type HentSaksbehandlereQuery = {
-    __typename: 'Query';
-    hentSaksbehandlere: Array<{ __typename: 'Saksbehandler'; ident: string | null; navn: string }>;
 };
 
 export type FeilregistrerKommentarMutationMutationVariables = Exact<{
@@ -7406,6 +7400,13 @@ export type RestOrganisasjonGetQueryVariables = Exact<{
 export type RestOrganisasjonGetQuery = {
     __typename: 'Query';
     restOrganisasjonGet: { __typename: 'Organisasjon'; organisasjonsnummer: string; navn: string | null } | null;
+};
+
+export type RestAktiveSaksbehandlereGetQueryVariables = Exact<{ [key: string]: never }>;
+
+export type RestAktiveSaksbehandlereGetQuery = {
+    __typename: 'Query';
+    restAktiveSaksbehandlereGet: Array<{ __typename: 'Saksbehandler'; ident: string | null; navn: string }>;
 };
 
 export type RestOpphevStansPostMutationVariables = Exact<{
@@ -12984,32 +12985,6 @@ export const FetchSoknadDocument = {
         },
     ],
 } as unknown as DocumentNode<FetchSoknadQuery, FetchSoknadQueryVariables>;
-export const HentSaksbehandlereDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'HentSaksbehandlere' },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hentSaksbehandlere' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<HentSaksbehandlereQuery, HentSaksbehandlereQueryVariables>;
 export const FeilregistrerKommentarMutationDocument = {
     kind: 'Document',
     definitions: [
@@ -15602,6 +15577,60 @@ export const RestOrganisasjonGetDocument = {
         },
     ],
 } as unknown as DocumentNode<RestOrganisasjonGetQuery, RestOrganisasjonGetQueryVariables>;
+export const RestAktiveSaksbehandlereGetDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'RESTAktiveSaksbehandlereGet' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'restAktiveSaksbehandlereGet' },
+                        directives: [
+                            {
+                                kind: 'Directive',
+                                name: { kind: 'Name', value: 'rest' },
+                                arguments: [
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'type' },
+                                        value: { kind: 'StringValue', value: '[Saksbehandler!]!', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'endpoint' },
+                                        value: { kind: 'StringValue', value: 'spesialist', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'path' },
+                                        value: { kind: 'StringValue', value: '/aktive-saksbehandlere', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'method' },
+                                        value: { kind: 'StringValue', value: 'GET', block: false },
+                                    },
+                                ],
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<RestAktiveSaksbehandlereGetQuery, RestAktiveSaksbehandlereGetQueryVariables>;
 export const RestOpphevStansPostDocument = {
     kind: 'Document',
     definitions: [

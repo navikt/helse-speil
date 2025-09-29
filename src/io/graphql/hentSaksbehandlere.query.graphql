@@ -1,6 +1,0 @@
-query HentSaksbehandlere {
-    hentSaksbehandlere {
-        ident
-        navn
-    }
-}

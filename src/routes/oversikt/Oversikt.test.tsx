@@ -2,7 +2,7 @@ import { axe } from 'jest-axe';
 import React from 'react';
 
 import { useDriftsmelding } from '@external/sanity';
-import { HentBehandlingsstatistikkDocument, HentSaksbehandlereDocument } from '@io/graphql';
+import { HentBehandlingsstatistikkDocument } from '@io/graphql';
 import { useAntallOppgaver, useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { createMock, render, screen } from '@test-utils';
@@ -12,6 +12,15 @@ import { Oversikt } from './Oversikt';
 jest.mock('@state/oppgaver');
 jest.mock('@external/sanity');
 jest.mock('@hooks/useRefetchDriftsmeldinger');
+
+const mockFetch = (data: unknown) =>
+    jest.fn().mockImplementation(() =>
+        Promise.resolve({
+            ok: true,
+            json: () => data,
+            headers: { get: () => [] },
+        }),
+    );
 
 describe('Oversikt', () => {
     it('rendrer uten violations', async () => {
@@ -26,6 +35,7 @@ describe('Oversikt', () => {
             loading: false,
             fetchMore: () => {},
         });
+        window.fetch = mockFetch([]);
 
         const { container } = render(<Oversikt />, {
             mocks,
@@ -66,15 +76,6 @@ const mocks = [
                     utbetalingTilArbeidsgiver: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
                     utbetalingTilSykmeldt: { __typename: 'Antall', automatisk: 1, manuelt: 1, tilgjengelig: 1 },
                 },
-            },
-        },
-    }),
-    createMock({
-        request: { query: HentSaksbehandlereDocument },
-        result: {
-            data: {
-                __typename: 'Query',
-                hentSaksbehandlere: [],
             },
         },
     }),

@@ -52,6 +52,11 @@ type LeggTilTilkommenInntektResponse {
     tilkommenInntektId: UUID!
 }
 
+type Saksbehandler {
+    ident: String
+    navn: String!
+}
+
 type TilkommenInntekt {
     ekskluderteUkedager: [LocalDate!]!
     erDelAvAktivTotrinnsvurdering: Boolean!
@@ -128,6 +133,7 @@ type TilkommenInntektskilde {
 }
 
 extend type Query {
+    restAktiveSaksbehandlereGet: [Saksbehandler!]!
     restPersonTilkomneInntektskilderGet(aktorId: String!): [TilkommenInntektskilde!]!
 }
 
