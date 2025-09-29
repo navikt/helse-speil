@@ -201,14 +201,6 @@ const getResolvers = (): IResolvers => ({
         opptegnelser: async (_, { sekvensId }) => {
             return hentOpptegnelser(sekvensId);
         },
-        hentSaksbehandlere: async () => {
-            return [
-                {
-                    ident: 'A123456',
-                    navn: 'Utvikler, Lokal',
-                },
-            ];
-        },
         tildelteOppgaverFeed: async (
             _,
             {
