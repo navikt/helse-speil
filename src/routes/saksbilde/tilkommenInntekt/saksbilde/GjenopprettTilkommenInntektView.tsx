@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
-import { RestTilkommenInntektGjenopprettPostDocument } from '@io/graphql';
+import { RestPostTilkommenInntektGjenopprettDocument } from '@io/graphql';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
@@ -28,15 +28,15 @@ export const GjenopprettTilkommenInntektView = ({
         person?.aktorId,
     );
     const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =
-        tilkommenInntektData?.restPersonTilkomneInntektskilderGet !== undefined
-            ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData.restPersonTilkomneInntektskilderGet)
+        tilkommenInntektData?.restGetPersonTilkomneInntektskilder !== undefined
+            ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData.restGetPersonTilkomneInntektskilder)
             : undefined;
     const tilkommenInntektMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer | undefined =
         tilkomneInntekterMedOrganisasjonsnummer?.find(
             (inntektMedOrganisasjonsnummer) => inntektMedOrganisasjonsnummer.tilkommenInntektId === tilkommenInntektId,
         );
 
-    const [gjenopprettTilkommenInntekt] = useMutation(RestTilkommenInntektGjenopprettPostDocument);
+    const [gjenopprettTilkommenInntekt] = useMutation(RestPostTilkommenInntektGjenopprettDocument);
 
     if (
         !person ||

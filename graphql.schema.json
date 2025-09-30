@@ -7146,7 +7146,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "restOpphevStansPost",
+                        "name": "restPostOpphevStans",
                         "description": null,
                         "args": [
                             {
@@ -7157,7 +7157,7 @@
                                     "name": null,
                                     "ofType": {
                                         "kind": "INPUT_OBJECT",
-                                        "name": "OpphevStansPostRequestBody",
+                                        "name": "PostOpphevStansRequestBody",
                                         "ofType": null
                                     }
                                 },
@@ -7179,7 +7179,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "restTilkommenInntektEndrePost",
+                        "name": "restPostTilkommenInntektEndre",
                         "description": null,
                         "args": [
                             {
@@ -7190,7 +7190,7 @@
                                     "name": null,
                                     "ofType": {
                                         "kind": "INPUT_OBJECT",
-                                        "name": "TilkommenInntektEndrePostRequestBody",
+                                        "name": "PostTilkommenInntektEndreRequestBody",
                                         "ofType": null
                                     }
                                 },
@@ -7228,7 +7228,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "restTilkommenInntektFjernPost",
+                        "name": "restPostTilkommenInntektFjern",
                         "description": null,
                         "args": [
                             {
@@ -7239,7 +7239,7 @@
                                     "name": null,
                                     "ofType": {
                                         "kind": "INPUT_OBJECT",
-                                        "name": "TilkommenInntektFjernPostRequestBody",
+                                        "name": "PostTilkommenInntektFjernRequestBody",
                                         "ofType": null
                                     }
                                 },
@@ -7277,7 +7277,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "restTilkommenInntektGjenopprettPost",
+                        "name": "restPostTilkommenInntektGjenopprett",
                         "description": null,
                         "args": [
                             {
@@ -7288,7 +7288,7 @@
                                     "name": null,
                                     "ofType": {
                                         "kind": "INPUT_OBJECT",
-                                        "name": "TilkommenInntektGjenopprettPostRequestBody",
+                                        "name": "PostTilkommenInntektGjenopprettRequestBody",
                                         "ofType": null
                                     }
                                 },
@@ -7326,7 +7326,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "restTilkomneInntekterPost",
+                        "name": "restPostTilkomneInntekter",
                         "description": null,
                         "args": [
                             {
@@ -7337,7 +7337,7 @@
                                     "name": null,
                                     "ofType": {
                                         "kind": "INPUT_OBJECT",
-                                        "name": "TilkomneInntekterPostRequestBody",
+                                        "name": "PostTilkomneInntekterRequestBody",
                                         "ofType": null
                                     }
                                 },
@@ -8791,50 +8791,6 @@
                         "ofType": null
                     }
                 ],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "INPUT_OBJECT",
-                "name": "OpphevStansPostRequestBody",
-                "description": null,
-                "isOneOf": false,
-                "fields": null,
-                "inputFields": [
-                    {
-                        "name": "begrunnelse",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "fodselsnummer",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "interfaces": null,
                 "enumValues": null,
                 "possibleTypes": null
             },
@@ -11326,6 +11282,226 @@
                 "possibleTypes": null
             },
             {
+                "kind": "INPUT_OBJECT",
+                "name": "PostOpphevStansRequestBody",
+                "description": null,
+                "isOneOf": false,
+                "fields": null,
+                "inputFields": [
+                    {
+                        "name": "begrunnelse",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "fodselsnummer",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "INPUT_OBJECT",
+                "name": "PostTilkommenInntektEndreRequestBody",
+                "description": null,
+                "isOneOf": false,
+                "fields": null,
+                "inputFields": [
+                    {
+                        "name": "endretTil",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "INPUT_OBJECT",
+                                "name": "TilkommenInntektInput",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "notatTilBeslutter",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "INPUT_OBJECT",
+                "name": "PostTilkommenInntektFjernRequestBody",
+                "description": null,
+                "isOneOf": false,
+                "fields": null,
+                "inputFields": [
+                    {
+                        "name": "notatTilBeslutter",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "INPUT_OBJECT",
+                "name": "PostTilkommenInntektGjenopprettRequestBody",
+                "description": null,
+                "isOneOf": false,
+                "fields": null,
+                "inputFields": [
+                    {
+                        "name": "endretTil",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "INPUT_OBJECT",
+                                "name": "TilkommenInntektInput",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "notatTilBeslutter",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "INPUT_OBJECT",
+                "name": "PostTilkomneInntekterRequestBody",
+                "description": null,
+                "isOneOf": false,
+                "fields": null,
+                "inputFields": [
+                    {
+                        "name": "fodselsnummer",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "notatTilBeslutter",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "verdier",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "INPUT_OBJECT",
+                                "name": "TilkommenInntektInput",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
                 "kind": "OBJECT",
                 "name": "Query",
                 "description": null,
@@ -11698,7 +11874,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "restAktiveSaksbehandlereGet",
+                        "name": "restGetAktiveSaksbehandlere",
                         "description": null,
                         "args": [],
                         "type": {
@@ -11722,7 +11898,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "restOrganisasjonGet",
+                        "name": "restGetOrganisasjon",
                         "description": null,
                         "args": [
                             {
@@ -11751,7 +11927,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "restPersonTilkomneInntektskilderGet",
+                        "name": "restGetPersonTilkomneInntektskilder",
                         "description": null,
                         "args": [
                             {
@@ -15510,50 +15686,6 @@
                 "possibleTypes": null
             },
             {
-                "kind": "INPUT_OBJECT",
-                "name": "TilkommenInntektEndrePostRequestBody",
-                "description": null,
-                "isOneOf": false,
-                "fields": null,
-                "inputFields": [
-                    {
-                        "name": "endretTil",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "INPUT_OBJECT",
-                                "name": "TilkommenInntektInput",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "notatTilBeslutter",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
                 "kind": "OBJECT",
                 "name": "TilkommenInntektEndretEvent",
                 "description": null,
@@ -15981,34 +16113,6 @@
                 "possibleTypes": null
             },
             {
-                "kind": "INPUT_OBJECT",
-                "name": "TilkommenInntektFjernPostRequestBody",
-                "description": null,
-                "isOneOf": false,
-                "fields": null,
-                "inputFields": [
-                    {
-                        "name": "notatTilBeslutter",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "interfaces": null,
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
                 "kind": "OBJECT",
                 "name": "TilkommenInntektFjernetEvent",
                 "description": null,
@@ -16039,50 +16143,6 @@
                         "ofType": null
                     }
                 ],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "INPUT_OBJECT",
-                "name": "TilkommenInntektGjenopprettPostRequestBody",
-                "description": null,
-                "isOneOf": false,
-                "fields": null,
-                "inputFields": [
-                    {
-                        "name": "endretTil",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "INPUT_OBJECT",
-                                "name": "TilkommenInntektInput",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "notatTilBeslutter",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "interfaces": null,
                 "enumValues": null,
                 "possibleTypes": null
             },
@@ -16375,66 +16435,6 @@
                 ],
                 "inputFields": null,
                 "interfaces": [],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "INPUT_OBJECT",
-                "name": "TilkomneInntekterPostRequestBody",
-                "description": null,
-                "isOneOf": false,
-                "fields": null,
-                "inputFields": [
-                    {
-                        "name": "fodselsnummer",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "notatTilBeslutter",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "verdier",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "INPUT_OBJECT",
-                                "name": "TilkommenInntektInput",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "interfaces": null,
                 "enumValues": null,
                 "possibleTypes": null
             },

@@ -40,7 +40,7 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
 
     if (fetchPersonLoading || hentTilkommenInntektLoading) return <HistorikkSkeleton />;
 
-    const tilkommenInntekt = hentTilkommenInntektData?.restPersonTilkomneInntektskilderGet
+    const tilkommenInntekt = hentTilkommenInntektData?.restGetPersonTilkomneInntektskilder
         ?.flatMap((tilkommenInntektskilde) => tilkommenInntektskilde.inntekter)
         .find((tilkommenInntekt) => tilkommenInntekt.tilkommenInntektId === tilkommenInntektId);
     const events =

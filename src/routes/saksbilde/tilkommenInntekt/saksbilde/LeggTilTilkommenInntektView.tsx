@@ -5,7 +5,7 @@ import React, { ReactElement } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
-import { RestTilkomneInntekterPostDocument } from '@io/graphql';
+import { RestPostTilkomneInntekterDocument } from '@io/graphql';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
@@ -26,11 +26,11 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
         person?.aktorId,
     );
     const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =
-        tilkommenInntektData?.restPersonTilkomneInntektskilderGet !== undefined
-            ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData.restPersonTilkomneInntektskilderGet)
+        tilkommenInntektData?.restGetPersonTilkomneInntektskilder !== undefined
+            ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData.restGetPersonTilkomneInntektskilder)
             : undefined;
 
-    const [leggTilTilkommenInntekt] = useMutation(RestTilkomneInntekterPostDocument);
+    const [leggTilTilkommenInntekt] = useMutation(RestPostTilkomneInntekterDocument);
 
     if (!person || tilkomneInntekterMedOrganisasjonsnummer === undefined) {
         return null;
@@ -55,7 +55,7 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
             },
             onCompleted: (data) => {
                 tilkommenInntektRefetch().then(() => {
-                    navigerTilTilkommenInntekt(data.restTilkomneInntekterPost.tilkommenInntektId);
+                    navigerTilTilkommenInntekt(data.restPostTilkomneInntekter.tilkommenInntektId);
                 });
             },
         });

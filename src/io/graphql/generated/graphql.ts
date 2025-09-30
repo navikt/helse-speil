@@ -680,11 +680,11 @@ export type Mutation = {
     overstyrArbeidsforhold: Maybe<Scalars['Boolean']['output']>;
     overstyrDager: Maybe<Scalars['Boolean']['output']>;
     overstyrInntektOgRefusjon: Maybe<Scalars['Boolean']['output']>;
-    restOpphevStansPost: Scalars['Boolean']['output'];
-    restTilkommenInntektEndrePost: Scalars['Boolean']['output'];
-    restTilkommenInntektFjernPost: Scalars['Boolean']['output'];
-    restTilkommenInntektGjenopprettPost: Scalars['Boolean']['output'];
-    restTilkomneInntekterPost: LeggTilTilkommenInntektResponse;
+    restPostOpphevStans: Scalars['Boolean']['output'];
+    restPostTilkommenInntektEndre: Scalars['Boolean']['output'];
+    restPostTilkommenInntektFjern: Scalars['Boolean']['output'];
+    restPostTilkommenInntektGjenopprett: Scalars['Boolean']['output'];
+    restPostTilkomneInntekter: LeggTilTilkommenInntektResponse;
     sendIRetur: Maybe<Scalars['Boolean']['output']>;
     sendTilGodkjenningV2: Maybe<Scalars['Boolean']['output']>;
     sendTilInfotrygd: Scalars['Boolean']['output'];
@@ -789,27 +789,27 @@ export type MutationOverstyrInntektOgRefusjonArgs = {
     overstyring: InntektOgRefusjonOverstyringInput;
 };
 
-export type MutationRestOpphevStansPostArgs = {
-    input: OpphevStansPostRequestBody;
+export type MutationRestPostOpphevStansArgs = {
+    input: PostOpphevStansRequestBody;
 };
 
-export type MutationRestTilkommenInntektEndrePostArgs = {
-    input: TilkommenInntektEndrePostRequestBody;
+export type MutationRestPostTilkommenInntektEndreArgs = {
+    input: PostTilkommenInntektEndreRequestBody;
     tilkommenInntektId: Scalars['UUID']['input'];
 };
 
-export type MutationRestTilkommenInntektFjernPostArgs = {
-    input: TilkommenInntektFjernPostRequestBody;
+export type MutationRestPostTilkommenInntektFjernArgs = {
+    input: PostTilkommenInntektFjernRequestBody;
     tilkommenInntektId: Scalars['UUID']['input'];
 };
 
-export type MutationRestTilkommenInntektGjenopprettPostArgs = {
-    input: TilkommenInntektGjenopprettPostRequestBody;
+export type MutationRestPostTilkommenInntektGjenopprettArgs = {
+    input: PostTilkommenInntektGjenopprettRequestBody;
     tilkommenInntektId: Scalars['UUID']['input'];
 };
 
-export type MutationRestTilkomneInntekterPostArgs = {
-    input: TilkomneInntekterPostRequestBody;
+export type MutationRestPostTilkomneInntekterArgs = {
+    input: PostTilkomneInntekterRequestBody;
 };
 
 export type MutationSendIReturArgs = {
@@ -966,11 +966,6 @@ export type OpphevStansAutomatiskBehandlingSaksbehandler = Historikkinnslag & {
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
-};
-
-export type OpphevStansPostRequestBody = {
-    begrunnelse: Scalars['String']['input'];
-    fodselsnummer: Scalars['String']['input'];
 };
 
 export type OpphoerAvNaturalytelse = {
@@ -1232,6 +1227,31 @@ export type Personnavn = {
     mellomnavn: Maybe<Scalars['String']['output']>;
 };
 
+export type PostOpphevStansRequestBody = {
+    begrunnelse: Scalars['String']['input'];
+    fodselsnummer: Scalars['String']['input'];
+};
+
+export type PostTilkommenInntektEndreRequestBody = {
+    endretTil: TilkommenInntektInput;
+    notatTilBeslutter: Scalars['String']['input'];
+};
+
+export type PostTilkommenInntektFjernRequestBody = {
+    notatTilBeslutter: Scalars['String']['input'];
+};
+
+export type PostTilkommenInntektGjenopprettRequestBody = {
+    endretTil: TilkommenInntektInput;
+    notatTilBeslutter: Scalars['String']['input'];
+};
+
+export type PostTilkomneInntekterRequestBody = {
+    fodselsnummer: Scalars['String']['input'];
+    notatTilBeslutter: Scalars['String']['input'];
+    verdier: TilkommenInntektInput;
+};
+
 export type Query = {
     __typename: 'Query';
     antallOppgaver: AntallOppgaver;
@@ -1242,9 +1262,9 @@ export type Query = {
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     person: Maybe<Person>;
-    restAktiveSaksbehandlereGet: Array<Saksbehandler>;
-    restOrganisasjonGet: Maybe<Organisasjon>;
-    restPersonTilkomneInntektskilderGet: Array<TilkommenInntektskilde>;
+    restGetAktiveSaksbehandlere: Array<Saksbehandler>;
+    restGetOrganisasjon: Maybe<Organisasjon>;
+    restGetPersonTilkomneInntektskilder: Array<TilkommenInntektskilde>;
     tildelteOppgaverFeed: OppgaverTilBehandling;
 };
 
@@ -1281,11 +1301,11 @@ export type QueryPersonArgs = {
     fnr?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type QueryRestOrganisasjonGetArgs = {
+export type QueryRestGetOrganisasjonArgs = {
     organisasjonsnummer: Scalars['String']['input'];
 };
 
-export type QueryRestPersonTilkomneInntektskilderGetArgs = {
+export type QueryRestGetPersonTilkomneInntektskilderArgs = {
     aktorId: Scalars['String']['input'];
 };
 
@@ -1684,11 +1704,6 @@ export type TilkommenInntekt = {
     tilkommenInntektId: Scalars['UUID']['output'];
 };
 
-export type TilkommenInntektEndrePostRequestBody = {
-    endretTil: TilkommenInntektInput;
-    notatTilBeslutter: Scalars['String']['input'];
-};
-
 export type TilkommenInntektEndretEvent = TilkommenInntektEvent & {
     __typename: 'TilkommenInntektEndretEvent';
     endringer: TilkommenInntektEventEndringer;
@@ -1739,18 +1754,9 @@ export type TilkommenInntektEventMetadata = {
     utfortAvSaksbehandlerIdent: Scalars['String']['output'];
 };
 
-export type TilkommenInntektFjernPostRequestBody = {
-    notatTilBeslutter: Scalars['String']['input'];
-};
-
 export type TilkommenInntektFjernetEvent = TilkommenInntektEvent & {
     __typename: 'TilkommenInntektFjernetEvent';
     metadata: TilkommenInntektEventMetadata;
-};
-
-export type TilkommenInntektGjenopprettPostRequestBody = {
-    endretTil: TilkommenInntektInput;
-    notatTilBeslutter: Scalars['String']['input'];
 };
 
 export type TilkommenInntektGjenopprettetEvent = TilkommenInntektEvent & {
@@ -1779,12 +1785,6 @@ export type TilkommenInntektskilde = {
     __typename: 'TilkommenInntektskilde';
     inntekter: Array<TilkommenInntekt>;
     organisasjonsnummer: Scalars['String']['output'];
-};
-
-export type TilkomneInntekterPostRequestBody = {
-    fodselsnummer: Scalars['String']['input'];
-    notatTilBeslutter: Scalars['String']['input'];
-    verdier: TilkommenInntektInput;
 };
 
 export type TilleggsinfoForInntektskilde = {
@@ -7392,35 +7392,29 @@ export type LeggPaVentMutation = {
 
 export type PaventFragment = { __typename: 'PaVent'; frist: string | null; oid: string };
 
-export type RestOrganisasjonGetQueryVariables = Exact<{
+export type RestGetOrganisasjonQueryVariables = Exact<{
     organisasjonsnummer: Scalars['String']['input'];
 }>;
 
-export type RestOrganisasjonGetQuery = {
+export type RestGetOrganisasjonQuery = {
     __typename: 'Query';
-    restOrganisasjonGet: { __typename: 'Organisasjon'; organisasjonsnummer: string; navn: string | null } | null;
+    restGetOrganisasjon: { __typename: 'Organisasjon'; organisasjonsnummer: string; navn: string | null } | null;
 };
 
-export type RestAktiveSaksbehandlereGetQueryVariables = Exact<{ [key: string]: never }>;
+export type RestGetAktiveSaksbehandlereQueryVariables = Exact<{ [key: string]: never }>;
 
-export type RestAktiveSaksbehandlereGetQuery = {
+export type RestGetAktiveSaksbehandlereQuery = {
     __typename: 'Query';
-    restAktiveSaksbehandlereGet: Array<{ __typename: 'Saksbehandler'; ident: string | null; navn: string }>;
+    restGetAktiveSaksbehandlere: Array<{ __typename: 'Saksbehandler'; ident: string | null; navn: string }>;
 };
 
-export type RestOpphevStansPostMutationVariables = Exact<{
-    input: OpphevStansPostRequestBody;
-}>;
-
-export type RestOpphevStansPostMutation = { __typename: 'Mutation'; restOpphevStansPost: boolean };
-
-export type RestPersonTilkomneInntektskilderGetQueryVariables = Exact<{
+export type RestGetPersonTilkomneInntektskilderQueryVariables = Exact<{
     aktorId: Scalars['String']['input'];
 }>;
 
-export type RestPersonTilkomneInntektskilderGetQuery = {
+export type RestGetPersonTilkomneInntektskilderQuery = {
     __typename: 'Query';
-    restPersonTilkomneInntektskilderGet: Array<{
+    restGetPersonTilkomneInntektskilder: Array<{
         __typename: 'TilkommenInntektskilde';
         organisasjonsnummer: string;
         inntekter: Array<{
@@ -7527,37 +7521,43 @@ export type RestPersonTilkomneInntektskilderGetQuery = {
     }>;
 };
 
-export type RestTilkommenInntektEndrePostMutationVariables = Exact<{
-    tilkommenInntektId: Scalars['UUID']['input'];
-    input: TilkommenInntektEndrePostRequestBody;
+export type RestPostOpphevStansMutationVariables = Exact<{
+    input: PostOpphevStansRequestBody;
 }>;
 
-export type RestTilkommenInntektEndrePostMutation = { __typename: 'Mutation'; restTilkommenInntektEndrePost: boolean };
+export type RestPostOpphevStansMutation = { __typename: 'Mutation'; restPostOpphevStans: boolean };
 
-export type RestTilkommenInntektFjernPostMutationVariables = Exact<{
+export type RestPostTilkommenInntektEndreMutationVariables = Exact<{
     tilkommenInntektId: Scalars['UUID']['input'];
-    input: TilkommenInntektFjernPostRequestBody;
+    input: PostTilkommenInntektEndreRequestBody;
 }>;
 
-export type RestTilkommenInntektFjernPostMutation = { __typename: 'Mutation'; restTilkommenInntektFjernPost: boolean };
+export type RestPostTilkommenInntektEndreMutation = { __typename: 'Mutation'; restPostTilkommenInntektEndre: boolean };
 
-export type RestTilkommenInntektGjenopprettPostMutationVariables = Exact<{
+export type RestPostTilkommenInntektFjernMutationVariables = Exact<{
     tilkommenInntektId: Scalars['UUID']['input'];
-    input: TilkommenInntektGjenopprettPostRequestBody;
+    input: PostTilkommenInntektFjernRequestBody;
 }>;
 
-export type RestTilkommenInntektGjenopprettPostMutation = {
+export type RestPostTilkommenInntektFjernMutation = { __typename: 'Mutation'; restPostTilkommenInntektFjern: boolean };
+
+export type RestPostTilkommenInntektGjenopprettMutationVariables = Exact<{
+    tilkommenInntektId: Scalars['UUID']['input'];
+    input: PostTilkommenInntektGjenopprettRequestBody;
+}>;
+
+export type RestPostTilkommenInntektGjenopprettMutation = {
     __typename: 'Mutation';
-    restTilkommenInntektGjenopprettPost: boolean;
+    restPostTilkommenInntektGjenopprett: boolean;
 };
 
-export type RestTilkomneInntekterPostMutationVariables = Exact<{
-    input: TilkomneInntekterPostRequestBody;
+export type RestPostTilkomneInntekterMutationVariables = Exact<{
+    input: PostTilkomneInntekterRequestBody;
 }>;
 
-export type RestTilkomneInntekterPostMutation = {
+export type RestPostTilkomneInntekterMutation = {
     __typename: 'Mutation';
-    restTilkomneInntekterPost: { __typename: 'LeggTilTilkommenInntektResponse'; tilkommenInntektId: string };
+    restPostTilkomneInntekter: { __typename: 'LeggTilTilkommenInntektResponse'; tilkommenInntektId: string };
 };
 
 export type SkjonnsfastsettelseMutationMutationVariables = Exact<{
@@ -15504,13 +15504,13 @@ export const LeggPaVentDocument = {
         },
     ],
 } as unknown as DocumentNode<LeggPaVentMutation, LeggPaVentMutationVariables>;
-export const RestOrganisasjonGetDocument = {
+export const RestGetOrganisasjonDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'query',
-            name: { kind: 'Name', value: 'RESTOrganisasjonGet' },
+            name: { kind: 'Name', value: 'RESTGetOrganisasjon' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
@@ -15523,7 +15523,7 @@ export const RestOrganisasjonGetDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'restOrganisasjonGet' },
+                        name: { kind: 'Name', value: 'restGetOrganisasjon' },
                         arguments: [
                             {
                                 kind: 'Argument',
@@ -15575,20 +15575,20 @@ export const RestOrganisasjonGetDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<RestOrganisasjonGetQuery, RestOrganisasjonGetQueryVariables>;
-export const RestAktiveSaksbehandlereGetDocument = {
+} as unknown as DocumentNode<RestGetOrganisasjonQuery, RestGetOrganisasjonQueryVariables>;
+export const RestGetAktiveSaksbehandlereDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'query',
-            name: { kind: 'Name', value: 'RESTAktiveSaksbehandlereGet' },
+            name: { kind: 'Name', value: 'RESTGetAktiveSaksbehandlere' },
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'restAktiveSaksbehandlereGet' },
+                        name: { kind: 'Name', value: 'restGetAktiveSaksbehandlere' },
                         directives: [
                             {
                                 kind: 'Directive',
@@ -15629,78 +15629,14 @@ export const RestAktiveSaksbehandlereGetDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<RestAktiveSaksbehandlereGetQuery, RestAktiveSaksbehandlereGetQueryVariables>;
-export const RestOpphevStansPostDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'RESTOpphevStansPost' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'OpphevStansPostRequestBody' } },
-                    },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'restOpphevStansPost' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'input' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
-                            },
-                        ],
-                        directives: [
-                            {
-                                kind: 'Directive',
-                                name: { kind: 'Name', value: 'rest' },
-                                arguments: [
-                                    {
-                                        kind: 'Argument',
-                                        name: { kind: 'Name', value: 'type' },
-                                        value: { kind: 'StringValue', value: 'Boolean!', block: false },
-                                    },
-                                    {
-                                        kind: 'Argument',
-                                        name: { kind: 'Name', value: 'endpoint' },
-                                        value: { kind: 'StringValue', value: 'spesialist', block: false },
-                                    },
-                                    {
-                                        kind: 'Argument',
-                                        name: { kind: 'Name', value: 'path' },
-                                        value: { kind: 'StringValue', value: '/opphevstans', block: false },
-                                    },
-                                    {
-                                        kind: 'Argument',
-                                        name: { kind: 'Name', value: 'method' },
-                                        value: { kind: 'StringValue', value: 'POST', block: false },
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<RestOpphevStansPostMutation, RestOpphevStansPostMutationVariables>;
-export const RestPersonTilkomneInntektskilderGetDocument = {
+} as unknown as DocumentNode<RestGetAktiveSaksbehandlereQuery, RestGetAktiveSaksbehandlereQueryVariables>;
+export const RestGetPersonTilkomneInntektskilderDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'query',
-            name: { kind: 'Name', value: 'RESTPersonTilkomneInntektskilderGet' },
+            name: { kind: 'Name', value: 'RESTGetPersonTilkomneInntektskilder' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
@@ -15713,7 +15649,7 @@ export const RestPersonTilkomneInntektskilderGetDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'restPersonTilkomneInntektskilderGet' },
+                        name: { kind: 'Name', value: 'restGetPersonTilkomneInntektskilder' },
                         arguments: [
                             {
                                 kind: 'Argument',
@@ -16225,16 +16161,80 @@ export const RestPersonTilkomneInntektskilderGetDocument = {
         },
     ],
 } as unknown as DocumentNode<
-    RestPersonTilkomneInntektskilderGetQuery,
-    RestPersonTilkomneInntektskilderGetQueryVariables
+    RestGetPersonTilkomneInntektskilderQuery,
+    RestGetPersonTilkomneInntektskilderQueryVariables
 >;
-export const RestTilkommenInntektEndrePostDocument = {
+export const RestPostOpphevStansDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'mutation',
-            name: { kind: 'Name', value: 'RESTTilkommenInntektEndrePost' },
+            name: { kind: 'Name', value: 'RESTPostOpphevStans' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'PostOpphevStansRequestBody' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'restPostOpphevStans' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'input' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                            },
+                        ],
+                        directives: [
+                            {
+                                kind: 'Directive',
+                                name: { kind: 'Name', value: 'rest' },
+                                arguments: [
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'type' },
+                                        value: { kind: 'StringValue', value: 'Boolean!', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'endpoint' },
+                                        value: { kind: 'StringValue', value: 'spesialist', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'path' },
+                                        value: { kind: 'StringValue', value: '/opphevstans', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'method' },
+                                        value: { kind: 'StringValue', value: 'POST', block: false },
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<RestPostOpphevStansMutation, RestPostOpphevStansMutationVariables>;
+export const RestPostTilkommenInntektEndreDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'RESTPostTilkommenInntektEndre' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
@@ -16248,7 +16248,7 @@ export const RestTilkommenInntektEndrePostDocument = {
                         kind: 'NonNullType',
                         type: {
                             kind: 'NamedType',
-                            name: { kind: 'Name', value: 'TilkommenInntektEndrePostRequestBody' },
+                            name: { kind: 'Name', value: 'PostTilkommenInntektEndreRequestBody' },
                         },
                     },
                 },
@@ -16258,7 +16258,7 @@ export const RestTilkommenInntektEndrePostDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'restTilkommenInntektEndrePost' },
+                        name: { kind: 'Name', value: 'restPostTilkommenInntektEndre' },
                         arguments: [
                             {
                                 kind: 'Argument',
@@ -16308,14 +16308,14 @@ export const RestTilkommenInntektEndrePostDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<RestTilkommenInntektEndrePostMutation, RestTilkommenInntektEndrePostMutationVariables>;
-export const RestTilkommenInntektFjernPostDocument = {
+} as unknown as DocumentNode<RestPostTilkommenInntektEndreMutation, RestPostTilkommenInntektEndreMutationVariables>;
+export const RestPostTilkommenInntektFjernDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'mutation',
-            name: { kind: 'Name', value: 'RESTTilkommenInntektFjernPost' },
+            name: { kind: 'Name', value: 'RESTPostTilkommenInntektFjern' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
@@ -16329,7 +16329,7 @@ export const RestTilkommenInntektFjernPostDocument = {
                         kind: 'NonNullType',
                         type: {
                             kind: 'NamedType',
-                            name: { kind: 'Name', value: 'TilkommenInntektFjernPostRequestBody' },
+                            name: { kind: 'Name', value: 'PostTilkommenInntektFjernRequestBody' },
                         },
                     },
                 },
@@ -16339,7 +16339,7 @@ export const RestTilkommenInntektFjernPostDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'restTilkommenInntektFjernPost' },
+                        name: { kind: 'Name', value: 'restPostTilkommenInntektFjern' },
                         arguments: [
                             {
                                 kind: 'Argument',
@@ -16389,14 +16389,14 @@ export const RestTilkommenInntektFjernPostDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<RestTilkommenInntektFjernPostMutation, RestTilkommenInntektFjernPostMutationVariables>;
-export const RestTilkommenInntektGjenopprettPostDocument = {
+} as unknown as DocumentNode<RestPostTilkommenInntektFjernMutation, RestPostTilkommenInntektFjernMutationVariables>;
+export const RestPostTilkommenInntektGjenopprettDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'mutation',
-            name: { kind: 'Name', value: 'RESTTilkommenInntektGjenopprettPost' },
+            name: { kind: 'Name', value: 'RESTPostTilkommenInntektGjenopprett' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
@@ -16410,7 +16410,7 @@ export const RestTilkommenInntektGjenopprettPostDocument = {
                         kind: 'NonNullType',
                         type: {
                             kind: 'NamedType',
-                            name: { kind: 'Name', value: 'TilkommenInntektGjenopprettPostRequestBody' },
+                            name: { kind: 'Name', value: 'PostTilkommenInntektGjenopprettRequestBody' },
                         },
                     },
                 },
@@ -16420,7 +16420,7 @@ export const RestTilkommenInntektGjenopprettPostDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'restTilkommenInntektGjenopprettPost' },
+                        name: { kind: 'Name', value: 'restPostTilkommenInntektGjenopprett' },
                         arguments: [
                             {
                                 kind: 'Argument',
@@ -16471,23 +16471,23 @@ export const RestTilkommenInntektGjenopprettPostDocument = {
         },
     ],
 } as unknown as DocumentNode<
-    RestTilkommenInntektGjenopprettPostMutation,
-    RestTilkommenInntektGjenopprettPostMutationVariables
+    RestPostTilkommenInntektGjenopprettMutation,
+    RestPostTilkommenInntektGjenopprettMutationVariables
 >;
-export const RestTilkomneInntekterPostDocument = {
+export const RestPostTilkomneInntekterDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'mutation',
-            name: { kind: 'Name', value: 'RESTTilkomneInntekterPost' },
+            name: { kind: 'Name', value: 'RESTPostTilkomneInntekter' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
                     type: {
                         kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'TilkomneInntekterPostRequestBody' } },
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'PostTilkomneInntekterRequestBody' } },
                     },
                 },
             ],
@@ -16496,7 +16496,7 @@ export const RestTilkomneInntekterPostDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'restTilkomneInntekterPost' },
+                        name: { kind: 'Name', value: 'restPostTilkomneInntekter' },
                         arguments: [
                             {
                                 kind: 'Argument',
@@ -16545,7 +16545,7 @@ export const RestTilkomneInntekterPostDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<RestTilkomneInntekterPostMutation, RestTilkomneInntekterPostMutationVariables>;
+} as unknown as DocumentNode<RestPostTilkomneInntekterMutation, RestPostTilkomneInntekterMutationVariables>;
 export const SkjonnsfastsettelseMutationDocument = {
     kind: 'Document',
     definitions: [

@@ -5,23 +5,25 @@ import { cwd } from 'process';
 import { v4 } from 'uuid';
 
 import { logger } from '@/logger';
+import {
+    PostTilkommenInntektEndreRequestBody,
+    PostTilkommenInntektFjernRequestBody,
+    PostTilkommenInntektGjenopprettRequestBody,
+    PostTilkomneInntekterRequestBody,
+} from '@io/graphql';
 import { sleep } from '@spesialist-mock/constants';
 import {
     LeggTilTilkommenInntektResponse,
     TilkommenInntekt,
-    TilkommenInntektEndrePostRequestBody,
     TilkommenInntektEndretEvent,
     TilkommenInntektEvent,
     TilkommenInntektEventEndringer,
     TilkommenInntektEventMetadata,
-    TilkommenInntektFjernPostRequestBody,
     TilkommenInntektFjernetEvent,
-    TilkommenInntektGjenopprettPostRequestBody,
     TilkommenInntektGjenopprettetEvent,
     TilkommenInntektInput,
     TilkommenInntektOpprettetEvent,
     TilkommenInntektskilde,
-    TilkomneInntekterPostRequestBody,
 } from '@spesialist-mock/schemaTypes';
 
 export class TilkommenInntektMock {
@@ -302,7 +304,7 @@ export class TilkommenInntektMock {
         if (subpathSegments[0] === 'tilkomne-inntekter') {
             if (subpathSegments.length == 1) {
                 await sleep(2000);
-                const input = requestBody as TilkomneInntekterPostRequestBody;
+                const input = requestBody as PostTilkomneInntekterRequestBody;
                 return Response.json(
                     TilkommenInntektMock.leggTilTilkommenInntekt(
                         input.fodselsnummer,
@@ -315,7 +317,7 @@ export class TilkommenInntektMock {
             if (tilkommenInntektId !== undefined) {
                 if (subpathSegments[2] == 'endre') {
                     await sleep(2000);
-                    const input = requestBody as TilkommenInntektEndrePostRequestBody;
+                    const input = requestBody as PostTilkommenInntektEndreRequestBody;
                     return Response.json(
                         TilkommenInntektMock.endreTilkommenInntekt(
                             input.endretTil,
@@ -326,14 +328,14 @@ export class TilkommenInntektMock {
                 }
                 if (subpathSegments[2] == 'fjern') {
                     await sleep(2000);
-                    const input = requestBody as TilkommenInntektFjernPostRequestBody;
+                    const input = requestBody as PostTilkommenInntektFjernRequestBody;
                     return Response.json(
                         TilkommenInntektMock.fjernTilkommenInntekt(input.notatTilBeslutter, tilkommenInntektId),
                     );
                 }
                 if (subpathSegments[2] == 'gjenopprett') {
                     await sleep(2000);
-                    const input = requestBody as TilkommenInntektGjenopprettPostRequestBody;
+                    const input = requestBody as PostTilkommenInntektGjenopprettRequestBody;
                     return Response.json(
                         TilkommenInntektMock.gjenopprettTilkommenInntekt(
                             input.endretTil,

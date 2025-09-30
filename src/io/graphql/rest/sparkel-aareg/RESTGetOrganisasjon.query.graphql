@@ -1,5 +1,5 @@
-query RESTOrganisasjonGet($organisasjonsnummer: String!) {
-    restOrganisasjonGet(organisasjonsnummer: $organisasjonsnummer)
+query RESTGetOrganisasjon($organisasjonsnummer: String!) {
+    restGetOrganisasjon(organisasjonsnummer: $organisasjonsnummer)
     @rest(
         type: "Organisasjon"
         endpoint: "sparkelAareg"

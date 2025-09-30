@@ -1,0 +1,9 @@
+mutation RESTPostTilkommenInntektFjern($tilkommenInntektId: UUID!, $input: PostTilkommenInntektFjernRequestBody!) {
+    restPostTilkommenInntektFjern(tilkommenInntektId: $tilkommenInntektId, input: $input)
+    @rest(
+        type: "Boolean!"
+        endpoint: "spesialist"
+        path: "/tilkomne-inntekter/{args.tilkommenInntektId}/fjern"
+        method: "POST"
+    )
+}

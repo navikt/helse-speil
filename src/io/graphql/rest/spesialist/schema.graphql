@@ -11,23 +11,29 @@ input DatoPeriodeInput {
     tom: LocalDate!
 }
 
-input OpphevStansPostRequestBody {
+input PostOpphevStansRequestBody {
     begrunnelse: String!
     fodselsnummer: String!
 }
 
-input TilkommenInntektEndrePostRequestBody {
+input PostTilkommenInntektEndreRequestBody {
     endretTil: TilkommenInntektInput!
     notatTilBeslutter: String!
 }
 
-input TilkommenInntektFjernPostRequestBody {
+input PostTilkommenInntektFjernRequestBody {
     notatTilBeslutter: String!
 }
 
-input TilkommenInntektGjenopprettPostRequestBody {
+input PostTilkommenInntektGjenopprettRequestBody {
     endretTil: TilkommenInntektInput!
     notatTilBeslutter: String!
+}
+
+input PostTilkomneInntekterRequestBody {
+    fodselsnummer: String!
+    notatTilBeslutter: String!
+    verdier: TilkommenInntektInput!
 }
 
 input TilkommenInntektInput {
@@ -35,12 +41,6 @@ input TilkommenInntektInput {
     organisasjonsnummer: String!
     periode: DatoPeriodeInput!
     periodebelop: BigDecimal!
-}
-
-input TilkomneInntekterPostRequestBody {
-    fodselsnummer: String!
-    notatTilBeslutter: String!
-    verdier: TilkommenInntektInput!
 }
 
 type DatoPeriode {
@@ -133,14 +133,14 @@ type TilkommenInntektskilde {
 }
 
 extend type Query {
-    restAktiveSaksbehandlereGet: [Saksbehandler!]!
-    restPersonTilkomneInntektskilderGet(aktorId: String!): [TilkommenInntektskilde!]!
+    restGetAktiveSaksbehandlere: [Saksbehandler!]!
+    restGetPersonTilkomneInntektskilder(aktorId: String!): [TilkommenInntektskilde!]!
 }
 
 extend type Mutation {
-    restOpphevStansPost(input: OpphevStansPostRequestBody!): Boolean!
-    restTilkommenInntektEndrePost(tilkommenInntektId: UUID!, input: TilkommenInntektEndrePostRequestBody!): Boolean!
-    restTilkommenInntektFjernPost(tilkommenInntektId: UUID!, input: TilkommenInntektFjernPostRequestBody!): Boolean!
-    restTilkommenInntektGjenopprettPost(tilkommenInntektId: UUID!, input: TilkommenInntektGjenopprettPostRequestBody!): Boolean!
-    restTilkomneInntekterPost(input: TilkomneInntekterPostRequestBody!): LeggTilTilkommenInntektResponse!
+    restPostOpphevStans(input: PostOpphevStansRequestBody!): Boolean!
+    restPostTilkommenInntektEndre(tilkommenInntektId: UUID!, input: PostTilkommenInntektEndreRequestBody!): Boolean!
+    restPostTilkommenInntektFjern(tilkommenInntektId: UUID!, input: PostTilkommenInntektFjernRequestBody!): Boolean!
+    restPostTilkommenInntektGjenopprett(tilkommenInntektId: UUID!, input: PostTilkommenInntektGjenopprettRequestBody!): Boolean!
+    restPostTilkomneInntekter(input: PostTilkomneInntekterRequestBody!): LeggTilTilkommenInntektResponse!
 }

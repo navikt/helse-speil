@@ -1,5 +1,5 @@
-query RESTAktiveSaksbehandlereGet {
-    restAktiveSaksbehandlereGet
+query RESTGetAktiveSaksbehandlere {
+    restGetAktiveSaksbehandlere
     @rest(
         type: "[Saksbehandler!]!"
         endpoint: "spesialist"

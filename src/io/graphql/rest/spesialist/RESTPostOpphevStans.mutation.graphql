@@ -1,5 +1,5 @@
-mutation RESTOpphevStansPost($input: OpphevStansPostRequestBody!) {
-    restOpphevStansPost(input: $input)
+mutation RESTPostOpphevStans($input: PostOpphevStansRequestBody!) {
+    restPostOpphevStans(input: $input)
     @rest(
         type: "Boolean!"
         endpoint: "spesialist"
