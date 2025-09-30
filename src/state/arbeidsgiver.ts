@@ -10,6 +10,7 @@ import {
     Hendelse,
     Inntektoverstyring,
     Maybe,
+    Overstyring,
     OverstyringFragment,
     PersonFragment,
     SelvstendigNaering,
@@ -84,6 +85,16 @@ export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<Arb
     }
 
     return null;
+};
+
+export const useOverstyringerForAktivInntektskilde = (person: Maybe<PersonFragment>): Array<Overstyring> => {
+    const arbeidsgiver = useCurrentArbeidsgiver(person);
+    const selvstendig: SelvstendigNaering | undefined = person?.selvstendigNaering ?? undefined;
+
+    const arbeidsgiverOverstyringer =
+        arbeidsgiver?.organisasjonsnummer === 'SELVSTENDIG' ? [] : (arbeidsgiver?.overstyringer ?? []);
+    const selvstendigOverstyringer = selvstendig?.overstyringer ?? [];
+    return [...arbeidsgiverOverstyringer, ...selvstendigOverstyringer];
 };
 
 export const useArbeidsgiver = (person: PersonFragment, organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
