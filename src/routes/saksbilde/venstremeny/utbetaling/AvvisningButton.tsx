@@ -1,9 +1,8 @@
 import React, { ReactElement, useState } from 'react';
 
-import { Button, ErrorMessage } from '@navikt/ds-react';
+import { Button } from '@navikt/ds-react';
 
-import { erUtvikling } from '@/env';
-import { BeregnetPeriodeFragment, Handling, Maybe, Periodehandling } from '@io/graphql';
+import { BeregnetPeriodeFragment } from '@io/graphql';
 
 import { AvvisningModal } from './AvvisningModal';
 
@@ -13,9 +12,6 @@ interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEleme
     size: 'small' | 'medium';
 }
 
-const finnKanAvvises = ({ handlinger }: BeregnetPeriodeFragment): Maybe<Handling> =>
-    handlinger.find((handling) => handling.type === Periodehandling.Avvise) as Handling;
-
 export const AvvisningButton = ({
     activePeriod,
     disabled = false,
@@ -23,8 +19,6 @@ export const AvvisningButton = ({
     ...buttonProps
 }: AvvisningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
-    const [kanIkkeAvvisesMelding, setKanIkkeAvvisesMelding] = useState<Maybe<string>>();
-    const kanAvvises = finnKanAvvises(activePeriod);
 
     return (
         <>
@@ -34,31 +28,18 @@ export const AvvisningButton = ({
                 size={size}
                 data-testid="avvisning-button"
                 onClick={() => {
-                    if (erUtvikling) {
-                        setShowModal(true);
-                        return;
-                    }
-
-                    if (kanAvvises?.tillatt) {
-                        setShowModal(true);
-                    } else {
-                        setKanIkkeAvvisesMelding('Denne oppgaven er det noe krøll med. Du må annullere utbetalingen.');
-                    }
+                    setShowModal(true);
                 }}
                 {...buttonProps}
             >
                 Kan ikke behandles her
             </Button>
-            {kanIkkeAvvisesMelding ? (
-                <ErrorMessage>{kanIkkeAvvisesMelding}</ErrorMessage>
-            ) : (
-                showModal && (
-                    <AvvisningModal
-                        closeModal={() => setShowModal(false)}
-                        showModal={showModal}
-                        activePeriod={activePeriod}
-                    />
-                )
+            {showModal && (
+                <AvvisningModal
+                    closeModal={() => setShowModal(false)}
+                    showModal={showModal}
+                    activePeriod={activePeriod}
+                />
             )}
         </>
     );
