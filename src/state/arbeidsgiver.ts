@@ -12,6 +12,7 @@ import {
     Maybe,
     OverstyringFragment,
     PersonFragment,
+    SelvstendigNaering,
     UberegnetPeriodeFragment,
     Utbetaling,
     Vurdering,
@@ -43,7 +44,7 @@ export const findArbeidsgiverWithGhostPeriode = (
 };
 
 export const findArbeidsgiverWithPeriode = (
-    period: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+    period: ActivePeriod,
     arbeidsgivere: Array<ArbeidsgiverFragment>,
 ): Maybe<ArbeidsgiverFragment> => {
     return (
@@ -58,6 +59,18 @@ export const findArbeidsgiverWithPeriode = (
         ) ?? null
     );
 };
+
+export const findSelvstendigWithPeriode = (
+    periode: ActivePeriod,
+    selvstendig: SelvstendigNaering | null,
+): SelvstendigNaering | null =>
+    selvstendig?.generasjoner
+        .flatMap((generasjon) => generasjon.perioder)
+        .some(
+            (enPeriode) => isUberegnetPeriode(periode) || (isBeregnetPeriode(enPeriode) && enPeriode.id === periode.id),
+        )
+        ? selvstendig
+        : null;
 
 export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<ArbeidsgiverFragment> => {
     const activePeriod = useActivePeriod(person);

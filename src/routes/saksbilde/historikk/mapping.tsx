@@ -5,6 +5,7 @@ import {
     BeregnetPeriodeFragment,
     EndrePaVent,
     FjernetFraPaVent,
+    Generasjon,
     GhostPeriodeFragment,
     Hendelse,
     Historikkinnslag,
@@ -15,6 +16,8 @@ import {
     LagtPaVent,
     Maybe,
     OpphevStansAutomatiskBehandlingSaksbehandler,
+    Overstyring,
+    OverstyringFragment,
     Periode,
     PeriodeHistorikkElementNy,
     PeriodehistorikkType,
@@ -31,6 +34,7 @@ import {
     UberegnetPeriodeFragment,
     Vurdering,
 } from '@io/graphql';
+import { OverstyringForInntektsforhold } from '@saksbilde/historikk/state';
 import {
     AnnetArbeidsforholdoverstyringhendelseObject,
     AnnulleringhendelseObject,
@@ -206,8 +210,8 @@ export const getAnnullering = (period: Periode): Maybe<AnnulleringhendelseObject
     };
 };
 
-export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<HistorikkhendelseObject> => {
-    return periode.historikkinnslag.map((historikkelement, index) => {
+export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<HistorikkhendelseObject> =>
+    periode.historikkinnslag.map((historikkelement, index): HistorikkhendelseObject => {
         return {
             id: `historikkinnslag-${index}`,
             historikkinnslagId: historikkelement.id,
@@ -225,9 +229,8 @@ export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<His
                     .sort(byTimestampHistorikkinnslag)
                     .find((it) => [PeriodehistorikkType.LeggPaVent, PeriodehistorikkType.EndrePaVent].includes(it.type))
                     ?.id === historikkelement.id,
-        } as HistorikkhendelseObject;
+        };
     });
-};
 
 const årsaker = (
     historikkelement:
@@ -237,11 +240,15 @@ const årsaker = (
         | TotrinnsvurderingRetur
         | StansAutomatiskBehandlingSaksbehandler
         | OpphevStansAutomatiskBehandlingSaksbehandler
-        | PeriodeHistorikkElementNy,
-): string[] =>
-    historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'EndrePaVent'
+        | PeriodeHistorikkElementNy
+        | null
+        | undefined,
+): string[] => {
+    if (!historikkelement) return [];
+    return historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'EndrePaVent'
         ? historikkelement.arsaker
         : [];
+};
 
 const frist = (
     historikkelement:
@@ -251,11 +258,14 @@ const frist = (
         | TotrinnsvurderingRetur
         | StansAutomatiskBehandlingSaksbehandler
         | OpphevStansAutomatiskBehandlingSaksbehandler
-        | PeriodeHistorikkElementNy,
-): Maybe<string> =>
-    historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'EndrePaVent'
+        | PeriodeHistorikkElementNy
+        | null
+        | undefined,
+): string | null => {
+    return historikkelement?.__typename === 'LagtPaVent' || historikkelement?.__typename === 'EndrePaVent'
         ? historikkelement.frist
         : null;
+};
 
 const notattekst = (
     historikkelement:
@@ -265,18 +275,20 @@ const notattekst = (
         | TotrinnsvurderingRetur
         | StansAutomatiskBehandlingSaksbehandler
         | OpphevStansAutomatiskBehandlingSaksbehandler
-        | PeriodeHistorikkElementNy,
-): Maybe<string> => {
+        | PeriodeHistorikkElementNy
+        | null
+        | undefined,
+): string | null => {
     const automatiskReturTekst = 'Perioden er automatisk reberegnet etter at den ble sendt til beslutter.';
     if (
-        historikkelement.__typename === 'LagtPaVent' ||
-        historikkelement.__typename === 'EndrePaVent' ||
-        historikkelement.__typename === 'StansAutomatiskBehandlingSaksbehandler' ||
-        historikkelement.__typename === 'OpphevStansAutomatiskBehandlingSaksbehandler'
+        historikkelement?.__typename === 'LagtPaVent' ||
+        historikkelement?.__typename === 'EndrePaVent' ||
+        historikkelement?.__typename === 'StansAutomatiskBehandlingSaksbehandler' ||
+        historikkelement?.__typename === 'OpphevStansAutomatiskBehandlingSaksbehandler'
     ) {
         return historikkelement.notattekst;
     }
-    if (historikkelement.__typename === 'TotrinnsvurderingRetur') {
+    if (historikkelement?.__typename === 'TotrinnsvurderingRetur') {
         return historikkelement.notattekst !== null ? historikkelement.notattekst : automatiskReturTekst;
     }
     return null;
@@ -290,52 +302,52 @@ const kommentarer = (
         | TotrinnsvurderingRetur
         | StansAutomatiskBehandlingSaksbehandler
         | OpphevStansAutomatiskBehandlingSaksbehandler
-        | PeriodeHistorikkElementNy,
+        | PeriodeHistorikkElementNy
+        | null
+        | undefined,
 ): Kommentar[] =>
-    historikkelement.__typename === 'LagtPaVent' ||
-    historikkelement.__typename === 'EndrePaVent' ||
-    historikkelement.__typename === 'TotrinnsvurderingRetur' ||
-    historikkelement.__typename === 'StansAutomatiskBehandlingSaksbehandler' ||
-    historikkelement.__typename === 'OpphevStansAutomatiskBehandlingSaksbehandler'
+    historikkelement?.__typename === 'LagtPaVent' ||
+    historikkelement?.__typename === 'EndrePaVent' ||
+    historikkelement?.__typename === 'TotrinnsvurderingRetur' ||
+    historikkelement?.__typename === 'StansAutomatiskBehandlingSaksbehandler' ||
+    historikkelement?.__typename === 'OpphevStansAutomatiskBehandlingSaksbehandler'
         ? historikkelement.kommentarer
         : [];
 
 const getTidligsteVurderingstidsstempelForPeriode = (
     period: BeregnetPeriodeFragment,
-    arbeidsgiver: ArbeidsgiverFragment,
-): Maybe<string> => {
-    return (
-        [...arbeidsgiver.generasjoner]
-            ?.reverse()
-            ?.flatMap((it) =>
-                it?.perioder
-                    .filter(isBeregnetPeriode)
-                    .find(
-                        (periode) =>
-                            periode.vedtaksperiodeId === period.vedtaksperiodeId &&
-                            periode.utbetaling.vurdering?.godkjent,
-                    ),
-            )
-            ?.filter(isBeregnetPeriode)
-            ?.shift()?.utbetaling.vurdering?.tidsstempel ?? null
-    );
-};
+    generasjoner: Generasjon[],
+): string | null =>
+    [...generasjoner]
+        ?.reverse()
+        ?.flatMap((it) =>
+            it?.perioder
+                .filter(isBeregnetPeriode)
+                .find(
+                    (periode: BeregnetPeriodeFragment) =>
+                        periode.vedtaksperiodeId === period.vedtaksperiodeId &&
+                        periode.utbetaling.vurdering?.godkjent === true,
+                ),
+        )
+        ?.filter(isBeregnetPeriode)
+        ?.shift()?.utbetaling.vurdering?.tidsstempel ?? null;
 
 export const getDagoverstyringer = (
     period: BeregnetPeriodeFragment,
-    arbeidsgiver: ArbeidsgiverFragment,
+    generasjoner: Generasjon[],
+    overstyringer: OverstyringFragment[],
 ): Array<HendelseObject> => {
-    const vurderingstidsstempel = getTidligsteVurderingstidsstempelForPeriode(period, arbeidsgiver);
+    const vurderingstidsstempel = getTidligsteVurderingstidsstempelForPeriode(period, generasjoner);
     const førsteVurdertePeriodeForArbeidsgiver = getFørsteVurdertePeriodeForSkjæringstidspunktet(
         period.skjaeringstidspunkt,
-        arbeidsgiver,
-    );
-    const sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet = getSisteVurdertePeriodeForSkjæringstidspunktet(
-        period.skjaeringstidspunkt,
-        arbeidsgiver,
+        generasjoner,
     );
 
-    return arbeidsgiver.overstyringer
+    const sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet = generasjoner[0]
+        ? getSisteVurdertePeriodeForSkjæringstidspunktet(period.skjaeringstidspunkt, generasjoner[0])
+        : undefined;
+
+    return overstyringer
         .filter(isDagoverstyring)
         .filter(
             (it) =>
@@ -357,14 +369,13 @@ export const getDagoverstyringer = (
 
 export const getDagoverstyringerForAUU = (
     period: UberegnetPeriodeFragment,
-    arbeidsgiver: ArbeidsgiverFragment,
+    generasjoner: Generasjon[],
+    overstyringer: Overstyring[],
 ): Array<HendelseObject> => {
-    const sisteTomForIkkeGhostsPåSkjæringstidspunktet = getSisteTomForIkkeGhostsPåSkjæringstidspunktet(
-        period.skjaeringstidspunkt,
-        arbeidsgiver,
-    );
+    const sisteTomForIkkeGhostsPåSkjæringstidspunktet =
+        generasjoner[0] && getSisteTomForIkkeGhostsPåSkjæringstidspunktet(period.skjaeringstidspunkt, generasjoner[0]);
 
-    return arbeidsgiver.overstyringer
+    return overstyringer
         .filter(isDagoverstyring)
         .filter(
             (it) =>
@@ -410,11 +421,11 @@ export const getUtbetalingshendelse = (periode: BeregnetPeriodeFragment): Maybe<
 
 const getFørsteVurdertePeriodeForSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
-    arbeidsgiver: ArbeidsgiverFragment,
+    generasjoner: Generasjon[],
 ): BeregnetPeriodeFragment | undefined =>
-    [...arbeidsgiver.generasjoner]
-        .flatMap<Periode | undefined>((generasjon) =>
-            generasjon.perioder.flatMap((p) => (p.skjaeringstidspunkt === skjæringstidspunkt ? p : undefined)),
+    [...generasjoner]
+        .flatMap<Periode | undefined>((generasjon: Generasjon) =>
+            generasjon.perioder.flatMap((p: Periode) => (p.skjaeringstidspunkt === skjæringstidspunkt ? p : undefined)),
         )
         .filter((period) => period !== undefined)
         .filter(isBeregnetPeriode)
@@ -450,29 +461,31 @@ export const kanStrekkes = (
 
 const getSisteVurdertePeriodeForSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
-    arbeidsgiver: ArbeidsgiverFragment,
+    generasjon: Generasjon,
 ): BeregnetPeriodeFragment | undefined =>
-    arbeidsgiver.generasjoner[0]?.perioder
+    generasjon.perioder
         .filter(isBeregnetPeriode)
-        .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
+        .filter(
+            (beregnetPeriodeFragment: BeregnetPeriodeFragment) =>
+                beregnetPeriodeFragment.skjaeringstidspunkt === skjæringstidspunkt,
+        )
         .shift();
 
 const getSisteTomForIkkeGhostsPåSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
-    arbeidsgiver: ArbeidsgiverFragment,
+    generasjon: Generasjon,
 ): Periode | undefined =>
-    arbeidsgiver.generasjoner[0]?.perioder
-        .filter((it) => !isGhostPeriode(it))
-        .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
+    generasjon.perioder
+        .filter((periode) => !isGhostPeriode(periode) && periode.skjaeringstidspunkt === skjæringstidspunkt)
         .shift();
 
 const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
     skjæringstidspunkt: DateString,
-    arbeidsgiver: ArbeidsgiverFragment,
+    generasjoner: Generasjon[],
 ): Maybe<Vurdering> => {
     const førsteVurdertePeriodeForSkjæringstidspunktet = getFørsteVurdertePeriodeForSkjæringstidspunktet(
         skjæringstidspunkt,
-        arbeidsgiver,
+        generasjoner,
     );
 
     return førsteVurdertePeriodeForSkjæringstidspunktet?.utbetaling.vurdering ?? null;
@@ -480,11 +493,12 @@ const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
 
 export const getInntektoverstyringer = (
     skjæringstidspunkt: DateString,
-    arbeidsgiver: ArbeidsgiverFragment,
+    generasjoner: Generasjon[],
+    overstyringer: Overstyring[],
 ): Array<InntektoverstyringhendelseObject> => {
-    const vurdering = getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt(skjæringstidspunkt, arbeidsgiver);
+    const vurdering = getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt(skjæringstidspunkt, generasjoner);
 
-    return arbeidsgiver.overstyringer
+    return overstyringer
         .filter(isInntektoverstyring)
         .filter((it) => it.inntekt.skjaeringstidspunkt === skjæringstidspunkt)
         .map((overstyring: Inntektoverstyring) => ({
@@ -517,9 +531,9 @@ export const getInntektoverstyringerForGhost = (
 
 export const getArbeidsforholdoverstyringhendelser = (
     period: BeregnetPeriodeFragment | GhostPeriodeFragment,
-    arbeidsgiver: ArbeidsgiverFragment,
+    overstyringer: OverstyringFragment[],
 ): Array<ArbeidsforholdoverstyringhendelseObject> => {
-    return arbeidsgiver.overstyringer
+    return overstyringer
         .filter(isArbeidsforholdoverstyring)
         .filter((it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt)
         .map((it) => ({
@@ -536,39 +550,35 @@ export const getArbeidsforholdoverstyringhendelser = (
 
 export const getAnnetArbeidsforholdoverstyringhendelser = (
     period: BeregnetPeriodeFragment | GhostPeriodeFragment,
-    arbeidsgiver: Maybe<ArbeidsgiverFragment>,
-    arbeidsgivere: Array<ArbeidsgiverFragment>,
-): Array<AnnetArbeidsforholdoverstyringhendelseObject> => {
-    return arbeidsgivere
-        .filter((it) => it.organisasjonsnummer !== arbeidsgiver?.organisasjonsnummer)
-        .reduce<Array<AnnetArbeidsforholdoverstyringhendelseObject>>(
-            (output, { navn, overstyringer }) =>
-                output.concat(
-                    overstyringer
-                        .filter(isArbeidsforholdoverstyring)
-                        .filter((it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt)
-                        .map((it) => ({
-                            id: it.hendelseId,
-                            type: 'AnnetArbeidsforholdoverstyring',
-                            erDeaktivert: it.deaktivert,
-                            saksbehandler: it.saksbehandler.ident ?? it.saksbehandler.navn,
-                            timestamp: it.timestamp,
-                            begrunnelse: it.begrunnelse,
-                            forklaring: it.forklaring,
-                            skjæringstidspunkt: it.skjaeringstidspunkt,
-                            navn: navn,
-                        })),
-                ),
-            [] as AnnetArbeidsforholdoverstyringhendelseObject[],
-        );
-};
+    overstyringerForInntektsforhold: OverstyringForInntektsforhold[],
+): AnnetArbeidsforholdoverstyringhendelseObject[] =>
+    overstyringerForInntektsforhold.reduce<AnnetArbeidsforholdoverstyringhendelseObject[]>(
+        (output, { navn, overstyringer }) =>
+            output.concat(
+                overstyringer
+                    .filter(isArbeidsforholdoverstyring)
+                    .filter((it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt)
+                    .map((it) => ({
+                        id: it.hendelseId,
+                        type: 'AnnetArbeidsforholdoverstyring',
+                        erDeaktivert: it.deaktivert,
+                        saksbehandler: it.saksbehandler.ident ?? it.saksbehandler.navn,
+                        timestamp: it.timestamp,
+                        begrunnelse: it.begrunnelse,
+                        forklaring: it.forklaring,
+                        skjæringstidspunkt: it.skjaeringstidspunkt,
+                        navn: navn,
+                    })),
+            ),
+        [] as AnnetArbeidsforholdoverstyringhendelseObject[],
+    );
 
 export const getSykepengegrunnlagskjønnsfastsetting = (
     skjæringstidspunkt: DateString,
-    arbeidsgiver: ArbeidsgiverFragment,
-    arbeidsgivere: Array<ArbeidsgiverFragment>,
+    overstyringerForInntektsforhold: OverstyringForInntektsforhold[],
 ): Array<SykepengegrunnlagskjonnsfastsettinghendelseObject> =>
-    arbeidsgiver.overstyringer
+    overstyringerForInntektsforhold
+        .flatMap((o) => o.overstyringer)
         .filter(isSykepengegrunnlagskjønnsfastsetting)
         .filter((it) => it.skjonnsfastsatt.skjaeringstidspunkt === skjæringstidspunkt)
         .map((overstyring: Sykepengegrunnlagskjonnsfastsetting) => ({
@@ -577,23 +587,44 @@ export const getSykepengegrunnlagskjønnsfastsetting = (
             saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
             timestamp: overstyring.timestamp,
             skjønnsfastsatt: overstyring.skjonnsfastsatt,
-            arbeidsgivere: getArbeidsgivereÅrsinntekt(arbeidsgivere, overstyring.hendelseId),
+            arbeidsgivere: getArbeidsgivereÅrsinntekt(overstyring.hendelseId, overstyringerForInntektsforhold),
         }));
+
+const getArbeidsgivereÅrsinntekt = (
+    hendelseId: string,
+    overstyringerForInntektsforhold: OverstyringForInntektsforhold[],
+): ArbeidsgiverSkjønnHendelse[] =>
+    overstyringerForInntektsforhold.reduce((liste: ArbeidsgiverSkjønnHendelse[], overstyringerForInntektsforhold) => {
+        const skjønnsfastsatt = overstyringerForInntektsforhold.overstyringer
+            .filter(isSykepengegrunnlagskjønnsfastsetting)
+            .filter((it) => it.hendelseId === hendelseId)
+            ?.shift()?.skjonnsfastsatt;
+
+        if (skjønnsfastsatt !== undefined) {
+            liste.push({
+                identifikator: overstyringerForInntektsforhold.organisasjonsnummer,
+                navn: overstyringerForInntektsforhold.navn,
+                årlig: skjønnsfastsatt?.arlig ?? 0,
+                fraÅrlig: skjønnsfastsatt?.fraArlig ?? 0,
+            });
+        }
+        return liste;
+    }, []);
 
 export const getMinimumSykdomsgradoverstyring = (
     period: BeregnetPeriodeFragment,
-    arbeidsgiver: ArbeidsgiverFragment,
+    generasjoner: Generasjon[],
+    overstyringer: OverstyringFragment[],
 ): Array<MinimumSykdomsgradhendelseObject> => {
     const førsteVurdertePeriodeForArbeidsgiver = getFørsteVurdertePeriodeForSkjæringstidspunktet(
         period.skjaeringstidspunkt,
-        arbeidsgiver,
+        generasjoner,
     );
-    const sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet = getSisteVurdertePeriodeForSkjæringstidspunktet(
-        period.skjaeringstidspunkt,
-        arbeidsgiver,
-    );
+    const sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet = generasjoner[0]
+        ? getSisteVurdertePeriodeForSkjæringstidspunktet(period.skjaeringstidspunkt, generasjoner[0])
+        : undefined;
 
-    return arbeidsgiver.overstyringer
+    return overstyringer
         .filter(isMinimumSykdomsgradsoverstyring)
         .filter((it) => {
             const førsteFom =
@@ -642,27 +673,6 @@ const byTimestamp = (a: Notat, b: Notat): number => {
 const byTimestampHistorikkinnslag = (a: Historikkinnslag, b: Historikkinnslag): number => {
     return dayjs(b.timestamp).diff(dayjs(a.timestamp));
 };
-
-const getArbeidsgivereÅrsinntekt = (
-    arbeidsgivere: ArbeidsgiverFragment[],
-    hendelseId: string,
-): ArbeidsgiverSkjønnHendelse[] =>
-    arbeidsgivere.reduce((liste: ArbeidsgiverSkjønnHendelse[], ag) => {
-        const skjønnsfastsatt = ag.overstyringer
-            .filter(isSykepengegrunnlagskjønnsfastsetting)
-            .filter((it) => it.hendelseId === hendelseId)
-            ?.shift()?.skjonnsfastsatt;
-
-        if (skjønnsfastsatt !== undefined) {
-            liste.push({
-                identifikator: ag.organisasjonsnummer,
-                navn: ag.navn,
-                årlig: skjønnsfastsatt?.arlig ?? 0,
-                fraÅrlig: skjønnsfastsatt?.fraArlig ?? 0,
-            });
-        }
-        return liste;
-    }, []);
 
 function isNonEmpty(begrunnelse: string | null): boolean {
     return begrunnelse !== null && begrunnelse !== undefined && begrunnelse !== '';

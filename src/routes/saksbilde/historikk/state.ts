@@ -3,12 +3,20 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 
 import {
     BeregnetPeriodeFragment,
+    Generasjon,
     GhostPeriodeFragment,
     Maybe,
+    Overstyring,
+    OverstyringFragment,
     PersonFragment,
+    SelvstendigNaering,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/arbeidsgiver';
+import {
+    findArbeidsgiverWithGhostPeriode,
+    findArbeidsgiverWithPeriode,
+    findSelvstendigWithPeriode,
+} from '@state/arbeidsgiver';
 import { atomWithSessionStorage } from '@state/jotai';
 import { toNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
@@ -37,65 +45,64 @@ const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
     return dayjs(b.timestamp).diff(dayjs(a.timestamp));
 };
 
+export interface OverstyringForInntektsforhold {
+    navn: string;
+    organisasjonsnummer: string;
+    overstyringer: OverstyringFragment[];
+}
+
 const getHendelserForBeregnetPeriode = (
     period: BeregnetPeriodeFragment,
-    person: PersonFragment,
+    generasjoner: Generasjon[],
+    overstyringerForAlleInntektsforhold: OverstyringForInntektsforhold[],
+    identifikator?: string,
 ): Array<HendelseObject> => {
-    const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
-    const dagoverstyringer = arbeidsgiver ? getDagoverstyringer(period, arbeidsgiver) : [];
-    const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period.skjaeringstidspunkt, arbeidsgiver) : [];
-    const arbeidsforholdoverstyringer = arbeidsgiver ? getArbeidsforholdoverstyringhendelser(period, arbeidsgiver) : [];
-    const annetarbeidsforholdoverstyringer = getAnnetArbeidsforholdoverstyringhendelser(
-        period,
-        arbeidsgiver,
-        person.arbeidsgivere,
-    );
-    const sykepengegrunnlagskjønnsfastsetting = arbeidsgiver
-        ? getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, arbeidsgiver, person.arbeidsgivere)
-        : [];
+    console.log(period);
+    const alleOverstyringer = overstyringerForAlleInntektsforhold.flatMap((o) => o.overstyringer);
 
-    const minimumSykdomsgradoverstyring = arbeidsgiver ? getMinimumSykdomsgradoverstyring(period, arbeidsgiver) : [];
+    const hendelserTomUtbetalingstidspunkt = [
+        ...getMeldingOmVedtak(period),
+        ...getDokumenter(period),
+        ...getDagoverstyringer(period, generasjoner, alleOverstyringer),
+        ...getInntektoverstyringer(period.skjaeringstidspunkt, generasjoner, alleOverstyringer),
+        ...getArbeidsforholdoverstyringhendelser(period, alleOverstyringer),
+        ...getAnnetArbeidsforholdoverstyringhendelser(
+            period,
+            overstyringerForAlleInntektsforhold.filter((o) => o.organisasjonsnummer !== identifikator),
+        ),
+        ...getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, overstyringerForAlleInntektsforhold),
+        ...getMinimumSykdomsgradoverstyring(period, generasjoner, alleOverstyringer),
+        ...getVedtakBegrunnelser(period),
+    ].filter(hendelseTidspunktLiktEllerFørUtbetalingForPeriode(period));
 
-    const dokumenter = getDokumenter(period);
-    const meldingOmVedtak = getMeldingOmVedtak(period);
-    const notater = getNotathendelser(period.notater.map(toNotat));
-    const utbetaling = getUtbetalingshendelse(period);
-    const historikkinnslag = getHistorikkinnslag(period);
-    const vedtakBegrunnelser = getVedtakBegrunnelser(period);
-    const annullering = getAnnullering(period);
+    const hendelserForAlleUtbetalinger = [
+        ...getNotathendelser(period.notater.map(toNotat)),
+        ...getHistorikkinnslag(period),
+        getUtbetalingshendelse(period),
+        getAnnullering(period),
+    ].filter((hendelse) => hendelse !== null) as HendelseObject[];
 
-    return meldingOmVedtak.concat(
-        [
-            ...dokumenter,
-            ...dagoverstyringer,
-            ...inntektoverstyringer,
-            ...arbeidsforholdoverstyringer,
-            ...annetarbeidsforholdoverstyringer,
-            ...sykepengegrunnlagskjønnsfastsetting,
-            ...minimumSykdomsgradoverstyring,
-            ...vedtakBegrunnelser,
-        ]
-            .filter((it: HendelseObject) =>
-                period.utbetaling.vurdering?.tidsstempel
-                    ? it.timestamp &&
-                      dayjs(it.timestamp).startOf('s').isSameOrBefore(period.utbetaling.vurdering.tidsstempel)
-                    : true,
-            )
-            .concat(utbetaling ? [utbetaling] : [])
-            .concat(annullering ? [annullering] : [])
-            .concat(notater)
-            .concat(historikkinnslag)
-            .sort(byTimestamp),
-    );
+    return [...hendelserTomUtbetalingstidspunkt, ...hendelserForAlleUtbetalinger].sort(byTimestamp);
 };
+
+const hendelseTidspunktLiktEllerFørUtbetalingForPeriode =
+    (period: BeregnetPeriodeFragment) => (hendelse: HendelseObject) =>
+        period.utbetaling.vurdering?.tidsstempel
+            ? hendelse.timestamp &&
+              dayjs(hendelse.timestamp).startOf('s').isSameOrBefore(period.utbetaling.vurdering.tidsstempel)
+            : true;
 
 const getHendelserForGhostPeriode = (period: GhostPeriodeFragment, person: PersonFragment): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithGhostPeriode(period, person.arbeidsgivere);
-    const arbeidsforholdoverstyringer = arbeidsgiver ? getArbeidsforholdoverstyringhendelser(period, arbeidsgiver) : [];
+    const arbeidsforholdoverstyringer = getArbeidsforholdoverstyringhendelser(
+        period,
+        arbeidsgiver?.overstyringer ?? [],
+    );
     const annetarbeidsforholdoverstyringer = getAnnetArbeidsforholdoverstyringhendelser(
         period,
-        arbeidsgiver,
-        person.arbeidsgivere,
+        person.arbeidsgivere.filter(
+            (_arbeidsgiver) => _arbeidsgiver.organisasjonsnummer !== arbeidsgiver?.organisasjonsnummer,
+        ),
     );
     const inntektoverstyringer = arbeidsgiver
         ? getInntektoverstyringerForGhost(period.skjaeringstidspunkt, arbeidsgiver, person)
@@ -108,44 +115,70 @@ const getHendelserForGhostPeriode = (period: GhostPeriodeFragment, person: Perso
 
 const getHendelserForUberegnetPeriode = (
     period: UberegnetPeriodeFragment,
-    person: PersonFragment,
+    overstyringer: Overstyring[],
+    generasjoner: Generasjon[],
+    overstyringerForAlleInntektsforhold: OverstyringForInntektsforhold[],
 ): Array<HendelseObject> => {
-    const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
-    const dagoverstyringer = arbeidsgiver ? getDagoverstyringerForAUU(period, arbeidsgiver) : [];
-    const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period.skjaeringstidspunkt, arbeidsgiver) : [];
-    const notater = getNotathendelser(period.notater.map(toNotat));
-    const sykepengegrunnlagskjønnsfastsetting = arbeidsgiver
-        ? getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, arbeidsgiver, person.arbeidsgivere)
-        : [];
-
-    const dokumenter = getDokumenter(period);
-
     return [
-        ...dokumenter,
-        ...dagoverstyringer,
-        ...inntektoverstyringer,
-        ...sykepengegrunnlagskjønnsfastsetting,
-        ...notater,
+        ...getDokumenter(period),
+        ...getDagoverstyringerForAUU(period, generasjoner, overstyringer),
+        ...getInntektoverstyringer(period.skjaeringstidspunkt, generasjoner, overstyringer),
+        ...getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, overstyringerForAlleInntektsforhold),
+        ...getNotathendelser(period.notater.map(toNotat)),
     ].sort(byTimestamp);
 };
 
 const useHistorikk = (person: Maybe<PersonFragment>): HendelseObject[] => {
     const activePeriod = useActivePeriod(person);
 
-    if (!person) {
+    if (!person || !activePeriod) {
         return [];
     }
 
+    const _arbeidsgiver = findArbeidsgiverWithPeriode(activePeriod, person.arbeidsgivere);
+    // Ignorer selvstendig næring fra arbeidsgiverlisten når vi tar i bruk selvstendig feltet på person. Dette for å unngå duplikater.
+    const arbeidsgiver = _arbeidsgiver?.organisasjonsnummer !== 'SELVSTENDIG' ? _arbeidsgiver : null;
+    const selvstendig: SelvstendigNaering | null = findSelvstendigWithPeriode(activePeriod, person.selvstendigNaering);
+
+    const overstyringer = [...(arbeidsgiver?.overstyringer ?? []), ...(selvstendig?.overstyringer ?? [])];
+    const generasjoner = [...(arbeidsgiver?.generasjoner ?? []), ...(selvstendig?.generasjoner ?? [])];
+
+    const overstyringerForAlleInntektsforhold: OverstyringForInntektsforhold[] = [
+        ...person.arbeidsgivere
+            // Ignorer selvstendig næring fra arbeidsgiverlisten når vi tar i bruk selvstendig feltet på person. Dette for å unngå duplikater.
+            .filter((arbeidsgiver) => arbeidsgiver.organisasjonsnummer !== 'SELVSTENDIG')
+            .map((arbeidsgiver) => ({
+                navn: arbeidsgiver.navn,
+                organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+                overstyringer: arbeidsgiver.overstyringer,
+            })),
+        {
+            navn: 'SELVSTENDIG',
+            organisasjonsnummer: 'SELVSTENDIG',
+            overstyringer: person.selvstendigNaering?.overstyringer ?? [],
+        },
+    ];
+
     if (isBeregnetPeriode(activePeriod)) {
-        return getHendelserForBeregnetPeriode(activePeriod, person);
+        return getHendelserForBeregnetPeriode(
+            activePeriod,
+            generasjoner,
+            overstyringerForAlleInntektsforhold,
+            arbeidsgiver?.organisasjonsnummer,
+        );
+    }
+
+    if (isUberegnetPeriode(activePeriod)) {
+        return getHendelserForUberegnetPeriode(
+            activePeriod,
+            overstyringer,
+            generasjoner,
+            overstyringerForAlleInntektsforhold,
+        );
     }
 
     if (isGhostPeriode(activePeriod)) {
         return getHendelserForGhostPeriode(activePeriod, person);
-    }
-
-    if (isUberegnetPeriode(activePeriod)) {
-        return getHendelserForUberegnetPeriode(activePeriod, person);
     }
 
     return [];
