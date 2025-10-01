@@ -16,7 +16,7 @@ import {
     getOverlappendeArbeidsgivere,
     harPeriodeDagerMedUnder20ProsentTotalGrad,
 } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
-import { useOverstyringerForAktivInntektskilde } from '@state/arbeidsgiver';
+import { finnOverstyringerForAktivInntektskilde } from '@state/arbeidsgiver';
 import { getOverlappendePerioder, overlapper } from '@state/selectors/period';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isMinimumSykdomsgradsoverstyring, isUberegnetPeriode } from '@utils/typeguards';
@@ -29,14 +29,14 @@ interface VerktøylinjeProps {
 
 export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeId }: VerktøylinjeProps) => {
     const [overstyrerMinimumSykdomsgrad, setOverstyrerMinimumSykdomsgrad] = useState(false);
-    const minimumSykdomsgradsoverstyringer = useOverstyringerForAktivInntektskilde(person).filter(
-        isMinimumSykdomsgradsoverstyring,
-    );
     const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, aktivPeriode);
     const oppkuttedePerioder =
         getOppkuttedePerioder(overlappendeArbeidsgivere, aktivPeriode)?.filter((it) =>
             harPeriodeDagerMedUnder20ProsentTotalGrad(it, person.arbeidsgivere, aktivPeriode.skjaeringstidspunkt),
         ) ?? [];
+    const minimumSykdomsgradsoverstyringer = finnOverstyringerForAktivInntektskilde(aktivPeriode, person).filter(
+        isMinimumSykdomsgradsoverstyring,
+    );
     const harAlleDelperioderBlittVurdertSistIAndreVedtaksperioder: boolean =
         isBeregnetPeriode(aktivPeriode) &&
         (oppkuttedePerioder?.every((dp) => {

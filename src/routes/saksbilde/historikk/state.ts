@@ -9,13 +9,14 @@ import {
     Overstyring,
     OverstyringFragment,
     PersonFragment,
-    SelvstendigNaering,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
 import {
     findArbeidsgiverWithGhostPeriode,
     findArbeidsgiverWithPeriode,
-    findSelvstendigWithPeriode,
+    finnGenerasjonerForAktivPeriode,
+    finnOverstyringerForAktivInntektskilde,
+    finnOverstyringerForAlleInntektsforhold,
 } from '@state/arbeidsgiver';
 import { atomWithSessionStorage } from '@state/jotai';
 import { toNotat } from '@state/notater';
@@ -130,41 +131,24 @@ const getHendelserForUberegnetPeriode = (
 
 const useHistorikk = (person: Maybe<PersonFragment>): HendelseObject[] => {
     const activePeriod = useActivePeriod(person);
-
     if (!person || !activePeriod) {
         return [];
     }
 
+    const generasjoner = finnGenerasjonerForAktivPeriode(activePeriod, person);
+    const overstyringer = finnOverstyringerForAktivInntektskilde(activePeriod, person);
+    const overstyringerForAlleInntektsforhold = finnOverstyringerForAlleInntektsforhold(person);
+
     const _arbeidsgiver = findArbeidsgiverWithPeriode(activePeriod, person.arbeidsgivere);
     // Ignorer selvstendig næring fra arbeidsgiverlisten når vi tar i bruk selvstendig feltet på person. Dette for å unngå duplikater.
-    const arbeidsgiver = _arbeidsgiver?.organisasjonsnummer !== 'SELVSTENDIG' ? _arbeidsgiver : null;
-    const selvstendig: SelvstendigNaering | null = findSelvstendigWithPeriode(activePeriod, person.selvstendigNaering);
-
-    const overstyringer = [...(arbeidsgiver?.overstyringer ?? []), ...(selvstendig?.overstyringer ?? [])];
-    const generasjoner = [...(arbeidsgiver?.generasjoner ?? []), ...(selvstendig?.generasjoner ?? [])];
-
-    const overstyringerForAlleInntektsforhold: OverstyringForInntektsforhold[] = [
-        ...person.arbeidsgivere
-            // Ignorer selvstendig næring fra arbeidsgiverlisten når vi tar i bruk selvstendig feltet på person. Dette for å unngå duplikater.
-            .filter((arbeidsgiver) => arbeidsgiver.organisasjonsnummer !== 'SELVSTENDIG')
-            .map((arbeidsgiver) => ({
-                navn: arbeidsgiver.navn,
-                organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-                overstyringer: arbeidsgiver.overstyringer,
-            })),
-        {
-            navn: 'SELVSTENDIG',
-            organisasjonsnummer: 'SELVSTENDIG',
-            overstyringer: person.selvstendigNaering?.overstyringer ?? [],
-        },
-    ];
+    const identifikator = _arbeidsgiver?.organisasjonsnummer;
 
     if (isBeregnetPeriode(activePeriod)) {
         return getHendelserForBeregnetPeriode(
             activePeriod,
             generasjoner,
             overstyringerForAlleInntektsforhold,
-            arbeidsgiver?.organisasjonsnummer,
+            identifikator,
         );
     }
 

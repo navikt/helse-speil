@@ -3,7 +3,7 @@ import {
     getOverlappendeArbeidsgivere,
     harPeriodeDagerMedUnder20ProsentTotalGrad,
 } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
-import { useOverstyringerForAktivInntektskilde } from '@state/arbeidsgiver';
+import { finnOverstyringerForAktivInntektskilde } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { ActivePeriod } from '@typer/shared';
@@ -12,11 +12,11 @@ import { isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
 export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     const { data } = useFetchPersonQuery();
     const person = data?.person ?? null;
-    const overstyringer = useOverstyringerForAktivInntektskilde(person);
     const aktivPeriode = useActivePeriod(person);
 
     if (!person || !aktivPeriode?.skjaeringstidspunkt) return false;
 
+    const overstyringer = finnOverstyringerForAktivInntektskilde(aktivPeriode, person);
     const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, aktivPeriode);
     const delperioder = getOppkuttedePerioder(overlappendeArbeidsgivere, aktivPeriode)?.filter((it) =>
         harPeriodeDagerMedUnder20ProsentTotalGrad(it, person.arbeidsgivere, aktivPeriode.skjaeringstidspunkt),

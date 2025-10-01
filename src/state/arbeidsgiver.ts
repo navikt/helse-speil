@@ -6,11 +6,11 @@ import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
     Dagoverstyring,
+    Generasjon,
     GhostPeriodeFragment,
     Hendelse,
     Inntektoverstyring,
     Maybe,
-    Overstyring,
     OverstyringFragment,
     PersonFragment,
     SelvstendigNaering,
@@ -18,6 +18,7 @@ import {
     Utbetaling,
     Vurdering,
 } from '@io/graphql';
+import { OverstyringForInntektsforhold } from '@saksbilde/historikk/state';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
@@ -42,6 +43,16 @@ export const findArbeidsgiverWithGhostPeriode = (
         arbeidsgivere.find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((periode) => periode.id === period.id)) ??
         null
     );
+};
+
+export const finnGenerasjonerForAktivPeriode = (periode: ActivePeriod, person: PersonFragment): Generasjon[] => {
+    const arbeidsgiver = findArbeidsgiverWithPeriode(periode, person.arbeidsgivere);
+    const selvstendig = findSelvstendigWithPeriode(periode, person.selvstendigNaering);
+
+    if (arbeidsgiver?.organisasjonsnummer === 'SELVSTENDIG') {
+        return selvstendig?.generasjoner ?? [];
+    }
+    return arbeidsgiver?.generasjoner ?? [];
 };
 
 export const findArbeidsgiverWithPeriode = (
@@ -87,14 +98,34 @@ export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<Arb
     return null;
 };
 
-export const useOverstyringerForAktivInntektskilde = (person: Maybe<PersonFragment>): Array<Overstyring> => {
-    const arbeidsgiver = useCurrentArbeidsgiver(person);
-    const selvstendig: SelvstendigNaering | undefined = person?.selvstendigNaering ?? undefined;
+export const finnOverstyringerForAktivInntektskilde = (aktivPeriode: ActivePeriod, person: Maybe<PersonFragment>) => {
+    const arbeidsgiver = findArbeidsgiverWithPeriode(aktivPeriode, person?.arbeidsgivere ?? []);
+    const selvstendig = findSelvstendigWithPeriode(aktivPeriode, person?.selvstendigNaering ?? null);
 
     const arbeidsgiverOverstyringer =
         arbeidsgiver?.organisasjonsnummer === 'SELVSTENDIG' ? [] : (arbeidsgiver?.overstyringer ?? []);
     const selvstendigOverstyringer = selvstendig?.overstyringer ?? [];
     return [...arbeidsgiverOverstyringer, ...selvstendigOverstyringer];
+};
+
+export const finnOverstyringerForAlleInntektsforhold = (
+    person: Maybe<PersonFragment>,
+): OverstyringForInntektsforhold[] => {
+    return [
+        ...(person?.arbeidsgivere
+            // Ignorer selvstendig næring fra arbeidsgiverlisten når vi tar i bruk selvstendig feltet på person. Dette for å unngå duplikater.
+            .filter((arbeidsgiver) => arbeidsgiver.organisasjonsnummer !== 'SELVSTENDIG')
+            .map((arbeidsgiver) => ({
+                navn: arbeidsgiver.navn,
+                organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+                overstyringer: arbeidsgiver.overstyringer,
+            })) ?? []),
+        {
+            navn: 'SELVSTENDIG',
+            organisasjonsnummer: 'SELVSTENDIG',
+            overstyringer: person?.selvstendigNaering?.overstyringer ?? [],
+        },
+    ];
 };
 
 export const useArbeidsgiver = (person: PersonFragment, organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
