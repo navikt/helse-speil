@@ -11,7 +11,7 @@ import {
     Refusjonselement,
 } from '@io/graphql';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
-import { useInntektsmeldinghendelser } from '@state/arbeidsgiver';
+import { dedupliserteInntektsmeldingHendelser } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import {
     OverstyrtInntektOgRefusjonArbeidsgiver,
@@ -118,12 +118,10 @@ export const useOverstyrtInntektMetadata = (
     period: Maybe<ActivePeriod>,
 ): OverstyrtInntektMetadata => {
     const activePeriod = useActivePeriod(person);
-    const inntektsmeldinghendelser = useInntektsmeldinghendelser(arbeidsgiver);
     const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, activePeriod);
     const uberegnetAGfinnesIVilkårsgrunnlaget = vilkårsgrunnlagAktivPeriode?.inntekter.find(
         (it) => it.arbeidsgiver === arbeidsgiver.organisasjonsnummer,
     );
-
     if (
         !isBeregnetPeriode(period) &&
         !isGhostPeriode(period) &&
@@ -131,7 +129,6 @@ export const useOverstyrtInntektMetadata = (
     ) {
         throw Error('Mangler data for å kunne overstyre inntekt.');
     }
-
     const vilkårsgrunnlagRefusjonsopplysninger: Arbeidsgiverrefusjon | undefined = person.vilkarsgrunnlagV2
         .filter((it) =>
             !isUberegnetPeriode(period)
@@ -142,6 +139,7 @@ export const useOverstyrtInntektMetadata = (
             (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver.organisasjonsnummer,
         )[0];
 
+    const inntektsmeldinghendelser = dedupliserteInntektsmeldingHendelser(arbeidsgiver);
     const refusjonsopplysninger = mapOgSorterRefusjoner(
         inntektsmeldinghendelser,
         vilkårsgrunnlagRefusjonsopplysninger?.refusjonsopplysninger ?? [],

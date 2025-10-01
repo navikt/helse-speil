@@ -7,8 +7,8 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Arbeidsgiverinntekt, Inntektskilde, PersonFragment, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import {
+    dedupliserteInntektsmeldingHendelser,
     finnArbeidsgiver,
-    useInntektsmeldinghendelser,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
@@ -35,14 +35,12 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElem
         inntekt.arbeidsgiver,
     );
     const arbeidsgiver = finnArbeidsgiver(person, inntekt.arbeidsgiver);
-    const inntektsmeldinghendelser = useInntektsmeldinghendelser(arbeidsgiver);
-
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeForSkjæringstidspunktForArbeidsgiver);
+
     const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, aktivPeriode);
     const uberegnetAGfinnesIVilkårsgrunnlaget = vilkårsgrunnlagAktivPeriode?.inntekter.find(
         (it) => it.arbeidsgiver === arbeidsgiver?.organisasjonsnummer,
     );
-
     const arbeidsgiverrefusjon =
         vilkårsgrunnlag && isBeregnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
             ? vilkårsgrunnlag.arbeidsgiverrefusjoner.find(
@@ -68,6 +66,7 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElem
         return null;
     }
 
+    const inntektsmeldinghendelser = dedupliserteInntektsmeldingHendelser(arbeidsgiver);
     const refusjon = mapOgSorterRefusjoner(inntektsmeldinghendelser, arbeidsgiverrefusjon?.refusjonsopplysninger ?? []);
 
     const inntekterForSammenligningsgrunnlag =

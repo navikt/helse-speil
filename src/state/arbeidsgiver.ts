@@ -48,7 +48,7 @@ export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<Arb
     return null;
 };
 
-export const useInntektsmeldinghendelser = (arbeidsgiver: Maybe<ArbeidsgiverFragment>): Hendelse[] => {
+export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: Maybe<ArbeidsgiverFragment>): Hendelse[] => {
     if (!arbeidsgiver) return [];
 
     // Ja, det er litt rotete kode for å deduplisere hendelser-lista, men
