@@ -11,7 +11,7 @@ import {
     UberegnetPeriodeFragment,
 } from '@io/graphql';
 import {
-    useArbeidsgiver,
+    finnArbeidsgiver,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     useErGhostLikEllerFørPeriodeTilGodkjenning,
     usePeriodForSkjæringstidspunkt,
@@ -99,7 +99,7 @@ export const useArbeidsforholdKanOverstyres = (
 ): boolean => {
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(person, skjæringstidspunkt, organisasjonsnummer);
     const erGhostLikEllerEtterPeriodeTilGodkjenning = useErGhostLikEllerFørPeriodeTilGodkjenning(person);
-    const arbeidsgiver = useArbeidsgiver(person, organisasjonsnummer);
+    const arbeidsgiver = finnArbeidsgiver(person, organisasjonsnummer);
 
     if (!isGhostPeriode(period) || !person || !arbeidsgiver) {
         return false;

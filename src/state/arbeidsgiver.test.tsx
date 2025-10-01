@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import {
     findArbeidsgiverWithGhostPeriode,
     findArbeidsgiverWithPeriode,
-    useArbeidsgiver,
+    finnArbeidsgiver,
     useCurrentArbeidsgiver,
     useEndringerForPeriode,
     usePeriodForSkjæringstidspunkt,
@@ -89,7 +89,7 @@ describe('useArbeidsgiver', () => {
         const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer });
         const person = enPerson().medArbeidsgivere([enArbeidsgiver(), arbeidsgiver, enArbeidsgiver()]);
 
-        const { result } = renderHook(() => useArbeidsgiver(person, organisasjonsnummer));
+        const { result } = renderHook(() => finnArbeidsgiver(person, organisasjonsnummer));
 
         expect(result.current).toEqual(arbeidsgiver);
     });
@@ -98,7 +98,7 @@ describe('useArbeidsgiver', () => {
         const organisasjonsnummer = nanoid();
         const person = enPerson().medArbeidsgivere([enArbeidsgiver(), enArbeidsgiver(), enArbeidsgiver()]);
 
-        const { result } = renderHook(() => useArbeidsgiver(person, organisasjonsnummer));
+        const { result } = renderHook(() => finnArbeidsgiver(person, organisasjonsnummer));
 
         expect(result.current).toBeNull();
     });
@@ -177,7 +177,7 @@ describe('useEndringerForPeriode', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
 
-        const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
+        const endringer = finnArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
 
         const { result } = renderHook(() => useEndringerForPeriode(endringer, person));
 
@@ -197,7 +197,7 @@ describe('useEndringerForPeriode', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
 
-        const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
+        const endringer = finnArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
 
         const { result } = renderHook(() => useEndringerForPeriode(endringer, person));
 
@@ -217,7 +217,7 @@ describe('useEndringerForPeriode', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
 
-        const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
+        const endringer = finnArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
 
         const { result } = renderHook(() => useEndringerForPeriode(endringer, person));
 
@@ -238,7 +238,7 @@ describe('useEndringerForPeriode', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
 
-        const endringer = useArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
+        const endringer = finnArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
 
         const { result } = renderHook(() => useEndringerForPeriode(endringer, person));
 

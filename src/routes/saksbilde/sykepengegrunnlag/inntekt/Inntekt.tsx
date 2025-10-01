@@ -7,7 +7,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Arbeidsgiverinntekt, Inntektskilde, PersonFragment, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import {
-    useArbeidsgiver,
+    finnArbeidsgiver,
     useInntektsmeldinghendelser,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
@@ -34,7 +34,7 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElem
         aktivPeriode?.skjaeringstidspunkt ?? null,
         inntekt.arbeidsgiver,
     );
-    const arbeidsgiver = useArbeidsgiver(person, inntekt.arbeidsgiver);
+    const arbeidsgiver = finnArbeidsgiver(person, inntekt.arbeidsgiver);
     const inntektsmeldinghendelser = useInntektsmeldinghendelser(arbeidsgiver);
 
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeForSkjæringstidspunktForArbeidsgiver);

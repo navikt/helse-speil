@@ -6,7 +6,7 @@ import { PersonStoreContext } from '@/state/contexts/personStore';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { useIsAnonymous } from '@state/anonymization';
 import {
-    useArbeidsgiver,
+    finnArbeidsgiver,
     useEndringerForPeriode,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
@@ -51,7 +51,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: { person: person } });
         (useActivePeriod as jest.Mock).mockReturnValue(enBeregnetPeriode());
         (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enBeregnetPeriode());
-        (useArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (finnArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useEndringerForPeriode as jest.Mock).mockReturnValue({
             inntektsendringer: [],
             arbeidsforholdendringer: [],
@@ -136,7 +136,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValue(enGhostPeriode());
         (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enGhostPeriode());
-        (useArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (finnArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useEndringerForPeriode as jest.Mock).mockReturnValue({
             inntektsendringer: [],
             arbeidsforholdendringer: [],

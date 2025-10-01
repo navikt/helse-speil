@@ -48,9 +48,6 @@ export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<Arb
     return null;
 };
 
-export const useArbeidsgiver = (person: PersonFragment, organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
-    person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
-
 export const useInntektsmeldinghendelser = (arbeidsgiver: Maybe<ArbeidsgiverFragment>): Hendelse[] => {
     if (!arbeidsgiver) return [];
 
@@ -117,7 +114,6 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     skjæringstidspunkt: Maybe<DateString>,
     organisasjonsnummer: string,
 ): Maybe<ActivePeriod> => {
-    const arbeidsgiver = useArbeidsgiver(person, organisasjonsnummer);
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration(person);
     const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
@@ -125,6 +121,8 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
 
     if (!skjæringstidspunkt || generasjon === null) return null;
+
+    const arbeidsgiver = finnArbeidsgiver(person, organisasjonsnummer);
 
     const arbeidsgiverGhostPerioder =
         arbeidsgiver?.ghostPerioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? [];
@@ -285,6 +283,7 @@ export const useDagoverstyringer = (
         );
     }, [arbeidsgiver, fom, tom]);
 };
+
 export const useHarDagOverstyringer = (
     periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
     person: PersonFragment,
@@ -298,7 +297,6 @@ export const useHarDagOverstyringer = (
 
     return !harBlittUtbetaltTidligere(periode, arbeidsgiver) && (dagendringer?.length ?? 0) > 0;
 };
-
 export const useLokaleRefusjonsopplysninger = (
     organisasjonsnummer: string,
     skjæringstidspunkt: string,
@@ -326,6 +324,9 @@ export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringsti
             ?.månedligInntekt ?? null
     );
 };
+
+export const finnArbeidsgiver = (person: PersonFragment, organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
+    person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
 
 export const harNyereUtbetaltPeriodePåPerson = (period: BeregnetPeriodeFragment, person: PersonFragment): boolean => {
     const nyesteUtbetaltPeriodePåPerson = person.arbeidsgivere
