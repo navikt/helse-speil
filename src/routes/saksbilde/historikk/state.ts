@@ -15,7 +15,7 @@ import {
     findArbeidsgiverWithGhostPeriode,
     findArbeidsgiverWithPeriode,
     finnGenerasjonerForAktivPeriode,
-    finnOverstyringerForAktivInntektskilde,
+    finnOverstyringerForAktivInntektsforhold,
     finnOverstyringerForAlleInntektsforhold,
 } from '@state/arbeidsgiver';
 import { atomWithSessionStorage } from '@state/jotai';
@@ -136,7 +136,7 @@ const useHistorikk = (person: Maybe<PersonFragment>): HendelseObject[] => {
     }
 
     const generasjoner = finnGenerasjonerForAktivPeriode(activePeriod, person);
-    const overstyringer = finnOverstyringerForAktivInntektskilde(activePeriod, person);
+    const overstyringer = finnOverstyringerForAktivInntektsforhold(activePeriod, person);
     const overstyringerForAlleInntektsforhold = finnOverstyringerForAlleInntektsforhold(person);
 
     const _arbeidsgiver = findArbeidsgiverWithPeriode(activePeriod, person.arbeidsgivere);
