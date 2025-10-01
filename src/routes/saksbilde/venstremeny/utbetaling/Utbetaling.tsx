@@ -8,7 +8,7 @@ import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveO
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Periodetilstand, PersonFragment } from '@io/graphql';
-import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
+import { harNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useCalculatingValue } from '@state/calculating';
 import { usePersonStore } from '@state/contexts/personStore';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
@@ -84,7 +84,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): R
     const router = useRouter();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang(person);
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
-    const finnesNyereUtbetaltPeriodePåPerson = useFinnesNyereUtbetaltPeriodePåPerson(period, person);
     const calculating = useCalculatingValue();
 
     const onGodkjennUtbetaling = () => {
@@ -175,7 +174,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): R
                     )}
                     {!isRevurdering &&
                         !period.totrinnsvurdering?.erBeslutteroppgave &&
-                        !finnesNyereUtbetaltPeriodePåPerson && (
+                        !harNyereUtbetaltPeriodePåPerson(period, person) && (
                             <AvvisningButton size="small" disabled={periodenErSendt} activePeriod={period} />
                         )}
                     {erBeslutteroppgaveOgHarTilgang && (

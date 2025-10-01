@@ -16,7 +16,6 @@ import {
     SelvstendigNaering,
     UberegnetPeriodeFragment,
     Utbetaling,
-    Vurdering,
 } from '@io/graphql';
 import { OverstyringForInntektsforhold } from '@saksbilde/historikk/state';
 import { useInntektOgRefusjon } from '@state/overstyring';
@@ -35,55 +34,6 @@ import {
     isUberegnetPeriode,
 } from '@utils/typeguards';
 
-export const findArbeidsgiverWithGhostPeriode = (
-    period: GhostPeriodeFragment,
-    arbeidsgivere: Array<ArbeidsgiverFragment>,
-): Maybe<ArbeidsgiverFragment> => {
-    return (
-        arbeidsgivere.find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((periode) => periode.id === period.id)) ??
-        null
-    );
-};
-
-export const finnGenerasjonerForAktivPeriode = (periode: ActivePeriod, person: PersonFragment): Generasjon[] => {
-    const arbeidsgiver = findArbeidsgiverWithPeriode(periode, person.arbeidsgivere);
-    const selvstendig = findSelvstendigWithPeriode(periode, person.selvstendigNaering);
-
-    if (arbeidsgiver?.organisasjonsnummer === 'SELVSTENDIG') {
-        return selvstendig?.generasjoner ?? [];
-    }
-    return arbeidsgiver?.generasjoner ?? [];
-};
-
-export const findArbeidsgiverWithPeriode = (
-    period: ActivePeriod,
-    arbeidsgivere: Array<ArbeidsgiverFragment>,
-): Maybe<ArbeidsgiverFragment> => {
-    return (
-        arbeidsgivere.find((arbeidsgiver) =>
-            arbeidsgiver.generasjoner
-                .flatMap((generasjon) => generasjon.perioder)
-                .filter(
-                    (periode): periode is UberegnetPeriodeFragment | BeregnetPeriodeFragment =>
-                        isUberegnetPeriode(period) || isBeregnetPeriode(periode),
-                )
-                .find((periode: UberegnetPeriodeFragment | BeregnetPeriodeFragment) => periode.id === period.id),
-        ) ?? null
-    );
-};
-
-export const findSelvstendigWithPeriode = (
-    periode: ActivePeriod,
-    selvstendig: SelvstendigNaering | null,
-): SelvstendigNaering | null =>
-    selvstendig?.generasjoner
-        .flatMap((generasjon) => generasjon.perioder)
-        .some(
-            (enPeriode) => isUberegnetPeriode(periode) || (isBeregnetPeriode(enPeriode) && enPeriode.id === periode.id),
-        )
-        ? selvstendig
-        : null;
-
 export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<ArbeidsgiverFragment> => {
     const activePeriod = useActivePeriod(person);
 
@@ -96,36 +46,6 @@ export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<Arb
     }
 
     return null;
-};
-
-export const finnOverstyringerForAktivInntektsforhold = (aktivPeriode: ActivePeriod, person: Maybe<PersonFragment>) => {
-    const arbeidsgiver = findArbeidsgiverWithPeriode(aktivPeriode, person?.arbeidsgivere ?? []);
-    const selvstendig = findSelvstendigWithPeriode(aktivPeriode, person?.selvstendigNaering ?? null);
-
-    const arbeidsgiverOverstyringer =
-        arbeidsgiver?.organisasjonsnummer === 'SELVSTENDIG' ? [] : (arbeidsgiver?.overstyringer ?? []);
-    const selvstendigOverstyringer = selvstendig?.overstyringer ?? [];
-    return [...arbeidsgiverOverstyringer, ...selvstendigOverstyringer];
-};
-
-export const finnOverstyringerForAlleInntektsforhold = (
-    person: Maybe<PersonFragment>,
-): OverstyringForInntektsforhold[] => {
-    return [
-        ...(person?.arbeidsgivere
-            // Ignorer selvstendig næring fra arbeidsgiverlisten når vi tar i bruk selvstendig feltet på person. Dette for å unngå duplikater.
-            .filter((arbeidsgiver) => arbeidsgiver.organisasjonsnummer !== 'SELVSTENDIG')
-            .map((arbeidsgiver) => ({
-                navn: arbeidsgiver.navn,
-                organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-                overstyringer: arbeidsgiver.overstyringer,
-            })) ?? []),
-        {
-            navn: 'SELVSTENDIG',
-            organisasjonsnummer: 'SELVSTENDIG',
-            overstyringer: person?.selvstendigNaering?.overstyringer ?? [],
-        },
-    ];
 };
 
 export const useArbeidsgiver = (person: PersonFragment, organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
@@ -179,13 +99,6 @@ export const usePeriodIsInGeneration = (person: PersonFragment): Maybe<number> =
         it.perioder.some((periode) => isBeregnetPeriode(periode) && periode.id === period.id),
     );
 };
-
-export const usePeriodeErIGenerasjon = (arbeidsgiver: Maybe<ArbeidsgiverFragment>, periodeId: string): Maybe<number> =>
-    arbeidsgiver?.generasjoner.findIndex((it) =>
-        it.perioder.some(
-            (periode) => (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) && periode.id === periodeId,
-        ),
-    ) ?? null;
 
 export const usePeriodeTilGodkjenning = (person: Maybe<PersonFragment>): Maybe<BeregnetPeriodeFragment> => {
     if (!person) return null;
@@ -297,25 +210,6 @@ export const useUtbetalingForSkjæringstidspunkt = (
             .reverse()
             .find((beregnetPeriode) => beregnetPeriode.skjaeringstidspunkt === skjæringstidspunkt)?.utbetaling ?? null
     );
-};
-
-export const useFinnesNyereUtbetaltPeriodePåPerson = (
-    period: BeregnetPeriodeFragment,
-    person: PersonFragment,
-): boolean => {
-    const nyesteUtbetaltPeriodePåPerson = person.arbeidsgivere
-        .flatMap((it) => it.generasjoner[0]?.perioder)
-        .filter((periode) => isBeregnetPeriode(periode) && isGodkjent(periode.utbetaling))
-        .pop();
-
-    return dayjs(nyesteUtbetaltPeriodePåPerson?.fom, ISO_DATOFORMAT).isAfter(dayjs(period.tom, ISO_DATOFORMAT));
-};
-
-export const useVurderingForSkjæringstidspunkt = (
-    skjæringstidspunkt: DateString,
-    person: PersonFragment,
-): Maybe<Vurdering> => {
-    return useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt, person)?.vurdering ?? null;
 };
 
 type UseEndringerForPeriodeResult = {
@@ -431,4 +325,92 @@ export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringsti
         lokaleInntektoverstyringer.arbeidsgivere.filter((it) => it.organisasjonsnummer === organisasjonsnummer)?.[0]
             ?.månedligInntekt ?? null
     );
+};
+
+export const harNyereUtbetaltPeriodePåPerson = (period: BeregnetPeriodeFragment, person: PersonFragment): boolean => {
+    const nyesteUtbetaltPeriodePåPerson = person.arbeidsgivere
+        .flatMap((it) => it.generasjoner[0]?.perioder)
+        .filter((periode) => isBeregnetPeriode(periode) && isGodkjent(periode.utbetaling))
+        .pop();
+
+    return dayjs(nyesteUtbetaltPeriodePåPerson?.fom, ISO_DATOFORMAT).isAfter(dayjs(period.tom, ISO_DATOFORMAT));
+};
+
+export const findArbeidsgiverWithGhostPeriode = (
+    period: GhostPeriodeFragment,
+    arbeidsgivere: Array<ArbeidsgiverFragment>,
+): Maybe<ArbeidsgiverFragment> => {
+    return (
+        arbeidsgivere.find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((periode) => periode.id === period.id)) ??
+        null
+    );
+};
+
+export const findArbeidsgiverWithPeriode = (
+    period: ActivePeriod,
+    arbeidsgivere: Array<ArbeidsgiverFragment>,
+): Maybe<ArbeidsgiverFragment> => {
+    return (
+        arbeidsgivere.find((arbeidsgiver) =>
+            arbeidsgiver.generasjoner
+                .flatMap((generasjon) => generasjon.perioder)
+                .filter(
+                    (periode): periode is UberegnetPeriodeFragment | BeregnetPeriodeFragment =>
+                        isUberegnetPeriode(period) || isBeregnetPeriode(periode),
+                )
+                .find((periode: UberegnetPeriodeFragment | BeregnetPeriodeFragment) => periode.id === period.id),
+        ) ?? null
+    );
+};
+
+export const findSelvstendigWithPeriode = (
+    periode: ActivePeriod,
+    selvstendig: SelvstendigNaering | null,
+): SelvstendigNaering | null =>
+    selvstendig?.generasjoner
+        .flatMap((generasjon) => generasjon.perioder)
+        .some(
+            (enPeriode) => isUberegnetPeriode(periode) || (isBeregnetPeriode(enPeriode) && enPeriode.id === periode.id),
+        )
+        ? selvstendig
+        : null;
+
+export const finnGenerasjonerForAktivPeriode = (periode: ActivePeriod, person: PersonFragment): Generasjon[] => {
+    const arbeidsgiver = findArbeidsgiverWithPeriode(periode, person.arbeidsgivere);
+    const selvstendig = findSelvstendigWithPeriode(periode, person.selvstendigNaering);
+
+    if (arbeidsgiver?.organisasjonsnummer === 'SELVSTENDIG') {
+        return selvstendig?.generasjoner ?? [];
+    }
+    return arbeidsgiver?.generasjoner ?? [];
+};
+
+export const finnOverstyringerForAktivInntektsforhold = (aktivPeriode: ActivePeriod, person: Maybe<PersonFragment>) => {
+    const arbeidsgiver = findArbeidsgiverWithPeriode(aktivPeriode, person?.arbeidsgivere ?? []);
+    const selvstendig = findSelvstendigWithPeriode(aktivPeriode, person?.selvstendigNaering ?? null);
+
+    const arbeidsgiverOverstyringer =
+        arbeidsgiver?.organisasjonsnummer === 'SELVSTENDIG' ? [] : (arbeidsgiver?.overstyringer ?? []);
+    const selvstendigOverstyringer = selvstendig?.overstyringer ?? [];
+    return [...arbeidsgiverOverstyringer, ...selvstendigOverstyringer];
+};
+
+export const finnOverstyringerForAlleInntektsforhold = (
+    person: Maybe<PersonFragment>,
+): OverstyringForInntektsforhold[] => {
+    return [
+        ...(person?.arbeidsgivere
+            // Ignorer selvstendig næring fra arbeidsgiverlisten når vi tar i bruk selvstendig feltet på person. Dette for å unngå duplikater.
+            .filter((arbeidsgiver) => arbeidsgiver.organisasjonsnummer !== 'SELVSTENDIG')
+            .map((arbeidsgiver) => ({
+                navn: arbeidsgiver.navn,
+                organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+                overstyringer: arbeidsgiver.overstyringer,
+            })) ?? []),
+        {
+            navn: 'SELVSTENDIG',
+            organisasjonsnummer: 'SELVSTENDIG',
+            overstyringer: person?.selvstendigNaering?.overstyringer ?? [],
+        },
+    ];
 };
