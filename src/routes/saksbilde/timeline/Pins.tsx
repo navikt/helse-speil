@@ -15,10 +15,10 @@ import styles from './Pins.module.css';
 type PinProps = React.HTMLAttributes<HTMLDivElement>;
 
 const Pin = ({ children, ...divProps }: PinProps): ReactElement => {
-    const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
+    const { onMouseOver, onMouseOut, onFocus, onBlur, ...popoverProps } = usePopoverAnchor();
 
     return (
-        <div onMouseOver={onMouseOver} onMouseOut={onMouseOut} {...divProps}>
+        <div onMouseOver={onMouseOver} onMouseOut={onMouseOut} onFocus={onFocus} onBlur={onBlur} {...divProps}>
             <Popover placement="top" {...popoverProps}>
                 <Popover.Content className={styles.Content}>{children}</Popover.Content>
             </Popover>

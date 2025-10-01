@@ -18,6 +18,7 @@ export const Infotrekant = ({ className, text, ...spanProps }: InfotrekantProps)
             data-testid="infotrekant"
             ref={containerRef}
             onMouseOver={() => setShowPopover(true)}
+            onFocus={() => setShowPopover(true)}
             onMouseLeave={() => setShowPopover(false)}
             aria-label={text}
             className={classNames(styles.Infotrekant, className)}

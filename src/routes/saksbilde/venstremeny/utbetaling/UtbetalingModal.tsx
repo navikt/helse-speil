@@ -61,7 +61,7 @@ export const UtbetalingModal = ({
             </BodyShort>
         </Modal.Body>
         <Modal.Footer>
-            <Button variant="primary" type="button" autoFocus loading={isSending} onClick={onApprove}>
+            <Button variant="primary" type="button" loading={isSending} onClick={onApprove}>
                 Ja
             </Button>
             <Button variant="tertiary" type="button" onClick={closeModal}>

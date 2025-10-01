@@ -102,14 +102,14 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
 
     return (
         <li className={styles.notat}>
-            <div onClick={() => setOpen(!open)} className={classNames(styles.apneNotat, open && styles.apen)}>
+            <button onClick={() => setOpen(!open)} className={classNames(styles.apneNotat, open && styles.apen)}>
                 {open ? (
                     <MinusCircleIcon title="nytt-notat" fontSize="1.5rem" />
                 ) : (
                     <PlusCircleFillIcon title="nytt-notat" fontSize="1.5rem" />
                 )}
                 <BodyShort className={styles.tekst}>Skriv nytt notat</BodyShort>
-            </div>
+            </button>
 
             {open && (
                 <>

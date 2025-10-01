@@ -14,6 +14,11 @@
     align-items: flex-end;
     color: var(--a-text-action);
     cursor: pointer;
+    background: none;
+    border: none;
+    font: inherit;
+    padding: 0;
+    margin: 0;
 }
 
 .apneNotat.apen {

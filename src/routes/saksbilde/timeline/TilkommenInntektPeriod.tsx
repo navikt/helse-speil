@@ -23,7 +23,7 @@ export const TilkommenInntektPeriod = ({ tilkommenInntekt, ...buttonProps }: Per
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
-    const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
+    const { onMouseOver, onMouseOut, onFocus, onBlur, ...popoverProps } = usePopoverAnchor();
     const isActive = activeTilkommenInntektId == tilkommenInntekt.tilkommenInntektId;
     const fom = somNorskDato(tilkommenInntekt.periode.fom) ?? '-';
     const tom = somNorskDato(tilkommenInntekt.periode.tom) ?? '-';
@@ -40,6 +40,8 @@ export const TilkommenInntektPeriod = ({ tilkommenInntekt, ...buttonProps }: Per
                 {...buttonProps}
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
+                onFocus={onFocus}
+                onBlur={onBlur}
                 onClick={onClick}
                 ref={button}
                 aria-label="Gå til tilkommen inntekt"

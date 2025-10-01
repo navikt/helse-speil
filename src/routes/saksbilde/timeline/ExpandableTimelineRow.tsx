@@ -30,7 +30,12 @@ export const ExpandableTimelineRow = ({
 
     return (
         <div className={styles.TimelineRow}>
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
             <div
+                role="button"
+                tabIndex={0}
+                aria-expanded={isExpanded}
+                aria-controls={`periods-${arbeidsgiverIdentifikator}`}
                 className={classNames(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
                 onClick={() => setIsExpanded((prevState) => !prevState)}
             >

@@ -52,7 +52,6 @@ export const ControlledTextarea = ({
             hideLabel
             description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
             maxLength={2000}
-            autoFocus
             value={lagretNotat}
         />
     );

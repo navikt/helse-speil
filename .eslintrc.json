@@ -1,6 +1,6 @@
 {
-    "extends": ["next/core-web-vitals", "next/typescript"],
-    "plugins": ["import"],
+    "extends": ["next/core-web-vitals", "next/typescript", "plugin:jsx-a11y/recommended"],
+    "plugins": ["import", "jsx-a11y"],
     "rules": {
         "import/no-extraneous-dependencies": "error",
         "react/display-name": "off",

@@ -133,7 +133,7 @@ export const Period = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
+    const { onMouseOver, onMouseOut, onFocus, onBlur, ...popoverProps } = usePopoverAnchor();
 
     const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         buttonProps.onClick?.(event);
@@ -156,6 +156,8 @@ export const Period = ({
                 {...buttonProps}
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
+                onFocus={onFocus}
+                onBlur={onBlur}
                 onClick={onClick}
                 ref={button}
                 aria-label="Gå til vedtaksperiode"

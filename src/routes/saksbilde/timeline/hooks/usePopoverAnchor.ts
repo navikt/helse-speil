@@ -6,12 +6,14 @@ type UsePopoverAnchorResult = {
     onClose: () => void;
     onMouseOver: (event: React.MouseEvent<HTMLElement>) => void;
     onMouseOut: (event: React.MouseEvent<HTMLElement>) => void;
+    onFocus: (event: React.FocusEvent<HTMLElement>) => void;
+    onBlur: (event: React.FocusEvent<HTMLElement>) => void;
 };
 
 export const usePopoverAnchor = (): UsePopoverAnchorResult => {
     const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
-    const assignAnchor = (event: React.MouseEvent<HTMLElement>) => {
+    const assignAnchor = (event: React.MouseEvent<HTMLElement> | React.FocusEvent<HTMLElement>) => {
         setAnchor(event.currentTarget);
     };
 
@@ -25,5 +27,7 @@ export const usePopoverAnchor = (): UsePopoverAnchorResult => {
         onClose: removeAnchor,
         onMouseOver: assignAnchor,
         onMouseOut: removeAnchor,
+        onFocus: assignAnchor,
+        onBlur: removeAnchor,
     };
 };

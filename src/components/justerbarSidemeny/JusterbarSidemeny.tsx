@@ -71,7 +71,9 @@ export const JusterbarSidemeny = ({
 
     return (
         <div className={classNames(styles.justerbarSidemeny, className, åpnesTilVenstre && styles.venstre)}>
+            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
             <div
+                role="separator"
                 className={classNames(styles.justerbarLinje, visSidemeny && styles.active)}
                 onMouseDown={(e) => {
                     e.preventDefault();
