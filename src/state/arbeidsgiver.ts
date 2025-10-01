@@ -36,16 +36,7 @@ import {
 
 export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<ArbeidsgiverFragment> => {
     const activePeriod = useActivePeriod(person);
-
-    if (!person || !activePeriod) {
-        return null;
-    } else if (isBeregnetPeriode(activePeriod) || isUberegnetPeriode(activePeriod)) {
-        return findArbeidsgiverWithPeriode(activePeriod, person.arbeidsgivere);
-    } else if (isGhostPeriode(activePeriod)) {
-        return findArbeidsgiverWithGhostPeriode(activePeriod, person.arbeidsgivere);
-    }
-
-    return null;
+    return finnArbeidsgiverForPeriode(person?.arbeidsgivere ?? [], activePeriod);
 };
 
 export const usePeriodForSkjæringstidspunkt = (
@@ -84,8 +75,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
 ): Maybe<ActivePeriod> => {
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
-    const aktivPeriodeGhostGenerasjon = -1;
-    const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
+    const generasjon = aktivPeriodeErIgenerasjon === -1 ? 0 : aktivPeriodeErIgenerasjon;
 
     if (!skjæringstidspunkt || generasjon === null) return null;
     const arbeidsgiver = finnArbeidsgiver(person, organisasjonsnummer);
@@ -345,7 +335,19 @@ export const findArbeidsgiverWithGhostPeriode = (
     );
 };
 
-export const findArbeidsgiverWithPeriode = (
+export const finnArbeidsgiverForPeriode = (arbeidsgivere: ArbeidsgiverFragment[], periode: ActivePeriod | null) => {
+    if (!periode) {
+        return null;
+    } else if (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) {
+        return findArbeidsgiverWithPeriode(periode, arbeidsgivere);
+    } else if (isGhostPeriode(periode)) {
+        return findArbeidsgiverWithGhostPeriode(periode, arbeidsgivere);
+    }
+
+    return null;
+};
+
+const findArbeidsgiverWithPeriode = (
     period: ActivePeriod,
     arbeidsgivere: Array<ArbeidsgiverFragment>,
 ): Maybe<ArbeidsgiverFragment> => {
@@ -362,7 +364,7 @@ export const findArbeidsgiverWithPeriode = (
     );
 };
 
-export const findSelvstendigWithPeriode = (
+const findSelvstendigWithPeriode = (
     periode: ActivePeriod,
     selvstendig: SelvstendigNaering | null,
 ): SelvstendigNaering | null =>

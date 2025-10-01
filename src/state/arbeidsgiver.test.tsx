@@ -2,8 +2,8 @@ import { nanoid } from 'nanoid';
 
 import {
     findArbeidsgiverWithGhostPeriode,
-    findArbeidsgiverWithPeriode,
     finnArbeidsgiver,
+    finnArbeidsgiverForPeriode,
     useCurrentArbeidsgiver,
     useEndringerForPeriode,
     usePeriodForSkjæringstidspunkt,
@@ -38,20 +38,20 @@ describe('findArbeidsgiverWithGhostPeriode', () => {
     });
 });
 
-describe('findArbeidsgiverWithPeriode', () => {
+describe('finnArbeidsgiverForPeriode', () => {
     it('returnerer arbeidsgiver som inneholder gitt periode', () => {
         const periode = enBeregnetPeriode();
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const arbeidsgivere = [enArbeidsgiver(), arbeidsgiver, enArbeidsgiver()];
 
-        expect(findArbeidsgiverWithPeriode(periode, arbeidsgivere)).toEqual(arbeidsgiver);
+        expect(finnArbeidsgiverForPeriode(arbeidsgivere, periode)).toEqual(arbeidsgiver);
     });
 
     it('returnerer null hvis perioden ikke finnes hos en arbeidsgiver', () => {
         const periode = enBeregnetPeriode();
         const arbeidsgivere = [enArbeidsgiver(), enArbeidsgiver(), enArbeidsgiver()];
 
-        expect(findArbeidsgiverWithPeriode(periode, arbeidsgivere)).toBeNull();
+        expect(finnArbeidsgiverForPeriode(arbeidsgivere, periode)).toBeNull();
     });
 });
 

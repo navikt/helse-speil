@@ -13,7 +13,7 @@ import {
 } from '@io/graphql';
 import {
     findArbeidsgiverWithGhostPeriode,
-    findArbeidsgiverWithPeriode,
+    finnArbeidsgiverForPeriode,
     finnGenerasjonerForAktivPeriode,
     finnOverstyringerForAktivInntektsforhold,
     finnOverstyringerForAlleInntektsforhold,
@@ -139,7 +139,7 @@ const useHistorikk = (person: Maybe<PersonFragment>): HendelseObject[] => {
     const overstyringer = finnOverstyringerForAktivInntektsforhold(activePeriod, person);
     const overstyringerForAlleInntektsforhold = finnOverstyringerForAlleInntektsforhold(person);
 
-    const _arbeidsgiver = findArbeidsgiverWithPeriode(activePeriod, person.arbeidsgivere);
+    const _arbeidsgiver = finnArbeidsgiverForPeriode(person.arbeidsgivere, activePeriod);
     // Ignorer selvstendig næring fra arbeidsgiverlisten når vi tar i bruk selvstendig feltet på person. Dette for å unngå duplikater.
     const identifikator = _arbeidsgiver?.organisasjonsnummer;
 
