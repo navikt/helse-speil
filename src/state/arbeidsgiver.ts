@@ -48,26 +48,6 @@ export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<Arb
     return null;
 };
 
-export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: Maybe<ArbeidsgiverFragment>): Hendelse[] => {
-    if (!arbeidsgiver) return [];
-
-    // Ja, det er litt rotete kode for å deduplisere hendelser-lista, men
-    // tenker det er verdt det siden det ikke er så lett å oppdage at det vil
-    // kunne være duplikater i lista.
-    // Kan ikke gå via Set fordi like hendelser er distinkte objekter - det
-    // knepet funker bare på primitiver.
-
-    const hendelser = new Map<string, Hendelse>();
-    arbeidsgiver.generasjoner
-        .flatMap((g) => g.perioder.flatMap((p) => p.hendelser))
-        .forEach((h) => {
-            hendelser.set(h.id, h);
-        });
-    const hendelserDeduplisert = [...hendelser.values()];
-
-    return hendelserDeduplisert.filter((h) => h.type === 'INNTEKTSMELDING');
-};
-
 export const usePeriodForSkjæringstidspunkt = (
     skjæringstidspunkt: DateString,
     person: PersonFragment,
@@ -299,6 +279,7 @@ export const useLokaleRefusjonsopplysninger = (
             }) ?? []
     );
 };
+
 export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringstidspunkt: string): Maybe<number> => {
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
 
@@ -308,6 +289,26 @@ export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringsti
         lokaleInntektoverstyringer.arbeidsgivere.filter((it) => it.organisasjonsnummer === organisasjonsnummer)?.[0]
             ?.månedligInntekt ?? null
     );
+};
+
+export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: Maybe<ArbeidsgiverFragment>): Hendelse[] => {
+    if (!arbeidsgiver) return [];
+
+    // Ja, det er litt rotete kode for å deduplisere hendelser-lista, men
+    // tenker det er verdt det siden det ikke er så lett å oppdage at det vil
+    // kunne være duplikater i lista.
+    // Kan ikke gå via Set fordi like hendelser er distinkte objekter - det
+    // knepet funker bare på primitiver.
+
+    const hendelser = new Map<string, Hendelse>();
+    arbeidsgiver.generasjoner
+        .flatMap((g) => g.perioder.flatMap((p) => p.hendelser))
+        .forEach((h) => {
+            hendelser.set(h.id, h);
+        });
+    const hendelserDeduplisert = [...hendelser.values()];
+
+    return hendelserDeduplisert.filter((h) => h.type === 'INNTEKTSMELDING');
 };
 
 export const finnPeriodeTilGodkjenning = (person: Maybe<PersonFragment>): Maybe<BeregnetPeriodeFragment> => {
