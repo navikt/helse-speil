@@ -19,7 +19,7 @@ import { screen } from '@testing-library/react';
 
 import { BeregnetPopover } from './PeriodPopover';
 
-jest.mock('@state/arbeidsgiver');
+// jest.mock('@state/arbeidsgiver');
 
 const getFetchedBeregnetPeriode = (
     arbeidsgiverUtbetalingsdager: Dag[] = [],
