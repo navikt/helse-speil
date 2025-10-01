@@ -4,7 +4,7 @@ import { Dropdown, Loader } from '@navikt/ds-react';
 
 import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
 import { PersonFragment, Personnavn } from '@io/graphql';
-import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import { finnPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useFjernPåVentFraSaksbilde } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 
@@ -14,7 +14,7 @@ interface PåVentButtonProps {
 
 export const PåVentButton = ({ person }: PåVentButtonProps): ReactElement | null => {
     const [showModal, setShowModal] = useState(false);
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
+    const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     const [fjernPåVent, { loading, error: fjernPåVentError }] = useFjernPåVentFraSaksbilde(
         periodeTilGodkjenning?.behandlingId,
     );

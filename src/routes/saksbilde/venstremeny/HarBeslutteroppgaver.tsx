@@ -6,7 +6,7 @@ import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
-import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import { finnPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useNavigerTilPeriode, useNavigerTilTilkommenInntekt } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
@@ -18,7 +18,7 @@ interface HarBeslutteroppgaverProps {
 }
 
 export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): ReactElement | null => {
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
+    const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
     const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(person.aktorId);
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();

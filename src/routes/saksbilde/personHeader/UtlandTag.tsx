@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { PersonFragment } from '@io/graphql';
-import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import { finnPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 
 import { TagMedTooltip } from './TagMedTooltip';
 
@@ -10,7 +10,7 @@ interface UtlandTagProps {
 }
 
 export const UtlandTag = ({ person }: UtlandTagProps): ReactElement | null => {
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
+    const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     if (!periodeTilGodkjenning) return null;
 
     const utlandVarsel = periodeTilGodkjenning.varsler.find((varsel) => varsel.kode === 'SB_EX_5');

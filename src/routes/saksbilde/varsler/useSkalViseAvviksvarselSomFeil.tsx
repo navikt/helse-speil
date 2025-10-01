@@ -1,5 +1,5 @@
 import { Inntektskilde, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
-import { useCurrentArbeidsgiver, usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import { finnPeriodeTilGodkjenning, useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { getPeriodState } from '@utils/mapping';
@@ -12,7 +12,7 @@ export const useSkalViseAvviksvarselSomFeil = () => {
     const person = data?.person ?? null;
     const arbeidsgiver = useCurrentArbeidsgiver(person);
     const aktivPeriode = useActivePeriod(person);
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
+    const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeTilGodkjenning);
     const harBlittSkjønnsmessigFastsatt =
         vilkårsgrunnlag?.inntekter.find((aginntekt) => aginntekt.arbeidsgiver === arbeidsgiver?.organisasjonsnummer)

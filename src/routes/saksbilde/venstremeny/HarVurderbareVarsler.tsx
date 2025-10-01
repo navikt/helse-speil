@@ -2,14 +2,14 @@ import React, { ReactElement } from 'react';
 
 import { PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
-import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import { finnPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 
 interface HarVurderbareVarslerProps {
     person: PersonFragment;
 }
 
 export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): ReactElement | null => {
-    const harPeriodeTilGodkjenning = usePeriodeTilGodkjenning(person);
+    const harPeriodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
 
     if (!harPeriodeTilGodkjenning) return null;
 

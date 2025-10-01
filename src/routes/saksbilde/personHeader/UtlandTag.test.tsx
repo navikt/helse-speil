@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import { finnPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { enPerson } from '@test-data/person';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
@@ -15,7 +15,7 @@ describe('UtlandTag', () => {
         jest.clearAllMocks();
     });
     it('rendrer tag når det finnes en periode til godkjenning med varsel for utlandsenhet', () => {
-        (usePeriodeTilGodkjenning as jest.Mock).mockReturnValue({
+        (finnPeriodeTilGodkjenning as jest.Mock).mockReturnValue({
             varsler: [
                 {
                     kode: 'SB_EX_5',
@@ -27,7 +27,7 @@ describe('UtlandTag', () => {
         expect(screen.queryByText('Utland')).toBeVisible();
     });
     it('rendrer ikke tag når det ikke finnes varsel for utlandsenhet på periode til godkjenning', () => {
-        (usePeriodeTilGodkjenning as jest.Mock).mockReturnValue(null);
+        (finnPeriodeTilGodkjenning as jest.Mock).mockReturnValue(null);
         render(<UtlandTag person={person} />);
         expect(screen.queryByText('Utland')).not.toBeInTheDocument();
     });

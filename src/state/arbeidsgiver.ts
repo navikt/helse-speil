@@ -97,44 +97,29 @@ export const usePeriodIsInGeneration = (person: PersonFragment): Maybe<number> =
     );
 };
 
-export const usePeriodeTilGodkjenning = (person: Maybe<PersonFragment>): Maybe<BeregnetPeriodeFragment> => {
-    if (!person) return null;
-
-    return (
-        (person.arbeidsgivere
-            ?.flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder)
-            .filter(
-                (periode) => isBeregnetPeriode(periode) && periode.periodetilstand === 'TilGodkjenning',
-            )?.[0] as BeregnetPeriodeFragment) ?? null
-    );
-};
-
 export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     person: PersonFragment,
     skjæringstidspunkt: Maybe<DateString>,
     organisasjonsnummer: string,
 ): Maybe<ActivePeriod> => {
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration(person);
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
     const aktivPeriodeGhostGenerasjon = -1;
     const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
 
     if (!skjæringstidspunkt || generasjon === null) return null;
-
     const arbeidsgiver = finnArbeidsgiver(person, organisasjonsnummer);
 
     const arbeidsgiverGhostPerioder =
         arbeidsgiver?.ghostPerioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? [];
+
     const arbeidsgiverPerioder =
         arbeidsgiver?.generasjoner[generasjon]?.perioder.filter(
             (it) => it.skjaeringstidspunkt === skjæringstidspunkt,
         ) ?? [];
-
     if (arbeidsgiverPerioder.length === 0 && arbeidsgiverGhostPerioder.length === 0) {
         return null;
     }
-
     const arbeidsgiverBeregnedePerioder: Array<BeregnetPeriodeFragment> = arbeidsgiverPerioder.filter((it) =>
         isBeregnetPeriode(it),
     ) as Array<BeregnetPeriodeFragment>;
@@ -143,6 +128,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
         return arbeidsgiverGhostPerioder[0] ?? null;
     }
 
+    const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     const harSammeSkjæringstidspunkt = skjæringstidspunkt === periodeTilGodkjenning?.skjaeringstidspunkt;
 
     const aktivArbeidsgiverHarAktivPeriode = arbeidsgiverBeregnedePerioder.some(
@@ -171,21 +157,20 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
 export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
     const aktivPeriode = useActivePeriod(person);
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration(person);
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
     const aktivPeriodeGhostGenerasjon = -1;
     const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
 
     if (!aktivPeriode || generasjon !== 0) return false;
 
+    const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     return periodeTilGodkjenning ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.tom) : true;
 };
 
 export const useErGhostLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
     const aktivPeriode = useActivePeriod(person);
-    const periodeTilGodkjenning = usePeriodeTilGodkjenning(person);
-
     if (!aktivPeriode) return false;
 
+    const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     return periodeTilGodkjenning
         ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.skjaeringstidspunkt) ||
               dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.fom)
@@ -297,6 +282,7 @@ export const useHarDagOverstyringer = (
 
     return !harBlittUtbetaltTidligere(periode, arbeidsgiver) && (dagendringer?.length ?? 0) > 0;
 };
+
 export const useLokaleRefusjonsopplysninger = (
     organisasjonsnummer: string,
     skjæringstidspunkt: string,
@@ -313,7 +299,6 @@ export const useLokaleRefusjonsopplysninger = (
             }) ?? []
     );
 };
-
 export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringstidspunkt: string): Maybe<number> => {
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
 
@@ -322,6 +307,18 @@ export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringsti
     return (
         lokaleInntektoverstyringer.arbeidsgivere.filter((it) => it.organisasjonsnummer === organisasjonsnummer)?.[0]
             ?.månedligInntekt ?? null
+    );
+};
+
+export const finnPeriodeTilGodkjenning = (person: Maybe<PersonFragment>): Maybe<BeregnetPeriodeFragment> => {
+    if (!person) return null;
+
+    return (
+        (person.arbeidsgivere
+            ?.flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder)
+            .filter(
+                (periode) => isBeregnetPeriode(periode) && periode.periodetilstand === 'TilGodkjenning',
+            )?.[0] as BeregnetPeriodeFragment) ?? null
     );
 };
 
