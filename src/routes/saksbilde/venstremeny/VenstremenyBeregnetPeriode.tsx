@@ -11,6 +11,7 @@ import {
     Dag,
     Handling,
     Maybe,
+    Periode,
     Periodehandling,
     Periodetilstand,
     PersonFragment,
@@ -53,7 +54,11 @@ export const VenstremenyBeregnetPeriode = ({
         activePeriod.tidslinje,
     );
 
-    const forrigeGenerasjonPeriode = useForrigeGenerasjonPeriode(currentArbeidsgiver, activePeriod, currentPerson);
+    const forrigeGenerasjonPeriode: Maybe<Periode> | undefined = useForrigeGenerasjonPeriode(
+        currentArbeidsgiver,
+        activePeriod,
+        currentPerson,
+    );
 
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(
         erSelvstendigNæringsdrivende(currentArbeidsgiver.organisasjonsnummer),

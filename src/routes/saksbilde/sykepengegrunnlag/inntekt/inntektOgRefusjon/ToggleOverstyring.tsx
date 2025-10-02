@@ -8,13 +8,10 @@ import {
     useGhostInntektKanOverstyres,
     useInntektKanRevurderes,
 } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
-import {
-    useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
-    useUtbetalingForSkjæringstidspunkt,
-} from '@state/arbeidsgiver';
+import { useCurrentArbeidsgiver, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { ActivePeriod } from '@typer/shared';
-import { isGhostPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 interface ToggleOverstyringProps {
     person: PersonFragment;
@@ -37,16 +34,23 @@ export const ToggleOverstyring = ({
     editing,
     setEditing,
 }: ToggleOverstyringProps) => {
+    const aktivArbeidsgiver = useCurrentArbeidsgiver(person);
     const kanRevurderes = useInntektKanRevurderes(person, periode.skjaeringstidspunkt);
     const ghostInntektKanOverstyres =
         useGhostInntektKanOverstyres(person, periode.skjaeringstidspunkt, organisasjonsnummer) && !erDeaktivert;
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
-    const erRevurdering =
-        useUtbetalingForSkjæringstidspunkt(periode.skjaeringstidspunkt, person)?.status === Utbetalingstatus.Utbetalt;
 
     const kanOverstyres = vilkårsgrunnlagId != null && (kanRevurderes || ghostInntektKanOverstyres);
 
     if (!isGhostPeriode(periode) && !isInCurrentGeneration(periode, arbeidsgiver)) return null;
+
+    const utbetalingForSkjæringstidspunkt =
+        Array.from(aktivArbeidsgiver?.generasjoner[0]?.perioder ?? [])
+            .filter(isBeregnetPeriode)
+            .reverse()
+            .find((beregnetPeriode) => beregnetPeriode.skjaeringstidspunkt === periode.skjaeringstidspunkt)
+            ?.utbetaling ?? null;
+    const erRevurdering = utbetalingForSkjæringstidspunkt?.status === Utbetalingstatus.Utbetalt;
 
     return kanOverstyres ? (
         !editing ? (

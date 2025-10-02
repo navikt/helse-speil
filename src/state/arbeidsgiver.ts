@@ -15,7 +15,6 @@ import {
     PersonFragment,
     SelvstendigNaering,
     UberegnetPeriodeFragment,
-    Utbetaling,
 } from '@io/graphql';
 import { OverstyringForInntektsforhold } from '@saksbilde/historikk/state';
 import { useInntektOgRefusjon } from '@state/overstyring';
@@ -39,24 +38,38 @@ export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<Arb
     return finnArbeidsgiverForPeriode(person?.arbeidsgivere ?? [], activePeriod);
 };
 
+export const usePeriodIsInGeneration = (person: PersonFragment): Maybe<number> => {
+    const period = useActivePeriod(person);
+    const arbeidsgiver = useCurrentArbeidsgiver(person);
+
+    if (!period || !arbeidsgiver) {
+        return null;
+    }
+
+    return arbeidsgiver.generasjoner.findIndex((it) =>
+        it.perioder.some((periode) => isBeregnetPeriode(periode) && periode.id === period.id),
+    );
+};
+
 export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     person: PersonFragment,
     skjæringstidspunkt: Maybe<DateString>,
     organisasjonsnummer: string,
 ): Maybe<ActivePeriod> => {
-    const periode = useActivePeriod(person);
+    const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
+    const generasjon = aktivPeriodeErIgenerasjon === -1 ? 0 : aktivPeriodeErIgenerasjon;
 
-    const aktivGenerasjon = finnAktivGenerasjon(person, periode);
-
-    if (!skjæringstidspunkt || aktivGenerasjon == undefined) return null;
+    if (!skjæringstidspunkt || generasjon === null) return null;
     const arbeidsgiver = finnArbeidsgiver(person, organisasjonsnummer);
 
     const arbeidsgiverGhostPerioder =
         arbeidsgiver?.ghostPerioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? [];
 
     const arbeidsgiverPerioder =
-        aktivGenerasjon?.perioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? [];
+        arbeidsgiver?.generasjoner[generasjon]?.perioder.filter(
+            (it) => it.skjaeringstidspunkt === skjæringstidspunkt,
+        ) ?? [];
     if (arbeidsgiverPerioder.length === 0 && arbeidsgiverGhostPerioder.length === 0) {
         return null;
     }
@@ -96,31 +109,25 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
 
 export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
     const aktivPeriode = useActivePeriod(person);
-    const generasjoner = finnGenerasjonerForAktivPeriode(aktivPeriode, person);
-    const generasjon = finnAktivGenerasjon(person, aktivPeriode);
+    const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration(person);
+    const aktivPeriodeGhostGenerasjon = -1;
+    const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
 
-    if (!aktivPeriode || generasjon?.id !== generasjoner[0]?.id) return false;
+    if (!aktivPeriode || generasjon !== 0) return false;
 
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     return periodeTilGodkjenning ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.tom) : true;
 };
 
-export const useUtbetalingForSkjæringstidspunkt = (
-    skjæringstidspunkt: DateString,
-    person: PersonFragment,
-): Maybe<Utbetaling> => {
-    const currentArbeidsgiver = useCurrentArbeidsgiver(person);
+export const useErGhostLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
+    const aktivPeriode = useActivePeriod(person);
+    if (!aktivPeriode) return false;
 
-    if (!currentArbeidsgiver?.generasjoner[0]?.perioder) {
-        return null;
-    }
-
-    return (
-        Array.from(currentArbeidsgiver.generasjoner[0]?.perioder)
-            .filter(isBeregnetPeriode)
-            .reverse()
-            .find((beregnetPeriode) => beregnetPeriode.skjaeringstidspunkt === skjæringstidspunkt)?.utbetaling ?? null
-    );
+    const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
+    return periodeTilGodkjenning
+        ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.skjaeringstidspunkt) ||
+              dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.fom)
+        : true;
 };
 
 type UseEndringerForPeriodeResult = {
@@ -239,18 +246,6 @@ export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringsti
     );
 };
 
-export const finnAktivGenerasjon = (person: PersonFragment, periode: Maybe<ActivePeriod>): Generasjon | undefined => {
-    const generasjoner = finnGenerasjonerForAktivPeriode(periode, person);
-
-    if (generasjoner.length === 0) {
-        return undefined;
-    }
-
-    return (
-        generasjoner.find((generasjon) => generasjon.perioder.some((gp) => gp.id === periode?.id)) ?? generasjoner[0]
-    );
-};
-
 export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: Maybe<ArbeidsgiverFragment>): Hendelse[] => {
     if (!arbeidsgiver) return [];
 
@@ -318,7 +313,7 @@ export const finnArbeidsgiverForPeriode = (arbeidsgivere: ArbeidsgiverFragment[]
 };
 
 const findArbeidsgiverWithPeriode = (
-    period: Maybe<ActivePeriod>,
+    period: ActivePeriod,
     arbeidsgivere: Array<ArbeidsgiverFragment>,
 ): Maybe<ArbeidsgiverFragment> => {
     return (
@@ -329,25 +324,24 @@ const findArbeidsgiverWithPeriode = (
                     (periode): periode is UberegnetPeriodeFragment | BeregnetPeriodeFragment =>
                         isUberegnetPeriode(period) || isBeregnetPeriode(periode),
                 )
-                .find((periode: UberegnetPeriodeFragment | BeregnetPeriodeFragment) => periode.id === period?.id),
+                .find((periode: UberegnetPeriodeFragment | BeregnetPeriodeFragment) => periode.id === period.id),
         ) ?? null
     );
 };
 
 const findSelvstendigWithPeriode = (
-    periode: Maybe<ActivePeriod>,
+    periode: ActivePeriod,
     selvstendig: SelvstendigNaering | null,
 ): SelvstendigNaering | null =>
     selvstendig?.generasjoner
         .flatMap((generasjon) => generasjon.perioder)
         .some(
-            (enPeriode) =>
-                isUberegnetPeriode(periode) || (isBeregnetPeriode(enPeriode) && enPeriode.id === periode?.id),
+            (enPeriode) => isUberegnetPeriode(periode) || (isBeregnetPeriode(enPeriode) && enPeriode.id === periode.id),
         )
         ? selvstendig
         : null;
 
-export const finnGenerasjonerForAktivPeriode = (periode: Maybe<ActivePeriod>, person: PersonFragment): Generasjon[] => {
+export const finnGenerasjonerForAktivPeriode = (periode: ActivePeriod, person: PersonFragment): Generasjon[] => {
     const arbeidsgiver = findArbeidsgiverWithPeriode(periode, person.arbeidsgivere);
     const selvstendig = findSelvstendigWithPeriode(periode, person.selvstendigNaering);
 

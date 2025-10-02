@@ -12,16 +12,14 @@ import {
 } from '@io/graphql';
 import {
     finnArbeidsgiver,
-    finnPeriodeTilGodkjenning,
     useCurrentArbeidsgiver,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
+    useErGhostLikEllerFørPeriodeTilGodkjenning,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
 import { isForkastet } from '@state/selectors/period';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 import { ActivePeriod, DateString } from '@typer/shared';
-import { erSammeEllerFør, iDag } from '@utils/date';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 export const harIngenUtbetaltePerioderFor = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {
@@ -100,9 +98,7 @@ export const useArbeidsforholdKanOverstyres = (
     organisasjonsnummer: string,
 ): boolean => {
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(person, skjæringstidspunkt, organisasjonsnummer);
-    const aktivPeride = useActivePeriod(person);
-    const erGhostLikEllerEtterPeriodeTilGodkjenning =
-        aktivPeride != null && erGhostLikEllerFørPeriodeTilGodkjenning(person, aktivPeride);
+    const erGhostLikEllerEtterPeriodeTilGodkjenning = useErGhostLikEllerFørPeriodeTilGodkjenning(person);
     const arbeidsgiver = finnArbeidsgiver(person, organisasjonsnummer);
 
     if (!isGhostPeriode(period) || !person || !arbeidsgiver) {
@@ -127,15 +123,6 @@ export const useArbeidsforholdKanOverstyres = (
         !harPeriodeTilBeslutter &&
         harBeregnetPeriode &&
         erGhostLikEllerEtterPeriodeTilGodkjenning
-    );
-};
-
-const erGhostLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment, aktivPeriode: ActivePeriod): boolean => {
-    const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
-    if (!periodeTilGodkjenning) return true;
-    return (
-        erSammeEllerFør(aktivPeriode.fom, periodeTilGodkjenning.skjaeringstidspunkt ?? iDag) ||
-        erSammeEllerFør(aktivPeriode.fom, periodeTilGodkjenning.fom ?? iDag)
     );
 };
 

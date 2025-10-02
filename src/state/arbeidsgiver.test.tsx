@@ -6,14 +6,12 @@ import {
     finnArbeidsgiverForPeriode,
     useCurrentArbeidsgiver,
     useEndringerForPeriode,
-    useUtbetalingForSkjæringstidspunkt,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsforholdoverstyring, enDagoverstyring, enInntektoverstyring } from '@test-data/overstyring';
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
-import { enUtbetaling } from '@test-data/utbetaling';
 import { renderHook } from '@test-utils';
 
 jest.mock('@state/person');
@@ -98,34 +96,6 @@ describe('useArbeidsgiver', () => {
         const person = enPerson().medArbeidsgivere([enArbeidsgiver(), enArbeidsgiver(), enArbeidsgiver()]);
 
         const { result } = renderHook(() => finnArbeidsgiver(person, organisasjonsnummer));
-
-        expect(result.current).toBeNull();
-    });
-});
-
-describe('useUtbetalingForSkjæringstidspunkt', () => {
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
-
-    it('returnerer første utbetaling som har gitt skjæringstidspunkt i kronologisk rekkefølge for aktiv arbeidsgiver', () => {
-        const skjæringstidspunkt = '2021-02-04';
-        const utbetaling = enUtbetaling();
-        const periode = enBeregnetPeriode({ skjaeringstidspunkt: skjæringstidspunkt }).medUtbetaling(utbetaling);
-        const arbeidsgiver = enArbeidsgiver().medPerioder([enBeregnetPeriode(), periode, enBeregnetPeriode()]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
-
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
-
-        const { result } = renderHook(() => useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt, person));
-
-        expect(result.current).toEqual(utbetaling);
-    });
-
-    it('returnerer null hvis det ikke finnes en utbetaling for en periode med gitt skjæringstidspunkt', () => {
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(enBeregnetPeriode());
-
-        const { result } = renderHook(() => useUtbetalingForSkjæringstidspunkt('2021-02-04', enPerson()));
 
         expect(result.current).toBeNull();
     });
