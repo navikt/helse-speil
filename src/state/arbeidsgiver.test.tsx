@@ -6,7 +6,6 @@ import {
     finnArbeidsgiverForPeriode,
     useCurrentArbeidsgiver,
     useEndringerForPeriode,
-    usePeriodForSkjæringstidspunkt,
     useUtbetalingForSkjæringstidspunkt,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
@@ -99,36 +98,6 @@ describe('useArbeidsgiver', () => {
         const person = enPerson().medArbeidsgivere([enArbeidsgiver(), enArbeidsgiver(), enArbeidsgiver()]);
 
         const { result } = renderHook(() => finnArbeidsgiver(person, organisasjonsnummer));
-
-        expect(result.current).toBeNull();
-    });
-});
-
-describe('usePeriodForSkjæringstidspunkt', () => {
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
-
-    it('returnerer første periode som har gitt skjæringstidspunkt i kronologisk rekkefølge for aktiv arbeidsgiver', () => {
-        const a = enBeregnetPeriode({ fom: '2020-01-01' });
-        const b = enBeregnetPeriode({ fom: '2020-02-01' });
-        const c = enBeregnetPeriode({ fom: '2020-03-01' });
-        const arbeidsgiver = enArbeidsgiver().medPerioder([b, a, c]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
-
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(a);
-
-        const { result } = renderHook(() => usePeriodForSkjæringstidspunkt('2020-01-01', person));
-
-        expect(result.current).toEqual(a);
-    });
-
-    it('returnerer null hvis ingen av den aktive arbeidsgiverens perioder har gitt skjæringstidspunkt', () => {
-        const periode = enBeregnetPeriode();
-
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
-
-        const { result } = renderHook(() => usePeriodForSkjæringstidspunkt('1970-01-01', enPerson()));
 
         expect(result.current).toBeNull();
     });

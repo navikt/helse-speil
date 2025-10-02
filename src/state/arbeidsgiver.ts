@@ -39,22 +39,6 @@ export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<Arb
     return finnArbeidsgiverForPeriode(person?.arbeidsgivere ?? [], activePeriod);
 };
 
-export const usePeriodForSkjæringstidspunkt = (
-    skjæringstidspunkt: DateString,
-    person: PersonFragment,
-): Maybe<ActivePeriod> => {
-    const currentArbeidsgiver = useCurrentArbeidsgiver(person);
-
-    if (!currentArbeidsgiver?.generasjoner[0]?.perioder) {
-        return null;
-    }
-
-    return (currentArbeidsgiver.generasjoner[0]?.perioder
-        .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
-        .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
-        .shift() ?? null) as Maybe<ActivePeriod>;
-};
-
 export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     person: PersonFragment,
     skjæringstidspunkt: Maybe<DateString>,

@@ -13,8 +13,8 @@ import {
 import {
     finnArbeidsgiver,
     finnPeriodeTilGodkjenning,
+    useCurrentArbeidsgiver,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
-    usePeriodForSkjæringstidspunkt,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
@@ -160,13 +160,19 @@ const harIngenEtterfølgendePerioder = (
     ).length === 0;
 
 export const useInntektKanRevurderes = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {
-    const periodeVedSkjæringstidspunkt = usePeriodForSkjæringstidspunkt(skjæringstidspunkt, person);
     const isReadOnlyOppgave = useIsReadOnlyOppgave(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
+    const currentArbeidsgiver = useCurrentArbeidsgiver(person);
 
     if (!person) return false;
 
     const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, skjæringstidspunkt);
+
+    const periodeVedSkjæringstidspunkt: ActivePeriod | null =
+        currentArbeidsgiver?.generasjoner[0]?.perioder
+            .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
+            .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
+            .shift() ?? null;
 
     return (
         !isForkastet(periodeVedSkjæringstidspunkt) &&
