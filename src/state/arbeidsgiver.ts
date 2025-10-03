@@ -112,17 +112,6 @@ export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: Perso
     return periodeTilGodkjenning ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.tom) : true;
 };
 
-export const useErGhostLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
-    const aktivPeriode = useActivePeriod(person);
-    if (!aktivPeriode) return false;
-
-    const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
-    return periodeTilGodkjenning
-        ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.skjaeringstidspunkt) ||
-              dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.fom)
-        : true;
-};
-
 type UseEndringerForPeriodeResult = {
     inntektsendringer: Inntektoverstyring[];
     arbeidsforholdendringer: Arbeidsforholdoverstyring[];

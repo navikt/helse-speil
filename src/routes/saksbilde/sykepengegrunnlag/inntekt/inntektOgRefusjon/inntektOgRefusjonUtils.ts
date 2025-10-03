@@ -12,11 +12,12 @@ import {
 } from '@io/graphql';
 import {
     finnArbeidsgiver,
+    finnPeriodeTilGodkjenning,
     useCurrentArbeidsgiver,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
-    useErGhostLikEllerFørPeriodeTilGodkjenning,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
+import { useActivePeriod } from '@state/periode';
 import { isForkastet } from '@state/selectors/period';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 import { ActivePeriod, DateString } from '@typer/shared';
@@ -98,8 +99,15 @@ export const useArbeidsforholdKanOverstyres = (
     organisasjonsnummer: string,
 ): boolean => {
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(person, skjæringstidspunkt, organisasjonsnummer);
-    const erGhostLikEllerEtterPeriodeTilGodkjenning = useErGhostLikEllerFørPeriodeTilGodkjenning(person);
+    const aktivPeriode = useActivePeriod(person);
     const arbeidsgiver = finnArbeidsgiver(person, organisasjonsnummer);
+
+    const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
+    const erGhostLikEllerEtterPeriodeTilGodkjenning =
+        aktivPeriode && periodeTilGodkjenning
+            ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.skjaeringstidspunkt) ||
+              dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.fom)
+            : true;
 
     if (!isGhostPeriode(period) || !person || !arbeidsgiver) {
         return false;
