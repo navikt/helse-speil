@@ -3,13 +3,10 @@ import { createStore } from 'jotai/index';
 import React from 'react';
 
 import { PersonStoreContext } from '@/state/contexts/personStore';
+import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { useIsAnonymous } from '@state/anonymization';
-import {
-    finnArbeidsgiver,
-    useEndringerForPeriode,
-    usePeriodForSkjæringstidspunktForArbeidsgiver,
-} from '@state/arbeidsgiver';
+import { finnArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -28,6 +25,7 @@ jest.mock('@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag');
 jest.mock('@state/toggles');
 jest.mock('@state/anonymization');
 jest.mock('@state/person');
+jest.mock('@hooks/useEndringerForPeriode');
 
 describe('SykepengegrunnlagFraSpleis', () => {
     afterEach(() => {

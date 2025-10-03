@@ -2,16 +2,13 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
 import {
-    Arbeidsforholdoverstyring,
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
     Dagoverstyring,
     Generasjon,
     GhostPeriodeFragment,
     Hendelse,
-    Inntektoverstyring,
     Maybe,
-    OverstyringFragment,
     PersonFragment,
     SelvstendigNaering,
     UberegnetPeriodeFragment,
@@ -24,14 +21,7 @@ import { isGodkjent } from '@state/selectors/utbetaling';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ActivePeriod, DateString } from '@typer/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
-import {
-    isArbeidsforholdoverstyring,
-    isBeregnetPeriode,
-    isDagoverstyring,
-    isGhostPeriode,
-    isInntektoverstyring,
-    isUberegnetPeriode,
-} from '@utils/typeguards';
+import { isBeregnetPeriode, isDagoverstyring, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<ArbeidsgiverFragment> => {
     const activePeriod = useActivePeriod(person);
@@ -110,61 +100,6 @@ export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: Perso
 
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     return periodeTilGodkjenning ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.tom) : true;
-};
-
-type UseEndringerForPeriodeResult = {
-    inntektsendringer: Inntektoverstyring[];
-    arbeidsforholdendringer: Arbeidsforholdoverstyring[];
-    dagendringer: Dagoverstyring[];
-};
-
-export const useEndringerForPeriode = (
-    endringer: Array<OverstyringFragment> | undefined,
-    person: PersonFragment,
-): UseEndringerForPeriodeResult => {
-    const periode = useActivePeriod(person);
-
-    if (!endringer || !periode) {
-        return {
-            inntektsendringer: [],
-            arbeidsforholdendringer: [],
-            dagendringer: [],
-        };
-    }
-
-    if (isGhostPeriode(periode)) {
-        const arbeidsforhold = endringer
-            .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
-            .filter(isArbeidsforholdoverstyring);
-
-        const inntekter = endringer
-            .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
-            .filter(isInntektoverstyring);
-
-        return {
-            inntektsendringer: inntekter,
-            arbeidsforholdendringer: arbeidsforhold,
-            dagendringer: [],
-        };
-    }
-
-    const inntekter = endringer
-        .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
-        .filter(isInntektoverstyring);
-
-    const arbeidsforhold = endringer
-        .filter((it) => dayjs((periode as BeregnetPeriodeFragment).skjaeringstidspunkt).isSameOrBefore(it.timestamp))
-        .filter(isArbeidsforholdoverstyring);
-
-    const dager = endringer
-        .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
-        .filter(isDagoverstyring);
-
-    return {
-        inntektsendringer: inntekter,
-        arbeidsforholdendringer: arbeidsforhold,
-        dagendringer: dager,
-    };
 };
 
 export const useDagoverstyringer = (

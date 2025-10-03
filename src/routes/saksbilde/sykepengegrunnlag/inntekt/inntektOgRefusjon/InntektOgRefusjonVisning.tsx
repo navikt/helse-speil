@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import {
     BeregnetPeriodeFragment,
     InntektFraAOrdningen,
@@ -10,7 +11,7 @@ import {
     PersonFragment,
     VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
-import { useEndringerForPeriode, useLokaleRefusjonsopplysninger, useLokaltMånedsbeløp } from '@state/arbeidsgiver';
+import { useLokaleRefusjonsopplysninger, useLokaltMånedsbeløp } from '@state/arbeidsgiver';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';

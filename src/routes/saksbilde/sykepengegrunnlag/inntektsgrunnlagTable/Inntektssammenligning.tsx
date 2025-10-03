@@ -7,6 +7,7 @@ import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { Kilde } from '@components/Kilde';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Errorikon } from '@components/ikoner/Errorikon';
+import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import {
     Inntektskilde,
     Maybe,
@@ -15,7 +16,7 @@ import {
     PersonFragment,
     Sammenligningsgrunnlag,
 } from '@io/graphql';
-import { finnArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
+import { finnArbeidsgiver } from '@state/arbeidsgiver';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
