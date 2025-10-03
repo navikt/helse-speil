@@ -9,8 +9,7 @@ import { FattVedtakDocument, Personinfo, Utbetaling } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 import { apolloExtensionValue } from '@utils/error';
 
-import { BackendFeil } from './Utbetaling';
-import { UtbetalingModal } from './UtbetalingModal';
+import { BackendFeil, UtbetalingModal } from './UtbetalingModal';
 
 const useAddUtbetalingstoast = () => {
     const addToast = useAddToast();

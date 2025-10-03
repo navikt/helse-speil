@@ -17,10 +17,8 @@ import { OverstyringForInntektsforhold } from '@saksbilde/historikk/state';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
-import { isGodkjent } from '@state/selectors/utbetaling';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ActivePeriod, DateString } from '@typer/shared';
-import { ISO_DATOFORMAT } from '@utils/date';
 import { isBeregnetPeriode, isDagoverstyring, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<ArbeidsgiverFragment> => {
@@ -197,15 +195,6 @@ export const finnPeriodeTilGodkjenning = (person: Maybe<PersonFragment>): Maybe<
 
 export const finnArbeidsgiver = (person: PersonFragment, organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
     person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
-
-export const harNyereUtbetaltPeriodePåPerson = (period: BeregnetPeriodeFragment, person: PersonFragment): boolean => {
-    const nyesteUtbetaltPeriodePåPerson = person.arbeidsgivere
-        .flatMap((it) => it.generasjoner[0]?.perioder)
-        .filter((periode) => isBeregnetPeriode(periode) && isGodkjent(periode.utbetaling))
-        .pop();
-
-    return dayjs(nyesteUtbetaltPeriodePåPerson?.fom, ISO_DATOFORMAT).isAfter(dayjs(period.tom, ISO_DATOFORMAT));
-};
 
 export const findArbeidsgiverWithGhostPeriode = (
     period: GhostPeriodeFragment,

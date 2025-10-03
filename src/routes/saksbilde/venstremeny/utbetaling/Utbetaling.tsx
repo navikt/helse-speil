@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { atom, useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import React, { ReactElement, useEffect, useState } from 'react';
@@ -8,12 +9,12 @@ import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveO
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Periodetilstand, PersonFragment } from '@io/graphql';
-import { harNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useCalculatingValue } from '@state/calculating';
 import { usePersonStore } from '@state/contexts/personStore';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useInntektOgRefusjon } from '@state/overstyring';
-import { isRevurdering } from '@state/selectors/utbetaling';
+import { isGodkjent, isRevurdering } from '@state/selectors/utbetaling';
+import { ISO_DATOFORMAT } from '@utils/date';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -24,42 +25,6 @@ import { ReturButton } from './ReturButton';
 import { SendTilGodkjenningButton } from './SendTilGodkjenningButton';
 
 import styles from './Utbetaling.module.css';
-
-const skalPolleEtterNestePeriode = (person: PersonFragment) =>
-    person.arbeidsgivere
-        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
-        .some((periode) =>
-            [
-                Periodetilstand.VenterPaEnAnnenPeriode,
-                Periodetilstand.ForberederGodkjenning,
-                Periodetilstand.UtbetaltVenterPaEnAnnenPeriode,
-            ].includes(periode.periodetilstand),
-        );
-
-const hasOppgave = (period: BeregnetPeriodeFragment): boolean =>
-    typeof period.oppgave?.id === 'string' && ['tilGodkjenning', 'revurderes'].includes(getPeriodState(period));
-
-const useOnGodkjenn = (period: BeregnetPeriodeFragment, person: PersonFragment): (() => void) => {
-    const router = useRouter();
-    const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
-
-    return () => {
-        if (skalPolleEtterNestePeriode(person) || (isBeregnetPeriode(period) && isRevurdering(period.utbetaling))) {
-            setOpptegnelsePollingTime(1000);
-        } else {
-            router.push('/');
-        }
-    };
-};
-
-const useOnAvvis = (): (() => void) => {
-    const router = useRouter();
-    return () => router.push('/');
-};
-
-export type BackendFeil = {
-    message: string;
-};
 
 interface UtbetalingProps {
     period: BeregnetPeriodeFragment;
@@ -198,4 +163,45 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): R
             )}
         </Box>
     );
+};
+
+const skalPolleEtterNestePeriode = (person: PersonFragment) =>
+    person.arbeidsgivere
+        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
+        .some((periode) =>
+            [
+                Periodetilstand.VenterPaEnAnnenPeriode,
+                Periodetilstand.ForberederGodkjenning,
+                Periodetilstand.UtbetaltVenterPaEnAnnenPeriode,
+            ].includes(periode.periodetilstand),
+        );
+
+const hasOppgave = (period: BeregnetPeriodeFragment): boolean =>
+    typeof period.oppgave?.id === 'string' && ['tilGodkjenning', 'revurderes'].includes(getPeriodState(period));
+
+const useOnGodkjenn = (period: BeregnetPeriodeFragment, person: PersonFragment): (() => void) => {
+    const router = useRouter();
+    const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
+
+    return () => {
+        if (skalPolleEtterNestePeriode(person) || (isBeregnetPeriode(period) && isRevurdering(period.utbetaling))) {
+            setOpptegnelsePollingTime(1000);
+        } else {
+            router.push('/');
+        }
+    };
+};
+
+const useOnAvvis = (): (() => void) => {
+    const router = useRouter();
+    return () => router.push('/');
+};
+
+const harNyereUtbetaltPeriodePåPerson = (period: BeregnetPeriodeFragment, person: PersonFragment): boolean => {
+    const nyesteUtbetaltPeriodePåPerson = person.arbeidsgivere
+        .flatMap((it) => it.generasjoner[0]?.perioder)
+        .filter((periode) => isBeregnetPeriode(periode) && isGodkjent(periode.utbetaling))
+        .pop();
+
+    return dayjs(nyesteUtbetaltPeriodePåPerson?.fom, ISO_DATOFORMAT).isAfter(dayjs(period.tom, ISO_DATOFORMAT));
 };

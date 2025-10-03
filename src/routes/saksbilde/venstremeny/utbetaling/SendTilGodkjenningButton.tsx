@@ -9,8 +9,7 @@ import { Personinfo, SendTilGodkjenningV2Document, Utbetaling } from '@io/graphq
 import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
 
-import { BackendFeil } from './Utbetaling';
-import { UtbetalingModal } from './UtbetalingModal';
+import { BackendFeil, UtbetalingModal } from './UtbetalingModal';
 
 const useAddSendtTilGodkjenningtoast = () => {
     const addToast = useAddToast();

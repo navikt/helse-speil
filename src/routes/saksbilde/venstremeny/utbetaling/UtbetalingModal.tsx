@@ -9,8 +9,6 @@ import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedToolti
 import { Personinfo, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { capitalizeName, somPenger } from '@utils/locale';
 
-import { BackendFeil } from './Utbetaling';
-
 import styles from '../BeløpTilUtbetaling.module.css';
 
 type UtbetalingModalProps = {
@@ -24,6 +22,10 @@ type UtbetalingModalProps = {
     arbeidsgiverIdentifikator: string;
     arbeidsgiverNavn: string;
     personinfo?: Personinfo;
+};
+
+export type BackendFeil = {
+    message: string;
 };
 
 export const UtbetalingModal = ({
