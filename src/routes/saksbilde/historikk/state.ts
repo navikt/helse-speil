@@ -16,7 +16,6 @@ import {
     finnArbeidsgiverForPeriode,
     finnGenerasjonerForAktivPeriode,
     finnOverstyringerForAktivInntektsforhold,
-    finnOverstyringerForAlleInntektsforhold,
 } from '@state/arbeidsgiver';
 import { atomWithSessionStorage } from '@state/jotai';
 import { toNotat } from '@state/notater';
@@ -167,6 +166,22 @@ const useHistorikk = (person: Maybe<PersonFragment>): HendelseObject[] => {
 
     return [];
 };
+
+const finnOverstyringerForAlleInntektsforhold = (person: Maybe<PersonFragment>): OverstyringForInntektsforhold[] => [
+    ...(person?.arbeidsgivere
+        // Ignorer selvstendig næring fra arbeidsgiverlisten når vi tar i bruk selvstendig feltet på person. Dette for å unngå duplikater.
+        .filter((arbeidsgiver) => arbeidsgiver.organisasjonsnummer !== 'SELVSTENDIG')
+        .map((arbeidsgiver) => ({
+            navn: arbeidsgiver.navn,
+            organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+            overstyringer: arbeidsgiver.overstyringer,
+        })) ?? []),
+    {
+        navn: 'SELVSTENDIG',
+        organisasjonsnummer: 'SELVSTENDIG',
+        overstyringer: person?.selvstendigNaering?.overstyringer ?? [],
+    },
+];
 
 const filterState = atom<Filtertype>('Historikk');
 

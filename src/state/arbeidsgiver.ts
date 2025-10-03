@@ -13,7 +13,6 @@ import {
     SelvstendigNaering,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import { OverstyringForInntektsforhold } from '@saksbilde/historikk/state';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
@@ -253,26 +252,6 @@ export const finnOverstyringerForAktivInntektsforhold = (aktivPeriode: ActivePer
         arbeidsgiver?.organisasjonsnummer === 'SELVSTENDIG' ? [] : (arbeidsgiver?.overstyringer ?? []);
     const selvstendigOverstyringer = selvstendig?.overstyringer ?? [];
     return [...arbeidsgiverOverstyringer, ...selvstendigOverstyringer];
-};
-
-export const finnOverstyringerForAlleInntektsforhold = (
-    person: Maybe<PersonFragment>,
-): OverstyringForInntektsforhold[] => {
-    return [
-        ...(person?.arbeidsgivere
-            // Ignorer selvstendig næring fra arbeidsgiverlisten når vi tar i bruk selvstendig feltet på person. Dette for å unngå duplikater.
-            .filter((arbeidsgiver) => arbeidsgiver.organisasjonsnummer !== 'SELVSTENDIG')
-            .map((arbeidsgiver) => ({
-                navn: arbeidsgiver.navn,
-                organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-                overstyringer: arbeidsgiver.overstyringer,
-            })) ?? []),
-        {
-            navn: 'SELVSTENDIG',
-            organisasjonsnummer: 'SELVSTENDIG',
-            overstyringer: person?.selvstendigNaering?.overstyringer ?? [],
-        },
-    ];
 };
 
 /**
