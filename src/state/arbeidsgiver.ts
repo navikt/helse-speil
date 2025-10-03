@@ -38,38 +38,30 @@ export const useCurrentArbeidsgiver = (person: Maybe<PersonFragment>): Maybe<Arb
     return finnArbeidsgiverForPeriode(person?.arbeidsgivere ?? [], activePeriod);
 };
 
-export const usePeriodIsInGeneration = (person: PersonFragment): Maybe<number> => {
-    const period = useActivePeriod(person);
-    const arbeidsgiver = useCurrentArbeidsgiver(person);
-
-    if (!period || !arbeidsgiver) {
-        return null;
-    }
-
-    return arbeidsgiver.generasjoner.findIndex((it) =>
-        it.perioder.some((periode) => isBeregnetPeriode(periode) && periode.id === period.id),
-    );
-};
-
 export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     person: PersonFragment,
     skjæringstidspunkt: Maybe<DateString>,
     organisasjonsnummer: string,
 ): Maybe<ActivePeriod> => {
-    const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration(person);
+    const aktivPeriode = useActivePeriod(person);
+    const currentArbeidsgiver = useCurrentArbeidsgiver(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
-    const generasjon = aktivPeriodeErIgenerasjon === -1 ? 0 : aktivPeriodeErIgenerasjon;
 
-    if (!skjæringstidspunkt || generasjon === null) return null;
+    if (!skjæringstidspunkt || aktivPeriode == null || currentArbeidsgiver == null) return null;
+
+    const forrigeEllerNyesteGenerasjon = finnNteEllerNyesteGenerasjon(aktivPeriode, currentArbeidsgiver);
     const arbeidsgiver = finnArbeidsgiver(person, organisasjonsnummer);
+
+    const arbeidsgiverEierForrigeEllerNyesteGenerasjon = arbeidsgiver?.generasjoner.some(
+        (g) => g.id === forrigeEllerNyesteGenerasjon?.id,
+    );
 
     const arbeidsgiverGhostPerioder =
         arbeidsgiver?.ghostPerioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? [];
 
-    const arbeidsgiverPerioder =
-        arbeidsgiver?.generasjoner[generasjon]?.perioder.filter(
-            (it) => it.skjaeringstidspunkt === skjæringstidspunkt,
-        ) ?? [];
+    const arbeidsgiverPerioder = arbeidsgiverEierForrigeEllerNyesteGenerasjon
+        ? (forrigeEllerNyesteGenerasjon?.perioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? [])
+        : [];
     if (arbeidsgiverPerioder.length === 0 && arbeidsgiverGhostPerioder.length === 0) {
         return null;
     }
@@ -109,11 +101,12 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
 
 export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
     const aktivPeriode = useActivePeriod(person);
-    const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration(person);
-    const aktivPeriodeGhostGenerasjon = -1;
-    const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
+    const currentArbeidsgiver = useCurrentArbeidsgiver(person);
+    if (!aktivPeriode || !currentArbeidsgiver) return false;
 
-    if (!aktivPeriode || generasjon !== 0) return false;
+    const generasjon = finnNteEllerNyesteGenerasjon(aktivPeriode, currentArbeidsgiver);
+
+    if (!aktivPeriode || generasjon?.id !== currentArbeidsgiver.generasjoner[0]?.id) return false;
 
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     return periodeTilGodkjenning ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.tom) : true;
@@ -379,4 +372,54 @@ export const finnOverstyringerForAlleInntektsforhold = (
             overstyringer: person?.selvstendigNaering?.overstyringer ?? [],
         },
     ];
+};
+
+/**
+ * Henter forrige (eldre) generasjon relativt til generasjonen som inneholder den oppgitte perioden.
+ *
+ * Generasjoner er lagret i omvendt kronologisk rekkefølge (indeks 0 = nyeste).
+ *
+ * Regler:
+ * 1. Finn generasjonen som inneholder perioden (matcher `id` i beregnet eller uberegnet perioder).
+ * 2. Hvis ingen generasjon inneholder perioden: returner nyeste generasjon (indeks 0), eller `null` hvis ingen finnes.
+ * 3. Hvis generasjon finnes: returner neste (eldre) generasjon (`index + 1`), eller `null` hvis den ikke finnes.
+ *
+ * @param periode Perioden som identifiserer aktiv generasjon.
+ * @param arbeidsgiver Arbeidsgiver som eier generasjonene.
+ * @returns Forrige generasjon hvis perioden finnes, nyeste hvis ikke, ellers `null`.
+ */
+export const finnForrigeEllerNyesteGenerasjon = (
+    periode: ActivePeriod,
+    arbeidsgiver: ArbeidsgiverFragment,
+): Maybe<Generasjon> => finnNteEllerNyesteGenerasjon(periode, arbeidsgiver, 1);
+
+/**
+ * Henter en generasjon relativt til generasjonen som inneholder den oppgitte perioden.
+ *
+ * Generasjoner er lagret i omvendt kronologisk rekkefølge (indeks 0 = nyeste).
+ *
+ * Regler:
+ * 1. Finn generasjonen som inneholder perioden (matcher `id` i beregnet eller uberegnet perioder).
+ * 2. Hvis ingen generasjon inneholder perioden: returnerer alltid nyeste generasjon (indeks 0), eller `null` hvis ingen finnes (parameter \`n\` ignoreres i dette tilfellet).
+ * 3. Hvis generasjon finnes: returner generasjonen med offset \`n\` (aktiv = 0, eldre = 1, nyere = -1 osv.). Faller utenfor indeks -> `null`.
+ *
+ * @internal
+ * @param periode Perioden som identifiserer aktiv generasjon.
+ * @param arbeidsgiver Arbeidsgiver som eier generasjonene.
+ * @param n Offset: 0 = aktiv, 1 = forrige (eldre), -1 = neste (nyere), >1 flere steg tilbake, <-1 flere steg frem.
+ * @returns Generasjonen bestemt av offset, nyeste hvis aktiv ikke finnes, eller `null`.
+ */
+const finnNteEllerNyesteGenerasjon = (
+    periode: ActivePeriod,
+    arbeidsgiver: ArbeidsgiverFragment,
+    n: number = 0,
+): Maybe<Generasjon> => {
+    const aktivGenerasjonIndex = arbeidsgiver.generasjoner.findIndex((g) =>
+        g.perioder.some((p) => isBeregnetPeriode(periode) && p.id === periode.id),
+    );
+    return (
+        (aktivGenerasjonIndex < 0
+            ? arbeidsgiver.generasjoner[0]
+            : arbeidsgiver.generasjoner[aktivGenerasjonIndex + n]) ?? null
+    );
 };

@@ -3,7 +3,6 @@ import { ReactElement } from 'react';
 import { Alert, BodyShort, ErrorMessage } from '@navikt/ds-react';
 
 import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
-import { useForrigeGenerasjonPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import {
     ArbeidsgiverFragment,
@@ -19,6 +18,7 @@ import {
 } from '@io/graphql';
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
+import { finnForrigeEllerNyesteGenerasjon } from '@state/arbeidsgiver';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { PeriodState } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
@@ -54,11 +54,10 @@ export const VenstremenyBeregnetPeriode = ({
         activePeriod.tidslinje,
     );
 
-    const forrigeGenerasjonPeriode: Maybe<Periode> | undefined = useForrigeGenerasjonPeriode(
-        currentArbeidsgiver,
+    const forrigeGenerasjonPeriode: Maybe<Periode> | undefined = finnForrigeEllerNyesteGenerasjon(
         activePeriod,
-        currentPerson,
-    );
+        currentArbeidsgiver,
+    )?.perioder.find((periode) => periode.vedtaksperiodeId === activePeriod.vedtaksperiodeId);
 
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(
         erSelvstendigNæringsdrivende(currentArbeidsgiver.organisasjonsnummer),
