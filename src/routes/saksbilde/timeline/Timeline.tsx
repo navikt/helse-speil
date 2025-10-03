@@ -162,7 +162,7 @@ const TimelineWithContent = ({
             </div>
             <div className={styles.TimelineButtons}>
                 <div className={styles.LeftButtons}>
-                    {erUtvikling && !erBeslutteroppgave && (
+                    {erUtvikling && !erBeslutteroppgave && !person.selvstendigNaering && (
                         <Button
                             as={NextLink}
                             variant="tertiary"
