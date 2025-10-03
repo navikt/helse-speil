@@ -205,35 +205,6 @@ export const findArbeidsgiverWithGhostPeriode = (
     );
 };
 
-const findArbeidsgiverWithPeriode = (
-    period: ActivePeriod,
-    arbeidsgivere: Array<ArbeidsgiverFragment>,
-): Maybe<ArbeidsgiverFragment> => {
-    return (
-        arbeidsgivere.find((arbeidsgiver) =>
-            arbeidsgiver.generasjoner
-                .flatMap((generasjon) => generasjon.perioder)
-                .filter(
-                    (periode): periode is UberegnetPeriodeFragment | BeregnetPeriodeFragment =>
-                        isUberegnetPeriode(period) || isBeregnetPeriode(periode),
-                )
-                .find((periode: UberegnetPeriodeFragment | BeregnetPeriodeFragment) => periode.id === period.id),
-        ) ?? null
-    );
-};
-
-const findSelvstendigWithPeriode = (
-    periode: ActivePeriod,
-    selvstendig: SelvstendigNaering | null,
-): SelvstendigNaering | null =>
-    selvstendig?.generasjoner
-        .flatMap((generasjon) => generasjon.perioder)
-        .some(
-            (enPeriode) => isUberegnetPeriode(periode) || (isBeregnetPeriode(enPeriode) && enPeriode.id === periode.id),
-        )
-        ? selvstendig
-        : null;
-
 export const finnGenerasjonerForAktivPeriode = (periode: ActivePeriod, person: PersonFragment): Generasjon[] => {
     const arbeidsgiver = findArbeidsgiverWithPeriode(periode, person.arbeidsgivere);
     const selvstendig = findSelvstendigWithPeriode(periode, person.selvstendigNaering);
@@ -328,3 +299,38 @@ const finnNteEllerNyesteGenerasjon = (
             : arbeidsgiver.generasjoner[aktivGenerasjonIndex + n]) ?? null
     );
 };
+
+/**
+ * Finn arbeidsgiveren som eier en gitt periode.
+ *
+ * @internal
+ * @param period Aktiv periode (beregnet eller uberegnet) som skal finnes på arbeidsgiver.
+ * @param arbeidsgivere Liste over arbeidsgivere som søkes i.
+ * @returns Arbeidsgiver som eier perioden, eller null hvis ingen matcher.
+ */
+const findArbeidsgiverWithPeriode = (
+    period: ActivePeriod,
+    arbeidsgivere: Array<ArbeidsgiverFragment>,
+): Maybe<ArbeidsgiverFragment> =>
+    arbeidsgivere.find((arbeidsgiver) =>
+        arbeidsgiver.generasjoner
+            .flatMap((generasjon) => generasjon.perioder)
+            .find((periode: UberegnetPeriodeFragment | BeregnetPeriodeFragment) => periode.id === period.id),
+    ) ?? null;
+
+/**
+ * Finn selvstendig næringsdrivende som eier en gitt periode. Om det finnes selvstendig næringsforhold og dette inneholder gitt periode
+ *
+ * @param periode Aktiv periode som skal finnes på `selvstendig`.
+ * @param selvstendig Selvstendig næringsforhold som skal inneholde perioden.
+ * @returns `selvstendig` hvis perioden finnes, ellers `null`.
+ */
+const findSelvstendigWithPeriode = (
+    periode: ActivePeriod,
+    selvstendig: SelvstendigNaering | null,
+): SelvstendigNaering | null =>
+    selvstendig?.generasjoner
+        .flatMap((generasjon) => generasjon.perioder)
+        .some((enPeriode) => enPeriode.id === periode.id)
+        ? selvstendig
+        : null;
