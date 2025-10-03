@@ -1,0 +1,46 @@
+query RESTGetOppgaver($erPaaVent: Boolean, $erTildelt: Boolean, $ingenAvEgenskapene: String, $minstEnAvEgenskapene: [String!], $sidestoerrelse: Int, $sidetall: Int, $sorteringsfelt: OppgaveSorteringsfelt, $sorteringsrekkefoelge: Sorteringsrekkefolge, $tildeltTilOid: UUID) {
+    restGetOppgaver(erPaaVent: $erPaaVent, erTildelt: $erTildelt, ingenAvEgenskapene: $ingenAvEgenskapene, minstEnAvEgenskapene: $minstEnAvEgenskapene, sidestoerrelse: $sidestoerrelse, sidetall: $sidetall, sorteringsfelt: $sorteringsfelt, sorteringsrekkefoelge: $sorteringsrekkefoelge, tildeltTilOid: $tildeltTilOid)
+    @rest(
+        type: "OppgaveProjeksjonSide!"
+        endpoint: "spesialist"
+        path: "/oppgaver?{args}"
+        method: "GET"
+    ) {
+        elementer {
+            aktorId
+            egenskaper
+            id
+            navn {
+                etternavn
+                fornavn
+                mellomnavn
+            }
+            opprettetTidspunkt
+            opprinneligSoeknadstidspunkt
+            paVentInfo {
+                arsaker
+                dialogRef
+                kommentarer {
+                    feilregistrert_tidspunkt
+                    id
+                    opprettet
+                    saksbehandlerident
+                    tekst
+                }
+                opprettet
+                saksbehandler
+                tekst
+                tidsfrist
+            }
+            tildeling {
+                epost
+                navn
+                oid
+            }
+        }
+        sidestoerrelse
+        sidetall
+        totaltAntall
+        totaltAntallSider
+    }
+}

@@ -8,9 +8,11 @@ schema:
 documents: 'src/io/graphql/**/*.graphql'
 config:
   scalars:
+    Long: 'number'
     UUID: 'string'
     LocalDate: 'string'
     LocalDateTime: 'string'
+    Instant: 'string'
     YearMonth: 'string'
     BigDecimal: 'string'
 generates:

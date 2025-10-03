@@ -1,10 +1,61 @@
 scalar BigDecimal
 
+scalar Instant
+
 scalar LocalDate
 
 scalar LocalDateTime
 
+scalar Long
+
 scalar UUID
+
+enum Egenskap {
+    ARBEIDSTAKER
+    BESLUTTER
+    DELVIS_REFUSJON
+    EGEN_ANSATT
+    EN_ARBEIDSGIVER
+    FLERE_ARBEIDSGIVERE
+    FORLENGELSE
+    FORSTEGANGSBEHANDLING
+    FORTROLIG_ADRESSE
+    GOSYS
+    GRUNNBELOPSREGULERING
+    HASTER
+    INFOTRYGDFORLENGELSE
+    INGEN_UTBETALING
+    MANGLER_IM
+    MEDLEMSKAP
+    OVERGANG_FRA_IT
+    PA_VENT
+    RETUR
+    REVURDERING
+    RISK_QA
+    SELVSTENDIG_NAERINGSDRIVENDE
+    SKJONNSFASTSETTELSE
+    SOKNAD
+    SPESIALSAK
+    STIKKPROVE
+    STRENGT_FORTROLIG_ADRESSE
+    TILBAKEDATERT
+    UTBETALING_TIL_ARBEIDSGIVER
+    UTBETALING_TIL_SYKMELDT
+    UTLAND
+    VERGEMAL
+}
+
+enum OppgaveSorteringsfelt {
+    opprettetTidspunkt
+    opprinneligSoeknadstidspunkt
+    paVentInfo_tidsfrist
+    tildeling
+}
+
+enum Sorteringsrekkefolge {
+    STIGENDE
+    SYNKENDE
+}
 
 input DatoPeriodeInput {
     fom: LocalDate!
@@ -52,9 +103,58 @@ type LeggTilTilkommenInntektResponse {
     tilkommenInntektId: UUID!
 }
 
+type OppgaveProjeksjon {
+    aktorId: String!
+    egenskaper: [Egenskap!]!
+    id: String!
+    navn: Personnavn!
+    opprettetTidspunkt: Instant!
+    opprinneligSoeknadstidspunkt: Instant!
+    paVentInfo: OppgaveProjeksjonPaaVent
+    tildeling: Tildeling
+}
+
+type OppgaveProjeksjonPaaVent {
+    arsaker: [String!]!
+    dialogRef: Long!
+    kommentarer: [OppgaveProjeksjonPaaVentKommentar!]!
+    opprettet: LocalDateTime!
+    saksbehandler: String!
+    tekst: String
+    tidsfrist: LocalDate!
+}
+
+type OppgaveProjeksjonPaaVentKommentar {
+    feilregistrert_tidspunkt: LocalDateTime
+    id: Int!
+    opprettet: LocalDateTime!
+    saksbehandlerident: String!
+    tekst: String!
+}
+
+type OppgaveProjeksjonSide {
+    elementer: [OppgaveProjeksjon!]!
+    sidestoerrelse: Int!
+    sidetall: Int!
+    totaltAntall: Long!
+    totaltAntallSider: Long!
+}
+
+type Personnavn {
+    etternavn: String!
+    fornavn: String!
+    mellomnavn: String
+}
+
 type Saksbehandler {
     ident: String
     navn: String!
+}
+
+type Tildeling {
+    epost: String!
+    navn: String!
+    oid: UUID!
 }
 
 type TilkommenInntekt {
@@ -134,6 +234,7 @@ type TilkommenInntektskilde {
 
 extend type Query {
     restGetAktiveSaksbehandlere: [Saksbehandler!]!
+    restGetOppgaver(erPaaVent: Boolean, erTildelt: Boolean, ingenAvEgenskapene: String, minstEnAvEgenskapene: [String!], sidestoerrelse: Int, sidetall: Int, sorteringsfelt: OppgaveSorteringsfelt, sorteringsrekkefoelge: Sorteringsrekkefolge, tildeltTilOid: UUID): OppgaveProjeksjonSide!
     restGetPersonTilkomneInntektskilder(aktorId: String!): [TilkommenInntektskilde!]!
 }
 
