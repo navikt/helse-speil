@@ -160,14 +160,24 @@ export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringsti
     );
 };
 
+/**
+ * Returnerer alle unike hendelser av type 'INNTEKTSMELDING' for en gitt arbeidsgiver.
+ *
+ * Bakgrunn:
+ *  - Samme hendelse (identisk id) kan forekomme flere ganger fordi perioder i ulike generasjoner
+ *    refererer til de samme hendelsesobjektene, men som distinkte JS-objekter.
+ *  - Kan ikke gå via Set fordi like hendelser er distinkte objekter - det knepet funker bare på primitiver.
+ *
+ * Strategi:
+ *  1. Samler alle hendelser fra alle perioder i alle generasjoner.
+ *  2. Dedupliserer ved å legge dem i en Map keyed på hendelsens `id`.
+ *  3. Filtrerer ned til kun hendelser av typen 'INNTEKTSMELDING'.
+ *
+ * @param arbeidsgiver Arbeidsgiver som kan inneholde generasjoner med perioder og hendelser.
+ * @returns Liste av unike 'INNTEKTSMELDING'-hendelser (kan være tom liste).
+ */
 export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: Maybe<ArbeidsgiverFragment>): Hendelse[] => {
     if (!arbeidsgiver) return [];
-
-    // Ja, det er litt rotete kode for å deduplisere hendelser-lista, men
-    // tenker det er verdt det siden det ikke er så lett å oppdage at det vil
-    // kunne være duplikater i lista.
-    // Kan ikke gå via Set fordi like hendelser er distinkte objekter - det
-    // knepet funker bare på primitiver.
 
     const hendelser = new Map<string, Hendelse>();
     arbeidsgiver.generasjoner
