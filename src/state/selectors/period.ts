@@ -13,7 +13,7 @@ import {
 import { isGodkjent as utbetalingIsGodkjent } from '@state/selectors/utbetaling';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
-import { isBeregnetPeriode, isNotNullOrUndefined, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export const getOppgavereferanse = (
     period?: Maybe<BeregnetPeriodeFragment | UberegnetPeriodeFragment | GhostPeriodeFragment>,
@@ -56,7 +56,7 @@ export const isNotReady = (period: PeriodeFragment) =>
 
 export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: ArbeidsgiverFragment): boolean => {
     const sisteGenerasjon = arbeidsgiver.generasjoner[0];
-    if ((!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) || !isNotNullOrUndefined(sisteGenerasjon)) {
+    if ((!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) || sisteGenerasjon == undefined) {
         return false;
     }
 
