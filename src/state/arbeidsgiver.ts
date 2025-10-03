@@ -265,11 +265,6 @@ export const finnArbeidsgiverForPeriode = (arbeidsgivere: ArbeidsgiverFragment[]
  *
  * Generasjoner er lagret i omvendt kronologisk rekkefølge (indeks 0 = nyeste).
  *
- * Regler:
- * 1. Finn generasjonen som inneholder perioden (matcher `id` i beregnet eller uberegnet perioder).
- * 2. Hvis ingen generasjon inneholder perioden: returner nyeste generasjon (indeks 0), eller `null` hvis ingen finnes.
- * 3. Hvis generasjon finnes: returner neste (eldre) generasjon (`index + 1`), eller `null` hvis den ikke finnes.
- *
  * @param periode Perioden som identifiserer aktiv generasjon.
  * @param arbeidsgiver Arbeidsgiver som eier generasjonene.
  * @returns Forrige generasjon hvis perioden finnes, nyeste hvis ikke, ellers `null`.
