@@ -15,7 +15,7 @@ export const hentOpptegnelser = async (nyesteSekvensnummer?: number): Promise<Op
         return Promise.resolve(opptegnelse ? [opptegnelse] : []);
     }
 
-    return Promise.resolve(opptegnelser.slice(0, 2));
+    return Promise.resolve(opptegnelser.slice());
 };
 
 export const opprettAbonnement = async (): Promise<boolean> => {
