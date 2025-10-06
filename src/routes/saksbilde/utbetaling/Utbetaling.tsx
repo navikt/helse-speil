@@ -193,7 +193,7 @@ type UtbetalingProps = {
 const UtbetalingContainer = ({ person, periode }: UtbetalingProps): ReactElement | null => {
     const inntektsforhold = useAktivtInntektsforhold(person);
 
-    if (!isPerson(person) || !isArbeidsgiver(inntektsforhold)) {
+    if (!isPerson(person) || !inntektsforhold) {
         return null;
     }
 
