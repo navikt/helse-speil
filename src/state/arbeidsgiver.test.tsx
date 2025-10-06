@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import {
     findArbeidsgiverWithGhostPeriode,
     finnArbeidsgiver,
-    finnArbeidsgiverForPeriode,
+    finnInntektsforholdForPeriode,
     useAktivtInntektsforhold,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
@@ -33,20 +33,22 @@ describe('findArbeidsgiverWithGhostPeriode', () => {
     });
 });
 
-describe('finnArbeidsgiverForPeriode', () => {
+describe('finnInntektsforholdForPeriode', () => {
     it('returnerer arbeidsgiver som inneholder gitt periode', () => {
         const periode = enBeregnetPeriode();
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const arbeidsgivere = [enArbeidsgiver(), arbeidsgiver, enArbeidsgiver()];
+        const person = enPerson().medArbeidsgivere(arbeidsgivere);
 
-        expect(finnArbeidsgiverForPeriode(arbeidsgivere, periode)).toEqual(arbeidsgiver);
+        expect(finnInntektsforholdForPeriode(person, periode)).toEqual(arbeidsgiver);
     });
 
     it('returnerer null hvis perioden ikke finnes hos en arbeidsgiver', () => {
         const periode = enBeregnetPeriode();
         const arbeidsgivere = [enArbeidsgiver(), enArbeidsgiver(), enArbeidsgiver()];
+        const person = enPerson().medArbeidsgivere(arbeidsgivere);
 
-        expect(finnArbeidsgiverForPeriode(arbeidsgivere, periode)).toBeNull();
+        expect(finnInntektsforholdForPeriode(person, periode)).toBeUndefined();
     });
 });
 

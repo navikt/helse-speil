@@ -13,15 +13,15 @@ import {
 } from '@io/graphql';
 import {
     findArbeidsgiverWithGhostPeriode,
-    finnArbeidsgiverForPeriode,
     finnGenerasjonerForAktivPeriode,
+    finnInntektsforholdForPeriode,
     finnOverstyringerForAktivInntektsforhold,
 } from '@state/arbeidsgiver';
 import { atomWithSessionStorage } from '@state/jotai';
 import { toNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { Filtertype, HendelseObject, Hendelsetype } from '@typer/historikk';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import {
     getAnnetArbeidsforholdoverstyringhendelser,
@@ -137,16 +137,14 @@ const useHistorikk = (person: Maybe<PersonFragment>): HendelseObject[] => {
     const overstyringer = finnOverstyringerForAktivInntektsforhold(activePeriod, person);
     const overstyringerForAlleInntektsforhold = finnOverstyringerForAlleInntektsforhold(person);
 
-    const _arbeidsgiver = finnArbeidsgiverForPeriode(person.arbeidsgivere, activePeriod);
-    // Ignorer selvstendig næring fra arbeidsgiverlisten når vi tar i bruk selvstendig feltet på person. Dette for å unngå duplikater.
-    const identifikator = _arbeidsgiver?.organisasjonsnummer;
+    const inntektsforhold = finnInntektsforholdForPeriode(person, activePeriod);
 
     if (isBeregnetPeriode(activePeriod)) {
         return getHendelserForBeregnetPeriode(
             activePeriod,
             generasjoner,
             overstyringerForAlleInntektsforhold,
-            identifikator,
+            isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : undefined,
         );
     }
 

@@ -47,6 +47,7 @@ const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps)
                     organisasjonsnummer={
                         isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG'
                     }
+                    navn={isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG'}
                 />
             );
         case undefined:

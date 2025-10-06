@@ -46,11 +46,8 @@ export const Inntektssammenligning = ({
     erGjeldende,
     onSetAktivInntektskilde,
 }: InntektssammenligningProps) => {
-    const arbeidsgivernavn = person.tilleggsinfoForInntektskilder.find(
-        (it) => it.orgnummer === organisasjonsnummer,
-    )?.navn;
-    const endringer = finnArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
-    const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(endringer, person);
+    const arbeidsgiver = finnArbeidsgiver(person, organisasjonsnummer);
+    const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(arbeidsgiver?.overstyringer, person);
 
     return (
         <tr
@@ -75,7 +72,7 @@ export const Inntektssammenligning = ({
                     )}
                     <Arbeidsgivernavn
                         identifikator={organisasjonsnummer}
-                        navn={arbeidsgivernavn}
+                        navn={arbeidsgiver?.navn}
                         visIdentifikatorITooltip={true}
                         maxWidth="130px"
                     />

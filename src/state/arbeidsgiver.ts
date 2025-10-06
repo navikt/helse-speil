@@ -28,7 +28,7 @@ export const useAktivtInntektsforhold = (person: Maybe<PersonFragment>): Inntekt
     return finnInntektsforholdForPeriode(person, aktivPeriode);
 };
 
-const finnInntektsforholdForPeriode = (
+export const finnInntektsforholdForPeriode = (
     person: Maybe<PersonFragment>,
     periode: Maybe<ActivePeriod>,
 ): Inntektsforhold | undefined => {
@@ -253,31 +253,6 @@ export const finnOverstyringerForAktivInntektsforhold = (aktivPeriode: ActivePer
         arbeidsgiver?.organisasjonsnummer === 'SELVSTENDIG' ? [] : (arbeidsgiver?.overstyringer ?? []);
     const selvstendigOverstyringer = selvstendig?.overstyringer ?? [];
     return [...arbeidsgiverOverstyringer, ...selvstendigOverstyringer];
-};
-
-/**
- * Finn arbeidsgiveren som eier en gitt periode.
- *
- * Strategi:
- * - Returnerer null hvis perioden mangler.
- * - Beregnet / uberegnet periode: let etter periode-id i generasjoner.
- * - Ghost-periode: let etter id i ghostPerioder.
- * - Ukjent periodetype: returnerer null (sikkerhetsnett).
- *
- * @param arbeidsgivere Liste av arbeidsgivere som skal søkes i.
- * @param periode Aktiv periode (beregnet, uberegnet eller ghost) eller null.
- * @returns Arbeidsgiver som eier perioden, ellers null.
- */
-export const finnArbeidsgiverForPeriode = (arbeidsgivere: ArbeidsgiverFragment[], periode: ActivePeriod | null) => {
-    if (!periode) {
-        return null;
-    } else if (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) {
-        return findArbeidsgiverWithPeriode(periode, arbeidsgivere);
-    } else if (isGhostPeriode(periode)) {
-        return findArbeidsgiverWithGhostPeriode(periode, arbeidsgivere);
-    }
-
-    return null;
 };
 
 /**
