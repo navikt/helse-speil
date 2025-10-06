@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { OppgaveTilBehandling } from '@io/graphql';
+import { OppgaveProjeksjon } from '@io/graphql';
 import { LinkRow } from '@oversikt/table/LinkRow';
 import { DatoCell } from '@oversikt/table/cells/DatoCell';
 import { EgenskaperTagsCell } from '@oversikt/table/cells/EgenskaperTagsCell';
@@ -11,7 +11,7 @@ import { PåVentCell } from '@oversikt/table/cells/påvent/PåVentCell';
 import { ISO_DATOFORMAT } from '@utils/date';
 
 interface TilGodkjenningOppgaveRowProps {
-    oppgave: OppgaveTilBehandling;
+    oppgave: OppgaveProjeksjon;
 }
 
 export const TilGodkjenningOppgaveRow = ({ oppgave }: TilGodkjenningOppgaveRowProps): ReactElement => {

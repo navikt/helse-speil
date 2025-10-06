@@ -2,7 +2,8 @@ import React, { ReactElement } from 'react';
 
 import { Tag, TagProps, Tooltip } from '@navikt/ds-react';
 
-import { Egenskap, Kategori, Oppgaveegenskap } from '@io/graphql';
+import { Egenskap, Kategori } from '@io/graphql';
+import { kategoriForEgenskap } from '@state/oppgaver';
 
 const tilTekst = (egenskap: Egenskap) => {
     switch (egenskap) {
@@ -88,8 +89,9 @@ const tilVariant = (kategori: Kategori): TagProps['variant'] =>
                 ? 'info'
                 : 'neutral';
 
-const getData = (egenskaper: Oppgaveegenskap[]) => {
+const getData = (egenskaper: Egenskap[]) => {
     return egenskaper
+        .map((egenskap) => ({ egenskap: egenskap, kategori: kategoriForEgenskap(egenskap) }))
         .filter(
             ({ kategori }) =>
                 kategori === Kategori.Ukategorisert ||
@@ -124,7 +126,7 @@ const getData = (egenskaper: Oppgaveegenskap[]) => {
 };
 
 interface EgenskaperTagsProps {
-    egenskaper: Oppgaveegenskap[];
+    egenskaper: Egenskap[];
 }
 
 export const EgenskaperTags = ({ egenskaper }: EgenskaperTagsProps): ReactElement => {

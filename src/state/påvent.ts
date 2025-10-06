@@ -11,11 +11,11 @@ import {
     LeggPaVentDocument,
     LeggPaVentMutation,
     Maybe,
-    OppgaveFeedDocument,
     Oppgaveegenskap,
     PaVent,
     PaVentArsakInput,
     PaventFragment,
+    RestGetOppgaverDocument,
 } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
@@ -51,7 +51,7 @@ export const useLeggPåVent = (
         arsaker: PaVentArsakInput[],
     ) =>
         leggPåVentMutation({
-            refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
+            refetchQueries: [RestGetOppgaverDocument, AntallOppgaverDocument],
             optimisticResponse: {
                 __typename: 'Mutation',
                 leggPaVent: { ...optimistiskPaVent, frist },
@@ -93,7 +93,7 @@ export const useEndrePåVent = (
         arsaker: PaVentArsakInput[],
     ) =>
         endrePåVentMutation({
-            refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
+            refetchQueries: [RestGetOppgaverDocument, AntallOppgaverDocument],
             optimisticResponse: {
                 __typename: 'Mutation',
                 endrePaVent: { ...optimistiskPaVent, frist },
@@ -120,7 +120,7 @@ export const useFjernPåVentFraSaksbilde = (
 export const useFjernPåVentFraOppgaveoversikt = (): [
     (oppgavereferanse: string) => Promise<FetchResult<FjernPaVentMutation>>,
     MutationResult<FjernPaVentMutation>,
-] => useFjernPåVent([OppgaveFeedDocument, AntallOppgaverDocument]);
+] => useFjernPåVent([RestGetOppgaverDocument, AntallOppgaverDocument]);
 
 const useFjernPåVent = (
     refetchQueries: InternalRefetchQueriesInclude,

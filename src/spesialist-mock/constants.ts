@@ -3,5 +3,5 @@ export const sleep = (ms: number) =>
         setTimeout(resolve, ms);
     });
 
-export const antallTilfeldigeOppgaver = 0;
+export const antallTilfeldigeOppgaver = 50;
 export const antallTilfeldigeBehandledeOppgaver = 0;

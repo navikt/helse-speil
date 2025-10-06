@@ -94,6 +94,12 @@ input TilkommenInntektInput {
     periodebelop: BigDecimal!
 }
 
+type AktivSaksbehandler {
+    ident: String!
+    navn: String!
+    oid: UUID!
+}
+
 type DatoPeriode {
     fom: LocalDate!
     tom: LocalDate!
@@ -144,11 +150,6 @@ type Personnavn {
     etternavn: String!
     fornavn: String!
     mellomnavn: String
-}
-
-type Saksbehandler {
-    ident: String
-    navn: String!
 }
 
 type Tildeling {
@@ -233,7 +234,7 @@ type TilkommenInntektskilde {
 }
 
 extend type Query {
-    restGetAktiveSaksbehandlere: [Saksbehandler!]!
+    restGetAktiveSaksbehandlere: [AktivSaksbehandler!]!
     restGetOppgaver(erPaaVent: Boolean, erTildelt: Boolean, ingenAvEgenskapene: String, minstEnAvEgenskapene: [String!], sidestoerrelse: Int, sidetall: Int, sorteringsfelt: OppgaveSorteringsfelt, sorteringsrekkefoelge: Sorteringsrekkefolge, tildeltTilOid: UUID): OppgaveProjeksjonSide!
     restGetPersonTilkomneInntektskilder(aktorId: String!): [TilkommenInntektskilde!]!
 }

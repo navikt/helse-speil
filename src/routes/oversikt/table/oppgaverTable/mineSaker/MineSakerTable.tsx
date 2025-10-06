@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { SortState, Table } from '@navikt/ds-react';
 
-import { OppgaveTilBehandling } from '@io/graphql';
+import { OppgaveProjeksjon } from '@io/graphql';
 import { SortKey, useSetSortering } from '@oversikt/table/state/sortation';
 
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
@@ -12,7 +12,7 @@ import { MineSakerTableHeader } from './MineSakerTableHeader';
 import styles from '../../table.module.css';
 
 interface MineSakerTableProps {
-    oppgaver: OppgaveTilBehandling[];
+    oppgaver: OppgaveProjeksjon[];
     sort: SortState;
 }
 

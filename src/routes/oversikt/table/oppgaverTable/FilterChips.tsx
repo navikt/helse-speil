@@ -1,9 +1,12 @@
 import classNames from 'classnames';
+import { useAtom } from 'jotai';
 import React, { ReactElement } from 'react';
 
 import { Chips } from '@navikt/ds-react';
 
-import { Filter, FilterStatus } from '../state/filter';
+import { lagOppslåttSaksbehandlerVisningsnavn } from '@oversikt/filtermeny/SøkefeltSaksbehandlere';
+
+import { Filter, FilterStatus, valgtSaksbehandlerAtom } from '../state/filter';
 
 import styles from './filterChips.module.css';
 
@@ -14,9 +17,15 @@ interface FilterChipsProps {
 }
 
 export const FilterChips = ({ activeFilters, toggleFilter, setMultipleFilters }: FilterChipsProps): ReactElement => {
-    if (activeFilters.length > 0) {
+    const [valgtSaksbehandler, setValgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
+    if (activeFilters.length > 0 || valgtSaksbehandler) {
         return (
             <Chips className={classNames(styles.filterChips)}>
+                {valgtSaksbehandler && (
+                    <Chips.Removable key={'valgtsaksbehandler'} onClick={() => setValgtSaksbehandler(null)}>
+                        {lagOppslåttSaksbehandlerVisningsnavn(valgtSaksbehandler)}
+                    </Chips.Removable>
+                )}
                 {activeFilters.map((filter) => (
                     <Chips.Removable
                         className={classNames(filter.status === FilterStatus.MINUS && styles.filteredOut)}
@@ -28,9 +37,10 @@ export const FilterChips = ({ activeFilters, toggleFilter, setMultipleFilters }:
                 ))}
                 {activeFilters.length > 0 && (
                     <Chips.Removable
-                        onClick={() =>
-                            setMultipleFilters(FilterStatus.OFF, ...activeFilters.map((filter) => filter.key))
-                        }
+                        onClick={() => {
+                            setMultipleFilters(FilterStatus.OFF, ...activeFilters.map((filter) => filter.key));
+                            setValgtSaksbehandler(null);
+                        }}
                         variant="neutral"
                     >
                         Nullstill alle

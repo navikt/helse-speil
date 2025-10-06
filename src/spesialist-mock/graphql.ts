@@ -14,7 +14,7 @@ import { cwd } from 'process';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
-import { Maybe, SaksbehandlerInput } from '@io/graphql';
+import { Maybe } from '@io/graphql';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
@@ -22,7 +22,7 @@ import { Oppgave, UUID } from '@typer/spesialist-mock';
 import { isNotNullOrUndefined } from '@utils/typeguards';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
-import { behandledeOppgaverliste, oppgaveliste, tildelteOppgaverliste } from './data/oppgaveoversikt';
+import { behandledeOppgaverliste } from './data/oppgaveoversikt';
 import {
     BeingPreparedError,
     FlereFodselsnumreError,
@@ -35,7 +35,6 @@ import {
     Arbeidsgiver,
     BeregnetPeriode,
     Egenskap,
-    FiltreringInput,
     Historikkinnslag,
     MutationFeilregistrerKommentarArgs,
     MutationFeilregistrerNotatArgs,
@@ -53,7 +52,6 @@ import {
     MutationStansAutomatiskBehandlingArgs,
     Notat,
     NotatType,
-    OppgavesorteringInput,
     PeriodehistorikkType,
     Person,
 } from './schemaTypes';
@@ -163,17 +161,6 @@ const getResolvers = (): IResolvers => ({
         behandlingsstatistikk: async () => {
             return behandlingsstatistikk;
         },
-        oppgaveFeed: async (
-            _,
-            {
-                offset,
-                limit,
-                sortering,
-                filtrering,
-            }: { offset: number; limit: number; sortering: OppgavesorteringInput[]; filtrering: FiltreringInput },
-        ) => {
-            return oppgaveliste(offset, limit, sortering, filtrering);
-        },
         antallOppgaver: async () => {
             const tildelinger = TildelingMock.getTildelingerFor('11111111-2222-3333-4444-555555555555');
             const paVent = PaVentMock.getPåVentFor('11111111-2222-3333-4444-555555555555');
@@ -200,16 +187,6 @@ const getResolvers = (): IResolvers => ({
         },
         opptegnelser: async (_, { sekvensId }) => {
             return hentOpptegnelser(sekvensId);
-        },
-        tildelteOppgaverFeed: async (
-            _,
-            {
-                offset,
-                limit,
-                oppslattSaksbehandler,
-            }: { offset: number; limit: number; oppslattSaksbehandler: SaksbehandlerInput },
-        ) => {
-            return tildelteOppgaverliste(offset, limit, oppslattSaksbehandler);
         },
     },
     Mutation: {
