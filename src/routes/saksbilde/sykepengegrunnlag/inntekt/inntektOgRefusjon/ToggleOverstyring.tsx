@@ -8,7 +8,7 @@ import {
     useGhostInntektKanOverstyres,
     useInntektKanRevurderes,
 } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
-import { useCurrentArbeidsgiver, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import { useAktivtInntektsforhold, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
@@ -34,7 +34,7 @@ export const ToggleOverstyring = ({
     editing,
     setEditing,
 }: ToggleOverstyringProps) => {
-    const aktivArbeidsgiver = useCurrentArbeidsgiver(person);
+    const inntektsforhold = useAktivtInntektsforhold(person);
     const kanRevurderes = useInntektKanRevurderes(person, periode.skjaeringstidspunkt);
     const ghostInntektKanOverstyres =
         useGhostInntektKanOverstyres(person, periode.skjaeringstidspunkt, organisasjonsnummer) && !erDeaktivert;
@@ -45,7 +45,7 @@ export const ToggleOverstyring = ({
     if (!isGhostPeriode(periode) && !isInCurrentGeneration(periode, arbeidsgiver)) return null;
 
     const utbetalingForSkjæringstidspunkt =
-        Array.from(aktivArbeidsgiver?.generasjoner[0]?.perioder ?? [])
+        Array.from(inntektsforhold?.generasjoner[0]?.perioder ?? [])
             .filter(isBeregnetPeriode)
             .reverse()
             .find((beregnetPeriode) => beregnetPeriode.skjaeringstidspunkt === periode.skjaeringstidspunkt)

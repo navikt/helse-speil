@@ -2,10 +2,8 @@ import { ReactElement } from 'react';
 
 import { Alert, BodyShort, ErrorMessage } from '@navikt/ds-react';
 
-import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import {
-    ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
     Dag,
     Handling,
@@ -18,10 +16,11 @@ import {
 } from '@io/graphql';
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
-import { finnForrigeEllerNyesteGenerasjon } from '@state/arbeidsgiver';
+import { Inntektsforhold, finnForrigeEllerNyesteGenerasjon } from '@state/arbeidsgiver';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { PeriodState } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
+import { isArbeidsgiver, isSelvstendigNaering } from '@utils/typeguards';
 
 import { VarselObject } from '../varsler/Saksbildevarsler';
 import { PeriodeCard } from './PeriodeCard';
@@ -33,7 +32,7 @@ import styles from './Venstremeny.module.css';
 interface VenstremenyBeregnetPeriodeProps {
     activePeriod: BeregnetPeriodeFragment;
     currentPerson: PersonFragment;
-    currentArbeidsgiver: ArbeidsgiverFragment;
+    inntektsforhold: Inntektsforhold;
 }
 
 const finnUtbetaleTilgang = ({ handlinger }: BeregnetPeriodeFragment): Handling =>
@@ -42,25 +41,25 @@ const finnUtbetaleTilgang = ({ handlinger }: BeregnetPeriodeFragment): Handling 
 export const VenstremenyBeregnetPeriode = ({
     activePeriod,
     currentPerson,
-    currentArbeidsgiver,
+    inntektsforhold,
 }: VenstremenyBeregnetPeriodeProps): ReactElement => {
     const vilkårsgrunnlag = getVilkårsgrunnlag(currentPerson, activePeriod.vilkarsgrunnlagId);
     const månedsbeløp = vilkårsgrunnlag?.inntekter.find(
-        (it) => it.arbeidsgiver === currentArbeidsgiver.organisasjonsnummer,
+        (it) => isArbeidsgiver(inntektsforhold) && it.arbeidsgiver === inntektsforhold.organisasjonsnummer,
     )?.omregnetArsinntekt?.manedsbelop;
 
     const { personTotalbeløp, arbeidsgiverTotalbeløp } = useTotalbeløp(
-        erSelvstendigNæringsdrivende(currentArbeidsgiver.organisasjonsnummer),
+        isSelvstendigNaering(inntektsforhold),
         activePeriod.tidslinje,
     );
 
     const forrigeGenerasjonPeriode: Maybe<Periode> | undefined = finnForrigeEllerNyesteGenerasjon(
         activePeriod,
-        currentArbeidsgiver,
+        inntektsforhold,
     )?.perioder.find((periode) => periode.vedtaksperiodeId === activePeriod.vedtaksperiodeId);
 
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(
-        erSelvstendigNæringsdrivende(currentArbeidsgiver.organisasjonsnummer),
+        isSelvstendigNaering(inntektsforhold),
         forrigeGenerasjonPeriode?.tidslinje,
     );
     const utbetaleTilgang = finnUtbetaleTilgang(activePeriod);
@@ -69,15 +68,23 @@ export const VenstremenyBeregnetPeriode = ({
         (it) => it,
     ) as VarselObject[];
 
+    const organisasjonsnummer = isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG';
+    const arbeidsgiverNavn = isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG';
     return (
         <section className={styles.Venstremeny}>
-            <PeriodeCard.Beregnet periode={activePeriod} arbeidsgiver={currentArbeidsgiver} månedsbeløp={månedsbeløp} />
+            <PeriodeCard.Beregnet
+                periode={activePeriod}
+                arbeidsforhold={isArbeidsgiver(inntektsforhold) ? inntektsforhold.arbeidsforhold : []}
+                organisasjonsnummer={organisasjonsnummer}
+                arbeidsgiverNavn={arbeidsgiverNavn}
+                månedsbeløp={månedsbeløp}
+            />
             <UtbetalingCard.Beregnet
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 antallUtbetalingsdager={getNumberOfDaysWithType(activePeriod.tidslinje, Utbetalingsdagtype.Navdag)}
                 utbetaling={activePeriod.utbetaling}
-                arbeidsgiverIdentifikator={currentArbeidsgiver.organisasjonsnummer}
-                arbeidsgiverNavn={currentArbeidsgiver.navn}
+                arbeidsgiverIdentifikator={organisasjonsnummer}
+                arbeidsgiverNavn={arbeidsgiverNavn}
                 personinfo={currentPerson.personinfo}
                 arbeidsgiversimulering={activePeriod.utbetaling.arbeidsgiversimulering}
                 personsimulering={activePeriod.utbetaling.personsimulering}
@@ -91,7 +98,12 @@ export const VenstremenyBeregnetPeriode = ({
                 <>
                     <HarVurderbareVarsler person={currentPerson} />
                     <HarBeslutteroppgaver person={currentPerson} />
-                    <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver} />
+                    <Utbetaling
+                        period={activePeriod}
+                        person={currentPerson}
+                        organisasjonsnummer={organisasjonsnummer}
+                        arbeidsgiverNavn={arbeidsgiverNavn}
+                    />
                 </>
             )}
             {utbetalingsvarsler.map(({ grad, melding }, index) => (

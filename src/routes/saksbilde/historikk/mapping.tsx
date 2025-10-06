@@ -35,6 +35,7 @@ import {
     Vurdering,
 } from '@io/graphql';
 import { OverstyringForInntektsforhold } from '@saksbilde/historikk/state';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import {
     AnnetArbeidsforholdoverstyringhendelseObject,
     AnnulleringhendelseObject,
@@ -434,8 +435,8 @@ const getFørsteVurdertePeriodeForSkjæringstidspunktet = (
 
 export const getFørstePeriodeForSkjæringstidspunkt = (
     skjæringstidspunkt: DateString,
-    arbeidsgiver: ArbeidsgiverFragment,
-): BeregnetPeriodeFragment | UberegnetPeriodeFragment | undefined =>
+    arbeidsgiver: Inntektsforhold,
+): Periode | undefined =>
     arbeidsgiver.generasjoner.length
         ? [...arbeidsgiver.generasjoner][0]?.perioder
               .filter((periode) => periode.skjaeringstidspunkt === skjæringstidspunkt)
@@ -444,12 +445,12 @@ export const getFørstePeriodeForSkjæringstidspunkt = (
 
 export const kanStrekkes = (
     periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
-    arbeidsgiver: ArbeidsgiverFragment,
+    inntektsforhold: Inntektsforhold,
 ): boolean => {
     const erFørstePeriodePåSkjæringstidspunkt =
-        getFørstePeriodeForSkjæringstidspunkt(periode.skjaeringstidspunkt, arbeidsgiver)?.id === periode.id;
+        getFørstePeriodeForSkjæringstidspunkt(periode.skjaeringstidspunkt, inntektsforhold)?.id === periode.id;
 
-    const sistePeriodeFørAktivPeriode = arbeidsgiver.generasjoner[0]?.perioder.filter((p) =>
+    const sistePeriodeFørAktivPeriode = inntektsforhold.generasjoner[0]?.perioder.filter((p) =>
         dayjs(p.tom).isBefore(periode.fom),
     )[0];
 

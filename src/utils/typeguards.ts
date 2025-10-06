@@ -1,5 +1,6 @@
 import {
     Arbeidsforholdoverstyring,
+    Arbeidsgiver,
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
     Dagoverstyring,
@@ -10,9 +11,11 @@ import {
     Overstyring,
     Person,
     PersonFragment,
+    SelvstendigNaering,
     Sykepengegrunnlagskjonnsfastsetting,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { InfotrygdPeriod } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
 import { OverstyringerPrDag } from '@typer/utbetalingstabell';
@@ -69,14 +72,21 @@ export const isPerson = (person?: Maybe<PersonFragment | Person>): person is Per
     return person !== undefined && person !== null && typeof person['fodselsnummer'] === 'string';
 };
 
-export const isArbeidsgiver = (arbeidsgiver?: Maybe<ArbeidsgiverFragment>): arbeidsgiver is ArbeidsgiverFragment => {
-    return arbeidsgiver !== undefined && arbeidsgiver !== null;
-};
-
 export function isNotNullOrUndefined<T>(value: T): value is NonNullable<T> {
     return value != null;
 }
 
 export const isNumber = (aNumber: unknown): aNumber is number => {
     return aNumber !== undefined && aNumber !== null && typeof aNumber === 'number';
+};
+export const isArbeidsgiver = (inntektsforhold?: Inntektsforhold | null): inntektsforhold is Arbeidsgiver => {
+    return (inntektsforhold as Arbeidsgiver)?.organisasjonsnummer != undefined;
+};
+export const isSelvstendigNaering = (
+    inntektsforhold?: Inntektsforhold | null,
+): inntektsforhold is SelvstendigNaering => {
+    return (
+        (inntektsforhold as ArbeidsgiverFragment).organisasjonsnummer == undefined &&
+        (inntektsforhold as SelvstendigNaering).generasjoner !== undefined
+    );
 };

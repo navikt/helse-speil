@@ -5,19 +5,14 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { TimeoutModal } from '@components/TimeoutModal';
-import {
-    ArbeidsgiverFragment,
-    BeregnetPeriodeFragment,
-    PersonFragment,
-    UberegnetPeriodeFragment,
-    Utbetalingstatus,
-} from '@io/graphql';
+import { BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment, Utbetalingstatus } from '@io/graphql';
 import { kanStrekkes } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
 import { UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
 import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { isArbeidsgiver, isBeregnetPeriode } from '@utils/typeguards';
 
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
@@ -178,14 +173,14 @@ const reducer: Reducer<DagerState, DagerAction> = (prevState, action) => {
 
 interface OverstyrbarUtbetalingProps {
     person: PersonFragment;
-    arbeidsgiver: ArbeidsgiverFragment;
+    inntektsforhold: Inntektsforhold;
     dager: Map<string, Utbetalingstabelldag>;
     periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment;
 }
 
 export const OverstyrbarUtbetaling = ({
     person,
-    arbeidsgiver,
+    inntektsforhold,
     dager,
     periode,
 }: OverstyrbarUtbetalingProps): ReactElement => {
@@ -194,7 +189,7 @@ export const OverstyrbarUtbetaling = ({
 
     const [overstyrer, setOverstyrer] = useState(false);
 
-    const { postOverstyring, error, timedOut, setTimedOut, done } = useOverstyrDager(person, arbeidsgiver);
+    const { postOverstyring, error, timedOut, setTimedOut, done } = useOverstyrDager(person, inntektsforhold);
 
     const [state, dispatch] = useReducer(reducer, defaultDagerState);
 
@@ -263,6 +258,8 @@ export const OverstyrbarUtbetaling = ({
     if (periodeFom == undefined) return <></>;
 
     const erRevurdering = isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Utbetalt;
+    const organisasjonsnummer = isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG';
+    const arbeidsgiverNavn = isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG';
     return (
         <article
             className={classNames(styles.OverstyrbarUtbetaling, overstyrer && styles.overstyrer)}
@@ -274,8 +271,8 @@ export const OverstyrbarUtbetaling = ({
                         isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Forkastet
                     }
                     toggleOverstyring={toggleOverstyring}
-                    arbeidsgiverIdentifikator={arbeidsgiver.organisasjonsnummer}
-                    arbeidsgiverNavn={arbeidsgiver.navn}
+                    arbeidsgiverIdentifikator={organisasjonsnummer}
+                    arbeidsgiverNavn={arbeidsgiverNavn}
                     erRevurdering={erRevurdering}
                 />
             )}
@@ -283,10 +280,10 @@ export const OverstyrbarUtbetaling = ({
                 <OverstyringToolBar
                     toggleOverstyring={toggleOverstyring}
                     onSubmitPølsestrekk={onSubmitPølsestrekk}
-                    kanStrekkes={kanStrekkes(periode, arbeidsgiver)}
+                    kanStrekkes={kanStrekkes(periode, inntektsforhold)}
                     periodeFom={periodeFom.dato}
                     erRevurdering={erRevurdering}
-                    erSelvstendig={erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer)}
+                    erSelvstendig={erSelvstendigNæringsdrivende(organisasjonsnummer)}
                 />
             )}
             <div className={classNames(styles.TableContainer)}>
@@ -321,7 +318,7 @@ export const OverstyrbarUtbetaling = ({
                         <EndringForm
                             markerteDager={markerteDager}
                             onSubmitEndring={onSubmitEndring}
-                            erSelvstendig={erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer)}
+                            erSelvstendig={erSelvstendigNæringsdrivende(organisasjonsnummer)}
                         />
                         <FormProvider {...form}>
                             <form onSubmit={(event) => event.preventDefault()} autoComplete="off">
@@ -331,7 +328,7 @@ export const OverstyrbarUtbetaling = ({
                                     error={error}
                                     toggleOverstyring={toggleOverstyring}
                                     onSubmit={onSubmitOverstyring}
-                                    erSelvstendig={erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer)}
+                                    erSelvstendig={erSelvstendigNæringsdrivende(organisasjonsnummer)}
                                 />
                             </form>
                         </FormProvider>

@@ -2,14 +2,15 @@ import React, { ReactElement } from 'react';
 
 import { Alert, Box, HStack, Heading, HelpText } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import styles from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader.module.css';
 import {
-    useCurrentArbeidsgiver,
+    Inntektsforhold,
+    useAktivtInntektsforhold,
     useDagoverstyringer,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
 } from '@state/arbeidsgiver';
@@ -19,7 +20,13 @@ import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 import { getAntallAGPDagerBruktFørPerioden } from '@utils/periode';
-import { isBeregnetPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
+import {
+    isArbeidsgiver,
+    isBeregnetPeriode,
+    isPerson,
+    isSelvstendigNaering,
+    isUberegnetPeriode,
+} from '@utils/typeguards';
 
 import { harPeriodeTilBeslutterFor } from '../sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
@@ -28,13 +35,13 @@ import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 
 const useIsInCurrentGeneration = (person: PersonFragment): boolean => {
     const period = useActivePeriod(person);
-    const arbeidsgiver = useCurrentArbeidsgiver(person);
+    const inntektsforhold = useAktivtInntektsforhold(person);
 
-    if (!period || !arbeidsgiver) {
+    if (!period || !inntektsforhold) {
         return false;
     }
 
-    return isInCurrentGeneration(period, arbeidsgiver);
+    return isInCurrentGeneration(period, inntektsforhold);
 };
 
 interface ReadonlyUtbetalingProps {
@@ -96,20 +103,24 @@ const ReadonlyUtbetaling = ({
 interface UtbetalingBeregnetPeriodeProps {
     period: BeregnetPeriodeFragment;
     person: PersonFragment;
-    arbeidsgiver: ArbeidsgiverFragment;
+    inntektsforhold: Inntektsforhold;
 }
 
-const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingBeregnetPeriodeProps): ReactElement => {
+const UtbetalingBeregnetPeriode = ({
+    period,
+    person,
+    inntektsforhold,
+}: UtbetalingBeregnetPeriodeProps): ReactElement => {
     const overstyringIsEnabled = kanOverstyres(period);
     const revurderingIsEnabled = kanRevurderes(person, period);
     const overstyrRevurderingIsEnabled = kanOverstyreRevurdering(person, period);
-    const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, arbeidsgiver);
+    const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, inntektsforhold);
     const readOnly = useIsReadOnlyOppgave(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
 
     const dager: Map<string, Utbetalingstabelldag> = useTabelldagerMap({
         tidslinje: period.tidslinje,
-        erSelvstendigNæringsdrivende: erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer),
+        erSelvstendigNæringsdrivende: isSelvstendigNaering(inntektsforhold),
         gjenståendeDager: period.gjenstaendeSykedager,
         overstyringer: dagoverstyringer,
         maksdato: period.maksdato,
@@ -118,15 +129,17 @@ const UtbetalingBeregnetPeriode = ({ period, person, arbeidsgiver }: UtbetalingB
     const kanEndres = overstyringIsEnabled.value || revurderingIsEnabled.value || overstyrRevurderingIsEnabled.value;
 
     return kanEndres && !readOnly && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning ? (
-        <OverstyrbarUtbetaling person={person} arbeidsgiver={arbeidsgiver} dager={dager} periode={period} />
+        <OverstyrbarUtbetaling person={person} inntektsforhold={inntektsforhold} dager={dager} periode={period} />
     ) : (
         <ReadonlyUtbetaling
             fom={period.fom}
             tom={period.tom}
             dager={dager}
             person={person}
-            arbeidsgiverIdentifikator={arbeidsgiver.organisasjonsnummer}
-            arbeidsgiverNavn={arbeidsgiver.navn}
+            arbeidsgiverIdentifikator={
+                isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG'
+            }
+            arbeidsgiverNavn={isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG'}
         />
     );
 };
@@ -136,19 +149,19 @@ const UtbetalingBeregnetPeriodeMemoized = React.memo(UtbetalingBeregnetPeriode);
 interface UtbetalingUberegnetPeriodeProps {
     person: PersonFragment;
     periode: UberegnetPeriodeFragment;
-    arbeidsgiver: ArbeidsgiverFragment;
+    inntektsforhold: Inntektsforhold;
 }
 
 const UtbetalingUberegnetPeriode = ({
     person,
     periode,
-    arbeidsgiver,
+    inntektsforhold,
 }: UtbetalingUberegnetPeriodeProps): ReactElement | null => {
-    const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
-    const antallAGPDagerBruktFørPerioden = getAntallAGPDagerBruktFørPerioden(arbeidsgiver, periode);
+    const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, inntektsforhold);
+    const antallAGPDagerBruktFørPerioden = getAntallAGPDagerBruktFørPerioden(inntektsforhold, periode);
     const dager: Map<string, Utbetalingstabelldag> = useTabelldagerMap({
         tidslinje: periode.tidslinje,
-        erSelvstendigNæringsdrivende: erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer),
+        erSelvstendigNæringsdrivende: isSelvstendigNaering(inntektsforhold),
         overstyringer: dagoverstyringer,
         antallAGPDagerBruktFørPerioden: antallAGPDagerBruktFørPerioden,
     });
@@ -157,15 +170,17 @@ const UtbetalingUberegnetPeriode = ({
     const skjæringstidspunktHarPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
 
     return !skjæringstidspunktHarPeriodeTilBeslutter ? (
-        <OverstyrbarUtbetaling person={person} arbeidsgiver={arbeidsgiver} dager={dager} periode={periode} />
+        <OverstyrbarUtbetaling person={person} inntektsforhold={inntektsforhold} dager={dager} periode={periode} />
     ) : (
         <ReadonlyUtbetaling
             fom={periode.fom}
             tom={periode.tom}
             dager={dager}
             person={person}
-            arbeidsgiverIdentifikator={arbeidsgiver.organisasjonsnummer}
-            arbeidsgiverNavn={arbeidsgiver.navn}
+            arbeidsgiverIdentifikator={
+                isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG'
+            }
+            arbeidsgiverNavn={isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG'}
         />
     );
 };
@@ -176,16 +191,16 @@ type UtbetalingProps = {
 };
 
 const UtbetalingContainer = ({ person, periode }: UtbetalingProps): ReactElement | null => {
-    const arbeidsgiver = useCurrentArbeidsgiver(person);
+    const inntektsforhold = useAktivtInntektsforhold(person);
 
-    if (!isPerson(person) || !arbeidsgiver) {
+    if (!isPerson(person) || !isArbeidsgiver(inntektsforhold)) {
         return null;
     }
 
     if (isBeregnetPeriode(periode)) {
-        return <UtbetalingBeregnetPeriodeMemoized period={periode} person={person} arbeidsgiver={arbeidsgiver} />;
+        return <UtbetalingBeregnetPeriodeMemoized period={periode} person={person} inntektsforhold={inntektsforhold} />;
     } else if (isUberegnetPeriode(periode)) {
-        return <UtbetalingUberegnetPeriode person={person} periode={periode} arbeidsgiver={arbeidsgiver} />;
+        return <UtbetalingUberegnetPeriode person={person} periode={periode} inntektsforhold={inntektsforhold} />;
     } else {
         return null;
     }

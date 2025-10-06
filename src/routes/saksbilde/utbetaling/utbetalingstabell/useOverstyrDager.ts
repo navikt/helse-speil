@@ -3,18 +3,15 @@ import { useEffect, useRef, useState } from 'react';
 
 import { FetchResult, useMutation } from '@apollo/client';
 import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
-import {
-    ArbeidsgiverFragment,
-    OverstyrDagerMutationDocument,
-    OverstyrDagerMutationMutation,
-    PersonFragment,
-} from '@io/graphql';
+import { OverstyrDagerMutationDocument, OverstyrDagerMutationMutation, PersonFragment } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { useCalculatingState } from '@state/calculating';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { isArbeidsgiver } from '@utils/typeguards';
 
 type UsePostOverstyringResult = {
     postOverstyring: (
@@ -32,7 +29,7 @@ type UsePostOverstyringResult = {
 
 export const useOverstyrDager = (
     person: PersonFragment,
-    arbeidsgiver: ArbeidsgiverFragment,
+    inntektsforhold: Inntektsforhold,
 ): UsePostOverstyringResult => {
     const personFørRefetchRef = useRef(person);
     const addToast = useAddToast();
@@ -71,7 +68,9 @@ export const useOverstyrDager = (
                 overstyring: {
                     aktorId: person.aktorId,
                     fodselsnummer: person.fodselsnummer,
-                    organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+                    organisasjonsnummer: isArbeidsgiver(inntektsforhold)
+                        ? inntektsforhold.organisasjonsnummer
+                        : 'SELVSTENDIG',
                     dager: tilOverstyrteDager(dager, overstyrteDager),
                     begrunnelse: begrunnelse,
                     vedtaksperiodeId,

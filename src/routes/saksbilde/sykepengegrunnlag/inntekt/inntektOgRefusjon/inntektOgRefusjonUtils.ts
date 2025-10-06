@@ -13,14 +13,14 @@ import {
 import {
     finnArbeidsgiver,
     finnPeriodeTilGodkjenning,
-    useCurrentArbeidsgiver,
+    useAktivtInntektsforhold,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { isForkastet } from '@state/selectors/period';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
-import { ActivePeriod, DateString } from '@typer/shared';
+import { DateString } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 export const harIngenUtbetaltePerioderFor = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {
@@ -157,14 +157,14 @@ const harIngenEtterfølgendePerioder = (
 export const useInntektKanRevurderes = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {
     const isReadOnlyOppgave = useIsReadOnlyOppgave(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
-    const currentArbeidsgiver = useCurrentArbeidsgiver(person);
+    const inntektsforhold = useAktivtInntektsforhold(person);
 
     if (!person) return false;
 
     const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, skjæringstidspunkt);
 
-    const periodeVedSkjæringstidspunkt: ActivePeriod | null =
-        currentArbeidsgiver?.generasjoner[0]?.perioder
+    const periodeVedSkjæringstidspunkt: Periode | null =
+        inntektsforhold?.generasjoner[0]?.perioder
             .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
             .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
             .shift() ?? null;

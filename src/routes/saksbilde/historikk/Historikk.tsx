@@ -219,7 +219,6 @@ interface HistorikkHendelseProps {
 }
 
 const HistorikkHendelse = ({ hendelse, person }: HistorikkHendelseProps): ReactElement => {
-    console.log(hendelse.historikktype, hendelse);
     const HendelseComponent = historikkhendelseComponents[hendelse.historikktype];
     return <HendelseComponent person={person} hendelse={hendelse} {...hendelse} />;
 };

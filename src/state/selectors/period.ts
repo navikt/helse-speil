@@ -1,15 +1,16 @@
 import dayjs from 'dayjs';
 
 import {
-    ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
     Maybe,
+    Periode,
     PeriodeFragment,
     Periodetilstand,
     PersonFragment,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { isGodkjent as utbetalingIsGodkjent } from '@state/selectors/utbetaling';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
@@ -27,14 +28,14 @@ export const getOppgavereferanse = (
 
 export const harBlittUtbetaltTidligere = (
     period: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
-    arbeidsgiver: ArbeidsgiverFragment,
+    inntektsforhold: Inntektsforhold,
 ): boolean => {
-    if (arbeidsgiver.generasjoner.length <= 1) {
+    if (inntektsforhold.generasjoner.length <= 1) {
         return false;
     }
 
     return (
-        arbeidsgiver.generasjoner
+        inntektsforhold.generasjoner
             .slice(1)
             .flatMap(({ perioder }) => perioder)
             .filter(
@@ -54,7 +55,7 @@ export const isNotReady = (period: PeriodeFragment) =>
         Periodetilstand.AvventerInntektsopplysninger,
     ].includes(period.periodetilstand);
 
-export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: ArbeidsgiverFragment): boolean => {
+export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: Inntektsforhold): boolean => {
     const sisteGenerasjon = arbeidsgiver.generasjoner[0];
     if ((!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) || sisteGenerasjon == undefined) {
         return false;
@@ -81,6 +82,6 @@ export const getOverlappendePerioder = (
         .filter(overlapper(period)) as Array<BeregnetPeriodeFragment>;
 };
 
-export const isForkastet = (periode?: Maybe<ActivePeriod>): boolean => {
+export const isForkastet = (periode?: Maybe<Periode>): boolean => {
     return (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) && periode.erForkastet;
 };

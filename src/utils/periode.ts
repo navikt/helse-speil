@@ -1,10 +1,11 @@
-import { ArbeidsgiverFragment, UberegnetPeriodeFragment, Utbetalingsdagtype } from '@io/graphql';
+import { UberegnetPeriodeFragment, Utbetalingsdagtype } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 
 export const getAntallAGPDagerBruktFørPerioden = (
-    arbeidsgiver: ArbeidsgiverFragment,
+    inntektsforhold: Inntektsforhold,
     periode: UberegnetPeriodeFragment,
 ) =>
-    arbeidsgiver.generasjoner[0]?.perioder
+    inntektsforhold.generasjoner[0]?.perioder
         .filter((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt)
         .filter((it) => it.fom < periode.fom)
         .reverse()

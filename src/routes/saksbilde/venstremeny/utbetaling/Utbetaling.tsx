@@ -8,7 +8,7 @@ import { BodyShort, Box, HStack, Loader } from '@navikt/ds-react';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
-import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Periodetilstand, PersonFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, Periodetilstand, PersonFragment } from '@io/graphql';
 import { useCalculatingValue } from '@state/calculating';
 import { usePersonStore } from '@state/contexts/personStore';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
@@ -29,12 +29,18 @@ import styles from './Utbetaling.module.css';
 interface UtbetalingProps {
     period: BeregnetPeriodeFragment;
     person: PersonFragment;
-    arbeidsgiver: ArbeidsgiverFragment;
+    organisasjonsnummer: string;
+    arbeidsgiverNavn: string;
 }
 
 const vedtaksbegrunnelseAtom = atom<string>('initalValue');
 
-export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): ReactElement | null => {
+export const Utbetaling = ({
+    period,
+    person,
+    organisasjonsnummer,
+    arbeidsgiverNavn,
+}: UtbetalingProps): ReactElement | null => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const lagretVedtakBegrunnelseTekst =
         period.vedtakBegrunnelser[0] != undefined ? (period.vedtakBegrunnelser[0].begrunnelse as string) : '';
@@ -97,8 +103,8 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): R
                         <SendTilGodkjenningButton
                             size="small"
                             utbetaling={period.utbetaling}
-                            arbeidsgiverIdentifikator={arbeidsgiver.organisasjonsnummer}
-                            arbeidsgiverNavn={arbeidsgiver.navn}
+                            arbeidsgiverIdentifikator={organisasjonsnummer}
+                            arbeidsgiverNavn={arbeidsgiverNavn}
                             personinfo={person.personinfo}
                             oppgavereferanse={period.oppgave?.id ?? ''}
                             disabled={
@@ -116,8 +122,8 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps): R
                         <GodkjenningButton
                             size="small"
                             utbetaling={period.utbetaling}
-                            arbeidsgiverIdentifikator={arbeidsgiver.organisasjonsnummer}
-                            arbeidsgiverNavn={arbeidsgiver.navn}
+                            arbeidsgiverIdentifikator={organisasjonsnummer}
+                            arbeidsgiverNavn={arbeidsgiverNavn}
                             personinfo={person.personinfo}
                             oppgavereferanse={period.oppgave?.id ?? ''}
                             erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}

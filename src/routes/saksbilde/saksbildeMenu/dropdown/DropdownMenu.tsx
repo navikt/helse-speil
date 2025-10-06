@@ -8,7 +8,7 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
 import { OpphevStansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/OpphevStansAutomatiskBehandlingButton';
 import { StansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/StansAutomatiskBehandlingButton';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useAktivtInntektsforhold } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { ActivePeriod } from '@typer/shared';
 import { isArbeidsgiver, isBeregnetPeriode, isPerson } from '@utils/typeguards';
@@ -28,7 +28,7 @@ type DropdownMenuProps = {
 export const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps): ReactElement | null => {
     const user = useInnloggetSaksbehandler();
     const readOnly = useIsReadOnlyOppgave(person);
-    const arbeidsgiver = useCurrentArbeidsgiver(person);
+    const inntektsforhold = useAktivtInntektsforhold(person);
 
     if (!isPerson(person)) {
         return null;
@@ -82,8 +82,8 @@ export const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps)
                     <StansAutomatiskBehandlingButton fødselsnummer={person.fodselsnummer} />
                 )}
                 <OppdaterPersondataButton person={person} />
-                {isBeregnetPeriode(activePeriod) && kanAnnulleres && isArbeidsgiver(arbeidsgiver) && (
-                    <AnnullerButton person={person} periode={activePeriod} arbeidsgiver={arbeidsgiver} />
+                {isBeregnetPeriode(activePeriod) && kanAnnulleres && isArbeidsgiver(inntektsforhold) && (
+                    <AnnullerButton person={person} periode={activePeriod} inntektsforhold={inntektsforhold} />
                 )}
             </Dropdown.Menu.List>
         </Dropdown.Menu>

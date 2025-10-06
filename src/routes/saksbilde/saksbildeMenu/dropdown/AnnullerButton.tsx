@@ -2,10 +2,11 @@ import React, { ReactElement, useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react';
 
-import { ArbeidsgiverFragment, BeregnetPeriodeFragment, PersonFragment, Utbetalingstatus } from '@io/graphql';
+import { BeregnetPeriodeFragment, PersonFragment, Utbetalingstatus } from '@io/graphql';
 import { AnnulleringsModal } from '@saksbilde/annullering/AnnulleringsModal';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { Inntektsforhold } from '@state/arbeidsgiver';
+import { isArbeidsgiver, isBeregnetPeriode } from '@utils/typeguards';
 
 interface AnnullerButtonWithContentProps {
     vedtaksperiodeId: string;
@@ -55,12 +56,12 @@ const kanAnnullere = (harBeslutteroppgavePåSykefraværet: boolean, harMinstEnUt
 interface AnnullerButtonProps {
     person: PersonFragment;
     periode: BeregnetPeriodeFragment;
-    arbeidsgiver: ArbeidsgiverFragment;
+    inntektsforhold: Inntektsforhold;
 }
 
-export const AnnullerButton = ({ person, periode, arbeidsgiver }: AnnullerButtonProps): ReactElement | null => {
+export const AnnullerButton = ({ person, periode, inntektsforhold }: AnnullerButtonProps): ReactElement | null => {
     const harMinstEnUtbetaltPeriode =
-        arbeidsgiver.generasjoner
+        inntektsforhold.generasjoner
             .flatMap((it) => it.perioder)
             .filter(
                 (it) =>
@@ -81,7 +82,7 @@ export const AnnullerButton = ({ person, periode, arbeidsgiver }: AnnullerButton
             utbetalingId={periode.utbetaling.id}
             arbeidsgiverFagsystemId={periode.utbetaling.arbeidsgiverFagsystemId}
             personFagsystemId={periode.utbetaling.personFagsystemId}
-            organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+            organisasjonsnummer={isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG'}
             person={person}
             periode={periode}
         />

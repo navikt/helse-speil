@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { ArbeidsgiverFragment, GhostPeriodeFragment } from '@io/graphql';
+import { Arbeidsgiver, GhostPeriodeFragment } from '@io/graphql';
 
 import { PeriodeCard } from './PeriodeCard';
 
@@ -8,7 +8,7 @@ import styles from './Venstremeny.module.css';
 
 interface VenstremenyGhostPeriodeProps {
     activePeriod: GhostPeriodeFragment;
-    currentArbeidsgiver: ArbeidsgiverFragment;
+    currentArbeidsgiver: Arbeidsgiver;
 }
 
 export const VenstremenyGhostPeriode = ({

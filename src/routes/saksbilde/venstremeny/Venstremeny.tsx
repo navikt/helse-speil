@@ -4,10 +4,10 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useAktivtInntektsforhold } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
@@ -21,18 +21,18 @@ const VenstremenyContainer = (): ReactElement | null => {
     const { loading, data } = useFetchPersonQuery();
     const currentPerson = data?.person ?? null;
     const activePeriod = useActivePeriod(currentPerson);
-    const currentArbeidsgiver = useCurrentArbeidsgiver(currentPerson);
+    const inntektsforhold = useAktivtInntektsforhold(currentPerson);
 
     if (loading) {
         return <VenstremenySkeleton />;
     }
 
-    if (!currentPerson || !currentArbeidsgiver) {
+    if (!currentPerson || !inntektsforhold) {
         return null;
     }
 
-    if (isGhostPeriode(activePeriod)) {
-        return <VenstremenyGhostPeriode activePeriod={activePeriod} currentArbeidsgiver={currentArbeidsgiver} />;
+    if (isGhostPeriode(activePeriod) && isArbeidsgiver(inntektsforhold)) {
+        return <VenstremenyGhostPeriode activePeriod={activePeriod} currentArbeidsgiver={inntektsforhold} />;
     }
 
     if (isBeregnetPeriode(activePeriod)) {
@@ -40,7 +40,7 @@ const VenstremenyContainer = (): ReactElement | null => {
             <VenstremenyBeregnetPeriode
                 activePeriod={activePeriod}
                 currentPerson={currentPerson}
-                currentArbeidsgiver={currentArbeidsgiver}
+                inntektsforhold={inntektsforhold}
             />
         );
     }
@@ -49,7 +49,7 @@ const VenstremenyContainer = (): ReactElement | null => {
         return (
             <VenstremenyUberegnetPeriode
                 activePeriod={activePeriod}
-                currentArbeidsgiver={currentArbeidsgiver}
+                inntektsforhold={inntektsforhold}
                 currentPerson={currentPerson}
             />
         );

@@ -44,7 +44,9 @@ describe('OverstyrbarUtbetaling', () => {
             tom: '2022-01-31',
         }).medSkjæringstidspunkt('2022-01-01');
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
-        render(<OverstyrbarUtbetaling arbeidsgiver={arbeidsgiver} person={person} dager={dager} periode={periode} />);
+        render(
+            <OverstyrbarUtbetaling inntektsforhold={arbeidsgiver} person={person} dager={dager} periode={periode} />,
+        );
 
         await userEvent.click(screen.getByText('Revurder dager'));
         expect(screen.getByText('+ Legg til dager i tabellen')).toBeVisible();
@@ -83,7 +85,9 @@ describe('OverstyrbarUtbetaling', () => {
         const person = enPerson();
         const arbeidsgiver = enArbeidsgiver();
         const periode = enBeregnetPeriode({ periodetype: Periodetype.Forlengelse });
-        render(<OverstyrbarUtbetaling arbeidsgiver={arbeidsgiver} person={person} dager={dager} periode={periode} />);
+        render(
+            <OverstyrbarUtbetaling inntektsforhold={arbeidsgiver} person={person} dager={dager} periode={periode} />,
+        );
 
         await userEvent.click(screen.getByText('Revurder dager'));
         expect(screen.queryByText('+ Legg til dager')).not.toBeInTheDocument();

@@ -4,7 +4,7 @@ import {
     findArbeidsgiverWithGhostPeriode,
     finnArbeidsgiver,
     finnArbeidsgiverForPeriode,
-    useCurrentArbeidsgiver,
+    useAktivtInntektsforhold,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -50,15 +50,15 @@ describe('finnArbeidsgiverForPeriode', () => {
     });
 });
 
-describe('useCurrentArbeidsgiver', () => {
+describe('useAktivtInntektsforhold', () => {
     afterEach(() => {
         jest.clearAllMocks();
     });
 
     it('returnerer null hvis det ikke finnes en aktiv periode', () => {
-        const { result } = renderHook(() => useCurrentArbeidsgiver(enPerson()));
+        const { result } = renderHook(() => useAktivtInntektsforhold(enPerson()));
 
-        expect(result.current).toBeNull();
+        expect(result.current).toBeUndefined();
     });
 
     it('returnerer arbeidsgiveren som er tilknyttet den aktive perioden', () => {
@@ -68,7 +68,7 @@ describe('useCurrentArbeidsgiver', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
 
-        const { result } = renderHook(() => useCurrentArbeidsgiver(person));
+        const { result } = renderHook(() => useAktivtInntektsforhold(person));
 
         expect(result.current).toEqual(arbeidsgiver);
     });

@@ -187,7 +187,7 @@ const syncMock = (oppgaver: OppgaveTilBehandling[]) => {
                     oppgave.vedtaksperiodeId,
                 ) as LagtPaVent;
 
-                paVentInfo = {
+                paVentInfo = historikkinnslag && {
                     arsaker: historikkinnslag.arsaker,
                     tekst: historikkinnslag.notattekst,
                     dialogRef: historikkinnslag.dialogRef!,

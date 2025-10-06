@@ -7,9 +7,10 @@ import { useMutation } from '@apollo/client';
 import { Arsak } from '@external/sanity';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { AnnullerDocument, AnnulleringDataInput, BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useAktivtInntektsforhold } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast } from '@state/toasts';
+import { isArbeidsgiver } from '@utils/typeguards';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
 import { Annulleringsinformasjon } from './Annulleringsinformasjon';
@@ -43,7 +44,7 @@ export const AnnulleringsModal = ({
     const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
     const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const addToast = useAddToast();
-    const arbeidsgiver = useCurrentArbeidsgiver(person);
+    const inntektsforhold = useAktivtInntektsforhold(person);
 
     const form = useForm({ mode: 'onBlur', defaultValues: { kommentar: '', arsaker: [] as string[] } });
     const kommentar = form.watch('kommentar').trim();
@@ -122,8 +123,16 @@ export const AnnulleringsModal = ({
                         <Annulleringsinformasjon
                             person={person}
                             periode={periode}
-                            arbeidsgivernavn={arbeidsgiver?.navn ?? ''}
-                            organisasjonsnummer={arbeidsgiver?.organisasjonsnummer ?? ''}
+                            arbeidsgivernavn={
+                                isArbeidsgiver(inntektsforhold)
+                                    ? (inntektsforhold?.navn ?? '')
+                                    : 'Selvstending næringsdrivende'
+                            }
+                            organisasjonsnummer={
+                                isArbeidsgiver(inntektsforhold)
+                                    ? (inntektsforhold?.organisasjonsnummer ?? '')
+                                    : 'Selvstending næringsdrivende'
+                            }
                         />
                         <Annulleringsbegrunnelse />
                         {!erINyesteSkjæringstidspunkt && (

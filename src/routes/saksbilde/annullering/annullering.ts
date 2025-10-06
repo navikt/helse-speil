@@ -1,12 +1,11 @@
 import { useMemo } from 'react';
 
-import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
-import { ArbeidsgiverFragment, Dag, Maybe, Periode, PersonFragment } from '@io/graphql';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { Dag, Maybe, Periode, PersonFragment } from '@io/graphql';
+import { Inntektsforhold, useAktivtInntektsforhold } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { somDato } from '@utils/date';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
 import {
     getDagerMedUtbetaling,
@@ -16,14 +15,12 @@ import {
 import { useTabelldagerMap } from '../utbetaling/utbetalingstabell/useTabelldagerMap';
 
 export const useTotaltUtbetaltForSykefraværstilfellet = (person: PersonFragment) => {
-    const arbeidsgiver = useCurrentArbeidsgiver(person);
-    const tidslinjeForSykefraværstilfellet = useUtbetaltTidslinjeForSykefraværstilfellet(person, arbeidsgiver);
+    const inntektsforhold = useAktivtInntektsforhold(person);
+    const tidslinjeForSykefraværstilfellet = useUtbetaltTidslinjeForSykefraværstilfellet(person, inntektsforhold);
 
     const dager = useTabelldagerMap({
         tidslinje: tidslinjeForSykefraværstilfellet ?? [],
-        erSelvstendigNæringsdrivende: arbeidsgiver
-            ? erSelvstendigNæringsdrivende(arbeidsgiver?.organisasjonsnummer)
-            : false,
+        erSelvstendigNæringsdrivende: isSelvstendigNaering(inntektsforhold),
     });
     const utbetalingsdager = getDagerMedUtbetaling(useMemo(() => Array.from(dager.values()), [dager]));
     const arbeidsgiverTotalbeløp = getTotalArbeidsgiverbeløp(utbetalingsdager);
@@ -38,15 +35,15 @@ export const useTotaltUtbetaltForSykefraværstilfellet = (person: PersonFragment
 
 const useUtbetaltTidslinjeForSykefraværstilfellet = (
     person: PersonFragment,
-    arbeidsgiver: Maybe<ArbeidsgiverFragment>,
+    inntektsforhold?: Inntektsforhold,
 ): Maybe<Dag[]> => {
     const skjæringstidspunkt = useActivePeriod(person)?.skjaeringstidspunkt;
 
-    if (!arbeidsgiver || !skjæringstidspunkt) return null;
+    if (!inntektsforhold || !skjæringstidspunkt) return null;
 
     const utbetaltePerioderINyesteGen = finnUtbetaltePerioderPåSkjæringstidspunkt(
         skjæringstidspunkt,
-        arbeidsgiver.generasjoner[0]?.perioder,
+        inntektsforhold.generasjoner[0]?.perioder,
     );
     const utbetalteVedtaksperioderINyesteGen = utbetaltePerioderINyesteGen?.map(
         ({ vedtaksperiodeId }) => vedtaksperiodeId,
@@ -54,7 +51,7 @@ const useUtbetaltTidslinjeForSykefraværstilfellet = (
 
     const utbetaltePerioderIForrigeGenerasjon = finnUtbetaltePerioderPåSkjæringstidspunkt(
         skjæringstidspunkt,
-        arbeidsgiver.generasjoner[1]?.perioder,
+        inntektsforhold.generasjoner[1]?.perioder,
     );
     const utbetaltePerioderTilAnnullering = [
         ...utbetaltePerioderIForrigeGenerasjon.filter(

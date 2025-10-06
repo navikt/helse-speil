@@ -2,12 +2,11 @@ import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
-import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment } from '@io/graphql';
 import { SykepengegrunnlagSelvstendig } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/SykepengegrunnlagSelvstendig';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { useAktivtInntektsforhold } from '@state/arbeidsgiver';
+import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
 import { SykepengegrunnlagFraInfogtrygd } from './sykepengegrunnlagvisninger/infotrygd/SykepengegrunnlagFraInfotrygd';
 import { SykepengegrunnlagFraSpleis } from './sykepengegrunnlagvisninger/spleis/SykepengegrunnlagFraSpleis';
@@ -20,17 +19,17 @@ type SykepengegrunnlagProps = {
 
 const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps): ReactElement | null => {
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periode);
-    const arbeidsgiver = useCurrentArbeidsgiver(person);
+    const inntektsforhold = useAktivtInntektsforhold(person);
 
-    if (!arbeidsgiver) return null;
+    if (!inntektsforhold) return null;
 
     switch (vilkårsgrunnlag?.__typename) {
         case 'VilkarsgrunnlagSpleisV2':
-            if (!erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer)) {
+            if (!isSelvstendigNaering(inntektsforhold)) {
                 return (
                     <SykepengegrunnlagFraSpleis
                         vilkårsgrunnlag={vilkårsgrunnlag}
-                        organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                        organisasjonsnummer={inntektsforhold.organisasjonsnummer}
                         data-testid="ubehandlet-sykepengegrunnlag"
                         person={person}
                         periode={periode}
@@ -45,7 +44,9 @@ const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps)
                 <SykepengegrunnlagFraInfogtrygd
                     person={person}
                     vilkårsgrunnlag={vilkårsgrunnlag}
-                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                    organisasjonsnummer={
+                        isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG'
+                    }
                 />
             );
         case undefined:

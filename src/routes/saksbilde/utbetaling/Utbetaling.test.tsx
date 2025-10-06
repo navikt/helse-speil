@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import React from 'react';
 
 import { Inntektstype, Utbetalingsdagtype } from '@io/graphql';
-import { useCurrentArbeidsgiver, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import { useAktivtInntektsforhold, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode, enDag } from '@test-data/periode';
@@ -27,7 +27,7 @@ describe('Utbetaling', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useAktivtInntektsforhold as jest.Mock).mockReturnValue(arbeidsgiver);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
         render(<Utbetaling person={person} periode={periode} />);
@@ -47,7 +47,7 @@ describe('Utbetaling', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useAktivtInntektsforhold as jest.Mock).mockReturnValue(arbeidsgiver);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
         render(<Utbetaling person={person} periode={periode} />);
@@ -63,7 +63,7 @@ describe('Utbetaling', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useAktivtInntektsforhold as jest.Mock).mockReturnValue(arbeidsgiver);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
         render(<Utbetaling person={person} periode={periode} />);
@@ -77,7 +77,7 @@ describe('Utbetaling', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeB, periodeA]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useAktivtInntektsforhold as jest.Mock).mockReturnValue(arbeidsgiver);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
         render(<Utbetaling person={person} periode={periodeA} />);
@@ -91,7 +91,7 @@ describe('Utbetaling', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeB, periodeA]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useAktivtInntektsforhold as jest.Mock).mockReturnValue(arbeidsgiver);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
         render(<Utbetaling person={person} periode={periodeA} />);
@@ -113,7 +113,7 @@ describe('Utbetaling', () => {
         const arbeidsgiverB = enArbeidsgiver().medPerioder([periodeB]);
         const person = enPerson().medArbeidsgivere([arbeidsgiverA, arbeidsgiverB]);
 
-        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiverB);
+        (useAktivtInntektsforhold as jest.Mock).mockReturnValue(arbeidsgiverB);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(false);
 
         render(<Utbetaling person={person} periode={periodeB} />);

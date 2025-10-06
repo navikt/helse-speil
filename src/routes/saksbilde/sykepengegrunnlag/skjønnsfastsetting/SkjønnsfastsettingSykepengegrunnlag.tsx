@@ -11,6 +11,7 @@ import {
     Maybe,
     PersonFragment,
     Sykepengegrunnlagsgrense,
+    Sykepengegrunnlagskjonnsfastsetting,
 } from '@io/graphql';
 import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import {
@@ -21,7 +22,7 @@ import {
     SkjønnsfastsettingForm,
     useAktiveArbeidsgivere,
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useAktivtInntektsforhold } from '@state/arbeidsgiver';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
@@ -74,8 +75,8 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
         setEndretSykepengegrunnlag(null);
     }, [editing]);
 
-    const sisteSkjønnsfastsettelse =
-        useCurrentArbeidsgiver(person)
+    const sisteSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null =
+        useAktivtInntektsforhold(person)
             ?.overstyringer.filter(isSykepengegrunnlagskjønnsfastsetting)
             .sort((a, b) => (a.timestamp > b.timestamp ? 1 : -1))
             .pop() ?? null;

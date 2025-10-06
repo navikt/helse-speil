@@ -57,7 +57,6 @@ const getHendelserForBeregnetPeriode = (
     overstyringerForAlleInntektsforhold: OverstyringForInntektsforhold[],
     identifikator?: string,
 ): Array<HendelseObject> => {
-    console.log(period);
     const alleOverstyringer = overstyringerForAlleInntektsforhold.flatMap((o) => o.overstyringer);
 
     const hendelserTomUtbetalingstidspunkt = [
