@@ -52,13 +52,12 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     organisasjonsnummer: string,
 ): Maybe<ActivePeriod> => {
     const aktivPeriode = useActivePeriod(person);
-    const inntektsforhold = useAktivtInntektsforhold(person);
+    const arbeidsgiver = finnArbeidsgiver(person, organisasjonsnummer);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
 
-    if (!skjæringstidspunkt || aktivPeriode == null || inntektsforhold == null) return null;
+    if (!skjæringstidspunkt || aktivPeriode == null || arbeidsgiver == null) return null;
 
-    const forrigeEllerNyesteGenerasjon = finnNteEllerNyesteGenerasjon(aktivPeriode, inntektsforhold);
-    const arbeidsgiver = finnArbeidsgiver(person, organisasjonsnummer);
+    const forrigeEllerNyesteGenerasjon = finnNteEllerNyesteGenerasjon(aktivPeriode, arbeidsgiver);
 
     const arbeidsgiverEierForrigeEllerNyesteGenerasjon = arbeidsgiver?.generasjoner.some(
         (g) => g.id === forrigeEllerNyesteGenerasjon?.id,
