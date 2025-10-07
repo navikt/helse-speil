@@ -6,7 +6,7 @@ import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { PersonFragment } from '@io/graphql';
 import { Endringsårsaker } from '@saksbilde/historikk/hendelser/dokument/Endringsårsaker';
-import { finnArbeidsgiver } from '@state/arbeidsgiver';
+import { finnArbeidsgiver } from '@state/arbeidsgiverHelpers';
 import { DokumenthendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
 import { capitalizeName, tilTelefonNummer, toKronerOgØre } from '@utils/locale';

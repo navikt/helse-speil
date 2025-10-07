@@ -12,7 +12,7 @@ import { UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/Utbeta
 import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
 import { Inntektsforhold } from '@state/arbeidsgiver';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { isArbeidsgiver, isBeregnetPeriode } from '@utils/typeguards';
+import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
@@ -283,7 +283,7 @@ export const OverstyrbarUtbetaling = ({
                     kanStrekkes={kanStrekkes(periode, inntektsforhold)}
                     periodeFom={periodeFom.dato}
                     erRevurdering={erRevurdering}
-                    erSelvstendig={erSelvstendigNæringsdrivende(organisasjonsnummer)}
+                    erSelvstendig={isSelvstendigNaering(inntektsforhold)}
                 />
             )}
             <div className={classNames(styles.TableContainer)}>

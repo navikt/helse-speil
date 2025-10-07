@@ -2,10 +2,10 @@ import { nanoid } from 'nanoid';
 
 import {
     findArbeidsgiverWithGhostPeriode,
-    finnArbeidsgiver,
     finnInntektsforholdForPeriode,
     useAktivtInntektsforhold,
 } from '@state/arbeidsgiver';
+import { finnArbeidsgiver } from '@state/arbeidsgiverHelpers';
 import { useActivePeriod } from '@state/periode';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';

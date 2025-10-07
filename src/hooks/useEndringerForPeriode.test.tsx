@@ -1,5 +1,5 @@
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
-import { finnArbeidsgiver } from '@state/arbeidsgiver';
+import { finnArbeidsgiver } from '@state/arbeidsgiverHelpers';
 import { useActivePeriod } from '@state/periode';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsforholdoverstyring, enDagoverstyring, enInntektoverstyring } from '@test-data/overstyring';

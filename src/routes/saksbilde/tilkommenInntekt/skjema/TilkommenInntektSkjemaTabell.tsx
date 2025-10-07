@@ -4,16 +4,16 @@ import React, { ReactElement } from 'react';
 import { BodyShort, Box, Checkbox, HStack, Table } from '@navikt/ds-react';
 
 import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
-import { ArbeidsgiverFragment } from '@io/graphql';
 import { tilDagtypeTabell } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { DagtypeCell } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeCell';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erHelg, somNorskDato } from '@utils/date';
 
 import styles from '../TilkommenTable.module.css';
 
 interface TilkommenInntektTableProps {
-    arbeidsgivere: ArbeidsgiverFragment[];
+    inntektsforhold: Inntektsforhold[];
     periode: DatePeriod;
     error: boolean;
     ekskluderteUkedager: DateString[];
@@ -21,13 +21,13 @@ interface TilkommenInntektTableProps {
 }
 
 export const TilkommenInntektSkjemaTabell = ({
-    arbeidsgivere,
+    inntektsforhold,
     periode,
     error,
     ekskluderteUkedager,
     setEkskluderteUkedager,
 }: TilkommenInntektTableProps): ReactElement => {
-    const { kolonneDefinisjoner, rader } = tilDagtypeTabell(periode, arbeidsgivere);
+    const { kolonneDefinisjoner, rader } = tilDagtypeTabell(periode, inntektsforhold);
     const alleUkedager = rader.map((rad) => rad.dato).filter((dato) => !erHelg(dato));
 
     return (

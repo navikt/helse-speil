@@ -14,6 +14,7 @@ import {
     SelvstendigNaering,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
+import { finnArbeidsgiver } from '@state/arbeidsgiverHelpers';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
@@ -221,9 +222,6 @@ export const finnPeriodeTilGodkjenning = (person: Maybe<PersonFragment>): Maybe<
             )?.[0] as BeregnetPeriodeFragment) ?? null
     );
 };
-
-export const finnArbeidsgiver = (person: PersonFragment, organisasjonsnummer: string): Maybe<ArbeidsgiverFragment> =>
-    person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
 
 export const findArbeidsgiverWithGhostPeriode = (
     period: GhostPeriodeFragment,

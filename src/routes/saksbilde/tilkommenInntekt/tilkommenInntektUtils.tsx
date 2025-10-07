@@ -1,12 +1,12 @@
-import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
-import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
+import { PersonFragment } from '@io/graphql';
 import { useTabelldagerMap } from '@saksbilde/utbetaling/utbetalingstabell/useTabelldagerMap';
-import { useDagoverstyringer } from '@state/arbeidsgiver';
+import { Inntektsforhold, useDagoverstyringer } from '@state/arbeidsgiver';
 import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { DatePeriod, DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { somDato, tilDatoer, tilUkedager } from '@utils/date';
 import { getAntallAGPDagerBruktFørPerioden } from '@utils/periode';
+import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering, isUberegnetPeriode } from '@utils/typeguards';
 
 export function utledSykefraværstilfelleperioder(person: PersonFragment): DatePeriod[] {
     const vedtaksperioder = person.arbeidsgivere
@@ -67,7 +67,7 @@ export type DagtypeTabell = {
     rader: DagtypeRad[];
 };
 
-export const tilDagtypeTabell = (periode: DatePeriod, arbeidsgivere: ArbeidsgiverFragment[]): DagtypeTabell => {
+export const tilDagtypeTabell = (periode: DatePeriod, inntektsforhold: Inntektsforhold[]): DagtypeTabell => {
     const datoer = tilDatoer(periode);
 
     const kolonneDefinisjoner: DagtypeKolonneDefinisjon[] = [];
@@ -76,32 +76,34 @@ export const tilDagtypeTabell = (periode: DatePeriod, arbeidsgivere: Arbeidsgive
     const dayjsTom = somDato(periode.tom);
     const dayjsFom = somDato(periode.fom);
 
-    arbeidsgivere.forEach((arbeidsgiver) => {
-        const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
+    inntektsforhold.forEach((inntektsforholdet) => {
+        const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, inntektsforholdet);
 
         const perioder =
-            arbeidsgiver.generasjoner[0]?.perioder?.filter(
+            inntektsforholdet.generasjoner[0]?.perioder?.filter(
                 (it) => dayjsTom.isSameOrAfter(it.fom) && dayjsFom.isSameOrBefore(it.tom),
             ) ?? [];
 
-        const tabelldagerMaps = perioder.map((period) => {
-            if (period.__typename === 'BeregnetPeriode') {
-                return useTabelldagerMap({
-                    tidslinje: period.tidslinje,
-                    erSelvstendigNæringsdrivende: erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer),
-                    gjenståendeDager: period.gjenstaendeSykedager,
-                    overstyringer: dagoverstyringer,
-                    maksdato: period.maksdato,
-                });
-            } else {
-                return useTabelldagerMap({
-                    tidslinje: period.tidslinje,
-                    erSelvstendigNæringsdrivende: erSelvstendigNæringsdrivende(arbeidsgiver.organisasjonsnummer),
-                    overstyringer: dagoverstyringer,
-                    antallAGPDagerBruktFørPerioden: getAntallAGPDagerBruktFørPerioden(arbeidsgiver, period),
-                });
-            }
-        });
+        const tabelldagerMaps = perioder
+            .filter((periode) => isBeregnetPeriode(periode) || isUberegnetPeriode(periode))
+            .map((period) => {
+                if (isBeregnetPeriode(period)) {
+                    return useTabelldagerMap({
+                        tidslinje: period.tidslinje,
+                        erSelvstendigNæringsdrivende: isSelvstendigNaering(inntektsforholdet),
+                        gjenståendeDager: period.gjenstaendeSykedager,
+                        overstyringer: dagoverstyringer,
+                        maksdato: period.maksdato,
+                    });
+                } else {
+                    return useTabelldagerMap({
+                        tidslinje: period.tidslinje,
+                        erSelvstendigNæringsdrivende: isSelvstendigNaering(inntektsforholdet),
+                        overstyringer: dagoverstyringer,
+                        antallAGPDagerBruktFørPerioden: getAntallAGPDagerBruktFørPerioden(inntektsforholdet, period),
+                    });
+                }
+            });
 
         const alleTabelldagerMap = new Map<string, Utbetalingstabelldag>();
         tabelldagerMaps.forEach((currentValue) => {
@@ -110,11 +112,18 @@ export const tilDagtypeTabell = (periode: DatePeriod, arbeidsgivere: Arbeidsgive
 
         if (alleTabelldagerMap.size > 0) {
             kolonneDefinisjoner.push({
-                organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-                navn: arbeidsgiver.navn,
+                organisasjonsnummer: isArbeidsgiver(inntektsforholdet)
+                    ? inntektsforholdet.organisasjonsnummer
+                    : 'SELVSTENDIG',
+                navn: isArbeidsgiver(inntektsforholdet) ? inntektsforholdet.navn : 'SELVSTENDIG',
             });
             alleTabelldagerMap.forEach((value, key) =>
-                datoOrganisasjonsnummerDagtypeMap.get(key)?.set(arbeidsgiver.organisasjonsnummer, value),
+                datoOrganisasjonsnummerDagtypeMap
+                    .get(key)
+                    ?.set(
+                        isArbeidsgiver(inntektsforholdet) ? inntektsforholdet.organisasjonsnummer : 'SELVSTENDIG',
+                        value,
+                    ),
             );
         }
     });

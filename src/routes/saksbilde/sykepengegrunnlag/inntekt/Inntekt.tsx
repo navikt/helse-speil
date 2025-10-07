@@ -8,9 +8,9 @@ import { Arbeidsgiverinntekt, Inntektskilde, PersonFragment, VilkarsgrunnlagSple
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import {
     dedupliserteInntektsmeldingHendelser,
-    finnArbeidsgiver,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
+import { finnArbeidsgiver } from '@state/arbeidsgiverHelpers';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';

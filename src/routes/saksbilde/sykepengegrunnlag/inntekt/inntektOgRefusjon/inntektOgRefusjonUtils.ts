@@ -11,12 +11,12 @@ import {
     UberegnetPeriodeFragment,
 } from '@io/graphql';
 import {
-    finnArbeidsgiver,
     finnPeriodeTilGodkjenning,
     useAktivtInntektsforhold,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
+import { finnArbeidsgiver } from '@state/arbeidsgiverHelpers';
 import { useActivePeriod } from '@state/periode';
 import { isForkastet } from '@state/selectors/period';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';

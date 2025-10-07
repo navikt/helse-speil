@@ -186,7 +186,7 @@ export const TilkommenInntektSkjema = ({
                                 name="ekskluderteUkedager"
                                 render={({ field, fieldState }) => (
                                     <TilkommenInntektSkjemaTabell
-                                        arbeidsgivere={person.arbeidsgivere}
+                                        inntektsforhold={person.arbeidsgivere}
                                         periode={gyldigPeriode}
                                         error={fieldState.error !== undefined}
                                         ekskluderteUkedager={field.value}
