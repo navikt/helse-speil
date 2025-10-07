@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
-import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { PersonFragment } from '@io/graphql';
-import { ArbeidsgiverGenerasjon } from '@typer/shared';
+import { Generasjon, PersonFragment } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
+import { isArbeidsgiver, isSelvstendigNaering } from '@utils/typeguards';
 
 import { Periods } from './Periods';
 import type { TimelineRowProps } from './TimelineRow';
@@ -12,22 +13,27 @@ import type { TimelineRowProps } from './TimelineRow';
 import styles from './TimelineRow.module.css';
 
 interface ExpandableTimelineRowProp extends Omit<TimelineRowProps, 'periods'> {
-    generations: Array<ArbeidsgiverGenerasjon>;
+    generations: Array<Generasjon>;
     person: PersonFragment;
+    inntektsforhold: Inntektsforhold;
 }
 
 export const ExpandableTimelineRow = ({
     start,
     end,
-    name,
-    arbeidsgiverIdentifikator,
     generations,
-    ghostPeriods,
     activePeriod,
     person,
+    inntektsforhold,
 }: ExpandableTimelineRowProp): ReactElement => {
     const [isExpanded, setIsExpanded] = useState(false);
-
+    const arbeidsgiverfelt = isArbeidsgiver(inntektsforhold)
+        ? {
+              identifikator: inntektsforhold.organisasjonsnummer,
+              navn: inntektsforhold.navn,
+              ghostPerioder: inntektsforhold.ghostPerioder,
+          }
+        : { identifikator: 'SELVSTENDIG', navn: 'SELVSTENDIG', ghostPerioder: [] };
     return (
         <div className={styles.TimelineRow}>
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
@@ -35,14 +41,14 @@ export const ExpandableTimelineRow = ({
                 role="button"
                 tabIndex={0}
                 aria-expanded={isExpanded}
-                aria-controls={`periods-${arbeidsgiverIdentifikator}`}
+                aria-controls={`periods-${arbeidsgiverfelt.identifikator}`}
                 className={classNames(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
                 onClick={() => setIsExpanded((prevState) => !prevState)}
             >
                 <Arbeidsgiverikon />
                 <Arbeidsgivernavn
-                    identifikator={arbeidsgiverIdentifikator}
-                    navn={name}
+                    identifikator={arbeidsgiverfelt.identifikator}
+                    navn={arbeidsgiverfelt.navn}
                     showCopyButton
                     maxWidth="200px"
                 />
@@ -53,10 +59,10 @@ export const ExpandableTimelineRow = ({
                         start={start}
                         end={end}
                         periods={generations[0]?.perioder}
-                        ghostPeriods={ghostPeriods}
+                        ghostPeriods={arbeidsgiverfelt.ghostPerioder}
                         activePeriod={activePeriod}
                         person={person}
-                        erSelvstendigNæringsdrivende={erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator)}
+                        erSelvstendigNæringsdrivende={isSelvstendigNaering(inntektsforhold)}
                     />
                 )}
                 {isExpanded &&
@@ -71,7 +77,7 @@ export const ExpandableTimelineRow = ({
                                 notCurrent
                                 activePeriod={activePeriod}
                                 person={person}
-                                erSelvstendigNæringsdrivende={erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator)}
+                                erSelvstendigNæringsdrivende={isSelvstendigNaering(inntektsforhold)}
                             />
                         ))}
             </div>

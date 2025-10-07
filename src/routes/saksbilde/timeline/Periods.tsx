@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { GhostPeriodeFragment, Maybe, PeriodeFragment, Periodetilstand, PersonFragment } from '@io/graphql';
+import { GhostPeriodeFragment, Maybe, Periode, Periodetilstand, PersonFragment } from '@io/graphql';
 import { isNotReady } from '@state/selectors/period';
 import { DatePeriod, InfotrygdPeriod } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
@@ -16,7 +16,7 @@ import styles from './Periods.module.css';
 
 const byFomDescending = (a: DatePeriod, b: DatePeriod): number => dayjs(b.fom).diff(dayjs(a.fom));
 
-const filterReadyPeriods = (periods: Array<PeriodeFragment>): Array<PeriodeFragment> =>
+const filterReadyPeriods = (periods: Array<Periode>): Array<Periode> =>
     periods.filter((it) => !(it.erForkastet && isNotReady(it)));
 
 const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
@@ -41,7 +41,7 @@ const isActive = (activePeriod: Maybe<TimelinePeriod>, currentPeriod: Maybe<Time
 };
 
 const mergePeriods = (
-    fromSpleis: Array<PeriodeFragment>,
+    fromSpleis: Array<Periode>,
     fromInfotrygd: Array<InfotrygdPeriod>,
     ghostPeriods: Array<GhostPeriodeFragment>,
 ): Array<TimelinePeriod> => {
@@ -52,7 +52,7 @@ const mergePeriods = (
 interface PeriodsProps {
     start: Dayjs;
     end: Dayjs;
-    periods: Array<PeriodeFragment>;
+    periods: Array<Periode>;
     activePeriod: Maybe<TimelinePeriod>;
     infotrygdPeriods?: Array<InfotrygdPeriod>;
     ghostPeriods?: Array<GhostPeriodeFragment>;

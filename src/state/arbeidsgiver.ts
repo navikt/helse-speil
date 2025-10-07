@@ -46,6 +46,10 @@ export const finnInntektsforholdForPeriode = (
     return undefined;
 };
 
+export const finnInntektsforholdForPerson = (person: Maybe<PersonFragment>): Inntektsforhold[] => {
+    return person?.selvstendigNaering ? [person.selvstendigNaering] : (person?.arbeidsgivere ?? []);
+};
+
 export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     person: PersonFragment,
     skjæringstidspunkt: Maybe<DateString>,

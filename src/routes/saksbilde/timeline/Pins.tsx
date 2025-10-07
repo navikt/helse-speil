@@ -3,7 +3,8 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Popover } from '@navikt/ds-react';
 
-import { ArbeidsgiverFragment, Maybe } from '@io/graphql';
+import { Maybe } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { getFormattedDateString } from '@utils/date';
 
 import { useMaksdato } from './hooks/useMaksdato';
@@ -32,11 +33,11 @@ const shouldShowPin = (position?: Maybe<number>): boolean =>
 interface PinsProps {
     start: Dayjs;
     end: Dayjs;
-    arbeidsgivere: Array<ArbeidsgiverFragment>;
+    inntektsforhold: Array<Inntektsforhold>;
 }
 
-export const Pins = ({ arbeidsgivere, start, end }: PinsProps): ReactElement => {
-    const maksdato = useMaksdato(arbeidsgivere);
+export const Pins = ({ inntektsforhold, start, end }: PinsProps): ReactElement => {
+    const maksdato = useMaksdato(inntektsforhold);
     const maksdatoPosition = maksdato ? getPosition(dayjs(maksdato), start, end) : -1;
 
     return (

@@ -1,9 +1,11 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 
-import { ArbeidsgiverFragment, Infotrygdutbetaling } from '@io/graphql';
+import { Infotrygdutbetaling } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { DateString } from '@typer/shared';
 import { TimelineZoomLevel } from '@typer/timeline';
+import { isArbeidsgiver } from '@utils/typeguards';
 
 type Periode = {
     fom: DateString;
@@ -42,12 +44,12 @@ const getEarliestDate = (perioder: Array<Periode>): Dayjs => {
 };
 
 export const getMergedPeriods = (
-    arbeidsgivere: Array<ArbeidsgiverFragment>,
+    inntektsforhold: Array<Inntektsforhold>,
     infotrygdutbetalinger: Array<Infotrygdutbetaling>,
 ): Array<Periode> => {
     return [
-        ...arbeidsgivere.flatMap((it) => it.generasjoner.flatMap((it) => it.perioder) ?? []),
-        ...arbeidsgivere.flatMap((it) => it.ghostPerioder),
+        ...inntektsforhold.flatMap((it) => it.generasjoner.flatMap((it) => it.perioder) ?? []),
+        ...inntektsforhold.flatMap((it) => (isArbeidsgiver(it) ? it.ghostPerioder : [])),
         ...infotrygdutbetalinger,
     ];
 };
@@ -83,12 +85,12 @@ type UseTimelineControlsResult = {
 };
 
 export const useTimelineControls = (
-    arbeidsgivere: Array<ArbeidsgiverFragment>,
+    inntektsforhold: Array<Inntektsforhold>,
     infotrygdutbetalinger: Array<Infotrygdutbetaling>,
 ): UseTimelineControlsResult => {
     const allPeriods = useMemo(
-        () => getMergedPeriods(arbeidsgivere, infotrygdutbetalinger),
-        [arbeidsgivere, infotrygdutbetalinger],
+        () => getMergedPeriods(inntektsforhold, infotrygdutbetalinger),
+        [inntektsforhold, infotrygdutbetalinger],
     );
 
     const latestPossibleDate = useLatestPossibleDate(allPeriods);

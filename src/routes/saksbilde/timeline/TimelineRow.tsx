@@ -2,11 +2,13 @@ import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { GhostPeriodeFragment, Maybe, PeriodeFragment, PersonFragment } from '@io/graphql';
+import { Maybe, PersonFragment } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { TimelinePeriod } from '@typer/timeline';
+import { isArbeidsgiver, isSelvstendigNaering } from '@utils/typeguards';
 
 import { Periods } from './Periods';
 
@@ -15,46 +17,47 @@ import styles from './TimelineRow.module.css';
 export interface TimelineRowProps {
     start: Dayjs;
     end: Dayjs;
-    name: string;
-    arbeidsgiverIdentifikator: string;
-    periods: Array<PeriodeFragment>;
     activePeriod: Maybe<TimelinePeriod>;
-    ghostPeriods?: Array<GhostPeriodeFragment>;
     alignWithExpandable?: boolean;
     person: PersonFragment;
+    inntektsforhold: Inntektsforhold;
 }
 
 export const TimelineRow = ({
     start,
     end,
-    name,
-    arbeidsgiverIdentifikator,
-    periods,
-    ghostPeriods,
     activePeriod,
     alignWithExpandable = false,
     person,
+    inntektsforhold,
 }: TimelineRowProps): ReactElement => {
+    const arbeidsgiverfelt = isArbeidsgiver(inntektsforhold)
+        ? {
+              identifikator: inntektsforhold.organisasjonsnummer,
+              navn: inntektsforhold.navn,
+              ghostPerioder: inntektsforhold.ghostPerioder,
+          }
+        : { identifikator: 'SELVSTENDIG', navn: 'SELVSTENDIG', ghostPerioder: [] };
     return (
         <div className={styles.TimelineRow}>
             <div className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
                 <Arbeidsgiverikon />
                 <Arbeidsgivernavn
-                    identifikator={arbeidsgiverIdentifikator}
-                    navn={name}
+                    identifikator={arbeidsgiverfelt.identifikator}
+                    navn={arbeidsgiverfelt.navn}
                     maxWidth="200px"
                     showCopyButton
                 />
             </div>
             <div className={styles.Periods}>
                 <Periods
-                    periods={periods}
+                    periods={inntektsforhold.generasjoner[0]?.perioder ?? []}
                     start={start}
                     end={end}
-                    ghostPeriods={ghostPeriods}
+                    ghostPeriods={arbeidsgiverfelt.ghostPerioder}
                     activePeriod={activePeriod}
                     person={person}
-                    erSelvstendigNæringsdrivende={erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator)}
+                    erSelvstendigNæringsdrivende={isSelvstendigNaering(inntektsforhold)}
                 />
             </div>
         </div>

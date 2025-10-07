@@ -11,13 +11,14 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { ArbeidsgiverFragment, Infotrygdutbetaling, Maybe, PersonFragment } from '@io/graphql';
+import { Infotrygdutbetaling, Maybe, PersonFragment } from '@io/graphql';
 import { TilkommenInntektTimelineRows } from '@saksbilde/timeline/TilkommenInntektTimelineRows';
+import { Inntektsforhold, finnInntektsforholdForPerson } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
 import { kanGjøreTilkommenInntektEndringer } from '@utils/featureToggles';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { isArbeidsgiver, isBeregnetPeriode } from '@utils/typeguards';
 
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
 import { InfotrygdRow } from './InfotrygdRow';
@@ -32,22 +33,22 @@ import { ZoomLevel, getMergedPeriods, useLatestPossibleDate, useTimelineControls
 import styles from './Timeline.module.css';
 
 interface TimelineWithContentProps {
-    arbeidsgivere: Array<ArbeidsgiverFragment>;
+    inntektsforhold: Array<Inntektsforhold>;
     infotrygdutbetalinger: Array<Infotrygdutbetaling>;
     activePeriod: Maybe<TimelinePeriod>;
     person: PersonFragment;
 }
 
 const useLatestDate = (
-    arbeidsgivere: Array<ArbeidsgiverFragment>,
+    inntektsforhold: Array<Inntektsforhold>,
     infotrygdutbetalinger: Array<Infotrygdutbetaling>,
 ): dayjs.Dayjs => {
-    const perioder = getMergedPeriods(arbeidsgivere, infotrygdutbetalinger);
+    const perioder = getMergedPeriods(inntektsforhold, infotrygdutbetalinger);
     return useLatestPossibleDate(perioder);
 };
 
 const TimelineWithContent = ({
-    arbeidsgivere,
+    inntektsforhold,
     infotrygdutbetalinger,
     activePeriod,
     person,
@@ -60,8 +61,8 @@ const TimelineWithContent = ({
         navigateBackwards,
         canNavigateForwards,
         canNavigateBackwards,
-    } = useTimelineControls(arbeidsgivere, infotrygdutbetalinger);
-    const nyesteDag = useLatestDate(arbeidsgivere, infotrygdutbetalinger);
+    } = useTimelineControls(inntektsforhold, infotrygdutbetalinger);
+    const nyesteDag = useLatestDate(inntektsforhold, infotrygdutbetalinger);
 
     useEffect(() => {
         const defaultZoomLevel = () => {
@@ -108,42 +109,41 @@ const TimelineWithContent = ({
     const end = currentZoomLevel.tom.endOf('day');
 
     const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
-    const harArbeidsgiverMedFlereGenerasjoner = arbeidsgivere.some(
+    const harArbeidsgiverMedFlereGenerasjoner = inntektsforhold.some(
         (arbeidsgiver) => arbeidsgiver.generasjoner.length > 1,
     );
 
     return (
         <div className={styles.Timeline}>
-            <Pins start={start} end={end} arbeidsgivere={arbeidsgivere} />
+            <Pins start={start} end={end} inntektsforhold={inntektsforhold} />
             <Labels start={start} end={end} />
             <div className={styles.Rows}>
-                {arbeidsgivere
-                    .filter((it) => it.generasjoner.length > 0 || it.ghostPerioder.length > 0)
-                    .map((arbeidsgiver, i) => {
-                        return arbeidsgiver.generasjoner.length > 1 ? (
+                {inntektsforhold
+                    .filter(
+                        (inntektsforhold) =>
+                            inntektsforhold.generasjoner.length > 0 ||
+                            (isArbeidsgiver(inntektsforhold) && inntektsforhold.ghostPerioder.length > 0),
+                    )
+                    .map((inntektsforhold, i) => {
+                        return inntektsforhold.generasjoner.length > 1 ? (
                             <ExpandableTimelineRow
                                 key={i}
                                 start={start}
                                 end={end}
-                                name={arbeidsgiver.navn}
-                                arbeidsgiverIdentifikator={arbeidsgiver.organisasjonsnummer}
-                                generations={arbeidsgiver.generasjoner}
-                                ghostPeriods={arbeidsgiver.ghostPerioder}
+                                generations={inntektsforhold.generasjoner}
                                 activePeriod={activePeriod}
                                 person={person}
+                                inntektsforhold={inntektsforhold}
                             />
                         ) : (
                             <TimelineRow
                                 key={i}
                                 start={start}
                                 end={end}
-                                name={arbeidsgiver.navn}
-                                arbeidsgiverIdentifikator={arbeidsgiver.organisasjonsnummer}
-                                periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
-                                ghostPeriods={arbeidsgiver.ghostPerioder}
                                 activePeriod={activePeriod}
                                 alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
                                 person={person}
+                                inntektsforhold={inntektsforhold}
                             />
                         );
                     })}
@@ -205,12 +205,12 @@ const TimelineContainer = (): ReactElement | null => {
         return null;
     }
 
-    const arbeidsgivere = person.arbeidsgivere;
+    const inntektsforhold = finnInntektsforholdForPerson(person);
     const infotrygdutbetalinger = person.infotrygdutbetalinger;
 
     return (
         <TimelineWithContent
-            arbeidsgivere={arbeidsgivere}
+            inntektsforhold={inntektsforhold}
             infotrygdutbetalinger={infotrygdutbetalinger ?? []}
             activePeriod={activePeriod}
             person={person}

@@ -124,14 +124,12 @@ export const AnnulleringsModal = ({
                             person={person}
                             periode={periode}
                             arbeidsgivernavn={
-                                isArbeidsgiver(inntektsforhold)
-                                    ? (inntektsforhold?.navn ?? '')
-                                    : 'Selvstending næringsdrivende'
+                                isArbeidsgiver(inntektsforhold) ? (inntektsforhold?.navn ?? '') : 'SELVSTENDIG'
                             }
                             organisasjonsnummer={
                                 isArbeidsgiver(inntektsforhold)
                                     ? (inntektsforhold?.organisasjonsnummer ?? '')
-                                    : 'Selvstending næringsdrivende'
+                                    : 'SELVSTENDIG'
                             }
                         />
                         <Annulleringsbegrunnelse />
