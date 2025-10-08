@@ -5,6 +5,7 @@ import React, { ReactElement } from 'react';
 import { Chips } from '@navikt/ds-react';
 
 import { lagOppslåttSaksbehandlerVisningsnavn } from '@oversikt/filtermeny/SøkefeltSaksbehandlere';
+import { TabType } from '@oversikt/tabState';
 
 import { Filter, FilterStatus, valgtSaksbehandlerAtom } from '../state/filter';
 
@@ -14,14 +15,21 @@ interface FilterChipsProps {
     activeFilters: Filter[];
     toggleFilter: (label: string, status: FilterStatus) => void;
     setMultipleFilters: (filterStatus: FilterStatus, ...keys: string[]) => void;
+    aktivTab: TabType;
 }
 
-export const FilterChips = ({ activeFilters, toggleFilter, setMultipleFilters }: FilterChipsProps): ReactElement => {
+export const FilterChips = ({
+    activeFilters,
+    toggleFilter,
+    setMultipleFilters,
+    aktivTab,
+}: FilterChipsProps): ReactElement => {
     const [valgtSaksbehandler, setValgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
-    if (activeFilters.length > 0 || valgtSaksbehandler) {
+    const erFiltrertPåSaksbehandler = valgtSaksbehandler && aktivTab === TabType.TilGodkjenning;
+    if (activeFilters.length > 0 || erFiltrertPåSaksbehandler) {
         return (
             <Chips className={classNames(styles.filterChips)}>
-                {valgtSaksbehandler && (
+                {erFiltrertPåSaksbehandler && (
                     <Chips.Removable key={'valgtsaksbehandler'} onClick={() => setValgtSaksbehandler(null)}>
                         {lagOppslåttSaksbehandlerVisningsnavn(valgtSaksbehandler)}
                     </Chips.Removable>

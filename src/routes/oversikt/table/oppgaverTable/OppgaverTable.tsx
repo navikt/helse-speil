@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useAtomValue } from 'jotai/index';
+import { useAtomValue } from 'jotai';
 import React, { ReactElement } from 'react';
 
 import { SortState, VStack } from '@navikt/ds-react';
@@ -67,6 +67,7 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: Oppgaver
                 activeFilters={activeFilters}
                 setMultipleFilters={setMultipleFilters}
                 toggleFilter={toggleFilter}
+                aktivTab={aktivTab}
             />
             <div className={styles.Content}>
                 <div className={styles.Scrollable}>
