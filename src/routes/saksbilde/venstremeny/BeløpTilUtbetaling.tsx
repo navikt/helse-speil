@@ -2,12 +2,14 @@ import React from 'react';
 
 import { BodyShort, HStack, Spacer } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { capitalizeName, somPenger } from '@utils/locale';
+import { isArbeidsgiver } from '@utils/typeguards';
 
 import { OpenSimuleringButton } from './utbetaling/simulering/OpenSimuleringButton';
 
@@ -15,24 +17,22 @@ import styles from './BeløpTilUtbetaling.module.css';
 
 type BeløpTilUtbetalingProps = {
     utbetaling: Utbetaling;
-    arbeidsgiverIdentifikator: string;
-    arbeidsgiverNavn: string;
     personinfo: Personinfo;
     arbeidsgiversimulering?: Maybe<Simulering>;
     personsimulering?: Maybe<Simulering>;
     periodePersonNettoBeløp: number;
     periodeArbeidsgiverNettoBeløp: number;
+    inntektsforhold: Inntektsforhold;
 };
 
 export const BeløpTilUtbetaling = ({
     utbetaling,
-    arbeidsgiverIdentifikator,
-    arbeidsgiverNavn,
     personinfo,
     personsimulering,
     arbeidsgiversimulering,
     periodePersonNettoBeløp,
     periodeArbeidsgiverNettoBeløp,
+    inntektsforhold,
 }: BeløpTilUtbetalingProps) => (
     <div className={styles.TilUtbetaling}>
         <HStack align="center" gap="4" className={styles.Row}>
@@ -44,13 +44,13 @@ export const BeløpTilUtbetaling = ({
                 {somPenger(periodePersonNettoBeløp + periodeArbeidsgiverNettoBeløp)}
             </BodyShort>
         </HStack>
-        {!erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator) && (
+        {isArbeidsgiver(inntektsforhold) && (
             <>
                 <HStack align="center" gap="4" className={styles.Row}>
                     <Arbeidsgiverikon />
                     <Arbeidsgivernavn
-                        identifikator={arbeidsgiverIdentifikator}
-                        navn={arbeidsgiverNavn}
+                        identifikator={inntektsforhold.organisasjonsnummer}
+                        navn={inntektsforhold.navn}
                         maxWidth="200px"
                     />
                     <Spacer />

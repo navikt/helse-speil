@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import {
     Maybe,
@@ -14,7 +13,9 @@ import {
     VilkarsgrunnlagInfotrygdV2,
     VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { somPenger } from '@utils/locale';
+import { isSelvstendigNaering } from '@utils/typeguards';
 
 import { BeløpTilUtbetaling } from './BeløpTilUtbetaling';
 import { CardTitle } from './CardTitle';
@@ -25,35 +26,33 @@ interface UtbetalingCardProps {
     vilkårsgrunnlag?: Maybe<VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2>;
     antallUtbetalingsdager: number;
     utbetaling: Utbetaling;
-    arbeidsgiverIdentifikator: string;
-    arbeidsgiverNavn: string;
     personinfo: Personinfo;
     arbeidsgiversimulering?: Maybe<Simulering>;
     personsimulering?: Maybe<Simulering>;
     periodePersonNettoBeløp: number;
     periodeArbeidsgiverNettoBeløp: number;
     gammeltTotalbeløp?: number;
+    inntektsforhold: Inntektsforhold;
 }
 
 const UtbetalingCardBeregnet = ({
     vilkårsgrunnlag,
     antallUtbetalingsdager,
     utbetaling,
-    arbeidsgiverIdentifikator,
-    arbeidsgiverNavn,
     personinfo,
     arbeidsgiversimulering,
     personsimulering,
     periodePersonNettoBeløp,
     periodeArbeidsgiverNettoBeløp,
     gammeltTotalbeløp,
+    inntektsforhold,
 }: UtbetalingCardProps): ReactElement => (
     <section className={styles.Card}>
         <CardTitle>UTBETALINGSINFORMASJON</CardTitle>
         <div className={styles.Grid}>
             <BodyShort>Sykepengegrunnlag</BodyShort>
             <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
-            {erSelvstendigNæringsdrivende(arbeidsgiverIdentifikator) && (
+            {isSelvstendigNaering(inntektsforhold) && (
                 <>
                     <BodyShort>Dekningsgrad</BodyShort>
                     <BodyShort>80 %</BodyShort>
@@ -70,13 +69,12 @@ const UtbetalingCardBeregnet = ({
         )}
         <BeløpTilUtbetaling
             utbetaling={utbetaling}
-            arbeidsgiverIdentifikator={arbeidsgiverIdentifikator}
-            arbeidsgiverNavn={arbeidsgiverNavn}
             personinfo={personinfo}
             arbeidsgiversimulering={arbeidsgiversimulering}
             personsimulering={personsimulering}
             periodePersonNettoBeløp={periodePersonNettoBeløp}
             periodeArbeidsgiverNettoBeløp={periodeArbeidsgiverNettoBeløp}
+            inntektsforhold={inntektsforhold}
         />
         {!arbeidsgiversimulering && !personsimulering && utbetaling.status !== Utbetalingstatus.Annullert && (
             <BodyShort className={styles.ErrorMessage}>Mangler simulering</BodyShort>

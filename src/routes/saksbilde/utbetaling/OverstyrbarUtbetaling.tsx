@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import React, { ReactElement, Reducer, useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment, Utbetalingstatus } from '@io/graphql';
 import { kanStrekkes } from '@saksbilde/historikk/mapping';
@@ -318,7 +317,7 @@ export const OverstyrbarUtbetaling = ({
                         <EndringForm
                             markerteDager={markerteDager}
                             onSubmitEndring={onSubmitEndring}
-                            erSelvstendig={erSelvstendigNæringsdrivende(organisasjonsnummer)}
+                            erSelvstendig={isSelvstendigNaering(inntektsforhold)}
                         />
                         <FormProvider {...form}>
                             <form onSubmit={(event) => event.preventDefault()} autoComplete="off">
@@ -328,7 +327,7 @@ export const OverstyrbarUtbetaling = ({
                                     error={error}
                                     toggleOverstyring={toggleOverstyring}
                                     onSubmit={onSubmitOverstyring}
-                                    erSelvstendig={erSelvstendigNæringsdrivende(organisasjonsnummer)}
+                                    erSelvstendig={isSelvstendigNaering(inntektsforhold)}
                                 />
                             </form>
                         </FormProvider>

@@ -3,14 +3,15 @@ import React, { ReactElement, useState } from 'react';
 
 import { Accordion, BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn, erSelvstendigNæringsdrivende } from '@components/Arbeidsgivernavn';
-import { LoadingShimmer } from '@components/LoadingShimmer';
+import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Arbeidsforhold } from '@io/graphql';
 import { useIsAnonymous } from '@state/anonymization';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { somNorskDato } from '@utils/date';
 import { capitalizeName, somPenger } from '@utils/locale';
+import { isArbeidsgiver } from '@utils/typeguards';
 
 import styles from './ArbeidsgiverRow.module.scss';
 
@@ -68,17 +69,15 @@ const MånedsbeløpRow = ({ månedsbeløp }: MånedsbeløpRowProps): ReactElemen
 };
 
 interface ArbeidsgiverCardProps {
-    navn: string;
-    organisasjonsnummer: string;
     arbeidsforhold: Array<Arbeidsforhold>;
     månedsbeløp?: number;
+    inntektsforhold: Inntektsforhold;
 }
 
-const ArbeidsgiverRowView = ({
-    navn,
-    organisasjonsnummer,
+export const ArbeidsgiverRow = ({
     arbeidsforhold,
     månedsbeløp,
+    inntektsforhold,
 }: ArbeidsgiverCardProps): ReactElement => {
     const [open, setOpen] = useState(false);
     const erAnonymisert = useIsAnonymous();
@@ -88,14 +87,19 @@ const ArbeidsgiverRowView = ({
             <div className={styles.iconContainer}>
                 <Arbeidsgiverikon />
             </div>
-            <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={navn} maxWidth="300px" showCopyButton />
-            {!erSelvstendigNæringsdrivende(organisasjonsnummer) && (
+            <Arbeidsgivernavn
+                identifikator={isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG'}
+                navn={isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG'}
+                maxWidth="300px"
+                showCopyButton
+            />
+            {isArbeidsgiver(inntektsforhold) && (
                 <>
                     <div />
                     <HStack>
-                        <AnonymizableText>{organisasjonsnummer}</AnonymizableText>
+                        <AnonymizableText>{inntektsforhold.organisasjonsnummer}</AnonymizableText>
                         <Tooltip content="Kopier organisasjonsnummer">
-                            <CopyButton copyText={organisasjonsnummer} size="xsmall" />
+                            <CopyButton copyText={inntektsforhold.organisasjonsnummer} size="xsmall" />
                         </Tooltip>
                     </HStack>
                     <div />
@@ -117,27 +121,4 @@ const ArbeidsgiverRowView = ({
             )}
         </>
     );
-};
-
-const ArbeidsgiverCardSkeleton = (): ReactElement => {
-    return (
-        <section className={classNames(styles.skeleton, styles.arbeidsgiverRow)}>
-            <div className={styles.arbeidsgiver}>
-                <LoadingShimmer style={{ width: 20 }} />
-                <LoadingShimmer />
-            </div>
-            <LoadingShimmer />
-            <LoadingShimmer />
-            <LoadingShimmer />
-            <LoadingShimmer />
-        </section>
-    );
-};
-
-export const ArbeidsgiverRow = {
-    Beregnet: ArbeidsgiverRowView,
-    Uberegnet: ArbeidsgiverRowView,
-    Ghost: ArbeidsgiverRowView,
-    Tilkommen: ArbeidsgiverRowView,
-    Skeleton: ArbeidsgiverCardSkeleton,
 };

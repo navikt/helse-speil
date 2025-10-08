@@ -75,22 +75,20 @@ export const VenstremenyBeregnetPeriode = ({
             <PeriodeCard.Beregnet
                 periode={activePeriod}
                 arbeidsforhold={isArbeidsgiver(inntektsforhold) ? inntektsforhold.arbeidsforhold : []}
-                organisasjonsnummer={organisasjonsnummer}
-                arbeidsgiverNavn={arbeidsgiverNavn}
                 månedsbeløp={månedsbeløp}
+                inntektsforhold={inntektsforhold}
             />
             <UtbetalingCard.Beregnet
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 antallUtbetalingsdager={getNumberOfDaysWithType(activePeriod.tidslinje, Utbetalingsdagtype.Navdag)}
                 utbetaling={activePeriod.utbetaling}
-                arbeidsgiverIdentifikator={organisasjonsnummer}
-                arbeidsgiverNavn={arbeidsgiverNavn}
                 personinfo={currentPerson.personinfo}
                 arbeidsgiversimulering={activePeriod.utbetaling.arbeidsgiversimulering}
                 personsimulering={activePeriod.utbetaling.personsimulering}
                 periodeArbeidsgiverNettoBeløp={arbeidsgiverTotalbeløp}
                 periodePersonNettoBeløp={personTotalbeløp}
                 gammeltTotalbeløp={forrigeGenerasjonPeriode ? gammeltTotalbeløp : undefined}
+                inntektsforhold={inntektsforhold}
             />
             {activePeriod.periodetilstand === Periodetilstand.TilGodkjenning && !utbetaleTilgang.tillatt ? (
                 <ErrorMessage>Du har ikke tilgang til å behandle denne oppgaven</ErrorMessage>

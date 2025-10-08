@@ -210,13 +210,10 @@ const PeriodeCardUberegnet = ({ periode, inntektsforhold, månedsbeløp }: Perio
                     periodetype={periode.periodetype}
                     skjæringstidspunkt={periode.skjaeringstidspunkt}
                 />
-                <ArbeidsgiverRow.Uberegnet
-                    navn={isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG'}
-                    organisasjonsnummer={
-                        isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG'
-                    }
+                <ArbeidsgiverRow
                     arbeidsforhold={arbeidsforhold}
                     månedsbeløp={månedsbeløp}
+                    inntektsforhold={inntektsforhold}
                 />
             </section>
         </div>
@@ -226,17 +223,15 @@ const PeriodeCardUberegnet = ({ periode, inntektsforhold, månedsbeløp }: Perio
 interface PeriodeCardBeregnetProps {
     periode: BeregnetPeriodeFragment;
     arbeidsforhold: Arbeidsforhold[];
-    organisasjonsnummer: string;
-    arbeidsgiverNavn: string;
+    inntektsforhold: Inntektsforhold;
     månedsbeløp: number | undefined;
 }
 
 const PeriodeCardBeregnet = ({
     periode,
     arbeidsforhold,
-    organisasjonsnummer,
-    arbeidsgiverNavn,
     månedsbeløp,
+    inntektsforhold,
 }: PeriodeCardBeregnetProps): ReactElement => {
     const egenskaperForVisning = periode.egenskaper.filter(
         (it) => it.kategori !== Kategori.Mottaker && it.kategori !== Kategori.Inntektskilde,
@@ -260,11 +255,10 @@ const PeriodeCardBeregnet = ({
                     skjæringstidspunkt={periode.skjaeringstidspunkt}
                 />
                 <MaksdatoRow activePeriod={periode} />
-                <ArbeidsgiverRow.Beregnet
-                    navn={arbeidsgiverNavn}
-                    organisasjonsnummer={organisasjonsnummer}
+                <ArbeidsgiverRow
                     arbeidsforhold={arbeidsforhold}
                     månedsbeløp={månedsbeløp}
+                    inntektsforhold={inntektsforhold}
                 />
             </section>
         </div>
@@ -273,32 +267,26 @@ const PeriodeCardBeregnet = ({
 
 interface PeriodeCardGhostProps {
     arbeidsgiver: Arbeidsgiver;
+    inntektsforhold: Inntektsforhold;
 }
 
-const PeriodeCardGhost = ({ arbeidsgiver }: PeriodeCardGhostProps): ReactElement => {
+const PeriodeCardGhost = ({ arbeidsgiver, inntektsforhold }: PeriodeCardGhostProps): ReactElement => {
     return (
         <section className={styles.grid}>
-            <ArbeidsgiverRow.Ghost
-                navn={arbeidsgiver.navn}
-                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                arbeidsforhold={arbeidsgiver.arbeidsforhold}
-            />
+            <ArbeidsgiverRow arbeidsforhold={arbeidsgiver.arbeidsforhold} inntektsforhold={inntektsforhold} />
         </section>
     );
 };
 
 interface PeriodeCardTilkommenProps {
     arbeidsgiver: ArbeidsgiverFragment;
+    inntektsforhold: Inntektsforhold;
 }
 
-const PeriodeCardTilkommen = ({ arbeidsgiver }: PeriodeCardTilkommenProps): ReactElement => {
+const PeriodeCardTilkommen = ({ arbeidsgiver, inntektsforhold }: PeriodeCardTilkommenProps): ReactElement => {
     return (
         <section className={styles.grid}>
-            <ArbeidsgiverRow.Tilkommen
-                navn={arbeidsgiver.navn}
-                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                arbeidsforhold={arbeidsgiver.arbeidsforhold}
-            />
+            <ArbeidsgiverRow arbeidsforhold={arbeidsgiver.arbeidsforhold} inntektsforhold={inntektsforhold} />
         </section>
     );
 };
