@@ -302,4 +302,4 @@ export const useToggleFilter = () => {
     };
 };
 
-export const valgtSaksbehandlerAtom = atom<AktivSaksbehandler | null>(null);
+export const valgtSaksbehandlerAtom = atomWithLocalStorage<AktivSaksbehandler | null>('filterValgtSaksbehandler', null);
