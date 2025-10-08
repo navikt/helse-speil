@@ -1,9 +1,7 @@
-import { NextRequest } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 
 import { erLokal, getServerEnv } from '@/env';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
-import { oppgaveliste } from '@spesialist-mock/data/oppgaveoversikt';
 import { TilkommenInntektMock } from '@spesialist-mock/storage/tilkommeninntekt';
 
 export const dynamic = 'force-dynamic';
@@ -14,21 +12,13 @@ function mockSaksbehandlere(subpath: string) {
             {
                 ident: 'A123456',
                 navn: 'Utvikler, Lokal',
-                oid: '31cfdfe8-cd9b-4d28-850f-ab9ccc0ea281',
             },
         ]);
     }
     return undefined;
 }
 
-function mockOppgaver(subpath: string, searchParams: URLSearchParams) {
-    if (subpath === 'oppgaver') {
-        return Response.json(oppgaveliste(searchParams));
-    }
-    return undefined;
-}
-
-export async function GET(req: NextRequest, { params }: { params: Promise<{ subpathSegments: string[] }> }) {
+export async function GET(req: Request, { params }: { params: Promise<{ subpathSegments: string[] }> }) {
     const { subpathSegments } = await params;
 
     // Unngå kreative angrep - whitelist hvilke subpaths som er lov
@@ -43,7 +33,6 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ subp
         return (
             (await TilkommenInntektMock.håndterGet(subpathSegments)) ??
             mockSaksbehandlere(subpath) ??
-            mockOppgaver(subpath, req.nextUrl.searchParams) ??
             Response.json({ feil: 'Ikke mocket opp lokalt' }, { status: 404 })
         );
     } else {

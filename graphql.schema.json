@@ -54,66 +54,6 @@
             },
             {
                 "kind": "OBJECT",
-                "name": "AktivSaksbehandler",
-                "description": null,
-                "isOneOf": null,
-                "fields": [
-                    {
-                        "name": "ident",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "navn",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "oid",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "UUID",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": [],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "OBJECT",
                 "name": "Alder",
                 "description": null,
                 "isOneOf": null,
@@ -12470,7 +12410,7 @@
                                     "name": null,
                                     "ofType": {
                                         "kind": "OBJECT",
-                                        "name": "AktivSaksbehandler",
+                                        "name": "Saksbehandler",
                                         "ofType": null
                                     }
                                 }

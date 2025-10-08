@@ -3,13 +3,13 @@ import React, { ReactElement } from 'react';
 import { BodyShort, Popover, PopoverProps } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Maybe, OppgaveProjeksjonPaaVent } from '@io/graphql';
+import { Maybe, PaVentInfo } from '@io/graphql';
 import { usePopoverAnchor } from '@saksbilde/timeline/hooks/usePopoverAnchor';
 
 import styles from './SisteNotattekst.module.css';
 
 interface SisteNotattekstProps {
-    påVentInfo: OppgaveProjeksjonPaaVent;
+    påVentInfo: PaVentInfo;
 }
 
 export const SisteNotattekst = ({ påVentInfo }: SisteNotattekstProps): ReactElement | null => {

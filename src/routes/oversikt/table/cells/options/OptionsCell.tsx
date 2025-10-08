@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown, Table } from '@navikt/ds-react';
 
-import { Egenskap, Maybe, OppgaveProjeksjon, Personnavn } from '@io/graphql';
+import { Egenskap, Maybe, OppgaveTilBehandling, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import { MeldAvMenuButton } from './MeldAvMenuButton';
@@ -17,7 +17,7 @@ const erLike = (a?: Maybe<string>, b?: Maybe<string>): boolean => {
 };
 
 interface OptionsButtonProps {
-    oppgave: OppgaveProjeksjon;
+    oppgave: OppgaveTilBehandling;
     navn: Personnavn;
 }
 
@@ -25,7 +25,7 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const erTildeltInnloggetBruker = erLike(oppgave.tildeling?.oid, innloggetSaksbehandler.oid);
     const erTildelt = oppgave.tildeling?.oid !== undefined;
-    const erPåVent = oppgave.egenskaper.filter((it) => it === Egenskap.PaVent).length !== 0;
+    const erPåVent = oppgave.egenskaper.filter((it) => it.egenskap === Egenskap.PaVent).length !== 0;
 
     return (
         <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.ikoncell}>

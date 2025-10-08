@@ -191,9 +191,14 @@ const PeriodeCardUberegnet = ({ periode, inntektsforhold, månedsbeløp }: Perio
                         <span className={styles.egenskaper}>
                             <EgenskaperTags
                                 egenskaper={[
-                                    periode.periodetype === Periodetype.Forlengelse
-                                        ? Egenskap.Forlengelse
-                                        : Egenskap.Forstegangsbehandling,
+                                    {
+                                        __typename: 'Oppgaveegenskap',
+                                        egenskap:
+                                            periode.periodetype === Periodetype.Forlengelse
+                                                ? Egenskap.Forlengelse
+                                                : Egenskap.Forstegangsbehandling,
+                                        kategori: Kategori.Periodetype,
+                                    },
                                 ]}
                             />
                         </span>
@@ -228,9 +233,9 @@ const PeriodeCardBeregnet = ({
     månedsbeløp,
     inntektsforhold,
 }: PeriodeCardBeregnetProps): ReactElement => {
-    const egenskaperForVisning = periode.egenskaper
-        .filter((it) => it.kategori !== Kategori.Mottaker && it.kategori !== Kategori.Inntektskilde)
-        .map((it) => it.egenskap);
+    const egenskaperForVisning = periode.egenskaper.filter(
+        (it) => it.kategori !== Kategori.Mottaker && it.kategori !== Kategori.Inntektskilde,
+    );
     return (
         <div>
             <ArbeidsforholdOpphørt arbeidsforhold={arbeidsforhold} periode={periode} />

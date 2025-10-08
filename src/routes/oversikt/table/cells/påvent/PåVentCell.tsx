@@ -4,7 +4,7 @@ import React, { ReactElement, useState } from 'react';
 import { TimerPauseIcon } from '@navikt/aksel-icons';
 import { Button, Table, Tooltip } from '@navikt/ds-react';
 
-import { Maybe, OppgaveProjeksjonPaaVent, Personnavn } from '@io/graphql';
+import { Maybe, PaVentInfo, Personnavn } from '@io/graphql';
 import { SisteNotattekst } from '@oversikt/table/oppgaverTable/SisteNotattekst';
 
 import { PåVentListeModal } from './PåVentListeModal';
@@ -14,7 +14,7 @@ import styles from './PåVentCell.module.css';
 interface PåVentCellProps {
     navn: Personnavn;
     utgåttFrist: boolean;
-    påVentInfo: Maybe<OppgaveProjeksjonPaaVent>;
+    påVentInfo: Maybe<PaVentInfo>;
 }
 
 export const PåVentCell = ({ navn, utgåttFrist, påVentInfo }: PåVentCellProps): ReactElement => {
@@ -33,7 +33,7 @@ export const PåVentCell = ({ navn, utgåttFrist, påVentInfo }: PåVentCellProp
 interface PåVentKnappProps {
     navn: Personnavn;
     utgåttFrist: boolean;
-    påVentInfo: OppgaveProjeksjonPaaVent;
+    påVentInfo: PaVentInfo;
 }
 
 const PåVentKnapp = ({ navn, utgåttFrist, påVentInfo }: PåVentKnappProps): ReactElement | null => {

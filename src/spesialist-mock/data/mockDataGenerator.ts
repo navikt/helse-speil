@@ -6,13 +6,16 @@ import {
     AntallArbeidsforhold,
     BehandletOppgave,
     Egenskap,
-    OppgaveProjeksjon,
+    Kategori,
+    Mottaker,
+    OppgaveTilBehandling,
+    Oppgaveegenskap,
     Oppgavetype,
     Periodetype,
 } from '../schemaTypes';
 
-const genererTilfeldigeOppgaver = (antall: number): OppgaveProjeksjon[] => {
-    const oppgaver: OppgaveProjeksjon[] = [];
+const genererTilfeldigeOppgaver = (antall: number) => {
+    const oppgaver: OppgaveTilBehandling[] = [];
     let n = 0;
     let startId = 6000;
     while (n < antall) {
@@ -34,7 +37,7 @@ const genererTilfeldigeBehandledeOppgaver = (antall: number) => {
     return oppgaver;
 };
 
-const tilfeldigOppgave = (oppgaveId: number): OppgaveProjeksjon => {
+const tilfeldigOppgave = (oppgaveId: number): OppgaveTilBehandling => {
     const tildelingMellomnavn = tilfeldigMellomnavn();
 
     const dato = tilfeldigDato();
@@ -42,33 +45,26 @@ const tilfeldigOppgave = (oppgaveId: number): OppgaveProjeksjon => {
     dato.setDate(dato.getDate() - Math.floor(1 + Math.random() * 31));
     const søknadsDato = dato.toISOString();
 
+    const oppgavetype = Math.random() > 0.2 ? Oppgavetype.Soknad : Oppgavetype.Revurdering;
+    const periodetype = tilfeldigElementFraEnum(Periodetype);
+    const antallArbeidsforhold = tilfeldigElementFraEnum(AntallArbeidsforhold);
+    const mottaker = tilfeldigElementFraEnum(Mottaker);
+
     return {
-        aktorId: Math.floor(1000000000000 + Math.random() * 9000000000000).toString(),
-        egenskaper: [
-            Math.random() > 0.2 ? Egenskap.Soknad : Egenskap.Revurdering,
-            tilfeldigElementFra([
-                Egenskap.Forlengelse,
-                Egenskap.Forstegangsbehandling,
-                Egenskap.Infotrygdforlengelse,
-                Egenskap.OvergangFraIt,
-            ]),
-            tilfeldigElementFra([
-                Egenskap.UtbetalingTilArbeidsgiver,
-                Egenskap.DelvisRefusjon,
-                Egenskap.IngenUtbetaling,
-                Egenskap.UtbetalingTilSykmeldt,
-            ]),
-            tilfeldigElementFra([Egenskap.EnArbeidsgiver, Egenskap.FlereArbeidsgivere]),
-            ...tilfeldigeUkategoriserteEgenskaper(),
-        ],
         id: oppgaveId.toString(),
+        vedtaksperiodeId: randomUUID().toString(),
+        aktorId: Math.floor(1000000000000 + Math.random() * 9000000000000).toString(),
+        opprettet: opprettetDato,
+        opprinneligSoknadsdato: søknadsDato,
         navn: {
             fornavn: tilfeldigFornavn(),
             mellomnavn: tilfeldigMellomnavn(),
             etternavn: tilfeldigEtternavn(),
         },
-        opprettetTidspunkt: opprettetDato,
-        opprinneligSoeknadstidspunkt: søknadsDato,
+        oppgavetype: oppgavetype,
+        periodetype: periodetype,
+        antallArbeidsforhold: antallArbeidsforhold,
+        mottaker: mottaker,
         tildeling: {
             epost: 'tildeling@epost.no',
             navn:
@@ -78,7 +74,14 @@ const tilfeldigOppgave = (oppgaveId: number): OppgaveProjeksjon => {
                 (tildelingMellomnavn ? ' ' + tildelingMellomnavn : ''),
             oid: randomUUID().toString(),
         },
-    } as OppgaveProjeksjon;
+        egenskaper: [
+            egenskapFraOppgavetype(oppgavetype),
+            egenskapFraPeriodetype(periodetype),
+            egenskapFraMottaker(mottaker),
+            egenskapFraAntallArbeidsforhold(antallArbeidsforhold),
+            ...tilfeldigeUkategoriserteEgenskaper(),
+        ],
+    } as OppgaveTilBehandling;
 };
 
 const tilfeldigBehandletOppgave = (oppgaveId: number): BehandletOppgave =>
@@ -86,8 +89,8 @@ const tilfeldigBehandletOppgave = (oppgaveId: number): BehandletOppgave =>
         id: oppgaveId.toString(),
         aktorId: Math.floor(1000000000000 + Math.random() * 9000000000000).toString(),
         oppgavetype: Math.random() > 0.2 ? Oppgavetype.Soknad : Oppgavetype.Revurdering,
-        periodetype: tilfeldigElementFra(Object.values(Periodetype)),
-        antallArbeidsforhold: tilfeldigElementFra(Object.values(AntallArbeidsforhold)),
+        periodetype: tilfeldigElementFraEnum(Periodetype),
+        antallArbeidsforhold: tilfeldigElementFraEnum(AntallArbeidsforhold),
         ferdigstiltAv: Math.random() > 0.2 ? 'Utvikler, Lokal' : 'Saksbehandler, Annen',
         ferdigstiltTidspunkt: dayjs()
             .subtract(Math.random() * 3, 'day')
@@ -101,17 +104,29 @@ const tilfeldigBehandletOppgave = (oppgaveId: number): BehandletOppgave =>
         },
     }) as BehandletOppgave;
 
-const tilfeldigeUkategoriserteEgenskaper = (): Egenskap[] => {
-    const egenskaper: Egenskap[] = [];
+const tilfeldigeUkategoriserteEgenskaper = () => {
+    const egenskaper: Oppgaveegenskap[] = [];
 
-    if (Math.random() > 0.9) egenskaper.push(Math.random() > 0.2 ? Egenskap.Beslutter : Egenskap.Retur);
-    if (Math.random() > 0.85) egenskaper.push(Math.random() > 0.1 ? Egenskap.RiskQa : Egenskap.Stikkprove);
-    if (Math.random() > 0.95) egenskaper.push(Egenskap.Vergemal);
-    if (Math.random() > 0.95) egenskaper.push(Egenskap.EgenAnsatt);
-    if (Math.random() > 0.95) egenskaper.push(Egenskap.FortroligAdresse);
-    if (Math.random() > 0.8) egenskaper.push(Egenskap.Haster);
-    if (Math.random() > 0.9) egenskaper.push(Egenskap.Utland);
-    if (Math.random() > 0.95) egenskaper.push(Egenskap.Skjonnsfastsettelse);
+    if (Math.random() > 0.9)
+        egenskaper.push(
+            Math.random() > 0.2
+                ? { kategori: Kategori.Status, egenskap: Egenskap.Beslutter }
+                : { kategori: Kategori.Status, egenskap: Egenskap.Retur },
+        );
+    if (Math.random() > 0.85)
+        egenskaper.push(
+            Math.random() > 0.1
+                ? { kategori: Kategori.Ukategorisert, egenskap: Egenskap.RiskQa }
+                : { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Stikkprove },
+        );
+    if (Math.random() > 0.95) egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.Vergemal });
+    if (Math.random() > 0.95) egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.EgenAnsatt });
+    if (Math.random() > 0.95)
+        egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.FortroligAdresse });
+    if (Math.random() > 0.8) egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.Haster });
+    if (Math.random() > 0.9) egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.Utland });
+    if (Math.random() > 0.95)
+        egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.Skjonnsfastsettelse });
 
     return egenskaper;
 };
@@ -121,8 +136,14 @@ const tilfeldigDato = () => {
     return new Date(start.getTime() + Math.random() * (new Date().getTime() - start.getTime()));
 };
 
-const tilfeldigElementFra = <T>(elementer: Array<T>): T => {
-    return elementer[Math.floor(Math.random() * elementer.length)]!;
+const tilfeldigElementFraEnum = <T extends { [key: number]: string | number }>(e: T): T[keyof T] => {
+    const keys = Object.keys(e);
+
+    const randomKeyIndex = Math.floor(Math.random() * keys.length);
+    const randomKey = keys[randomKeyIndex];
+
+    const randomKeyNumber = Number(randomKey);
+    return isNaN(randomKeyNumber) ? e[randomKey as keyof T] : (randomKeyNumber as unknown as T[keyof T]);
 };
 
 const tilfeldigFornavn = () => {
@@ -142,6 +163,51 @@ const tilfeldigEtternavn = () => {
 
 const tilfeldigNavn = (navneliste: (string | null)[]) => {
     return navneliste[Math.floor(Math.random() * navneliste.length)];
+};
+
+const egenskapFraOppgavetype = (oppgavetype: Oppgavetype): Oppgaveegenskap => {
+    switch (oppgavetype) {
+        case Oppgavetype.Revurdering:
+            return { kategori: Kategori.Oppgavetype, egenskap: Egenskap.Revurdering };
+        case Oppgavetype.Soknad:
+        default:
+            return { kategori: Kategori.Oppgavetype, egenskap: Egenskap.Soknad };
+    }
+};
+
+const egenskapFraPeriodetype = (periodetype: Periodetype): Oppgaveegenskap => {
+    switch (periodetype) {
+        case Periodetype.Forlengelse:
+            return { kategori: Kategori.Periodetype, egenskap: Egenskap.Forlengelse };
+        case Periodetype.Forstegangsbehandling:
+            return { kategori: Kategori.Periodetype, egenskap: Egenskap.Forstegangsbehandling };
+        case Periodetype.Infotrygdforlengelse:
+            return { kategori: Kategori.Periodetype, egenskap: Egenskap.Infotrygdforlengelse };
+        case Periodetype.OvergangFraIt:
+            return { kategori: Kategori.Periodetype, egenskap: Egenskap.OvergangFraIt };
+    }
+};
+
+const egenskapFraMottaker = (mottaker: Mottaker): Oppgaveegenskap => {
+    switch (mottaker) {
+        case Mottaker.Arbeidsgiver:
+            return { kategori: Kategori.Mottaker, egenskap: Egenskap.UtbetalingTilArbeidsgiver };
+        case Mottaker.Begge:
+            return { kategori: Kategori.Mottaker, egenskap: Egenskap.DelvisRefusjon };
+        case Mottaker.Ingen:
+            return { kategori: Kategori.Mottaker, egenskap: Egenskap.IngenUtbetaling };
+        case Mottaker.Sykmeldt:
+            return { kategori: Kategori.Mottaker, egenskap: Egenskap.UtbetalingTilSykmeldt };
+    }
+};
+
+const egenskapFraAntallArbeidsforhold = (antallArbeidsforhold: AntallArbeidsforhold): Oppgaveegenskap => {
+    switch (antallArbeidsforhold) {
+        case AntallArbeidsforhold.EtArbeidsforhold:
+            return { kategori: Kategori.Inntektskilde, egenskap: Egenskap.EnArbeidsgiver };
+        case AntallArbeidsforhold.FlereArbeidsforhold:
+            return { kategori: Kategori.Inntektskilde, egenskap: Egenskap.FlereArbeidsgivere };
+    }
 };
 
 export const tilfeldigeOppgaver = genererTilfeldigeOppgaver(antallTilfeldigeOppgaver);

@@ -3,7 +3,7 @@ import React, { PropsWithChildren, ReactElement } from 'react';
 import { BodyShort, HStack, Heading, Modal, VStack } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { OppgaveProjeksjonPaaVent, Personnavn } from '@io/graphql';
+import { PaVentInfo, Personnavn } from '@io/graphql';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { getFormatertNavn } from '@utils/string';
 
@@ -13,7 +13,7 @@ type PåVentListeModalProps = {
     closeModal: () => void;
     showModal: boolean;
     navn: Personnavn;
-    påVentInfo: OppgaveProjeksjonPaaVent;
+    påVentInfo: PaVentInfo;
 };
 
 export const PåVentListeModal = ({ closeModal, showModal, navn, påVentInfo }: PåVentListeModalProps): ReactElement => {

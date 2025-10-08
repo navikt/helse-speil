@@ -34,13 +34,6 @@ export enum Adressebeskyttelse {
     Ukjent = 'Ukjent',
 }
 
-export type AktivSaksbehandler = {
-    __typename?: 'AktivSaksbehandler';
-    ident: Scalars['String']['output'];
-    navn: Scalars['String']['output'];
-    oid: Scalars['UUID']['output'];
-};
-
 export type Alder = {
     __typename?: 'Alder';
     alderSisteSykedag: Scalars['Int']['output'];
@@ -1317,7 +1310,7 @@ export type Query = {
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     person?: Maybe<Person>;
-    restGetAktiveSaksbehandlere: Array<AktivSaksbehandler>;
+    restGetAktiveSaksbehandlere: Array<Saksbehandler>;
     restGetOppgaver: OppgaveProjeksjonSide;
     restGetOrganisasjon?: Maybe<Organisasjon>;
     restGetPersonTilkomneInntektskilder: Array<TilkommenInntektskilde>;

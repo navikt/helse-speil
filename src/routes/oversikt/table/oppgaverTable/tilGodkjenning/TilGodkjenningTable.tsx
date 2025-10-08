@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { SortState, Table } from '@navikt/ds-react';
 
-import { OppgaveProjeksjon } from '@io/graphql';
+import { OppgaveTilBehandling } from '@io/graphql';
 import { SortKey, useSetSortering } from '@oversikt/table/state/sortation';
 
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
@@ -12,7 +12,7 @@ import { TilGodkjenningTableHeader } from './TilGodkjenningTableHeader';
 import styles from '../../table.module.css';
 
 interface TilGodkjenningTableProps {
-    oppgaver: OppgaveProjeksjon[];
+    oppgaver: OppgaveTilBehandling[];
     sort: SortState;
 }
 

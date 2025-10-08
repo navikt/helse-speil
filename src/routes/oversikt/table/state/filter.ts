@@ -1,9 +1,9 @@
 import { WritableAtom, atom, useAtom, useAtomValue } from 'jotai';
 import { SetStateAction } from 'react';
 
-import { AktivSaksbehandler, Egenskap } from '@io/graphql';
+import { Egenskap, Saksbehandler } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
-import { atomWithLocalStorage } from '@state/jotai';
+import { atomWithLocalStorage, atomWithSessionStorage } from '@state/jotai';
 
 export type Filter = {
     key: string | Egenskap;
@@ -19,6 +19,7 @@ export enum FilterStatus {
 }
 
 export enum Oppgaveoversiktkolonne {
+    SAKSBEHANDLER = 'SAKSBEHANDLER',
     TILDELING = 'TILDELING',
     PÅVENT = 'PÅVENT',
     STATUS = 'STATUS',
@@ -35,6 +36,12 @@ type FiltersPerTab = {
 };
 
 const filters = [
+    {
+        key: 'SAKSBEHANDLER',
+        label: '',
+        status: FilterStatus.OFF,
+        column: Oppgaveoversiktkolonne.SAKSBEHANDLER,
+    },
     {
         key: 'TILDELTE_SAKER',
         label: 'Tildelte oppgaver',
@@ -276,8 +283,6 @@ export const useFilters = () => ({
     activeFilters: useAtomValue(filtersState).filter((filter) => filter.status !== FilterStatus.OFF),
 });
 
-export const useAllFilters = () => useAtomValue(filtersState);
-
 export const useSetMultipleFilters = () => {
     const [filters, setFilters] = useAtom(filtersState);
     return (filterStatus: FilterStatus, ...keys: string[]) => {
@@ -302,4 +307,4 @@ export const useToggleFilter = () => {
     };
 };
 
-export const valgtSaksbehandlerAtom = atom<AktivSaksbehandler | null>(null);
+export const valgtSaksbehandlerAtom = atomWithSessionStorage<Saksbehandler | null>('valgtSaksbehandler', null);

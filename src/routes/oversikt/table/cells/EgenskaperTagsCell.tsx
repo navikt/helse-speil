@@ -3,13 +3,12 @@ import React, { ReactElement } from 'react';
 import { Table } from '@navikt/ds-react';
 
 import { EgenskaperTags } from '@components/EgenskaperTags';
-import { Egenskap, Kategori } from '@io/graphql';
-import { kategoriForEgenskap } from '@state/oppgaver';
+import { Kategori, Oppgaveegenskap } from '@io/graphql';
 
 import styles from '../table.module.css';
 
 interface EgenskaperTagsCellProps {
-    egenskaper: Egenskap[];
+    egenskaper: Oppgaveegenskap[];
 }
 
 export const EgenskaperTagsCell = ({ egenskaper }: EgenskaperTagsCellProps): ReactElement => {
@@ -17,9 +16,7 @@ export const EgenskaperTagsCell = ({ egenskaper }: EgenskaperTagsCellProps): Rea
         <Table.DataCell>
             <span className={styles.flexCell}>
                 <EgenskaperTags
-                    egenskaper={egenskaper.filter(
-                        (egenskap) => kategoriForEgenskap(egenskap) !== Kategori.Inntektsforhold,
-                    )}
+                    egenskaper={egenskaper.filter((egenskap) => egenskap.kategori !== Kategori.Inntektsforhold)}
                 />
             </span>
         </Table.DataCell>

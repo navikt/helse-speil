@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 import { UUID } from '@typer/spesialist-mock';
 
-import { oppgaveVedtaksperioder } from '../data/oppgaver';
+import { oppgaver } from '../data/oppgaver';
 import {
     BeregnetPeriode,
     Kommentar,
@@ -15,7 +15,7 @@ import {
 const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
 export const findVedtaksperiodeId = (id: string): UUID | undefined => {
-    return oppgaveVedtaksperioder.find((it) => it.id === id)?.vedtaksperiodeId;
+    return oppgaver.find((it) => it['id'] === id)?.['vedtaksperiodeId'];
 };
 
 export class NotatMock {
