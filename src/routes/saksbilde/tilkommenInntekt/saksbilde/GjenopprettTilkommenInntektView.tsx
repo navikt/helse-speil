@@ -28,8 +28,8 @@ export const GjenopprettTilkommenInntektView = ({
         person?.aktorId,
     );
     const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =
-        tilkommenInntektData?.restGetPersonTilkomneInntektskilder !== undefined
-            ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData.restGetPersonTilkomneInntektskilder)
+        tilkommenInntektData !== undefined
+            ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData)
             : undefined;
     const tilkommenInntektMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer | undefined =
         tilkomneInntekterMedOrganisasjonsnummer?.find(

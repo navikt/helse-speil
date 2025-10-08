@@ -10,16 +10,16 @@ import {
 } from '@io/graphql';
 import { getFormattedDatetimeString } from '@utils/date';
 
-interface Props {
+export const TilkommenInntektFjernetAlert = ({
+    tilkommenInntektEvents,
+}: {
     tilkommenInntektEvents: (
         | TilkommenInntektEndretEvent
         | TilkommenInntektFjernetEvent
         | TilkommenInntektGjenopprettetEvent
         | TilkommenInntektOpprettetEvent
     )[];
-}
-
-export const TilkommenInntektFjernetAlert = ({ tilkommenInntektEvents }: Props) => {
+}) => {
     const fjernetEvent = tilkommenInntektEvents.findLast((event) => event.__typename == 'TilkommenInntektFjernetEvent');
     return (
         <Alert variant="info" size="small" style={{ width: '340px' }}>

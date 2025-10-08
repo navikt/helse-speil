@@ -1,19 +1,30 @@
-import { useQuery } from '@apollo/client';
 import {
-    RestGetPersonTilkomneInntektskilderDocument,
     TilkommenInntekt,
     TilkommenInntektEventEndringerListLocalDateEndring,
     TilkommenInntektskilde,
 } from '@io/graphql';
+import { QueryClient, useQuery } from '@tanstack/react-query';
 import { DateString } from '@typer/shared';
 
+const queryClient = new QueryClient();
+
 export const useHentTilkommenInntektQuery = (aktørId?: string) =>
-    useQuery(RestGetPersonTilkomneInntektskilderDocument, {
-        variables: {
-            aktorId: aktørId!,
+    useQuery(
+        {
+            queryKey: ['/personer/{aktorId}/tilkomne-inntektskilder', { aktørId }],
+            queryFn: async (): Promise<Array<TilkommenInntektskilde>> => {
+                const response = await fetch(`/api/spesialist/personer/${aktørId}/tilkomne-inntektskilder`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            },
+            enabled: !!aktørId,
+            gcTime: 0,
+            staleTime: Infinity,
         },
-        skip: !aktørId,
-    });
+        queryClient,
+    );
 
 export type TilkommenInntektMedOrganisasjonsnummer = TilkommenInntekt & {
     organisasjonsnummer: string;
@@ -29,7 +40,7 @@ export const tilTilkomneInntekterMedOrganisasjonsnummer = (inntektskilder: Tilko
 
 export const useTilkommenInntektMedOrganisasjonsnummer = (tilkommenInntektId: string, aktørId?: string) => {
     const { data: tilkommenInntektData, refetch } = useHentTilkommenInntektQuery(aktørId);
-    const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektData?.restGetPersonTilkomneInntektskilder
+    const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektData
         ?.flatMap((tilkommenInntektskilde) =>
             tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
                 organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,

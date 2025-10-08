@@ -26,8 +26,8 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
         person?.aktorId,
     );
     const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =
-        tilkommenInntektData?.restGetPersonTilkomneInntektskilder !== undefined
-            ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData.restGetPersonTilkomneInntektskilder)
+        tilkommenInntektData !== undefined
+            ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData)
             : undefined;
 
     const [leggTilTilkommenInntekt] = useMutation(RestPostTilkomneInntekterDocument);
