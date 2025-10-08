@@ -9,6 +9,7 @@ import { FetchPersonDocument, Maybe } from '@io/graphql';
 import { validFødselsnummer } from '@io/graphql/common';
 import { BadRequestError } from '@io/graphql/errors';
 import { usePersonKlargjøres } from '@state/personSomKlargjøres';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { useAddVarsel, useRapporterGraphQLErrors } from '@state/varsler';
 import { apolloExtensionValue } from '@utils/error';
 
@@ -46,7 +47,7 @@ export const Personsøk = (): ReactElement => {
             hentPerson({
                 variables: variables,
             }).then(({ data, error }) => {
-                if ((data?.person?.arbeidsgivere.length ?? 0) === 0) {
+                if ((finnAlleInntektsforhold(data?.person ?? null).length ?? 0) === 0) {
                     router.push('/');
                     if (error?.graphQLErrors) {
                         if (personenKlargjøres(error)) {

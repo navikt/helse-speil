@@ -2,9 +2,10 @@ import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { usePathname } from 'next/navigation';
 
 import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { ActivePeriod } from '@typer/shared';
 import { raise } from '@utils/ts';
-import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 const activePeriodIdState = atom<Maybe<string>>(null);
 
@@ -78,11 +79,16 @@ const findPeriod = (periodeId: Maybe<string>, person: PersonFragment) => {
     if (periodeId == null) return null;
 
     return (
-        person?.arbeidsgivere
-            .flatMap((arbeidsgiver) => [
-                ...arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder),
-                ...arbeidsgiver.ghostPerioder,
-            ])
+        finnAlleInntektsforhold(person)
+            .flatMap((arbeidsgiver) => {
+                const perioder = arbeidsgiver.generasjoner
+                    .flatMap((generasjon) => generasjon.perioder)
+                    .filter((periode) => isUberegnetPeriode(periode) || isBeregnetPeriode(periode));
+                const ghostPerioder = (isArbeidsgiver(arbeidsgiver) ? arbeidsgiver.ghostPerioder : []).filter(
+                    isGhostPeriode,
+                );
+                return [...perioder, ...ghostPerioder];
+            })
             .find((periode) => periode.id === periodeId) ?? null
     );
 };

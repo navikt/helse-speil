@@ -38,9 +38,7 @@ export const finnInntektsforholdForPeriode = (
     }
     return undefined;
 };
-export const finnInntektsforholdForPerson = (person: Maybe<PersonFragment>): Inntektsforhold[] => {
-    return person?.selvstendigNaering ? [person.selvstendigNaering] : (person?.arbeidsgivere ?? []);
-};
+
 /**
  * Returnerer alle unike hendelser av type 'INNTEKTSMELDING' for en gitt arbeidsgiver.
  *

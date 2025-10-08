@@ -177,21 +177,12 @@ const useHistorikk = (person: Maybe<PersonFragment>): HendelseObject[] => {
     return [];
 };
 
-const finnOverstyringerForAlleInntektsforhold = (person: Maybe<PersonFragment>): OverstyringForInntektsforhold[] => [
-    ...(person?.arbeidsgivere
-        // Ignorer selvstendig næring fra arbeidsgiverlisten når vi tar i bruk selvstendig feltet på person. Dette for å unngå duplikater.
-        .filter((arbeidsgiver) => arbeidsgiver.organisasjonsnummer !== 'SELVSTENDIG')
-        .map((arbeidsgiver) => ({
-            navn: arbeidsgiver.navn,
-            organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-            overstyringer: arbeidsgiver.overstyringer,
-        })) ?? []),
-    {
-        navn: 'SELVSTENDIG',
-        organisasjonsnummer: 'SELVSTENDIG',
-        overstyringer: person?.selvstendigNaering?.overstyringer ?? [],
-    },
-];
+const finnOverstyringerForAlleInntektsforhold = (person: Maybe<PersonFragment>): OverstyringForInntektsforhold[] =>
+    finnAlleInntektsforhold(person).map((inntektsforhold) => ({
+        navn: isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG',
+        organisasjonsnummer: isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG',
+        overstyringer: inntektsforhold.overstyringer,
+    }));
 
 const filterState = atom<Filtertype>('Historikk');
 

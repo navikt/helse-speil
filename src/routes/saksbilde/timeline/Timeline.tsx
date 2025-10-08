@@ -16,7 +16,7 @@ import { TilkommenInntektTimelineRows } from '@saksbilde/timeline/TilkommenInnte
 import { Inntektsforhold } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { finnInntektsforholdForPerson } from '@state/selectors/arbeidsgiver';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { TimelinePeriod } from '@typer/timeline';
 import { kanGjøreTilkommenInntektEndringer } from '@utils/featureToggles';
 import { isArbeidsgiver, isBeregnetPeriode } from '@utils/typeguards';
@@ -206,7 +206,7 @@ const TimelineContainer = (): ReactElement | null => {
         return null;
     }
 
-    const inntektsforhold = finnInntektsforholdForPerson(person);
+    const inntektsforhold = finnAlleInntektsforhold(person);
     const infotrygdutbetalinger = person.infotrygdutbetalinger;
 
     return (

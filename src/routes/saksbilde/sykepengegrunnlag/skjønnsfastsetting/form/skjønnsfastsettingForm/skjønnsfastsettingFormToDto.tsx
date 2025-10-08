@@ -6,7 +6,7 @@ import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } fro
 import { ActivePeriod } from '@typer/shared';
 import { toKronerOgØre } from '@utils/locale';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { isArbeidsgiver, isBeregnetPeriode } from '@utils/typeguards';
 
 import { SkjønnsfastsettingFormFields, SkjønnsfastsettingFormFieldsArbeidsgiver } from './SkjønnsfastsettingForm';
 
@@ -19,10 +19,10 @@ const finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt = (
     person: PersonFragment,
     period: ActivePeriod,
 ): InitierendeVedtaksperiodeForArbeidsgiver[] =>
-    person?.arbeidsgivere.flatMap((arbeidsgiver) => ({
-        arbeidsgiver: arbeidsgiver.organisasjonsnummer,
+    finnAlleInntektsforhold(person).flatMap((inntektsforhold) => ({
+        arbeidsgiver: isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG',
         initierendeVedtaksperiodeId:
-            arbeidsgiver.generasjoner?.[0]?.perioder
+            inntektsforhold.generasjoner?.[0]?.perioder
                 ?.filter(
                     (periode) =>
                         periode.skjaeringstidspunkt === period.skjaeringstidspunkt && isBeregnetPeriode(periode),

@@ -1,6 +1,9 @@
 import dayjs from 'dayjs';
 import { GraphQLError } from 'graphql';
 
+import { PersonFragment } from '@io/graphql';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
+
 import { MutationSettVarselstatusArgs, Person, VarselDto, Varselstatus } from '../schemaTypes';
 
 const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
@@ -26,7 +29,7 @@ export class VarselMock {
         { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusArgs,
         person?: Person,
     ): VarselDto | GraphQLError => {
-        const gjeldendeVarsel = person?.arbeidsgivere
+        const gjeldendeVarsel = finnAlleInntektsforhold((person as PersonFragment) ?? null)
             .flatMap((arbeidsgiver) =>
                 arbeidsgiver.generasjoner.flatMap((generasjon) =>
                     generasjon.perioder.flatMap((periode) => periode.varsler),
