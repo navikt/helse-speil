@@ -1,11 +1,12 @@
 import * as R from 'remeda';
 
-import { ArbeidsgiverFragment, PeriodeFragment } from '@io/graphql';
+import { PeriodeFragment } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export const finnInitierendeVedtaksperiodeIdFraOverlappendePeriode = (
-    arbeidsgivere: ArbeidsgiverFragment[],
+    arbeidsgivere: Inntektsforhold[],
     aktivPeriode: ActivePeriod,
 ) => {
     const allePerioderPåSkjæringstidspunkt: PeriodeFragment[] = R.pipe(

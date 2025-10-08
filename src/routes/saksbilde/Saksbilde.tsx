@@ -10,6 +10,7 @@ import { harPeriodeDagerMedUnder20ProsentTotalGrad } from '@saksbilde/utbetaling
 import { finnInitierendeVedtaksperiodeIdFraOverlappendePeriode } from '@saksbilde/utils';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import styles from './saksbilder/SharedViews.module.css';
@@ -32,14 +33,15 @@ export const Saksbilde = ({ children }: PropsWithChildren) => {
         return <PeriodeViewError />;
     }
 
+    const inntektsforhold = finnAlleInntektsforhold(person);
     const initierendeVedtaksperiodeId =
         isBeregnetPeriode(aktivPeriode) || isUberegnetPeriode(aktivPeriode)
             ? aktivPeriode.vedtaksperiodeId
-            : finnInitierendeVedtaksperiodeIdFraOverlappendePeriode(person.arbeidsgivere, aktivPeriode);
+            : finnInitierendeVedtaksperiodeIdFraOverlappendePeriode(inntektsforhold, aktivPeriode);
 
     const periodeHarDatoerMedUnder20ProsentTotalGrad = harPeriodeDagerMedUnder20ProsentTotalGrad(
         aktivPeriode,
-        person.arbeidsgivere,
+        inntektsforhold,
         aktivPeriode.skjaeringstidspunkt,
     );
 

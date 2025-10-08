@@ -1,13 +1,13 @@
+import { GhostPeriode, Periode } from '@io/graphql';
 import {
     getOppkuttedePerioder,
     getOverlappendeArbeidsgivere,
     harPeriodeDagerMedUnder20ProsentTotalGrad,
 } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
-import { finnOverstyringerForAktivInntektsforhold } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { ActivePeriod } from '@typer/shared';
-import { isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
+import { finnAlleInntektsforhold, finnOverstyringerForAktivInntektsforhold } from '@state/selectors/arbeidsgiver';
+import { isArbeidsgiver, isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
 
 export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     const { data } = useFetchPersonQuery();
@@ -18,8 +18,9 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
 
     const overstyringer = finnOverstyringerForAktivInntektsforhold(aktivPeriode, person);
     const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, aktivPeriode);
+    const inntektsforhold = finnAlleInntektsforhold(person);
     const delperioder = getOppkuttedePerioder(overlappendeArbeidsgivere, aktivPeriode)?.filter((it) =>
-        harPeriodeDagerMedUnder20ProsentTotalGrad(it, person.arbeidsgivere, aktivPeriode.skjaeringstidspunkt),
+        harPeriodeDagerMedUnder20ProsentTotalGrad(it, inntektsforhold, aktivPeriode.skjaeringstidspunkt),
     );
 
     const harBlittVurdert: boolean =
@@ -36,13 +37,15 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     const sammenlignSkjæringstidspunkt = erPeriodePåSkjæringstidspunkt(aktivPeriode.skjaeringstidspunkt);
 
     const harFlereArbeidsgiverePåSkjæringstidspunkt =
-        person.arbeidsgivere.filter(
-            (it) =>
-                (it.generasjoner[0]?.perioder.filter(sammenlignSkjæringstidspunkt).length ?? 0) > 0 ||
-                it.ghostPerioder.filter(sammenlignSkjæringstidspunkt).filter((it) => !it.deaktivert).length > 0,
+        inntektsforhold.filter(
+            (inntektsforhold) =>
+                (inntektsforhold.generasjoner[0]?.perioder.filter(sammenlignSkjæringstidspunkt).length ?? 0) > 0 ||
+                (isArbeidsgiver(inntektsforhold) &&
+                    inntektsforhold.ghostPerioder.filter(sammenlignSkjæringstidspunkt).filter((it) => !it.deaktivert)
+                        .length > 0),
         )?.length > 1;
 
-    const alleSammenfallendeDager = person.arbeidsgivere
+    const alleSammenfallendeDager = inntektsforhold
         .flatMap((ag) => ag.generasjoner[0]?.perioder)
         .filter(
             (periode) =>
@@ -66,5 +69,5 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     );
 };
 
-const erPeriodePåSkjæringstidspunkt = (skjæringstidspunkt: string) => (periode: ActivePeriod) =>
+const erPeriodePåSkjæringstidspunkt = (skjæringstidspunkt: string) => (periode: Periode | GhostPeriode) =>
     periode.skjaeringstidspunkt === skjæringstidspunkt;

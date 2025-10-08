@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import {
-    ArbeidsgiverFragment,
+    Arbeidsgiver,
     BeregnetPeriodeFragment,
     EndrePaVent,
     FjernetFraPaVent,
@@ -17,7 +17,6 @@ import {
     Maybe,
     OpphevStansAutomatiskBehandlingSaksbehandler,
     Overstyring,
-    OverstyringFragment,
     Periode,
     PeriodeHistorikkElementNy,
     PeriodehistorikkType,
@@ -336,7 +335,7 @@ const getTidligsteVurderingstidsstempelForPeriode = (
 export const getDagoverstyringer = (
     period: BeregnetPeriodeFragment,
     generasjoner: Generasjon[],
-    overstyringer: OverstyringFragment[],
+    overstyringer: Overstyring[],
 ): Array<HendelseObject> => {
     const vurderingstidsstempel = getTidligsteVurderingstidsstempelForPeriode(period, generasjoner);
     const førsteVurdertePeriodeForArbeidsgiver = getFørsteVurdertePeriodeForSkjæringstidspunktet(
@@ -514,7 +513,7 @@ export const getInntektoverstyringer = (
 
 export const getInntektoverstyringerForGhost = (
     skjaeringstidspunkt: string,
-    arbeidsgiver: ArbeidsgiverFragment,
+    arbeidsgiver: Arbeidsgiver,
     person: PersonFragment,
 ): Array<InntektoverstyringhendelseObject> => {
     return arbeidsgiver.overstyringer
@@ -532,7 +531,7 @@ export const getInntektoverstyringerForGhost = (
 
 export const getArbeidsforholdoverstyringhendelser = (
     period: BeregnetPeriodeFragment | GhostPeriodeFragment,
-    overstyringer: OverstyringFragment[],
+    overstyringer: Overstyring[],
 ): Array<ArbeidsforholdoverstyringhendelseObject> => {
     return overstyringer
         .filter(isArbeidsforholdoverstyring)
@@ -615,7 +614,7 @@ const getArbeidsgivereÅrsinntekt = (
 export const getMinimumSykdomsgradoverstyring = (
     period: BeregnetPeriodeFragment,
     generasjoner: Generasjon[],
-    overstyringer: OverstyringFragment[],
+    overstyringer: Overstyring[],
 ): Array<MinimumSykdomsgradhendelseObject> => {
     const førsteVurdertePeriodeForArbeidsgiver = getFørsteVurdertePeriodeForSkjæringstidspunktet(
         period.skjaeringstidspunkt,

@@ -5,7 +5,7 @@ import {
     BeregnetPeriodeFragment,
     Dagoverstyring,
     Inntektoverstyring,
-    OverstyringFragment,
+    Overstyring,
     PersonFragment,
 } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
@@ -17,7 +17,7 @@ type UseEndringerForPeriodeResult = {
     dagendringer: Dagoverstyring[];
 };
 export const useEndringerForPeriode = (
-    endringer: Array<OverstyringFragment> | undefined,
+    endringer: Array<Overstyring> | undefined,
     person: PersonFragment,
 ): UseEndringerForPeriodeResult => {
     const periode = useActivePeriod(person);

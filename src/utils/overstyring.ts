@@ -1,5 +1,5 @@
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
-import { getArbeidsgiverWithPeriod } from '@state/selectors/arbeidsgiver';
+import { erPeriodeIFørsteGenerasjon } from '@state/selectors/arbeidsgiver';
 import { getOverlappendePerioder, isForkastet, isGodkjent } from '@state/selectors/period';
 import { getPeriodState } from '@utils/mapping';
 
@@ -68,9 +68,7 @@ const validateGodkjent = (periode: BeregnetPeriodeFragment): void => {
 };
 
 const validatePeriodeTilhørerNyesteGenerasjon = (person: PersonFragment, periode: BeregnetPeriodeFragment): void => {
-    const arbeidsgiver = getArbeidsgiverWithPeriod(person, periode);
-
-    if (!arbeidsgiver) {
+    if (!erPeriodeIFørsteGenerasjon(person, periode)) {
         throw {
             value: false,
             technical: 'Arbeidsgiver mangler eller periode er i tidligere generasjon',

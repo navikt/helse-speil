@@ -1,5 +1,5 @@
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
-import { finnGenerasjonerForAktivPeriode } from '@state/arbeidsgiver';
+import { finnGenerasjonerForAktivPeriode } from '@state/selectors/arbeidsgiver';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const useForrigeGenerasjonPeriodeMedPeriode = (periode: BeregnetPeriodeFragment, person: PersonFragment) => {

@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
-    ArbeidsgiverFragment,
+    Arbeidsgiver,
     BeregnetPeriodeFragment,
     Maybe,
     Periode,
@@ -11,13 +11,13 @@ import {
     UberegnetPeriodeFragment,
 } from '@io/graphql';
 import {
-    finnPeriodeTilGodkjenning,
     useAktivtInntektsforhold,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
 import { finnArbeidsgiver } from '@state/arbeidsgiverHelpers';
 import { useActivePeriod } from '@state/periode';
+import { finnPeriodeTilGodkjenning } from '@state/selectors/arbeidsgiver';
 import { isForkastet } from '@state/selectors/period';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
@@ -136,7 +136,8 @@ export const useArbeidsforholdKanOverstyres = (
 
 const harBeregnetPeriodePåSkjæringstidspunkt = (perioder: Array<Periode>, skjæringstidspunkt: DateString): boolean =>
     perioder.filter(isBeregnetPeriode).find((it) => it.skjaeringstidspunkt === skjæringstidspunkt) !== undefined;
-const harIngenBeregnedePerioder = (arbeidsgiver: ArbeidsgiverFragment, skjæringstidspunkt: DateString): boolean =>
+
+const harIngenBeregnedePerioder = (arbeidsgiver: Arbeidsgiver, skjæringstidspunkt: DateString): boolean =>
     (
         arbeidsgiver?.generasjoner[0]?.perioder.filter(
             (it) => it.skjaeringstidspunkt === skjæringstidspunkt && isBeregnetPeriode(it),
@@ -144,7 +145,7 @@ const harIngenBeregnedePerioder = (arbeidsgiver: ArbeidsgiverFragment, skjæring
     ).length === 0;
 
 const harIngenEtterfølgendePerioder = (
-    arbeidsgiver: ArbeidsgiverFragment,
+    arbeidsgiver: Arbeidsgiver,
     skjæringstidspunkt: DateString,
     fom: DateString,
 ): boolean =>

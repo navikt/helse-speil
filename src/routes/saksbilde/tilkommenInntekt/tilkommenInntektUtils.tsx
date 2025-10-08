@@ -1,6 +1,7 @@
 import { PersonFragment } from '@io/graphql';
 import { useTabelldagerMap } from '@saksbilde/utbetaling/utbetalingstabell/useTabelldagerMap';
 import { Inntektsforhold, useDagoverstyringer } from '@state/arbeidsgiver';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { DatePeriod, DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -9,7 +10,7 @@ import { getAntallAGPDagerBruktFørPerioden } from '@utils/periode';
 import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering, isUberegnetPeriode } from '@utils/typeguards';
 
 export function utledSykefraværstilfelleperioder(person: PersonFragment): DatePeriod[] {
-    const vedtaksperioder = person.arbeidsgivere
+    const vedtaksperioder = finnAlleInntektsforhold(person)
         .flatMap((ag) => ag.generasjoner[0]?.perioder)
         .filter((periode) => periode != null)
         .map((periode) => ({

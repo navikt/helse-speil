@@ -15,7 +15,7 @@ import { Alert, Button, HStack } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
-import { ArbeidsgiverFragment, Maybe, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
+import { Arbeidsgiver, Maybe, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
 import {
@@ -25,6 +25,7 @@ import {
 } from '@state/arbeidsgiver';
 import { useInntektOgRefusjon, useLokaleInntektOverstyringer, useOverstyrtInntektMetadata } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@typer/overstyring';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 import { ActivePeriod, DateString } from '@typer/shared';
@@ -49,7 +50,7 @@ export interface InntektFormFields {
 
 interface EditableInntektProps {
     person: PersonFragment;
-    arbeidsgiver: ArbeidsgiverFragment;
+    arbeidsgiver: Arbeidsgiver;
     omregnetÅrsinntekt: OmregnetArsinntekt;
     begrunnelser: BegrunnelseForOverstyring[];
     skjæringstidspunkt: DateString;
@@ -157,7 +158,7 @@ export const InntektOgRefusjonSkjema = ({
                 },
             ],
             vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(
-                person.arbeidsgivere,
+                finnAlleInntektsforhold(person),
                 valgtVedtaksperiode!,
             ),
         };

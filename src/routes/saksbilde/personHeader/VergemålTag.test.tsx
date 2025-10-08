@@ -1,27 +1,41 @@
 import React from 'react';
 
-import { finnPeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import { enArbeidsgiver } from '@test-data/arbeidsgiver';
+import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import { VergemålTag } from './VergemålTag';
 
-jest.mock('@state/arbeidsgiver');
-
 describe('VergemålTag', () => {
-    const person = enPerson();
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
+    const personUtenVarsel = enPerson();
+    const personMedVarsel = enPerson().medArbeidsgivere([
+        enArbeidsgiver().medPerioder([
+            enBeregnetPeriode()
+                .somErTilGodkjenning()
+                .medVarsler([
+                    {
+                        __typename: 'VarselDTO',
+                        kode: 'SB_EX_4',
+                        definisjonId: '',
+                        generasjonId: '',
+                        opprettet: '',
+                        tittel: '',
+                        vurdering: null,
+                        forklaring: null,
+                        handling: null,
+                    },
+                ]),
+        ]),
+    ]);
+
     it('rendrer tag når det finnes en periode til godkjenning med varsel for vergemål', () => {
-        (finnPeriodeTilGodkjenning as jest.Mock).mockReturnValue({ varsler: [{ kode: 'SB_EX_4' }] });
-        render(<VergemålTag person={person} />);
+        render(<VergemålTag person={personMedVarsel} />);
         expect(screen.queryByText('Vergemål')).toBeVisible();
     });
     it('rendrer ikke tag når det ikke finnes varsel for vergemål på periode til godkjenning', () => {
-        (finnPeriodeTilGodkjenning as jest.Mock).mockReturnValue(null);
-        render(<VergemålTag person={person} />);
+        render(<VergemålTag person={personUtenVarsel} />);
         expect(screen.queryByText('Vergemål')).not.toBeInTheDocument();
     });
 });

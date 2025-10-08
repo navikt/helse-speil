@@ -7,19 +7,20 @@ import {
     GhostPeriodeFragment,
     Maybe,
     Overstyring,
-    OverstyringFragment,
     PersonFragment,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import {
-    findArbeidsgiverWithGhostPeriode,
-    finnGenerasjonerForAktivPeriode,
-    finnInntektsforholdForPeriode,
-    finnOverstyringerForAktivInntektsforhold,
-} from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { atomWithSessionStorage } from '@state/jotai';
 import { toNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
+import {
+    findArbeidsgiverWithGhostPeriode,
+    finnAlleInntektsforhold,
+    finnGenerasjonerForAktivPeriode,
+    finnInntektsforholdForPeriode,
+    finnOverstyringerForAktivInntektsforhold,
+} from '@state/selectors/arbeidsgiver';
 import { Filtertype, HendelseObject, Hendelsetype } from '@typer/historikk';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -48,8 +49,14 @@ const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
 export interface OverstyringForInntektsforhold {
     navn: string;
     organisasjonsnummer: string;
-    overstyringer: OverstyringFragment[];
+    overstyringer: Overstyring[];
 }
+
+export const tilOverstyringerForInntektsforhold = (inntektsforhold: Inntektsforhold) => ({
+    navn: isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG',
+    organisasjonsnummer: isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG',
+    overstyringer: inntektsforhold.overstyringer,
+});
 
 const getHendelserForBeregnetPeriode = (
     period: BeregnetPeriodeFragment,
@@ -92,16 +99,22 @@ const hendelseTidspunktLiktEllerFørUtbetalingForPeriode =
             : true;
 
 const getHendelserForGhostPeriode = (period: GhostPeriodeFragment, person: PersonFragment): Array<HendelseObject> => {
-    const arbeidsgiver = findArbeidsgiverWithGhostPeriode(period, person.arbeidsgivere);
+    const inntektsforhold = finnAlleInntektsforhold(person);
+    const arbeidsgiver = findArbeidsgiverWithGhostPeriode(period, inntektsforhold);
     const arbeidsforholdoverstyringer = getArbeidsforholdoverstyringhendelser(
         period,
         arbeidsgiver?.overstyringer ?? [],
     );
+    const overstyringerForInntektsforhold: OverstyringForInntektsforhold[] = inntektsforhold
+        .map(tilOverstyringerForInntektsforhold)
+        .filter(
+            (overstyringForInntektsforhold) =>
+                overstyringForInntektsforhold.organisasjonsnummer !== arbeidsgiver?.organisasjonsnummer,
+        );
+
     const annetarbeidsforholdoverstyringer = getAnnetArbeidsforholdoverstyringhendelser(
         period,
-        person.arbeidsgivere.filter(
-            (_arbeidsgiver) => _arbeidsgiver.organisasjonsnummer !== arbeidsgiver?.organisasjonsnummer,
-        ),
+        overstyringerForInntektsforhold,
     );
     const inntektoverstyringer = arbeidsgiver
         ? getInntektoverstyringerForGhost(period.skjaeringstidspunkt, arbeidsgiver, person)

@@ -13,9 +13,11 @@ import {
     PeriodeFragment,
     PersonFragment,
 } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { useCalculatingState } from '@state/calculating';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { overlapper } from '@state/selectors/period';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { MinimumSykdomsgradArbeidsgiver, OverstyrtMinimumSykdomsgradDTO } from '@typer/overstyring';
@@ -79,10 +81,10 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
 };
 
 export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: ActivePeriod) =>
-    person.arbeidsgivere.filter(
-        (arbeidsgiver) =>
+    finnAlleInntektsforhold(person).filter(
+        (inntektsforhold) =>
             (
-                arbeidsgiver.generasjoner[0]?.perioder
+                inntektsforhold.generasjoner[0]?.perioder
                     ?.filter(isBeregnetPeriode || isUberegnetPeriode)
                     ?.filter(overlapper(periode)) ?? []
             ).length > 0,
@@ -90,7 +92,7 @@ export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: Ac
 
 export const harPeriodeDagerMedUnder20ProsentTotalGrad = (
     periode: DatePeriod,
-    arbeidsgivere: ArbeidsgiverFragment[],
+    arbeidsgivere: Inntektsforhold[],
     skjæringstidspunkt: string,
 ): boolean => {
     const alleOverlappendePerioderPåSkjæringstidspunkt: PeriodeFragment[] = R.pipe(

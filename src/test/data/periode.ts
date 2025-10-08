@@ -14,6 +14,7 @@ import {
     Utbetalingsdagtype,
     Utbetalingstatus,
     Utbetalingtype,
+    VarselDto,
 } from '@io/graphql';
 import { enOppgave } from '@test-data/oppgave';
 import { TestDag } from '@test-data/person-query-types';
@@ -48,6 +49,7 @@ type Extensions = {
     medUtbetaling(utbetaling: Utbetaling): BeregnetPeriodeFragment & Extensions;
     medSkjæringstidspunkt(skjæringstidspunkt: string): BeregnetPeriodeFragment & Extensions;
     medOppgave(oppgave?: OppgaveForPeriodevisning): BeregnetPeriodeFragment & Extensions;
+    medVarsler(varseler: VarselDto[]): BeregnetPeriodeFragment & Extensions;
     somErForkastet(): BeregnetPeriodeFragment & Extensions;
     somErTilGodkjenning(): BeregnetPeriodeFragment & Extensions;
     somErTilRevurdering(): BeregnetPeriodeFragment & Extensions;
@@ -102,6 +104,10 @@ export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, 
     avslag: [],
     vedtakBegrunnelser: [],
     ...overrides,
+    medVarsler(varseler: VarselDto[]) {
+        this.varsler = varseler;
+        return this;
+    },
     medUtbetaling(utbetaling: Utbetaling) {
         this.utbetaling = utbetaling;
         return this;

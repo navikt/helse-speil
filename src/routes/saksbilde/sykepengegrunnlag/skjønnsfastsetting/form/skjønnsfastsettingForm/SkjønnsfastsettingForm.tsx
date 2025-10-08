@@ -24,8 +24,9 @@ import {
     Skjønnsfastsettingstype,
     usePostSkjønnsfastsattSykepengegrunnlag,
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { avrundetToDesimaler } from '@utils/tall';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { isArbeidsgiver, isBeregnetPeriode } from '@utils/typeguards';
 
 import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
 
@@ -36,20 +37,23 @@ export const useAktiveArbeidsgivere = (
     period: BeregnetPeriodeFragment | GhostPeriodeFragment,
     inntekter: Arbeidsgiverinntekt[],
 ) =>
-    person.arbeidsgivere
+    finnAlleInntektsforhold(person)
         .filter(
-            (arbeidsgiver) =>
-                arbeidsgiver.generasjoner?.[0]?.perioder.some(
+            (inntektsforhold) =>
+                inntektsforhold.generasjoner?.[0]?.perioder.some(
                     (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt,
                 ) ||
-                arbeidsgiver.ghostPerioder.some(
-                    (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt && !it.deaktivert,
-                ),
+                (isArbeidsgiver(inntektsforhold) &&
+                    inntektsforhold.ghostPerioder.some(
+                        (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt && !it.deaktivert,
+                    )),
         )
         .filter(
-            (arbeidsgiver) =>
-                inntekter.find((inntekt) => inntekt.arbeidsgiver === arbeidsgiver.organisasjonsnummer)
-                    ?.omregnetArsinntekt !== null,
+            (inntektsforhold) =>
+                inntekter.find(
+                    (inntekt) =>
+                        isArbeidsgiver(inntektsforhold) && inntekt.arbeidsgiver === inntektsforhold.organisasjonsnummer,
+                )?.omregnetArsinntekt !== null,
         );
 
 function useFormDefaults(
@@ -172,11 +176,12 @@ export const SkjønnsfastsettingForm = ({
     formValues,
     setFormValues,
 }: SkjønnsfastsettingFormProps): ReactElement | null => {
-    const aktiveArbeidsgivere = useAktiveArbeidsgivere(person, periode, inntekter);
+    const inntektsforhold = useAktiveArbeidsgivere(person, periode, inntekter);
     const aktiveArbeidsgivereInntekter = inntekter.filter((inntekt) =>
-        aktiveArbeidsgivere.some(
-            (arbeidsgiver) =>
-                arbeidsgiver.organisasjonsnummer === inntekt.arbeidsgiver &&
+        inntektsforhold.some(
+            (inntektsforhold) =>
+                isArbeidsgiver(inntektsforhold) &&
+                inntektsforhold.organisasjonsnummer === inntekt.arbeidsgiver &&
                 inntekt.omregnetArsinntekt !== null &&
                 !inntekt.deaktivert,
         ),
@@ -249,7 +254,7 @@ export const SkjønnsfastsettingForm = ({
         }
     }, [valgtType, avrundetSammenligningsgrunnlag, setValue, aktiveArbeidsgivereInntekter]);
 
-    if (!aktiveArbeidsgivere || !aktiveArbeidsgivereInntekter) return null;
+    if (!inntektsforhold || !aktiveArbeidsgivereInntekter) return null;
 
     const confirmChanges = () => {
         postSkjønnsfastsetting(
@@ -276,7 +281,7 @@ export const SkjønnsfastsettingForm = ({
                     {((harValgt25Avvik && valgtType) || (valgtÅrsak !== '' && !harValgt25Avvik)) && (
                         <>
                             <SkjønnsfastsettingArbeidsgivere
-                                arbeidsgivere={aktiveArbeidsgivere}
+                                arbeidsgivere={inntektsforhold}
                                 sammenligningsgrunnlag={avrundetSammenligningsgrunnlag}
                                 sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                             />

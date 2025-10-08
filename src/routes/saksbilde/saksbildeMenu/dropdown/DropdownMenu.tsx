@@ -10,6 +10,7 @@ import { OpphevStansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/
 import { StansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/StansAutomatiskBehandlingButton';
 import { useAktivtInntektsforhold } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { ActivePeriod } from '@typer/shared';
 import { isArbeidsgiver, isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
@@ -39,7 +40,7 @@ export const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps)
     const automatiskBehandlingStansetAvSaksbehandler =
         person.personinfo.automatiskBehandlingStansetAvSaksbehandler ?? false;
 
-    const generasjonHarAnnullering = person.arbeidsgivere.some((ag) =>
+    const generasjonHarAnnullering = finnAlleInntektsforhold(person).some((ag) =>
         ag.generasjoner.some((generasjon) =>
             generasjon.perioder.some(
                 (periode) =>

@@ -15,8 +15,9 @@ import {
 } from '@io/graphql';
 import { EndringsloggSkjønnsfastsettingButton } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/EndringsloggSkjønnsfastsettingButton';
 import { useActivePeriod } from '@state/periode';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { somPenger, toKronerOgØre } from '@utils/locale';
-import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
+import { isArbeidsgiver, isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import styles from './SkjønnsfastsettingHeader.module.css';
 
@@ -50,16 +51,18 @@ export const SkjønnsfastsettingHeader = ({
     if (!person || !aktivPeriode) return <></>;
 
     const skjønnsfastsettingEndringer: SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo[] =
-        person.arbeidsgivere.flatMap((arbeidsgiver) =>
-            arbeidsgiver.overstyringer
+        finnAlleInntektsforhold(person).flatMap((inntektsforhold) =>
+            inntektsforhold.overstyringer
                 .filter(isSykepengegrunnlagskjønnsfastsetting)
                 .filter((overstyring) =>
                     dayjs(overstyring.skjonnsfastsatt.skjaeringstidspunkt).isSame(aktivPeriode.skjaeringstidspunkt),
                 )
                 .map((overstyring) => ({
                     ...overstyring,
-                    arbeidsgiverIdentifikator: arbeidsgiver.organisasjonsnummer,
-                    arbeidsgivernavn: arbeidsgiver.navn,
+                    arbeidsgiverIdentifikator: isArbeidsgiver(inntektsforhold)
+                        ? inntektsforhold.organisasjonsnummer
+                        : 'SELVSTENDIG',
+                    arbeidsgivernavn: isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG',
                 })),
         );
 

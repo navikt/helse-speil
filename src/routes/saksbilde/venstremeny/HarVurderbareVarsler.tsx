@@ -2,7 +2,8 @@ import React, { ReactElement } from 'react';
 
 import { PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
-import { finnPeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import { finnAlleInntektsforhold, finnPeriodeTilGodkjenning } from '@state/selectors/arbeidsgiver';
+import { isArbeidsgiver } from '@utils/typeguards';
 
 interface HarVurderbareVarslerProps {
     person: PersonFragment;
@@ -13,12 +14,14 @@ export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): Rea
 
     if (!harPeriodeTilGodkjenning) return null;
 
-    const arbeidsgivereMedVurderbareVarsler = person.arbeidsgivere
+    const arbeidsgivereMedVurderbareVarsler = finnAlleInntektsforhold(person)
         .map(
-            (arbeidsgiver): Periodeinformasjon => ({
-                arbeidsgiverIdentifikator: arbeidsgiver.organisasjonsnummer,
-                arbeidsgivernavn: arbeidsgiver.navn,
-                perioder: arbeidsgiver.generasjoner
+            (inntektsforhold): Periodeinformasjon => ({
+                arbeidsgiverIdentifikator: isArbeidsgiver(inntektsforhold)
+                    ? inntektsforhold.organisasjonsnummer
+                    : 'SELVSTENDIG',
+                arbeidsgivernavn: isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG',
+                perioder: inntektsforhold.generasjoner
                     .flatMap((generasjon) =>
                         generasjon.perioder.filter((periode) =>
                             periode.varsler.some(

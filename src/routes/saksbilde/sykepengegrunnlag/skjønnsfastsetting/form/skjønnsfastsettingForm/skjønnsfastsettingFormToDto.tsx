@@ -1,6 +1,7 @@
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { Arbeidsgiverinntekt, Maybe, PersonFragment } from '@io/graphql';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';
 import { toKronerOgØre } from '@utils/locale';
@@ -86,6 +87,6 @@ export const skjønnsfastsettingFormToDto = (
                     )[0]?.initierendeVedtaksperiodeId ?? null,
             }),
         ),
-        vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(person.arbeidsgivere, period),
+        vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(finnAlleInntektsforhold(person), period),
     };
 };

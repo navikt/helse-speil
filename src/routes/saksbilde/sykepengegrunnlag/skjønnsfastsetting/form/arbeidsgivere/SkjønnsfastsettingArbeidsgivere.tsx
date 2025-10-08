@@ -4,17 +4,19 @@ import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Detail, Fieldset, Label, Table, VStack } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import { ArbeidsgiverFragment, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { Sykepengegrunnlagsgrense } from '@io/graphql';
 import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
 import { avrundetToDesimaler } from '@utils/tall';
+import { isArbeidsgiver } from '@utils/typeguards';
 
 import { ArbeidsgiverRad } from './ArbeidsgiverRad';
 
 interface SkjønnsfastsettingArbeidsgivereProps {
-    arbeidsgivere: ArbeidsgiverFragment[];
+    arbeidsgivere: Inntektsforhold[];
     sammenligningsgrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
 }
@@ -54,8 +56,12 @@ export const SkjønnsfastsettingArbeidsgivere = ({
 
     const antallArbeidsgivere = fields.length;
 
-    const getArbeidsgiverNavn = (organisasjonsnummer: string) =>
-        arbeidsgivere.find((ag) => ag.organisasjonsnummer === organisasjonsnummer)?.navn;
+    const getArbeidsgiverNavn = (organisasjonsnummer: string) => {
+        if (organisasjonsnummer === 'SELVSTENDIG') {
+            return 'SELVSTENDIG';
+        }
+        return arbeidsgivere.filter(isArbeidsgiver).find((ag) => ag.organisasjonsnummer === organisasjonsnummer)?.navn;
+    };
 
     return (
         <Fieldset

@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { Alert, Box } from '@navikt/ds-react';
 
 import {
-    ArbeidsgiverFragment,
+    Arbeidsgiver,
     Arbeidsgiverinntekt,
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
@@ -12,6 +12,8 @@ import {
     Sykepengegrunnlagsgrense,
     VilkarsgrunnlagAvviksvurdering,
 } from '@io/graphql';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
+import { isArbeidsgiver } from '@utils/typeguards';
 
 import { SkjønnsfastsettingSykepengegrunnlag } from '../skjønnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
@@ -36,14 +38,14 @@ interface SykepengegrunnlagPanelProps {
 // at arbeidsgiverne vises i samme rekkefølge på sykepengegrunnlag-fanen som i tidslinja.
 const getSorterteInntekter = (
     inntekter: Arbeidsgiverinntekt[],
-    arbeidsgivere: ArbeidsgiverFragment[],
+    arbeidsgivere: Arbeidsgiver[],
 ): Arbeidsgiverinntekt[] => {
     const orgnumre = arbeidsgivere.map((ag) => ag.organisasjonsnummer);
 
     const inntekterFraAndre = inntekter.filter((inntekt) => !orgnumre.includes(inntekt.arbeidsgiver));
     const sortereKjenteInntekter = orgnumre
         .map((orgnummer) => inntekter.find((inntekt) => orgnummer === inntekt.arbeidsgiver))
-        .filter((it) => it) as Arbeidsgiverinntekt[];
+        .filter((it) => it != undefined);
 
     return sortereKjenteInntekter.concat(inntekterFraAndre);
 };
@@ -60,13 +62,14 @@ export const SykepengegrunnlagPanel = ({
     periode,
     organisasjonsnummer,
 }: SykepengegrunnlagPanelProps) => {
+    const arbeidsgivere = finnAlleInntektsforhold(person).filter(isArbeidsgiver);
     return (
         <div className={styles.wrapper}>
             {avviksvurdering !== null ? (
                 <>
                     <InntektsgrunnlagTable
                         person={person}
-                        inntekter={getSorterteInntekter(inntekter, person.arbeidsgivere)}
+                        inntekter={getSorterteInntekter(inntekter, arbeidsgivere)}
                         setAktivInntektskilde={setAktivInntektskilde}
                         aktivInntektskilde={aktivInntektskilde}
                         omregnetÅrsinntekt={Number(avviksvurdering.beregningsgrunnlag)}
@@ -86,7 +89,7 @@ export const SykepengegrunnlagPanel = ({
                         omregnetÅrsinntekt={Number(avviksvurdering.beregningsgrunnlag)}
                         sammenligningsgrunnlag={Number(avviksvurdering.sammenligningsgrunnlag)}
                         skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
-                        inntekter={getSorterteInntekter(inntekter, person.arbeidsgivere)}
+                        inntekter={getSorterteInntekter(inntekter, arbeidsgivere)}
                         avviksprosent={Number(avviksvurdering.avviksprosent)}
                         organisasjonsnummer={organisasjonsnummer}
                     />

@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 
-import { ArbeidsgiverFragment, BeregnetPeriodeFragment, Varselstatus } from '@io/graphql';
+import { BeregnetPeriodeFragment, Varselstatus } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { DatePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -19,11 +20,11 @@ export const useUvurderteVarslerPåPeriode = (periode: BeregnetPeriodeFragment |
 
 export const useHarUvurderteVarslerPåEllerFør = (
     activePeriod: BeregnetPeriodeFragment,
-    arbeidsgivere: ArbeidsgiverFragment[],
+    inntektsforhold: Inntektsforhold[],
 ): boolean => {
-    return arbeidsgivere
-        .filter((arbeidsgivere) => arbeidsgivere.generasjoner.length > 0)
-        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder)
+    return inntektsforhold
+        .filter((inntektsforhold) => inntektsforhold.generasjoner.length > 0)
+        .flatMap((inntektsforhold) => inntektsforhold.generasjoner[0]?.perioder)
         .filter((periode) => dayjs(periode?.tom).isSameOrBefore(dayjs(activePeriod.tom)))
         .some((periode) => {
             if (!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode)) return false;

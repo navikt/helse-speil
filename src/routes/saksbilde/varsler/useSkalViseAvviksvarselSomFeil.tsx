@@ -1,7 +1,8 @@
 import { Inntektskilde, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
-import { finnPeriodeTilGodkjenning, useAktivtInntektsforhold } from '@state/arbeidsgiver';
+import { useAktivtInntektsforhold } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
+import { finnPeriodeTilGodkjenning } from '@state/selectors/arbeidsgiver';
 import { getPeriodState } from '@utils/mapping';
 import { isArbeidsgiver } from '@utils/typeguards';
 

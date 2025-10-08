@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { BeregnetPeriodeFragment, MinimumSykdomsgradOverstyring, PersonFragment } from '@io/graphql';
 import { Delperiode } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/Delperiode';
-import { finnOverstyringerForAktivInntektsforhold } from '@state/arbeidsgiver';
+import { finnOverstyringerForAktivInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { getOverlappendePerioder, overlapper } from '@state/selectors/period';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '@utils/date';

@@ -5,8 +5,6 @@ import { Alert } from '@navikt/ds-react';
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import {
-    Arbeidsforholdoverstyring,
-    ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
     Overstyring,
     Periodetilstand,
@@ -16,11 +14,18 @@ import {
 import styles from '@saksbilde/saksbilder/SharedViews.module.css';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
-import { useHarDagOverstyringer } from '@state/arbeidsgiver';
+import { Inntektsforhold, useHarDagOverstyringer } from '@state/arbeidsgiver';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { ActivePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
-import { isArbeidsforholdoverstyring, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import {
+    isArbeidsforholdoverstyring,
+    isArbeidsgiver,
+    isBeregnetPeriode,
+    isGhostPeriode,
+    isUberegnetPeriode,
+} from '@utils/typeguards';
 
 interface SaksbildeVarselProps {
     person: PersonFragment;
@@ -92,12 +97,11 @@ const useNavnPåDeaktiverteGhostArbeidsgivere = (
 ) => {
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periode);
     return vilkårsgrunnlag?.__typename === 'VilkarsgrunnlagSpleisV2'
-        ? person.arbeidsgivere
+        ? finnAlleInntektsforhold(person)
+              .filter(isArbeidsgiver)
               .filter((arbeidsgiver) =>
                   arbeidsgiver.overstyringer.find(
-                      (overstyring) =>
-                          isArbeidsforholdoverstyring(overstyring) &&
-                          !(overstyring as Arbeidsforholdoverstyring).ferdigstilt,
+                      (overstyring) => isArbeidsforholdoverstyring(overstyring) && !overstyring.ferdigstilt,
                   ),
               )
               .flatMap((arbeidsgiver) => arbeidsgiver.navn)
@@ -111,7 +115,7 @@ interface BeregnetSaksbildevarslerProps {
     harTilkommenInntektEndring: boolean;
 }
 
-function getÅpneEndringerForPeriode(arbeidsgivere: ArbeidsgiverFragment[], vedtaksperiodeId: string) {
+function getÅpneEndringerForPeriode(arbeidsgivere: Inntektsforhold[], vedtaksperiodeId: string) {
     return arbeidsgivere
         .flatMap((ag) => ag.overstyringer)
         .filter((overstyring) => !overstyring.ferdigstilt && overstyring.vedtaksperiodeId === vedtaksperiodeId);
@@ -123,7 +127,7 @@ const BeregnetSaksbildevarsler = ({ person, periode, harTilkommenInntektEndring 
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
     const åpneEndringerPåPerson: Overstyring[] = getÅpneEndringerForPeriode(
-        person.arbeidsgivere,
+        finnAlleInntektsforhold(person),
         periode.vedtaksperiodeId,
     );
 
@@ -156,7 +160,7 @@ const UberegnetSaksbildevarsler = ({ person, periode, harTilkommenInntektEndring
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
     const åpneEndringerPåPerson: Overstyring[] = getÅpneEndringerForPeriode(
-        person.arbeidsgivere,
+        finnAlleInntektsforhold(person),
         periode.vedtaksperiodeId,
     );
     return (

@@ -1,12 +1,12 @@
 import * as R from 'remeda';
 import { isTruthy } from 'remeda';
 
-import { ArbeidsgiverFragment } from '@io/graphql';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export const finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt = (
-    arbeidsgivere: Array<ArbeidsgiverFragment>,
+    arbeidsgivere: Array<Inntektsforhold>,
     period: ActivePeriod,
 ): string =>
     R.pipe(

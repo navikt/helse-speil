@@ -6,10 +6,11 @@ import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
-import { finnPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useNavigerTilPeriode, useNavigerTilTilkommenInntekt } from '@state/routing';
+import { finnAlleInntektsforhold, finnPeriodeTilGodkjenning } from '@state/selectors/arbeidsgiver';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
+import { isArbeidsgiver } from '@utils/typeguards';
 
 import styles from './HarBeslutteroppgaver.module.scss';
 
@@ -33,17 +34,19 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
 
     const harTilkommenInntektEndring = endredeTilkomneInntektskilder.length > 0;
 
-    const perioderTilKontroll = person.arbeidsgivere
+    const perioderTilKontroll = finnAlleInntektsforhold(person)
         .map(
-            (arbeidsgiver): Periodeinformasjon => ({
-                arbeidsgiverIdentifikator: arbeidsgiver.organisasjonsnummer,
-                arbeidsgivernavn: arbeidsgiver.navn,
+            (inntektsforhold): Periodeinformasjon => ({
+                arbeidsgiverIdentifikator: isArbeidsgiver(inntektsforhold)
+                    ? inntektsforhold.organisasjonsnummer
+                    : 'SELVSTENDIG',
+                arbeidsgivernavn: isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG',
                 perioder:
-                    arbeidsgiver.generasjoner[0]?.perioder
+                    inntektsforhold.generasjoner[0]?.perioder
                         .filter((periode) => !periode.erForkastet)
                         .filter(
                             (periode) =>
-                                arbeidsgiver.overstyringer
+                                inntektsforhold.overstyringer
                                     .filter((overstyring) => !overstyring.ferdigstilt)
                                     .some((overstyring) => overstyring.vedtaksperiodeId === periode.vedtaksperiodeId) ||
                                 (periodeTilGodkjenning.id === periode.id && harTilkommenInntektEndring),

@@ -14,6 +14,7 @@ import { TilkommenInntektArbeidsgivernavn } from '@saksbilde/tilkommenInntekt/vi
 import { TilkommenInntektDagoversikt } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektDagoversikt';
 import { TilkommenInntektFjernetAlert } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektFjernetAlert';
 import { useFetchPersonQuery } from '@state/person';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { useTilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
 import { kanGjøreTilkommenInntektEndringer } from '@utils/featureToggles';
@@ -133,7 +134,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                     <VStack>
                         <Box height="2.5rem" />
                         <TilkommenInntektDagoversikt
-                            arbeidsgivere={person.arbeidsgivere}
+                            inntektsforhold={finnAlleInntektsforhold(person)}
                             periode={tilkommenInntekt.periode}
                             ekskluderteUkedager={tilkommenInntekt.ekskluderteUkedager}
                         />

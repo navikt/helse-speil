@@ -13,6 +13,7 @@ import { useCalculatingValue } from '@state/calculating';
 import { usePersonStore } from '@state/contexts/personStore';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useInntektOgRefusjon } from '@state/overstyring';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { isGodkjent, isRevurdering } from '@state/selectors/utbetaling';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { getPeriodState } from '@utils/mapping';
@@ -54,7 +55,7 @@ export const Utbetaling = ({
     const ventEllerHopp = useOnGodkjenn(period, person);
     const router = useRouter();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang(person);
-    const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
+    const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, finnAlleInntektsforhold(person));
     const calculating = useCalculatingValue();
 
     const onGodkjennUtbetaling = () => {
@@ -172,8 +173,8 @@ export const Utbetaling = ({
 };
 
 const skalPolleEtterNestePeriode = (person: PersonFragment) =>
-    person.arbeidsgivere
-        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
+    finnAlleInntektsforhold(person)
+        .flatMap((inntektskilde) => inntektskilde.generasjoner[0]?.perioder ?? [])
         .some((periode) =>
             [
                 Periodetilstand.VenterPaEnAnnenPeriode,
@@ -204,8 +205,8 @@ const useOnAvvis = (): (() => void) => {
 };
 
 const harNyereUtbetaltPeriodePåPerson = (period: BeregnetPeriodeFragment, person: PersonFragment): boolean => {
-    const nyesteUtbetaltPeriodePåPerson = person.arbeidsgivere
-        .flatMap((it) => it.generasjoner[0]?.perioder)
+    const nyesteUtbetaltPeriodePåPerson = finnAlleInntektsforhold(person)
+        .flatMap((inntektsforhold) => inntektsforhold.generasjoner[0]?.perioder)
         .filter((periode) => isBeregnetPeriode(periode) && isGodkjent(periode.utbetaling))
         .pop();
 

@@ -4,21 +4,21 @@ import React from 'react';
 import { BodyShort, Box, HStack, Table } from '@navikt/ds-react';
 
 import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
-import { ArbeidsgiverFragment } from '@io/graphql';
 import styles from '@saksbilde/tilkommenInntekt/TilkommenTable.module.css';
 import { tilDagtypeTabell } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { DagtypeCell } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeCell';
+import { Inntektsforhold } from '@state/arbeidsgiver';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erHelg, somNorskDato } from '@utils/date';
 
 interface Props {
-    arbeidsgivere: ArbeidsgiverFragment[];
+    inntektsforhold: Inntektsforhold[];
     periode: DatePeriod;
     ekskluderteUkedager: DateString[];
 }
 
-export const TilkommenInntektDagoversikt = ({ arbeidsgivere, periode, ekskluderteUkedager }: Props) => {
-    const { kolonneDefinisjoner, rader } = tilDagtypeTabell(periode, arbeidsgivere);
+export const TilkommenInntektDagoversikt = ({ inntektsforhold, periode, ekskluderteUkedager }: Props) => {
+    const { kolonneDefinisjoner, rader } = tilDagtypeTabell(periode, inntektsforhold);
 
     return (
         <Box

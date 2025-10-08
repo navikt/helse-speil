@@ -2,7 +2,7 @@ import { useAtom, useAtomValue } from 'jotai';
 import { atomWithReset, useResetAtom } from 'jotai/utils';
 
 import {
-    ArbeidsgiverFragment,
+    Arbeidsgiver,
     Arbeidsgiverrefusjon,
     Hendelse,
     Kildetype,
@@ -11,8 +11,8 @@ import {
     Refusjonselement,
 } from '@io/graphql';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
-import { dedupliserteInntektsmeldingHendelser } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
+import { dedupliserteInntektsmeldingHendelser } from '@state/selectors/arbeidsgiver';
 import {
     OverstyrtInntektOgRefusjonArbeidsgiver,
     OverstyrtInntektOgRefusjonDTO,
@@ -114,7 +114,7 @@ export const mapOgSorterRefusjoner = (
 };
 export const useOverstyrtInntektMetadata = (
     person: PersonFragment,
-    arbeidsgiver: ArbeidsgiverFragment,
+    arbeidsgiver: Arbeidsgiver,
     period: Maybe<ActivePeriod>,
 ): OverstyrtInntektMetadata => {
     const activePeriod = useActivePeriod(person);

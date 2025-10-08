@@ -12,6 +12,7 @@ import { useCalculatingState } from '@state/calculating';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useActivePeriodWithPerson } from '@state/periode';
+import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { BegrunnelseForOverstyring, OverstyrtArbeidsforholdDTO } from '@typer/overstyring';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
@@ -43,7 +44,10 @@ export const useGetOverstyrtArbeidsforhold = (person: PersonFragment): Overstyrt
                 lovhjemmel: begrunnelse.lovhjemmel,
             },
         ],
-        vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(person.arbeidsgivere, valgtVedtaksperiode!),
+        vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(
+            finnAlleInntektsforhold(person),
+            valgtVedtaksperiode!,
+        ),
     });
 };
 

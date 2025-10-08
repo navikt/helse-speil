@@ -7,7 +7,7 @@ import {
     Inntektskilde,
     Maybe,
     OmregnetArsinntekt,
-    OverstyringFragment,
+    Overstyring,
     PersonFragment,
     VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
@@ -35,7 +35,7 @@ interface InntektOgRefusjonVisningProps {
     inntekterForSammenligningsgrunnlag?: Array<InntektFraAOrdningen>;
     harSykefravær: boolean;
     organisasjonsnummer: string;
-    overstyringer: OverstyringFragment[];
+    overstyringer: Overstyring[];
 }
 
 export const InntektOgRefusjonVisning = ({

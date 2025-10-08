@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { HStack, Label, Tag } from '@navikt/ds-react';
 
 import {
-    ArbeidsgiverFragment,
+    Arbeidsgiver,
     Arbeidsgiverinntekt,
     InntektFraAOrdningen,
     Inntektstype,
@@ -28,7 +28,7 @@ interface InntektUtenSykefraværProps {
     inntekt: Arbeidsgiverinntekt;
     vilkårsgrunnlagId?: Maybe<string>;
     inntektstype?: Maybe<Inntektstype>;
-    arbeidsgiver: ArbeidsgiverFragment;
+    arbeidsgiver: Arbeidsgiver;
     refusjon?: Maybe<Refusjonsopplysning[]>;
     inntekterForSammenligningsgrunnlag?: Array<InntektFraAOrdningen>;
     editing: boolean;

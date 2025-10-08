@@ -4,8 +4,8 @@ import { Dropdown, Loader } from '@navikt/ds-react';
 
 import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
 import { PersonFragment, Personnavn } from '@io/graphql';
-import { finnPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useFjernPåVentFraSaksbilde } from '@state/påvent';
+import { finnPeriodeTilGodkjenning } from '@state/selectors/arbeidsgiver';
 import { useOperationErrorHandler } from '@state/varsler';
 
 interface PåVentButtonProps {
