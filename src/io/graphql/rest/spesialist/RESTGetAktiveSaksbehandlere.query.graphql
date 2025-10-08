@@ -1,12 +1,13 @@
 query RESTGetAktiveSaksbehandlere {
     restGetAktiveSaksbehandlere
     @rest(
-        type: "[Saksbehandler!]!"
+        type: "[AktivSaksbehandler!]!"
         endpoint: "spesialist"
         path: "/aktive-saksbehandlere"
         method: "GET"
     ) {
         ident
         navn
+        oid
     }
 }

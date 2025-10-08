@@ -4,9 +4,9 @@ import {
     FjernTildelingDocument,
     FjernTildelingMutation,
     Maybe,
-    OppgaveFeedDocument,
     OpprettTildelingDocument,
     OpprettTildelingMutation,
+    RestGetOppgaverDocument,
     Tildeling,
     TildelingFragment,
 } from '@io/graphql';
@@ -54,7 +54,7 @@ export const useOpprettTildeling = (): [
     const fødselsnummer = useFødselsnummer();
     const optimistiskTildeling = useOptimistiskTildeling();
     const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument, {
-        refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
+        refetchQueries: [RestGetOppgaverDocument, AntallOppgaverDocument],
         onError: (error) => {
             if (apolloErrorCode(error) === 409) {
                 const tildeling: Maybe<Tildeling> = apolloExtensionValue(error, 'tildeling');
@@ -62,7 +62,7 @@ export const useOpprettTildeling = (): [
             } else {
                 leggTilTildelingsvarsel('Kunne ikke tildele sak.');
             }
-            data.client.refetchQueries({ include: [OppgaveFeedDocument, AntallOppgaverDocument] });
+            data.client.refetchQueries({ include: [RestGetOppgaverDocument, AntallOppgaverDocument] });
         },
     });
 
@@ -94,7 +94,7 @@ export const useFjernTildeling = (): [
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
 
     const [fjernTildelingMutation, data] = useMutation(FjernTildelingDocument, {
-        refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
+        refetchQueries: [RestGetOppgaverDocument, AntallOppgaverDocument],
         onError: () => leggTilTildelingsvarsel('Kunne ikke fjerne tildeling av sak.'),
     });
 

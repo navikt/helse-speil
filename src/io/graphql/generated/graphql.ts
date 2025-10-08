@@ -36,6 +36,13 @@ export enum Adressebeskyttelse {
     Ukjent = 'Ukjent',
 }
 
+export type AktivSaksbehandler = {
+    __typename: 'AktivSaksbehandler';
+    ident: Scalars['String']['output'];
+    navn: Scalars['String']['output'];
+    oid: Scalars['UUID']['output'];
+};
+
 export type Alder = {
     __typename: 'Alder';
     alderSisteSykedag: Scalars['Int']['output'];
@@ -1312,7 +1319,7 @@ export type Query = {
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     person: Maybe<Person>;
-    restGetAktiveSaksbehandlere: Array<Saksbehandler>;
+    restGetAktiveSaksbehandlere: Array<AktivSaksbehandler>;
     restGetOppgaver: OppgaveProjeksjonSide;
     restGetOrganisasjon: Maybe<Organisasjon>;
     restGetPersonTilkomneInntektskilder: Array<TilkommenInntektskilde>;
@@ -7473,7 +7480,7 @@ export type RestGetAktiveSaksbehandlereQueryVariables = Exact<{ [key: string]: n
 
 export type RestGetAktiveSaksbehandlereQuery = {
     __typename: 'Query';
-    restGetAktiveSaksbehandlere: Array<{ __typename: 'Saksbehandler'; ident: string | null; navn: string }>;
+    restGetAktiveSaksbehandlere: Array<{ __typename: 'AktivSaksbehandler'; ident: string; navn: string; oid: string }>;
 };
 
 export type RestGetOppgaverQueryVariables = Exact<{
@@ -15715,7 +15722,7 @@ export const RestGetAktiveSaksbehandlereDocument = {
                                     {
                                         kind: 'Argument',
                                         name: { kind: 'Name', value: 'type' },
-                                        value: { kind: 'StringValue', value: '[Saksbehandler!]!', block: false },
+                                        value: { kind: 'StringValue', value: '[AktivSaksbehandler!]!', block: false },
                                     },
                                     {
                                         kind: 'Argument',
@@ -15740,6 +15747,7 @@ export const RestGetAktiveSaksbehandlereDocument = {
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                             ],
                         },
                     },

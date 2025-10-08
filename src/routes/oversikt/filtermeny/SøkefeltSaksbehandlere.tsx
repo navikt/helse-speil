@@ -1,48 +1,28 @@
 import { useAtom } from 'jotai';
-import { useResetAtom } from 'jotai/utils';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { BodyShort, UNSAFE_Combobox, VStack } from '@navikt/ds-react';
 // @ts-expect-error TS klager på at den ikke finner modulen med combobox-typen selv om den resolver
 import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
 
 import { useQuery } from '@apollo/client';
-import { RestGetAktiveSaksbehandlereDocument, Saksbehandler } from '@io/graphql';
-import { FilterStatus, useFilters, useToggleFilter, valgtSaksbehandlerAtom } from '@oversikt/table/state/filter';
+import { AktivSaksbehandler, RestGetAktiveSaksbehandlereDocument } from '@io/graphql';
+import { valgtSaksbehandlerAtom } from '@oversikt/table/state/filter';
 
 import styles from './SøkefeltSaksbehandlere.module.css';
 
 export const SøkefeltSaksbehandlere = () => {
     const [valgtSaksbehandler, setValgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
-    const resetValgtSaksbehandler = useResetAtom(valgtSaksbehandlerAtom);
-    const toggleFilter = useToggleFilter();
-    const { activeFilters } = useFilters();
     const saksbehandlere = useQuery(RestGetAktiveSaksbehandlereDocument, {
         nextFetchPolicy: 'cache-first',
     });
-    const [selected, setSelected] = useState<ComboboxOption[] | undefined>(
-        valgtSaksbehandler !== null ? [lagComboboxOption(valgtSaksbehandler)] : undefined,
-    );
 
-    useEffect(
-        () => (valgtSaksbehandler ? setSelected([lagComboboxOption(valgtSaksbehandler)]) : setSelected([])),
-        [valgtSaksbehandler],
-    );
-
-    useEffect(() => {
-        if (!activeFilters.map((filter) => filter.key.toLowerCase()).includes('saksbehandler')) {
-            resetValgtSaksbehandler();
-        }
-    }, [activeFilters, resetValgtSaksbehandler]);
-
-    const saksbehandlereOptions =
+    const saksbehandlereOptions: ComboboxOption[] =
         saksbehandlere.data?.restGetAktiveSaksbehandlere
-            .map((saksbehandler) => {
-                return {
-                    label: lagOppslåttSaksbehandlerVisningsnavn(saksbehandler),
-                    value: JSON.stringify(saksbehandler),
-                };
-            })
+            .map((saksbehandler) => ({
+                label: lagOppslåttSaksbehandlerVisningsnavn(saksbehandler),
+                value: saksbehandler.oid,
+            }))
             .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
 
     return (
@@ -55,19 +35,18 @@ export const SøkefeltSaksbehandlere = () => {
                 label="Saksbehandler"
                 hideLabel
                 size="small"
-                selectedOptions={selected}
+                selectedOptions={saksbehandlereOptions.filter(
+                    (saksbehandler) => saksbehandler.value === valgtSaksbehandler?.oid,
+                )}
                 onToggleSelected={(option, isSelected) => {
                     if (!isSelected) {
-                        resetValgtSaksbehandler();
-                        toggleFilter('SAKSBEHANDLER', FilterStatus.OFF);
+                        setValgtSaksbehandler(null);
                     } else {
-                        const saksbehandler = lagSaksbehandler(option);
+                        const saksbehandler =
+                            saksbehandlere.data?.restGetAktiveSaksbehandlere?.find(
+                                (saksbehandler) => saksbehandler.oid === option,
+                            ) ?? null;
                         setValgtSaksbehandler(saksbehandler);
-                        toggleFilter(
-                            'SAKSBEHANDLER',
-                            FilterStatus.PLUS,
-                            lagOppslåttSaksbehandlerVisningsnavn(saksbehandler),
-                        );
                     }
                 }}
             />
@@ -75,25 +54,6 @@ export const SøkefeltSaksbehandlere = () => {
     );
 };
 
-function lagComboboxOption(saksbehandler: Saksbehandler): ComboboxOption {
-    return {
-        label: lagSelectedSaksbehandlerVisningsnavn(saksbehandler),
-        value: JSON.stringify(saksbehandler),
-    };
-}
-
-function lagSaksbehandler(saksbehandler: string): Saksbehandler {
-    return {
-        __typename: 'Saksbehandler',
-        ...JSON.parse(saksbehandler),
-    };
-}
-
-function lagOppslåttSaksbehandlerVisningsnavn(saksbehandler: Saksbehandler) {
+export function lagOppslåttSaksbehandlerVisningsnavn(saksbehandler: AktivSaksbehandler) {
     return `${saksbehandler.navn} - ${saksbehandler.ident}`;
-}
-
-function lagSelectedSaksbehandlerVisningsnavn(saksbehandler: Saksbehandler) {
-    const etternavn = saksbehandler.navn.split(' ').at(0)?.replace(/,/g, '');
-    return `${etternavn} - ${saksbehandler.ident}`;
 }

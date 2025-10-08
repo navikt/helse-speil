@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useAtomValue } from 'jotai/index';
 import React, { ReactElement } from 'react';
 
 import { SortState, VStack } from '@navikt/ds-react';
@@ -12,7 +13,7 @@ import { useCurrentPageValue } from '@oversikt/table/state/pagination';
 import { useOppgaveFeed } from '@state/oppgaver';
 
 import { Pagination } from '../Pagination';
-import { useFilters, useSetMultipleFilters, useToggleFilter } from '../state/filter';
+import { useFilters, useSetMultipleFilters, useToggleFilter, valgtSaksbehandlerAtom } from '../state/filter';
 import { FilterChips } from './FilterChips';
 import { MineSakerTable } from './mineSaker/MineSakerTable';
 import { PåVentTable } from './påVent/PåVentTable';
@@ -27,7 +28,7 @@ type OppgaverTableProps = {
 };
 
 export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: OppgaverTableProps): ReactElement => {
-    const { oppgaver, antallOppgaver, error, loading, fetchMore } = useOppgaveFeed();
+    const { oppgaver, antallOppgaver, error, loading } = useOppgaveFeed();
     const { activeFilters } = useFilters();
     const currentPage = useCurrentPageValue();
     const aktivTab = useAktivTab();
@@ -37,6 +38,7 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: Oppgaver
     const harIkkeHentetOppgaverForGjeldendeQuery = oppgaver === undefined && loading;
 
     useLoadingToast({ isLoading: harIkkeHentetOppgaverForGjeldendeQuery, message: 'Henter oppgaver' });
+    const valgtSaksbehandler = useAtomValue(valgtSaksbehandlerAtom);
 
     if (
         oppgaver !== undefined &&
@@ -45,6 +47,7 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: Oppgaver
             (aktivTab === TabType.TilGodkjenning &&
                 antallOppgaver === 0 &&
                 activeFilters.length === 0 &&
+                valgtSaksbehandler === null &&
                 currentPage === 1))
     ) {
         return <IngenOppgaver />;
@@ -74,10 +77,7 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: Oppgaver
                     {aktivTab === TabType.Ventende && <PåVentTable oppgaver={oppgaver ?? []} sort={sort} />}
                 </div>
             </div>
-            <Pagination
-                antallOppgaver={antallOppgaver}
-                fetchMore={(offset: number) => void fetchMore({ variables: { offset } })}
-            />
+            <Pagination antallOppgaver={antallOppgaver} fetchMore={() => {}} />
         </VStack>
     );
 };

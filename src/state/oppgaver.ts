@@ -1,21 +1,26 @@
-import { RefObject, useEffect, useRef } from 'react';
-
-import { SortState } from '@navikt/ds-react';
+import { useAtom } from 'jotai';
+import { useEffect, useMemo } from 'react';
 
 import { ApolloError, useQuery } from '@apollo/client';
+import { useBruker } from '@auth/brukerContext';
 import {
     AntallOppgaverDocument,
     Egenskap,
-    FiltreringInput,
     Kategori,
-    OppgaveFeedDocument,
-    OppgaveTilBehandling,
-    OppgavesorteringInput,
-    Sorteringsnokkel,
+    OppgaveProjeksjon,
+    OppgaveSorteringsfelt,
+    RestGetOppgaverDocument,
+    Sorteringsrekkefolge,
 } from '@io/graphql';
 import { TabType, useAktivTab } from '@oversikt/tabState';
-import { Filter, FilterStatus, Oppgaveoversiktkolonne, useFilters } from '@oversikt/table/state/filter';
-import { limit, offset, useCurrentPageState } from '@oversikt/table/state/pagination';
+import {
+    Filter,
+    FilterStatus,
+    Oppgaveoversiktkolonne,
+    useAllFilters,
+    valgtSaksbehandlerAtom,
+} from '@oversikt/table/state/filter';
+import { limit, useCurrentPageState } from '@oversikt/table/state/pagination';
 import { SortKey, useSorteringValue } from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
 
@@ -31,96 +36,75 @@ export type FetchMoreArgs = {
     };
 };
 
-type RefetchArgs = {
-    offset?: number;
-    filtrering: FiltreringInput;
-    sortering: OppgavesorteringInput[];
-};
-
 interface OppgaveFeedResponse {
-    oppgaver?: OppgaveTilBehandling[];
+    oppgaver?: OppgaveProjeksjon[];
     error?: ApolloError;
     loading: boolean;
     antallOppgaver: number;
-    fetchMore: ({ variables }: FetchMoreArgs) => void;
 }
 
 export const useOppgaveFeed = (): OppgaveFeedResponse => {
+    const [valgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
     const [currentPage, setCurrentPage] = useCurrentPageState();
-    const sortering = useSortering();
-    const filtrering = useFiltrering();
+    const sort = useSorteringValue();
+    const aktivTab = useAktivTab();
+    const allFilters = useAllFilters();
+    const { oid: innloggetSaksbehandlerOid } = useBruker();
 
-    const initialLoad = useRef(true);
-    const previousFiltreringRef = useRef(filtrering);
-    const previousSorteringRef = useRef(sortering);
+    const variables = useMemo(() => {
+        const activeFilters = allFilters.filter((filter) => filter.status !== FilterStatus.OFF);
+        const minusEgenskaper = hackInnInfotrygdforlengelse(activeFilters)
+            .filter(
+                (filter) =>
+                    Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.MINUS,
+            )
+            .map((filter) => filter.key);
+        const plussEgenskaper = hackInnInfotrygdforlengelse(activeFilters).filter(
+            (filter) => Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.PLUS,
+        );
 
-    const { data, error, loading, fetchMore, refetch } = useQuery(OppgaveFeedDocument, {
-        variables: {
-            offset: offset(currentPage),
-            limit: limit,
-            filtrering: filtrering,
-            sortering: sortering,
-        },
+        const minstEnAvEgenskapeneMap = new Map<string, Array<Egenskap>>();
+        plussEgenskaper.forEach((currentValue) => {
+            const kategori = finnKategori(currentValue.column);
+            const array = minstEnAvEgenskapeneMap.get(kategori) ?? [];
+            array.push(currentValue.key as Egenskap);
+            minstEnAvEgenskapeneMap.set(kategori, array);
+        });
+
+        const minstEnAvEgenskapene: string[] = [];
+        minstEnAvEgenskapeneMap.forEach((value) => {
+            minstEnAvEgenskapene.push(value.join(','));
+        });
+        return {
+            erPaaVent: aktivTab === TabType.Ventende ? true : aktivTab === TabType.Mine ? false : undefined,
+            erTildelt: tildeltFiltrering(activeFilters),
+            ingenAvEgenskapene: minusEgenskaper.length > 0 ? minusEgenskaper.join(',') : undefined,
+            minstEnAvEgenskapene: minstEnAvEgenskapene,
+            sidestoerrelse: limit,
+            sorteringsfelt: finnSorteringsNøkkel(sort.orderBy as SortKey),
+            sorteringsrekkefoelge:
+                sort.direction === 'ascending' ? Sorteringsrekkefolge.Stigende : Sorteringsrekkefolge.Synkende,
+            tildeltTilOid:
+                aktivTab === TabType.Ventende || aktivTab === TabType.Mine
+                    ? innloggetSaksbehandlerOid
+                    : valgtSaksbehandler?.oid,
+        };
+    }, [aktivTab, allFilters, sort, innloggetSaksbehandlerOid, valgtSaksbehandler]);
+
+    useEffect(() => setCurrentPage(1), [setCurrentPage, variables]);
+
+    const { data, error, loading } = useQuery(RestGetOppgaverDocument, {
+        variables: { ...variables, sidetall: currentPage },
         notifyOnNetworkStatusChange: true,
-        initialFetchPolicy: 'network-only',
-        nextFetchPolicy: 'cache-first',
+        fetchPolicy: 'no-cache',
     });
 
-    useEffect(() => {
-        if (initialLoad.current) {
-            initialLoad.current = false;
-            return;
-        }
-        doRefetch(filtrering, previousFiltreringRef, sortering, previousSorteringRef, refetch, () => setCurrentPage(1));
-    }, [refetch, setCurrentPage, sortering, filtrering]);
-
     return {
-        oppgaver: data?.oppgaveFeed.oppgaver,
-        antallOppgaver: data?.oppgaveFeed.totaltAntallOppgaver ?? 0,
+        oppgaver: data?.restGetOppgaver?.elementer,
+        antallOppgaver: data?.restGetOppgaver?.totaltAntall ?? 0,
         error,
         loading,
-        fetchMore,
     };
-};
-
-function doRefetch(
-    filtrering: FiltreringInput,
-    prevFiltreringRef: RefObject<FiltreringInput>,
-    sortering: OppgavesorteringInput[],
-    prevSorteringRef: RefObject<OppgavesorteringInput[]>,
-    refetch: (args: RefetchArgs) => void,
-    setFirstPage: () => void,
-) {
-    const filtreringEndret = JSON.stringify(filtrering) !== JSON.stringify(prevFiltreringRef.current);
-    const sorteringEndret = JSON.stringify(sortering) !== JSON.stringify(prevSorteringRef.current);
-
-    if (!filtreringEndret && !sorteringEndret) return;
-
-    const tabEndret =
-        filtrering.egneSaker !== prevFiltreringRef.current.egneSaker ||
-        filtrering.egneSakerPaVent !== prevFiltreringRef.current.egneSakerPaVent;
-
-    if (tabEndret) {
-        void refetch({ filtrering, sortering });
-    } else {
-        setFirstPage();
-        void refetch({ offset: 0, filtrering, sortering });
-    }
-
-    prevFiltreringRef.current = filtrering;
-    prevSorteringRef.current = sortering;
-}
-
-const useFiltrering = () => {
-    const aktivTab = useAktivTab();
-    const { activeFilters } = useFilters();
-
-    return filtrering(activeFilters, aktivTab);
-};
-
-const useSortering = () => {
-    const sort = useSorteringValue();
-    return sortering(sort);
 };
 
 export const useAntallOppgaver = () => {
@@ -147,11 +131,47 @@ const tildeltFiltrering = (activeFilters: Filter[]) => {
     ) {
         return false;
     } else {
-        return null;
+        return undefined;
     }
 };
 
-const finnKategori = (kolonne: Oppgaveoversiktkolonne) => {
+export const kategoriForEgenskap = (egenskap: Egenskap): Kategori => {
+    switch (egenskap) {
+        case Egenskap.Arbeidstaker:
+        case Egenskap.SelvstendigNaeringsdrivende:
+            return Kategori.Inntektsforhold;
+
+        case Egenskap.EnArbeidsgiver:
+        case Egenskap.FlereArbeidsgivere:
+            return Kategori.Inntektskilde;
+
+        case Egenskap.DelvisRefusjon:
+        case Egenskap.IngenUtbetaling:
+        case Egenskap.UtbetalingTilArbeidsgiver:
+        case Egenskap.UtbetalingTilSykmeldt:
+            return Kategori.Mottaker;
+
+        case Egenskap.Revurdering:
+        case Egenskap.Soknad:
+            return Kategori.Oppgavetype;
+
+        case Egenskap.Forlengelse:
+        case Egenskap.Forstegangsbehandling:
+        case Egenskap.Infotrygdforlengelse:
+        case Egenskap.OvergangFraIt:
+            return Kategori.Periodetype;
+
+        case Egenskap.Beslutter:
+        case Egenskap.PaVent:
+        case Egenskap.Retur:
+            return Kategori.Status;
+
+        default:
+            return Kategori.Ukategorisert;
+    }
+};
+
+export const finnKategori = (kolonne: Oppgaveoversiktkolonne) => {
     switch (kolonne) {
         case Oppgaveoversiktkolonne.PERIODETYPE:
             return Kategori.Periodetype;
@@ -167,35 +187,6 @@ const finnKategori = (kolonne: Oppgaveoversiktkolonne) => {
         default:
             return Kategori.Ukategorisert;
     }
-};
-
-const filtrering = (activeFilters: Filter[], aktivTab: TabType): FiltreringInput => {
-    const ekskluderteEgenskaper = hackInnInfotrygdforlengelse(activeFilters)
-        .filter(
-            (filter) =>
-                Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.MINUS,
-        )
-        .map((filter) => ({
-            egenskap: filter.key as Egenskap,
-            kategori: finnKategori(filter.column),
-        }));
-
-    return {
-        egenskaper: hackInnInfotrygdforlengelse(activeFilters)
-            .filter(
-                (filter) =>
-                    Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.PLUS,
-            )
-            .map((filter) => ({
-                egenskap: filter.key as Egenskap,
-                kategori: finnKategori(filter.column),
-            })),
-        ekskluderteEgenskaper: ekskluderteEgenskaper,
-        ingenUkategoriserteEgenskaper: false,
-        tildelt: tildeltFiltrering(activeFilters),
-        egneSaker: aktivTab === TabType.Mine,
-        egneSakerPaVent: aktivTab === TabType.Ventende,
-    };
 };
 
 // Vi viser begge egenskapene forlengelse og infotrygdforlengelse som "Forlengelse"
@@ -218,27 +209,12 @@ const hackInnInfotrygdforlengelse = (activeFilters: Filter[]): Filter[] => {
 const finnSorteringsNøkkel = (sortKey: SortKey) => {
     switch (sortKey) {
         case SortKey.Saksbehandler:
-            return Sorteringsnokkel.TildeltTil;
+            return OppgaveSorteringsfelt.Tildeling;
         case SortKey.SøknadMottatt:
-            return Sorteringsnokkel.SoknadMottatt;
+            return OppgaveSorteringsfelt.OpprinneligSoeknadstidspunkt;
         case SortKey.Tidsfrist:
-            return Sorteringsnokkel.Tidsfrist;
+            return OppgaveSorteringsfelt.PaVentInfoTidsfrist;
         default:
-            return Sorteringsnokkel.Opprettet;
+            return OppgaveSorteringsfelt.OpprettetTidspunkt;
     }
 };
-
-const sortering = (sort: SortState): OppgavesorteringInput[] => [
-    {
-        nokkel: finnSorteringsNøkkel(sort.orderBy as SortKey),
-        stigende: sort.direction === 'ascending',
-    },
-    ...((sort.orderBy as SortKey) !== SortKey.Opprettet
-        ? [
-              {
-                  nokkel: Sorteringsnokkel.Opprettet,
-                  stigende: false,
-              },
-          ]
-        : []),
-];

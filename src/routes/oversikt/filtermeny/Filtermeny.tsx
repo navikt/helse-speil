@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import { useAtom } from 'jotai';
 import { ReactElement } from 'react';
 import { range } from 'remeda';
 
@@ -9,7 +8,7 @@ import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSideme
 import { SøkefeltSaksbehandlere } from '@oversikt/filtermeny/SøkefeltSaksbehandlere';
 
 import { TabType, useAktivTab } from '../tabState';
-import { Filter, Oppgaveoversiktkolonne, valgtSaksbehandlerAtom } from '../table/state/filter';
+import { Filter, Oppgaveoversiktkolonne } from '../table/state/filter';
 import { FilterList } from './FilterList';
 import { useSetFiltermenyWidth, useShowFiltermeny } from './state';
 
@@ -24,10 +23,6 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
     const settBredde = useSetFiltermenyWidth();
     const aktivTab = useAktivTab();
 
-    const [valgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
-
-    const skjulHvisSaksbehandlerErValgt = (filters: Filter[]) => (!!valgtSaksbehandler ? [] : filters);
-
     return (
         <JusterbarSidemeny
             defaultBredde={280}
@@ -40,60 +35,42 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
                 {aktivTab === TabType.TilGodkjenning && <SøkefeltSaksbehandlere />}
                 {aktivTab === TabType.TilGodkjenning && (
                     <FilterList
-                        filters={skjulHvisSaksbehandlerErValgt(
-                            filters.filter((it) => it.column === Oppgaveoversiktkolonne.TILDELING),
-                        )}
+                        filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.TILDELING)}
                         text="Tildelt"
                     />
                 )}
                 {aktivTab === TabType.TilGodkjenning && (
                     <FilterList
-                        filters={skjulHvisSaksbehandlerErValgt(
-                            filters.filter((it) => it.column === Oppgaveoversiktkolonne.PÅVENT),
-                        )}
+                        filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.PÅVENT)}
                         text="På vent"
                     />
                 )}
                 <FilterList
-                    filters={skjulHvisSaksbehandlerErValgt(
-                        filters.filter((it) => it.column === Oppgaveoversiktkolonne.STATUS),
-                    )}
+                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.STATUS)}
                     text="Status"
                 />
                 <FilterList
-                    filters={skjulHvisSaksbehandlerErValgt(
-                        filters.filter((it) => it.column === Oppgaveoversiktkolonne.PERIODETYPE),
-                    )}
+                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.PERIODETYPE)}
                     text="Periodetype"
                 />
                 <FilterList
-                    filters={skjulHvisSaksbehandlerErValgt(
-                        filters.filter((it) => it.column === Oppgaveoversiktkolonne.OPPGAVETYPE),
-                    )}
+                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.OPPGAVETYPE)}
                     text="Oppgavetype"
                 />
                 <FilterList
-                    filters={skjulHvisSaksbehandlerErValgt(
-                        filters.filter((it) => it.column === Oppgaveoversiktkolonne.MOTTAKER),
-                    )}
+                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.MOTTAKER)}
                     text="Mottaker"
                 />
                 <FilterList
-                    filters={skjulHvisSaksbehandlerErValgt(
-                        filters.filter((it) => it.column === Oppgaveoversiktkolonne.EGENSKAPER),
-                    )}
+                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.EGENSKAPER)}
                     text="Egenskaper"
                 />
                 <FilterList
-                    filters={skjulHvisSaksbehandlerErValgt(
-                        filters.filter((it) => it.column === Oppgaveoversiktkolonne.INNTEKTSFORHOLD),
-                    )}
+                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.INNTEKTSFORHOLD)}
                     text="Inntektsforhold"
                 />
                 <FilterList
-                    filters={skjulHvisSaksbehandlerErValgt(
-                        filters.filter((it) => it.column === Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD),
-                    )}
+                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD)}
                     text="Antall inntektsforhold"
                 />
             </section>
