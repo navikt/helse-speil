@@ -4,6 +4,14 @@ import path from 'path';
 import { cwd } from 'process';
 import { v4 } from 'uuid';
 
+import { logger } from '@/logger';
+import {
+    PostTilkommenInntektEndreRequestBody,
+    PostTilkommenInntektFjernRequestBody,
+    PostTilkommenInntektGjenopprettRequestBody,
+    PostTilkomneInntekterRequestBody,
+} from '@io/graphql';
+import { sleep } from '@spesialist-mock/constants';
 import {
     LeggTilTilkommenInntektResponse,
     TilkommenInntekt,
@@ -278,5 +286,66 @@ export class TilkommenInntektMock {
         const setA = new Set(a);
         const setB = new Set(b);
         return setA.size === setB.size && setA.values().every((value) => setB.has(value));
+    }
+
+    static async håndterGet(subpathSegments: string[]) {
+        if (subpathSegments[0] === 'personer') {
+            const aktørId = subpathSegments[1];
+            if (subpathSegments[2] === 'tilkomne-inntektskilder' && aktørId !== undefined) {
+                logger.info(`Mocker tilkomne inntekter lokalt`);
+
+                return Response.json(TilkommenInntektMock.tilkomneInntektskilder(aktørId));
+            }
+        }
+        return undefined;
+    }
+
+    static async håndterPost(subpathSegments: string[], requestBody: unknown) {
+        if (subpathSegments[0] === 'tilkomne-inntekter') {
+            if (subpathSegments.length == 1) {
+                await sleep(2000);
+                const input = requestBody as PostTilkomneInntekterRequestBody;
+                return Response.json(
+                    TilkommenInntektMock.leggTilTilkommenInntekt(
+                        input.fodselsnummer,
+                        input.notatTilBeslutter,
+                        input.verdier,
+                    ),
+                );
+            }
+            const tilkommenInntektId = subpathSegments[1];
+            if (tilkommenInntektId !== undefined) {
+                if (subpathSegments[2] == 'endre') {
+                    await sleep(2000);
+                    const input = requestBody as PostTilkommenInntektEndreRequestBody;
+                    return Response.json(
+                        TilkommenInntektMock.endreTilkommenInntekt(
+                            input.endretTil,
+                            input.notatTilBeslutter,
+                            tilkommenInntektId,
+                        ),
+                    );
+                }
+                if (subpathSegments[2] == 'fjern') {
+                    await sleep(2000);
+                    const input = requestBody as PostTilkommenInntektFjernRequestBody;
+                    return Response.json(
+                        TilkommenInntektMock.fjernTilkommenInntekt(input.notatTilBeslutter, tilkommenInntektId),
+                    );
+                }
+                if (subpathSegments[2] == 'gjenopprett') {
+                    await sleep(2000);
+                    const input = requestBody as PostTilkommenInntektGjenopprettRequestBody;
+                    return Response.json(
+                        TilkommenInntektMock.gjenopprettTilkommenInntekt(
+                            input.endretTil,
+                            input.notatTilBeslutter,
+                            tilkommenInntektId,
+                        ),
+                    );
+                }
+            }
+        }
+        return undefined;
     }
 }
