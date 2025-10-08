@@ -18,9 +18,9 @@ export const TilkommenInntektTimelineRows = ({
     end,
     aktørId,
 }: TilkommenInntektTimelineContainerProps): ReactElement => {
-    const { loading, data, error } = useHentTilkommenInntektQuery(aktørId);
+    const { isFetching, data, error } = useHentTilkommenInntektQuery(aktørId);
 
-    if (loading) {
+    if (isFetching) {
         return <TimelineRowSkeleton />;
     }
 
@@ -29,11 +29,10 @@ export const TilkommenInntektTimelineRows = ({
             <Alert variant="error">Det har skjedd en feil. Kan ikke vise tilkomne inntekter for denne personen.</Alert>
         );
     }
-    const tilkomneInntektskilder = data!.restGetPersonTilkomneInntektskilder;
 
     return (
         <>
-            {tilkomneInntektskilder.map((tilkommenInntektskilde) => {
+            {data!.map((tilkommenInntektskilde) => {
                 return (
                     <TilkommenInntektTimelineRow
                         key={tilkommenInntektskilde.organisasjonsnummer}

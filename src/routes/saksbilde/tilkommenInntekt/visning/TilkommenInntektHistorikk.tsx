@@ -9,6 +9,12 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { OpenedDokument } from '@components/OpenedDokument';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
+import {
+    TilkommenInntektEndretEvent,
+    TilkommenInntektFjernetEvent,
+    TilkommenInntektGjenopprettetEvent,
+    TilkommenInntektOpprettetEvent,
+} from '@io/graphql';
 import { TilkommenInntektHendelse } from '@saksbilde/historikk/hendelser/TilkommenInntektHendelse';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
 import { useFetchPersonQuery } from '@state/person';
@@ -22,7 +28,7 @@ import styles from '../../historikk/Historikk.module.css';
 const TilkommenInntektHistorikkWithContent = (): ReactElement => {
     const { loading: fetchPersonLoading, data: fetchPersonData } = useFetchPersonQuery();
     const person = fetchPersonData?.person ?? null;
-    const { loading: hentTilkommenInntektLoading, data: hentTilkommenInntektData } = useHentTilkommenInntektQuery(
+    const { isFetching: hentTilkommenInntektLoading, data: hentTilkommenInntektData } = useHentTilkommenInntektQuery(
         person?.aktorId,
     );
     const tilkommenInntektId = useTilkommenInntektIdFraUrl();
@@ -40,7 +46,7 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
 
     if (fetchPersonLoading || hentTilkommenInntektLoading) return <HistorikkSkeleton />;
 
-    const tilkommenInntekt = hentTilkommenInntektData?.restGetPersonTilkomneInntektskilder
+    const tilkommenInntekt = hentTilkommenInntektData
         ?.flatMap((tilkommenInntektskilde) => tilkommenInntektskilde.inntekter)
         .find((tilkommenInntekt) => tilkommenInntekt.tilkommenInntektId === tilkommenInntektId);
     const events =
@@ -71,7 +77,16 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
                         </HStack>
                         <ul>
                             {events.map((event) => (
-                                <TilkommenInntektHendelse key={event.metadata.sekvensnummer} event={event} />
+                                <TilkommenInntektHendelse
+                                    key={event.metadata.sekvensnummer}
+                                    event={
+                                        event as
+                                            | TilkommenInntektEndretEvent
+                                            | TilkommenInntektFjernetEvent
+                                            | TilkommenInntektGjenopprettetEvent
+                                            | TilkommenInntektOpprettetEvent
+                                    }
+                                />
                             ))}
                         </ul>
                     </div>
