@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
-import { BodyShortProps, CopyButton, HStack, Skeleton, Tooltip } from '@navikt/ds-react';
+import { BodyShort, BodyShortProps, CopyButton, HStack, Skeleton, Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
@@ -25,7 +25,7 @@ export const Arbeidsgivernavn = ({
     visIdentifikatorITooltip?: boolean;
 } & Omit<BodyShortProps, 'children'>) => {
     if (erSelvstendigNæringsdrivende(identifikator)) {
-        return <ArbeidsgivernavnKjent navn="Selvstendig næring" maxWidth={maxWidth} {...bodyShortProps} />;
+        return <SelvstendigNæringsdrivendeNavn maxWidth={maxWidth} {...bodyShortProps} />;
     } else if (
         navn !== undefined &&
         navn.toLowerCase() !== 'navn er utilgjengelig' &&
@@ -124,6 +124,17 @@ const ArbeidsgivernavnKjent = ({
         </Tooltip>
     );
 };
+
+const SelvstendigNæringsdrivendeNavn = ({
+    maxWidth,
+    ...bodyShortProps
+}: {
+    maxWidth?: string;
+} & Omit<BodyShortProps, 'children'>) => (
+    <HStack maxWidth={maxWidth}>
+        <BodyShort {...bodyShortProps}>Selvstendig næring</BodyShort>
+    </HStack>
+);
 
 export const erSelvstendigNæringsdrivende = (identifikator: string) => identifikator === 'SELVSTENDIG';
 
