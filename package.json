@@ -20,6 +20,7 @@
         "lint": "next lint",
         "test": "jest",
         "tsc": "tsc",
+        "generate-rest": "orval",
         "generate-graphql": "BEARER_TOKEN=$(curl http://localhost:8080/local-token) graphql-codegen --config graphql-codegen.yml",
         "prepare": "husky",
         "lint-staged": "lint-staged"
@@ -99,6 +100,7 @@
         "jest-fetch-mock": "^3.0.3",
         "lint-staged": "^15.4.3",
         "next-router-mock": "^0.9.13",
+        "orval": "^7.13.2",
         "prettier": "^3.5.2",
         "sass": "^1.89.2",
         "ts-jest": "^29.2.6",
