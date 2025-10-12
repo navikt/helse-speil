@@ -1,6 +1,7 @@
 import { Dagoverstyring, Dagtype, Periodetilstand, VarselDto, Varselstatus } from '@io/graphql';
 import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
 import { useInntektOgRefusjon } from '@state/overstyring';
+import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enGenerasjon } from '@test-data/generasjon';
 import { enOppgave } from '@test-data/oppgave';
@@ -9,8 +10,10 @@ import { enPerson } from '@test-data/person';
 import { render, screen } from '@test-utils';
 
 jest.mock('@state/overstyring');
+jest.mock('@state/tilkommenInntekt');
 
 describe('SaksbildeVarsel', () => {
+    (useHentTilkommenInntektQuery as jest.Mock).mockReturnValue({ data: [] });
     it('skal kaste feil om periode mangler skjæringstidspunkt', () => {
         const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
         const periode = enBeregnetPeriode({ skjaeringstidspunkt: undefined });

@@ -12,6 +12,7 @@ import { Oversikt } from './Oversikt';
 jest.mock('@state/oppgaver');
 jest.mock('@external/sanity');
 jest.mock('@hooks/useRefetchDriftsmeldinger');
+jest.mock('@tanstack/react-query');
 
 const mockFetch = (data: unknown) =>
     jest.fn().mockImplementation(() =>
