@@ -1,6 +1,6 @@
 import { erLokal } from '@/env';
 import { logger } from '@/logger';
-import { forwardToSpesialist } from '@app/api/spesialist/forwarder';
+import { forwardGETtoSpesialist } from '@app/api/spesialist/forwarder';
 import { sleep } from '@spesialist-mock/constants';
 import { TilkommenInntektMock } from '@spesialist-mock/storage/tilkommeninntekt';
 
@@ -12,6 +12,6 @@ export async function GET(req: Request, { params }: { params: Promise<{ aktorId:
         await sleep(1000);
         return Response.json(TilkommenInntektMock.tilkomneInntektskilder(aktorId));
     } else {
-        return await forwardToSpesialist(req);
+        return await forwardGETtoSpesialist(req);
     }
 }

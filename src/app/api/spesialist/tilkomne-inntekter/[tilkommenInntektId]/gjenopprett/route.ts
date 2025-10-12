@@ -1,5 +1,5 @@
 import { erLokal } from '@/env';
-import { forwardToSpesialist } from '@app/api/spesialist/forwarder';
+import { forwardPOSTtoSpesialist } from '@app/api/spesialist/forwarder';
 import { PostTilkommenInntektGjenopprettRequestBody } from '@io/graphql';
 import { sleep } from '@spesialist-mock/constants';
 import { TilkommenInntektMock } from '@spesialist-mock/storage/tilkommeninntekt';
@@ -19,6 +19,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ tilkomm
             ),
         );
     } else {
-        return await forwardToSpesialist(req);
+        return await forwardPOSTtoSpesialist(req, requestBody);
     }
 }

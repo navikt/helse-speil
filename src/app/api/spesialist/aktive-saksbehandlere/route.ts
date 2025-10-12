@@ -1,5 +1,5 @@
 import { erLokal } from '@/env';
-import { forwardToSpesialist } from '@app/api/spesialist/forwarder';
+import { forwardGETtoSpesialist } from '@app/api/spesialist/forwarder';
 
 export async function GET(req: Request) {
     if (erLokal) {
@@ -11,6 +11,6 @@ export async function GET(req: Request) {
             },
         ]);
     } else {
-        return await forwardToSpesialist(req);
+        return await forwardGETtoSpesialist(req);
     }
 }
