@@ -3,19 +3,17 @@ import React, { ReactElement } from 'react';
 import { Table, Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
-import { Personinfo } from '@io/graphql';
+import { Personnavn } from '@io/rest/generated/spesialist.schemas';
 import { useIsAnonymous } from '@state/anonymization';
 import { capitalizeName } from '@utils/locale';
 
-type Name = Pick<Personinfo, 'fornavn' | 'etternavn' | 'mellomnavn'>;
-
-const getFormattedName = (name: Name): string => {
+const getFormattedName = (name: Personnavn): string => {
     const { fornavn, mellomnavn, etternavn } = name;
     return capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`);
 };
 
 interface SøkerProps {
-    name: Name;
+    name: Personnavn;
 }
 
 export const SøkerCell = ({ name }: SøkerProps): ReactElement => {

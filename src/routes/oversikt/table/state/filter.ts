@@ -1,12 +1,13 @@
 import { WritableAtom, atom, useAtom, useAtomValue } from 'jotai';
 import { SetStateAction } from 'react';
 
-import { AktivSaksbehandler, Egenskap } from '@io/graphql';
+import { ApiEgenskap } from '@/io/rest/generated/spesialist.schemas';
+import { AktivSaksbehandler } from '@io/graphql';
 import { TabType, tabState } from '@oversikt/tabState';
 import { atomWithLocalStorage } from '@state/jotai';
 
 export type Filter = {
-    key: string | Egenskap;
+    key: string | ApiEgenskap;
     label: string;
     status: FilterStatus;
     column: Oppgaveoversiktkolonne;
@@ -42,176 +43,176 @@ const filters = [
         column: Oppgaveoversiktkolonne.TILDELING,
     },
     {
-        key: Egenskap.PaVent,
+        key: ApiEgenskap.PA_VENT,
         label: 'På vent',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.PÅVENT,
     },
     {
-        key: Egenskap.Beslutter,
+        key: ApiEgenskap.BESLUTTER,
         label: 'Beslutter',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.STATUS,
     },
     {
-        key: Egenskap.Retur,
+        key: ApiEgenskap.RETUR,
         label: 'Retur',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.STATUS,
     },
     {
-        key: Egenskap.Forstegangsbehandling,
+        key: ApiEgenskap.FORSTEGANGSBEHANDLING,
         label: 'Førstegangsbehandling',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
-        key: Egenskap.Forlengelse,
+        key: ApiEgenskap.FORLENGELSE,
         label: 'Forlengelse',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
-        key: Egenskap.OvergangFraIt,
+        key: ApiEgenskap.OVERGANG_FRA_IT,
         label: 'Forlengelse - IT',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
-        key: Egenskap.Soknad,
+        key: ApiEgenskap.SOKNAD,
         label: 'Søknad',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.OPPGAVETYPE,
     },
     {
-        key: Egenskap.Revurdering,
+        key: ApiEgenskap.REVURDERING,
         label: 'Revurdering',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.OPPGAVETYPE,
     },
     {
-        key: Egenskap.UtbetalingTilSykmeldt,
+        key: ApiEgenskap.UTBETALING_TIL_SYKMELDT,
         label: 'Sykmeldt',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
-        key: Egenskap.UtbetalingTilArbeidsgiver,
+        key: ApiEgenskap.UTBETALING_TIL_ARBEIDSGIVER,
         label: 'Arbeidsgiver',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
-        key: Egenskap.DelvisRefusjon,
+        key: ApiEgenskap.DELVIS_REFUSJON,
         label: 'Begge',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
-        key: Egenskap.IngenUtbetaling,
+        key: ApiEgenskap.INGEN_UTBETALING,
         label: 'Ingen mottaker',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
-        key: Egenskap.Haster,
+        key: ApiEgenskap.HASTER,
         label: 'Haster',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.Vergemal,
+        key: ApiEgenskap.VERGEMAL,
         label: 'Vergemål',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.Utland,
+        key: ApiEgenskap.UTLAND,
         label: 'Utland',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.EgenAnsatt,
+        key: ApiEgenskap.EGEN_ANSATT,
         label: 'Egen ansatt',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.Stikkprove,
+        key: ApiEgenskap.STIKKPROVE,
         label: 'Stikkprøve',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.RiskQa,
+        key: ApiEgenskap.RISK_QA,
         label: 'Risk QA',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
 
     {
-        key: Egenskap.FortroligAdresse,
+        key: ApiEgenskap.FORTROLIG_ADRESSE,
         label: 'Fortrolig adresse',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.Skjonnsfastsettelse,
+        key: ApiEgenskap.SKJONNSFASTSETTELSE,
         label: 'Skjønnsfastsettelse',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.Tilbakedatert,
+        key: ApiEgenskap.TILBAKEDATERT,
         label: 'Tilbakedatert',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.ManglerIm,
+        key: ApiEgenskap.MANGLER_IM,
         label: 'Mangler IM',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.Medlemskap,
+        key: ApiEgenskap.MEDLEMSKAP,
         label: 'Medlemskap',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.Gosys,
+        key: ApiEgenskap.GOSYS,
         label: 'Gosysvarsel',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.Grunnbelopsregulering,
+        key: ApiEgenskap.GRUNNBELOPSREGULERING,
         label: 'Grunnbeløpsregulering',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: Egenskap.EnArbeidsgiver,
+        key: ApiEgenskap.EN_ARBEIDSGIVER,
         label: 'Ett inntektsforhold',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
     {
-        key: Egenskap.FlereArbeidsgivere,
+        key: ApiEgenskap.FLERE_ARBEIDSGIVERE,
         label: 'Flere inntektsforhold',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
     {
-        key: Egenskap.SelvstendigNaeringsdrivende,
+        key: ApiEgenskap.SELVSTENDIG_NAERINGSDRIVENDE,
         label: 'Selvstendig',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.INNTEKTSFORHOLD,
     },
     {
-        key: Egenskap.Arbeidstaker,
+        key: ApiEgenskap.ARBEIDSTAKER,
         label: 'Arbeidstaker',
         status: FilterStatus.OFF,
         column: Oppgaveoversiktkolonne.INNTEKTSFORHOLD,
@@ -242,12 +243,7 @@ export function hydrateFilters(): [WritableAtom<FiltersPerTab, [SetStateAction<F
 
             return {
                 ...stored,
-                label:
-                    stored.key === 'SAKSBEHANDLER'
-                        ? stored.label
-                        : stored.label !== defaultFilter.label
-                          ? defaultFilter.label
-                          : stored.label,
+                label: stored.label !== defaultFilter.label ? defaultFilter.label : stored.label,
                 column: stored.column !== defaultFilter.column ? defaultFilter.column : stored.column,
             };
         });

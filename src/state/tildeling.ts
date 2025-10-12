@@ -6,13 +6,14 @@ import {
     Maybe,
     OpprettTildelingDocument,
     OpprettTildelingMutation,
-    RestGetOppgaverDocument,
     Tildeling,
     TildelingFragment,
 } from '@io/graphql';
+import { getGetOppgaverQueryKey } from '@io/rest/generated/oppgaver/oppgaver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
+import { useQueryClient } from '@tanstack/react-query';
 import { InfoAlert, apolloErrorCode, apolloExtensionValue } from '@utils/error';
 import { isNotNullOrUndefined } from '@utils/typeguards';
 
@@ -49,20 +50,25 @@ export const useOpprettTildeling = (): [
     (oppgavereferanse: string) => Promise<FetchResult<OpprettTildelingMutation>>,
     MutationResult<OpprettTildelingMutation>,
 ] => {
+    const queryClient = useQueryClient();
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
     const fødselsnummer = useFødselsnummer();
     const optimistiskTildeling = useOptimistiskTildeling();
     const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument, {
-        refetchQueries: [RestGetOppgaverDocument, AntallOppgaverDocument],
-        onError: (error) => {
+        refetchQueries: [AntallOppgaverDocument],
+        onCompleted: async () => {
+            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
+        },
+        onError: async (error) => {
             if (apolloErrorCode(error) === 409) {
                 const tildeling: Maybe<Tildeling> = apolloExtensionValue(error, 'tildeling');
                 leggTilTildelingsvarsel(`${tildeling?.navn} har allerede tildelt seg oppgaven.`);
             } else {
                 leggTilTildelingsvarsel('Kunne ikke tildele sak.');
             }
-            data.client.refetchQueries({ include: [RestGetOppgaverDocument, AntallOppgaverDocument] });
+            data.client.refetchQueries({ include: [AntallOppgaverDocument] });
+            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
         },
     });
 
@@ -89,13 +95,20 @@ export const useFjernTildeling = (): [
     (oppgavereferanse: string) => Promise<FetchResult<FjernTildelingMutation>>,
     MutationResult<FjernTildelingMutation>,
 ] => {
+    const queryClient = useQueryClient();
     const fødselsnummer = useFødselsnummer();
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
 
     const [fjernTildelingMutation, data] = useMutation(FjernTildelingDocument, {
-        refetchQueries: [RestGetOppgaverDocument, AntallOppgaverDocument],
-        onError: () => leggTilTildelingsvarsel('Kunne ikke fjerne tildeling av sak.'),
+        refetchQueries: [AntallOppgaverDocument],
+        onCompleted: async () => {
+            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
+        },
+        onError: async () => {
+            leggTilTildelingsvarsel('Kunne ikke fjerne tildeling av sak.');
+            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
+        },
     });
 
     const fjernTildeling = async (oppgavereferanse: string) => {

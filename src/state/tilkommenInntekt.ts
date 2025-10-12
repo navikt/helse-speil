@@ -3,28 +3,23 @@ import {
     TilkommenInntektEventEndringerListLocalDateEndring,
     TilkommenInntektskilde,
 } from '@io/graphql';
-import { QueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { DateString } from '@typer/shared';
 
-const queryClient = new QueryClient();
-
 export const useHentTilkommenInntektQuery = (aktørId?: string) =>
-    useQuery(
-        {
-            queryKey: ['/personer/{aktorId}/tilkomne-inntektskilder', { aktørId }],
-            queryFn: async (): Promise<Array<TilkommenInntektskilde>> => {
-                const response = await fetch(`/api/spesialist/personer/${aktørId}/tilkomne-inntektskilder`);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            },
-            enabled: !!aktørId,
-            gcTime: 0,
-            staleTime: Infinity,
+    useQuery({
+        queryKey: ['/personer/{aktorId}/tilkomne-inntektskilder', { aktørId }],
+        queryFn: async (): Promise<Array<TilkommenInntektskilde>> => {
+            const response = await fetch(`/api/spesialist/personer/${aktørId}/tilkomne-inntektskilder`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
         },
-        queryClient,
-    );
+        enabled: !!aktørId,
+        gcTime: 0,
+        staleTime: Infinity,
+    });
 
 export type TilkommenInntektMedOrganisasjonsnummer = TilkommenInntekt & {
     organisasjonsnummer: string;

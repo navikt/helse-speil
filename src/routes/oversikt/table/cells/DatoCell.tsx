@@ -3,7 +3,8 @@ import React, { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { Maybe, OppgaveProjeksjon } from '@io/graphql';
+import { Maybe } from '@io/graphql';
+import { OppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 import { SortKey, useDateSortValue } from '@oversikt/table/state/sortation';
 import { NORSK_DATOFORMAT, somDato } from '@utils/date';
 

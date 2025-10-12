@@ -4,9 +4,10 @@ import React, { ReactElement, useState } from 'react';
 
 import { BodyShort, Button, Checkbox, CheckboxGroup, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 
+import { Personnavn } from '@/io/rest/generated/spesialist.schemas';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Arsak, useArsaker } from '@external/sanity';
-import { Maybe, Personnavn, Tildeling } from '@io/graphql';
+import { Tildeling } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useEndrePåVent, useLeggPåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
@@ -28,7 +29,7 @@ interface LeggPåVentModalProps {
     oppgaveId: string;
     behandlingId?: string;
     navn: Personnavn;
-    utgangspunktTildeling: Maybe<Tildeling>;
+    utgangspunktTildeling: Tildeling | null;
     onClose: () => void;
 }
 
@@ -44,7 +45,7 @@ export const LeggPåVentModal = ({
 
     const onSubmit = async (
         årsaker: Arsak[],
-        notattekst: Maybe<string>,
+        notattekst: string | null,
         frist: DateString,
         tildelSaksbehandler: boolean,
     ): Promise<SubmitResult> => {
@@ -81,9 +82,9 @@ interface EndrePåVentModalProps {
     behandlingId?: string;
     navn: Personnavn;
     utgangspunktÅrsaker: string[];
-    utgangspunktNotattekst: Maybe<string>;
+    utgangspunktNotattekst: string | null;
     utgangspunktFrist: DateString;
-    utgangspunktTildeling: Maybe<Tildeling>;
+    utgangspunktTildeling: Tildeling | null;
     onClose: () => void;
 }
 
@@ -102,7 +103,7 @@ export const EndrePåVentModal = ({
 
     const onSubmit = async (
         årsaker: Arsak[],
-        notattekst: Maybe<string>,
+        notattekst: string | null,
         frist: DateString,
         tildelSaksbehandler: boolean,
     ): Promise<SubmitResult> => {
@@ -140,13 +141,13 @@ interface FellesPåVentModalProps {
     tittel: string;
     navn: Personnavn;
     utgangspunktÅrsaker: string[];
-    utgangspunktNotattekst: Maybe<string>;
-    utgangspunktFrist: Maybe<DateString>;
-    utgangspunktTildeling: Maybe<Tildeling>;
+    utgangspunktNotattekst: string | null;
+    utgangspunktFrist: DateString | null;
+    utgangspunktTildeling: Tildeling | null;
     submitKnappTekst: string;
     onSubmit: (
         årsaker: Arsak[],
-        notattekst: Maybe<string>,
+        notattekst: string | null,
         frist: DateString,
         tildelSaksbehandler: boolean,
     ) => Promise<SubmitResult>;
@@ -172,21 +173,21 @@ const FellesPåVentModal = ({
     const { arsaker: årsaker, loading: årsakerLoading } = useArsaker('paventarsaker');
 
     const [valgteÅrsaker, setValgteÅrsaker] = useState<Array<string>>(utgangspunktÅrsaker);
-    const [valgteÅrsakerError, setValgteÅrsakerError] = useState<Maybe<string>>(null);
-    const [notattekst, setNotattekst] = useState<Maybe<string>>(utgangspunktNotattekst);
-    const [notatError, setNotatError] = useState<Maybe<string>>(null);
-    const [fristDato, setFristDato] = useState<Maybe<Date>>(
+    const [valgteÅrsakerError, setValgteÅrsakerError] = useState<string | null>(null);
+    const [notattekst, setNotattekst] = useState<string | null>(utgangspunktNotattekst);
+    const [notatError, setNotatError] = useState<string | null>(null);
+    const [fristDato, setFristDato] = useState<Date | null>(
         utgangspunktFrist ? dayjs(utgangspunktFrist, ISO_DATOFORMAT).toDate() : null,
     );
-    const [fristError, setFristError] = useState<Maybe<string>>(null);
+    const [fristError, setFristError] = useState<string | null>(null);
     const [tildelSaksbehandler, setTildelSaksbehandler] = useState<boolean>(true);
-    const [errorMessage, setErrorMessage] = useState<Maybe<string>>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const opprinneligTildeltSaksbehandler = utgangspunktTildeling
         ? utgangspunktTildeling.oid === saksbehandler.oid
         : false;
 
-    const validateNotat = (notattekst: Maybe<string>, valgteÅrsaker: Array<string>) => {
+    const validateNotat = (notattekst: string | null, valgteÅrsaker: Array<string>) => {
         let error = false;
         if (årsakAnnetErValgt(valgteÅrsaker) && (notattekst === null || notattekst?.length == 0)) {
             setNotatError('Notat må fylles ut');

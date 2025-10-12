@@ -1,17 +1,17 @@
+import { AxiosError } from 'axios';
 import { useAtom } from 'jotai';
 import { useEffect, useMemo } from 'react';
 
 import { ApolloError, useQuery } from '@apollo/client';
 import { useBruker } from '@auth/brukerContext';
+import { AntallOppgaverDocument, Kategori } from '@io/graphql';
+import { useGetOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
 import {
-    AntallOppgaverDocument,
-    Egenskap,
-    Kategori,
+    ApiEgenskap,
     OppgaveProjeksjon,
     OppgaveSorteringsfelt,
-    RestGetOppgaverDocument,
-    Sorteringsrekkefolge,
-} from '@io/graphql';
+    Sorteringsrekkefølge,
+} from '@io/rest/generated/spesialist.schemas';
 import { TabType, useAktivTab } from '@oversikt/tabState';
 import {
     Filter,
@@ -38,7 +38,7 @@ export type FetchMoreArgs = {
 
 interface OppgaveFeedResponse {
     oppgaver?: OppgaveProjeksjon[];
-    error?: ApolloError;
+    error: AxiosError | null;
     loading: boolean;
     antallOppgaver: number;
 }
@@ -56,18 +56,20 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
         const minusEgenskaper = hackInnInfotrygdforlengelse(activeFilters)
             .filter(
                 (filter) =>
-                    Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.MINUS,
+                    Object.values(ApiEgenskap).includes(filter.key as ApiEgenskap) &&
+                    filter.status === FilterStatus.MINUS,
             )
             .map((filter) => filter.key);
         const plussEgenskaper = hackInnInfotrygdforlengelse(activeFilters).filter(
-            (filter) => Object.values(Egenskap).includes(filter.key as Egenskap) && filter.status === FilterStatus.PLUS,
+            (filter) =>
+                Object.values(ApiEgenskap).includes(filter.key as ApiEgenskap) && filter.status === FilterStatus.PLUS,
         );
 
-        const minstEnAvEgenskapeneMap = new Map<string, Array<Egenskap>>();
+        const minstEnAvEgenskapeneMap = new Map<string, Array<ApiEgenskap>>();
         plussEgenskaper.forEach((currentValue) => {
             const kategori = finnKategori(currentValue.column);
             const array = minstEnAvEgenskapeneMap.get(kategori) ?? [];
-            array.push(currentValue.key as Egenskap);
+            array.push(currentValue.key as ApiEgenskap);
             minstEnAvEgenskapeneMap.set(kategori, array);
         });
 
@@ -83,7 +85,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
             sidestoerrelse: limit,
             sorteringsfelt: finnSorteringsNøkkel(sort.orderBy as SortKey),
             sorteringsrekkefoelge:
-                sort.direction === 'ascending' ? Sorteringsrekkefolge.Stigende : Sorteringsrekkefolge.Synkende,
+                sort.direction === 'ascending' ? Sorteringsrekkefølge.STIGENDE : Sorteringsrekkefølge.SYNKENDE,
             tildeltTilOid:
                 aktivTab === TabType.Ventende || aktivTab === TabType.Mine
                     ? innloggetSaksbehandlerOid
@@ -93,15 +95,25 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
 
     useEffect(() => setCurrentPage(1), [setCurrentPage, variables]);
 
-    const { data, error, loading } = useQuery(RestGetOppgaverDocument, {
-        variables: { ...variables, sidetall: currentPage },
-        notifyOnNetworkStatusChange: true,
-        fetchPolicy: 'no-cache',
-    });
+    const {
+        data,
+        error,
+        isFetching: loading,
+    } = useGetOppgaver(
+        {
+            ...variables,
+            sidetall: currentPage,
+        },
+        {
+            query: {
+                staleTime: 0,
+            },
+        },
+    );
 
     return {
-        oppgaver: data?.restGetOppgaver?.elementer,
-        antallOppgaver: data?.restGetOppgaver?.totaltAntall ?? 0,
+        oppgaver: data?.data?.elementer,
+        antallOppgaver: data?.data?.totaltAntall ?? 0,
         error,
         loading,
     };
@@ -135,35 +147,35 @@ const tildeltFiltrering = (activeFilters: Filter[]) => {
     }
 };
 
-export const kategoriForEgenskap = (egenskap: Egenskap): Kategori => {
+export const kategoriForEgenskap = (egenskap: ApiEgenskap): Kategori => {
     switch (egenskap) {
-        case Egenskap.Arbeidstaker:
-        case Egenskap.SelvstendigNaeringsdrivende:
+        case ApiEgenskap.ARBEIDSTAKER:
+        case ApiEgenskap.SELVSTENDIG_NAERINGSDRIVENDE:
             return Kategori.Inntektsforhold;
 
-        case Egenskap.EnArbeidsgiver:
-        case Egenskap.FlereArbeidsgivere:
+        case ApiEgenskap.EN_ARBEIDSGIVER:
+        case ApiEgenskap.FLERE_ARBEIDSGIVERE:
             return Kategori.Inntektskilde;
 
-        case Egenskap.DelvisRefusjon:
-        case Egenskap.IngenUtbetaling:
-        case Egenskap.UtbetalingTilArbeidsgiver:
-        case Egenskap.UtbetalingTilSykmeldt:
+        case ApiEgenskap.DELVIS_REFUSJON:
+        case ApiEgenskap.INGEN_UTBETALING:
+        case ApiEgenskap.UTBETALING_TIL_ARBEIDSGIVER:
+        case ApiEgenskap.UTBETALING_TIL_SYKMELDT:
             return Kategori.Mottaker;
 
-        case Egenskap.Revurdering:
-        case Egenskap.Soknad:
+        case ApiEgenskap.REVURDERING:
+        case ApiEgenskap.SOKNAD:
             return Kategori.Oppgavetype;
 
-        case Egenskap.Forlengelse:
-        case Egenskap.Forstegangsbehandling:
-        case Egenskap.Infotrygdforlengelse:
-        case Egenskap.OvergangFraIt:
+        case ApiEgenskap.FORLENGELSE:
+        case ApiEgenskap.FORSTEGANGSBEHANDLING:
+        case ApiEgenskap.INFOTRYGDFORLENGELSE:
+        case ApiEgenskap.OVERGANG_FRA_IT:
             return Kategori.Periodetype;
 
-        case Egenskap.Beslutter:
-        case Egenskap.PaVent:
-        case Egenskap.Retur:
+        case ApiEgenskap.BESLUTTER:
+        case ApiEgenskap.PA_VENT:
+        case ApiEgenskap.RETUR:
             return Kategori.Status;
 
         default:
@@ -194,10 +206,10 @@ export const finnKategori = (kolonne: Oppgaveoversiktkolonne) => {
 // Så når man filtrerer på Forlengelse må vi også sende med Infotrygdforlengelse-egenskapen i filtreringen til Spesialist
 const hackInnInfotrygdforlengelse = (activeFilters: Filter[]): Filter[] => {
     const filterArray: Filter[] = [...activeFilters];
-    const forlengelseFilter = activeFilters.find((f) => f.key === Egenskap.Forlengelse);
+    const forlengelseFilter = activeFilters.find((f) => f.key === ApiEgenskap.FORLENGELSE);
     if (forlengelseFilter) {
         filterArray.push({
-            key: Egenskap.Infotrygdforlengelse,
+            key: ApiEgenskap.INFOTRYGDFORLENGELSE,
             label: 'Forlengelse',
             status: forlengelseFilter.status,
             column: Oppgaveoversiktkolonne.PERIODETYPE,
@@ -209,12 +221,12 @@ const hackInnInfotrygdforlengelse = (activeFilters: Filter[]): Filter[] => {
 const finnSorteringsNøkkel = (sortKey: SortKey) => {
     switch (sortKey) {
         case SortKey.Saksbehandler:
-            return OppgaveSorteringsfelt.Tildeling;
+            return OppgaveSorteringsfelt.tildeling;
         case SortKey.SøknadMottatt:
-            return OppgaveSorteringsfelt.OpprinneligSoeknadstidspunkt;
+            return OppgaveSorteringsfelt.opprinneligSoeknadstidspunkt;
         case SortKey.Tidsfrist:
-            return OppgaveSorteringsfelt.PaVentInfoTidsfrist;
+            return OppgaveSorteringsfelt.paVentInfo_tidsfrist;
         default:
-            return OppgaveSorteringsfelt.OpprettetTidspunkt;
+            return OppgaveSorteringsfelt.opprettetTidspunkt;
     }
 };

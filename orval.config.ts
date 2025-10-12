@@ -84,6 +84,11 @@ export default defineConfig({
                         gcTime: 0,
                     },
                 },
+                mutator: {
+                    // Overstyring for å sørge for at arrayer i queryparametere blir riktig
+                    path: 'src/app/axios/orval-mutator.ts',
+                    name: 'callCustomAxios',
+                },
             },
             mock: false,
         },

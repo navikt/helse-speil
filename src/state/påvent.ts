@@ -15,9 +15,10 @@ import {
     PaVent,
     PaVentArsakInput,
     PaventFragment,
-    RestGetOppgaverDocument,
 } from '@io/graphql';
+import { getGetOppgaverQueryKey } from '@io/rest/generated/oppgaver/oppgaver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useQueryClient } from '@tanstack/react-query';
 
 const useOptimistiskPaVent = (): PaventFragment => {
     const saksbehandler = useInnloggetSaksbehandler();
@@ -41,6 +42,7 @@ export const useLeggPåVent = (
     MutationResult<LeggPaVentMutation>,
 ] => {
     const optimistiskPaVent = useOptimistiskPaVent();
+    const queryClient = useQueryClient();
     const [leggPåVentMutation, data] = useMutation(LeggPaVentDocument);
 
     const leggPåVent = async (
@@ -51,7 +53,7 @@ export const useLeggPåVent = (
         arsaker: PaVentArsakInput[],
     ) =>
         leggPåVentMutation({
-            refetchQueries: [RestGetOppgaverDocument, AntallOppgaverDocument],
+            refetchQueries: [AntallOppgaverDocument],
             optimisticResponse: {
                 __typename: 'Mutation',
                 leggPaVent: { ...optimistiskPaVent, frist },
@@ -65,6 +67,9 @@ export const useLeggPåVent = (
             },
             update: (cache, result) =>
                 oppdaterPåVentICache(cache, oppgavereferanse, behandlingId ?? null, result.data?.leggPaVent ?? null),
+        }).then(async (value) => {
+            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
+            return value;
         });
 
     return [leggPåVent, data];
@@ -82,6 +87,7 @@ export const useEndrePåVent = (
     ) => Promise<FetchResult<EndrePaVentMutation>>,
     MutationResult<EndrePaVentMutation>,
 ] => {
+    const queryClient = useQueryClient();
     const optimistiskPaVent = useOptimistiskPaVent();
     const [endrePåVentMutation, data] = useMutation(EndrePaVentDocument);
 
@@ -93,7 +99,7 @@ export const useEndrePåVent = (
         arsaker: PaVentArsakInput[],
     ) =>
         endrePåVentMutation({
-            refetchQueries: [RestGetOppgaverDocument, AntallOppgaverDocument],
+            refetchQueries: [AntallOppgaverDocument],
             optimisticResponse: {
                 __typename: 'Mutation',
                 endrePaVent: { ...optimistiskPaVent, frist },
@@ -107,6 +113,9 @@ export const useEndrePåVent = (
             },
             update: (cache, result) =>
                 oppdaterPåVentICache(cache, oppgavereferanse, behandlingId ?? null, result.data?.endrePaVent ?? null),
+        }).then(async (value) => {
+            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
+            return value;
         });
 
     return [endrePåVent, data];
@@ -120,12 +129,13 @@ export const useFjernPåVentFraSaksbilde = (
 export const useFjernPåVentFraOppgaveoversikt = (): [
     (oppgavereferanse: string) => Promise<FetchResult<FjernPaVentMutation>>,
     MutationResult<FjernPaVentMutation>,
-] => useFjernPåVent([RestGetOppgaverDocument, AntallOppgaverDocument]);
+] => useFjernPåVent([AntallOppgaverDocument]);
 
 const useFjernPåVent = (
     refetchQueries: InternalRefetchQueriesInclude,
     behandlingId?: string,
 ): [(oppgavereferanse: string) => Promise<FetchResult<FjernPaVentMutation>>, MutationResult<FjernPaVentMutation>] => {
+    const queryClient = useQueryClient();
     const [fjernPåVentMutation, data] = useMutation(FjernPaVentDocument, {
         refetchQueries: refetchQueries,
     });
@@ -138,6 +148,9 @@ const useFjernPåVent = (
                 fjernPaVent: true,
             },
             update: (cache) => oppdaterPåVentICache(cache, oppgavereferanse, behandlingId ?? null, null),
+        }).then(async (value) => {
+            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
+            return value;
         });
 
     return [fjernPåVent, data];

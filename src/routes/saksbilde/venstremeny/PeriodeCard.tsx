@@ -17,12 +17,12 @@ import {
     Arbeidsgiver,
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
-    Egenskap,
     Kategori,
     Periodetilstand,
     Periodetype,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
+import { ApiEgenskap } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold } from '@state/arbeidsgiver';
 import { ActivePeriod, DatePeriod, DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
@@ -192,8 +192,8 @@ const PeriodeCardUberegnet = ({ periode, inntektsforhold, månedsbeløp }: Perio
                             <EgenskaperTags
                                 egenskaper={[
                                     periode.periodetype === Periodetype.Forlengelse
-                                        ? Egenskap.Forlengelse
-                                        : Egenskap.Forstegangsbehandling,
+                                        ? ApiEgenskap.FORLENGELSE
+                                        : ApiEgenskap.FORSTEGANGSBEHANDLING,
                                 ]}
                             />
                         </span>

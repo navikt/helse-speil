@@ -3,14 +3,14 @@ import React, { ReactElement, useState } from 'react';
 import { Dropdown } from '@navikt/ds-react';
 
 import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
-import { Maybe, Personnavn, Tildeling } from '@io/graphql';
+import { Personnavn, Tildeling } from '@io/rest/generated/spesialist.schemas';
 import { useFjernPåVentFraOppgaveoversikt } from '@state/påvent';
 
 import styles from './OptionsCell.module.css';
 
 interface PåVentMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     oppgavereferanse: string;
-    tildeling: Maybe<Tildeling>;
+    tildeling: Tildeling | null;
     navn: Personnavn;
     erPåVent: boolean;
 }

@@ -25,6 +25,7 @@ import { hydrateFilters } from '@oversikt/table/state/filter';
 import { useFetchPersonQuery } from '@state/person';
 import { hydrateTotrinnsvurderingState } from '@state/toggles';
 import { useSetVarsler } from '@state/varsler';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -42,20 +43,23 @@ type Props = {
 };
 
 export const Providers = ({ children, bruker }: PropsWithChildren<Props>): ReactElement => {
+    const [queryClient] = useState(() => new QueryClient());
     const [apolloClient] = useState(() => createApolloClient());
 
     return (
-        <ApolloProvider client={apolloClient}>
-            <Provider>
-                <AtomsHydrator atomValues={getAtomValues(bruker)}>
-                    <SyncAlerts>
-                        <AnonymiseringProvider>
-                            <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
-                        </AnonymiseringProvider>
-                    </SyncAlerts>
-                </AtomsHydrator>
-            </Provider>
-        </ApolloProvider>
+        <QueryClientProvider client={queryClient}>
+            <ApolloProvider client={apolloClient}>
+                <Provider>
+                    <AtomsHydrator atomValues={getAtomValues(bruker)}>
+                        <SyncAlerts>
+                            <AnonymiseringProvider>
+                                <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
+                            </AnonymiseringProvider>
+                        </SyncAlerts>
+                    </AtomsHydrator>
+                </Provider>
+            </ApolloProvider>
+        </QueryClientProvider>
     );
 };
 

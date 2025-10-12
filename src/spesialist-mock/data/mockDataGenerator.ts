@@ -1,15 +1,10 @@
 import { randomUUID } from 'crypto';
 import dayjs from 'dayjs';
 
+import { ApiEgenskap, OppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
+
 import { antallTilfeldigeBehandledeOppgaver, antallTilfeldigeOppgaver } from '../constants';
-import {
-    AntallArbeidsforhold,
-    BehandletOppgave,
-    Egenskap,
-    OppgaveProjeksjon,
-    Oppgavetype,
-    Periodetype,
-} from '../schemaTypes';
+import { AntallArbeidsforhold, BehandletOppgave, Oppgavetype, Periodetype } from '../schemaTypes';
 
 const genererTilfeldigeOppgaver = (antall: number): OppgaveProjeksjon[] => {
     const oppgaver: OppgaveProjeksjon[] = [];
@@ -45,20 +40,20 @@ const tilfeldigOppgave = (oppgaveId: number): OppgaveProjeksjon => {
     return {
         aktorId: Math.floor(1000000000000 + Math.random() * 9000000000000).toString(),
         egenskaper: [
-            Math.random() > 0.2 ? Egenskap.Soknad : Egenskap.Revurdering,
+            Math.random() > 0.2 ? ApiEgenskap.SOKNAD : ApiEgenskap.REVURDERING,
             tilfeldigElementFra([
-                Egenskap.Forlengelse,
-                Egenskap.Forstegangsbehandling,
-                Egenskap.Infotrygdforlengelse,
-                Egenskap.OvergangFraIt,
+                ApiEgenskap.FORLENGELSE,
+                ApiEgenskap.FORSTEGANGSBEHANDLING,
+                ApiEgenskap.INFOTRYGDFORLENGELSE,
+                ApiEgenskap.OVERGANG_FRA_IT,
             ]),
             tilfeldigElementFra([
-                Egenskap.UtbetalingTilArbeidsgiver,
-                Egenskap.DelvisRefusjon,
-                Egenskap.IngenUtbetaling,
-                Egenskap.UtbetalingTilSykmeldt,
+                ApiEgenskap.UTBETALING_TIL_ARBEIDSGIVER,
+                ApiEgenskap.DELVIS_REFUSJON,
+                ApiEgenskap.INGEN_UTBETALING,
+                ApiEgenskap.UTBETALING_TIL_SYKMELDT,
             ]),
-            tilfeldigElementFra([Egenskap.EnArbeidsgiver, Egenskap.FlereArbeidsgivere]),
+            tilfeldigElementFra([ApiEgenskap.EN_ARBEIDSGIVER, ApiEgenskap.FLERE_ARBEIDSGIVERE]),
             ...tilfeldigeUkategoriserteEgenskaper(),
         ],
         id: oppgaveId.toString(),
@@ -101,17 +96,17 @@ const tilfeldigBehandletOppgave = (oppgaveId: number): BehandletOppgave =>
         },
     }) as BehandletOppgave;
 
-const tilfeldigeUkategoriserteEgenskaper = (): Egenskap[] => {
-    const egenskaper: Egenskap[] = [];
+const tilfeldigeUkategoriserteEgenskaper = (): ApiEgenskap[] => {
+    const egenskaper: ApiEgenskap[] = [];
 
-    if (Math.random() > 0.9) egenskaper.push(Math.random() > 0.2 ? Egenskap.Beslutter : Egenskap.Retur);
-    if (Math.random() > 0.85) egenskaper.push(Math.random() > 0.1 ? Egenskap.RiskQa : Egenskap.Stikkprove);
-    if (Math.random() > 0.95) egenskaper.push(Egenskap.Vergemal);
-    if (Math.random() > 0.95) egenskaper.push(Egenskap.EgenAnsatt);
-    if (Math.random() > 0.95) egenskaper.push(Egenskap.FortroligAdresse);
-    if (Math.random() > 0.8) egenskaper.push(Egenskap.Haster);
-    if (Math.random() > 0.9) egenskaper.push(Egenskap.Utland);
-    if (Math.random() > 0.95) egenskaper.push(Egenskap.Skjonnsfastsettelse);
+    if (Math.random() > 0.9) egenskaper.push(Math.random() > 0.2 ? ApiEgenskap.BESLUTTER : ApiEgenskap.RETUR);
+    if (Math.random() > 0.85) egenskaper.push(Math.random() > 0.1 ? ApiEgenskap.RISK_QA : ApiEgenskap.STIKKPROVE);
+    if (Math.random() > 0.95) egenskaper.push(ApiEgenskap.VERGEMAL);
+    if (Math.random() > 0.95) egenskaper.push(ApiEgenskap.EGEN_ANSATT);
+    if (Math.random() > 0.95) egenskaper.push(ApiEgenskap.FORTROLIG_ADRESSE);
+    if (Math.random() > 0.8) egenskaper.push(ApiEgenskap.HASTER);
+    if (Math.random() > 0.9) egenskaper.push(ApiEgenskap.UTLAND);
+    if (Math.random() > 0.95) egenskaper.push(ApiEgenskap.SKJONNSFASTSETTELSE);
 
     return egenskaper;
 };

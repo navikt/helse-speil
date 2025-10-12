@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { OppgaveProjeksjon } from '@io/graphql';
+import { OppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 import { LinkRow } from '@oversikt/table/LinkRow';
 import { DatoCell } from '@oversikt/table/cells/DatoCell';
 import { EgenskaperTagsCell } from '@oversikt/table/cells/EgenskaperTagsCell';

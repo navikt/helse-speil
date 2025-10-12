@@ -1,4 +1,4 @@
-import { Personnavn } from '@io/graphql';
+import { Personnavn } from '@io/rest/generated/spesialist.schemas';
 
 type NameFormat = ('E' | 'F' | 'M' | ',')[];
 

@@ -1,4 +1,4 @@
-import { Egenskap, OppgaveProjeksjon } from '../schemaTypes';
+import { ApiEgenskap, OppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 
 export const oppgaveVedtaksperioder: { id: string; vedtaksperiodeId: string }[] = [
     {
@@ -43,16 +43,16 @@ export const oppgaver: OppgaveProjeksjon[] = [
             etternavn: 'APPELSIN',
         },
         egenskaper: [
-            Egenskap.Forstegangsbehandling,
-            Egenskap.Soknad,
-            Egenskap.DelvisRefusjon,
-            Egenskap.EnArbeidsgiver,
-            Egenskap.Haster,
-            Egenskap.Vergemal,
-            Egenskap.Utland,
-            Egenskap.ManglerIm,
-            Egenskap.Beslutter,
-            Egenskap.PaVent,
+            ApiEgenskap.FORSTEGANGSBEHANDLING,
+            ApiEgenskap.SOKNAD,
+            ApiEgenskap.DELVIS_REFUSJON,
+            ApiEgenskap.EN_ARBEIDSGIVER,
+            ApiEgenskap.HASTER,
+            ApiEgenskap.VERGEMAL,
+            ApiEgenskap.UTLAND,
+            ApiEgenskap.MANGLER_IM,
+            ApiEgenskap.BESLUTTER,
+            ApiEgenskap.PA_VENT,
         ],
         paVentInfo: {
             arsaker: ['§ 8-4 Avklare aktivitetskrav/medisinske vilkår'],
@@ -82,12 +82,12 @@ export const oppgaver: OppgaveProjeksjon[] = [
             etternavn: 'JAKKE',
         },
         egenskaper: [
-            Egenskap.PaVent,
-            Egenskap.Forstegangsbehandling,
-            Egenskap.Soknad,
-            Egenskap.UtbetalingTilSykmeldt,
-            Egenskap.EnArbeidsgiver,
-            Egenskap.Vergemal,
+            ApiEgenskap.PA_VENT,
+            ApiEgenskap.FORSTEGANGSBEHANDLING,
+            ApiEgenskap.SOKNAD,
+            ApiEgenskap.UTBETALING_TIL_SYKMELDT,
+            ApiEgenskap.EN_ARBEIDSGIVER,
+            ApiEgenskap.VERGEMAL,
         ],
         paVentInfo: {
             arsaker: ['Inntektsmelding - etterspurt'],
@@ -118,7 +118,7 @@ export const oppgaver: OppgaveProjeksjon[] = [
             mellomnavn: null,
             etternavn: '',
         },
-        egenskaper: [Egenskap.Forstegangsbehandling, Egenskap.Forlengelse],
+        egenskaper: [ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE],
     },
     {
         id: '4959',
@@ -131,11 +131,11 @@ export const oppgaver: OppgaveProjeksjon[] = [
             etternavn: 'JOND',
         },
         egenskaper: [
-            Egenskap.Forstegangsbehandling,
-            Egenskap.Soknad,
-            Egenskap.UtbetalingTilArbeidsgiver,
-            Egenskap.EnArbeidsgiver,
-            Egenskap.Utland,
+            ApiEgenskap.FORSTEGANGSBEHANDLING,
+            ApiEgenskap.SOKNAD,
+            ApiEgenskap.UTBETALING_TIL_ARBEIDSGIVER,
+            ApiEgenskap.EN_ARBEIDSGIVER,
+            ApiEgenskap.UTLAND,
         ],
     },
     {
@@ -149,10 +149,10 @@ export const oppgaver: OppgaveProjeksjon[] = [
             etternavn: 'BANAN',
         },
         egenskaper: [
-            Egenskap.Forstegangsbehandling,
-            Egenskap.Soknad,
-            Egenskap.IngenUtbetaling,
-            Egenskap.EnArbeidsgiver,
+            ApiEgenskap.FORSTEGANGSBEHANDLING,
+            ApiEgenskap.SOKNAD,
+            ApiEgenskap.INGEN_UTBETALING,
+            ApiEgenskap.EN_ARBEIDSGIVER,
         ],
     },
     {
@@ -166,10 +166,10 @@ export const oppgaver: OppgaveProjeksjon[] = [
             etternavn: 'BANAN',
         },
         egenskaper: [
-            Egenskap.Forlengelse,
-            Egenskap.Revurdering,
-            Egenskap.UtbetalingTilArbeidsgiver,
-            Egenskap.FlereArbeidsgivere,
+            ApiEgenskap.FORLENGELSE,
+            ApiEgenskap.REVURDERING,
+            ApiEgenskap.UTBETALING_TIL_ARBEIDSGIVER,
+            ApiEgenskap.FLERE_ARBEIDSGIVERE,
         ],
     },
     {
@@ -183,10 +183,10 @@ export const oppgaver: OppgaveProjeksjon[] = [
             etternavn: 'SERVICE',
         },
         egenskaper: [
-            Egenskap.Forstegangsbehandling,
-            Egenskap.Soknad,
-            Egenskap.UtbetalingTilArbeidsgiver,
-            Egenskap.EnArbeidsgiver,
+            ApiEgenskap.FORSTEGANGSBEHANDLING,
+            ApiEgenskap.SOKNAD,
+            ApiEgenskap.UTBETALING_TIL_ARBEIDSGIVER,
+            ApiEgenskap.EN_ARBEIDSGIVER,
         ],
         tildeling: null,
     },

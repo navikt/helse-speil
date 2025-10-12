@@ -2,74 +2,75 @@ import React, { ReactElement } from 'react';
 
 import { Tag, TagProps, Tooltip } from '@navikt/ds-react';
 
-import { Egenskap, Kategori } from '@io/graphql';
+import { Kategori } from '@io/graphql';
+import { ApiEgenskap } from '@io/rest/generated/spesialist.schemas';
 import { kategoriForEgenskap } from '@state/oppgaver';
 
-const tilTekst = (egenskap: Egenskap) => {
+const tilTekst = (egenskap: ApiEgenskap) => {
     switch (egenskap) {
-        case Egenskap.EgenAnsatt:
+        case ApiEgenskap.EGEN_ANSATT:
             return 'Egen ansatt';
-        case Egenskap.FortroligAdresse:
+        case ApiEgenskap.FORTROLIG_ADRESSE:
             return 'Fortrolig adresse';
-        case Egenskap.Haster:
+        case ApiEgenskap.HASTER:
             return 'Haster';
-        case Egenskap.Retur:
+        case ApiEgenskap.RETUR:
             return 'Retur';
-        case Egenskap.RiskQa:
+        case ApiEgenskap.RISK_QA:
             return 'Risk QA';
-        case Egenskap.Stikkprove:
+        case ApiEgenskap.STIKKPROVE:
             return 'Stikkprøve';
-        case Egenskap.Utland:
+        case ApiEgenskap.UTLAND:
             return 'Utland';
-        case Egenskap.Vergemal:
+        case ApiEgenskap.VERGEMAL:
             return 'Vergemål';
-        case Egenskap.Beslutter:
+        case ApiEgenskap.BESLUTTER:
             return 'Beslutter';
-        case Egenskap.Skjonnsfastsettelse:
+        case ApiEgenskap.SKJONNSFASTSETTELSE:
             return 'Skjønnsfastsettelse';
-        case Egenskap.PaVent:
+        case ApiEgenskap.PA_VENT:
             return 'På vent';
-        case Egenskap.Forstegangsbehandling:
+        case ApiEgenskap.FORSTEGANGSBEHANDLING:
             return 'Førstegang.';
-        case Egenskap.Forlengelse:
-        case Egenskap.Infotrygdforlengelse:
+        case ApiEgenskap.FORLENGELSE:
+        case ApiEgenskap.INFOTRYGDFORLENGELSE:
             return 'Forlengelse';
-        case Egenskap.OvergangFraIt:
+        case ApiEgenskap.OVERGANG_FRA_IT:
             return 'Forlengelse IT';
-        case Egenskap.Soknad:
+        case ApiEgenskap.SOKNAD:
             return 'Søknad';
-        case Egenskap.Revurdering:
+        case ApiEgenskap.REVURDERING:
             return 'Revurdering';
-        case Egenskap.DelvisRefusjon:
+        case ApiEgenskap.DELVIS_REFUSJON:
             return 'Begge';
-        case Egenskap.UtbetalingTilSykmeldt:
+        case ApiEgenskap.UTBETALING_TIL_SYKMELDT:
             return 'Sykmeldt';
-        case Egenskap.UtbetalingTilArbeidsgiver:
+        case ApiEgenskap.UTBETALING_TIL_ARBEIDSGIVER:
             return 'Arbeidsgiver';
-        case Egenskap.IngenUtbetaling:
+        case ApiEgenskap.INGEN_UTBETALING:
             return 'Ingen mottaker';
-        case Egenskap.Tilbakedatert:
+        case ApiEgenskap.TILBAKEDATERT:
             return 'Tilbakedatert';
-        case Egenskap.ManglerIm:
+        case ApiEgenskap.MANGLER_IM:
             return 'Mangler IM';
-        case Egenskap.Medlemskap:
+        case ApiEgenskap.MEDLEMSKAP:
             return 'Medlemskap';
-        case Egenskap.Gosys:
+        case ApiEgenskap.GOSYS:
             return 'Gosys';
-        case Egenskap.Grunnbelopsregulering:
+        case ApiEgenskap.GRUNNBELOPSREGULERING:
             return 'Grunnbeløpsregulering';
-        case Egenskap.Arbeidstaker:
+        case ApiEgenskap.ARBEIDSTAKER:
             return 'Arbeidstaker';
-        case Egenskap.SelvstendigNaeringsdrivende:
+        case ApiEgenskap.SELVSTENDIG_NAERINGSDRIVENDE:
             return 'Selvstendig næringsdrivende';
         default:
             return egenskap.toString();
     }
 };
 
-const tilTooltip = (egenskap: Egenskap) => {
+const tilTooltip = (egenskap: ApiEgenskap) => {
     switch (egenskap) {
-        case Egenskap.Forstegangsbehandling:
+        case ApiEgenskap.FORSTEGANGSBEHANDLING:
             return 'Førstegangsbehandling';
         default:
             return tilTekst(egenskap);
@@ -89,7 +90,7 @@ const tilVariant = (kategori: Kategori): TagProps['variant'] =>
                 ? 'info'
                 : 'neutral';
 
-const getData = (egenskaper: Egenskap[]) => {
+const getData = (egenskaper: ApiEgenskap[]) => {
     return egenskaper
         .map((egenskap) => ({ egenskap: egenskap, kategori: kategoriForEgenskap(egenskap) }))
         .filter(
@@ -126,7 +127,7 @@ const getData = (egenskaper: Egenskap[]) => {
 };
 
 interface EgenskaperTagsProps {
-    egenskaper: Egenskap[];
+    egenskaper: ApiEgenskap[];
 }
 
 export const EgenskaperTags = ({ egenskaper }: EgenskaperTagsProps): ReactElement => {

@@ -912,54 +912,6 @@ export type OppgaveForPeriodevisning = {
     id: Scalars['String']['output'];
 };
 
-export type OppgaveProjeksjon = {
-    __typename?: 'OppgaveProjeksjon';
-    aktorId: Scalars['String']['output'];
-    egenskaper: Array<Egenskap>;
-    id: Scalars['String']['output'];
-    navn: Personnavn;
-    opprettetTidspunkt: Scalars['Instant']['output'];
-    opprinneligSoeknadstidspunkt: Scalars['Instant']['output'];
-    paVentInfo?: Maybe<OppgaveProjeksjonPaaVent>;
-    tildeling?: Maybe<Tildeling>;
-};
-
-export type OppgaveProjeksjonPaaVent = {
-    __typename?: 'OppgaveProjeksjonPaaVent';
-    arsaker: Array<Scalars['String']['output']>;
-    dialogRef: Scalars['Long']['output'];
-    kommentarer: Array<OppgaveProjeksjonPaaVentKommentar>;
-    opprettet: Scalars['LocalDateTime']['output'];
-    saksbehandler: Scalars['String']['output'];
-    tekst?: Maybe<Scalars['String']['output']>;
-    tidsfrist: Scalars['LocalDate']['output'];
-};
-
-export type OppgaveProjeksjonPaaVentKommentar = {
-    __typename?: 'OppgaveProjeksjonPaaVentKommentar';
-    feilregistrert_tidspunkt?: Maybe<Scalars['LocalDateTime']['output']>;
-    id: Scalars['Int']['output'];
-    opprettet: Scalars['LocalDateTime']['output'];
-    saksbehandlerident: Scalars['String']['output'];
-    tekst: Scalars['String']['output'];
-};
-
-export type OppgaveProjeksjonSide = {
-    __typename?: 'OppgaveProjeksjonSide';
-    elementer: Array<OppgaveProjeksjon>;
-    sidestoerrelse: Scalars['Int']['output'];
-    sidetall: Scalars['Int']['output'];
-    totaltAntall: Scalars['Long']['output'];
-    totaltAntallSider: Scalars['Long']['output'];
-};
-
-export enum OppgaveSorteringsfelt {
-    OpprettetTidspunkt = 'opprettetTidspunkt',
-    OpprinneligSoeknadstidspunkt = 'opprinneligSoeknadstidspunkt',
-    PaVentInfoTidsfrist = 'paVentInfo_tidsfrist',
-    Tildeling = 'tildeling',
-}
-
 export type OppgaveTilBehandling = {
     __typename?: 'OppgaveTilBehandling';
     aktorId: Scalars['String']['output'];
@@ -1318,7 +1270,6 @@ export type Query = {
     opptegnelser: Array<Opptegnelse>;
     person?: Maybe<Person>;
     restGetAktiveSaksbehandlere: Array<AktivSaksbehandler>;
-    restGetOppgaver: OppgaveProjeksjonSide;
     restGetOrganisasjon?: Maybe<Organisasjon>;
     restGetPersonTilkomneInntektskilder: Array<TilkommenInntektskilde>;
     tildelteOppgaverFeed: OppgaverTilBehandling;
@@ -1355,18 +1306,6 @@ export type QueryOpptegnelserArgs = {
 export type QueryPersonArgs = {
     aktorId?: InputMaybe<Scalars['String']['input']>;
     fnr?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type QueryRestGetOppgaverArgs = {
-    erPaaVent?: InputMaybe<Scalars['Boolean']['input']>;
-    erTildelt?: InputMaybe<Scalars['Boolean']['input']>;
-    ingenAvEgenskapene?: InputMaybe<Scalars['String']['input']>;
-    minstEnAvEgenskapene?: InputMaybe<Array<Scalars['String']['input']>>;
-    sidestoerrelse?: InputMaybe<Scalars['Int']['input']>;
-    sidetall?: InputMaybe<Scalars['Int']['input']>;
-    sorteringsfelt?: InputMaybe<OppgaveSorteringsfelt>;
-    sorteringsrekkefoelge?: InputMaybe<Sorteringsrekkefolge>;
-    tildeltTilOid?: InputMaybe<Scalars['UUID']['input']>;
 };
 
 export type QueryRestGetOrganisasjonArgs = {
@@ -1626,11 +1565,6 @@ export enum Sorteringsnokkel {
     SoknadMottatt = 'SOKNAD_MOTTATT',
     Tidsfrist = 'TIDSFRIST',
     TildeltTil = 'TILDELT_TIL',
-}
-
-export enum Sorteringsrekkefolge {
-    Stigende = 'STIGENDE',
-    Synkende = 'SYNKENDE',
 }
 
 export type Sporsmal = {

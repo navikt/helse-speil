@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown, Table } from '@navikt/ds-react';
 
-import { Egenskap, Maybe, OppgaveProjeksjon, Personnavn } from '@io/graphql';
+import { ApiEgenskap, OppgaveProjeksjon, Personnavn } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import { MeldAvMenuButton } from './MeldAvMenuButton';
@@ -12,7 +12,7 @@ import { TildelMenuButton } from './TildelMenuButton';
 
 import styles from './OptionsCell.module.css';
 
-const erLike = (a?: Maybe<string>, b?: Maybe<string>): boolean => {
+const erLike = (a?: string | null, b?: string | null): boolean => {
     return typeof a === 'string' && typeof b === 'string' && a === b;
 };
 
@@ -24,8 +24,8 @@ interface OptionsButtonProps {
 export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const erTildeltInnloggetBruker = erLike(oppgave.tildeling?.oid, innloggetSaksbehandler.oid);
-    const erTildelt = oppgave.tildeling?.oid !== undefined;
-    const erPåVent = oppgave.egenskaper.filter((it) => it === Egenskap.PaVent).length !== 0;
+    const erTildelt = !!oppgave.tildeling?.oid;
+    const erPåVent = oppgave.egenskaper.filter((it) => it === ApiEgenskap.PA_VENT).length !== 0;
 
     return (
         <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.ikoncell}>

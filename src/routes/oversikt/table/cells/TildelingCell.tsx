@@ -2,7 +2,7 @@ import React, { MouseEvent, ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { OppgaveProjeksjon } from '@io/graphql';
+import { OppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 
 import { IkkeTildelt } from './IkkeTildelt';
 import { Tildelt } from './Tildelt';

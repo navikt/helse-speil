@@ -1,19 +1,16 @@
 import dayjs from 'dayjs';
 
-import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
-
 import {
-    BehandledeOppgaver,
-    BehandletOppgave,
-    Egenskap,
-    LagtPaVent,
-    Maybe,
+    ApiEgenskap,
     OppgaveProjeksjon,
-    OppgaveProjeksjonPaaVent,
+    OppgaveProjeksjonPaaVentInfo,
     OppgaveProjeksjonSide,
     OppgaveSorteringsfelt,
-    Sorteringsrekkefolge,
-} from '../schemaTypes';
+    Sorteringsrekkefølge,
+} from '@io/rest/generated/spesialist.schemas';
+import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
+
+import { BehandledeOppgaver, BehandletOppgave, LagtPaVent } from '../schemaTypes';
 import { PaVentMock } from '../storage/påvent';
 import { TildelingMock } from '../storage/tildeling';
 import { behandledeOppgaver } from './behandledeOppgaver';
@@ -58,18 +55,16 @@ const tilBooleanEllerNull = (searchParam: string | null) => {
 };
 
 function stringTilListeAvEgenskaper(ingenAvEgenskapeneString: string) {
-    return ingenAvEgenskapeneString.split(',').map((egenskap) => egenskap as Egenskap);
+    return ingenAvEgenskapeneString.split(',').map((egenskap) => egenskap as ApiEgenskap);
 }
 
 export const oppgaveliste = (searchParams: URLSearchParams): OppgaveProjeksjonSide => {
     const sidetall = toNumberOrNull(searchParams.get('sidetall')) ?? 1;
     const sidestoerrelse = toNumberOrNull(searchParams.get('sidestoerrelse')) ?? 10;
 
-    const minstEnAvEgenskapene: Egenskap[][] = [];
-    searchParams.forEach((value, key) => {
-        if (key.startsWith('minstEnAvEgenskapene[')) {
-            minstEnAvEgenskapene.push(stringTilListeAvEgenskaper(value));
-        }
+    const minstEnAvEgenskapene: ApiEgenskap[][] = [];
+    searchParams.getAll('minstEnAvEgenskapene').forEach((value) => {
+        minstEnAvEgenskapene.push(stringTilListeAvEgenskaper(value));
     });
 
     const ingenAvEgenskapeneString = searchParams.get('ingenAvEgenskapene');
@@ -80,7 +75,7 @@ export const oppgaveliste = (searchParams: URLSearchParams): OppgaveProjeksjonSi
     const erPaaVent = tilBooleanEllerNull(searchParams.get('erPaaVent'));
 
     const sortertingsfelt = searchParams.get('sorteringsfelt') as OppgaveSorteringsfelt;
-    const sorteringsrekkefølge = searchParams.get('sorteringsrekkefoelge') as Sorteringsrekkefolge;
+    const sorteringsrekkefølge = searchParams.get('sorteringsrekkefoelge') as Sorteringsrekkefølge;
 
     const oppgaveliste = syncMock(oppgaver).concat(tilfeldigeOppgaver);
     const filtrertListe = filtrer(
@@ -111,16 +106,16 @@ export const oppgaveliste = (searchParams: URLSearchParams): OppgaveProjeksjonSi
 const sorter = (
     oppgaver: OppgaveProjeksjon[],
     sortering: OppgaveSorteringsfelt,
-    sorteringsrekkefølge: Sorteringsrekkefolge,
+    sorteringsrekkefølge: Sorteringsrekkefølge,
 ): OppgaveProjeksjon[] => {
     switch (sortering) {
-        case OppgaveSorteringsfelt.OpprettetTidspunkt:
+        case OppgaveSorteringsfelt.opprettetTidspunkt:
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, opprettetSortFunction);
-        case OppgaveSorteringsfelt.Tildeling:
+        case OppgaveSorteringsfelt.tildeling:
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, saksbehandlerSortFunction);
-        case OppgaveSorteringsfelt.OpprinneligSoeknadstidspunkt:
+        case OppgaveSorteringsfelt.opprinneligSoeknadstidspunkt:
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, søknadMottattSortFunction);
-        case OppgaveSorteringsfelt.PaVentInfoTidsfrist:
+        case OppgaveSorteringsfelt.paVentInfo_tidsfrist:
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, oppfølgingsdatoSortFunction);
         default:
             return oppgaver;
@@ -129,8 +124,8 @@ const sorter = (
 
 const sorterOppgaver = (
     oppgaver: OppgaveProjeksjon[],
-    sorteringsrekkefølge: Sorteringsrekkefolge,
-    sortFunction: (sorteringsrekkefølge: Sorteringsrekkefolge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) => number,
+    sorteringsrekkefølge: Sorteringsrekkefølge,
+    sortFunction: (sorteringsrekkefølge: Sorteringsrekkefølge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) => number,
 ): OppgaveProjeksjon[] => oppgaver.slice().sort((a, b) => sortFunction(sorteringsrekkefølge, a, b));
 
 const filtrerBehandlede = (oppgaver: BehandletOppgave[], fom: string, tom: string): BehandletOppgave[] => {
@@ -140,7 +135,7 @@ const filtrerBehandlede = (oppgaver: BehandletOppgave[], fom: string, tom: strin
     });
 };
 
-const saksbehandlerSortFunction = (rekkefølge: Sorteringsrekkefolge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) => {
+const saksbehandlerSortFunction = (rekkefølge: Sorteringsrekkefølge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) => {
     if (!a.tildeling && !b.tildeling) {
         return 0;
     } else if (!a.tildeling && !!b.tildeling) {
@@ -148,7 +143,7 @@ const saksbehandlerSortFunction = (rekkefølge: Sorteringsrekkefolge, a: Oppgave
     } else if (!b.tildeling && !!a.tildeling) {
         return -1;
     } else {
-        if (rekkefølge === Sorteringsrekkefolge.Stigende) {
+        if (rekkefølge === Sorteringsrekkefølge.STIGENDE) {
             if (a.tildeling!.navn > b.tildeling!.navn) return 1;
             if (a.tildeling!.navn < b.tildeling!.navn) return -1;
         } else {
@@ -159,21 +154,21 @@ const saksbehandlerSortFunction = (rekkefølge: Sorteringsrekkefolge, a: Oppgave
     return 0;
 };
 
-const tidspunktSortFunction = (rekkefølge: Sorteringsrekkefolge, a: string, b: string) => {
-    if (rekkefølge === Sorteringsrekkefolge.Stigende) {
+const tidspunktSortFunction = (rekkefølge: Sorteringsrekkefølge, a: string, b: string) => {
+    if (rekkefølge === Sorteringsrekkefølge.STIGENDE) {
         return new Date(a).getTime() - new Date(b).getTime();
     } else {
         return new Date(b).getTime() - new Date(a).getTime();
     }
 };
 
-const opprettetSortFunction = (rekkefølge: Sorteringsrekkefolge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) =>
+const opprettetSortFunction = (rekkefølge: Sorteringsrekkefølge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) =>
     tidspunktSortFunction(rekkefølge, a.opprettetTidspunkt, b.opprettetTidspunkt);
 
-const søknadMottattSortFunction = (rekkefølge: Sorteringsrekkefolge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) =>
+const søknadMottattSortFunction = (rekkefølge: Sorteringsrekkefølge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) =>
     tidspunktSortFunction(rekkefølge, a.opprinneligSoeknadstidspunkt, b.opprinneligSoeknadstidspunkt);
 
-const oppfølgingsdatoSortFunction = (rekkefølge: Sorteringsrekkefolge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) => {
+const oppfølgingsdatoSortFunction = (rekkefølge: Sorteringsrekkefølge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) => {
     if (!a.paVentInfo && !b.paVentInfo) {
         return 0;
     } else if (!a.paVentInfo && !!b.paVentInfo) {
@@ -187,15 +182,15 @@ const oppfølgingsdatoSortFunction = (rekkefølge: Sorteringsrekkefolge, a: Oppg
 
 const filtrer = (
     oppgaver: OppgaveProjeksjon[],
-    minstEnAvEgenskapene: Egenskap[][],
-    ingenAvEgenskapene: Egenskap[],
+    minstEnAvEgenskapene: ApiEgenskap[][],
+    ingenAvEgenskapene: ApiEgenskap[],
     erTildelt: boolean | null,
     tildeltTilOid: string | null,
     erPaaVent: boolean | null,
 ): OppgaveProjeksjon[] => {
     return oppgaver
         .filter((oppgave) => tildeltTilOid === null || oppgave.tildeling?.oid === tildeltTilOid)
-        .filter((oppgave) => erPaaVent === null || oppgave.egenskaper.includes(Egenskap.PaVent) === erPaaVent)
+        .filter((oppgave) => erPaaVent === null || oppgave.egenskaper.includes(ApiEgenskap.PA_VENT) === erPaaVent)
         .filter(
             (oppgave) =>
                 ingenAvEgenskapene.length === 0 ||
@@ -217,13 +212,13 @@ const syncMock = (oppgaver: OppgaveProjeksjon[]) => {
             TildelingMock.setTildeling(oppgave.id, oppgave.tildeling);
         }
 
-        let paVentInfo: Maybe<OppgaveProjeksjonPaaVent> = oppgave.paVentInfo ?? null;
+        let paVentInfo: OppgaveProjeksjonPaaVentInfo | null = oppgave.paVentInfo ?? null;
         let egenskaper = oppgave.egenskaper;
 
         if (PaVentMock.finnesIMock(oppgave.id)) {
             if (!PaVentMock.erPåVent(oppgave.id)) {
                 paVentInfo = null;
-                egenskaper = egenskaper.filter((e) => e !== Egenskap.PaVent);
+                egenskaper = egenskaper.filter((e) => e !== ApiEgenskap.PA_VENT);
             } else {
                 const historikkinnslag = HistorikkinnslagMock.getSisteLagtPåVentHistorikkinnslag(
                     oppgaveVedtaksperioder.find((it) => it.id === oppgave.id)!.vedtaksperiodeId,
@@ -246,8 +241,8 @@ const syncMock = (oppgaver: OppgaveProjeksjon[]) => {
                             tekst: kommentar.tekst,
                         })),
                     };
-                    egenskaper = !egenskaper.some((e) => e === Egenskap.PaVent)
-                        ? [...egenskaper, Egenskap.PaVent]
+                    egenskaper = !egenskaper.some((e) => e === ApiEgenskap.PA_VENT)
+                        ? [...egenskaper, ApiEgenskap.PA_VENT]
                         : egenskaper;
                 }
             }
