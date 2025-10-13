@@ -16,7 +16,10 @@ import {
     getOverlappendeArbeidsgivere,
     harPeriodeDagerMedUnder20ProsentTotalGrad,
 } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
-import { finnAlleInntektsforhold, finnOverstyringerForAktivInntektsforhold } from '@state/selectors/arbeidsgiver';
+import {
+    finnAlleInntektsforhold,
+    finnOverstyringerForAktivInntektsforhold,
+} from '@state/inntektsforhold/inntektsforhold';
 import { getOverlappendePerioder, overlapper } from '@state/selectors/period';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isMinimumSykdomsgradsoverstyring, isUberegnetPeriode } from '@utils/typeguards';

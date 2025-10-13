@@ -5,15 +5,15 @@ import { Dropdown } from '@navikt/ds-react';
 import { BeregnetPeriodeFragment, PersonFragment, Utbetalingstatus } from '@io/graphql';
 import { AnnulleringsModal } from '@saksbilde/annullering/AnnulleringsModal';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
-import { Inntektsforhold } from '@state/arbeidsgiver';
-import { isArbeidsgiver, isBeregnetPeriode } from '@utils/typeguards';
+import { Inntektsforhold, InntektsforholdReferanse, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 interface AnnullerButtonWithContentProps {
     vedtaksperiodeId: string;
     utbetalingId: string;
     arbeidsgiverFagsystemId: string;
     personFagsystemId: string;
-    organisasjonsnummer: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
     person: PersonFragment;
     periode: BeregnetPeriodeFragment;
 }
@@ -23,7 +23,7 @@ const AnnullerButtonWithContent = ({
     arbeidsgiverFagsystemId,
     personFagsystemId,
     vedtaksperiodeId,
-    organisasjonsnummer,
+    inntektsforholdReferanse,
     person,
     periode,
 }: AnnullerButtonWithContentProps): ReactElement => {
@@ -36,7 +36,7 @@ const AnnullerButtonWithContent = ({
                 <AnnulleringsModal
                     closeModal={() => setShowModal(false)}
                     showModal={showModal}
-                    organisasjonsnummer={organisasjonsnummer}
+                    inntektsforholdReferanse={inntektsforholdReferanse}
                     vedtaksperiodeId={vedtaksperiodeId}
                     utbetalingId={utbetalingId}
                     arbeidsgiverFagsystemId={arbeidsgiverFagsystemId}
@@ -82,7 +82,7 @@ export const AnnullerButton = ({ person, periode, inntektsforhold }: AnnullerBut
             utbetalingId={periode.utbetaling.id}
             arbeidsgiverFagsystemId={periode.utbetaling.arbeidsgiverFagsystemId}
             personFagsystemId={periode.utbetaling.personFagsystemId}
-            organisasjonsnummer={isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG'}
+            inntektsforholdReferanse={tilReferanse(inntektsforhold)}
             person={person}
             periode={periode}
         />

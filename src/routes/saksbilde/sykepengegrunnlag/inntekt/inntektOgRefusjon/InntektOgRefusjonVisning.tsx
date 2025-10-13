@@ -11,7 +11,7 @@ import {
     PersonFragment,
     VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
-import { useLokaleRefusjonsopplysninger, useLokaltMånedsbeløp } from '@state/arbeidsgiver';
+import { useLokaleRefusjonsopplysninger, useLokaltMånedsbeløp } from '@state/inntektsforhold/arbeidsgiver';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';

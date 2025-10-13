@@ -8,8 +8,8 @@ import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FetchPersonDocument, Maybe } from '@io/graphql';
 import { validFødselsnummer } from '@io/graphql/common';
 import { BadRequestError } from '@io/graphql/errors';
+import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { usePersonKlargjøres } from '@state/personSomKlargjøres';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { useAddVarsel, useRapporterGraphQLErrors } from '@state/varsler';
 import { apolloExtensionValue } from '@utils/error';
 

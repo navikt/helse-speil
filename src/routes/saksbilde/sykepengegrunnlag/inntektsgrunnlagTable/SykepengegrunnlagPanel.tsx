@@ -12,7 +12,7 @@ import {
     Sykepengegrunnlagsgrense,
     VilkarsgrunnlagAvviksvurdering,
 } from '@io/graphql';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
+import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { isArbeidsgiver } from '@utils/typeguards';
 
 import { SkjønnsfastsettingSykepengegrunnlag } from '../skjønnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';

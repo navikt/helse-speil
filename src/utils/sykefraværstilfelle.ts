@@ -1,7 +1,7 @@
 import * as R from 'remeda';
 import { isTruthy } from 'remeda';
 
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 

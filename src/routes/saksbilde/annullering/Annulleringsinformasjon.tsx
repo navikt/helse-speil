@@ -3,9 +3,10 @@ import React, { ReactElement } from 'react';
 import { Alert, BodyShort, Box, HStack, List } from '@navikt/ds-react';
 import { ListItem } from '@navikt/ds-react/List';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { somNorskDato } from '@utils/date';
 
 import { useTotaltUtbetaltForSykefraværstilfellet } from './annullering';
@@ -15,13 +16,11 @@ import styles from './Annulleringsmodal.module.scss';
 export const Annulleringsinformasjon = ({
     person,
     periode,
-    arbeidsgivernavn,
-    organisasjonsnummer,
+    inntektsforholdReferanse,
 }: {
     person: PersonFragment;
     periode: BeregnetPeriodeFragment;
-    arbeidsgivernavn: string;
-    organisasjonsnummer: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
 }): ReactElement | null => {
     const { totalbeløp, førsteUtbetalingsdag, sisteUtbetalingsdag } = useTotaltUtbetaltForSykefraværstilfellet(person);
 
@@ -42,13 +41,16 @@ export const Annulleringsinformasjon = ({
                     </Alert>
                 </Box>
                 <HStack gap="2" paddingBlock="2">
-                    <Arbeidsgivernavn
-                        identifikator={organisasjonsnummer}
-                        navn={arbeidsgivernavn}
+                    <Inntektsforholdnavn
+                        inntektsforholdReferanse={inntektsforholdReferanse}
                         maxWidth="190px"
                         weight="semibold"
                     />
-                    <AnonymizableText weight="semibold">{organisasjonsnummer}</AnonymizableText>
+                    {inntektsforholdReferanse.type === 'Arbeidsgiver' && (
+                        <AnonymizableText weight="semibold">
+                            {inntektsforholdReferanse.organisasjonsnummer}
+                        </AnonymizableText>
+                    )}
                 </HStack>
                 <BodyShort>Utbetalingene for følgende perioder annulleres</BodyShort>
                 <List as="ul" size="small">

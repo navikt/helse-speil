@@ -6,9 +6,36 @@ import { BodyShort, BodyShortProps, CopyButton, HStack, Skeleton, Tooltip } from
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { useIsAnonymous } from '@state/anonymization';
+import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { capitalizeName } from '@utils/locale';
 
-import styles from './Arbeidsgivernavn.module.css';
+import styles from './Inntektsforholdnavn.module.css';
+
+export const Inntektsforholdnavn = ({
+    inntektsforholdReferanse,
+    maxWidth,
+    showCopyButton,
+    visIdentifikatorITooltip = false,
+    ...bodyShortProps
+}: {
+    inntektsforholdReferanse: InntektsforholdReferanse;
+    maxWidth?: string;
+    showCopyButton?: boolean;
+    visIdentifikatorITooltip?: boolean;
+} & Omit<BodyShortProps, 'children'>) => {
+    return inntektsforholdReferanse.type === 'Selvstendig Næring' ? (
+        <SelvstendigNæringsdrivendeNavn maxWidth={maxWidth} {...bodyShortProps} />
+    ) : (
+        <Arbeidsgivernavn
+            identifikator={inntektsforholdReferanse.organisasjonsnummer}
+            navn={inntektsforholdReferanse.navn}
+            maxWidth={maxWidth}
+            showCopyButton={showCopyButton}
+            visIdentifikatorITooltip={visIdentifikatorITooltip}
+            {...bodyShortProps}
+        />
+    );
+};
 
 export const Arbeidsgivernavn = ({
     identifikator,
@@ -125,7 +152,7 @@ const ArbeidsgivernavnKjent = ({
     );
 };
 
-const SelvstendigNæringsdrivendeNavn = ({
+export const SelvstendigNæringsdrivendeNavn = ({
     maxWidth,
     ...bodyShortProps
 }: {

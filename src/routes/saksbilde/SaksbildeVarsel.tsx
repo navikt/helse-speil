@@ -14,8 +14,11 @@ import {
 import styles from '@saksbilde/saksbilder/SharedViews.module.css';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
-import { Inntektsforhold, useHarDagOverstyringer } from '@state/arbeidsgiver';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
+import {
+    Inntektsforhold,
+    finnAlleInntektsforhold,
+    useHarDagOverstyringer,
+} from '@state/inntektsforhold/inntektsforhold';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { ActivePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';

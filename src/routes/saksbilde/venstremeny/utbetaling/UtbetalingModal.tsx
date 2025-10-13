@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 
 import { BodyShort, Button, ErrorMessage, HStack, Heading, Modal, Spacer } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';

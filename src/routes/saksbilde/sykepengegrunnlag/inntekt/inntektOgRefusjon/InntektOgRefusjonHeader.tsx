@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';

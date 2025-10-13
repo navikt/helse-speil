@@ -1,7 +1,6 @@
 import { PersonFragment } from '@io/graphql';
 import { useTabelldagerMap } from '@saksbilde/utbetaling/utbetalingstabell/useTabelldagerMap';
-import { Inntektsforhold, useDagoverstyringer } from '@state/arbeidsgiver';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
+import { Inntektsforhold, finnAlleInntektsforhold, useDagoverstyringer } from '@state/inntektsforhold/inntektsforhold';
 import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { DatePeriod, DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';

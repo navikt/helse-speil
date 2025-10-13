@@ -2,12 +2,12 @@ import React from 'react';
 
 import { BodyShort, HStack, Spacer } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { capitalizeName, somPenger } from '@utils/locale';
 import { isArbeidsgiver } from '@utils/typeguards';
 

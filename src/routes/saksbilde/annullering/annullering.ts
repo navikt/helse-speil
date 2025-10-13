@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { Dag, Maybe, Periode, PersonFragment } from '@io/graphql';
-import { Inntektsforhold, useAktivtInntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold, useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { somDato } from '@utils/date';

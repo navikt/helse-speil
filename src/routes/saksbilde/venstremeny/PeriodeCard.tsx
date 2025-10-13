@@ -23,7 +23,7 @@ import {
     UberegnetPeriodeFragment,
 } from '@io/graphql';
 import { ApiEgenskap } from '@io/rest/generated/spesialist.schemas';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { ActivePeriod, DatePeriod, DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
 import { isArbeidsgiver } from '@utils/typeguards';

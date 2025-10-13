@@ -34,7 +34,7 @@ import {
     Vurdering,
 } from '@io/graphql';
 import { OverstyringForInntektsforhold } from '@saksbilde/historikk/state';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import {
     AnnetArbeidsforholdoverstyringhendelseObject,
     AnnulleringhendelseObject,

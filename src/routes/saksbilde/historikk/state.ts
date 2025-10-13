@@ -10,17 +10,17 @@ import {
     PersonFragment,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
-import { atomWithSessionStorage } from '@state/jotai';
-import { toNotat } from '@state/notater';
-import { useActivePeriod } from '@state/periode';
+import { findArbeidsgiverWithGhostPeriode } from '@state/inntektsforhold/arbeidsgiver';
 import {
-    findArbeidsgiverWithGhostPeriode,
+    Inntektsforhold,
     finnAlleInntektsforhold,
     finnGenerasjonerForAktivPeriode,
     finnInntektsforholdForPeriode,
     finnOverstyringerForAktivInntektsforhold,
-} from '@state/selectors/arbeidsgiver';
+} from '@state/inntektsforhold/inntektsforhold';
+import { atomWithSessionStorage } from '@state/jotai';
+import { toNotat } from '@state/notater';
+import { useActivePeriod } from '@state/periode';
 import { Filtertype, HendelseObject, Hendelsetype } from '@typer/historikk';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 

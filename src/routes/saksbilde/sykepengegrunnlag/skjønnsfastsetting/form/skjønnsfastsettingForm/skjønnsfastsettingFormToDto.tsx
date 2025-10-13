@@ -1,7 +1,7 @@
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { Arbeidsgiverinntekt, Maybe, PersonFragment } from '@io/graphql';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
+import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';
 import { toKronerOgØre } from '@utils/locale';

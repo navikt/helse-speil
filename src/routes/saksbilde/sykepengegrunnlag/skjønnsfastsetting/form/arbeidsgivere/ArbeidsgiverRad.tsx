@@ -3,7 +3,7 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 
 import { HStack, Table, TextField } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';

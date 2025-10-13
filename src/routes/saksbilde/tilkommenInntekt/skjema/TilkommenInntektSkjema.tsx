@@ -16,7 +16,7 @@ import {
     tilPerioderPerOrganisasjonsnummer,
     utledSykefraværstilfelleperioder,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
+import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag, somNorskDato } from '@utils/date';

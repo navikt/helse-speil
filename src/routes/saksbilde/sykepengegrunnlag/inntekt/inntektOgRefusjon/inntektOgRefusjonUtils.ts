@@ -2,14 +2,14 @@ import dayjs from 'dayjs';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiver, BeregnetPeriodeFragment, Maybe, Periode, Periodetilstand, PersonFragment } from '@io/graphql';
+import { finnArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/inntektsforhold/arbeidsgiver';
 import {
+    finnAlleInntektsforhold,
+    finnPeriodeTilGodkjenning,
     useAktivtInntektsforhold,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
-    usePeriodForSkjæringstidspunktForArbeidsgiver,
-} from '@state/arbeidsgiver';
-import { finnArbeidsgiver } from '@state/arbeidsgiverHelpers';
+} from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
-import { finnAlleInntektsforhold, finnPeriodeTilGodkjenning } from '@state/selectors/arbeidsgiver';
 import { isForkastet } from '@state/selectors/period';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 import { DateString } from '@typer/shared';

@@ -1,4 +1,4 @@
-import { capitalizeArbeidsgiver } from './Arbeidsgivernavn';
+import { capitalizeArbeidsgiver } from './Inntektsforholdnavn';
 
 describe('Navnsetting', () => {
     test('Beholder store bokstaver for selskapsbetegnelse (AS, ASA, NUF osv.)', () => {

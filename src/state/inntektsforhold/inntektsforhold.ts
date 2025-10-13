@@ -1,19 +1,35 @@
+import dayjs from 'dayjs';
+import { useMemo } from 'react';
+
 import {
     Arbeidsgiver,
-    ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
+    Dagoverstyring,
     Generasjon,
-    GhostPeriodeFragment,
-    Hendelse,
     Maybe,
-    Periode,
     PersonFragment,
     SelvstendigNaering,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
-import { ActivePeriod } from '@typer/shared';
-import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/inntektsforhold/arbeidsgiver';
+import { findSelvstendigWithPeriode } from '@state/inntektsforhold/selvstendigNæring';
+import { useActivePeriod } from '@state/periode';
+import { harBlittUtbetaltTidligere } from '@state/selectors/period';
+import { ActivePeriod, DateString } from '@typer/shared';
+import {
+    isBeregnetPeriode,
+    isDagoverstyring,
+    isGhostPeriode,
+    isSelvstendigNaering,
+    isUberegnetPeriode,
+} from '@utils/typeguards';
+
+export type Inntektsforhold = Arbeidsgiver | SelvstendigNaering;
+
+export const useAktivtInntektsforhold = (person: Maybe<PersonFragment>): Inntektsforhold | undefined => {
+    const aktivPeriode = useActivePeriod(person);
+    return finnInntektsforholdForPeriode(person, aktivPeriode);
+};
 
 export const finnAlleInntektsforhold = (person: Maybe<PersonFragment>): Inntektsforhold[] => {
     const selvstendig: SelvstendigNaering[] =
@@ -39,35 +55,52 @@ export const finnInntektsforholdForPeriode = (
     return undefined;
 };
 
-/**
- * Returnerer alle unike hendelser av type 'INNTEKTSMELDING' for en gitt arbeidsgiver.
- *
- * Bakgrunn:
- *  - Samme hendelse (identisk id) kan forekomme flere ganger fordi perioder i ulike generasjoner
- *    refererer til de samme hendelsesobjektene, men som distinkte JS-objekter.
- *  - Kan ikke gå via Set fordi like hendelser er distinkte objekter - det knepet funker bare på primitiver.
- *
- * Strategi:
- *  1. Samler alle hendelser fra alle perioder i alle generasjoner.
- *  2. Dedupliserer ved å legge dem i en Map keyed på hendelsens `id`.
- *  3. Filtrerer ned til kun hendelser av typen 'INNTEKTSMELDING'.
- *
- * @param arbeidsgiver Arbeidsgiver som kan inneholde generasjoner med perioder og hendelser.
- * @returns Liste av unike 'INNTEKTSMELDING'-hendelser (kan være tom liste).
- */
-export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: Maybe<Arbeidsgiver>): Hendelse[] => {
-    if (!arbeidsgiver) return [];
+export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
+    const aktivPeriode = useActivePeriod(person);
+    const inntektsforhold = useAktivtInntektsforhold(person);
+    if (!aktivPeriode || !inntektsforhold) return false;
 
-    const hendelser = new Map<string, Hendelse>();
-    arbeidsgiver.generasjoner
-        .flatMap((g) => g.perioder.flatMap((p) => p.hendelser))
-        .forEach((h) => {
-            hendelser.set(h.id, h);
-        });
-    const hendelserDeduplisert = [...hendelser.values()];
+    const generasjon = finnNteEllerNyesteGenerasjon(aktivPeriode, inntektsforhold);
 
-    return hendelserDeduplisert.filter((h) => h.type === 'INNTEKTSMELDING');
+    if (!aktivPeriode || generasjon?.id !== inntektsforhold.generasjoner[0]?.id) return false;
+
+    const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
+    return periodeTilGodkjenning ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.tom) : true;
 };
+
+export const useDagoverstyringer = (
+    fom: DateString,
+    tom: DateString,
+    inntektsforhold?: Maybe<Inntektsforhold>,
+): Array<Dagoverstyring> => {
+    return useMemo(() => {
+        if (!inntektsforhold) return [];
+
+        const start = dayjs(fom);
+        const end = dayjs(tom);
+        return inntektsforhold.overstyringer.filter(isDagoverstyring).filter((overstyring) =>
+            overstyring.dager.some((dag) => {
+                const dato = dayjs(dag.dato);
+                return dato.isSameOrAfter(start) && dato.isSameOrBefore(end);
+            }),
+        );
+    }, [inntektsforhold, fom, tom]);
+};
+
+export const useHarDagOverstyringer = (
+    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+    person: PersonFragment,
+): boolean => {
+    const inntektsforhold = useAktivtInntektsforhold(person);
+    const dagendringer = useDagoverstyringer(periode.fom, periode.tom, inntektsforhold);
+
+    if (!inntektsforhold) {
+        return false;
+    }
+
+    return !harBlittUtbetaltTidligere(periode, inntektsforhold) && (dagendringer?.length ?? 0) > 0;
+};
+
 export const finnPeriodeTilGodkjenning = (person: Maybe<PersonFragment>): Maybe<BeregnetPeriodeFragment> => {
     if (!person) return null;
 
@@ -79,13 +112,17 @@ export const finnPeriodeTilGodkjenning = (person: Maybe<PersonFragment>): Maybe<
             )?.[0] as BeregnetPeriodeFragment) ?? null
     );
 };
-export const findArbeidsgiverWithGhostPeriode = (
-    period: GhostPeriodeFragment,
-    inntektsforhold: Array<Inntektsforhold>,
-): Maybe<Arbeidsgiver> =>
-    inntektsforhold
-        .filter(isArbeidsgiver)
-        .find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((periode) => periode.id === period.id)) ?? null;
+
+export type ArbeidsgiverReferanse = {
+    type: 'Arbeidsgiver';
+    organisasjonsnummer: string;
+    navn?: string;
+};
+
+export type SelvstendigNæringReferanse = {
+    type: 'Selvstendig Næring';
+};
+
 export const finnGenerasjonerForAktivPeriode = (periode: ActivePeriod, person: PersonFragment): Generasjon[] => {
     const arbeidsgiver = findArbeidsgiverWithPeriode(periode, person.arbeidsgivere);
     const selvstendig = findSelvstendigWithPeriode(periode, person.selvstendigNaering);
@@ -148,42 +185,13 @@ export const finnNteEllerNyesteGenerasjon = (
     );
 };
 
-export const erPeriodeIFørsteGenerasjon = (person: PersonFragment, period: Periode): boolean =>
-    !!person.arbeidsgivere.find((arbeidsgiver: Arbeidsgiver): Periode | undefined =>
-        arbeidsgiver.generasjoner[0]?.perioder.find((it) => it.id === period.id),
-    );
+export type InntektsforholdReferanse = ArbeidsgiverReferanse | SelvstendigNæringReferanse;
 
-/**
- * Finn arbeidsgiveren som eier en gitt periode.
- *
- * @internal
- * @param period Aktiv periode (beregnet eller uberegnet) som skal finnes på arbeidsgiver.
- * @param arbeidsgivere Liste over arbeidsgivere som søkes i.
- * @returns Arbeidsgiver som eier perioden, eller null hvis ingen matcher.
- */
-const findArbeidsgiverWithPeriode = (
-    period: ActivePeriod,
-    arbeidsgivere: Array<ArbeidsgiverFragment>,
-): Maybe<ArbeidsgiverFragment> =>
-    arbeidsgivere.find((arbeidsgiver) =>
-        arbeidsgiver.generasjoner
-            .flatMap((generasjon) => generasjon.perioder)
-            .find((periode: UberegnetPeriodeFragment | BeregnetPeriodeFragment) => periode.id === period.id),
-    ) ?? null;
-
-/**
- * Finn selvstendig næringsdrivende som eier en gitt periode. Om det finnes selvstendig næringsforhold og dette inneholder gitt periode
- *
- * @param periode Aktiv periode som skal finnes på `selvstendig`.
- * @param selvstendig Selvstendig næringsforhold som skal inneholde perioden.
- * @returns `selvstendig` hvis perioden finnes, ellers `null`.
- */
-const findSelvstendigWithPeriode = (
-    periode: ActivePeriod,
-    selvstendig: SelvstendigNaering | null,
-): SelvstendigNaering | null =>
-    selvstendig?.generasjoner
-        .flatMap((generasjon) => generasjon.perioder)
-        .some((enPeriode) => enPeriode.id === periode.id)
-        ? selvstendig
-        : null;
+export const tilReferanse = (inntektsforhold: Inntektsforhold): InntektsforholdReferanse =>
+    isSelvstendigNaering(inntektsforhold)
+        ? { type: 'Selvstendig Næring' }
+        : {
+              type: 'Arbeidsgiver',
+              organisasjonsnummer: inntektsforhold.organisasjonsnummer,
+              navn: inntektsforhold.navn,
+          };

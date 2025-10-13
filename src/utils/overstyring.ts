@@ -1,5 +1,5 @@
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
-import { erPeriodeIFørsteGenerasjon } from '@state/selectors/arbeidsgiver';
+import { erPeriodeIFørsteGenerasjon } from '@state/inntektsforhold/arbeidsgiver';
 import { getOverlappendePerioder, isForkastet, isGodkjent } from '@state/selectors/period';
 import { getPeriodState } from '@utils/mapping';
 

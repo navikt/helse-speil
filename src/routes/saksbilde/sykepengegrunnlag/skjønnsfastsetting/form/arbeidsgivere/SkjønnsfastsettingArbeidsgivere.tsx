@@ -8,7 +8,7 @@ import { Sykepengegrunnlagsgrense } from '@io/graphql';
 import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
 import { avrundetToDesimaler } from '@utils/tall';
 import { isArbeidsgiver } from '@utils/typeguards';

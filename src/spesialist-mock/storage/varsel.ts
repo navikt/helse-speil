@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { GraphQLError } from 'graphql';
 
 import { PersonFragment } from '@io/graphql';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
+import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 
 import { MutationSettVarselstatusArgs, Person, VarselDto, Varselstatus } from '../schemaTypes';
 

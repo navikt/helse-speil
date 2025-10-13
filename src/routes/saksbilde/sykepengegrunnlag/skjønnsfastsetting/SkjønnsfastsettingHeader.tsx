@@ -14,8 +14,8 @@ import {
     Sykepengegrunnlagskjonnsfastsetting,
 } from '@io/graphql';
 import { EndringsloggSkjønnsfastsettingButton } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/EndringsloggSkjønnsfastsettingButton';
+import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 import { isArbeidsgiver, isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 

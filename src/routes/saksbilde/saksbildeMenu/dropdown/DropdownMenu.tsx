@@ -8,9 +8,8 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
 import { OpphevStansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/OpphevStansAutomatiskBehandlingButton';
 import { StansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/StansAutomatiskBehandlingButton';
-import { useAktivtInntektsforhold } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
+import { finnAlleInntektsforhold, useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { ActivePeriod } from '@typer/shared';
 import { isArbeidsgiver, isBeregnetPeriode, isPerson } from '@utils/typeguards';
 

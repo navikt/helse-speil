@@ -1,7 +1,7 @@
 import * as R from 'remeda';
 
 import { PeriodeFragment } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 

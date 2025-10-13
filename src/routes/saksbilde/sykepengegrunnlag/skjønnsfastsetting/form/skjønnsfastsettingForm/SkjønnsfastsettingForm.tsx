@@ -24,7 +24,7 @@ import {
     Skjønnsfastsettingstype,
     usePostSkjønnsfastsattSykepengegrunnlag,
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
+import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { avrundetToDesimaler } from '@utils/tall';
 import { isArbeidsgiver, isBeregnetPeriode } from '@utils/typeguards';
 

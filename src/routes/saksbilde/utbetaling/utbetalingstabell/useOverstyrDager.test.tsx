@@ -1,5 +1,5 @@
 import { Kildetype, OpprettAbonnementDocument, OverstyrDagerMutationDocument } from '@io/graphql';
-import { useAktivtInntektsforhold } from '@state/arbeidsgiver';
+import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -11,7 +11,7 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { tilOverstyrteDager, useOverstyrDager } from './useOverstyrDager';
 
 jest.mock('@state/person');
-jest.mock('@state/arbeidsgiver');
+jest.mock('@state/inntektsforhold/inntektsforhold');
 jest.mock('@state/toasts');
 jest.mock('@state/opptegnelser');
 jest.mock('@io/graphql/polling');

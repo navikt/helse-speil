@@ -11,8 +11,8 @@ import {
     Refusjonselement,
 } from '@io/graphql';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
+import { dedupliserteInntektsmeldingHendelser } from '@state/inntektsforhold/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { dedupliserteInntektsmeldingHendelser } from '@state/selectors/arbeidsgiver';
 import {
     OverstyrtInntektOgRefusjonArbeidsgiver,
     OverstyrtInntektOgRefusjonDTO,

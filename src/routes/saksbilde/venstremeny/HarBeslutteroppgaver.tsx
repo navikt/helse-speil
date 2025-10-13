@@ -2,12 +2,12 @@ import React, { ReactElement } from 'react';
 
 import { Alert, Button, Detail, Heading, List, VStack } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
+import { finnAlleInntektsforhold, finnPeriodeTilGodkjenning } from '@state/inntektsforhold/inntektsforhold';
 import { useNavigerTilPeriode, useNavigerTilTilkommenInntekt } from '@state/routing';
-import { finnAlleInntektsforhold, finnPeriodeTilGodkjenning } from '@state/selectors/arbeidsgiver';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
 import { isArbeidsgiver } from '@utils/typeguards';

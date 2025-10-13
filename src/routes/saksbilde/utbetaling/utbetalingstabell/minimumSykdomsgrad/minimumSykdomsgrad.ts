@@ -13,11 +13,10 @@ import {
     PeriodeFragment,
     PersonFragment,
 } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
 import { useCalculatingState } from '@state/calculating';
+import { Inntektsforhold, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { overlapper } from '@state/selectors/period';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { MinimumSykdomsgradArbeidsgiver, OverstyrtMinimumSykdomsgradDTO } from '@typer/overstyring';

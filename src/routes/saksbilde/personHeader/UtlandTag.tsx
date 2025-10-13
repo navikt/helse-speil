@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { PersonFragment } from '@io/graphql';
-import { finnPeriodeTilGodkjenning } from '@state/selectors/arbeidsgiver';
+import { finnPeriodeTilGodkjenning } from '@state/inntektsforhold/inntektsforhold';
 
 import { TagMedTooltip } from './TagMedTooltip';
 

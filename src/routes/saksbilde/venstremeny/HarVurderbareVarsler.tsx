@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
-import { finnAlleInntektsforhold, finnPeriodeTilGodkjenning } from '@state/selectors/arbeidsgiver';
+import { finnAlleInntektsforhold, finnPeriodeTilGodkjenning } from '@state/inntektsforhold/inntektsforhold';
 import { isArbeidsgiver } from '@utils/typeguards';
 
 interface HarVurderbareVarslerProps {

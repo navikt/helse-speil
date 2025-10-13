@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 
 import { SackKronerIcon } from '@navikt/aksel-icons';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { TilkommenInntekt } from '@io/graphql';
 import { TilkommenInntektPeriods } from '@saksbilde/timeline/TilkommenInntektPeriods';
 

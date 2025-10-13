@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { Arbeidsgiver, GhostPeriodeFragment } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 
 import { PeriodeCard } from './PeriodeCard';
 

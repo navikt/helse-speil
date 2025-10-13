@@ -9,10 +9,10 @@ import {
     PersonFragment,
 } from '@io/graphql';
 import { useCalculatingState } from '@state/calculating';
+import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useActivePeriodWithPerson } from '@state/periode';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { BegrunnelseForOverstyring, OverstyrtArbeidsforholdDTO } from '@typer/overstyring';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';

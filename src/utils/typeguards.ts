@@ -15,7 +15,7 @@ import {
     Sykepengegrunnlagskjonnsfastsetting,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { InfotrygdPeriod } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
 import { OverstyringerPrDag } from '@typer/utbetalingstabell';
@@ -79,9 +79,11 @@ export function isNotNullOrUndefined<T>(value: T): value is NonNullable<T> {
 export const isNumber = (aNumber: unknown): aNumber is number => {
     return aNumber !== undefined && aNumber !== null && typeof aNumber === 'number';
 };
+
 export const isArbeidsgiver = (inntektsforhold?: Inntektsforhold | null): inntektsforhold is Arbeidsgiver => {
     return (inntektsforhold as Arbeidsgiver)?.organisasjonsnummer != undefined;
 };
+
 export const isSelvstendigNaering = (
     inntektsforhold?: Inntektsforhold | null,
 ): inntektsforhold is SelvstendigNaering => {

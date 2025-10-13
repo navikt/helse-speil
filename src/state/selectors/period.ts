@@ -9,7 +9,7 @@ import {
     PersonFragment,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { isGodkjent as utbetalingIsGodkjent } from '@state/selectors/utbetaling';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';

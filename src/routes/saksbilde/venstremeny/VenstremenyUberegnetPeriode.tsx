@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 
 import { PeriodeCard } from './PeriodeCard';
 

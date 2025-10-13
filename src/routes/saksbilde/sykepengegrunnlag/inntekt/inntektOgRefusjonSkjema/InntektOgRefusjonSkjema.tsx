@@ -22,10 +22,10 @@ import {
     useLokaleRefusjonsopplysninger,
     useLokaltMånedsbeløp,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
-} from '@state/arbeidsgiver';
+} from '@state/inntektsforhold/arbeidsgiver';
+import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useInntektOgRefusjon, useLokaleInntektOverstyringer, useOverstyrtInntektMetadata } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@typer/overstyring';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 import { ActivePeriod, DateString } from '@typer/shared';

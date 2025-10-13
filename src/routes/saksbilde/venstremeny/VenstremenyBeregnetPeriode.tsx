@@ -16,8 +16,7 @@ import {
 } from '@io/graphql';
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
-import { Inntektsforhold } from '@state/arbeidsgiver';
-import { finnForrigeEllerNyesteGenerasjon } from '@state/selectors/arbeidsgiver';
+import { Inntektsforhold, finnForrigeEllerNyesteGenerasjon } from '@state/inntektsforhold/inntektsforhold';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { PeriodState } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';

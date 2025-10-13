@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { BeregnetPeriodeFragment, Varselstatus } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { DatePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 

@@ -8,7 +8,10 @@ import {
     useGhostInntektKanOverstyres,
     useInntektKanRevurderes,
 } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
-import { useAktivtInntektsforhold, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import {
+    useAktivtInntektsforhold,
+    useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
+} from '@state/inntektsforhold/inntektsforhold';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';

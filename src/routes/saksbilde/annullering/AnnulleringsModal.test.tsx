@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useArsaker } from '@external/sanity';
 import { AnnullerDocument, AnnulleringArsakInput } from '@io/graphql';
+import { ArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
@@ -14,6 +15,11 @@ import { AnnulleringsModal } from './AnnulleringsModal';
 jest.mock('@external/sanity');
 jest.mock('@state/toasts');
 
+const enArbeidsgiverReferanse = (): ArbeidsgiverReferanse => ({
+    type: 'Arbeidsgiver',
+    organisasjonsnummer: '987654321',
+});
+
 const defaultProps = {
     closeModal: () => null,
     showModal: true,
@@ -22,7 +28,7 @@ const defaultProps = {
         aktorId: '12345678910',
     }),
     periode: enBeregnetPeriode(),
-    organisasjonsnummer: '987654321',
+    inntektsforholdReferanse: enArbeidsgiverReferanse(),
     vedtaksperiodeId: 'EN-VEDTAKSPERIODEID',
     utbetalingId: 'EN-UTBETALINGID',
     arbeidsgiverFagsystemId: 'EN-FAGSYSTEMID',

@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Generasjon, PersonFragment } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { isArbeidsgiver, isSelvstendigNaering } from '@utils/typeguards';
 
 import { Periods } from './Periods';

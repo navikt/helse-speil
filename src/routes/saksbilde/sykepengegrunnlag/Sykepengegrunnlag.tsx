@@ -5,7 +5,7 @@ import { Alert } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment } from '@io/graphql';
 import { SykepengegrunnlagSelvstendig } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/SykepengegrunnlagSelvstendig';
-import { useAktivtInntektsforhold } from '@state/arbeidsgiver';
+import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
 import { SykepengegrunnlagFraInfogtrygd } from './sykepengegrunnlagvisninger/infotrygd/SykepengegrunnlagFraInfotrygd';

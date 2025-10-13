@@ -1,5 +1,5 @@
 import { PersonFragment } from '@io/graphql';
-import { finnAlleInntektsforhold } from '@state/selectors/arbeidsgiver';
+import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const useHarTotrinnsvurdering = (person: PersonFragment | null) =>

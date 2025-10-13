@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 
 import { Infotrygdutbetaling } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { DateString } from '@typer/shared';
 import { TimelineZoomLevel } from '@typer/timeline';
 import { isArbeidsgiver } from '@utils/typeguards';

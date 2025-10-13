@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Table } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { Kilde } from '@components/Kilde';
 import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygdV2 } from '@io/graphql';
 import { kildeForkortelse } from '@utils/inntektskilde';

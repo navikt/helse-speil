@@ -3,7 +3,7 @@ import React from 'react';
 
 import { BodyShort, HStack, Tooltip } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { Kilde } from '@components/Kilde';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Errorikon } from '@components/ikoner/Errorikon';
@@ -16,7 +16,7 @@ import {
     PersonFragment,
     Sammenligningsgrunnlag,
 } from '@io/graphql';
-import { finnArbeidsgiver } from '@state/arbeidsgiverHelpers';
+import { finnArbeidsgiver } from '@state/inntektsforhold/arbeidsgiver';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 

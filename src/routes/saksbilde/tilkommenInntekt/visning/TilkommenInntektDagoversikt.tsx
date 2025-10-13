@@ -3,11 +3,11 @@ import React from 'react';
 
 import { BodyShort, Box, HStack, Table } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import styles from '@saksbilde/tilkommenInntekt/TilkommenTable.module.css';
 import { tilDagtypeTabell } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { DagtypeCell } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeCell';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erHelg, somNorskDato } from '@utils/date';
 

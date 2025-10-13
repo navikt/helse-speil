@@ -2,11 +2,11 @@ import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Maybe, PersonFragment } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { TimelinePeriod } from '@typer/timeline';
 import { isArbeidsgiver, isSelvstendigNaering } from '@utils/typeguards';
 

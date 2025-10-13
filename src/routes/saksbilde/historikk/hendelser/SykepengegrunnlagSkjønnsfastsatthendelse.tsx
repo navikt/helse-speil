@@ -2,8 +2,8 @@ import React, { Fragment, ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { Maybe, Skjonnsfastsettingstype } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';

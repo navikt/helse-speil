@@ -1,5 +1,5 @@
 import { Maybe, PersonFragment } from '@io/graphql';
-import { useAktivtInntektsforhold } from '@state/arbeidsgiver';
+import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 

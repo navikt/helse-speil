@@ -1,5 +1,5 @@
 import { UberegnetPeriodeFragment, Utbetalingsdagtype } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 
 export const getAntallAGPDagerBruktFørPerioden = (
     inntektsforhold: Inntektsforhold,

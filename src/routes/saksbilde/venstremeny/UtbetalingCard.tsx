@@ -13,7 +13,7 @@ import {
     VilkarsgrunnlagInfotrygdV2,
     VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { somPenger } from '@utils/locale';
 import { isSelvstendigNaering } from '@utils/typeguards';
 

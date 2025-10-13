@@ -1,12 +1,12 @@
 import fetchMock from 'jest-fetch-mock';
-import { createStore } from 'jotai/index';
+import { createStore } from 'jotai';
 import React from 'react';
 
 import { PersonStoreContext } from '@/state/contexts/personStore';
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { useIsAnonymous } from '@state/anonymization';
-import { usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
+import { finnArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/inntektsforhold/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -19,7 +19,7 @@ import { render, screen } from '@test-utils';
 
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
-jest.mock('@state/arbeidsgiver');
+jest.mock('@state/inntektsforhold/arbeidsgiver');
 jest.mock('@state/periode');
 jest.mock('@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag');
 jest.mock('@state/toggles');
@@ -46,6 +46,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         const inntekter = [inntektFraIM];
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
 
+        (finnArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: { person: person } });
         (useActivePeriod as jest.Mock).mockReturnValue(enBeregnetPeriode());
         (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enBeregnetPeriode());

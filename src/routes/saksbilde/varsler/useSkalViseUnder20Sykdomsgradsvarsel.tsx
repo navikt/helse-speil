@@ -4,9 +4,12 @@ import {
     getOverlappendeArbeidsgivere,
     harPeriodeDagerMedUnder20ProsentTotalGrad,
 } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
+import {
+    finnAlleInntektsforhold,
+    finnOverstyringerForAktivInntektsforhold,
+} from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { finnAlleInntektsforhold, finnOverstyringerForAktivInntektsforhold } from '@state/selectors/arbeidsgiver';
 import { isArbeidsgiver, isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
 
 export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {

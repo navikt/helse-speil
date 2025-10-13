@@ -1,5 +1,5 @@
 import { BeregnetPeriodeFragment, Maybe, Periode } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { DateString } from '@typer/shared';
 import { isBeregnetPeriode } from '@utils/typeguards';
 

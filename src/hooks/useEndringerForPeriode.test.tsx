@@ -1,5 +1,5 @@
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
-import { finnArbeidsgiver } from '@state/arbeidsgiverHelpers';
+import { finnArbeidsgiver } from '@state/inntektsforhold/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsforholdoverstyring, enDagoverstyring, enInntektoverstyring } from '@test-data/overstyring';
@@ -9,7 +9,7 @@ import { renderHook } from '@test-utils';
 
 jest.mock('@state/person');
 jest.mock('@state/periode');
-jest.unmock('@state/arbeidsgiver');
+jest.unmock('@state/inntektsforhold/arbeidsgiver');
 
 describe('useEndringerForPeriode', () => {
     afterEach(() => {

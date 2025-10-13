@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
-import { Inntektsforhold } from '@state/arbeidsgiver';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { getFormattedDateString } from '@utils/date';
 
 import { useMaksdato } from './hooks/useMaksdato';

@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { Alert, Button, Heading, List } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { useNavigerTilPeriode } from '@state/routing';
 import { DateString } from '@typer/shared';
 import { somNorskDato } from '@utils/date';

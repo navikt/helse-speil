@@ -7,10 +7,9 @@ import { useMutation } from '@apollo/client';
 import { Arsak } from '@external/sanity';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { AnnullerDocument, AnnulleringDataInput, BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
-import { useAktivtInntektsforhold } from '@state/arbeidsgiver';
+import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast } from '@state/toasts';
-import { isArbeidsgiver } from '@utils/typeguards';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
 import { Annulleringsinformasjon } from './Annulleringsinformasjon';
@@ -20,7 +19,7 @@ import styles from './Annulleringsmodal.module.scss';
 type AnnulleringsModalProps = {
     closeModal: () => void;
     showModal: boolean;
-    organisasjonsnummer: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
     vedtaksperiodeId: string;
     utbetalingId: string;
     arbeidsgiverFagsystemId: string;
@@ -32,7 +31,7 @@ type AnnulleringsModalProps = {
 export const AnnulleringsModal = ({
     closeModal,
     showModal,
-    organisasjonsnummer,
+    inntektsforholdReferanse,
     vedtaksperiodeId,
     utbetalingId,
     arbeidsgiverFagsystemId,
@@ -44,7 +43,6 @@ export const AnnulleringsModal = ({
     const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
     const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const addToast = useAddToast();
-    const inntektsforhold = useAktivtInntektsforhold(person);
 
     const form = useForm({ mode: 'onBlur', defaultValues: { kommentar: '', arsaker: [] as string[] } });
     const kommentar = form.watch('kommentar').trim();
@@ -58,7 +56,10 @@ export const AnnulleringsModal = ({
     const annullering = (): AnnulleringDataInput => ({
         aktorId: person?.aktorId,
         fodselsnummer: person?.fodselsnummer,
-        organisasjonsnummer,
+        organisasjonsnummer:
+            inntektsforholdReferanse.type === 'Arbeidsgiver'
+                ? inntektsforholdReferanse.organisasjonsnummer
+                : 'SELVSTENDIG',
         vedtaksperiodeId,
         utbetalingId,
         arbeidsgiverFagsystemId,
@@ -123,14 +124,7 @@ export const AnnulleringsModal = ({
                         <Annulleringsinformasjon
                             person={person}
                             periode={periode}
-                            arbeidsgivernavn={
-                                isArbeidsgiver(inntektsforhold) ? (inntektsforhold?.navn ?? '') : 'SELVSTENDIG'
-                            }
-                            organisasjonsnummer={
-                                isArbeidsgiver(inntektsforhold)
-                                    ? (inntektsforhold?.organisasjonsnummer ?? '')
-                                    : 'SELVSTENDIG'
-                            }
+                            inntektsforholdReferanse={inntektsforholdReferanse}
                         />
                         <Annulleringsbegrunnelse />
                         {!erINyesteSkjæringstidspunkt && (

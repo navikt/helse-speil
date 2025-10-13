@@ -2,7 +2,10 @@ import { nanoid } from 'nanoid';
 import React from 'react';
 
 import { Inntektstype, Utbetalingsdagtype } from '@io/graphql';
-import { useAktivtInntektsforhold, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import {
+    useAktivtInntektsforhold,
+    useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
+} from '@state/inntektsforhold/inntektsforhold';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode, enDag } from '@test-data/periode';
@@ -13,7 +16,7 @@ import { screen } from '@testing-library/react';
 
 import { Utbetaling } from './Utbetaling';
 
-jest.mock('@state/arbeidsgiver');
+jest.mock('@state/inntektsforhold/inntektsforhold');
 
 describe('Utbetaling', () => {
     afterEach(() => {

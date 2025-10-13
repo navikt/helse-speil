@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react';
 
 import { Alert, Box, HStack, Heading, HelpText } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
@@ -13,7 +13,7 @@ import {
     useAktivtInntektsforhold,
     useDagoverstyringer,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
-} from '@state/arbeidsgiver';
+} from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { DateString } from '@typer/shared';

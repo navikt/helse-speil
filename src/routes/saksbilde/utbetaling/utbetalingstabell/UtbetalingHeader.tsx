@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { PersonPencilIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Heading, HelpText } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 
 import styles from './UtbetalingHeader.module.css';
 

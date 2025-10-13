@@ -6,11 +6,13 @@ import { Alert, Box } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Arbeidsgiverinntekt, Inntektskilde, PersonFragment, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
-import { usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
-import { finnArbeidsgiver } from '@state/arbeidsgiverHelpers';
+import {
+    dedupliserteInntektsmeldingHendelser,
+    finnArbeidsgiver,
+    usePeriodForSkjæringstidspunktForArbeidsgiver,
+} from '@state/inntektsforhold/arbeidsgiver';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
-import { dedupliserteInntektsmeldingHendelser } from '@state/selectors/arbeidsgiver';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { useVilkårsgrunnlag } from '../useVilkårsgrunnlag';
