@@ -12,8 +12,7 @@ import {
     Sykepengegrunnlagsgrense,
     VilkarsgrunnlagAvviksvurdering,
 } from '@io/graphql';
-import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { isArbeidsgiver } from '@utils/typeguards';
+import { finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
 
 import { SkjønnsfastsettingSykepengegrunnlag } from '../skjønnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
@@ -62,7 +61,7 @@ export const SykepengegrunnlagPanel = ({
     periode,
     organisasjonsnummer,
 }: SykepengegrunnlagPanelProps) => {
-    const arbeidsgivere = finnAlleInntektsforhold(person).filter(isArbeidsgiver);
+    const arbeidsgivere = finnAlleArbeidsgivere(person);
     return (
         <div className={styles.wrapper}>
             {avviksvurdering !== null ? (

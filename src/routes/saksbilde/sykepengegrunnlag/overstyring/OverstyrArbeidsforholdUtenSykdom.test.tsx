@@ -41,7 +41,7 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
                 begrunnelse: 'Avbrudd mer enn 14 dager (generell)',
                 deaktivert: true,
                 forklaring: 'En begrunnelse',
-                orgnummer: '987654321',
+                orgnummer: arbeidsgiver.organisasjonsnummer,
                 lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
             }),
             opprettAbonnementMock(person.aktorId),
@@ -156,7 +156,7 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
                 begrunnelse: 'Angret å ikke bruke det i beregningen',
                 deaktivert: false,
                 forklaring: 'Saksbehandler angret å deaktivere arbeidsforholdet i beregningen',
-                orgnummer: '987654321',
+                orgnummer: arbeidsgiver.organisasjonsnummer,
             }),
             opprettAbonnementMock(person.aktorId),
         ];

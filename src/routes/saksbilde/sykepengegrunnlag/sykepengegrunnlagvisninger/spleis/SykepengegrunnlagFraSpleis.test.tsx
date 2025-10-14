@@ -6,7 +6,6 @@ import { PersonStoreContext } from '@/state/contexts/personStore';
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { useIsAnonymous } from '@state/anonymization';
-import { finnArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/inntektsforhold/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -19,7 +18,6 @@ import { render, screen } from '@test-utils';
 
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
-jest.mock('@state/inntektsforhold/arbeidsgiver');
 jest.mock('@state/periode');
 jest.mock('@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag');
 jest.mock('@state/toggles');
@@ -40,16 +38,19 @@ describe('SykepengegrunnlagFraSpleis', () => {
         // TODO: Få med inntekt fra IM/spleis for å få riktig data for test av periode med sykefravær
         const arbeidsgiver = enArbeidsgiver();
         const { organisasjonsnummer } = arbeidsgiver;
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+        const tilleggsinfoForInntektskilder = [
+            tilleggsinfoFraEnInntektskilde({ navn: arbeidsgiver.navn, orgnummer: arbeidsgiver.organisasjonsnummer }),
+        ];
+        const person = enPerson()
+            .medArbeidsgivere([arbeidsgiver])
+            .medTilleggsinfoForInntektskilder(tilleggsinfoForInntektskilder);
         const skjaeringstidspunkt = '2020-01-01';
         const inntektFraIM = enArbeidsgiverinntekt({ arbeidsgiver: organisasjonsnummer }).medInntektFraAOrdningen();
         const inntekter = [inntektFraIM];
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
 
-        (finnArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: { person: person } });
         (useActivePeriod as jest.Mock).mockReturnValue(enBeregnetPeriode());
-        (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enBeregnetPeriode());
         (useEndringerForPeriode as jest.Mock).mockReturnValue({
             inntektsendringer: [],
             arbeidsforholdendringer: [],
@@ -133,7 +134,6 @@ describe('SykepengegrunnlagFraSpleis', () => {
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
 
         (useActivePeriod as jest.Mock).mockReturnValue(enGhostPeriode());
-        (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enGhostPeriode());
         (useEndringerForPeriode as jest.Mock).mockReturnValue({
             inntektsendringer: [],
             arbeidsforholdendringer: [],

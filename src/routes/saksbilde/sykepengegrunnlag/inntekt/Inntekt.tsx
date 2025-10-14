@@ -8,7 +8,7 @@ import { Arbeidsgiverinntekt, Inntektskilde, PersonFragment, VilkarsgrunnlagSple
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import {
     dedupliserteInntektsmeldingHendelser,
-    finnArbeidsgiver,
+    finnArbeidsgiverMedOrganisasjonsnummer,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/inntektsforhold/arbeidsgiver';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
@@ -34,7 +34,7 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElem
         aktivPeriode?.skjaeringstidspunkt ?? null,
         inntekt.arbeidsgiver,
     );
-    const arbeidsgiver = finnArbeidsgiver(person, inntekt.arbeidsgiver);
+    const arbeidsgiver = finnArbeidsgiverMedOrganisasjonsnummer(person, inntekt.arbeidsgiver);
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeForSkjæringstidspunktForArbeidsgiver);
 
     const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, aktivPeriode);

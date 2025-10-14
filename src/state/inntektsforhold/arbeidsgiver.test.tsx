@@ -1,6 +1,9 @@
 import { nanoid } from 'nanoid';
 
-import { findArbeidsgiverWithGhostPeriode, finnArbeidsgiver } from '@state/inntektsforhold/arbeidsgiver';
+import {
+    findArbeidsgiverWithGhostPeriode,
+    finnArbeidsgiverMedOrganisasjonsnummer,
+} from '@state/inntektsforhold/arbeidsgiver';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enGhostPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
@@ -15,15 +18,17 @@ describe('findArbeidsgiverWithGhostPeriode', () => {
         const ghostPeriode = enGhostPeriode();
         const arbeidsgiver = enArbeidsgiver({ ghostPerioder: [ghostPeriode] });
         const arbeidsgivere = [enArbeidsgiver(), arbeidsgiver, enArbeidsgiver()];
+        const person = enPerson().medArbeidsgivere(arbeidsgivere);
 
-        expect(findArbeidsgiverWithGhostPeriode(ghostPeriode, arbeidsgivere)).toEqual(arbeidsgiver);
+        expect(findArbeidsgiverWithGhostPeriode(ghostPeriode, person)).toEqual(arbeidsgiver);
     });
 
-    it('returnerer null hvis ghost-perioden ikke finnes hos en arbeidsgiver', () => {
+    it('returnerer undefined hvis ghost-perioden ikke finnes hos en arbeidsgiver', () => {
         const ghostPeriode = enGhostPeriode();
         const arbeidsgivere = [enArbeidsgiver(), enArbeidsgiver(), enArbeidsgiver()];
+        const person = enPerson().medArbeidsgivere(arbeidsgivere);
 
-        expect(findArbeidsgiverWithGhostPeriode(ghostPeriode, arbeidsgivere)).toBeNull();
+        expect(findArbeidsgiverWithGhostPeriode(ghostPeriode, person)).toBeUndefined();
     });
 });
 
@@ -37,7 +42,7 @@ describe('useArbeidsgiver', () => {
         const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer });
         const person = enPerson().medArbeidsgivere([enArbeidsgiver(), arbeidsgiver, enArbeidsgiver()]);
 
-        const { result } = renderHook(() => finnArbeidsgiver(person, organisasjonsnummer));
+        const { result } = renderHook(() => finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer));
 
         expect(result.current).toEqual(arbeidsgiver);
     });
@@ -46,7 +51,7 @@ describe('useArbeidsgiver', () => {
         const organisasjonsnummer = nanoid();
         const person = enPerson().medArbeidsgivere([enArbeidsgiver(), enArbeidsgiver(), enArbeidsgiver()]);
 
-        const { result } = renderHook(() => finnArbeidsgiver(person, organisasjonsnummer));
+        const { result } = renderHook(() => finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer));
 
         expect(result.current).toBeNull();
     });

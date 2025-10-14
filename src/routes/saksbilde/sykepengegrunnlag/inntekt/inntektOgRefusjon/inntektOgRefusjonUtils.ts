@@ -2,7 +2,10 @@ import dayjs from 'dayjs';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiver, BeregnetPeriodeFragment, Maybe, Periode, Periodetilstand, PersonFragment } from '@io/graphql';
-import { finnArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/inntektsforhold/arbeidsgiver';
+import {
+    finnArbeidsgiverMedOrganisasjonsnummer,
+    usePeriodForSkjæringstidspunktForArbeidsgiver,
+} from '@state/inntektsforhold/arbeidsgiver';
 import {
     finnAlleInntektsforhold,
     finnPeriodeTilGodkjenning,
@@ -82,7 +85,7 @@ export const useArbeidsforholdKanOverstyres = (
 ): boolean => {
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(person, skjæringstidspunkt, organisasjonsnummer);
     const aktivPeriode = useActivePeriod(person);
-    const arbeidsgiver = finnArbeidsgiver(person, organisasjonsnummer);
+    const arbeidsgiver = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer);
 
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     const erGhostLikEllerEtterPeriodeTilGodkjenning =

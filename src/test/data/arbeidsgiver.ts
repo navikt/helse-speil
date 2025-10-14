@@ -16,10 +16,22 @@ type Extensions = {
     medOrganisasjonsnummer(organisasjonsnummer: string): ArbeidsgiverFragment & Extensions;
 };
 
+function genererTilfeldigSiffer() {
+    return Math.floor(Math.random() * 10);
+}
+
+function genererOrganisasjonsnummer(): string {
+    let value: string = '';
+    for (let i = 0; i < 9; i++) {
+        value = value + genererTilfeldigSiffer().toString();
+    }
+    return value;
+}
+
 export const enArbeidsgiver: OverridableConstructor<ArbeidsgiverFragment, Extensions> = (overrides) => ({
     __typename: 'Arbeidsgiver',
     navn: 'Sjokkerende Elektriker',
-    organisasjonsnummer: '987654321',
+    organisasjonsnummer: genererOrganisasjonsnummer(),
     arbeidsforhold: [],
     generasjoner: [enGenerasjon()],
     ghostPerioder: [enGhostPeriode()],

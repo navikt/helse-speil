@@ -100,7 +100,7 @@ const hendelseTidspunktLiktEllerFørUtbetalingForPeriode =
 
 const getHendelserForGhostPeriode = (period: GhostPeriodeFragment, person: PersonFragment): Array<HendelseObject> => {
     const inntektsforhold = finnAlleInntektsforhold(person);
-    const arbeidsgiver = findArbeidsgiverWithGhostPeriode(period, inntektsforhold);
+    const arbeidsgiver = findArbeidsgiverWithGhostPeriode(period, person);
     const arbeidsforholdoverstyringer = getArbeidsforholdoverstyringhendelser(
         period,
         arbeidsgiver?.overstyringer ?? [],

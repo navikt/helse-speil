@@ -1,17 +1,13 @@
 import {
     Arbeidsgiver,
-    ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
     Hendelse,
     Maybe,
     Periode,
     PersonFragment,
-    UberegnetPeriodeFragment,
 } from '@io/graphql';
 import {
-    Inntektsforhold,
-    finnAlleInntektsforhold,
     finnNteEllerNyesteGenerasjon,
     finnPeriodeTilGodkjenning,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
@@ -20,7 +16,7 @@ import { useInntektOgRefusjon } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ActivePeriod, DateString } from '@typer/shared';
-import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     person: PersonFragment,
@@ -28,7 +24,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     organisasjonsnummer: string,
 ): Maybe<ActivePeriod> => {
     const aktivPeriode = useActivePeriod(person);
-    const arbeidsgiver = finnArbeidsgiver(person, organisasjonsnummer);
+    const arbeidsgiver = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
 
     if (!skjæringstidspunkt || aktivPeriode == null || arbeidsgiver == null) return null;
@@ -135,35 +131,19 @@ export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: Maybe<Arbeids
 };
 
 export const findArbeidsgiverWithGhostPeriode = (
-    period: GhostPeriodeFragment,
-    inntektsforhold: Array<Inntektsforhold>,
-): Maybe<Arbeidsgiver> =>
-    inntektsforhold
-        .filter(isArbeidsgiver)
-        .find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((periode) => periode.id === period.id)) ?? null;
+    periode: GhostPeriodeFragment,
+    person: PersonFragment,
+): Arbeidsgiver | undefined =>
+    finnAlleArbeidsgivere(person).find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((p) => p.id === periode.id));
 
-/**
- * Finn arbeidsgiveren som eier en gitt periode.
- *
- * @internal
- * @param period Aktiv periode (beregnet eller uberegnet) som skal finnes på arbeidsgiver.
- * @param arbeidsgivere Liste over arbeidsgivere som søkes i.
- * @returns Arbeidsgiver som eier perioden, eller null hvis ingen matcher.
- */
-export const findArbeidsgiverWithPeriode = (
-    period: ActivePeriod,
-    arbeidsgivere: Array<ArbeidsgiverFragment>,
-): Maybe<ArbeidsgiverFragment> =>
-    arbeidsgivere.find((arbeidsgiver) =>
-        arbeidsgiver.generasjoner
-            .flatMap((generasjon) => generasjon.perioder)
-            .find((periode: UberegnetPeriodeFragment | BeregnetPeriodeFragment) => periode.id === period.id),
-    ) ?? null;
+export const finnAlleArbeidsgivere = (person?: PersonFragment | null): Arbeidsgiver[] =>
+    person?.arbeidsgivere.filter((arbeidsgiver) => arbeidsgiver.organisasjonsnummer !== 'SELVSTENDIG') ?? [];
 
-export const finnArbeidsgiver = (person: PersonFragment, organisasjonsnummer: string): Maybe<Arbeidsgiver> =>
-    finnAlleInntektsforhold(person)
-        .filter(isArbeidsgiver)
-        .find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
+export const finnArbeidsgiverMedOrganisasjonsnummer = (
+    person: PersonFragment,
+    organisasjonsnummer: string,
+): Arbeidsgiver | null =>
+    finnAlleArbeidsgivere(person).find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
 
 export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringstidspunkt: string): Maybe<number> => {
     const lokaleInntektoverstyringer = useInntektOgRefusjon();

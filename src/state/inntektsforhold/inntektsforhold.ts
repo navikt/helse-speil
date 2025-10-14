@@ -11,8 +11,7 @@ import {
     SelvstendigNaering,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/inntektsforhold/arbeidsgiver';
-import { findSelvstendigWithPeriode } from '@state/inntektsforhold/selvstendigNæring';
+import { findArbeidsgiverWithGhostPeriode, finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { ActivePeriod, DateString } from '@typer/shared';
@@ -28,29 +27,34 @@ export type Inntektsforhold = Arbeidsgiver | SelvstendigNaering;
 
 export const useAktivtInntektsforhold = (person: Maybe<PersonFragment>): Inntektsforhold | undefined => {
     const aktivPeriode = useActivePeriod(person);
+    if (!person || !aktivPeriode) return undefined;
     return finnInntektsforholdForPeriode(person, aktivPeriode);
 };
 
 export const finnAlleInntektsforhold = (person: Maybe<PersonFragment>): Inntektsforhold[] => {
-    const selvstendig: SelvstendigNaering[] =
-        person?.selvstendigNaering != undefined ? [person.selvstendigNaering] : [];
-    const arbeidsgivere: Arbeidsgiver[] =
-        person?.arbeidsgivere.filter((arbeidsgiver) => arbeidsgiver.organisasjonsnummer !== 'SELVSTENDIG') ?? [];
-    return [...selvstendig, ...arbeidsgivere];
+    return [
+        ...(person?.selvstendigNaering != undefined ? [person.selvstendigNaering] : []),
+        ...finnAlleArbeidsgivere(person),
+    ];
 };
+
 export const finnInntektsforholdForPeriode = (
-    person: Maybe<PersonFragment>,
-    periode: Maybe<ActivePeriod>,
+    person: PersonFragment,
+    periode: ActivePeriod,
 ): Inntektsforhold | undefined => {
-    if (!periode || !person) return undefined;
     if (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) {
         return (
-            findSelvstendigWithPeriode(periode, person.selvstendigNaering) ??
-            findArbeidsgiverWithPeriode(periode, person.arbeidsgivere) ??
-            undefined
+            finnAlleArbeidsgivere(person).find((arbeidsgiver) =>
+                arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder).find((p) => p.id === periode.id),
+            ) ??
+            (person.selvstendigNaering?.generasjoner
+                .flatMap((generasjon) => generasjon.perioder)
+                .some((enPeriode) => enPeriode.id === periode.id)
+                ? person.selvstendigNaering
+                : undefined)
         );
     } else if (isGhostPeriode(periode)) {
-        return findArbeidsgiverWithGhostPeriode(periode, person.arbeidsgivere) ?? undefined;
+        return findArbeidsgiverWithGhostPeriode(periode, person) ?? undefined;
     }
     return undefined;
 };
@@ -123,24 +127,11 @@ export type SelvstendigNæringReferanse = {
     type: 'Selvstendig Næring';
 };
 
-export const finnGenerasjonerForAktivPeriode = (periode: ActivePeriod, person: PersonFragment): Generasjon[] => {
-    const arbeidsgiver = findArbeidsgiverWithPeriode(periode, person.arbeidsgivere);
-    const selvstendig = findSelvstendigWithPeriode(periode, person.selvstendigNaering);
+export const finnGenerasjonerForAktivPeriode = (periode: ActivePeriod, person: PersonFragment): Generasjon[] =>
+    finnInntektsforholdForPeriode(person, periode)?.generasjoner ?? [];
 
-    if (arbeidsgiver?.organisasjonsnummer === 'SELVSTENDIG') {
-        return selvstendig?.generasjoner ?? [];
-    }
-    return arbeidsgiver?.generasjoner ?? [];
-};
-export const finnOverstyringerForAktivInntektsforhold = (aktivPeriode: ActivePeriod, person: Maybe<PersonFragment>) => {
-    const arbeidsgiver = findArbeidsgiverWithPeriode(aktivPeriode, person?.arbeidsgivere ?? []);
-    const selvstendig = findSelvstendigWithPeriode(aktivPeriode, person?.selvstendigNaering ?? null);
-
-    const arbeidsgiverOverstyringer =
-        arbeidsgiver?.organisasjonsnummer === 'SELVSTENDIG' ? [] : (arbeidsgiver?.overstyringer ?? []);
-    const selvstendigOverstyringer = selvstendig?.overstyringer ?? [];
-    return [...arbeidsgiverOverstyringer, ...selvstendigOverstyringer];
-};
+export const finnOverstyringerForAktivInntektsforhold = (aktivPeriode: ActivePeriod, person: PersonFragment) =>
+    finnInntektsforholdForPeriode(person, aktivPeriode)?.overstyringer ?? [];
 /**
  * Henter forrige (eldre) generasjon relativt til generasjonen som inneholder den oppgitte perioden.
  *

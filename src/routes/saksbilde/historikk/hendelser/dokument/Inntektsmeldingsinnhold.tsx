@@ -6,7 +6,7 @@ import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { PersonFragment } from '@io/graphql';
 import { Endringsårsaker } from '@saksbilde/historikk/hendelser/dokument/Endringsårsaker';
-import { finnArbeidsgiver } from '@state/inntektsforhold/arbeidsgiver';
+import { finnArbeidsgiverMedOrganisasjonsnummer } from '@state/inntektsforhold/arbeidsgiver';
 import { DokumenthendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
 import { capitalizeName, tilTelefonNummer, toKronerOgØre } from '@utils/locale';
@@ -32,7 +32,7 @@ export const Inntektsmeldingsinnhold = ({
     const inntektsmeldingssrespons = useQueryInntektsmelding(fødselsnummer, dokumentId ?? '');
     const inntektsmelding = inntektsmeldingssrespons.data;
     const virksomhetsnummer = inntektsmelding?.virksomhetsnummer;
-    const arbeidsgivernavn = finnArbeidsgiver(person, virksomhetsnummer ?? '')?.navn;
+    const arbeidsgivernavn = finnArbeidsgiverMedOrganisasjonsnummer(person, virksomhetsnummer ?? '')?.navn;
 
     return (
         <>

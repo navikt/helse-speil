@@ -1,5 +1,5 @@
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
-import { finnArbeidsgiver } from '@state/inntektsforhold/arbeidsgiver';
+import { finnArbeidsgiverMedOrganisasjonsnummer } from '@state/inntektsforhold/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsforholdoverstyring, enDagoverstyring, enInntektoverstyring } from '@test-data/overstyring';
@@ -26,7 +26,7 @@ describe('useEndringerForPeriode', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
 
-        const endringer = finnArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
+        const endringer = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer)?.overstyringer;
 
         const { result } = renderHook(() => useEndringerForPeriode(endringer, person));
 
@@ -46,7 +46,7 @@ describe('useEndringerForPeriode', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
 
-        const endringer = finnArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
+        const endringer = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer)?.overstyringer;
 
         const { result } = renderHook(() => useEndringerForPeriode(endringer, person));
 
@@ -66,7 +66,7 @@ describe('useEndringerForPeriode', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
 
-        const endringer = finnArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
+        const endringer = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer)?.overstyringer;
 
         const { result } = renderHook(() => useEndringerForPeriode(endringer, person));
 
@@ -87,7 +87,7 @@ describe('useEndringerForPeriode', () => {
 
         (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
 
-        const endringer = finnArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
+        const endringer = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer)?.overstyringer;
 
         const { result } = renderHook(() => useEndringerForPeriode(endringer, person));
 

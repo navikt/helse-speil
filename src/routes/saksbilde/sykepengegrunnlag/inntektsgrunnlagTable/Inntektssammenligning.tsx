@@ -16,7 +16,7 @@ import {
     PersonFragment,
     Sammenligningsgrunnlag,
 } from '@io/graphql';
-import { finnArbeidsgiver } from '@state/inntektsforhold/arbeidsgiver';
+import { finnArbeidsgiverMedOrganisasjonsnummer } from '@state/inntektsforhold/arbeidsgiver';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
@@ -49,7 +49,7 @@ export const Inntektssammenligning = ({
     const arbeidsgivernavn = person.tilleggsinfoForInntektskilder.find(
         (it) => it.orgnummer === organisasjonsnummer,
     )?.navn;
-    const endringer = finnArbeidsgiver(person, organisasjonsnummer)?.overstyringer;
+    const endringer = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer)?.overstyringer;
     const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(endringer, person);
 
     return (
