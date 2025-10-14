@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Checkbox, Fieldset, Textarea } from '@navikt/ds-react';
 
-import { BeregnetPeriodeFragment, Faresignal, Maybe } from '@io/graphql';
+import { BeregnetPeriodeFragment, Faresignal } from '@io/graphql';
 
 import { Begrunnelse } from './begrunnelse';
 
@@ -31,7 +31,7 @@ const BegrunnelseCheckbox = ({ begrunnelse, label }: BegrunnelseCheckboxProps): 
     );
 };
 
-const harFunn = (funn?: Maybe<Faresignal[]>): funn is Faresignal[] => {
+const harFunn = (funn?: Faresignal[] | null): funn is Faresignal[] => {
     return typeof funn === 'object';
 };
 

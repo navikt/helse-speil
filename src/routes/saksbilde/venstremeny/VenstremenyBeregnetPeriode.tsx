@@ -7,7 +7,6 @@ import {
     BeregnetPeriodeFragment,
     Dag,
     Handling,
-    Maybe,
     Periode,
     Periodehandling,
     Periodetilstand,
@@ -53,7 +52,7 @@ export const VenstremenyBeregnetPeriode = ({
         activePeriod.tidslinje,
     );
 
-    const forrigeGenerasjonPeriode: Maybe<Periode> | undefined = finnForrigeEllerNyesteGenerasjon(
+    const forrigeGenerasjonPeriode: Periode | null | undefined = finnForrigeEllerNyesteGenerasjon(
         activePeriod,
         inntektsforhold,
     )?.perioder.find((periode) => periode.vedtaksperiodeId === activePeriod.vedtaksperiodeId);
@@ -116,14 +115,14 @@ export const VenstremenyBeregnetPeriode = ({
 const getNumberOfDaysWithType = (timeline: Array<Dag>, type: Utbetalingsdagtype): number =>
     timeline.filter((it) => it.utbetalingsdagtype === type).length;
 
-const utbetaling = (state: PeriodState): Maybe<VarselObject> =>
+const utbetaling = (state: PeriodState): VarselObject | null =>
     ['tilUtbetaling', 'utbetalt', 'revurdert'].includes(state)
         ? { grad: 'info', melding: 'Utbetalingen er sendt til oppdragsystemet.' }
         : ['tilUtbetalingAutomatisk', 'utbetaltAutomatisk'].includes(state)
           ? { grad: 'info', melding: 'Perioden er automatisk godkjent' }
           : null;
 
-const tilstandinfo = (state: PeriodState): Maybe<VarselObject> => {
+const tilstandinfo = (state: PeriodState): VarselObject | null => {
     switch (state) {
         case 'kunFerie':
         case 'kunPermisjon':

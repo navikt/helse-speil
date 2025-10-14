@@ -8,7 +8,6 @@ import { Endringstrekant } from '@components/Endringstrekant';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import {
     BeregnetPeriodeFragment,
-    Maybe,
     PersonFragment,
     Sykepengegrunnlagsgrense,
     Sykepengegrunnlagskjonnsfastsetting,
@@ -24,7 +23,7 @@ import styles from './SkjønnsfastsettingHeader.module.css';
 interface SkjønnsfastsettingHeaderProps {
     person: PersonFragment;
     sykepengegrunnlag: number;
-    endretSykepengegrunnlag: Maybe<number>;
+    endretSykepengegrunnlag: number | null;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     editing: boolean;
     setEditing: (state: boolean) => void;

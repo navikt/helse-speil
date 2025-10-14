@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { GhostPeriodeFragment, Maybe, Periode, Periodetilstand, PersonFragment } from '@io/graphql';
+import { GhostPeriodeFragment, Periode, Periodetilstand, PersonFragment } from '@io/graphql';
 import { isNotReady } from '@state/selectors/period';
 import { DatePeriod, InfotrygdPeriod } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
@@ -28,7 +28,7 @@ const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
             (isGhostPeriode(it) && !it.deaktivert),
     );
 
-const isActive = (activePeriod: Maybe<TimelinePeriod>, currentPeriod: Maybe<TimelinePeriod>): boolean => {
+const isActive = (activePeriod: TimelinePeriod | null, currentPeriod: TimelinePeriod | null): boolean => {
     if (isGhostPeriode(activePeriod) && isGhostPeriode(currentPeriod)) {
         return activePeriod.id === currentPeriod.id;
     } else if (isBeregnetPeriode(activePeriod) && isBeregnetPeriode(currentPeriod)) {
@@ -53,7 +53,7 @@ interface PeriodsProps {
     start: Dayjs;
     end: Dayjs;
     periods: Array<Periode>;
-    activePeriod: Maybe<TimelinePeriod>;
+    activePeriod: TimelinePeriod | null;
     infotrygdPeriods?: Array<InfotrygdPeriod>;
     ghostPeriods?: Array<GhostPeriodeFragment>;
     notCurrent?: boolean;

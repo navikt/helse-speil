@@ -5,7 +5,7 @@ import { BodyShort, Table } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
-import { Kildetype, Maybe } from '@io/graphql';
+import { Kildetype } from '@io/graphql';
 import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
@@ -14,7 +14,7 @@ import styles from './Refusjonslinje.module.css';
 interface RefusjonslinjeProps {
     fom: string;
     tom?: string;
-    beløp?: Maybe<number>;
+    beløp?: number | null;
     kilde: string;
     lokalEndring: boolean;
 }

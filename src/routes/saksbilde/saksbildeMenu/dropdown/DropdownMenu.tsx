@@ -5,7 +5,7 @@ import { Dropdown } from '@navikt/ds-react';
 
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
+import { Periodetilstand, PersonFragment } from '@io/graphql';
 import { OpphevStansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/OpphevStansAutomatiskBehandlingButton';
 import { StansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/StansAutomatiskBehandlingButton';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -93,7 +93,7 @@ export const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps)
 export const TilkommenInntektDropdownMenuContent = ({
     person,
 }: {
-    person?: Maybe<PersonFragment>;
+    person?: PersonFragment | null;
 }): ReactElement | null => {
     if (!isPerson(person)) {
         return null;

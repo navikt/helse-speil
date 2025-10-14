@@ -6,7 +6,6 @@ import { Alert } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import {
     BeregnetPeriodeFragment,
-    Maybe,
     PersonFragment,
     VilkarsgrunnlagInfotrygdV2,
     VilkarsgrunnlagSpleisV2,
@@ -32,7 +31,7 @@ interface InngangsvilkårWithContentProps {
     periodeFom: DateString;
     vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
     fødselsdato: DateString;
-    vurdering?: Maybe<Vurdering>;
+    vurdering?: Vurdering | null;
 }
 
 export const InngangsvilkårWithContent = ({

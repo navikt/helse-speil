@@ -11,7 +11,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { Infotrygdutbetaling, Maybe, PersonFragment } from '@io/graphql';
+import { Infotrygdutbetaling, PersonFragment } from '@io/graphql';
 import { TilkommenInntektTimelineRows } from '@saksbilde/timeline/TilkommenInntektTimelineRows';
 import { Inntektsforhold, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
@@ -35,7 +35,7 @@ import styles from './Timeline.module.css';
 interface TimelineWithContentProps {
     inntektsforhold: Array<Inntektsforhold>;
     infotrygdutbetalinger: Array<Infotrygdutbetaling>;
-    activePeriod: Maybe<TimelinePeriod>;
+    activePeriod: TimelinePeriod | null;
     person: PersonFragment;
 }
 

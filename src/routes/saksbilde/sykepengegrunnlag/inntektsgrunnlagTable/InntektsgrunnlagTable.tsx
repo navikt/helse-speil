@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import { BodyShort, Detail, Table } from '@navikt/ds-react';
 
-import { Arbeidsgiverinntekt, Maybe, PersonFragment } from '@io/graphql';
+import { Arbeidsgiverinntekt, PersonFragment } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
 import { Inntektssammenligning } from './Inntektssammenligning';
@@ -15,9 +15,9 @@ interface InntektsgrunnlagTableProps {
     inntekter: Arbeidsgiverinntekt[];
     aktivInntektskilde?: Arbeidsgiverinntekt;
     setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
-    omregnetÅrsinntekt?: Maybe<number>;
-    sammenligningsgrunnlag?: Maybe<number>;
-    skjønnsmessigFastsattÅrlig?: Maybe<number>;
+    omregnetÅrsinntekt?: number | null;
+    sammenligningsgrunnlag?: number | null;
+    skjønnsmessigFastsattÅrlig?: number | null;
 }
 
 export const InntektsgrunnlagTable = ({

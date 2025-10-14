@@ -5,7 +5,7 @@ import { HStack, Table } from '@navikt/ds-react';
 
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
-import { Maybe, PersonFragment } from '@io/graphql';
+import { PersonFragment } from '@io/graphql';
 import { Row } from '@saksbilde/table/Row';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -29,7 +29,7 @@ interface UtbetalingstabellProps {
     fom: DateString;
     tom: DateString;
     dager: Map<string, Utbetalingstabelldag>;
-    personFødselsdato: Maybe<string>;
+    personFødselsdato: string | null;
     lokaleOverstyringer?: Map<string, Utbetalingstabelldag>;
     markerteDager?: Map<string, Utbetalingstabelldag>;
     overstyrer?: boolean;

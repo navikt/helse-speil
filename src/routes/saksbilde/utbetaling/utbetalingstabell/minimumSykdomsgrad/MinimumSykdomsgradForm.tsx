@@ -14,7 +14,7 @@ import { BodyShort, Box, Button, ErrorMessage, HStack, Heading, Table, Textarea,
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
-import { ArbeidsgiverFragment, Maybe, PersonFragment } from '@io/graphql';
+import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
 import { DelperiodeWrapper } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/DelperiodeWrapper';
 import { overlapper } from '@state/selectors/period';
 import { MinimumSykdomsgradPeriode } from '@typer/overstyring';
@@ -32,7 +32,7 @@ interface MinimumSykdomsgradFormFields {
 interface MinimumSykdomsgradFormProps {
     person: PersonFragment;
     aktivPeriode: ActivePeriod;
-    oppkuttedePerioder: Maybe<DatePeriod[]>;
+    oppkuttedePerioder: DatePeriod[] | null;
     overlappendeArbeidsgivere: ArbeidsgiverFragment[];
     initierendeVedtaksperiodeId: string;
     setOverstyrerMinimumSykdomsgrad: (overstyrer: boolean) => void;
@@ -156,7 +156,7 @@ const formErrorsTilFeilliste = (errors: FieldErrors<MinimumSykdomsgradFormFields
         .flat();
 
 interface DelperiodeTabellProps {
-    oppkuttedePerioder: Maybe<DatePeriod[]>;
+    oppkuttedePerioder: DatePeriod[] | null;
     person: PersonFragment;
     aktivPeriode: ActivePeriod;
 }

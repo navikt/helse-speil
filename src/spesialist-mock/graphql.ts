@@ -14,7 +14,6 @@ import { cwd } from 'process';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
-import { Maybe } from '@io/graphql';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
@@ -94,8 +93,8 @@ const leggTilLagretData = (person: Person): void => {
                 ) as Historikkinnslag[];
                 periode.notater = NotatMock.getNotaterForPeriode(periode);
                 periode.varsler = VarselMock.getVarslerForPeriode(periode.varsler);
-                const oppgavereferanse: Maybe<string> = periode.oppgave?.id ?? null;
-                const oppgave: Maybe<Oppgave> = oppgavereferanse ? OppgaveMock.getOppgave(oppgavereferanse) : null;
+                const oppgavereferanse: string | null = periode.oppgave?.id ?? null;
+                const oppgave: Oppgave | null = oppgavereferanse ? OppgaveMock.getOppgave(oppgavereferanse) : null;
 
                 if (oppgave !== null && periode.oppgave === null) {
                     periode.oppgave = { id: oppgave.id };
@@ -472,7 +471,7 @@ const getResolvers = (): IResolvers => ({
     },
 });
 
-const finnOppgaveId = (): Maybe<string> => {
+const finnOppgaveId = (): string | null => {
     if (!valgtPerson) return null;
     const periode = valgtPerson.arbeidsgivere
         .flatMap((a) => a.generasjoner.flatMap((g) => g.perioder))

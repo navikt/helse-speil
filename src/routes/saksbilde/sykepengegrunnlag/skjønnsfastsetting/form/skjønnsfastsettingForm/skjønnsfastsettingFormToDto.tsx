@@ -1,5 +1,5 @@
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import { Arbeidsgiverinntekt, Maybe, PersonFragment } from '@io/graphql';
+import { Arbeidsgiverinntekt, PersonFragment } from '@io/graphql';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@typer/overstyring';
@@ -12,7 +12,7 @@ import { SkjønnsfastsettingFormFields, SkjønnsfastsettingFormFieldsArbeidsgive
 
 interface InitierendeVedtaksperiodeForArbeidsgiver {
     arbeidsgiver: string;
-    initierendeVedtaksperiodeId: Maybe<string>;
+    initierendeVedtaksperiodeId: string | null;
 }
 
 const finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt = (

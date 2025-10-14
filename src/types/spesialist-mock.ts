@@ -1,5 +1,3 @@
-import { Maybe } from '@io/graphql';
-
 export type Extension = {
     code: number;
     [field: string]: string | object | number;
@@ -10,13 +8,13 @@ export type UUID = string;
 export type Oppgave = {
     id: string;
     erPåVent: boolean;
-    tildelt?: Maybe<string>;
-    totrinnsvurdering?: Maybe<Totrinnsvurdering>;
+    tildelt?: string | null;
+    totrinnsvurdering?: Totrinnsvurdering | null;
 };
 
 export type Totrinnsvurdering = {
-    saksbehandler?: Maybe<string>;
-    beslutter?: Maybe<string>;
+    saksbehandler?: string | null;
+    beslutter?: string | null;
     erBeslutteroppgave: boolean;
     erRetur: boolean;
 };

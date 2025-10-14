@@ -10,7 +10,6 @@ import {
     Kategori,
     LeggPaVentDocument,
     LeggPaVentMutation,
-    Maybe,
     Oppgaveegenskap,
     PaVent,
     PaVentArsakInput,
@@ -36,7 +35,7 @@ export const useLeggPåVent = (
         oppgavereferanse: string,
         frist: string,
         tildeling: boolean,
-        notattekst: Maybe<string>,
+        notattekst: string | null,
         arsaker: PaVentArsakInput[],
     ) => Promise<FetchResult<LeggPaVentMutation>>,
     MutationResult<LeggPaVentMutation>,
@@ -49,7 +48,7 @@ export const useLeggPåVent = (
         oppgavereferanse: string,
         frist: string,
         tildeling: boolean,
-        notattekst: Maybe<string>,
+        notattekst: string | null,
         arsaker: PaVentArsakInput[],
     ) =>
         leggPåVentMutation({
@@ -82,7 +81,7 @@ export const useEndrePåVent = (
         oppgavereferanse: string,
         frist: string,
         tildeling: boolean,
-        notattekst: Maybe<string>,
+        notattekst: string | null,
         arsaker: PaVentArsakInput[],
     ) => Promise<FetchResult<EndrePaVentMutation>>,
     MutationResult<EndrePaVentMutation>,
@@ -95,7 +94,7 @@ export const useEndrePåVent = (
         oppgavereferanse: string,
         frist: string,
         tildeling: boolean,
-        notattekst: Maybe<string>,
+        notattekst: string | null,
         arsaker: PaVentArsakInput[],
     ) =>
         endrePåVentMutation({
@@ -159,8 +158,8 @@ const useFjernPåVent = (
 const oppdaterPåVentICache = (
     cache: ApolloCache<unknown>,
     oppgavereferanse: string,
-    behandlingId: Maybe<string>,
-    påVent: Maybe<PaVent>,
+    behandlingId: string | null,
+    påVent: PaVent | null,
 ) => {
     cache.modify({
         id: cache.identify({ __typename: 'OppgaveTilBehandling', id: oppgavereferanse }),

@@ -1,4 +1,4 @@
-import { Begrunnelse, Kilde, Maybe } from '@io/graphql';
+import { Begrunnelse, Kilde } from '@io/graphql';
 import { Speildag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 
 import { DateString } from './shared';
@@ -31,14 +31,14 @@ export type OverstyringerPrDag = {
     begrunnelse: string;
     saksbehandler: {
         __typename: 'Saksbehandler';
-        ident: Maybe<string>;
+        ident: string | null;
         navn: string;
     };
     timestamp: DateString;
     dag: Speildag;
     dato: DateString;
-    grad?: Maybe<number>;
-    fraGrad?: Maybe<number>;
+    grad?: number | null;
+    fraGrad?: number | null;
     ferdigstilt: boolean;
 };
 
@@ -51,13 +51,13 @@ export type Utbetalingstabelldag = {
     erAvvist: boolean;
     erForeldet: boolean;
     erMaksdato: boolean;
-    grad?: Maybe<number>;
-    dagerIgjen?: Maybe<number>;
+    grad?: number | null;
+    dagerIgjen?: number | null;
     overstyringer?: Array<OverstyringerPrDag>;
-    totalGradering?: Maybe<number>;
-    arbeidsgiverbeløp?: Maybe<number>;
-    personbeløp?: Maybe<number>;
-    begrunnelser?: Maybe<Array<Begrunnelse>>;
+    totalGradering?: number | null;
+    arbeidsgiverbeløp?: number | null;
+    personbeløp?: number | null;
+    begrunnelser?: Array<Begrunnelse> | null;
     erNyDag?: boolean;
     fraType?: Utbetalingstabelldagtype;
 };

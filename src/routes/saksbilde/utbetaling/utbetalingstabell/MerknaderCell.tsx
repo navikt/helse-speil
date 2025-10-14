@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort, Link, Table, Tooltip } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import { Begrunnelse, Maybe } from '@io/graphql';
+import { Begrunnelse } from '@io/graphql';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
@@ -11,7 +11,7 @@ import styles from './MerknaderCell.module.css';
 
 interface MerknadProps {
     begrunnelse: Begrunnelse;
-    alderVedSkjæringstidspunkt?: Maybe<number>;
+    alderVedSkjæringstidspunkt?: number | null;
 }
 
 const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): ReactElement | null => {
@@ -108,7 +108,7 @@ const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): Re
     }
 };
 
-const sisteUtbetalingsdagMerknad = (isMaksdato: boolean): Maybe<string> =>
+const sisteUtbetalingsdagMerknad = (isMaksdato: boolean): string | null =>
     isMaksdato ? 'Siste utbetalingsdag for sykepenger' : null;
 
 const foreldetDagMerknad = (isForeldet: boolean): ReactElement | null =>
@@ -121,8 +121,8 @@ const foreldetDagMerknad = (isForeldet: boolean): ReactElement | null =>
     ) : null;
 
 const avvisningsårsakerMerknad = (
-    begrunnelser: Maybe<Begrunnelse[]>,
-    alderVedSkjæringstidspunkt?: Maybe<number>,
+    begrunnelser: Begrunnelse[] | null,
+    alderVedSkjæringstidspunkt?: number | null,
 ): ReactElement[] | undefined =>
     begrunnelser?.map((begrunnelse, i) => (
         <React.Fragment key={i}>
@@ -133,7 +133,7 @@ const avvisningsårsakerMerknad = (
 
 interface MerknaderCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     dag: Utbetalingstabelldag;
-    alderVedSkjæringstidspunkt?: Maybe<number>;
+    alderVedSkjæringstidspunkt?: number | null;
 }
 
 export const MerknaderCell = ({ dag, alderVedSkjæringstidspunkt, ...rest }: MerknaderCellProps): ReactElement => (

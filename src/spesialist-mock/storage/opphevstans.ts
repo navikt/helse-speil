@@ -1,5 +1,3 @@
-import { Maybe } from '@io/graphql';
-
 import { UnntattFraAutomatiskGodkjenning } from '../schemaTypes';
 
 const getDefaultUnntattFraAutomatiskGodkjenning = (): UnntattFraAutomatiskGodkjenning => ({
@@ -10,7 +8,7 @@ const getDefaultUnntattFraAutomatiskGodkjenning = (): UnntattFraAutomatiskGodkje
 export class OpphevStansMock {
     private static unntattFraAutomatisering: Map<string, UnntattFraAutomatiskGodkjenning> = new Map();
 
-    static getUnntattFraAutomatiskGodkjenning = (fødselsnummer: string): Maybe<UnntattFraAutomatiskGodkjenning> => {
+    static getUnntattFraAutomatiskGodkjenning = (fødselsnummer: string): UnntattFraAutomatiskGodkjenning | null => {
         return OpphevStansMock.unntattFraAutomatisering.get(fødselsnummer) ?? null;
     };
 

@@ -3,7 +3,6 @@ import {
     AntallOppgaverDocument,
     FjernTildelingDocument,
     FjernTildelingMutation,
-    Maybe,
     OpprettTildelingDocument,
     OpprettTildelingMutation,
     Tildeling,
@@ -62,7 +61,7 @@ export const useOpprettTildeling = (): [
         },
         onError: async (error) => {
             if (apolloErrorCode(error) === 409) {
-                const tildeling: Maybe<Tildeling> = apolloExtensionValue(error, 'tildeling');
+                const tildeling: Tildeling | null = apolloExtensionValue(error, 'tildeling');
                 leggTilTildelingsvarsel(`${tildeling?.navn} har allerede tildelt seg oppgaven.`);
             } else {
                 leggTilTildelingsvarsel('Kunne ikke tildele sak.');
@@ -126,7 +125,7 @@ const oppdaterTildelingICache = (
     cache: ApolloCache<unknown>,
     oppgavereferanse: string,
     fødselsnummer: string | undefined,
-    tildeling: (tildeling: Tildeling) => Maybe<Tildeling>,
+    tildeling: (tildeling: Tildeling) => Tildeling | null,
 ) => {
     cache.modify({
         id: cache.identify({ __typename: 'OppgaveTilBehandling', id: oppgavereferanse }),

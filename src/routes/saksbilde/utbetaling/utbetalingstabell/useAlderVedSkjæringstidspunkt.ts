@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 
-import { Maybe, PersonFragment } from '@io/graphql';
+import { PersonFragment } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const useAlderVedSkjæringstidspunkt = (person: PersonFragment, fødselsdato?: Maybe<string>): Maybe<number> => {
+export const useAlderVedSkjæringstidspunkt = (person: PersonFragment, fødselsdato?: string | null): number | null => {
     const period = useActivePeriod(person);
 
     if (typeof fødselsdato === 'string' && isBeregnetPeriode(period)) {

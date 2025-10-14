@@ -14,7 +14,6 @@ import {
     Inntektsmelding,
     Kommentar,
     LagtPaVent,
-    Maybe,
     OpphevStansAutomatiskBehandlingSaksbehandler,
     Overstyring,
     Periode,
@@ -184,7 +183,7 @@ export const getVedtakBegrunnelser = (period: BeregnetPeriodeFragment): VedtakBe
             };
         });
 
-export const getAnnullering = (period: BeregnetPeriodeFragment): Maybe<AnnulleringhendelseObject> => {
+export const getAnnullering = (period: BeregnetPeriodeFragment): AnnulleringhendelseObject | null => {
     if (!period.annullering) return null;
 
     const { arsaker, begrunnelse, saksbehandlerIdent, tidspunkt } = period.annullering;
@@ -391,7 +390,7 @@ const periodeErAttestert = (periode: BeregnetPeriodeFragment): boolean => {
     );
 };
 
-export const getUtbetalingshendelse = (periode: BeregnetPeriodeFragment): Maybe<UtbetalinghendelseObject> => {
+export const getUtbetalingshendelse = (periode: BeregnetPeriodeFragment): UtbetalinghendelseObject | null => {
     if (!periode.utbetaling.vurdering || periodeErAttestert(periode)) {
         return null;
     }
@@ -472,7 +471,7 @@ const getSisteTomForIkkeGhostsPåSkjæringstidspunktet = (
 const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
     skjæringstidspunkt: DateString,
     generasjoner: Generasjon[],
-): Maybe<Vurdering> => {
+): Vurdering | null => {
     const førsteVurdertePeriodeForSkjæringstidspunktet = getFørsteVurdertePeriodeForSkjæringstidspunktet(
         skjæringstidspunkt,
         generasjoner,

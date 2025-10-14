@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
-import { Dag, Dagoverstyring, Dagtype, Maybe, OverstyrtDag, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
+import { Dag, Dagoverstyring, Dagtype, OverstyrtDag, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { erHelg } from '@utils/date';
@@ -89,7 +89,7 @@ const getUtbetalingstabelldag = (dag: Dag): Speildag => {
 export const createDagerMap = (
     dager: Array<Dag>,
     erSelvstendigNæringsdrivende: boolean,
-    totaltAntallDagerIgjen: Maybe<number>,
+    totaltAntallDagerIgjen: number | null,
     antallAGPDagerBruktFørPerioden?: number,
     maksdato?: DateString,
 ): Map<DateString, Utbetalingstabelldag> => {
@@ -143,7 +143,7 @@ export const antallSykedagerTilOgMedMaksdato = (dager: Array<Dag>, maksdato?: Da
 
 type UseTabelldagerMapOptions = {
     tidslinje: Array<Dag>;
-    gjenståendeDager?: Maybe<number>;
+    gjenståendeDager?: number | null;
     overstyringer?: Array<Dagoverstyring>;
     maksdato?: DateString;
     skjæringstidspunkt?: DateString;
@@ -160,7 +160,7 @@ export const useTabelldagerMap = ({
     erSelvstendigNæringsdrivende,
 }: UseTabelldagerMapOptions): Map<string, Utbetalingstabelldag> =>
     useMemo(() => {
-        const antallDagerIgjen: Maybe<number> =
+        const antallDagerIgjen: number | null =
             typeof gjenståendeDager === 'number'
                 ? gjenståendeDager + antallSykedagerTilOgMedMaksdato(tidslinje, maksdato)
                 : null;

@@ -3,13 +3,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import {
-    Maybe,
-    VilkarsgrunnlagInfotrygdV2,
-    VilkarsgrunnlagSpleisV2,
-    VilkarsgrunnlagVurdering,
-    Vurdering,
-} from '@io/graphql';
+import { VilkarsgrunnlagInfotrygdV2, VilkarsgrunnlagSpleisV2, VilkarsgrunnlagVurdering, Vurdering } from '@io/graphql';
 import { DateString } from '@typer/shared';
 import { Vilkårdata, Vilkårstype } from '@typer/vilkår';
 
@@ -128,7 +122,7 @@ export interface KategoriserteVilkår {
 export const kategoriserteInngangsvilkår = (
     vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
     alderVedSkjæringstidspunkt: number,
-    vurdering?: Maybe<Vurdering>,
+    vurdering?: Vurdering | null,
 ): KategoriserteVilkår => {
     const vurdertIInfotrygd = vilkårsgrunnlag.__typename === 'VilkarsgrunnlagInfotrygdV2';
     const vurdertISpleis = !vurdertIInfotrygd && vurdering;

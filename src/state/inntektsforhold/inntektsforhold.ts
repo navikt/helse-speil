@@ -6,7 +6,6 @@ import {
     BeregnetPeriodeFragment,
     Dagoverstyring,
     Generasjon,
-    Maybe,
     PersonFragment,
     SelvstendigNaering,
     UberegnetPeriodeFragment,
@@ -26,13 +25,13 @@ import {
 
 export type Inntektsforhold = Arbeidsgiver | SelvstendigNaering;
 
-export const useAktivtInntektsforhold = (person: Maybe<PersonFragment>): Inntektsforhold | undefined => {
+export const useAktivtInntektsforhold = (person: PersonFragment | null): Inntektsforhold | undefined => {
     const aktivPeriode = useActivePeriod(person);
     if (!person || !aktivPeriode) return undefined;
     return finnInntektsforholdForPeriode(person, aktivPeriode);
 };
 
-export const finnAlleInntektsforhold = (person: Maybe<PersonFragment>): Inntektsforhold[] => {
+export const finnAlleInntektsforhold = (person: PersonFragment | null): Inntektsforhold[] => {
     return [
         ...(person?.selvstendigNaering != undefined ? [person.selvstendigNaering] : []),
         ...finnAlleArbeidsgivere(person),
@@ -70,7 +69,7 @@ export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: Perso
 export const useDagoverstyringer = (
     fom: DateString,
     tom: DateString,
-    inntektsforhold?: Maybe<Inntektsforhold>,
+    inntektsforhold?: Inntektsforhold | null,
 ): Array<Dagoverstyring> => {
     return useMemo(() => {
         if (!inntektsforhold) return [];
@@ -100,7 +99,7 @@ export const useHarDagOverstyringer = (
     return !harBlittUtbetaltTidligere(periode, inntektsforhold) && (dagendringer?.length ?? 0) > 0;
 };
 
-export const finnPeriodeTilGodkjenning = (person: Maybe<PersonFragment>): Maybe<BeregnetPeriodeFragment> => {
+export const finnPeriodeTilGodkjenning = (person: PersonFragment | null): BeregnetPeriodeFragment | null => {
     if (!person) return null;
 
     return (
@@ -149,7 +148,7 @@ export const finnOverstyringerForAktivInntektsforhold = (aktivPeriode: ActivePer
 export const finnForrigeEllerNyesteGenerasjon = (
     periode: ActivePeriod,
     inntektsforhold: Inntektsforhold,
-): Maybe<Generasjon> => finnNteEllerNyesteGenerasjon(periode, inntektsforhold, 1);
+): Generasjon | null => finnNteEllerNyesteGenerasjon(periode, inntektsforhold, 1);
 /**
  * Henter en generasjon relativt til generasjonen som inneholder den oppgitte perioden.
  *
@@ -170,7 +169,7 @@ export const finnNteEllerNyesteGenerasjon = (
     periode: ActivePeriod,
     inntektsforhold: Inntektsforhold,
     n: number = 0,
-): Maybe<Generasjon> => {
+): Generasjon | null => {
     const aktivGenerasjonIndex = inntektsforhold.generasjoner.findIndex((g) =>
         g.perioder.some((p) => isBeregnetPeriode(periode) && p.id === periode.id),
     );

@@ -1,6 +1,5 @@
 import {
     Kommentar,
-    Maybe,
     OverstyrtDag,
     OverstyrtInntekt,
     OverstyrtMinimumSykdomsgrad,
@@ -40,7 +39,7 @@ export type BaseHendelseObject = {
     id: string;
     type: Hendelsetype;
     timestamp?: DateString;
-    saksbehandler?: Maybe<string>;
+    saksbehandler?: string | null;
 };
 
 export type DagoverstyringhendelseObject = BaseHendelseObject & {
@@ -100,7 +99,7 @@ export type DokumenthendelseObject = BaseHendelseObject & {
     type: 'Dokument';
     dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad' | 'Vedtak' | 'InntektHentetFraAordningen';
     timestamp: DateString;
-    dokumentId?: Maybe<string>;
+    dokumentId?: string | null;
 };
 
 export type NotathendelseObject = BaseHendelseObject & {
@@ -130,11 +129,11 @@ export type HistorikkhendelseObject = BaseHendelseObject & {
     type: 'Historikk';
     historikktype: PeriodehistorikkType;
     timestamp: DateString;
-    dialogRef: Maybe<number>;
-    saksbehandler: Maybe<string>;
-    frist: Maybe<DateString>;
+    dialogRef: number | null;
+    saksbehandler: string | null;
+    frist: DateString | null;
     årsaker: string[];
-    notattekst: Maybe<string>;
+    notattekst: string | null;
     kommentarer: Array<Kommentar>;
     erNyestePåVentInnslag?: boolean;
 };

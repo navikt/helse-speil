@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Arbeidsgiver, BeregnetPeriodeFragment, Maybe, Periode, Periodetilstand, PersonFragment } from '@io/graphql';
+import { Arbeidsgiver, BeregnetPeriodeFragment, Periode, Periodetilstand, PersonFragment } from '@io/graphql';
 import {
     finnArbeidsgiverMedOrganisasjonsnummer,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
@@ -69,7 +69,7 @@ export const useGhostInntektKanOverstyres = (
 export const maybePeriodeTilGodkjenning = (
     person: PersonFragment,
     skjæringstidspunkt: DateString,
-): Maybe<BeregnetPeriodeFragment> =>
+): BeregnetPeriodeFragment | null =>
     (
         finnAlleInntektsforhold(person)
             .flatMap((it) => it.generasjoner[0]?.perioder)

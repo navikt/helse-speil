@@ -3,7 +3,7 @@ import React from 'react';
 import { BriefcaseClockIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, HStack, List, ReadMore, Table } from '@navikt/ds-react';
 
-import { Maybe, MinimumSykdomsgradOverstyring } from '@io/graphql';
+import { MinimumSykdomsgradOverstyring } from '@io/graphql';
 import { Delperiode } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/Delperiode';
 import { byTimestamp } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/DelperiodeWrapper';
 import { DatePeriod } from '@typer/shared';
@@ -12,7 +12,7 @@ import { somNorskDato } from '@utils/date';
 import styles from './MinimumSykdomsgradVisning.module.scss';
 
 interface Props {
-    oppkuttedePerioder: Maybe<DatePeriod[]>;
+    oppkuttedePerioder: DatePeriod[] | null;
     minimumSykdomsgradsoverstyringer: MinimumSykdomsgradOverstyring[];
 }
 

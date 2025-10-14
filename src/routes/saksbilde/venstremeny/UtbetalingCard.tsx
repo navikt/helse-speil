@@ -27,8 +27,8 @@ interface UtbetalingCardProps {
     antallUtbetalingsdager: number;
     utbetaling: Utbetaling;
     personinfo: Personinfo;
-    arbeidsgiversimulering?: Maybe<Simulering>;
-    personsimulering?: Maybe<Simulering>;
+    arbeidsgiversimulering?: Simulering | null;
+    personsimulering?: Simulering | null;
     periodePersonNettoBeløp: number;
     periodeArbeidsgiverNettoBeløp: number;
     gammeltTotalbeløp?: number;

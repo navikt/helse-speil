@@ -3,13 +3,13 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { InntektEndringAarsak, Maybe } from '@io/graphql';
+import { InntektEndringAarsak } from '@io/graphql';
 import { NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
 
 import styles from './Inntektsmeldingsinnhold.module.css';
 
 type EndringsårsakerProps = {
-    årsaker: Maybe<Array<InntektEndringAarsak>>;
+    årsaker: Array<InntektEndringAarsak> | null;
 };
 
 export const Endringsårsaker = ({ årsaker }: EndringsårsakerProps): ReactElement | null => {

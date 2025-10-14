@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 
-import { Maybe, PersonFragment } from '@io/graphql';
+import { PersonFragment } from '@io/graphql';
 import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
 import { Verktøylinje } from '@saksbilde/Verktøylinje';
 import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
@@ -18,7 +18,7 @@ import styles from './saksbilder/SharedViews.module.css';
 export const Saksbilde = ({ children }: PropsWithChildren) => {
     const { loading, data, error } = useFetchPersonQuery();
 
-    const person: Maybe<PersonFragment> = data?.person ?? null;
+    const person: PersonFragment | null = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
 
     if (loading) {

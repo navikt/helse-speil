@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { Maybe } from '@io/graphql';
 import { OppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 import { SortKey, useDateSortValue } from '@oversikt/table/state/sortation';
 import { NORSK_DATOFORMAT, somDato } from '@utils/date';
@@ -29,7 +28,7 @@ export const DatoCell = ({ oppgave, utgåttFrist }: DatoProps): ReactElement => 
     );
 };
 
-const getVisningsDato = (oppgave: OppgaveProjeksjon, sorteringsnøkkel: SortKey): Maybe<string> => {
+const getVisningsDato = (oppgave: OppgaveProjeksjon, sorteringsnøkkel: SortKey): string | null => {
     switch (sorteringsnøkkel) {
         case SortKey.SøknadMottatt:
             return somDato(oppgave.opprinneligSoeknadstidspunkt).format(NORSK_DATOFORMAT);

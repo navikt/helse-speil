@@ -17,7 +17,7 @@ import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export const getOppgavereferanse = (
     period?: Maybe<BeregnetPeriodeFragment | UberegnetPeriodeFragment | GhostPeriodeFragment>,
-): Maybe<string> => {
+): string | null => {
     if (isBeregnetPeriode(period)) {
         return period.oppgave?.id ?? null;
     } else {
@@ -81,6 +81,6 @@ export const getOverlappendePerioder = (
         .filter(overlapper(period)) as Array<BeregnetPeriodeFragment>;
 };
 
-export const isForkastet = (periode?: Maybe<Periode>): boolean => {
+export const isForkastet = (periode?: Periode | null): boolean => {
     return (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) && periode.erForkastet;
 };

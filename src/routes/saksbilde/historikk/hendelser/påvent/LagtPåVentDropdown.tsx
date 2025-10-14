@@ -4,7 +4,7 @@ import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, Loader } from '@navikt/ds-react';
 
 import { EndrePåVentModal } from '@components/påvent/PåVentModaler';
-import { BeregnetPeriodeFragment, Maybe, PersonFragment, Personnavn } from '@io/graphql';
+import { BeregnetPeriodeFragment, PersonFragment, Personnavn } from '@io/graphql';
 import { useFjernPåVentFraSaksbilde } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 import { DateString } from '@typer/shared';
@@ -13,8 +13,8 @@ interface LagtPåVentDropdownProps {
     person: PersonFragment;
     periode: BeregnetPeriodeFragment;
     årsaker: string[];
-    notattekst: Maybe<string>;
-    frist: Maybe<DateString>;
+    notattekst: string | null;
+    frist: DateString | null;
 }
 
 export const LagtPåVentDropdown = ({

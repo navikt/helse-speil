@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { CheckmarkIcon } from '@navikt/aksel-icons';
 
-import { Maybe, SporsmalFragment, Svar, Svartype } from '@io/graphql';
+import { SporsmalFragment, Svar, Svartype } from '@io/graphql';
 import { somNorskDato } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
@@ -40,8 +40,8 @@ export const Spørsmål = ({ spørsmål, rotnivå = true }: SpørsmålProps): Re
     });
 };
 
-function getUndersporsmal(it: SporsmalFragment): Maybe<SporsmalFragment[]> {
-    const sporsmal = it as SporsmalFragment & { undersporsmal: Maybe<SporsmalFragment[]> };
+function getUndersporsmal(it: SporsmalFragment): SporsmalFragment[] | null {
+    const sporsmal = it as SporsmalFragment & { undersporsmal: SporsmalFragment[] | null };
 
     return sporsmal?.undersporsmal && sporsmal.undersporsmal.length > 0 ? sporsmal.undersporsmal : null;
 }

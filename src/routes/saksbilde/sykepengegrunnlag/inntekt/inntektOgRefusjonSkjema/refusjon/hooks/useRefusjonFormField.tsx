@@ -1,12 +1,12 @@
 import { useFieldArray } from 'react-hook-form';
 
-import { Kildetype, Maybe } from '@io/graphql';
+import { Kildetype } from '@io/graphql';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { avrundetToDesimaler } from '@utils/tall';
 
 export interface RefusjonFormFields {
     fom: string;
-    tom?: Maybe<string>;
+    tom?: string | null;
     beløp: number;
     kilde: string;
 }
@@ -52,7 +52,7 @@ export function useRefusjonFormField() {
 
     const updateRefusjonsopplysninger = (
         fom: string,
-        tom: Maybe<string>,
+        tom: string | null,
         beløp: number,
         index: number,
         kilde = Kildetype.Saksbehandler,

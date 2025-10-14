@@ -7,7 +7,6 @@ import {
     Arbeidsgiverinntekt,
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
-    Maybe,
     PersonFragment,
     Sykepengegrunnlagsgrense,
     VilkarsgrunnlagAvviksvurdering,
@@ -22,8 +21,8 @@ import styles from './SykepengegrunnlagPanel.module.css';
 
 interface SykepengegrunnlagPanelProps {
     inntekter: Arbeidsgiverinntekt[];
-    skjønnsmessigFastsattÅrlig?: Maybe<number>;
-    avviksvurdering: Maybe<VilkarsgrunnlagAvviksvurdering>;
+    skjønnsmessigFastsattÅrlig?: number | null;
+    avviksvurdering: VilkarsgrunnlagAvviksvurdering | null;
     sykepengegrunnlag: number;
     setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
     aktivInntektskilde?: Arbeidsgiverinntekt;

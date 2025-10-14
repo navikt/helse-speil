@@ -6,7 +6,6 @@ import {
     Historikkinnslag,
     Kommentar,
     LagtPaVent,
-    Maybe,
     OpphevStansAutomatiskBehandlingSaksbehandler,
     PeriodeHistorikkElementNy,
     PeriodehistorikkType,
@@ -52,7 +51,7 @@ export class HistorikkinnslagMock {
             .flat()
             .find((h) => h.dialogRef === dialogId) as HistorikkinnslagMedKommentarer;
 
-    static getSisteLagtPåVentHistorikkinnslag = (vedtaksperiodeId: UUID): Maybe<HistorikkinnslagUnion> => {
+    static getSisteLagtPåVentHistorikkinnslag = (vedtaksperiodeId: UUID): HistorikkinnslagUnion | null => {
         const historikkinnslag = HistorikkinnslagMock.historikkinnslagMap.get(vedtaksperiodeId);
         if (!historikkinnslag) return null;
         return historikkinnslag[historikkinnslag.length - 1] ?? null;

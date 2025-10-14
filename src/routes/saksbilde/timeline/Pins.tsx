@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Popover } from '@navikt/ds-react';
 
-import { Maybe } from '@io/graphql';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { getFormattedDateString } from '@utils/date';
 
@@ -27,7 +26,7 @@ const Pin = ({ children, ...divProps }: PinProps): ReactElement => {
     );
 };
 
-const shouldShowPin = (position?: Maybe<number>): boolean =>
+const shouldShowPin = (position?: number | null): boolean =>
     typeof position === 'number' && position > 0 && position < 100;
 
 interface PinsProps {

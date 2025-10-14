@@ -10,7 +10,6 @@ import {
     Arbeidsgiverinntekt,
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
-    Maybe,
     PersonFragment,
     Skjonnsfastsettingstype,
     Sykepengegrunnlagsgrense,
@@ -57,7 +56,7 @@ export const useAktiveArbeidsgivere = (
         );
 
 function useFormDefaults(
-    skjønnsfastsettelseFormState: Maybe<SkjønnsfastsettingFormFields>,
+    skjønnsfastsettelseFormState: SkjønnsfastsettingFormFields | null,
     aktiveArbeidsgivereInntekter: Arbeidsgiverinntekt[],
     forrigeSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null,
     avrundetSammenligningsgrunnlag: number,
@@ -91,7 +90,7 @@ function useFormDefaults(
     }
 }
 
-const mapType = (type: Maybe<Skjonnsfastsettingstype> = Skjonnsfastsettingstype.Annet): Skjønnsfastsettingstype => {
+const mapType = (type: Skjonnsfastsettingstype | null = Skjonnsfastsettingstype.Annet): Skjønnsfastsettingstype => {
     switch (type) {
         case Skjonnsfastsettingstype.OmregnetArsinntekt:
             return Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT;
@@ -122,11 +121,11 @@ interface SkjønnsfastsettingFormProps {
     omregnetÅrsinntekt: number;
     sammenligningsgrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
-    onEndretSykepengegrunnlag: (endretSykepengegrunnlag: Maybe<number>) => void;
+    onEndretSykepengegrunnlag: (endretSykepengegrunnlag: number | null) => void;
     closeAndResetForm: () => void;
     maler: SkjønnsfastsettingMal[];
     sisteSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null;
-    formValues: Maybe<SkjønnsfastsettingFormFields>;
+    formValues: SkjønnsfastsettingFormFields | null;
     setFormValues: (skjønnsfastsettingFormFields: SkjønnsfastsettingFormFields) => void;
 }
 

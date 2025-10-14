@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 
 import { erProd, erUtvikling } from '@/env';
 import { gql, useQuery } from '@apollo/client';
-import { Maybe } from '@io/graphql';
 import { PortableTextBlock } from '@portabletext/react';
 import { Lovhjemmel } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
@@ -51,7 +50,7 @@ export type NyhetType = {
     tittel: string;
     beskrivelse: PortableTextBlock[];
     dato: DateString;
-    lenke: Maybe<Lenke>;
+    lenke: Lenke | null;
     modal: NyhetModalType;
 };
 
@@ -64,9 +63,9 @@ export type NyhetModalType = {
     antallSlides: number;
     tvungenModal: boolean;
     modalOverskrift: string;
-    modalSlide1: Maybe<NyhetModalSlide>;
-    modalSlide2: Maybe<NyhetModalSlide>;
-    modalSlide3: Maybe<NyhetModalSlide>;
+    modalSlide1: NyhetModalSlide | null;
+    modalSlide2: NyhetModalSlide | null;
+    modalSlide3: NyhetModalSlide | null;
 };
 
 type NyhetModalSlide = {

@@ -6,7 +6,7 @@ import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
-import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
+import { Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { capitalizeName, somPenger } from '@utils/locale';
 import { isArbeidsgiver } from '@utils/typeguards';
@@ -18,8 +18,8 @@ import styles from './BeløpTilUtbetaling.module.css';
 type BeløpTilUtbetalingProps = {
     utbetaling: Utbetaling;
     personinfo: Personinfo;
-    arbeidsgiversimulering?: Maybe<Simulering>;
-    personsimulering?: Maybe<Simulering>;
+    arbeidsgiversimulering?: Simulering | null;
+    personsimulering?: Simulering | null;
     periodePersonNettoBeløp: number;
     periodeArbeidsgiverNettoBeløp: number;
     inntektsforhold: Inntektsforhold;
@@ -87,6 +87,6 @@ const getFormattedName = (personinfo: Personinfo): string => {
     }`;
 };
 
-const isSimulering = (simulering?: Maybe<Simulering>): simulering is Simulering => {
+const isSimulering = (simulering?: Simulering | null): simulering is Simulering => {
     return Array.isArray(simulering?.perioder);
 };

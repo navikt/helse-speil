@@ -10,7 +10,6 @@ import { Errorikon } from '@components/ikoner/Errorikon';
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import {
     Inntektskilde,
-    Maybe,
     OmregnetArsinntekt,
     OverstyringFragment,
     PersonFragment,
@@ -28,10 +27,10 @@ import styles from './Inntektssammenligning.module.css';
 interface InntektssammenligningProps {
     person: PersonFragment;
     organisasjonsnummer: string;
-    omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
-    skjønnsmessigFastsatt?: Maybe<OmregnetArsinntekt>;
-    sammenligningsgrunnlag?: Maybe<Sammenligningsgrunnlag>;
-    arbeidsforholdErDeaktivert?: Maybe<boolean>;
+    omregnetÅrsinntekt?: OmregnetArsinntekt | null;
+    skjønnsmessigFastsatt?: OmregnetArsinntekt | null;
+    sammenligningsgrunnlag?: Sammenligningsgrunnlag | null;
+    arbeidsforholdErDeaktivert?: boolean | null;
     erGjeldende: boolean;
     onSetAktivInntektskilde: () => void;
 }
@@ -114,7 +113,7 @@ export const Inntektssammenligning = ({
 };
 
 interface OmregnetÅrsinntektContentProps {
-    arbeidsforholdErDeaktivert?: Maybe<boolean>;
+    arbeidsforholdErDeaktivert?: boolean | null;
     beløp?: number;
 }
 
@@ -123,7 +122,7 @@ const OmregnetÅrsinntektContent = ({ arbeidsforholdErDeaktivert, beløp }: Omre
 );
 
 interface OmregnetÅrsinntektIkonProps {
-    arbeidsforholdErDeaktivert?: Maybe<boolean>;
+    arbeidsforholdErDeaktivert?: boolean | null;
     endringer: Array<OverstyringFragment>;
     kilde?: Inntektskilde;
 }
@@ -136,7 +135,7 @@ const OmregnetÅrsinntektIkon = ({ arbeidsforholdErDeaktivert, endringer, kilde 
     );
 
 interface SkjønnsfastsettingContentProps {
-    arbeidsforholdErDeaktivert?: Maybe<boolean>;
+    arbeidsforholdErDeaktivert?: boolean | null;
     kilde?: Inntektskilde;
     beløp?: number;
 }

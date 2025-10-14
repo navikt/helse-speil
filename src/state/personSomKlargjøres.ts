@@ -1,6 +1,6 @@
 import { atom, useAtom } from 'jotai';
 
-import { Maybe, Opptegnelsetype } from '@io/graphql';
+import { Opptegnelsetype } from '@io/graphql';
 import { usePollEtterOpptegnelser } from '@io/graphql/polling';
 import { useHåndterOpptegnelser } from '@state/opptegnelser';
 
@@ -9,7 +9,7 @@ export type PersonSomKlargjøres = {
     erKlargjort: boolean;
 };
 
-const personSomKlargjøresState = atom<Maybe<PersonSomKlargjøres>>(null);
+const personSomKlargjøresState = atom<PersonSomKlargjøres | null>(null);
 
 export const usePersonKlargjøres = () => {
     const [state, setState] = useAtom(personSomKlargjøresState);

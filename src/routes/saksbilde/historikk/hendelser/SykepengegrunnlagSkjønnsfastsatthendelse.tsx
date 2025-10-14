@@ -4,7 +4,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
-import { Maybe, Skjonnsfastsettingstype } from '@io/graphql';
+import { Skjonnsfastsettingstype } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
@@ -20,7 +20,7 @@ type SykepengegrunnlagSkjønnsfastsatthendelseProps = Omit<
     'type' | 'id'
 >;
 
-export const getSkjønnsfastsettelseTypeTekst = (type?: Maybe<Skjonnsfastsettingstype>) => {
+export const getSkjønnsfastsettelseTypeTekst = (type?: Skjonnsfastsettingstype | null) => {
     switch (type) {
         case 'ANNET':
             return 'Annet';

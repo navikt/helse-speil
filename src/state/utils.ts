@@ -22,14 +22,14 @@ export const getRequiredInntekt = (
 
 export const getVilkårsgrunnlag = (
     person: PersonFragment,
-    grunnlagId?: Maybe<string>,
+    grunnlagId?: string | null,
 ): Maybe<VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2> => {
     return person.vilkarsgrunnlagV2.find(({ id }) => id === grunnlagId) ?? null;
 };
 
 export const getRequiredVilkårsgrunnlag = (
     person: PersonFragment,
-    grunnlagId?: Maybe<string>,
+    grunnlagId?: string | null,
 ): VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2 => {
     return (
         getVilkårsgrunnlag(person, grunnlagId) ??

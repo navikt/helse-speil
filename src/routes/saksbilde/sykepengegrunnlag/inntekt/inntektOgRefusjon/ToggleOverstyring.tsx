@@ -3,7 +3,7 @@ import React from 'react';
 import { PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { Button, HelpText } from '@navikt/ds-react';
 
-import { Arbeidsgiver, Maybe, PersonFragment, Utbetalingstatus } from '@io/graphql';
+import { Arbeidsgiver, PersonFragment, Utbetalingstatus } from '@io/graphql';
 import {
     useGhostInntektKanOverstyres,
     useInntektKanRevurderes,
@@ -20,7 +20,7 @@ interface ToggleOverstyringProps {
     person: PersonFragment;
     arbeidsgiver: Arbeidsgiver;
     periode: ActivePeriod;
-    vilkårsgrunnlagId?: Maybe<string>;
+    vilkårsgrunnlagId?: string | null;
     organisasjonsnummer: string;
     erDeaktivert: boolean;
     editing: boolean;

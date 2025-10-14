@@ -1,9 +1,9 @@
-import { BeregnetPeriodeFragment, Maybe, Periode } from '@io/graphql';
+import { BeregnetPeriodeFragment, Periode } from '@io/graphql';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { DateString } from '@typer/shared';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-const isValidDate = (date?: Maybe<DateString>): boolean => {
+const isValidDate = (date?: DateString | null): boolean => {
     return typeof date === 'string' && !isNaN(new Date(date).getTime());
 };
 

@@ -1,13 +1,7 @@
 import dayjs from 'dayjs';
 import { atom, useAtom, useAtomValue } from 'jotai';
 
-import {
-    BeregnetPeriodeFragment,
-    GhostPeriodeFragment,
-    Maybe,
-    PersonFragment,
-    UberegnetPeriodeFragment,
-} from '@io/graphql';
+import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import { finnArbeidsgiverForGhostPeriode } from '@state/inntektsforhold/arbeidsgiver';
 import { finnAlleInntektsforhold, finnInntektsforholdForPeriode } from '@state/inntektsforhold/inntektsforhold';
 import { atomWithSessionStorage } from '@state/jotai';
@@ -109,7 +103,7 @@ const getHendelserForUberegnetPeriode = (
     ].sort(byTimestamp);
 };
 
-const useHistorikk = (person: Maybe<PersonFragment>): HendelseObject[] => {
+const useHistorikk = (person: PersonFragment | null): HendelseObject[] => {
     const activePeriod = useActivePeriod(person);
     if (!person || !activePeriod) {
         return [];
@@ -159,7 +153,7 @@ const showHistorikkState = atomWithSessionStorage('showHistorikkState', true);
 
 export const useShowHistorikkState = () => useAtom(showHistorikkState);
 
-export const useFilteredHistorikk = (person: Maybe<PersonFragment>): Array<HendelseObject> => {
+export const useFilteredHistorikk = (person: PersonFragment | null): Array<HendelseObject> => {
     const filter = useAtomValue(filterState);
     const historikk = useHistorikk(person);
 

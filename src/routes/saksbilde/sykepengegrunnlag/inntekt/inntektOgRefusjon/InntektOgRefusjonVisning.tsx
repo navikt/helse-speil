@@ -5,7 +5,6 @@ import {
     BeregnetPeriodeFragment,
     InntektFraAOrdningen,
     Inntektskilde,
-    Maybe,
     OmregnetArsinntekt,
     Overstyring,
     PersonFragment,
@@ -26,10 +25,10 @@ import { useArbeidsforholdKanOverstyres } from './inntektOgRefusjonUtils';
 interface InntektOgRefusjonVisningProps {
     person: PersonFragment;
     periode: ActivePeriod;
-    omregnetÅrsinntekt: Maybe<OmregnetArsinntekt>;
+    omregnetÅrsinntekt: OmregnetArsinntekt | null;
     endret: boolean;
-    refusjon?: Maybe<Refusjonsopplysning[]>;
-    vilkårsgrunnlagId?: Maybe<string>;
+    refusjon?: Refusjonsopplysning[] | null;
+    vilkårsgrunnlagId?: string | null;
     inntektFraAOrdningen?: InntektFraAOrdningen[];
     erDeaktivert: boolean;
     inntekterForSammenligningsgrunnlag?: Array<InntektFraAOrdningen>;

@@ -1,15 +1,7 @@
 import { useAtom, useAtomValue } from 'jotai';
 import { atomWithReset, useResetAtom } from 'jotai/utils';
 
-import {
-    Arbeidsgiver,
-    Arbeidsgiverrefusjon,
-    Hendelse,
-    Kildetype,
-    Maybe,
-    PersonFragment,
-    Refusjonselement,
-} from '@io/graphql';
+import { Arbeidsgiver, Arbeidsgiverrefusjon, Hendelse, Kildetype, PersonFragment, Refusjonselement } from '@io/graphql';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { dedupliserteInntektsmeldingHendelser } from '@state/inntektsforhold/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
@@ -115,7 +107,7 @@ export const mapOgSorterRefusjoner = (
 export const useOverstyrtInntektMetadata = (
     person: PersonFragment,
     arbeidsgiver: Arbeidsgiver,
-    period: Maybe<ActivePeriod>,
+    period: ActivePeriod | null,
 ): OverstyrtInntektMetadata => {
     const activePeriod = useActivePeriod(person);
     const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, activePeriod);
@@ -155,9 +147,9 @@ export const useOverstyrtInntektMetadata = (
 };
 
 export type OverstyrtInntektOgRefusjon = {
-    aktørId: Maybe<string>;
-    fødselsnummer: Maybe<string>;
-    skjæringstidspunkt: Maybe<string>;
+    aktørId: string | null;
+    fødselsnummer: string | null;
+    skjæringstidspunkt: string | null;
     arbeidsgivere: OverstyrtInntektOgRefusjonArbeidsgiver[] | [];
 };
 

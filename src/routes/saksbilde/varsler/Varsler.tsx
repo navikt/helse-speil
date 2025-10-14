@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
-import { Maybe, VarselDto, Varselstatus, VarselvurderingDto } from '@io/graphql';
+import { VarselDto, Varselstatus, VarselvurderingDto } from '@io/graphql';
 import { useSkalViseUnder20SykdomsgradsvarselSomFeil } from '@saksbilde/varsler/useSkalViseUnder20Sykdomsgradsvarsel';
 
 import { EkspanderbartVarsel } from './EkspanderbartVarsel';
@@ -10,7 +10,7 @@ import { useSkalViseAvviksvarselSomFeil } from './useSkalViseAvviksvarselSomFeil
 
 import styles from './Varsler.module.css';
 
-const finnType = (varselvurdering: Maybe<VarselvurderingDto> | undefined) => {
+const finnType = (varselvurdering: VarselvurderingDto | null | undefined) => {
     if (!varselvurdering) return 'aktiv';
     switch (varselvurdering.status) {
         case Varselstatus.Vurdert:

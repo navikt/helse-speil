@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 
 import { HStack, Label, Tag } from '@navikt/ds-react';
 
-import {
-    Arbeidsgiver,
-    Arbeidsgiverinntekt,
-    InntektFraAOrdningen,
-    Inntektstype,
-    Maybe,
-    PersonFragment,
-} from '@io/graphql';
+import { Arbeidsgiver, Arbeidsgiverinntekt, InntektFraAOrdningen, Inntektstype, PersonFragment } from '@io/graphql';
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import { InntektOgRefusjonVisning } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonVisning';
 import { ToggleOverstyring } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/ToggleOverstyring';
@@ -26,10 +19,10 @@ interface InntektUtenSykefraværProps {
     person: PersonFragment;
     periode: ActivePeriod;
     inntekt: Arbeidsgiverinntekt;
-    vilkårsgrunnlagId?: Maybe<string>;
-    inntektstype?: Maybe<Inntektstype>;
+    vilkårsgrunnlagId?: string | null;
+    inntektstype?: Inntektstype | null;
     arbeidsgiver: Arbeidsgiver;
-    refusjon?: Maybe<Refusjonsopplysning[]>;
+    refusjon?: Refusjonsopplysning[] | null;
     inntekterForSammenligningsgrunnlag?: Array<InntektFraAOrdningen>;
     editing: boolean;
     setEditing: (isEditing: boolean) => void;

@@ -5,7 +5,7 @@ import React from 'react';
 import { BodyShort, Detail, HStack } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { InntektFraAOrdningen, Inntektskilde, Maybe } from '@io/graphql';
+import { InntektFraAOrdningen, Inntektskilde } from '@io/graphql';
 import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { kildeForkortelse } from '@utils/inntektskilde';
@@ -48,7 +48,7 @@ const visningSammenligningsgrunnlag = (
 type InntektFraAOrdningenProps = {
     skjæringstidspunkt: string;
     inntektFraAOrdningen?: Array<InntektFraAOrdningen>;
-    erAktivGhost?: Maybe<boolean>;
+    erAktivGhost?: boolean | null;
     inntekterForSammenligningsgrunnlag?: Array<InntektFraAOrdningen>;
 };
 

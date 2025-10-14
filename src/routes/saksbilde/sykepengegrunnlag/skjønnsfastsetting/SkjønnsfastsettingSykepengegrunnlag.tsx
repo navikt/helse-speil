@@ -8,7 +8,6 @@ import {
     Arbeidsgiverinntekt,
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
-    Maybe,
     PersonFragment,
     Sykepengegrunnlagsgrense,
     Sykepengegrunnlagskjonnsfastsetting,
@@ -36,8 +35,8 @@ interface SkjønnsfastsettingSykepengegrunnlagProps {
     sykepengegrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     omregnetÅrsinntekt: number;
-    sammenligningsgrunnlag?: Maybe<number>;
-    skjønnsmessigFastsattÅrlig?: Maybe<number>;
+    sammenligningsgrunnlag?: number | null;
+    skjønnsmessigFastsattÅrlig?: number | null;
     inntekter: Arbeidsgiverinntekt[];
     avviksprosent: number;
     organisasjonsnummer: string;
@@ -57,7 +56,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editing, setEditing] = useAtomEditingForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
     const [formValues, setFormValues] = useAtomSkjemaForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
-    const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
+    const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<number | null>(null);
     const aktiveArbeidsgivereMedOmregnetÅrsinntekt = useAktiveArbeidsgivere(person, periode, inntekter);
     const skalVise828andreLedd = Math.abs(avviksprosent) > 25;
 

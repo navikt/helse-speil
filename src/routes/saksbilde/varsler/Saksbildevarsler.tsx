@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { Accordion, Alert, BodyShort } from '@navikt/ds-react';
 
-import { Maybe, Overstyring, VarselDto, Varselstatus } from '@io/graphql';
+import { Overstyring, VarselDto, Varselstatus } from '@io/graphql';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { DateString, PeriodState } from '@typer/shared';
 import {
@@ -25,13 +25,13 @@ export type VarselObject = {
     melding: string;
 };
 
-const sendtTilBeslutter = (erBeslutteroppgaveOgErTidligereSaksbehandler: boolean): Maybe<VarselObject> => {
+const sendtTilBeslutter = (erBeslutteroppgaveOgErTidligereSaksbehandler: boolean): VarselObject | null => {
     if (erBeslutteroppgaveOgErTidligereSaksbehandler) {
         return { grad: 'info', melding: 'Oppgaven er sendt til beslutter' };
     }
     return null;
 };
-const tilstandfeil = (state: PeriodState): Maybe<VarselObject> => {
+const tilstandfeil = (state: PeriodState): VarselObject | null => {
     switch (state) {
         case 'annulleringFeilet':
             return { grad: 'error', melding: 'Annulleringen feilet. Kontakt utviklerteamet.' };
@@ -42,7 +42,7 @@ const tilstandfeil = (state: PeriodState): Maybe<VarselObject> => {
     }
 };
 
-const vedtaksperiodeVenter = (state: PeriodState): Maybe<VarselObject> => {
+const vedtaksperiodeVenter = (state: PeriodState): VarselObject | null => {
     switch (state) {
         case 'venter':
             return { grad: 'info', melding: 'Ikke klar til behandling - avventer system' };
@@ -64,7 +64,7 @@ const vedtaksperiodeVenter = (state: PeriodState): Maybe<VarselObject> => {
     }
 };
 
-const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: Maybe<string>): Maybe<VarselObject> =>
+const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: string | null): VarselObject | null =>
     state === 'tilGodkjenning' && (typeof oppgavereferanse !== 'string' || oppgavereferanse.length === 0)
         ? {
               grad: 'error',
@@ -73,7 +73,7 @@ const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: Maybe<
           }
         : null;
 
-const ukjentTilstand = (state: PeriodState): Maybe<VarselObject> =>
+const ukjentTilstand = (state: PeriodState): VarselObject | null =>
     state === 'ukjent' ? { grad: 'error', melding: 'Kunne ikke lese informasjon om periodens tilstand.' } : null;
 
 const beslutteroppgave = (
@@ -81,7 +81,7 @@ const beslutteroppgave = (
     varsler: Array<VarselDto>,
     harDagOverstyringer = false,
     harTilkommenInntektEndring: boolean,
-    åpneEndringerPåPerson?: Maybe<Array<Overstyring>>,
+    åpneEndringerPåPerson?: Array<Overstyring> | null,
     activePeriodTom?: string,
     navnPåDeaktiverteGhostArbeidsgivere?: string,
 ): string[] | null => {
@@ -164,11 +164,11 @@ const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: D
 
 interface SaksbildevarslerProps {
     periodState: PeriodState;
-    oppgavereferanse?: Maybe<string>;
-    varsler?: Maybe<Array<VarselDto>>;
+    oppgavereferanse?: string | null;
+    varsler?: Array<VarselDto> | null;
     erTidligereSaksbehandler?: boolean;
     erBeslutteroppgave?: boolean;
-    åpneEndringerPåPerson?: Maybe<Array<Overstyring>>;
+    åpneEndringerPåPerson?: Array<Overstyring> | null;
     harDagOverstyringer?: boolean;
     activePeriodTom?: string;
     skjæringstidspunkt?: string;

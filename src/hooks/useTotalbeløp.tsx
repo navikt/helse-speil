@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Dag, Maybe } from '@io/graphql';
+import { Dag } from '@io/graphql';
 import {
     getDagerMedUtbetaling,
     getTotalArbeidsgiverbeløp,
@@ -14,7 +14,7 @@ type Totalbeløp = {
     totalbeløp: number;
 };
 
-export const useTotalbeløp = (erSelvstendigNæringsdrivede: boolean, tidslinje?: Maybe<Dag[]>): Totalbeløp => {
+export const useTotalbeløp = (erSelvstendigNæringsdrivede: boolean, tidslinje?: Dag[] | null): Totalbeløp => {
     const dager = useTabelldagerMap({
         tidslinje: tidslinje ?? [],
         erSelvstendigNæringsdrivende: erSelvstendigNæringsdrivede,

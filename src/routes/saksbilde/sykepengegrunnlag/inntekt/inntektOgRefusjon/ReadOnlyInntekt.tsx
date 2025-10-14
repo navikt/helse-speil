@@ -4,7 +4,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
-import { Inntektoverstyring, Inntektskilde, Maybe, OmregnetArsinntekt } from '@io/graphql';
+import { Inntektoverstyring, Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
@@ -13,8 +13,8 @@ import { EndringsloggButton } from '../EndringsloggButton';
 import styles from './ReadOnlyInntekt.module.css';
 
 interface ReadOnlyInntektProps {
-    omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
-    lokaltMånedsbeløp: Maybe<number>;
+    omregnetÅrsinntekt?: OmregnetArsinntekt | null;
+    lokaltMånedsbeløp: number | null;
     endret: boolean;
     inntektsendringer: Inntektoverstyring[];
 }

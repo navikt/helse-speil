@@ -3,7 +3,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import React, { ReactElement, ReactNode, useRef } from 'react';
 
 import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
-import { Maybe, PersonFragment } from '@io/graphql';
+import { PersonFragment } from '@io/graphql';
 import { useSetActivePeriodId } from '@state/periode';
 import { PeriodState } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
@@ -21,7 +21,7 @@ import styles from './Period.module.css';
 
 type PeriodCategory = 'success' | 'error' | 'attention' | 'waiting' | 'neutral' | 'neutralError' | 'plus';
 
-const getPeriodCategory = (periodState: PeriodState): Maybe<PeriodCategory> => {
+const getPeriodCategory = (periodState: PeriodState): PeriodCategory | null => {
     switch (periodState) {
         case 'utbetaltAutomatisk':
         case 'revurdert':
@@ -69,7 +69,7 @@ const getPeriodCategory = (periodState: PeriodState): Maybe<PeriodCategory> => {
     }
 };
 
-const getIcon = (periodCategory: Maybe<PeriodCategory>): ReactNode => {
+const getIcon = (periodCategory: PeriodCategory | null): ReactNode => {
     switch (periodCategory) {
         case 'neutral':
         case 'success': {

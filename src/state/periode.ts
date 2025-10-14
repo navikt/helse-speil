@@ -3,13 +3,13 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { usePathname } from 'next/navigation';
 
-import { Maybe, Periodetilstand, PersonFragment } from '@io/graphql';
+import { Periodetilstand, PersonFragment } from '@io/graphql';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { ActivePeriod } from '@typer/shared';
 import { raise } from '@utils/ts';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-const activePeriodIdState = atom<Maybe<string>>(null);
+const activePeriodIdState = atom<string | null>(null);
 
 export const useSetActivePeriodId = (person: PersonFragment) => {
     const [activePeriodId, setActivePeriodId] = useAtom(activePeriodIdState);
@@ -31,7 +31,7 @@ export const useSetActivePeriodIdUtenPerson = () => {
     };
 };
 
-export const useActivePeriod = (person: Maybe<PersonFragment>): Maybe<ActivePeriod> => {
+export const useActivePeriod = (person: PersonFragment | null): ActivePeriod | null => {
     const activePeriodId = useAtomValue(activePeriodIdState);
     const pathname = usePathname();
     const erPåTilkommenInntektSide = pathname.includes('/tilkommeninntekt/');
@@ -41,7 +41,7 @@ export const useActivePeriod = (person: Maybe<PersonFragment>): Maybe<ActivePeri
     return findPeriod(activePeriodId, person) ?? findPeriodToSelect(person);
 };
 
-export const useActivePeriodWithPerson = (person: PersonFragment): Maybe<ActivePeriod> => useActivePeriod(person);
+export const useActivePeriodWithPerson = (person: PersonFragment): ActivePeriod | null => useActivePeriod(person);
 
 export const useSelectPeriod = () => {
     const setActivePeriodId = useSetAtom(activePeriodIdState);
@@ -53,7 +53,7 @@ export const useSelectPeriod = () => {
     };
 };
 
-const findPeriodToSelect = (person: PersonFragment): Maybe<ActivePeriod> => {
+const findPeriodToSelect = (person: PersonFragment): ActivePeriod | null => {
     const perioderINyesteGenerasjoner = person.arbeidsgivere.flatMap(
         (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
     );
@@ -77,7 +77,7 @@ const findPeriodToSelect = (person: PersonFragment): Maybe<ActivePeriod> => {
     return periodeTilBehandling ?? venteperioder[0] ?? aktuellePerioder[0] ?? null;
 };
 
-const findPeriod = (periodeId: Maybe<string>, person: PersonFragment) => {
+const findPeriod = (periodeId: string | null, person: PersonFragment) => {
     if (periodeId == null) return null;
 
     return (

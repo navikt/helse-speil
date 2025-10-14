@@ -15,7 +15,7 @@ import { Alert, Button, HStack } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
-import { Arbeidsgiver, Maybe, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
+import { Arbeidsgiver, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
 import {
@@ -54,8 +54,8 @@ interface EditableInntektProps {
     omregnetÅrsinntekt: OmregnetArsinntekt;
     begrunnelser: BegrunnelseForOverstyring[];
     skjæringstidspunkt: DateString;
-    inntektFom: Maybe<string>;
-    inntektTom: Maybe<string>;
+    inntektFom: string | null;
+    inntektTom: string | null;
     close: () => void;
     harEndring: (erEndret: boolean) => void;
 }
@@ -256,7 +256,7 @@ export const formErrorsTilFeilliste = (errors: FieldErrors<InntektFormFields>): 
 
 const refusjonsvalidator =
     (
-        period: Maybe<ActivePeriod>,
+        period: ActivePeriod | null,
         values: InntektFormFields,
         fraRefusjonsopplysninger: Refusjonsopplysning[],
         omregnetÅrsinntektBeløp: number,

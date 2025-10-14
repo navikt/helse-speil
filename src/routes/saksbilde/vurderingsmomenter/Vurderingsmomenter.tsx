@@ -7,11 +7,11 @@ import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
-import { BeregnetPeriodeFragment, Faresignal, Maybe, Risikovurdering } from '@io/graphql';
+import { BeregnetPeriodeFragment, Faresignal, Risikovurdering } from '@io/graphql';
 
 import styles from './Vurderingsmomenter.module.scss';
 
-const harFunn = (funn?: Maybe<Faresignal[]>): funn is Faresignal[] => {
+const harFunn = (funn?: Faresignal[] | null): funn is Faresignal[] => {
     return typeof funn === 'object';
 };
 

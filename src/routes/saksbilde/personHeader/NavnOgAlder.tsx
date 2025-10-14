@@ -4,14 +4,14 @@ import React, { ReactElement } from 'react';
 import { CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableBold } from '@components/anonymizable/AnonymizableBold';
-import { Maybe, Personinfo } from '@io/graphql';
+import { Personinfo } from '@io/graphql';
 import { capitalizeName } from '@utils/locale';
 
 const getFormattedName = ({ etternavn, mellomnavn, fornavn }: Personinfo) => {
     return `${fornavn}${mellomnavn ? ` ${mellomnavn}` : ''} ${etternavn}`;
 };
 
-const getFormattedAge = (fodselsdato: string, dodsdato: Maybe<string>) => {
+const getFormattedAge = (fodselsdato: string, dodsdato: string | null) => {
     const sluttidspunkt = dodsdato ? dayjs(dodsdato, 'YYYY-MM-DD') : dayjs();
     const alder = sluttidspunkt.diff(fodselsdato, 'year');
     return ` (${alder} år)`;
@@ -19,7 +19,7 @@ const getFormattedAge = (fodselsdato: string, dodsdato: Maybe<string>) => {
 
 interface NavnOgAlderProps {
     personinfo: Personinfo;
-    dodsdato: Maybe<string>;
+    dodsdato: string | null;
 }
 
 export const NavnOgAlder = ({ personinfo, dodsdato }: NavnOgAlderProps): ReactElement => {

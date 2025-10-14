@@ -5,7 +5,7 @@ import React, { ReactElement } from 'react';
 import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { Maybe, PersonFragment } from '@io/graphql';
+import { PersonFragment } from '@io/graphql';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { TimelinePeriod } from '@typer/timeline';
 import { isArbeidsgiver, isSelvstendigNaering } from '@utils/typeguards';
@@ -17,7 +17,7 @@ import styles from './TimelineRow.module.css';
 export interface TimelineRowProps {
     start: Dayjs;
     end: Dayjs;
-    activePeriod: Maybe<TimelinePeriod>;
+    activePeriod: TimelinePeriod | null;
     alignWithExpandable?: boolean;
     person: PersonFragment;
     inntektsforhold: Inntektsforhold;

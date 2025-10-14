@@ -3,7 +3,6 @@ import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
     Hendelse,
-    Maybe,
     Periode,
     PersonFragment,
 } from '@io/graphql';
@@ -20,9 +19,9 @@ import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/ty
 
 export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     person: PersonFragment,
-    skjæringstidspunkt: Maybe<DateString>,
+    skjæringstidspunkt: DateString | null,
     organisasjonsnummer: string,
-): Maybe<ActivePeriod> => {
+): ActivePeriod | null => {
     const aktivPeriode = useActivePeriod(person);
     const arbeidsgiver = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
@@ -72,8 +71,8 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
         .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime());
     const nyesteBeregnetPeriodePåSkjæringstidspunkt = (overstyrbareArbeidsgiverPerioder
         ?.filter((it) => isBeregnetPeriode(it))
-        .pop() ?? null) as Maybe<ActivePeriod>;
-    const nyestePeriodePåSkjæringstidspunkt = (overstyrbareArbeidsgiverPerioder?.pop() ?? null) as Maybe<ActivePeriod>;
+        .pop() ?? null) as ActivePeriod | null;
+    const nyestePeriodePåSkjæringstidspunkt = (overstyrbareArbeidsgiverPerioder?.pop() ?? null) as ActivePeriod | null;
 
     return nyesteBeregnetPeriodePåSkjæringstidspunkt ?? nyestePeriodePåSkjæringstidspunkt;
 };
@@ -116,7 +115,7 @@ export const erPeriodeIFørsteGenerasjon = (person: PersonFragment, period: Peri
  * @param arbeidsgiver Arbeidsgiver som kan inneholde generasjoner med perioder og hendelser.
  * @returns Liste av unike 'INNTEKTSMELDING'-hendelser (kan være tom liste).
  */
-export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: Maybe<Arbeidsgiver>): Hendelse[] => {
+export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: Arbeidsgiver | null): Hendelse[] => {
     if (!arbeidsgiver) return [];
 
     const hendelser = new Map<string, Hendelse>();
@@ -145,7 +144,7 @@ export const finnArbeidsgiverMedOrganisasjonsnummer = (
 ): Arbeidsgiver | null =>
     finnAlleArbeidsgivere(person).find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
 
-export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringstidspunkt: string): Maybe<number> => {
+export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringstidspunkt: string): number | null => {
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
 
     if (lokaleInntektoverstyringer.skjæringstidspunkt !== skjæringstidspunkt) return null;

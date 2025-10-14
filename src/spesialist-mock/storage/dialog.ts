@@ -1,13 +1,13 @@
 import dayjs from 'dayjs';
 
-import { Kommentar, Maybe } from '@spesialist-mock/schemaTypes';
+import { Kommentar } from '@spesialist-mock/schemaTypes';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { NotatMock } from '@spesialist-mock/storage/notat';
 
 export class DialogMock {
     private static dialog: Map<number, Kommentar[]> = new Map();
 
-    static addDialog = (dialogId: Maybe<number> = Math.floor(1000000 + Math.random() * 9000000)): Maybe<number> => {
+    static addDialog = (dialogId: number | null = Math.floor(1000000 + Math.random() * 9000000)): number | null => {
         if (dialogId === null) return null;
         DialogMock.dialog.set(dialogId, []);
         return dialogId;
