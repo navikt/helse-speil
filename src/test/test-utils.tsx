@@ -1,7 +1,7 @@
+import { error } from 'console';
 import type { WritableAtom } from 'jotai/index';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
-import { logger } from '@/logger';
 import { ApolloLink, Cache, InMemoryCache } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import { MockLink, MockedResponse } from '@apollo/client/testing';
@@ -28,13 +28,13 @@ const errorLoggingLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
         graphQLErrors.forEach(({ message, locations, path, extensions }) => {
             if (extensions?.dontLog) {
-                logger.error('[GraphQL error]:' + `Message: ${message},` + `Location: ${locations},` + `Path: ${path}`);
+                error('[GraphQL error]:' + `Message: ${message},` + `Location: ${locations},` + `Path: ${path}`);
             }
         });
     }
 
     if (networkError) {
-        logger.error(`[Network error]: ${networkError}`);
+        error(`[Network error]: ${networkError}`);
     }
 });
 
