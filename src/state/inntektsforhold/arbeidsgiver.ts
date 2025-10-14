@@ -130,9 +130,9 @@ export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: Maybe<Arbeids
     return hendelserDeduplisert.filter((h) => h.type === 'INNTEKTSMELDING');
 };
 
-export const findArbeidsgiverWithGhostPeriode = (
-    periode: GhostPeriodeFragment,
+export const finnArbeidsgiverForGhostPeriode = (
     person: PersonFragment,
+    periode: GhostPeriodeFragment,
 ): Arbeidsgiver | undefined =>
     finnAlleArbeidsgivere(person).find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((p) => p.id === periode.id));
 

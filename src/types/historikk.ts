@@ -9,6 +9,7 @@ import {
     Utbetalingtype,
     VedtakUtfall,
 } from '@io/graphql';
+import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 
 import { DateString } from './shared';
 
@@ -30,8 +31,7 @@ export type Hendelsetype =
     | 'TilkommenInntekt';
 
 export type ArbeidsgiverSkjønnHendelse = {
-    identifikator: string;
-    navn: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
     årlig: number;
     fraÅrlig: number;
 };

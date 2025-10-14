@@ -3,7 +3,7 @@ import React, { Fragment, ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Maybe, Skjonnsfastsettingstype } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
@@ -66,7 +66,7 @@ export const SykepengegrunnlagSkjønnsfastsatthendelse = ({
         <HistorikkSection tittel="Årsinntekt">
             {arbeidsgivere.map((ag, index) => (
                 <Fragment key={`ag-${index}`}>
-                    <Arbeidsgivernavn identifikator={ag.identifikator} navn={ag.navn} />
+                    <Inntektsforholdnavn inntektsforholdReferanse={ag.inntektsforholdReferanse} />
                     <BodyShort>
                         {ag.fraÅrlig !== ag.årlig && <span className={styles.fromvalue}>{somPenger(ag.fraÅrlig)}</span>}
                         {somPenger(ag.årlig)}

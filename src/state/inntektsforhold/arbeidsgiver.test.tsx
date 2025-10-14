@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 
 import {
-    findArbeidsgiverWithGhostPeriode,
+    finnArbeidsgiverForGhostPeriode,
     finnArbeidsgiverMedOrganisasjonsnummer,
 } from '@state/inntektsforhold/arbeidsgiver';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -20,7 +20,7 @@ describe('findArbeidsgiverWithGhostPeriode', () => {
         const arbeidsgivere = [enArbeidsgiver(), arbeidsgiver, enArbeidsgiver()];
         const person = enPerson().medArbeidsgivere(arbeidsgivere);
 
-        expect(findArbeidsgiverWithGhostPeriode(ghostPeriode, person)).toEqual(arbeidsgiver);
+        expect(finnArbeidsgiverForGhostPeriode(person, ghostPeriode)).toEqual(arbeidsgiver);
     });
 
     it('returnerer undefined hvis ghost-perioden ikke finnes hos en arbeidsgiver', () => {
@@ -28,7 +28,7 @@ describe('findArbeidsgiverWithGhostPeriode', () => {
         const arbeidsgivere = [enArbeidsgiver(), enArbeidsgiver(), enArbeidsgiver()];
         const person = enPerson().medArbeidsgivere(arbeidsgivere);
 
-        expect(findArbeidsgiverWithGhostPeriode(ghostPeriode, person)).toBeUndefined();
+        expect(finnArbeidsgiverForGhostPeriode(person, ghostPeriode)).toBeUndefined();
     });
 });
 

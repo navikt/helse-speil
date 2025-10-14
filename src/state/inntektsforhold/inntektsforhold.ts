@@ -11,11 +11,12 @@ import {
     SelvstendigNaering,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import { findArbeidsgiverWithGhostPeriode, finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
+import { finnAlleArbeidsgivere, finnArbeidsgiverForGhostPeriode } from '@state/inntektsforhold/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { ActivePeriod, DateString } from '@typer/shared';
 import {
+    isArbeidsgiver,
     isBeregnetPeriode,
     isDagoverstyring,
     isGhostPeriode,
@@ -43,18 +44,12 @@ export const finnInntektsforholdForPeriode = (
     periode: ActivePeriod,
 ): Inntektsforhold | undefined => {
     if (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) {
-        return (
-            finnAlleArbeidsgivere(person).find((arbeidsgiver) =>
-                arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder).find((p) => p.id === periode.id),
-            ) ??
-            (person.selvstendigNaering?.generasjoner
-                .flatMap((generasjon) => generasjon.perioder)
-                .some((enPeriode) => enPeriode.id === periode.id)
-                ? person.selvstendigNaering
-                : undefined)
+        return finnAlleInntektsforhold(person).find((inntektsforhold) =>
+            inntektsforhold.generasjoner.flatMap((generasjon) => generasjon.perioder).find((p) => p.id === periode.id),
         );
-    } else if (isGhostPeriode(periode)) {
-        return findArbeidsgiverWithGhostPeriode(periode, person) ?? undefined;
+    }
+    if (isGhostPeriode(periode)) {
+        return finnArbeidsgiverForGhostPeriode(person, periode);
     }
     return undefined;
 };
@@ -125,6 +120,16 @@ export type ArbeidsgiverReferanse = {
 
 export type SelvstendigNæringReferanse = {
     type: 'Selvstendig Næring';
+};
+
+export const navnPåInntektsforhold = (inntektsforhold: Inntektsforhold): string => {
+    if (isArbeidsgiver(inntektsforhold)) {
+        return inntektsforhold.navn;
+    }
+    if (isSelvstendigNaering(inntektsforhold)) {
+        return 'Selvstendig næring';
+    }
+    throw 'Ukjent type inntektsforhold';
 };
 
 export const finnGenerasjonerForAktivPeriode = (periode: ActivePeriod, person: PersonFragment): Generasjon[] =>

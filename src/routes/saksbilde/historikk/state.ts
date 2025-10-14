@@ -3,26 +3,17 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 
 import {
     BeregnetPeriodeFragment,
-    Generasjon,
     GhostPeriodeFragment,
     Maybe,
-    Overstyring,
     PersonFragment,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import { findArbeidsgiverWithGhostPeriode } from '@state/inntektsforhold/arbeidsgiver';
-import {
-    Inntektsforhold,
-    finnAlleInntektsforhold,
-    finnGenerasjonerForAktivPeriode,
-    finnInntektsforholdForPeriode,
-    finnOverstyringerForAktivInntektsforhold,
-} from '@state/inntektsforhold/inntektsforhold';
+import { finnArbeidsgiverForGhostPeriode } from '@state/inntektsforhold/arbeidsgiver';
+import { finnAlleInntektsforhold, finnInntektsforholdForPeriode } from '@state/inntektsforhold/inntektsforhold';
 import { atomWithSessionStorage } from '@state/jotai';
-import { toNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { Filtertype, HendelseObject, Hendelsetype } from '@typer/historikk';
-import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import {
     getAnnetArbeidsforholdoverstyringhendelser,
@@ -46,46 +37,31 @@ const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
     return dayjs(b.timestamp).diff(dayjs(a.timestamp));
 };
 
-export interface OverstyringForInntektsforhold {
-    navn: string;
-    organisasjonsnummer: string;
-    overstyringer: Overstyring[];
-}
+const getHendelserForBeregnetPeriode = (periode: BeregnetPeriodeFragment, person: PersonFragment): HendelseObject[] => {
+    const inntektsforhold = finnInntektsforholdForPeriode(person, periode);
+    if (!inntektsforhold) {
+        return [];
+    }
 
-export const tilOverstyringerForInntektsforhold = (inntektsforhold: Inntektsforhold) => ({
-    navn: isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG',
-    organisasjonsnummer: isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG',
-    overstyringer: inntektsforhold.overstyringer,
-});
-
-const getHendelserForBeregnetPeriode = (
-    period: BeregnetPeriodeFragment,
-    generasjoner: Generasjon[],
-    overstyringerForAlleInntektsforhold: OverstyringForInntektsforhold[],
-    identifikator?: string,
-): Array<HendelseObject> => {
-    const alleOverstyringer = overstyringerForAlleInntektsforhold.flatMap((o) => o.overstyringer);
+    const andreInntektsforhold = finnAlleInntektsforhold(person).filter((it) => it !== inntektsforhold);
 
     const hendelserTomUtbetalingstidspunkt = [
-        ...getMeldingOmVedtak(period),
-        ...getDokumenter(period),
-        ...getDagoverstyringer(period, generasjoner, alleOverstyringer),
-        ...getInntektoverstyringer(period.skjaeringstidspunkt, generasjoner, alleOverstyringer),
-        ...getArbeidsforholdoverstyringhendelser(period, alleOverstyringer),
-        ...getAnnetArbeidsforholdoverstyringhendelser(
-            period,
-            overstyringerForAlleInntektsforhold.filter((o) => o.organisasjonsnummer !== identifikator),
-        ),
-        ...getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, overstyringerForAlleInntektsforhold),
-        ...getMinimumSykdomsgradoverstyring(period, generasjoner, alleOverstyringer),
-        ...getVedtakBegrunnelser(period),
-    ].filter(hendelseTidspunktLiktEllerFørUtbetalingForPeriode(period));
+        ...getMeldingOmVedtak(periode),
+        ...getDokumenter(periode),
+        ...getDagoverstyringer(periode, inntektsforhold),
+        ...getInntektoverstyringer(periode, inntektsforhold),
+        ...getArbeidsforholdoverstyringhendelser(periode, inntektsforhold),
+        ...getAnnetArbeidsforholdoverstyringhendelser(periode, andreInntektsforhold),
+        ...getSykepengegrunnlagskjønnsfastsetting(periode, inntektsforhold, andreInntektsforhold),
+        ...getMinimumSykdomsgradoverstyring(periode, inntektsforhold),
+        ...getVedtakBegrunnelser(periode),
+    ].filter(hendelseTidspunktLiktEllerFørUtbetalingForPeriode(periode));
 
     const hendelserForAlleUtbetalinger = [
-        ...getNotathendelser(period.notater.map(toNotat)),
-        ...getHistorikkinnslag(period),
-        getUtbetalingshendelse(period),
-        getAnnullering(period),
+        ...getNotathendelser(periode),
+        ...getHistorikkinnslag(periode),
+        getUtbetalingshendelse(periode),
+        getAnnullering(periode),
     ].filter((hendelse) => hendelse !== null) as HendelseObject[];
 
     return [...hendelserTomUtbetalingstidspunkt, ...hendelserForAlleUtbetalinger].sort(byTimestamp);
@@ -98,45 +74,38 @@ const hendelseTidspunktLiktEllerFørUtbetalingForPeriode =
               dayjs(hendelse.timestamp).startOf('s').isSameOrBefore(period.utbetaling.vurdering.tidsstempel)
             : true;
 
-const getHendelserForGhostPeriode = (period: GhostPeriodeFragment, person: PersonFragment): Array<HendelseObject> => {
-    const inntektsforhold = finnAlleInntektsforhold(person);
-    const arbeidsgiver = findArbeidsgiverWithGhostPeriode(period, person);
-    const arbeidsforholdoverstyringer = getArbeidsforholdoverstyringhendelser(
-        period,
-        arbeidsgiver?.overstyringer ?? [],
-    );
-    const overstyringerForInntektsforhold: OverstyringForInntektsforhold[] = inntektsforhold
-        .map(tilOverstyringerForInntektsforhold)
-        .filter(
-            (overstyringForInntektsforhold) =>
-                overstyringForInntektsforhold.organisasjonsnummer !== arbeidsgiver?.organisasjonsnummer,
-        );
+const getHendelserForGhostPeriode = (periode: GhostPeriodeFragment, person: PersonFragment): Array<HendelseObject> => {
+    const arbeidsgiver = finnArbeidsgiverForGhostPeriode(person, periode);
+    if (!arbeidsgiver) {
+        return [];
+    }
 
-    const annetarbeidsforholdoverstyringer = getAnnetArbeidsforholdoverstyringhendelser(
-        period,
-        overstyringerForInntektsforhold,
-    );
-    const inntektoverstyringer = arbeidsgiver
-        ? getInntektoverstyringerForGhost(period.skjaeringstidspunkt, arbeidsgiver, person)
-        : [];
+    const andreInntektsforhold = finnAlleInntektsforhold(person).filter((it) => it !== arbeidsgiver);
 
-    return [...arbeidsforholdoverstyringer, ...annetarbeidsforholdoverstyringer, ...inntektoverstyringer].sort(
-        byTimestamp,
-    );
+    return [
+        ...getArbeidsforholdoverstyringhendelser(periode, arbeidsgiver),
+        ...getAnnetArbeidsforholdoverstyringhendelser(periode, andreInntektsforhold),
+        ...getInntektoverstyringerForGhost(periode.skjaeringstidspunkt, arbeidsgiver, person),
+    ].sort(byTimestamp);
 };
 
 const getHendelserForUberegnetPeriode = (
-    period: UberegnetPeriodeFragment,
-    overstyringer: Overstyring[],
-    generasjoner: Generasjon[],
-    overstyringerForAlleInntektsforhold: OverstyringForInntektsforhold[],
+    periode: UberegnetPeriodeFragment,
+    person: PersonFragment,
 ): Array<HendelseObject> => {
+    const inntektsforhold = finnInntektsforholdForPeriode(person, periode);
+    if (!inntektsforhold) {
+        return [];
+    }
+
+    const andreInntektsforhold = finnAlleInntektsforhold(person).filter((it) => it !== inntektsforhold);
+
     return [
-        ...getDokumenter(period),
-        ...getDagoverstyringerForAUU(period, generasjoner, overstyringer),
-        ...getInntektoverstyringer(period.skjaeringstidspunkt, generasjoner, overstyringer),
-        ...getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, overstyringerForAlleInntektsforhold),
-        ...getNotathendelser(period.notater.map(toNotat)),
+        ...getDokumenter(periode),
+        ...getDagoverstyringerForAUU(periode, inntektsforhold),
+        ...getInntektoverstyringer(periode, inntektsforhold),
+        ...getSykepengegrunnlagskjønnsfastsetting(periode, inntektsforhold, andreInntektsforhold),
+        ...getNotathendelser(periode),
     ].sort(byTimestamp);
 };
 
@@ -146,43 +115,16 @@ const useHistorikk = (person: Maybe<PersonFragment>): HendelseObject[] => {
         return [];
     }
 
-    const generasjoner = finnGenerasjonerForAktivPeriode(activePeriod, person);
-    const overstyringer = finnOverstyringerForAktivInntektsforhold(activePeriod, person);
-    const overstyringerForAlleInntektsforhold = finnOverstyringerForAlleInntektsforhold(person);
-
-    const inntektsforhold = finnInntektsforholdForPeriode(person, activePeriod);
-
     if (isBeregnetPeriode(activePeriod)) {
-        return getHendelserForBeregnetPeriode(
-            activePeriod,
-            generasjoner,
-            overstyringerForAlleInntektsforhold,
-            isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : undefined,
-        );
-    }
-
-    if (isUberegnetPeriode(activePeriod)) {
-        return getHendelserForUberegnetPeriode(
-            activePeriod,
-            overstyringer,
-            generasjoner,
-            overstyringerForAlleInntektsforhold,
-        );
-    }
-
-    if (isGhostPeriode(activePeriod)) {
+        return getHendelserForBeregnetPeriode(activePeriod, person);
+    } else if (isUberegnetPeriode(activePeriod)) {
+        return getHendelserForUberegnetPeriode(activePeriod, person);
+    } else if (isGhostPeriode(activePeriod)) {
         return getHendelserForGhostPeriode(activePeriod, person);
+    } else {
+        return [];
     }
-
-    return [];
 };
-
-const finnOverstyringerForAlleInntektsforhold = (person: Maybe<PersonFragment>): OverstyringForInntektsforhold[] =>
-    finnAlleInntektsforhold(person).map((inntektsforhold) => ({
-        navn: isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG',
-        organisasjonsnummer: isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG',
-        overstyringer: inntektsforhold.overstyringer,
-    }));
 
 const filterState = atom<Filtertype>('Historikk');
 
