@@ -9,9 +9,9 @@ import { kanStrekkes } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
 import { UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
 import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
-import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
+import { isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
@@ -257,8 +257,6 @@ export const OverstyrbarUtbetaling = ({
     if (periodeFom == undefined) return <></>;
 
     const erRevurdering = isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Utbetalt;
-    const organisasjonsnummer = isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG';
-    const arbeidsgiverNavn = isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG';
     return (
         <article
             className={classNames(styles.OverstyrbarUtbetaling, overstyrer && styles.overstyrer)}
@@ -270,8 +268,7 @@ export const OverstyrbarUtbetaling = ({
                         isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Forkastet
                     }
                     toggleOverstyring={toggleOverstyring}
-                    arbeidsgiverIdentifikator={organisasjonsnummer}
-                    arbeidsgiverNavn={arbeidsgiverNavn}
+                    inntektsforholdReferanse={tilReferanse(inntektsforhold)}
                     erRevurdering={erRevurdering}
                 />
             )}

@@ -3,13 +3,15 @@ import React, { ReactElement } from 'react';
 import { Alert, Box, HStack, Heading, HelpText } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import styles from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader.module.css';
 import {
     Inntektsforhold,
+    InntektsforholdReferanse,
+    tilReferanse,
     useAktivtInntektsforhold,
     useDagoverstyringer,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
@@ -20,13 +22,7 @@ import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 import { getAntallAGPDagerBruktFørPerioden } from '@utils/periode';
-import {
-    isArbeidsgiver,
-    isBeregnetPeriode,
-    isPerson,
-    isSelvstendigNaering,
-    isUberegnetPeriode,
-} from '@utils/typeguards';
+import { isBeregnetPeriode, isPerson, isSelvstendigNaering, isUberegnetPeriode } from '@utils/typeguards';
 
 import { harPeriodeTilBeslutterFor } from '../sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
@@ -49,8 +45,7 @@ interface ReadonlyUtbetalingProps {
     tom: DateString;
     dager: Map<string, Utbetalingstabelldag>;
     person: PersonFragment;
-    arbeidsgiverIdentifikator: string;
-    arbeidsgiverNavn: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
 }
 
 const ReadonlyUtbetaling = ({
@@ -58,8 +53,7 @@ const ReadonlyUtbetaling = ({
     tom,
     dager,
     person,
-    arbeidsgiverIdentifikator,
-    arbeidsgiverNavn,
+    inntektsforholdReferanse,
 }: ReadonlyUtbetalingProps): ReactElement => {
     const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const periodeErISisteGenerasjon = useIsInCurrentGeneration(person);
@@ -73,9 +67,8 @@ const ReadonlyUtbetaling = ({
                 <Heading size="xsmall" level="1">
                     Dagoversikt
                 </Heading>
-                <Arbeidsgivernavn
-                    identifikator={arbeidsgiverIdentifikator}
-                    navn={arbeidsgiverNavn}
+                <Inntektsforholdnavn
+                    inntektsforholdReferanse={inntektsforholdReferanse}
                     weight="semibold"
                     className={styles.mediumFontSize}
                 />
@@ -136,10 +129,7 @@ const UtbetalingBeregnetPeriode = ({
             tom={period.tom}
             dager={dager}
             person={person}
-            arbeidsgiverIdentifikator={
-                isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG'
-            }
-            arbeidsgiverNavn={isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG'}
+            inntektsforholdReferanse={tilReferanse(inntektsforhold)}
         />
     );
 };
@@ -177,10 +167,7 @@ const UtbetalingUberegnetPeriode = ({
             tom={periode.tom}
             dager={dager}
             person={person}
-            arbeidsgiverIdentifikator={
-                isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG'
-            }
-            arbeidsgiverNavn={isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG'}
+            inntektsforholdReferanse={tilReferanse(inntektsforhold)}
         />
     );
 };

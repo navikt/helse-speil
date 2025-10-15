@@ -3,32 +3,30 @@ import React, { ReactElement } from 'react';
 import { PersonPencilIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Heading, HelpText } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
+import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 
 import styles from './UtbetalingHeader.module.css';
 
 interface UtbetalingHeaderProps {
     periodeErForkastet: boolean;
     toggleOverstyring: () => void;
-    arbeidsgiverIdentifikator: string;
-    arbeidsgiverNavn: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
     erRevurdering: boolean;
 }
 
 export const UtbetalingHeader = ({
     periodeErForkastet,
     toggleOverstyring,
-    arbeidsgiverIdentifikator,
-    arbeidsgiverNavn,
+    inntektsforholdReferanse,
     erRevurdering,
 }: UtbetalingHeaderProps): ReactElement | null => (
     <HStack align="center" gap="1">
         <Heading size="xsmall" level="1">
             Dagoversikt
         </Heading>
-        <Arbeidsgivernavn
-            identifikator={arbeidsgiverIdentifikator}
-            navn={arbeidsgiverNavn}
+        <Inntektsforholdnavn
+            inntektsforholdReferanse={inntektsforholdReferanse}
             weight="semibold"
             className={styles.mediumFontSize}
         />
