@@ -1,8 +1,7 @@
 import { WritableAtom, atom, useAtom, useAtomValue } from 'jotai';
 import { SetStateAction } from 'react';
 
-import { ApiEgenskap } from '@/io/rest/generated/spesialist.schemas';
-import { AktivSaksbehandler } from '@io/graphql';
+import { ApiAktivSaksbehandler, ApiEgenskap } from '@/io/rest/generated/spesialist.schemas';
 import { TabType, tabState } from '@oversikt/tabState';
 import { atomWithLocalStorage } from '@state/jotai';
 
@@ -298,4 +297,7 @@ export const useToggleFilter = () => {
     };
 };
 
-export const valgtSaksbehandlerAtom = atomWithLocalStorage<AktivSaksbehandler | null>('filterValgtSaksbehandler', null);
+export const valgtSaksbehandlerAtom = atomWithLocalStorage<ApiAktivSaksbehandler | null>(
+    'filterValgtSaksbehandler',
+    null,
+);

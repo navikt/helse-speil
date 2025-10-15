@@ -3,6 +3,7 @@ import React from 'react';
 
 import { useDriftsmelding } from '@external/sanity';
 import { HentBehandlingsstatistikkDocument } from '@io/graphql';
+import { useGetAktiveSaksbehandlere } from '@io/rest/generated/saksbehandlere/saksbehandlere';
 import { useAntallOppgaver, useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { createMock, render, screen } from '@test-utils';
@@ -13,6 +14,7 @@ jest.mock('@state/oppgaver');
 jest.mock('@external/sanity');
 jest.mock('@hooks/useRefetchDriftsmeldinger');
 jest.mock('@tanstack/react-query');
+jest.mock('@io/rest/generated/saksbehandlere/saksbehandlere');
 
 const mockFetch = (data: unknown) =>
     jest.fn().mockImplementation(() =>
@@ -36,6 +38,7 @@ describe('Oversikt', () => {
             loading: false,
             fetchMore: () => {},
         });
+        (useGetAktiveSaksbehandlere as jest.Mock).mockReturnValue({ data: [] });
         window.fetch = mockFetch([]);
 
         const { container } = render(<Oversikt />, {

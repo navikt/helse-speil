@@ -7410,13 +7410,6 @@ export type RestGetOrganisasjonQuery = {
     restGetOrganisasjon: { __typename: 'Organisasjon'; organisasjonsnummer: string; navn: string | null } | null;
 };
 
-export type RestGetAktiveSaksbehandlereQueryVariables = Exact<{ [key: string]: never }>;
-
-export type RestGetAktiveSaksbehandlereQuery = {
-    __typename: 'Query';
-    restGetAktiveSaksbehandlere: Array<{ __typename: 'AktivSaksbehandler'; ident: string; navn: string; oid: string }>;
-};
-
 export type RestGetPersonTilkomneInntektskilderQueryVariables = Exact<{
     aktorId: Scalars['String']['input'];
 }>;
@@ -15585,61 +15578,6 @@ export const RestGetOrganisasjonDocument = {
         },
     ],
 } as unknown as DocumentNode<RestGetOrganisasjonQuery, RestGetOrganisasjonQueryVariables>;
-export const RestGetAktiveSaksbehandlereDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'RESTGetAktiveSaksbehandlere' },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'restGetAktiveSaksbehandlere' },
-                        directives: [
-                            {
-                                kind: 'Directive',
-                                name: { kind: 'Name', value: 'rest' },
-                                arguments: [
-                                    {
-                                        kind: 'Argument',
-                                        name: { kind: 'Name', value: 'type' },
-                                        value: { kind: 'StringValue', value: '[AktivSaksbehandler!]!', block: false },
-                                    },
-                                    {
-                                        kind: 'Argument',
-                                        name: { kind: 'Name', value: 'endpoint' },
-                                        value: { kind: 'StringValue', value: 'spesialist', block: false },
-                                    },
-                                    {
-                                        kind: 'Argument',
-                                        name: { kind: 'Name', value: 'path' },
-                                        value: { kind: 'StringValue', value: '/aktive-saksbehandlere', block: false },
-                                    },
-                                    {
-                                        kind: 'Argument',
-                                        name: { kind: 'Name', value: 'method' },
-                                        value: { kind: 'StringValue', value: 'GET', block: false },
-                                    },
-                                ],
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<RestGetAktiveSaksbehandlereQuery, RestGetAktiveSaksbehandlereQueryVariables>;
 export const RestGetPersonTilkomneInntektskilderDocument = {
     kind: 'Document',
     definitions: [

@@ -5,25 +5,24 @@ import { BodyShort, UNSAFE_Combobox, VStack } from '@navikt/ds-react';
 // @ts-expect-error TS klager på at den ikke finner modulen med combobox-typen selv om den resolver
 import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
 
-import { useQuery } from '@apollo/client';
-import { AktivSaksbehandler, RestGetAktiveSaksbehandlereDocument } from '@io/graphql';
+import { useGetAktiveSaksbehandlere } from '@io/rest/generated/saksbehandlere/saksbehandlere';
+import { ApiAktivSaksbehandler } from '@io/rest/generated/spesialist.schemas';
 import { valgtSaksbehandlerAtom } from '@oversikt/table/state/filter';
 
 import styles from './SøkefeltSaksbehandlere.module.css';
 
 export const SøkefeltSaksbehandlere = () => {
     const [valgtSaksbehandler, setValgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
-    const saksbehandlere = useQuery(RestGetAktiveSaksbehandlereDocument, {
-        nextFetchPolicy: 'cache-first',
-    });
+    const { data: response } = useGetAktiveSaksbehandlere({ query: { gcTime: 60000 } });
+    const aktiveSaksbehandlere = response?.data;
 
     const saksbehandlereOptions: ComboboxOption[] =
-        saksbehandlere.data?.restGetAktiveSaksbehandlere
-            .map((saksbehandler) => ({
+        aktiveSaksbehandlere
+            ?.map((saksbehandler) => ({
                 label: lagOppslåttSaksbehandlerVisningsnavn(saksbehandler),
                 value: saksbehandler.oid,
             }))
-            .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
+            ?.sort((a, b) => a.label.localeCompare(b.label)) ?? [];
 
     return (
         <VStack className={styles.sokefeltSaksbehandlere}>
@@ -42,11 +41,7 @@ export const SøkefeltSaksbehandlere = () => {
                     if (!isSelected) {
                         setValgtSaksbehandler(null);
                     } else {
-                        const saksbehandler =
-                            saksbehandlere.data?.restGetAktiveSaksbehandlere?.find(
-                                (saksbehandler) => saksbehandler.oid === option,
-                            ) ?? null;
-                        setValgtSaksbehandler(saksbehandler);
+                        setValgtSaksbehandler(aktiveSaksbehandlere?.find((s) => s.oid === option) ?? null);
                     }
                 }}
             />
@@ -54,6 +49,6 @@ export const SøkefeltSaksbehandlere = () => {
     );
 };
 
-export function lagOppslåttSaksbehandlerVisningsnavn(saksbehandler: AktivSaksbehandler) {
+export function lagOppslåttSaksbehandlerVisningsnavn(saksbehandler: ApiAktivSaksbehandler) {
     return `${saksbehandler.navn} - ${saksbehandler.ident}`;
 }
