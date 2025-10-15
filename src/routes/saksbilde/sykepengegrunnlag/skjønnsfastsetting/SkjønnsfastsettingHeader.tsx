@@ -13,10 +13,14 @@ import {
     Sykepengegrunnlagskjonnsfastsetting,
 } from '@io/graphql';
 import { EndringsloggSkjønnsfastsettingButton } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/EndringsloggSkjønnsfastsettingButton';
-import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import {
+    InntektsforholdReferanse,
+    finnAlleInntektsforhold,
+    tilReferanse,
+} from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { somPenger, toKronerOgØre } from '@utils/locale';
-import { isArbeidsgiver, isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
+import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import styles from './SkjønnsfastsettingHeader.module.css';
 
@@ -58,10 +62,7 @@ export const SkjønnsfastsettingHeader = ({
                 )
                 .map((overstyring) => ({
                     ...overstyring,
-                    arbeidsgiverIdentifikator: isArbeidsgiver(inntektsforhold)
-                        ? inntektsforhold.organisasjonsnummer
-                        : 'SELVSTENDIG',
-                    arbeidsgivernavn: isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG',
+                    inntektsforholdReferanse: tilReferanse(inntektsforhold),
                 })),
         );
 
@@ -125,6 +126,5 @@ export const SkjønnsfastsettingHeader = ({
 };
 
 export interface SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo extends Sykepengegrunnlagskjonnsfastsetting {
-    arbeidsgiverIdentifikator: string;
-    arbeidsgivernavn: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
 }

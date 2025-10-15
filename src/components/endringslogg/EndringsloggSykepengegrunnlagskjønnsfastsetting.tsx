@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { getSkjønnsfastsettelseTypeTekst } from '@saksbilde/historikk/hendelser/SykepengegrunnlagSkjønnsfastsatthendelse';
 import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/SkjønnsfastsettingHeader';
@@ -55,10 +55,7 @@ export const EndringsloggSykepengegrunnlagskjønnsfastsetting = ({
                             <Table.Row key={i}>
                                 <Table.DataCell>{getFormattedDatetimeString(endring.timestamp)}</Table.DataCell>
                                 <Table.DataCell>
-                                    <Arbeidsgivernavn
-                                        identifikator={endring.arbeidsgiverIdentifikator}
-                                        navn={endring.arbeidsgivernavn}
-                                    />
+                                    <Inntektsforholdnavn inntektsforholdReferanse={endring.inntektsforholdReferanse} />
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     <span className={styles.PreviousValue}>

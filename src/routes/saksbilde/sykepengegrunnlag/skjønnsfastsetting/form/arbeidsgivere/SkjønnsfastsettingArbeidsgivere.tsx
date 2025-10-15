@@ -4,7 +4,7 @@ import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Detail, Fieldset, Label, Table, VStack } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import { Sykepengegrunnlagsgrense } from '@io/graphql';
+import { Arbeidsgiver, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
@@ -56,12 +56,8 @@ export const SkjønnsfastsettingArbeidsgivere = ({
 
     const antallArbeidsgivere = fields.length;
 
-    const getArbeidsgiverNavn = (organisasjonsnummer: string) => {
-        if (organisasjonsnummer === 'SELVSTENDIG') {
-            return 'SELVSTENDIG';
-        }
-        return arbeidsgivere.filter(isArbeidsgiver).find((ag) => ag.organisasjonsnummer === organisasjonsnummer)?.navn;
-    };
+    const getArbeidsgiver = (organisasjonsnummer: string): Arbeidsgiver | undefined =>
+        arbeidsgivere.filter(isArbeidsgiver).find((ag) => ag.organisasjonsnummer === organisasjonsnummer);
 
     return (
         <Fieldset
@@ -98,8 +94,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                                 <ArbeidsgiverRad
                                     key={field.id}
                                     årsinntekt={field.årlig}
-                                    arbeidsgiverNavn={getArbeidsgiverNavn(field.organisasjonsnummer)}
-                                    organisasjonsnummer={field.organisasjonsnummer}
+                                    arbeidsgiver={getArbeidsgiver(field.organisasjonsnummer)}
                                     type={type}
                                     årligField={årligField}
                                     orgnummerField={orgnummerField}

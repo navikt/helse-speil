@@ -1,12 +1,13 @@
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { Arbeidsgiverinntekt, PersonFragment } from '@io/graphql';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';
 import { toKronerOgØre } from '@utils/locale';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
-import { isArbeidsgiver, isBeregnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { SkjønnsfastsettingFormFields, SkjønnsfastsettingFormFieldsArbeidsgiver } from './SkjønnsfastsettingForm';
 
@@ -19,10 +20,10 @@ const finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt = (
     person: PersonFragment,
     period: ActivePeriod,
 ): InitierendeVedtaksperiodeForArbeidsgiver[] =>
-    finnAlleInntektsforhold(person).flatMap((inntektsforhold) => ({
-        arbeidsgiver: isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG',
+    finnAlleArbeidsgivere(person).flatMap((arbeidsgiver) => ({
+        arbeidsgiver: arbeidsgiver.organisasjonsnummer,
         initierendeVedtaksperiodeId:
-            inntektsforhold.generasjoner?.[0]?.perioder
+            arbeidsgiver.generasjoner?.[0]?.perioder
                 ?.filter(
                     (periode) =>
                         periode.skjaeringstidspunkt === period.skjaeringstidspunkt && isBeregnetPeriode(periode),

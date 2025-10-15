@@ -5,13 +5,13 @@ import { HStack, Table, TextField } from '@navikt/ds-react';
 
 import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { Arbeidsgiver } from '@io/graphql';
 import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
 import { toKronerOgØre } from '@utils/locale';
 
 interface ArbeidsgiverRadProps {
-    arbeidsgiverNavn?: string;
-    organisasjonsnummer: string;
+    arbeidsgiver?: Arbeidsgiver;
     årsinntekt: number;
     type: Skjønnsfastsettingstype | null;
     årligField: UseFormRegisterReturn;
@@ -22,8 +22,7 @@ interface ArbeidsgiverRadProps {
 }
 
 export const ArbeidsgiverRad = ({
-    arbeidsgiverNavn,
-    organisasjonsnummer,
+    arbeidsgiver,
     årsinntekt,
     type,
     årligField,
@@ -38,7 +37,9 @@ export const ArbeidsgiverRad = ({
             <Table.DataCell>
                 <HStack gap="3" align="center" maxWidth="228px">
                     <Arbeidsgiverikon />
-                    <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={arbeidsgiverNavn} />
+                    {arbeidsgiver && (
+                        <Arbeidsgivernavn identifikator={arbeidsgiver.organisasjonsnummer} navn={arbeidsgiver.navn} />
+                    )}
                 </HStack>
             </Table.DataCell>
             <Table.DataCell>
