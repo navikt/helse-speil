@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Generasjon, PersonFragment } from '@io/graphql';
-import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { Inntektsforhold, inntektsforholdReferanseTilKey, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { isArbeidsgiver, isSelvstendigNaering } from '@utils/typeguards';
 
 import { Periods } from './Periods';
@@ -27,13 +27,7 @@ export const ExpandableTimelineRow = ({
     inntektsforhold,
 }: ExpandableTimelineRowProp): ReactElement => {
     const [isExpanded, setIsExpanded] = useState(false);
-    const arbeidsgiverfelt = isArbeidsgiver(inntektsforhold)
-        ? {
-              identifikator: inntektsforhold.organisasjonsnummer,
-              navn: inntektsforhold.navn,
-              ghostPerioder: inntektsforhold.ghostPerioder,
-          }
-        : { identifikator: 'SELVSTENDIG', navn: 'SELVSTENDIG', ghostPerioder: [] };
+    const inntektsforholdReferanse = tilReferanse(inntektsforhold);
     return (
         <div className={styles.TimelineRow}>
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
@@ -41,14 +35,13 @@ export const ExpandableTimelineRow = ({
                 role="button"
                 tabIndex={0}
                 aria-expanded={isExpanded}
-                aria-controls={`periods-${arbeidsgiverfelt.identifikator}`}
+                aria-controls={`periods-${inntektsforholdReferanseTilKey(inntektsforholdReferanse)}`}
                 className={classNames(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
                 onClick={() => setIsExpanded((prevState) => !prevState)}
             >
                 <Arbeidsgiverikon />
-                <Arbeidsgivernavn
-                    identifikator={arbeidsgiverfelt.identifikator}
-                    navn={arbeidsgiverfelt.navn}
+                <Inntektsforholdnavn
+                    inntektsforholdReferanse={inntektsforholdReferanse}
                     showCopyButton
                     maxWidth="200px"
                 />
@@ -59,7 +52,7 @@ export const ExpandableTimelineRow = ({
                         start={start}
                         end={end}
                         periods={generations[0]?.perioder}
-                        ghostPeriods={arbeidsgiverfelt.ghostPerioder}
+                        ghostPeriods={isArbeidsgiver(inntektsforhold) ? inntektsforhold.ghostPerioder : []}
                         activePeriod={activePeriod}
                         person={person}
                         erSelvstendigNæringsdrivende={isSelvstendigNaering(inntektsforhold)}
