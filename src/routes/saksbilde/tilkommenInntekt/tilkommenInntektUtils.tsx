@@ -1,12 +1,18 @@
 import { PersonFragment } from '@io/graphql';
 import { useTabelldagerMap } from '@saksbilde/utbetaling/utbetalingstabell/useTabelldagerMap';
-import { Inntektsforhold, finnAlleInntektsforhold, useDagoverstyringer } from '@state/inntektsforhold/inntektsforhold';
+import {
+    Inntektsforhold,
+    InntektsforholdReferanse,
+    finnAlleInntektsforhold,
+    tilReferanse,
+    useDagoverstyringer,
+} from '@state/inntektsforhold/inntektsforhold';
 import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { DatePeriod, DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { somDato, tilDatoer, tilUkedager } from '@utils/date';
 import { getAntallAGPDagerBruktFørPerioden } from '@utils/periode';
-import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isSelvstendigNaering, isUberegnetPeriode } from '@utils/typeguards';
 
 export function utledSykefraværstilfelleperioder(person: PersonFragment): DatePeriod[] {
     const vedtaksperioder = finnAlleInntektsforhold(person)
@@ -52,35 +58,32 @@ export function beregnInntektPerDag(periodebeløp: number, periode: DatePeriod, 
     return periodebeløp / antallDagerTilGradering;
 }
 
-export type DagtypeKolonneDefinisjon = {
-    organisasjonsnummer: string;
-    navn: string;
-};
-
 export type DagtypeRad = {
     dato: DateString;
-    dagtypePerOrganisasjonsnummer: Map<string, Utbetalingstabelldag>;
+    dagtypePerInntektsforhold: Map<InntektsforholdReferanse, Utbetalingstabelldag>;
 };
 
 export type DagtypeTabell = {
-    kolonneDefinisjoner: DagtypeKolonneDefinisjon[];
+    inntektsforholdReferanser: InntektsforholdReferanse[];
     rader: DagtypeRad[];
 };
 
-export const tilDagtypeTabell = (periode: DatePeriod, inntektsforhold: Inntektsforhold[]): DagtypeTabell => {
+export const tilDagtypeTabell = (periode: DatePeriod, alleInntektsforhold: Inntektsforhold[]): DagtypeTabell => {
     const datoer = tilDatoer(periode);
 
-    const kolonneDefinisjoner: DagtypeKolonneDefinisjon[] = [];
-    const datoOrganisasjonsnummerDagtypeMap = new Map<DateString, Map<string, Utbetalingstabelldag>>();
-    datoer.forEach((dato) => datoOrganisasjonsnummerDagtypeMap.set(dato, new Map<string, Utbetalingstabelldag>()));
+    const inntektsforholdReferanser: InntektsforholdReferanse[] = [];
+    const datoInntektsforholdDagtypeMap = new Map<DateString, Map<InntektsforholdReferanse, Utbetalingstabelldag>>();
+    datoer.forEach((dato) =>
+        datoInntektsforholdDagtypeMap.set(dato, new Map<InntektsforholdReferanse, Utbetalingstabelldag>()),
+    );
     const dayjsTom = somDato(periode.tom);
     const dayjsFom = somDato(periode.fom);
 
-    inntektsforhold.forEach((inntektsforholdet) => {
-        const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, inntektsforholdet);
+    alleInntektsforhold.forEach((inntektsforhold) => {
+        const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, inntektsforhold);
 
         const perioder =
-            inntektsforholdet.generasjoner[0]?.perioder?.filter(
+            inntektsforhold.generasjoner[0]?.perioder?.filter(
                 (it) => dayjsTom.isSameOrAfter(it.fom) && dayjsFom.isSameOrBefore(it.tom),
             ) ?? [];
 
@@ -90,7 +93,7 @@ export const tilDagtypeTabell = (periode: DatePeriod, inntektsforhold: Inntektsf
                 if (isBeregnetPeriode(period)) {
                     return useTabelldagerMap({
                         tidslinje: period.tidslinje,
-                        erSelvstendigNæringsdrivende: isSelvstendigNaering(inntektsforholdet),
+                        erSelvstendigNæringsdrivende: isSelvstendigNaering(inntektsforhold),
                         gjenståendeDager: period.gjenstaendeSykedager,
                         overstyringer: dagoverstyringer,
                         maksdato: period.maksdato,
@@ -98,9 +101,9 @@ export const tilDagtypeTabell = (periode: DatePeriod, inntektsforhold: Inntektsf
                 } else {
                     return useTabelldagerMap({
                         tidslinje: period.tidslinje,
-                        erSelvstendigNæringsdrivende: isSelvstendigNaering(inntektsforholdet),
+                        erSelvstendigNæringsdrivende: isSelvstendigNaering(inntektsforhold),
                         overstyringer: dagoverstyringer,
-                        antallAGPDagerBruktFørPerioden: getAntallAGPDagerBruktFørPerioden(inntektsforholdet, period),
+                        antallAGPDagerBruktFørPerioden: getAntallAGPDagerBruktFørPerioden(inntektsforhold, period),
                     });
                 }
             });
@@ -111,29 +114,19 @@ export const tilDagtypeTabell = (periode: DatePeriod, inntektsforhold: Inntektsf
         });
 
         if (alleTabelldagerMap.size > 0) {
-            kolonneDefinisjoner.push({
-                organisasjonsnummer: isArbeidsgiver(inntektsforholdet)
-                    ? inntektsforholdet.organisasjonsnummer
-                    : 'SELVSTENDIG',
-                navn: isArbeidsgiver(inntektsforholdet) ? inntektsforholdet.navn : 'SELVSTENDIG',
-            });
+            inntektsforholdReferanser.push(tilReferanse(inntektsforhold));
             alleTabelldagerMap.forEach((value, key) =>
-                datoOrganisasjonsnummerDagtypeMap
-                    .get(key)
-                    ?.set(
-                        isArbeidsgiver(inntektsforholdet) ? inntektsforholdet.organisasjonsnummer : 'SELVSTENDIG',
-                        value,
-                    ),
+                datoInntektsforholdDagtypeMap.get(key)?.set(tilReferanse(inntektsforhold), value),
             );
         }
     });
 
     return {
-        kolonneDefinisjoner: kolonneDefinisjoner,
-        rader: Array.from(datoOrganisasjonsnummerDagtypeMap.entries()).map(
-            ([dato, dagtypePerOrganisasjonsnummer]): DagtypeRad => ({
+        inntektsforholdReferanser: inntektsforholdReferanser,
+        rader: Array.from(datoInntektsforholdDagtypeMap.entries()).map(
+            ([dato, dagtypePerInntektsforhold]): DagtypeRad => ({
                 dato: dato,
-                dagtypePerOrganisasjonsnummer: dagtypePerOrganisasjonsnummer,
+                dagtypePerInntektsforhold: dagtypePerInntektsforhold,
             }),
         ),
     };

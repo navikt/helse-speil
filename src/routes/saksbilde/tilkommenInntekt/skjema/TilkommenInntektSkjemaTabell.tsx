@@ -3,10 +3,10 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Box, Checkbox, HStack, Table } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { tilDagtypeTabell } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { DagtypeCell } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeCell';
-import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { Inntektsforhold, inntektsforholdReferanseTilKey } from '@state/inntektsforhold/inntektsforhold';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erHelg, somNorskDato } from '@utils/date';
 
@@ -27,7 +27,7 @@ export const TilkommenInntektSkjemaTabell = ({
     ekskluderteUkedager,
     setEkskluderteUkedager,
 }: TilkommenInntektTableProps): ReactElement => {
-    const { kolonneDefinisjoner, rader } = tilDagtypeTabell(periode, inntektsforhold);
+    const { inntektsforholdReferanser, rader } = tilDagtypeTabell(periode, inntektsforhold);
     const alleUkedager = rader.map((rad) => rad.dato).filter((dato) => !erHelg(dato));
 
     return (
@@ -64,19 +64,15 @@ export const TilkommenInntektSkjemaTabell = ({
                                     <BodyShort weight="semibold">Dato</BodyShort>
                                 </HStack>
                             </Table.HeaderCell>
-                            {kolonneDefinisjoner.map((arbeidsgiver) => (
-                                <Table.HeaderCell key={arbeidsgiver.organisasjonsnummer}>
-                                    <Arbeidsgivernavn
-                                        identifikator={arbeidsgiver.organisasjonsnummer}
-                                        navn={arbeidsgiver.navn}
-                                        weight="semibold"
-                                    />
+                            {inntektsforholdReferanser.map((inntektsforhold) => (
+                                <Table.HeaderCell key={inntektsforholdReferanseTilKey(inntektsforhold)}>
+                                    <Inntektsforholdnavn inntektsforholdReferanse={inntektsforhold} weight="semibold" />
                                 </Table.HeaderCell>
                             ))}
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {rader.map(({ dato, dagtypePerOrganisasjonsnummer }) => {
+                        {rader.map(({ dato, dagtypePerInntektsforhold }) => {
                             const helg = erHelg(dato);
                             const valgt = ekskluderteUkedager.includes(dato);
                             return (
@@ -109,17 +105,13 @@ export const TilkommenInntektSkjemaTabell = ({
                                             <BodyShort id={`id-${dato}`}>{somNorskDato(dato)}</BodyShort>
                                         </HStack>
                                     </Table.DataCell>
-                                    {kolonneDefinisjoner.map((arbeidsgiver) => {
-                                        const dagtype = dagtypePerOrganisasjonsnummer.get(
-                                            arbeidsgiver.organisasjonsnummer,
-                                        );
+                                    {inntektsforholdReferanser.map((inntektsforhold) => {
+                                        const dagtype = dagtypePerInntektsforhold.get(inntektsforhold);
+                                        const key = dato + inntektsforholdReferanseTilKey(inntektsforhold);
                                         return dagtype ? (
-                                            <DagtypeCell
-                                                tabelldag={dagtype}
-                                                key={dato + arbeidsgiver.organisasjonsnummer}
-                                            />
+                                            <DagtypeCell tabelldag={dagtype} key={key} />
                                         ) : (
-                                            <Table.DataCell key={dato + arbeidsgiver.organisasjonsnummer} />
+                                            <Table.DataCell key={key} />
                                         );
                                     })}
                                 </Table.Row>

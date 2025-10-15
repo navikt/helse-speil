@@ -190,3 +190,6 @@ export const tilReferanse = (inntektsforhold: Inntektsforhold): InntektsforholdR
               organisasjonsnummer: inntektsforhold.organisasjonsnummer,
               navn: inntektsforhold.navn,
           };
+
+export const inntektsforholdReferanseTilKey = (referanse: InntektsforholdReferanse): string =>
+    referanse.type === 'Arbeidsgiver' ? referanse.organisasjonsnummer : referanse.type;
