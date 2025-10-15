@@ -4,10 +4,9 @@ import React, { ReactElement, useState } from 'react';
 
 import { BodyShort, Button, Checkbox, CheckboxGroup, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 
-import { Personnavn } from '@/io/rest/generated/spesialist.schemas';
+import { ApiPersonnavn, ApiTildeling } from '@/io/rest/generated/spesialist.schemas';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Arsak, useArsaker } from '@external/sanity';
-import { Tildeling } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useEndrePåVent, useLeggPåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
@@ -28,8 +27,8 @@ type SubmitResult = 'Success' | SubmitError;
 interface LeggPåVentModalProps {
     oppgaveId: string;
     behandlingId?: string;
-    navn: Personnavn;
-    utgangspunktTildeling: Tildeling | null;
+    navn: ApiPersonnavn;
+    utgangspunktTildeling: ApiTildeling | null;
     onClose: () => void;
 }
 
@@ -80,11 +79,11 @@ export const LeggPåVentModal = ({
 interface EndrePåVentModalProps {
     oppgaveId: string;
     behandlingId?: string;
-    navn: Personnavn;
+    navn: ApiPersonnavn;
     utgangspunktÅrsaker: string[];
     utgangspunktNotattekst: string | null;
     utgangspunktFrist: DateString;
-    utgangspunktTildeling: Tildeling | null;
+    utgangspunktTildeling: ApiTildeling | null;
     onClose: () => void;
 }
 
@@ -139,11 +138,11 @@ export const EndrePåVentModal = ({
 
 interface FellesPåVentModalProps {
     tittel: string;
-    navn: Personnavn;
+    navn: ApiPersonnavn;
     utgangspunktÅrsaker: string[];
     utgangspunktNotattekst: string | null;
     utgangspunktFrist: DateString | null;
-    utgangspunktTildeling: Tildeling | null;
+    utgangspunktTildeling: ApiTildeling | null;
     submitKnappTekst: string;
     onSubmit: (
         årsaker: Arsak[],

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { OppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
+import { ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 import { LinkRow } from '@oversikt/table/LinkRow';
 import { DatoCell } from '@oversikt/table/cells/DatoCell';
 import { EgenskaperTagsCell } from '@oversikt/table/cells/EgenskaperTagsCell';
@@ -11,7 +11,7 @@ import { PåVentCell } from '@oversikt/table/cells/påvent/PåVentCell';
 import { ISO_DATOFORMAT } from '@utils/date';
 
 interface MineSakerOppgaveRowProps {
-    oppgave: OppgaveProjeksjon;
+    oppgave: ApiOppgaveProjeksjon;
 }
 
 export const MineSakerOppgaveRow = ({ oppgave }: MineSakerOppgaveRowProps): ReactElement => {

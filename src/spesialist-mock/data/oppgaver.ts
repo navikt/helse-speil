@@ -1,4 +1,4 @@
-import { ApiEgenskap, OppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
+import { ApiEgenskap, ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 
 export const oppgaveVedtaksperioder: { id: string; vedtaksperiodeId: string }[] = [
     {
@@ -31,7 +31,7 @@ export const oppgaveVedtaksperioder: { id: string; vedtaksperiodeId: string }[] 
     },
 ];
 
-export const oppgaver: OppgaveProjeksjon[] = [
+export const oppgaver: ApiOppgaveProjeksjon[] = [
     {
         id: '4680',
         aktorId: '2564094783926',

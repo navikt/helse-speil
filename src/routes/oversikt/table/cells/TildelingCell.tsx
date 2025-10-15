@@ -2,13 +2,13 @@ import React, { MouseEvent, ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { OppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
+import { ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 
 import { IkkeTildelt } from './IkkeTildelt';
 import { Tildelt } from './Tildelt';
 
 interface TildelingProps {
-    oppgave: OppgaveProjeksjon;
+    oppgave: ApiOppgaveProjeksjon;
 }
 
 export const TildelingCell = ({ oppgave }: TildelingProps): ReactElement => (

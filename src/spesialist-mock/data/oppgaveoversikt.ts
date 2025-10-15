@@ -2,11 +2,11 @@ import dayjs from 'dayjs';
 
 import {
     ApiEgenskap,
-    OppgaveProjeksjon,
-    OppgaveProjeksjonPaaVentInfo,
-    OppgaveProjeksjonSide,
-    OppgaveSorteringsfelt,
-    Sorteringsrekkefølge,
+    ApiOppgaveProjeksjon,
+    ApiOppgaveProjeksjonPaaVentInfo,
+    ApiOppgaveProjeksjonSide,
+    ApiOppgaveSorteringsfelt,
+    ApiSorteringsrekkefølge,
 } from '@io/rest/generated/spesialist.schemas';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 
@@ -58,7 +58,7 @@ function stringTilListeAvEgenskaper(ingenAvEgenskapeneString: string) {
     return ingenAvEgenskapeneString.split(',').map((egenskap) => egenskap as ApiEgenskap);
 }
 
-export const oppgaveliste = (searchParams: URLSearchParams): OppgaveProjeksjonSide => {
+export const oppgaveliste = (searchParams: URLSearchParams): ApiOppgaveProjeksjonSide => {
     const sidetall = toNumberOrNull(searchParams.get('sidetall')) ?? 1;
     const sidestoerrelse = toNumberOrNull(searchParams.get('sidestoerrelse')) ?? 10;
 
@@ -74,8 +74,8 @@ export const oppgaveliste = (searchParams: URLSearchParams): OppgaveProjeksjonSi
     const tildeltTilOid = searchParams.get('tildeltTilOid');
     const erPaaVent = tilBooleanEllerNull(searchParams.get('erPaaVent'));
 
-    const sortertingsfelt = searchParams.get('sorteringsfelt') as OppgaveSorteringsfelt;
-    const sorteringsrekkefølge = searchParams.get('sorteringsrekkefoelge') as Sorteringsrekkefølge;
+    const sortertingsfelt = searchParams.get('sorteringsfelt') as ApiOppgaveSorteringsfelt;
+    const sorteringsrekkefølge = searchParams.get('sorteringsrekkefoelge') as ApiSorteringsrekkefølge;
 
     const oppgaveliste = syncMock(oppgaver).concat(tilfeldigeOppgaver);
     const filtrertListe = filtrer(
@@ -100,22 +100,22 @@ export const oppgaveliste = (searchParams: URLSearchParams): OppgaveProjeksjonSi
         totaltAntall: sortertListe.length,
         totaltAntallSider: Math.floor((sortertListe.length + (sidestoerrelse - 1)) / sidestoerrelse),
         oppgaver: oppgaverEtterOffset,
-    } as OppgaveProjeksjonSide;
+    } as ApiOppgaveProjeksjonSide;
 };
 
 const sorter = (
-    oppgaver: OppgaveProjeksjon[],
-    sortering: OppgaveSorteringsfelt,
-    sorteringsrekkefølge: Sorteringsrekkefølge,
-): OppgaveProjeksjon[] => {
+    oppgaver: ApiOppgaveProjeksjon[],
+    sortering: ApiOppgaveSorteringsfelt,
+    sorteringsrekkefølge: ApiSorteringsrekkefølge,
+): ApiOppgaveProjeksjon[] => {
     switch (sortering) {
-        case OppgaveSorteringsfelt.opprettetTidspunkt:
+        case ApiOppgaveSorteringsfelt.opprettetTidspunkt:
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, opprettetSortFunction);
-        case OppgaveSorteringsfelt.tildeling:
+        case ApiOppgaveSorteringsfelt.tildeling:
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, saksbehandlerSortFunction);
-        case OppgaveSorteringsfelt.opprinneligSoeknadstidspunkt:
+        case ApiOppgaveSorteringsfelt.opprinneligSoeknadstidspunkt:
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, søknadMottattSortFunction);
-        case OppgaveSorteringsfelt.paVentInfo_tidsfrist:
+        case ApiOppgaveSorteringsfelt.paVentInfo_tidsfrist:
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, oppfølgingsdatoSortFunction);
         default:
             return oppgaver;
@@ -123,10 +123,14 @@ const sorter = (
 };
 
 const sorterOppgaver = (
-    oppgaver: OppgaveProjeksjon[],
-    sorteringsrekkefølge: Sorteringsrekkefølge,
-    sortFunction: (sorteringsrekkefølge: Sorteringsrekkefølge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) => number,
-): OppgaveProjeksjon[] => oppgaver.slice().sort((a, b) => sortFunction(sorteringsrekkefølge, a, b));
+    oppgaver: ApiOppgaveProjeksjon[],
+    sorteringsrekkefølge: ApiSorteringsrekkefølge,
+    sortFunction: (
+        sorteringsrekkefølge: ApiSorteringsrekkefølge,
+        a: ApiOppgaveProjeksjon,
+        b: ApiOppgaveProjeksjon,
+    ) => number,
+): ApiOppgaveProjeksjon[] => oppgaver.slice().sort((a, b) => sortFunction(sorteringsrekkefølge, a, b));
 
 const filtrerBehandlede = (oppgaver: BehandletOppgave[], fom: string, tom: string): BehandletOppgave[] => {
     return oppgaver.filter((oppgave) => {
@@ -135,7 +139,11 @@ const filtrerBehandlede = (oppgaver: BehandletOppgave[], fom: string, tom: strin
     });
 };
 
-const saksbehandlerSortFunction = (rekkefølge: Sorteringsrekkefølge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) => {
+const saksbehandlerSortFunction = (
+    rekkefølge: ApiSorteringsrekkefølge,
+    a: ApiOppgaveProjeksjon,
+    b: ApiOppgaveProjeksjon,
+) => {
     if (!a.tildeling && !b.tildeling) {
         return 0;
     } else if (!a.tildeling && !!b.tildeling) {
@@ -143,7 +151,7 @@ const saksbehandlerSortFunction = (rekkefølge: Sorteringsrekkefølge, a: Oppgav
     } else if (!b.tildeling && !!a.tildeling) {
         return -1;
     } else {
-        if (rekkefølge === Sorteringsrekkefølge.STIGENDE) {
+        if (rekkefølge === ApiSorteringsrekkefølge.STIGENDE) {
             if (a.tildeling!.navn > b.tildeling!.navn) return 1;
             if (a.tildeling!.navn < b.tildeling!.navn) return -1;
         } else {
@@ -154,21 +162,28 @@ const saksbehandlerSortFunction = (rekkefølge: Sorteringsrekkefølge, a: Oppgav
     return 0;
 };
 
-const tidspunktSortFunction = (rekkefølge: Sorteringsrekkefølge, a: string, b: string) => {
-    if (rekkefølge === Sorteringsrekkefølge.STIGENDE) {
+const tidspunktSortFunction = (rekkefølge: ApiSorteringsrekkefølge, a: string, b: string) => {
+    if (rekkefølge === ApiSorteringsrekkefølge.STIGENDE) {
         return new Date(a).getTime() - new Date(b).getTime();
     } else {
         return new Date(b).getTime() - new Date(a).getTime();
     }
 };
 
-const opprettetSortFunction = (rekkefølge: Sorteringsrekkefølge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) =>
+const opprettetSortFunction = (rekkefølge: ApiSorteringsrekkefølge, a: ApiOppgaveProjeksjon, b: ApiOppgaveProjeksjon) =>
     tidspunktSortFunction(rekkefølge, a.opprettetTidspunkt, b.opprettetTidspunkt);
 
-const søknadMottattSortFunction = (rekkefølge: Sorteringsrekkefølge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) =>
-    tidspunktSortFunction(rekkefølge, a.opprinneligSoeknadstidspunkt, b.opprinneligSoeknadstidspunkt);
+const søknadMottattSortFunction = (
+    rekkefølge: ApiSorteringsrekkefølge,
+    a: ApiOppgaveProjeksjon,
+    b: ApiOppgaveProjeksjon,
+) => tidspunktSortFunction(rekkefølge, a.opprinneligSoeknadstidspunkt, b.opprinneligSoeknadstidspunkt);
 
-const oppfølgingsdatoSortFunction = (rekkefølge: Sorteringsrekkefølge, a: OppgaveProjeksjon, b: OppgaveProjeksjon) => {
+const oppfølgingsdatoSortFunction = (
+    rekkefølge: ApiSorteringsrekkefølge,
+    a: ApiOppgaveProjeksjon,
+    b: ApiOppgaveProjeksjon,
+) => {
     if (!a.paVentInfo && !b.paVentInfo) {
         return 0;
     } else if (!a.paVentInfo && !!b.paVentInfo) {
@@ -181,13 +196,13 @@ const oppfølgingsdatoSortFunction = (rekkefølge: Sorteringsrekkefølge, a: Opp
 };
 
 const filtrer = (
-    oppgaver: OppgaveProjeksjon[],
+    oppgaver: ApiOppgaveProjeksjon[],
     minstEnAvEgenskapene: ApiEgenskap[][],
     ingenAvEgenskapene: ApiEgenskap[],
     erTildelt: boolean | null,
     tildeltTilOid: string | null,
     erPaaVent: boolean | null,
-): OppgaveProjeksjon[] => {
+): ApiOppgaveProjeksjon[] => {
     return oppgaver
         .filter((oppgave) => tildeltTilOid === null || oppgave.tildeling?.oid === tildeltTilOid)
         .filter((oppgave) => erPaaVent === null || oppgave.egenskaper.includes(ApiEgenskap.PA_VENT) === erPaaVent)
@@ -206,13 +221,13 @@ const filtrer = (
         );
 };
 
-const syncMock = (oppgaver: OppgaveProjeksjon[]) => {
+const syncMock = (oppgaver: ApiOppgaveProjeksjon[]) => {
     return oppgaver.map((oppgave) => {
         if (oppgave.tildeling !== undefined && oppgave.tildeling !== null && !TildelingMock.harTildeling(oppgave.id)) {
             TildelingMock.setTildeling(oppgave.id, oppgave.tildeling);
         }
 
-        let paVentInfo: OppgaveProjeksjonPaaVentInfo | null = oppgave.paVentInfo ?? null;
+        let paVentInfo: ApiOppgaveProjeksjonPaaVentInfo | null = oppgave.paVentInfo ?? null;
         let egenskaper = oppgave.egenskaper;
 
         if (PaVentMock.finnesIMock(oppgave.id)) {
@@ -258,6 +273,6 @@ const syncMock = (oppgaver: OppgaveProjeksjon[]) => {
             tildeling: TildelingMock.getTildeling(oppgave.id),
             egenskaper: egenskaper,
             paVentInfo: paVentInfo,
-        } as OppgaveProjeksjon;
+        } as ApiOppgaveProjeksjon;
     });
 };

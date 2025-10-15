@@ -1,8 +1,8 @@
-import { Personnavn } from '@io/rest/generated/spesialist.schemas';
+import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 
 type NameFormat = ('E' | 'F' | 'M' | ',')[];
 
-export const getFormatertNavn = (navn: Personnavn, format: NameFormat = ['F', 'M', 'E']): string => {
+export const getFormatertNavn = (navn: ApiPersonnavn, format: NameFormat = ['F', 'M', 'E']): string => {
     return format
         .map((code) => {
             switch (code) {

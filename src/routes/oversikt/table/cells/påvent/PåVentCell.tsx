@@ -4,7 +4,7 @@ import React, { ReactElement, useState } from 'react';
 import { TimerPauseIcon } from '@navikt/aksel-icons';
 import { Button, Table, Tooltip } from '@navikt/ds-react';
 
-import { OppgaveProjeksjonPaaVentInfo, Personnavn } from '@io/rest/generated/spesialist.schemas';
+import { ApiOppgaveProjeksjonPaaVentInfo, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { SisteNotattekst } from '@oversikt/table/oppgaverTable/SisteNotattekst';
 
 import { PåVentListeModal } from './PåVentListeModal';
@@ -12,9 +12,9 @@ import { PåVentListeModal } from './PåVentListeModal';
 import styles from './PåVentCell.module.css';
 
 interface PåVentCellProps {
-    navn: Personnavn;
+    navn: ApiPersonnavn;
     utgåttFrist: boolean;
-    påVentInfo: OppgaveProjeksjonPaaVentInfo | undefined | null;
+    påVentInfo: ApiOppgaveProjeksjonPaaVentInfo | undefined | null;
 }
 
 export const PåVentCell = ({ navn, utgåttFrist, påVentInfo }: PåVentCellProps): ReactElement => {
@@ -31,9 +31,9 @@ export const PåVentCell = ({ navn, utgåttFrist, påVentInfo }: PåVentCellProp
 };
 
 interface PåVentKnappProps {
-    navn: Personnavn;
+    navn: ApiPersonnavn;
     utgåttFrist: boolean;
-    påVentInfo: OppgaveProjeksjonPaaVentInfo;
+    påVentInfo: ApiOppgaveProjeksjonPaaVentInfo;
 }
 
 const PåVentKnapp = ({ navn, utgåttFrist, påVentInfo }: PåVentKnappProps): ReactElement | null => {

@@ -6,7 +6,7 @@
  */
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
-import type { GetOppgaverParams, OppgaveProjeksjonSide } from '../spesialist.schemas';
+import type { ApiOppgaveProjeksjonSide, GetOppgaverParams } from '../spesialist.schemas';
 
 import { useQuery } from '@tanstack/react-query';
 import type {
@@ -22,7 +22,12 @@ import type {
 } from '@tanstack/react-query';
 
 export const getOppgaver = (params?: GetOppgaverParams, signal?: AbortSignal) => {
-    return callCustomAxios<OppgaveProjeksjonSide>({ url: `/api/spesialist/oppgaver`, method: 'GET', params, signal });
+    return callCustomAxios<ApiOppgaveProjeksjonSide>({
+        url: `/api/spesialist/oppgaver`,
+        method: 'GET',
+        params,
+        signal,
+    });
 };
 
 export const getGetOppgaverQueryKey = (params?: GetOppgaverParams) => {

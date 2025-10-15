@@ -6,7 +6,7 @@
  */
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
-import type { AktivSaksbehandler } from '../spesialist.schemas';
+import type { ApiAktivSaksbehandler } from '../spesialist.schemas';
 
 import { useQuery } from '@tanstack/react-query';
 import type {
@@ -22,7 +22,7 @@ import type {
 } from '@tanstack/react-query';
 
 export const getAktiveSaksbehandlere = (signal?: AbortSignal) => {
-    return callCustomAxios<AktivSaksbehandler[]>({
+    return callCustomAxios<ApiAktivSaksbehandler[]>({
         url: `/api/spesialist/aktive-saksbehandlere`,
         method: 'GET',
         signal,

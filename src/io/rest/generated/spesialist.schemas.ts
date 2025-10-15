@@ -4,51 +4,51 @@
  * API
  * OpenAPI spec version: latest
  */
-export interface AktivSaksbehandler {
+export interface ApiAktivSaksbehandler {
     navn: string;
     ident: string;
     oid: string;
 }
 
-export type OppgaveSorteringsfelt = (typeof OppgaveSorteringsfelt)[keyof typeof OppgaveSorteringsfelt];
+export type ApiOppgaveSorteringsfelt = (typeof ApiOppgaveSorteringsfelt)[keyof typeof ApiOppgaveSorteringsfelt];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const OppgaveSorteringsfelt = {
+export const ApiOppgaveSorteringsfelt = {
     tildeling: 'tildeling',
     opprettetTidspunkt: 'opprettetTidspunkt',
     opprinneligSoeknadstidspunkt: 'opprinneligSoeknadstidspunkt',
     paVentInfo_tidsfrist: 'paVentInfo_tidsfrist',
 } as const;
 
-export type Sorteringsrekkefølge = (typeof Sorteringsrekkefølge)[keyof typeof Sorteringsrekkefølge];
+export type ApiSorteringsrekkefølge = (typeof ApiSorteringsrekkefølge)[keyof typeof ApiSorteringsrekkefølge];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const Sorteringsrekkefølge = {
+export const ApiSorteringsrekkefølge = {
     STIGENDE: 'STIGENDE',
     SYNKENDE: 'SYNKENDE',
 } as const;
 
-export type OppgaveProjeksjonTildeling = null | Tildeling;
+export type ApiOppgaveProjeksjonTildeling = null | ApiTildeling;
 
-export type OppgaveProjeksjonPaVentInfo = null | OppgaveProjeksjonPaaVentInfo;
+export type ApiOppgaveProjeksjonPaVentInfo = null | ApiOppgaveProjeksjonPaaVentInfo;
 
-export interface OppgaveProjeksjon {
+export interface ApiOppgaveProjeksjon {
     id: string;
     aktorId: string;
-    navn: Personnavn;
+    navn: ApiPersonnavn;
     egenskaper: ApiEgenskap[];
-    tildeling?: OppgaveProjeksjonTildeling;
+    tildeling?: ApiOppgaveProjeksjonTildeling;
     opprettetTidspunkt: string;
     opprinneligSoeknadstidspunkt: string;
-    paVentInfo?: OppgaveProjeksjonPaVentInfo;
+    paVentInfo?: ApiOppgaveProjeksjonPaVentInfo;
 }
 
-export type PersonnavnMellomnavn = null | string;
+export type ApiPersonnavnMellomnavn = null | string;
 
-export interface Personnavn {
+export interface ApiPersonnavn {
     fornavn: string;
     etternavn: string;
-    mellomnavn?: PersonnavnMellomnavn;
+    mellomnavn?: ApiPersonnavnMellomnavn;
 }
 
 export type ApiEgenskap = (typeof ApiEgenskap)[keyof typeof ApiEgenskap];
@@ -89,165 +89,166 @@ export const ApiEgenskap = {
     ARBEIDSTAKER: 'ARBEIDSTAKER',
 } as const;
 
-export interface Tildeling {
+export interface ApiTildeling {
     navn: string;
     epost: string;
     oid: string;
 }
 
-export type OppgaveProjeksjonPaaVentInfoTekst = null | string;
+export type ApiOppgaveProjeksjonPaaVentInfoTekst = null | string;
 
-export interface OppgaveProjeksjonPaaVentInfo {
+export interface ApiOppgaveProjeksjonPaaVentInfo {
     arsaker: string[];
-    tekst?: OppgaveProjeksjonPaaVentInfoTekst;
+    tekst?: ApiOppgaveProjeksjonPaaVentInfoTekst;
     dialogRef: number;
     saksbehandler: string;
     opprettet: string;
     tidsfrist: string;
-    kommentarer: OppgaveProjeksjonPaaVentInfoKommentar[];
+    kommentarer: ApiOppgaveProjeksjonPaaVentInfoKommentar[];
 }
 
-export type OppgaveProjeksjonPaaVentInfoKommentarFeilregistrertTidspunkt = null | string;
+export type ApiOppgaveProjeksjonPaaVentInfoKommentarFeilregistrertTidspunkt = null | string;
 
-export interface OppgaveProjeksjonPaaVentInfoKommentar {
+export interface ApiOppgaveProjeksjonPaaVentInfoKommentar {
     id: number;
     tekst: string;
     opprettet: string;
     saksbehandlerident: string;
-    feilregistrert_tidspunkt?: OppgaveProjeksjonPaaVentInfoKommentarFeilregistrertTidspunkt;
+    feilregistrert_tidspunkt?: ApiOppgaveProjeksjonPaaVentInfoKommentarFeilregistrertTidspunkt;
 }
 
-export interface OppgaveProjeksjonSide {
+export interface ApiOppgaveProjeksjonSide {
     totaltAntall: number;
     sidetall: number;
     sidestoerrelse: number;
-    elementer: OppgaveProjeksjon[];
+    elementer: ApiOppgaveProjeksjon[];
 }
 
-export interface OpphevStansRequest {
+export interface ApiOpphevStansRequest {
     fodselsnummer: string;
     begrunnelse: string;
 }
 
-export interface TilkommenInntektskilde {
+export interface ApiTilkommenInntektskilde {
     organisasjonsnummer: string;
-    inntekter: TilkommenInntekt[];
+    inntekter: ApiTilkommenInntekt[];
 }
 
-export interface TilkommenInntekt {
+export interface ApiTilkommenInntekt {
     tilkommenInntektId: string;
-    periode: DatoPeriode;
+    periode: ApiDatoPeriode;
     periodebelop: string;
     ekskluderteUkedager: string[];
     fjernet: boolean;
     erDelAvAktivTotrinnsvurdering: boolean;
-    events: TilkommenInntektEvent[];
+    events: ApiTilkommenInntektEvent[];
 }
 
-export interface DatoPeriode {
+export interface ApiDatoPeriode {
     fom: string;
     tom: string;
 }
 
-export type TilkommenInntektEvent =
-    | TilkommenInntektEndretEvent
-    | TilkommenInntektFjernetEvent
-    | TilkommenInntektGjenopprettetEvent
-    | TilkommenInntektOpprettetEvent;
+export type ApiTilkommenInntektEvent =
+    | ApiTilkommenInntektEndretEvent
+    | ApiTilkommenInntektFjernetEvent
+    | ApiTilkommenInntektGjenopprettetEvent
+    | ApiTilkommenInntektOpprettetEvent;
 
-export interface TilkommenInntektEndretEvent {
-    metadata: TilkommenInntektEventMetadata;
-    endringer: TilkommenInntektEventEndringer;
+export interface ApiTilkommenInntektEndretEvent {
+    metadata: ApiTilkommenInntektEventMetadata;
+    endringer: ApiTilkommenInntektEventEndringer;
 }
 
-export interface TilkommenInntektEventMetadata {
+export interface ApiTilkommenInntektEventMetadata {
     sekvensnummer: number;
     tidspunkt: string;
     utfortAvSaksbehandlerIdent: string;
     notatTilBeslutter: string;
 }
 
-export type TilkommenInntektEventEndringerOrganisasjonsnummer = null | TilkommenInntektEventEndringerStringEndring;
+export type ApiTilkommenInntektEventEndringerOrganisasjonsnummer =
+    null | ApiTilkommenInntektEventEndringerStringEndring;
 
-export type TilkommenInntektEventEndringerPeriode = null | TilkommenInntektEventEndringerDatoPeriodeEndring;
+export type ApiTilkommenInntektEventEndringerPeriode = null | ApiTilkommenInntektEventEndringerDatoPeriodeEndring;
 
-export type TilkommenInntektEventEndringerPeriodebelop = null | TilkommenInntektEventEndringerBigDecimalEndring;
+export type ApiTilkommenInntektEventEndringerPeriodebelop = null | ApiTilkommenInntektEventEndringerBigDecimalEndring;
 
-export type TilkommenInntektEventEndringerEkskluderteUkedager =
-    null | TilkommenInntektEventEndringerListLocalDateEndring;
+export type ApiTilkommenInntektEventEndringerEkskluderteUkedager =
+    null | ApiTilkommenInntektEventEndringerListLocalDateEndring;
 
-export interface TilkommenInntektEventEndringer {
-    organisasjonsnummer?: TilkommenInntektEventEndringerOrganisasjonsnummer;
-    periode?: TilkommenInntektEventEndringerPeriode;
-    periodebelop?: TilkommenInntektEventEndringerPeriodebelop;
-    ekskluderteUkedager?: TilkommenInntektEventEndringerEkskluderteUkedager;
+export interface ApiTilkommenInntektEventEndringer {
+    organisasjonsnummer?: ApiTilkommenInntektEventEndringerOrganisasjonsnummer;
+    periode?: ApiTilkommenInntektEventEndringerPeriode;
+    periodebelop?: ApiTilkommenInntektEventEndringerPeriodebelop;
+    ekskluderteUkedager?: ApiTilkommenInntektEventEndringerEkskluderteUkedager;
 }
 
-export interface TilkommenInntektEventEndringerStringEndring {
+export interface ApiTilkommenInntektEventEndringerStringEndring {
     fra: string;
     til: string;
 }
 
-export interface TilkommenInntektEventEndringerDatoPeriodeEndring {
-    fra: DatoPeriode;
-    til: DatoPeriode;
+export interface ApiTilkommenInntektEventEndringerDatoPeriodeEndring {
+    fra: ApiDatoPeriode;
+    til: ApiDatoPeriode;
 }
 
-export interface TilkommenInntektEventEndringerBigDecimalEndring {
+export interface ApiTilkommenInntektEventEndringerBigDecimalEndring {
     fra: string;
     til: string;
 }
 
-export interface TilkommenInntektEventEndringerListLocalDateEndring {
+export interface ApiTilkommenInntektEventEndringerListLocalDateEndring {
     fra: string[];
     til: string[];
 }
 
-export interface TilkommenInntektFjernetEvent {
-    metadata: TilkommenInntektEventMetadata;
+export interface ApiTilkommenInntektFjernetEvent {
+    metadata: ApiTilkommenInntektEventMetadata;
 }
 
-export interface TilkommenInntektGjenopprettetEvent {
-    metadata: TilkommenInntektEventMetadata;
-    endringer: TilkommenInntektEventEndringer;
+export interface ApiTilkommenInntektGjenopprettetEvent {
+    metadata: ApiTilkommenInntektEventMetadata;
+    endringer: ApiTilkommenInntektEventEndringer;
 }
 
-export interface TilkommenInntektOpprettetEvent {
-    metadata: TilkommenInntektEventMetadata;
+export interface ApiTilkommenInntektOpprettetEvent {
+    metadata: ApiTilkommenInntektEventMetadata;
     organisasjonsnummer: string;
-    periode: DatoPeriode;
+    periode: ApiDatoPeriode;
     periodebelop: string;
     ekskluderteUkedager: string[];
 }
 
-export interface TilkommenInntektInput {
+export interface ApiTilkommenInntektInput {
     organisasjonsnummer: string;
-    periode: DatoPeriode;
+    periode: ApiDatoPeriode;
     periodebelop: string;
     ekskluderteUkedager: string[];
 }
 
-export interface LeggTilTilkommenInntektRequest {
+export interface ApiLeggTilTilkommenInntektRequest {
     fodselsnummer: string;
-    verdier: TilkommenInntektInput;
+    verdier: ApiTilkommenInntektInput;
     notatTilBeslutter: string;
 }
 
-export interface LeggTilTilkommenInntektResponse {
+export interface ApiLeggTilTilkommenInntektResponse {
     tilkommenInntektId: string;
 }
 
-export interface EndreTilkommenInntektRequest {
-    endretTil: TilkommenInntektInput;
+export interface ApiEndreTilkommenInntektRequest {
+    endretTil: ApiTilkommenInntektInput;
     notatTilBeslutter: string;
 }
 
-export interface FjernTilkommenInntektRequest {
+export interface ApiFjernTilkommenInntektRequest {
     notatTilBeslutter: string;
 }
 
-export interface GjenopprettTilkommenInntektRequest {
-    endretTil: TilkommenInntektInput;
+export interface ApiGjenopprettTilkommenInntektRequest {
+    endretTil: ApiTilkommenInntektInput;
     notatTilBeslutter: string;
 }
 
@@ -257,8 +258,8 @@ export type GetOppgaverParams = {
     erTildelt?: boolean;
     tildeltTilOid?: string;
     erPaaVent?: boolean;
-    sorteringsfelt?: OppgaveSorteringsfelt;
-    sorteringsrekkefoelge?: Sorteringsrekkefølge;
+    sorteringsfelt?: ApiOppgaveSorteringsfelt;
+    sorteringsrekkefoelge?: ApiSorteringsrekkefølge;
     sidetall?: number;
     sidestoerrelse?: number;
 };

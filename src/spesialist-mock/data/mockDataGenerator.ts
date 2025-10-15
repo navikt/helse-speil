@@ -1,13 +1,13 @@
 import { randomUUID } from 'crypto';
 import dayjs from 'dayjs';
 
-import { ApiEgenskap, OppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
+import { ApiEgenskap, ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 
 import { antallTilfeldigeBehandledeOppgaver, antallTilfeldigeOppgaver } from '../constants';
 import { AntallArbeidsforhold, BehandletOppgave, Oppgavetype, Periodetype } from '../schemaTypes';
 
-const genererTilfeldigeOppgaver = (antall: number): OppgaveProjeksjon[] => {
-    const oppgaver: OppgaveProjeksjon[] = [];
+const genererTilfeldigeOppgaver = (antall: number): ApiOppgaveProjeksjon[] => {
+    const oppgaver: ApiOppgaveProjeksjon[] = [];
     let n = 0;
     let startId = 6000;
     while (n < antall) {
@@ -29,7 +29,7 @@ const genererTilfeldigeBehandledeOppgaver = (antall: number) => {
     return oppgaver;
 };
 
-const tilfeldigOppgave = (oppgaveId: number): OppgaveProjeksjon => {
+const tilfeldigOppgave = (oppgaveId: number): ApiOppgaveProjeksjon => {
     const tildelingMellomnavn = tilfeldigMellomnavn();
 
     const dato = tilfeldigDato();
@@ -73,7 +73,7 @@ const tilfeldigOppgave = (oppgaveId: number): OppgaveProjeksjon => {
                 (tildelingMellomnavn ? ' ' + tildelingMellomnavn : ''),
             oid: randomUUID().toString(),
         },
-    } as OppgaveProjeksjon;
+    } as ApiOppgaveProjeksjon;
 };
 
 const tilfeldigBehandletOppgave = (oppgaveId: number): BehandletOppgave =>

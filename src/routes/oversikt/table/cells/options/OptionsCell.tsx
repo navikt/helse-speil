@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown, Table } from '@navikt/ds-react';
 
-import { ApiEgenskap, OppgaveProjeksjon, Personnavn } from '@io/rest/generated/spesialist.schemas';
+import { ApiEgenskap, ApiOppgaveProjeksjon, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import { MeldAvMenuButton } from './MeldAvMenuButton';
@@ -17,8 +17,8 @@ const erLike = (a?: string | null, b?: string | null): boolean => {
 };
 
 interface OptionsButtonProps {
-    oppgave: OppgaveProjeksjon;
-    navn: Personnavn;
+    oppgave: ApiOppgaveProjeksjon;
+    navn: ApiPersonnavn;
 }
 
 export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement => {

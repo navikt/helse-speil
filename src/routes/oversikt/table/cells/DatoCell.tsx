@@ -3,14 +3,14 @@ import React, { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { OppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
+import { ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 import { SortKey, useDateSortValue } from '@oversikt/table/state/sortation';
 import { NORSK_DATOFORMAT, somDato } from '@utils/date';
 
 import styles from './DatoCell.module.css';
 
 interface DatoProps {
-    oppgave: OppgaveProjeksjon;
+    oppgave: ApiOppgaveProjeksjon;
     utgåttFrist: boolean;
 }
 
@@ -28,7 +28,7 @@ export const DatoCell = ({ oppgave, utgåttFrist }: DatoProps): ReactElement => 
     );
 };
 
-const getVisningsDato = (oppgave: OppgaveProjeksjon, sorteringsnøkkel: SortKey): string | null => {
+const getVisningsDato = (oppgave: ApiOppgaveProjeksjon, sorteringsnøkkel: SortKey): string | null => {
     switch (sorteringsnøkkel) {
         case SortKey.SøknadMottatt:
             return somDato(oppgave.opprinneligSoeknadstidspunkt).format(NORSK_DATOFORMAT);

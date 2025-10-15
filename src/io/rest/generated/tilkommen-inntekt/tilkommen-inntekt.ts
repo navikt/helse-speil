@@ -7,12 +7,12 @@
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
-    EndreTilkommenInntektRequest,
-    FjernTilkommenInntektRequest,
-    GjenopprettTilkommenInntektRequest,
-    LeggTilTilkommenInntektRequest,
-    LeggTilTilkommenInntektResponse,
-    TilkommenInntektskilde,
+    ApiEndreTilkommenInntektRequest,
+    ApiFjernTilkommenInntektRequest,
+    ApiGjenopprettTilkommenInntektRequest,
+    ApiLeggTilTilkommenInntektRequest,
+    ApiLeggTilTilkommenInntektResponse,
+    ApiTilkommenInntektskilde,
 } from '../spesialist.schemas';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -32,7 +32,7 @@ import type {
 } from '@tanstack/react-query';
 
 export const getTilkomneInntektskilderForPerson = (aktoerId: string, signal?: AbortSignal) => {
-    return callCustomAxios<TilkommenInntektskilde[]>({
+    return callCustomAxios<ApiTilkommenInntektskilde[]>({
         url: `/api/spesialist/personer/${aktoerId}/tilkomne-inntektskilder`,
         method: 'GET',
         signal,
@@ -147,14 +147,14 @@ export function useGetTilkomneInntektskilderForPerson<
 }
 
 export const postTilkomneInntekter = (
-    leggTilTilkommenInntektRequest?: LeggTilTilkommenInntektRequest,
+    apiLeggTilTilkommenInntektRequest?: ApiLeggTilTilkommenInntektRequest,
     signal?: AbortSignal,
 ) => {
-    return callCustomAxios<LeggTilTilkommenInntektResponse>({
+    return callCustomAxios<ApiLeggTilTilkommenInntektResponse>({
         url: `/api/spesialist/tilkomne-inntekter`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        data: leggTilTilkommenInntektRequest,
+        data: apiLeggTilTilkommenInntektRequest,
         signal,
     });
 };
@@ -163,13 +163,13 @@ export const getPostTilkomneInntekterMutationOptions = <TError = ErrorType<unkno
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof postTilkomneInntekter>>,
         TError,
-        { data: LeggTilTilkommenInntektRequest },
+        { data: ApiLeggTilTilkommenInntektRequest },
         TContext
     >;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof postTilkomneInntekter>>,
     TError,
-    { data: LeggTilTilkommenInntektRequest },
+    { data: ApiLeggTilTilkommenInntektRequest },
     TContext
 > => {
     const mutationKey = ['postTilkomneInntekter'];
@@ -181,7 +181,7 @@ export const getPostTilkomneInntekterMutationOptions = <TError = ErrorType<unkno
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof postTilkomneInntekter>>,
-        { data: LeggTilTilkommenInntektRequest }
+        { data: ApiLeggTilTilkommenInntektRequest }
     > = (props) => {
         const { data } = props ?? {};
 
@@ -192,7 +192,7 @@ export const getPostTilkomneInntekterMutationOptions = <TError = ErrorType<unkno
 };
 
 export type PostTilkomneInntekterMutationResult = NonNullable<Awaited<ReturnType<typeof postTilkomneInntekter>>>;
-export type PostTilkomneInntekterMutationBody = LeggTilTilkommenInntektRequest;
+export type PostTilkomneInntekterMutationBody = ApiLeggTilTilkommenInntektRequest;
 export type PostTilkomneInntekterMutationError = ErrorType<unknown>;
 
 export const usePostTilkomneInntekter = <TError = ErrorType<unknown>, TContext = unknown>(
@@ -200,7 +200,7 @@ export const usePostTilkomneInntekter = <TError = ErrorType<unknown>, TContext =
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof postTilkomneInntekter>>,
             TError,
-            { data: LeggTilTilkommenInntektRequest },
+            { data: ApiLeggTilTilkommenInntektRequest },
             TContext
         >;
     },
@@ -208,7 +208,7 @@ export const usePostTilkomneInntekter = <TError = ErrorType<unknown>, TContext =
 ): UseMutationResult<
     Awaited<ReturnType<typeof postTilkomneInntekter>>,
     TError,
-    { data: LeggTilTilkommenInntektRequest },
+    { data: ApiLeggTilTilkommenInntektRequest },
     TContext
 > => {
     const mutationOptions = getPostTilkomneInntekterMutationOptions(options);
@@ -217,14 +217,14 @@ export const usePostTilkomneInntekter = <TError = ErrorType<unknown>, TContext =
 };
 export const postTilkommenInntektEndre = (
     tilkommenInntektId: string,
-    endreTilkommenInntektRequest?: EndreTilkommenInntektRequest,
+    apiEndreTilkommenInntektRequest?: ApiEndreTilkommenInntektRequest,
     signal?: AbortSignal,
 ) => {
     return callCustomAxios<boolean>({
         url: `/api/spesialist/tilkomne-inntekter/${tilkommenInntektId}/endre`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        data: endreTilkommenInntektRequest,
+        data: apiEndreTilkommenInntektRequest,
         signal,
     });
 };
@@ -233,13 +233,13 @@ export const getPostTilkommenInntektEndreMutationOptions = <TError = ErrorType<u
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof postTilkommenInntektEndre>>,
         TError,
-        { tilkommenInntektId: string; data: EndreTilkommenInntektRequest },
+        { tilkommenInntektId: string; data: ApiEndreTilkommenInntektRequest },
         TContext
     >;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof postTilkommenInntektEndre>>,
     TError,
-    { tilkommenInntektId: string; data: EndreTilkommenInntektRequest },
+    { tilkommenInntektId: string; data: ApiEndreTilkommenInntektRequest },
     TContext
 > => {
     const mutationKey = ['postTilkommenInntektEndre'];
@@ -251,7 +251,7 @@ export const getPostTilkommenInntektEndreMutationOptions = <TError = ErrorType<u
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof postTilkommenInntektEndre>>,
-        { tilkommenInntektId: string; data: EndreTilkommenInntektRequest }
+        { tilkommenInntektId: string; data: ApiEndreTilkommenInntektRequest }
     > = (props) => {
         const { tilkommenInntektId, data } = props ?? {};
 
@@ -264,7 +264,7 @@ export const getPostTilkommenInntektEndreMutationOptions = <TError = ErrorType<u
 export type PostTilkommenInntektEndreMutationResult = NonNullable<
     Awaited<ReturnType<typeof postTilkommenInntektEndre>>
 >;
-export type PostTilkommenInntektEndreMutationBody = EndreTilkommenInntektRequest;
+export type PostTilkommenInntektEndreMutationBody = ApiEndreTilkommenInntektRequest;
 export type PostTilkommenInntektEndreMutationError = ErrorType<unknown>;
 
 export const usePostTilkommenInntektEndre = <TError = ErrorType<unknown>, TContext = unknown>(
@@ -272,7 +272,7 @@ export const usePostTilkommenInntektEndre = <TError = ErrorType<unknown>, TConte
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof postTilkommenInntektEndre>>,
             TError,
-            { tilkommenInntektId: string; data: EndreTilkommenInntektRequest },
+            { tilkommenInntektId: string; data: ApiEndreTilkommenInntektRequest },
             TContext
         >;
     },
@@ -280,7 +280,7 @@ export const usePostTilkommenInntektEndre = <TError = ErrorType<unknown>, TConte
 ): UseMutationResult<
     Awaited<ReturnType<typeof postTilkommenInntektEndre>>,
     TError,
-    { tilkommenInntektId: string; data: EndreTilkommenInntektRequest },
+    { tilkommenInntektId: string; data: ApiEndreTilkommenInntektRequest },
     TContext
 > => {
     const mutationOptions = getPostTilkommenInntektEndreMutationOptions(options);
@@ -289,14 +289,14 @@ export const usePostTilkommenInntektEndre = <TError = ErrorType<unknown>, TConte
 };
 export const postTilkommenInntektFjern = (
     tilkommenInntektId: string,
-    fjernTilkommenInntektRequest?: FjernTilkommenInntektRequest,
+    apiFjernTilkommenInntektRequest?: ApiFjernTilkommenInntektRequest,
     signal?: AbortSignal,
 ) => {
     return callCustomAxios<boolean>({
         url: `/api/spesialist/tilkomne-inntekter/${tilkommenInntektId}/fjern`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        data: fjernTilkommenInntektRequest,
+        data: apiFjernTilkommenInntektRequest,
         signal,
     });
 };
@@ -305,13 +305,13 @@ export const getPostTilkommenInntektFjernMutationOptions = <TError = ErrorType<u
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof postTilkommenInntektFjern>>,
         TError,
-        { tilkommenInntektId: string; data: FjernTilkommenInntektRequest },
+        { tilkommenInntektId: string; data: ApiFjernTilkommenInntektRequest },
         TContext
     >;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof postTilkommenInntektFjern>>,
     TError,
-    { tilkommenInntektId: string; data: FjernTilkommenInntektRequest },
+    { tilkommenInntektId: string; data: ApiFjernTilkommenInntektRequest },
     TContext
 > => {
     const mutationKey = ['postTilkommenInntektFjern'];
@@ -323,7 +323,7 @@ export const getPostTilkommenInntektFjernMutationOptions = <TError = ErrorType<u
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof postTilkommenInntektFjern>>,
-        { tilkommenInntektId: string; data: FjernTilkommenInntektRequest }
+        { tilkommenInntektId: string; data: ApiFjernTilkommenInntektRequest }
     > = (props) => {
         const { tilkommenInntektId, data } = props ?? {};
 
@@ -336,7 +336,7 @@ export const getPostTilkommenInntektFjernMutationOptions = <TError = ErrorType<u
 export type PostTilkommenInntektFjernMutationResult = NonNullable<
     Awaited<ReturnType<typeof postTilkommenInntektFjern>>
 >;
-export type PostTilkommenInntektFjernMutationBody = FjernTilkommenInntektRequest;
+export type PostTilkommenInntektFjernMutationBody = ApiFjernTilkommenInntektRequest;
 export type PostTilkommenInntektFjernMutationError = ErrorType<unknown>;
 
 export const usePostTilkommenInntektFjern = <TError = ErrorType<unknown>, TContext = unknown>(
@@ -344,7 +344,7 @@ export const usePostTilkommenInntektFjern = <TError = ErrorType<unknown>, TConte
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof postTilkommenInntektFjern>>,
             TError,
-            { tilkommenInntektId: string; data: FjernTilkommenInntektRequest },
+            { tilkommenInntektId: string; data: ApiFjernTilkommenInntektRequest },
             TContext
         >;
     },
@@ -352,7 +352,7 @@ export const usePostTilkommenInntektFjern = <TError = ErrorType<unknown>, TConte
 ): UseMutationResult<
     Awaited<ReturnType<typeof postTilkommenInntektFjern>>,
     TError,
-    { tilkommenInntektId: string; data: FjernTilkommenInntektRequest },
+    { tilkommenInntektId: string; data: ApiFjernTilkommenInntektRequest },
     TContext
 > => {
     const mutationOptions = getPostTilkommenInntektFjernMutationOptions(options);
@@ -361,14 +361,14 @@ export const usePostTilkommenInntektFjern = <TError = ErrorType<unknown>, TConte
 };
 export const postTilkommenInntektGjenopprett = (
     tilkommenInntektId: string,
-    gjenopprettTilkommenInntektRequest?: GjenopprettTilkommenInntektRequest,
+    apiGjenopprettTilkommenInntektRequest?: ApiGjenopprettTilkommenInntektRequest,
     signal?: AbortSignal,
 ) => {
     return callCustomAxios<boolean>({
         url: `/api/spesialist/tilkomne-inntekter/${tilkommenInntektId}/gjenopprett`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        data: gjenopprettTilkommenInntektRequest,
+        data: apiGjenopprettTilkommenInntektRequest,
         signal,
     });
 };
@@ -380,13 +380,13 @@ export const getPostTilkommenInntektGjenopprettMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof postTilkommenInntektGjenopprett>>,
         TError,
-        { tilkommenInntektId: string; data: GjenopprettTilkommenInntektRequest },
+        { tilkommenInntektId: string; data: ApiGjenopprettTilkommenInntektRequest },
         TContext
     >;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof postTilkommenInntektGjenopprett>>,
     TError,
-    { tilkommenInntektId: string; data: GjenopprettTilkommenInntektRequest },
+    { tilkommenInntektId: string; data: ApiGjenopprettTilkommenInntektRequest },
     TContext
 > => {
     const mutationKey = ['postTilkommenInntektGjenopprett'];
@@ -398,7 +398,7 @@ export const getPostTilkommenInntektGjenopprettMutationOptions = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof postTilkommenInntektGjenopprett>>,
-        { tilkommenInntektId: string; data: GjenopprettTilkommenInntektRequest }
+        { tilkommenInntektId: string; data: ApiGjenopprettTilkommenInntektRequest }
     > = (props) => {
         const { tilkommenInntektId, data } = props ?? {};
 
@@ -411,7 +411,7 @@ export const getPostTilkommenInntektGjenopprettMutationOptions = <
 export type PostTilkommenInntektGjenopprettMutationResult = NonNullable<
     Awaited<ReturnType<typeof postTilkommenInntektGjenopprett>>
 >;
-export type PostTilkommenInntektGjenopprettMutationBody = GjenopprettTilkommenInntektRequest;
+export type PostTilkommenInntektGjenopprettMutationBody = ApiGjenopprettTilkommenInntektRequest;
 export type PostTilkommenInntektGjenopprettMutationError = ErrorType<unknown>;
 
 export const usePostTilkommenInntektGjenopprett = <TError = ErrorType<unknown>, TContext = unknown>(
@@ -419,7 +419,7 @@ export const usePostTilkommenInntektGjenopprett = <TError = ErrorType<unknown>, 
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof postTilkommenInntektGjenopprett>>,
             TError,
-            { tilkommenInntektId: string; data: GjenopprettTilkommenInntektRequest },
+            { tilkommenInntektId: string; data: ApiGjenopprettTilkommenInntektRequest },
             TContext
         >;
     },
@@ -427,7 +427,7 @@ export const usePostTilkommenInntektGjenopprett = <TError = ErrorType<unknown>, 
 ): UseMutationResult<
     Awaited<ReturnType<typeof postTilkommenInntektGjenopprett>>,
     TError,
-    { tilkommenInntektId: string; data: GjenopprettTilkommenInntektRequest },
+    { tilkommenInntektId: string; data: ApiGjenopprettTilkommenInntektRequest },
     TContext
 > => {
     const mutationOptions = getPostTilkommenInntektGjenopprettMutationOptions(options);

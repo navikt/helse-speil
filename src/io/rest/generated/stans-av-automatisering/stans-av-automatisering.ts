@@ -6,17 +6,17 @@
  */
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
-import type { OpphevStansRequest } from '../spesialist.schemas';
+import type { ApiOpphevStansRequest } from '../spesialist.schemas';
 
 import { useMutation } from '@tanstack/react-query';
 import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 
-export const postOpphevStans = (opphevStansRequest?: OpphevStansRequest, signal?: AbortSignal) => {
+export const postOpphevStans = (apiOpphevStansRequest?: ApiOpphevStansRequest, signal?: AbortSignal) => {
     return callCustomAxios<boolean>({
         url: `/api/spesialist/opphevstans`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        data: opphevStansRequest,
+        data: apiOpphevStansRequest,
         signal,
     });
 };
@@ -25,10 +25,15 @@ export const getPostOpphevStansMutationOptions = <TError = ErrorType<unknown>, T
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof postOpphevStans>>,
         TError,
-        { data: OpphevStansRequest },
+        { data: ApiOpphevStansRequest },
         TContext
     >;
-}): UseMutationOptions<Awaited<ReturnType<typeof postOpphevStans>>, TError, { data: OpphevStansRequest }, TContext> => {
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof postOpphevStans>>,
+    TError,
+    { data: ApiOpphevStansRequest },
+    TContext
+> => {
     const mutationKey = ['postOpphevStans'];
     const { mutation: mutationOptions } = options
         ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
@@ -36,7 +41,7 @@ export const getPostOpphevStansMutationOptions = <TError = ErrorType<unknown>, T
             : { ...options, mutation: { ...options.mutation, mutationKey } }
         : { mutation: { mutationKey } };
 
-    const mutationFn: MutationFunction<Awaited<ReturnType<typeof postOpphevStans>>, { data: OpphevStansRequest }> = (
+    const mutationFn: MutationFunction<Awaited<ReturnType<typeof postOpphevStans>>, { data: ApiOpphevStansRequest }> = (
         props,
     ) => {
         const { data } = props ?? {};
@@ -48,7 +53,7 @@ export const getPostOpphevStansMutationOptions = <TError = ErrorType<unknown>, T
 };
 
 export type PostOpphevStansMutationResult = NonNullable<Awaited<ReturnType<typeof postOpphevStans>>>;
-export type PostOpphevStansMutationBody = OpphevStansRequest;
+export type PostOpphevStansMutationBody = ApiOpphevStansRequest;
 export type PostOpphevStansMutationError = ErrorType<unknown>;
 
 export const usePostOpphevStans = <TError = ErrorType<unknown>, TContext = unknown>(
@@ -56,12 +61,17 @@ export const usePostOpphevStans = <TError = ErrorType<unknown>, TContext = unkno
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof postOpphevStans>>,
             TError,
-            { data: OpphevStansRequest },
+            { data: ApiOpphevStansRequest },
             TContext
         >;
     },
     queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof postOpphevStans>>, TError, { data: OpphevStansRequest }, TContext> => {
+): UseMutationResult<
+    Awaited<ReturnType<typeof postOpphevStans>>,
+    TError,
+    { data: ApiOpphevStansRequest },
+    TContext
+> => {
     const mutationOptions = getPostOpphevStansMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);

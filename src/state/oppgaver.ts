@@ -8,9 +8,9 @@ import { AntallOppgaverDocument, Kategori } from '@io/graphql';
 import { useGetOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
 import {
     ApiEgenskap,
-    OppgaveProjeksjon,
-    OppgaveSorteringsfelt,
-    Sorteringsrekkefølge,
+    ApiOppgaveProjeksjon,
+    ApiOppgaveSorteringsfelt,
+    ApiSorteringsrekkefølge,
 } from '@io/rest/generated/spesialist.schemas';
 import { TabType, useAktivTab } from '@oversikt/tabState';
 import {
@@ -37,7 +37,7 @@ export type FetchMoreArgs = {
 };
 
 interface OppgaveFeedResponse {
-    oppgaver?: OppgaveProjeksjon[];
+    oppgaver?: ApiOppgaveProjeksjon[];
     error: AxiosError | null;
     loading: boolean;
     antallOppgaver: number;
@@ -85,7 +85,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
             sidestoerrelse: limit,
             sorteringsfelt: finnSorteringsNøkkel(sort.orderBy as SortKey),
             sorteringsrekkefoelge:
-                sort.direction === 'ascending' ? Sorteringsrekkefølge.STIGENDE : Sorteringsrekkefølge.SYNKENDE,
+                sort.direction === 'ascending' ? ApiSorteringsrekkefølge.STIGENDE : ApiSorteringsrekkefølge.SYNKENDE,
             tildeltTilOid:
                 aktivTab === TabType.Ventende || aktivTab === TabType.Mine
                     ? innloggetSaksbehandlerOid
@@ -221,12 +221,12 @@ const hackInnInfotrygdforlengelse = (activeFilters: Filter[]): Filter[] => {
 const finnSorteringsNøkkel = (sortKey: SortKey) => {
     switch (sortKey) {
         case SortKey.Saksbehandler:
-            return OppgaveSorteringsfelt.tildeling;
+            return ApiOppgaveSorteringsfelt.tildeling;
         case SortKey.SøknadMottatt:
-            return OppgaveSorteringsfelt.opprinneligSoeknadstidspunkt;
+            return ApiOppgaveSorteringsfelt.opprinneligSoeknadstidspunkt;
         case SortKey.Tidsfrist:
-            return OppgaveSorteringsfelt.paVentInfo_tidsfrist;
+            return ApiOppgaveSorteringsfelt.paVentInfo_tidsfrist;
         default:
-            return OppgaveSorteringsfelt.opprettetTidspunkt;
+            return ApiOppgaveSorteringsfelt.opprettetTidspunkt;
     }
 };
