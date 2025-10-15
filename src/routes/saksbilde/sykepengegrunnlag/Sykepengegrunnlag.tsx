@@ -6,7 +6,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment } from '@io/graphql';
 import { SykepengegrunnlagSelvstendig } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/SykepengegrunnlagSelvstendig';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
+import { isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
 import { SykepengegrunnlagFraInfogtrygd } from './sykepengegrunnlagvisninger/infotrygd/SykepengegrunnlagFraInfotrygd';
 import { SykepengegrunnlagFraSpleis } from './sykepengegrunnlagvisninger/spleis/SykepengegrunnlagFraSpleis';
@@ -40,16 +40,17 @@ const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps)
             }
             return null;
         case 'VilkarsgrunnlagInfotrygdV2':
-            return (
-                <SykepengegrunnlagFraInfogtrygd
-                    person={person}
-                    vilkårsgrunnlag={vilkårsgrunnlag}
-                    organisasjonsnummer={
-                        isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG'
-                    }
-                    navn={isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG'}
-                />
-            );
+            if (!isSelvstendigNaering(inntektsforhold)) {
+                return (
+                    <SykepengegrunnlagFraInfogtrygd
+                        person={person}
+                        vilkårsgrunnlag={vilkårsgrunnlag}
+                        organisasjonsnummer={inntektsforhold.organisasjonsnummer}
+                        navn={inntektsforhold.navn}
+                    />
+                );
+            }
+            return null;
         case undefined:
             return null;
     }
