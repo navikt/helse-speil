@@ -11,7 +11,7 @@ import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import { BeregnetPeriodeFragment, Periodetilstand, PersonFragment } from '@io/graphql';
 import { useCalculatingValue } from '@state/calculating';
 import { usePersonStore } from '@state/contexts/personStore';
-import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { InntektsforholdReferanse, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { isGodkjent, isRevurdering } from '@state/selectors/utbetaling';
@@ -30,18 +30,12 @@ import styles from './Utbetaling.module.css';
 interface UtbetalingProps {
     period: BeregnetPeriodeFragment;
     person: PersonFragment;
-    organisasjonsnummer: string;
-    arbeidsgiverNavn: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
 }
 
 const vedtaksbegrunnelseAtom = atom<string>('initalValue');
 
-export const Utbetaling = ({
-    period,
-    person,
-    organisasjonsnummer,
-    arbeidsgiverNavn,
-}: UtbetalingProps): ReactElement | null => {
+export const Utbetaling = ({ period, person, inntektsforholdReferanse }: UtbetalingProps): ReactElement | null => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const lagretVedtakBegrunnelseTekst =
         period.vedtakBegrunnelser[0] != undefined ? (period.vedtakBegrunnelser[0].begrunnelse as string) : '';
@@ -104,8 +98,7 @@ export const Utbetaling = ({
                         <SendTilGodkjenningButton
                             size="small"
                             utbetaling={period.utbetaling}
-                            arbeidsgiverIdentifikator={organisasjonsnummer}
-                            arbeidsgiverNavn={arbeidsgiverNavn}
+                            inntektsforholdReferanse={inntektsforholdReferanse}
                             personinfo={person.personinfo}
                             oppgavereferanse={period.oppgave?.id ?? ''}
                             disabled={
@@ -123,8 +116,7 @@ export const Utbetaling = ({
                         <GodkjenningButton
                             size="small"
                             utbetaling={period.utbetaling}
-                            arbeidsgiverIdentifikator={organisasjonsnummer}
-                            arbeidsgiverNavn={arbeidsgiverNavn}
+                            inntektsforholdReferanse={inntektsforholdReferanse}
                             personinfo={person.personinfo}
                             oppgavereferanse={period.oppgave?.id ?? ''}
                             erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}

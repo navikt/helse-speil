@@ -2,7 +2,8 @@ import React, { ReactElement } from 'react';
 
 import { Alert, Button, Heading, List } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
+import { InntektsforholdReferanse, inntektsforholdReferanseTilKey } from '@state/inntektsforhold/inntektsforhold';
 import { useNavigerTilPeriode } from '@state/routing';
 import { DateString } from '@typer/shared';
 import { somNorskDato } from '@utils/date';
@@ -10,8 +11,7 @@ import { somNorskDato } from '@utils/date';
 import styles from './Periodeinformasjon.module.scss';
 
 export interface Periodeinformasjon {
-    arbeidsgiverIdentifikator: string;
-    arbeidsgivernavn: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
     perioder: {
         id: string;
         fom: DateString;
@@ -33,12 +33,9 @@ export const Periodeinformasjon = ({ tittel, periodeinformasjon }: Periodeinform
                 {tittel}
             </Heading>
             {periodeinformasjon.map((informasjon) => (
-                <List key={informasjon.arbeidsgivernavn} as="ul">
+                <List key={inntektsforholdReferanseTilKey(informasjon.inntektsforholdReferanse)} as="ul">
                     {periodeinformasjon.length > 1 && (
-                        <Arbeidsgivernavn
-                            identifikator={informasjon.arbeidsgiverIdentifikator}
-                            navn={informasjon.arbeidsgivernavn}
-                        />
+                        <Inntektsforholdnavn inntektsforholdReferanse={informasjon.inntektsforholdReferanse} />
                     )}
                     {informasjon.perioder.map((periode) => (
                         <List.Item key={periode.id} className={styles.datoliste}>

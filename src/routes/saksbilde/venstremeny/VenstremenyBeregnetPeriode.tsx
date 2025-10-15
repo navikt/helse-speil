@@ -15,7 +15,11 @@ import {
 } from '@io/graphql';
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
-import { Inntektsforhold, finnForrigeEllerNyesteGenerasjon } from '@state/inntektsforhold/inntektsforhold';
+import {
+    Inntektsforhold,
+    finnForrigeEllerNyesteGenerasjon,
+    tilReferanse,
+} from '@state/inntektsforhold/inntektsforhold';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { PeriodState } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
@@ -67,8 +71,6 @@ export const VenstremenyBeregnetPeriode = ({
         (it) => it,
     ) as VarselObject[];
 
-    const organisasjonsnummer = isArbeidsgiver(inntektsforhold) ? inntektsforhold.organisasjonsnummer : 'SELVSTENDIG';
-    const arbeidsgiverNavn = isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG';
     return (
         <section className={styles.Venstremeny}>
             <PeriodeCard.Beregnet
@@ -98,8 +100,7 @@ export const VenstremenyBeregnetPeriode = ({
                     <Utbetaling
                         period={activePeriod}
                         person={currentPerson}
-                        organisasjonsnummer={organisasjonsnummer}
-                        arbeidsgiverNavn={arbeidsgiverNavn}
+                        inntektsforholdReferanse={tilReferanse(inntektsforhold)}
                     />
                 </>
             )}

@@ -6,6 +6,7 @@ import { Button } from '@navikt/ds-react';
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { FattVedtakDocument, Personinfo, Utbetaling } from '@io/graphql';
+import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 import { apolloExtensionValue } from '@utils/error';
 
@@ -31,8 +32,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     disabled: boolean;
     onSuccess?: () => void;
     utbetaling: Utbetaling;
-    arbeidsgiverIdentifikator: string;
-    arbeidsgiverNavn: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
     personinfo: Personinfo;
     vedtakBegrunnelseTekst: string;
     size: 'small' | 'medium';
@@ -45,8 +45,7 @@ export const GodkjenningButton = ({
     disabled = false,
     onSuccess,
     utbetaling,
-    arbeidsgiverIdentifikator,
-    arbeidsgiverNavn,
+    inntektsforholdReferanse,
     personinfo,
     vedtakBegrunnelseTekst,
     size,
@@ -88,8 +87,7 @@ export const GodkjenningButton = ({
                 <UtbetalingModal
                     showModal={showModal}
                     utbetaling={utbetaling}
-                    arbeidsgiverIdentifikator={arbeidsgiverIdentifikator}
-                    arbeidsgiverNavn={arbeidsgiverNavn}
+                    inntektsforholdReferanse={inntektsforholdReferanse}
                     personinfo={personinfo}
                     closeModal={() => {
                         resetFattVedtakMutation();

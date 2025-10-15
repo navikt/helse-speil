@@ -2,15 +2,19 @@ import React, { ReactElement } from 'react';
 
 import { Alert, Button, Detail, Heading, List, VStack } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Arbeidsgivernavn, Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
-import { finnAlleInntektsforhold, finnPeriodeTilGodkjenning } from '@state/inntektsforhold/inntektsforhold';
+import {
+    finnAlleInntektsforhold,
+    finnPeriodeTilGodkjenning,
+    inntektsforholdReferanseTilKey,
+    tilReferanse,
+} from '@state/inntektsforhold/inntektsforhold';
 import { useNavigerTilPeriode, useNavigerTilTilkommenInntekt } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
-import { isArbeidsgiver } from '@utils/typeguards';
 
 import styles from './HarBeslutteroppgaver.module.scss';
 
@@ -36,10 +40,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
     const perioderTilKontroll = finnAlleInntektsforhold(person)
         .map(
             (inntektsforhold): Periodeinformasjon => ({
-                arbeidsgiverIdentifikator: isArbeidsgiver(inntektsforhold)
-                    ? inntektsforhold.organisasjonsnummer
-                    : 'SELVSTENDIG',
-                arbeidsgivernavn: isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG',
+                inntektsforholdReferanse: tilReferanse(inntektsforhold),
                 perioder:
                     inntektsforhold.generasjoner[0]?.perioder
                         .filter((periode) => !periode.erForkastet)
@@ -69,12 +70,15 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
                         Perioder til kontroll
                     </Heading>
                     {perioderTilKontroll.map((informasjon) => (
-                        <List key={informasjon.arbeidsgivernavn} as="ul" className={styles.periodeListe}>
+                        <List
+                            key={inntektsforholdReferanseTilKey(informasjon.inntektsforholdReferanse)}
+                            as="ul"
+                            className={styles.periodeListe}
+                        >
                             {perioderTilKontroll.length > 1 ||
                                 (harTilkommenInntektEndring && (
-                                    <Arbeidsgivernavn
-                                        identifikator={informasjon.arbeidsgiverIdentifikator}
-                                        navn={informasjon.arbeidsgivernavn}
+                                    <Inntektsforholdnavn
+                                        inntektsforholdReferanse={informasjon.inntektsforholdReferanse}
                                         weight="semibold"
                                     />
                                 ))}

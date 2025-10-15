@@ -2,8 +2,11 @@ import React, { ReactElement } from 'react';
 
 import { PersonFragment } from '@io/graphql';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
-import { finnAlleInntektsforhold, finnPeriodeTilGodkjenning } from '@state/inntektsforhold/inntektsforhold';
-import { isArbeidsgiver } from '@utils/typeguards';
+import {
+    finnAlleInntektsforhold,
+    finnPeriodeTilGodkjenning,
+    tilReferanse,
+} from '@state/inntektsforhold/inntektsforhold';
 
 interface HarVurderbareVarslerProps {
     person: PersonFragment;
@@ -14,13 +17,10 @@ export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): Rea
 
     if (!harPeriodeTilGodkjenning) return null;
 
-    const arbeidsgivereMedVurderbareVarsler = finnAlleInntektsforhold(person)
+    const inntektsforholdMedVurderbareVarsler = finnAlleInntektsforhold(person)
         .map(
             (inntektsforhold): Periodeinformasjon => ({
-                arbeidsgiverIdentifikator: isArbeidsgiver(inntektsforhold)
-                    ? inntektsforhold.organisasjonsnummer
-                    : 'SELVSTENDIG',
-                arbeidsgivernavn: isArbeidsgiver(inntektsforhold) ? inntektsforhold.navn : 'SELVSTENDIG',
+                inntektsforholdReferanse: tilReferanse(inntektsforhold),
                 perioder: inntektsforhold.generasjoner
                     .flatMap((generasjon) =>
                         generasjon.perioder.filter((periode) =>
@@ -34,12 +34,12 @@ export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): Rea
         )
         .filter((it) => it.perioder.length > 0);
 
-    if (arbeidsgivereMedVurderbareVarsler.length === 0) return null;
+    if (inntektsforholdMedVurderbareVarsler.length === 0) return null;
 
     return (
         <Periodeinformasjon
             tittel="Perioder med varsler som må vurderes"
-            periodeinformasjon={arbeidsgivereMedVurderbareVarsler}
+            periodeinformasjon={inntektsforholdMedVurderbareVarsler}
         />
     );
 };

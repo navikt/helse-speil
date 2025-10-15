@@ -2,11 +2,12 @@ import { ReactElement } from 'react';
 
 import { BodyShort, Button, ErrorMessage, HStack, Heading, Modal, Spacer } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Personinfo, Utbetaling, Utbetalingstatus } from '@io/graphql';
+import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { capitalizeName, somPenger } from '@utils/locale';
 
 import styles from '../BeløpTilUtbetaling.module.css';
@@ -19,8 +20,7 @@ type UtbetalingModalProps = {
     error: BackendFeil | undefined;
     totrinnsvurdering: boolean;
     utbetaling?: Utbetaling;
-    arbeidsgiverIdentifikator: string;
-    arbeidsgiverNavn: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
     personinfo?: Personinfo;
 };
 
@@ -36,8 +36,7 @@ export const UtbetalingModal = ({
     error,
     totrinnsvurdering,
     utbetaling,
-    arbeidsgiverIdentifikator,
-    arbeidsgiverNavn,
+    inntektsforholdReferanse,
     personinfo,
 }: UtbetalingModalProps): ReactElement => (
     <Modal aria-label="Legg på vent modal" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
@@ -47,11 +46,10 @@ export const UtbetalingModal = ({
             </Heading>
         </Modal.Header>
         <Modal.Body className={styles.modal}>
-            {utbetaling && arbeidsgiverNavn && personinfo && (
+            {utbetaling && personinfo && (
                 <TilUtbetaling
                     utbetaling={utbetaling}
-                    arbeidsgiverIdentifikator={arbeidsgiverIdentifikator}
-                    arbeidsgiverNavn={arbeidsgiverNavn}
+                    inntektsforholdReferanse={inntektsforholdReferanse}
                     personinfo={personinfo}
                 />
             )}
@@ -78,17 +76,11 @@ export const UtbetalingModal = ({
 
 type TilUtbetalingProps = {
     utbetaling: Utbetaling;
-    arbeidsgiverIdentifikator: string;
-    arbeidsgiverNavn: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
     personinfo: Personinfo;
 };
 
-const TilUtbetaling = ({
-    utbetaling,
-    arbeidsgiverIdentifikator,
-    arbeidsgiverNavn,
-    personinfo,
-}: TilUtbetalingProps): ReactElement => (
+const TilUtbetaling = ({ utbetaling, inntektsforholdReferanse, personinfo }: TilUtbetalingProps): ReactElement => (
     <div className={styles.TilUtbetaling}>
         <HStack align="center" gap="4" className={styles.Row}>
             <BodyShort weight="semibold">
@@ -101,7 +93,7 @@ const TilUtbetaling = ({
         </HStack>
         <HStack align="center" gap="4" className={styles.Row}>
             <Arbeidsgiverikon />
-            <Arbeidsgivernavn identifikator={arbeidsgiverIdentifikator} navn={arbeidsgiverNavn} />
+            <Inntektsforholdnavn inntektsforholdReferanse={inntektsforholdReferanse} />
             <Spacer />
             <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
         </HStack>

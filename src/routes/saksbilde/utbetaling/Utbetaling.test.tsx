@@ -2,10 +2,6 @@ import { nanoid } from 'nanoid';
 import React from 'react';
 
 import { Inntektstype, Utbetalingsdagtype } from '@io/graphql';
-import {
-    useAktivtInntektsforhold,
-    useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
-} from '@state/inntektsforhold/inntektsforhold';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode, enDag } from '@test-data/periode';
@@ -15,8 +11,6 @@ import { render } from '@test-utils';
 import { screen } from '@testing-library/react';
 
 import { Utbetaling } from './Utbetaling';
-
-jest.mock('@state/inntektsforhold/inntektsforhold');
 
 describe('Utbetaling', () => {
     afterEach(() => {
@@ -29,9 +23,6 @@ describe('Utbetaling', () => {
         const periode = enBeregnetPeriode({ oppgave, tidslinje });
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
-
-        (useAktivtInntektsforhold as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
         render(<Utbetaling person={person} periode={periode} />);
 
@@ -50,9 +41,6 @@ describe('Utbetaling', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useAktivtInntektsforhold as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
-
         render(<Utbetaling person={person} periode={periode} />);
 
         expect(screen.getByText('Kan ikke revurdere perioden på grunn av manglende datagrunnlag')).toBeVisible();
@@ -66,9 +54,6 @@ describe('Utbetaling', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useAktivtInntektsforhold as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
-
         render(<Utbetaling person={person} periode={periode} />);
 
         expect(screen.getByText('Revurder dager')).toBeVisible();
@@ -80,9 +65,6 @@ describe('Utbetaling', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeB, periodeA]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useAktivtInntektsforhold as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
-
         render(<Utbetaling person={person} periode={periodeA} />);
 
         expect(screen.getByText('Revurder dager')).toBeVisible();
@@ -93,9 +75,6 @@ describe('Utbetaling', () => {
         const periodeB = enBeregnetPeriode({ skjaeringstidspunkt: '2020-02-01' });
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeB, periodeA]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
-
-        (useAktivtInntektsforhold as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
         render(<Utbetaling person={person} periode={periodeA} />);
 
@@ -115,9 +94,6 @@ describe('Utbetaling', () => {
         const arbeidsgiverA = enArbeidsgiver().medPerioder([periodeA]);
         const arbeidsgiverB = enArbeidsgiver().medPerioder([periodeB]);
         const person = enPerson().medArbeidsgivere([arbeidsgiverA, arbeidsgiverB]);
-
-        (useAktivtInntektsforhold as jest.Mock).mockReturnValue(arbeidsgiverB);
-        (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(false);
 
         render(<Utbetaling person={person} periode={periodeB} />);
 

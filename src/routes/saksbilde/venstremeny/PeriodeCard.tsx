@@ -28,8 +28,8 @@ import { ActivePeriod, DatePeriod, DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
 import { isArbeidsgiver } from '@utils/typeguards';
 
-import { ArbeidsgiverRow } from './ArbeidsgiverRow';
 import { CardTitle } from './CardTitle';
+import { InntektsforholdRow } from './InntektsforholdRow';
 
 import styles from './PeriodeCard.module.scss';
 
@@ -205,7 +205,7 @@ const PeriodeCardUberegnet = ({ periode, inntektsforhold, månedsbeløp }: Perio
                     periodetype={periode.periodetype}
                     skjæringstidspunkt={periode.skjaeringstidspunkt}
                 />
-                <ArbeidsgiverRow
+                <InntektsforholdRow
                     arbeidsforhold={arbeidsforhold}
                     månedsbeløp={månedsbeløp}
                     inntektsforhold={inntektsforhold}
@@ -250,7 +250,7 @@ const PeriodeCardBeregnet = ({
                     skjæringstidspunkt={periode.skjaeringstidspunkt}
                 />
                 <MaksdatoRow activePeriod={periode} />
-                <ArbeidsgiverRow
+                <InntektsforholdRow
                     arbeidsforhold={arbeidsforhold}
                     månedsbeløp={månedsbeløp}
                     inntektsforhold={inntektsforhold}
@@ -268,7 +268,7 @@ interface PeriodeCardGhostProps {
 const PeriodeCardGhost = ({ arbeidsgiver, inntektsforhold }: PeriodeCardGhostProps): ReactElement => {
     return (
         <section className={styles.grid}>
-            <ArbeidsgiverRow arbeidsforhold={arbeidsgiver.arbeidsforhold} inntektsforhold={inntektsforhold} />
+            <InntektsforholdRow arbeidsforhold={arbeidsgiver.arbeidsforhold} inntektsforhold={inntektsforhold} />
         </section>
     );
 };
@@ -281,7 +281,7 @@ interface PeriodeCardTilkommenProps {
 const PeriodeCardTilkommen = ({ arbeidsgiver, inntektsforhold }: PeriodeCardTilkommenProps): ReactElement => {
     return (
         <section className={styles.grid}>
-            <ArbeidsgiverRow arbeidsforhold={arbeidsgiver.arbeidsforhold} inntektsforhold={inntektsforhold} />
+            <InntektsforholdRow arbeidsforhold={arbeidsgiver.arbeidsforhold} inntektsforhold={inntektsforhold} />
         </section>
     );
 };

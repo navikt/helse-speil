@@ -6,6 +6,7 @@ import { Button } from '@navikt/ds-react';
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Personinfo, SendTilGodkjenningV2Document, Utbetaling } from '@io/graphql';
+import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
 
@@ -30,8 +31,7 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
     disabled: boolean;
     onSuccess?: () => void;
     utbetaling: Utbetaling;
-    arbeidsgiverIdentifikator: string;
-    arbeidsgiverNavn: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
     personinfo: Personinfo;
     vedtakBegrunnelseTekst: string;
     size: 'small' | 'medium';
@@ -43,8 +43,7 @@ export const SendTilGodkjenningButton = ({
     disabled = false,
     onSuccess,
     utbetaling,
-    arbeidsgiverIdentifikator,
-    arbeidsgiverNavn,
+    inntektsforholdReferanse,
     personinfo,
     vedtakBegrunnelseTekst,
     size,
@@ -92,8 +91,7 @@ export const SendTilGodkjenningButton = ({
                 <UtbetalingModal
                     showModal={showModal}
                     utbetaling={utbetaling}
-                    arbeidsgiverIdentifikator={arbeidsgiverIdentifikator}
-                    arbeidsgiverNavn={arbeidsgiverNavn}
+                    inntektsforholdReferanse={inntektsforholdReferanse}
                     personinfo={personinfo}
                     closeModal={() => setShowModal(false)}
                     onApprove={sendTilGodkjenning}
