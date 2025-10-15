@@ -6,7 +6,7 @@ import { TimelineZoomLevel } from '@typer/timeline';
 import styles from './ZoomLevelPicker.module.css';
 
 interface ZoomLevelPickerProps extends React.HTMLAttributes<HTMLDivElement> {
-    availableZoomLevels: Array<TimelineZoomLevel>;
+    availableZoomLevels: TimelineZoomLevel[];
     currentZoomLevel: TimelineZoomLevel;
     setActiveZoomLevel: (index: number) => void;
 }

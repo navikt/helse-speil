@@ -74,11 +74,11 @@ export const overlapper =
 export const getOverlappendePerioder = (
     person: PersonFragment,
     period: BeregnetPeriodeFragment,
-): Array<BeregnetPeriodeFragment> => {
+): BeregnetPeriodeFragment[] => {
     return person.arbeidsgivere
         .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
         .filter(isBeregnetPeriode)
-        .filter(overlapper(period)) as Array<BeregnetPeriodeFragment>;
+        .filter(overlapper(period)) as BeregnetPeriodeFragment[];
 };
 
 export const isForkastet = (periode?: Periode | null): boolean => {

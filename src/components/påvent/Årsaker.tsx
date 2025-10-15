@@ -9,8 +9,8 @@ import styles from './PåVentModaler.module.scss';
 interface ÅrsakerProps {
     årsaker: Arsak[] | undefined;
     årsakerLoading: boolean;
-    valgteÅrsaker: Array<string>;
-    setValgteÅrsaker: (valgteÅrsaker: Array<string>) => void;
+    valgteÅrsaker: string[];
+    setValgteÅrsaker: (valgteÅrsaker: string[]) => void;
     error: string | null;
 }
 

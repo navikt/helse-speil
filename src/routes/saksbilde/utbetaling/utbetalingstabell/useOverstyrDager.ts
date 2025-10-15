@@ -15,8 +15,8 @@ import { isArbeidsgiver } from '@utils/typeguards';
 
 type UsePostOverstyringResult = {
     postOverstyring: (
-        dager: Array<Utbetalingstabelldag>,
-        overstyrteDager: Array<Utbetalingstabelldag>,
+        dager: Utbetalingstabelldag[],
+        overstyrteDager: Utbetalingstabelldag[],
         begrunnelse: string,
         vedtaksperiodeId: string,
         callback?: () => void,
@@ -57,8 +57,8 @@ export const useOverstyrDager = (
     useFjernKalkulerToast(calculating, () => setTimedOut(true));
 
     const overstyrDager = async (
-        dager: Array<Utbetalingstabelldag>,
-        overstyrteDager: Array<Utbetalingstabelldag>,
+        dager: Utbetalingstabelldag[],
+        overstyrteDager: Utbetalingstabelldag[],
         begrunnelse: string,
         vedtaksperiodeId: string,
         callback?: () => void,
@@ -94,8 +94,8 @@ export const useOverstyrDager = (
 };
 
 export const tilOverstyrteDager = (
-    dager: Array<Utbetalingstabelldag>,
-    overstyrteDager: Array<Utbetalingstabelldag>,
+    dager: Utbetalingstabelldag[],
+    overstyrteDager: Utbetalingstabelldag[],
 ): OverstyrtDagDTO[] =>
     overstyrteDager.map((overstyrtDag) => {
         const fraDag = dager.find((fraDag) => fraDag.dato === overstyrtDag.dato);

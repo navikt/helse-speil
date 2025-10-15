@@ -78,10 +78,10 @@ const ukjentTilstand = (state: PeriodState): VarselObject | null =>
 
 const beslutteroppgave = (
     harTotrinnsvurdering: boolean,
-    varsler: Array<VarselDto>,
+    varsler: VarselDto[],
     harDagOverstyringer = false,
     harTilkommenInntektEndring: boolean,
-    åpneEndringerPåPerson?: Array<Overstyring> | null,
+    åpneEndringerPåPerson?: Overstyring[] | null,
     activePeriodTom?: string,
     navnPåDeaktiverteGhostArbeidsgivere?: string,
 ): string[] | null => {
@@ -155,7 +155,7 @@ const beslutteroppgave = (
     return årsaker;
 };
 
-const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: DateString): boolean => {
+const harRelevanteDagoverstyringer = (overstyringer: Overstyring[], tom?: DateString): boolean => {
     return (
         typeof tom === 'string' &&
         overstyringer.some((it) => isDagoverstyring(it) && dayjs(it.dager[0]?.dato).isSameOrBefore(tom))
@@ -165,10 +165,10 @@ const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: D
 interface SaksbildevarslerProps {
     periodState: PeriodState;
     oppgavereferanse?: string | null;
-    varsler?: Array<VarselDto> | null;
+    varsler?: VarselDto[] | null;
     erTidligereSaksbehandler?: boolean;
     erBeslutteroppgave?: boolean;
-    åpneEndringerPåPerson?: Array<Overstyring> | null;
+    åpneEndringerPåPerson?: Overstyring[] | null;
     harDagOverstyringer?: boolean;
     activePeriodTom?: string;
     skjæringstidspunkt?: string;

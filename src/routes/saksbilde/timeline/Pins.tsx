@@ -32,7 +32,7 @@ const shouldShowPin = (position?: number | null): boolean =>
 interface PinsProps {
     start: Dayjs;
     end: Dayjs;
-    inntektsforhold: Array<Inntektsforhold>;
+    inntektsforhold: Inntektsforhold[];
 }
 
 export const Pins = ({ inntektsforhold, start, end }: PinsProps): ReactElement => {

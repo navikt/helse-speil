@@ -9,7 +9,7 @@ import { DateString } from '@typer/shared';
 export const useHentTilkommenInntektQuery = (aktørId?: string) =>
     useQuery({
         queryKey: ['/personer/{aktorId}/tilkomne-inntektskilder', { aktørId }],
-        queryFn: async (): Promise<Array<TilkommenInntektskilde>> => {
+        queryFn: async (): Promise<TilkommenInntektskilde[]> => {
             const response = await fetch(`/api/spesialist/personer/${aktørId}/tilkomne-inntektskilder`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');

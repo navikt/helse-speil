@@ -31,7 +31,7 @@ export type HistorikkinnslagMedKommentarer =
     | OpphevStansAutomatiskBehandlingSaksbehandler;
 
 export class HistorikkinnslagMock {
-    private static historikkinnslagMap: Map<UUID, Array<HistorikkinnslagUnion>> = new Map();
+    private static historikkinnslagMap: Map<UUID, HistorikkinnslagUnion[]> = new Map();
     private static historikkinnslagCounter: number = 0;
 
     static addHistorikkinnslag = (id: string, historikkinnslagProps?: Partial<HistorikkinnslagUnion>) => {

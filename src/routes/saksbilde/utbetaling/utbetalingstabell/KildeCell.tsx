@@ -15,7 +15,7 @@ import styles from './KildeCell.module.css';
 
 interface KildeTypeIconProps {
     kilde?: Kildetype;
-    overstyringer?: Array<OverstyringerPrDag>;
+    overstyringer?: OverstyringerPrDag[];
 }
 
 const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps): ReactElement | null => {
@@ -48,7 +48,7 @@ const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps): ReactEleme
 interface KildeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     type: Utbetalingstabelldagtype;
     kilde?: Kildetype;
-    overstyringer?: Array<OverstyringerPrDag>;
+    overstyringer?: OverstyringerPrDag[];
 }
 
 export const KildeCell = ({ type, kilde, overstyringer, ...rest }: KildeCellProps): ReactElement => {

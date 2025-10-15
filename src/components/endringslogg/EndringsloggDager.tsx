@@ -11,7 +11,7 @@ import styles from './Endringslogg.module.css';
 type EndringsloggDagerProps = {
     closeModal: () => void;
     showModal: boolean;
-    endringer: Array<OverstyringerPrDag>;
+    endringer: OverstyringerPrDag[];
 };
 
 export const EndringsloggDager = ({ endringer, closeModal, showModal }: EndringsloggDagerProps): ReactElement => (

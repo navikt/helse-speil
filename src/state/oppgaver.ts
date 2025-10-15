@@ -65,7 +65,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
                 Object.values(ApiEgenskap).includes(filter.key as ApiEgenskap) && filter.status === FilterStatus.PLUS,
         );
 
-        const minstEnAvEgenskapeneMap = new Map<string, Array<ApiEgenskap>>();
+        const minstEnAvEgenskapeneMap = new Map<string, ApiEgenskap[]>();
         plussEgenskaper.forEach((currentValue) => {
             const kategori = finnKategori(currentValue.column);
             const array = minstEnAvEgenskapeneMap.get(kategori) ?? [];

@@ -20,7 +20,7 @@ const createZoomLevel = (startDate: Dayjs, delta: number, label: string, months:
     };
 };
 
-const getAvailableZoomLevels = (latestDate: Dayjs, delta: number): Array<TimelineZoomLevel> => {
+const getAvailableZoomLevels = (latestDate: Dayjs, delta: number): TimelineZoomLevel[] => {
     return [
         createZoomLevel(latestDate, delta, '2 mnd', 2),
         createZoomLevel(latestDate, delta, '6 mnd', 6),
@@ -29,14 +29,14 @@ const getAvailableZoomLevels = (latestDate: Dayjs, delta: number): Array<Timelin
     ];
 };
 
-const getLatestDate = (perioder: Array<Periode>): Dayjs => {
+const getLatestDate = (perioder: Periode[]): Dayjs => {
     return perioder.reduce((latest: Dayjs, periode: Periode) => {
         const dato = dayjs(periode.tom);
         return dato.isAfter(latest) ? dato : latest;
     }, dayjs(0));
 };
 
-const getEarliestDate = (perioder: Array<Periode>): Dayjs => {
+const getEarliestDate = (perioder: Periode[]): Dayjs => {
     return perioder.reduce((latest: Dayjs, periode: Periode) => {
         const dato = dayjs(periode.fom);
         return dato.isBefore(latest) ? dato : latest;
@@ -44,9 +44,9 @@ const getEarliestDate = (perioder: Array<Periode>): Dayjs => {
 };
 
 export const getMergedPeriods = (
-    inntektsforhold: Array<Inntektsforhold>,
-    infotrygdutbetalinger: Array<Infotrygdutbetaling>,
-): Array<Periode> => {
+    inntektsforhold: Inntektsforhold[],
+    infotrygdutbetalinger: Infotrygdutbetaling[],
+): Periode[] => {
     return [
         ...inntektsforhold.flatMap((it) => it.generasjoner.flatMap((it) => it.perioder) ?? []),
         ...inntektsforhold.flatMap((it) => (isArbeidsgiver(it) ? it.ghostPerioder : [])),
@@ -54,13 +54,13 @@ export const getMergedPeriods = (
     ];
 };
 
-export const useLatestPossibleDate = (periods: Array<Periode>): Dayjs => {
+export const useLatestPossibleDate = (periods: Periode[]): Dayjs => {
     return useMemo(() => {
         return getLatestDate(periods);
     }, [periods]);
 };
 
-const useEarliestPossibleDate = (periods: Array<Periode>): Dayjs => {
+const useEarliestPossibleDate = (periods: Periode[]): Dayjs => {
     return useMemo(() => {
         return getEarliestDate(periods);
     }, [periods]);
@@ -75,7 +75,7 @@ const getNumberOfDaysInZoomLevel = (level: TimelineZoomLevel): number => {
 };
 
 type UseTimelineControlsResult = {
-    zoomLevels: Array<TimelineZoomLevel>;
+    zoomLevels: TimelineZoomLevel[];
     currentZoomLevel: TimelineZoomLevel;
     setCurrentZoomLevel: Dispatch<SetStateAction<number>>;
     navigateForwards: () => void;
@@ -85,8 +85,8 @@ type UseTimelineControlsResult = {
 };
 
 export const useTimelineControls = (
-    inntektsforhold: Array<Inntektsforhold>,
-    infotrygdutbetalinger: Array<Infotrygdutbetaling>,
+    inntektsforhold: Inntektsforhold[],
+    infotrygdutbetalinger: Infotrygdutbetaling[],
 ): UseTimelineControlsResult => {
     const allPeriods = useMemo(
         () => getMergedPeriods(inntektsforhold, infotrygdutbetalinger),

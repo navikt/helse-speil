@@ -63,19 +63,19 @@ const useUtbetaltTidslinjeForSykefraværstilfellet = (
     return utbetaltePerioderTilAnnullering.flatMap((it) => it.tidslinje);
 };
 
-const finnSisteUtbetalingsdag = (utbetalingsdager: Array<Utbetalingstabelldag>): string | undefined =>
+const finnSisteUtbetalingsdag = (utbetalingsdager: Utbetalingstabelldag[]): string | undefined =>
     utbetalingsdager
         .flatMap((it) => it.dato)
         .sort(dateDescending)
         .shift();
 
-const finnFørsteUtbetalingsdag = (utbetalingsdager: Array<Utbetalingstabelldag>): string | undefined =>
+const finnFørsteUtbetalingsdag = (utbetalingsdager: Utbetalingstabelldag[]): string | undefined =>
     utbetalingsdager
         .flatMap((it) => it.dato)
         .sort(dateDescending)
         .pop();
 
-const finnUtbetaltePerioderPåSkjæringstidspunkt = (skjæringstidspunkt: string, perioder?: Array<Periode>): Periode[] =>
+const finnUtbetaltePerioderPåSkjæringstidspunkt = (skjæringstidspunkt: string, perioder?: Periode[]): Periode[] =>
     perioder?.filter(
         (it) =>
             isBeregnetPeriode(it) &&

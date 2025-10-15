@@ -19,7 +19,7 @@ import {
 } from '@spesialist-mock/schemaTypes';
 
 export class TilkommenInntektMock {
-    private static inntektskilder: Map<string, Array<TilkommenInntektskilde>> = new Map();
+    private static inntektskilder: Map<string, TilkommenInntektskilde[]> = new Map();
     private static aktørIdToFødselsnummerMap: Map<string, string> = new Map();
 
     static {
@@ -79,7 +79,7 @@ export class TilkommenInntektMock {
         return { __typename: 'LeggTilTilkommenInntektResponse', tilkommenInntektId: nyTilkommenInntektId };
     };
 
-    static tilkomneInntektskilder = (aktørId: string): Array<TilkommenInntektskilde> => {
+    static tilkomneInntektskilder = (aktørId: string): TilkommenInntektskilde[] => {
         const fødselsnummer = TilkommenInntektMock.aktørIdToFødselsnummerMap.get(aktørId);
         if (fødselsnummer === undefined) {
             return [];

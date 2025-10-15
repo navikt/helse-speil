@@ -6,7 +6,7 @@ import { Kommentarer } from '@saksbilde/historikk/komponenter/kommentarer/Kommen
 import { LeggTilNyKommentar } from '@saksbilde/historikk/komponenter/kommentarer/LeggTilNyKommentar';
 
 type KommentarSeksjonProps = {
-    kommentarer: Array<Kommentar>;
+    kommentarer: Kommentar[];
     dialogRef?: number;
     historikkinnslagId: number;
     historikktype?: PeriodehistorikkType;

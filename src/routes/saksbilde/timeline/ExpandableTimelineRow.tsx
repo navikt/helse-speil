@@ -13,7 +13,7 @@ import type { TimelineRowProps } from './TimelineRow';
 import styles from './TimelineRow.module.css';
 
 interface ExpandableTimelineRowProp extends Omit<TimelineRowProps, 'periods'> {
-    generations: Array<Generasjon>;
+    generations: Generasjon[];
     person: PersonFragment;
     inntektsforhold: Inntektsforhold;
 }

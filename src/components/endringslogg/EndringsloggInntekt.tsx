@@ -12,7 +12,7 @@ import styles from './Endringslogg.module.css';
 type EndringsloggInntektProps = {
     closeModal: () => void;
     showModal: boolean;
-    endringer: Array<Inntektoverstyring>;
+    endringer: Inntektoverstyring[];
 };
 
 export const EndringsloggInntekt = ({ endringer, closeModal, showModal }: EndringsloggInntektProps): ReactElement => (

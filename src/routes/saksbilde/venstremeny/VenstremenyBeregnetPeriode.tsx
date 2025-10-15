@@ -112,7 +112,7 @@ export const VenstremenyBeregnetPeriode = ({
     );
 };
 
-const getNumberOfDaysWithType = (timeline: Array<Dag>, type: Utbetalingsdagtype): number =>
+const getNumberOfDaysWithType = (timeline: Dag[], type: Utbetalingsdagtype): number =>
     timeline.filter((it) => it.utbetalingsdagtype === type).length;
 
 const utbetaling = (state: PeriodState): VarselObject | null =>

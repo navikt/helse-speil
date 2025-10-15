@@ -1,6 +1,6 @@
 import { Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
-const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = [
+const dagtyperUtenGradering: Utbetalingstabelldagtype[] = [
     'Arbeid',
     'Ferie',
     'ArbeidIkkeGjenopptatt',

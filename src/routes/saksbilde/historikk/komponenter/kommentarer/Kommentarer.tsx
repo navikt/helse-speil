@@ -9,7 +9,7 @@ import { Kommentar } from './Kommentar';
 import styles from './Kommentarer.module.css';
 
 interface KommentarerProps {
-    kommentarer: Array<GraphQLKommentar>;
+    kommentarer: GraphQLKommentar[];
 }
 
 export const Kommentarer = ({ kommentarer }: KommentarerProps): ReactElement | null => {

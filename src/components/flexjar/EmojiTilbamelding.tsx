@@ -10,7 +10,7 @@ interface EmojiTilbakemeldingProps {
     feedbackId: string;
     textRequired?: boolean;
     tittel: string;
-    feedbackProps: Record<string, string | Array<string> | boolean>;
+    feedbackProps: Record<string, string | string[] | boolean>;
 }
 
 export const EmojiTilbakemelding = ({ feedbackId, tittel, feedbackProps }: EmojiTilbakemeldingProps) => {

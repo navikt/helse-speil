@@ -31,7 +31,7 @@ const byKode = (a: VarselDto, b: VarselDto) => {
 export type VarselstatusType = 'feil' | 'aktiv' | 'vurdert' | 'ferdig-behandlet';
 
 interface VarslerProps {
-    varsler: Array<VarselDto>;
+    varsler: VarselDto[];
 }
 
 export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {

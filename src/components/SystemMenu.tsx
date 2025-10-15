@@ -92,7 +92,7 @@ const Lenkeinnhold = ({ tekst, snarveibokstav }: LenkeinnholdProps): ReactElemen
     </>
 );
 
-const createLinks = (maybeFnr: string | null, maybeAktoerId: string | null): Array<HrefLink | ButtonLink> => [
+const createLinks = (maybeFnr: string | null, maybeAktoerId: string | null): (HrefLink | ButtonLink)[] => [
     {
         tekst: 'A-inntekt',
         action: () =>

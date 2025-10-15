@@ -16,16 +16,14 @@ const enInntektFraAOrdningen: OverridableConstructor<InntektFraAOrdningen> = (ov
     ...overrides,
 });
 
-const inntekterFraAOrdningen = (start: DateString): Array<InntektFraAOrdningen> => {
+const inntekterFraAOrdningen = (start: DateString): InntektFraAOrdningen[] => {
     return new Array(3).fill(0).map((_, i) => {
         return enInntektFraAOrdningen({ maned: dayjs(start).add(i, 'month').format('YYYY-MM') });
     });
 };
 
 type OmregnetArsinntektExtensions = {
-    medInntektFraAordningen: (
-        inntekt?: Array<InntektFraAOrdningen>,
-    ) => OmregnetArsinntekt & OmregnetArsinntektExtensions;
+    medInntektFraAordningen: (inntekt?: InntektFraAOrdningen[]) => OmregnetArsinntekt & OmregnetArsinntektExtensions;
 };
 
 const enOmregnetÅrsinntekt: OverridableConstructor<OmregnetArsinntekt, OmregnetArsinntektExtensions> = (overrides) => {
@@ -46,9 +44,7 @@ const enOmregnetÅrsinntekt: OverridableConstructor<OmregnetArsinntekt, Omregnet
 };
 
 type ArbeidsgiverinntektExtensions = {
-    medInntektFraAOrdningen: (
-        inntekt?: Array<InntektFraAOrdningen>,
-    ) => Arbeidsgiverinntekt & ArbeidsgiverinntektExtensions;
+    medInntektFraAOrdningen: (inntekt?: InntektFraAOrdningen[]) => Arbeidsgiverinntekt & ArbeidsgiverinntektExtensions;
 };
 
 export const enArbeidsgiverinntekt: OverridableConstructor<

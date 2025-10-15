@@ -23,7 +23,7 @@ interface InntektUtenSykefraværProps {
     inntektstype?: Inntektstype | null;
     arbeidsgiver: Arbeidsgiver;
     refusjon?: Refusjonsopplysning[] | null;
-    inntekterForSammenligningsgrunnlag?: Array<InntektFraAOrdningen>;
+    inntekterForSammenligningsgrunnlag?: InntektFraAOrdningen[];
     editing: boolean;
     setEditing: (isEditing: boolean) => void;
 }

@@ -24,7 +24,7 @@ import { VurdertISpleis } from './vilkårsgrupper/VurdertISpleis';
 
 import styles from './Inngangsvilkår.module.css';
 
-const harVilkår = (vilkår?: Array<Vilkårdata>): vilkår is Array<Vilkårdata> =>
+const harVilkår = (vilkår?: Vilkårdata[]): vilkår is Vilkårdata[] =>
     vilkår !== undefined && vilkår !== null && vilkår.length > 0;
 
 interface InngangsvilkårWithContentProps {

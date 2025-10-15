@@ -123,7 +123,7 @@ const OmregnetÅrsinntektContent = ({ arbeidsforholdErDeaktivert, beløp }: Omre
 
 interface OmregnetÅrsinntektIkonProps {
     arbeidsforholdErDeaktivert?: boolean | null;
-    endringer: Array<OverstyringFragment>;
+    endringer: OverstyringFragment[];
     kilde?: Inntektskilde;
 }
 

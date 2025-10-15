@@ -68,7 +68,7 @@ const hendelseTidspunktLiktEllerFørUtbetalingForPeriode =
               dayjs(hendelse.timestamp).startOf('s').isSameOrBefore(period.utbetaling.vurdering.tidsstempel)
             : true;
 
-const getHendelserForGhostPeriode = (periode: GhostPeriodeFragment, person: PersonFragment): Array<HendelseObject> => {
+const getHendelserForGhostPeriode = (periode: GhostPeriodeFragment, person: PersonFragment): HendelseObject[] => {
     const arbeidsgiver = finnArbeidsgiverForGhostPeriode(person, periode);
     if (!arbeidsgiver) {
         return [];
@@ -86,7 +86,7 @@ const getHendelserForGhostPeriode = (periode: GhostPeriodeFragment, person: Pers
 const getHendelserForUberegnetPeriode = (
     periode: UberegnetPeriodeFragment,
     person: PersonFragment,
-): Array<HendelseObject> => {
+): HendelseObject[] => {
     const inntektsforhold = finnInntektsforholdForPeriode(person, periode);
     if (!inntektsforhold) {
         return [];
@@ -122,7 +122,7 @@ const useHistorikk = (person: PersonFragment | null): HendelseObject[] => {
 
 const filterState = atom<Filtertype>('Historikk');
 
-const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
+const filterMap: Record<Filtertype, Hendelsetype[]> = {
     Historikk: [
         'Dagoverstyring',
         'Arbeidsforholdoverstyring',
@@ -153,7 +153,7 @@ const showHistorikkState = atomWithSessionStorage('showHistorikkState', true);
 
 export const useShowHistorikkState = () => useAtom(showHistorikkState);
 
-export const useFilteredHistorikk = (person: PersonFragment | null): Array<HendelseObject> => {
+export const useFilteredHistorikk = (person: PersonFragment | null): HendelseObject[] => {
     const filter = useAtomValue(filterState);
     const historikk = useHistorikk(person);
 

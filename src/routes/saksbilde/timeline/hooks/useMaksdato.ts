@@ -15,7 +15,7 @@ const byFomDescending = (a: Periode, b: Periode): number => {
     return new Date(b.fom).getTime() - new Date(a.fom).getTime();
 };
 
-export const useMaksdato = (inntektsforhold: Array<Inntektsforhold>): DateString | undefined =>
+export const useMaksdato = (inntektsforhold: Inntektsforhold[]): DateString | undefined =>
     inntektsforhold
         .flatMap((it) => it.generasjoner[0]?.perioder)
         .filter(isBeregnetPeriode)

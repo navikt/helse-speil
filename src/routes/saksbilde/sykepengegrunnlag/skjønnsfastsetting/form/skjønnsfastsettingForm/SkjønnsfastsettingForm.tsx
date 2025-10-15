@@ -324,5 +324,5 @@ interface RefMedId extends CustomElement<FieldValues> {
 const formErrorsTilFeilliste = (errors: FieldErrors<SkjønnsfastsettingFormFields>): Skjemafeil[] =>
     Object.entries(errors).map(([id, error]) => ({
         id: (error?.ref as RefMedId)?.id ?? id,
-        melding: ((error as Array<unknown>)?.length !== undefined ? error?.root?.message : error.message) ?? id,
+        melding: ((error as unknown[])?.length !== undefined ? error?.root?.message : error.message) ?? id,
     }));

@@ -17,7 +17,7 @@ type UseEndringerForPeriodeResult = {
     dagendringer: Dagoverstyring[];
 };
 export const useEndringerForPeriode = (
-    endringer: Array<Overstyring> | undefined,
+    endringer: Overstyring[] | undefined,
     person: PersonFragment,
 ): UseEndringerForPeriodeResult => {
     const periode = useActivePeriod(person);

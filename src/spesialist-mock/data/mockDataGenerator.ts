@@ -116,7 +116,7 @@ const tilfeldigDato = () => {
     return new Date(start.getTime() + Math.random() * (new Date().getTime() - start.getTime()));
 };
 
-const tilfeldigElementFra = <T>(elementer: Array<T>): T => {
+const tilfeldigElementFra = <T>(elementer: T[]): T => {
     return elementer[Math.floor(Math.random() * elementer.length)]!;
 };
 

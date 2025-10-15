@@ -38,7 +38,7 @@ export const harPeriodeTilBeslutterFor = (person: PersonFragment, skjæringstids
             .flatMap((it) => it.generasjoner[0]?.perioder)
             .filter(
                 (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === skjæringstidspunkt,
-            ) as unknown as Array<BeregnetPeriodeFragment>
+            ) as unknown as BeregnetPeriodeFragment[]
     ).some((it) => it.totrinnsvurdering?.erBeslutteroppgave) ?? false;
 
 export const useGhostInntektKanOverstyres = (
@@ -73,7 +73,7 @@ export const maybePeriodeTilGodkjenning = (
     (
         finnAlleInntektsforhold(person)
             .flatMap((it) => it.generasjoner[0]?.perioder)
-            .filter(isBeregnetPeriode) as unknown as Array<BeregnetPeriodeFragment>
+            .filter(isBeregnetPeriode) as unknown as BeregnetPeriodeFragment[]
     ).find(
         (it) => it.periodetilstand === Periodetilstand.TilGodkjenning && it.skjaeringstidspunkt === skjæringstidspunkt,
     ) ?? null;
@@ -120,7 +120,7 @@ export const useArbeidsforholdKanOverstyres = (
     );
 };
 
-const harBeregnetPeriodePåSkjæringstidspunkt = (perioder: Array<Periode>, skjæringstidspunkt: DateString): boolean =>
+const harBeregnetPeriodePåSkjæringstidspunkt = (perioder: Periode[], skjæringstidspunkt: DateString): boolean =>
     perioder.filter(isBeregnetPeriode).find((it) => it.skjaeringstidspunkt === skjæringstidspunkt) !== undefined;
 
 const harIngenBeregnedePerioder = (arbeidsgiver: Arbeidsgiver, skjæringstidspunkt: DateString): boolean =>

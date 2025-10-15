@@ -11,7 +11,7 @@ import { OverridableConstructor } from '@typer/shared';
 
 type VilkarsgrunnlagSpleisExtensions = {
     medInntekter: (
-        inntekter: Array<Arbeidsgiverinntekt>,
+        inntekter: Arbeidsgiverinntekt[],
     ) => VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment & VilkarsgrunnlagSpleisExtensions;
 };
 

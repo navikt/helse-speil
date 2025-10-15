@@ -198,7 +198,7 @@ export const getAnnullering = (period: BeregnetPeriodeFragment): Annulleringhend
     };
 };
 
-export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): Array<HistorikkhendelseObject> =>
+export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): HistorikkhendelseObject[] =>
     periode.historikkinnslag.map((historikkelement, index): HistorikkhendelseObject => {
         return {
             id: `historikkinnslag-${index}`,
@@ -507,7 +507,7 @@ export const getInntektoverstyringerForGhost = (
     skjaeringstidspunkt: string,
     arbeidsgiver: Arbeidsgiver,
     person: PersonFragment,
-): Array<InntektoverstyringhendelseObject> => {
+): InntektoverstyringhendelseObject[] => {
     return arbeidsgiver.overstyringer
         .filter(isInntektoverstyring)
         .filter((it) => it.inntekt.skjaeringstidspunkt === skjaeringstidspunkt)

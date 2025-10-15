@@ -48,7 +48,7 @@ export type DagoverstyringhendelseObject = BaseHendelseObject & {
     saksbehandler: string;
     timestamp: DateString;
     begrunnelse: string;
-    dager: Array<OverstyrtDag>;
+    dager: OverstyrtDag[];
 };
 
 export type ArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & {
@@ -111,7 +111,7 @@ export type NotathendelseObject = BaseHendelseObject & {
     timestamp: DateString;
     feilregistrert: boolean;
     vedtaksperiodeId: string;
-    kommentarer: Array<Kommentar>;
+    kommentarer: Kommentar[];
     erNyesteNotatMedType: boolean;
 };
 
@@ -134,7 +134,7 @@ export type HistorikkhendelseObject = BaseHendelseObject & {
     frist: DateString | null;
     årsaker: string[];
     notattekst: string | null;
-    kommentarer: Array<Kommentar>;
+    kommentarer: Kommentar[];
     erNyestePåVentInnslag?: boolean;
 };
 

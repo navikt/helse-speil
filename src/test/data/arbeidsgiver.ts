@@ -10,9 +10,9 @@ import { enGhostPeriode } from '@test-data/periode';
 import { OverridableConstructor } from '@typer/shared';
 
 type Extensions = {
-    medPerioder(perioder: Array<BeregnetPeriodeFragment>): ArbeidsgiverFragment & Extensions;
-    medGhostPerioder(ghostPerioder: Array<GhostPeriodeFragment>): ArbeidsgiverFragment & Extensions;
-    medOverstyringer(overstyringer: Array<Overstyring>): ArbeidsgiverFragment & Extensions;
+    medPerioder(perioder: BeregnetPeriodeFragment[]): ArbeidsgiverFragment & Extensions;
+    medGhostPerioder(ghostPerioder: GhostPeriodeFragment[]): ArbeidsgiverFragment & Extensions;
+    medOverstyringer(overstyringer: Overstyring[]): ArbeidsgiverFragment & Extensions;
     medOrganisasjonsnummer(organisasjonsnummer: string): ArbeidsgiverFragment & Extensions;
 };
 
@@ -38,15 +38,15 @@ export const enArbeidsgiver: OverridableConstructor<ArbeidsgiverFragment, Extens
     overstyringer: [],
     inntekterFraAordningen: [],
     ...overrides,
-    medPerioder(perioder: Array<BeregnetPeriodeFragment>) {
+    medPerioder(perioder: BeregnetPeriodeFragment[]) {
         this.generasjoner = [enGenerasjon({ perioder })];
         return this;
     },
-    medGhostPerioder(ghostPerioder: Array<GhostPeriodeFragment>) {
+    medGhostPerioder(ghostPerioder: GhostPeriodeFragment[]) {
         this.ghostPerioder = ghostPerioder;
         return this;
     },
-    medOverstyringer(overstyringer: Array<OverstyringFragment>) {
+    medOverstyringer(overstyringer: OverstyringFragment[]) {
         this.overstyringer = overstyringer;
         return this;
     },

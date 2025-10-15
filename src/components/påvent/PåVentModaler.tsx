@@ -172,7 +172,7 @@ const FellesPåVentModal = ({
     const saksbehandler = useInnloggetSaksbehandler();
     const { arsaker: årsaker, loading: årsakerLoading } = useArsaker('paventarsaker');
 
-    const [valgteÅrsaker, setValgteÅrsaker] = useState<Array<string>>(utgangspunktÅrsaker);
+    const [valgteÅrsaker, setValgteÅrsaker] = useState<string[]>(utgangspunktÅrsaker);
     const [valgteÅrsakerError, setValgteÅrsakerError] = useState<string | null>(null);
     const [notattekst, setNotattekst] = useState<string | null>(utgangspunktNotattekst);
     const [notatError, setNotatError] = useState<string | null>(null);
@@ -187,7 +187,7 @@ const FellesPåVentModal = ({
         ? utgangspunktTildeling.oid === saksbehandler.oid
         : false;
 
-    const validateNotat = (notattekst: string | null, valgteÅrsaker: Array<string>) => {
+    const validateNotat = (notattekst: string | null, valgteÅrsaker: string[]) => {
         let error = false;
         if (årsakAnnetErValgt(valgteÅrsaker) && (notattekst === null || notattekst?.length == 0)) {
             setNotatError('Notat må fylles ut');
@@ -203,7 +203,7 @@ const FellesPåVentModal = ({
         return error;
     };
 
-    const validateÅrsaker = (valgteÅrsaker: Array<string>) => {
+    const validateÅrsaker = (valgteÅrsaker: string[]) => {
         let error = false;
         if (!årsaker?.[0]?.arsaker?.some((it) => valgteÅrsaker.includes(it.arsak))) {
             setValgteÅrsakerError('Velg minst én årsak');
@@ -250,7 +250,7 @@ const FellesPåVentModal = ({
         closeModal();
     };
 
-    const årsakAnnetErValgt = (valgteÅrsaker: Array<string>) => valgteÅrsaker.includes('Annet');
+    const årsakAnnetErValgt = (valgteÅrsaker: string[]) => valgteÅrsaker.includes('Annet');
 
     return (
         <Modal aria-label="På vent-modal" portal closeOnBackdropClick open={true} onClose={closeModal}>

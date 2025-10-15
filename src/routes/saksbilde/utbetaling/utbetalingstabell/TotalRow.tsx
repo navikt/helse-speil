@@ -12,7 +12,7 @@ import { getDagerMedUtbetaling, getTotalArbeidsgiverbeløp, getTotalPersonbeløp
 import styles from './TotalRow.module.css';
 
 interface TotalRowProps {
-    dager: Array<Utbetalingstabelldag>;
+    dager: Utbetalingstabelldag[];
     overstyrer?: boolean;
 }
 

@@ -31,7 +31,7 @@ interface InntektOgRefusjonVisningProps {
     vilkårsgrunnlagId?: string | null;
     inntektFraAOrdningen?: InntektFraAOrdningen[];
     erDeaktivert: boolean;
-    inntekterForSammenligningsgrunnlag?: Array<InntektFraAOrdningen>;
+    inntekterForSammenligningsgrunnlag?: InntektFraAOrdningen[];
     harSykefravær: boolean;
     organisasjonsnummer: string;
     overstyringer: Overstyring[];

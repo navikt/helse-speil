@@ -35,7 +35,7 @@ const kreverButteEnder = (timelinePeriod: TimelinePeriod) => {
 
 // Svarer på om perioden på index i har en nabo til venstre for seg OG om den skal "ligge inntil" den, altså om den skal
 // ha flat eller butt venstreende.
-const hasLeftNeighbour = (i: number, periods: Array<TimelinePeriod>): boolean => {
+const hasLeftNeighbour = (i: number, periods: TimelinePeriod[]): boolean => {
     if (i < 1) return false;
     const thisPeriod = periods[i];
     const periodToTheLeft = periods[i - 1];
@@ -47,7 +47,7 @@ const hasLeftNeighbour = (i: number, periods: Array<TimelinePeriod>): boolean =>
 
 // Svarer på om perioden på index i har en nabo til høyre for seg OG om den skal "ligge inntil" den, altså om den skal
 // ha flat eller butt høyreende.
-const hasRightNeighbour = (i: number, periods: Array<TimelinePeriod>): boolean => {
+const hasRightNeighbour = (i: number, periods: TimelinePeriod[]): boolean => {
     if (i >= periods.length - 1) return false;
     const thisPeriod = periods[i];
     const periodToTheRight = periods[i + 1];
@@ -55,7 +55,7 @@ const hasRightNeighbour = (i: number, periods: Array<TimelinePeriod>): boolean =
     return withinADay(dayjs(thisPeriod.fom), dayjs(periodToTheRight.tom)) && !kreverButteEnder(thisPeriod);
 };
 
-export const usePopulateNeighbours = (periods: Array<TimelinePeriod>): Array<TimelinePeriod> =>
+export const usePopulateNeighbours = (periods: TimelinePeriod[]): TimelinePeriod[] =>
     useMemo(() => {
         return periods.map((period, index) => {
             return {

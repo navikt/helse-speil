@@ -13,7 +13,7 @@ import { isArbeidsforholdoverstyringer, isInntektoverstyringer, isOverstyringerP
 import styles from './EndringsloggButton.module.css';
 
 interface EndringsloggButtonProps<T extends OverstyringFragment> extends React.HTMLAttributes<HTMLButtonElement> {
-    endringer: Array<T>;
+    endringer: T[];
 }
 
 export const EndringsloggButton = <T extends OverstyringFragment>({

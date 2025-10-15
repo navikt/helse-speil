@@ -51,7 +51,7 @@ export const Utbetalingstabell = ({
     const formattedFom = getFormattedDateString(fom);
     const formattedTom = getFormattedDateString(tom);
 
-    const dagerList: Array<Utbetalingstabelldag> = useMemo(() => Array.from(dager.values()), [dager]);
+    const dagerList: Utbetalingstabelldag[] = useMemo(() => Array.from(dager.values()), [dager]);
 
     const alderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt(person, personFødselsdato);
 

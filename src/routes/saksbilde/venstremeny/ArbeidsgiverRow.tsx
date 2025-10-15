@@ -16,7 +16,7 @@ import { isArbeidsgiver } from '@utils/typeguards';
 import styles from './ArbeidsgiverRow.module.scss';
 
 interface ArbeidsforholdRowProps {
-    arbeidsforhold: Array<Arbeidsforhold>;
+    arbeidsforhold: Arbeidsforhold[];
     erAnonymisert: boolean;
 }
 
@@ -69,7 +69,7 @@ const MånedsbeløpRow = ({ månedsbeløp }: MånedsbeløpRowProps): ReactElemen
 };
 
 interface ArbeidsgiverCardProps {
-    arbeidsforhold: Array<Arbeidsforhold>;
+    arbeidsforhold: Arbeidsforhold[];
     månedsbeløp?: number;
     inntektsforhold: Inntektsforhold;
 }

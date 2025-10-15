@@ -70,7 +70,7 @@ export const useDagoverstyringer = (
     fom: DateString,
     tom: DateString,
     inntektsforhold?: Inntektsforhold | null,
-): Array<Dagoverstyring> => {
+): Dagoverstyring[] => {
     return useMemo(() => {
         if (!inntektsforhold) return [];
 

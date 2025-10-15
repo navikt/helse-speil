@@ -18,7 +18,7 @@ type Label = {
     date: Dayjs;
 };
 
-const getDayLabels = (start: Dayjs, end: Dayjs, numberOfDays: number): Array<Label> => {
+const getDayLabels = (start: Dayjs, end: Dayjs, numberOfDays: number): Label[] => {
     const increment = Math.ceil(numberOfDays / 10);
     const lastDay = end.startOf('day');
     return new Array(numberOfDays)
@@ -39,7 +39,7 @@ const getDayLabels = (start: Dayjs, end: Dayjs, numberOfDays: number): Array<Lab
         .filter((it): it is Label => it !== null);
 };
 
-const getMonthLabels = (start: Dayjs, end: Dayjs): Array<Label> => {
+const getMonthLabels = (start: Dayjs, end: Dayjs): Label[] => {
     const startMonth = start.startOf('month');
     const endMonth = end.endOf('month');
     const numberOfMonths = endMonth.diff(startMonth, 'month') + 1;
@@ -55,7 +55,7 @@ const getMonthLabels = (start: Dayjs, end: Dayjs): Array<Label> => {
     });
 };
 
-const getYearLabels = (start: Dayjs, end: Dayjs): Array<Label> => {
+const getYearLabels = (start: Dayjs, end: Dayjs): Label[] => {
     const startYear = start.startOf('year');
     const endYear = end.endOf('year');
     const numberOfYears = endYear.diff(start, 'year') + 1;
@@ -71,10 +71,10 @@ const getYearLabels = (start: Dayjs, end: Dayjs): Array<Label> => {
     });
 };
 
-const useLabels = (start: Dayjs, end: Dayjs): Array<Label> =>
+const useLabels = (start: Dayjs, end: Dayjs): Label[] =>
     useMemo(() => {
         const numberOfDays = end.diff(start, 'day');
-        let labels: Array<Label>;
+        let labels: Label[];
 
         if (numberOfDays < 40) {
             labels = getDayLabels(start, end, numberOfDays);

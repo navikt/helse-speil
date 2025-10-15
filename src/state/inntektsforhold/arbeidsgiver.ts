@@ -43,9 +43,9 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     if (arbeidsgiverPerioder.length === 0 && arbeidsgiverGhostPerioder.length === 0) {
         return null;
     }
-    const arbeidsgiverBeregnedePerioder: Array<BeregnetPeriodeFragment> = arbeidsgiverPerioder.filter((it) =>
+    const arbeidsgiverBeregnedePerioder: BeregnetPeriodeFragment[] = arbeidsgiverPerioder.filter((it) =>
         isBeregnetPeriode(it),
-    ) as Array<BeregnetPeriodeFragment>;
+    ) as BeregnetPeriodeFragment[];
 
     if (arbeidsgiverBeregnedePerioder.length === 0 && isGhostPeriode(arbeidsgiverGhostPerioder[0])) {
         return arbeidsgiverGhostPerioder[0] ?? null;

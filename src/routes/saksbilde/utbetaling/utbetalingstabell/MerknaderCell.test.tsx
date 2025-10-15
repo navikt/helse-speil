@@ -28,7 +28,7 @@ describe('MerknaderCell', () => {
     });
 
     test('rendrer avvisningsårsaker', () => {
-        const begrunnelser: Array<Begrunnelse> = [
+        const begrunnelser: Begrunnelse[] = [
             Begrunnelse.EtterDodsdato,
             Begrunnelse.EgenmeldingUtenforArbeidsgiverperiode,
             Begrunnelse.MinimumSykdomsgrad,

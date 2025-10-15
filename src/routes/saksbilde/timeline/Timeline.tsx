@@ -33,15 +33,15 @@ import { ZoomLevel, getMergedPeriods, useLatestPossibleDate, useTimelineControls
 import styles from './Timeline.module.css';
 
 interface TimelineWithContentProps {
-    inntektsforhold: Array<Inntektsforhold>;
-    infotrygdutbetalinger: Array<Infotrygdutbetaling>;
+    inntektsforhold: Inntektsforhold[];
+    infotrygdutbetalinger: Infotrygdutbetaling[];
     activePeriod: TimelinePeriod | null;
     person: PersonFragment;
 }
 
 const useLatestDate = (
-    inntektsforhold: Array<Inntektsforhold>,
-    infotrygdutbetalinger: Array<Infotrygdutbetaling>,
+    inntektsforhold: Inntektsforhold[],
+    infotrygdutbetalinger: Infotrygdutbetaling[],
 ): dayjs.Dayjs => {
     const perioder = getMergedPeriods(inntektsforhold, infotrygdutbetalinger);
     return useLatestPossibleDate(perioder);

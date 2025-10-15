@@ -47,11 +47,11 @@ export const getPosition = (date: Dayjs, start: Dayjs, end: Dayjs): number => {
 export const usePeriodStyling = <T extends DatePeriod>(
     start: Dayjs,
     end: Dayjs,
-    periods: Array<T>,
+    periods: T[],
 ): Map<number, PeriodStyling> =>
     useMemo(() => {
         const map = new Map<number, PeriodStyling>();
-        const datePeriods: Array<StyledPeriod> = periods.map((period) => {
+        const datePeriods: StyledPeriod[] = periods.map((period) => {
             return {
                 ...period,
                 fom: dayjs(period.fom).startOf('day'),

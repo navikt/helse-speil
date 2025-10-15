@@ -9,9 +9,9 @@ import { MutationSettVarselstatusArgs, Person, VarselDto, Varselstatus } from '.
 const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
 export class VarselMock {
-    private static varslerMedEndring: Array<VarselDto> = new Array<VarselDto>();
+    private static varslerMedEndring: VarselDto[] = [];
 
-    static getVarslerForPeriode = (varsler: Array<VarselDto>): Array<VarselDto> => {
+    static getVarslerForPeriode = (varsler: VarselDto[]): VarselDto[] => {
         if (varsler === undefined || varsler === null) return [];
         const varslerCopy = [...varsler];
         return varslerCopy.map((varsel) => {
@@ -126,7 +126,7 @@ export class VarselMock {
         return this.varslerMedEndring[index];
     };
 
-    static findWithIndex = (arr: Array<VarselDto>, predicate: (varsel: VarselDto) => boolean) => {
+    static findWithIndex = (arr: VarselDto[], predicate: (varsel: VarselDto) => boolean) => {
         const index = arr.findIndex(predicate);
 
         return {

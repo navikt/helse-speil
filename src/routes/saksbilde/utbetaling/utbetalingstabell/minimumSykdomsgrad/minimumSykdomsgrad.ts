@@ -87,7 +87,7 @@ export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: Ac
                     ?.filter(isBeregnetPeriode || isUberegnetPeriode)
                     ?.filter(overlapper(periode)) ?? []
             ).length > 0,
-    ) as Array<ArbeidsgiverFragment>;
+    ) as ArbeidsgiverFragment[];
 
 export const harPeriodeDagerMedUnder20ProsentTotalGrad = (
     periode: DatePeriod,

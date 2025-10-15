@@ -10,9 +10,9 @@ import { tilleggsinfoFraEnInntektskilde } from '@test-data/tilleggsinfoFraInntek
 import { OverridableConstructor } from '@typer/shared';
 
 type Extensions = {
-    medArbeidsgivere(arbeidsgivere: Array<ArbeidsgiverFragment>): PersonFragment & Extensions;
+    medArbeidsgivere(arbeidsgivere: ArbeidsgiverFragment[]): PersonFragment & Extensions;
     medTilleggsinfoForInntektskilder(
-        tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>,
+        tilleggsinfoForInntektskilder: TilleggsinfoForInntektskilde[],
     ): PersonFragment & Extensions;
 };
 
@@ -54,12 +54,12 @@ export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (ove
         vilkarsgrunnlagV2: [],
         tilleggsinfoForInntektskilder: [tilleggsinfoFraEnInntektskilde()],
         ...overrides,
-        medArbeidsgivere(arbeidsgivere: Array<ArbeidsgiverFragment>): PersonFragment & Extensions {
+        medArbeidsgivere(arbeidsgivere: ArbeidsgiverFragment[]): PersonFragment & Extensions {
             this.arbeidsgivere = arbeidsgivere;
             return this;
         },
         medTilleggsinfoForInntektskilder(
-            tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>,
+            tilleggsinfoForInntektskilder: TilleggsinfoForInntektskilde[],
         ): PersonFragment & Extensions {
             this.tilleggsinfoForInntektskilder = tilleggsinfoForInntektskilder;
             return this;

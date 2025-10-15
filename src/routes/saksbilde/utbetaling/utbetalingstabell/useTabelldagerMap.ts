@@ -87,7 +87,7 @@ const getUtbetalingstabelldag = (dag: Dag): Speildag => {
 };
 
 export const createDagerMap = (
-    dager: Array<Dag>,
+    dager: Dag[],
     erSelvstendigNæringsdrivende: boolean,
     totaltAntallDagerIgjen: number | null,
     antallAGPDagerBruktFørPerioden?: number,
@@ -136,15 +136,15 @@ export const createDagerMap = (
     return map;
 };
 
-export const antallSykedagerTilOgMedMaksdato = (dager: Array<Dag>, maksdato?: DateString): number =>
+export const antallSykedagerTilOgMedMaksdato = (dager: Dag[], maksdato?: DateString): number =>
     maksdato
         ? dager.filter((it) => it.utbetalingsdagtype === 'NAVDAG' && dayjs(it.dato).isSameOrBefore(maksdato)).length
         : 0;
 
 type UseTabelldagerMapOptions = {
-    tidslinje: Array<Dag>;
+    tidslinje: Dag[];
     gjenståendeDager?: number | null;
-    overstyringer?: Array<Dagoverstyring>;
+    overstyringer?: Dagoverstyring[];
     maksdato?: DateString;
     skjæringstidspunkt?: DateString;
     antallAGPDagerBruktFørPerioden?: number;

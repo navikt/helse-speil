@@ -65,7 +65,7 @@ describe('useTabelldagerMap', () => {
     });
 
     it('mapper overstyringer', () => {
-        const overstyringer: Array<Dagoverstyring> = [
+        const overstyringer: Dagoverstyring[] = [
             {
                 __typename: 'Dagoverstyring',
                 vedtaksperiodeId: '',

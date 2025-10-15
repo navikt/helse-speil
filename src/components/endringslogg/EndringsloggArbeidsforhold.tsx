@@ -11,7 +11,7 @@ import styles from './Endringslogg.module.css';
 type EndringsloggArbeidsforholdProps = {
     closeModal: () => void;
     showModal: boolean;
-    endringer: Array<Arbeidsforholdoverstyring>;
+    endringer: Arbeidsforholdoverstyring[];
 };
 
 export const EndringsloggArbeidsforhold = ({

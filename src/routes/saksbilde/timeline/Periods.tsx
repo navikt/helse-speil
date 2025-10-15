@@ -16,10 +16,10 @@ import styles from './Periods.module.css';
 
 const byFomDescending = (a: DatePeriod, b: DatePeriod): number => dayjs(b.fom).diff(dayjs(a.fom));
 
-const filterReadyPeriods = (periods: Array<Periode>): Array<Periode> =>
+const filterReadyPeriods = (periods: Periode[]): Periode[] =>
     periods.filter((it) => !(it.erForkastet && isNotReady(it)));
 
-const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
+const filterValidPeriods = (periods: DatePeriod[]): DatePeriod[] =>
     periods.filter(
         (it) =>
             (isBeregnetPeriode(it) && it.periodetilstand !== Periodetilstand.TilInfotrygd) ||
@@ -41,10 +41,10 @@ const isActive = (activePeriod: TimelinePeriod | null, currentPeriod: TimelinePe
 };
 
 const mergePeriods = (
-    fromSpleis: Array<Periode>,
-    fromInfotrygd: Array<InfotrygdPeriod>,
-    ghostPeriods: Array<GhostPeriodeFragment>,
-): Array<TimelinePeriod> => {
+    fromSpleis: Periode[],
+    fromInfotrygd: InfotrygdPeriod[],
+    ghostPeriods: GhostPeriodeFragment[],
+): TimelinePeriod[] => {
     const periodsFromSpleis = filterReadyPeriods(fromSpleis);
     return [...periodsFromSpleis, ...fromInfotrygd, ...ghostPeriods].sort(byFomDescending);
 };
@@ -52,10 +52,10 @@ const mergePeriods = (
 interface PeriodsProps {
     start: Dayjs;
     end: Dayjs;
-    periods: Array<Periode>;
+    periods: Periode[];
     activePeriod: TimelinePeriod | null;
-    infotrygdPeriods?: Array<InfotrygdPeriod>;
-    ghostPeriods?: Array<GhostPeriodeFragment>;
+    infotrygdPeriods?: InfotrygdPeriod[];
+    ghostPeriods?: GhostPeriodeFragment[];
     notCurrent?: boolean;
     person: PersonFragment;
     erSelvstendigNæringsdrivende: boolean;

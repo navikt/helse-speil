@@ -11,7 +11,7 @@ import styles from './Periods.module.css';
 interface PeriodsProps {
     start: Dayjs;
     end: Dayjs;
-    tilkomneInntekter: Array<TilkommenInntekt>;
+    tilkomneInntekter: TilkommenInntekt[];
 }
 
 export const TilkommenInntektPeriods = ({ start, end, tilkomneInntekter }: PeriodsProps): ReactElement => {

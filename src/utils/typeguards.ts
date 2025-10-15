@@ -38,16 +38,14 @@ export const isDagoverstyring = (overstyring?: Overstyring | null): overstyring 
 const isOverstyringPrDag = (overstyring?: Overstyring | null): overstyring is OverstyringerPrDag =>
     typeof (overstyring as Dagoverstyring)?.__typename !== 'string';
 
-export const isOverstyringerPrDag = (
-    overstyringer?: Array<Overstyring> | null,
-): overstyringer is Array<OverstyringerPrDag> => overstyringer?.every(isOverstyringPrDag) ?? false;
+export const isOverstyringerPrDag = (overstyringer?: Overstyring[] | null): overstyringer is OverstyringerPrDag[] =>
+    overstyringer?.every(isOverstyringPrDag) ?? false;
 
 export const isInntektoverstyring = (overstyring?: Overstyring | null): overstyring is Inntektoverstyring =>
     (overstyring as Inntektoverstyring)?.__typename === 'Inntektoverstyring';
 
-export const isInntektoverstyringer = (
-    overstyringer?: Array<Overstyring> | null,
-): overstyringer is Array<Inntektoverstyring> => overstyringer?.every(isInntektoverstyring) ?? false;
+export const isInntektoverstyringer = (overstyringer?: Overstyring[] | null): overstyringer is Inntektoverstyring[] =>
+    overstyringer?.every(isInntektoverstyring) ?? false;
 
 export const isArbeidsforholdoverstyring = (
     overstyring?: Overstyring | null,
@@ -55,8 +53,8 @@ export const isArbeidsforholdoverstyring = (
     (overstyring as Arbeidsforholdoverstyring)?.__typename === 'Arbeidsforholdoverstyring';
 
 export const isArbeidsforholdoverstyringer = (
-    overstyringer?: Array<Overstyring> | null,
-): overstyringer is Array<Arbeidsforholdoverstyring> => overstyringer?.every(isArbeidsforholdoverstyring) ?? false;
+    overstyringer?: Overstyring[] | null,
+): overstyringer is Arbeidsforholdoverstyring[] => overstyringer?.every(isArbeidsforholdoverstyring) ?? false;
 
 export const isSykepengegrunnlagskjønnsfastsetting = (
     overstyring?: Overstyring | null,

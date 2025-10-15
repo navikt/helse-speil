@@ -76,7 +76,7 @@ const leggTilLagretData = (person: Person): void => {
 
     for (const arbeidsgiver of person.arbeidsgivere) {
         for (const generasjon of arbeidsgiver.generasjoner) {
-            for (const periode of generasjon.perioder as Array<BeregnetPeriode>) {
+            for (const periode of generasjon.perioder as BeregnetPeriode[]) {
                 if (periode.oppgave?.id && TildelingMock.harTildeling(periode.oppgave.id)) {
                     tildeling = TildelingMock.getTildeling(periode.oppgave.id);
                 }
@@ -434,7 +434,7 @@ const getResolvers = (): IResolvers => ({
     },
     Overstyring: {
         __resolveType: (overstyring: {
-            dager?: Array<object>;
+            dager?: object[];
             inntekt?: object;
             skjonnsfastsatt?: object;
             minimumSykdomsgrad?: object;

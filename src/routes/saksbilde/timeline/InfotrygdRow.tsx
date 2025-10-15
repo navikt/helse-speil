@@ -15,7 +15,7 @@ import styles from './TimelineRow.module.css';
 interface InfotrygdRowProps {
     start: Dayjs;
     end: Dayjs;
-    periods: Array<InfotrygdPeriod>;
+    periods: InfotrygdPeriod[];
     alignWithExpandable?: boolean;
     person: PersonFragment;
 }

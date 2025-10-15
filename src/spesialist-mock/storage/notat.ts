@@ -19,7 +19,7 @@ export const findVedtaksperiodeId = (id: string): UUID | undefined => {
 };
 
 export class NotatMock {
-    private static notater: Map<UUID, Array<Notat>> = new Map();
+    private static notater: Map<UUID, Notat[]> = new Map();
     private static notatCounter: number = 0;
 
     static addNotat = (id: string, notatProperties?: Partial<Notat>): Notat => {
@@ -51,7 +51,7 @@ export class NotatMock {
     };
 
     static feilregistrerKommentar = ({ id }: MutationFeilregistrerKommentarArgs): void => {
-        NotatMock.notater.forEach((notater: Array<Notat>, vedtaksperiodeId: UUID) => {
+        NotatMock.notater.forEach((notater: Notat[], vedtaksperiodeId: UUID) => {
             const notat = notater.find((it) => it.kommentarer.find((it) => it.id === id));
             if (notat) {
                 NotatMock.updateNotat(vedtaksperiodeId, notat.id, {
@@ -76,7 +76,7 @@ export class NotatMock {
         }
     };
 
-    static getNotater = (id: UUID): Array<Notat> => {
+    static getNotater = (id: UUID): Notat[] => {
         return NotatMock.notater.get(id) ?? [];
     };
 
@@ -87,7 +87,7 @@ export class NotatMock {
         );
     };
 
-    static getNotaterForPeriode = (periode: BeregnetPeriode): Array<Notat> => [
+    static getNotaterForPeriode = (periode: BeregnetPeriode): Notat[] => [
         ...NotatMock.getNotater(periode.vedtaksperiodeId),
         ...NotatMock.getNotater(periode.oppgave?.id ?? '-1'),
     ];

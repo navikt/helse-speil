@@ -28,8 +28,8 @@ const byDate = (a: OverstyrtDag, b: OverstyrtDag): number => {
     return new Date(a.dato).getTime() - new Date(b.dato).getTime();
 };
 
-const groupSimilarDays = (days: Array<OverstyrtDag>): Array<GroupedDays> => {
-    return [...days].sort(byDate).reduce((groups: Array<GroupedDays>, day: OverstyrtDag) => {
+const groupSimilarDays = (days: OverstyrtDag[]): GroupedDays[] => {
+    return [...days].sort(byDate).reduce((groups: GroupedDays[], day: OverstyrtDag) => {
         const group = groups[groups.length - 1];
         if (!group || !areSimilar(group, day)) {
             return [

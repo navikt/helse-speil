@@ -4,13 +4,13 @@ import { Infotrygdutbetaling } from '@io/graphql';
 import { InfotrygdPeriod } from '@typer/shared';
 import { somDato } from '@utils/date';
 
-export const useInfotrygdPeriods = (infotrygdutbetalinger: Array<Infotrygdutbetaling>): Array<InfotrygdPeriod> =>
+export const useInfotrygdPeriods = (infotrygdutbetalinger: Infotrygdutbetaling[]): InfotrygdPeriod[] =>
     useMemo(() => {
         const utbetalinger = infotrygdutbetalinger
             .filter((it) => !['Tilbakeført', 'Ukjent..'].includes(it.typetekst))
             .sort((u1, u2) => dateAscending(u1.fom, u2.fom));
 
-        const sammenslåtteUtbetalingsperioder: Array<Infotrygdutbetaling> = [];
+        const sammenslåtteUtbetalingsperioder: Infotrygdutbetaling[] = [];
         let utbetaling: Infotrygdutbetaling | undefined = utbetalinger[0];
 
         while (utbetaling !== undefined) {

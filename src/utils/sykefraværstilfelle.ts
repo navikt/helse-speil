@@ -6,7 +6,7 @@ import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export const finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt = (
-    arbeidsgivere: Array<Inntektsforhold>,
+    arbeidsgivere: Inntektsforhold[],
     period: ActivePeriod,
 ): string =>
     R.pipe(

@@ -18,5 +18,5 @@ export type Notat = {
     vedtaksperiodeId: string;
     feilregistrert: boolean;
     erOpphevStans: boolean;
-    kommentarer: Array<Kommentar>;
+    kommentarer: Kommentar[];
 };

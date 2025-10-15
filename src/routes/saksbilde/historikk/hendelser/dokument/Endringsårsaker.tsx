@@ -9,7 +9,7 @@ import { NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
 import styles from './Inntektsmeldingsinnhold.module.css';
 
 type EndringsårsakerProps = {
-    årsaker: Array<InntektEndringAarsak> | null;
+    årsaker: InntektEndringAarsak[] | null;
 };
 
 export const Endringsårsaker = ({ årsaker }: EndringsårsakerProps): ReactElement | null => {

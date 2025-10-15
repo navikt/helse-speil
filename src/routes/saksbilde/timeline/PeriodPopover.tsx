@@ -18,13 +18,13 @@ import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typ
 
 import styles from './PeriodPopover.module.css';
 
-const groupDayTypes = (period: BeregnetPeriodeFragment): Map<Utbetalingsdagtype, Array<DatePeriod>> => {
-    const map = new Map<Utbetalingsdagtype, Array<DatePeriod>>();
+const groupDayTypes = (period: BeregnetPeriodeFragment): Map<Utbetalingsdagtype, DatePeriod[]> => {
+    const map = new Map<Utbetalingsdagtype, DatePeriod[]>();
 
     let currentDayType: Utbetalingsdagtype | undefined = period.tidslinje[0]?.utbetalingsdagtype;
     let currentFom: DateString | undefined = period.tidslinje[0]?.dato;
 
-    const updateDayTypesMap = (i: number, map: Map<Utbetalingsdagtype, Array<DatePeriod>>): void => {
+    const updateDayTypesMap = (i: number, map: Map<Utbetalingsdagtype, DatePeriod[]>): void => {
         if (!currentDayType || !currentFom) return;
         if (!map.has(currentDayType)) {
             map.set(currentDayType, []);
@@ -47,7 +47,7 @@ const groupDayTypes = (period: BeregnetPeriodeFragment): Map<Utbetalingsdagtype,
     return map;
 };
 
-const getDayTypesRender = (dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagtype, Array<DatePeriod>>): ReactNode => {
+const getDayTypesRender = (dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagtype, DatePeriod[]>): ReactNode => {
     const periods = map.get(dayType);
     if (!periods || periods.length === 0) return undefined;
     if (periods.length === 1) {

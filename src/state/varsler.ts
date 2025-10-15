@@ -13,9 +13,9 @@ import {
 import { useFetchPersonQuery } from '@state/person';
 import { SpeilError } from '@utils/error';
 
-const varslerState = atom<Array<SpeilError>>([]);
+const varslerState = atom<SpeilError[]>([]);
 
-export const useVarsler = (): Array<SpeilError> => {
+export const useVarsler = (): SpeilError[] => {
     const params = useSearchParams();
     const { error, variables } = useFetchPersonQuery();
 
@@ -25,7 +25,7 @@ export const useVarsler = (): Array<SpeilError> => {
 };
 
 export const useRapporterGraphQLErrors = (): ((
-    graphQLErrors: ReadonlyArray<GraphQLFormattedError>,
+    graphQLErrors: readonly GraphQLFormattedError[],
     søkeparameter: string,
 ) => void) => {
     const addVarsel = useAddVarsel();

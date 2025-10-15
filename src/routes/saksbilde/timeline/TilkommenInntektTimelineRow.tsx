@@ -14,7 +14,7 @@ export interface TilkommenInntektTimelineRowProps {
     start: Dayjs;
     end: Dayjs;
     organisasjonsnummer: string;
-    tilkomneInntekter: Array<TilkommenInntekt>;
+    tilkomneInntekter: TilkommenInntekt[];
 }
 
 export const TilkommenInntektTimelineRow = ({

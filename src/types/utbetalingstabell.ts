@@ -53,11 +53,11 @@ export type Utbetalingstabelldag = {
     erMaksdato: boolean;
     grad?: number | null;
     dagerIgjen?: number | null;
-    overstyringer?: Array<OverstyringerPrDag>;
+    overstyringer?: OverstyringerPrDag[];
     totalGradering?: number | null;
     arbeidsgiverbeløp?: number | null;
     personbeløp?: number | null;
-    begrunnelser?: Array<Begrunnelse> | null;
+    begrunnelser?: Begrunnelse[] | null;
     erNyDag?: boolean;
     fraType?: Utbetalingstabelldagtype;
 };

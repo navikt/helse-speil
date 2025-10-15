@@ -13,7 +13,7 @@ import { getMonthName, somPenger } from '@utils/locale';
 
 import styles from './SisteTolvMånedersInntekt.module.css';
 
-const getSorterteInntekter = (inntekterFraAOrdningen: Array<InntektFraAOrdningen>): Array<InntektFraAOrdningen> => {
+const getSorterteInntekter = (inntekterFraAOrdningen: InntektFraAOrdningen[]): InntektFraAOrdningen[] => {
     return [...inntekterFraAOrdningen].sort((a, b) =>
         dayjs(a.maned, 'YYYY-MM').isAfter(dayjs(b.maned, 'YYYY-MM')) ? -1 : 1,
     );
@@ -21,7 +21,7 @@ const getSorterteInntekter = (inntekterFraAOrdningen: Array<InntektFraAOrdningen
 
 const leggInnIkkeRapporterteMåneder = (
     skjæringstidspunkt: DateString,
-    inntekterFraAordningen: Array<InntektFraAOrdningen>,
+    inntekterFraAordningen: InntektFraAOrdningen[],
     antallMåneder: number = 12,
 ) =>
     [...Array(antallMåneder)].map((_, i) => {
@@ -36,10 +36,7 @@ const leggInnIkkeRapporterteMåneder = (
         );
     });
 
-const visningSammenligningsgrunnlag = (
-    inntekterForSammenligningsgrunnlag: Array<InntektFraAOrdningen>,
-    maned: string,
-) => {
+const visningSammenligningsgrunnlag = (inntekterForSammenligningsgrunnlag: InntektFraAOrdningen[], maned: string) => {
     const inntekt = inntekterForSammenligningsgrunnlag.filter((d) => dayjs(d.maned, 'YYYY-MM').isSame(maned));
     const sum = inntekt.reduce((summert, { sum }) => summert + (sum ?? 0), 0);
     return inntekt.length !== 0 ? somPenger(sum) : 'Ikke rapportert';
@@ -47,9 +44,9 @@ const visningSammenligningsgrunnlag = (
 
 type InntektFraAOrdningenProps = {
     skjæringstidspunkt: string;
-    inntektFraAOrdningen?: Array<InntektFraAOrdningen>;
+    inntektFraAOrdningen?: InntektFraAOrdningen[];
     erAktivGhost?: boolean | null;
-    inntekterForSammenligningsgrunnlag?: Array<InntektFraAOrdningen>;
+    inntekterForSammenligningsgrunnlag?: InntektFraAOrdningen[];
 };
 
 export const SisteTolvMånedersInntekt = ({
