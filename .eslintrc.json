@@ -1,10 +1,12 @@
 {
+    "ignorePatterns": ["src/io/graphql/generated/graphql.ts", "src/spesialist-mock/schemaTypes.ts"],
     "extends": ["next/core-web-vitals", "next/typescript", "plugin:jsx-a11y/recommended"],
     "plugins": ["import", "jsx-a11y"],
     "rules": {
         "import/no-extraneous-dependencies": "error",
         "react/display-name": "off",
         "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/array-type": "error",
         // Ignorerer variabler som starter med _
         "@typescript-eslint/no-unused-vars": [
             "error",
