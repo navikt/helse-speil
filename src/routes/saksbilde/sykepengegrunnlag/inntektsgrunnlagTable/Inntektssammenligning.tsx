@@ -75,7 +75,7 @@ export const Inntektssammenligning = ({
                     )}
                     <Inntektsforholdnavn
                         inntektsforholdReferanse={lagArbeidsgiverReferanse(organisasjonsnummer, arbeidsgivernavn)}
-                        visIdentifikatorITooltip={true}
+                        visOrganisasjonsnummerITooltip={true}
                         maxWidth="130px"
                     />
                 </HStack>

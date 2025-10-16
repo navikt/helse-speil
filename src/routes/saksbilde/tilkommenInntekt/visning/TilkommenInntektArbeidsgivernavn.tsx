@@ -3,13 +3,13 @@ import React from 'react';
 import { SackKronerIcon } from '@navikt/aksel-icons';
 import { BodyShort, CopyButton, HStack } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Organisasjonsnavn } from '@components/Inntektsforholdnavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 
 export const TilkommenInntektArbeidsgivernavn = ({ organisasjonsnummer }: { organisasjonsnummer: string }) => (
     <HStack align="center" gap="1">
         <SackKronerIcon fontSize="1.4rem" />
-        <Arbeidsgivernavn identifikator={organisasjonsnummer} weight="semibold" />
+        <Organisasjonsnavn organisasjonsnummer={organisasjonsnummer} weight="semibold" />
         <HStack>
             <BodyShort weight="semibold">(</BodyShort>
             <AnonymizableTextWithEllipsis weight="semibold">{organisasjonsnummer}</AnonymizableTextWithEllipsis>

@@ -5,7 +5,7 @@ import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form'
 import { Box, Button, ErrorMessage, ErrorSummary, HGrid, HStack, TextField, Textarea, VStack } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Organisasjonsnavn } from '@components/Inntektsforholdnavn';
 import { erGyldigOrganisasjonsnummer } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
 import { DatePeriod } from '@typer/shared';
@@ -86,7 +86,7 @@ export const TilkommenInntektSkjemafelter = ({
                             />
                             {erGyldigOrganisasjonsnummer(organisasjonsnummer) && (
                                 <div style={{ marginBottom: 'var(--a-spacing-1)' }}>
-                                    <Arbeidsgivernavn identifikator={organisasjonsnummer} />
+                                    <Organisasjonsnavn organisasjonsnummer={organisasjonsnummer} />
                                 </div>
                             )}
                         </HStack>

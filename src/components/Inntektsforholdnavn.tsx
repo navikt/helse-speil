@@ -15,78 +15,39 @@ export const Inntektsforholdnavn = ({
     inntektsforholdReferanse,
     maxWidth,
     showCopyButton,
-    visIdentifikatorITooltip = false,
+    visOrganisasjonsnummerITooltip = false,
     ...bodyShortProps
 }: {
     inntektsforholdReferanse: InntektsforholdReferanse;
     maxWidth?: string;
     showCopyButton?: boolean;
-    visIdentifikatorITooltip?: boolean;
+    visOrganisasjonsnummerITooltip?: boolean;
 } & Omit<BodyShortProps, 'children'>) => {
     return inntektsforholdReferanse.type === 'Selvstendig Næring' ? (
         <SelvstendigNæringsdrivendeNavn maxWidth={maxWidth} {...bodyShortProps} />
     ) : (
         <Arbeidsgivernavn
-            identifikator={inntektsforholdReferanse.organisasjonsnummer}
+            organisasjonsnummer={inntektsforholdReferanse.organisasjonsnummer}
             navn={inntektsforholdReferanse.navn}
             maxWidth={maxWidth}
             showCopyButton={showCopyButton}
-            visIdentifikatorITooltip={visIdentifikatorITooltip}
+            visOrganisasjonsnummerITooltip={visOrganisasjonsnummerITooltip}
             {...bodyShortProps}
         />
     );
 };
 
-export const Arbeidsgivernavn = ({
-    identifikator,
-    navn,
-    maxWidth,
-    showCopyButton,
-    visIdentifikatorITooltip = false,
-    ...bodyShortProps
-}: {
-    identifikator: string;
-    navn?: string;
-    maxWidth?: string;
-    showCopyButton?: boolean;
-    visIdentifikatorITooltip?: boolean;
-} & Omit<BodyShortProps, 'children'>) => {
-    if (erSelvstendigNæringsdrivende(identifikator)) {
-        return <SelvstendigNæringsdrivendeNavn maxWidth={maxWidth} {...bodyShortProps} />;
-    } else if (
-        navn !== undefined &&
-        navn.toLowerCase() !== 'navn er utilgjengelig' &&
-        navn.toLowerCase() !== 'ikke tilgjengelig'
-    ) {
-        return (
-            <ArbeidsgivernavnKjent
-                navn={capitalizeArbeidsgiver(navn)}
-                maxWidth={maxWidth}
-                showCopyButton={showCopyButton}
-                identifikator={visIdentifikatorITooltip ? identifikator : undefined}
-                {...bodyShortProps}
-            />
-        );
-    }
-    return (
-        <ArbeidsgivernavnOppslag
-            organisasjonsnummer={identifikator}
-            maxWidth={maxWidth}
-            showCopyButton={showCopyButton}
-            {...bodyShortProps}
-        />
-    );
-};
-
-const ArbeidsgivernavnOppslag = ({
+export const Organisasjonsnavn = ({
     organisasjonsnummer,
     maxWidth,
     showCopyButton,
+    visOrganisasjonsnummerITooltip = false,
     ...bodyShortProps
 }: {
     organisasjonsnummer: string;
     maxWidth?: string;
     showCopyButton?: boolean;
+    visOrganisasjonsnummerITooltip?: boolean;
 } & Omit<BodyShortProps, 'children'>) => {
     const { loading, data } = useOrganisasjonQuery(organisasjonsnummer);
     const navn = data?.restGetOrganisasjon?.navn ?? undefined;
@@ -103,40 +64,90 @@ const ArbeidsgivernavnOppslag = ({
             </HStack>
         </Tooltip>
     ) : (
-        <ArbeidsgivernavnKjent
+        <OrganisasonsnavnKjent
             navn={capitalizeArbeidsgiver(navn)}
             maxWidth={maxWidth}
             showCopyButton={showCopyButton}
+            organisasjonsnummer={organisasjonsnummer}
+            visOrganisasjonsnummerITooltip={visOrganisasjonsnummerITooltip}
             {...bodyShortProps}
         />
     );
 };
 
-function tooltipInnhold(isAnonymous: boolean, navn: string, identifikator?: string) {
+const Arbeidsgivernavn = ({
+    organisasjonsnummer,
+    navn,
+    maxWidth,
+    showCopyButton,
+    visOrganisasjonsnummerITooltip = false,
+    ...bodyShortProps
+}: {
+    organisasjonsnummer: string;
+    navn?: string;
+    maxWidth?: string;
+    showCopyButton?: boolean;
+    visOrganisasjonsnummerITooltip?: boolean;
+} & Omit<BodyShortProps, 'children'>) => {
+    if (
+        navn !== undefined &&
+        navn.toLowerCase() !== 'navn er utilgjengelig' &&
+        navn.toLowerCase() !== 'ikke tilgjengelig'
+    ) {
+        return (
+            <OrganisasonsnavnKjent
+                navn={capitalizeArbeidsgiver(navn)}
+                maxWidth={maxWidth}
+                showCopyButton={showCopyButton}
+                organisasjonsnummer={organisasjonsnummer}
+                visOrganisasjonsnummerITooltip={visOrganisasjonsnummerITooltip}
+                {...bodyShortProps}
+            />
+        );
+    }
+    return (
+        <Organisasjonsnavn
+            maxWidth={maxWidth}
+            showCopyButton={showCopyButton}
+            organisasjonsnummer={organisasjonsnummer}
+            visOrganisasjonsnummerITooltip={visOrganisasjonsnummerITooltip}
+            {...bodyShortProps}
+        />
+    );
+};
+
+function tooltipInnhold(
+    isAnonymous: boolean,
+    navn: string,
+    organisasjonsnummer: string,
+    visOrganisasjonsnummerITooltip: boolean,
+) {
     if (isAnonymous) {
         return 'Arbeidsgiver';
-    } else if (identifikator) {
-        return `${navn} (${identifikator})`;
+    } else if (visOrganisasjonsnummerITooltip) {
+        return `${navn} (${organisasjonsnummer})`;
     } else {
         return navn;
     }
 }
 
-const ArbeidsgivernavnKjent = ({
+const OrganisasonsnavnKjent = ({
     navn,
     maxWidth,
     showCopyButton,
-    identifikator,
+    organisasjonsnummer,
+    visOrganisasjonsnummerITooltip,
     ...bodyShortProps
 }: {
     navn: string;
     maxWidth?: string;
     showCopyButton?: boolean;
-    identifikator?: string;
+    organisasjonsnummer: string;
+    visOrganisasjonsnummerITooltip: boolean;
 } & Omit<BodyShortProps, 'children'>) => {
     const isAnonymous = useIsAnonymous();
     return (
-        <Tooltip content={tooltipInnhold(isAnonymous, navn, identifikator)}>
+        <Tooltip content={tooltipInnhold(isAnonymous, navn, organisasjonsnummer, visOrganisasjonsnummerITooltip)}>
             <HStack gap="2" maxWidth={maxWidth} wrap={false} className={styles.anonymisert}>
                 <AnonymizableTextWithEllipsis {...bodyShortProps}>{navn}</AnonymizableTextWithEllipsis>
                 {showCopyButton && (
@@ -152,7 +163,7 @@ const ArbeidsgivernavnKjent = ({
     );
 };
 
-export const SelvstendigNæringsdrivendeNavn = ({
+const SelvstendigNæringsdrivendeNavn = ({
     maxWidth,
     ...bodyShortProps
 }: {
@@ -162,8 +173,6 @@ export const SelvstendigNæringsdrivendeNavn = ({
         <BodyShort {...bodyShortProps}>Selvstendig næring</BodyShort>
     </HStack>
 );
-
-export const erSelvstendigNæringsdrivende = (identifikator: string) => identifikator === 'SELVSTENDIG';
 
 export const capitalizeArbeidsgiver = (value: string) =>
     capitalizeName(value)
