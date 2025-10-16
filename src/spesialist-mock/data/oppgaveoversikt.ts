@@ -115,6 +115,8 @@ const sorter = (
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, saksbehandlerSortFunction);
         case ApiOppgaveSorteringsfelt.opprinneligSoeknadstidspunkt:
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, søknadMottattSortFunction);
+        case ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt:
+            return sorterOppgaver(oppgaver, sorteringsrekkefølge, behandlingOpprettetSortFunction);
         case ApiOppgaveSorteringsfelt.paVentInfo_tidsfrist:
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, oppfølgingsdatoSortFunction);
         default:
@@ -178,6 +180,12 @@ const søknadMottattSortFunction = (
     a: ApiOppgaveProjeksjon,
     b: ApiOppgaveProjeksjon,
 ) => tidspunktSortFunction(rekkefølge, a.opprinneligSoeknadstidspunkt, b.opprinneligSoeknadstidspunkt);
+
+const behandlingOpprettetSortFunction = (
+    rekkefølge: ApiSorteringsrekkefølge,
+    a: ApiOppgaveProjeksjon,
+    b: ApiOppgaveProjeksjon,
+) => tidspunktSortFunction(rekkefølge, a.behandlingOpprettetTidspunkt, b.behandlingOpprettetTidspunkt);
 
 const oppfølgingsdatoSortFunction = (
     rekkefølge: ApiSorteringsrekkefølge,

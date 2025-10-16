@@ -11,6 +11,7 @@ export enum SortKey {
     Opprettet = 'opprettet',
     Søker = 'søker',
     Tidsfrist = 'tidsfrist',
+    BehandlingOpprettetTidspunkt = 'behandlingOpprettetTidspunkt',
 }
 
 const defaultSortation: SortState = {

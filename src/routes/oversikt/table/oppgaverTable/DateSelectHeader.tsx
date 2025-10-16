@@ -22,6 +22,9 @@ export const DateSelectHeader = (): ReactElement => {
                 <option value={SortKey.Opprettet}>{tilDatoKeyTekst(SortKey.Opprettet)}</option>
                 <option value={SortKey.SøknadMottatt}>{tilDatoKeyTekst(SortKey.SøknadMottatt)}</option>
                 <option value={SortKey.Tidsfrist}>{tilDatoKeyTekst(SortKey.Tidsfrist)}</option>
+                <option value={SortKey.BehandlingOpprettetTidspunkt}>
+                    {tilDatoKeyTekst(SortKey.BehandlingOpprettetTidspunkt)}
+                </option>
             </Select>
         </Table.DataCell>
     );
@@ -33,6 +36,8 @@ const tilDatoKeyTekst = (key: string): string => {
             return 'Søknad mottatt';
         case 'tidsfrist':
             return 'Oppfølgingsdato';
+        case 'behandlingOpprettetTidspunkt':
+            return 'Behandling opprettet';
         case 'opprettet':
         default:
             return 'Opprettet dato';
@@ -44,6 +49,8 @@ export const tilDatoHeaderTekst = (key: SortKey): string => {
             return 'Mottatt';
         case SortKey.Tidsfrist:
             return 'Oppfølgingsdato';
+        case SortKey.BehandlingOpprettetTidspunkt:
+            return 'Behandling opprettet';
         case SortKey.Opprettet:
         default:
             return 'Opprettet';

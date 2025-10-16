@@ -32,6 +32,8 @@ const getVisningsDato = (oppgave: ApiOppgaveProjeksjon, sorteringsnøkkel: SortK
     switch (sorteringsnøkkel) {
         case SortKey.SøknadMottatt:
             return somDato(oppgave.opprinneligSoeknadstidspunkt).format(NORSK_DATOFORMAT);
+        case SortKey.BehandlingOpprettetTidspunkt:
+            return somDato(oppgave.behandlingOpprettetTidspunkt).format(NORSK_DATOFORMAT);
         case SortKey.Tidsfrist:
             return oppgave.paVentInfo?.tidsfrist
                 ? somDato(oppgave.paVentInfo.tidsfrist).format(NORSK_DATOFORMAT)

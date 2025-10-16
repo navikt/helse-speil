@@ -224,6 +224,8 @@ const finnSorteringsNøkkel = (sortKey: SortKey) => {
             return ApiOppgaveSorteringsfelt.tildeling;
         case SortKey.SøknadMottatt:
             return ApiOppgaveSorteringsfelt.opprinneligSoeknadstidspunkt;
+        case SortKey.BehandlingOpprettetTidspunkt:
+            return ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt;
         case SortKey.Tidsfrist:
             return ApiOppgaveSorteringsfelt.paVentInfo_tidsfrist;
         default:
