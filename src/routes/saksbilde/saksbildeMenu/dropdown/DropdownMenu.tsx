@@ -11,7 +11,7 @@ import { StansAutomatiskBehandlingButton } from '@saksbilde/saksbildeMenu/dropdo
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { finnAlleInntektsforhold, useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { ActivePeriod } from '@typer/shared';
-import { isArbeidsgiver, isBeregnetPeriode, isPerson } from '@utils/typeguards';
+import { isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
 import { AnnullerButton } from './AnnullerButton';
 import { OppdaterPersondataButton } from './OppdaterPersondataButton';
@@ -82,7 +82,7 @@ export const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps)
                     <StansAutomatiskBehandlingButton fødselsnummer={person.fodselsnummer} />
                 )}
                 <OppdaterPersondataButton person={person} />
-                {isBeregnetPeriode(activePeriod) && kanAnnulleres && isArbeidsgiver(inntektsforhold) && (
+                {isBeregnetPeriode(activePeriod) && kanAnnulleres && inntektsforhold !== undefined && (
                     <AnnullerButton person={person} periode={activePeriod} inntektsforhold={inntektsforhold} />
                 )}
             </Dropdown.Menu.List>
