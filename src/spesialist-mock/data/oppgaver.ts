@@ -37,6 +37,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         aktorId: '2564094783926',
         opprettetTidspunkt: '2022-11-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-04-21 09:48:33.10625',
+        behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
             fornavn: 'SLAPP',
             mellomnavn: null,
@@ -76,6 +77,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         aktorId: '2805594640665',
         opprettetTidspunkt: '2023-04-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2023-01-21 09:48:33.10625',
+        behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
             fornavn: 'PUNKTLIG',
             mellomnavn: null,
@@ -113,6 +115,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         aktorId: '1000000000003',
         opprettetTidspunkt: '2024-04-10T11:09:57',
         opprinneligSoeknadstidspunkt: '2024-01-21 09:48:33.10625',
+        behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
             fornavn: '',
             mellomnavn: null,
@@ -125,6 +128,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         aktorId: '2348185725298',
         opprettetTidspunkt: '2023-01-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
+        behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
             fornavn: 'BAMES',
             mellomnavn: null,
@@ -143,6 +147,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         aktorId: '1000001337420',
         opprettetTidspunkt: '2023-01-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
+        behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
             fornavn: 'OPTIMISTISK',
             mellomnavn: null,
@@ -160,6 +165,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         aktorId: '1000001337421',
         opprettetTidspunkt: '2023-01-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
+        behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
             fornavn: 'OPTIMISTISK',
             mellomnavn: null,
@@ -177,6 +183,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         aktorId: '2128719010641',
         opprettetTidspunkt: '2023-07-02T11:08:58',
         opprinneligSoeknadstidspunkt: '2023-07-01 12:27:29.585667',
+        behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
             fornavn: 'SKEPTISK',
             mellomnavn: null,

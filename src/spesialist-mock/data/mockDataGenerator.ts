@@ -64,6 +64,7 @@ const tilfeldigOppgave = (oppgaveId: number): ApiOppgaveProjeksjon => {
         },
         opprettetTidspunkt: opprettetDato,
         opprinneligSoeknadstidspunkt: søknadsDato,
+        behandlingOpprettetTidspunkt: tilfeldigDato().toISOString(),
         tildeling: {
             epost: 'tildeling@epost.no',
             navn:

@@ -18,6 +18,7 @@ export const ApiOppgaveSorteringsfelt = {
     opprettetTidspunkt: 'opprettetTidspunkt',
     opprinneligSoeknadstidspunkt: 'opprinneligSoeknadstidspunkt',
     paVentInfo_tidsfrist: 'paVentInfo_tidsfrist',
+    behandlingOpprettetTidspunkt: 'behandlingOpprettetTidspunkt',
 } as const;
 
 export type ApiSorteringsrekkefølge = (typeof ApiSorteringsrekkefølge)[keyof typeof ApiSorteringsrekkefølge];
@@ -40,6 +41,7 @@ export interface ApiOppgaveProjeksjon {
     tildeling?: ApiOppgaveProjeksjonTildeling;
     opprettetTidspunkt: string;
     opprinneligSoeknadstidspunkt: string;
+    behandlingOpprettetTidspunkt: string;
     paVentInfo?: ApiOppgaveProjeksjonPaVentInfo;
 }
 
@@ -263,3 +265,5 @@ export type GetOppgaverParams = {
     sidetall?: number;
     sidestoerrelse?: number;
 };
+
+export type GetSøknad200 = { [key: string]: unknown };
