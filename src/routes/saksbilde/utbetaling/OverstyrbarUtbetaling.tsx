@@ -293,6 +293,7 @@ export const OverstyrbarUtbetaling = ({
                     overstyrer={overstyrer}
                     slettSisteNyeDag={slettSisteNyeDag}
                     person={person}
+                    erSelvstendigNæring={isSelvstendigNaering(inntektsforhold)}
                 />
                 {overstyrer && (
                     <>

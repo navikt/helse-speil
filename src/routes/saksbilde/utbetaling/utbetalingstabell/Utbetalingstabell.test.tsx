@@ -50,6 +50,7 @@ describe('Utbetalingstabell', () => {
                 dager={dager}
                 personFødselsdato={'01-01-2000'}
                 person={enPerson()}
+                erSelvstendigNæring={false}
             />,
         );
 

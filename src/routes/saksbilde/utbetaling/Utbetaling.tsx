@@ -87,6 +87,7 @@ const ReadonlyUtbetaling = ({
                     dager={dager}
                     personFødselsdato={person.personinfo.fodselsdato}
                     person={person}
+                    erSelvstendigNæring={inntektsforholdReferanse.type === 'Selvstendig Næring'}
                 />
             </Box>
         </Box>

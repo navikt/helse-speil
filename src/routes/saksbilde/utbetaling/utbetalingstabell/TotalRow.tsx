@@ -14,9 +14,10 @@ import styles from './TotalRow.module.css';
 interface TotalRowProps {
     dager: Utbetalingstabelldag[];
     overstyrer?: boolean;
+    erSelvstendigNæring: boolean;
 }
 
-export const TotalRow = React.memo(({ dager, overstyrer }: TotalRowProps): ReactElement => {
+export const TotalRow = React.memo(({ dager, overstyrer, erSelvstendigNæring }: TotalRowProps): ReactElement => {
     const utbetalingsdager = getDagerMedUtbetaling(dager);
     const arbeidsgiverbeløpTotal = getTotalArbeidsgiverbeløp(utbetalingsdager);
     const personbeløpTotal = getTotalPersonbeløp(utbetalingsdager);
@@ -30,7 +31,9 @@ export const TotalRow = React.memo(({ dager, overstyrer }: TotalRowProps): React
             <Table.DataCell />
             <Table.DataCell />
             <Table.DataCell />
-            <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={arbeidsgiverbeløpTotal} />
+            {!erSelvstendigNæring && (
+                <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={arbeidsgiverbeløpTotal} />
+            )}
             <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={personbeløpTotal} />
             <Table.DataCell />
             <Table.DataCell />

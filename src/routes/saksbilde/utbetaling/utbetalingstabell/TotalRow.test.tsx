@@ -20,7 +20,7 @@ describe('TotalRow', () => {
         ] as Utbetalingstabelldag[];
         render(
             <TestRowWrapper>
-                <TotalRow dager={dager} overstyrer={false} />
+                <TotalRow dager={dager} overstyrer={false} erSelvstendigNæring={false} />
             </TestRowWrapper>,
         );
 
@@ -38,7 +38,7 @@ describe('TotalRow', () => {
         ] as Utbetalingstabelldag[];
         render(
             <TestRowWrapper>
-                <TotalRow dager={dager} overstyrer={false} />
+                <TotalRow dager={dager} overstyrer={false} erSelvstendigNæring={false} />
             </TestRowWrapper>,
         );
 

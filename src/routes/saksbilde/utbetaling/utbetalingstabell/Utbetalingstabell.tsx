@@ -35,6 +35,7 @@ interface UtbetalingstabellProps {
     overstyrer?: boolean;
     slettSisteNyeDag?: () => void;
     person: PersonFragment;
+    erSelvstendigNæring: boolean;
 }
 
 export const Utbetalingstabell = ({
@@ -47,6 +48,7 @@ export const Utbetalingstabell = ({
     overstyrer = false,
     slettSisteNyeDag,
     person,
+    erSelvstendigNæring,
 }: UtbetalingstabellProps): ReactElement => {
     const formattedFom = getFormattedDateString(fom);
     const formattedTom = getFormattedDateString(tom);
@@ -76,12 +78,14 @@ export const Utbetalingstabell = ({
                             <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 Total grad
                             </Table.ColumnHeader>
-                            <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
-                                <HStack align="center" gap="2" wrap={false}>
-                                    <Arbeidsgiverikon />
-                                    Refusjon
-                                </HStack>
-                            </Table.ColumnHeader>
+                            {!erSelvstendigNæring && (
+                                <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
+                                    <HStack align="center" gap="2" wrap={false}>
+                                        <Arbeidsgiverikon />
+                                        Refusjon
+                                    </HStack>
+                                </Table.ColumnHeader>
+                            )}
                             <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 <HStack align="center" gap="2" wrap={false}>
                                     <Sykmeldtikon />
@@ -98,7 +102,13 @@ export const Utbetalingstabell = ({
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {dagerList.length > 0 && <TotalRow dager={dagerList} overstyrer={overstyrer} />}
+                        {dagerList.length > 0 && (
+                            <TotalRow
+                                dager={dagerList}
+                                overstyrer={overstyrer}
+                                erSelvstendigNæring={erSelvstendigNæring}
+                            />
+                        )}
                         {dagerList.map((tabelldag, i) => (
                             <Row
                                 key={i}
@@ -126,11 +136,13 @@ export const Utbetalingstabell = ({
                                     erOverstyrt={!!lokaleOverstyringer?.get(tabelldag.dato)}
                                     erNyDag={tabelldag.erNyDag}
                                 />
-                                <UtbetalingCell
-                                    utbetaling={tabelldag.arbeidsgiverbeløp}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(tabelldag.dato)}
-                                    erNyDag={tabelldag.erNyDag}
-                                />
+                                {!erSelvstendigNæring && (
+                                    <UtbetalingCell
+                                        utbetaling={tabelldag.arbeidsgiverbeløp}
+                                        erOverstyrt={!!lokaleOverstyringer?.get(tabelldag.dato)}
+                                        erNyDag={tabelldag.erNyDag}
+                                    />
+                                )}
                                 <UtbetalingCell
                                     utbetaling={tabelldag.personbeløp}
                                     erOverstyrt={!!lokaleOverstyringer?.get(tabelldag.dato)}
