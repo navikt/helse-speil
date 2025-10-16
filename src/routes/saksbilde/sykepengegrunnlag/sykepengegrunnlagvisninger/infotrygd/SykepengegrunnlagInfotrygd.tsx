@@ -3,9 +3,10 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Table } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Kilde } from '@components/Kilde';
 import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygdV2 } from '@io/graphql';
+import { lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
@@ -85,7 +86,12 @@ const InfotrygdInntekt = ({ aktivtOrgnummer, arbeidsgivernavn, inntekt }: Infotr
         className={classNames(styles.arbeidsgiverrad, aktivtOrgnummer === inntekt.arbeidsgiver && styles.ergjeldende)}
     >
         <Table.DataCell>
-            <Arbeidsgivernavn identifikator={inntekt.arbeidsgiver} navn={arbeidsgivernavn} />
+            <Inntektsforholdnavn
+                inntektsforholdReferanse={lagArbeidsgiverReferanse(
+                    inntekt.arbeidsgiver,
+                    inntekt.arbeidsgiver === aktivtOrgnummer ? arbeidsgivernavn : undefined,
+                )}
+            />
         </Table.DataCell>
         <Table.DataCell>
             <div className={styles.inntekt}>

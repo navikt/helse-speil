@@ -7,6 +7,7 @@ import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/in
 import { InntektOgRefusjonVisning } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonVisning';
 import { ToggleOverstyring } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/ToggleOverstyring';
 import { InntektOgRefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
+import { arbeidsgiverTilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';
 
@@ -68,11 +69,7 @@ export const InntektOgRefusjon = ({
                 />
                 {inntekt.deaktivert && <Tag variant="neutral">Brukes ikke i beregningen</Tag>}
             </HStack>
-            <InntektOgRefusjonHeader
-                arbeidsgivernavn={arbeidsgiver.navn}
-                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                kilde="AINNTEKT"
-            />
+            <InntektOgRefusjonHeader arbeidsgiverReferanse={arbeidsgiverTilReferanse(arbeidsgiver)} kilde="AINNTEKT" />
             <Label size="small">Beregnet månedsinntekt</Label>
             {editing && omregnetÅrsinntekt && (
                 <InntektOgRefusjonSkjema

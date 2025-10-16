@@ -2,31 +2,27 @@ import React from 'react';
 
 import { BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Inntektskilde } from '@io/graphql';
+import { ArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 
 interface InntektOgRefusjonHeaderProps {
-    arbeidsgivernavn: string;
-    organisasjonsnummer: string;
+    arbeidsgiverReferanse: ArbeidsgiverReferanse;
     kilde: Inntektskilde.Aordningen | 'AINNTEKT';
 }
 
-export const InntektOgRefusjonHeader = ({
-    arbeidsgivernavn,
-    organisasjonsnummer,
-    kilde,
-}: InntektOgRefusjonHeaderProps) => (
+export const InntektOgRefusjonHeader = ({ arbeidsgiverReferanse, kilde }: InntektOgRefusjonHeaderProps) => (
     <HStack marginBlock="5 6" gap="3" align="center">
         <Arbeidsgiverikon />
-        <Arbeidsgivernavn identifikator={organisasjonsnummer} navn={arbeidsgivernavn} maxWidth="190px" />
+        <Inntektsforholdnavn inntektsforholdReferanse={arbeidsgiverReferanse} maxWidth="190px" />
         <HStack align="center">
             <BodyShort>(</BodyShort>
-            <AnonymizableText>{organisasjonsnummer}</AnonymizableText>
+            <AnonymizableText>{arbeidsgiverReferanse.organisasjonsnummer}</AnonymizableText>
             <Tooltip content="Kopier organisasjonsnummer">
-                <CopyButton copyText={organisasjonsnummer} size="small" />
+                <CopyButton copyText={arbeidsgiverReferanse.organisasjonsnummer} size="small" />
             </Tooltip>
             <BodyShort>)</BodyShort>
         </HStack>

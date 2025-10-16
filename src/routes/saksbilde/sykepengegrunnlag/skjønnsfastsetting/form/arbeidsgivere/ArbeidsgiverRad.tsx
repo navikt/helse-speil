@@ -3,15 +3,15 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 
 import { HStack, Table, TextField } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { Arbeidsgiver } from '@io/graphql';
 import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { ArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { toKronerOgØre } from '@utils/locale';
 
 interface ArbeidsgiverRadProps {
-    arbeidsgiver?: Arbeidsgiver;
+    arbeidsgiverReferanse: ArbeidsgiverReferanse;
     årsinntekt: number;
     type: Skjønnsfastsettingstype | null;
     årligField: UseFormRegisterReturn;
@@ -22,7 +22,7 @@ interface ArbeidsgiverRadProps {
 }
 
 export const ArbeidsgiverRad = ({
-    arbeidsgiver,
+    arbeidsgiverReferanse,
     årsinntekt,
     type,
     årligField,
@@ -37,9 +37,7 @@ export const ArbeidsgiverRad = ({
             <Table.DataCell>
                 <HStack gap="3" align="center" maxWidth="228px">
                     <Arbeidsgiverikon />
-                    {arbeidsgiver && (
-                        <Arbeidsgivernavn identifikator={arbeidsgiver.organisasjonsnummer} navn={arbeidsgiver.navn} />
-                    )}
+                    <Inntektsforholdnavn inntektsforholdReferanse={arbeidsgiverReferanse} />
                 </HStack>
             </Table.DataCell>
             <Table.DataCell>

@@ -182,14 +182,17 @@ export const finnNteEllerNyesteGenerasjon = (
 
 export type InntektsforholdReferanse = ArbeidsgiverReferanse | SelvstendigNæringReferanse;
 
+export const lagArbeidsgiverReferanse = (organisasjonsnummer: string, navn?: string): ArbeidsgiverReferanse => ({
+    type: 'Arbeidsgiver',
+    organisasjonsnummer: organisasjonsnummer,
+    navn: navn,
+});
+
+export const arbeidsgiverTilReferanse = (arbeidsgiver: Arbeidsgiver): ArbeidsgiverReferanse =>
+    lagArbeidsgiverReferanse(arbeidsgiver.organisasjonsnummer, arbeidsgiver.navn);
+
 export const tilReferanse = (inntektsforhold: Inntektsforhold): InntektsforholdReferanse =>
-    isSelvstendigNaering(inntektsforhold)
-        ? { type: 'Selvstendig Næring' }
-        : {
-              type: 'Arbeidsgiver',
-              organisasjonsnummer: inntektsforhold.organisasjonsnummer,
-              navn: inntektsforhold.navn,
-          };
+    isSelvstendigNaering(inntektsforhold) ? { type: 'Selvstendig Næring' } : arbeidsgiverTilReferanse(inntektsforhold);
 
 export const inntektsforholdReferanseTilKey = (referanse: InntektsforholdReferanse): string =>
     referanse.type === 'Arbeidsgiver' ? referanse.organisasjonsnummer : referanse.type;

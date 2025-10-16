@@ -3,7 +3,7 @@ import React from 'react';
 
 import { BodyShort, HStack, Tooltip } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Kilde } from '@components/Kilde';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Errorikon } from '@components/ikoner/Errorikon';
@@ -16,6 +16,7 @@ import {
     Sammenligningsgrunnlag,
 } from '@io/graphql';
 import { finnArbeidsgiverMedOrganisasjonsnummer } from '@state/inntektsforhold/arbeidsgiver';
+import { lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
@@ -72,9 +73,8 @@ export const Inntektssammenligning = ({
                     ) : (
                         <Arbeidsgiverikon />
                     )}
-                    <Arbeidsgivernavn
-                        identifikator={organisasjonsnummer}
-                        navn={arbeidsgivernavn}
+                    <Inntektsforholdnavn
+                        inntektsforholdReferanse={lagArbeidsgiverReferanse(organisasjonsnummer, arbeidsgivernavn)}
                         visIdentifikatorITooltip={true}
                         maxWidth="130px"
                     />

@@ -7,6 +7,7 @@ import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import {
+    Arbeidsgiver,
     Arbeidsgiverinntekt,
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
@@ -23,9 +24,9 @@ import {
     Skjønnsfastsettingstype,
     usePostSkjønnsfastsattSykepengegrunnlag,
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
-import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
 import { avrundetToDesimaler } from '@utils/tall';
-import { isArbeidsgiver, isBeregnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
 
@@ -35,24 +36,21 @@ export const useAktiveArbeidsgivere = (
     person: PersonFragment,
     period: BeregnetPeriodeFragment | GhostPeriodeFragment,
     inntekter: Arbeidsgiverinntekt[],
-) =>
-    finnAlleInntektsforhold(person)
+): Arbeidsgiver[] =>
+    finnAlleArbeidsgivere(person)
         .filter(
-            (inntektsforhold) =>
-                inntektsforhold.generasjoner?.[0]?.perioder.some(
+            (arbeidsgiver) =>
+                arbeidsgiver.generasjoner?.[0]?.perioder.some(
                     (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt,
                 ) ||
-                (isArbeidsgiver(inntektsforhold) &&
-                    inntektsforhold.ghostPerioder.some(
-                        (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt && !it.deaktivert,
-                    )),
+                arbeidsgiver.ghostPerioder.some(
+                    (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt && !it.deaktivert,
+                ),
         )
         .filter(
-            (inntektsforhold) =>
-                inntekter.find(
-                    (inntekt) =>
-                        isArbeidsgiver(inntektsforhold) && inntekt.arbeidsgiver === inntektsforhold.organisasjonsnummer,
-                )?.omregnetArsinntekt !== null,
+            (arbeidsgiver) =>
+                inntekter.find((inntekt) => inntekt.arbeidsgiver === arbeidsgiver.organisasjonsnummer)
+                    ?.omregnetArsinntekt !== null,
         );
 
 function useFormDefaults(
@@ -175,12 +173,11 @@ export const SkjønnsfastsettingForm = ({
     formValues,
     setFormValues,
 }: SkjønnsfastsettingFormProps): ReactElement | null => {
-    const inntektsforhold = useAktiveArbeidsgivere(person, periode, inntekter);
+    const arbeidsgivere = useAktiveArbeidsgivere(person, periode, inntekter);
     const aktiveArbeidsgivereInntekter = inntekter.filter((inntekt) =>
-        inntektsforhold.some(
-            (inntektsforhold) =>
-                isArbeidsgiver(inntektsforhold) &&
-                inntektsforhold.organisasjonsnummer === inntekt.arbeidsgiver &&
+        arbeidsgivere.some(
+            (arbeidsgiver) =>
+                arbeidsgiver.organisasjonsnummer === inntekt.arbeidsgiver &&
                 inntekt.omregnetArsinntekt !== null &&
                 !inntekt.deaktivert,
         ),
@@ -253,7 +250,7 @@ export const SkjønnsfastsettingForm = ({
         }
     }, [valgtType, avrundetSammenligningsgrunnlag, setValue, aktiveArbeidsgivereInntekter]);
 
-    if (!inntektsforhold || !aktiveArbeidsgivereInntekter) return null;
+    if (!arbeidsgivere || !aktiveArbeidsgivereInntekter) return null;
 
     const confirmChanges = () => {
         postSkjønnsfastsetting(
@@ -280,7 +277,7 @@ export const SkjønnsfastsettingForm = ({
                     {((harValgt25Avvik && valgtType) || (valgtÅrsak !== '' && !harValgt25Avvik)) && (
                         <>
                             <SkjønnsfastsettingArbeidsgivere
-                                arbeidsgivere={inntektsforhold}
+                                arbeidsgivere={arbeidsgivere}
                                 sammenligningsgrunnlag={avrundetSammenligningsgrunnlag}
                                 sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                             />

@@ -11,6 +11,7 @@ import {
     finnArbeidsgiverMedOrganisasjonsnummer,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/inntektsforhold/arbeidsgiver';
+import { lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
@@ -90,8 +91,7 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElem
                 />
             ) : (
                 <InntektOgRefusjonHeader
-                    organisasjonsnummer={arbeidsgiver?.organisasjonsnummer ?? inntekt.arbeidsgiver}
-                    arbeidsgivernavn={arbeidsgiver?.navn ?? 'Ukjent'}
+                    arbeidsgiverReferanse={lagArbeidsgiverReferanse(inntekt.arbeidsgiver, arbeidsgiver?.navn)}
                     kilde={Inntektskilde.Aordningen}
                 />
             )}

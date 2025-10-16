@@ -2,12 +2,12 @@ import React from 'react';
 
 import { BodyShort, HStack, Spacer } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
-import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { capitalizeName, somPenger } from '@utils/locale';
 import { isArbeidsgiver } from '@utils/typeguards';
 
@@ -48,11 +48,7 @@ export const BeløpTilUtbetaling = ({
             <>
                 <HStack align="center" gap="4" className={styles.Row}>
                     <Arbeidsgiverikon />
-                    <Arbeidsgivernavn
-                        identifikator={inntektsforhold.organisasjonsnummer}
-                        navn={inntektsforhold.navn}
-                        maxWidth="200px"
-                    />
+                    <Inntektsforholdnavn inntektsforholdReferanse={tilReferanse(inntektsforhold)} maxWidth="200px" />
                     <Spacer />
                     <BodyShort>{somPenger(periodeArbeidsgiverNettoBeløp)}</BodyShort>
                 </HStack>

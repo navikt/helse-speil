@@ -2,11 +2,12 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, HStack } from '@navikt/ds-react';
 
-import { Arbeidsgivernavn } from '@components/Inntektsforholdnavn';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { PersonFragment } from '@io/graphql';
 import { Endringsårsaker } from '@saksbilde/historikk/hendelser/dokument/Endringsårsaker';
 import { finnArbeidsgiverMedOrganisasjonsnummer } from '@state/inntektsforhold/arbeidsgiver';
+import { ArbeidsgiverReferanse, lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { DokumenthendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
 import { capitalizeName, tilTelefonNummer, toKronerOgØre } from '@utils/locale';
@@ -32,20 +33,21 @@ export const Inntektsmeldingsinnhold = ({
     const inntektsmeldingssrespons = useQueryInntektsmelding(fødselsnummer, dokumentId ?? '');
     const inntektsmelding = inntektsmeldingssrespons.data;
     const virksomhetsnummer = inntektsmelding?.virksomhetsnummer;
-    const arbeidsgivernavn = finnArbeidsgiverMedOrganisasjonsnummer(person, virksomhetsnummer ?? '')?.navn;
+    const arbeidsgiverReferanse: ArbeidsgiverReferanse | null = virksomhetsnummer
+        ? lagArbeidsgiverReferanse(
+              virksomhetsnummer,
+              finnArbeidsgiverMedOrganisasjonsnummer(person, virksomhetsnummer)?.navn,
+          )
+        : null;
 
     return (
         <>
             {inntektsmelding && (
                 <div className={styles.dokument}>
-                    {virksomhetsnummer && (
+                    {arbeidsgiverReferanse && (
                         <HStack gap="3" align="center" className={styles.arbeidsgiver}>
                             <Arbeidsgiverikon />
-                            <Arbeidsgivernavn
-                                identifikator={virksomhetsnummer}
-                                navn={arbeidsgivernavn}
-                                maxWidth="72%"
-                            />
+                            <Inntektsforholdnavn inntektsforholdReferanse={arbeidsgiverReferanse} maxWidth="72%" />
                         </HStack>
                     )}
                     {virksomhetsnummer && (

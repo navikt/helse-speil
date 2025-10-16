@@ -8,15 +8,14 @@ import { Arbeidsgiver, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
-import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
 import { avrundetToDesimaler } from '@utils/tall';
-import { isArbeidsgiver } from '@utils/typeguards';
 
 import { ArbeidsgiverRad } from './ArbeidsgiverRad';
 
 interface SkjønnsfastsettingArbeidsgivereProps {
-    arbeidsgivere: Inntektsforhold[];
+    arbeidsgivere: Arbeidsgiver[];
     sammenligningsgrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
 }
@@ -56,9 +55,6 @@ export const SkjønnsfastsettingArbeidsgivere = ({
 
     const antallArbeidsgivere = fields.length;
 
-    const getArbeidsgiver = (organisasjonsnummer: string): Arbeidsgiver | undefined =>
-        arbeidsgivere.filter(isArbeidsgiver).find((ag) => ag.organisasjonsnummer === organisasjonsnummer);
-
     return (
         <Fieldset
             legend="Skjønnsfastsett arbeidsgivere"
@@ -94,7 +90,11 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                                 <ArbeidsgiverRad
                                     key={field.id}
                                     årsinntekt={field.årlig}
-                                    arbeidsgiver={getArbeidsgiver(field.organisasjonsnummer)}
+                                    arbeidsgiverReferanse={lagArbeidsgiverReferanse(
+                                        field.organisasjonsnummer,
+                                        arbeidsgivere.find((ag) => ag.organisasjonsnummer === field.organisasjonsnummer)
+                                            ?.navn,
+                                    )}
                                     type={type}
                                     årligField={årligField}
                                     orgnummerField={orgnummerField}
