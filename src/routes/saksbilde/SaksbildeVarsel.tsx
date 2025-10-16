@@ -14,6 +14,7 @@ import {
 import styles from '@saksbilde/saksbilder/SharedViews.module.css';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
+import { finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
 import {
     Inntektsforhold,
     finnAlleInntektsforhold,
@@ -22,13 +23,7 @@ import {
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { ActivePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
-import {
-    isArbeidsforholdoverstyring,
-    isArbeidsgiver,
-    isBeregnetPeriode,
-    isGhostPeriode,
-    isUberegnetPeriode,
-} from '@utils/typeguards';
+import { isArbeidsforholdoverstyring, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 interface SaksbildeVarselProps {
     person: PersonFragment;
@@ -100,8 +95,7 @@ const useNavnPåDeaktiverteGhostArbeidsgivere = (
 ) => {
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periode);
     return vilkårsgrunnlag?.__typename === 'VilkarsgrunnlagSpleisV2'
-        ? finnAlleInntektsforhold(person)
-              .filter(isArbeidsgiver)
+        ? finnAlleArbeidsgivere(person)
               .filter((arbeidsgiver) =>
                   arbeidsgiver.overstyringer.find(
                       (overstyring) => isArbeidsforholdoverstyring(overstyring) && !overstyring.ferdigstilt,

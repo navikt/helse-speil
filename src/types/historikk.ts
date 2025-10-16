@@ -69,7 +69,7 @@ export type AnnetArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & 
     begrunnelse: string;
     forklaring: string;
     skjæringstidspunkt: DateString;
-    navn: string;
+    inntektsforholdReferanse: InntektsforholdReferanse;
 };
 
 export type InntektoverstyringhendelseObject = BaseHendelseObject & {

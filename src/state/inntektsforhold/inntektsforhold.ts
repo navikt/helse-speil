@@ -15,7 +15,6 @@ import { useActivePeriod } from '@state/periode';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { ActivePeriod, DateString } from '@typer/shared';
 import {
-    isArbeidsgiver,
     isBeregnetPeriode,
     isDagoverstyring,
     isGhostPeriode,
@@ -119,16 +118,6 @@ export type ArbeidsgiverReferanse = {
 
 export type SelvstendigNæringReferanse = {
     type: 'Selvstendig Næring';
-};
-
-export const navnPåInntektsforhold = (inntektsforhold: Inntektsforhold): string => {
-    if (isArbeidsgiver(inntektsforhold)) {
-        return inntektsforhold.navn;
-    }
-    if (isSelvstendigNaering(inntektsforhold)) {
-        return 'Selvstendig næring';
-    }
-    throw 'Ukjent type inntektsforhold';
 };
 
 export const finnGenerasjonerForAktivPeriode = (periode: ActivePeriod, person: PersonFragment): Generasjon[] =>

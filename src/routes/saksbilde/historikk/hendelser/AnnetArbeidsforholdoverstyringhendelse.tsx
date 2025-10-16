@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
@@ -19,7 +19,7 @@ export const AnnetArbeidsforholdoverstyringhendelse = ({
     begrunnelse,
     forklaring,
     skjæringstidspunkt,
-    navn,
+    inntektsforholdReferanse,
 }: AnnetArbeidsforholdoverstyringhendelseProps): ReactElement => {
     return (
         <Historikkhendelse
@@ -34,7 +34,7 @@ export const AnnetArbeidsforholdoverstyringhendelse = ({
             aktiv={false}
         >
             <HistorikkSection tittel="Arbeidsgiver">
-                <AnonymizableTextWithEllipsis>{navn}</AnonymizableTextWithEllipsis>
+                <Inntektsforholdnavn inntektsforholdReferanse={inntektsforholdReferanse} />
             </HistorikkSection>
             <HistorikkSection tittel="Begrunnelse">
                 <BodyShort>{begrunnelse}</BodyShort>

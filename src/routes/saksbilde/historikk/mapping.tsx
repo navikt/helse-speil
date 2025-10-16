@@ -32,7 +32,7 @@ import {
     UberegnetPeriodeFragment,
     Vurdering,
 } from '@io/graphql';
-import { Inntektsforhold, navnPåInntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
+import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { toNotat } from '@state/notater';
 import {
     AnnetArbeidsforholdoverstyringhendelseObject,
@@ -545,9 +545,9 @@ export const getAnnetArbeidsforholdoverstyringhendelser = (
     andreInntektsforhold: Inntektsforhold[],
 ): AnnetArbeidsforholdoverstyringhendelseObject[] =>
     andreInntektsforhold
-        .flatMap((it) => ({ navn: navnPåInntektsforhold(it), overstyringer: it.overstyringer }))
+        .flatMap((it) => ({ inntektsforholdReferanse: tilReferanse(it), overstyringer: it.overstyringer }))
         .reduce<AnnetArbeidsforholdoverstyringhendelseObject[]>(
-            (output, { navn, overstyringer }) =>
+            (output, { inntektsforholdReferanse, overstyringer }) =>
                 output.concat(
                     overstyringer
                         .filter(isArbeidsforholdoverstyring)
@@ -561,7 +561,7 @@ export const getAnnetArbeidsforholdoverstyringhendelser = (
                             begrunnelse: it.begrunnelse,
                             forklaring: it.forklaring,
                             skjæringstidspunkt: it.skjaeringstidspunkt,
-                            navn: navn,
+                            inntektsforholdReferanse: inntektsforholdReferanse,
                         })),
                 ),
             [] as AnnetArbeidsforholdoverstyringhendelseObject[],
