@@ -29,11 +29,6 @@ export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplys
         replaceRefusjonsopplysninger(
             lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : fraRefusjonsopplysninger,
         );
-        /* eslint-disable-next-line react-hooks/exhaustive-deps --
-         * Denne skal kjøre på første render, kommer av at vi har tatt noen
-         * mindre gode valg i designet av skjemaene våre. Vi burde prøve å
-         * sette dette når skjemaet deffineres og ikke hacke det inn her.
-         **/
     }, []);
 
     return (

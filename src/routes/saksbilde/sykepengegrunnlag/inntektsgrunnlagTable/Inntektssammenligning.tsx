@@ -64,7 +64,7 @@ export const Inntektssammenligning = ({
                     maxWidth="228px"
                     className={classNames(!!arbeidsforholdErDeaktivert && styles.arbeidsgivernavnDeaktivert)}
                 >
-                    {!!arbeidsforholdErDeaktivert ? (
+                    {arbeidsforholdErDeaktivert === true ? (
                         <Tooltip content="Arbeidsforhold er deaktivert">
                             <HStack align="center">
                                 <Errorikon />

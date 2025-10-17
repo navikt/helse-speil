@@ -18,7 +18,6 @@ import {
 } from '@testing-library/react';
 
 type ProviderProps = {
-    // eslint-disable-next-line
     readonly initialQueries?: Cache.WriteQueryOptions<any, any>[];
     readonly mocks?: MockedResponse[];
     readonly atomValues?: Iterable<readonly [WritableAtom<unknown, [never], unknown>, unknown]>;

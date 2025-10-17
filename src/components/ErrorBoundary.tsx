@@ -32,7 +32,6 @@ export class ErrorBoundary extends React.Component<PropsWithChildren<ErrorBounda
 
     componentDidUpdate(prevProps: ErrorBoundaryProps, prevState: ErrorBoundaryState) {
         if (prevProps !== this.props && prevState !== this.state) {
-            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ hasError: false });
         }
     }

@@ -247,7 +247,7 @@ const syncMock = (oppgaver: ApiOppgaveProjeksjon[]) => {
                     oppgaveVedtaksperioder.find((it) => it.id === oppgave.id)!.vedtaksperiodeId,
                 ) as LagtPaVent;
 
-                if (!!historikkinnslag) {
+                if (historikkinnslag) {
                     paVentInfo = {
                         arsaker: historikkinnslag.arsaker,
                         tekst: historikkinnslag.notattekst,

@@ -10,7 +10,7 @@ type SpeilErrorOptions = {
 export class SpeilError extends Error {
     name = 'speilError';
     severity: Severity = 'error';
-    scope: string = window.location.pathname;
+    scope: string = typeof window !== 'undefined' ? window.location.pathname : '';
 
     constructor(message?: string, options?: SpeilErrorOptions) {
         super(message);

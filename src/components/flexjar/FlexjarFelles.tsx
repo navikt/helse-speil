@@ -81,9 +81,6 @@ export function FlexjarFelles({
 
     useEffect(() => {
         fetchFeedback().catch();
-        /* eslint-disable-next-line react-hooks/exhaustive-deps --
-         * Kan ikke bruke fetchFeedback som dependency, da blir det dobble kall
-         **/
     }, [activeState]);
 
     const feedbackPropsString = JSON.stringify(feedbackProps);

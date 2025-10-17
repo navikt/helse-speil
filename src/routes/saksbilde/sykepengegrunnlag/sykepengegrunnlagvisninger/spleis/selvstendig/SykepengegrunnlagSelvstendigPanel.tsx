@@ -10,7 +10,7 @@ import { somPenger } from '@utils/locale';
 
 import styles from './SykepengegrunnlagSelvstendigPanel.module.css';
 
-interface SykepengegrunnlagSelvstendigPanel {
+interface SykepengegrunnlagSelvstendigPanelProps {
     beregningsgrunnlag: string;
     sykepengegrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
@@ -20,7 +20,7 @@ export const SykepengegrunnlagSelvstendigPanel = ({
     beregningsgrunnlag,
     sykepengegrunnlag,
     sykepengegrunnlagsgrense,
-}: SykepengegrunnlagSelvstendigPanel) => {
+}: SykepengegrunnlagSelvstendigPanelProps) => {
     const beregningsgrunnlagNumber = Number(beregningsgrunnlag);
     return (
         <VStack gap="16">

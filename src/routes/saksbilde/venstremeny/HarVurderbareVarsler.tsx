@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
 
 import { PersonFragment } from '@io/graphql';
-import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
+import type { PeriodeinformasjonInnslag } from '@saksbilde/venstremeny/PeriodeinformasjonInnslag';
+import { Periodeinformasjon } from '@saksbilde/venstremeny/PeriodeinformasjonInnslag';
 import {
     finnAlleInntektsforhold,
     finnPeriodeTilGodkjenning,
@@ -19,7 +20,7 @@ export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): Rea
 
     const inntektsforholdMedVurderbareVarsler = finnAlleInntektsforhold(person)
         .map(
-            (inntektsforhold): Periodeinformasjon => ({
+            (inntektsforhold): PeriodeinformasjonInnslag => ({
                 inntektsforholdReferanse: tilReferanse(inntektsforhold),
                 perioder: inntektsforhold.generasjoner
                     .flatMap((generasjon) =>

@@ -10,7 +10,7 @@ import { somNorskDato } from '@utils/date';
 
 import styles from './Periodeinformasjon.module.scss';
 
-export interface Periodeinformasjon {
+export interface PeriodeinformasjonInnslag {
     inntektsforholdReferanse: InntektsforholdReferanse;
     perioder: {
         id: string;
@@ -21,7 +21,7 @@ export interface Periodeinformasjon {
 
 interface PeriodeinformasjonProps {
     tittel: string;
-    periodeinformasjon: Periodeinformasjon[];
+    periodeinformasjon: PeriodeinformasjonInnslag[];
 }
 
 export const Periodeinformasjon = ({ tittel, periodeinformasjon }: PeriodeinformasjonProps): ReactElement | null => {

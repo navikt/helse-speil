@@ -16,9 +16,6 @@ export const useFjernKalkulerToast = (calculating: boolean, setHasTimedOut: () =
                 clearTimeout(timeout);
             };
         }
-        /* eslint-disable-next-line react-hooks/exhaustive-deps --
-         * Kan ikke ha med dependencies siden disse funksjonene endres før cleanup skal kjøres
-         **/
     }, [calculating]);
 
     return;

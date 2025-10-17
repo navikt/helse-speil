@@ -20,8 +20,5 @@ export const useOppdaterPersondataEnGang = () => {
         return () => {
             removeToast(oppdatererPersondataToastKey);
         };
-        /* eslint-disable-next-line react-hooks/exhaustive-deps --
-          Kan ikke oppgi forespørPersonoppdatering eller removeToast som avhengigheter, da gjøres kallene i loop
-         */
     }, [fødselsnummer]);
 };

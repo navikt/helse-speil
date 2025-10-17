@@ -508,7 +508,7 @@ const puttHistorikkinnslagFraTestpersonerIMock = (): void => {
         person.arbeidsgivere.forEach((ag: Arbeidsgiver) => {
             ag.generasjoner.forEach((g) => {
                 g.perioder.forEach((p) => {
-                    if (!!(p as BeregnetPeriode).historikkinnslag) {
+                    if ((p as BeregnetPeriode).historikkinnslag) {
                         vedtaksperiodeHistorikkinnslag.set(p.vedtaksperiodeId, (p as BeregnetPeriode).historikkinnslag);
                     }
                 });

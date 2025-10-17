@@ -5,7 +5,7 @@ import { Alert, Button, Detail, Heading, List, VStack } from '@navikt/ds-react';
 import { Inntektsforholdnavn, Organisasjonsnavn } from '@components/Inntektsforholdnavn';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { PersonFragment } from '@io/graphql';
-import { Periodeinformasjon } from '@saksbilde/venstremeny/Periodeinformasjon';
+import { PeriodeinformasjonInnslag } from '@saksbilde/venstremeny/PeriodeinformasjonInnslag';
 import {
     finnAlleInntektsforhold,
     finnPeriodeTilGodkjenning,
@@ -39,7 +39,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
 
     const perioderTilKontroll = finnAlleInntektsforhold(person)
         .map(
-            (inntektsforhold): Periodeinformasjon => ({
+            (inntektsforhold): PeriodeinformasjonInnslag => ({
                 inntektsforholdReferanse: tilReferanse(inntektsforhold),
                 perioder:
                     inntektsforhold.generasjoner[0]?.perioder
