@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid';
-
 import {
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
@@ -20,6 +18,7 @@ import { enOppgave } from '@test-data/oppgave';
 import { TestDag } from '@test-data/person-query-types';
 import { enUtbetaling } from '@test-data/utbetaling';
 import { OverridableConstructor } from '@typer/shared';
+import { generateId } from '@utils/generateId';
 
 export const enDag: OverridableConstructor<TestDag> = (overrides) => ({
     __typename: 'Dag',
@@ -27,7 +26,7 @@ export const enDag: OverridableConstructor<TestDag> = (overrides) => ({
     grad: 100,
     kilde: {
         __typename: 'Kilde',
-        id: nanoid(),
+        id: generateId(),
         type: Kildetype.Soknad,
     },
     sykdomsdagtype: Sykdomsdagtype.Sykedag,
@@ -57,15 +56,15 @@ type Extensions = {
 
 export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, Extensions> = (overrides) => ({
     __typename: 'BeregnetPeriode',
-    id: nanoid(),
-    behandlingId: nanoid(),
+    id: generateId(),
+    behandlingId: generateId(),
     fom: '2020-01-01',
     tom: '2020-01-30',
     skjaeringstidspunkt: '2020-01-01',
     tidslinje: [enDag()],
     opprettet: '2020-01-01',
     aktivitetslogg: [],
-    beregningId: nanoid(),
+    beregningId: generateId(),
     erForkastet: false,
     forbrukteSykedager: 0,
     gjenstaendeSykedager: 200,
@@ -99,8 +98,8 @@ export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, 
     },
     utbetaling: enUtbetaling(),
     varsler: [],
-    vedtaksperiodeId: nanoid(),
-    vilkarsgrunnlagId: nanoid(),
+    vedtaksperiodeId: generateId(),
+    vilkarsgrunnlagId: generateId(),
     avslag: [],
     vedtakBegrunnelser: [],
     ...overrides,
@@ -144,11 +143,11 @@ export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, 
 
 export const enUberegnetPeriode: OverridableConstructor<UberegnetPeriodeFragment> = (overrides) => ({
     __typename: 'UberegnetPeriode',
-    behandlingId: nanoid(),
+    behandlingId: generateId(),
     erForkastet: false,
     fom: '2020-01-01',
     hendelser: [],
-    id: nanoid(),
+    id: generateId(),
     inntektstype: Inntektstype.Enarbeidsgiver,
     notater: [],
     opprettet: '2020-01-01',
@@ -158,19 +157,19 @@ export const enUberegnetPeriode: OverridableConstructor<UberegnetPeriodeFragment
     tidslinje: [enDag()],
     tom: '2020-01-30',
     varsler: [],
-    vedtaksperiodeId: nanoid(),
+    vedtaksperiodeId: generateId(),
     aktivitetslogg: [],
     ...overrides,
 });
 
 export const enGhostPeriode: OverridableConstructor<GhostPeriodeFragment> = (overrides) => ({
     __typename: 'GhostPeriode',
-    id: nanoid(),
+    id: generateId(),
     fom: '2020-01-01',
     tom: '2020-01-30',
     deaktivert: false,
     organisasjonsnummer: '987654321',
     skjaeringstidspunkt: '2020-01-01',
-    vilkarsgrunnlagId: nanoid(),
+    vilkarsgrunnlagId: generateId(),
     ...overrides,
 });

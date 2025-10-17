@@ -1,15 +1,14 @@
-import { nanoid } from 'nanoid';
-
 import { getOppgavereferanse, harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enGenerasjon } from '@test-data/generasjon';
 import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
 import { enUtbetaling, enVurdering } from '@test-data/utbetaling';
+import { generateId } from '@utils/generateId';
 
 describe('getOppgavereferanse', () => {
     it('returnerer en oppgavereferanse for beregnede perioder som har en oppgave', () => {
-        const id = nanoid();
+        const id = generateId();
         const oppgave = enOppgave({ id });
         const periode = enBeregnetPeriode({ oppgave });
 
@@ -31,7 +30,7 @@ describe('getOppgavereferanse', () => {
 
 describe('harBlittUtbetaltTidligere', () => {
     it('returnerer true om det finnes en periode i en tidligere generasjon som deler vedtaksperiode med den gitte perioden som har blitt utbetalt', () => {
-        const vedtaksperiodeId = nanoid();
+        const vedtaksperiodeId = generateId();
         const ikkeUtbetaltUtbetaling = enUtbetaling({ vurdering: enVurdering({ godkjent: false }) });
         const utbetaltUtbetaling = enUtbetaling({ vurdering: enVurdering({ godkjent: true }) });
         const sistePeriode = enBeregnetPeriode({ vedtaksperiodeId }).medUtbetaling(ikkeUtbetaltUtbetaling);
@@ -44,7 +43,7 @@ describe('harBlittUtbetaltTidligere', () => {
     });
 
     it('returnerer false om det ikke finnes en periode i en tidligere generasjon som deler vedtaksperiode med den gitte perioden som har blitt utbetalt', () => {
-        const vedtaksperiodeId = nanoid();
+        const vedtaksperiodeId = generateId();
         const ikkeUtbetaltUtbetaling = enUtbetaling({ vurdering: enVurdering({ godkjent: false }) });
         const sistePeriode = enBeregnetPeriode({ vedtaksperiodeId }).medUtbetaling(ikkeUtbetaltUtbetaling);
         const førstePeriode = enBeregnetPeriode({ vedtaksperiodeId }).medUtbetaling(ikkeUtbetaltUtbetaling);
@@ -56,7 +55,7 @@ describe('harBlittUtbetaltTidligere', () => {
     });
 
     it('returnerer false om det ikke finnes noen tidligere generasjoner', () => {
-        const vedtaksperiodeId = nanoid();
+        const vedtaksperiodeId = generateId();
         const utbetaltUtbetaling = enUtbetaling({ vurdering: enVurdering({ godkjent: true }) });
         const periode = enBeregnetPeriode({ vedtaksperiodeId }).medUtbetaling(utbetaltUtbetaling);
         const generasjon = enGenerasjon({ perioder: [periode] });

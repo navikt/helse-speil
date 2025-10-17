@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid';
-
 import {
     AntallArbeidsforhold,
     Egenskap,
@@ -11,11 +9,12 @@ import {
     Periodetype,
 } from '@io/graphql';
 import { OverridableConstructor } from '@typer/shared';
+import { generateId } from '@utils/generateId';
 
 export const enOppgaveForOversikten: OverridableConstructor<OppgaveTilBehandling> = (overrides) => ({
     __typename: 'OppgaveTilBehandling',
-    id: nanoid(),
-    vedtaksperiodeId: nanoid(),
+    id: generateId(),
+    vedtaksperiodeId: generateId(),
     aktorId: 'en-aktør',
     opprettet: '2020-01-01',
     opprinneligSoknadsdato: '2020-01-01',
@@ -43,6 +42,6 @@ export const enOppgaveForOversikten: OverridableConstructor<OppgaveTilBehandling
 
 export const enOppgave: OverridableConstructor<OppgaveForPeriodevisning> = (overrides) => ({
     __typename: 'OppgaveForPeriodevisning',
-    id: nanoid(),
+    id: generateId(),
     ...overrides,
 });

@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import React from 'react';
 
 import { Inntektstype, Utbetalingsdagtype } from '@io/graphql';
@@ -9,6 +8,7 @@ import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
 import { render } from '@test-utils';
 import { screen } from '@testing-library/react';
+import { generateId } from '@utils/generateId';
 
 import { Utbetaling } from './Utbetaling';
 
@@ -61,7 +61,7 @@ describe('Utbetaling', () => {
 
     it('rendrer utbetaling for periode som har vært delvis behandlet i Infotrygd', () => {
         const periodeA = enBeregnetPeriode().medOppgave().somErTilGodkjenning();
-        const periodeB = enBeregnetPeriode().medUtbetaling(enUtbetaling({ arbeidsgiverFagsystemId: nanoid() }));
+        const periodeB = enBeregnetPeriode().medUtbetaling(enUtbetaling({ arbeidsgiverFagsystemId: generateId() }));
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeB, periodeA]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 

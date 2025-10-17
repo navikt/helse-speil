@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import React, { ReactElement, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
@@ -7,6 +6,7 @@ import { useMutation } from '@apollo/client';
 import { BeregnetPeriodeFragment, PersonFragment, SendIReturDocument } from '@io/graphql';
 import { Returnotat } from '@saksbilde/notat/Returnotat';
 import { useAddToast } from '@state/toasts';
+import { generateId } from '@utils/generateId';
 
 const useAddReturtoast = () => {
     const addToast = useAddToast();
@@ -15,7 +15,7 @@ const useAddReturtoast = () => {
         addToast({
             message: 'Oppgaven er sendt i retur til saksbehandler',
             timeToLiveMs: 5000,
-            key: nanoid(),
+            key: generateId(),
             variant: 'success',
         });
     };

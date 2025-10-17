@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import React, { ReactElement, ReactNode, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
@@ -9,6 +8,7 @@ import { Personinfo, SendTilGodkjenningV2Document, Utbetaling } from '@io/graphq
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
+import { generateId } from '@utils/generateId';
 
 import { BackendFeil, UtbetalingModal } from './UtbetalingModal';
 
@@ -19,7 +19,7 @@ const useAddSendtTilGodkjenningtoast = () => {
         addToast({
             message: 'Oppgaven er sendt til beslutter',
             timeToLiveMs: 5000,
-            key: nanoid(),
+            key: generateId(),
             variant: 'success',
         });
     };

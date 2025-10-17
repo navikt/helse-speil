@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid';
-
 import {
     Arbeidsgiverinntekt,
     VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment,
@@ -8,6 +6,7 @@ import {
 } from '@io/graphql';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
 import { OverridableConstructor } from '@typer/shared';
+import { generateId } from '@utils/generateId';
 
 type VilkarsgrunnlagSpleisExtensions = {
     medInntekter: (
@@ -20,7 +19,7 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
     VilkarsgrunnlagSpleisExtensions
 > = (overrides) => ({
     __typename: 'VilkarsgrunnlagSpleisV2',
-    id: nanoid(),
+    id: generateId(),
     antallOpptjeningsdagerErMinst: 1234,
     arbeidsgiverrefusjoner: [],
     avviksvurdering: {
@@ -56,7 +55,7 @@ export const etVilkårsgrunnlagFraInfotrygd: OverridableConstructor<
     VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment
 > = (overrides) => ({
     __typename: 'VilkarsgrunnlagInfotrygdV2',
-    id: nanoid(),
+    id: generateId(),
     inntekter: [enArbeidsgiverinntekt()],
     omregnetArsinntekt: 600000,
     sammenligningsgrunnlag: 600000,

@@ -16,7 +16,6 @@ const config: Config = {
     watchPathIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/.next'],
     moduleNameMapper: {
         ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
-        '^nanoid$': require.resolve('nanoid'),
     },
 };
 

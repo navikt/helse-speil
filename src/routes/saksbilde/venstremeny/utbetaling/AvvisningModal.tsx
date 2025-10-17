@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import { useRouter } from 'next/navigation';
 import { ReactElement } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -9,6 +8,7 @@ import { useMutation } from '@apollo/client';
 import { BeregnetPeriodeFragment, TilInfoTrygdDocument } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
+import { generateId } from '@utils/generateId';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
 import { Begrunnelse } from './begrunnelse';
@@ -22,7 +22,7 @@ const useAddInfotrygdtoast = () => {
         addToast({
             message: 'Oppgaven er sendt til behandling i Infotrygd',
             timeToLiveMs: 5000,
-            key: nanoid(),
+            key: generateId(),
             variant: 'success',
         });
     };

@@ -1,9 +1,8 @@
-import { nanoid } from 'nanoid';
-
 import { Oppgave, UUID } from '@typer/spesialist-mock';
+import { generateId } from '@utils/generateId';
 
 export const getDefaultOppgave = (): Oppgave => ({
-    id: nanoid(),
+    id: generateId(),
     erPåVent: false,
     totrinnsvurdering: null,
 });

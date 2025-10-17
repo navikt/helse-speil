@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { nanoid } from 'nanoid';
 
 import { PersonFragment } from '@io/graphql';
 import { getLatestUtbetalingTimestamp, getRequiredVilkårsgrunnlag } from '@state/utils';
@@ -8,6 +7,7 @@ import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { enUtbetaling, enVurdering } from '@test-data/utbetaling';
 import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
+import { generateId } from '@utils/generateId';
 
 describe('getRequiredVilkårsgrunnlag', () => {
     it('returnerer vilkårsgrunnlaget for gitt id hvis den finnes', () => {
@@ -20,7 +20,7 @@ describe('getRequiredVilkårsgrunnlag', () => {
     it('thrower når vilkårsgrunnlaget ikke finnes', () => {
         const person = enPerson() as unknown as PersonFragment;
 
-        expect(() => getRequiredVilkårsgrunnlag(person, nanoid())).toThrow();
+        expect(() => getRequiredVilkårsgrunnlag(person, generateId())).toThrow();
     });
 });
 

@@ -1,7 +1,6 @@
-import { nanoid } from 'nanoid';
-
 import { Arbeidsforholdoverstyring, Dagoverstyring, Inntektoverstyring } from '@io/graphql';
 import { OverridableConstructor } from '@typer/shared';
+import { generateId } from '@utils/generateId';
 
 export const enDagoverstyring: OverridableConstructor<
     // TODO: Erstatte global type med query type
@@ -11,7 +10,7 @@ export const enDagoverstyring: OverridableConstructor<
     vedtaksperiodeId: '',
     begrunnelse: 'En begrunnelse',
     dager: [],
-    hendelseId: nanoid(),
+    hendelseId: generateId(),
     saksbehandler: {
         __typename: 'Saksbehandler',
         ident: 'A123456',
@@ -28,7 +27,7 @@ export const enArbeidsforholdoverstyring: OverridableConstructor<Arbeidsforholdo
     begrunnelse: 'En begrunnelse',
     deaktivert: false,
     forklaring: 'En forklaring',
-    hendelseId: nanoid(),
+    hendelseId: generateId(),
     saksbehandler: {
         __typename: 'Saksbehandler',
         ident: 'A123456',
@@ -44,7 +43,7 @@ export const enInntektoverstyring: OverridableConstructor<Inntektoverstyring> = 
     __typename: 'Inntektoverstyring',
     vedtaksperiodeId: '',
     begrunnelse: 'En begrunnelse',
-    hendelseId: nanoid(),
+    hendelseId: generateId(),
     inntekt: {
         __typename: 'OverstyrtInntekt',
         forklaring: 'En forklaring',

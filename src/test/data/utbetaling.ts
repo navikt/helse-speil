@@ -1,7 +1,6 @@
-import { nanoid } from 'nanoid';
-
 import { Utbetaling, Utbetalingstatus, Utbetalingtype, Vurdering } from '@io/graphql';
 import { OverridableConstructor } from '@typer/shared';
+import { generateId } from '@utils/generateId';
 
 export const enVurdering: OverridableConstructor<Vurdering> = (overrides) => ({
     __typename: 'Vurdering',
@@ -14,7 +13,7 @@ export const enVurdering: OverridableConstructor<Vurdering> = (overrides) => ({
 
 export const enUtbetaling: OverridableConstructor<Utbetaling> = (overrides) => ({
     __typename: 'Utbetaling',
-    id: nanoid(),
+    id: generateId(),
     arbeidsgiverFagsystemId: 'en-arbeidsgivers-fagsystemid',
     arbeidsgiverNettoBelop: 30000,
     personFagsystemId: 'en-persons-fagsystemid',

@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import React, { ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -10,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FetchPersonDocument, OpphevStansAutomatiskBehandlingDocument } from '@io/graphql';
 import { StansAutomatiskBehandlingModal } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/StansAutomatiskBehandlingModal';
 import { ToastObject, useAddToast } from '@state/toasts';
+import { generateId } from '@utils/generateId';
 
 interface OpphevStansAutomatiskBehandlingButtonProps {
     fødselsnummer: string;
@@ -64,7 +64,7 @@ export function OpphevStansAutomatiskBehandlingButton({
 }
 
 const opphevStansAutomatiskBehandlingToast: ToastObject = {
-    key: nanoid(),
+    key: generateId(),
     message: 'Stans av automatisk behandling opphevet',
     variant: 'success',
     timeToLiveMs: 5000,

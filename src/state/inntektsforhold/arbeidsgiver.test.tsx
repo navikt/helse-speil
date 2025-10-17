@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid';
-
 import {
     finnArbeidsgiverForGhostPeriode,
     finnArbeidsgiverMedOrganisasjonsnummer,
@@ -8,6 +6,7 @@ import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enGhostPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { renderHook } from '@test-utils';
+import { generateId } from '@utils/generateId';
 
 jest.mock('@state/person');
 jest.mock('@state/periode');
@@ -38,7 +37,7 @@ describe('useArbeidsgiver', () => {
     });
 
     it('returnerer arbeidsgiver med gitt organisasjonsnummer', () => {
-        const organisasjonsnummer = nanoid();
+        const organisasjonsnummer = generateId();
         const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer });
         const person = enPerson().medArbeidsgivere([enArbeidsgiver(), arbeidsgiver, enArbeidsgiver()]);
 
@@ -48,7 +47,7 @@ describe('useArbeidsgiver', () => {
     });
 
     it('returnerer null hvis arbeidsgiver med gitt organisasjonsnummer ikke finnes', () => {
-        const organisasjonsnummer = nanoid();
+        const organisasjonsnummer = generateId();
         const person = enPerson().medArbeidsgivere([enArbeidsgiver(), enArbeidsgiver(), enArbeidsgiver()]);
 
         const { result } = renderHook(() => finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer));
