@@ -19,40 +19,27 @@ export const DateSelectHeader = (): ReactElement => {
                 onChange={(e) => lagreValgtDatoSortering(e.target.value)}
                 className={styles.DatoSelect}
             >
-                <option value={SortKey.Opprettet}>{tilDatoKeyTekst(SortKey.Opprettet)}</option>
-                <option value={SortKey.SøknadMottatt}>{tilDatoKeyTekst(SortKey.SøknadMottatt)}</option>
-                <option value={SortKey.Tidsfrist}>{tilDatoKeyTekst(SortKey.Tidsfrist)}</option>
                 <option value={SortKey.BehandlingOpprettetTidspunkt}>
-                    {tilDatoKeyTekst(SortKey.BehandlingOpprettetTidspunkt)}
+                    {tilDatoHeaderTekst(SortKey.BehandlingOpprettetTidspunkt)}
                 </option>
+                <option value={SortKey.Opprettet}>{tilDatoHeaderTekst(SortKey.Opprettet)}</option>
+                <option value={SortKey.SøknadMottatt}>{tilDatoHeaderTekst(SortKey.SøknadMottatt)}</option>
+                <option value={SortKey.Tidsfrist}>{tilDatoHeaderTekst(SortKey.Tidsfrist)}</option>
             </Select>
         </Table.DataCell>
     );
 };
 
-const tilDatoKeyTekst = (key: string): string => {
-    switch (key) {
-        case 'søknadMottatt':
-            return 'Søknad mottatt';
-        case 'tidsfrist':
-            return 'Oppfølgingsdato';
-        case 'behandlingOpprettetTidspunkt':
-            return 'Behandling opprettet';
-        case 'opprettet':
-        default:
-            return 'Opprettet dato';
-    }
-};
 export const tilDatoHeaderTekst = (key: SortKey): string => {
     switch (key) {
         case SortKey.SøknadMottatt:
-            return 'Mottatt';
+            return 'Søknad mottatt';
         case SortKey.Tidsfrist:
             return 'Oppfølgingsdato';
         case SortKey.BehandlingOpprettetTidspunkt:
-            return 'Behandling opprettet';
+            return 'Startdato';
         case SortKey.Opprettet:
         default:
-            return 'Opprettet';
+            return 'Oppgave klar';
     }
 };

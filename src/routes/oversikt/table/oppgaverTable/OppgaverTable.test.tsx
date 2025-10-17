@@ -53,7 +53,7 @@ describe('OppgaverTable', () => {
         render(<OppgaverTable antallMineSaker={1} antallPåVent={1} sort={mockSort} />);
 
         expect(screen.getByText('Saksbehandler')).toBeVisible();
-        expect(screen.getByText('Opprettet')).toBeVisible();
+        expect(screen.getAllByText('Oppgave klar')).toHaveLength(2);
 
         expect(screen.getAllByRole('columnheader')).toHaveLength(2);
     });
