@@ -30,8 +30,6 @@ export const DatoCell = ({ oppgave, utgåttFrist }: DatoProps): ReactElement => 
 
 const getVisningsDato = (oppgave: ApiOppgaveProjeksjon, sorteringsnøkkel: SortKey): string | null => {
     switch (sorteringsnøkkel) {
-        case SortKey.SøknadMottatt:
-            return somDato(oppgave.opprinneligSoeknadstidspunkt).format(NORSK_DATOFORMAT);
         case SortKey.BehandlingOpprettetTidspunkt:
             return somDato(oppgave.behandlingOpprettetTidspunkt).format(NORSK_DATOFORMAT);
         case SortKey.Tidsfrist:

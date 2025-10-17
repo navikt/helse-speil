@@ -222,8 +222,6 @@ const finnSorteringsNøkkel = (sortKey: SortKey) => {
     switch (sortKey) {
         case SortKey.Saksbehandler:
             return ApiOppgaveSorteringsfelt.tildeling;
-        case SortKey.SøknadMottatt:
-            return ApiOppgaveSorteringsfelt.opprinneligSoeknadstidspunkt;
         case SortKey.BehandlingOpprettetTidspunkt:
             return ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt;
         case SortKey.Tidsfrist:

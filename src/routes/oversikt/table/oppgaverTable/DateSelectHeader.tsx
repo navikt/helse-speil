@@ -13,18 +13,23 @@ export const DateSelectHeader = (): ReactElement => {
     return (
         <Table.DataCell aria-label="Sorteringsdato">
             <Select
-                defaultValue={datoKey}
                 aria-label="Sorteringsdatovelger"
                 label=""
                 onChange={(e) => lagreValgtDatoSortering(e.target.value)}
                 className={styles.DatoSelect}
             >
-                <option value={SortKey.BehandlingOpprettetTidspunkt}>
+                <option
+                    value={SortKey.BehandlingOpprettetTidspunkt}
+                    selected={datoKey === SortKey.BehandlingOpprettetTidspunkt}
+                >
                     {tilDatoHeaderTekst(SortKey.BehandlingOpprettetTidspunkt)}
                 </option>
-                <option value={SortKey.Opprettet}>{tilDatoHeaderTekst(SortKey.Opprettet)}</option>
-                <option value={SortKey.SøknadMottatt}>{tilDatoHeaderTekst(SortKey.SøknadMottatt)}</option>
-                <option value={SortKey.Tidsfrist}>{tilDatoHeaderTekst(SortKey.Tidsfrist)}</option>
+                <option value={SortKey.Opprettet} selected={datoKey === SortKey.Opprettet}>
+                    {tilDatoHeaderTekst(SortKey.Opprettet)}
+                </option>
+                <option value={SortKey.Tidsfrist} selected={datoKey === SortKey.Tidsfrist}>
+                    {tilDatoHeaderTekst(SortKey.Tidsfrist)}
+                </option>
             </Select>
         </Table.DataCell>
     );
@@ -32,8 +37,6 @@ export const DateSelectHeader = (): ReactElement => {
 
 export const tilDatoHeaderTekst = (key: SortKey): string => {
     switch (key) {
-        case SortKey.SøknadMottatt:
-            return 'Søknad mottatt';
         case SortKey.Tidsfrist:
             return 'Oppfølgingsdato';
         case SortKey.BehandlingOpprettetTidspunkt:
