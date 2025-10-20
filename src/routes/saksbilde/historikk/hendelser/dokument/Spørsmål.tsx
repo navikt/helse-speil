@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { CheckmarkIcon } from '@navikt/aksel-icons';
 
-import { SporsmalFragment, Svar, Svartype } from '@io/graphql';
+import { ApiSporsmal, ApiSvar, ApiSvartype } from '@io/rest/generated/spesialist.schemas';
 import { somNorskDato } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
@@ -12,7 +12,7 @@ import { DokumentFragment } from './DokumentFragment';
 import styles from './Søknadsinnhold.module.css';
 
 interface SpørsmålProps {
-    spørsmål: SporsmalFragment[];
+    spørsmål: ApiSporsmal[];
     rotnivå?: boolean;
 }
 
@@ -22,7 +22,7 @@ export const Spørsmål = ({ spørsmål, rotnivå = true }: SpørsmålProps): Re
 
         return (
             <div
-                key={it.tag}
+                key={(it.tag ?? '') + (it.undertekst ?? '')}
                 className={classNames(
                     styles.spørsmål,
                     rotnivå && styles.rotspørsmål,
@@ -40,33 +40,33 @@ export const Spørsmål = ({ spørsmål, rotnivå = true }: SpørsmålProps): Re
     });
 };
 
-function getUndersporsmal(it: SporsmalFragment): SporsmalFragment[] | null {
-    const sporsmal = it as SporsmalFragment & { undersporsmal: SporsmalFragment[] | null };
+function getUndersporsmal(it: ApiSporsmal): ApiSporsmal[] | null {
+    const sporsmal = it as ApiSporsmal & { undersporsmal: ApiSporsmal[] | null };
 
     return sporsmal?.undersporsmal && sporsmal.undersporsmal.length > 0 ? sporsmal.undersporsmal : null;
 }
 
-const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
+const getSvarForVisning = (svar: ApiSvar[], svartype: ApiSvartype) => {
     if (svar.length === 0 || !svar[0]?.verdi) return;
 
     switch (svartype) {
-        case Svartype.Checkbox:
-        case Svartype.Radio:
+        case ApiSvartype.CHECKBOX:
+        case ApiSvartype.RADIO:
             return <CheckmarkIcon fill="#000" style={{ border: '1px solid #000' }} />;
-        case Svartype.Belop:
+        case ApiSvartype.BELOP:
             return toKronerOgØre(Number(svar[0]?.verdi) / 100);
-        case Svartype.Dato:
-        case Svartype.RadioGruppeUkekalender:
+        case ApiSvartype.DATO:
+        case ApiSvartype.RADIO_GRUPPE_UKEKALENDER:
             return somNorskDato(svar[0]?.verdi);
-        case Svartype.Datoer:
-        case Svartype.InfoBehandlingsdager:
+        case ApiSvartype.DATOER:
+        case ApiSvartype.INFO_BEHANDLINGSDAGER:
             return svar
                 .flatMap((it) => somNorskDato(it.verdi ?? undefined))
                 .join(', ')
                 .replace(/,(?=[^,]*$)/, ' og');
-        case Svartype.Periode:
+        case ApiSvartype.PERIODE:
             return `${somNorskDato(JSON.parse(svar[0]?.verdi).fom)} – ${somNorskDato(JSON.parse(svar[0]?.verdi).tom)}`;
-        case Svartype.Perioder:
+        case ApiSvartype.PERIODER:
             return svar
                 .map((it) => {
                     if (!it.verdi) return;
@@ -75,21 +75,21 @@ const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
                 })
                 .join(', ')
                 .replace(/,(?=[^,]*$)/, ' og');
-        case Svartype.CheckboxGruppe:
-        case Svartype.ComboboxMulti:
+        case ApiSvartype.CHECKBOX_GRUPPE:
+        case ApiSvartype.COMBOBOX_MULTI:
             return svar
                 .flatMap((it) => it.verdi)
                 .join(', ')
                 .replace(/,(?=[^,]*$)/, ' og');
-        case Svartype.Prosent:
+        case ApiSvartype.PROSENT:
             return `${svar[0]?.verdi} prosent`;
-        case Svartype.Timer:
+        case ApiSvartype.TIMER:
             return `${svar[0]?.verdi} timer`;
-        case Svartype.Kilometer:
+        case ApiSvartype.KILOMETER:
             return `${svar[0]?.verdi} km`;
-        case Svartype.JaNei:
+        case ApiSvartype.JA_NEI:
             return svar[0]?.verdi === 'JA' ? 'Ja' : 'Nei';
-        case Svartype.RadioGruppeTimerProsent:
+        case ApiSvartype.RADIO_GRUPPE_TIMER_PROSENT:
             return;
         default:
             return svar[0]?.verdi;

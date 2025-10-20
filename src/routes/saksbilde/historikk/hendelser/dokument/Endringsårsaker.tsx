@@ -3,13 +3,13 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { InntektEndringAarsak } from '@io/graphql';
+import { ApiInntektEndringAarsak } from '@io/rest/generated/spesialist.schemas';
 import { NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
 
 import styles from './Inntektsmeldingsinnhold.module.css';
 
 type EndringsårsakerProps = {
-    årsaker: InntektEndringAarsak[] | null;
+    årsaker?: ApiInntektEndringAarsak[];
 };
 
 export const Endringsårsaker = ({ årsaker }: EndringsårsakerProps): ReactElement | null => {
@@ -30,7 +30,7 @@ export const Endringsårsaker = ({ årsaker }: EndringsårsakerProps): ReactElem
     );
 };
 
-const Endringsårsak = ({ årsak }: { årsak: InntektEndringAarsak }): ReactElement | null => {
+const Endringsårsak = ({ årsak }: { årsak: ApiInntektEndringAarsak }): ReactElement | null => {
     return (
         <>
             <BodyShort size="small">• {årsakmapper(årsak.aarsak)}</BodyShort>

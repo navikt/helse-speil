@@ -150,7 +150,7 @@ const HistorikkWithContent = (): ReactElement => {
                                                         <SøknadMottatthendelse
                                                             key={it.id}
                                                             dokumentId={it.dokumentId ?? ''}
-                                                            fødselsnummer={person.fodselsnummer}
+                                                            aktørId={person.aktorId}
                                                             timestamp={it.timestamp}
                                                         />
                                                     );

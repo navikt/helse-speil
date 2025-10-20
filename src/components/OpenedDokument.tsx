@@ -41,11 +41,11 @@ export const OpenedDokument = ({ person }: OpenedDokumentProps): ReactElement | 
                         </button>
                     </div>
                     {dokument.dokumenttype === 'Søknad' ? (
-                        <Søknadsinnhold dokumentId={dokument.dokumentId} fødselsnummer={dokument.fødselsnummer} />
+                        <Søknadsinnhold dokumentId={dokument.dokumentId} aktørId={dokument.aktørId} />
                     ) : (
                         <Inntektsmeldingsinnhold
                             dokumentId={dokument.dokumentId}
-                            fødselsnummer={dokument.fødselsnummer}
+                            aktørId={dokument.aktørId}
                             person={person}
                         />
                     )}

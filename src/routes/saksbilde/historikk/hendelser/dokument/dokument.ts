@@ -67,7 +67,7 @@ export const useResetOpenedDocuments = () => {
 
 interface Dokument {
     dokumentId: string;
-    fødselsnummer: string;
+    aktørId: string;
     dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad' | 'Vedtak' | 'InntektHentetFraAordningen';
     timestamp: string;
 }

@@ -34,7 +34,7 @@ export const InntektsmeldingMottatthendelse = ({
         } else {
             leggTilÅpnetDokument({
                 dokumentId: dokumentId,
-                fødselsnummer: person.fodselsnummer,
+                aktørId: person.aktorId,
                 dokumenttype: 'Inntektsmelding',
                 timestamp: timestamp,
             });
@@ -61,7 +61,7 @@ export const InntektsmeldingMottatthendelse = ({
             timestamp={timestamp}
             aktiv={false}
         >
-            <Inntektsmeldingsinnhold dokumentId={dokumentId} fødselsnummer={person.fodselsnummer} person={person} />
+            <Inntektsmeldingsinnhold dokumentId={dokumentId} aktørId={person.aktorId} person={person} />
         </Historikkhendelse>
     );
 };

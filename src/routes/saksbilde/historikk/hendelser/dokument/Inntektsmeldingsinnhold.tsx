@@ -6,33 +6,27 @@ import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { PersonFragment } from '@io/graphql';
 import { Endringsårsaker } from '@saksbilde/historikk/hendelser/dokument/Endringsårsaker';
+import { useHentInntektsmeldingDokumentQuery } from '@state/dokument';
 import { finnArbeidsgiverMedOrganisasjonsnummer } from '@state/inntektsforhold/arbeidsgiver';
 import { ArbeidsgiverReferanse, lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
-import { DokumenthendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
 import { capitalizeName, tilTelefonNummer, toKronerOgØre } from '@utils/locale';
 
 import { BestemmendeFraværsdag } from './BestemmendeFraværsdag';
 import { DokumentFragment, DokumentFragmentAnonymisert } from './DokumentFragment';
 import { DokumentLoader } from './DokumentLoader';
-import { useQueryInntektsmelding } from './queries';
 
 import styles from './Inntektsmeldingsinnhold.module.css';
 
 type InntektsmeldinginnholdProps = {
-    dokumentId: DokumenthendelseObject['dokumentId'];
-    fødselsnummer: string;
+    dokumentId: string;
+    aktørId: string;
     person: PersonFragment;
 };
 
-export const Inntektsmeldingsinnhold = ({
-    dokumentId,
-    fødselsnummer,
-    person,
-}: InntektsmeldinginnholdProps): ReactElement => {
-    const inntektsmeldingssrespons = useQueryInntektsmelding(fødselsnummer, dokumentId ?? '');
-    const inntektsmelding = inntektsmeldingssrespons.data;
-    const virksomhetsnummer = inntektsmelding?.virksomhetsnummer;
+export const Inntektsmeldingsinnhold = ({ dokumentId, aktørId, person }: InntektsmeldinginnholdProps): ReactElement => {
+    const { data, isLoading, error } = useHentInntektsmeldingDokumentQuery(aktørId, dokumentId);
+    const virksomhetsnummer = data?.virksomhetsnummer;
     const arbeidsgiverReferanse: ArbeidsgiverReferanse | null = virksomhetsnummer
         ? lagArbeidsgiverReferanse(
               virksomhetsnummer,
@@ -42,7 +36,7 @@ export const Inntektsmeldingsinnhold = ({
 
     return (
         <>
-            {inntektsmelding && (
+            {data && (
                 <div className={styles.dokument}>
                     {arbeidsgiverReferanse && (
                         <HStack gap="3" align="center" className={styles.arbeidsgiver}>
@@ -55,62 +49,62 @@ export const Inntektsmeldingsinnhold = ({
                             {virksomhetsnummer}
                         </DokumentFragmentAnonymisert>
                     )}
-                    {inntektsmelding.arbeidsforholdId && (
+                    {data.arbeidsforholdId && (
                         <DokumentFragmentAnonymisert overskrift="ArbeidsforholdId">
-                            {inntektsmelding.arbeidsforholdId}
+                            {data.arbeidsforholdId}
                         </DokumentFragmentAnonymisert>
                     )}
-                    <Endringsårsaker årsaker={inntektsmelding.inntektEndringAarsaker} />
-                    <BestemmendeFraværsdag førsteFraværsdag={inntektsmelding?.foersteFravaersdag ?? null} />
-                    {(inntektsmelding.arbeidsgiverperioder?.length ?? 0) > 0 && (
+                    <Endringsårsaker årsaker={data.inntektEndringAarsaker ?? []} />
+                    <BestemmendeFraværsdag førsteFraværsdag={data?.foersteFravaersdag ?? null} />
+                    {(data.arbeidsgiverperioder?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
                             <BodyShort weight="semibold" size="small">
                                 Arbeidsgiverperioder
                             </BodyShort>
-                            {inntektsmelding.arbeidsgiverperioder?.map((it) => (
+                            {data.arbeidsgiverperioder?.map((it) => (
                                 <BodyShort size="small" key={`agperioder${it.fom}-${it.tom}`}>
                                     {it.fom && somNorskDato(it.fom)} – {it.tom && somNorskDato(it.tom)}
                                 </BodyShort>
                             ))}
                         </div>
                     )}
-                    {inntektsmelding.bruttoUtbetalt != null && (
+                    {data.bruttoUtbetalt != null && (
                         <DokumentFragment overskrift="Brutto utbetalt i AGP">
-                            {toKronerOgØre(inntektsmelding.bruttoUtbetalt)}
+                            {toKronerOgØre(data.bruttoUtbetalt)}
                         </DokumentFragment>
                     )}
-                    {inntektsmelding.begrunnelseForReduksjonEllerIkkeUtbetalt && (
+                    {data.begrunnelseForReduksjonEllerIkkeUtbetalt && (
                         <DokumentFragment overskrift="Begrunnelse for reduksjon eller ikke utbetalt">
                             {begrunnelseForReduksjonEllerIkkeUtbetaltMapper(
-                                inntektsmelding.begrunnelseForReduksjonEllerIkkeUtbetalt,
+                                data.begrunnelseForReduksjonEllerIkkeUtbetalt,
                             )}
                         </DokumentFragment>
                     )}
-                    {inntektsmelding.beregnetInntekt != null && (
+                    {data.beregnetInntekt != null && (
                         <DokumentFragment overskrift="Beregnet inntekt">
-                            Beløp pr mnd: {toKronerOgØre(inntektsmelding.beregnetInntekt)}
+                            Beløp pr mnd: {toKronerOgØre(data.beregnetInntekt)}
                         </DokumentFragment>
                     )}
-                    {inntektsmelding.refusjon && (
+                    {data.refusjon && (
                         <DokumentFragment overskrift="Refusjon">
                             <>
-                                {inntektsmelding.refusjon.beloepPrMnd != null &&
-                                    `Beløp pr mnd: ${toKronerOgØre(inntektsmelding.refusjon.beloepPrMnd)}`}
-                                {inntektsmelding.refusjon.opphoersdato && (
+                                {data.refusjon.beloepPrMnd != null &&
+                                    `Beløp pr mnd: ${toKronerOgØre(data.refusjon.beloepPrMnd)}`}
+                                {data.refusjon.opphoersdato && (
                                     <>
                                         <br />
-                                        Opphørsdato: {inntektsmelding.refusjon.opphoersdato}
+                                        Opphørsdato: {data.refusjon.opphoersdato}
                                     </>
                                 )}
                             </>
                         </DokumentFragment>
                     )}
-                    {(inntektsmelding.endringIRefusjoner?.length ?? 0) > 0 && (
+                    {(data.endringIRefusjoner?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
                             <BodyShort weight="semibold" size="small">
                                 Endring i refusjoner
                             </BodyShort>
-                            {inntektsmelding.endringIRefusjoner?.map((it) => (
+                            {data.endringIRefusjoner?.map((it) => (
                                 <>
                                     {it.endringsdato && (
                                         <DokumentFragment overskrift="Endringsdato">{it.endringsdato}</DokumentFragment>
@@ -124,24 +118,24 @@ export const Inntektsmeldingsinnhold = ({
                             ))}
                         </div>
                     )}
-                    {(inntektsmelding.ferieperioder?.length ?? 0) > 0 && (
+                    {(data.ferieperioder?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
                             <BodyShort weight="semibold" size="small">
                                 Ferieperioder
                             </BodyShort>
-                            {inntektsmelding.ferieperioder?.map((it) => (
+                            {data.ferieperioder?.map((it) => (
                                 <BodyShort size="small" key={`ferieperioder${it.fom}`}>
                                     {it.fom && somNorskDato(it.fom)} – {it.tom && somNorskDato(it.tom)}
                                 </BodyShort>
                             ))}
                         </div>
                     )}
-                    {(inntektsmelding.opphoerAvNaturalytelser?.length ?? 0) > 0 && (
+                    {(data.opphoerAvNaturalytelser?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
                             <BodyShort weight="semibold" size="small">
                                 Opphør av naturalytelser
                             </BodyShort>
-                            {inntektsmelding.opphoerAvNaturalytelser?.map((it) => (
+                            {data.opphoerAvNaturalytelser?.map((it) => (
                                 <>
                                     {it.naturalytelse && (
                                         <DokumentFragment overskrift="Naturalytelse">
@@ -160,12 +154,12 @@ export const Inntektsmeldingsinnhold = ({
                             ))}
                         </div>
                     )}
-                    {(inntektsmelding.gjenopptakelseNaturalytelser?.length ?? 0) > 0 && (
+                    {(data.gjenopptakelseNaturalytelser?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
                             <BodyShort weight="semibold" size="small">
                                 Gjenopptakelse naturalytelser
                             </BodyShort>
-                            {inntektsmelding.gjenopptakelseNaturalytelser?.map((it) => (
+                            {data.gjenopptakelseNaturalytelser?.map((it) => (
                                 <>
                                     {it.naturalytelse && (
                                         <DokumentFragment overskrift="Naturalytelse">
@@ -184,30 +178,30 @@ export const Inntektsmeldingsinnhold = ({
                             ))}
                         </div>
                     )}
-                    {inntektsmelding.naerRelasjon && (
+                    {data.naerRelasjon && (
                         <DokumentFragment overskrift="Nær relasjon">
-                            {inntektsmelding.naerRelasjon ? 'Ja' : 'Nei'}
+                            {data.naerRelasjon ? 'Ja' : 'Nei'}
                         </DokumentFragment>
                     )}
-                    {inntektsmelding.innsenderFulltNavn && (
+                    {data.innsenderFulltNavn && (
                         <DokumentFragmentAnonymisert overskrift="Innsender fullt navn">
-                            {capitalizeName(inntektsmelding.innsenderFulltNavn)}
+                            {capitalizeName(data.innsenderFulltNavn)}
                         </DokumentFragmentAnonymisert>
                     )}
-                    {inntektsmelding.innsenderTelefon && (
+                    {data.innsenderTelefon && (
                         <DokumentFragmentAnonymisert overskrift="Innsender telefon">
-                            {tilTelefonNummer(inntektsmelding.innsenderTelefon)}
+                            {tilTelefonNummer(data.innsenderTelefon)}
                         </DokumentFragmentAnonymisert>
                     )}
-                    {inntektsmelding.avsenderSystem && (
+                    {data.avsenderSystem && (
                         <DokumentFragment overskrift="Avsendersystem">
-                            {tilAvsendersystem(inntektsmelding.avsenderSystem?.navn ?? '') ?? ''}
+                            {tilAvsendersystem(data.avsenderSystem?.navn ?? '') ?? ''}
                         </DokumentFragment>
                     )}
                 </div>
             )}
-            {inntektsmeldingssrespons.loading && <DokumentLoader />}
-            {inntektsmeldingssrespons.error && <div>{inntektsmeldingssrespons.error.message}</div>}
+            {isLoading && <DokumentLoader />}
+            {error && <div>Noe gikk galt, vennligst prøv igjen.</div>}
         </>
     );
 };

@@ -1,36 +1,34 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { DokumenthendelseObject } from '@typer/historikk';
+import { useHentSøknadDokumentQuery } from '@state/dokument';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_MED_KLOKKESLETT, somNorskDato } from '@utils/date';
 
 import { DokumentFragment } from './DokumentFragment';
 import { DokumentLoader } from './DokumentLoader';
 import { Spørsmål } from './Spørsmål';
-import { useQuerySoknad } from './queries';
 
 import styles from './Søknadsinnhold.module.css';
 
 type SøknadsinnholdProps = {
-    dokumentId: DokumenthendelseObject['dokumentId'];
-    fødselsnummer: string;
+    dokumentId: string;
+    aktørId: string;
 };
 
-export const Søknadsinnhold = ({ dokumentId, fødselsnummer }: SøknadsinnholdProps): ReactElement => {
-    const søknadsrespons = useQuerySoknad(fødselsnummer, dokumentId ?? '');
-    const søknad = søknadsrespons.data;
+export const Søknadsinnhold = ({ dokumentId, aktørId }: SøknadsinnholdProps): ReactElement => {
+    const { data, isLoading, error } = useHentSøknadDokumentQuery(aktørId, dokumentId);
 
     return (
         <div>
-            {søknad && (
+            {data && (
                 <div className={styles.dokument}>
-                    {søknad.type && (
-                        <DokumentFragment overskrift="Type">{søknad.type.replaceAll('_', ' ')}</DokumentFragment>
+                    {data.type && (
+                        <DokumentFragment overskrift="Type">{data.type.replaceAll('_', ' ')}</DokumentFragment>
                     )}
 
-                    {søknad.soknadsperioder &&
-                        søknad.soknadsperioder.length > 0 &&
-                        søknad.soknadsperioder.map((søknadsperiode) => (
+                    {data.soknadsperioder &&
+                        data.soknadsperioder.length > 0 &&
+                        data.soknadsperioder.map((søknadsperiode) => (
                             <DokumentFragment
                                 overskrift={`${somNorskDato(søknadsperiode.fom)} – ${somNorskDato(søknadsperiode.tom)}`}
                                 key={`søknadsperiode${søknadsperiode.fom}`}
@@ -48,19 +46,19 @@ export const Søknadsinnhold = ({ dokumentId, fødselsnummer }: SøknadsinnholdP
                                 )}
                             </DokumentFragment>
                         ))}
-                    {søknad.arbeidGjenopptatt && (
+                    {data.arbeidGjenopptatt && (
                         <DokumentFragment overskrift="Arbeid gjenopptatt">
-                            {somNorskDato(søknad.arbeidGjenopptatt)}
+                            {somNorskDato(data.arbeidGjenopptatt)}
                         </DokumentFragment>
                     )}
-                    {søknad.sykmeldingSkrevet && (
+                    {data.sykmeldingSkrevet && (
                         <DokumentFragment overskrift="Sykmelding skrevet">
-                            {dayjs(søknad.sykmeldingSkrevet).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
+                            {dayjs(data.sykmeldingSkrevet).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
                         </DokumentFragment>
                     )}
-                    {(søknad.egenmeldingsdagerFraSykmelding?.length ?? 0) > 0 && (
+                    {(data.egenmeldingsdagerFraSykmelding?.length ?? 0) > 0 && (
                         <DokumentFragment overskrift="Egenmeldingsdager fra sykmelding">
-                            {søknad.egenmeldingsdagerFraSykmelding
+                            {data.egenmeldingsdagerFraSykmelding
                                 ?.map((it) => somNorskDato(it))
                                 .sort((a, b) =>
                                     dayjs(a, NORSK_DATOFORMAT).isAfter(dayjs(b, NORSK_DATOFORMAT)) ? 1 : -1,
@@ -69,11 +67,11 @@ export const Søknadsinnhold = ({ dokumentId, fødselsnummer }: SøknadsinnholdP
                                 .replace(/,(?=[^,]*$)/, ' og')}
                         </DokumentFragment>
                     )}
-                    {søknad.sporsmal && <Spørsmål spørsmål={søknad.sporsmal} />}
+                    {data.sporsmal && <Spørsmål spørsmål={data.sporsmal} />}
                 </div>
             )}
-            {søknadsrespons.loading && <DokumentLoader />}
-            {søknadsrespons.error && <div>Noe gikk galt, vennligst prøv igjen.</div>}
+            {isLoading && <DokumentLoader />}
+            {error && <div>Noe gikk galt, vennligst prøv igjen.</div>}
         </div>
     );
 };
