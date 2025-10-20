@@ -4,6 +4,7 @@ import {
     Inntektsforhold,
     InntektsforholdReferanse,
     finnAlleInntektsforhold,
+    inntektsforholdReferanseTilKey,
     tilReferanse,
     useDagoverstyringer,
 } from '@state/inntektsforhold/inntektsforhold';
@@ -60,7 +61,7 @@ export function beregnInntektPerDag(periodebeløp: number, periode: DatePeriod, 
 
 export type DagtypeRad = {
     dato: DateString;
-    dagtypePerInntektsforhold: Map<InntektsforholdReferanse, Utbetalingstabelldag>;
+    dagtypePerInntektsforhold: Map<string, Utbetalingstabelldag>;
 };
 
 export type DagtypeTabell = {
@@ -72,10 +73,8 @@ export const tilDagtypeTabell = (periode: DatePeriod, alleInntektsforhold: Innte
     const datoer = tilDatoer(periode);
 
     const inntektsforholdReferanser: InntektsforholdReferanse[] = [];
-    const datoInntektsforholdDagtypeMap = new Map<DateString, Map<InntektsforholdReferanse, Utbetalingstabelldag>>();
-    datoer.forEach((dato) =>
-        datoInntektsforholdDagtypeMap.set(dato, new Map<InntektsforholdReferanse, Utbetalingstabelldag>()),
-    );
+    const datoInntektsforholdDagtypeMap = new Map<DateString, Map<string, Utbetalingstabelldag>>();
+    datoer.forEach((dato) => datoInntektsforholdDagtypeMap.set(dato, new Map<string, Utbetalingstabelldag>()));
     const dayjsTom = somDato(periode.tom);
     const dayjsFom = somDato(periode.fom);
 
@@ -116,7 +115,9 @@ export const tilDagtypeTabell = (periode: DatePeriod, alleInntektsforhold: Innte
         if (alleTabelldagerMap.size > 0) {
             inntektsforholdReferanser.push(tilReferanse(inntektsforhold));
             alleTabelldagerMap.forEach((value, key) =>
-                datoInntektsforholdDagtypeMap.get(key)?.set(tilReferanse(inntektsforhold), value),
+                datoInntektsforholdDagtypeMap
+                    .get(key)
+                    ?.set(inntektsforholdReferanseTilKey(tilReferanse(inntektsforhold)), value),
             );
         }
     });

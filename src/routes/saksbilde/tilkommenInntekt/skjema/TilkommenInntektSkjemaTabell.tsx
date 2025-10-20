@@ -106,8 +106,9 @@ export const TilkommenInntektSkjemaTabell = ({
                                         </HStack>
                                     </Table.DataCell>
                                     {inntektsforholdReferanser.map((inntektsforhold) => {
-                                        const dagtype = dagtypePerInntektsforhold.get(inntektsforhold);
-                                        const key = dato + inntektsforholdReferanseTilKey(inntektsforhold);
+                                        const inntektsforholdKey = inntektsforholdReferanseTilKey(inntektsforhold);
+                                        const dagtype = dagtypePerInntektsforhold.get(inntektsforholdKey);
+                                        const key = dato + inntektsforholdKey;
                                         return dagtype ? (
                                             <DagtypeCell tabelldag={dagtype} key={key} />
                                         ) : (
