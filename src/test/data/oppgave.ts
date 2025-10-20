@@ -1,41 +1,26 @@
-import {
-    AntallArbeidsforhold,
-    Egenskap,
-    Kategori,
-    Mottaker,
-    OppgaveForPeriodevisning,
-    OppgaveTilBehandling,
-    Oppgavetype,
-    Periodetype,
-} from '@io/graphql';
+import { OppgaveForPeriodevisning } from '@io/graphql';
+import { ApiEgenskap, ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 import { OverridableConstructor } from '@typer/shared';
 import { generateId } from '@utils/generateId';
 
-export const enOppgaveForOversikten: OverridableConstructor<OppgaveTilBehandling> = (overrides) => ({
-    __typename: 'OppgaveTilBehandling',
+export const enOppgaveForOversikten: OverridableConstructor<ApiOppgaveProjeksjon> = (overrides) => ({
     id: generateId(),
-    vedtaksperiodeId: generateId(),
     aktorId: 'en-aktør',
-    opprettet: '2020-01-01',
-    opprinneligSoknadsdato: '2020-01-01',
     navn: {
-        __typename: 'Personnavn',
-        etternavn: 'Etternavn',
-        mellomnavn: null,
         fornavn: 'Fornavn',
+        mellomnavn: null,
+        etternavn: 'Etternavn',
     },
-    antallArbeidsforhold: AntallArbeidsforhold.EtArbeidsforhold,
-    oppgavetype: Oppgavetype.Soknad,
-    periodetype: Periodetype.Forstegangsbehandling,
-    mottaker: Mottaker.Arbeidsgiver,
-    tidsfrist: null,
-    tildeling: null,
     egenskaper: [
-        { __typename: 'Oppgaveegenskap', kategori: Kategori.Periodetype, egenskap: Egenskap.Forstegangsbehandling },
-        { __typename: 'Oppgaveegenskap', kategori: Kategori.Oppgavetype, egenskap: Egenskap.Soknad },
-        { __typename: 'Oppgaveegenskap', kategori: Kategori.Mottaker, egenskap: Egenskap.UtbetalingTilSykmeldt },
-        { __typename: 'Oppgaveegenskap', kategori: Kategori.Inntektskilde, egenskap: Egenskap.EnArbeidsgiver },
+        ApiEgenskap.FORSTEGANGSBEHANDLING,
+        ApiEgenskap.SOKNAD,
+        ApiEgenskap.UTBETALING_TIL_SYKMELDT,
+        ApiEgenskap.EN_ARBEIDSGIVER,
     ],
+    tildeling: null,
+    opprettetTidspunkt: '2020-01-01',
+    opprinneligSoeknadstidspunkt: '2020-01-01',
+    behandlingOpprettetTidspunkt: '2020-01-01',
     paVentInfo: null,
     ...overrides,
 });

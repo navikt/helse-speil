@@ -421,15 +421,6 @@ export type Faresignal = {
     kategori: Array<Scalars['String']['output']>;
 };
 
-export type FiltreringInput = {
-    egenskaper: Array<OppgaveegenskapInput>;
-    egneSaker: Scalars['Boolean']['input'];
-    egneSakerPaVent: Scalars['Boolean']['input'];
-    ekskluderteEgenskaper?: InputMaybe<Array<OppgaveegenskapInput>>;
-    ingenUkategoriserteEgenskaper: Scalars['Boolean']['input'];
-    tildelt?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
 export type FjernetFraPaVent = Historikkinnslag & {
     __typename?: 'FjernetFraPaVent';
     dialogRef?: Maybe<Scalars['Int']['output']>;
@@ -550,6 +541,13 @@ export type Inntektoverstyring = Overstyring & {
     vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
+export type Inntektsar = {
+    __typename?: 'Inntektsar';
+    ar: Scalars['String']['output'];
+    erFerdigLignet: Scalars['Boolean']['output'];
+    pensjonsgivendeInntektAvNaringsinntekt: Scalars['Int']['output'];
+};
+
 export enum Inntektskilde {
     Aordningen = 'AORDNINGEN',
     IkkeRapportert = 'IKKE_RAPPORTERT',
@@ -657,13 +655,6 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
     timestamp: Scalars['LocalDateTime']['output'];
     vedtaksperiodeId: Scalars['UUID']['output'];
 };
-
-export enum Mottaker {
-    Arbeidsgiver = 'ARBEIDSGIVER',
-    Begge = 'BEGGE',
-    Ingen = 'INGEN',
-    Sykmeldt = 'SYKMELDT',
-}
 
 export type Mutation = {
     __typename?: 'Mutation';
@@ -912,44 +903,10 @@ export type OppgaveForPeriodevisning = {
     id: Scalars['String']['output'];
 };
 
-export type OppgaveTilBehandling = {
-    __typename?: 'OppgaveTilBehandling';
-    aktorId: Scalars['String']['output'];
-    antallArbeidsforhold: AntallArbeidsforhold;
-    egenskaper: Array<Oppgaveegenskap>;
-    id: Scalars['String']['output'];
-    mottaker: Mottaker;
-    navn: Personnavn;
-    oppgavetype: Oppgavetype;
-    opprettet: Scalars['LocalDateTime']['output'];
-    opprinneligSoknadsdato: Scalars['LocalDateTime']['output'];
-    paVentInfo?: Maybe<PaVentInfo>;
-    periodetype: Periodetype;
-    tidsfrist?: Maybe<Scalars['LocalDate']['output']>;
-    tildeling?: Maybe<Tildeling>;
-    vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
 export type Oppgaveegenskap = {
     __typename?: 'Oppgaveegenskap';
     egenskap: Egenskap;
     kategori: Kategori;
-};
-
-export type OppgaveegenskapInput = {
-    egenskap: Egenskap;
-    kategori: Kategori;
-};
-
-export type OppgaverTilBehandling = {
-    __typename?: 'OppgaverTilBehandling';
-    oppgaver: Array<OppgaveTilBehandling>;
-    totaltAntallOppgaver: Scalars['Int']['output'];
-};
-
-export type OppgavesorteringInput = {
-    nokkel: Sorteringsnokkel;
-    stigende: Scalars['Boolean']['input'];
 };
 
 export enum Oppgavetype {
@@ -1095,17 +1052,6 @@ export type PaVent = {
 export type PaVentArsakInput = {
     _key: Scalars['String']['input'];
     arsak: Scalars['String']['input'];
-};
-
-export type PaVentInfo = {
-    __typename?: 'PaVentInfo';
-    arsaker: Array<Scalars['String']['output']>;
-    dialogRef: Scalars['Int']['output'];
-    kommentarer: Array<Kommentar>;
-    opprettet: Scalars['LocalDateTime']['output'];
-    saksbehandler: Scalars['String']['output'];
-    tekst?: Maybe<Scalars['String']['output']>;
-    tidsfrist: Scalars['LocalDate']['output'];
 };
 
 export type PensjonsgivendeInntekt = {
@@ -1266,13 +1212,11 @@ export type Query = {
     behandlingsstatistikk: Behandlingsstatistikk;
     hentInntektsmelding?: Maybe<DokumentInntektsmelding>;
     hentSoknad?: Maybe<Soknad>;
-    oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     person?: Maybe<Person>;
     restGetAktiveSaksbehandlere: Array<AktivSaksbehandler>;
     restGetOrganisasjon?: Maybe<Organisasjon>;
     restGetPersonTilkomneInntektskilder: Array<TilkommenInntektskilde>;
-    tildelteOppgaverFeed: OppgaverTilBehandling;
 };
 
 export type QueryBehandledeOppgaverFeedArgs = {
@@ -1292,13 +1236,6 @@ export type QueryHentSoknadArgs = {
     fnr: Scalars['String']['input'];
 };
 
-export type QueryOppgaveFeedArgs = {
-    filtrering: FiltreringInput;
-    limit: Scalars['Int']['input'];
-    offset: Scalars['Int']['input'];
-    sortering: Array<OppgavesorteringInput>;
-};
-
 export type QueryOpptegnelserArgs = {
     sekvensId?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -1314,12 +1251,6 @@ export type QueryRestGetOrganisasjonArgs = {
 
 export type QueryRestGetPersonTilkomneInntektskilderArgs = {
     aktorId: Scalars['String']['input'];
-};
-
-export type QueryTildelteOppgaverFeedArgs = {
-    limit: Scalars['Int']['input'];
-    offset: Scalars['Int']['input'];
-    oppslattSaksbehandler: SaksbehandlerInput;
 };
 
 export type Refusjon = {
@@ -1359,11 +1290,6 @@ export type Saksbehandler = {
     __typename?: 'Saksbehandler';
     ident?: Maybe<Scalars['String']['output']>;
     navn: Scalars['String']['output'];
-};
-
-export type SaksbehandlerInput = {
-    ident?: InputMaybe<Scalars['String']['input']>;
-    navn: Scalars['String']['input'];
 };
 
 export type Sammenligningsgrunnlag = {
@@ -1478,6 +1404,7 @@ export type Soknad = {
     __typename?: 'Soknad';
     arbeidGjenopptatt?: Maybe<Scalars['LocalDate']['output']>;
     egenmeldingsdagerFraSykmelding?: Maybe<Array<Scalars['LocalDate']['output']>>;
+    selvstendigNaringsdrivende?: Maybe<SoknadSelvstendigNaringsdrivende>;
     soknadsperioder?: Maybe<Array<Soknadsperioder>>;
     sporsmal?: Maybe<Array<Sporsmal>>;
     sykmeldingSkrevet?: Maybe<Scalars['LocalDateTime']['output']>;
@@ -1539,6 +1466,12 @@ export type SoknadSelvstendig = Hendelse & {
     type: Hendelsetype;
 };
 
+export type SoknadSelvstendigNaringsdrivende = {
+    __typename?: 'SoknadSelvstendigNaringsdrivende';
+    inntekt: Array<Inntektsar>;
+    ventetid: VentetidPeriode;
+};
+
 export type Soknadsperioder = {
     __typename?: 'Soknadsperioder';
     faktiskGrad?: Maybe<Scalars['Int']['output']>;
@@ -1558,13 +1491,6 @@ export enum Soknadstype {
     Reisetilskudd = 'Reisetilskudd',
     SelvstendigOgFrilanser = 'Selvstendig_og_frilanser',
     Ukjent = 'UKJENT',
-}
-
-export enum Sorteringsnokkel {
-    Opprettet = 'OPPRETTET',
-    SoknadMottatt = 'SOKNAD_MOTTATT',
-    Tidsfrist = 'TIDSFRIST',
-    TildeltTil = 'TILDELT_TIL',
 }
 
 export type Sporsmal = {
@@ -1944,6 +1870,12 @@ export enum VedtakUtfall {
     DelvisInnvilgelse = 'DELVIS_INNVILGELSE',
     Innvilgelse = 'INNVILGELSE',
 }
+
+export type VentetidPeriode = {
+    __typename?: 'VentetidPeriode';
+    fom: Scalars['LocalDate']['output'];
+    tom: Scalars['LocalDate']['output'];
+};
 
 export type VilkarsgrunnlagAvviksvurdering = {
     __typename?: 'VilkarsgrunnlagAvviksvurdering';
