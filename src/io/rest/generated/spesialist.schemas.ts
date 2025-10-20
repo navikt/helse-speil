@@ -131,6 +131,302 @@ export interface ApiOpphevStansRequest {
     begrunnelse: string;
 }
 
+export type ApiSoknadstype = (typeof ApiSoknadstype)[keyof typeof ApiSoknadstype];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiSoknadstype = {
+    Selvstendig_og_frilanser: 'Selvstendig_og_frilanser',
+    Opphold_utland: 'Opphold_utland',
+    Arbeidstaker: 'Arbeidstaker',
+    Annet_arbeidsforhold: 'Annet_arbeidsforhold',
+    Arbeidsledig: 'Arbeidsledig',
+    Behandlingsdager: 'Behandlingsdager',
+    Reisetilskudd: 'Reisetilskudd',
+    Gradert_reisetilskudd: 'Gradert_reisetilskudd',
+    UKJENT: 'UKJENT',
+} as const;
+
+export type ApiSoknadsperioderGrad = null | number;
+
+export type ApiSoknadsperioderFaktiskGrad = null | number;
+
+export type ApiSoknadsperioderSykmeldingsgrad = null | number;
+
+export interface ApiSoknadsperioder {
+    fom: string;
+    tom: string;
+    grad?: ApiSoknadsperioderGrad;
+    faktiskGrad?: ApiSoknadsperioderFaktiskGrad;
+    sykmeldingsgrad?: ApiSoknadsperioderSykmeldingsgrad;
+}
+
+export type ApiSporsmalTag = null | string;
+
+export type ApiSporsmalSporsmalstekst = null | string;
+
+export type ApiSporsmalUndertekst = null | string;
+
+export type ApiSporsmalSvartype = null | ApiSvartype;
+
+export type ApiSporsmalSvar = null | ApiSvar[];
+
+export type ApiSporsmalUndersporsmal = null | ApiSporsmal[];
+
+export type ApiSporsmalKriterieForVisningAvUndersporsmal = null | ApiVisningskriterium;
+
+export interface ApiSporsmal {
+    tag?: ApiSporsmalTag;
+    sporsmalstekst?: ApiSporsmalSporsmalstekst;
+    undertekst?: ApiSporsmalUndertekst;
+    svartype?: ApiSporsmalSvartype;
+    svar?: ApiSporsmalSvar;
+    undersporsmal?: ApiSporsmalUndersporsmal;
+    kriterieForVisningAvUndersporsmal?: ApiSporsmalKriterieForVisningAvUndersporsmal;
+}
+
+export type ApiSvartype = (typeof ApiSvartype)[keyof typeof ApiSvartype];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiSvartype = {
+    JA_NEI: 'JA_NEI',
+    CHECKBOX: 'CHECKBOX',
+    CHECKBOX_GRUPPE: 'CHECKBOX_GRUPPE',
+    CHECKBOX_PANEL: 'CHECKBOX_PANEL',
+    DATO: 'DATO',
+    PERIODE: 'PERIODE',
+    PERIODER: 'PERIODER',
+    TIMER: 'TIMER',
+    FRITEKST: 'FRITEKST',
+    IKKE_RELEVANT: 'IKKE_RELEVANT',
+    BEKREFTELSESPUNKTER: 'BEKREFTELSESPUNKTER',
+    OPPSUMMERING: 'OPPSUMMERING',
+    PROSENT: 'PROSENT',
+    RADIO_GRUPPE: 'RADIO_GRUPPE',
+    RADIO_GRUPPE_TIMER_PROSENT: 'RADIO_GRUPPE_TIMER_PROSENT',
+    RADIO: 'RADIO',
+    TALL: 'TALL',
+    RADIO_GRUPPE_UKEKALENDER: 'RADIO_GRUPPE_UKEKALENDER',
+    LAND: 'LAND',
+    COMBOBOX_SINGLE: 'COMBOBOX_SINGLE',
+    COMBOBOX_MULTI: 'COMBOBOX_MULTI',
+    INFO_BEHANDLINGSDAGER: 'INFO_BEHANDLINGSDAGER',
+    KVITTERING: 'KVITTERING',
+    DATOER: 'DATOER',
+    BELOP: 'BELOP',
+    KILOMETER: 'KILOMETER',
+    GRUPPE_AV_UNDERSPORSMAL: 'GRUPPE_AV_UNDERSPORSMAL',
+    UKJENT: 'UKJENT',
+} as const;
+
+export type ApiSvarVerdi = null | string;
+
+export interface ApiSvar {
+    verdi?: ApiSvarVerdi;
+}
+
+export type ApiVisningskriterium = (typeof ApiVisningskriterium)[keyof typeof ApiVisningskriterium];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiVisningskriterium = {
+    NEI: 'NEI',
+    JA: 'JA',
+    CHECKED: 'CHECKED',
+    UKJENT: 'UKJENT',
+} as const;
+
+export interface ApiSoknadSelvstendigNaringsdrivende {
+    inntekt: ApiSoknadSelvstendigNaringsdrivendeApiInntektsar[];
+    ventetid: ApiSoknadSelvstendigNaringsdrivendeApiVentetidPeriode;
+}
+
+export interface ApiSoknadSelvstendigNaringsdrivendeApiInntektsar {
+    ar: string;
+    pensjonsgivendeInntektAvNaringsinntekt: number;
+    erFerdigLignet: boolean;
+}
+
+export interface ApiSoknadSelvstendigNaringsdrivendeApiVentetidPeriode {
+    fom: string;
+    tom: string;
+}
+
+export type ApiSoknadType = null | ApiSoknadstype;
+
+export type ApiSoknadArbeidGjenopptatt = null | string;
+
+export type ApiSoknadSykmeldingSkrevet = null | string;
+
+export type ApiSoknadEgenmeldingsdagerFraSykmelding = null | string[];
+
+export type ApiSoknadSoknadsperioder = null | ApiSoknadsperioder[];
+
+export type ApiSoknadSporsmal = null | ApiSporsmal[];
+
+export type ApiSoknadSelvstendigNaringsdrivendeProperty = null | ApiSoknadSelvstendigNaringsdrivende;
+
+export interface ApiSoknad {
+    type?: ApiSoknadType;
+    arbeidGjenopptatt?: ApiSoknadArbeidGjenopptatt;
+    sykmeldingSkrevet?: ApiSoknadSykmeldingSkrevet;
+    egenmeldingsdagerFraSykmelding?: ApiSoknadEgenmeldingsdagerFraSykmelding;
+    soknadsperioder?: ApiSoknadSoknadsperioder;
+    sporsmal?: ApiSoknadSporsmal;
+    selvstendigNaringsdrivende?: ApiSoknadSelvstendigNaringsdrivendeProperty;
+}
+
+export type ApiRefusjonBeloepPrMnd = null | number;
+
+export type ApiRefusjonOpphoersdato = null | string;
+
+export interface ApiRefusjon {
+    beloepPrMnd?: ApiRefusjonBeloepPrMnd;
+    opphoersdato?: ApiRefusjonOpphoersdato;
+}
+
+export type ApiEndringIRefusjonEndringsdato = null | string;
+
+export type ApiEndringIRefusjonBeloep = null | number;
+
+export interface ApiEndringIRefusjon {
+    endringsdato?: ApiEndringIRefusjonEndringsdato;
+    beloep?: ApiEndringIRefusjonBeloep;
+}
+
+export type ApiOpphoerAvNaturalytelseNaturalytelse = null | ApiNaturalytelse;
+
+export type ApiOpphoerAvNaturalytelseFom = null | string;
+
+export type ApiOpphoerAvNaturalytelseBeloepPrMnd = null | number;
+
+export interface ApiOpphoerAvNaturalytelse {
+    naturalytelse?: ApiOpphoerAvNaturalytelseNaturalytelse;
+    fom?: ApiOpphoerAvNaturalytelseFom;
+    beloepPrMnd?: ApiOpphoerAvNaturalytelseBeloepPrMnd;
+}
+
+export type ApiNaturalytelse = (typeof ApiNaturalytelse)[keyof typeof ApiNaturalytelse];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiNaturalytelse = {
+    KOSTDOEGN: 'KOSTDOEGN',
+    LOSJI: 'LOSJI',
+    ANNET: 'ANNET',
+    SKATTEPLIKTIGDELFORSIKRINGER: 'SKATTEPLIKTIGDELFORSIKRINGER',
+    BIL: 'BIL',
+    KOSTDAGER: 'KOSTDAGER',
+    RENTEFORDELLAAN: 'RENTEFORDELLAAN',
+    BOLIG: 'BOLIG',
+    ELEKTRONISKKOMMUNIKASJON: 'ELEKTRONISKKOMMUNIKASJON',
+    AKSJERGRUNNFONDSBEVISTILUNDERKURS: 'AKSJERGRUNNFONDSBEVISTILUNDERKURS',
+    OPSJONER: 'OPSJONER',
+    KOSTBESPARELSEIHJEMMET: 'KOSTBESPARELSEIHJEMMET',
+    FRITRANSPORT: 'FRITRANSPORT',
+    BEDRIFTSBARNEHAGEPLASS: 'BEDRIFTSBARNEHAGEPLASS',
+    TILSKUDDBARNEHAGEPLASS: 'TILSKUDDBARNEHAGEPLASS',
+    BESOEKSREISERHJEMMETANNET: 'BESOEKSREISERHJEMMETANNET',
+    INNBETALINGTILUTENLANDSKPENSJONSORDNING: 'INNBETALINGTILUTENLANDSKPENSJONSORDNING',
+    YRKEBILTJENESTLIGBEHOVLISTEPRIS: 'YRKEBILTJENESTLIGBEHOVLISTEPRIS',
+    YRKEBILTJENESTLIGBEHOVKILOMETER: 'YRKEBILTJENESTLIGBEHOVKILOMETER',
+    UKJENT: 'UKJENT',
+} as const;
+
+export type ApiGjenopptakelseNaturalytelseNaturalytelse = null | ApiNaturalytelse;
+
+export type ApiGjenopptakelseNaturalytelseFom = null | string;
+
+export type ApiGjenopptakelseNaturalytelseBeloepPrMnd = null | number;
+
+export interface ApiGjenopptakelseNaturalytelse {
+    naturalytelse?: ApiGjenopptakelseNaturalytelseNaturalytelse;
+    fom?: ApiGjenopptakelseNaturalytelseFom;
+    beloepPrMnd?: ApiGjenopptakelseNaturalytelseBeloepPrMnd;
+}
+
+export type ApiIMPeriodeFom = null | string;
+
+export type ApiIMPeriodeTom = null | string;
+
+export interface ApiIMPeriode {
+    fom?: ApiIMPeriodeFom;
+    tom?: ApiIMPeriodeTom;
+}
+
+export type ApiInntektEndringAarsakPerioder = null | ApiIMPeriode[];
+
+export type ApiInntektEndringAarsakGjelderFra = null | string;
+
+export type ApiInntektEndringAarsakBleKjent = null | string;
+
+export interface ApiInntektEndringAarsak {
+    aarsak: string;
+    perioder?: ApiInntektEndringAarsakPerioder;
+    gjelderFra?: ApiInntektEndringAarsakGjelderFra;
+    bleKjent?: ApiInntektEndringAarsakBleKjent;
+}
+
+export type ApiAvsenderSystemNavn = null | string;
+
+export type ApiAvsenderSystemVersjon = null | string;
+
+export interface ApiAvsenderSystem {
+    navn?: ApiAvsenderSystemNavn;
+    versjon?: ApiAvsenderSystemVersjon;
+}
+
+export type ApiDokumentInntektsmeldingArbeidsforholdId = null | string;
+
+export type ApiDokumentInntektsmeldingVirksomhetsnummer = null | string;
+
+export type ApiDokumentInntektsmeldingBegrunnelseForReduksjonEllerIkkeUtbetalt = null | string;
+
+export type ApiDokumentInntektsmeldingBruttoUtbetalt = null | number;
+
+export type ApiDokumentInntektsmeldingBeregnetInntekt = null | number;
+
+export type ApiDokumentInntektsmeldingRefusjon = null | ApiRefusjon;
+
+export type ApiDokumentInntektsmeldingEndringIRefusjoner = null | ApiEndringIRefusjon[];
+
+export type ApiDokumentInntektsmeldingOpphoerAvNaturalytelser = null | ApiOpphoerAvNaturalytelse[];
+
+export type ApiDokumentInntektsmeldingGjenopptakelseNaturalytelser = null | ApiGjenopptakelseNaturalytelse[];
+
+export type ApiDokumentInntektsmeldingArbeidsgiverperioder = null | ApiIMPeriode[];
+
+export type ApiDokumentInntektsmeldingFerieperioder = null | ApiIMPeriode[];
+
+export type ApiDokumentInntektsmeldingFoersteFravaersdag = null | string;
+
+export type ApiDokumentInntektsmeldingNaerRelasjon = null | boolean;
+
+export type ApiDokumentInntektsmeldingInnsenderFulltNavn = null | string;
+
+export type ApiDokumentInntektsmeldingInnsenderTelefon = null | string;
+
+export type ApiDokumentInntektsmeldingInntektEndringAarsaker = null | ApiInntektEndringAarsak[];
+
+export type ApiDokumentInntektsmeldingAvsenderSystem = null | ApiAvsenderSystem;
+
+export interface ApiDokumentInntektsmelding {
+    arbeidsforholdId?: ApiDokumentInntektsmeldingArbeidsforholdId;
+    virksomhetsnummer?: ApiDokumentInntektsmeldingVirksomhetsnummer;
+    begrunnelseForReduksjonEllerIkkeUtbetalt?: ApiDokumentInntektsmeldingBegrunnelseForReduksjonEllerIkkeUtbetalt;
+    bruttoUtbetalt?: ApiDokumentInntektsmeldingBruttoUtbetalt;
+    beregnetInntekt?: ApiDokumentInntektsmeldingBeregnetInntekt;
+    refusjon?: ApiDokumentInntektsmeldingRefusjon;
+    endringIRefusjoner?: ApiDokumentInntektsmeldingEndringIRefusjoner;
+    opphoerAvNaturalytelser?: ApiDokumentInntektsmeldingOpphoerAvNaturalytelser;
+    gjenopptakelseNaturalytelser?: ApiDokumentInntektsmeldingGjenopptakelseNaturalytelser;
+    arbeidsgiverperioder?: ApiDokumentInntektsmeldingArbeidsgiverperioder;
+    ferieperioder?: ApiDokumentInntektsmeldingFerieperioder;
+    foersteFravaersdag?: ApiDokumentInntektsmeldingFoersteFravaersdag;
+    naerRelasjon?: ApiDokumentInntektsmeldingNaerRelasjon;
+    innsenderFulltNavn?: ApiDokumentInntektsmeldingInnsenderFulltNavn;
+    innsenderTelefon?: ApiDokumentInntektsmeldingInnsenderTelefon;
+    inntektEndringAarsaker?: ApiDokumentInntektsmeldingInntektEndringAarsaker;
+    avsenderSystem?: ApiDokumentInntektsmeldingAvsenderSystem;
+}
+
 export interface ApiTilkommenInntektskilde {
     organisasjonsnummer: string;
     inntekter: ApiTilkommenInntekt[];
@@ -265,5 +561,3 @@ export type GetOppgaverParams = {
     sidetall?: number;
     sidestoerrelse?: number;
 };
-
-export type GetSøknad200 = { [key: string]: unknown };
