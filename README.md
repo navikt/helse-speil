@@ -73,6 +73,17 @@ i [GraphQL mappen](src/io/graphql).
 npm run generate-graphql
 ```
 
+## Oppdatere REST-typer og genererte Tanstack Query-hooks
+
+OpenAPI-spec hentes fra spesialist på lokal maskin. Først må man starte spesialist på lokal maskin (se etter fila LocalApp.kt).
+OpenAPI-spec'en når man kjører lokalt krever ikke autentisering.
+
+**Kjør så kommandoen:**
+
+```shell
+npm run generate-rest
+```
+
 ## Henvendelser
 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på GitHub.
