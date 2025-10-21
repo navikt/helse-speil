@@ -4,28 +4,35 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
 import { VilkarsgrunnlagInfotrygdV2, VilkarsgrunnlagSpleisV2, VilkarsgrunnlagVurdering, Vurdering } from '@io/graphql';
-import { DateString } from '@typer/shared';
 import { Vilkårdata, Vilkårstype } from '@typer/vilkår';
 
 import { EndretParagrafContainer } from './EndretParagrafContainer';
-import { Opptjeningstid, Sykepengegrunnlag } from './vilkårsgrupper/Vilkårsgrupper';
+import { OpptjeningstidArbeidstaker, Sykepengegrunnlag } from './vilkårsgrupper/Vilkårsgrupper';
 
 const VilkårManglerData = (): ReactElement => <BodyShort>Mangler data om vilkåret</BodyShort>;
 
 const opptjeningstid = (
-    skjæringstidspunkt: DateString,
+    erSelvstendigNæring: boolean,
     vilkår: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
 ): Vilkårdata => {
     switch (vilkår.__typename) {
         case 'VilkarsgrunnlagSpleisV2': {
+            if (erSelvstendigNæring) {
+                return {
+                    type: Vilkårstype.Opptjeningstid,
+                    oppfylt: vilkår.oppfyllerKravOmOpptjening,
+                    tittel: 'Opptjeningstid',
+                    paragraf: <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>,
+                    komponent: <></>,
+                };
+            }
             return {
                 type: Vilkårstype.Opptjeningstid,
                 oppfylt: vilkår.oppfyllerKravOmOpptjening,
                 tittel: 'Opptjeningstid',
                 paragraf: <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>,
                 komponent: (
-                    <Opptjeningstid
-                        skjæringstidspunkt={skjæringstidspunkt}
+                    <OpptjeningstidArbeidstaker
                         opptjeningFra={vilkår.opptjeningFra}
                         antallOpptjeningsdagerErMinst={vilkår.antallOpptjeningsdagerErMinst}
                     />
@@ -120,6 +127,7 @@ export interface KategoriserteVilkår {
 }
 
 export const kategoriserteInngangsvilkår = (
+    erSelvstendigNæring: boolean,
     vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
     alderVedSkjæringstidspunkt: number,
     vurdering?: Vurdering | null,
@@ -129,7 +137,7 @@ export const kategoriserteInngangsvilkår = (
     const ikkeVurdert = !vurdertIInfotrygd && !vurdertISpleis;
 
     const inngangsvilkår = [
-        opptjeningstid(vilkårsgrunnlag.skjaeringstidspunkt, vilkårsgrunnlag),
+        opptjeningstid(erSelvstendigNæring, vilkårsgrunnlag),
         sykepengegrunnlag(alderVedSkjæringstidspunkt, vilkårsgrunnlag),
         medlemskap(vilkårsgrunnlag),
     ];

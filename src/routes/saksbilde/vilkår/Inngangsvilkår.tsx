@@ -11,9 +11,11 @@ import {
     VilkarsgrunnlagSpleisV2,
     Vurdering,
 } from '@io/graphql';
+import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { Vilkårdata } from '@typer/vilkår';
+import { isSelvstendigNaering } from '@utils/typeguards';
 
 import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
@@ -28,6 +30,7 @@ const harVilkår = (vilkår?: Vilkårdata[]): vilkår is Vilkårdata[] =>
     vilkår !== undefined && vilkår !== null && vilkår.length > 0;
 
 interface InngangsvilkårWithContentProps {
+    erSelvstendigNæring: boolean;
     periodeFom: DateString;
     vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
     fødselsdato: DateString;
@@ -35,6 +38,7 @@ interface InngangsvilkårWithContentProps {
 }
 
 export const InngangsvilkårWithContent = ({
+    erSelvstendigNæring,
     periodeFom,
     vilkårsgrunnlag,
     fødselsdato,
@@ -43,7 +47,7 @@ export const InngangsvilkårWithContent = ({
     const alderVedSkjæringstidspunkt = dayjs(vilkårsgrunnlag.skjaeringstidspunkt).diff(fødselsdato, 'year');
 
     const { oppfylteVilkår, ikkeVurderteVilkår, ikkeOppfylteVilkår, vilkårVurdertIInfotrygd, vilkårVurdertISpleis } =
-        kategoriserteInngangsvilkår(vilkårsgrunnlag, alderVedSkjæringstidspunkt, vurdering);
+        kategoriserteInngangsvilkår(erSelvstendigNæring, vilkårsgrunnlag, alderVedSkjæringstidspunkt, vurdering);
 
     const harBehandledeVilkår =
         harVilkår(ikkeVurderteVilkår) || harVilkår(ikkeOppfylteVilkår) || harVilkår(oppfylteVilkår);
@@ -82,14 +86,18 @@ interface InngangsvilkårContainerProps {
     periode: BeregnetPeriodeFragment;
 }
 
-const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerProps): ReactElement | null => (
-    <InngangsvilkårWithContent
-        vurdering={periode.utbetaling.vurdering}
-        periodeFom={periode.fom}
-        vilkårsgrunnlag={getRequiredVilkårsgrunnlag(person, periode.vilkarsgrunnlagId)}
-        fødselsdato={person.personinfo.fodselsdato!}
-    />
-);
+const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerProps): ReactElement | null => {
+    const inntektsforhold = useAktivtInntektsforhold(person);
+    return (
+        <InngangsvilkårWithContent
+            erSelvstendigNæring={isSelvstendigNaering(inntektsforhold)}
+            vurdering={periode.utbetaling.vurdering}
+            periodeFom={periode.fom}
+            vilkårsgrunnlag={getRequiredVilkårsgrunnlag(person, periode.vilkarsgrunnlagId)}
+            fødselsdato={person.personinfo.fodselsdato!}
+        />
+    );
+};
 
 const InngangsvilkårError = (): ReactElement => (
     <Alert variant="error" size="small">

@@ -65,6 +65,7 @@ describe('Inngangsvilkår', () => {
                 periodeFom="2022-01-01"
                 vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
                 fødselsdato="1900-01-01"
+                erSelvstendigNæring={false}
             />,
         );
 
@@ -81,6 +82,7 @@ describe('Inngangsvilkår', () => {
                 periodeFom="2022-01-01"
                 vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ oppfyllerKravOmOpptjening: false })}
                 fødselsdato="1900-01-01"
+                erSelvstendigNæring={false}
             />,
         );
 
@@ -103,6 +105,7 @@ describe('Inngangsvilkår', () => {
                 vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
                 fødselsdato="1900-01-01"
                 vurdering={getVurdering()}
+                erSelvstendigNæring={false}
             />,
         );
 
@@ -120,6 +123,7 @@ describe('Inngangsvilkår', () => {
                 vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
                 fødselsdato="1900-01-01"
                 vurdering={getVurdering({ automatisk: true })}
+                erSelvstendigNæring={false}
             />,
         );
 
@@ -136,6 +140,7 @@ describe('Inngangsvilkår', () => {
                 periodeFom="2022-01-01"
                 vilkårsgrunnlag={getVilkårsgrunnlagInfotrygd()}
                 fødselsdato="1900-01-01"
+                erSelvstendigNæring={false}
             />,
         );
 
@@ -144,5 +149,37 @@ describe('Inngangsvilkår', () => {
         expect(within(gruppe).getByText('Opptjeningstid')).toBeVisible();
         expect(within(gruppe).getByText('Lovvalg og medlemskap')).toBeVisible();
         expect(within(gruppe).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
+    });
+
+    it('rendrer opptjeningstid ved selvstendig næring', async () => {
+        render(
+            <InngangsvilkårWithContent
+                periodeFom="2022-01-01"
+                vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
+                fødselsdato="1900-01-01"
+                erSelvstendigNæring={true}
+            />,
+        );
+
+        const gruppe = screen.getByTestId('oppfylte-vilkår');
+        expect(gruppe).toBeVisible();
+        expect(within(gruppe).queryByText('Opptjening fra')).not.toBeInTheDocument();
+        expect(within(gruppe).queryByText('Antall dager (>28)')).not.toBeInTheDocument();
+    });
+
+    it('rendrer opptjeningstid ved arbeidstaker', async () => {
+        render(
+            <InngangsvilkårWithContent
+                periodeFom="2022-01-01"
+                vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
+                fødselsdato="1900-01-01"
+                erSelvstendigNæring={false}
+            />,
+        );
+
+        const gruppe = screen.getByTestId('oppfylte-vilkår');
+        expect(gruppe).toBeVisible();
+        expect(within(gruppe).getByText('Opptjening fra')).toBeVisible();
+        expect(within(gruppe).getByText('Antall dager (>28)')).toBeVisible();
     });
 });
