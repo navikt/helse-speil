@@ -171,12 +171,6 @@ export type Arbeidsgiverrefusjon = {
     refusjonsopplysninger: Array<Refusjonselement>;
 };
 
-export type AvsenderSystem = {
-    __typename: 'AvsenderSystem';
-    navn: Maybe<Scalars['String']['output']>;
-    versjon: Maybe<Scalars['String']['output']>;
-};
-
 export type Avslag = {
     __typename: 'Avslag';
     begrunnelse: Scalars['String']['output'];
@@ -336,27 +330,6 @@ export type DatoPeriodeInput = {
     tom: Scalars['LocalDate']['input'];
 };
 
-export type DokumentInntektsmelding = {
-    __typename: 'DokumentInntektsmelding';
-    arbeidsforholdId: Maybe<Scalars['String']['output']>;
-    arbeidsgiverperioder: Maybe<Array<ImPeriode>>;
-    avsenderSystem: Maybe<AvsenderSystem>;
-    begrunnelseForReduksjonEllerIkkeUtbetalt: Maybe<Scalars['String']['output']>;
-    beregnetInntekt: Maybe<Scalars['Float']['output']>;
-    bruttoUtbetalt: Maybe<Scalars['Float']['output']>;
-    endringIRefusjoner: Maybe<Array<EndringIRefusjon>>;
-    ferieperioder: Maybe<Array<ImPeriode>>;
-    foersteFravaersdag: Maybe<Scalars['LocalDate']['output']>;
-    gjenopptakelseNaturalytelser: Maybe<Array<GjenopptakelseNaturalytelse>>;
-    innsenderFulltNavn: Maybe<Scalars['String']['output']>;
-    innsenderTelefon: Maybe<Scalars['String']['output']>;
-    inntektEndringAarsaker: Maybe<Array<InntektEndringAarsak>>;
-    naerRelasjon: Maybe<Scalars['Boolean']['output']>;
-    opphoerAvNaturalytelser: Maybe<Array<OpphoerAvNaturalytelse>>;
-    refusjon: Maybe<Refusjon>;
-    virksomhetsnummer: Maybe<Scalars['String']['output']>;
-};
-
 export enum Egenskap {
     Arbeidstaker = 'ARBEIDSTAKER',
     Beslutter = 'BESLUTTER',
@@ -405,12 +378,6 @@ export type EndrePaVent = Historikkinnslag & {
     type: PeriodehistorikkType;
 };
 
-export type EndringIRefusjon = {
-    __typename: 'EndringIRefusjon';
-    beloep: Maybe<Scalars['Float']['output']>;
-    endringsdato: Maybe<Scalars['LocalDate']['output']>;
-};
-
 export type Enhet = {
     __typename: 'Enhet';
     id: Scalars['String']['output'];
@@ -449,13 +416,6 @@ export type GhostPeriode = {
     vilkarsgrunnlagId: Maybe<Scalars['UUID']['output']>;
 };
 
-export type GjenopptakelseNaturalytelse = {
-    __typename: 'GjenopptakelseNaturalytelse';
-    beloepPrMnd: Maybe<Scalars['Float']['output']>;
-    fom: Maybe<Scalars['LocalDate']['output']>;
-    naturalytelse: Maybe<Naturalytelse>;
-};
-
 export type Handling = {
     __typename: 'Handling';
     begrunnelse: Maybe<Scalars['String']['output']>;
@@ -488,12 +448,6 @@ export type Historikkinnslag = {
     type: PeriodehistorikkType;
 };
 
-export type ImPeriode = {
-    __typename: 'IMPeriode';
-    fom: Maybe<Scalars['LocalDate']['output']>;
-    tom: Maybe<Scalars['LocalDate']['output']>;
-};
-
 export type Infotrygdutbetaling = {
     __typename: 'Infotrygdutbetaling';
     dagsats: Scalars['Float']['output'];
@@ -502,14 +456,6 @@ export type Infotrygdutbetaling = {
     organisasjonsnummer: Scalars['String']['output'];
     tom: Scalars['String']['output'];
     typetekst: Scalars['String']['output'];
-};
-
-export type InntektEndringAarsak = {
-    __typename: 'InntektEndringAarsak';
-    aarsak: Scalars['String']['output'];
-    bleKjent: Maybe<Scalars['LocalDate']['output']>;
-    gjelderFra: Maybe<Scalars['LocalDate']['output']>;
-    perioder: Maybe<Array<ImPeriode>>;
 };
 
 export type InntektFraAOrdningen = {
@@ -541,13 +487,6 @@ export type Inntektoverstyring = Overstyring & {
     saksbehandler: Saksbehandler;
     timestamp: Scalars['LocalDateTime']['output'];
     vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type Inntektsar = {
-    __typename: 'Inntektsar';
-    ar: Scalars['String']['output'];
-    erFerdigLignet: Scalars['Boolean']['output'];
-    pensjonsgivendeInntektAvNaringsinntekt: Scalars['Int']['output'];
 };
 
 export enum Inntektskilde {
@@ -845,29 +784,6 @@ export type MutationStansAutomatiskBehandlingArgs = {
     fodselsnummer: Scalars['String']['input'];
 };
 
-export enum Naturalytelse {
-    Aksjergrunnfondsbevistilunderkurs = 'AKSJERGRUNNFONDSBEVISTILUNDERKURS',
-    Annet = 'ANNET',
-    Bedriftsbarnehageplass = 'BEDRIFTSBARNEHAGEPLASS',
-    Besoeksreiserhjemmetannet = 'BESOEKSREISERHJEMMETANNET',
-    Bil = 'BIL',
-    Bolig = 'BOLIG',
-    Elektroniskkommunikasjon = 'ELEKTRONISKKOMMUNIKASJON',
-    Fritransport = 'FRITRANSPORT',
-    Innbetalingtilutenlandskpensjonsordning = 'INNBETALINGTILUTENLANDSKPENSJONSORDNING',
-    Kostbesparelseihjemmet = 'KOSTBESPARELSEIHJEMMET',
-    Kostdager = 'KOSTDAGER',
-    Kostdoegn = 'KOSTDOEGN',
-    Losji = 'LOSJI',
-    Opsjoner = 'OPSJONER',
-    Rentefordellaan = 'RENTEFORDELLAAN',
-    Skattepliktigdelforsikringer = 'SKATTEPLIKTIGDELFORSIKRINGER',
-    Tilskuddbarnehageplass = 'TILSKUDDBARNEHAGEPLASS',
-    Ukjent = 'UKJENT',
-    Yrkebiltjenestligbehovkilometer = 'YRKEBILTJENESTLIGBEHOVKILOMETER',
-    Yrkebiltjenestligbehovlistepris = 'YRKEBILTJENESTLIGBEHOVLISTEPRIS',
-}
-
 export type Notat = {
     __typename: 'Notat';
     dialogRef: Scalars['Int']['output'];
@@ -932,13 +848,6 @@ export type OpphevStansAutomatiskBehandlingSaksbehandler = Historikkinnslag & {
     saksbehandlerIdent: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
-};
-
-export type OpphoerAvNaturalytelse = {
-    __typename: 'OpphoerAvNaturalytelse';
-    beloepPrMnd: Maybe<Scalars['Float']['output']>;
-    fom: Maybe<Scalars['LocalDate']['output']>;
-    naturalytelse: Maybe<Naturalytelse>;
 };
 
 export type Opptegnelse = {
@@ -1212,8 +1121,6 @@ export type Query = {
     antallOppgaver: AntallOppgaver;
     behandledeOppgaverFeed: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
-    hentInntektsmelding: Maybe<DokumentInntektsmelding>;
-    hentSoknad: Maybe<Soknad>;
     opptegnelser: Array<Opptegnelse>;
     person: Maybe<Person>;
     restGetAktiveSaksbehandlere: Array<AktivSaksbehandler>;
@@ -1226,16 +1133,6 @@ export type QueryBehandledeOppgaverFeedArgs = {
     limit: Scalars['Int']['input'];
     offset: Scalars['Int']['input'];
     tom: Scalars['LocalDate']['input'];
-};
-
-export type QueryHentInntektsmeldingArgs = {
-    dokumentId: Scalars['String']['input'];
-    fnr: Scalars['String']['input'];
-};
-
-export type QueryHentSoknadArgs = {
-    dokumentId: Scalars['String']['input'];
-    fnr: Scalars['String']['input'];
 };
 
 export type QueryOpptegnelserArgs = {
@@ -1253,12 +1150,6 @@ export type QueryRestGetOrganisasjonArgs = {
 
 export type QueryRestGetPersonTilkomneInntektskilderArgs = {
     aktorId: Scalars['String']['input'];
-};
-
-export type Refusjon = {
-    __typename: 'Refusjon';
-    beloepPrMnd: Maybe<Scalars['Float']['output']>;
-    opphoersdato: Maybe<Scalars['LocalDate']['output']>;
 };
 
 export type Refusjonselement = {
@@ -1402,17 +1293,6 @@ export enum Skjonnsfastsettingstype {
     RapportertArsinntekt = 'RAPPORTERT_ARSINNTEKT',
 }
 
-export type Soknad = {
-    __typename: 'Soknad';
-    arbeidGjenopptatt: Maybe<Scalars['LocalDate']['output']>;
-    egenmeldingsdagerFraSykmelding: Maybe<Array<Scalars['LocalDate']['output']>>;
-    selvstendigNaringsdrivende: Maybe<SoknadSelvstendigNaringsdrivende>;
-    soknadsperioder: Maybe<Array<Soknadsperioder>>;
-    sporsmal: Maybe<Array<Sporsmal>>;
-    sykmeldingSkrevet: Maybe<Scalars['LocalDateTime']['output']>;
-    type: Maybe<Soknadstype>;
-};
-
 export type SoknadArbeidsgiver = Hendelse & {
     __typename: 'SoknadArbeidsgiver';
     eksternDokumentId: Maybe<Scalars['UUID']['output']>;
@@ -1468,44 +1348,6 @@ export type SoknadSelvstendig = Hendelse & {
     type: Hendelsetype;
 };
 
-export type SoknadSelvstendigNaringsdrivende = {
-    __typename: 'SoknadSelvstendigNaringsdrivende';
-    inntekt: Array<Inntektsar>;
-    ventetid: VentetidPeriode;
-};
-
-export type Soknadsperioder = {
-    __typename: 'Soknadsperioder';
-    faktiskGrad: Maybe<Scalars['Int']['output']>;
-    fom: Scalars['LocalDate']['output'];
-    grad: Maybe<Scalars['Int']['output']>;
-    sykmeldingsgrad: Maybe<Scalars['Int']['output']>;
-    tom: Scalars['LocalDate']['output'];
-};
-
-export enum Soknadstype {
-    AnnetArbeidsforhold = 'Annet_arbeidsforhold',
-    Arbeidsledig = 'Arbeidsledig',
-    Arbeidstaker = 'Arbeidstaker',
-    Behandlingsdager = 'Behandlingsdager',
-    GradertReisetilskudd = 'Gradert_reisetilskudd',
-    OppholdUtland = 'Opphold_utland',
-    Reisetilskudd = 'Reisetilskudd',
-    SelvstendigOgFrilanser = 'Selvstendig_og_frilanser',
-    Ukjent = 'UKJENT',
-}
-
-export type Sporsmal = {
-    __typename: 'Sporsmal';
-    kriterieForVisningAvUndersporsmal: Maybe<Visningskriterium>;
-    sporsmalstekst: Maybe<Scalars['String']['output']>;
-    svar: Maybe<Array<Svar>>;
-    svartype: Maybe<Svartype>;
-    tag: Maybe<Scalars['String']['output']>;
-    undersporsmal: Maybe<Array<Sporsmal>>;
-    undertekst: Maybe<Scalars['String']['output']>;
-};
-
 export type StansAutomatiskBehandlingSaksbehandler = Historikkinnslag & {
     __typename: 'StansAutomatiskBehandlingSaksbehandler';
     dialogRef: Maybe<Scalars['Int']['output']>;
@@ -1516,42 +1358,6 @@ export type StansAutomatiskBehandlingSaksbehandler = Historikkinnslag & {
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
 };
-
-export type Svar = {
-    __typename: 'Svar';
-    verdi: Maybe<Scalars['String']['output']>;
-};
-
-export enum Svartype {
-    Bekreftelsespunkter = 'BEKREFTELSESPUNKTER',
-    Belop = 'BELOP',
-    Checkbox = 'CHECKBOX',
-    CheckboxGruppe = 'CHECKBOX_GRUPPE',
-    CheckboxPanel = 'CHECKBOX_PANEL',
-    ComboboxMulti = 'COMBOBOX_MULTI',
-    ComboboxSingle = 'COMBOBOX_SINGLE',
-    Dato = 'DATO',
-    Datoer = 'DATOER',
-    Fritekst = 'FRITEKST',
-    GruppeAvUndersporsmal = 'GRUPPE_AV_UNDERSPORSMAL',
-    IkkeRelevant = 'IKKE_RELEVANT',
-    InfoBehandlingsdager = 'INFO_BEHANDLINGSDAGER',
-    JaNei = 'JA_NEI',
-    Kilometer = 'KILOMETER',
-    Kvittering = 'KVITTERING',
-    Land = 'LAND',
-    Oppsummering = 'OPPSUMMERING',
-    Periode = 'PERIODE',
-    Perioder = 'PERIODER',
-    Prosent = 'PROSENT',
-    Radio = 'RADIO',
-    RadioGruppe = 'RADIO_GRUPPE',
-    RadioGruppeTimerProsent = 'RADIO_GRUPPE_TIMER_PROSENT',
-    RadioGruppeUkekalender = 'RADIO_GRUPPE_UKEKALENDER',
-    Tall = 'TALL',
-    Timer = 'TIMER',
-    Ukjent = 'UKJENT',
-}
 
 export enum Sykdomsdagtype {
     AndreYtelserAap = 'ANDRE_YTELSER_AAP',
@@ -1873,12 +1679,6 @@ export enum VedtakUtfall {
     Innvilgelse = 'INNVILGELSE',
 }
 
-export type VentetidPeriode = {
-    __typename: 'VentetidPeriode';
-    fom: Scalars['LocalDate']['output'];
-    tom: Scalars['LocalDate']['output'];
-};
-
 export type VilkarsgrunnlagAvviksvurdering = {
     __typename: 'VilkarsgrunnlagAvviksvurdering';
     avviksprosent: Scalars['BigDecimal']['output'];
@@ -1927,13 +1727,6 @@ export enum VilkarsgrunnlagVurdering {
     IkkeOppfylt = 'IKKE_OPPFYLT',
     IkkeVurdert = 'IKKE_VURDERT',
     Oppfylt = 'OPPFYLT',
-}
-
-export enum Visningskriterium {
-    Checked = 'CHECKED',
-    Ja = 'JA',
-    Nei = 'NEI',
-    Ukjent = 'UKJENT',
 }
 
 export type Vurdering = {
@@ -2010,164 +1803,6 @@ export type HentBehandlingsstatistikkQuery = {
         utbetalingTilArbeidsgiver: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         utbetalingTilSykmeldt: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
     };
-};
-
-export type FetchInntektsmeldingQueryVariables = Exact<{
-    fnr: Scalars['String']['input'];
-    dokumentId: Scalars['String']['input'];
-}>;
-
-export type FetchInntektsmeldingQuery = {
-    __typename: 'Query';
-    hentInntektsmelding: {
-        __typename: 'DokumentInntektsmelding';
-        arbeidsforholdId: string | null;
-        virksomhetsnummer: string | null;
-        begrunnelseForReduksjonEllerIkkeUtbetalt: string | null;
-        bruttoUtbetalt: number | null;
-        beregnetInntekt: number | null;
-        foersteFravaersdag: string | null;
-        naerRelasjon: boolean | null;
-        innsenderFulltNavn: string | null;
-        innsenderTelefon: string | null;
-        refusjon: { __typename: 'Refusjon'; beloepPrMnd: number | null; opphoersdato: string | null } | null;
-        endringIRefusjoner: Array<{
-            __typename: 'EndringIRefusjon';
-            endringsdato: string | null;
-            beloep: number | null;
-        }> | null;
-        opphoerAvNaturalytelser: Array<{
-            __typename: 'OpphoerAvNaturalytelse';
-            naturalytelse: Naturalytelse | null;
-            fom: string | null;
-            beloepPrMnd: number | null;
-        }> | null;
-        gjenopptakelseNaturalytelser: Array<{
-            __typename: 'GjenopptakelseNaturalytelse';
-            naturalytelse: Naturalytelse | null;
-            fom: string | null;
-            beloepPrMnd: number | null;
-        }> | null;
-        arbeidsgiverperioder: Array<{ __typename: 'IMPeriode'; fom: string | null; tom: string | null }> | null;
-        ferieperioder: Array<{ __typename: 'IMPeriode'; fom: string | null; tom: string | null }> | null;
-        inntektEndringAarsaker: Array<{
-            __typename: 'InntektEndringAarsak';
-            aarsak: string;
-            gjelderFra: string | null;
-            bleKjent: string | null;
-            perioder: Array<{ __typename: 'IMPeriode'; fom: string | null; tom: string | null }> | null;
-        }> | null;
-        avsenderSystem: { __typename: 'AvsenderSystem'; navn: string | null } | null;
-    } | null;
-};
-
-export type SporsmalFragment = {
-    __typename: 'Sporsmal';
-    sporsmalstekst: string | null;
-    svartype: Svartype | null;
-    tag: string | null;
-    svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
-};
-
-export type FetchSoknadQueryVariables = Exact<{
-    fnr: Scalars['String']['input'];
-    dokumentId: Scalars['String']['input'];
-}>;
-
-export type FetchSoknadQuery = {
-    __typename: 'Query';
-    hentSoknad: {
-        __typename: 'Soknad';
-        type: Soknadstype | null;
-        arbeidGjenopptatt: string | null;
-        sykmeldingSkrevet: string | null;
-        egenmeldingsdagerFraSykmelding: Array<string> | null;
-        soknadsperioder: Array<{
-            __typename: 'Soknadsperioder';
-            fom: string;
-            tom: string;
-            grad: number | null;
-            faktiskGrad: number | null;
-            sykmeldingsgrad: number | null;
-        }> | null;
-        sporsmal: Array<{
-            __typename: 'Sporsmal';
-            sporsmalstekst: string | null;
-            svartype: Svartype | null;
-            tag: string | null;
-            undersporsmal: Array<{
-                __typename: 'Sporsmal';
-                sporsmalstekst: string | null;
-                svartype: Svartype | null;
-                tag: string | null;
-                undersporsmal: Array<{
-                    __typename: 'Sporsmal';
-                    sporsmalstekst: string | null;
-                    svartype: Svartype | null;
-                    tag: string | null;
-                    undersporsmal: Array<{
-                        __typename: 'Sporsmal';
-                        sporsmalstekst: string | null;
-                        svartype: Svartype | null;
-                        tag: string | null;
-                        undersporsmal: Array<{
-                            __typename: 'Sporsmal';
-                            sporsmalstekst: string | null;
-                            svartype: Svartype | null;
-                            tag: string | null;
-                            undersporsmal: Array<{
-                                __typename: 'Sporsmal';
-                                sporsmalstekst: string | null;
-                                svartype: Svartype | null;
-                                tag: string | null;
-                                undersporsmal: Array<{
-                                    __typename: 'Sporsmal';
-                                    sporsmalstekst: string | null;
-                                    svartype: Svartype | null;
-                                    tag: string | null;
-                                    undersporsmal: Array<{
-                                        __typename: 'Sporsmal';
-                                        sporsmalstekst: string | null;
-                                        svartype: Svartype | null;
-                                        tag: string | null;
-                                        undersporsmal: Array<{
-                                            __typename: 'Sporsmal';
-                                            sporsmalstekst: string | null;
-                                            svartype: Svartype | null;
-                                            tag: string | null;
-                                            undersporsmal: Array<{
-                                                __typename: 'Sporsmal';
-                                                sporsmalstekst: string | null;
-                                                svartype: Svartype | null;
-                                                tag: string | null;
-                                                undersporsmal: Array<{
-                                                    __typename: 'Sporsmal';
-                                                    sporsmalstekst: string | null;
-                                                    svartype: Svartype | null;
-                                                    tag: string | null;
-                                                    svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
-                                                }> | null;
-                                                svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
-                                            }> | null;
-                                            svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
-                                        }> | null;
-                                        svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
-                                    }> | null;
-                                    svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
-                                }> | null;
-                                svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
-                            }> | null;
-                            svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
-                        }> | null;
-                        svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
-                    }> | null;
-                    svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
-                }> | null;
-                svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
-            }> | null;
-            svar: Array<{ __typename: 'Svar'; verdi: string | null }> | null;
-        }> | null;
-    } | null;
 };
 
 export type FeilregistrerKommentarMutationMutationVariables = Exact<{
@@ -7563,32 +7198,6 @@ export const AntallFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<AntallFragment, unknown>;
-export const SporsmalFragmentDoc = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'sporsmal' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Sporsmal' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'sporsmalstekst' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'svar' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'verdi' } }],
-                        },
-                    },
-                    { kind: 'Field', name: { kind: 'Name', value: 'svartype' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tag' } },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<SporsmalFragment, unknown>;
 export const KommentarFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -12382,447 +11991,6 @@ export const HentBehandlingsstatistikkDocument = {
         },
     ],
 } as unknown as DocumentNode<HentBehandlingsstatistikkQuery, HentBehandlingsstatistikkQueryVariables>;
-export const FetchInntektsmeldingDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'FetchInntektsmelding' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'dokumentId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hentInntektsmelding' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'fnr' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'dokumentId' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'dokumentId' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsforholdId' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'virksomhetsnummer' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'begrunnelseForReduksjonEllerIkkeUtbetalt' },
-                                },
-                                { kind: 'Field', name: { kind: 'Name', value: 'bruttoUtbetalt' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'beregnetInntekt' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'refusjon' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'beloepPrMnd' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'opphoersdato' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'endringIRefusjoner' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'endringsdato' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'beloep' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'opphoerAvNaturalytelser' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'naturalytelse' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'beloepPrMnd' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'gjenopptakelseNaturalytelser' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'naturalytelse' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'beloepPrMnd' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'arbeidsgiverperioder' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'ferieperioder' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                        ],
-                                    },
-                                },
-                                { kind: 'Field', name: { kind: 'Name', value: 'foersteFravaersdag' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'naerRelasjon' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'innsenderFulltNavn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'innsenderTelefon' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'inntektEndringAarsaker' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'aarsak' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'perioder' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                                    ],
-                                                },
-                                            },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'gjelderFra' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'bleKjent' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'avsenderSystem' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'navn' } }],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FetchInntektsmeldingQuery, FetchInntektsmeldingQueryVariables>;
-export const FetchSoknadDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'FetchSoknad' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'dokumentId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hentSoknad' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'fnr' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'dokumentId' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'dokumentId' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidGjenopptatt' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingSkrevet' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'egenmeldingsdagerFraSykmelding' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'soknadsperioder' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'faktiskGrad' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingsgrad' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'sporsmal' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'sporsmal' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'undersporsmal' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        {
-                                                            kind: 'FragmentSpread',
-                                                            name: { kind: 'Name', value: 'sporsmal' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'undersporsmal' },
-                                                            selectionSet: {
-                                                                kind: 'SelectionSet',
-                                                                selections: [
-                                                                    {
-                                                                        kind: 'FragmentSpread',
-                                                                        name: { kind: 'Name', value: 'sporsmal' },
-                                                                    },
-                                                                    {
-                                                                        kind: 'Field',
-                                                                        name: { kind: 'Name', value: 'undersporsmal' },
-                                                                        selectionSet: {
-                                                                            kind: 'SelectionSet',
-                                                                            selections: [
-                                                                                {
-                                                                                    kind: 'FragmentSpread',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'sporsmal',
-                                                                                    },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'undersporsmal',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'FragmentSpread',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'sporsmal',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'undersporsmal',
-                                                                                                },
-                                                                                                selectionSet: {
-                                                                                                    kind: 'SelectionSet',
-                                                                                                    selections: [
-                                                                                                        {
-                                                                                                            kind: 'FragmentSpread',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'sporsmal',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'undersporsmal',
-                                                                                                            },
-                                                                                                            selectionSet:
-                                                                                                                {
-                                                                                                                    kind: 'SelectionSet',
-                                                                                                                    selections:
-                                                                                                                        [
-                                                                                                                            {
-                                                                                                                                kind: 'FragmentSpread',
-                                                                                                                                name: {
-                                                                                                                                    kind: 'Name',
-                                                                                                                                    value: 'sporsmal',
-                                                                                                                                },
-                                                                                                                            },
-                                                                                                                            {
-                                                                                                                                kind: 'Field',
-                                                                                                                                name: {
-                                                                                                                                    kind: 'Name',
-                                                                                                                                    value: 'undersporsmal',
-                                                                                                                                },
-                                                                                                                                selectionSet:
-                                                                                                                                    {
-                                                                                                                                        kind: 'SelectionSet',
-                                                                                                                                        selections:
-                                                                                                                                            [
-                                                                                                                                                {
-                                                                                                                                                    kind: 'FragmentSpread',
-                                                                                                                                                    name: {
-                                                                                                                                                        kind: 'Name',
-                                                                                                                                                        value: 'sporsmal',
-                                                                                                                                                    },
-                                                                                                                                                },
-                                                                                                                                                {
-                                                                                                                                                    kind: 'Field',
-                                                                                                                                                    name: {
-                                                                                                                                                        kind: 'Name',
-                                                                                                                                                        value: 'undersporsmal',
-                                                                                                                                                    },
-                                                                                                                                                    selectionSet:
-                                                                                                                                                        {
-                                                                                                                                                            kind: 'SelectionSet',
-                                                                                                                                                            selections:
-                                                                                                                                                                [
-                                                                                                                                                                    {
-                                                                                                                                                                        kind: 'FragmentSpread',
-                                                                                                                                                                        name: {
-                                                                                                                                                                            kind: 'Name',
-                                                                                                                                                                            value: 'sporsmal',
-                                                                                                                                                                        },
-                                                                                                                                                                    },
-                                                                                                                                                                    {
-                                                                                                                                                                        kind: 'Field',
-                                                                                                                                                                        name: {
-                                                                                                                                                                            kind: 'Name',
-                                                                                                                                                                            value: 'undersporsmal',
-                                                                                                                                                                        },
-                                                                                                                                                                        selectionSet:
-                                                                                                                                                                            {
-                                                                                                                                                                                kind: 'SelectionSet',
-                                                                                                                                                                                selections:
-                                                                                                                                                                                    [
-                                                                                                                                                                                        {
-                                                                                                                                                                                            kind: 'FragmentSpread',
-                                                                                                                                                                                            name: {
-                                                                                                                                                                                                kind: 'Name',
-                                                                                                                                                                                                value: 'sporsmal',
-                                                                                                                                                                                            },
-                                                                                                                                                                                        },
-                                                                                                                                                                                        {
-                                                                                                                                                                                            kind: 'Field',
-                                                                                                                                                                                            name: {
-                                                                                                                                                                                                kind: 'Name',
-                                                                                                                                                                                                value: 'undersporsmal',
-                                                                                                                                                                                            },
-                                                                                                                                                                                            selectionSet:
-                                                                                                                                                                                                {
-                                                                                                                                                                                                    kind: 'SelectionSet',
-                                                                                                                                                                                                    selections:
-                                                                                                                                                                                                        [
-                                                                                                                                                                                                            {
-                                                                                                                                                                                                                kind: 'FragmentSpread',
-                                                                                                                                                                                                                name: {
-                                                                                                                                                                                                                    kind: 'Name',
-                                                                                                                                                                                                                    value: 'sporsmal',
-                                                                                                                                                                                                                },
-                                                                                                                                                                                                            },
-                                                                                                                                                                                                        ],
-                                                                                                                                                                                                },
-                                                                                                                                                                                        },
-                                                                                                                                                                                    ],
-                                                                                                                                                                            },
-                                                                                                                                                                    },
-                                                                                                                                                                ],
-                                                                                                                                                        },
-                                                                                                                                                },
-                                                                                                                                            ],
-                                                                                                                                    },
-                                                                                                                            },
-                                                                                                                        ],
-                                                                                                                },
-                                                                                                        },
-                                                                                                    ],
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
-                                                                                },
-                                                                            ],
-                                                                        },
-                                                                    },
-                                                                ],
-                                                            },
-                                                        },
-                                                    ],
-                                                },
-                                            },
-                                        ],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'sporsmal' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Sporsmal' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'sporsmalstekst' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'svar' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'verdi' } }],
-                        },
-                    },
-                    { kind: 'Field', name: { kind: 'Name', value: 'svartype' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tag' } },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FetchSoknadQuery, FetchSoknadQueryVariables>;
 export const FeilregistrerKommentarMutationDocument = {
     kind: 'Document',
     definitions: [

@@ -1,11 +1,14 @@
-import { ApiDokumentInntektsmelding, ApiSoknad } from '@io/rest/generated/spesialist.schemas';
-
-import { Soknadstype, Svartype } from '../schemaTypes';
+import {
+    ApiDokumentInntektsmelding,
+    ApiSoknad,
+    ApiSoknadstype,
+    ApiSvartype,
+} from '@io/rest/generated/spesialist.schemas';
 
 export class DokumentMock {
     static getMockedSoknad = (): ApiSoknad => {
         return {
-            type: Soknadstype.Arbeidstaker,
+            type: ApiSoknadstype.Arbeidstaker,
             arbeidGjenopptatt: '2023-09-29',
             sykmeldingSkrevet: '2023-09-01T02:00:00',
             egenmeldingsdagerFraSykmelding: ['2023-09-22', '2023-09-21', '2023-09-24', '2023-09-20'],
@@ -27,7 +30,7 @@ export class DokumentMock {
                             verdi: 'JA',
                         },
                     ],
-                    svartype: Svartype.JaNei,
+                    svartype: ApiSvartype.JA_NEI,
                     tag: 'TILBAKE_I_ARBEID',
                     undersporsmal: [
                         {
@@ -37,7 +40,7 @@ export class DokumentMock {
                                     verdi: '2023-09-29',
                                 },
                             ],
-                            svartype: Svartype.Dato,
+                            svartype: ApiSvartype.DATO,
                             undersporsmal: [],
                         },
                     ],
@@ -49,7 +52,7 @@ export class DokumentMock {
                             verdi: 'JA',
                         },
                     ],
-                    svartype: Svartype.JaNei,
+                    svartype: ApiSvartype.JA_NEI,
                     tag: 'FERIE_V2',
                     undersporsmal: [
                         {
@@ -59,7 +62,7 @@ export class DokumentMock {
                                     verdi: '{"fom":"2023-09-16","tom":"2023-09-17"}',
                                 },
                             ],
-                            svartype: Svartype.Perioder,
+                            svartype: ApiSvartype.PERIODER,
                             undersporsmal: [],
                         },
                     ],
@@ -71,7 +74,7 @@ export class DokumentMock {
                             verdi: 'JA',
                         },
                     ],
-                    svartype: Svartype.JaNei,
+                    svartype: ApiSvartype.JA_NEI,
                     tag: 'PERMISJON_V2',
                     undersporsmal: [
                         {
@@ -81,7 +84,7 @@ export class DokumentMock {
                                     verdi: '{"fom":"2023-09-18","tom":"2023-09-19"}',
                                 },
                             ],
-                            svartype: Svartype.Perioder,
+                            svartype: ApiSvartype.PERIODER,
                             tag: 'PERMISJON_NAR_V2',
                             undersporsmal: [],
                         },
@@ -95,13 +98,13 @@ export class DokumentMock {
                             verdi: 'JA',
                         },
                     ],
-                    svartype: Svartype.JaNei,
+                    svartype: ApiSvartype.JA_NEI,
                     tag: 'ARBEID_UNDERVEIS_100_PROSENT_0',
                     undersporsmal: [
                         {
                             sporsmalstekst: 'Oppgi arbeidsmengde i timer eller prosent:',
                             svar: [],
-                            svartype: Svartype.RadioGruppeTimerProsent,
+                            svartype: ApiSvartype.RADIO_GRUPPE_TIMER_PROSENT,
                             tag: 'HVOR_MYE_HAR_DU_JOBBET_0',
                             undersporsmal: [
                                 {
@@ -111,7 +114,7 @@ export class DokumentMock {
                                             verdi: 'CHECKED',
                                         },
                                     ],
-                                    svartype: Svartype.Radio,
+                                    svartype: ApiSvartype.RADIO,
                                     tag: 'HVOR_MYE_PROSENT_0',
                                     undersporsmal: [
                                         {
@@ -122,7 +125,7 @@ export class DokumentMock {
                                                     verdi: '20',
                                                 },
                                             ],
-                                            svartype: Svartype.Prosent,
+                                            svartype: ApiSvartype.PROSENT,
                                             tag: 'HVOR_MYE_PROSENT_VERDI_0',
                                             undersporsmal: [],
                                         },
@@ -137,7 +140,7 @@ export class DokumentMock {
                                     verdi: 'NEI',
                                 },
                             ],
-                            svartype: Svartype.JaNei,
+                            svartype: ApiSvartype.JA_NEI,
                             tag: 'JOBBER_DU_NORMAL_ARBEIDSUKE_0',
                             undersporsmal: [
                                 {
@@ -147,7 +150,7 @@ export class DokumentMock {
                                             verdi: '40',
                                         },
                                     ],
-                                    svartype: Svartype.Timer,
+                                    svartype: ApiSvartype.TIMER,
                                     tag: 'HVOR_MANGE_TIMER_PER_UKE_0',
                                     undersporsmal: [],
                                 },
