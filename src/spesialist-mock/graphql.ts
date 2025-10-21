@@ -54,7 +54,6 @@ import {
     PeriodehistorikkType,
     Person,
 } from './schemaTypes';
-import { DokumentMock } from './storage/dokument';
 import { NotatMock } from './storage/notat';
 import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
 import { OpphevStansMock } from './storage/opphevstans';
@@ -167,22 +166,6 @@ const getResolvers = (): IResolvers => ({
                 antallMineSaker: tildelinger.length,
                 antallMineSakerPaVent: paVent.length,
             };
-        },
-        hentSoknad: async () => {
-            await new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve('test');
-                }, 3000);
-            });
-            return DokumentMock.getMockedSoknad();
-        },
-        hentInntektsmelding: async () => {
-            await new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve('test');
-                }, 1000);
-            });
-            return DokumentMock.getMockedInntektsmelding();
         },
         opptegnelser: async (_, { sekvensId }) => {
             return hentOpptegnelser(sekvensId);

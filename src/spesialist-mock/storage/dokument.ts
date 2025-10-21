@@ -1,12 +1,9 @@
-import { GraphQLError } from 'graphql/index';
+import { ApiDokumentInntektsmelding, ApiSoknad } from '@io/rest/generated/spesialist.schemas';
 
-import { DokumentInntektsmelding, Soknad, Soknadstype, Svartype } from '../schemaTypes';
+import { Soknadstype, Svartype } from '../schemaTypes';
 
 export class DokumentMock {
-    static getMockedSoknad = (): Soknad | GraphQLError => {
-        if (Math.random() > 0.9)
-            return new GraphQLError(`Noe gikk galt, vennligst prøv igjen.`, { extensions: { code: 417 } });
-
+    static getMockedSoknad = (): ApiSoknad => {
         return {
             type: Soknadstype.Arbeidstaker,
             arbeidGjenopptatt: '2023-09-29',
@@ -19,7 +16,6 @@ export class DokumentMock {
                     grad: null,
                     faktiskGrad: 20,
                     sykmeldingsgrad: 100,
-                    __typename: 'Soknadsperioder',
                 },
             ],
             sporsmal: [
@@ -29,23 +25,19 @@ export class DokumentMock {
                     svar: [
                         {
                             verdi: 'JA',
-                            __typename: 'Svar',
                         },
                     ],
                     svartype: Svartype.JaNei,
                     tag: 'TILBAKE_I_ARBEID',
-                    __typename: 'Sporsmal',
                     undersporsmal: [
                         {
                             sporsmalstekst: 'Når begynte du å jobbe igjen?',
                             svar: [
                                 {
                                     verdi: '2023-09-29',
-                                    __typename: 'Svar',
                                 },
                             ],
                             svartype: Svartype.Dato,
-                            __typename: 'Sporsmal',
                             undersporsmal: [],
                         },
                     ],
@@ -55,23 +47,19 @@ export class DokumentMock {
                     svar: [
                         {
                             verdi: 'JA',
-                            __typename: 'Svar',
                         },
                     ],
                     svartype: Svartype.JaNei,
                     tag: 'FERIE_V2',
-                    __typename: 'Sporsmal',
                     undersporsmal: [
                         {
                             sporsmalstekst: 'Når tok du ut feriedager?',
                             svar: [
                                 {
                                     verdi: '{"fom":"2023-09-16","tom":"2023-09-17"}',
-                                    __typename: 'Svar',
                                 },
                             ],
                             svartype: Svartype.Perioder,
-                            __typename: 'Sporsmal',
                             undersporsmal: [],
                         },
                     ],
@@ -81,24 +69,20 @@ export class DokumentMock {
                     svar: [
                         {
                             verdi: 'JA',
-                            __typename: 'Svar',
                         },
                     ],
                     svartype: Svartype.JaNei,
                     tag: 'PERMISJON_V2',
-                    __typename: 'Sporsmal',
                     undersporsmal: [
                         {
                             sporsmalstekst: 'Når tok du permisjon?',
                             svar: [
                                 {
                                     verdi: '{"fom":"2023-09-18","tom":"2023-09-19"}',
-                                    __typename: 'Svar',
                                 },
                             ],
                             svartype: Svartype.Perioder,
                             tag: 'PERMISJON_NAR_V2',
-                            __typename: 'Sporsmal',
                             undersporsmal: [],
                         },
                     ],
@@ -109,31 +93,26 @@ export class DokumentMock {
                     svar: [
                         {
                             verdi: 'JA',
-                            __typename: 'Svar',
                         },
                     ],
                     svartype: Svartype.JaNei,
                     tag: 'ARBEID_UNDERVEIS_100_PROSENT_0',
-                    __typename: 'Sporsmal',
                     undersporsmal: [
                         {
                             sporsmalstekst: 'Oppgi arbeidsmengde i timer eller prosent:',
                             svar: [],
                             svartype: Svartype.RadioGruppeTimerProsent,
                             tag: 'HVOR_MYE_HAR_DU_JOBBET_0',
-                            __typename: 'Sporsmal',
                             undersporsmal: [
                                 {
                                     sporsmalstekst: 'Prosent',
                                     svar: [
                                         {
                                             verdi: 'CHECKED',
-                                            __typename: 'Svar',
                                         },
                                     ],
                                     svartype: Svartype.Radio,
                                     tag: 'HVOR_MYE_PROSENT_0',
-                                    __typename: 'Sporsmal',
                                     undersporsmal: [
                                         {
                                             sporsmalstekst:
@@ -141,12 +120,10 @@ export class DokumentMock {
                                             svar: [
                                                 {
                                                     verdi: '20',
-                                                    __typename: 'Svar',
                                                 },
                                             ],
                                             svartype: Svartype.Prosent,
                                             tag: 'HVOR_MYE_PROSENT_VERDI_0',
-                                            __typename: 'Sporsmal',
                                             undersporsmal: [],
                                         },
                                     ],
@@ -158,24 +135,20 @@ export class DokumentMock {
                             svar: [
                                 {
                                     verdi: 'NEI',
-                                    __typename: 'Svar',
                                 },
                             ],
                             svartype: Svartype.JaNei,
                             tag: 'JOBBER_DU_NORMAL_ARBEIDSUKE_0',
-                            __typename: 'Sporsmal',
                             undersporsmal: [
                                 {
                                     sporsmalstekst: 'Oppgi timer per uke',
                                     svar: [
                                         {
                                             verdi: '40',
-                                            __typename: 'Svar',
                                         },
                                     ],
                                     svartype: Svartype.Timer,
                                     tag: 'HVOR_MANGE_TIMER_PER_UKE_0',
-                                    __typename: 'Sporsmal',
                                     undersporsmal: [],
                                 },
                             ],
@@ -183,14 +156,10 @@ export class DokumentMock {
                     ],
                 },
             ],
-            __typename: 'Soknad',
         };
     };
 
-    static getMockedInntektsmelding = (): DokumentInntektsmelding | GraphQLError => {
-        if (Math.random() > 0.9)
-            return new GraphQLError(`Noe gikk galt, vennligst prøv igjen.`, { extensions: { code: 417 } });
-
+    static getMockedInntektsmelding = (): ApiDokumentInntektsmelding => {
         return {
             arbeidsforholdId: '123431242',
             virksomhetsnummer: '967170232',

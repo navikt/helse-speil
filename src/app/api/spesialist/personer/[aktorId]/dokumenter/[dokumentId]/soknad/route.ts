@@ -8,7 +8,8 @@ export async function GET(req: Request): Promise<Response> {
     if (erLokal) {
         logger.info('Mocker søknad lokalt');
         await sleep(1000);
-        return Response.json(DokumentMock.getMockedSoknad());
+        if (Math.random() > 0.9) return Response.error();
+        else return Response.json(DokumentMock.getMockedSoknad());
     } else {
         return await forwardGETtoSpesialist(req);
     }

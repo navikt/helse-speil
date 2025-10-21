@@ -1,8 +1,11 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
+import { BodyShort, VStack } from '@navikt/ds-react';
+
 import { useHentSøknadDokumentQuery } from '@state/dokument';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_MED_KLOKKESLETT, somNorskDato } from '@utils/date';
+import { somPenger } from '@utils/locale';
 
 import { DokumentFragment } from './DokumentFragment';
 import { DokumentLoader } from './DokumentLoader';
@@ -66,6 +69,23 @@ export const Søknadsinnhold = ({ dokumentId, aktørId }: SøknadsinnholdProps):
                                 .join(', ')
                                 .replace(/,(?=[^,]*$)/, ' og')}
                         </DokumentFragment>
+                    )}
+                    {data.selvstendigNaringsdrivende && (
+                        <>
+                            <DokumentFragment overskrift="Inntekt selvstendig næring">
+                                <VStack as="ul" className={styles.inntektsliste}>
+                                    {data.selvstendigNaringsdrivende.inntekt?.map((it) => (
+                                        <BodyShort as="li" key={it.ar}>
+                                            {it.ar}: {somPenger(it.pensjonsgivendeInntektAvNaringsinntekt)}
+                                        </BodyShort>
+                                    ))}
+                                </VStack>
+                            </DokumentFragment>
+                            <DokumentFragment overskrift="Ventetid selvstendig næring">
+                                {somNorskDato(data.selvstendigNaringsdrivende.ventetid.fom)} –{' '}
+                                {somNorskDato(data.selvstendigNaringsdrivende.ventetid.tom)}
+                            </DokumentFragment>
+                        </>
                     )}
                     {data.sporsmal && <Spørsmål spørsmål={data.sporsmal} />}
                 </div>

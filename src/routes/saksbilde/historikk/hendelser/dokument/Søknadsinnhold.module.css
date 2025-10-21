@@ -26,6 +26,11 @@
     padding-bottom: 0.5rem;
 }
 
+.inntektsliste {
+    padding: 0;
+    margin-left: var(--a-spacing-2);
+}
+
 .skeleton {
     padding-right: 1rem;
 }
