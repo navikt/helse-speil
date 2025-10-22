@@ -100,15 +100,10 @@ export const components: PortableTextComponents = {
         number: ({ children }) => <ol className={styles.list}>{children}</ol>,
     },
     marks: {
-        link: ({ value, children }) => {
-            const target = value?.href?.startsWith('http') ? '_blank' : undefined;
-            const rel = target ? 'noopener noreferrer' : undefined;
-
-            return (
-                <a href={value?.href} target={target} rel={rel}>
-                    {children}
-                </a>
-            );
-        },
+        link: ({ value, children }) => (
+            <a href={value?.href} target="_blank" rel="noopener noreferrer">
+                {children}
+            </a>
+        ),
     },
 };
