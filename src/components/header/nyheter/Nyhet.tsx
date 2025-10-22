@@ -41,7 +41,7 @@ export const Nyhet = ({ nyhet }: NyhetProps) => {
                     </Button>
                 )}
                 {nyhet.lenke && (
-                    <Link href={nyhet.lenke.lenkeUrl} target="_blank">
+                    <Link href={nyhet.lenke.lenkeUrl} target="_blank" rel="noopener noreferrer">
                         {nyhet.lenke.lenkeTekst}
                         <ExternalLinkIcon />
                     </Link>
@@ -98,5 +98,17 @@ export const components: PortableTextComponents = {
     list: {
         bullet: ({ children }) => <ul className={classNames(styles.list, styles.unorderedlist)}>{children}</ul>,
         number: ({ children }) => <ol className={styles.list}>{children}</ol>,
+    },
+    marks: {
+        link: ({ value, children }) => {
+            const target = value?.href?.startsWith('http') ? '_blank' : undefined;
+            const rel = target ? 'noopener noreferrer' : undefined;
+
+            return (
+                <a href={value?.href} target={target} rel={rel}>
+                    {children}
+                </a>
+            );
+        },
     },
 };
