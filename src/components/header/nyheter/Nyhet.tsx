@@ -29,7 +29,7 @@ export const Nyhet = ({ nyhet }: NyhetProps) => {
                 {nyhet.tittel}
             </Heading>
             <PortableText value={nyhet.beskrivelse} components={components} />
-            <HStack justify="space-between">
+            <HStack justify="space-between" gap="3 0">
                 {nyhet.modal.antallSlides > 0 && (
                     <Button
                         className={styles.button}
