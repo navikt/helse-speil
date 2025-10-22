@@ -18,7 +18,7 @@ import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
 import { kanGjøreTilkommenInntektEndringer } from '@utils/featureToggles';
-import { isArbeidsgiver, isBeregnetPeriode } from '@utils/typeguards';
+import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
 import { InfotrygdRow } from './InfotrygdRow';
@@ -161,7 +161,7 @@ const TimelineWithContent = ({
             </div>
             <div className={styles.TimelineButtons}>
                 <div className={styles.LeftButtons}>
-                    {erUtvikling && !erBeslutteroppgave && (
+                    {!inntektsforhold.some(isSelvstendigNaering) && !erBeslutteroppgave && (
                         <Button
                             as={NextLink}
                             variant="tertiary"
