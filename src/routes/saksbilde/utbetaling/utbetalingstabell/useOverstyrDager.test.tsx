@@ -70,10 +70,13 @@ describe('useOverstyrDager', () => {
             aktorId: AKTØR_ID,
             fodselsnummer: FØDSELSNUMMER,
         });
-        const { result, rerender } = renderHook((initialPerson) => useOverstyrDager(initialPerson, enArbeidsgiver()), {
-            mocks,
-            initialProps: person,
-        });
+        const { result, rerender } = renderHook(
+            (initialPerson) => useOverstyrDager(initialPerson, enArbeidsgiver({ organisasjonsnummer: ORGNUMMER })),
+            {
+                mocks,
+                initialProps: person,
+            },
+        );
 
         await act(() => result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID));
 
@@ -86,10 +89,13 @@ describe('useOverstyrDager', () => {
             aktorId: AKTØR_ID,
             fodselsnummer: FØDSELSNUMMER,
         });
-        const { result, rerender } = renderHook((initialPerson) => useOverstyrDager(initialPerson, enArbeidsgiver()), {
-            mocks,
-            initialProps: person,
-        });
+        const { result, rerender } = renderHook(
+            (initialPerson) => useOverstyrDager(initialPerson, enArbeidsgiver({ organisasjonsnummer: ORGNUMMER })),
+            {
+                mocks,
+                initialProps: person,
+            },
+        );
 
         await act(() => result.current.postOverstyring([], [], BEGRUNNELSE, 'en feil'));
 
