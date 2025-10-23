@@ -23,7 +23,6 @@ import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold'
 import { useFetchPersonQuery } from '@state/person';
 import { useTilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
-import { kanGjøreTilkommenInntektEndringer } from '@utils/featureToggles';
 import { somPenger } from '@utils/locale';
 
 interface TilkommenInntektVisningProps {
@@ -34,7 +33,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
     const router = useRouter();
-    const erReadOnly = useHarTotrinnsvurdering(person) || !kanGjøreTilkommenInntektEndringer();
+    const erReadOnly = useHarTotrinnsvurdering(person);
 
     const { organisasjonsnummer, tilkommenInntekt } = useTilkommenInntektMedOrganisasjonsnummer(
         tilkommenInntektId,

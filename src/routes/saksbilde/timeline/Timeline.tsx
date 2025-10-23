@@ -17,7 +17,6 @@ import { Inntektsforhold, finnAlleInntektsforhold } from '@state/inntektsforhold
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
-import { kanGjøreTilkommenInntektEndringer } from '@utils/featureToggles';
 import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
@@ -146,9 +145,7 @@ const TimelineWithContent = ({
                             />
                         );
                     })}
-                {kanGjøreTilkommenInntektEndringer() && (
-                    <TilkommenInntektTimelineRows start={start} end={end} aktørId={person.aktorId} />
-                )}
+                <TilkommenInntektTimelineRows start={start} end={end} aktørId={person.aktorId} />
                 {infotrygdPeriods.length > 0 && (
                     <InfotrygdRow
                         start={start}

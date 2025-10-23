@@ -67,7 +67,6 @@ const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 
 const erPåTeamBømlo = (grupper: string[]) => grupper.includes(groupIdNaisTeamTbd) || grupper.includes(groupIdTbd);
 
-export const kanGjøreTilkommenInntektEndringer = (): boolean => erUtvikling;
 export const kanBrukeUtviklersnarveier = (grupper: string[]) => erUtvikling || erPåTeamBømlo(grupper);
 
 export const harBeslutterrolle = (grupper: string[]): boolean => grupper.includes(groupIdForBesluttere);

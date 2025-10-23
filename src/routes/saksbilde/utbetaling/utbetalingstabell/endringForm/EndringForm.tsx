@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { BodyShort, Button, TextField } from '@navikt/ds-react';
 
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { kanGjøreTilkommenInntektEndringer } from '@utils/featureToggles';
 
 import { DagtypeSelect } from '../DagtypeSelect';
 import { OverstyrbarDagtype, alleTypeendringer, getDagFromType } from './endringFormUtils';
@@ -28,11 +27,9 @@ export const EndringForm = ({ markerteDager, onSubmitEndring, erSelvstendig }: E
     const form = useForm();
     const { trigger } = form;
 
-    const minimumGrad = kanGjøreTilkommenInntektEndringer()
-        ? markerteDager
-              .values()
-              .reduce((previousValue, currentValue) => Math.max(previousValue, currentValue.grad ?? 0), 0)
-        : 0;
+    const minimumGrad = markerteDager
+        .values()
+        .reduce((previousValue, currentValue) => Math.max(previousValue, currentValue.grad ?? 0), 0);
 
     const gradvelgerHasError = form.getFieldState('gradvelger', form.formState).error !== undefined;
 
