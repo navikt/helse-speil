@@ -42,7 +42,7 @@ export const OverstyringToolBar = ({
                     Avbryt
                 </Button>
             </HStack>
-            {!erSelvstendig && kanStrekkes && !visLeggTilDagerForm && (
+            {kanStrekkes && !visLeggTilDagerForm && (
                 <Button size="xsmall" variant="tertiary" onClick={() => setVisLeggTilDagerForm(true)}>
                     + Legg til dager i tabellen
                 </Button>
