@@ -10,12 +10,15 @@ import {
 } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
+import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { perioderOverlapper } from '@utils/date';
 import { isArbeidsgiver, isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
 
 export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     const { data } = useFetchPersonQuery();
     const person = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
+    const { data: tilkommenData } = useHentTilkommenInntektQuery(person?.aktorId);
 
     if (!person || !aktivPeriode?.skjaeringstidspunkt) return false;
 
@@ -46,7 +49,11 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
                 (isArbeidsgiver(inntektsforhold) &&
                     inntektsforhold.ghostPerioder.filter(sammenlignSkjæringstidspunkt).filter((it) => !it.deaktivert)
                         .length > 0),
-        )?.length > 1;
+        )?.length > 1 ||
+        (tilkommenData?.some((periode) => {
+            return periode.inntekter.some((it) => perioderOverlapper(it.periode, aktivPeriode));
+        }) ??
+            false);
 
     const alleSammenfallendeDager = inntektsforhold
         .flatMap((ag) => ag.generasjoner[0]?.perioder)

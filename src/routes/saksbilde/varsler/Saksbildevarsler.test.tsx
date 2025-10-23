@@ -1,3 +1,4 @@
+import { useSkalViseUnder20SykdomsgradsvarselSomFeil } from '@saksbilde/varsler/useSkalViseUnder20Sykdomsgradsvarsel';
 import { useFetchPersonQuery } from '@state/person';
 import { render } from '@test-utils';
 import '@testing-library/jest-dom';
@@ -6,9 +7,11 @@ import { screen } from '@testing-library/react';
 import { Saksbildevarsler } from './Saksbildevarsler';
 
 jest.mock('@state/person');
+jest.mock('@saksbilde/varsler/useSkalViseUnder20Sykdomsgradsvarsel');
 
 describe('Saksbildevarsler', () => {
     (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: null });
+    (useSkalViseUnder20SykdomsgradsvarselSomFeil as jest.Mock).mockReturnValue(false);
 
     test('viser feilvarsel om utbetaling har feilet', () => {
         render(
