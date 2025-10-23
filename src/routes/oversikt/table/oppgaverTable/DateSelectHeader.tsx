@@ -8,28 +8,24 @@ import styles from './DateSelectHeader.module.css';
 
 export const DateSelectHeader = (): ReactElement => {
     const [datoKey, setDatoKey] = useDateSortState();
-    const lagreValgtDatoSortering = (key: string) => setDatoKey(key as unknown as SortKey);
+
+    const lagreValgtFatoSortering = (event: React.ChangeEvent<HTMLSelectElement>) =>
+        setDatoKey(event.target.value as unknown as SortKey);
 
     return (
         <Table.DataCell aria-label="Sorteringsdato">
             <Select
-                aria-label="Sorteringsdatovelger"
-                label=""
-                onChange={(e) => lagreValgtDatoSortering(e.target.value)}
+                label="Sorteringsdatovelger"
+                hideLabel
+                onChange={lagreValgtFatoSortering}
                 className={styles.DatoSelect}
+                value={datoKey}
             >
-                <option
-                    value={SortKey.BehandlingOpprettetTidspunkt}
-                    selected={datoKey === SortKey.BehandlingOpprettetTidspunkt}
-                >
+                <option value={SortKey.BehandlingOpprettetTidspunkt}>
                     {tilDatoHeaderTekst(SortKey.BehandlingOpprettetTidspunkt)}
                 </option>
-                <option value={SortKey.Opprettet} selected={datoKey === SortKey.Opprettet}>
-                    {tilDatoHeaderTekst(SortKey.Opprettet)}
-                </option>
-                <option value={SortKey.Tidsfrist} selected={datoKey === SortKey.Tidsfrist}>
-                    {tilDatoHeaderTekst(SortKey.Tidsfrist)}
-                </option>
+                <option value={SortKey.Opprettet}>{tilDatoHeaderTekst(SortKey.Opprettet)}</option>
+                <option value={SortKey.Tidsfrist}>{tilDatoHeaderTekst(SortKey.Tidsfrist)}</option>
             </Select>
         </Table.DataCell>
     );
