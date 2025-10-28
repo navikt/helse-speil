@@ -6,9 +6,9 @@ import { BodyShort, Button, DatePicker, ErrorMessage, HStack, Label, useDatepick
 
 import { InntektOgRefusjonSchema, RefusjonsperiodeSchema } from '@/form-schemas/inntektOgRefusjonSkjema';
 import { Kildetype } from '@io/graphql';
-import { RefusjonFeiloppsummering } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonFeiloppsumering';
-import { RefusjonKilde } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonKilde';
-import { RefusjonsBeløpInput } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonsBeløpInput';
+import { RefusjonFeiloppsummering } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/refusjon/RefusjonFeiloppsumering';
+import { RefusjonKilde } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/refusjon/RefusjonKilde';
+import { RefusjonsBeløpInput } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/refusjon/RefusjonsBeløpInput';
 import { somDate, somIsoDato } from '@utils/date';
 
 import styles from './RefusjonSkjema.module.scss';
@@ -20,7 +20,7 @@ interface RefusjonProps {
     inntektTom: string | null;
 }
 
-export const RefusjonSkjema = ({
+export const RefusjonSkjemaOld = ({
     fraRefusjonsopplysninger,
     lokaleRefusjonsopplysninger,
     inntektFom,

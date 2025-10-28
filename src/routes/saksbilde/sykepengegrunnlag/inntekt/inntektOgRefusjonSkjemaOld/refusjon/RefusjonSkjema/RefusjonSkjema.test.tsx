@@ -1,6 +1,6 @@
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { RefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonSkjema/RefusjonSkjema';
+import { RefusjonSkjemaOld } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/refusjon/RefusjonSkjema/RefusjonSkjemaOld';
 import { render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 import { Refusjonsopplysning } from '@typer/overstyring';
@@ -42,7 +42,7 @@ describe('Refusjonskjema', () => {
         const methods = useForm();
         return (
             <FormProvider {...methods}>
-                <RefusjonSkjema
+                <RefusjonSkjemaOld
                     inntektFom={inntekt_fom}
                     inntektTom={inntekt_tom}
                     fraRefusjonsopplysninger={fraRefusjonsopplysninger ?? []}

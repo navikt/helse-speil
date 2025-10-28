@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { TextField } from '@navikt/ds-react';
 
 import { InntektOgRefusjonSchema } from '@/form-schemas/inntektOgRefusjonSkjema';
-import styles from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonSkjema/RefusjonSkjema.module.scss';
+import styles from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/refusjon/RefusjonSkjema/RefusjonSkjema.module.scss';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { toKronerOgØre } from '@utils/locale';
 
