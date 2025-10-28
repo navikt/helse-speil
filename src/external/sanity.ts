@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { erProd, erUtvikling } from '@/env';
+import { erLokal, erProd, erUtvikling } from '@/env';
 import { gql, useQuery } from '@apollo/client';
 import { PortableTextBlock } from '@portabletext/react';
 import { Lovhjemmel } from '@typer/overstyring';
@@ -255,8 +255,13 @@ export function useNyheter() {
         },
     );
 
+    const nyheter =
+        data?.sanity?.result
+            .filter((it: NyhetType) => (erProd ? it.iProd : true))
+            .filter((it: NyhetType) => (erLokal ? !it.modal?.tvungenModal : true)) ?? [];
+
     return {
-        nyheter: data?.sanity?.result.filter((it: NyhetType) => (erProd ? it.iProd : true)) ?? [],
+        nyheter,
         loading,
         error,
     };
