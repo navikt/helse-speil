@@ -6,7 +6,7 @@ import { Arbeidsgiver, Arbeidsgiverinntekt, InntektFraAOrdningen, Inntektstype, 
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import { InntektOgRefusjonVisning } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonVisning';
 import { ToggleOverstyring } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/ToggleOverstyring';
-import { InntektOgRefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
+import { InntektOgRefusjonSkjemaOld } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/InntektOgRefusjonSkjemaOld';
 import { arbeidsgiverTilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';
@@ -72,7 +72,7 @@ export const InntektOgRefusjon = ({
             <InntektOgRefusjonHeader arbeidsgiverReferanse={arbeidsgiverTilReferanse(arbeidsgiver)} kilde="AINNTEKT" />
             <Label size="small">Beregnet månedsinntekt</Label>
             {editing && omregnetÅrsinntekt && (
-                <InntektOgRefusjonSkjema
+                <InntektOgRefusjonSkjemaOld
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
                     close={() => setEditing(false)}
                     harEndring={setEndret}

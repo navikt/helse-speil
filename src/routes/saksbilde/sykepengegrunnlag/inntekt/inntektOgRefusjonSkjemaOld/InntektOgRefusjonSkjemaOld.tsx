@@ -10,7 +10,7 @@ import { Arbeidsgiver, Kildetype, OmregnetArsinntekt, PersonFragment } from '@io
 import { formatterBegrunnelse } from '@saksbilde/sykepengegrunnlag/inntekt/Begrunnelser';
 import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/OmregetÅrsinntekt';
 import { SisteTolvMånedersInntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/SisteTolvMånedersInntekt';
-import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
+import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/månedsbeløp/Månedsbeløp';
 import {
     useLokaleRefusjonsopplysninger,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
@@ -25,7 +25,7 @@ import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefr
 import { isGhostPeriode } from '@utils/typeguards';
 
 import { SlettLokaleOverstyringerModal } from './SlettLokaleOverstyringerModal';
-import { RefusjonSkjema } from './refusjon/RefusjonSkjema/RefusjonSkjema';
+import { RefusjonSkjemaOld } from './refusjon/RefusjonSkjema/RefusjonSkjemaOld';
 import { RefusjonFormFields } from './refusjon/hooks/useRefusjonFormField';
 
 export interface InntektFormFields {
@@ -50,7 +50,7 @@ interface EditableInntektProps {
     erDeaktivert: boolean;
 }
 
-export const InntektOgRefusjonSkjema = ({
+export const InntektOgRefusjonSkjemaOld = ({
     person,
     arbeidsgiver,
     omregnetÅrsinntekt,
@@ -189,7 +189,7 @@ export const InntektOgRefusjonSkjema = ({
                     />
                     <OmregnetÅrsinntekt omregnetÅrsintekt={omregnetÅrsinntekt?.belop} gap="16" />
                     {!isGhostPeriode(period) && (
-                        <RefusjonSkjema
+                        <RefusjonSkjemaOld
                             fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}
                             lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger}
                             inntektFom={inntektFom}
