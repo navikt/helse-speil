@@ -10,7 +10,7 @@ import { Arbeidsgiver, Kildetype, OmregnetArsinntekt, PersonFragment } from '@io
 import { formatterBegrunnelse } from '@saksbilde/sykepengegrunnlag/inntekt/Begrunnelser';
 import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/OmregetÅrsinntekt';
 import { SisteTolvMånedersInntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/SisteTolvMånedersInntekt';
-import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
+import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/månedsbeløp/Månedsbeløp';
 import {
     useLokaleRefusjonsopplysninger,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
