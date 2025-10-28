@@ -25,7 +25,7 @@ import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefr
 import { isGhostPeriode } from '@utils/typeguards';
 
 import { SlettLokaleOverstyringerModal } from './SlettLokaleOverstyringerModal';
-import { RefusjonSkjema } from './refusjon/RefusjonSkjema/RefusjonSkjema';
+import { RefusjonSkjemaOld } from './refusjon/RefusjonSkjema/RefusjonSkjemaOld';
 import { RefusjonFormFields } from './refusjon/hooks/useRefusjonFormField';
 
 export interface InntektFormFields {
@@ -50,7 +50,7 @@ interface EditableInntektProps {
     erDeaktivert: Boolean;
 }
 
-export const InntektOgRefusjonSkjema = ({
+export const InntektOgRefusjonSkjemaOld = ({
     person,
     arbeidsgiver,
     omregnetÅrsinntekt,
@@ -189,7 +189,7 @@ export const InntektOgRefusjonSkjema = ({
                     />
                     <OmregnetÅrsinntekt omregnetÅrsintekt={omregnetÅrsinntekt?.belop} gap="16" />
                     {!isGhostPeriode(period) && (
-                        <RefusjonSkjema
+                        <RefusjonSkjemaOld
                             fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}
                             lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger}
                             inntektFom={inntektFom}
