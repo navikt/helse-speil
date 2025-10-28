@@ -1,6 +1,6 @@
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { RefusjonSkjemaOld } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonSkjema/RefusjonSkjemaOld';
+import { RefusjonSkjemaOld } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/refusjon/RefusjonSkjema/RefusjonSkjemaOld';
 import { render, screen } from '@test-utils';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';

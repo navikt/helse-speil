@@ -8,7 +8,7 @@ import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Arbeidsgiver, Kildetype, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import { formatterBegrunnelse } from '@saksbilde/sykepengegrunnlag/inntekt/Begrunnelser';
-import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
+import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/månedsbeløp/Månedsbeløp';
 import {
     useLokaleRefusjonsopplysninger,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
