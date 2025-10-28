@@ -20,7 +20,7 @@ interface RefusjonProps {
     inntektTom: string | null;
 }
 
-export const RefusjonSkjema = ({
+export const RefusjonSkjemaOld = ({
     fraRefusjonsopplysninger,
     lokaleRefusjonsopplysninger,
     inntektFom,
