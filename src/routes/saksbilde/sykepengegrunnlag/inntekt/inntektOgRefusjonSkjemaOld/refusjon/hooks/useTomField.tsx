@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { useDatepicker } from '@navikt/ds-react';
 
-import { RefusjonFormValues } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/hooks/useRefusjonFormField';
+import { RefusjonFormValues } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/refusjon/hooks/useRefusjonFormField';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somDate, somNorskDato } from '@utils/date';
 
 export const useTomField = (fom: string, tom: string | undefined, index: number) => {

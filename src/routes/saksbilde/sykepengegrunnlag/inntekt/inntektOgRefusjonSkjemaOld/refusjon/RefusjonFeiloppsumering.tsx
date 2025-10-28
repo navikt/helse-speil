@@ -3,7 +3,7 @@ import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 
 import { ErrorMessage } from '@navikt/ds-react';
 
-import { RefusjonFormFields } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/hooks/useRefusjonFormField';
+import { RefusjonFormFields } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/refusjon/hooks/useRefusjonFormField';
 
 interface FeiloppsummeringProps {
     error: Merge<FieldError, FieldErrorsImpl<RefusjonFormFields>> | undefined;
