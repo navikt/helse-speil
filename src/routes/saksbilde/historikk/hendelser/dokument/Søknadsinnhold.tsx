@@ -81,10 +81,12 @@ export const Søknadsinnhold = ({ dokumentId, aktørId }: SøknadsinnholdProps):
                                     ))}
                                 </VStack>
                             </DokumentFragment>
-                            <DokumentFragment overskrift="Ventetid selvstendig næring">
-                                {somNorskDato(data.selvstendigNaringsdrivende.ventetid.fom)} –{' '}
-                                {somNorskDato(data.selvstendigNaringsdrivende.ventetid.tom)}
-                            </DokumentFragment>
+                            {data.selvstendigNaringsdrivende.ventetid && (
+                                <DokumentFragment overskrift="Ventetid selvstendig næring">
+                                    {somNorskDato(data.selvstendigNaringsdrivende.ventetid.fom)} –{' '}
+                                    {somNorskDato(data.selvstendigNaringsdrivende.ventetid.tom)}
+                                </DokumentFragment>
+                            )}
                         </>
                     )}
                     {data.sporsmal && <Spørsmål spørsmål={data.sporsmal} />}

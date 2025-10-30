@@ -235,9 +235,11 @@ export const ApiVisningskriterium = {
     UKJENT: 'UKJENT',
 } as const;
 
+export type ApiSoknadSelvstendigNaringsdrivendeVentetid = null | ApiSoknadSelvstendigNaringsdrivendeApiVentetidPeriode;
+
 export interface ApiSoknadSelvstendigNaringsdrivende {
     inntekt: ApiSoknadSelvstendigNaringsdrivendeApiInntektsar[];
-    ventetid: ApiSoknadSelvstendigNaringsdrivendeApiVentetidPeriode;
+    ventetid?: ApiSoknadSelvstendigNaringsdrivendeVentetid;
 }
 
 export interface ApiSoknadSelvstendigNaringsdrivendeApiInntektsar {
@@ -454,9 +456,18 @@ export type ApiTilkommenInntektEvent =
     | ApiTilkommenInntektGjenopprettetEvent
     | ApiTilkommenInntektOpprettetEvent;
 
+export type ApiTilkommenInntektEndretEventType =
+    (typeof ApiTilkommenInntektEndretEventType)[keyof typeof ApiTilkommenInntektEndretEventType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiTilkommenInntektEndretEventType = {
+    ApiTilkommenInntektEndretEvent: 'ApiTilkommenInntektEndretEvent',
+} as const;
+
 export interface ApiTilkommenInntektEndretEvent {
     metadata: ApiTilkommenInntektEventMetadata;
     endringer: ApiTilkommenInntektEventEndringer;
+    type: ApiTilkommenInntektEndretEventType;
 }
 
 export interface ApiTilkommenInntektEventMetadata {
@@ -503,14 +514,40 @@ export interface ApiTilkommenInntektEventEndringerListLocalDateEndring {
     til: string[];
 }
 
+export type ApiTilkommenInntektFjernetEventType =
+    (typeof ApiTilkommenInntektFjernetEventType)[keyof typeof ApiTilkommenInntektFjernetEventType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiTilkommenInntektFjernetEventType = {
+    ApiTilkommenInntektFjernetEvent: 'ApiTilkommenInntektFjernetEvent',
+} as const;
+
 export interface ApiTilkommenInntektFjernetEvent {
     metadata: ApiTilkommenInntektEventMetadata;
+    type: ApiTilkommenInntektFjernetEventType;
 }
+
+export type ApiTilkommenInntektGjenopprettetEventType =
+    (typeof ApiTilkommenInntektGjenopprettetEventType)[keyof typeof ApiTilkommenInntektGjenopprettetEventType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiTilkommenInntektGjenopprettetEventType = {
+    ApiTilkommenInntektGjenopprettetEvent: 'ApiTilkommenInntektGjenopprettetEvent',
+} as const;
 
 export interface ApiTilkommenInntektGjenopprettetEvent {
     metadata: ApiTilkommenInntektEventMetadata;
     endringer: ApiTilkommenInntektEventEndringer;
+    type: ApiTilkommenInntektGjenopprettetEventType;
 }
+
+export type ApiTilkommenInntektOpprettetEventType =
+    (typeof ApiTilkommenInntektOpprettetEventType)[keyof typeof ApiTilkommenInntektOpprettetEventType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiTilkommenInntektOpprettetEventType = {
+    ApiTilkommenInntektOpprettetEvent: 'ApiTilkommenInntektOpprettetEvent',
+} as const;
 
 export interface ApiTilkommenInntektOpprettetEvent {
     metadata: ApiTilkommenInntektEventMetadata;
@@ -518,6 +555,7 @@ export interface ApiTilkommenInntektOpprettetEvent {
     periode: ApiDatoPeriode;
     periodebelop: string;
     ekskluderteUkedager: string[];
+    type: ApiTilkommenInntektOpprettetEventType;
 }
 
 export interface ApiTilkommenInntektInput {

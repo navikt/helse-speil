@@ -31,38 +31,38 @@ import type {
 } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-export const getTilkomneInntektskilderForPerson = (aktorId: string, signal?: AbortSignal) => {
+export const getTilkomneInntektskilderForPerson = (aktoerId: string, signal?: AbortSignal) => {
     return callCustomAxios<ApiTilkommenInntektskilde[]>({
-        url: `/api/spesialist/personer/${aktorId}/tilkomne-inntektskilder`,
+        url: `/api/spesialist/personer/${aktoerId}/tilkomne-inntektskilder`,
         method: 'GET',
         signal,
     });
 };
 
-export const getGetTilkomneInntektskilderForPersonQueryKey = (aktorId?: string) => {
-    return [`/api/spesialist/personer/${aktorId}/tilkomne-inntektskilder`] as const;
+export const getGetTilkomneInntektskilderForPersonQueryKey = (aktoerId?: string) => {
+    return [`/api/spesialist/personer/${aktoerId}/tilkomne-inntektskilder`] as const;
 };
 
 export const getGetTilkomneInntektskilderForPersonQueryOptions = <
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
     TError = ErrorType<unknown>,
 >(
-    aktorId: string,
+    aktoerId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>>;
     },
 ) => {
     const { query: queryOptions } = options ?? {};
 
-    const queryKey = queryOptions?.queryKey ?? getGetTilkomneInntektskilderForPersonQueryKey(aktorId);
+    const queryKey = queryOptions?.queryKey ?? getGetTilkomneInntektskilderForPersonQueryKey(aktoerId);
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>> = ({ signal }) =>
-        getTilkomneInntektskilderForPerson(aktorId, signal);
+        getTilkomneInntektskilderForPerson(aktoerId, signal);
 
     return {
         queryKey,
         queryFn,
-        enabled: !!aktorId,
+        enabled: !!aktoerId,
         staleTime: Infinity,
         gcTime: 0,
         ...queryOptions,
@@ -80,7 +80,7 @@ export function useGetTilkomneInntektskilderForPerson<
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
     TError = ErrorType<unknown>,
 >(
-    aktorId: string,
+    aktoerId: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>> &
             Pick<
@@ -98,7 +98,7 @@ export function useGetTilkomneInntektskilderForPerson<
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
     TError = ErrorType<unknown>,
 >(
-    aktorId: string,
+    aktoerId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>
@@ -118,7 +118,7 @@ export function useGetTilkomneInntektskilderForPerson<
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
     TError = ErrorType<unknown>,
 >(
-    aktorId: string,
+    aktoerId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>>;
     },
@@ -129,13 +129,13 @@ export function useGetTilkomneInntektskilderForPerson<
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
     TError = ErrorType<unknown>,
 >(
-    aktorId: string,
+    aktoerId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>>;
     },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetTilkomneInntektskilderForPersonQueryOptions(aktorId, options);
+    const queryOptions = getGetTilkomneInntektskilderForPersonQueryOptions(aktoerId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;

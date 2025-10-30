@@ -21,37 +21,34 @@ import type {
 } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 
-export const getSoknad = (aktorId: string, dokumentId: string, signal?: AbortSignal) => {
+export const getSoknad = (aktoerId: string, dokumentId: string, signal?: AbortSignal) => {
     return callCustomAxios<ApiSoknad>({
-        url: `/api/spesialist/personer/${aktorId}/dokumenter/${dokumentId}/soknad`,
+        url: `/api/spesialist/personer/${aktoerId}/dokumenter/${dokumentId}/soknad`,
         method: 'GET',
         signal,
     });
 };
 
-export const getGetSoknadQueryKey = (aktorId?: string, dokumentId?: string) => {
-    return [`/api/spesialist/personer/${aktorId}/dokumenter/${dokumentId}/soknad`] as const;
+export const getGetSoknadQueryKey = (aktoerId?: string, dokumentId?: string) => {
+    return [`/api/spesialist/personer/${aktoerId}/dokumenter/${dokumentId}/soknad`] as const;
 };
 
-export const getGetSoknadQueryOptions = <
-    TData = Awaited<ReturnType<typeof getSoknad>>,
-    TError = ErrorType<void | void>,
->(
-    aktorId: string,
+export const getGetSoknadQueryOptions = <TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<unknown>>(
+    aktoerId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoknad>>, TError, TData>> },
 ) => {
     const { query: queryOptions } = options ?? {};
 
-    const queryKey = queryOptions?.queryKey ?? getGetSoknadQueryKey(aktorId, dokumentId);
+    const queryKey = queryOptions?.queryKey ?? getGetSoknadQueryKey(aktoerId, dokumentId);
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getSoknad>>> = ({ signal }) =>
-        getSoknad(aktorId, dokumentId, signal);
+        getSoknad(aktoerId, dokumentId, signal);
 
     return {
         queryKey,
         queryFn,
-        enabled: !!(aktorId && dokumentId),
+        enabled: !!(aktoerId && dokumentId),
         staleTime: Infinity,
         gcTime: 0,
         ...queryOptions,
@@ -61,10 +58,10 @@ export const getGetSoknadQueryOptions = <
 };
 
 export type GetSoknadQueryResult = NonNullable<Awaited<ReturnType<typeof getSoknad>>>;
-export type GetSoknadQueryError = ErrorType<void | void>;
+export type GetSoknadQueryError = ErrorType<unknown>;
 
-export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<void | void>>(
-    aktorId: string,
+export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<unknown>>(
+    aktoerId: string,
     dokumentId: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoknad>>, TError, TData>> &
@@ -79,8 +76,8 @@ export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TErr
     },
     queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<void | void>>(
-    aktorId: string,
+export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<unknown>>(
+    aktoerId: string,
     dokumentId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoknad>>, TError, TData>> &
@@ -95,20 +92,20 @@ export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TErr
     },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<void | void>>(
-    aktorId: string,
+export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<unknown>>(
+    aktoerId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoknad>>, TError, TData>> },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<void | void>>(
-    aktorId: string,
+export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<unknown>>(
+    aktoerId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoknad>>, TError, TData>> },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetSoknadQueryOptions(aktorId, dokumentId, options);
+    const queryOptions = getGetSoknadQueryOptions(aktoerId, dokumentId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;
@@ -119,37 +116,37 @@ export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TErr
     return query;
 }
 
-export const getInntektsmelding = (aktorId: string, dokumentId: string, signal?: AbortSignal) => {
+export const getInntektsmelding = (aktoerId: string, dokumentId: string, signal?: AbortSignal) => {
     return callCustomAxios<ApiDokumentInntektsmelding>({
-        url: `/api/spesialist/personer/${aktorId}/dokumenter/${dokumentId}/inntektsmelding`,
+        url: `/api/spesialist/personer/${aktoerId}/dokumenter/${dokumentId}/inntektsmelding`,
         method: 'GET',
         signal,
     });
 };
 
-export const getGetInntektsmeldingQueryKey = (aktorId?: string, dokumentId?: string) => {
-    return [`/api/spesialist/personer/${aktorId}/dokumenter/${dokumentId}/inntektsmelding`] as const;
+export const getGetInntektsmeldingQueryKey = (aktoerId?: string, dokumentId?: string) => {
+    return [`/api/spesialist/personer/${aktoerId}/dokumenter/${dokumentId}/inntektsmelding`] as const;
 };
 
 export const getGetInntektsmeldingQueryOptions = <
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<void | void>,
+    TError = ErrorType<unknown>,
 >(
-    aktorId: string,
+    aktoerId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntektsmelding>>, TError, TData>> },
 ) => {
     const { query: queryOptions } = options ?? {};
 
-    const queryKey = queryOptions?.queryKey ?? getGetInntektsmeldingQueryKey(aktorId, dokumentId);
+    const queryKey = queryOptions?.queryKey ?? getGetInntektsmeldingQueryKey(aktoerId, dokumentId);
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getInntektsmelding>>> = ({ signal }) =>
-        getInntektsmelding(aktorId, dokumentId, signal);
+        getInntektsmelding(aktoerId, dokumentId, signal);
 
     return {
         queryKey,
         queryFn,
-        enabled: !!(aktorId && dokumentId),
+        enabled: !!(aktoerId && dokumentId),
         staleTime: Infinity,
         gcTime: 0,
         ...queryOptions,
@@ -159,13 +156,13 @@ export const getGetInntektsmeldingQueryOptions = <
 };
 
 export type GetInntektsmeldingQueryResult = NonNullable<Awaited<ReturnType<typeof getInntektsmelding>>>;
-export type GetInntektsmeldingQueryError = ErrorType<void | void>;
+export type GetInntektsmeldingQueryError = ErrorType<unknown>;
 
 export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<void | void>,
+    TError = ErrorType<unknown>,
 >(
-    aktorId: string,
+    aktoerId: string,
     dokumentId: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntektsmelding>>, TError, TData>> &
@@ -182,9 +179,9 @@ export function useGetInntektsmelding<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<void | void>,
+    TError = ErrorType<unknown>,
 >(
-    aktorId: string,
+    aktoerId: string,
     dokumentId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntektsmelding>>, TError, TData>> &
@@ -201,9 +198,9 @@ export function useGetInntektsmelding<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<void | void>,
+    TError = ErrorType<unknown>,
 >(
-    aktorId: string,
+    aktoerId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntektsmelding>>, TError, TData>> },
     queryClient?: QueryClient,
@@ -211,14 +208,14 @@ export function useGetInntektsmelding<
 
 export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<void | void>,
+    TError = ErrorType<unknown>,
 >(
-    aktorId: string,
+    aktoerId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntektsmelding>>, TError, TData>> },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetInntektsmeldingQueryOptions(aktorId, dokumentId, options);
+    const queryOptions = getGetInntektsmeldingQueryOptions(aktoerId, dokumentId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;
