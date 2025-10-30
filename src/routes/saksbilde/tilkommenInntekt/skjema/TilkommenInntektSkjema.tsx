@@ -31,6 +31,8 @@ interface TilkommenInntektProps {
     startPeriodebeløp: number;
     startEkskluderteUkedager: DateString[];
     submit: (values: TilkommenInntektSchema) => Promise<void>;
+    isSubmitting: boolean;
+    submitError?: string;
     cancel: () => void;
 }
 
@@ -43,15 +45,10 @@ export const TilkommenInntektSkjema = ({
     startPeriodebeløp,
     startEkskluderteUkedager,
     submit,
+    isSubmitting,
+    submitError,
     cancel,
 }: TilkommenInntektProps): ReactElement => {
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-    const handleSubmit = async (values: TilkommenInntektSchema) => {
-        setIsSubmitting(true);
-        await submit(values);
-    };
-
     // Bakomforliggende state som kun benyttes i valideringen
     const [organisasjonEksisterer, setOrganisasjonEksisterer] = useState<boolean>(false);
 
@@ -165,12 +162,13 @@ export const TilkommenInntektSkjema = ({
                         </Box>
                         <TilkommenInntektSkjemafelter
                             form={form}
-                            handleSubmit={handleSubmit}
+                            handleSubmit={submit}
+                            submitError={submitError}
                             inntektPerDag={inntektPerDag}
                             erGyldigFom={erGyldigFom}
                             erGyldigTom={erGyldigTom}
                             sykefraværstilfelleperioder={sykefraværstilfelleperioder}
-                            loading={isSubmitting}
+                            isSubmitting={isSubmitting}
                             startPeriodebeløp={startPeriodebeløp}
                         />
                     </VStack>

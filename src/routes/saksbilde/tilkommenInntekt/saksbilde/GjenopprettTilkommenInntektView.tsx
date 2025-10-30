@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
@@ -23,6 +23,8 @@ export const GjenopprettTilkommenInntektView = ({
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [submitError, setSubmitError] = useState<string | undefined>(undefined);
 
     const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
         person?.aktorId,
@@ -47,6 +49,8 @@ export const GjenopprettTilkommenInntektView = ({
     }
 
     const submit = async (values: TilkommenInntektSchema) => {
+        setIsSubmitting(true);
+        setSubmitError(undefined);
         await gjenopprettTilkommenInntekt({
             variables: {
                 tilkommenInntektId: tilkommenInntektMedOrganisasjonsnummer.tilkommenInntektId,
@@ -68,6 +72,10 @@ export const GjenopprettTilkommenInntektView = ({
                     navigerTilTilkommenInntekt(tilkommenInntektMedOrganisasjonsnummer.tilkommenInntektId);
                 });
             },
+            onError: () => {
+                setSubmitError('Klarte ikke gjenopprette. Prøv igjen senere, eller kontakt en coach.');
+                setIsSubmitting(false);
+            },
         });
     };
 
@@ -83,6 +91,8 @@ export const GjenopprettTilkommenInntektView = ({
             startPeriodebeløp={Number(tilkommenInntektMedOrganisasjonsnummer.periodebelop)}
             startEkskluderteUkedager={tilkommenInntektMedOrganisasjonsnummer.ekskluderteUkedager}
             submit={submit}
+            isSubmitting={isSubmitting}
+            submitError={submitError}
             cancel={() => navigerTilTilkommenInntekt(tilkommenInntektId)}
         />
     );

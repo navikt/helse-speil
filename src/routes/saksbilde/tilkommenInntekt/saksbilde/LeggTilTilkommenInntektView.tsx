@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
@@ -20,6 +20,8 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [submitError, setSubmitError] = useState<string | undefined>(undefined);
     const router = useRouter();
 
     const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
@@ -37,6 +39,8 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
     }
 
     const submit = async (values: TilkommenInntektSchema) => {
+        setIsSubmitting(true);
+        setSubmitError(undefined);
         await leggTilTilkommenInntekt({
             variables: {
                 input: {
@@ -58,6 +62,10 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
                     navigerTilTilkommenInntekt(data.restPostTilkomneInntekter.tilkommenInntektId);
                 });
             },
+            onError: () => {
+                setSubmitError('Klarte ikke lagre ny tilkommen inntekt. Prøv igjen senere, eller kontakt en coach.');
+                setIsSubmitting(false);
+            },
         });
     };
     return (
@@ -70,6 +78,8 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
             startPeriodebeløp={0}
             startEkskluderteUkedager={[]}
             submit={submit}
+            isSubmitting={isSubmitting}
+            submitError={submitError}
             cancel={() => router.back()}
         />
     );

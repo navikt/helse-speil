@@ -19,7 +19,7 @@ export const FjernTilkommenInntektModal = ({
     onClose,
 }: FjernTilkommenInntektModalProps): ReactElement => {
     const [fjerningBegrunnelse, setFjerningBegrunnelse] = useState<string>('');
-    const [loading, setLoading] = useState<boolean>(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [fjernTilkommenInntekt] = useMutation(RestPostTilkommenInntektFjernDocument);
 
@@ -33,7 +33,7 @@ export const FjernTilkommenInntektModal = ({
             setError('Begrunnelse må fylles ut');
         } else {
             setError(undefined);
-            setLoading(true);
+            setIsSubmitting(true);
             await fjernTilkommenInntekt({
                 variables: {
                     tilkommenInntektId: tilkommenInntekt.tilkommenInntektId,
@@ -42,14 +42,18 @@ export const FjernTilkommenInntektModal = ({
                     },
                 },
                 onCompleted: () => tilkommenInntektRefetch().then(() => onClose()),
+                onError: () => {
+                    setError('Klarte ikke fjerne perioden. Prøv igjen senere, eller kontakt en coach.');
+                    setIsSubmitting(false);
+                },
             });
         }
     };
 
     return (
         <Modal
-            header={{ heading: 'Fjern periode', closeButton: !loading }}
-            closeOnBackdropClick={!loading}
+            header={{ heading: 'Fjern periode', closeButton: !isSubmitting }}
+            closeOnBackdropClick={!isSubmitting}
             open={true}
             onClose={onClose}
         >
@@ -69,10 +73,10 @@ export const FjernTilkommenInntektModal = ({
                 </VStack>
             </Modal.Body>
             <Modal.Footer>
-                <Button type="button" onClick={handleFjern} loading={loading}>
+                <Button type="button" onClick={handleFjern} loading={isSubmitting}>
                     Ja
                 </Button>
-                <Button type="button" variant="secondary" onClick={onClose} disabled={loading}>
+                <Button type="button" variant="secondary" onClick={onClose} disabled={isSubmitting}>
                     Nei
                 </Button>
             </Modal.Footer>

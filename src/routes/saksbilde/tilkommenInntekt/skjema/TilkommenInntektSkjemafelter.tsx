@@ -14,11 +14,12 @@ import { toKronerOgØre } from '@utils/locale';
 interface TilkommenInntektSkjemaProps {
     form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
     handleSubmit: (values: TilkommenInntektSchema) => Promise<void>;
+    submitError?: string;
     inntektPerDag?: number;
     erGyldigFom: (fom: string) => boolean;
     erGyldigTom: (tom: string) => boolean;
     sykefraværstilfelleperioder: DatePeriod[];
-    loading: boolean;
+    isSubmitting: boolean;
     startPeriodebeløp: number;
 }
 
@@ -34,11 +35,12 @@ const kronerOgØreTilNumber = (value: string) =>
 export const TilkommenInntektSkjemafelter = ({
     form,
     handleSubmit,
+    submitError,
     inntektPerDag,
     erGyldigFom,
     erGyldigTom,
     sykefraværstilfelleperioder,
-    loading,
+    isSubmitting,
     startPeriodebeløp,
 }: TilkommenInntektSkjemaProps): ReactElement | null => {
     const [periodebeløpVisningsverdi, setPeriodebeløpVisningsverdi] = useState<string>(
@@ -210,20 +212,23 @@ export const TilkommenInntektSkjemafelter = ({
                             <TilkommenInntektFeiloppsummering errors={form.formState.errors} />
                         </Box>
                     )}
-                    <HStack gap="2" marginBlock="4">
-                        <Button size="small" variant="primary" type="submit" loading={loading}>
-                            Lagre
-                        </Button>
-                        <Button
-                            size="small"
-                            variant="tertiary"
-                            type="button"
-                            onClick={() => router.back()}
-                            disabled={loading}
-                        >
-                            Avbryt
-                        </Button>
-                    </HStack>
+                    <VStack>
+                        <HStack gap="2" marginBlock="4">
+                            <Button size="small" variant="primary" type="submit" loading={isSubmitting}>
+                                Lagre
+                            </Button>
+                            <Button
+                                size="small"
+                                variant="tertiary"
+                                type="button"
+                                onClick={() => router.back()}
+                                disabled={isSubmitting}
+                            >
+                                Avbryt
+                            </Button>
+                        </HStack>
+                        {submitError && <ErrorMessage>{submitError}</ErrorMessage>}
+                    </VStack>
                 </Box>
             </form>
         </FormProvider>
