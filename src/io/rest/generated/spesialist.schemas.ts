@@ -215,6 +215,7 @@ export const ApiSvartype = {
     BELOP: 'BELOP',
     KILOMETER: 'KILOMETER',
     GRUPPE_AV_UNDERSPORSMAL: 'GRUPPE_AV_UNDERSPORSMAL',
+    AAR_MANED: 'AAR_MANED',
     UKJENT: 'UKJENT',
 } as const;
 

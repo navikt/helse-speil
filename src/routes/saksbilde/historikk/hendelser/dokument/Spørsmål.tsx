@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { CheckmarkIcon } from '@navikt/aksel-icons';
 
 import { ApiSporsmal, ApiSvar, ApiSvartype } from '@io/rest/generated/spesialist.schemas';
-import { somNorskDato } from '@utils/date';
+import { somNorskDato, somNorskÅrMåned } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
 import { DokumentFragment } from './DokumentFragment';
@@ -91,6 +91,8 @@ const getSvarForVisning = (svar: ApiSvar[], svartype: ApiSvartype) => {
             return svar[0]?.verdi === 'JA' ? 'Ja' : 'Nei';
         case ApiSvartype.RADIO_GRUPPE_TIMER_PROSENT:
             return;
+        case ApiSvartype.AAR_MANED:
+            return `${somNorskÅrMåned(svar[0]?.verdi)}`;
         default:
             return svar[0]?.verdi;
     }
