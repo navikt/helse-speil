@@ -21,6 +21,34 @@ export class DokumentMock {
                     sykmeldingsgrad: 100,
                 },
             ],
+            selvstendigNaringsdrivende: {
+                inntekt: [
+                    {
+                        ar: '2018',
+                        pensjonsgivendeInntektAvNaringsinntektFraFiskeFangstEllerFamiliebarnehage: 0,
+                        pensjonsgivendeInntektAvLonnsinntekt: 0,
+                        pensjonsgivendeInntektAvNaringsinntekt: 50_000,
+                        pensjonsgivendeInntektAvLonnsinntektBarePensjonsdel: 0,
+                        erFerdigLignet: true,
+                    },
+                    {
+                        ar: '2019',
+                        pensjonsgivendeInntektAvNaringsinntektFraFiskeFangstEllerFamiliebarnehage: 0,
+                        pensjonsgivendeInntektAvLonnsinntekt: 0,
+                        pensjonsgivendeInntektAvNaringsinntekt: 60_000,
+                        pensjonsgivendeInntektAvLonnsinntektBarePensjonsdel: 0,
+                        erFerdigLignet: true,
+                    },
+                    {
+                        ar: '2020',
+                        pensjonsgivendeInntektAvNaringsinntektFraFiskeFangstEllerFamiliebarnehage: 10,
+                        pensjonsgivendeInntektAvLonnsinntekt: 0,
+                        pensjonsgivendeInntektAvNaringsinntekt: 100_000,
+                        pensjonsgivendeInntektAvLonnsinntektBarePensjonsdel: 0,
+                        erFerdigLignet: true,
+                    },
+                ],
+            },
             sporsmal: [
                 {
                     sporsmalstekst:

@@ -244,7 +244,10 @@ export interface ApiSoknadSelvstendigNaringsdrivende {
 
 export interface ApiSoknadSelvstendigNaringsdrivendeApiInntektsar {
     ar: string;
+    pensjonsgivendeInntektAvLonnsinntekt: number;
+    pensjonsgivendeInntektAvLonnsinntektBarePensjonsdel: number;
     pensjonsgivendeInntektAvNaringsinntekt: number;
+    pensjonsgivendeInntektAvNaringsinntektFraFiskeFangstEllerFamiliebarnehage: number;
     erFerdigLignet: boolean;
 }
 
@@ -587,6 +590,12 @@ export interface ApiFjernTilkommenInntektRequest {
 export interface ApiGjenopprettTilkommenInntektRequest {
     endretTil: ApiTilkommenInntektInput;
     notatTilBeslutter: string;
+}
+
+export type ApiFattVedtakRequestBegrunnelse = null | string;
+
+export interface ApiFattVedtakRequest {
+    begrunnelse?: ApiFattVedtakRequestBegrunnelse;
 }
 
 export type GetOppgaverParams = {
