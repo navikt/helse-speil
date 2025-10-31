@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, VStack } from '@navikt/ds-react';
 
-import { useHentSøknadDokumentQuery } from '@state/dokument';
+import { useGetSoknad } from '@io/rest/generated/dokumenter/dokumenter';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_MED_KLOKKESLETT, somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
@@ -19,7 +19,8 @@ type SøknadsinnholdProps = {
 };
 
 export const Søknadsinnhold = ({ dokumentId, aktørId }: SøknadsinnholdProps): ReactElement => {
-    const { data, isLoading, error } = useHentSøknadDokumentQuery(aktørId, dokumentId);
+    const { data: response, isLoading, error } = useGetSoknad(aktørId, dokumentId);
+    const data = response?.data;
 
     return (
         <div>

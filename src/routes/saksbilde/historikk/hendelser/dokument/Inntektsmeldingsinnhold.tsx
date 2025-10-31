@@ -5,8 +5,8 @@ import { BodyShort, HStack } from '@navikt/ds-react';
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { PersonFragment } from '@io/graphql';
+import { useGetInntektsmelding } from '@io/rest/generated/dokumenter/dokumenter';
 import { Endringsårsaker } from '@saksbilde/historikk/hendelser/dokument/Endringsårsaker';
-import { useHentInntektsmeldingDokumentQuery } from '@state/dokument';
 import { finnArbeidsgiverMedOrganisasjonsnummer } from '@state/inntektsforhold/arbeidsgiver';
 import { ArbeidsgiverReferanse, lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { somNorskDato } from '@utils/date';
@@ -25,7 +25,9 @@ type InntektsmeldinginnholdProps = {
 };
 
 export const Inntektsmeldingsinnhold = ({ dokumentId, aktørId, person }: InntektsmeldinginnholdProps): ReactElement => {
-    const { data, isLoading, error } = useHentInntektsmeldingDokumentQuery(aktørId, dokumentId);
+    const { data: response, isLoading, error } = useGetInntektsmelding(aktørId, dokumentId);
+    const data = response?.data;
+
     const virksomhetsnummer = data?.virksomhetsnummer;
     const arbeidsgiverReferanse: ArbeidsgiverReferanse | null = virksomhetsnummer
         ? lagArbeidsgiverReferanse(
