@@ -158,6 +158,7 @@ export const TilkommenInntektSkjemafelter = ({
                                             setPeriodebeløpVisningsverdi(
                                                 Number.isNaN(nyttBeløp) ? event.target.value : toKronerOgØre(nyttBeløp),
                                             );
+                                            field.onChange(Number(nyttBeløp.toFixed(2)));
                                             field.onBlur();
                                         }}
                                         error={fieldState.error?.message != undefined}
