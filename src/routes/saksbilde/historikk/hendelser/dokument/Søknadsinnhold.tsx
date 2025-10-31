@@ -72,42 +72,33 @@ export const Søknadsinnhold = ({ dokumentId, aktørId }: SøknadsinnholdProps):
                         </DokumentFragment>
                     )}
                     {data.selvstendigNaringsdrivende && (
-                        <>
-                            <DokumentFragment overskrift="Inntekt selvstendig næring">
-                                <VStack as="ul" paddingInline="2 0">
-                                    {data.selvstendigNaringsdrivende.inntekt?.map((it) => (
-                                        <VStack as="li" key={it.ar}>
-                                            <BodyShort weight="semibold">{it.ar}</BodyShort>
-                                            <VStack paddingInline="2 0">
-                                                <BodyShort>
-                                                    Lønnsinntekt: {somPenger(it.pensjonsgivendeInntektAvLonnsinntekt)}
-                                                </BodyShort>
-                                                <BodyShort>
-                                                    Lønnsinntekt (pensjonsdel):{' '}
-                                                    {somPenger(it.pensjonsgivendeInntektAvLonnsinntektBarePensjonsdel)}
-                                                </BodyShort>
-                                                <BodyShort>
-                                                    Næringsinntekt:{' '}
-                                                    {somPenger(it.pensjonsgivendeInntektAvNaringsinntekt)}
-                                                </BodyShort>
-                                                <BodyShort>
-                                                    Næringsinntekt (fiske, fangst eller familiebhg.):{' '}
-                                                    {somPenger(
-                                                        it.pensjonsgivendeInntektAvNaringsinntektFraFiskeFangstEllerFamiliebarnehage,
-                                                    )}
-                                                </BodyShort>
-                                            </VStack>
+                        <DokumentFragment overskrift="Inntekt selvstendig næring">
+                            <VStack as="ul" paddingInline="2 0">
+                                {data.selvstendigNaringsdrivende.inntekt?.map((it) => (
+                                    <VStack as="li" key={it.ar}>
+                                        <BodyShort weight="semibold">{it.ar}</BodyShort>
+                                        <VStack paddingInline="2 0">
+                                            <BodyShort>
+                                                Lønnsinntekt: {somPenger(it.pensjonsgivendeInntektAvLonnsinntekt)}
+                                            </BodyShort>
+                                            <BodyShort>
+                                                Lønnsinntekt (pensjonsdel):{' '}
+                                                {somPenger(it.pensjonsgivendeInntektAvLonnsinntektBarePensjonsdel)}
+                                            </BodyShort>
+                                            <BodyShort>
+                                                Næringsinntekt: {somPenger(it.pensjonsgivendeInntektAvNaringsinntekt)}
+                                            </BodyShort>
+                                            <BodyShort>
+                                                Næringsinntekt (fiske, fangst eller familiebhg.):{' '}
+                                                {somPenger(
+                                                    it.pensjonsgivendeInntektAvNaringsinntektFraFiskeFangstEllerFamiliebarnehage,
+                                                )}
+                                            </BodyShort>
                                         </VStack>
-                                    ))}
-                                </VStack>
-                            </DokumentFragment>
-                            {data.selvstendigNaringsdrivende.ventetid && (
-                                <DokumentFragment overskrift="Ventetid selvstendig næring">
-                                    {somNorskDato(data.selvstendigNaringsdrivende.ventetid.fom)} –{' '}
-                                    {somNorskDato(data.selvstendigNaringsdrivende.ventetid.tom)}
-                                </DokumentFragment>
-                            )}
-                        </>
+                                    </VStack>
+                                ))}
+                            </VStack>
+                        </DokumentFragment>
                     )}
                     {data.sporsmal && <Spørsmål spørsmål={data.sporsmal} />}
                 </div>
