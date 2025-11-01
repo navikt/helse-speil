@@ -1,62 +1,26 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { proxyRouteHandler } from '@navikt/next-api-proxy';
-
 import { erLokal, getServerEnv } from '@/env';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
 
-export async function forwardGETtoSpesialist(req: Request) {
-    const wonderwallToken = hentWonderwallToken(req);
-    if (!wonderwallToken) {
-        return new Response(null, { status: 401 });
-    }
+const substringAfter = (url: string, searchString: string) =>
+    url.substring(url.indexOf(searchString) + searchString.length);
 
-    const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPESIALIST_SCOPE);
-    if (!oboResult.ok) {
-        throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
-    }
-
-    const path = req.url.substring(req.url.indexOf('/api/spesialist/') + 16);
-    return await fetch(`${getServerEnv().SPESIALIST_BASEURL}/api/${path}`, {
-        method: 'get',
-        headers: {
-            Authorization: `Bearer ${oboResult.token}`,
-            'X-Request-Id': uuidv4(),
-            Accept: 'application/json',
-        },
-    });
-}
-
-export async function forwardPOSTtoSpesialist(req: Request, requestBody: unknown) {
-    const wonderwallToken = hentWonderwallToken(req);
-    if (!wonderwallToken) {
-        return new Response(null, { status: 401 });
-    }
-
-    const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPESIALIST_SCOPE);
-    if (!oboResult.ok) {
-        throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
-    }
-
-    const path = req.url.substring(req.url.indexOf('/api/spesialist/') + 16);
-    return await fetch(`${getServerEnv().SPESIALIST_BASEURL}/api/${path}`, {
-        method: 'post',
-        headers: {
-            Authorization: `Bearer ${oboResult.token}`,
-            'X-Request-Id': uuidv4(),
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-    });
+function filterHeadersExcept(original: Headers, exceptNames: string[]) {
+    const filtered = new Headers();
+    original
+        .entries()
+        .filter(([name]) => !exceptNames.includes(name.toLowerCase()))
+        .forEach(([name, value]) => filtered.append(name, value));
+    return filtered;
 }
 
 export const videresendTilSpesialist = async (request: Request): Promise<Response> => {
-    let spesialistInfo: { hostname: string; bearerToken?: string; port?: string };
+    const headers = filterHeadersExcept(request.headers, ['host', 'cookie', 'authorization']);
 
-    if (erLokal) {
-        spesialistInfo = { hostname: 'localhost', port: '8080' };
-    } else {
+    headers.set('X-Request-Id', uuidv4());
+
+    if (!erLokal) {
         const wonderwallToken = hentWonderwallToken(request);
         if (!wonderwallToken) {
             return new Response(null, { status: 401 });
@@ -67,16 +31,17 @@ export const videresendTilSpesialist = async (request: Request): Promise<Respons
             throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
         }
 
-        spesialistInfo = { hostname: 'spesialist', bearerToken: oboResult.token };
+        headers.set('Authorization', `Bearer ${oboResult.token}`);
     }
 
-    const spesialistPath = '/api/' + request.url.substring(request.url.indexOf('/api/spesialist/') + 16);
+    const spesialistBaseUrl = erLokal ? 'http://localhost:8080' : getServerEnv().SPESIALIST_BASEURL;
+    const spesialistRelativeUrl = `/api/${substringAfter(request.url, '/api/spesialist/')}`;
 
-    request.headers.set('X-Request-Id', uuidv4());
-
-    return proxyRouteHandler(request, {
-        https: false,
-        path: spesialistPath,
-        ...spesialistInfo,
+    return fetch(`${spesialistBaseUrl}${spesialistRelativeUrl}`, {
+        method: request.method,
+        headers: headers,
+        body: request.body,
+        // @ts-expect-error Duplex property is missing in types
+        duplex: 'half',
     });
 };

@@ -42,7 +42,6 @@
         "@navikt/aksel-icons": "^7.20.0",
         "@navikt/ds-css": "^7.20.0",
         "@navikt/ds-react": "^7.20.0",
-        "@navikt/next-api-proxy": "^4.1.5",
         "@navikt/oasis": "^3.8.0",
         "@portabletext/react": "^3.2.1",
         "@tanstack/react-query": "^5.90.2",
