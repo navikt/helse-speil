@@ -1,6 +1,6 @@
 import { erLokal } from '@/env';
 import { logger } from '@/logger';
-import { forwardGETtoSpesialist } from '@app/api/spesialist/forwarder';
+import { videresendTilSpesialist } from '@app/api/spesialist/forwarder';
 import { sleep } from '@spesialist-mock/constants';
 import { DokumentMock } from '@spesialist-mock/storage/dokument';
 
@@ -11,6 +11,6 @@ export async function GET(req: Request): Promise<Response> {
         if (Math.random() > 0.9) return Response.error();
         else return Response.json(DokumentMock.getMockedSoknad());
     } else {
-        return await forwardGETtoSpesialist(req);
+        return videresendTilSpesialist(req);
     }
 }
