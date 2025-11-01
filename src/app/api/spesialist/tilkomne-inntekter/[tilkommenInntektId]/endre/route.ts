@@ -1,5 +1,5 @@
 import { erLokal } from '@/env';
-import { videresendTilSpesialist } from '@app/api/spesialist/forwarder';
+import { videresendTilSpesialist } from '@app/api/spesialist/videresender';
 import { PostTilkommenInntektEndreRequestBody } from '@io/graphql';
 import { sleep } from '@spesialist-mock/constants';
 import { TilkommenInntektMock } from '@spesialist-mock/storage/tilkommeninntekt';

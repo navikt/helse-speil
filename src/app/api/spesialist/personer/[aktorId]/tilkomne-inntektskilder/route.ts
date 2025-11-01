@@ -1,6 +1,6 @@
 import { erLokal } from '@/env';
 import { logger } from '@/logger';
-import { videresendTilSpesialist } from '@app/api/spesialist/forwarder';
+import { videresendTilSpesialist } from '@app/api/spesialist/videresender';
 import { sleep } from '@spesialist-mock/constants';
 import { TilkommenInntektMock } from '@spesialist-mock/storage/tilkommeninntekt';
 

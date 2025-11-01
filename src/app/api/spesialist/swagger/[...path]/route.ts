@@ -1,4 +1,4 @@
-import { videresendTilSpesialist } from '@app/api/spesialist/forwarder';
+import { videresendTilSpesialist } from '@app/api/spesialist/videresender';
 
 export const dynamic = 'force-dynamic';
 
