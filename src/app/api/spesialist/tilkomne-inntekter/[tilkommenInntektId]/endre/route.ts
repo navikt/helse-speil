@@ -1,18 +1,20 @@
 import { erLokal } from '@/env';
-import { videresendTilSpesialist } from '@app/api/spesialist/forwarder';
+import { forwardPOSTtoSpesialist } from '@app/api/spesialist/forwarder';
 import { PostTilkommenInntektEndreRequestBody } from '@io/graphql';
 import { sleep } from '@spesialist-mock/constants';
 import { TilkommenInntektMock } from '@spesialist-mock/storage/tilkommeninntekt';
 
 export async function POST(req: Request, { params }: { params: Promise<{ tilkommenInntektId: string }> }) {
+    const requestBody = await req.json();
+    const { tilkommenInntektId } = await params;
+
     if (erLokal) {
-        const { tilkommenInntektId } = await params;
-        const input = (await req.json()) as PostTilkommenInntektEndreRequestBody;
         await sleep(2000);
+        const input = requestBody as PostTilkommenInntektEndreRequestBody;
         return Response.json(
             TilkommenInntektMock.endreTilkommenInntekt(input.endretTil, input.notatTilBeslutter, tilkommenInntektId),
         );
     } else {
-        return videresendTilSpesialist(req);
+        return await forwardPOSTtoSpesialist(req, requestBody);
     }
 }
