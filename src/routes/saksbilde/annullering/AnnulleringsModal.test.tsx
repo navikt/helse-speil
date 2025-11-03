@@ -12,6 +12,7 @@ import userEvent from '@testing-library/user-event';
 
 import { AnnulleringsModal } from './AnnulleringsModal';
 
+jest.mock('@components/Inntektsforholdnavn');
 jest.mock('@external/sanity');
 jest.mock('@state/toasts');
 
