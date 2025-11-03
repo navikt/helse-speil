@@ -1,9 +1,0 @@
-mutation RESTPostOpphevStans($input: PostOpphevStansRequestBody!) {
-    restPostOpphevStans(input: $input)
-    @rest(
-        type: "Boolean!"
-        endpoint: "spesialist"
-        path: "/opphevstans"
-        method: "POST"
-    )
-}

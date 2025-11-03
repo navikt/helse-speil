@@ -5,7 +5,7 @@ import React, { ReactElement } from 'react';
 import { SackKronerIcon } from '@navikt/aksel-icons';
 
 import { Organisasjonsnavn } from '@components/Inntektsforholdnavn';
-import { TilkommenInntekt } from '@io/graphql';
+import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { TilkommenInntektPeriods } from '@saksbilde/timeline/TilkommenInntektPeriods';
 
 import styles from './TilkommenInntektTimelineRow.module.css';
@@ -14,7 +14,7 @@ export interface TilkommenInntektTimelineRowProps {
     start: Dayjs;
     end: Dayjs;
     organisasjonsnummer: string;
-    tilkomneInntekter: TilkommenInntekt[];
+    tilkomneInntekter: ApiTilkommenInntekt[];
 }
 
 export const TilkommenInntektTimelineRow = ({

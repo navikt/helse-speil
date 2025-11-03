@@ -5,12 +5,12 @@ import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import {
-    TilkommenInntekt,
-    TilkommenInntektEndretEvent,
-    TilkommenInntektFjernetEvent,
-    TilkommenInntektGjenopprettetEvent,
-    TilkommenInntektOpprettetEvent,
-} from '@io/graphql';
+    ApiTilkommenInntekt,
+    ApiTilkommenInntektEndretEvent,
+    ApiTilkommenInntektEvent,
+    ApiTilkommenInntektGjenopprettetEvent,
+    ApiTilkommenInntektOpprettetEvent,
+} from '@io/rest/generated/spesialist.schemas';
 import { tilSorterteDagerMedEndringstype } from '@state/tilkommenInntekt';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
@@ -20,7 +20,7 @@ import styles from './Endringslogg.module.css';
 type EndringsloggTilkommenInntektProps = {
     closeModal: () => void;
     showModal: boolean;
-    tilkommenInntekt: TilkommenInntekt;
+    tilkommenInntekt: ApiTilkommenInntekt;
 };
 
 export const EndringsloggTilkommenInntekt = ({
@@ -57,14 +57,6 @@ export const EndringsloggTilkommenInntekt = ({
                 <Table.Body>
                     {tilkommenInntekt.events
                         .toSorted((a, b) => b.metadata.sekvensnummer - a.metadata.sekvensnummer)
-                        .map(
-                            (event) =>
-                                event as
-                                    | TilkommenInntektOpprettetEvent
-                                    | TilkommenInntektEndretEvent
-                                    | TilkommenInntektFjernetEvent
-                                    | TilkommenInntektGjenopprettetEvent,
-                        )
                         .map((event, i) => (
                             <Table.Row key={i}>
                                 <Table.DataCell>{getFormattedDatetimeString(event.metadata.tidspunkt)}</Table.DataCell>
@@ -78,38 +70,30 @@ export const EndringsloggTilkommenInntekt = ({
     </Modal>
 );
 
-const EventCeller = ({
-    event,
-}: {
-    event:
-        | TilkommenInntektOpprettetEvent
-        | TilkommenInntektEndretEvent
-        | TilkommenInntektFjernetEvent
-        | TilkommenInntektGjenopprettetEvent;
-}): ReactElement => {
-    switch (event.__typename) {
-        case 'TilkommenInntektOpprettetEvent':
+const EventCeller = ({ event }: { event: ApiTilkommenInntektEvent }): ReactElement => {
+    switch (event.type) {
+        case 'ApiTilkommenInntektOpprettetEvent':
             return (
                 <>
                     <Table.DataCell>Lagt til</Table.DataCell>
                     <OpprettetEventCeller event={event} />
                 </>
             );
-        case 'TilkommenInntektEndretEvent':
+        case 'ApiTilkommenInntektEndretEvent':
             return (
                 <>
                     <Table.DataCell>Endret</Table.DataCell>
                     <EndretEllerGjenopprettetEventCeller event={event} />
                 </>
             );
-        case 'TilkommenInntektFjernetEvent':
+        case 'ApiTilkommenInntektFjernetEvent':
             return (
                 <>
                     <Table.DataCell>Fjernet</Table.DataCell>
                     <FjernetEventCeller />
                 </>
             );
-        case 'TilkommenInntektGjenopprettetEvent':
+        case 'ApiTilkommenInntektGjenopprettetEvent':
             return (
                 <>
                     <Table.DataCell>Gjenopprettet</Table.DataCell>
@@ -119,7 +103,7 @@ const EventCeller = ({
     }
 };
 
-const OpprettetEventCeller = ({ event }: { event: TilkommenInntektOpprettetEvent }): ReactElement => (
+const OpprettetEventCeller = ({ event }: { event: ApiTilkommenInntektOpprettetEvent }): ReactElement => (
     <>
         <Table.DataCell>
             <AnonymizableTextWithEllipsis>{event.organisasjonsnummer}</AnonymizableTextWithEllipsis>
@@ -143,7 +127,7 @@ const OpprettetEventCeller = ({ event }: { event: TilkommenInntektOpprettetEvent
 const EndretEllerGjenopprettetEventCeller = ({
     event,
 }: {
-    event: TilkommenInntektEndretEvent | TilkommenInntektGjenopprettetEvent;
+    event: ApiTilkommenInntektEndretEvent | ApiTilkommenInntektGjenopprettetEvent;
 }): ReactElement => (
     <>
         <Table.DataCell>

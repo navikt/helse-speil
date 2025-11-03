@@ -5,11 +5,12 @@ import { BodyShort, VStack } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import {
-    TilkommenInntektEndretEvent,
-    TilkommenInntektFjernetEvent,
-    TilkommenInntektGjenopprettetEvent,
-    TilkommenInntektOpprettetEvent,
-} from '@io/graphql';
+    ApiTilkommenInntektEndretEvent,
+    ApiTilkommenInntektEvent,
+    ApiTilkommenInntektFjernetEvent,
+    ApiTilkommenInntektGjenopprettetEvent,
+    ApiTilkommenInntektOpprettetEvent,
+} from '@io/rest/generated/spesialist.schemas';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { tilSorterteDagerMedEndringstype } from '@state/tilkommenInntekt';
@@ -18,7 +19,7 @@ import { somPenger } from '@utils/locale';
 
 import styles from './TilkommenInntektHendelse.module.css';
 
-export const TilkommenInntektOpprettetHendelse = ({ event }: { event: TilkommenInntektOpprettetEvent }) => (
+export const TilkommenInntektOpprettetHendelse = ({ event }: { event: ApiTilkommenInntektOpprettetEvent }) => (
     <>
         <VStack>
             <BodyShort weight="semibold">Organisasjonsnummer</BodyShort>
@@ -50,7 +51,7 @@ export const TilkommenInntektOpprettetHendelse = ({ event }: { event: TilkommenI
 export const TilkommenInntektEndretEllerGjenopprettetHendelse = ({
     event,
 }: {
-    event: TilkommenInntektEndretEvent | TilkommenInntektGjenopprettetEvent;
+    event: ApiTilkommenInntektEndretEvent | ApiTilkommenInntektGjenopprettetEvent;
 }) => (
     <>
         {event.endringer.organisasjonsnummer && (
@@ -103,59 +104,39 @@ export const TilkommenInntektEndretEllerGjenopprettetHendelse = ({
     </>
 );
 
-export const TilkommenInntektFjernetHendelse = ({ event }: { event: TilkommenInntektFjernetEvent }) => (
+export const TilkommenInntektFjernetHendelse = ({ event }: { event: ApiTilkommenInntektFjernetEvent }) => (
     <VStack>
         <BodyShort weight="semibold">Begrunn hvorfor perioden fjernes</BodyShort>
         <BodyShort>{event.metadata.notatTilBeslutter}</BodyShort>
     </VStack>
 );
 
-function tittel(
-    event:
-        | TilkommenInntektOpprettetEvent
-        | TilkommenInntektEndretEvent
-        | TilkommenInntektFjernetEvent
-        | TilkommenInntektGjenopprettetEvent,
-) {
-    switch (event.__typename) {
-        case 'TilkommenInntektOpprettetEvent':
+function tittel(event: ApiTilkommenInntektEvent) {
+    switch (event.type) {
+        case 'ApiTilkommenInntektOpprettetEvent':
             return 'Tilk. inntekt lagt til';
-        case 'TilkommenInntektEndretEvent':
+        case 'ApiTilkommenInntektEndretEvent':
             return 'Tilk. inntekt endret';
-        case 'TilkommenInntektFjernetEvent':
+        case 'ApiTilkommenInntektFjernetEvent':
             return 'Tilk. inntekt fjernet';
-        case 'TilkommenInntektGjenopprettetEvent':
+        case 'ApiTilkommenInntektGjenopprettetEvent':
             return 'Tilk. inntekt gjenopprettet';
     }
 }
 
-function komponent(
-    event:
-        | TilkommenInntektOpprettetEvent
-        | TilkommenInntektEndretEvent
-        | TilkommenInntektFjernetEvent
-        | TilkommenInntektGjenopprettetEvent,
-) {
-    switch (event.__typename) {
-        case 'TilkommenInntektOpprettetEvent':
+function komponent(event: ApiTilkommenInntektEvent) {
+    switch (event.type) {
+        case 'ApiTilkommenInntektOpprettetEvent':
             return <TilkommenInntektOpprettetHendelse event={event} />;
-        case 'TilkommenInntektEndretEvent':
-        case 'TilkommenInntektGjenopprettetEvent':
+        case 'ApiTilkommenInntektEndretEvent':
+        case 'ApiTilkommenInntektGjenopprettetEvent':
             return <TilkommenInntektEndretEllerGjenopprettetHendelse event={event} />;
-        case 'TilkommenInntektFjernetEvent':
+        case 'ApiTilkommenInntektFjernetEvent':
             return <TilkommenInntektFjernetHendelse event={event} />;
     }
 }
 
-export const TilkommenInntektHendelse = ({
-    event,
-}: {
-    event:
-        | TilkommenInntektOpprettetEvent
-        | TilkommenInntektEndretEvent
-        | TilkommenInntektFjernetEvent
-        | TilkommenInntektGjenopprettetEvent;
-}) => {
+export const TilkommenInntektHendelse = ({ event }: { event: ApiTilkommenInntektEvent }) => {
     return (
         <Historikkhendelse
             icon={<HistorikkKildeSaksbehandlerIkon />}

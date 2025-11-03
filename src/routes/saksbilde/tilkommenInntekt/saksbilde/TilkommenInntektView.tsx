@@ -7,12 +7,6 @@ import { BodyShort, Button, HGrid, HStack, Link, VStack } from '@navikt/ds-react
 import { Box } from '@navikt/ds-react/Box';
 
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
-import {
-    TilkommenInntektEndretEvent,
-    TilkommenInntektFjernetEvent,
-    TilkommenInntektGjenopprettetEvent,
-    TilkommenInntektOpprettetEvent,
-} from '@io/graphql';
 import { EndringsloggTilkommenInntektButton } from '@saksbilde/tilkommenInntekt/EndringsloggTilkommenInntektButton';
 import { beregnInntektPerDag } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { FjernTilkommenInntektModal } from '@saksbilde/tilkommenInntekt/visning/FjernTilkommenInntektModal';
@@ -110,14 +104,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                                         </HGrid>
                                         {tilkommenInntekt.fjernet && (
                                             <TilkommenInntektFjernetAlert
-                                                tilkommenInntektEvents={
-                                                    tilkommenInntekt.events as (
-                                                        | TilkommenInntektEndretEvent
-                                                        | TilkommenInntektFjernetEvent
-                                                        | TilkommenInntektGjenopprettetEvent
-                                                        | TilkommenInntektOpprettetEvent
-                                                    )[]
-                                                }
+                                                tilkommenInntektEvents={tilkommenInntekt.events}
                                             />
                                         )}
                                     </VStack>

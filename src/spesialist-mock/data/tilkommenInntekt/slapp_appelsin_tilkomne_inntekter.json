@@ -18,7 +18,7 @@
                         "erDelAvAktivTotrinnsvurdering": true,
                         "events": [
                             {
-                                "__typename": "TilkommenInntektOpprettetEvent",
+                                "type": "ApiTilkommenInntektOpprettetEvent",
                                 "metadata": {
                                     "sekvensnummer": 1,
                                     "tidspunkt": "2025-04-24T12:34:56.789",
@@ -52,7 +52,7 @@
                         "erDelAvAktivTotrinnsvurdering": true,
                         "events": [
                             {
-                                "__typename": "TilkommenInntektOpprettetEvent",
+                                "type": "ApiTilkommenInntektOpprettetEvent",
                                 "metadata": {
                                     "sekvensnummer": 1,
                                     "tidspunkt": "2025-04-24T12:34:56.789",
@@ -68,7 +68,7 @@
                                 "ekskluderteUkedager": ["2022-08-17", "2022-08-18"]
                             },
                             {
-                                "__typename": "TilkommenInntektEndretEvent",
+                                "type": "ApiTilkommenInntektEndretEvent",
                                 "metadata": {
                                     "sekvensnummer": 2,
                                     "tidspunkt": "2025-04-24T12:34:56.789",
@@ -101,7 +101,7 @@
                                 }
                             },
                             {
-                                "__typename": "TilkommenInntektFjernetEvent",
+                                "type": "ApiTilkommenInntektFjernetEvent",
                                 "metadata": {
                                     "sekvensnummer": 3,
                                     "tidspunkt": "2025-04-24T12:34:56.789",
@@ -110,7 +110,7 @@
                                 }
                             },
                             {
-                                "__typename": "TilkommenInntektGjenopprettetEvent",
+                                "type": "ApiTilkommenInntektGjenopprettetEvent",
                                 "metadata": {
                                     "sekvensnummer": 4,
                                     "tidspunkt": "2025-04-24T12:34:56.789",
@@ -161,7 +161,7 @@
                         "erDelAvAktivTotrinnsvurdering": true,
                         "events": [
                             {
-                                "__typename": "TilkommenInntektOpprettetEvent",
+                                "type": "ApiTilkommenInntektOpprettetEvent",
                                 "metadata": {
                                     "sekvensnummer": 1,
                                     "tidspunkt": "2025-04-24T12:34:56.789",

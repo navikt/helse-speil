@@ -18,7 +18,8 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     const { data } = useFetchPersonQuery();
     const person = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
-    const { data: tilkommenData } = useHentTilkommenInntektQuery(person?.aktorId);
+    const { data: tilkommenResponse } = useHentTilkommenInntektQuery(person?.aktorId);
+    const tilkommenData = tilkommenResponse?.data;
 
     if (!person || !aktivPeriode?.skjaeringstidspunkt) return false;
 

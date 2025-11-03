@@ -4,7 +4,7 @@ import React, { ReactElement, useRef } from 'react';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { TilkommenInntekt } from '@io/graphql';
+import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { FjernetTilkommenInntektIkon, TilkommenInntektIkon } from '@saksbilde/timeline/icons';
 import { useNavigerTilTilkommenInntekt, useTilkommenInntektIdFraUrl } from '@state/routing';
 import { somNorskDato } from '@utils/date';
@@ -15,7 +15,7 @@ import { usePopoverAnchor } from './hooks/usePopoverAnchor';
 import styles from './TilkommenInntektPeriod.module.css';
 
 interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    tilkommenInntekt: TilkommenInntekt;
+    tilkommenInntekt: ApiTilkommenInntekt;
 }
 
 export const TilkommenInntektPeriod = ({ tilkommenInntekt, ...buttonProps }: PeriodProps): ReactElement => {

@@ -2,13 +2,13 @@ import React, { ReactElement, useState } from 'react';
 
 import { BodyLong, Button, Modal, Textarea, VStack } from '@navikt/ds-react';
 
-import { useMutation } from '@apollo/client';
-import { RestPostTilkommenInntektFjernDocument, TilkommenInntekt } from '@io/graphql';
+import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
+import { usePostTilkommenInntektFjern } from '@io/rest/generated/tilkommen-inntekt/tilkommen-inntekt';
 import { useTilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
 
 interface FjernTilkommenInntektModalProps {
-    tilkommenInntekt: TilkommenInntekt;
+    tilkommenInntekt: ApiTilkommenInntekt;
     aktørId?: string;
     onClose: () => void;
 }
@@ -21,7 +21,7 @@ export const FjernTilkommenInntektModal = ({
     const [fjerningBegrunnelse, setFjerningBegrunnelse] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>(undefined);
-    const [fjernTilkommenInntekt] = useMutation(RestPostTilkommenInntektFjernDocument);
+    const { mutate: fjernTilkommenInntekt } = usePostTilkommenInntektFjern();
 
     const { tilkommenInntektRefetch } = useTilkommenInntektMedOrganisasjonsnummer(
         tilkommenInntekt.tilkommenInntektId,
@@ -34,19 +34,21 @@ export const FjernTilkommenInntektModal = ({
         } else {
             setError(undefined);
             setIsSubmitting(true);
-            await fjernTilkommenInntekt({
-                variables: {
+            fjernTilkommenInntekt(
+                {
                     tilkommenInntektId: tilkommenInntekt.tilkommenInntektId,
-                    input: {
+                    data: {
                         notatTilBeslutter: fjerningBegrunnelse,
                     },
                 },
-                onCompleted: () => tilkommenInntektRefetch().then(() => onClose()),
-                onError: () => {
-                    setError('Klarte ikke fjerne perioden. Prøv igjen senere, eller kontakt en coach.');
-                    setIsSubmitting(false);
+                {
+                    onSuccess: () => tilkommenInntektRefetch().then(() => onClose()),
+                    onError: () => {
+                        setError('Klarte ikke fjerne perioden. Prøv igjen senere, eller kontakt en coach.');
+                        setIsSubmitting(false);
+                    },
                 },
-            });
+            );
         }
     };
 

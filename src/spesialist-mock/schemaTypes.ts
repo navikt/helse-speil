@@ -14,12 +14,10 @@ export type Scalars = {
     Float: { input: number; output: number };
     /** class java.math.BigDecimal */
     BigDecimal: { input: string; output: string };
-    Instant: { input: string; output: string };
     /** class java.time.LocalDate */
     LocalDate: { input: string; output: string };
     /** class java.time.LocalDateTime */
     LocalDateTime: { input: string; output: string };
-    Long: { input: number; output: number };
     /** class java.util.UUID */
     UUID: { input: string; output: string };
     /** class java.time.YearMonth */
@@ -33,13 +31,6 @@ export enum Adressebeskyttelse {
     Ugradert = 'Ugradert',
     Ukjent = 'Ukjent',
 }
-
-export type AktivSaksbehandler = {
-    __typename?: 'AktivSaksbehandler';
-    ident: Scalars['String']['output'];
-    navn: Scalars['String']['output'];
-    oid: Scalars['UUID']['output'];
-};
 
 export type Alder = {
     __typename?: 'Alder';
@@ -317,17 +308,6 @@ export enum Dagtype {
     SykedagNav = 'SykedagNav',
 }
 
-export type DatoPeriode = {
-    __typename?: 'DatoPeriode';
-    fom: Scalars['LocalDate']['output'];
-    tom: Scalars['LocalDate']['output'];
-};
-
-export type DatoPeriodeInput = {
-    fom: Scalars['LocalDate']['input'];
-    tom: Scalars['LocalDate']['input'];
-};
-
 export enum Egenskap {
     Arbeidstaker = 'ARBEIDSTAKER',
     Beslutter = 'BESLUTTER',
@@ -562,11 +542,6 @@ export type LagtPaVent = Historikkinnslag & {
     type: PeriodehistorikkType;
 };
 
-export type LeggTilTilkommenInntektResponse = {
-    __typename?: 'LeggTilTilkommenInntektResponse';
-    tilkommenInntektId: Scalars['UUID']['output'];
-};
-
 export type LovhjemmelInput = {
     bokstav?: InputMaybe<Scalars['String']['input']>;
     ledd?: InputMaybe<Scalars['String']['input']>;
@@ -617,11 +592,6 @@ export type Mutation = {
     overstyrArbeidsforhold?: Maybe<Scalars['Boolean']['output']>;
     overstyrDager?: Maybe<Scalars['Boolean']['output']>;
     overstyrInntektOgRefusjon?: Maybe<Scalars['Boolean']['output']>;
-    restPostOpphevStans: Scalars['Boolean']['output'];
-    restPostTilkommenInntektEndre: Scalars['Boolean']['output'];
-    restPostTilkommenInntektFjern: Scalars['Boolean']['output'];
-    restPostTilkommenInntektGjenopprett: Scalars['Boolean']['output'];
-    restPostTilkomneInntekter: LeggTilTilkommenInntektResponse;
     sendIRetur?: Maybe<Scalars['Boolean']['output']>;
     sendTilGodkjenningV2?: Maybe<Scalars['Boolean']['output']>;
     sendTilInfotrygd: Scalars['Boolean']['output'];
@@ -724,29 +694,6 @@ export type MutationOverstyrDagerArgs = {
 
 export type MutationOverstyrInntektOgRefusjonArgs = {
     overstyring: InntektOgRefusjonOverstyringInput;
-};
-
-export type MutationRestPostOpphevStansArgs = {
-    input: PostOpphevStansRequestBody;
-};
-
-export type MutationRestPostTilkommenInntektEndreArgs = {
-    input: PostTilkommenInntektEndreRequestBody;
-    tilkommenInntektId: Scalars['UUID']['input'];
-};
-
-export type MutationRestPostTilkommenInntektFjernArgs = {
-    input: PostTilkommenInntektFjernRequestBody;
-    tilkommenInntektId: Scalars['UUID']['input'];
-};
-
-export type MutationRestPostTilkommenInntektGjenopprettArgs = {
-    input: PostTilkommenInntektGjenopprettRequestBody;
-    tilkommenInntektId: Scalars['UUID']['input'];
-};
-
-export type MutationRestPostTilkomneInntekterArgs = {
-    input: PostTilkomneInntekterRequestBody;
 };
 
 export type MutationSendIReturArgs = {
@@ -1089,31 +1036,6 @@ export type Personnavn = {
     mellomnavn?: Maybe<Scalars['String']['output']>;
 };
 
-export type PostOpphevStansRequestBody = {
-    begrunnelse: Scalars['String']['input'];
-    fodselsnummer: Scalars['String']['input'];
-};
-
-export type PostTilkommenInntektEndreRequestBody = {
-    endretTil: TilkommenInntektInput;
-    notatTilBeslutter: Scalars['String']['input'];
-};
-
-export type PostTilkommenInntektFjernRequestBody = {
-    notatTilBeslutter: Scalars['String']['input'];
-};
-
-export type PostTilkommenInntektGjenopprettRequestBody = {
-    endretTil: TilkommenInntektInput;
-    notatTilBeslutter: Scalars['String']['input'];
-};
-
-export type PostTilkomneInntekterRequestBody = {
-    fodselsnummer: Scalars['String']['input'];
-    notatTilBeslutter: Scalars['String']['input'];
-    verdier: TilkommenInntektInput;
-};
-
 export type Query = {
     __typename?: 'Query';
     antallOppgaver: AntallOppgaver;
@@ -1121,9 +1043,7 @@ export type Query = {
     behandlingsstatistikk: Behandlingsstatistikk;
     opptegnelser: Array<Opptegnelse>;
     person?: Maybe<Person>;
-    restGetAktiveSaksbehandlere: Array<AktivSaksbehandler>;
     restGetOrganisasjon?: Maybe<Organisasjon>;
-    restGetPersonTilkomneInntektskilder: Array<TilkommenInntektskilde>;
 };
 
 export type QueryBehandledeOppgaverFeedArgs = {
@@ -1144,10 +1064,6 @@ export type QueryPersonArgs = {
 
 export type QueryRestGetOrganisasjonArgs = {
     organisasjonsnummer: Scalars['String']['input'];
-};
-
-export type QueryRestGetPersonTilkomneInntektskilderArgs = {
-    aktorId: Scalars['String']['input'];
 };
 
 export type Refusjonselement = {
@@ -1430,100 +1346,6 @@ export type Tildeling = {
     epost: Scalars['String']['output'];
     navn: Scalars['String']['output'];
     oid: Scalars['UUID']['output'];
-};
-
-export type TilkommenInntekt = {
-    __typename?: 'TilkommenInntekt';
-    ekskluderteUkedager: Array<Scalars['LocalDate']['output']>;
-    erDelAvAktivTotrinnsvurdering: Scalars['Boolean']['output'];
-    events: Array<TilkommenInntektEvent>;
-    fjernet: Scalars['Boolean']['output'];
-    periode: DatoPeriode;
-    periodebelop: Scalars['BigDecimal']['output'];
-    tilkommenInntektId: Scalars['UUID']['output'];
-};
-
-export type TilkommenInntektEndretEvent = TilkommenInntektEvent & {
-    __typename?: 'TilkommenInntektEndretEvent';
-    endringer: TilkommenInntektEventEndringer;
-    metadata: TilkommenInntektEventMetadata;
-};
-
-export type TilkommenInntektEvent = {
-    metadata: TilkommenInntektEventMetadata;
-};
-
-export type TilkommenInntektEventEndringer = {
-    __typename?: 'TilkommenInntektEventEndringer';
-    ekskluderteUkedager?: Maybe<TilkommenInntektEventEndringerListLocalDateEndring>;
-    organisasjonsnummer?: Maybe<TilkommenInntektEventEndringerStringEndring>;
-    periode?: Maybe<TilkommenInntektEventEndringerDatoPeriodeEndring>;
-    periodebelop?: Maybe<TilkommenInntektEventEndringerBigDecimalEndring>;
-};
-
-export type TilkommenInntektEventEndringerBigDecimalEndring = {
-    __typename?: 'TilkommenInntektEventEndringerBigDecimalEndring';
-    fra: Scalars['BigDecimal']['output'];
-    til: Scalars['BigDecimal']['output'];
-};
-
-export type TilkommenInntektEventEndringerDatoPeriodeEndring = {
-    __typename?: 'TilkommenInntektEventEndringerDatoPeriodeEndring';
-    fra: DatoPeriode;
-    til: DatoPeriode;
-};
-
-export type TilkommenInntektEventEndringerListLocalDateEndring = {
-    __typename?: 'TilkommenInntektEventEndringerListLocalDateEndring';
-    fra: Array<Scalars['LocalDate']['output']>;
-    til: Array<Scalars['LocalDate']['output']>;
-};
-
-export type TilkommenInntektEventEndringerStringEndring = {
-    __typename?: 'TilkommenInntektEventEndringerStringEndring';
-    fra: Scalars['String']['output'];
-    til: Scalars['String']['output'];
-};
-
-export type TilkommenInntektEventMetadata = {
-    __typename?: 'TilkommenInntektEventMetadata';
-    notatTilBeslutter: Scalars['String']['output'];
-    sekvensnummer: Scalars['Int']['output'];
-    tidspunkt: Scalars['LocalDateTime']['output'];
-    utfortAvSaksbehandlerIdent: Scalars['String']['output'];
-};
-
-export type TilkommenInntektFjernetEvent = TilkommenInntektEvent & {
-    __typename?: 'TilkommenInntektFjernetEvent';
-    metadata: TilkommenInntektEventMetadata;
-};
-
-export type TilkommenInntektGjenopprettetEvent = TilkommenInntektEvent & {
-    __typename?: 'TilkommenInntektGjenopprettetEvent';
-    endringer: TilkommenInntektEventEndringer;
-    metadata: TilkommenInntektEventMetadata;
-};
-
-export type TilkommenInntektInput = {
-    ekskluderteUkedager: Array<Scalars['LocalDate']['input']>;
-    organisasjonsnummer: Scalars['String']['input'];
-    periode: DatoPeriodeInput;
-    periodebelop: Scalars['BigDecimal']['input'];
-};
-
-export type TilkommenInntektOpprettetEvent = TilkommenInntektEvent & {
-    __typename?: 'TilkommenInntektOpprettetEvent';
-    ekskluderteUkedager: Array<Scalars['LocalDate']['output']>;
-    metadata: TilkommenInntektEventMetadata;
-    organisasjonsnummer: Scalars['String']['output'];
-    periode: DatoPeriode;
-    periodebelop: Scalars['BigDecimal']['output'];
-};
-
-export type TilkommenInntektskilde = {
-    __typename?: 'TilkommenInntektskilde';
-    inntekter: Array<TilkommenInntekt>;
-    organisasjonsnummer: Scalars['String']['output'];
 };
 
 export type TilleggsinfoForInntektskilde = {

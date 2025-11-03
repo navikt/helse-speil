@@ -3,8 +3,7 @@
 import React, { ReactElement, useState } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
-import { useMutation } from '@apollo/client';
-import { RestPostTilkommenInntektEndreDocument } from '@io/graphql';
+import { usePostTilkommenInntektEndre } from '@io/rest/generated/tilkommen-inntekt/tilkommen-inntekt';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
@@ -26,9 +25,10 @@ export const EndreTilkommenInntektView = ({
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [submitError, setSubmitError] = useState<string | undefined>(undefined);
 
-    const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
+    const { data: tilkommenInntektResponse, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
         person?.aktorId,
     );
+    const tilkommenInntektData = tilkommenInntektResponse?.data;
     const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =
         tilkommenInntektData !== undefined
             ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData)
@@ -38,7 +38,7 @@ export const EndreTilkommenInntektView = ({
             (inntektMedOrganisasjonsnummer) => inntektMedOrganisasjonsnummer.tilkommenInntektId === tilkommenInntektId,
         );
 
-    const [endreTilkommenInntekt] = useMutation(RestPostTilkommenInntektEndreDocument);
+    const { mutate: endreTilkommenInntekt } = usePostTilkommenInntektEndre();
 
     if (
         !person ||
@@ -51,10 +51,10 @@ export const EndreTilkommenInntektView = ({
     const submit = async (values: TilkommenInntektSchema) => {
         setIsSubmitting(true);
         setSubmitError(undefined);
-        await endreTilkommenInntekt({
-            variables: {
+        endreTilkommenInntekt(
+            {
                 tilkommenInntektId: tilkommenInntektMedOrganisasjonsnummer.tilkommenInntektId,
-                input: {
+                data: {
                     endretTil: {
                         periode: {
                             fom: norskDatoTilIsoDato(values.fom),
@@ -67,16 +67,18 @@ export const EndreTilkommenInntektView = ({
                     notatTilBeslutter: values.notat,
                 },
             },
-            onCompleted: () => {
-                tilkommenInntektRefetch().then(() => {
-                    navigerTilTilkommenInntekt(tilkommenInntektMedOrganisasjonsnummer.tilkommenInntektId);
-                });
+            {
+                onSuccess: () => {
+                    tilkommenInntektRefetch().then(() => {
+                        navigerTilTilkommenInntekt(tilkommenInntektMedOrganisasjonsnummer.tilkommenInntektId);
+                    });
+                },
+                onError: () => {
+                    setSubmitError('Klarte ikke lagre endringer. Prøv igjen senere, eller kontakt en coach.');
+                    setIsSubmitting(false);
+                },
             },
-            onError: () => {
-                setSubmitError('Klarte ikke lagre endringer. Prøv igjen senere, eller kontakt en coach.');
-                setIsSubmitting(false);
-            },
-        });
+        );
     };
 
     return (

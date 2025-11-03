@@ -4,8 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
-import { useMutation } from '@apollo/client';
-import { RestPostTilkomneInntekterDocument } from '@io/graphql';
+import { usePostTilkomneInntekter } from '@io/rest/generated/tilkommen-inntekt/tilkommen-inntekt';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
@@ -24,15 +23,16 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
     const [submitError, setSubmitError] = useState<string | undefined>(undefined);
     const router = useRouter();
 
-    const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
+    const { data: tilkommenInntektResponse, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
         person?.aktorId,
     );
+    const tilkommenInntektData = tilkommenInntektResponse?.data;
     const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =
         tilkommenInntektData !== undefined
             ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData)
             : undefined;
 
-    const [leggTilTilkommenInntekt] = useMutation(RestPostTilkomneInntekterDocument);
+    const { mutate: leggTilTilkommenInntekt } = usePostTilkomneInntekter();
 
     if (!person || tilkomneInntekterMedOrganisasjonsnummer === undefined) {
         return null;
@@ -41,9 +41,9 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
     const submit = async (values: TilkommenInntektSchema) => {
         setIsSubmitting(true);
         setSubmitError(undefined);
-        await leggTilTilkommenInntekt({
-            variables: {
-                input: {
+        leggTilTilkommenInntekt(
+            {
+                data: {
                     fodselsnummer: person.fodselsnummer,
                     notatTilBeslutter: values.notat,
                     verdier: {
@@ -57,16 +57,20 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
                     },
                 },
             },
-            onCompleted: (data) => {
-                tilkommenInntektRefetch().then(() => {
-                    navigerTilTilkommenInntekt(data.restPostTilkomneInntekter.tilkommenInntektId);
-                });
+            {
+                onSuccess: (data) => {
+                    tilkommenInntektRefetch().then(() => {
+                        navigerTilTilkommenInntekt(data.data.tilkommenInntektId);
+                    });
+                },
+                onError: () => {
+                    setSubmitError(
+                        'Klarte ikke lagre ny tilkommen inntekt. Prøv igjen senere, eller kontakt en coach.',
+                    );
+                    setIsSubmitting(false);
+                },
             },
-            onError: () => {
-                setSubmitError('Klarte ikke lagre ny tilkommen inntekt. Prøv igjen senere, eller kontakt en coach.');
-                setIsSubmitting(false);
-            },
-        });
+        );
     };
     return (
         <TilkommenInntektSkjema

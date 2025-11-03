@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { TilkommenInntekt } from '@io/graphql';
+import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { TilkommenInntektPeriod } from '@saksbilde/timeline/TilkommenInntektPeriod';
 import { usePeriodStyling } from '@saksbilde/timeline/hooks/usePeriodStyling';
 import { usePopulateNeighbours } from '@saksbilde/timeline/hooks/usePopulateNeighbours';
@@ -11,7 +11,7 @@ import styles from './Periods.module.css';
 interface PeriodsProps {
     start: Dayjs;
     end: Dayjs;
-    tilkomneInntekter: TilkommenInntekt[];
+    tilkomneInntekter: ApiTilkommenInntekt[];
 }
 
 export const TilkommenInntektPeriods = ({ start, end, tilkomneInntekter }: PeriodsProps): ReactElement => {

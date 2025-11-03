@@ -5,21 +5,21 @@ import { cwd } from 'process';
 import { v4 } from 'uuid';
 
 import {
-    LeggTilTilkommenInntektResponse,
-    TilkommenInntekt,
-    TilkommenInntektEndretEvent,
-    TilkommenInntektEvent,
-    TilkommenInntektEventEndringer,
-    TilkommenInntektEventMetadata,
-    TilkommenInntektFjernetEvent,
-    TilkommenInntektGjenopprettetEvent,
-    TilkommenInntektInput,
-    TilkommenInntektOpprettetEvent,
-    TilkommenInntektskilde,
-} from '@spesialist-mock/schemaTypes';
+    ApiLeggTilTilkommenInntektResponse,
+    ApiTilkommenInntekt,
+    ApiTilkommenInntektEndretEvent,
+    ApiTilkommenInntektEvent,
+    ApiTilkommenInntektEventEndringer,
+    ApiTilkommenInntektEventMetadata,
+    ApiTilkommenInntektFjernetEvent,
+    ApiTilkommenInntektGjenopprettetEvent,
+    ApiTilkommenInntektInput,
+    ApiTilkommenInntektOpprettetEvent,
+    ApiTilkommenInntektskilde,
+} from '@/io/rest/generated/spesialist.schemas';
 
 export class TilkommenInntektMock {
-    private static inntektskilder: Map<string, TilkommenInntektskilde[]> = new Map();
+    private static inntektskilder: Map<string, ApiTilkommenInntektskilde[]> = new Map();
     private static aktørIdToFødselsnummerMap: Map<string, string> = new Map();
 
     static {
@@ -45,8 +45,8 @@ export class TilkommenInntektMock {
     static leggTilTilkommenInntekt = (
         fødselsnummer: string,
         notatTilBeslutter: string,
-        verdier: TilkommenInntektInput,
-    ): LeggTilTilkommenInntektResponse => {
+        verdier: ApiTilkommenInntektInput,
+    ): ApiLeggTilTilkommenInntektResponse => {
         const nyTilkommenInntektId = v4();
         if (TilkommenInntektMock.inntektskilder.get(fødselsnummer) === undefined) {
             TilkommenInntektMock.inntektskilder.set(fødselsnummer, []);
@@ -55,19 +55,18 @@ export class TilkommenInntektMock {
             verdier.organisasjonsnummer,
             TilkommenInntektMock.inntektskilder.get(fødselsnummer) ?? [],
         );
-        const inntekt: TilkommenInntekt = {
-            __typename: 'TilkommenInntekt',
+        const inntekt: ApiTilkommenInntekt = {
             ekskluderteUkedager: verdier.ekskluderteUkedager,
             erDelAvAktivTotrinnsvurdering: true,
             events: [
                 {
-                    __typename: 'TilkommenInntektOpprettetEvent',
+                    type: 'ApiTilkommenInntektOpprettetEvent',
                     metadata: TilkommenInntektMock.byggEventMetadata(notatTilBeslutter, []),
                     ekskluderteUkedager: verdier.ekskluderteUkedager,
                     organisasjonsnummer: verdier.organisasjonsnummer,
                     periode: verdier.periode,
                     periodebelop: verdier.periodebelop,
-                } as TilkommenInntektOpprettetEvent,
+                } as ApiTilkommenInntektOpprettetEvent,
             ],
             fjernet: false,
             periode: verdier.periode,
@@ -76,10 +75,10 @@ export class TilkommenInntektMock {
         };
         tilkommenInntektskilde.inntekter.push(inntekt);
 
-        return { __typename: 'LeggTilTilkommenInntektResponse', tilkommenInntektId: nyTilkommenInntektId };
+        return { tilkommenInntektId: nyTilkommenInntektId };
     };
 
-    static tilkomneInntektskilder = (aktørId: string): TilkommenInntektskilde[] => {
+    static tilkomneInntektskilder = (aktørId: string): ApiTilkommenInntektskilde[] => {
         const fødselsnummer = TilkommenInntektMock.aktørIdToFødselsnummerMap.get(aktørId);
         if (fødselsnummer === undefined) {
             return [];
@@ -88,7 +87,7 @@ export class TilkommenInntektMock {
     };
 
     static endreTilkommenInntekt = (
-        endretTil: TilkommenInntektInput,
+        endretTil: ApiTilkommenInntektInput,
         notatTilBeslutter: string,
         tilkommenInntektId: string,
     ): boolean => {
@@ -97,10 +96,10 @@ export class TilkommenInntektMock {
         const { inntekt, inntektskilde, inntektskilder } = tilkommenInntektMedKontekst;
 
         inntekt.events.push({
-            __typename: 'TilkommenInntektEndretEvent',
+            type: 'ApiTilkommenInntektEndretEvent',
             metadata: TilkommenInntektMock.byggEventMetadata(notatTilBeslutter, inntekt.events),
             endringer: TilkommenInntektMock.tilEventEndringer(inntekt, inntektskilde.organisasjonsnummer, endretTil),
-        } as TilkommenInntektEndretEvent);
+        } as ApiTilkommenInntektEndretEvent);
 
         TilkommenInntektMock.utførEndring(inntekt, inntektskilde, inntektskilder, endretTil);
 
@@ -113,9 +112,9 @@ export class TilkommenInntektMock {
         const { inntekt } = tilkommenInntektMedKontekst;
 
         inntekt.events.push({
-            __typename: 'TilkommenInntektFjernetEvent',
+            type: 'ApiTilkommenInntektFjernetEvent',
             metadata: TilkommenInntektMock.byggEventMetadata(notatTilBeslutter, inntekt.events),
-        } as TilkommenInntektFjernetEvent);
+        } as ApiTilkommenInntektFjernetEvent);
 
         inntekt.fjernet = true;
 
@@ -123,7 +122,7 @@ export class TilkommenInntektMock {
     };
 
     static gjenopprettTilkommenInntekt = (
-        endretTil: TilkommenInntektInput,
+        endretTil: ApiTilkommenInntektInput,
         notatTilBeslutter: string,
         tilkommenInntektId: string,
     ): boolean => {
@@ -132,10 +131,10 @@ export class TilkommenInntektMock {
         const { inntekt, inntektskilde, inntektskilder } = tilkommenInntektMedKontekst;
 
         inntekt.events.push({
-            __typename: 'TilkommenInntektGjenopprettetEvent',
+            type: 'ApiTilkommenInntektGjenopprettetEvent',
             metadata: TilkommenInntektMock.byggEventMetadata(notatTilBeslutter, inntekt.events),
             endringer: TilkommenInntektMock.tilEventEndringer(inntekt, inntektskilde.organisasjonsnummer, endretTil),
-        } as TilkommenInntektGjenopprettetEvent);
+        } as ApiTilkommenInntektGjenopprettetEvent);
 
         TilkommenInntektMock.utførEndring(inntekt, inntektskilde, inntektskilder, endretTil);
         inntekt.fjernet = false;
@@ -145,14 +144,13 @@ export class TilkommenInntektMock {
 
     private static finnEllerLeggTilInntektskilde(
         organisasjonsnummer: string,
-        inntektskilder: TilkommenInntektskilde[],
-    ) {
+        inntektskilder: ApiTilkommenInntektskilde[],
+    ): ApiTilkommenInntektskilde {
         const eksisterende = inntektskilder.find(
-            (eksisterendeInntektskilde: TilkommenInntektskilde) =>
+            (eksisterendeInntektskilde: ApiTilkommenInntektskilde) =>
                 eksisterendeInntektskilde.organisasjonsnummer == organisasjonsnummer,
         );
         const inntektskilde = eksisterende ?? {
-            __typename: 'TilkommenInntektskilde',
             organisasjonsnummer: organisasjonsnummer,
             inntekter: [],
         };
@@ -184,10 +182,10 @@ export class TilkommenInntektMock {
     }
 
     private static utførEndring(
-        inntekt: TilkommenInntekt,
-        inntektskilde: TilkommenInntektskilde,
-        inntektskilder: TilkommenInntektskilde[],
-        endretTil: TilkommenInntektInput,
+        inntekt: ApiTilkommenInntekt,
+        inntektskilde: ApiTilkommenInntektskilde,
+        inntektskilder: ApiTilkommenInntektskilde[],
+        endretTil: ApiTilkommenInntektInput,
     ) {
         inntekt.periode.fom = endretTil.periode.fom;
         inntekt.periode.tom = endretTil.periode.tom;
@@ -207,10 +205,9 @@ export class TilkommenInntektMock {
 
     private static byggEventMetadata(
         notatTilBeslutter: string,
-        eksisterendeEvents: TilkommenInntektEvent[],
-    ): TilkommenInntektEventMetadata {
+        eksisterendeEvents: ApiTilkommenInntektEvent[],
+    ): ApiTilkommenInntektEventMetadata {
         return {
-            __typename: 'TilkommenInntektEventMetadata',
             notatTilBeslutter: notatTilBeslutter,
             sekvensnummer:
                 eksisterendeEvents.length == 0
@@ -222,18 +219,16 @@ export class TilkommenInntektMock {
     }
 
     private static tilEventEndringer(
-        tilkommenInntekt: TilkommenInntekt,
+        tilkommenInntekt: ApiTilkommenInntekt,
         organisasjonsnummer: string,
-        endretTil: TilkommenInntektInput,
-    ): TilkommenInntektEventEndringer {
+        endretTil: ApiTilkommenInntektInput,
+    ): ApiTilkommenInntektEventEndringer {
         return {
-            __typename: 'TilkommenInntektEventEndringer',
             ekskluderteUkedager: !TilkommenInntektMock.erLikeSett(
                 tilkommenInntekt.ekskluderteUkedager,
                 endretTil.ekskluderteUkedager,
             )
                 ? {
-                      __typename: 'TilkommenInntektEventEndringerListLocalDateEndring',
                       fra: tilkommenInntekt.ekskluderteUkedager,
                       til: endretTil.ekskluderteUkedager,
                   }
@@ -241,7 +236,6 @@ export class TilkommenInntektMock {
             organisasjonsnummer:
                 organisasjonsnummer !== endretTil.organisasjonsnummer
                     ? {
-                          __typename: 'TilkommenInntektEventEndringerStringEndring',
                           fra: organisasjonsnummer,
                           til: endretTil.organisasjonsnummer,
                       }
@@ -250,14 +244,11 @@ export class TilkommenInntektMock {
                 tilkommenInntekt.periode.fom !== endretTil.periode.fom ||
                 tilkommenInntekt.periode.tom !== endretTil.periode.tom
                     ? {
-                          __typename: 'TilkommenInntektEventEndringerDatoPeriodeEndring',
                           fra: {
-                              __typename: 'DatoPeriode',
                               fom: tilkommenInntekt.periode.fom,
                               tom: tilkommenInntekt.periode.tom,
                           },
                           til: {
-                              __typename: 'DatoPeriode',
                               fom: endretTil.periode.fom,
                               tom: endretTil.periode.tom,
                           },
@@ -266,7 +257,6 @@ export class TilkommenInntektMock {
             periodebelop:
                 Number(tilkommenInntekt.periodebelop) !== Number(endretTil.periodebelop)
                     ? {
-                          __typename: 'TilkommenInntektEventEndringerBigDecimalEndring',
                           fra: tilkommenInntekt.periodebelop,
                           til: endretTil.periodebelop,
                       }

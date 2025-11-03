@@ -1,31 +1,23 @@
 import {
-    TilkommenInntekt,
-    TilkommenInntektEventEndringerListLocalDateEndring,
-    TilkommenInntektskilde,
-} from '@io/graphql';
-import { useQuery } from '@tanstack/react-query';
+    ApiTilkommenInntekt,
+    ApiTilkommenInntektEventEndringerListLocalDateEndring,
+    ApiTilkommenInntektskilde,
+} from '@io/rest/generated/spesialist.schemas';
+import { useGetTilkomneInntektskilderForPerson } from '@io/rest/generated/tilkommen-inntekt/tilkommen-inntekt';
 import { DateString } from '@typer/shared';
 
 export const useHentTilkommenInntektQuery = (aktørId?: string) =>
-    useQuery({
-        queryKey: ['/personer/{aktorId}/tilkomne-inntektskilder', { aktørId }],
-        queryFn: async (): Promise<TilkommenInntektskilde[]> => {
-            const response = await fetch(`/api/spesialist/personer/${aktørId}/tilkomne-inntektskilder`);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
+    useGetTilkomneInntektskilderForPerson(aktørId!, {
+        query: {
+            enabled: !!aktørId,
         },
-        enabled: !!aktørId,
-        gcTime: 0,
-        staleTime: Infinity,
     });
 
-export type TilkommenInntektMedOrganisasjonsnummer = TilkommenInntekt & {
+export type TilkommenInntektMedOrganisasjonsnummer = ApiTilkommenInntekt & {
     organisasjonsnummer: string;
 };
 
-export const tilTilkomneInntekterMedOrganisasjonsnummer = (inntektskilder: TilkommenInntektskilde[]) =>
+export const tilTilkomneInntekterMedOrganisasjonsnummer = (inntektskilder: ApiTilkommenInntektskilde[]) =>
     inntektskilder.flatMap((inntektskilde) =>
         inntektskilde.inntekter.map((tilkommenInntekt) => ({
             organisasjonsnummer: inntektskilde.organisasjonsnummer,
@@ -34,8 +26,8 @@ export const tilTilkomneInntekterMedOrganisasjonsnummer = (inntektskilder: Tilko
     );
 
 export const useTilkommenInntektMedOrganisasjonsnummer = (tilkommenInntektId: string, aktørId?: string) => {
-    const { data: tilkommenInntektData, refetch } = useHentTilkommenInntektQuery(aktørId);
-    const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektData
+    const { data: tilkommenInntektResponse, refetch } = useHentTilkommenInntektQuery(aktørId);
+    const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektResponse?.data
         ?.flatMap((tilkommenInntektskilde) =>
             tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
                 organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,
@@ -63,7 +55,7 @@ export type DagMedEndringstype = {
 };
 
 export const tilSorterteDagerMedEndringstype = (
-    ekskluderteUkedager: TilkommenInntektEventEndringerListLocalDateEndring,
+    ekskluderteUkedager: ApiTilkommenInntektEventEndringerListLocalDateEndring,
 ): DagMedEndringstype[] =>
     ekskluderteUkedager.fra
         .filter((dag) => !ekskluderteUkedager!.til.includes(dag))
