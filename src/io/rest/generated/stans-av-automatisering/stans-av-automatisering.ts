@@ -6,7 +6,7 @@
  */
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
-import type { ApiHttpProblemDetailsApiPostOpphevStansErrorCode, ApiOpphevStansRequest } from '../spesialist.schemas';
+import type { ApiOpphevStansRequest } from '../spesialist.schemas';
 
 import { useMutation } from '@tanstack/react-query';
 import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
@@ -21,10 +21,7 @@ export const postOpphevStans = (apiOpphevStansRequest?: ApiOpphevStansRequest, s
     });
 };
 
-export const getPostOpphevStansMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostOpphevStansErrorCode>,
-    TContext = unknown,
->(options?: {
+export const getPostOpphevStansMutationOptions = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof postOpphevStans>>,
         TError,
@@ -57,12 +54,9 @@ export const getPostOpphevStansMutationOptions = <
 
 export type PostOpphevStansMutationResult = NonNullable<Awaited<ReturnType<typeof postOpphevStans>>>;
 export type PostOpphevStansMutationBody = ApiOpphevStansRequest;
-export type PostOpphevStansMutationError = ErrorType<ApiHttpProblemDetailsApiPostOpphevStansErrorCode>;
+export type PostOpphevStansMutationError = ErrorType<unknown>;
 
-export const usePostOpphevStans = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostOpphevStansErrorCode>,
-    TContext = unknown,
->(
+export const usePostOpphevStans = <TError = ErrorType<unknown>, TContext = unknown>(
     options?: {
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof postOpphevStans>>,

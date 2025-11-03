@@ -6,11 +6,7 @@
  */
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
-import type {
-    ApiHttpProblemDetailsApiGetOppgaverErrorCode,
-    ApiOppgaveProjeksjonSide,
-    GetOppgaverParams,
-} from '../spesialist.schemas';
+import type { ApiOppgaveProjeksjonSide, GetOppgaverParams } from '../spesialist.schemas';
 
 import { useQuery } from '@tanstack/react-query';
 import type {
@@ -40,7 +36,7 @@ export const getGetOppgaverQueryKey = (params?: GetOppgaverParams) => {
 
 export const getGetOppgaverQueryOptions = <
     TData = Awaited<ReturnType<typeof getOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
+    TError = ErrorType<unknown>,
 >(
     params?: GetOppgaverParams,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>> },
@@ -59,12 +55,9 @@ export const getGetOppgaverQueryOptions = <
 };
 
 export type GetOppgaverQueryResult = NonNullable<Awaited<ReturnType<typeof getOppgaver>>>;
-export type GetOppgaverQueryError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>;
+export type GetOppgaverQueryError = ErrorType<unknown>;
 
-export function useGetOppgaver<
-    TData = Awaited<ReturnType<typeof getOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
->(
+export function useGetOppgaver<TData = Awaited<ReturnType<typeof getOppgaver>>, TError = ErrorType<unknown>>(
     params: undefined | GetOppgaverParams,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>> &
@@ -79,10 +72,7 @@ export function useGetOppgaver<
     },
     queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetOppgaver<
-    TData = Awaited<ReturnType<typeof getOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
->(
+export function useGetOppgaver<TData = Awaited<ReturnType<typeof getOppgaver>>, TError = ErrorType<unknown>>(
     params?: GetOppgaverParams,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>> &
@@ -97,19 +87,13 @@ export function useGetOppgaver<
     },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetOppgaver<
-    TData = Awaited<ReturnType<typeof getOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
->(
+export function useGetOppgaver<TData = Awaited<ReturnType<typeof getOppgaver>>, TError = ErrorType<unknown>>(
     params?: GetOppgaverParams,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>> },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useGetOppgaver<
-    TData = Awaited<ReturnType<typeof getOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
->(
+export function useGetOppgaver<TData = Awaited<ReturnType<typeof getOppgaver>>, TError = ErrorType<unknown>>(
     params?: GetOppgaverParams,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>> },
     queryClient?: QueryClient,
