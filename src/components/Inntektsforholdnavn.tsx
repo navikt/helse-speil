@@ -49,8 +49,8 @@ export const Organisasjonsnavn = ({
     showCopyButton?: boolean;
     visOrganisasjonsnummerITooltip?: boolean;
 } & Omit<BodyShortProps, 'children'>) => {
-    const { loading, data } = useOrganisasjonQuery(organisasjonsnummer);
-    const navn = data?.restGetOrganisasjon?.navn ?? undefined;
+    const { isPending: loading, data } = useOrganisasjonQuery(organisasjonsnummer);
+    const navn = data?.data?.navn ?? undefined;
 
     return loading ? (
         <Tooltip content="Henter navn fra enhetsregisteret...">

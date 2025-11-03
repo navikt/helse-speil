@@ -14,15 +14,10 @@ export type Scalars = {
     Boolean: { input: boolean; output: boolean };
     Int: { input: number; output: number };
     Float: { input: number; output: number };
-    /** class java.math.BigDecimal */
     BigDecimal: { input: string; output: string };
-    /** class java.time.LocalDate */
     LocalDate: { input: string; output: string };
-    /** class java.time.LocalDateTime */
     LocalDateTime: { input: string; output: string };
-    /** class java.util.UUID */
     UUID: { input: string; output: string };
-    /** class java.time.YearMonth */
     YearMonth: { input: string; output: string };
 };
 
@@ -816,12 +811,6 @@ export enum Opptegnelsetype {
     UtbetalingAnnulleringOk = 'UTBETALING_ANNULLERING_OK',
 }
 
-export type Organisasjon = {
-    __typename: 'Organisasjon';
-    navn: Maybe<Scalars['String']['output']>;
-    organisasjonsnummer: Scalars['String']['output'];
-};
-
 export type Overstyring = {
     ferdigstilt: Scalars['Boolean']['output'];
     hendelseId: Scalars['UUID']['output'];
@@ -1045,7 +1034,6 @@ export type Query = {
     behandlingsstatistikk: Behandlingsstatistikk;
     opptegnelser: Array<Opptegnelse>;
     person: Maybe<Person>;
-    restGetOrganisasjon: Maybe<Organisasjon>;
 };
 
 export type QueryBehandledeOppgaverFeedArgs = {
@@ -1062,10 +1050,6 @@ export type QueryOpptegnelserArgs = {
 export type QueryPersonArgs = {
     aktorId?: InputMaybe<Scalars['String']['input']>;
     fnr?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type QueryRestGetOrganisasjonArgs = {
-    organisasjonsnummer: Scalars['String']['input'];
 };
 
 export type Refusjonselement = {
@@ -6741,15 +6725,6 @@ export type LeggPaVentMutation = {
 };
 
 export type PaventFragment = { __typename: 'PaVent'; frist: string | null; oid: string };
-
-export type RestGetOrganisasjonQueryVariables = Exact<{
-    organisasjonsnummer: Scalars['String']['input'];
-}>;
-
-export type RestGetOrganisasjonQuery = {
-    __typename: 'Query';
-    restGetOrganisasjon: { __typename: 'Organisasjon'; organisasjonsnummer: string; navn: string | null } | null;
-};
 
 export type SkjonnsfastsettelseMutationMutationVariables = Exact<{
     skjonnsfastsettelse: SkjonnsfastsettelseInput;
@@ -13993,78 +13968,6 @@ export const LeggPaVentDocument = {
         },
     ],
 } as unknown as DocumentNode<LeggPaVentMutation, LeggPaVentMutationVariables>;
-export const RestGetOrganisasjonDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'RESTGetOrganisasjon' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'restGetOrganisasjon' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'organisasjonsnummer' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                            },
-                        ],
-                        directives: [
-                            {
-                                kind: 'Directive',
-                                name: { kind: 'Name', value: 'rest' },
-                                arguments: [
-                                    {
-                                        kind: 'Argument',
-                                        name: { kind: 'Name', value: 'type' },
-                                        value: { kind: 'StringValue', value: 'Organisasjon', block: false },
-                                    },
-                                    {
-                                        kind: 'Argument',
-                                        name: { kind: 'Name', value: 'endpoint' },
-                                        value: { kind: 'StringValue', value: 'sparkelAareg', block: false },
-                                    },
-                                    {
-                                        kind: 'Argument',
-                                        name: { kind: 'Name', value: 'path' },
-                                        value: {
-                                            kind: 'StringValue',
-                                            value: '/organisasjoner/{args.organisasjonsnummer}',
-                                            block: false,
-                                        },
-                                    },
-                                    {
-                                        kind: 'Argument',
-                                        name: { kind: 'Name', value: 'method' },
-                                        value: { kind: 'StringValue', value: 'GET', block: false },
-                                    },
-                                ],
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<RestGetOrganisasjonQuery, RestGetOrganisasjonQueryVariables>;
 export const SkjonnsfastsettelseMutationDocument = {
     kind: 'Document',
     definitions: [

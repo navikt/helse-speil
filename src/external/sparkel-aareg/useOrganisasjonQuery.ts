@@ -1,12 +1,18 @@
-import { useQuery } from '@apollo/client';
-import { RestGetOrganisasjonDocument } from '@io/graphql';
+import { AxiosResponse } from 'axios';
+
+import { customAxios } from '@app/axios/axiosClient';
+import { useQuery } from '@tanstack/react-query';
+
+type SparkelApiOrganisasjon = { organisasjonsnummer: string; navn: string | null } | null;
 
 export const useOrganisasjonQuery = (organisasjonsnummer?: string) =>
-    useQuery(RestGetOrganisasjonDocument, {
-        variables: {
-            organisasjonsnummer: organisasjonsnummer!,
-        },
-        skip: !erGyldigOrganisasjonsnummer(organisasjonsnummer),
+    useQuery({
+        queryKey: ['/api/sparkel-aareg/organisasjoner/{organisasjonsnummer}', organisasjonsnummer],
+        queryFn: async (): Promise<AxiosResponse<SparkelApiOrganisasjon>> =>
+            customAxios.get(`/api/sparkel-aareg/organisasjoner/${organisasjonsnummer}`),
+        gcTime: Infinity,
+        staleTime: Infinity,
+        enabled: erGyldigOrganisasjonsnummer(organisasjonsnummer),
     });
 
 export const erGyldigOrganisasjonsnummer = (organisasjonsnummer: string | undefined) =>
