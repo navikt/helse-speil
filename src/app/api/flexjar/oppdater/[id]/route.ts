@@ -7,7 +7,9 @@ export const dynamic = 'force-dynamic';
 export async function POST(request: Request, props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
     if (erLokal) {
-        logger.info(`Mocker flexjar lokalt, mottok OPPDATERT feedback: ${JSON.stringify(request.json(), null, 2)}`);
+        logger.info(
+            `Mocker flexjar lokalt, mottok OPPDATERT feedback: ${JSON.stringify(await request.json(), null, 2)}`,
+        );
 
         return Response.json(
             {
