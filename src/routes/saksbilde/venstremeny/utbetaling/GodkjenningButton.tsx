@@ -2,12 +2,11 @@ import React, { ReactElement, ReactNode, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
-import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { FattVedtakDocument, Personinfo, Utbetaling } from '@io/graphql';
+import { Personinfo, Utbetaling } from '@io/graphql';
+import { PostFattVedtakMutationError, usePostFattVedtak } from '@io/rest/generated/vedtak/vedtak';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
-import { apolloExtensionValue } from '@utils/error';
 import { generateId } from '@utils/generateId';
 
 import { BackendFeil, UtbetalingModal } from './UtbetalingModal';
@@ -27,7 +26,7 @@ const useAddUtbetalingstoast = () => {
 
 interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError'> {
     children: ReactNode;
-    oppgavereferanse: string;
+    behandlingId: string;
     erBeslutteroppgave: boolean;
     disabled: boolean;
     onSuccess?: () => void;
@@ -40,7 +39,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
 
 export const GodkjenningButton = ({
     children,
-    oppgavereferanse,
+    behandlingId,
     erBeslutteroppgave,
     disabled = false,
     onSuccess,
@@ -52,23 +51,27 @@ export const GodkjenningButton = ({
     ...buttonProps
 }: GodkjenningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
-    const [fattVedtakMutation, { error, loading, reset: resetFattVedtakMutation }] = useMutation(FattVedtakDocument);
+    const { mutate, error, isPending: loading, reset: resetFattVedtakMutation } = usePostFattVedtak();
     useKeyboard([{ key: Key.F6, action: () => !disabled && setShowModal(true), ignoreIfModifiers: false }]);
 
     const addUtbetalingstoast = useAddUtbetalingstoast();
 
     const godkjennUtbetaling = () => {
-        void fattVedtakMutation({
-            variables: {
-                oppgavereferanse: oppgavereferanse,
-                begrunnelse: vedtakBegrunnelseTekst,
+        void mutate(
+            {
+                behandlingId: behandlingId,
+                data: {
+                    begrunnelse: vedtakBegrunnelseTekst,
+                },
             },
-            onCompleted: () => {
-                addUtbetalingstoast();
-                onSuccess?.();
-                setShowModal(false);
+            {
+                onSuccess: () => {
+                    addUtbetalingstoast();
+                    onSuccess?.();
+                    setShowModal(false);
+                },
             },
-        });
+        );
     };
 
     return (
@@ -103,21 +106,36 @@ export const GodkjenningButton = ({
     );
 };
 
-type SpesialistErrorCode = {
-    message: string;
+const somBackendfeil = (error: PostFattVedtakMutationError): BackendFeil => {
+    let problemDetailsCode = error.response?.data?.code;
+    if (!problemDetailsCode)
+        return {
+            message: 'Feil under fatting av vedtak. Kontakt utviklerteamet.',
+        };
+
+    switch (problemDetailsCode) {
+        case 'MANGLER_TILGANG_TIL_PERSON':
+            return message('Du har ikke tilgang til å fatte vedtak for denne personen');
+        case 'OPPGAVE_IKKE_FUNNET':
+            return message('Perioden er allerede utbetalt');
+        case 'OPPGAVE_FEIL_TILSTAND':
+            return message('Perioden er ikke klar til behandling');
+        case 'SAKSBEHANDLER_MANGLER_BESLUTTERTILGANG':
+            return message('Du har ikke beslutterrolle');
+        case 'SAKSBEHANDLER_KAN_IKKE_BESLUTTE_EGEN_OPPGAVE':
+            return message('Du kan ikke beslutte en sak du selv har sendt til godkjenning');
+        case 'VARSLER_MANGLER_VURDERING':
+            return message('Det mangler vurdering av varsler i en eller flere perioder');
+        case 'OVERLAPPER_MED_INFOTRYGD':
+            return message('Det er overlappende utbetaling/registrering i Infotrygd');
+        case 'BEHANDLING_IKKE_FUNNET':
+        case 'VEDTAKSPERIODE_IKKE_FUNNET':
+        case 'TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER':
+        case 'VARSEL_MANGLER_VARSELDEFINISJON':
+            return message(`Feil under fatting av vedtak. Kontakt utviklerteamet.`);
+    }
 };
 
-const somBackendfeil = (error: ApolloError): BackendFeil => {
-    // Dette er hvordan spesialist returnerer feilmeldinger per 7. april 2025
-    const errorCode = apolloExtensionValue<SpesialistErrorCode>(error, 'exception')?.message;
-
-    return {
-        message: errorMessages.get(errorCode || error.message) || 'Feil under fatting av vedtak',
-    };
-};
-
-const errorMessages = new Map<string, string>([
-    ['mangler_vurdering_av_varsler', 'Det mangler vurdering av varsler i en eller flere perioder'],
-    ['ikke_aapen_saksbehandleroppgave', 'Perioden er allerede utbetalt'],
-    ['overlappende_utbetaling_i_infotrygd', 'Det er overlappende utbetaling/registrering i Infotrygd'],
-]);
+const message = (message: string) => ({
+    message: message,
+});
