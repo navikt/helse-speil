@@ -10,22 +10,6 @@ export interface ApiAktivSaksbehandler {
     oid: string;
 }
 
-export type ApiGetAktiveSaksbehandlereErrorCode =
-    (typeof ApiGetAktiveSaksbehandlereErrorCode)[keyof typeof ApiGetAktiveSaksbehandlereErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetAktiveSaksbehandlereErrorCode = {} as const;
-
-export type ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeDetail = null | string;
-
-export interface ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeDetail;
-    code: ApiGetAktiveSaksbehandlereErrorCode;
-}
-
 export type ApiOppgaveSorteringsfelt = (typeof ApiOppgaveSorteringsfelt)[keyof typeof ApiOppgaveSorteringsfelt];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -142,42 +126,9 @@ export interface ApiOppgaveProjeksjonSide {
     elementer: ApiOppgaveProjeksjon[];
 }
 
-export type ApiGetOppgaverErrorCode = (typeof ApiGetOppgaverErrorCode)[keyof typeof ApiGetOppgaverErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetOppgaverErrorCode = {} as const;
-
-export type ApiHttpProblemDetailsApiGetOppgaverErrorCodeDetail = null | string;
-
-export interface ApiHttpProblemDetailsApiGetOppgaverErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetOppgaverErrorCodeDetail;
-    code: ApiGetOppgaverErrorCode;
-}
-
 export interface ApiOpphevStansRequest {
     fodselsnummer: string;
     begrunnelse: string;
-}
-
-export type ApiPostOpphevStansErrorCode =
-    (typeof ApiPostOpphevStansErrorCode)[keyof typeof ApiPostOpphevStansErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostOpphevStansErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostOpphevStansErrorCodeDetail = null | string;
-
-export interface ApiHttpProblemDetailsApiPostOpphevStansErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostOpphevStansErrorCodeDetail;
-    code: ApiPostOpphevStansErrorCode;
 }
 
 export type ApiSoknadstype = (typeof ApiSoknadstype)[keyof typeof ApiSoknadstype];
@@ -284,8 +235,11 @@ export const ApiVisningskriterium = {
     UKJENT: 'UKJENT',
 } as const;
 
+export type ApiSoknadSelvstendigNaringsdrivendeVentetid = null | ApiSoknadSelvstendigNaringsdrivendeApiVentetidPeriode;
+
 export interface ApiSoknadSelvstendigNaringsdrivende {
     inntekt: ApiSoknadSelvstendigNaringsdrivendeApiInntektsar[];
+    ventetid?: ApiSoknadSelvstendigNaringsdrivendeVentetid;
 }
 
 export interface ApiSoknadSelvstendigNaringsdrivendeApiInntektsar {
@@ -295,6 +249,11 @@ export interface ApiSoknadSelvstendigNaringsdrivendeApiInntektsar {
     pensjonsgivendeInntektAvNaringsinntekt: number;
     pensjonsgivendeInntektAvNaringsinntektFraFiskeFangstEllerFamiliebarnehage: number;
     erFerdigLignet: boolean;
+}
+
+export interface ApiSoknadSelvstendigNaringsdrivendeApiVentetidPeriode {
+    fom: string;
+    tom: string;
 }
 
 export type ApiSoknadType = null | ApiSoknadstype;
@@ -319,24 +278,6 @@ export interface ApiSoknad {
     soknadsperioder?: ApiSoknadSoknadsperioder;
     sporsmal?: ApiSoknadSporsmal;
     selvstendigNaringsdrivende?: ApiSoknadSelvstendigNaringsdrivendeProperty;
-}
-
-export type ApiGetSoknadErrorCode = (typeof ApiGetSoknadErrorCode)[keyof typeof ApiGetSoknadErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetSoknadErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    FANT_IKKE_DOKUMENT: 'FANT_IKKE_DOKUMENT',
-} as const;
-
-export type ApiHttpProblemDetailsApiGetSoknadErrorCodeDetail = null | string;
-
-export interface ApiHttpProblemDetailsApiGetSoknadErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetSoknadErrorCodeDetail;
-    code: ApiGetSoknadErrorCode;
 }
 
 export type ApiRefusjonBeloepPrMnd = null | number;
@@ -492,26 +433,6 @@ export interface ApiDokumentInntektsmelding {
     avsenderSystem?: ApiDokumentInntektsmeldingAvsenderSystem;
 }
 
-export type ApiGetInntektsmeldingErrorCode =
-    (typeof ApiGetInntektsmeldingErrorCode)[keyof typeof ApiGetInntektsmeldingErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetInntektsmeldingErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    FANT_IKKE_DOKUMENT: 'FANT_IKKE_DOKUMENT',
-    MANGLER_FØDSELSNUMMER_OG_AKTØRID: 'MANGLER_FØDSELSNUMMER_OG_AKTØRID',
-} as const;
-
-export type ApiHttpProblemDetailsApiGetInntektsmeldingErrorCodeDetail = null | string;
-
-export interface ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetInntektsmeldingErrorCodeDetail;
-    code: ApiGetInntektsmeldingErrorCode;
-}
-
 export interface ApiTilkommenInntektskilde {
     organisasjonsnummer: string;
     inntekter: ApiTilkommenInntekt[];
@@ -640,24 +561,6 @@ export interface ApiTilkommenInntektOpprettetEvent {
     type: ApiTilkommenInntektOpprettetEventType;
 }
 
-export type ApiGetTilkomneInntektskilderForPersonErrorCode =
-    (typeof ApiGetTilkomneInntektskilderForPersonErrorCode)[keyof typeof ApiGetTilkomneInntektskilderForPersonErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetTilkomneInntektskilderForPersonErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeDetail = null | string;
-
-export interface ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeDetail;
-    code: ApiGetTilkomneInntektskilderForPersonErrorCode;
-}
-
 export interface ApiTilkommenInntektInput {
     organisasjonsnummer: string;
     periode: ApiDatoPeriode;
@@ -675,69 +578,13 @@ export interface ApiLeggTilTilkommenInntektResponse {
     tilkommenInntektId: string;
 }
 
-export type ApiPostTilkomneInntekterErrorCode =
-    (typeof ApiPostTilkomneInntekterErrorCode)[keyof typeof ApiPostTilkomneInntekterErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostTilkomneInntekterErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeDetail = null | string;
-
-export interface ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeDetail;
-    code: ApiPostTilkomneInntekterErrorCode;
-}
-
 export interface ApiEndreTilkommenInntektRequest {
     endretTil: ApiTilkommenInntektInput;
     notatTilBeslutter: string;
 }
 
-export type ApiPostTilkommenInntektEndreErrorCode =
-    (typeof ApiPostTilkommenInntektEndreErrorCode)[keyof typeof ApiPostTilkommenInntektEndreErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostTilkommenInntektEndreErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    FANT_IKKE_TILKOMMEN_INNTEKT: 'FANT_IKKE_TILKOMMEN_INNTEKT',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCodeDetail = null | string;
-
-export interface ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCodeDetail;
-    code: ApiPostTilkommenInntektEndreErrorCode;
-}
-
 export interface ApiFjernTilkommenInntektRequest {
     notatTilBeslutter: string;
-}
-
-export type ApiPostTilkommenInntektFjernErrorCode =
-    (typeof ApiPostTilkommenInntektFjernErrorCode)[keyof typeof ApiPostTilkommenInntektFjernErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostTilkommenInntektFjernErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    FANT_IKKE_TILKOMMEN_INNTEKT: 'FANT_IKKE_TILKOMMEN_INNTEKT',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCodeDetail = null | string;
-
-export interface ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCodeDetail;
-    code: ApiPostTilkommenInntektFjernErrorCode;
 }
 
 export interface ApiGjenopprettTilkommenInntektRequest {
@@ -745,93 +592,10 @@ export interface ApiGjenopprettTilkommenInntektRequest {
     notatTilBeslutter: string;
 }
 
-export type ApiPostTilkommenInntektGjenopprettErrorCode =
-    (typeof ApiPostTilkommenInntektGjenopprettErrorCode)[keyof typeof ApiPostTilkommenInntektGjenopprettErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostTilkommenInntektGjenopprettErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    FANT_IKKE_TILKOMMEN_INNTEKT: 'FANT_IKKE_TILKOMMEN_INNTEKT',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCodeDetail = null | string;
-
-export interface ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCodeDetail;
-    code: ApiPostTilkommenInntektGjenopprettErrorCode;
-}
-
 export type ApiFattVedtakRequestBegrunnelse = null | string;
 
 export interface ApiFattVedtakRequest {
     begrunnelse?: ApiFattVedtakRequestBegrunnelse;
-}
-
-export type ApiPostFattVedtakErrorCode = (typeof ApiPostFattVedtakErrorCode)[keyof typeof ApiPostFattVedtakErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostFattVedtakErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
-    OPPGAVE_FEIL_TILSTAND: 'OPPGAVE_FEIL_TILSTAND',
-    SAKSBEHANDLER_MANGLER_BESLUTTERTILGANG: 'SAKSBEHANDLER_MANGLER_BESLUTTERTILGANG',
-    SAKSBEHANDLER_KAN_IKKE_BESLUTTE_EGEN_OPPGAVE: 'SAKSBEHANDLER_KAN_IKKE_BESLUTTE_EGEN_OPPGAVE',
-    VARSLER_MANGLER_VURDERING: 'VARSLER_MANGLER_VURDERING',
-    OVERLAPPER_MED_INFOTRYGD: 'OVERLAPPER_MED_INFOTRYGD',
-    BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
-    TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER: 'TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER',
-    VARSEL_MANGLER_VARSELDEFINISJON: 'VARSEL_MANGLER_VARSELDEFINISJON',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostFattVedtakErrorCodeDetail = null | string;
-
-export interface ApiHttpProblemDetailsApiPostFattVedtakErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostFattVedtakErrorCodeDetail;
-    code: ApiPostFattVedtakErrorCode;
-}
-
-export interface ApiVedtaksperiodeAnnullerRequestÅrsak {
-    _key: string;
-    årsak: string;
-}
-
-export type ApiVedtaksperiodeAnnullerRequestKommentar = null | string;
-
-export interface ApiVedtaksperiodeAnnullerRequest {
-    aktørId: string;
-    organisasjonsnummer: string;
-    utbetalingId: string;
-    arbeidsgiverFagsystemId: string;
-    personFagsystemId: string;
-    årsaker: ApiVedtaksperiodeAnnullerRequestÅrsak[];
-    kommentar?: ApiVedtaksperiodeAnnullerRequestKommentar;
-}
-
-export type ApiPostVedtaksperiodeAnnullerErrorCode =
-    (typeof ApiPostVedtaksperiodeAnnullerErrorCode)[keyof typeof ApiPostVedtaksperiodeAnnullerErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostVedtaksperiodeAnnullerErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
-    ALLEREDE_ANNULLERT: 'ALLEREDE_ANNULLERT',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeDetail = null | string;
-
-export interface ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeDetail;
-    code: ApiPostVedtaksperiodeAnnullerErrorCode;
 }
 
 export type GetOppgaverParams = {
