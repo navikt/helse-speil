@@ -39,7 +39,8 @@ export function FlexjarFelles({
     const [textValue, setTextValue] = useState('');
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
     const textAreaRef = useRef(null);
-    const { mutate: giFeedback, data, error: opprettError, reset } = useOpprettFlexjarFeedback();
+    const { mutate: giFeedback, data: response, error: opprettError, reset } = useOpprettFlexjarFeedback();
+    const data = response ? response.data : null;
     const { mutate: oppdaterFeedback, error: oppdaterError } = useOppdaterFlexjarFeedback();
 
     const fetchFeedback = useCallback(
@@ -56,20 +57,16 @@ export function FlexjarFelles({
             };
 
             if (data?.id) {
-                await oppdaterFeedback({
-                    variables: {
+                oppdaterFeedback(
+                    {
                         id: data.id,
                         payload,
                     },
-                    onCompleted: knappeklikk,
-                });
+                    { onSuccess: knappeklikk },
+                );
                 return true;
             } else {
-                await giFeedback({
-                    variables: {
-                        payload,
-                    },
-                });
+                giFeedback(payload);
                 return false;
             }
         },
