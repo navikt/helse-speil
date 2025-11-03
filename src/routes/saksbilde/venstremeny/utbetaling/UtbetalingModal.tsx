@@ -17,7 +17,7 @@ type UtbetalingModalProps = {
     isSending: boolean;
     onApprove: () => void;
     closeModal: () => void;
-    error: BackendFeil | null;
+    error: BackendFeil | undefined;
     totrinnsvurdering: boolean;
     utbetaling?: Utbetaling;
     inntektsforholdReferanse: InntektsforholdReferanse;

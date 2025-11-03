@@ -95,7 +95,7 @@ export const SendTilGodkjenningButton = ({
                     personinfo={personinfo}
                     closeModal={() => setShowModal(false)}
                     onApprove={sendTilGodkjenning}
-                    error={(error && somBackendfeil(error)) ?? null}
+                    error={error && somBackendfeil(error)}
                     isSending={loading}
                     totrinnsvurdering={true}
                 />
