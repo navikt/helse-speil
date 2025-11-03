@@ -6,7 +6,10 @@
  */
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
-import type { ApiAktivSaksbehandler } from '../spesialist.schemas';
+import type {
+    ApiAktivSaksbehandler,
+    ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode,
+} from '../spesialist.schemas';
 
 import { useQuery } from '@tanstack/react-query';
 import type {
@@ -35,7 +38,7 @@ export const getGetAktiveSaksbehandlereQueryKey = () => {
 
 export const getGetAktiveSaksbehandlereQueryOptions = <
     TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
-    TError = ErrorType<unknown>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>>;
 }) => {
@@ -54,11 +57,11 @@ export const getGetAktiveSaksbehandlereQueryOptions = <
 };
 
 export type GetAktiveSaksbehandlereQueryResult = NonNullable<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>>;
-export type GetAktiveSaksbehandlereQueryError = ErrorType<unknown>;
+export type GetAktiveSaksbehandlereQueryError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>;
 
 export function useGetAktiveSaksbehandlere<
     TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
-    TError = ErrorType<unknown>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
 >(
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> &
@@ -75,7 +78,7 @@ export function useGetAktiveSaksbehandlere<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetAktiveSaksbehandlere<
     TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
-    TError = ErrorType<unknown>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
 >(
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> &
@@ -92,7 +95,7 @@ export function useGetAktiveSaksbehandlere<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetAktiveSaksbehandlere<
     TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
-    TError = ErrorType<unknown>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
 >(
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> },
     queryClient?: QueryClient,
@@ -100,7 +103,7 @@ export function useGetAktiveSaksbehandlere<
 
 export function useGetAktiveSaksbehandlere<
     TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
-    TError = ErrorType<unknown>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
 >(
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> },
     queryClient?: QueryClient,

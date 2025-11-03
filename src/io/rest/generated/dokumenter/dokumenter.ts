@@ -4,10 +4,16 @@
  * API
  * OpenAPI spec version: latest
  */
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type { ApiDokumentInntektsmelding, ApiSoknad } from '../spesialist.schemas';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import type {
+    ApiDokumentInntektsmelding,
+    ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode,
+    ApiHttpProblemDetailsApiGetSoknadErrorCode,
+    ApiSoknad,
+} from '../spesialist.schemas';
 
+import { useQuery } from '@tanstack/react-query';
 import type {
     DataTag,
     DefinedInitialDataOptions,
@@ -19,7 +25,6 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
 
 export const getSoknad = (aktoerId: string, dokumentId: string, signal?: AbortSignal) => {
     return callCustomAxios<ApiSoknad>({
@@ -33,7 +38,10 @@ export const getGetSoknadQueryKey = (aktoerId?: string, dokumentId?: string) => 
     return [`/api/spesialist/personer/${aktoerId}/dokumenter/${dokumentId}/soknad`] as const;
 };
 
-export const getGetSoknadQueryOptions = <TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<unknown>>(
+export const getGetSoknadQueryOptions = <
+    TData = Awaited<ReturnType<typeof getSoknad>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
+>(
     aktoerId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoknad>>, TError, TData>> },
@@ -58,9 +66,12 @@ export const getGetSoknadQueryOptions = <TData = Awaited<ReturnType<typeof getSo
 };
 
 export type GetSoknadQueryResult = NonNullable<Awaited<ReturnType<typeof getSoknad>>>;
-export type GetSoknadQueryError = ErrorType<unknown>;
+export type GetSoknadQueryError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>;
 
-export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<unknown>>(
+export function useGetSoknad<
+    TData = Awaited<ReturnType<typeof getSoknad>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
+>(
     aktoerId: string,
     dokumentId: string,
     options: {
@@ -76,7 +87,10 @@ export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TErr
     },
     queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<unknown>>(
+export function useGetSoknad<
+    TData = Awaited<ReturnType<typeof getSoknad>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
+>(
     aktoerId: string,
     dokumentId: string,
     options?: {
@@ -92,14 +106,20 @@ export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TErr
     },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<unknown>>(
+export function useGetSoknad<
+    TData = Awaited<ReturnType<typeof getSoknad>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
+>(
     aktoerId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoknad>>, TError, TData>> },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useGetSoknad<TData = Awaited<ReturnType<typeof getSoknad>>, TError = ErrorType<unknown>>(
+export function useGetSoknad<
+    TData = Awaited<ReturnType<typeof getSoknad>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
+>(
     aktoerId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoknad>>, TError, TData>> },
@@ -130,7 +150,7 @@ export const getGetInntektsmeldingQueryKey = (aktoerId?: string, dokumentId?: st
 
 export const getGetInntektsmeldingQueryOptions = <
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<unknown>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
     aktoerId: string,
     dokumentId: string,
@@ -156,11 +176,11 @@ export const getGetInntektsmeldingQueryOptions = <
 };
 
 export type GetInntektsmeldingQueryResult = NonNullable<Awaited<ReturnType<typeof getInntektsmelding>>>;
-export type GetInntektsmeldingQueryError = ErrorType<unknown>;
+export type GetInntektsmeldingQueryError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>;
 
 export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<unknown>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
     aktoerId: string,
     dokumentId: string,
@@ -179,7 +199,7 @@ export function useGetInntektsmelding<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<unknown>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
     aktoerId: string,
     dokumentId: string,
@@ -198,7 +218,7 @@ export function useGetInntektsmelding<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<unknown>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
     aktoerId: string,
     dokumentId: string,
@@ -208,7 +228,7 @@ export function useGetInntektsmelding<
 
 export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<unknown>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
     aktoerId: string,
     dokumentId: string,
