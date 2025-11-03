@@ -115,10 +115,10 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                     ) : (
                         <GodkjenningButton
                             size="small"
-                            behandlingId={period.behandlingId}
                             utbetaling={period.utbetaling}
                             inntektsforholdReferanse={inntektsforholdReferanse}
                             personinfo={person.personinfo}
+                            oppgavereferanse={period.oppgave?.id ?? ''}
                             erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
                             disabled={
                                 calculating ||
