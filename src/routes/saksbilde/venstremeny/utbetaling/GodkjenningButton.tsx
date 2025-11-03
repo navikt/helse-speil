@@ -26,7 +26,7 @@ const useAddUtbetalingstoast = () => {
 
 interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError'> {
     children: ReactNode;
-    oppgavereferanse: string;
+    behandlingId: string;
     erBeslutteroppgave: boolean;
     disabled: boolean;
     onSuccess?: () => void;
@@ -39,7 +39,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
 
 export const GodkjenningButton = ({
     children,
-    oppgavereferanse,
+    behandlingId,
     erBeslutteroppgave,
     disabled = false,
     onSuccess,
@@ -59,7 +59,7 @@ export const GodkjenningButton = ({
     const godkjennUtbetaling = () => {
         void mutate(
             {
-                behandlingId: oppgavereferanse,
+                behandlingId: behandlingId,
                 data: {
                     begrunnelse: vedtakBegrunnelseTekst,
                 },
