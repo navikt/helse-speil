@@ -2,24 +2,18 @@ import dayjs from 'dayjs';
 import fs from 'fs';
 import path from 'path';
 import { cwd } from 'process';
-import { v4 } from 'uuid';
 
 import {
-    ApiLeggTilTilkommenInntektResponse,
     ApiTilkommenInntekt,
-    ApiTilkommenInntektEndretEvent,
     ApiTilkommenInntektEvent,
     ApiTilkommenInntektEventEndringer,
     ApiTilkommenInntektEventMetadata,
-    ApiTilkommenInntektFjernetEvent,
-    ApiTilkommenInntektGjenopprettetEvent,
     ApiTilkommenInntektInput,
-    ApiTilkommenInntektOpprettetEvent,
     ApiTilkommenInntektskilde,
 } from '@/io/rest/generated/spesialist.schemas';
 
 export class TilkommenInntektMock {
-    private static inntektskilder: Map<string, ApiTilkommenInntektskilde[]> = new Map();
+    static inntektskilder: Map<string, ApiTilkommenInntektskilde[]> = new Map();
     private static aktørIdToFødselsnummerMap: Map<string, string> = new Map();
 
     static {
@@ -42,42 +36,6 @@ export class TilkommenInntektMock {
         });
     }
 
-    static leggTilTilkommenInntekt = (
-        fødselsnummer: string,
-        notatTilBeslutter: string,
-        verdier: ApiTilkommenInntektInput,
-    ): ApiLeggTilTilkommenInntektResponse => {
-        const nyTilkommenInntektId = v4();
-        if (TilkommenInntektMock.inntektskilder.get(fødselsnummer) === undefined) {
-            TilkommenInntektMock.inntektskilder.set(fødselsnummer, []);
-        }
-        const tilkommenInntektskilde = TilkommenInntektMock.finnEllerLeggTilInntektskilde(
-            verdier.organisasjonsnummer,
-            TilkommenInntektMock.inntektskilder.get(fødselsnummer) ?? [],
-        );
-        const inntekt: ApiTilkommenInntekt = {
-            ekskluderteUkedager: verdier.ekskluderteUkedager,
-            erDelAvAktivTotrinnsvurdering: true,
-            events: [
-                {
-                    type: 'ApiTilkommenInntektOpprettetEvent',
-                    metadata: TilkommenInntektMock.byggEventMetadata(notatTilBeslutter, []),
-                    ekskluderteUkedager: verdier.ekskluderteUkedager,
-                    organisasjonsnummer: verdier.organisasjonsnummer,
-                    periode: verdier.periode,
-                    periodebelop: verdier.periodebelop,
-                } as ApiTilkommenInntektOpprettetEvent,
-            ],
-            fjernet: false,
-            periode: verdier.periode,
-            periodebelop: verdier.periodebelop,
-            tilkommenInntektId: nyTilkommenInntektId,
-        };
-        tilkommenInntektskilde.inntekter.push(inntekt);
-
-        return { tilkommenInntektId: nyTilkommenInntektId };
-    };
-
     static tilkomneInntektskilder = (aktørId: string): ApiTilkommenInntektskilde[] => {
         const fødselsnummer = TilkommenInntektMock.aktørIdToFødselsnummerMap.get(aktørId);
         if (fødselsnummer === undefined) {
@@ -86,63 +44,7 @@ export class TilkommenInntektMock {
         return TilkommenInntektMock.inntektskilder.get(fødselsnummer) ?? [];
     };
 
-    static endreTilkommenInntekt = (
-        endretTil: ApiTilkommenInntektInput,
-        notatTilBeslutter: string,
-        tilkommenInntektId: string,
-    ): boolean => {
-        const tilkommenInntektMedKontekst = TilkommenInntektMock.finnTilkommenInntektMedKontekst(tilkommenInntektId);
-        if (tilkommenInntektMedKontekst === undefined) return false;
-        const { inntekt, inntektskilde, inntektskilder } = tilkommenInntektMedKontekst;
-
-        inntekt.events.push({
-            type: 'ApiTilkommenInntektEndretEvent',
-            metadata: TilkommenInntektMock.byggEventMetadata(notatTilBeslutter, inntekt.events),
-            endringer: TilkommenInntektMock.tilEventEndringer(inntekt, inntektskilde.organisasjonsnummer, endretTil),
-        } as ApiTilkommenInntektEndretEvent);
-
-        TilkommenInntektMock.utførEndring(inntekt, inntektskilde, inntektskilder, endretTil);
-
-        return true;
-    };
-
-    static fjernTilkommenInntekt = (notatTilBeslutter: string, tilkommenInntektId: string): boolean => {
-        const tilkommenInntektMedKontekst = TilkommenInntektMock.finnTilkommenInntektMedKontekst(tilkommenInntektId);
-        if (tilkommenInntektMedKontekst === undefined) return false;
-        const { inntekt } = tilkommenInntektMedKontekst;
-
-        inntekt.events.push({
-            type: 'ApiTilkommenInntektFjernetEvent',
-            metadata: TilkommenInntektMock.byggEventMetadata(notatTilBeslutter, inntekt.events),
-        } as ApiTilkommenInntektFjernetEvent);
-
-        inntekt.fjernet = true;
-
-        return true;
-    };
-
-    static gjenopprettTilkommenInntekt = (
-        endretTil: ApiTilkommenInntektInput,
-        notatTilBeslutter: string,
-        tilkommenInntektId: string,
-    ): boolean => {
-        const tilkommenInntektMedKontekst = TilkommenInntektMock.finnTilkommenInntektMedKontekst(tilkommenInntektId);
-        if (tilkommenInntektMedKontekst === undefined) return false;
-        const { inntekt, inntektskilde, inntektskilder } = tilkommenInntektMedKontekst;
-
-        inntekt.events.push({
-            type: 'ApiTilkommenInntektGjenopprettetEvent',
-            metadata: TilkommenInntektMock.byggEventMetadata(notatTilBeslutter, inntekt.events),
-            endringer: TilkommenInntektMock.tilEventEndringer(inntekt, inntektskilde.organisasjonsnummer, endretTil),
-        } as ApiTilkommenInntektGjenopprettetEvent);
-
-        TilkommenInntektMock.utførEndring(inntekt, inntektskilde, inntektskilder, endretTil);
-        inntekt.fjernet = false;
-
-        return true;
-    };
-
-    private static finnEllerLeggTilInntektskilde(
+    static finnEllerLeggTilInntektskilde(
         organisasjonsnummer: string,
         inntektskilder: ApiTilkommenInntektskilde[],
     ): ApiTilkommenInntektskilde {
@@ -160,7 +62,7 @@ export class TilkommenInntektMock {
         return inntektskilde;
     }
 
-    private static finnTilkommenInntektMedKontekst(tilkommenInntektId: string) {
+    static finnTilkommenInntektMedKontekst(tilkommenInntektId: string) {
         return TilkommenInntektMock.inntektskilder
             .values()
             .flatMap((inntektskilder) =>
@@ -181,7 +83,7 @@ export class TilkommenInntektMock {
             .find(({ inntekt }) => inntekt.tilkommenInntektId === tilkommenInntektId);
     }
 
-    private static utførEndring(
+    static utførEndring(
         inntekt: ApiTilkommenInntekt,
         inntektskilde: ApiTilkommenInntektskilde,
         inntektskilder: ApiTilkommenInntektskilde[],
@@ -203,7 +105,7 @@ export class TilkommenInntektMock {
         }
     }
 
-    private static byggEventMetadata(
+    static byggEventMetadata(
         notatTilBeslutter: string,
         eksisterendeEvents: ApiTilkommenInntektEvent[],
     ): ApiTilkommenInntektEventMetadata {
@@ -218,7 +120,7 @@ export class TilkommenInntektMock {
         };
     }
 
-    private static tilEventEndringer(
+    static tilEventEndringer(
         tilkommenInntekt: ApiTilkommenInntekt,
         organisasjonsnummer: string,
         endretTil: ApiTilkommenInntektInput,

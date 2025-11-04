@@ -1,16 +1,5 @@
-import { erLokal } from '@/env';
-import { videresendTilSpesialist } from '@app/api/spesialist/videresender';
-import { ApiFjernTilkommenInntektRequest } from '@io/rest/generated/spesialist.schemas';
-import { sleep } from '@spesialist-mock/constants';
-import { TilkommenInntektMock } from '@spesialist-mock/storage/tilkommeninntekt';
+import { stubEllerVideresendTilSpesialist } from '@app/api/spesialist/common';
 
-export async function POST(req: Request, { params }: { params: Promise<{ tilkommenInntektId: string }> }) {
-    if (erLokal) {
-        const { tilkommenInntektId } = await params;
-        const input = (await req.json()) as ApiFjernTilkommenInntektRequest;
-        await sleep(2000);
-        return Response.json(TilkommenInntektMock.fjernTilkommenInntekt(input.notatTilBeslutter, tilkommenInntektId));
-    } else {
-        return videresendTilSpesialist(req);
-    }
-}
+import { stub } from './stub';
+
+export const POST = stubEllerVideresendTilSpesialist<{ tilkommenInntektId: string }>(stub);
