@@ -91,21 +91,21 @@ jobs:
           CLUSTER: dev-gcp
           RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml
           VAR: 'image=${{ needs.build-dev.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}'
-#
-#  deploy-prod:
-#    name: Deploy to prod
-#    needs: [build-production, test-and-lint]
-#    runs-on: ubuntu-latest
-#    permissions:
-#      id-token: 'write'
-#    if: github.ref == 'refs/heads/master'
-#    environment:
-#      name: production
-#      url: https://speil.intern.nav.no
-#    steps:
-#      - uses: actions/checkout@v5
-#      - uses: nais/deploy/actions/deploy@v2
-#        env:
-#          CLUSTER: prod-gcp
-#          RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml
-#          VAR: 'image=${{ needs.build-production.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}'
+
+  deploy-prod:
+    name: Deploy to prod
+    needs: [build-production, test-and-lint]
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: 'write'
+    if: github.ref == 'refs/heads/master'
+    environment:
+      name: production
+      url: https://speil.intern.nav.no
+    steps:
+      - uses: actions/checkout@v5
+      - uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: prod-gcp
+          RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml
+          VAR: 'image=${{ needs.build-production.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}'
