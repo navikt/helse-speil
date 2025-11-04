@@ -1,10 +1,3 @@
-import { erLokal } from '@/env';
-import { videresendTilSpesialist } from '@app/api/spesialist/videresender';
+import { stubEllerVideresendTilSpesialist } from '@app/api/spesialist/common';
 
-export async function POST(req: Request) {
-    if (erLokal) {
-        return Response.json(true);
-    } else {
-        return videresendTilSpesialist(req);
-    }
-}
+export const POST = stubEllerVideresendTilSpesialist(async () => new Response(null, { status: 204 }));

@@ -2,14 +2,11 @@ import {
     ApiFjernTilkommenInntektRequest,
     ApiTilkommenInntektFjernetEvent,
 } from '@io/rest/generated/spesialist.schemas';
-import { sleep } from '@spesialist-mock/constants';
 import { TilkommenInntektMock } from '@spesialist-mock/storage/tilkommeninntekt';
 
-export async function stub(request: Request, params: Promise<{ tilkommenInntektId: string }>) {
+export const stub = async (request: Request, params: Promise<{ tilkommenInntektId: string }>) => {
     const { tilkommenInntektId } = await params;
     const requestBody: ApiFjernTilkommenInntektRequest = await request.json();
-
-    await sleep(1000 + Math.random() * 1000);
 
     const tilkommenInntektMedKontekst = TilkommenInntektMock.finnTilkommenInntektMedKontekst(tilkommenInntektId);
     if (tilkommenInntektMedKontekst === undefined) return new Response(null, { status: 404 });
@@ -24,4 +21,4 @@ export async function stub(request: Request, params: Promise<{ tilkommenInntektI
     inntekt.fjernet = true;
 
     return new Response(null, { status: 204 });
-}
+};

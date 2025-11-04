@@ -1,15 +1,7 @@
-import { NextRequest } from 'next/server';
+import { stubEllerVideresendTilSpesialist } from '@app/api/spesialist/common';
 
-import { erLokal } from '@/env';
-import { videresendTilSpesialist } from '@app/api/spesialist/videresender';
-import { oppgaveliste } from '@spesialist-mock/data/oppgaveoversikt';
+import { stub } from './stub';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
-    if (erLokal) {
-        return Response.json(oppgaveliste(req.nextUrl.searchParams));
-    } else {
-        return videresendTilSpesialist(req);
-    }
-}
+export const GET = stubEllerVideresendTilSpesialist(stub);

@@ -5,13 +5,10 @@ import {
     ApiTilkommenInntekt,
     ApiTilkommenInntektOpprettetEvent,
 } from '@io/rest/generated/spesialist.schemas';
-import { sleep } from '@spesialist-mock/constants';
 import { TilkommenInntektMock } from '@spesialist-mock/storage/tilkommeninntekt';
 
-export async function stub(request: Request) {
+export const stub = async (request: Request) => {
     const requestBody: ApiLeggTilTilkommenInntektRequest = await request.json();
-
-    await sleep(1000 + Math.random() * 1000);
 
     if (TilkommenInntektMock.inntektskilder.get(requestBody.fodselsnummer) === undefined) {
         TilkommenInntektMock.inntektskilder.set(requestBody.fodselsnummer, []);
@@ -44,4 +41,4 @@ export async function stub(request: Request) {
     tilkommenInntektskilde.inntekter.push(inntekt);
 
     return Response.json({ tilkommenInntektId: nyTilkommenInntektId });
-}
+};
