@@ -1,8 +1,10 @@
+import { AxiosResponse } from 'axios';
 import dayjs from 'dayjs';
 
 import { erLokal, erProd, erUtvikling } from '@/env';
-import { gql, useQuery } from '@apollo/client';
+import { customAxios } from '@app/axios/axiosClient';
 import { PortableTextBlock } from '@portabletext/react';
+import { useQuery } from '@tanstack/react-query';
 import { Lovhjemmel } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
 
@@ -76,61 +78,41 @@ type NyhetModalSlide = {
 };
 
 type SkjønnsfastsettelseMalerQueryResult = {
-    sanity: {
-        result: SkjønnsfastsettingMal[];
-    };
+    result: SkjønnsfastsettingMal[];
 };
 
 type DriftsmeldingerQueryResult = {
-    sanity: {
-        result: Driftsmelding[];
-    };
+    result: Driftsmelding[];
 };
 
 type ArsakerQueryResult = {
-    sanity: {
-        result: Arsaker[];
-    };
+    result: Arsaker[];
 };
 
 type NyheterQueryResult = {
-    sanity: {
-        result: NyhetType[];
-    };
+    result: NyhetType[];
 };
 
-type SanityQueryVariables = {
-    input: {
-        query: string;
-    };
-};
+const SANITY_URL = 'https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production';
 
 export function useSkjønnsfastsettelsesMaler(skalVise828AndreLedd: boolean, harFlereArbeidsgivere: boolean) {
-    const { data, error, loading } = useQuery<SkjønnsfastsettelseMalerQueryResult, SanityQueryVariables>(
-        gql`
-            query SkjonnsfastsettelsesMaler($input: QueryPayload!) {
-                sanity(input: $input)
-                    @rest(
-                        type: "SkjonnsfastsettelsesMalResult"
-                        endpoint: "sanity"
-                        path: ""
-                        method: "POST"
-                        bodyKey: "input"
-                    ) {
-                    result
-                }
-            }
-        `,
-        {
-            variables: {
-                input: { query: `*[_type == "skjonnsfastsettelseMal"]` },
-            },
-        },
-    );
+    const {
+        data,
+        error,
+        isPending: loading,
+    } = useQuery({
+        queryKey: ['sanity', 'skjønnsfastsettelsesMaler'],
+        queryFn: async (): Promise<AxiosResponse<SkjønnsfastsettelseMalerQueryResult>> =>
+            customAxios.post(SANITY_URL, {
+                query: `*[_type == "skjonnsfastsettelseMal"]`,
+            }),
+        staleTime: Infinity,
+        gcTime: 0,
+    });
 
     return {
         maler: data
-            ? filterRelevantMaler(data.sanity.result, {
+            ? filterRelevantMaler(data.data.result, {
                   skalVise828AndreLedd,
                   arbeidsforholdMal: harFlereArbeidsgivere ? 'FLERE_ARBEIDSGIVERE' : 'EN_ARBEIDSGIVER',
               })
@@ -145,22 +127,22 @@ export function useSkjønnsfastsettelsesMaler(skalVise828AndreLedd: boolean, har
  * filtrert vekk.
  */
 export function useDriftsmelding() {
-    const { data, error, loading } = useQuery<DriftsmeldingerQueryResult, SanityQueryVariables>(
-        gql`
-            query Driftsmelding($input: QueryPayload!) {
-                sanity(input: $input)
-                    @rest(type: "DriftsmeldingResult", endpoint: "sanity", path: "", method: "POST", bodyKey: "input") {
-                    result
-                }
-            }
-        `,
-        {
-            variables: { input: { query: `*[_type == "driftsmelding"]` } },
-        },
-    );
+    const {
+        data,
+        error,
+        isPending: loading,
+    } = useQuery({
+        queryKey: ['sanity', 'driftsmeldinger'],
+        queryFn: async (): Promise<AxiosResponse<DriftsmeldingerQueryResult>> =>
+            customAxios.post(SANITY_URL, {
+                query: `*[_type == "driftsmelding"]`,
+            }),
+        staleTime: Infinity,
+        gcTime: 0,
+    });
 
     const aktiveDriftsmeldinger =
-        data?.sanity?.result
+        data?.data?.result
             .filter((it: Driftsmelding) => !erProd || it.iProd === 'true')
             .filter((it: Driftsmelding) => !erUtvikling || it.iDev === 'true')
             .filter(
@@ -179,43 +161,37 @@ export function useDriftsmelding() {
 }
 
 export function useArsaker(id: string) {
-    const { data, error, loading } = useQuery<ArsakerQueryResult, SanityQueryVariables>(
-        gql`
-            query Arsaker($input: QueryPayload!) {
-                sanity(input: $input)
-                    @rest(type: "ArsakerResult", endpoint: "sanity", path: "", method: "POST", bodyKey: "input") {
-                    result
-                }
-            }
-        `,
-        {
-            variables: {
-                input: { query: `*[_type == "arsaker" && _id == "${id}"]` },
-            },
-        },
-    );
+    const {
+        data,
+        error,
+        isPending: loading,
+    } = useQuery({
+        queryKey: ['sanity', 'årsaker', id],
+        queryFn: async (): Promise<AxiosResponse<ArsakerQueryResult>> =>
+            customAxios.post(SANITY_URL, {
+                query: `*[_type == "arsaker" && _id == "${id}"]`,
+            }),
+        staleTime: Infinity,
+        gcTime: 0,
+    });
 
     return {
-        arsaker: data?.sanity?.result ?? [],
+        arsaker: data?.data?.result ?? [],
         loading,
         error,
     };
 }
 
 export function useNyheter() {
-    const { data, error, loading } = useQuery<NyheterQueryResult, SanityQueryVariables>(
-        gql`
-            query Nyhet($input: QueryPayload!) {
-                sanity(input: $input)
-                    @rest(type: "NyhetResult", endpoint: "sanity", path: "", method: "POST", bodyKey: "input") {
-                    result
-                }
-            }
-        `,
-        {
-            variables: {
-                input: {
-                    query: `*[_type == "nyhet"]{
+    const {
+        data,
+        error,
+        isPending: loading,
+    } = useQuery({
+        queryKey: ['sanity', 'nyheter'],
+        queryFn: async (): Promise<AxiosResponse<NyheterQueryResult>> =>
+            customAxios.post(SANITY_URL, {
+                query: `*[_type == "nyhet"]{
                     _id,
                     _createdAt,
                     iProd,
@@ -250,13 +226,13 @@ export function useNyheter() {
                         }
                     }
                 } | order(_createdAt desc)`,
-                },
-            },
-        },
-    );
+            }),
+        staleTime: Infinity,
+        gcTime: 0,
+    });
 
     const nyheter =
-        data?.sanity?.result
+        data?.data?.result
             .filter((it: NyhetType) => (erProd ? it.iProd : true))
             .filter((it: NyhetType) => (erLokal ? !it.modal?.tvungenModal : true)) ?? [];
 

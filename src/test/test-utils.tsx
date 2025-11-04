@@ -1,11 +1,11 @@
 import { error } from 'console';
-import type { WritableAtom } from 'jotai/index';
+import type { WritableAtom } from 'jotai';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { ApolloLink, Cache, InMemoryCache } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import { MockLink, MockedResponse } from '@apollo/client/testing';
-import { apolloCacheConfig, restLink } from '@app/apollo/apolloClient';
+import { apolloCacheConfig } from '@app/apollo/apolloClient';
 import { ApolloWrapper } from '@test-wrappers';
 import {
     RenderHookOptions,
@@ -44,7 +44,7 @@ const AllTheProviders = ({
     atomValues,
 }: PropsWithChildren<ProviderProps>): ReactElement => {
     const mockLink = new MockLink(mocks ?? []);
-    const link = ApolloLink.from([errorLoggingLink, restLink, mockLink]);
+    const link = ApolloLink.from([errorLoggingLink, mockLink]);
 
     const cache = new InMemoryCache(apolloCacheConfig);
     initialQueries?.forEach((it) => cache.writeQuery(it));

@@ -3,6 +3,7 @@ import { createStore } from 'jotai';
 import React from 'react';
 
 import { PersonStoreContext } from '@/state/contexts/personStore';
+import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { useIsAnonymous } from '@state/anonymization';
@@ -18,6 +19,7 @@ import { render, screen } from '@test-utils';
 
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
+jest.mock('@external/sanity');
 jest.mock('@state/periode');
 jest.mock('@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag');
 jest.mock('@state/toggles');
@@ -31,6 +33,10 @@ describe('SykepengegrunnlagFraSpleis', () => {
     });
 
     beforeEach(() => {
+        (useSkjønnsfastsettelsesMaler as jest.Mock).mockReturnValue({
+            maler: [],
+            loading: false,
+        });
         fetchMock.doMock();
     });
 

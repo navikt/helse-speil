@@ -1,5 +1,3 @@
-import { RestLink } from 'apollo-link-rest';
-
 import { erLokal } from '@/env';
 import {
     ApolloClient,
@@ -99,13 +97,6 @@ const getTypePolicies = (): TypePolicies => {
     };
 };
 
-export const restLink = new RestLink({
-    uri: '/',
-    endpoints: {
-        sanity: 'https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production',
-    },
-});
-
 export const apolloCacheConfig: InMemoryCacheConfig = {
     dataIdFromObject: () => undefined,
     possibleTypes: possibleTypes,
@@ -115,7 +106,6 @@ export const apolloCacheConfig: InMemoryCacheConfig = {
 export const createApolloClient = (): ApolloClient<NormalizedCacheObject> =>
     new ApolloClient({
         link: from([
-            restLink,
             new RetryLink({
                 attempts: { max: 5 },
             }),
