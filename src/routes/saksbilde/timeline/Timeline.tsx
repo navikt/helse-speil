@@ -7,6 +7,7 @@ import { PlusIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Skeleton } from '@navikt/ds-react';
 
 import { erUtvikling } from '@/env';
+import { useBrukerGrupper } from '@auth/brukerContext';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
@@ -17,6 +18,7 @@ import { Inntektsforhold, finnAlleInntektsforhold } from '@state/inntektsforhold
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
+import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
 import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
@@ -158,18 +160,19 @@ const TimelineWithContent = ({
             </div>
             <div className={styles.TimelineButtons}>
                 <div className={styles.LeftButtons}>
-                    {!inntektsforhold.some(isSelvstendigNaering) && !erBeslutteroppgave && (
-                        <Button
-                            as={NextLink}
-                            variant="tertiary"
-                            size="small"
-                            style={{ marginLeft: '-0.5rem' }}
-                            icon={<PlusIcon title="Legg til tilkommen inntekt" />}
-                            href={`/person/${person.aktorId}/tilkommeninntekt/ny`}
-                        >
-                            Legg til tilkommen inntekt/periode
-                        </Button>
-                    )}
+                    {kanLeggeTilTilkommenInntekt(useBrukerGrupper(), inntektsforhold.some(isSelvstendigNaering)) &&
+                        !erBeslutteroppgave && (
+                            <Button
+                                as={NextLink}
+                                variant="tertiary"
+                                size="small"
+                                style={{ marginLeft: '-0.5rem' }}
+                                icon={<PlusIcon title="Legg til tilkommen inntekt" />}
+                                href={`/person/${person.aktorId}/tilkommeninntekt/ny`}
+                            >
+                                Legg til tilkommen inntekt/periode
+                            </Button>
+                        )}
                 </div>
                 <div className={styles.TimelineControls}>
                     <ScrollButtons
