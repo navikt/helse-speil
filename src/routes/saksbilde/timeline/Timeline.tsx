@@ -7,7 +7,6 @@ import { PlusIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Skeleton } from '@navikt/ds-react';
 
 import { erUtvikling } from '@/env';
-import { useBrukerGrupper } from '@auth/brukerContext';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
@@ -160,19 +159,18 @@ const TimelineWithContent = ({
             </div>
             <div className={styles.TimelineButtons}>
                 <div className={styles.LeftButtons}>
-                    {kanLeggeTilTilkommenInntekt(useBrukerGrupper(), inntektsforhold.some(isSelvstendigNaering)) &&
-                        !erBeslutteroppgave && (
-                            <Button
-                                as={NextLink}
-                                variant="tertiary"
-                                size="small"
-                                style={{ marginLeft: '-0.5rem' }}
-                                icon={<PlusIcon title="Legg til tilkommen inntekt" />}
-                                href={`/person/${person.aktorId}/tilkommeninntekt/ny`}
-                            >
-                                Legg til tilkommen inntekt/periode
-                            </Button>
-                        )}
+                    {kanLeggeTilTilkommenInntekt(inntektsforhold.some(isSelvstendigNaering)) && !erBeslutteroppgave && (
+                        <Button
+                            as={NextLink}
+                            variant="tertiary"
+                            size="small"
+                            style={{ marginLeft: '-0.5rem' }}
+                            icon={<PlusIcon title="Legg til tilkommen inntekt" />}
+                            href={`/person/${person.aktorId}/tilkommeninntekt/ny`}
+                        >
+                            Legg til tilkommen inntekt/periode
+                        </Button>
+                    )}
                 </div>
                 <div className={styles.TimelineControls}>
                     <ScrollButtons
