@@ -798,16 +798,13 @@ export interface ApiHttpProblemDetailsApiPostFattVedtakErrorCode {
 }
 
 export interface ApiVedtaksperiodeAnnullerRequestÅrsak {
-    _key: string;
+    key: string;
     årsak: string;
 }
 
 export type ApiVedtaksperiodeAnnullerRequestKommentar = null | string;
 
 export interface ApiVedtaksperiodeAnnullerRequest {
-    aktørId: string;
-    organisasjonsnummer: string;
-    utbetalingId: string;
     arbeidsgiverFagsystemId: string;
     personFagsystemId: string;
     årsaker: ApiVedtaksperiodeAnnullerRequestÅrsak[];

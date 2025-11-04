@@ -85,7 +85,7 @@ type DriftsmeldingerQueryResult = {
     result: Driftsmelding[];
 };
 
-type ArsakerQueryResult = {
+export type ArsakerQueryResult = {
     result: Arsaker[];
 };
 
@@ -93,7 +93,7 @@ type NyheterQueryResult = {
     result: NyhetType[];
 };
 
-const SANITY_URL = 'https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production';
+export const SANITY_URL = 'https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production';
 
 export function useSkjønnsfastsettelsesMaler(skalVise828AndreLedd: boolean, harFlereArbeidsgivere: boolean) {
     const {

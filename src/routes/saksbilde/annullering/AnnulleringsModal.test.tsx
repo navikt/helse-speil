@@ -1,19 +1,17 @@
 import React from 'react';
 
-import { useArsaker } from '@external/sanity';
-import { AnnullerDocument, AnnulleringArsakInput } from '@io/graphql';
+import { customAxios } from '@app/axios/axiosClient';
+import { ArsakerQueryResult, SANITY_URL } from '@external/sanity';
 import { ArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
-import { createMock, render, screen, within } from '@test-utils';
+import { render, screen, within } from '@test-utils';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { AnnulleringsModal } from './AnnulleringsModal';
 
-jest.mock('@components/Inntektsforholdnavn');
-jest.mock('@external/sanity');
 jest.mock('@state/toasts');
 
 const enArbeidsgiverReferanse = (): ArbeidsgiverReferanse => ({
@@ -24,75 +22,43 @@ const enArbeidsgiverReferanse = (): ArbeidsgiverReferanse => ({
 const defaultProps = {
     closeModal: () => null,
     showModal: true,
+    inntektsforholdReferanse: enArbeidsgiverReferanse(),
+    vedtaksperiodeId: 'EN-VEDTAKSPERIODEID',
+    arbeidsgiverFagsystemId: 'EN-FAGSYSTEMID',
+    personFagsystemId: 'EN-FAGSYSTEMID',
     person: enPerson({
         fodselsnummer: '12345678910',
         aktorId: '12345678910',
     }),
     periode: enBeregnetPeriode(),
-    inntektsforholdReferanse: enArbeidsgiverReferanse(),
-    vedtaksperiodeId: 'EN-VEDTAKSPERIODEID',
-    utbetalingId: 'EN-UTBETALINGID',
-    arbeidsgiverFagsystemId: 'EN-FAGSYSTEMID',
-    personFagsystemId: 'EN-FAGSYSTEMID',
-    skjæringstidspunkt: '2022-01-01',
-    linjer: [{ fom: '2022-01-01', tom: '2022-01-31', totalbelop: 30000 }],
 };
-
-const createMocks = (annullerDone?: jest.Mock, arsaker: AnnulleringArsakInput[] = []) => [
-    createMock({
-        request: {
-            query: AnnullerDocument,
-            variables: {
-                annullering: {
-                    aktorId: '12345678910',
-                    fodselsnummer: '12345678910',
-                    organisasjonsnummer: '987654321',
-                    vedtaksperiodeId: 'EN-VEDTAKSPERIODEID',
-                    utbetalingId: 'EN-UTBETALINGID',
-                    arbeidsgiverFagsystemId: 'EN-FAGSYSTEMID',
-                    personFagsystemId: 'EN-FAGSYSTEMID',
-                    arsaker,
-                    kommentar: undefined,
-                },
-            },
-        },
-        result: () => {
-            annullerDone?.();
-            return {
-                data: {
-                    annuller: true,
-                },
-            };
-        },
-    }),
-];
-
-(useArsaker as jest.Mock).mockReturnValue({
-    loading: false,
-    arsaker: [
-        {
-            arsaker: [
-                {
-                    _key: 'key01',
-                    arsak: 'Ferie',
-                },
-                {
-                    _key: 'key02',
-                    arsak: 'Annet',
-                },
-            ],
-        },
-    ],
-});
 
 const addToastMock = jest.fn();
 (useAddToast as jest.Mock).mockReturnValue(addToastMock);
 
+const stubbedeÅrsaker: ArsakerQueryResult = {
+    result: [
+        {
+            _id: 'foo',
+            arsaker: [
+                { _key: 'key01', arsak: 'Ferie' },
+                { _key: 'key02', arsak: 'Annet' },
+            ],
+        },
+    ],
+};
+
 describe('Annulleringsmodal', () => {
-    it('viser feilmelding ved manglende årsak', async () => {
-        render(<AnnulleringsModal {...defaultProps} />, {
-            mocks: createMocks(),
+    beforeEach(() => {
+        (customAxios.post as jest.Mock).mockImplementation((url: string, { query }: { query: string }) => {
+            if (url === SANITY_URL && query.includes('_type == "arsaker"')) {
+                return Promise.resolve({ data: stubbedeÅrsaker });
+            }
+            return Promise.reject();
         });
+    });
+    it('viser feilmelding ved manglende årsak', async () => {
+        render(<AnnulleringsModal {...defaultProps} />);
 
         await userEvent.click(screen.getByText('Annuller'));
 
@@ -100,53 +66,58 @@ describe('Annulleringsmodal', () => {
     });
 
     test('viser feilmelding ved manglende kommentar', async () => {
-        render(<AnnulleringsModal {...defaultProps} />, {
-            mocks: createMocks(undefined, [{ _key: 'key02', arsak: 'Annet' }]),
-        });
+        render(<AnnulleringsModal {...defaultProps} />);
 
         const kanIkkeRevurderesSection = within(
             screen.getByRole('group', {
                 name: /hvorfor kunne ikke vedtaket revurderes\?/i,
             }),
         );
-        await userEvent.click(kanIkkeRevurderesSection.getByRole('checkbox', { name: 'Annet' }));
-
-        await userEvent.click(screen.getByRole('button', { name: 'Annuller' }));
+        await userEvent.click(await kanIkkeRevurderesSection.findByRole('checkbox', { name: 'Annet' }));
+        await userEvent.click(await screen.findByRole('button', { name: 'Annuller' }));
 
         expect(screen.getByText('Skriv en kommentar hvis du velger årsaken "annet"')).toBeInTheDocument();
     });
 
     test('gjør annulleringsmutation på annuller', async () => {
-        const annulleringMutationDone = jest.fn();
+        render(<AnnulleringsModal {...defaultProps} />);
 
-        render(<AnnulleringsModal {...defaultProps} />, {
-            mocks: createMocks(annulleringMutationDone, [{ _key: 'key01', arsak: 'Ferie' }]),
-        });
+        await userEvent.click(await screen.findByRole('checkbox', { name: 'Ferie' }));
+        await userEvent.click(await screen.findByRole('button', { name: 'Annuller' }));
 
-        await userEvent.click(screen.getByRole('checkbox', { name: 'Ferie' }));
-        await userEvent.click(screen.getByRole('button', { name: 'Annuller' }));
-
-        expect(annulleringMutationDone).toHaveBeenCalled();
+        expect(customAxios).toHaveBeenCalledWith(
+            expect.objectContaining({
+                method: 'POST',
+                url: '/api/spesialist/vedtaksperioder/EN-VEDTAKSPERIODEID/annuller',
+                data: {
+                    arbeidsgiverFagsystemId: 'EN-FAGSYSTEMID',
+                    personFagsystemId: 'EN-FAGSYSTEMID',
+                    årsaker: [{ key: 'key01', årsak: 'Ferie' }],
+                    kommentar: undefined,
+                },
+            }),
+        );
     });
 
     test('viser toast etter at annullering-kallet er gjort', async () => {
-        const annulleringMutationDone = jest.fn();
+        render(<AnnulleringsModal {...defaultProps} />);
 
-        render(<AnnulleringsModal {...defaultProps} />, {
-            mocks: createMocks(annulleringMutationDone, [{ _key: 'key01', arsak: 'Ferie' }]),
-        });
-
-        await userEvent.click(screen.getByRole('checkbox', { name: 'Ferie' }));
-        await userEvent.click(screen.getByRole('button', { name: 'Annuller' }));
+        await userEvent.click(await screen.findByRole('checkbox', { name: 'Ferie' }));
+        await userEvent.click(await screen.findByRole('button', { name: 'Annuller' }));
 
         await waitFor(() =>
             expect(addToastMock).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    key: defaultProps.utbetalingId,
+                    key: 'annullering',
                 }),
             ),
         );
 
-        expect(annulleringMutationDone).toHaveBeenCalled();
+        expect(customAxios).toHaveBeenCalledWith(
+            expect.objectContaining({
+                method: 'POST',
+                url: '/api/spesialist/vedtaksperioder/EN-VEDTAKSPERIODEID/annuller',
+            }),
+        );
     });
 });

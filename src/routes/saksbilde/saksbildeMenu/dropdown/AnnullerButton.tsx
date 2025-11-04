@@ -10,7 +10,6 @@ import { isBeregnetPeriode } from '@utils/typeguards';
 
 interface AnnullerButtonWithContentProps {
     vedtaksperiodeId: string;
-    utbetalingId: string;
     arbeidsgiverFagsystemId: string;
     personFagsystemId: string;
     inntektsforholdReferanse: InntektsforholdReferanse;
@@ -19,7 +18,6 @@ interface AnnullerButtonWithContentProps {
 }
 
 const AnnullerButtonWithContent = ({
-    utbetalingId,
     arbeidsgiverFagsystemId,
     personFagsystemId,
     vedtaksperiodeId,
@@ -38,7 +36,6 @@ const AnnullerButtonWithContent = ({
                     showModal={showModal}
                     inntektsforholdReferanse={inntektsforholdReferanse}
                     vedtaksperiodeId={vedtaksperiodeId}
-                    utbetalingId={utbetalingId}
                     arbeidsgiverFagsystemId={arbeidsgiverFagsystemId}
                     personFagsystemId={personFagsystemId}
                     person={person}
@@ -79,7 +76,6 @@ export const AnnullerButton = ({ person, periode, inntektsforhold }: AnnullerBut
     return (
         <AnnullerButtonWithContent
             vedtaksperiodeId={periode.vedtaksperiodeId}
-            utbetalingId={periode.utbetaling.id}
             arbeidsgiverFagsystemId={periode.utbetaling.arbeidsgiverFagsystemId}
             personFagsystemId={periode.utbetaling.personFagsystemId}
             inntektsforholdReferanse={tilReferanse(inntektsforhold)}

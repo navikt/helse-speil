@@ -6,6 +6,7 @@ import { ApolloLink, Cache, InMemoryCache } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import { MockLink, MockedResponse } from '@apollo/client/testing';
 import { apolloCacheConfig } from '@app/apollo/apolloClient';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ApolloWrapper } from '@test-wrappers';
 import {
     RenderHookOptions,
@@ -43,6 +44,7 @@ const AllTheProviders = ({
     initialQueries,
     atomValues,
 }: PropsWithChildren<ProviderProps>): ReactElement => {
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
     const mockLink = new MockLink(mocks ?? []);
     const link = ApolloLink.from([errorLoggingLink, mockLink]);
 
@@ -50,9 +52,11 @@ const AllTheProviders = ({
     initialQueries?.forEach((it) => cache.writeQuery(it));
 
     return (
-        <ApolloWrapper link={link} mocks={mocks} cache={cache} atomValues={atomValues}>
-            {children}
-        </ApolloWrapper>
+        <QueryClientProvider client={queryClient}>
+            <ApolloWrapper link={link} mocks={mocks} cache={cache} atomValues={atomValues}>
+                {children}
+            </ApolloWrapper>
+        </QueryClientProvider>
     );
 };
 

@@ -11,7 +11,8 @@ const config: Config = {
     preset: 'ts-jest',
     coverageProvider: 'v8',
     testEnvironment: 'jsdom',
-    setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+    setupFiles: ['<rootDir>/jest.setup.ts'],
+    setupFilesAfterEnv: ['<rootDir>/jest.setupAfterEnv.ts'],
     transformIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/.next'],
     watchPathIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/.next'],
     moduleNameMapper: {

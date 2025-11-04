@@ -3,10 +3,11 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { BodyShort, Button, Heading, Modal } from '@navikt/ds-react';
 
-import { useMutation } from '@apollo/client';
 import { Arsak } from '@external/sanity';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
-import { AnnullerDocument, AnnulleringDataInput, BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import type { ApiVedtaksperiodeAnnullerRequest } from '@io/rest/generated/spesialist.schemas';
+import { usePostVedtaksperiodeAnnuller } from '@io/rest/generated/vedtaksperiode/vedtaksperiode';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast } from '@state/toasts';
@@ -21,7 +22,6 @@ type AnnulleringsModalProps = {
     showModal: boolean;
     inntektsforholdReferanse: InntektsforholdReferanse;
     vedtaksperiodeId: string;
-    utbetalingId: string;
     arbeidsgiverFagsystemId: string;
     personFagsystemId: string;
     person: PersonFragment;
@@ -33,14 +33,13 @@ export const AnnulleringsModal = ({
     showModal,
     inntektsforholdReferanse,
     vedtaksperiodeId,
-    utbetalingId,
     arbeidsgiverFagsystemId,
     personFagsystemId,
     person,
     periode,
 }: AnnulleringsModalProps): ReactElement => {
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
-    const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
+    const { mutate: annullerMutation, error, isPending: loading } = usePostVedtaksperiodeAnnuller();
     const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const addToast = useAddToast();
 
@@ -53,22 +52,17 @@ export const AnnulleringsModal = ({
     const harMinstÉnÅrsak = () => arsaker.length > 0;
     const harFeil = () => Object.keys(form.formState.errors).length > 0;
 
-    const annullering = (): AnnulleringDataInput => ({
-        aktorId: person?.aktorId,
-        fodselsnummer: person?.fodselsnummer,
-        organisasjonsnummer:
-            inntektsforholdReferanse.type === 'Arbeidsgiver'
-                ? inntektsforholdReferanse.organisasjonsnummer
-                : 'SELVSTENDIG',
-        vedtaksperiodeId,
-        utbetalingId,
+    const annullering = (): ApiVedtaksperiodeAnnullerRequest => ({
         arbeidsgiverFagsystemId,
         personFagsystemId,
-        arsaker,
+        årsaker: arsaker.map((it) => ({
+            key: it._key,
+            årsak: it.arsak,
+        })),
         kommentar: kommentar == '' ? undefined : kommentar,
     });
 
-    const sendAnnullering = (annullering: AnnulleringDataInput) => {
+    const sendAnnullering = (vedtaksperiodeId: string, data: ApiVedtaksperiodeAnnullerRequest) => {
         if (harValgtAnnet && !kommentar) {
             form.setError('kommentar', {
                 type: 'manual',
@@ -83,18 +77,23 @@ export const AnnulleringsModal = ({
         }
 
         function startSubmit() {
-            void annullerMutation({
-                variables: { annullering },
-                onCompleted: () => {
-                    setOpptegnelsePollingTime(1000);
-                    addToast({
-                        message: 'Annulleringen er sendt',
-                        timeToLiveMs: 5000,
-                        key: utbetalingId,
-                    });
-                    closeModal();
+            void annullerMutation(
+                {
+                    vedtaksperiodeId: vedtaksperiodeId,
+                    data: data,
                 },
-            });
+                {
+                    onSuccess: () => {
+                        setOpptegnelsePollingTime(1000);
+                        addToast({
+                            message: 'Annulleringen er sendt',
+                            timeToLiveMs: 5000,
+                            key: 'annullering',
+                        });
+                        closeModal();
+                    },
+                },
+            );
         }
 
         setTimeout(() => {
@@ -118,7 +117,7 @@ export const AnnulleringsModal = ({
                 <FormProvider {...form}>
                     <form
                         className={styles.form}
-                        onSubmit={form.handleSubmit(() => sendAnnullering(annullering()))}
+                        onSubmit={form.handleSubmit(() => sendAnnullering(vedtaksperiodeId, annullering()))}
                         id="annullerings-modal-form"
                     >
                         <Annulleringsinformasjon

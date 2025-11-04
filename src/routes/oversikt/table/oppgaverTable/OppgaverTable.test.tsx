@@ -16,7 +16,6 @@ const mockSort: SortState = {
 };
 
 jest.mock('@state/oppgaver');
-jest.mock('@tanstack/react-query');
 
 describe('OppgaverTable', () => {
     it('rendres uten violations', async () => {
