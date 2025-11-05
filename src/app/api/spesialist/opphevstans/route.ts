@@ -1,3 +1,5 @@
 import { stubEllerVideresendTilSpesialist } from '@app/api/spesialist/common';
 
-export const POST = stubEllerVideresendTilSpesialist(async () => new Response(null, { status: 204 }));
+import { stub } from './stub';
+
+export const POST = stubEllerVideresendTilSpesialist(stub);

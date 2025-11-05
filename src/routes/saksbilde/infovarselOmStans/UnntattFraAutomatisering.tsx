@@ -2,7 +2,8 @@ import React, { FormEvent, useRef, useState } from 'react';
 
 import { Alert, BodyShort, Button, HStack, Textarea } from '@navikt/ds-react';
 
-import { useOpphevStans } from '@state/opphevStans';
+import { usePostOpphevStans } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
+import { useFetchPersonQuery } from '@state/person';
 import { useAddToast } from '@state/toasts';
 import { getFormattedDatetimeString } from '@utils/date';
 
@@ -15,7 +16,8 @@ interface UnntattFraAutomatiseringProps {
 }
 
 export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }: UnntattFraAutomatiseringProps) => {
-    const [opphevStans, { error, loading }] = useOpphevStans();
+    const { mutate: opphevStans, error, isPending: loading } = usePostOpphevStans();
+    const { refetch } = useFetchPersonQuery();
     const [åpen, setÅpen] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const textArea = useRef<HTMLTextAreaElement>(null);
@@ -24,9 +26,20 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
     const submit = async (event: FormEvent) => {
         event.preventDefault();
         setSubmitting(true);
-        await opphevStans(fødselsnummer, textArea.current?.value ?? '').then(() => {
-            addToast({ key: 'opphevStans', message: 'Stans opphevet', timeToLiveMs: 3000 });
-        });
+        opphevStans(
+            {
+                data: {
+                    fodselsnummer: fødselsnummer,
+                    begrunnelse: textArea.current?.value ?? '',
+                },
+            },
+            {
+                onSuccess: () => {
+                    refetch();
+                    addToast({ key: 'opphevStans', message: 'Stans opphevet', timeToLiveMs: 3000 });
+                },
+            },
+        );
     };
 
     return (

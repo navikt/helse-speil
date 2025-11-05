@@ -42,7 +42,6 @@ import {
     MutationLeggPaVentArgs,
     MutationLeggTilKommentarArgs,
     MutationLeggTilNotatArgs,
-    MutationOpphevStansArgs,
     MutationOpphevStansAutomatiskBehandlingArgs,
     MutationOpprettTildelingArgs,
     MutationSendIReturArgs,
@@ -50,7 +49,6 @@ import {
     MutationSettVarselstatusArgs,
     MutationStansAutomatiskBehandlingArgs,
     Notat,
-    NotatType,
     PeriodehistorikkType,
     Person,
 } from './schemaTypes';
@@ -125,7 +123,7 @@ const lesTestpersoner = (): Person[] => {
     });
 };
 
-const fetchPersondata = (): Record<string, Person> => {
+export const fetchPersondata = (): Record<string, Person> => {
     const personer = lesTestpersoner();
 
     return personer.reduce((data: Record<string, Person>, person) => {
@@ -341,12 +339,6 @@ const getResolvers = (): IResolvers => ({
         },
         opprettAbonnement: async () => {
             return opprettAbonnement();
-        },
-        opphevStans: async (_, { fodselsnummer, begrunnelse }: MutationOpphevStansArgs) => {
-            const oppgaveId = finnOppgaveId();
-            if (oppgaveId) NotatMock.addNotat(oppgaveId, { tekst: begrunnelse, type: NotatType.OpphevStans });
-            OpphevStansMock.addUnntattFraAutomatiskGodkjenning(fodselsnummer, { erUnntatt: false });
-            return true;
         },
         stansAutomatiskBehandling: async (_, { fodselsnummer, begrunnelse }: MutationStansAutomatiskBehandlingArgs) => {
             const oppgaveId = finnOppgaveId();
