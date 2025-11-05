@@ -336,9 +336,6 @@ const getResolvers = (): IResolvers => ({
             });
             return true;
         },
-        annuller: async () => {
-            return true;
-        },
         oppdaterPerson: async () => {
             return true;
         },

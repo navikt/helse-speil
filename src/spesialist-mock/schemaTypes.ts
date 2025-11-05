@@ -44,23 +44,6 @@ export type Annullering = {
     vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
-export type AnnulleringArsakInput = {
-    _key: Scalars['String']['input'];
-    arsak: Scalars['String']['input'];
-};
-
-export type AnnulleringDataInput = {
-    aktorId: Scalars['String']['input'];
-    arbeidsgiverFagsystemId: Scalars['String']['input'];
-    arsaker: Array<AnnulleringArsakInput>;
-    fodselsnummer: Scalars['String']['input'];
-    kommentar?: InputMaybe<Scalars['String']['input']>;
-    organisasjonsnummer: Scalars['String']['input'];
-    personFagsystemId: Scalars['String']['input'];
-    utbetalingId: Scalars['UUID']['input'];
-    vedtaksperiodeId: Scalars['UUID']['input'];
-};
-
 export type Annulleringskandidat = {
     __typename?: 'Annulleringskandidat';
     fom: Scalars['LocalDate']['output'];
@@ -567,7 +550,6 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
 
 export type Mutation = {
     __typename?: 'Mutation';
-    annuller: Scalars['Boolean']['output'];
     endrePaVent?: Maybe<PaVent>;
     fattVedtak: Scalars['Boolean']['output'];
     feilregistrerKommentar?: Maybe<Kommentar>;
@@ -593,10 +575,6 @@ export type Mutation = {
     settVarselstatus?: Maybe<VarselDto>;
     skjonnsfastsettSykepengegrunnlag?: Maybe<Scalars['Boolean']['output']>;
     stansAutomatiskBehandling: Scalars['Boolean']['output'];
-};
-
-export type MutationAnnullerArgs = {
-    annullering: AnnulleringDataInput;
 };
 
 export type MutationEndrePaVentArgs = {

@@ -46,23 +46,6 @@ export type Annullering = {
     vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
-export type AnnulleringArsakInput = {
-    _key: Scalars['String']['input'];
-    arsak: Scalars['String']['input'];
-};
-
-export type AnnulleringDataInput = {
-    aktorId: Scalars['String']['input'];
-    arbeidsgiverFagsystemId: Scalars['String']['input'];
-    arsaker: Array<AnnulleringArsakInput>;
-    fodselsnummer: Scalars['String']['input'];
-    kommentar?: InputMaybe<Scalars['String']['input']>;
-    organisasjonsnummer: Scalars['String']['input'];
-    personFagsystemId: Scalars['String']['input'];
-    utbetalingId: Scalars['UUID']['input'];
-    vedtaksperiodeId: Scalars['UUID']['input'];
-};
-
 export type Annulleringskandidat = {
     __typename: 'Annulleringskandidat';
     fom: Scalars['LocalDate']['output'];
@@ -569,7 +552,6 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
 
 export type Mutation = {
     __typename: 'Mutation';
-    annuller: Scalars['Boolean']['output'];
     endrePaVent: Maybe<PaVent>;
     fattVedtak: Scalars['Boolean']['output'];
     feilregistrerKommentar: Maybe<Kommentar>;
@@ -595,10 +577,6 @@ export type Mutation = {
     settVarselstatus: Maybe<VarselDto>;
     skjonnsfastsettSykepengegrunnlag: Maybe<Scalars['Boolean']['output']>;
     stansAutomatiskBehandling: Scalars['Boolean']['output'];
-};
-
-export type MutationAnnullerArgs = {
-    annullering: AnnulleringDataInput;
 };
 
 export type MutationEndrePaVentArgs = {
@@ -1542,12 +1520,6 @@ export type Vurdering = {
     ident: Scalars['String']['output'];
     tidsstempel: Scalars['LocalDateTime']['output'];
 };
-
-export type AnnullerMutationVariables = Exact<{
-    annullering: AnnulleringDataInput;
-}>;
-
-export type AnnullerMutation = { __typename: 'Mutation'; annuller: boolean };
 
 export type AntallOppgaverQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -11290,42 +11262,6 @@ export const TildelingFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<TildelingFragment, unknown>;
-export const AnnullerDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'Annuller' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'annullering' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'AnnulleringDataInput' } },
-                    },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'annuller' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'annullering' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'annullering' } },
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<AnnullerMutation, AnnullerMutationVariables>;
 export const AntallOppgaverDocument = {
     kind: 'Document',
     definitions: [
