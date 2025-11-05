@@ -13,9 +13,7 @@ export const lagLeggTilDagerSchema = (tom: DateString) => {
             fom: z.iso
                 .date({
                     error: (issue) =>
-                        issue.input == null || issue.input == ''
-                            ? 'Fra og med er påkrevd'
-                            : 'Fra og med må være gyldig dato',
+                        issue.input == undefined ? 'Fra og med er påkrevd' : 'Fra og med må være gyldig dato',
                 })
                 .refine((dato) => erFør(dato, tom), 'Fra og med må være før til og med dato')
                 .refine(
@@ -23,52 +21,9 @@ export const lagLeggTilDagerSchema = (tom: DateString) => {
                     'Fra og med må være maks 16 dager i forkant av til og med dato',
                 ),
             dagtype: z.enum(OverstyrbarDagtype, {
-                error: (issue) =>
-                    issue.input == null || issue.input == '' ? 'Dagtype er påkrevd' : 'Ugylding dagtype',
+                error: (issue) => (issue.input == undefined ? 'Dagtype er påkrevd' : 'Ugylding dagtype'),
             }),
-            grad: z.nullable(number().min(0).max(100)),
-        })
-        .superRefine((data, ctx) => {
-            if (kanVelgeGrad(data.dagtype) && data.grad == null) {
-                ctx.addIssue({
-                    code: 'invalid_type',
-                    expected: 'custom',
-                    message: 'Grad er påkrevd for dagtype',
-                    input: data,
-                });
-            }
-            if (!kanVelgeGrad(data.dagtype) && data.grad != null) {
-                ctx.addIssue({
-                    code: 'invalid_type',
-                    expected: 'undefined',
-                    message: 'Dagtype uten gradering skal ikke ha grad',
-                    input: data,
-                });
-            }
-        });
-};
-
-export const lagEndreDagerSchema = (lavesteSykdomsgrad: number) => {
-    return z
-        .object({
-            dagtype: z.enum(OverstyrbarDagtype, {
-                error: (issue) =>
-                    issue.input == undefined || issue.input === '' ? 'Dagtype er påkrevd' : 'Ugyldig dagtype',
-            }),
-            grad: z.nullable(
-                number()
-                    .min(lavesteSykdomsgrad, `Kan ikke sette grad lavere enn ${lavesteSykdomsgrad} %`)
-                    .max(100, 'Kan ikke sette grad høyere enn 100 %'),
-            ),
-            notat: z
-                .string({
-                    error: (issue) =>
-                        issue.input == undefined || issue.input === ''
-                            ? 'Notat til beslutter er påkrevd'
-                            : 'Ugyldig notat til beslutter',
-                })
-                .min(1, 'Notat til beslutter er påkrevd')
-                .max(2000, 'Notat er for langt'),
+            grad: z.optional(number().min(0).max(100)),
         })
         .superRefine((data, ctx) => {
             if (kanVelgeGrad(data.dagtype) && data.grad == undefined) {
@@ -88,4 +43,12 @@ export const lagEndreDagerSchema = (lavesteSykdomsgrad: number) => {
                 });
             }
         });
+};
+
+export const lagEndreDagerSchema = () => {
+    return z.object({});
+};
+
+export const lagOverstyrDagerSchema = () => {
+    return z.object({});
 };
