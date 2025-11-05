@@ -562,7 +562,6 @@ export type Mutation = {
     leggTilNotat?: Maybe<Notat>;
     minimumSykdomsgrad?: Maybe<Scalars['Boolean']['output']>;
     oppdaterPerson: Scalars['Boolean']['output'];
-    opphevStans: Scalars['Boolean']['output'];
     opphevStansAutomatiskBehandling: Scalars['Boolean']['output'];
     opprettAbonnement: Scalars['Boolean']['output'];
     opprettTildeling?: Maybe<Tildeling>;
@@ -636,11 +635,6 @@ export type MutationMinimumSykdomsgradArgs = {
 };
 
 export type MutationOppdaterPersonArgs = {
-    fodselsnummer: Scalars['String']['input'];
-};
-
-export type MutationOpphevStansArgs = {
-    begrunnelse: Scalars['String']['input'];
     fodselsnummer: Scalars['String']['input'];
 };
 
